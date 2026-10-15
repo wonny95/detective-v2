@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pioo-dev",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["E:/GPT/Pioo/server.js"],
+      "port": 5173
+    }
+  ]
+}

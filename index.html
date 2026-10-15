@@ -1,0 +1,1737 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>숲속 탐정 Pioo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap">
+<style>
+/* base reset (was supplied by the artifact host) */
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font-size:14px}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+/* Layout: one phone-sized storybook page.
+   Conversation view: the person in front of their place's illustration, notebook (Note) docked underneath.
+   Part 2 (investigation): one large illustration per place to swipe around and tap for clues; notebook slides up from the Note tab. */
+:root{
+  --ground:#E6E9D6;
+  --paper:#FBF4E6;
+  --paper-2:#F4EAD4;
+  --line:#E3D5B8;
+  --ink:#4A3628;
+  --ink-soft:#7D6A58;
+  --moss:#8DB48E;
+  --moss-deep:#5E8A63;
+  --peach:#F6B89A;
+  --honey:#F2CF73;
+  --berry:#C96F86;
+  --sky:#BFD3EE;
+  --ok:#5E8A63;
+  --no:#C25B5B;
+  --f-display:"Jua","Gowun Dodum",system-ui,sans-serif;
+  --f-body:"Gowun Dodum",system-ui,sans-serif;
+  --f-hand:"Gaegu","Gowun Dodum",cursive;
+  --r-wobble:18px 22px 16px 24px / 22px 16px 24px 18px;
+  --r-wobble-2:24px 14px 22px 16px / 16px 24px 14px 22px;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-body);display:flex;justify-content:center;overflow:hidden;
+  background-image:radial-gradient(circle at 20% 30%,rgba(141,180,142,.18) 0 2px,transparent 3px),radial-gradient(circle at 70% 80%,rgba(242,207,115,.2) 0 2px,transparent 3px);background-size:38px 38px,52px 52px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline-offset:2px}
+.hidden-svg{position:absolute;width:0;height:0}
+
+.app{position:relative;width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;overflow:hidden;overflow:clip;background:var(--paper)}
+@media (min-width:520px){
+  body{align-items:center;padding-block:16px}
+  .app{height:min(900px,calc(100% - 8px));border:3px solid var(--ink);border-radius:38px 42px 36px 44px/44px 36px 42px 38px;box-shadow:8px 10px 0 rgba(74,54,40,.18)}
+}
+.main{position:relative;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;overflow:clip}
+
+/* ---------- stage ---------- */
+/* Conversation: the person fills the screen; their question buttons sit underneath (sketch 2) */
+.scene{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.stage-area{position:absolute;inset:0}
+.ask-panel{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-direction:column;gap:8px;padding:4px 16px 16px}
+.ask-panel:empty{display:none}
+.ask-top{display:flex;justify-content:flex-end}
+.ask-panel:not(.show-ko) .ko{display:none}
+.ask-panel .q{box-shadow:3px 3px 0 rgba(74,54,40,.25)}
+.ask-panel .step{font-family:var(--f-body);font-size:12px;opacity:.7;margin-left:4px}
+.app.notes-open .ask-panel{display:none}
+.app.investigate .scene{display:none}
+.chip{position:absolute;top:12px;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
+.chip.l{left:14px}
+.chip.r{right:66px;background:var(--honey)}
+/* map icon button: top-right of both the conversation and the place view */
+.map-btn{position:relative;display:grid;place-items:center;width:44px;height:36px;padding:0;border:2px solid var(--ink);border-radius:12px 14px 11px 15px;background:var(--paper);box-shadow:2px 2px 0 rgba(74,54,40,.2);cursor:pointer;flex:none}
+.map-btn svg{width:26px;height:26px}
+.map-btn:active{transform:translateY(2px);box-shadow:none}
+.map-btn.new::after{content:"";position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
+.scene .map-btn{position:absolute;top:9px;right:14px;z-index:4}
+button.chip{color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
+button.chip:disabled{cursor:default;box-shadow:none}
+/* full-body person, feet at the bottom: the head stays above the notebook's top edge */
+.suspect{position:absolute;left:50%;bottom:0;height:98%;aspect-ratio:200/400;transform:translateX(-50%);z-index:1}
+.suspect svg{width:100%;height:100%;display:block;overflow:visible}
+.suspect.enter svg{animation:walkin .8s cubic-bezier(.3,1.1,.5,1)}
+@keyframes walkin{from{transform:translateX(160%) rotate(4deg)}60%{transform:translateX(-6%) rotate(-2deg)}}
+.suspect .body{transform-origin:50% 100%;animation:breathe 3.2s ease-in-out infinite}
+.suspect.talking .body{animation:bob .42s ease-in-out infinite alternate}
+.suspect .m-open{opacity:0}
+.suspect.talking .m-open{opacity:1;transform-box:fill-box;transform-origin:center;animation:chat .18s ease-in-out infinite alternate}
+.suspect.talking .m-closed{opacity:0}
+@keyframes breathe{50%{transform:scaleY(1.012)}}
+@keyframes bob{from{transform:translateY(0) rotate(-.6deg)}to{transform:translateY(-4px) rotate(.6deg)}}
+@keyframes chat{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+/* every conversation happens in front of the place where that person is */
+.scene-art{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* the partner stands beside you at the edge of the scene (suspects stand centred, facing you) */
+.app.partner .suspect{left:-4%;transform:none}
+.app.partner .suspect.enter svg{animation:none}
+.app.partner .nameplate{left:3%;transform:rotate(-2deg);background:var(--sky)}
+.app.partner .bubble{left:16px;transform:none;animation:pop-side .25s ease-out}
+.app.partner .bubble::after{left:70px}
+.nameplate{transition:opacity .2s}
+.app.notes-open .nameplate{opacity:0}
+@keyframes pop-side{from{transform:scale(.85);opacity:0}}
+/* phase title card (case start / each suspect coming in) */
+.stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(74,54,40,.38);pointer-events:none;animation:stage-card 1.9s ease forwards}
+.stage-card div{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);padding:12px 22px;text-align:center;box-shadow:4px 5px 0 rgba(74,54,40,.25)}
+.stage-card small{display:block;font-size:12px;color:var(--ink-soft)}
+.stage-card b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
+@keyframes stage-card{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
+/* briefing step card in the notebook (replaces question cards) */
+.brief-card{border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);background:#E6EDF8;padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;animation:rise .35s cubic-bezier(.3,1.2,.5,1)}
+.brief-card .say{font-family:var(--f-display);font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.brief-card .say small{font-family:var(--f-body);color:var(--ink-soft)}
+.pill.blue{background:var(--sky);color:var(--ink)}
+.nameplate{position:absolute;left:50%;top:39%;transform:translateX(-50%) rotate(-2deg);z-index:3;background:#E8C79A;border:2px solid var(--ink);border-radius:8px 10px 7px 11px;padding:3px 14px;font-family:var(--f-hand);font-weight:700;font-size:19px;line-height:1.1;white-space:nowrap;box-shadow:2px 3px 0 rgba(74,54,40,.25)}
+.nameplate small{font-family:var(--f-body);font-weight:400;font-size:11px;margin-left:6px;color:var(--ink-soft)}
+
+.bubble{position:absolute;left:50%;top:44px;transform:translateX(-50%);z-index:5;width:max-content;max-width:min(88%,340px);background:#FFFDF7;border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);padding:10px 14px;font-family:var(--f-hand);font-size:19px;line-height:1.25;box-shadow:3px 4px 0 rgba(74,54,40,.18);animation:pop .25s ease-out}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-13px;width:20px;height:20px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg) skew(8deg,8deg)}
+.bubble .tag{display:block;font-family:var(--f-display);font-size:11px;color:var(--berry);margin-bottom:2px}
+.bubble button{position:absolute;top:2px;right:6px;border:0;background:none;font-size:16px;line-height:1;padding:4px;color:var(--ink-soft)}
+@keyframes pop{from{transform:translateX(-50%) scale(.85);opacity:0}}
+
+/* ---------- docked notebook (Note) ---------- */
+/* Note = a spiral notebook the detective pulls up from the bottom, held at the lower-left corner (sketch 3) */
+.dock{position:absolute;left:10px;right:30px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;background:#FFFDF7;border:3px solid var(--ink);border-bottom:0;border-radius:14px 18px 0 0;box-shadow:-4px -4px 0 rgba(74,54,40,.12);transform-origin:10% 100%;transform:translate(-36px,110%) rotate(-8deg);transition:transform .55s cubic-bezier(.2,.9,.3,1.05)}
+.app.notes-open .dock{transform:translate(0,0) rotate(-1deg)}
+.app.investigate .dock{height:80%}
+.spiral{position:absolute;left:12px;right:12px;top:-15px;height:30px;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='30'%3E%3Cellipse cx='13' cy='23' rx='4' ry='3' fill='%234A3628' opacity='.3'/%3E%3Cpath d='M9 23 C3 15 6 3 13 3 C20 3 22 12 17 19' fill='none' stroke='%234A3628' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:26px 30px}
+.note-hand{position:absolute;left:-12px;bottom:-8px;width:88px;height:auto;z-index:3;pointer-events:none}
+.dock-head{flex:none;display:flex;align-items:center;gap:8px;padding:20px 16px 8px;border-bottom:2px dashed var(--line);flex-wrap:wrap}
+.dock-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px;display:flex;align-items:center;gap:6px}
+.dock-head h2 svg{width:24px;height:24px}
+.dock-close{display:block;margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:32px;height:32px;border-radius:50%;font-size:17px;line-height:1}
+/* index tabs sticking out of the notebook's right edge: the case file + one per person */
+.who{position:absolute;top:54px;right:-30px;display:flex;flex-direction:column;gap:6px;z-index:-1}
+.who button{width:32px;height:42px;padding:0 0 0 4px;border:2px solid var(--ink);border-left:0;border-radius:0 10px 10px 0;overflow:hidden;position:relative;background:var(--paper-2);display:grid;place-items:center;transition:transform .15s}
+.who button[aria-pressed="true"]{background:var(--honey);transform:translateX(4px)}
+.who button:disabled{cursor:default;filter:grayscale(1);opacity:.45}
+.who button svg{width:24px;height:24px;display:block;border-radius:50%}
+.dock-body{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 18px;display:flex;flex-direction:column;gap:12px}
+
+.choices{border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);background:#EAF2E2;padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;animation:rise .35s cubic-bezier(.3,1.2,.5,1)}
+@keyframes rise{from{transform:translateY(16px);opacity:0}}
+.choices .say{font-family:var(--f-display);font-size:14px;display:flex;align-items:center;gap:6px}
+.choices .say .pill{margin-left:auto}
+.choices:not(.show-ko) .ko{display:none}
+.q{width:100%;display:grid;grid-template-columns:28px 1fr;align-items:center;gap:10px;text-align:left;background:#FFFDF7;border:2px solid var(--ink);border-radius:var(--r-wobble);padding:7px 12px 7px 8px;box-shadow:2px 3px 0 rgba(74,54,40,.18)}
+.q:active{transform:translateY(2px);box-shadow:none}
+.q .n{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-size:13px;background:var(--peach)}
+.q .en{display:block;font-family:var(--f-hand);font-weight:700;font-size:19px;line-height:1.1}
+.q .ko{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
+
+.listen{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);background:var(--paper);border-radius:var(--r-wobble);padding:6px 12px;font-family:var(--f-display);font-size:14px;box-shadow:2px 3px 0 rgba(74,54,40,.2);transition:transform .1s}
+.pill:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(74,54,40,.2)}
+.pill svg{width:16px;height:16px;flex:none}
+.pill.sm{padding:3px 10px;font-size:12px}
+.pill[aria-pressed="true"]{background:var(--sky)}
+.pill.hint{margin-left:auto;background:var(--honey)}
+.pill:disabled{opacity:.5;cursor:default}
+.acorns{display:inline-flex;gap:2px}
+.acorns svg{width:15px;height:15px}
+.acorns .used{opacity:.25}
+
+.note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:var(--r-wobble-2);padding:8px 12px 10px 42px;display:flex;flex-direction:column;gap:6px}
+.nblock{border-radius:10px;padding:2px 6px;margin-left:-6px}
+.nblock.now{background:rgba(242,207,115,.28)}
+.nblock .qlabel{display:block;font-size:11px;color:var(--ink-soft);padding-top:4px}
+.nline{font-family:var(--f-hand);font-size:20px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
+.empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
+.blank{font:inherit;font-weight:700;color:var(--berry);border:0;border-bottom:2.5px dashed var(--ink-soft);background:transparent;min-width:3.5em;padding:0 4px;margin:0 2px;text-align:center;border-radius:0}
+.blank:focus{outline:none;background:rgba(242,207,115,.35)}
+.blank.hot{background:rgba(141,180,142,.35)}
+.blank.ok{border-bottom:2.5px solid var(--ok);color:var(--ok)}
+.blank.no{border-bottom:2.5px solid var(--no);color:var(--no)}
+.howto{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.5}
+.bank{display:flex;flex-wrap:wrap;gap:8px}
+.word{touch-action:none;user-select:none;-webkit-user-select:none;border:2px solid var(--ink);border-radius:12px 14px 11px 15px;background:var(--honey);padding:4px 11px;font-family:var(--f-hand);font-weight:700;font-size:18px;box-shadow:2px 2px 0 rgba(74,54,40,.22);cursor:grab}
+.word:nth-child(3n+1){background:#F8D9C6}
+.word:nth-child(3n+2){background:#DCEAD3}
+.word.sel{outline:3px solid var(--berry);outline-offset:2px}
+.ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-60%) rotate(-4deg);opacity:.95}
+.big{width:100%;justify-content:center;font-size:17px;padding:11px 14px;background:var(--berry);color:#FFFDF7}
+.big.green{background:var(--moss);color:var(--ink)}
+.viewing{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;background:var(--paper-2);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 12px}
+.viewing .pill{margin-left:auto}
+
+/* ---------- investigation: one large illustration per place, tap to find clues ---------- */
+.inv{display:none;flex:1 1 auto;min-height:0;flex-direction:column;background:var(--paper)}
+.app.investigate .inv{display:flex}
+.inv-head{flex:none;display:flex;align-items:center;gap:10px;padding:12px 16px 10px;border-bottom:3px solid var(--ink);background:var(--paper-2)}
+.inv-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1}
+.inv-head .kind{display:block;font-family:var(--f-display);font-size:11px;color:var(--berry)}
+.inv-head .map-btn{margin-left:auto}
+.badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
+.art-stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper-2)}
+.art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
+.art-wrap::-webkit-scrollbar{display:none}
+.art{position:relative;height:100%;aspect-ratio:3/2;user-select:none;-webkit-user-select:none}
+.art > svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.spot{position:absolute;padding:0;border:0;background:transparent;border-radius:16px;cursor:zoom-in}
+.spot.found::after{content:"";position:absolute;inset:-8px;border:3.5px solid var(--berry);border-radius:48% 52% 45% 55%/55% 45% 52% 48%;transform:rotate(-4deg);animation:circle-in .45s ease-out;pointer-events:none}
+@keyframes circle-in{from{transform:rotate(-40deg) scale(.6);opacity:0}}
+.app.show-spots .spot{outline:2px dashed var(--berry);background:rgba(201,111,134,.18)}
+.tapfx{position:absolute;pointer-events:none;transform:translate(-50%,-50%);animation:tapfx .9s ease-out forwards;white-space:nowrap}
+.tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:18px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
+.tapfx.hit{width:60px;height:60px;border:4px solid var(--honey);border-radius:50%}
+@keyframes tapfx{from{opacity:1;transform:translate(-50%,-50%) scale(.6)}to{opacity:0;transform:translate(-50%,-80%) scale(1.15)}}
+.swipe-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(74,54,40,.8);color:var(--paper);padding:6px 12px;border-radius:14px;font-size:12px;pointer-events:none;white-space:nowrap}
+.inv-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;font-family:var(--f-display);font-size:15px;color:var(--ink-soft)}
+.inv-panel{flex:none;padding:12px 16px 14px;border-top:3px solid var(--ink);background:var(--paper);min-height:126px;display:flex;flex-direction:column;gap:10px}
+.found-row{display:flex;gap:6px;flex-wrap:wrap}
+.people-here{display:flex;flex-direction:column;gap:6px}
+.people-here .lbl{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
+.people-row{display:flex;gap:8px;flex-wrap:wrap}
+.person{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:3px 12px 3px 3px;font-family:var(--f-hand);font-weight:700;font-size:17px;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
+.person .mini{width:32px;height:32px}
+.fchip{border:2px solid var(--ink);border-radius:12px;padding:2px 10px;font-family:var(--f-hand);font-weight:700;font-size:16px;background:#FFFDF7}
+.fchip[aria-pressed="true"]{background:var(--honey)}
+.fchip.locked{border-style:dashed;color:var(--ink-soft);background:transparent;min-width:44px;text-align:center}
+.clue-card .tag{font-family:var(--f-display);font-size:12px;color:var(--berry)}
+.clue-card .en{margin:2px 0 0;font-family:var(--f-hand);font-weight:700;font-size:21px;line-height:1.2}
+.clue-card .ko{margin:4px 0 0;font-size:13px;color:var(--ink-soft)}
+.clue-card .row{display:flex;gap:8px;align-items:center;margin-top:8px}
+
+/* ---------- bottom tabs (as sketched) ---------- */
+.nav{flex:none;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:10px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:3px solid var(--ink);background:var(--paper-2);position:relative;z-index:20}
+.tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper);font-family:var(--f-display);font-size:15px;box-shadow:2px 3px 0 rgba(74,54,40,.22)}
+.tab svg{width:24px;height:24px;flex:none}
+.tab[aria-expanded="true"]{background:var(--honey)}
+
+/* ---------- sheets ---------- */
+.sheet{position:absolute;left:0;right:0;bottom:0;height:86%;z-index:10;background:var(--paper);border-top:3px solid var(--ink);border-radius:28px 32px 0 0/26px 30px 0 0;box-shadow:0 -6px 0 rgba(74,54,40,.12);transform:translateY(104%);transition:transform .32s cubic-bezier(.3,1.2,.5,1);display:flex;flex-direction:column}
+.sheet.open{transform:none}
+.sheet-head{flex:none;display:flex;align-items:center;gap:10px;padding:14px 16px 8px;position:relative}
+.sheet-head::before{content:"";position:absolute;top:6px;left:50%;width:44px;height:5px;border-radius:4px;background:var(--line);transform:translateX(-50%)}
+.sheet-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:20px;text-wrap:balance}
+.sheet-head .x{margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:34px;height:34px;border-radius:50%;font-size:18px;line-height:1}
+.sheet-body{flex:1;min-height:0;overflow-y:auto;padding:4px 16px 20px;display:flex;flex-direction:column;gap:12px}
+
+.mini{width:34px;height:34px;flex:none;border-radius:50%;background:var(--sky);border:2px solid var(--ink);overflow:hidden}
+.mini svg{width:100%;height:100%;display:block}
+.card{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;width:100%;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:10px 12px;box-shadow:3px 3px 0 rgba(74,54,40,.18)}
+.card.now{background:#EAF2E2}
+.card.wait{opacity:.6}
+.card .ord{font-family:var(--f-display);font-size:13px;width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;background:var(--peach)}
+.card .mini{width:64px;height:64px}
+.card h3{margin:0;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1}
+.card p{margin:3px 0 0;font-size:13px;color:var(--ink-soft)}
+.card .badge{margin-top:6px}
+.card.now .badge{background:var(--honey)}
+.card.done .badge{background:var(--moss)}
+
+/* tonight: full-screen map over the whole app (covers the bottom tabs) */
+.sheet.full{top:0;height:auto;z-index:30;border-top:0;border-radius:0;box-shadow:none}
+/* it grows out of the button that opened it, in that button's rounded shape (--t/--r/--b/--l = the button's edges, set in JS) */
+.sheet.full{transform:none;visibility:hidden;--t:50%;--r:50%;--b:50%;--l:50%;clip-path:inset(var(--t) var(--r) var(--b) var(--l) round 14px);transition:clip-path .42s cubic-bezier(.4,0,.2,1),visibility 0s linear .42s}
+.sheet.full.open{visibility:visible;clip-path:inset(0 0 0 0 round 0);transition:clip-path .6s cubic-bezier(.45,.05,.25,1),visibility 0s}
+.sheet.full > *{transition:opacity .3s .12s}
+.sheet.full:not(.open) > *{opacity:0;transition:opacity .15s}
+.map-head{flex:none;display:flex;align-items:center;gap:10px;padding:12px 16px 8px}
+.map-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:30px;line-height:1}
+.map-head small{display:block;font-size:12px;color:var(--ink-soft)}
+.map-head .x{margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:36px;height:36px;border-radius:50%;font-size:18px;line-height:1}
+.map-stage{flex:1;min-height:0;display:flex;padding:4px 16px}
+.map{position:relative;flex:1;border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);overflow:hidden}
+.map > svg{position:absolute;inset:0;width:100%;height:100%}
+.map-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;background:rgba(251,244,230,.92);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 14px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
+.map-foot{flex:none;display:flex;flex-direction:column;gap:4px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.pin{position:absolute;transform:translate(-50%,-50%);border:2px solid var(--ink);background:var(--paper);border-radius:var(--r-wobble);padding:4px 10px;font-family:var(--f-display);font-size:13px;white-space:nowrap;box-shadow:2px 2px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;align-items:center;gap:3px}
+.pin.crime{background:var(--berry);color:#FFFDF7}
+.pin-label{display:flex;align-items:center;gap:4px}
+.pin .done{font-style:normal;font-size:11px;background:var(--moss);color:var(--ink);border:1.5px solid var(--ink);border-radius:50%;width:16px;height:16px;display:grid;place-items:center}
+.pin-people{display:flex;gap:2px}
+.pin-people .mini{width:24px;height:24px;border-width:1.5px}
+
+/* ---------- modals ---------- */
+.modal{position:absolute;inset:0;z-index:40;background:rgba(74,54,40,.38);display:grid;place-items:center;padding:16px}
+.modal[hidden]{display:none!important}
+.mcard{width:100%;max-width:370px;max-height:100%;overflow-y:auto;background:var(--paper);border:3px solid var(--ink);border-radius:26px 30px 24px 32px/30px 24px 32px 26px;padding:18px 18px 16px;box-shadow:5px 6px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;gap:12px}
+.mcard h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:24px;text-wrap:balance}
+.mcard p{margin:0;line-height:1.6;font-size:14px}
+.eyebrow{font-family:var(--f-hand);font-weight:700;font-size:18px;color:var(--berry)}
+.steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:26px 1fr;gap:8px;font-size:13px;line-height:1.45;counter-increment:s}
+.steps li::before{content:counter(s);width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:var(--honey);display:grid;place-items:center;font-family:var(--f-display);font-size:12px}
+/* case select: the first screen — a case notebook with one folder card per case */
+.cases{box-sizing:border-box;position:absolute;inset:0;z-index:35;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px calc(18px + env(safe-area-inset-bottom,0px));overflow-y:auto;background-color:var(--paper);
+  background-image:radial-gradient(circle at 20% 30%,rgba(141,180,142,.16) 0 2px,transparent 3px),radial-gradient(circle at 70% 80%,rgba(242,207,115,.18) 0 2px,transparent 3px);background-size:38px 38px,52px 52px}
+.cases-head .eyebrow{display:block}
+.cases-head h1{margin:2px 0 0;font-family:var(--f-hand);font-weight:700;font-size:36px;line-height:1}
+.case-list{display:flex;flex-direction:column;gap:22px;padding-top:6px}
+.case-card{box-sizing:border-box;position:relative;display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:center;width:100%;text-align:left;border:2.5px solid var(--ink);border-radius:6px 18px 16px 20px/6px 20px 16px 18px;background:#FFFDF7;padding:12px;box-shadow:3px 4px 0 rgba(74,54,40,.2)}
+.case-card::before{content:"";position:absolute;top:-13px;left:14px;width:64px;height:13px;background:inherit;border:2.5px solid var(--ink);border-bottom:0;border-radius:9px 9px 0 0}
+.case-card:not(.locked):active{transform:translateY(2px);box-shadow:1px 2px 0 rgba(74,54,40,.2)}
+.case-thumb{width:104px;height:78px;border:2px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper-2);display:grid;place-items:center}
+.case-thumb svg{width:100%;height:100%;display:block}
+.case-no{display:block;font-family:var(--f-display);font-size:12px;color:var(--berry)}
+.case-title{display:block;font-family:var(--f-hand);font-weight:700;font-size:25px;line-height:1.1;margin:2px 0 8px}
+.badge.st-new{background:var(--honey)}
+.badge.st-going{background:var(--sky)}
+.badge.st-solved{background:var(--moss)}
+.case-card.locked{background:var(--paper-2);border-style:dashed;box-shadow:none;color:var(--ink-soft);cursor:default}
+.case-card.locked::before{border-style:dashed}
+.case-card.locked .case-thumb{border-style:dashed;background:transparent}
+.case-card.locked .case-thumb svg{width:34px;height:34px}
+.case-card.locked .case-no{color:var(--ink-soft)}
+.case-lock{display:block;font-size:12px}
+.cases .linkbtn{margin-top:auto}
+.map-links{display:flex;justify-content:center;gap:14px}
+.linkbtn{border:0;background:none;padding:4px;text-decoration:underline;font-size:12px;color:var(--ink-soft);align-self:center}
+/* tutorial: one step per page, picture guide on top */
+.tut{gap:12px}
+.tut-top{display:flex;align-items:center;gap:8px}
+.tut-count{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
+.tut-skip{margin-left:auto;border:0;background:none;font-size:12px;color:var(--ink-soft);text-decoration:underline;padding:4px}
+.tut-fig{border:2px solid var(--ink);border-radius:var(--r-wobble-2);background:#F3ECDD;overflow:hidden}
+.tut-fig svg{display:block;width:100%;height:auto;animation:tutin .3s ease-out}
+@keyframes tutin{from{opacity:0;transform:translateY(8px)}}
+.tut h2{font-size:22px}
+.tut p{font-size:14px;line-height:1.65}
+.tut-dots{display:flex;justify-content:center;gap:6px}
+.tut-dots i{width:8px;height:8px;border-radius:5px;background:var(--paper);border:1.5px solid var(--ink);transition:width .2s}
+.tut-dots i.on{width:22px;background:var(--berry)}
+.tut-nav{display:flex;gap:8px}
+.tut-nav .big{flex:1;width:auto}
+.tut-fig .pulse{transform-box:fill-box;transform-origin:center;animation:tpulse 1.4s ease-in-out infinite}
+@keyframes tpulse{0%,100%{transform:scale(.85);opacity:.95}50%{transform:scale(1.2);opacity:.35}}
+.tut-fig .wave{animation:twave 1.2s ease-in-out infinite}
+.tut-fig .wave.w2{animation-delay:.2s}
+.tut-fig .wave.w3{animation-delay:.4s}
+@keyframes twave{0%,100%{opacity:.15}50%{opacity:1}}
+.tut-fig .drag{animation:tdrag 3.4s ease-in-out infinite}
+@keyframes tdrag{0%,15%{transform:translate(0,0)}55%,85%{transform:translate(121px,-90px)}100%{transform:translate(0,0)}}
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pick button{border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-hand);font-weight:700;font-size:16px}
+.pick .mini{width:58px;height:58px}
+
+.toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
+.toast[hidden]{display:block!important;opacity:0}
+
+/* test tool outside the frame: left of the phone on wide screens, small top-right badge on phones */
+.devtools{position:fixed;z-index:200;top:16px;right:16px;display:flex;gap:6px}
+.devbtn[aria-pressed="true"]{background:var(--honey)}
+.devbtn{border:2px dashed var(--ink);background:var(--paper-2);color:var(--ink);border-radius:12px;padding:6px 10px;font-family:var(--f-display);font-size:12px;opacity:.9}
+@media (min-width:520px){
+  .devtools{right:auto;left:16px;flex-direction:column;gap:8px}
+  .devbtn{font-size:14px;padding:8px 14px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<svg class="hidden-svg" aria-hidden="true">
+  <defs>
+    <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="3"/>
+    </filter>
+    <symbol id="pine" viewBox="0 0 40 80">
+      <path d="M20 2 L35 32 L27 32 L39 58 L1 58 L13 32 L5 32Z" fill="#7FA57F" stroke="#4A3628" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="17" y="58" width="6" height="16" fill="#9C7656" stroke="#4A3628" stroke-width="2"/>
+    </symbol>
+    <symbol id="acorn" viewBox="0 0 20 20">
+      <path d="M4 8 Q10 3 16 8 Z" fill="#9C7656" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M5 8 Q5 16 10 18 Q15 16 15 8Z" fill="#E8B27A" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M10 4 L10 1.5" stroke="#4A3628" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="caseIcon" viewBox="0 0 24 24">
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6.5 h7 l2 2 h10 v11.5 h-19z" fill="#E8C79A"/><path d="M2.5 10 h19" fill="none"/></g>
+    </symbol>
+    <symbol id="mapIcon" viewBox="0 0 24 24">
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6 L8 4 L16 6 L21.5 4 V18 L16 20 L8 18 L2.5 20Z" fill="#DDE8C9"/><path d="M8 4 V18 M16 6 V20" fill="none"/></g>
+      <path d="M12 8.5 a2.6 2.6 0 0 1 2.6 2.6 c0 2 -2.6 4.4 -2.6 4.4 s-2.6 -2.4 -2.6 -4.4 a2.6 2.6 0 0 1 2.6 -2.6z" fill="#C96F86" stroke="#4A3628" stroke-width="1.3"/>
+    </symbol>
+    <symbol id="noteIcon" viewBox="0 0 24 24">
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="3" width="14" height="18" rx="2" fill="#F2CF73"/><path d="M8 8h6M8 12h6" fill="none"/><path d="M14 18 L20.5 11.5 L22.5 13.5 L16 20 L13.5 20.5Z" fill="#F6B89A"/></g>
+      <g fill="#FBF4E6" stroke="#4A3628" stroke-width="1.2"><circle cx="4" cy="7" r="1.3"/><circle cx="4" cy="12" r="1.3"/><circle cx="4" cy="17" r="1.3"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app" id="app">
+  <div class="main">
+    <!-- PART 1: interrogation stage -->
+    <section class="scene" aria-label="대화 장면">
+      <svg class="scene-art" id="sceneArt" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <button class="chip l" type="button" id="orderChip">Case 01 · 현장 브리핑</button>
+      <div class="chip r" id="progressChip">기록 0/3</div>
+      <button class="map-btn" type="button" id="stageMapBtn" aria-label="사건 지도 열기"><svg aria-hidden="true"><use href="#mapIcon"/></svg></button>
+      <div class="bubble" id="bubble" hidden role="status"></div>
+      <div class="stage-area">
+        <div class="suspect" id="suspect"></div>
+        <div class="nameplate" id="nameplate"></div>
+      </div>
+      <div class="ask-panel" id="askPanel"></div>
+    </section>
+
+    <!-- PART 2: investigation — a large illustration per place; tap suspicious things to find clues -->
+    <section class="inv" aria-label="현장 조사">
+      <div class="inv-head">
+        <div><span class="kind" id="sceneKind">현장 조사</span><h2 id="sceneTitle">어디로 갈까요?</h2></div>
+        <span class="badge" id="sceneCount" hidden></span>
+        <button class="map-btn" type="button" id="sceneMapBtn" aria-label="사건 지도 열기"><svg aria-hidden="true"><use href="#mapIcon"/></svg></button>
+      </div>
+      <div class="art-stage">
+        <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
+        <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
+        <div class="inv-empty" id="sceneEmpty">tonight 지도에서 갈 곳을 골라 주세요.</div>
+      </div>
+      <div class="inv-panel" id="scenePanel"></div>
+    </section>
+
+    <!-- Note: a notebook pulled up from the bottom — automatically while writing down an answer, or from the Note tab -->
+    <section class="dock" aria-label="노트">
+      <div class="spiral" aria-hidden="true"></div>
+      <div class="dock-head">
+        <h2><svg aria-hidden="true"><use href="#noteIcon"/></svg>Note</h2>
+        <div class="who" id="who" aria-label="노트 페이지"></div>
+        <button class="dock-close" type="button" id="dockClose" aria-label="노트 닫기">×</button>
+      </div>
+      <div class="dock-body" id="dockBody"></div>
+      <svg class="note-hand" viewBox="0 0 100 110" aria-hidden="true"><g filter="url(#wob)" stroke="#4A3628" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M-6 114 L-6 70 Q14 58 36 66 L54 114Z" fill="#E8C79A"/>
+        <path d="M-6 80 Q16 68 40 76" fill="none"/>
+        <path d="M30 70 C28 54 38 44 50 46 C58 42 68 44 70 50 C77 52 77 61 70 64 C65 72 52 78 40 77Z" fill="#F7E1C8"/>
+        <path d="M50 47 C55 31 67 23 74 27 C81 32 74 43 66 50" fill="#F7E1C8"/>
+        <path d="M70 52 C74 54 74 58 70 60" fill="none" stroke-width="2"/>
+      </g></svg>
+    </section>
+
+    <section class="sheet" id="sheet-list" aria-label="인물 명단">
+      <div class="sheet-head"><h2>알게 된 인물</h2><button class="x" type="button" data-close aria-label="닫기">×</button></div>
+      <div class="sheet-body" id="listBody"></div>
+    </section>
+
+  </div>
+
+  <!-- tonight: the town map, full screen. Only places someone has mentioned get a pin. -->
+  <section class="sheet full" id="sheet-map" aria-label="Tonight 사건 지도">
+    <div class="map-head">
+      <div><h2>tonight</h2><small>모시할로우 숲 마을</small></div>
+      <button class="x" type="button" data-close aria-label="지도 닫기">×</button>
+    </div>
+    <div class="map-stage">
+      <div class="map" id="map">
+        <svg viewBox="0 0 360 600" preserveAspectRatio="none" aria-hidden="true">
+          <rect width="360" height="600" fill="#DDE8C9"/>
+          <g filter="url(#wob)" stroke="#4A3628" stroke-width="2" stroke-linejoin="round">
+            <path d="M180 0 Q196 118 300 150 Q346 160 360 150 L360 0Z" fill="#CFC4EA" opacity=".6"/>
+            <ellipse cx="252" cy="446" rx="96" ry="62" fill="#BFD3EE"/>
+            <path d="M212 446 q8 -4 16 0 M262 470 q8 -4 16 0 M246 424 q8 -4 16 0" fill="none" stroke="#FFFDF7"/>
+          </g>
+          <path d="M110 236 C150 186 220 150 266 118 M110 236 C140 300 196 330 226 376 M110 236 C70 320 70 420 90 476" fill="none" stroke="#9C7656" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+          <g filter="url(#wob)" stroke="#4A3628" stroke-width="2">
+            <use href="#pine" x="12" y="24" width="26" height="52"/><use href="#pine" x="40" y="46" width="22" height="44"/>
+            <use href="#pine" x="300" y="196" width="24" height="48"/><use href="#pine" x="18" y="326" width="24" height="48"/>
+            <use href="#pine" x="150" y="512" width="22" height="44"/><use href="#pine" x="312" y="536" width="24" height="48"/>
+            <use href="#pine" x="168" y="246" width="20" height="40"/>
+            <path d="M84 205 L110 182 L136 205 Z" fill="#C96F86"/><rect x="88" y="205" width="44" height="30" fill="#F4EAD4"/><rect x="104" y="218" width="12" height="17" fill="#9C7656"/>
+            <path d="M70 478 L90 460 L110 478 Z" fill="#F6B89A"/><rect x="73" y="478" width="34" height="26" fill="#FBF4E6"/><circle cx="90" cy="490" r="5" fill="#F2CF73"/>
+            <rect x="208" y="374" width="38" height="22" fill="#FBF4E6"/><path d="M203 374 L251 374 L244 362 L210 362Z" fill="#8DB48E"/>
+            <path d="M262 98 L284 84" stroke-width="5" stroke-linecap="round"/><path d="M272 92 L264 114 M272 92 L282 114" fill="none"/>
+          </g>
+        </svg>
+        <p class="map-empty" id="mapEmpty">아직 알게 된 장소가 없어요.</p>
+      </div>
+    </div>
+    <div class="map-foot">
+      <button class="pill big" id="accuseBtn" type="button">범인 지목하기</button>
+      <div class="map-links">
+        <button class="linkbtn" type="button" id="toCases">사건 목록</button>
+        <button class="linkbtn" type="button" id="howtoMap">플레이 방법 다시 보기</button>
+      </div>
+    </div>
+  </section>
+
+  <nav class="nav" aria-label="메뉴">
+    <button class="tab" type="button" data-sheet="list" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><g stroke="#4A3628" stroke-width="1.8" fill="none" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="3" fill="#F8D9C6"/><path d="M8 8h8M8 12h8M8 16h5"/></g></svg>인물
+    </button>
+    <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
+      <svg aria-hidden="true"><use href="#noteIcon"/></svg>Note
+    </button>
+  </nav>
+
+  <!-- How-to-play tutorial: one step at a time with a picture guide. Shown once per device (localStorage). -->
+  <div class="modal" id="intro" hidden>
+    <div class="mcard tut" role="dialog" aria-labelledby="tutTitle">
+      <div class="tut-top">
+        <span class="eyebrow">플레이 방법</span>
+        <span class="tut-count" id="tutCount">1 / 3</span>
+        <button class="tut-skip" type="button" id="tutSkip">건너뛰기</button>
+      </div>
+      <div class="tut-fig" id="tutFig"></div>
+      <h2 id="tutTitle"></h2>
+      <p id="tutText"></p>
+      <div class="tut-dots" id="tutDots" aria-hidden="true"></div>
+      <div class="tut-nav">
+        <button class="pill" type="button" id="tutPrev">이전</button>
+        <button class="pill big" type="button" id="tutNext">다음</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case select: the first screen. Cases open in order; a locked card shows no title. -->
+  <section class="cases" id="caseList" aria-label="사건 목록">
+    <header class="cases-head"><span class="eyebrow">Mossy Hollow</span><h1>사건 수첩</h1></header>
+    <div class="case-list" id="caseCards"></div>
+    <button class="linkbtn" type="button" id="howtoList">플레이 방법 다시 보기</button>
+  </section>
+
+  <div class="modal" id="accuse" hidden>
+    <div class="mcard">
+      <span class="eyebrow">Who did it?</span>
+      <h2>범인은 누구일까요?</h2>
+      <div class="pick" id="pick"></div>
+      <button class="pill" type="button" data-dismiss>조금 더 조사할래요</button>
+    </div>
+  </div>
+
+  <div class="modal" id="result" hidden>
+    <div class="mcard" id="resultCard"></div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+</div>
+
+<!-- test tools, outside the phone frame -->
+<div class="devtools" aria-label="테스트 도구">
+  <button class="devbtn" type="button" id="devFill">노트 자동 채우기</button>
+  <button class="devbtn" type="button" id="devDone">전체 대화 완료</button>
+  <button class="devbtn" type="button" id="devSpots" aria-pressed="false">핫스팟 보기</button>
+  <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
+</div>
+
+<script>
+(() => {
+const QUESTIONS = [
+  { id:'q1', en:'Where were you tonight, between 8 and 10 PM?', ko:'오늘 밤 8시~10시에 어디 있었나요?' },
+  { id:'q2', en:'Can anyone prove that?', ko:'그걸 증명해 줄 사람이 있나요?' },
+  { id:'q3', en:'How did you know Professor Hoot?', ko:'후트 교수와는 어떤 사이였나요?' },
+];
+
+/* People. Nobody is rounded up in advance: each person stays at their `place`, and appears
+   (in the people list and on the map) only after someone names them or a clue points to them.
+   `unlocks` = what hearing an answer reveals: { places:[…], people:[…] } (a person brings their place along).
+   Each answer has its own note lines and word cards. {{id|answer/alt}} marks a blank. */
+const PEOPLE = {
+  // the partner — met first, at the crime scene; explains in order (linear), no question choices
+  badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'동료 경찰', place:'library', partner:true, linear:true,
+    pitch:.9, voice:3, bg:'#DCE3F0',
+    hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
+    // recorded voice (Higgsfield · MiniMax · Fraser)
+    audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3' },
+    questions:[
+      { id:'b1', en:'The case', ko:'사건 개요' },
+      { id:'b2', en:'The witness', ko:'발견자' },
+      { id:'b3', en:'What to do', ko:'할 일' }
+    ],
+    unlocks:{ b1:{ places:['library'] }, b2:{ people:['mole'] } },
+    answers:{
+      b1:"This is the Old Library. Professor Hoot was found here at nine o'clock tonight. He was lying on the floor.",
+      b2:"Mrs. Mole, the librarian, found him. We think it happened between eight and nine. She is still inside, so please talk to her.",
+      b3:"Look around the library carefully. When you know who did it, come and tell me."
+    },
+    notes:{
+      b1:["Victim: Professor {{a|Hoot}}.","Place: the Old {{b|Library}}.","He was found at {{c|9 PM/9/nine}}."],
+      b2:["{{d|Mrs. Mole/mrs mole}} found him. She is the {{e|librarian}}.","It happened between {{f|8 PM/8/eight}} and {{g|9 PM/9/nine}}."],
+      b3:["Look around the {{h|library}} carefully.","When I know who did it, I tell {{i|Sgt. Badger/sgt badger/badger}}."]
+    },
+    bank:{
+      b1:['Hoot','Mole','Library','Bakery','8 PM','9 PM','10 PM'],
+      b2:['Mrs. Mole','Mrs. Bear','librarian','baker','7 PM','8 PM','9 PM'],
+      b3:['library','bakery','Sgt. Badger','Mrs. Mole']
+    }
+  },
+  // the witness who found the victim — her answers name the people to look for
+  mole: { id:'mole', name:'Mrs. Mole', ko:'두더지 부인', job:'사서', place:'library', pitch:1.05, voice:4, bg:'#E8DCCB',
+    hello:"Oh, detective. I'm Mrs. Mole, the librarian. What a terrible night.",
+    questions:[
+      { id:'m1', en:'What did you see tonight?', ko:'오늘 밤 무엇을 봤나요?' },
+      { id:'m2', en:'Did anyone visit the library tonight?', ko:'오늘 밤 도서관에 온 사람이 있나요?' },
+      { id:'m3', en:'Did the professor have any problems?', ko:'교수님에게 무슨 문제가 있었나요?' }
+    ],
+    unlocks:{ m2:{ people:['ray','rosie'] }, m3:{ people:['fiona'] } },
+    answers:{
+      m1:"I came back at nine to lock the door. The professor was on the floor, and the big clock was not ticking.",
+      m2:"Ray Raccoon came at seven thirty to borrow a music book. And Rosie Rabbit came at seven to return a book about stars.",
+      m3:"Last week, he wrote that Fiona Fox's pies were too sweet. Fiona was very angry about it."
+    },
+    notes:{
+      m1:["She came back at {{a|9 PM/9/nine}} to lock the door.","The big {{b|clock}} was not ticking."],
+      m2:["{{c|Ray Raccoon/ray raccoon}} came at 7:30 to borrow a {{d|music}} book.","{{e|Rosie Rabbit/rosie rabbit}} came at {{f|7 PM/7/seven}} to return a book about {{g|stars}}."],
+      m3:["Hoot wrote that {{h|Fiona Fox/fiona fox}}'s pies were too {{i|sweet}}.","Fiona was very {{j|angry}}."]
+    },
+    bank:{
+      m1:['8 PM','9 PM','10 PM','clock','door','window'],
+      m2:['Ray Raccoon','Rosie Rabbit','Mr. Duck','music','cooking','7 PM','8 PM','stars','flowers'],
+      m3:['Fiona Fox','Mrs. Bear','sweet','salty','angry','happy']
+    }
+  },
+  fiona: { id:'fiona', name:'Fiona Fox', ko:'여우 피오나', job:'빵집 주인', place:'bakery', pitch:1.15, voice:0, bg:'#F8D9C6',
+    hello:"Good evening, detective. I'm Fiona. Please, make it quick. I have pies to bake.",
+    // recorded voice (Higgsfield · MiniMax · Petra). People without clips fall back to browser TTS.
+    audio:{ hello:'audio/fiona-hello.mp3', q1:'audio/fiona-q1.mp3', q2:'audio/fiona-q2.mp3', q3:'audio/fiona-q3.mp3' },
+    unlocks:{ q1:{ places:['bakery'] } },
+    answers:{
+      q1:"I was at my bakery all evening, from seven to ten. I was baking blueberry pies for the festival tomorrow.",
+      q2:"Of course! Mrs. Bear came in to buy bread at eight thirty. You can ask her.",
+      q3:"He came to my bakery every morning. But last week, he said my pies were too sweet. I was a little upset, that's all."
+    },
+    notes:{
+      q1:["Fiona was at the {{a|bakery}} from {{b|7 PM/7/seven}} to {{c|10 PM/10/ten}}.","She was baking {{d|blueberry pies/blueberry pie}}."],
+      q2:["{{e|Mrs. Bear/mrs bear}} came to buy bread at {{f|8:30/eight thirty}}."],
+      q3:["Hoot came to her bakery every {{g|morning}}.","He said her pies were too {{h|sweet}}. She was {{i|upset}}."]
+    },
+    bank:{
+      q1:['bakery','library','7 PM','9 PM','10 PM','blueberry pies','apple cakes'],
+      q2:['Mrs. Bear','Mr. Duck','8:30','8:40','9:30'],
+      q3:['morning','night','sweet','salty','upset','happy']
+    }
+  },
+  ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
+    hello:"Hey, detective. I'm Ray. I didn't do anything, okay?",
+    unlocks:{ q1:{ places:['cafe'] } },
+    answers:{
+      q1:"I was at the Lake Cafe. I played my guitar on stage from eight to nine thirty.",
+      q2:"The whole cafe saw me! Ask Mr. Duck. He owns the cafe.",
+      q3:"He borrowed my lantern last month and never gave it back. But he was a kind old owl."
+    },
+    notes:{
+      q1:["Ray was at the {{a|Lake Cafe/lake cafe}}.","He played the {{b|guitar}} from {{c|8 PM/8/eight}} to {{d|9:30 PM/9:30/nine thirty}}."],
+      q2:["The whole {{e|cafe}} saw him.","Witness: {{f|Mr. Duck/mr duck}}, the cafe owner."],
+      q3:["Hoot borrowed his {{g|lantern}} and never gave it back.","He was a kind old {{h|owl}}."]
+    },
+    bank:{
+      q1:['Lake Cafe','Moon Hill','guitar','drum','8 PM','9 PM','9:30 PM'],
+      q2:['cafe','town','Mr. Duck','Mrs. Bear'],
+      q3:['lantern','umbrella','owl','fox']
+    }
+  },
+  rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
+    hello:"H-hello. I'm Rosie. I'm a little scared, detective.",
+    unlocks:{ q1:{ places:['hill'] } },
+    answers:{
+      q1:"I was on Moon Hill with my telescope, from eight to ten. The sky was so clear tonight.",
+      q2:"Nobody was with me. But I saw a shooting star at eight forty-five! I wrote it in the Star Club notebook.",
+      q3:"Professor Hoot taught me the names of the stars. I'm going to miss him so much."
+    },
+    notes:{
+      q1:["Rosie was on {{a|Moon Hill/moon hill}} with her {{b|telescope}}.","She was there from {{c|8 PM/8/eight}} to {{d|10 PM/10/ten}}."],
+      q2:["{{e|Nobody/no one}} was with her.","She saw a {{f|shooting star}} at {{g|8:45/eight forty-five/eight forty five}}.","She wrote it in the {{h|Star Club/star club}} notebook."],
+      q3:["Hoot taught her the names of the {{i|stars}}."]
+    },
+    bank:{
+      q1:['Moon Hill','Lake Cafe','telescope','camera','8 PM','9 PM','10 PM'],
+      q2:['Nobody','Mr. Duck','shooting star','rainbow','8:45','8:15','Star Club','Book Club'],
+      q3:['stars','flowers','birds']
+    }
+  }
+};
+const PEOPLE_ORDER = Object.keys(PEOPLE);
+
+/* Places for the investigation. Each place is one large illustration (ART[id], 900×600, 3:2)
+   plus tap areas (`spots`) given in % of the illustration, so a finished artwork can replace
+   the placeholder drawing without touching the logic. Turn on 핫스팟 보기 (outside the frame) to see them.
+   A clue can point to a person (`unlocks`), who then appears at their place. */
+const PLACES = [
+  { id:'library', crime:true, x:30.5, y:44, label:'Old Library', kind:'사건 현장',
+    clues:[
+      { label:'Big clock', en:'The big clock stopped at 8:40 PM.', ko:'큰 시계가 오후 8시 40분에 멈춰 있다.' },
+      { label:'Window', en:'There is sticky purple jam on the window.', ko:'창문에 끈적한 보라색 잼이 묻어 있다.' },
+      { label:'Door', en:'A tuft of orange fur is caught on the door.', ko:'문에 주황색 털 뭉치가 걸려 있다.', unlocks:{ people:['fiona'] } }
+    ],
+    spots:[
+      { clue:0, x:68.9, y:6,    w:12.2, h:65.5 },
+      { clue:1, x:5.6,  y:13.3, w:20,   h:32 },
+      { clue:2, x:83.3, y:20,   w:14.4, h:52.5 }
+    ]},
+  { id:'bakery', x:25, y:89, label:"Fiona's Bakery", kind:'장소',
+    clues:[
+      { label:'Front door', en:'A sign on the door: CLOSED AT 7 PM TONIGHT.', ko:'문에 붙은 안내문: 오늘은 오후 7시에 문 닫음.' },
+      { label:'Oven', en:'The oven is cold. No pies were baked tonight.', ko:'오븐이 차갑다. 오늘 밤 구운 파이는 없다.' },
+      { label:'Note', en:"A note on the counter: 'Sorry, Mrs. Bear! No bread tonight.'", ko:"계산대 위 쪽지: '곰 아주머니 죄송해요! 오늘 밤은 빵이 없어요.'" }
+    ],
+    spots:[
+      { clue:0, x:4.4,  y:18.3, w:17.8, h:52.5 },
+      { clue:1, x:70,   y:6,    w:26.7, h:68 },
+      { clue:2, x:52.5, y:41,   w:9.5,  h:12 }
+    ]},
+  { id:'cafe', x:63, y:70, label:'Lake Cafe', kind:'장소',
+    clues:[
+      { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.' },
+      { label:'Mr. Duck', en:"Mr. Duck: 'Ray never left the stage. He played twelve songs!'", ko:"오리 아저씨: '레이는 무대를 한 번도 안 떠났어. 열두 곡이나 불렀다고!'" }
+    ],
+    spots:[
+      { clue:0, x:35.6, y:11.7, w:14.4, h:31.7 },
+      { clue:1, x:14.5, y:31,   w:14,   h:29 }
+    ]},
+  { id:'hill', x:75, y:24, label:'Moon Hill', kind:'장소',
+    clues:[
+      { label:'Star Club notebook', en:"Star Club notebook: '8:30 PM, Saturn is bright. 8:45 PM, a shooting star! — Rosie'", ko:"별 동호회 노트: '8:30 토성이 밝다. 8:45 별똥별! — 로지'" },
+      { label:'Footprints', en:'Small rabbit footprints are all around the telescope.', ko:'망원경 주변에 작은 토끼 발자국이 가득하다.' }
+    ],
+    spots:[
+      { clue:0, x:70,   y:59,   w:22.2, h:19 },
+      { clue:1, x:38,   y:72,   w:23,   h:15 }
+    ]}
+];
+const placeOf = id => PLACES.find(p => p.id === id);
+const CULPRIT = 'fiona';
+
+/* ---------- characters ---------- */
+const INK = '#4A3628';
+function mouth(cy){
+  return `<path class="m-closed" d="M92 ${cy} Q100 ${cy+6} 108 ${cy}" fill="none"/>
+          <ellipse class="m-open" cx="100" cy="${cy+3}" rx="6.5" ry="5.5" fill="#B4495F"/>`;
+}
+// Full-body characters (viewBox 0 0 200 400). The head sits in the top ~37%, so the question buttons
+// and the notebook can cover the lower body without the person ever having to move.
+function charSVG(id){
+  let back = '', ears = '', head = '', face = '', torso = '', front = '';
+  const body = c => `<path d="M34 292 C30 220 46 156 78 146 L122 146 C154 156 170 220 166 292 Z" fill="${c}"/>`;
+  // legs + feet (drawn before the torso), arms + hands (after it)
+  const legs = (pants, shoe, foot = 20) => `<path d="M70 288 L68 372 L96 372 L98 288Z" fill="${pants}"/><path d="M102 288 L104 372 L132 372 L130 288Z" fill="${pants}"/>
+    <ellipse cx="80" cy="380" rx="${foot}" ry="10" fill="${shoe}"/><ellipse cx="120" cy="380" rx="${foot}" ry="10" fill="${shoe}"/>`;
+  const arms = (sleeve, hand) => `<path d="M48 166 Q24 220 32 284 L50 284 Q48 230 62 190Z" fill="${sleeve}"/><path d="M152 166 Q176 220 168 284 L150 284 Q152 230 138 190Z" fill="${sleeve}"/>
+    <circle cx="41" cy="290" r="11" fill="${hand}"/><circle cx="159" cy="290" r="11" fill="${hand}"/>`;
+  if(id==='fiona'){
+    back = `<path d="M146 300 C196 290 206 234 176 220 C186 250 170 276 140 282Z" fill="#EE8E4A"/><path d="M176 220 C190 232 190 250 183 260 C178 246 174 232 176 220Z" fill="#FFF3E6"/>` + legs('#EE8E4A', '#7A4A30');
+    torso = body('#F4C9A0') + `<path d="M72 156 L128 156 L140 300 L60 300 Z" fill="#FFFBF2"/><path d="M90 200 q10 -10 20 0 q-10 14 -20 0Z" fill="#F6B89A"/><path d="M72 156 Q64 150 58 160 M128 156 Q136 150 142 160" fill="none"/>`;
+    front = arms('#F4C9A0', '#EE8E4A');
+    ears = `<path d="M60 70 L50 14 L94 46 Z" fill="#EE8E4A"/><path d="M64 60 L58 30 L82 48 Z" fill="#FFE4CC"/>
+            <path d="M140 70 L150 14 L106 46 Z" fill="#EE8E4A"/><path d="M136 60 L142 30 L118 48 Z" fill="#FFE4CC"/>`;
+    head = `<ellipse cx="100" cy="94" rx="56" ry="50" fill="#EE8E4A"/>
+            <path d="M48 102 Q66 144 100 142 Q134 144 152 102 Q128 116 100 106 Q72 116 48 102Z" fill="#FFF3E6"/>`;
+    face = `<circle cx="80" cy="88" r="5" fill="${INK}"/><circle cx="120" cy="88" r="5" fill="${INK}"/>
+            <circle cx="82" cy="86" r="1.6" fill="#fff" stroke="none"/><circle cx="122" cy="86" r="1.6" fill="#fff" stroke="none"/>
+            <ellipse cx="100" cy="110" rx="7" ry="5" fill="${INK}"/>${mouth(120)}
+            <ellipse cx="64" cy="110" rx="8" ry="5" fill="#F79A8E" opacity=".6" stroke="none"/><ellipse cx="136" cy="110" rx="8" ry="5" fill="#F79A8E" opacity=".6" stroke="none"/>
+            <circle cx="142" cy="124" r="3" fill="#fff" opacity=".9" stroke="none"/><circle cx="148" cy="119" r="2" fill="#fff" opacity=".9" stroke="none"/>`;
+  } else if(id==='ray'){
+    back = `<path d="M54 292 C8 288 -2 230 26 212 C22 246 36 270 60 276Z" fill="#9A98A6"/><path d="M14 236 l16 6 M12 256 l18 4 M22 274 l14 2" fill="none" stroke="#55505E" stroke-width="6"/>` + legs('#5E7FA6', '#C96F86');
+    torso = body('#8FB7C9') + `<path d="M84 150 L100 292 M116 150 L100 292" fill="none" stroke-width="2"/>
+            <path d="M64 146 Q100 164 136 146 L138 162 Q100 180 62 162Z" fill="#E7887C"/>
+            <path d="M116 166 L124 206 L108 204Z" fill="#E7887C"/><path d="M80 152 l-3 13 M96 156 l-2 13 M112 155 l-1 13" stroke="#FFFBF2" stroke-width="3" fill="none"/>`;
+    front = arms('#8FB7C9', '#9A98A6');
+    ears = `<circle cx="56" cy="54" r="19" fill="#9A98A6"/><circle cx="56" cy="56" r="9" fill="#6F6D7B"/>
+            <circle cx="144" cy="54" r="19" fill="#9A98A6"/><circle cx="144" cy="56" r="9" fill="#6F6D7B"/>`;
+    head = `<ellipse cx="100" cy="96" rx="56" ry="50" fill="#B9B7C3"/>
+            <path d="M46 92 Q66 66 100 84 Q134 66 154 92 Q142 108 120 100 Q100 94 80 100 Q58 108 46 92Z" fill="#55505E"/>
+            <path d="M66 72 q12 -6 22 2 M134 72 q-12 -6 -22 2" fill="none" stroke="#FFFBF2" stroke-width="3"/>
+            <ellipse cx="100" cy="118" rx="24" ry="17" fill="#F1EFF4"/>`;
+    face = `<circle cx="78" cy="90" r="6.5" fill="#FFFBF2" stroke-width="2"/><circle cx="122" cy="90" r="6.5" fill="#FFFBF2" stroke-width="2"/>
+            <circle cx="79" cy="91" r="3.4" fill="${INK}" stroke="none"/><circle cx="121" cy="91" r="3.4" fill="${INK}" stroke="none"/>
+            <ellipse cx="100" cy="110" rx="7" ry="5" fill="${INK}"/>${mouth(121)}
+            <ellipse cx="68" cy="116" rx="7" ry="4.5" fill="#F79A8E" opacity=".55" stroke="none"/><ellipse cx="132" cy="116" rx="7" ry="4.5" fill="#F79A8E" opacity=".55" stroke="none"/>`;
+  } else if(id==='badger'){
+    back = legs('#3E5A88', '#4A3628');
+    torso = body('#7F9CC8') + `<path d="M84 148 L100 172 L116 148" fill="#FFFDF7" stroke-width="2"/>
+            <path d="M126 176 l4 8 l9 1 l-7 6 l2 9 l-8 -5 l-8 5 l2 -9 l-7 -6 l9 -1Z" fill="#F2CF73" stroke-width="2"/>
+            <path d="M100 172 V272" fill="none" stroke-width="2"/><circle cx="100" cy="196" r="3" fill="#FFFDF7"/><circle cx="100" cy="222" r="3" fill="#FFFDF7"/><circle cx="100" cy="248" r="3" fill="#FFFDF7"/>
+            <path d="M33 270 L167 270 L167 284 L33 284Z" fill="#4A3628"/><rect x="92" y="268" width="16" height="18" rx="3" fill="#F2CF73" stroke-width="2"/>`;
+    front = arms('#7F9CC8', '#6F6D7B');
+    ears = `<circle cx="56" cy="74" r="13" fill="#6F6D7B"/><circle cx="144" cy="74" r="13" fill="#6F6D7B"/>`;
+    head = `<ellipse cx="100" cy="100" rx="54" ry="47" fill="#F1EFF4"/>
+            <path d="M70 58 Q62 86 74 112 Q86 106 88 88 Q88 68 84 56Z" fill="#55505E"/>
+            <path d="M130 58 Q138 86 126 112 Q114 106 112 88 Q112 68 116 56Z" fill="#55505E"/>
+            <path d="M48 66 Q100 12 152 66 Z" fill="#5B78A8"/>
+            <ellipse cx="100" cy="67" rx="58" ry="9" fill="#3E5A88"/>
+            <circle cx="100" cy="44" r="7" fill="#F2CF73" stroke-width="2"/>`;
+    face = `<circle cx="79" cy="92" r="6.5" fill="#FFFBF2" stroke-width="2"/><circle cx="121" cy="92" r="6.5" fill="#FFFBF2" stroke-width="2"/>
+            <circle cx="80" cy="93" r="3.4" fill="${INK}" stroke="none"/><circle cx="120" cy="93" r="3.4" fill="${INK}" stroke="none"/>
+            <ellipse cx="100" cy="113" rx="9" ry="6" fill="${INK}"/>${mouth(124)}
+            <ellipse cx="66" cy="118" rx="7" ry="4.5" fill="#F79A8E" opacity=".55" stroke="none"/><ellipse cx="134" cy="118" rx="7" ry="4.5" fill="#F79A8E" opacity=".55" stroke="none"/>`;
+  } else if(id==='mole'){
+    back = legs('#8D7F86', '#9C7656', 18);
+    torso = body('#B7A6E0') + `<path d="M84 148 L100 166 L116 148" fill="#FFFDF7" stroke-width="2"/><path d="M100 166 V270" fill="none" stroke-width="2"/>
+            <circle cx="100" cy="190" r="3" fill="#FFFDF7"/><circle cx="100" cy="214" r="3" fill="#FFFDF7"/><circle cx="100" cy="238" r="3" fill="#FFFDF7"/>
+            <path d="M42 268 L158 268 L172 340 L28 340Z" fill="#8DB48E"/>`;
+    front = arms('#B7A6E0', '#8D7F86');
+    head = `<ellipse cx="100" cy="100" rx="54" ry="48" fill="#8D7F86"/><ellipse cx="100" cy="122" rx="30" ry="19" fill="#C8B8B0"/>
+            <path d="M74 58 q8 -12 18 -4 M126 58 q-8 -12 -18 -4" fill="none" stroke-width="2.5"/>`;
+    face = `<circle cx="82" cy="95" r="12" fill="#FFFFFF" fill-opacity=".35"/><circle cx="118" cy="95" r="12" fill="#FFFFFF" fill-opacity=".35"/><path d="M94 95 Q100 91 106 95" fill="none"/>
+            <circle cx="82" cy="96" r="3" fill="${INK}" stroke="none"/><circle cx="118" cy="96" r="3" fill="${INK}" stroke="none"/>
+            <ellipse cx="100" cy="114" rx="11" ry="7" fill="#F08AA0"/>${mouth(126)}
+            <ellipse cx="66" cy="118" rx="7" ry="4.5" fill="#F79A8E" opacity=".55" stroke="none"/><ellipse cx="134" cy="118" rx="7" ry="4.5" fill="#F79A8E" opacity=".55" stroke="none"/>`;
+  } else {
+    back = `<circle cx="164" cy="300" r="17" fill="#F7F1EA"/>` + legs('#B7A6E0', '#F7F1EA', 23);
+    torso = body('#F2CF73') + `<path d="M70 168 L130 168 L134 292 L66 292Z" fill="#B7A6E0"/><path d="M76 168 L72 150 M124 168 L128 150" fill="none" stroke-width="5"/>
+            <path d="M35 262 L165 262 L166 292 L34 292Z" fill="#B7A6E0"/>
+            <circle cx="80" cy="176" r="3" fill="#FFFBF2"/><circle cx="120" cy="176" r="3" fill="#FFFBF2"/>
+            <path d="M92 196 l4 8 l9 1 l-7 6 l2 9 l-8 -5 l-8 5 l2 -9 l-7 -6 l9 -1Z" fill="#F2CF73" stroke-width="2"/>`;
+    front = arms('#F2CF73', '#F7F1EA');
+    ears = `<ellipse cx="78" cy="38" rx="15" ry="38" transform="rotate(-12 78 38)" fill="#F7F1EA"/><ellipse cx="78" cy="42" rx="7" ry="26" transform="rotate(-12 78 42)" fill="#F7B9C4" stroke-width="2"/>
+            <ellipse cx="124" cy="38" rx="15" ry="38" transform="rotate(14 124 38)" fill="#F7F1EA"/><ellipse cx="124" cy="42" rx="7" ry="26" transform="rotate(14 124 42)" fill="#F7B9C4" stroke-width="2"/>`;
+    head = `<ellipse cx="100" cy="102" rx="54" ry="47" fill="#F7F1EA"/>`;
+    face = `<circle cx="80" cy="98" r="15" fill="#FFFFFF" fill-opacity=".35"/><circle cx="120" cy="98" r="15" fill="#FFFFFF" fill-opacity=".35"/><path d="M95 98 Q100 94 105 98" fill="none"/>
+            <circle cx="80" cy="99" r="4.5" fill="${INK}" stroke="none"/><circle cx="120" cy="99" r="4.5" fill="${INK}" stroke="none"/>
+            <circle cx="82" cy="97" r="1.4" fill="#fff" stroke="none"/><circle cx="122" cy="97" r="1.4" fill="#fff" stroke="none"/>
+            <path d="M95 114 L105 114 L100 120Z" fill="#F08AA0"/>${mouth(124)}
+            <ellipse cx="64" cy="120" rx="8" ry="5" fill="#F79A8E" opacity=".6" stroke="none"/><ellipse cx="136" cy="120" rx="8" ry="5" fill="#F79A8E" opacity=".6" stroke="none"/>`;
+  }
+  return `<g filter="url(#wob)" class="body" stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    ${back}${torso}${front}<path d="M88 146 L90 136 M112 146 L110 136" fill="none"/>${ears}${head}${face}</g>`;
+}
+const fullSVG = id => `<svg viewBox="0 0 200 400" aria-hidden="true">${charSVG(id)}</svg>`;
+const miniSVG = id => `<svg viewBox="40 22 120 120" aria-hidden="true">${charSVG(id)}</svg>`;
+
+/* ---------- state ----------
+   People are keyed by id. S.met = everyone the player knows about, in the order they turned up.
+   phase per person: 'wait' (not talked to yet) → 'choose' (question cards) → 'record' (listening + writing) → … → 'done'
+   S.investigate = the place view is showing (otherwise the conversation view). */
+const newSpeakerState = () => ({ phase:'wait', hints:3, order:[], recording:null, revealed:new Set(), notes:{}, marks:{} });
+const S = {
+  cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
+  place:null, clue:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])),
+  known:new Set(),   // places someone has mentioned — only these appear on the map
+  met:['badger'],    // people the player knows about
+  per:Object.fromEntries(PEOPLE_ORDER.map(id => [id, newSpeakerState()]))
+};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const spk = id => PEOPLE[id];
+const per = id => S.per[id];
+const qs = sp => sp.questions || QUESTIONS;
+const cur = () => spk(S.cur);
+const st = () => per(S.cur);
+const suspects = () => S.met.filter(id => !spk(id).partner);
+
+let toastT;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400);
+}
+
+/* ---------- speech ---------- */
+let voices = [];
+function loadVoices(){
+  if(!('speechSynthesis' in window)) return;
+  const all = speechSynthesis.getVoices().filter(v => /^en[-_]/i.test(v.lang));
+  voices = all.filter(v => /en[-_](US|GB)/i.test(v.lang)).concat(all.filter(v => !/en[-_](US|GB)/i.test(v.lang)));
+}
+if('speechSynthesis' in window){ loadVoices(); speechSynthesis.addEventListener?.('voiceschanged', loadVoices); }
+let talkT;
+function setTalking(on){ $('#suspect').classList.toggle('talking', on); }
+const clip = new Audio();
+clip.preload = 'auto';
+clip.onplay = () => setTalking(true);
+clip.onended = clip.onpause = () => setTalking(false);
+function stopVoice(){
+  clip.pause();
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  setTalking(false);
+}
+function speak(text, key){
+  const src = cur().audio?.[key];
+  if(src){
+    stopVoice();
+    clip.src = src;
+    clip.preservesPitch = true;
+    clip.playbackRate = S.slow ? .75 : 1;
+    clip.play().catch(() => toast('음성을 재생하지 못했어요. 다시 듣기를 눌러 주세요.'));
+    return;
+  }
+  clip.pause();
+  if(!('speechSynthesis' in window)){ toast('이 브라우저는 음성 읽기를 지원하지 않아요. 힌트로 내용을 확인하세요.'); return; }
+  speechSynthesis.cancel();
+  const s = cur();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = S.slow ? .72 : .95; u.pitch = s.pitch;
+  if(voices.length) u.voice = voices[s.voice % voices.length];
+  u.onstart = () => setTalking(true);
+  u.onend = u.onerror = () => { setTalking(false); clearTimeout(talkT); };
+  clearTimeout(talkT); setTalking(true);
+  talkT = setTimeout(() => setTalking(false), text.length * (S.slow ? 95 : 70) + 800);
+  speechSynthesis.speak(u);
+}
+
+/* ---------- stage ---------- */
+const POLICE_TAPE = `<g transform="rotate(-5 450 470)"><rect x="-60" y="452" width="1020" height="38" fill="#F2CF73" stroke="${INK}" stroke-width="3"/>
+  <text x="450" y="479" text-anchor="middle" font-family="Jua, sans-serif" font-size="21" letter-spacing="3" fill="${INK}">POLICE LINE · DO NOT CROSS · POLICE LINE · DO NOT CROSS · POLICE LINE</text></g>`;
+function renderStage(enter){
+  const s = cur(), el = $('#suspect');
+  $('#app').classList.toggle('partner', !!s.partner);
+  $('#sceneArt').innerHTML = ART[s.place]() + (s.place === 'library' ? POLICE_TAPE : '');
+  el.innerHTML = fullSVG(s.id);
+  el.classList.remove('enter'); void el.offsetWidth;
+  if(enter && !s.partner) el.classList.add('enter');
+  // people show only their name — what they do is learned from what they say
+  $('#nameplate').innerHTML = `${esc(s.name)}${s.partner ? `<small>${esc(s.job)}</small>` : ''}`;
+  hideBubble();
+}
+// The top-left chip leaves the conversation for the place it happens in (not until the briefing is done).
+function renderChips(){
+  const p = st(), s = cur(), oc = $('#orderChip');
+  const canLeave = !(s.partner && p.phase !== 'done');
+  oc.textContent = canLeave ? `← ${placeOf(s.place).label}` : 'Case 01 · 현장 브리핑';
+  oc.disabled = !canLeave;
+  const n = p.order.length - (p.phase === 'record' ? 1 : 0);
+  $('#progressChip').textContent = p.phase === 'done' ? '대화 완료' : `${s.partner ? '브리핑' : '기록'} ${n}/${qs(s).length}`;
+}
+function showBubble(qid){
+  const s = cur(), q = qs(s).find(x => x.id===qid), b = $('#bubble');
+  b.innerHTML = `<span class="tag">HINT · ${esc(q.en)}</span>${esc(s.answers[qid])}<button type="button" aria-label="말풍선 닫기">×</button>`;
+  b.hidden = false;
+  b.querySelector('button').onclick = hideBubble;
+}
+function hideBubble(){ $('#bubble').hidden = true; }
+
+/* ---------- notebook (Note) ---------- */
+const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5Z" fill="#4A3628"/></svg>`;
+const acorns = n => `<span class="acorns">${[0,1,2].map(i => `<svg class="${i < n ? '' : 'used'}"><use href="#acorn"/></svg>`).join('')}</span>`;
+
+function renderWho(){
+  // pages for everyone the player has talked to; the partner's page is the case file
+  $('#who').innerHTML = S.met.filter(id => per(id).phase !== 'wait').map(id => {
+    const s = spk(id);
+    if(s.partner) return `<button class="case" type="button" data-i="${id}" aria-pressed="${S.view === id}" style="background:${s.bg}" aria-label="사건 브리핑 노트"><svg aria-hidden="true"><use href="#caseIcon"/></svg></button>`;
+    return `<button type="button" data-i="${id}" aria-pressed="${S.view === id}" style="background:${s.bg}" aria-label="${esc(s.name)} 노트">${miniSVG(s.id)}</button>`;
+  }).join('');
+}
+$('#who').addEventListener('click', e => {
+  const b = e.target.closest('[data-i]'); if(!b || b.disabled) return;
+  S.view = b.dataset.i; renderDock();
+});
+
+function blockHTML(sIdx, qid, now){
+  const s = spk(sIdx), p = per(sIdx), q = qs(s).find(x => x.id === qid);
+  const lines = s.notes[qid].map(line => {
+    let html = '', last = 0;
+    line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans, idx) => {
+      html += esc(line.slice(last, idx));
+      const v = p.notes[id] || '', mk = p.marks[id] || '';
+      html += `<input class="blank ${mk}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸">`;
+      last = idx + m.length; return m;
+    });
+    return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
+  }).join('');
+  const label = s.linear ? `${qs(s).indexOf(q) + 1} · ${esc(q.en)}` : `Q. ${esc(q.en)}`;
+  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}</span>${lines}</div>`;
+}
+
+// Under the person: question buttons (choose), a button to take the notebook out again (record),
+// or the way back to the place (done). Hidden while the notebook is out.
+function renderAsk(){
+  const box = $('#askPanel'), p = st(), s = cur();
+  box.classList.remove('show-ko');
+  if(S.investigate){ box.innerHTML = ''; return; }
+  let html = '';
+  if(p.phase === 'choose' && s.linear){
+    // the partner explains in order — one "keep listening" button instead of question choices
+    const all = qs(s), next = all.find(q => !p.order.includes(q.id)), n = all.indexOf(next) + 1;
+    html = `<button class="pill big blue" type="button" data-q="${next.id}">${playIcon}${n === 1 ? '설명 듣기' : '이어서 듣기'} · ${esc(next.ko)}<span class="step">${n}/${all.length}</span></button>`;
+  } else if(p.phase === 'choose'){
+    const all = qs(s), left = all.filter(q => !p.order.includes(q.id));
+    html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
+      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
+  } else if(p.phase === 'record'){
+    html = `<button class="pill big green" type="button" id="openNote">노트에 기록하기</button>`;
+  } else if(p.phase === 'done'){
+    html = `<button class="pill big" type="button" id="toPlace">${esc(placeOf(s.place).label)} 둘러보기</button>`;
+  }
+  box.innerHTML = html;
+}
+$('#askPanel').addEventListener('click', e => {
+  const q = e.target.closest('[data-q]');
+  if(q) return ask(q.dataset.q);
+  const ko = e.target.closest('#qKo');
+  if(ko){ ko.setAttribute('aria-pressed', $('#askPanel').classList.toggle('show-ko')); return; }
+  if(e.target.closest('#openNote')){ S.view = S.cur; renderDock(); setNotes(true); return; }
+  if(e.target.closest('#toPlace')) leaveTalk();
+});
+function renderDock(){
+  renderWho(); renderChips(); renderAsk();
+  const body = $('#dockBody');
+  const vs = spk(S.view), vp = per(S.view);
+  const live = S.view === S.cur && !S.investigate;
+  const p = st();
+  let html = '';
+
+  if(!S.investigate && S.view !== S.cur){
+    html += `<div class="viewing"><span>${vs.linear ? '사건 브리핑 노트를' : esc(vs.name) + '의 노트를'} 보는 중이에요.</span><button class="pill" type="button" id="backLive">지금 대화로</button></div>`;
+  }
+
+  if(live && p.phase === 'record'){
+    html += `<div class="listen">
+      <button class="pill" id="replay" type="button">${playIcon}다시 듣기</button>
+      <button class="pill" id="slow" type="button" aria-pressed="${S.slow}">천천히</button>
+      <button class="pill hint" id="hint" type="button" aria-label="힌트 ${p.hints}번 남음">힌트 ${acorns(p.hints)}</button>
+    </div>`;
+  }
+
+  html += `<div class="note-page" id="notePage">${
+    vp.order.length
+      ? vp.order.map(qid => blockHTML(S.view, qid, live && qid === p.recording)).join('')
+      : `<div class="empty-note">${vs.linear ? '설명을 들으면' : '질문을 고르면'} 받아 적을 줄이 여기에 생겨요.</div>`
+  }</div>`;
+
+  if(live && p.phase === 'record'){
+    html += `<div class="bank" id="bank">${cur().bank[p.recording].map(w => `<button class="word" type="button" data-w="${esc(w)}">${esc(w)}</button>`).join('')}</div>
+      <button class="pill big green" id="finish" type="button">기록 완료</button>`;
+  }
+
+  body.innerHTML = html;
+  bindDock();
+  // scroll only the notebook (scrollIntoView would also scroll the clipped app frame)
+  const now = body.querySelector('.nblock.now');
+  if(now){
+    const r = now.getBoundingClientRect(), b = body.getBoundingClientRect();
+    if(r.bottom > b.bottom) body.scrollTop += r.bottom - b.bottom + 8;
+    if(r.top < b.top) body.scrollTop -= b.top - r.top + 8;
+  }
+}
+
+function bindDock(){
+  const body = $('#dockBody');
+  body.querySelector('#backLive')?.addEventListener('click', () => { S.view = S.cur; renderDock(); });
+  body.querySelector('#replay')?.addEventListener('click', () => speak(cur().answers[st().recording], st().recording));
+  body.querySelector('#slow')?.addEventListener('click', e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); });
+  body.querySelector('#hint')?.addEventListener('click', useHint);
+  body.querySelector('#finish')?.addEventListener('click', finishRecord);
+  const bank = body.querySelector('#bank');
+  if(bank){
+    bank.addEventListener('pointerdown', dragStart);
+    bank.addEventListener('pointermove', dragMove);
+    bank.addEventListener('pointerup', dragEnd);
+    bank.addEventListener('pointercancel', dragEnd);
+  }
+}
+
+/* ---------- interrogation flow ---------- */
+function stageCard(title, sub){
+  const d = document.createElement('div');
+  d.className = 'stage-card';
+  d.innerHTML = `<div><small>${esc(sub)}</small><b>${esc(title)}</b></div>`;
+  $('.scene').appendChild(d);
+  setTimeout(() => d.remove(), 1900);
+}
+// Start or resume a conversation. The first meeting plays the greeting.
+function talkTo(id){
+  stopVoice();
+  const first = per(id).phase === 'wait';
+  S.cur = id; S.view = id; S.sel = null;
+  if(!S.met.includes(id)) S.met.push(id);
+  if(first) per(id).phase = 'choose';
+  openSheet(null); setNotes(false);
+  if(S.investigate) setInvestigate(false);
+  renderStage(first); renderDock(); renderList();
+  if(first){
+    if(cur().partner) stageCard(CASES[0].title, CASES[0].no);
+    setTimeout(() => speak(cur().hello, 'hello'), cur().partner ? 1200 : 600);
+  }
+}
+// Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
+function leaveTalk(){ enterPlace(cur().place); }
+function ask(qid){
+  const p = st();
+  p.phase = 'record'; p.recording = qid; p.order.push(qid);
+  unlock(cur().unlocks?.[qid]);
+  hideBubble();
+  speak(cur().answers[qid], qid);
+  renderDock(); renderList();
+  // as the answer starts, the detective pulls the notebook out (sketch 3)
+  setTimeout(() => {
+    if(!S.investigate && st().phase === 'record' && st().recording === qid){ S.view = S.cur; renderDock(); setNotes(true); }
+  }, 700);
+}
+function useHint(){
+  const p = st(), qid = p.recording;
+  if(p.revealed.has(qid)) return showBubble(qid);
+  if(p.hints <= 0) return toast(`${cur().name}에게 쓸 힌트를 다 썼어요.`);
+  p.hints--; p.revealed.add(qid); showBubble(qid); renderDock();
+}
+const norm = s => s.toLowerCase().replace(/[.'’,!]/g,'').replace(/\s+/g,' ').trim().replace(/\s?pm$/,'');
+function finishRecord(){
+  const p = st();
+  const blanks = [...document.querySelectorAll(`.nblock[data-q="${p.recording}"] .blank`)];
+  const empty = blanks.filter(b => !b.value.trim());
+  if(empty.length){ empty[0].focus(); return toast(`빈칸 ${empty.length}개가 남았어요. 모두 채워야 기록이 끝나요.`); }
+  let ok = 0;
+  blanks.forEach(b => {
+    const good = b.dataset.ans.split('/').map(norm).includes(norm(b.value));
+    p.marks[b.dataset.id] = good ? 'ok' : 'no'; if(good) ok++;
+  });
+  p.recording = null;
+  p.phase = p.order.length === qs(cur()).length ? 'done' : 'choose';
+  hideBubble();
+  stopVoice();
+  setTalking(false);
+  toast(ok === blanks.length ? `기록 완료! ${blanks.length}칸 모두 맞았어요.` : `기록 완료. ${blanks.length}칸 중 ${ok}칸이 맞았어요. 빨간 칸은 나중에 고칠 수 있어요.`);
+  setNotes(false);   // the notebook goes away and the remaining questions come back
+  renderDock(); renderList();
+}
+// Switch between the conversation view and the place view. Either can be left and resumed;
+// an unfinished recording waits in the notebook until the player comes back.
+function setInvestigate(on){
+  S.investigate = on;
+  stopVoice(); hideBubble(); clearSel();
+  $('#app').classList.remove('expanded', 'notes-open');
+  $('#app').classList.toggle('investigate', on);
+  $('#noteTab').setAttribute('aria-expanded', 'false');
+  renderDock(); renderList(); renderPlaces(); renderSceneHead(); renderScenePanel();
+}
+/* ---------- notebook edits + word-card drag ---------- */
+$('#dockBody').addEventListener('input', e => {
+  const b = e.target.closest('.blank'); if(!b) return;
+  b.size = Math.max(5, b.value.length+1); b.classList.remove('ok','no');
+  const p = per(b.dataset.s); p.notes[b.dataset.id] = b.value; delete p.marks[b.dataset.id];
+});
+$('#dockBody').addEventListener('pointerdown', e => {
+  const b = e.target.closest('.blank');
+  if(b && S.sel){ e.preventDefault(); fillBlank(b, S.sel); clearSel(); }
+});
+function fillBlank(input, word){
+  input.value = word; input.size = Math.max(5, word.length+1); input.classList.remove('ok','no');
+  const p = per(input.dataset.s); p.notes[input.dataset.id] = word; delete p.marks[input.dataset.id];
+}
+function clearSel(){ S.sel = null; document.querySelectorAll('.word.sel').forEach(w => w.classList.remove('sel')); }
+
+let drag = null;
+function dragStart(e){
+  const w = e.target.closest('.word'); if(!w) return;
+  drag = { w, x:e.clientX, y:e.clientY, ghost:null, hot:null, id:e.pointerId };
+  w.setPointerCapture(e.pointerId);
+}
+function dragMove(e){
+  if(!drag || e.pointerId !== drag.id) return;
+  if(!drag.ghost){
+    if(Math.hypot(e.clientX-drag.x, e.clientY-drag.y) < 6) return;
+    drag.ghost = drag.w.cloneNode(true); drag.ghost.classList.add('ghost'); drag.ghost.classList.remove('sel');
+    $('#app').appendChild(drag.ghost);
+  }
+  drag.ghost.style.left = e.clientX+'px'; drag.ghost.style.top = e.clientY+'px';
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  const hot = under && under.closest ? under.closest('.blank') : null;
+  if(drag.hot && drag.hot !== hot) drag.hot.classList.remove('hot');
+  if(hot) hot.classList.add('hot');
+  drag.hot = hot;
+}
+function dragEnd(e){
+  if(!drag || e.pointerId !== drag.id) return;
+  const word = drag.w.dataset.w;
+  if(drag.ghost){
+    drag.ghost.remove();
+    if(drag.hot){ drag.hot.classList.remove('hot'); fillBlank(drag.hot, word); }
+    clearSel();
+  } else if(e.type === 'pointerup'){
+    const was = S.sel === word; clearSel();
+    if(!was){ S.sel = word; drag.w.classList.add('sel'); toast(`'${word}' 카드를 골랐어요. 빈칸을 눌러 넣으세요.`); }
+  }
+  drag = null;
+}
+
+/* ---------- sheets + tabs ---------- */
+function setNotes(open){
+  $('#app').classList.toggle('notes-open', open);
+  $('#noteTab').setAttribute('aria-expanded', open);
+}
+function openSheet(name){
+  document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
+  document.querySelectorAll('.tab[data-sheet]').forEach(t => t.setAttribute('aria-expanded', t.dataset.sheet === name));
+  if(name) setNotes(false);
+  if(name === 'map') setMapNew(false);
+}
+document.querySelectorAll('.tab[data-sheet]').forEach(t => t.onclick = () => {
+  if(t.dataset.sheet === 'map') setMapOrigin(t);
+  openSheet(t.getAttribute('aria-expanded') === 'true' ? null : t.dataset.sheet);
+});
+document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openSheet(null));
+$('#noteTab').onclick = () => {
+  const open = !$('#app').classList.contains('notes-open');
+  openSheet(null); setNotes(open);
+  if(open) renderDock();
+};
+$('#dockClose').onclick = () => setNotes(false);
+// The map grows out of the button that opened it and shrinks back into it when closed.
+function setMapOrigin(btn){
+  const sh = $('#sheet-map');
+  if(!btn || sh.classList.contains('open')) return;
+  const a = $('#app').getBoundingClientRect(), r = btn.getBoundingClientRect();
+  sh.style.transition = 'none';
+  sh.style.setProperty('--t', `${r.top - a.top}px`);
+  sh.style.setProperty('--l', `${r.left - a.left}px`);
+  sh.style.setProperty('--r', `${a.right - r.right}px`);
+  sh.style.setProperty('--b', `${a.bottom - r.bottom}px`);
+  void sh.offsetWidth;
+  sh.style.transition = '';
+}
+$('#sceneMapBtn').onclick = $('#stageMapBtn').onclick = e => { setMapOrigin(e.currentTarget); openSheet('map'); };
+// a dot on the map buttons means a place was added that the player hasn't looked at yet
+function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
+$('#orderChip').onclick = () => { if(!$('#orderChip').disabled) leaveTalk(); };
+
+// People the player knows about (named in a conversation or pointed to by a clue).
+function renderList(){
+  const rows = S.met.filter(id => !spk(id).partner).map(id => {
+    const s = spk(id), p = per(id), total = qs(s).length, n = p.order.length - (p.phase === 'record' ? 1 : 0);
+    const cls = p.phase === 'done' ? 'done' : p.phase === 'wait' ? 'wait' : 'now';
+    const label = p.phase === 'wait' ? '아직 만나지 않음' : p.phase === 'done' ? '대화 완료' : `대화 중 · 기록 ${n}/${total}`;
+    return `<div class="card ${cls}">
+      <span class="mini" style="background:${s.bg}">${miniSVG(s.id)}</span>
+      <span><h3>${esc(s.name)}</h3><p>${esc(placeOf(s.place).label)}</p><span class="badge">${label}</span></span>
+      <button class="pill sm" type="button" data-go="${id}">${p.phase === 'wait' ? '만나러 가기' : '대화하기'}</button>
+    </div>`;
+  }).join('');
+  $('#listBody').innerHTML = rows || `<p class="howto">아직 알게 된 인물이 없어요.</p>`;
+}
+$('#listBody').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if(b) talkTo(b.dataset.go); });
+
+/* ---------- map (place picker) ---------- */
+// Only places a character has mentioned appear on the map.
+function renderPlaces(){
+  const map = $('#map');
+  map.querySelectorAll('.pin').forEach(p => p.remove());
+  const known = PLACES.filter(pl => S.known.has(pl.id));
+  $('#mapEmpty').hidden = known.length > 0;
+  known.forEach(pl => {
+    const done = S.found[pl.id].size === pl.clues.length, people = peopleAt(pl.id);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pin' + (pl.crime ? ' crime' : '');
+    b.style.left = pl.x + '%'; b.style.top = pl.y + '%';
+    b.innerHTML = `<span class="pin-label">${esc(pl.label)}${done ? '<i class="done">✓</i>' : ''}</span>` +
+      (people.length ? `<span class="pin-people">${people.map(id => `<span class="mini" style="background:${spk(id).bg}">${miniSVG(id)}</span>`).join('')}</span>` : '');
+    b.setAttribute('aria-label', [pl.label, done ? '모두 살펴봄' : '', ...people.map(id => spk(id).name)].filter(Boolean).join(', '));
+    b.onclick = () => enterPlace(pl.id);
+    map.appendChild(b);
+  });
+}
+const peopleAt = placeId => S.met.filter(id => spk(id).place === placeId);
+// Hearing a line or finding a clue can reveal places and people ({ places:[…], people:[…] }).
+// A newly known person brings their place onto the map.
+function unlock(u, quiet){
+  if(!u) return;
+  let newPlace = false, newPerson = false;
+  (u.places || []).forEach(id => { if(!S.known.has(id)){ S.known.add(id); newPlace = true; } });
+  (u.people || []).forEach(id => {
+    if(S.met.includes(id)) return;
+    S.met.push(id); newPerson = true;
+    if(!S.known.has(spk(id).place)){ S.known.add(spk(id).place); newPlace = true; }
+  });
+  if(!newPlace && !newPerson) return;
+  renderPlaces(); renderList();
+  if(newPlace) setMapNew(true);
+  if(!quiet) toast(newPerson ? '새로운 인물을 알게 됐어요. 인물 명단과 지도를 확인해 보세요.' : 'tonight 지도에 새 장소가 표시됐어요.');
+}
+
+/* ---------- accuse ---------- */
+$('#accuseBtn').onclick = () => {
+  if(!suspects().length) return toast('아직 지목할 인물이 없어요.');
+  $('#pick').innerHTML = suspects().map(id => { const s = spk(id); return `<button type="button" data-i="${id}"><span class="mini" style="background:${s.bg}">${miniSVG(s.id)}</span>${esc(s.name)}</button>`; }).join('');
+  $('#accuse').hidden = false;
+};
+$('#accuse').addEventListener('click', e => {
+  if(e.target.closest('[data-dismiss]') || e.target.id === 'accuse'){ $('#accuse').hidden = true; return; }
+  const b = e.target.closest('[data-i]'); if(!b) return;
+  $('#accuse').hidden = true;
+  const right = b.dataset.i === CULPRIT;
+  // Right/wrong feedback only — what happened is never explained in a popup.
+  $('#resultCard').innerHTML = right
+    ? `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
+       <p>정답이에요.</p>
+       <button class="pill big" type="button" data-solved>사건 목록으로</button>`
+    : `<span class="eyebrow">Hmm, not quite…</span><h2>아직 확신할 수 없어요</h2>
+       <p>노트와 단서를 다시 살펴보세요.</p>
+       <button class="pill big" type="button" data-close-result>다시 조사하기</button>`;
+  $('#result').hidden = false;
+});
+$('#result').addEventListener('click', e => {
+  if(e.target.closest('[data-close-result]')) $('#result').hidden = true;
+  if(e.target.closest('[data-solved]')){ markSolved(CASES[0].id); $('#result').hidden = true; openCaseList(); }
+});
+
+/* =====================================================================
+   Investigation: a large illustration per place. Swipe to look around,
+   tap suspicious things. Placeholder art is drawn below (viewBox 900×600);
+   swap ART[id] for an <image> of the real artwork and adjust PLACES[].spots.
+   ===================================================================== */
+const WOB = `filter="url(#wob)" stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
+function clockHand(cx, cy, pos, len, w){
+  const a = pos / 12 * Math.PI * 2 - Math.PI / 2;
+  return `<path d="M${cx} ${cy} L${(cx + Math.cos(a) * len).toFixed(1)} ${(cy + Math.sin(a) * len).toFixed(1)}" stroke-width="${w}"/>`;
+}
+function bookRows(){
+  const cols = ['#C96F86','#8DB48E','#BFD3EE','#F2CF73','#F6B89A','#CFC4EA'];
+  let s = '';
+  [162, 238, 314, 397].forEach((base, r) => {
+    for(let x = 302, i = r * 3; x < 570; i++){
+      const w = 14 + (i * 7) % 9, h = 48 + (i * 13) % 18;
+      s += `<rect x="${x}" y="${base - h}" width="${w}" height="${h}" fill="${cols[i % cols.length]}" stroke-width="2"/>`;
+      x += w + 2;
+    }
+  });
+  return s;
+}
+function checks(y0, a, b){
+  let s = '';
+  for(let y = y0, r = 0; y < 600; y += 45, r++) for(let x = 0, c = 0; x < 900; x += 60, c++)
+    s += `<rect x="${x}" y="${y}" width="60" height="45" fill="${(r + c) % 2 ? a : b}"/>`;
+  return s;
+}
+function stars(n){
+  let s = '';
+  for(let i = 0; i < n; i++) s += `<circle cx="${(i * 137 + 31) % 900}" cy="${(i * 61 + 17) % 300}" r="${(1.2 + (i % 3) * .7).toFixed(1)}" fill="#FFFBEA"/>`;
+  return s;
+}
+
+const ART = {
+  library: () => `
+    <rect width="900" height="600" fill="#E1C9A4"/>
+    <ellipse cx="450" cy="548" rx="300" ry="42" fill="#C96F86" opacity=".3"/>
+    <g ${WOB}>
+      <rect x="-5" y="-5" width="910" height="435" fill="#CFC4EA"/>
+      <rect x="-5" y="330" width="910" height="100" fill="#BCB0DC"/>
+      <path d="M0 482 H900 M0 540 H900" stroke-width="1.5" opacity=".35" fill="none"/>
+      <rect x="60" y="90" width="160" height="170" rx="6" fill="#DCEBF7"/>
+      <circle cx="186" cy="124" r="14" fill="#FFF4C9" stroke-width="2"/>
+      <path d="M140 90 V260 M60 175 H220" fill="none"/>
+      <rect x="50" y="258" width="180" height="12" rx="3" fill="#B98A62"/>
+      <path d="M86 226 q20 -14 44 -2 q8 10 -6 14 l-2 14 l-6 -12 q-20 4 -30 -14z" fill="#7E5AA6" stroke-width="2"/>
+      <rect x="280" y="70" width="320" height="345" rx="4" fill="#9C7656"/>
+      <rect x="296" y="86" width="288" height="313" fill="#86644A"/>
+      ${bookRows()}
+      <path d="M296 162 H584 M296 238 H584 M296 314 H584" stroke-width="6"/>
+      <path d="M620 60 h110 l-10 -22 h-90z" fill="#E3B957"/>
+      <rect x="630" y="60" width="90" height="360" rx="8" fill="#F2CF73"/>
+      <circle cx="675" cy="125" r="32" fill="#FFFDF7"/>
+      ${clockHand(675, 125, 8 + 40 / 60, 15, 4)}${clockHand(675, 125, 8, 24, 3)}
+      <rect x="648" y="190" width="54" height="170" rx="6" fill="#E3B957"/>
+      <path d="M675 190 V318" fill="none"/><circle cx="675" cy="330" r="14" fill="#CFA344"/>
+      <rect x="760" y="130" width="110" height="300" rx="6" fill="#9C7656"/>
+      <rect x="776" y="150" width="78" height="110" rx="4" fill="#86644A" stroke-width="2"/>
+      <rect x="776" y="280" width="78" height="130" rx="4" fill="#86644A" stroke-width="2"/>
+      <circle cx="852" cy="292" r="7" fill="#F2CF73" stroke-width="2"/>
+      <path d="M766 318 l-14 -10 M766 322 l-16 2 M766 326 l-12 12" stroke="#EE8E4A" stroke-width="4" fill="none"/>
+      <path d="M350 462 V560 M540 462 V560" stroke-width="8"/>
+      <rect x="330" y="440" width="230" height="22" rx="4" fill="#B98A62"/>
+      <path d="M390 440 L444 426 L444 440Z" fill="#FFFDF7" stroke-width="2"/><path d="M444 440 L444 426 L498 440Z" fill="#FFFDF7" stroke-width="2"/>
+      <ellipse cx="524" cy="432" rx="14" ry="8" fill="#FFFDF7" stroke-width="2"/>
+    </g>
+    <g fill="none" stroke="#FFFDF7" stroke-width="3" stroke-dasharray="8 7">
+      <ellipse cx="190" cy="528" rx="62" ry="20"/><path d="M130 522 q-40 -20 -60 6 M250 522 q40 -20 60 6"/>
+    </g>`,
+
+  bakery: () => `
+    ${checks(420, '#F7E6D2', '#EED5BB')}
+    <g ${WOB}>
+      <rect x="-5" y="-5" width="910" height="425" fill="#F6C9B0"/>
+      <rect x="250" y="24" width="280" height="44" rx="12" fill="#FFF6E8"/>
+      <text x="390" y="54" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="26" fill="${INK}" stroke="none">Fiona's Bakery</text>
+      <rect x="50" y="120" width="140" height="300" rx="6" fill="#9C7656"/>
+      <rect x="70" y="140" width="100" height="90" rx="4" fill="#DCEBF7"/>
+      <path d="M95 192 L120 170 L145 192" fill="none" stroke-width="2"/>
+      <rect x="68" y="190" width="104" height="56" rx="6" fill="#FFF6E8"/>
+      <text x="120" y="216" text-anchor="middle" font-family="Jua, sans-serif" font-size="19" fill="#C25B5B" stroke="none">CLOSED</text>
+      <text x="120" y="237" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="15" fill="${INK}" stroke="none">at 7 PM</text>
+      <circle cx="172" cy="300" r="7" fill="#F2CF73" stroke-width="2"/>
+      <rect x="240" y="80" width="300" height="180" fill="#E8C79A"/>
+      <path d="M240 140 H540 M240 200 H540" stroke-width="5"/>
+      ${[260, 345, 430].map(x => `<path d="M${x} 120 h60 l-7 20 h-46z" fill="#C9A57C" stroke-width="2"/><path d="M${x} 180 h60 l-7 20 h-46z" fill="#C9A57C" stroke-width="2"/>`).join('')}
+      <rect x="240" y="300" width="360" height="170" fill="#E8C79A"/>
+      <path d="M300 300 V470 M420 300 V470 M540 300 V470" stroke-width="2" opacity=".5"/>
+      <rect x="230" y="290" width="380" height="20" rx="4" fill="#FFF6E8"/>
+      <rect x="290" y="244" width="76" height="46" rx="6" fill="#C96F86"/>
+      <g transform="rotate(-6 512 278)"><rect x="484" y="260" width="58" height="34" fill="#FFFDF7" stroke-width="2"/><path d="M492 272 h40 M492 282 h30" stroke-width="1.5"/></g>
+      <rect x="730" y="40" width="40" height="122" fill="#9E9792"/>
+      <rect x="640" y="160" width="220" height="280" rx="12" fill="#B8B2AE"/>
+      ${[690, 730, 770].map(x => `<circle cx="${x}" cy="214" r="9" fill="#F6B89A" stroke-width="2"/>`).join('')}
+      <rect x="670" y="270" width="160" height="120" rx="10" fill="#5A514C"/>
+      <path d="M690 292 h120" stroke="#7A706A" stroke-width="4"/>
+      <path d="M836 286 l-22 0 M836 286 l0 22 M836 286 l-16 16" stroke-width="1.5" fill="none"/>
+    </g>`,
+
+  cafe: () => `
+    <rect width="900" height="600" fill="#D1B993"/>
+    <g ${WOB}>
+      <rect x="-5" y="-5" width="910" height="425" fill="#C7D9B8"/>
+      <path d="M700 0 L612 380 H800Z" fill="#FFF4C9" opacity=".35" stroke="none"/>
+      <rect x="40" y="70" width="260" height="180" rx="8" fill="#BFD3EE"/>
+      <circle cx="240" cy="110" r="16" fill="#FFF4C9" stroke-width="2"/>
+      <path d="M70 200 q15 -8 30 0 t30 0 M150 222 q15 -8 30 0 t30 0" stroke="#FFFDF7" fill="none"/>
+      <path d="M170 70 V250" fill="none"/>
+      <g transform="rotate(-3 385 165)">
+        <rect x="330" y="80" width="110" height="170" fill="#FFF6E8"/>
+        <text x="385" y="114" text-anchor="middle" font-family="Jua, sans-serif" font-size="22" fill="#C96F86" stroke="none">LIVE</text>
+        <text x="385" y="134" text-anchor="middle" font-family="Jua, sans-serif" font-size="14" fill="${INK}" stroke="none">MUSIC</text>
+        <path d="M392 182 L410 146" stroke-width="5"/><ellipse cx="385" cy="190" rx="15" ry="19" fill="#F2CF73" stroke-width="2"/>
+        <text x="385" y="236" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="15" fill="${INK}" stroke="none">8:00–9:30</text>
+      </g>
+      <rect x="520" y="380" width="390" height="60" fill="#C96F86"/>
+      <path d="M700 380 V262" stroke-width="4"/><circle cx="700" cy="252" r="11" fill="${INK}"/>
+      <path d="M790 322 L824 238" stroke-width="7"/><ellipse cx="780" cy="352" rx="25" ry="30" fill="#F2CF73"/><circle cx="780" cy="352" r="6" fill="${INK}"/>
+      <ellipse cx="190" cy="322" rx="52" ry="58" fill="#FFFDF7"/>
+      <path d="M160 300 h60 v62 h-60z" fill="#8DB48E" stroke-width="2"/>
+      <circle cx="190" cy="236" r="36" fill="#FFFDF7"/>
+      <ellipse cx="229" cy="244" rx="21" ry="9" fill="#F2A14A"/>
+      <circle cx="202" cy="226" r="4.5" fill="${INK}" stroke="none"/>
+      <ellipse cx="176" cy="250" rx="7" ry="4" fill="#F79A8E" opacity=".6" stroke="none"/>
+      <rect x="40" y="360" width="300" height="130" fill="#B98A62"/>
+      <rect x="30" y="350" width="320" height="18" rx="4" fill="#D7B48A"/>
+      <rect x="270" y="326" width="22" height="24" rx="4" fill="#FFFDF7" stroke-width="2"/>
+      <path d="M560 514 V580" stroke-width="8"/><ellipse cx="560" cy="504" rx="62" ry="14" fill="#D7B48A"/>
+      <rect x="550" y="478" width="18" height="20" rx="4" fill="#FFFDF7" stroke-width="2"/>
+    </g>`,
+
+  hill: () => `
+    <defs><linearGradient id="hillSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7D74BE"/><stop offset="1" stop-color="#D9CFEE"/></linearGradient></defs>
+    <rect width="900" height="600" fill="url(#hillSky)"/>
+    ${stars(46)}
+    <circle cx="760" cy="90" r="58" fill="#FFF4C9" opacity=".25"/>
+    <path d="M250 62 L372 112" stroke="#FFFBEA" stroke-width="3" stroke-linecap="round"/><circle cx="250" cy="62" r="5" fill="#FFFBEA"/>
+    <g ${WOB}>
+      <circle cx="760" cy="90" r="38" fill="#FFF4C9"/>
+      <path d="M-10 350 Q200 280 450 330 T910 320 V610 H-10Z" fill="#9CC29A"/>
+      <use href="#pine" x="10" y="190" width="90" height="180"/><use href="#pine" x="80" y="230" width="70" height="140"/>
+      <use href="#pine" x="830" y="200" width="80" height="160"/>
+      <path d="M-10 420 Q300 370 600 400 T910 410 V610 H-10Z" fill="#AECA94"/>
+      <path d="M450 330 L410 432 M450 330 L490 432 M450 330 L455 444" stroke-width="5" fill="none"/>
+      <g transform="rotate(-28 450 320)"><rect x="400" y="305" width="120" height="30" rx="8" fill="#CFC4EA"/><rect x="516" y="300" width="18" height="40" rx="4" fill="#F2CF73"/></g>
+      <path d="M655 426 V462 M805 426 V462 M650 384 V410 M810 384 V410" stroke-width="6"/>
+      <rect x="640" y="370" width="180" height="14" rx="4" fill="#C9A57C"/>
+      <rect x="640" y="410" width="180" height="16" rx="4" fill="#C9A57C"/>
+      <g transform="rotate(-8 720 400)"><rect x="690" y="392" width="62" height="18" rx="3" fill="#BFD3EE" stroke-width="2"/></g>
+      <text x="721" y="408" text-anchor="middle" font-size="13" fill="#F2CF73" stroke="none">★</text>
+    </g>
+    ${[[372,462],[394,490],[426,504],[466,502],[504,488],[526,462],[352,440]].map(([x,y]) =>
+      `<ellipse cx="${x}" cy="${y}" rx="7" ry="4" fill="#7A5C40"/><ellipse cx="${x + 9}" cy="${y - 3}" rx="3" ry="2.2" fill="#7A5C40"/>`).join('')}`
+};
+
+function placeObj(){ return PLACES.find(p => p.id === S.place); }
+
+function renderScene(){
+  const pl = placeObj(), art = $('#art');
+  if(!pl){ art.innerHTML = ''; return; }
+  art.innerHTML = `<svg viewBox="0 0 900 600" aria-hidden="true">${ART[pl.id]()}</svg>` +
+    pl.spots.map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
+      style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('');
+}
+function tapFx(x, y, kind, text){
+  const d = document.createElement('div');
+  d.className = 'tapfx ' + kind; d.style.left = x + 'px'; d.style.top = y + 'px';
+  if(text) d.textContent = text;
+  $('#art').appendChild(d);
+  setTimeout(() => d.remove(), 900);
+}
+function examine(i){
+  const pl = placeObj(), fresh = !S.found[pl.id].has(i);
+  S.found[pl.id].add(i);
+  S.clue = i;
+  if(fresh) unlock(pl.clues[i].unlocks);
+  renderSceneHead(); renderScenePanel(); renderPlaces();
+  if(fresh && S.found[pl.id].size === pl.clues.length) toast(`${pl.label}의 단서를 모두 찾았어요!`);
+}
+
+// mouse drag pans the illustration (touch uses native scrolling); a drag never counts as a tap
+const artWrap = $('#artWrap');
+let pan = null, panMoved = false;
+artWrap.addEventListener('pointerdown', e => {
+  $('#swipeHint').hidden = true;
+  if(e.pointerType === 'mouse') pan = { x:e.clientX, s:artWrap.scrollLeft, moved:false };
+});
+window.addEventListener('pointermove', e => {
+  if(!pan) return;
+  const dx = e.clientX - pan.x;
+  if(Math.abs(dx) > 5) pan.moved = true;
+  if(pan.moved) artWrap.scrollLeft = pan.s - dx;
+});
+window.addEventListener('pointerup', () => { if(pan){ panMoved = pan.moved; pan = null; } });
+artWrap.addEventListener('wheel', e => {
+  if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ artWrap.scrollLeft += e.deltaY; e.preventDefault(); }
+  $('#swipeHint').hidden = true;
+}, { passive:false });
+
+$('#art').addEventListener('click', e => {
+  if(panMoved){ panMoved = false; return; }
+  if(!placeObj()) return;
+  const r = $('#art').getBoundingClientRect();
+  const spot = e.target.closest('.spot');
+  let x = e.clientX - r.left, y = e.clientY - r.top;
+  if(spot && e.detail === 0){ const b = spot.getBoundingClientRect(); x = b.left - r.left + b.width / 2; y = b.top - r.top + b.height / 2; }
+  if(spot){ spot.classList.add('found'); tapFx(x, y, 'hit'); examine(+spot.dataset.clue); }
+  else tapFx(x, y, 'miss', 'Nothing here.');
+});
+
+function enterPlace(id){
+  if(!S.known.has(id)) return;
+  if(!S.investigate) setInvestigate(true);
+  S.place = id; S.clue = null;
+  $('#sceneEmpty').hidden = true;
+  openSheet(null); setNotes(false);
+  renderSceneHead(); renderScene(); renderScenePanel();
+  requestAnimationFrame(() => {
+    artWrap.scrollLeft = (artWrap.scrollWidth - artWrap.clientWidth) / 2;
+    $('#swipeHint').hidden = artWrap.scrollWidth <= artWrap.clientWidth + 4;
+  });
+}
+function renderSceneHead(){
+  const pl = placeObj();
+  $('#sceneKind').textContent = pl ? pl.kind : '현장 조사';
+  $('#sceneTitle').textContent = pl ? pl.label : '어디로 갈까요?';
+  const c = $('#sceneCount'); c.hidden = !pl;
+  if(pl) c.textContent = `단서 ${S.found[pl.id].size}/${pl.clues.length}`;
+}
+function renderScenePanel(){
+  const pl = placeObj(), box = $('#scenePanel');
+  if(!pl){ box.innerHTML = ''; return; }
+  const found = S.found[pl.id];
+  const chips = pl.clues.map((c, i) => found.has(i)
+    ? `<button class="fchip" type="button" data-c="${i}" aria-pressed="${S.clue === i}">${esc(c.label)}</button>`
+    : `<span class="fchip locked" aria-label="아직 못 찾은 단서">?</span>`).join('');
+  let detail = '';
+  if(S.clue != null){
+    const c = pl.clues[S.clue];
+    detail = `<div class="clue-card"><span class="tag">${esc(c.label)}</span>
+      <p class="en">${esc(c.en)}</p><p class="ko" id="clueKo" hidden>${esc(c.ko)}</p>
+      <div class="row"><button class="pill sm" type="button" id="clueKoBtn" aria-pressed="false">해석</button></div></div>`;
+  }
+  const here = peopleAt(pl.id);
+  const people = here.length ? `<div class="people-here"><span class="lbl">이곳에 있는 인물</span><div class="people-row">${here.map(id =>
+    `<button class="person" type="button" data-talk="${id}"><span class="mini" style="background:${spk(id).bg}">${miniSVG(id)}</span>${esc(spk(id).name)}</button>`).join('')}</div></div>` : '';
+  box.innerHTML = `${people}<div class="found-row">${chips}</div>${detail}`;
+}
+$('#scenePanel').addEventListener('click', e => {
+  const who = e.target.closest('[data-talk]');
+  if(who){ talkTo(who.dataset.talk); return; }
+  const chip = e.target.closest('[data-c]');
+  if(chip){ S.clue = +chip.dataset.c; renderScenePanel(); return; }
+  const ko = e.target.closest('#clueKoBtn');
+  if(ko){ const k = $('#clueKo'); k.hidden = !k.hidden; ko.setAttribute('aria-pressed', !k.hidden); }
+});
+
+/* ---------- how-to-play tutorial ----------
+   Three steps, one at a time, each with a picture guide. Shown automatically only the first
+   time on this device; later cases start from the case card. Pictures use generic examples,
+   never this case's people, places or facts. */
+const TUT_KEY = 'pioo.tutorialSeen';
+const tutSeen = () => { try { return localStorage.getItem(TUT_KEY) === '1'; } catch(e){ return false; } };
+const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e){} };
+const T_INK = `stroke="${INK}" stroke-width="2"`;
+const TUT = [
+  { title:'듣고 질문해요',
+    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 잘 안 들리면 <b>도토리 힌트</b>를 눌러 말풍선 자막을 볼 수 있어요. 한 사람당 3번이에요.',
+    fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
+      <svg x="10" y="18" width="120" height="120" viewBox="40 22 120 120">${charSVG('badger')}</svg>
+      <g fill="none" stroke="${INK}" stroke-width="2.5" stroke-linecap="round">
+        <path class="wave" d="M134 70 q8 12 0 24"/><path class="wave w2" d="M142 64 q12 18 0 36"/><path class="wave w3" d="M150 58 q16 24 0 48"/>
+      </g>
+      <g filter="url(#wob)" ${T_INK}>
+        <rect x="168" y="28" width="140" height="40" rx="12" fill="#FFFDF7"/>
+        <circle cx="186" cy="48" r="10" fill="#F6B89A"/>
+        <rect x="168" y="96" width="78" height="30" rx="13" fill="#F2CF73"/>
+        <rect x="190" y="138" width="118" height="32" rx="10" fill="#FFFDF7"/>
+      </g>
+      <text x="186" y="52" text-anchor="middle" font-family="Jua, sans-serif" font-size="12" fill="${INK}">1</text>
+      <text x="201" y="53" font-family="Gaegu, cursive" font-weight="700" font-size="13.5" fill="${INK}">Where were you?</text>
+      <circle class="pulse" cx="186" cy="48" r="15" fill="none" stroke="#C96F86" stroke-width="3"/>
+      <text x="182" y="116" font-family="Jua, sans-serif" font-size="13" fill="${INK}">힌트</text>
+      <use href="#acorn" x="214" y="102" width="18" height="18"/>
+      <path d="M208 128 L216 138" stroke="${INK}" stroke-width="2" fill="none"/>
+      <path d="M202 150 h86 M202 160 h62" stroke="#B9A894" stroke-width="3" stroke-linecap="round"/>
+      <text x="70" y="166" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">글자 없이 소리로만</text>
+    </svg>` },
+  { title:'Note에 받아 적어요',
+    text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 끌어다 놓거나</b> 빈칸을 눌러 직접 써요. 빈칸을 다 채우고 <b>기록 완료</b>를 눌러야 다음 질문이 나와요.',
+    fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
+      <g filter="url(#wob)" ${T_INK}><rect x="14" y="16" width="292" height="78" rx="12" fill="#FFFDF7"/></g>
+      <path d="M40 18 V92" stroke="#C96F86" stroke-width="2" opacity=".6"/>
+      <path d="M16 64 H304" stroke="#E3D5B8" stroke-width="2"/>
+      <text x="52" y="56" font-family="Gaegu, cursive" font-weight="700" font-size="20" fill="${INK}">I was at the</text>
+      <path d="M164 60 H246" stroke="#7D6A58" stroke-width="2.5" stroke-dasharray="6 5"/>
+      <g filter="url(#wob)" ${T_INK}>
+        <rect x="132" y="118" width="84" height="30" rx="12" fill="#DCEAD3"/>
+        <rect x="226" y="118" width="80" height="30" rx="13" fill="#8DB48E"/>
+      </g>
+      <text x="174" y="138" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="17" fill="${INK}">school</text>
+      <text x="266" y="138" text-anchor="middle" font-family="Jua, sans-serif" font-size="13" fill="${INK}">기록 완료</text>
+      <g class="drag">
+        <rect x="44" y="118" width="76" height="30" rx="12" fill="#F2CF73" ${T_INK}/>
+        <text x="82" y="138" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="17" fill="${INK}">park</text>
+      </g>
+      <text x="160" y="170" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">단어 카드를 빈칸으로 끌어다 놓기</text>
+    </svg>` },
+  { title:'찾아가서 조사해요',
+    text:'<b>tonight</b> 지도에서 장소를 고르고, 그림을 눌러 <b>증거</b>를 찾아요. 그곳에 있는 <b>인물</b>과도 이야기할 수 있어요. 대화와 증거 속에서 새 장소와 인물이 나타나요.',
+    fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
+      <g filter="url(#wob)" ${T_INK}>
+        <rect x="14" y="18" width="118" height="114" rx="12" fill="#DDE8C9"/>
+        <rect x="26" y="38" width="44" height="22" rx="9" fill="#FFFDF7"/>
+        <rect x="74" y="84" width="44" height="22" rx="9" fill="#C96F86"/>
+        <rect x="176" y="18" width="130" height="82" rx="10" fill="#E9DFF0"/>
+        <rect x="190" y="32" width="46" height="60" fill="#9C7656"/>
+        <rect x="258" y="28" width="22" height="64" rx="4" fill="#F2CF73"/>
+        <rect x="176" y="108" width="130" height="30" rx="13" fill="#FFFDF7"/>
+        <circle cx="194" cy="123" r="10" fill="#DCE3F0"/>
+      </g>
+      <path d="M30 116 Q70 76 112 100" fill="none" stroke="#9C7656" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"/>
+      <text x="48" y="53" text-anchor="middle" font-family="Jua, sans-serif" font-size="12" fill="${INK}">?</text>
+      <text x="96" y="99" text-anchor="middle" font-family="Jua, sans-serif" font-size="12" fill="#FFFDF7">?</text>
+      <circle class="pulse" cx="96" cy="95" r="17" fill="none" stroke="#C96F86" stroke-width="3"/>
+      <path d="M140 74 H166 M159 68 L167 74 L159 80" fill="none" stroke="${INK}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse class="pulse" cx="269" cy="60" rx="18" ry="36" fill="none" stroke="#C96F86" stroke-width="3"/>
+      <text x="212" y="128" font-family="Gaegu, cursive" font-weight="700" font-size="15" fill="${INK}">대화하기</text>
+      <text x="73" y="158" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">지도에서 장소 고르기</text>
+      <text x="241" y="158" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">증거 찾기 · 인물과 대화</text>
+    </svg>` }
+];
+let tutStep = 0, tutThenStart = false;
+function openTutorial(thenStart){
+  tutThenStart = thenStart; tutStep = 0;
+  openSheet(null);
+  renderTut(); $('#intro').hidden = false;
+}
+function renderTut(){
+  const t = TUT[tutStep], last = tutStep === TUT.length - 1;
+  $('#tutFig').innerHTML = t.fig();
+  $('#tutTitle').textContent = t.title;
+  $('#tutText').innerHTML = t.text;
+  $('#tutCount').textContent = `${tutStep + 1} / ${TUT.length}`;
+  $('#tutDots').innerHTML = TUT.map((_, i) => `<i class="${i === tutStep ? 'on' : ''}"></i>`).join('');
+  $('#tutPrev').hidden = tutStep === 0;
+  $('#tutSkip').hidden = last;
+  $('#tutNext').textContent = !last ? '다음' : tutThenStart ? '사건 현장으로 가기' : '닫기';
+}
+function closeTutorial(){
+  markTutSeen();
+  $('#intro').hidden = true;
+  if(tutThenStart) talkTo('badger');
+}
+$('#tutNext').onclick = () => { if(tutStep < TUT.length - 1){ tutStep++; renderTut(); } else closeTutorial(); };
+$('#tutPrev').onclick = () => { if(tutStep > 0){ tutStep--; renderTut(); } };
+$('#tutSkip').onclick = closeTutorial;
+document.addEventListener('keydown', e => {
+  if($('#intro').hidden) return;
+  if(e.key === 'ArrowRight') $('#tutNext').click();
+  if(e.key === 'ArrowLeft') $('#tutPrev').click();
+});
+
+/* ---------- case select ----------
+   Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
+   this device; the case in progress lives in memory only until saving is added. */
+const CASES = [
+  { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true },
+  { id:'case02', no:'Case 02' },
+  { id:'case03', no:'Case 03' }
+];
+const SOLVED_KEY = 'pioo.solvedCases';
+const solvedCases = () => { try { return JSON.parse(localStorage.getItem(SOLVED_KEY) || '[]'); } catch(e){ return []; } };
+function markSolved(id){ try { localStorage.setItem(SOLVED_KEY, JSON.stringify([...new Set([...solvedCases(), id])])); } catch(e){} }
+const LOCK_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#7D6A58" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5 V8 a3.5 3.5 0 0 1 7 0 V10.5"/></g></svg>`;
+let caseStarted = false;
+function renderCaseList(){
+  const solved = solvedCases();
+  $('#caseCards').innerHTML = CASES.map((c, i) => {
+    const open = i === 0 || solved.includes(CASES[i - 1].id);
+    if(!open || !c.playable) return `<div class="case-card locked" aria-label="${c.no} 잠김">
+      <span class="case-thumb">${LOCK_ICON}</span>
+      <span><span class="case-no">${c.no}</span><span class="case-title">???</span>
+        <span class="case-lock">${open ? '준비 중이에요' : `${CASES[i - 1].no}을 해결하면 열려요`}</span></span></div>`;
+    const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : caseStarted ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
+    return `<button class="case-card" type="button" data-case="${c.id}">
+      <span class="case-thumb"><svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg></span>
+      <span><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span><span class="badge ${cls}">${label}</span></span></button>`;
+  }).join('');
+}
+function openCaseList(){ stopVoice(); hideBubble(); openSheet(null); renderCaseList(); $('#caseList').hidden = false; }
+// Opening a case: the first time on this device the tutorial comes first; a case in progress resumes where it was left.
+function startCase(){
+  $('#caseList').hidden = true;
+  if(caseStarted) return;
+  caseStarted = true;
+  if(tutSeen()) talkTo('badger'); else openTutorial(true);
+}
+$('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case]')) startCase(); });
+$('#howtoList').onclick = () => openTutorial(false);
+$('#toCases').onclick = openCaseList;
+$('#howtoMap').onclick = () => openTutorial(false);
+
+/* ---------- test tools ---------- */
+// Write the correct answer into every blank of the given questions; returns how many blanks were filled.
+function fillAnswers(i, qids, mark){
+  const p = per(i); let n = 0;
+  qids.forEach(qid => spk(i).notes[qid].forEach(line =>
+    line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans) => {
+      p.notes[id] = ans.split('/')[0];
+      if(mark) p.marks[id] = 'ok'; else delete p.marks[id];
+      n++; return m;
+    })
+  ));
+  return n;
+}
+// 노트 자동 채우기: every question asked so far, everyone.
+$('#devFill').onclick = () => {
+  const n = PEOPLE_ORDER.reduce((sum, id) => sum + fillAnswers(id, per(id).order, false), 0);
+  if(!n) return toast('채울 빈칸이 없어요. 먼저 질문을 골라 주세요.');
+  renderDock();
+  toast(`빈칸 ${n}개를 정답으로 채웠어요.`);
+};
+// 전체 대화 완료: everyone met, every question asked and recorded correctly, every place known → map.
+$('#devDone').onclick = () => {
+  stopVoice(); hideBubble(); clearSel();
+  $('#intro').hidden = true; $('#caseList').hidden = true; caseStarted = true;
+  PEOPLE_ORDER.forEach(id => {
+    const p = per(id);
+    p.order = qs(spk(id)).map(q => q.id); p.recording = null; p.phase = 'done';
+    fillAnswers(id, p.order, true);
+  });
+  S.met = [...PEOPLE_ORDER];
+  PLACES.forEach(pl => S.known.add(pl.id));
+  renderPlaces(); renderList();
+  if(S.investigate) renderDock(); else setInvestigate(true);
+  openSheet('map');
+  toast('모든 대화를 마쳤어요. 지도에서 장소를 골라 보세요.');
+};
+
+// 핫스팟 보기: outline every tap area, for placing spots on real artwork.
+$('#devSpots').onclick = e => {
+  const on = $('#app').classList.toggle('show-spots');
+  e.currentTarget.setAttribute('aria-pressed', on);
+};
+
+// 튜토리얼 초기화: forget that the tutorial was seen and start over.
+$('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); } catch(e){} location.reload(); };
+
+/* ---------- boot ---------- */
+renderStage(false); renderDock(); renderList(); renderPlaces(); renderSceneHead(); renderScenePanel();
+// the app opens on the case list (tapping a case is also the tap that lets audio play)
+openCaseList();
+})();
+</script>
+</body>
+</html>
