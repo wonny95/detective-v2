@@ -54,51 +54,42 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .main{position:relative;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;overflow:clip}
 
 /* ---------- stage ---------- */
-/* Conversation: the person fills the screen; their question buttons sit underneath (sketch 2) */
 .scene{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column}
-.stage-area{position:absolute;inset:0}
+.stage-area{position:absolute;inset:0 0 24%;overflow:hidden;background:var(--paper-2)}
+.stage-area .art{width:var(--world-width);height:var(--world-height);transform-origin:0 0;pointer-events:none}
+.stage-area .spot,.stage-area .scene-npc span{display:none}
+.stage-area .scene-npc{pointer-events:none}
 .ask-panel{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-direction:column;gap:8px;padding:4px 16px 16px}
 .ask-panel:empty{display:none}
 .ask-top{display:flex;justify-content:flex-end}
 .ask-panel:not(.show-ko) .ko{display:none}
 .ask-panel .q{box-shadow:3px 3px 0 rgba(74,54,40,.25)}
-.ask-panel .step{font-family:var(--f-body);font-size:12px;opacity:.7;margin-left:4px}
 .app.notes-open .ask-panel{display:none}
 .app.investigate .scene{display:none}
-.chip{position:absolute;top:12px;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
+.chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 140px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
 .chip.l{left:14px}
-.chip.r{right:66px;background:var(--honey)}
-/* map icon button: top-right of both the conversation and the place view */
-.map-btn{position:relative;display:grid;place-items:center;width:44px;height:36px;padding:0;border:2px solid var(--ink);border-radius:12px 14px 11px 15px;background:var(--paper);box-shadow:2px 2px 0 rgba(74,54,40,.2);cursor:pointer;flex:none}
-.map-btn svg{width:26px;height:26px}
+.chip-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip-progress{flex:none;font-size:12px;color:var(--ink-soft);white-space:nowrap}
+.map-btn{position:relative}
 .map-btn:active{transform:translateY(2px);box-shadow:none}
 .map-btn.new::after{content:"";position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
-.scene .map-btn{position:absolute;top:9px;right:14px;z-index:4}
 button.chip{color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
 button.chip:disabled{cursor:default;box-shadow:none}
-/* full-body person, feet at the bottom: the head stays above the notebook's top edge */
-.suspect{position:absolute;left:50%;bottom:0;height:98%;aspect-ratio:200/400;transform:translateX(-50%);z-index:1}
-.suspect svg{width:100%;height:100%;display:block;overflow:visible}
-.suspect.enter svg{animation:walkin .8s cubic-bezier(.3,1.1,.5,1)}
-@keyframes walkin{from{transform:translateX(160%) rotate(4deg)}60%{transform:translateX(-6%) rotate(-2deg)}}
-.suspect .body{transform-origin:50% 100%;animation:breathe 3.2s ease-in-out infinite}
-.suspect.talking .body{animation:bob .42s ease-in-out infinite alternate}
-.suspect .m-open{opacity:0}
-.suspect.talking .m-open{opacity:1;transform-box:fill-box;transform-origin:center;animation:chat .18s ease-in-out infinite alternate}
-.suspect.talking .m-closed{opacity:0}
-@keyframes breathe{50%{transform:scaleY(1.012)}}
-@keyframes bob{from{transform:translateY(0) rotate(-.6deg)}to{transform:translateY(-4px) rotate(.6deg)}}
+.scene-npc .m-open{opacity:0}
+.scene-npc.talking .m-open{opacity:1;transform-box:fill-box;transform-origin:center;animation:chat .18s ease-in-out infinite alternate}
+.scene-npc.talking .m-closed{opacity:0}
 @keyframes chat{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
-/* every conversation happens in front of the place where that person is */
-.scene-art{position:absolute;inset:0;width:100%;height:100%;display:block}
-/* the partner stands beside you at the edge of the scene (suspects stand centred, facing you) */
-.app.partner .suspect{left:-4%;transform:none}
-.app.partner .suspect.enter svg{animation:none}
-.app.partner .nameplate{left:3%;transform:rotate(-2deg);background:var(--sky)}
+.npc-breathe,.npc-gesture{transform-box:fill-box;transform-origin:50% 100%}
+.npc-breathe{animation:npc-breathe 4.8s ease-in-out infinite;animation-delay:var(--idle-delay,0s)}
+.scene-npc.talking .npc-gesture{animation:npc-speak 1.7s ease-in-out infinite}
+.npc-mouth{opacity:0;pointer-events:none}
+.scene-npc.talking .npc-mouth{animation:npc-mouth var(--talk-cycle,.74s) steps(1,end) infinite}
+.npc-mouth-shape{transform:scaleY(var(--mouth-open,.7));transform-origin:0 0}
+@keyframes npc-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.008,1.012)}}
+@keyframes npc-speak{0%,100%{transform:rotate(0)}28%{transform:rotate(-.35deg)}65%{transform:rotate(.3deg)}}
+@keyframes npc-mouth{0%,43%,85%,100%{opacity:0;--mouth-open:.2}12%,57%{opacity:1;--mouth-open:.55}25%,70%{opacity:1;--mouth-open:1}}
 .app.partner .bubble{left:16px;transform:none;animation:pop-side .25s ease-out}
 .app.partner .bubble::after{left:70px}
-.nameplate{transition:opacity .2s}
-.app.notes-open .nameplate{opacity:0}
 @keyframes pop-side{from{transform:scale(.85);opacity:0}}
 /* phase title card (case start / each suspect coming in) */
 .stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(74,54,40,.38);pointer-events:none;animation:stage-card 1.9s ease forwards}
@@ -106,13 +97,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .stage-card small{display:block;font-size:12px;color:var(--ink-soft)}
 .stage-card b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
 @keyframes stage-card{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
-/* briefing step card in the notebook (replaces question cards) */
-.brief-card{border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);background:#E6EDF8;padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;animation:rise .35s cubic-bezier(.3,1.2,.5,1)}
-.brief-card .say{font-family:var(--f-display);font-size:14px;display:flex;justify-content:space-between;gap:8px}
-.brief-card .say small{font-family:var(--f-body);color:var(--ink-soft)}
 .pill.blue{background:var(--sky);color:var(--ink)}
-.nameplate{position:absolute;left:50%;top:39%;transform:translateX(-50%) rotate(-2deg);z-index:3;background:#E8C79A;border:2px solid var(--ink);border-radius:8px 10px 7px 11px;padding:3px 14px;font-family:var(--f-hand);font-weight:700;font-size:19px;line-height:1.1;white-space:nowrap;box-shadow:2px 3px 0 rgba(74,54,40,.25)}
-.nameplate small{font-family:var(--f-body);font-weight:400;font-size:11px;margin-left:6px;color:var(--ink-soft)}
 
 .bubble{position:absolute;left:50%;top:44px;transform:translateX(-50%);z-index:5;width:max-content;max-width:min(88%,340px);background:#FFFDF7;border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);padding:10px 14px;font-family:var(--f-hand);font-size:19px;line-height:1.25;box-shadow:3px 4px 0 rgba(74,54,40,.18);animation:pop .25s ease-out}
 .bubble::after{content:"";position:absolute;left:50%;bottom:-13px;width:20px;height:20px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg) skew(8deg,8deg)}
@@ -121,23 +106,40 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes pop{from{transform:translateX(-50%) scale(.85);opacity:0}}
 
 /* ---------- docked notebook (Note) ---------- */
-/* Note = a spiral notebook the detective pulls up from the bottom, held at the lower-left corner (sketch 3) */
-.dock{position:absolute;left:10px;right:30px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;background:#FFFDF7;border:3px solid var(--ink);border-bottom:0;border-radius:14px 18px 0 0;box-shadow:-4px -4px 0 rgba(74,54,40,.12);transform-origin:10% 100%;transform:translate(-36px,110%) rotate(-8deg);transition:transform .55s cubic-bezier(.2,.9,.3,1.05)}
-.app.notes-open .dock{transform:translate(0,0) rotate(-1deg)}
+/* Note = a notebook the detective pulls up from the bottom (sketch 3) */
+.dock{position:absolute;left:10px;right:10px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;background:#FFFDF7;border:3px solid var(--ink);border-bottom:0;border-radius:14px 18px 0 0;box-shadow:-4px -4px 0 rgba(74,54,40,.12);transform:translateY(calc(100% + 48px));transition:transform .55s cubic-bezier(.2,.9,.3,1.05)}
+.app.notes-open .dock{transform:translateY(0)}
 .app.investigate .dock{height:80%}
-.spiral{position:absolute;left:12px;right:12px;top:-15px;height:30px;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='30'%3E%3Cellipse cx='13' cy='23' rx='4' ry='3' fill='%234A3628' opacity='.3'/%3E%3Cpath d='M9 23 C3 15 6 3 13 3 C20 3 22 12 17 19' fill='none' stroke='%234A3628' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:26px 30px}
-.note-hand{position:absolute;left:-12px;bottom:-8px;width:88px;height:auto;z-index:3;pointer-events:none}
-.dock-head{flex:none;display:flex;align-items:center;gap:8px;padding:20px 16px 8px;border-bottom:2px dashed var(--line);flex-wrap:wrap}
+.dock-head{flex:none;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 8px;padding:10px 12px;border-bottom:2px solid var(--line)}
 .dock-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px;display:flex;align-items:center;gap:6px}
 .dock-head h2 svg{width:24px;height:24px}
 .dock-close{display:block;margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:32px;height:32px;border-radius:50%;font-size:17px;line-height:1}
-/* index tabs sticking out of the notebook's right edge: the case file + one per person */
-.who{position:absolute;top:54px;right:-30px;display:flex;flex-direction:column;gap:6px;z-index:-1}
-.who button{width:32px;height:42px;padding:0 0 0 4px;border:2px solid var(--ink);border-left:0;border-radius:0 10px 10px 0;overflow:hidden;position:relative;background:var(--paper-2);display:grid;place-items:center;transition:transform .15s}
-.who button[aria-pressed="true"]{background:var(--honey);transform:translateX(4px)}
+/* horizontal notebook tabs: the case file + one per person */
+.who{position:absolute;bottom:100%;left:12px;right:12px;display:flex;align-items:flex-end;gap:6px;min-width:0;overflow-x:auto;padding:4px 4px 0;scrollbar-width:none}
+.who::-webkit-scrollbar{display:none}
+.who:empty{display:none}
+.who button{flex:none;width:42px;height:38px;padding:0;border:2px solid var(--ink);border-bottom:0;border-radius:10px 10px 0 0;overflow:hidden;position:relative;background:var(--tab-bg,var(--paper-2));display:grid;place-items:center}
+.who button[aria-pressed="true"]{background:var(--honey);box-shadow:inset 0 -3px 0 var(--ink)}
 .who button:disabled{cursor:default;filter:grayscale(1);opacity:.45}
 .who button svg{width:24px;height:24px;display:block;border-radius:50%}
 .dock-body{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 18px;display:flex;flex-direction:column;gap:12px}
+.evidence-page{display:flex;flex-direction:column;gap:18px}
+.evidence-page h3{margin:0;font-family:var(--f-display);font-size:18px;font-weight:400}
+.evidence-card{padding:10px;background:#FFFDF7;border:2px solid var(--ink);border-radius:5px;box-shadow:3px 4px 0 rgba(74,54,40,.12)}
+.evidence-photo{margin:0 0 10px;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--line);background:var(--paper-2)}
+.evidence-photo svg{display:block;width:100%;height:100%}
+.evidence-card h4{margin:4px 0;font-family:var(--f-hand);font-size:23px}
+.evidence-card .place{font-family:var(--f-hand);font-size:16px;color:var(--ink-soft)}
+.evidence-card p{margin:8px 0;font-size:16px;line-height:1.5}
+.evidence-card .ko{font-size:14px;color:var(--ink-soft)}
+.capture-flash{position:absolute;inset:0;z-index:7;background:#fff;pointer-events:none;animation:shutter-flash .38s ease-out forwards}
+.capture-view{position:absolute;inset:0;z-index:6;display:grid;place-items:center;background:rgba(30,28,24,.72);overflow:hidden}
+.capture-frame{width:calc(100% - 32px);max-width:520px;aspect-ratio:4/3;border:3px solid #FFFDF7;border-radius:6px;overflow:hidden;box-shadow:0 8px 28px #0005;animation:evidence-zoom .45s ease-out both}
+.capture-frame svg{display:block;width:100%;height:100%;background:var(--paper)}
+@keyframes evidence-zoom{from{transform:scale(.6);opacity:.3}to{transform:scale(1);opacity:1}}
+@keyframes shutter-flash{0%{opacity:0}15%{opacity:.78}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.capture-flash{animation:none;opacity:0}}
+@media(prefers-reduced-motion:reduce){.capture-frame{animation:none}}
 
 .choices{border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);background:#EAF2E2;padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;animation:rise .35s cubic-bezier(.3,1.2,.5,1)}
 @keyframes rise{from{transform:translateY(16px);opacity:0}}
@@ -156,7 +158,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pill svg{width:16px;height:16px;flex:none}
 .pill.sm{padding:3px 10px;font-size:12px}
 .pill[aria-pressed="true"]{background:var(--sky)}
-.pill.hint{margin-left:auto;background:var(--honey)}
+.pill.hint{position:absolute;top:9px;right:14px;z-index:12;box-sizing:border-box;min-height:36px;padding:4px 9px;font-size:13px;background:var(--honey)}
 .pill:disabled{opacity:.5;cursor:default}
 .acorns{display:inline-flex;gap:2px}
 .acorns svg{width:15px;height:15px}
@@ -188,43 +190,35 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* ---------- investigation: one large illustration per place, tap to find clues ---------- */
 .inv{display:none;flex:1 1 auto;min-height:0;flex-direction:column;background:var(--paper)}
 .app.investigate .inv{display:flex}
-.inv-head{flex:none;display:flex;align-items:center;gap:10px;padding:12px 16px 10px;border-bottom:3px solid var(--ink);background:var(--paper-2)}
+.inv-head{flex:none;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:12px 124px 10px 16px;border-bottom:3px solid var(--ink);background:var(--paper-2)}
 .inv-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1}
 .inv-head .kind{display:block;font-family:var(--f-display);font-size:11px;color:var(--berry)}
-.inv-head .map-btn{margin-left:auto}
 .badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
 .art-stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper-2)}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
 .art-wrap::-webkit-scrollbar{display:none}
-.art{position:relative;height:100%;aspect-ratio:3/2;user-select:none;-webkit-user-select:none}
+.art{position:relative;height:100%;aspect-ratio:3/2;transform-origin:0 0;user-select:none;-webkit-user-select:none}
 .art > svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scene-npc{position:absolute;z-index:2;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer}
+.scene-npc svg{display:block;width:100%;height:100%;overflow:visible}
+.scene-npc span{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);padding:2px 8px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-family:var(--f-hand);font-size:15px;font-weight:700;white-space:nowrap}
+.scene-npc:hover span,.scene-npc:focus-visible span{background:var(--honey)}
+.scene-npc:focus-visible{outline:3px dashed var(--berry);outline-offset:4px;border-radius:18px}
 .spot{position:absolute;padding:0;border:0;background:transparent;border-radius:16px;cursor:zoom-in}
-.spot.found::after{content:"";position:absolute;inset:-8px;border:3.5px solid var(--berry);border-radius:48% 52% 45% 55%/55% 45% 52% 48%;transform:rotate(-4deg);animation:circle-in .45s ease-out;pointer-events:none}
-@keyframes circle-in{from{transform:rotate(-40deg) scale(.6);opacity:0}}
 .app.show-spots .spot{outline:2px dashed var(--berry);background:rgba(201,111,134,.18)}
 .tapfx{position:absolute;pointer-events:none;transform:translate(-50%,-50%);animation:tapfx .9s ease-out forwards;white-space:nowrap}
 .tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:18px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
-.tapfx.hit{width:60px;height:60px;border:4px solid var(--honey);border-radius:50%}
 @keyframes tapfx{from{opacity:1;transform:translate(-50%,-50%) scale(.6)}to{opacity:0;transform:translate(-50%,-80%) scale(1.15)}}
 .swipe-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(74,54,40,.8);color:var(--paper);padding:6px 12px;border-radius:14px;font-size:12px;pointer-events:none;white-space:nowrap}
 .inv-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;font-family:var(--f-display);font-size:15px;color:var(--ink-soft)}
-.inv-panel{flex:none;padding:12px 16px 14px;border-top:3px solid var(--ink);background:var(--paper);min-height:126px;display:flex;flex-direction:column;gap:10px}
-.found-row{display:flex;gap:6px;flex-wrap:wrap}
 .people-here{display:flex;flex-direction:column;gap:6px}
 .people-here .lbl{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
 .people-row{display:flex;gap:8px;flex-wrap:wrap}
 .person{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:3px 12px 3px 3px;font-family:var(--f-hand);font-weight:700;font-size:17px;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
 .person .mini{width:32px;height:32px}
-.fchip{border:2px solid var(--ink);border-radius:12px;padding:2px 10px;font-family:var(--f-hand);font-weight:700;font-size:16px;background:#FFFDF7}
-.fchip[aria-pressed="true"]{background:var(--honey)}
-.fchip.locked{border-style:dashed;color:var(--ink-soft);background:transparent;min-width:44px;text-align:center}
-.clue-card .tag{font-family:var(--f-display);font-size:12px;color:var(--berry)}
-.clue-card .en{margin:2px 0 0;font-family:var(--f-hand);font-weight:700;font-size:21px;line-height:1.2}
-.clue-card .ko{margin:4px 0 0;font-size:13px;color:var(--ink-soft)}
-.clue-card .row{display:flex;gap:8px;align-items:center;margin-top:8px}
 
-/* ---------- bottom tabs (as sketched) ---------- */
-.nav{flex:none;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:10px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:3px solid var(--ink);background:var(--paper-2);position:relative;z-index:20}
+/* ---------- bottom navigation ---------- */
+.nav{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:10px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:3px solid var(--ink);background:var(--paper-2);position:relative;z-index:20}
 .tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper);font-family:var(--f-display);font-size:15px;box-shadow:2px 3px 0 rgba(74,54,40,.22)}
 .tab svg{width:24px;height:24px;flex:none}
 .tab[aria-expanded="true"]{background:var(--honey)}
@@ -232,24 +226,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* ---------- sheets ---------- */
 .sheet{position:absolute;left:0;right:0;bottom:0;height:86%;z-index:10;background:var(--paper);border-top:3px solid var(--ink);border-radius:28px 32px 0 0/26px 30px 0 0;box-shadow:0 -6px 0 rgba(74,54,40,.12);transform:translateY(104%);transition:transform .32s cubic-bezier(.3,1.2,.5,1);display:flex;flex-direction:column}
 .sheet.open{transform:none}
-.sheet-head{flex:none;display:flex;align-items:center;gap:10px;padding:14px 16px 8px;position:relative}
-.sheet-head::before{content:"";position:absolute;top:6px;left:50%;width:44px;height:5px;border-radius:4px;background:var(--line);transform:translateX(-50%)}
-.sheet-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:20px;text-wrap:balance}
-.sheet-head .x{margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:34px;height:34px;border-radius:50%;font-size:18px;line-height:1}
-.sheet-body{flex:1;min-height:0;overflow-y:auto;padding:4px 16px 20px;display:flex;flex-direction:column;gap:12px}
 
 .mini{width:34px;height:34px;flex:none;border-radius:50%;background:var(--sky);border:2px solid var(--ink);overflow:hidden}
 .mini svg{width:100%;height:100%;display:block}
-.card{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;width:100%;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:10px 12px;box-shadow:3px 3px 0 rgba(74,54,40,.18)}
-.card.now{background:#EAF2E2}
-.card.wait{opacity:.6}
-.card .ord{font-family:var(--f-display);font-size:13px;width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;background:var(--peach)}
-.card .mini{width:64px;height:64px}
-.card h3{margin:0;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1}
-.card p{margin:3px 0 0;font-size:13px;color:var(--ink-soft)}
-.card .badge{margin-top:6px}
-.card.now .badge{background:var(--honey)}
-.card.done .badge{background:var(--moss)}
 
 /* tonight: full-screen map over the whole app (covers the bottom tabs) */
 .sheet.full{top:0;height:auto;z-index:30;border-top:0;border-radius:0;box-shadow:none}
@@ -287,7 +266,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* case select: the first screen — a case notebook with one folder card per case */
 .cases{box-sizing:border-box;position:absolute;inset:0;z-index:35;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px calc(18px + env(safe-area-inset-bottom,0px));overflow-y:auto;background-color:var(--paper);
   background-image:radial-gradient(circle at 20% 30%,rgba(141,180,142,.16) 0 2px,transparent 3px),radial-gradient(circle at 70% 80%,rgba(242,207,115,.18) 0 2px,transparent 3px);background-size:38px 38px,52px 52px}
-.cases-head .eyebrow{display:block}
 .cases-head h1{margin:2px 0 0;font-family:var(--f-hand);font-weight:700;font-size:36px;line-height:1}
 .case-list{display:flex;flex-direction:column;gap:22px;padding-top:6px}
 .case-card{box-sizing:border-box;position:relative;display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:center;width:100%;text-align:left;border:2.5px solid var(--ink);border-radius:6px 18px 16px 20px/6px 20px 16px 18px;background:#FFFDF7;padding:12px;box-shadow:3px 4px 0 rgba(74,54,40,.2)}
@@ -385,18 +363,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
 </svg>
 
 <div class="app" id="app">
+  <audio id="cameraShutter" src="audio/camera-shutter.mp3" preload="auto" hidden></audio>
+  <audio id="evidenceVoice" preload="auto" hidden></audio>
   <div class="main">
+    <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
     <!-- PART 1: interrogation stage -->
     <section class="scene" aria-label="대화 장면">
-      <svg class="scene-art" id="sceneArt" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
-      <button class="chip l" type="button" id="orderChip">Case 01 · 현장 브리핑</button>
-      <div class="chip r" id="progressChip">기록 0/3</div>
-      <button class="map-btn" type="button" id="stageMapBtn" aria-label="사건 지도 열기"><svg aria-hidden="true"><use href="#mapIcon"/></svg></button>
+      <button class="chip l" type="button" id="orderChip">브리핑 · 0/3</button>
       <div class="bubble" id="bubble" hidden role="status"></div>
-      <div class="stage-area">
-        <div class="suspect" id="suspect"></div>
-        <div class="nameplate" id="nameplate"></div>
-      </div>
+      <div class="stage-area" id="talkCamera"></div>
       <div class="ask-panel" id="askPanel"></div>
     </section>
 
@@ -405,37 +380,22 @@ button.chip:disabled{cursor:default;box-shadow:none}
       <div class="inv-head">
         <div><span class="kind" id="sceneKind">현장 조사</span><h2 id="sceneTitle">어디로 갈까요?</h2></div>
         <span class="badge" id="sceneCount" hidden></span>
-        <button class="map-btn" type="button" id="sceneMapBtn" aria-label="사건 지도 열기"><svg aria-hidden="true"><use href="#mapIcon"/></svg></button>
       </div>
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
         <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
         <div class="inv-empty" id="sceneEmpty">tonight 지도에서 갈 곳을 골라 주세요.</div>
       </div>
-      <div class="inv-panel" id="scenePanel"></div>
     </section>
 
     <!-- Note: a notebook pulled up from the bottom — automatically while writing down an answer, or from the Note tab -->
     <section class="dock" aria-label="노트">
-      <div class="spiral" aria-hidden="true"></div>
+      <div class="who" id="who" aria-label="노트 페이지"></div>
       <div class="dock-head">
         <h2><svg aria-hidden="true"><use href="#noteIcon"/></svg>Note</h2>
-        <div class="who" id="who" aria-label="노트 페이지"></div>
         <button class="dock-close" type="button" id="dockClose" aria-label="노트 닫기">×</button>
       </div>
       <div class="dock-body" id="dockBody"></div>
-      <svg class="note-hand" viewBox="0 0 100 110" aria-hidden="true"><g filter="url(#wob)" stroke="#4A3628" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-        <path d="M-6 114 L-6 70 Q14 58 36 66 L54 114Z" fill="#E8C79A"/>
-        <path d="M-6 80 Q16 68 40 76" fill="none"/>
-        <path d="M30 70 C28 54 38 44 50 46 C58 42 68 44 70 50 C77 52 77 61 70 64 C65 72 52 78 40 77Z" fill="#F7E1C8"/>
-        <path d="M50 47 C55 31 67 23 74 27 C81 32 74 43 66 50" fill="#F7E1C8"/>
-        <path d="M70 52 C74 54 74 58 70 60" fill="none" stroke-width="2"/>
-      </g></svg>
-    </section>
-
-    <section class="sheet" id="sheet-list" aria-label="인물 명단">
-      <div class="sheet-head"><h2>알게 된 인물</h2><button class="x" type="button" data-close aria-label="닫기">×</button></div>
-      <div class="sheet-body" id="listBody"></div>
     </section>
 
   </div>
@@ -480,8 +440,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
   </section>
 
   <nav class="nav" aria-label="메뉴">
-    <button class="tab" type="button" data-sheet="list" aria-expanded="false">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><g stroke="#4A3628" stroke-width="1.8" fill="none" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="3" fill="#F8D9C6"/><path d="M8 8h8M8 12h8M8 16h5"/></g></svg>인물
+    <button class="tab map-btn" type="button" id="mapTab" aria-expanded="false" aria-controls="sheet-map" aria-label="사건 지도 열기">
+      <svg aria-hidden="true"><use href="#mapIcon"/></svg>지도
     </button>
     <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
       <svg aria-hidden="true"><use href="#noteIcon"/></svg>Note
@@ -509,7 +469,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
   <!-- Case select: the first screen. Cases open in order; a locked card shows no title. -->
   <section class="cases" id="caseList" aria-label="사건 목록">
-    <header class="cases-head"><span class="eyebrow">Mossy Hollow</span><h1>사건 수첩</h1></header>
+    <header class="cases-head"><h1>사건 수첩</h1></header>
     <div class="case-list" id="caseCards"></div>
     <button class="linkbtn" type="button" id="howtoList">플레이 방법 다시 보기</button>
   </section>
@@ -547,22 +507,22 @@ const QUESTIONS = [
 ];
 
 /* People. Nobody is rounded up in advance: each person stays at their `place`, and appears
-   (in the people list and on the map) only after someone names them or a clue points to them.
+   (at their place and on the map) only after someone names them or a clue points to them.
    `unlocks` = what hearing an answer reveals: { places:[…], people:[…] } (a person brings their place along).
    Each answer has its own note lines and word cards. {{id|answer/alt}} marks a blank. */
 const PEOPLE = {
-  // the partner — met first, at the crime scene; explains in order (linear), no question choices
-  badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'동료 경찰', place:'library', partner:true, linear:true,
-    pitch:.9, voice:3, bg:'#DCE3F0',
+  // the partner — met first, at the crime scene
+  badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'동료 경찰', place:'library', partner:true,
+    pitch:.9, voice:3, bg:'#DCE3F0', openingQuestion:'b1',
     hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
     // recorded voice (Higgsfield · MiniMax · Fraser)
     audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3' },
     questions:[
-      { id:'b1', en:'The case', ko:'사건 개요' },
-      { id:'b2', en:'The witness', ko:'발견자' },
-      { id:'b3', en:'What to do', ko:'할 일' }
+      { id:'b1', en:'What happened here?', ko:'여기서 무슨 일이 있었나요?' },
+      { id:'b2', en:'Who found the victim?', ko:'피해자를 누가 발견했나요?' },
+      { id:'b3', en:'What should I do next?', ko:'이제 무엇을 하면 되나요?' }
     ],
-    unlocks:{ b1:{ places:['library'] }, b2:{ people:['mole'] } },
+    unlocks:{ b1:{ places:['library'] }, b2:{ people:['mole'] }, b3:{ places:['library'] } },
     answers:{
       b1:"This is the Old Library. Professor Hoot was found here at nine o'clock tonight. He was lying on the floor.",
       b2:"Mrs. Mole, the librarian, found him. We think it happened between eight and nine. She is still inside, so please talk to her.",
@@ -582,6 +542,7 @@ const PEOPLE = {
   // the witness who found the victim — her answers name the people to look for
   mole: { id:'mole', name:'Mrs. Mole', ko:'두더지 부인', job:'사서', place:'library', pitch:1.05, voice:4, bg:'#E8DCCB',
     hello:"Oh, detective. I'm Mrs. Mole, the librarian. What a terrible night.",
+    audio:{ hello:'audio/mole-hello.mp3', m1:'audio/mole-m1.mp3', m2:'audio/mole-m2.mp3', m3:'audio/mole-m3.mp3' },
     questions:[
       { id:'m1', en:'What did you see tonight?', ko:'오늘 밤 무엇을 봤나요?' },
       { id:'m2', en:'Did anyone visit the library tonight?', ko:'오늘 밤 도서관에 온 사람이 있나요?' },
@@ -671,48 +632,55 @@ const PEOPLE_ORDER = Object.keys(PEOPLE);
    the placeholder drawing without touching the logic. Turn on 핫스팟 보기 (outside the frame) to see them.
    A clue can point to a person (`unlocks`), who then appears at their place. */
 const PLACES = [
-  { id:'library', crime:true, x:30.5, y:44, label:'Old Library', kind:'사건 현장',
+  { id:'library', crime:true, x:30.5, y:44, label:'Old Library', kind:'사건 현장', artWidth:1376, artHeight:768,
     clues:[
       { label:'Big clock', en:'The big clock stopped at 8:40 PM.', ko:'큰 시계가 오후 8시 40분에 멈춰 있다.' },
-      { label:'Window', en:'There is sticky purple jam on the window.', ko:'창문에 끈적한 보라색 잼이 묻어 있다.' },
+      { label:'Window', en:'There is sticky purple jam on the window.', ko:'창문에 끈적한 보라색 잼이 묻어 있다.', audio:'audio/detective-library-window.mp3' },
       { label:'Door', en:'A tuft of orange fur is caught on the door.', ko:'문에 주황색 털 뭉치가 걸려 있다.', unlocks:{ people:['fiona'] } }
     ],
     spots:[
-      { clue:0, x:68.9, y:6,    w:12.2, h:65.5 },
-      { clue:1, x:5.6,  y:13.3, w:20,   h:32 },
-      { clue:2, x:83.3, y:20,   w:14.4, h:52.5 }
+      { clue:0, x:71.5, y:11, w:12.5, h:63, photo:{x:971,y:129,w:160,h:120} },
+      { clue:1, x:2, y:4, w:26, h:62, photo:{x:116,y:309,w:176,h:132} },
+      { clue:2, x:85.5, y:6, w:14, h:83, photo:{x:1216,y:350,w:160,h:120} }
     ]},
-  { id:'bakery', x:25, y:89, label:"Fiona's Bakery", kind:'장소',
+  { id:'bakery', x:25, y:89, label:"Fiona's Bakery", kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Front door', en:'A sign on the door: CLOSED AT 7 PM TONIGHT.', ko:'문에 붙은 안내문: 오늘은 오후 7시에 문 닫음.' },
       { label:'Oven', en:'The oven is cold. No pies were baked tonight.', ko:'오븐이 차갑다. 오늘 밤 구운 파이는 없다.' },
       { label:'Note', en:"A note on the counter: 'Sorry, Mrs. Bear! No bread tonight.'", ko:"계산대 위 쪽지: '곰 아주머니 죄송해요! 오늘 밤은 빵이 없어요.'" }
     ],
     spots:[
-      { clue:0, x:4.4,  y:18.3, w:17.8, h:52.5 },
-      { clue:1, x:70,   y:6,    w:26.7, h:68 },
-      { clue:2, x:52.5, y:41,   w:9.5,  h:12 }
+      { clue:0, x:4.5, y:5, w:12, h:78, photo:{x:57,y:194,w:176,h:132} },
+      { clue:1, x:75.6, y:15.6, w:21.8, h:67.7, photo:{x:1070,y:210,w:240,h:180} },
+      { clue:2, x:33.5, y:41.5, w:9.5, h:12, photo:{x:465,y:315,w:120,h:90} }
     ]},
-  { id:'cafe', x:63, y:70, label:'Lake Cafe', kind:'장소',
+  { id:'cafe', x:63, y:70, label:'Lake Cafe', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.' },
       { label:'Mr. Duck', en:"Mr. Duck: 'Ray never left the stage. He played twelve songs!'", ko:"오리 아저씨: '레이는 무대를 한 번도 안 떠났어. 열두 곡이나 불렀다고!'" }
     ],
     spots:[
-      { clue:0, x:35.6, y:11.7, w:14.4, h:31.7 },
-      { clue:1, x:14.5, y:31,   w:14,   h:29 }
+      { clue:0, x:50.9, y:17.6, w:9.4, h:20.8, photo:{x:666,y:140,w:200,h:150} },
+      { clue:1, x:26.2, y:26.7, w:10.2, h:23.4, photo:{x:340,y:205,w:200,h:150} }
     ]},
-  { id:'hill', x:75, y:24, label:'Moon Hill', kind:'장소',
+  { id:'hill', x:75, y:24, label:'Moon Hill', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Star Club notebook', en:"Star Club notebook: '8:30 PM, Saturn is bright. 8:45 PM, a shooting star! — Rosie'", ko:"별 동호회 노트: '8:30 토성이 밝다. 8:45 별똥별! — 로지'" },
       { label:'Footprints', en:'Small rabbit footprints are all around the telescope.', ko:'망원경 주변에 작은 토끼 발자국이 가득하다.' }
     ],
     spots:[
-      { clue:0, x:70,   y:59,   w:22.2, h:19 },
-      { clue:1, x:38,   y:72,   w:23,   h:15 }
+      { clue:0, x:79.5, y:58, w:10, h:13, photo:{x:1080,y:440,w:160,h:120} },
+      { clue:1, x:19.6, y:60.5, w:21.8, h:19.5, photo:{x:280,y:435,w:280,h:210} }
     ]}
 ];
 const placeOf = id => PLACES.find(p => p.id === id);
+const NPC_POSITIONS = {
+  badger:{x:40, floor:93, height:44},
+  mole:{x:58, floor:93, height:40},
+  fiona:{x:62, floor:93, height:44},
+  ray:{x:76, floor:90, height:44},
+  rosie:{x:48, floor:93, height:42}
+};
 const CULPRIT = 'fiona';
 
 /* ---------- characters ---------- */
@@ -809,8 +777,23 @@ function charSVG(id){
   return `<g filter="url(#wob)" class="body" stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
     ${back}${torso}${front}<path d="M88 146 L90 136 M112 146 L110 136" fill="none"/>${ears}${head}${face}</g>`;
 }
-const fullSVG = id => `<svg viewBox="0 0 200 400" aria-hidden="true">${charSVG(id)}</svg>`;
-const miniSVG = id => `<svg viewBox="40 22 120 120" aria-hidden="true">${charSVG(id)}</svg>`;
+const SPRITES = {
+  badger:{src:'assets/characters/sgt-badger-higgsfield.png', w:1060, h:1484, face:'180 80 700 700', anchor:.5, mouth:{x:538,y:643,w:156,h:64}},
+  mole:{src:'assets/characters/mole-higgsfield.png', w:454, h:665, face:'65 25 340 340', anchor:.5, mouth:{x:235,y:241,w:56,h:23}},
+  fiona:{src:'assets/characters/fiona-higgsfield.png', w:493, h:677, face:'40 25 340 340', anchor:210/493, mouth:{x:207,y:254,w:48,h:24}},
+  ray:{src:'assets/characters/ray-higgsfield.png', w:569, h:675, face:'55 25 340 340', anchor:225/569, mouth:{x:223,y:235,w:49,h:24}},
+  rosie:{src:'assets/characters/rosie-higgsfield.png', w:361, h:724, face:'28 150 300 300', anchor:.5, mouth:{x:180,y:371,w:24,h:17}}
+};
+function spriteMouth(id){
+  const mouth = SPRITES[id].mouth, width = mouth.w, height = mouth.h;
+  return `<g transform="translate(${mouth.x} ${mouth.y})"><g class="npc-mouth"><g class="npc-mouth-shape"><path d="M${-width/2} 0 Q0 ${height*.45} ${width/2} 0 Q${width*.4} ${height} 0 ${height} Q${-width*.4} ${height} ${-width/2} 0" fill="#493333"/><ellipse cx="0" cy="${height*.72}" rx="${width*.2}" ry="${height*.15}" fill="#BE7D76" opacity=".7"/></g></g></g>`;
+}
+const fullSVG = id => SPRITES[id]
+  ? `<svg viewBox="0 0 ${SPRITES[id].w} ${SPRITES[id].h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/>${spriteMouth(id)}</g></g></svg>`
+  : `<svg viewBox="0 0 200 400" aria-hidden="true">${charSVG(id)}</svg>`;
+const miniSVG = id => SPRITES[id]
+  ? `<svg viewBox="${SPRITES[id].face}" aria-hidden="true"><image href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/></svg>`
+  : `<svg viewBox="40 22 120 120" aria-hidden="true">${charSVG(id)}</svg>`;
 
 /* ---------- state ----------
    People are keyed by id. S.met = everyone the player knows about, in the order they turned up.
@@ -819,7 +802,7 @@ const miniSVG = id => `<svg viewBox="40 22 120 120" aria-hidden="true">${charSVG
 const newSpeakerState = () => ({ phase:'wait', hints:3, order:[], recording:null, revealed:new Set(), notes:{}, marks:{} });
 const S = {
   cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
-  place:null, clue:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])),
+  place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
   known:new Set(),   // places someone has mentioned — only these appear on the map
   met:['badger'],    // people the player knows about
   per:Object.fromEntries(PEOPLE_ORDER.map(id => [id, newSpeakerState()]))
@@ -829,6 +812,11 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 const spk = id => PEOPLE[id];
 const per = id => S.per[id];
 const qs = sp => sp.questions || QUESTIONS;
+const availableQuestions = speaker => {
+  const progress = per(speaker.id);
+  return qs(speaker).filter(question => !progress.order.includes(question.id) &&
+    (!speaker.openingQuestion || progress.order.includes(speaker.openingQuestion) || question.id === speaker.openingQuestion));
+};
 const cur = () => spk(S.cur);
 const st = () => per(S.cur);
 const suspects = () => S.met.filter(id => !spk(id).partner);
@@ -847,63 +835,96 @@ function loadVoices(){
   voices = all.filter(v => /en[-_](US|GB)/i.test(v.lang)).concat(all.filter(v => !/en[-_](US|GB)/i.test(v.lang)));
 }
 if('speechSynthesis' in window){ loadVoices(); speechSynthesis.addEventListener?.('voiceschanged', loadVoices); }
-let talkT;
-function setTalking(on){ $('#suspect').classList.toggle('talking', on); }
+let talkT, speechTurn = 0;
+function setTalking(on){
+  document.querySelectorAll('.scene-npc').forEach(npc => {
+    npc.style.setProperty('--talk-cycle', S.slow ? '.99s' : '.74s');
+    npc.classList.toggle('talking', on && npc.dataset.talk === S.cur);
+  });
+}
 const clip = new Audio();
 clip.preload = 'auto';
-clip.onplay = () => setTalking(true);
-clip.onended = clip.onpause = () => setTalking(false);
+clip.onplaying = () => setTalking(true);
+clip.onended = clip.onpause = clip.onwaiting = clip.onerror = () => setTalking(false);
 function stopVoice(){
+  speechTurn++;
+  clearTimeout(talkT);
   clip.pause();
+  $('#evidenceVoice').pause();
   if('speechSynthesis' in window) speechSynthesis.cancel();
   setTalking(false);
 }
 function speak(text, key){
+  stopVoice();
+  const turn = speechTurn;
   const src = cur().audio?.[key];
   if(src){
-    stopVoice();
     clip.src = src;
     clip.preservesPitch = true;
     clip.playbackRate = S.slow ? .75 : 1;
-    clip.play().catch(() => toast('음성을 재생하지 못했어요. 다시 듣기를 눌러 주세요.'));
+    clip.play().catch(() => { if(turn === speechTurn){ setTalking(false); toast('음성을 재생하지 못했어요. 다시 듣기를 눌러 주세요.'); } });
     return;
   }
-  clip.pause();
   if(!('speechSynthesis' in window)){ toast('이 브라우저는 음성 읽기를 지원하지 않아요. 힌트로 내용을 확인하세요.'); return; }
-  speechSynthesis.cancel();
   const s = cur();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US'; u.rate = S.slow ? .72 : .95; u.pitch = s.pitch;
   if(voices.length) u.voice = voices[s.voice % voices.length];
-  u.onstart = () => setTalking(true);
-  u.onend = u.onerror = () => { setTalking(false); clearTimeout(talkT); };
-  clearTimeout(talkT); setTalking(true);
-  talkT = setTimeout(() => setTalking(false), text.length * (S.slow ? 95 : 70) + 800);
+  u.onstart = u.onresume = () => {
+    if(turn !== speechTurn) return;
+    setTalking(true);
+    clearTimeout(talkT);
+    talkT = setTimeout(() => { if(turn === speechTurn) setTalking(false); }, text.length * (S.slow ? 95 : 70) + 800);
+  };
+  u.onend = u.onerror = u.onpause = () => { if(turn === speechTurn){ setTalking(false); clearTimeout(talkT); } };
   speechSynthesis.speak(u);
 }
 
 /* ---------- stage ---------- */
-const POLICE_TAPE = `<g transform="rotate(-5 450 470)"><rect x="-60" y="452" width="1020" height="38" fill="#F2CF73" stroke="${INK}" stroke-width="3"/>
-  <text x="450" y="479" text-anchor="middle" font-family="Jua, sans-serif" font-size="21" letter-spacing="3" fill="${INK}">POLICE LINE · DO NOT CROSS · POLICE LINE · DO NOT CROSS · POLICE LINE</text></g>`;
-function renderStage(enter){
-  const s = cur(), el = $('#suspect');
-  $('#app').classList.toggle('partner', !!s.partner);
-  $('#sceneArt').innerHTML = ART[s.place]() + (s.place === 'library' ? POLICE_TAPE : '');
-  el.innerHTML = fullSVG(s.id);
-  el.classList.remove('enter'); void el.offsetWidth;
-  if(enter && !s.partner) el.classList.add('enter');
-  // people show only their name — what they do is learned from what they say
-  $('#nameplate').innerHTML = `${esc(s.name)}${s.partner ? `<small>${esc(s.job)}</small>` : ''}`;
+let cameraMotion;
+function animateCamera(art, from, to){
+  cameraMotion?.cancel();
+  art.style.transform = to;
+  if(from && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    cameraMotion = art.animate([{transform:from}, {transform:to}], {duration:650, easing:'cubic-bezier(.22,.7,.25,1)'});
+    cameraMotion.onfinish = () => { if(!S.investigate) focusCamera(); };
+  }
+}
+function focusCamera(fromRect){
+  if(S.investigate) return;
+  const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(cur().place);
+  const width = viewport.clientWidth, height = viewport.clientHeight;
+  if(!width || !height) return;
+  const position = NPC_POSITIONS[S.cur];
+  const worldWidth = place.artWidth || 900, worldHeight = place.artHeight || 600;
+  const scale = Math.max(width / worldWidth, height / worldHeight, height * .76 / (worldHeight * Math.max(44, position.height) / 100));
+  const left = Math.min(0, Math.max(width - worldWidth * scale, width / 2 - worldWidth * position.x / 100 * scale));
+  const top = Math.min(0, Math.max(height - worldHeight * scale, height * .12 - worldHeight * (position.floor - position.height) / 100 * scale));
+  const bounds = viewport.getBoundingClientRect();
+  const from = fromRect?.width ? `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / worldWidth})` : null;
+  animateCamera(art, from, `translate(${left}px, ${top}px) scale(${scale})`);
+}
+function renderStage(fromRect){
+  $('#app').classList.toggle('partner', !!cur().partner);
+  renderScene(cur().place);
+  const art = $('#art');
+  $('#talkCamera').appendChild(art);
+  art.inert = true;
+  art.setAttribute('aria-hidden', 'true');
+  focusCamera(fromRect);
   hideBubble();
 }
+new ResizeObserver(() => {
+  if(!S.investigate && cameraMotion?.playState !== 'running') focusCamera();
+}).observe($('#talkCamera'));
 // The top-left chip leaves the conversation for the place it happens in (not until the briefing is done).
-function renderChips(){
+function renderChip(){
   const p = st(), s = cur(), oc = $('#orderChip');
-  const canLeave = !(s.partner && p.phase !== 'done');
-  oc.textContent = canLeave ? `← ${placeOf(s.place).label}` : 'Case 01 · 현장 브리핑';
-  oc.disabled = !canLeave;
+  const location = S.known.has(s.place) ? placeOf(s.place).label : '현장 둘러보기';
   const n = p.order.length - (p.phase === 'record' ? 1 : 0);
-  $('#progressChip').textContent = p.phase === 'done' ? '대화 완료' : `${s.partner ? '브리핑' : '기록'} ${n}/${qs(s).length}`;
+  oc.innerHTML = `<span class="chip-label">← ${esc(location)}</span>` +
+    (p.phase === 'done' ? '' : `<span class="chip-progress">· ${n}/${qs(s).length}</span>`);
+  oc.disabled = false;
 }
 function showBubble(qid){
   const s = cur(), q = qs(s).find(x => x.id===qid), b = $('#bubble');
@@ -917,12 +938,20 @@ function hideBubble(){ $('#bubble').hidden = true; }
 const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5Z" fill="#4A3628"/></svg>`;
 const acorns = n => `<span class="acorns">${[0,1,2].map(i => `<svg class="${i < n ? '' : 'used'}"><use href="#acorn"/></svg>`).join('')}</span>`;
 
+function renderHint(){
+  const p = st(), button = $('#hint'), qid = p.recording;
+  button.innerHTML = `힌트 ${acorns(p.hints)}`;
+  button.disabled = S.investigate || p.phase !== 'record' || !qid || (p.hints <= 0 && !p.revealed.has(qid));
+  button.setAttribute('aria-label', `힌트 ${p.hints}번 남음`);
+}
+
+const cameraIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7h4l2-3h6l2 3h4v13H3Z"/><circle cx="12" cy="13" r="4"/><path d="M18 10h1"/></g></svg>`;
 function renderWho(){
   // pages for everyone the player has talked to; the partner's page is the case file
-  $('#who').innerHTML = S.met.filter(id => per(id).phase !== 'wait').map(id => {
+  $('#who').innerHTML = `<button type="button" data-i="evidence" aria-pressed="${S.view === 'evidence'}" style="--tab-bg:#DDE8C9" aria-label="증거 노트">${cameraIcon}</button>` + S.met.filter(id => per(id).phase !== 'wait').map(id => {
     const s = spk(id);
-    if(s.partner) return `<button class="case" type="button" data-i="${id}" aria-pressed="${S.view === id}" style="background:${s.bg}" aria-label="사건 브리핑 노트"><svg aria-hidden="true"><use href="#caseIcon"/></svg></button>`;
-    return `<button type="button" data-i="${id}" aria-pressed="${S.view === id}" style="background:${s.bg}" aria-label="${esc(s.name)} 노트">${miniSVG(s.id)}</button>`;
+    if(s.partner) return `<button class="case" type="button" data-i="${id}" aria-pressed="${S.view === id}" style="--tab-bg:${s.bg}" aria-label="사건 브리핑 노트"><svg aria-hidden="true"><use href="#caseIcon"/></svg></button>`;
+    return `<button type="button" data-i="${id}" aria-pressed="${S.view === id}" style="--tab-bg:${s.bg}" aria-label="${esc(s.name)} 노트">${miniSVG(s.id)}</button>`;
   }).join('');
 }
 $('#who').addEventListener('click', e => {
@@ -942,7 +971,7 @@ function blockHTML(sIdx, qid, now){
     });
     return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
   }).join('');
-  const label = s.linear ? `${qs(s).indexOf(q) + 1} · ${esc(q.en)}` : `Q. ${esc(q.en)}`;
+  const label = `Q. ${esc(q.en)}`;
   return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}</span>${lines}</div>`;
 }
 
@@ -953,12 +982,8 @@ function renderAsk(){
   box.classList.remove('show-ko');
   if(S.investigate){ box.innerHTML = ''; return; }
   let html = '';
-  if(p.phase === 'choose' && s.linear){
-    // the partner explains in order — one "keep listening" button instead of question choices
-    const all = qs(s), next = all.find(q => !p.order.includes(q.id)), n = all.indexOf(next) + 1;
-    html = `<button class="pill big blue" type="button" data-q="${next.id}">${playIcon}${n === 1 ? '설명 듣기' : '이어서 듣기'} · ${esc(next.ko)}<span class="step">${n}/${all.length}</span></button>`;
-  } else if(p.phase === 'choose'){
-    const all = qs(s), left = all.filter(q => !p.order.includes(q.id));
+  if(p.phase === 'choose'){
+    const all = qs(s), left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
       left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
   } else if(p.phase === 'record'){
@@ -977,29 +1002,37 @@ $('#askPanel').addEventListener('click', e => {
   if(e.target.closest('#toPlace')) leaveTalk();
 });
 function renderDock(){
-  renderWho(); renderChips(); renderAsk();
+  renderWho(); renderChip(); renderAsk(); renderHint();
   const body = $('#dockBody');
+  if(S.view === 'evidence'){
+    body.innerHTML = `${!S.investigate ? '<div class="viewing"><span>증거 노트</span><button class="pill" type="button" id="backLive">지금 대화로</button></div>' : ''}<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
+      const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
+      return `<article class="evidence-card" data-evidence="${record.placeId}-${record.clueIndex}"><figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${record.photo}</figure><span class="place">${esc(place.label)}</span><h4>${esc(clue.label)}</h4><p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button></article>`;
+    }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
+    body.scrollTop = 0;
+    bindDock();
+    return;
+  }
   const vs = spk(S.view), vp = per(S.view);
   const live = S.view === S.cur && !S.investigate;
   const p = st();
   let html = '';
 
   if(!S.investigate && S.view !== S.cur){
-    html += `<div class="viewing"><span>${vs.linear ? '사건 브리핑 노트를' : esc(vs.name) + '의 노트를'} 보는 중이에요.</span><button class="pill" type="button" id="backLive">지금 대화로</button></div>`;
+    html += `<div class="viewing"><span>${vs.partner ? '사건 브리핑 노트를' : esc(vs.name) + '의 노트를'} 보는 중이에요.</span><button class="pill" type="button" id="backLive">지금 대화로</button></div>`;
   }
 
   if(live && p.phase === 'record'){
     html += `<div class="listen">
       <button class="pill" id="replay" type="button">${playIcon}다시 듣기</button>
       <button class="pill" id="slow" type="button" aria-pressed="${S.slow}">천천히</button>
-      <button class="pill hint" id="hint" type="button" aria-label="힌트 ${p.hints}번 남음">힌트 ${acorns(p.hints)}</button>
     </div>`;
   }
 
   html += `<div class="note-page" id="notePage">${
     vp.order.length
       ? vp.order.map(qid => blockHTML(S.view, qid, live && qid === p.recording)).join('')
-      : `<div class="empty-note">${vs.linear ? '설명을 들으면' : '질문을 고르면'} 받아 적을 줄이 여기에 생겨요.</div>`
+      : `<div class="empty-note">질문을 고르면 받아 적을 줄이 여기에 생겨요.</div>`
   }</div>`;
 
   if(live && p.phase === 'record'){
@@ -1020,10 +1053,14 @@ function renderDock(){
 
 function bindDock(){
   const body = $('#dockBody');
+  body.querySelectorAll('[data-evidence-ko]').forEach(button => button.addEventListener('click', () => {
+    const translation = button.closest('.evidence-card').querySelector('.ko');
+    translation.hidden = !translation.hidden;
+    button.setAttribute('aria-pressed', !translation.hidden);
+  }));
   body.querySelector('#backLive')?.addEventListener('click', () => { S.view = S.cur; renderDock(); });
   body.querySelector('#replay')?.addEventListener('click', () => speak(cur().answers[st().recording], st().recording));
   body.querySelector('#slow')?.addEventListener('click', e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); });
-  body.querySelector('#hint')?.addEventListener('click', useHint);
   body.querySelector('#finish')?.addEventListener('click', finishRecord);
   const bank = body.querySelector('#bank');
   if(bank){
@@ -1043,7 +1080,12 @@ function stageCard(title, sub){
   setTimeout(() => d.remove(), 1900);
 }
 // Start or resume a conversation. The first meeting plays the greeting.
+let greetingTimer;
+const sceneScroll = {};
 function talkTo(id){
+  clearTimeout(greetingTimer);
+  const fromRect = S.investigate && S.place === spk(id).place ? $('#art').getBoundingClientRect() : null;
+  if(S.investigate && S.place) sceneScroll[S.place] = artWrap.scrollLeft;
   stopVoice();
   const first = per(id).phase === 'wait';
   S.cur = id; S.view = id; S.sel = null;
@@ -1051,28 +1093,34 @@ function talkTo(id){
   if(first) per(id).phase = 'choose';
   openSheet(null); setNotes(false);
   if(S.investigate) setInvestigate(false);
-  renderStage(first); renderDock(); renderList();
+  renderStage(fromRect); renderDock();
   if(first){
     if(cur().partner) stageCard(CASES[0].title, CASES[0].no);
-    setTimeout(() => speak(cur().hello, 'hello'), cur().partner ? 1200 : 600);
+    greetingTimer = setTimeout(() => {
+      if(!S.investigate && S.cur === id && per(id).phase === 'choose') speak(spk(id).hello, 'hello');
+    }, cur().partner ? 1200 : 600);
   }
 }
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
-function leaveTalk(){ enterPlace(cur().place); }
+function leaveTalk(){ enterPlace(cur().place, true); }
 function ask(qid){
+  if(S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
+  clearTimeout(greetingTimer);
+  const speakerId = S.cur;
   const p = st();
   p.phase = 'record'; p.recording = qid; p.order.push(qid);
   unlock(cur().unlocks?.[qid]);
   hideBubble();
   speak(cur().answers[qid], qid);
-  renderDock(); renderList();
+  renderDock();
   // as the answer starts, the detective pulls the notebook out (sketch 3)
   setTimeout(() => {
-    if(!S.investigate && st().phase === 'record' && st().recording === qid){ S.view = S.cur; renderDock(); setNotes(true); }
+    if(!S.investigate && S.cur === speakerId && st().phase === 'record' && st().recording === qid){ S.view = S.cur; renderDock(); setNotes(true); }
   }, 700);
 }
 function useHint(){
   const p = st(), qid = p.recording;
+  if(S.investigate || p.phase !== 'record' || !qid) return;
   if(p.revealed.has(qid)) return showBubble(qid);
   if(p.hints <= 0) return toast(`${cur().name}에게 쓸 힌트를 다 썼어요.`);
   p.hints--; p.revealed.add(qid); showBubble(qid); renderDock();
@@ -1095,17 +1143,19 @@ function finishRecord(){
   setTalking(false);
   toast(ok === blanks.length ? `기록 완료! ${blanks.length}칸 모두 맞았어요.` : `기록 완료. ${blanks.length}칸 중 ${ok}칸이 맞았어요. 빨간 칸은 나중에 고칠 수 있어요.`);
   setNotes(false);   // the notebook goes away and the remaining questions come back
-  renderDock(); renderList();
+  renderDock();
 }
 // Switch between the conversation view and the place view. Either can be left and resumed;
 // an unfinished recording waits in the notebook until the player comes back.
 function setInvestigate(on){
+  clearTimeout(greetingTimer);
+  cancelCapture();
   S.investigate = on;
   stopVoice(); hideBubble(); clearSel();
   $('#app').classList.remove('expanded', 'notes-open');
   $('#app').classList.toggle('investigate', on);
   $('#noteTab').setAttribute('aria-expanded', 'false');
-  renderDock(); renderList(); renderPlaces(); renderSceneHead(); renderScenePanel();
+  renderDock(); renderPlaces(); renderSceneHead();
 }
 /* ---------- notebook edits + word-card drag ---------- */
 $('#dockBody').addEventListener('input', e => {
@@ -1158,20 +1208,27 @@ function dragEnd(e){
 }
 
 /* ---------- sheets + tabs ---------- */
+let captureTimer, captureShotTimer;
+function cancelCapture(){
+  clearTimeout(captureTimer); clearTimeout(captureShotTimer);
+  $('.capture-view')?.remove(); $('.capture-flash')?.remove();
+  $('#cameraShutter').pause();
+  const voice = $('#evidenceVoice');
+  voice.onended = null; voice.onerror = null;
+  voice.pause();
+}
 function setNotes(open){
+  cancelCapture();
   $('#app').classList.toggle('notes-open', open);
   $('#noteTab').setAttribute('aria-expanded', open);
 }
 function openSheet(name){
+  if(name === 'map') setMapOrigin($('#mapTab'));
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
-  document.querySelectorAll('.tab[data-sheet]').forEach(t => t.setAttribute('aria-expanded', t.dataset.sheet === name));
+  $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
   if(name === 'map') setMapNew(false);
 }
-document.querySelectorAll('.tab[data-sheet]').forEach(t => t.onclick = () => {
-  if(t.dataset.sheet === 'map') setMapOrigin(t);
-  openSheet(t.getAttribute('aria-expanded') === 'true' ? null : t.dataset.sheet);
-});
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openSheet(null));
 $('#noteTab').onclick = () => {
   const open = !$('#app').classList.contains('notes-open');
@@ -1192,26 +1249,11 @@ function setMapOrigin(btn){
   void sh.offsetWidth;
   sh.style.transition = '';
 }
-$('#sceneMapBtn').onclick = $('#stageMapBtn').onclick = e => { setMapOrigin(e.currentTarget); openSheet('map'); };
+$('#mapTab').onclick = () => openSheet($('#sheet-map').classList.contains('open') ? null : 'map');
+$('#hint').onclick = useHint;
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
 $('#orderChip').onclick = () => { if(!$('#orderChip').disabled) leaveTalk(); };
-
-// People the player knows about (named in a conversation or pointed to by a clue).
-function renderList(){
-  const rows = S.met.filter(id => !spk(id).partner).map(id => {
-    const s = spk(id), p = per(id), total = qs(s).length, n = p.order.length - (p.phase === 'record' ? 1 : 0);
-    const cls = p.phase === 'done' ? 'done' : p.phase === 'wait' ? 'wait' : 'now';
-    const label = p.phase === 'wait' ? '아직 만나지 않음' : p.phase === 'done' ? '대화 완료' : `대화 중 · 기록 ${n}/${total}`;
-    return `<div class="card ${cls}">
-      <span class="mini" style="background:${s.bg}">${miniSVG(s.id)}</span>
-      <span><h3>${esc(s.name)}</h3><p>${esc(placeOf(s.place).label)}</p><span class="badge">${label}</span></span>
-      <button class="pill sm" type="button" data-go="${id}">${p.phase === 'wait' ? '만나러 가기' : '대화하기'}</button>
-    </div>`;
-  }).join('');
-  $('#listBody').innerHTML = rows || `<p class="howto">아직 알게 된 인물이 없어요.</p>`;
-}
-$('#listBody').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if(b) talkTo(b.dataset.go); });
 
 /* ---------- map (place picker) ---------- */
 // Only places a character has mentioned appear on the map.
@@ -1246,9 +1288,9 @@ function unlock(u, quiet){
     if(!S.known.has(spk(id).place)){ S.known.add(spk(id).place); newPlace = true; }
   });
   if(!newPlace && !newPerson) return;
-  renderPlaces(); renderList();
+  renderPlaces();
   if(newPlace) setMapNew(true);
-  if(!quiet) toast(newPerson ? '새로운 인물을 알게 됐어요. 인물 명단과 지도를 확인해 보세요.' : 'tonight 지도에 새 장소가 표시됐어요.');
+  if(!quiet) toast(newPerson ? '새로운 인물을 알게 됐어요.' : 'tonight 지도에 새 장소가 표시됐어요.');
 }
 
 /* ---------- accuse ---------- */
@@ -1299,148 +1341,62 @@ function bookRows(){
   });
   return s;
 }
-function checks(y0, a, b){
-  let s = '';
-  for(let y = y0, r = 0; y < 600; y += 45, r++) for(let x = 0, c = 0; x < 900; x += 60, c++)
-    s += `<rect x="${x}" y="${y}" width="60" height="45" fill="${(r + c) % 2 ? a : b}"/>`;
-  return s;
-}
-function stars(n){
-  let s = '';
-  for(let i = 0; i < n; i++) s += `<circle cx="${(i * 137 + 31) % 900}" cy="${(i * 61 + 17) % 300}" r="${(1.2 + (i % 3) * .7).toFixed(1)}" fill="#FFFBEA"/>`;
-  return s;
-}
 
 const ART = {
   library: () => `
-    <rect width="900" height="600" fill="#E1C9A4"/>
-    <ellipse cx="450" cy="548" rx="300" ry="42" fill="#C96F86" opacity=".3"/>
-    <g ${WOB}>
-      <rect x="-5" y="-5" width="910" height="435" fill="#CFC4EA"/>
-      <rect x="-5" y="330" width="910" height="100" fill="#BCB0DC"/>
-      <path d="M0 482 H900 M0 540 H900" stroke-width="1.5" opacity=".35" fill="none"/>
-      <rect x="60" y="90" width="160" height="170" rx="6" fill="#DCEBF7"/>
-      <circle cx="186" cy="124" r="14" fill="#FFF4C9" stroke-width="2"/>
-      <path d="M140 90 V260 M60 175 H220" fill="none"/>
-      <rect x="50" y="258" width="180" height="12" rx="3" fill="#B98A62"/>
-      <path d="M86 226 q20 -14 44 -2 q8 10 -6 14 l-2 14 l-6 -12 q-20 4 -30 -14z" fill="#7E5AA6" stroke-width="2"/>
-      <rect x="280" y="70" width="320" height="345" rx="4" fill="#9C7656"/>
-      <rect x="296" y="86" width="288" height="313" fill="#86644A"/>
-      ${bookRows()}
-      <path d="M296 162 H584 M296 238 H584 M296 314 H584" stroke-width="6"/>
-      <path d="M620 60 h110 l-10 -22 h-90z" fill="#E3B957"/>
-      <rect x="630" y="60" width="90" height="360" rx="8" fill="#F2CF73"/>
-      <circle cx="675" cy="125" r="32" fill="#FFFDF7"/>
-      ${clockHand(675, 125, 8 + 40 / 60, 15, 4)}${clockHand(675, 125, 8, 24, 3)}
-      <rect x="648" y="190" width="54" height="170" rx="6" fill="#E3B957"/>
-      <path d="M675 190 V318" fill="none"/><circle cx="675" cy="330" r="14" fill="#CFA344"/>
-      <rect x="760" y="130" width="110" height="300" rx="6" fill="#9C7656"/>
-      <rect x="776" y="150" width="78" height="110" rx="4" fill="#86644A" stroke-width="2"/>
-      <rect x="776" y="280" width="78" height="130" rx="4" fill="#86644A" stroke-width="2"/>
-      <circle cx="852" cy="292" r="7" fill="#F2CF73" stroke-width="2"/>
-      <path d="M766 318 l-14 -10 M766 322 l-16 2 M766 326 l-12 12" stroke="#EE8E4A" stroke-width="4" fill="none"/>
-      <path d="M350 462 V560 M540 462 V560" stroke-width="8"/>
-      <rect x="330" y="440" width="230" height="22" rx="4" fill="#B98A62"/>
-      <path d="M390 440 L444 426 L444 440Z" fill="#FFFDF7" stroke-width="2"/><path d="M444 440 L444 426 L498 440Z" fill="#FFFDF7" stroke-width="2"/>
-      <ellipse cx="524" cy="432" rx="14" ry="8" fill="#FFFDF7" stroke-width="2"/>
-    </g>
-    <g fill="none" stroke="#FFFDF7" stroke-width="3" stroke-dasharray="8 7">
-      <ellipse cx="190" cy="528" rx="62" ry="20"/><path d="M130 522 q-40 -20 -60 6 M250 522 q40 -20 60 6"/>
+    <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
+    <path d="M1047 197 L1047 175 M1047 197 L1031 210" fill="none" stroke="#FFF8D9" stroke-width="12" stroke-linecap="round"/>
+    <g stroke="#49372F" stroke-linecap="round">${clockHand(1047, 197, 8 + 40 / 60, 20, 3)}${clockHand(1047, 197, 8, 28, 2.5)}</g>
+    <g transform="translate(-40 10) scale(1.5 1.25)" fill="none" stroke="#FFFDF7" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M652 482 L638 468 L633 483 C613 483 600 494 600 509 C600 525 615 537 635 537 L643 549 L656 536
+        C668 540 677 541 689 540 L714 563 Q722 568 726 561 L721 539
+        C742 538 763 531 776 522 L796 530 L803 524 L789 512 L806 503 L801 496 L779 502
+        C768 489 747 480 724 479 L730 458 Q730 450 722 454 L693 481 C676 476 663 478 652 482Z"/>
+      <path d="M663 490 Q672 509 660 526 M732 495 Q752 499 763 509" stroke-width="2.5" opacity=".7"/>
     </g>`,
 
   bakery: () => `
-    ${checks(420, '#F7E6D2', '#EED5BB')}
-    <g ${WOB}>
-      <rect x="-5" y="-5" width="910" height="425" fill="#F6C9B0"/>
-      <rect x="250" y="24" width="280" height="44" rx="12" fill="#FFF6E8"/>
-      <text x="390" y="54" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="26" fill="${INK}" stroke="none">Fiona's Bakery</text>
-      <rect x="50" y="120" width="140" height="300" rx="6" fill="#9C7656"/>
-      <rect x="70" y="140" width="100" height="90" rx="4" fill="#DCEBF7"/>
-      <path d="M95 192 L120 170 L145 192" fill="none" stroke-width="2"/>
-      <rect x="68" y="190" width="104" height="56" rx="6" fill="#FFF6E8"/>
-      <text x="120" y="216" text-anchor="middle" font-family="Jua, sans-serif" font-size="19" fill="#C25B5B" stroke="none">CLOSED</text>
-      <text x="120" y="237" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="15" fill="${INK}" stroke="none">at 7 PM</text>
-      <circle cx="172" cy="300" r="7" fill="#F2CF73" stroke-width="2"/>
-      <rect x="240" y="80" width="300" height="180" fill="#E8C79A"/>
-      <path d="M240 140 H540 M240 200 H540" stroke-width="5"/>
-      ${[260, 345, 430].map(x => `<path d="M${x} 120 h60 l-7 20 h-46z" fill="#C9A57C" stroke-width="2"/><path d="M${x} 180 h60 l-7 20 h-46z" fill="#C9A57C" stroke-width="2"/>`).join('')}
-      <rect x="240" y="300" width="360" height="170" fill="#E8C79A"/>
-      <path d="M300 300 V470 M420 300 V470 M540 300 V470" stroke-width="2" opacity=".5"/>
-      <rect x="230" y="290" width="380" height="20" rx="4" fill="#FFF6E8"/>
-      <rect x="290" y="244" width="76" height="46" rx="6" fill="#C96F86"/>
-      <g transform="rotate(-6 512 278)"><rect x="484" y="260" width="58" height="34" fill="#FFFDF7" stroke-width="2"/><path d="M492 272 h40 M492 282 h30" stroke-width="1.5"/></g>
-      <rect x="730" y="40" width="40" height="122" fill="#9E9792"/>
-      <rect x="640" y="160" width="220" height="280" rx="12" fill="#B8B2AE"/>
-      ${[690, 730, 770].map(x => `<circle cx="${x}" cy="214" r="9" fill="#F6B89A" stroke-width="2"/>`).join('')}
-      <rect x="670" y="270" width="160" height="120" rx="10" fill="#5A514C"/>
-      <path d="M690 292 h120" stroke="#7A706A" stroke-width="4"/>
-      <path d="M836 286 l-22 0 M836 286 l0 22 M836 286 l-16 16" stroke-width="1.5" fill="none"/>
+    <image href="assets/places/bakery-higgsfield.png" width="1376" height="768"/>
+    <g transform="rotate(-2 145 250)" text-anchor="middle">
+      <text x="145" y="250" font-family="Jua, sans-serif" font-size="21" fill="#C25B5B">CLOSED</text>
+      <text x="145" y="270" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="#4A3628">at 7 PM</text>
     </g>`,
 
   cafe: () => `
-    <rect width="900" height="600" fill="#D1B993"/>
-    <g ${WOB}>
-      <rect x="-5" y="-5" width="910" height="425" fill="#C7D9B8"/>
-      <path d="M700 0 L612 380 H800Z" fill="#FFF4C9" opacity=".35" stroke="none"/>
-      <rect x="40" y="70" width="260" height="180" rx="8" fill="#BFD3EE"/>
-      <circle cx="240" cy="110" r="16" fill="#FFF4C9" stroke-width="2"/>
-      <path d="M70 200 q15 -8 30 0 t30 0 M150 222 q15 -8 30 0 t30 0" stroke="#FFFDF7" fill="none"/>
-      <path d="M170 70 V250" fill="none"/>
-      <g transform="rotate(-3 385 165)">
-        <rect x="330" y="80" width="110" height="170" fill="#FFF6E8"/>
-        <text x="385" y="114" text-anchor="middle" font-family="Jua, sans-serif" font-size="22" fill="#C96F86" stroke="none">LIVE</text>
-        <text x="385" y="134" text-anchor="middle" font-family="Jua, sans-serif" font-size="14" fill="${INK}" stroke="none">MUSIC</text>
-        <path d="M392 182 L410 146" stroke-width="5"/><ellipse cx="385" cy="190" rx="15" ry="19" fill="#F2CF73" stroke-width="2"/>
-        <text x="385" y="236" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="15" fill="${INK}" stroke="none">8:00–9:30</text>
-      </g>
-      <rect x="520" y="380" width="390" height="60" fill="#C96F86"/>
-      <path d="M700 380 V262" stroke-width="4"/><circle cx="700" cy="252" r="11" fill="${INK}"/>
-      <path d="M790 322 L824 238" stroke-width="7"/><ellipse cx="780" cy="352" rx="25" ry="30" fill="#F2CF73"/><circle cx="780" cy="352" r="6" fill="${INK}"/>
-      <ellipse cx="190" cy="322" rx="52" ry="58" fill="#FFFDF7"/>
-      <path d="M160 300 h60 v62 h-60z" fill="#8DB48E" stroke-width="2"/>
-      <circle cx="190" cy="236" r="36" fill="#FFFDF7"/>
-      <ellipse cx="229" cy="244" rx="21" ry="9" fill="#F2A14A"/>
-      <circle cx="202" cy="226" r="4.5" fill="${INK}" stroke="none"/>
-      <ellipse cx="176" cy="250" rx="7" ry="4" fill="#F79A8E" opacity=".6" stroke="none"/>
-      <rect x="40" y="360" width="300" height="130" fill="#B98A62"/>
-      <rect x="30" y="350" width="320" height="18" rx="4" fill="#D7B48A"/>
-      <rect x="270" y="326" width="22" height="24" rx="4" fill="#FFFDF7" stroke-width="2"/>
-      <path d="M560 514 V580" stroke-width="8"/><ellipse cx="560" cy="504" rx="62" ry="14" fill="#D7B48A"/>
-      <rect x="550" y="478" width="18" height="20" rx="4" fill="#FFFDF7" stroke-width="2"/>
+    <image href="assets/places/cafe-higgsfield.png" width="1376" height="768"/>
+    <g transform="rotate(-1.5 762 212)" text-anchor="middle">
+      <text x="762" y="190" font-family="Jua, sans-serif" font-size="26" fill="#C96F86">LIVE</text>
+      <text x="762" y="214" font-family="Jua, sans-serif" font-size="17" fill="#4A3628">MUSIC</text>
+      <text x="762" y="244" font-family="Gaegu, cursive" font-weight="700" font-size="17" fill="#4A3628">Ray Raccoon</text>
+      <text x="762" y="266" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="#4A3628">8:00–9:30</text>
     </g>`,
 
   hill: () => `
-    <defs><linearGradient id="hillSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7D74BE"/><stop offset="1" stop-color="#D9CFEE"/></linearGradient></defs>
-    <rect width="900" height="600" fill="url(#hillSky)"/>
-    ${stars(46)}
-    <circle cx="760" cy="90" r="58" fill="#FFF4C9" opacity=".25"/>
-    <path d="M250 62 L372 112" stroke="#FFFBEA" stroke-width="3" stroke-linecap="round"/><circle cx="250" cy="62" r="5" fill="#FFFBEA"/>
-    <g ${WOB}>
-      <circle cx="760" cy="90" r="38" fill="#FFF4C9"/>
-      <path d="M-10 350 Q200 280 450 330 T910 320 V610 H-10Z" fill="#9CC29A"/>
-      <use href="#pine" x="10" y="190" width="90" height="180"/><use href="#pine" x="80" y="230" width="70" height="140"/>
-      <use href="#pine" x="830" y="200" width="80" height="160"/>
-      <path d="M-10 420 Q300 370 600 400 T910 410 V610 H-10Z" fill="#AECA94"/>
-      <path d="M450 330 L410 432 M450 330 L490 432 M450 330 L455 444" stroke-width="5" fill="none"/>
-      <g transform="rotate(-28 450 320)"><rect x="400" y="305" width="120" height="30" rx="8" fill="#CFC4EA"/><rect x="516" y="300" width="18" height="40" rx="4" fill="#F2CF73"/></g>
-      <path d="M655 426 V462 M805 426 V462 M650 384 V410 M810 384 V410" stroke-width="6"/>
-      <rect x="640" y="370" width="180" height="14" rx="4" fill="#C9A57C"/>
-      <rect x="640" y="410" width="180" height="16" rx="4" fill="#C9A57C"/>
-      <g transform="rotate(-8 720 400)"><rect x="690" y="392" width="62" height="18" rx="3" fill="#BFD3EE" stroke-width="2"/></g>
-      <text x="721" y="408" text-anchor="middle" font-size="13" fill="#F2CF73" stroke="none">★</text>
-    </g>
-    ${[[372,462],[394,490],[426,504],[466,502],[504,488],[526,462],[352,440]].map(([x,y]) =>
-      `<ellipse cx="${x}" cy="${y}" rx="7" ry="4" fill="#7A5C40"/><ellipse cx="${x + 9}" cy="${y - 3}" rx="3" ry="2.2" fill="#7A5C40"/>`).join('')}`
+    <image href="assets/places/hill-higgsfield.png" width="1376" height="768"/>`
 };
 
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
 
-function renderScene(){
-  const pl = placeObj(), art = $('#art');
+function renderScene(placeId = S.place){
+  const pl = placeOf(placeId), art = $('#art');
   if(!pl){ art.innerHTML = ''; return; }
-  art.innerHTML = `<svg viewBox="0 0 900 600" aria-hidden="true">${ART[pl.id]()}</svg>` +
+  art.style.aspectRatio = `${pl.artWidth || 900} / ${pl.artHeight || 600}`;
+  art.style.setProperty('--world-width', `${pl.artWidth || 900}px`);
+  art.style.setProperty('--world-height', `${pl.artHeight || 600}px`);
+  const people = peopleAt(pl.id), signature = `${pl.id}:${people.join(',')}`;
+  if(art.dataset.scene === signature){
+    art.querySelectorAll('.spot').forEach(spot => spot.classList.toggle('found', S.found[pl.id].has(+spot.dataset.clue)));
+    return;
+  }
+  art.dataset.scene = signature;
+  art.innerHTML = `<svg viewBox="0 0 ${pl.artWidth || 900} ${pl.artHeight || 600}" aria-hidden="true">${ART[pl.id]()}</svg>` +
     pl.spots.map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
-      style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('');
+      style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
+    people.map(id => {
+      const position = NPC_POSITIONS[id], sprite = SPRITES[id];
+      const width = position.height * (pl.artHeight || 600) / (pl.artWidth || 900) * (sprite ? sprite.w / sprite.h : .5);
+      return `<button class="scene-npc" type="button" data-talk="${id}" style="left:${position.x}%;bottom:${100 - position.floor}%;height:${position.height}%;width:${width}%;transform:translateX(-${(sprite?.anchor ?? .5) * 100}%)" aria-label="${esc(spk(id).name)}와 대화">${fullSVG(id)}<span>${esc(spk(id).name)}</span></button>`;
+    }).join('');
 }
 function tapFx(x, y, kind, text){
   const d = document.createElement('div');
@@ -1449,13 +1405,71 @@ function tapFx(x, y, kind, text){
   $('#art').appendChild(d);
   setTimeout(() => d.remove(), 900);
 }
+function evidencePhoto(place, clueIndex){
+  const spot = place.spots.find(item => item.clue === clueIndex);
+  if(spot.photo){
+    const crop = spot.photo;
+    return `<svg viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}" aria-hidden="true">${ART[place.id]()}</svg>`;
+  }
+  const artWidth = place.artWidth || 900, artHeight = place.artHeight || 600;
+  const height = Math.min(artHeight, Math.max(spot.h * artHeight / 100 * 1.12, spot.w * artWidth / 100 * .84, 120));
+  const width = height * 4 / 3;
+  const left = Math.max(0, Math.min(artWidth - width, (spot.x + spot.w / 2) * artWidth / 100 - width / 2));
+  const top = Math.max(0, Math.min(artHeight - height, (spot.y + spot.h / 2) * artHeight / 100 - height / 2));
+  return `<svg viewBox="${left} ${top} ${width} ${height}" aria-hidden="true">${ART[place.id]()}</svg>`;
+}
+function playShutter(){
+  const shutter = $('#cameraShutter');
+  shutter.currentTime = 0;
+  shutter.play().catch(() => {});
+}
+function captureEvidence(place, clueIndex){
+  cancelCapture();
+  stopVoice();
+  const narration = place.clues[clueIndex].audio;
+  if(narration) $('#evidenceVoice').src = narration;
+  const photo = evidencePhoto(place, clueIndex);
+  const preview = document.createElement('div');
+  preview.className = 'capture-view'; preview.setAttribute('aria-hidden', 'true');
+  preview.innerHTML = `<div class="capture-frame">${photo}</div>`;
+  $('.art-stage').appendChild(preview);
+  const finishCapture = () => {
+    if(!preview.isConnected || !S.investigate || S.place !== place.id) return;
+    if(!S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)){
+      S.evidence.push({ placeId:place.id, clueIndex, photo });
+    }
+    S.view = 'evidence'; renderDock(); setNotes(true);
+    toast('증거를 노트에 기록했어요.');
+  };
+  captureShotTimer = setTimeout(() => {
+    if(!preview.isConnected) return;
+    playShutter();
+    const flash = document.createElement('div');
+    flash.className = 'capture-flash'; flash.setAttribute('aria-hidden', 'true');
+    preview.appendChild(flash);
+    setTimeout(() => flash.remove(), 400);
+  }, 500);
+  captureTimer = setTimeout(() => {
+    if(!preview.isConnected || !S.investigate || S.place !== place.id) return;
+    if(narration){
+      const voice = $('#evidenceVoice');
+      voice.onended = finishCapture;
+      voice.onerror = finishCapture;
+      voice.currentTime = 0;
+      voice.play().catch(finishCapture);
+    } else finishCapture();
+  }, 1100);
+}
 function examine(i){
   const pl = placeObj(), fresh = !S.found[pl.id].has(i);
   S.found[pl.id].add(i);
-  S.clue = i;
   if(fresh) unlock(pl.clues[i].unlocks);
-  renderSceneHead(); renderScenePanel(); renderPlaces();
-  if(fresh && S.found[pl.id].size === pl.clues.length) toast(`${pl.label}의 단서를 모두 찾았어요!`);
+  renderSceneHead(); renderPlaces();
+  if(!S.evidence.some(item => item.placeId === pl.id && item.clueIndex === i)) captureEvidence(pl, i);
+  else {
+    S.view = 'evidence'; renderDock(); setNotes(true);
+    $(`[data-evidence="${pl.id}-${i}"]`).scrollIntoView({block:'nearest'});
+  }
 }
 
 // mouse drag pans the illustration (touch uses native scrolling); a drag never counts as a tap
@@ -1480,24 +1494,38 @@ artWrap.addEventListener('wheel', e => {
 $('#art').addEventListener('click', e => {
   if(panMoved){ panMoved = false; return; }
   if(!placeObj()) return;
+  const npc = e.target.closest('[data-talk]');
+  if(npc){ talkTo(npc.dataset.talk); return; }
   const r = $('#art').getBoundingClientRect();
   const spot = e.target.closest('.spot');
   let x = e.clientX - r.left, y = e.clientY - r.top;
   if(spot && e.detail === 0){ const b = spot.getBoundingClientRect(); x = b.left - r.left + b.width / 2; y = b.top - r.top + b.height / 2; }
-  if(spot){ spot.classList.add('found'); tapFx(x, y, 'hit'); examine(+spot.dataset.clue); }
+  if(spot){ spot.classList.add('found'); examine(+spot.dataset.clue); }
   else tapFx(x, y, 'miss', 'Nothing here.');
 });
 
-function enterPlace(id){
-  if(!S.known.has(id)) return;
+function enterPlace(id, fromConversation = false){
+  if(!S.known.has(id) && !(fromConversation && id === cur().place)) return;
+  const fromRect = !S.investigate && id === cur().place ? $('#art').getBoundingClientRect() : null;
+  cameraMotion?.cancel();
   if(!S.investigate) setInvestigate(true);
-  S.place = id; S.clue = null;
+  S.place = id;
   $('#sceneEmpty').hidden = true;
   openSheet(null); setNotes(false);
-  renderSceneHead(); renderScene(); renderScenePanel();
+  const art = $('#art');
+  artWrap.appendChild(art);
+  art.inert = false;
+  art.removeAttribute('aria-hidden');
+  art.style.transform = 'none';
+  renderSceneHead(); renderScene();
   requestAnimationFrame(() => {
-    artWrap.scrollLeft = (artWrap.scrollWidth - artWrap.clientWidth) / 2;
+    if(!S.investigate || S.place !== id) return;
+    artWrap.scrollLeft = sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
     $('#swipeHint').hidden = artWrap.scrollWidth <= artWrap.clientWidth + 4;
+    if(fromRect?.width){
+      const bounds = art.getBoundingClientRect();
+      animateCamera(art, `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / bounds.width})`, 'none');
+    }
   });
 }
 function renderSceneHead(){
@@ -1507,33 +1535,6 @@ function renderSceneHead(){
   const c = $('#sceneCount'); c.hidden = !pl;
   if(pl) c.textContent = `단서 ${S.found[pl.id].size}/${pl.clues.length}`;
 }
-function renderScenePanel(){
-  const pl = placeObj(), box = $('#scenePanel');
-  if(!pl){ box.innerHTML = ''; return; }
-  const found = S.found[pl.id];
-  const chips = pl.clues.map((c, i) => found.has(i)
-    ? `<button class="fchip" type="button" data-c="${i}" aria-pressed="${S.clue === i}">${esc(c.label)}</button>`
-    : `<span class="fchip locked" aria-label="아직 못 찾은 단서">?</span>`).join('');
-  let detail = '';
-  if(S.clue != null){
-    const c = pl.clues[S.clue];
-    detail = `<div class="clue-card"><span class="tag">${esc(c.label)}</span>
-      <p class="en">${esc(c.en)}</p><p class="ko" id="clueKo" hidden>${esc(c.ko)}</p>
-      <div class="row"><button class="pill sm" type="button" id="clueKoBtn" aria-pressed="false">해석</button></div></div>`;
-  }
-  const here = peopleAt(pl.id);
-  const people = here.length ? `<div class="people-here"><span class="lbl">이곳에 있는 인물</span><div class="people-row">${here.map(id =>
-    `<button class="person" type="button" data-talk="${id}"><span class="mini" style="background:${spk(id).bg}">${miniSVG(id)}</span>${esc(spk(id).name)}</button>`).join('')}</div></div>` : '';
-  box.innerHTML = `${people}<div class="found-row">${chips}</div>${detail}`;
-}
-$('#scenePanel').addEventListener('click', e => {
-  const who = e.target.closest('[data-talk]');
-  if(who){ talkTo(who.dataset.talk); return; }
-  const chip = e.target.closest('[data-c]');
-  if(chip){ S.clue = +chip.dataset.c; renderScenePanel(); return; }
-  const ko = e.target.closest('#clueKoBtn');
-  if(ko){ const k = $('#clueKo'); k.hidden = !k.hidden; ko.setAttribute('aria-pressed', !k.hidden); }
-});
 
 /* ---------- how-to-play tutorial ----------
    Three steps, one at a time, each with a picture guide. Shown automatically only the first
@@ -1545,7 +1546,7 @@ const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e)
 const T_INK = `stroke="${INK}" stroke-width="2"`;
 const TUT = [
   { title:'듣고 질문해요',
-    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 잘 안 들리면 <b>도토리 힌트</b>를 눌러 말풍선 자막을 볼 수 있어요. 한 사람당 3번이에요.',
+    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 잘 안 들리면 <b>오른쪽 위 도토리 힌트</b>를 눌러 말풍선 자막을 볼 수 있어요. 한 사람당 3번이에요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="10" y="18" width="120" height="120" viewBox="40 22 120 120">${charSVG('badger')}</svg>
       <g fill="none" stroke="${INK}" stroke-width="2.5" stroke-linecap="round">
@@ -1587,7 +1588,7 @@ const TUT = [
       <text x="160" y="170" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">단어 카드를 빈칸으로 끌어다 놓기</text>
     </svg>` },
   { title:'찾아가서 조사해요',
-    text:'<b>tonight</b> 지도에서 장소를 고르고, 그림을 눌러 <b>증거</b>를 찾아요. 그곳에 있는 <b>인물</b>과도 이야기할 수 있어요. 대화와 증거 속에서 새 장소와 인물이 나타나요.',
+    text:'<b>하단 지도 버튼</b>으로 <b>tonight</b> 지도를 열어 장소를 골라요. 그림을 눌러 <b>증거</b>를 찾고, 그곳에 있는 <b>인물</b>과도 이야기할 수 있어요. 대화와 증거 속에서 새 장소와 인물이 나타나요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <g filter="url(#wob)" ${T_INK}>
         <rect x="14" y="18" width="118" height="114" rx="12" fill="#DDE8C9"/>
@@ -1664,7 +1665,7 @@ function renderCaseList(){
         <span class="case-lock">${open ? '준비 중이에요' : `${CASES[i - 1].no}을 해결하면 열려요`}</span></span></div>`;
     const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : caseStarted ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
     return `<button class="case-card" type="button" data-case="${c.id}">
-      <span class="case-thumb"><svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg></span>
+      <span class="case-thumb"><svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg></span>
       <span><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span><span class="badge ${cls}">${label}</span></span></button>`;
   }).join('');
 }
@@ -1712,7 +1713,7 @@ $('#devDone').onclick = () => {
   });
   S.met = [...PEOPLE_ORDER];
   PLACES.forEach(pl => S.known.add(pl.id));
-  renderPlaces(); renderList();
+  renderPlaces();
   if(S.investigate) renderDock(); else setInvestigate(true);
   openSheet('map');
   toast('모든 대화를 마쳤어요. 지도에서 장소를 골라 보세요.');
@@ -1728,7 +1729,7 @@ $('#devSpots').onclick = e => {
 $('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); } catch(e){} location.reload(); };
 
 /* ---------- boot ---------- */
-renderStage(false); renderDock(); renderList(); renderPlaces(); renderSceneHead(); renderScenePanel();
+renderStage(false); renderDock(); renderPlaces(); renderSceneHead();
 // the app opens on the case list (tapping a case is also the tap that lets audio play)
 openCaseList();
 })();
