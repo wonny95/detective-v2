@@ -573,6 +573,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 <div class="devtools" aria-label="테스트 도구">
   <button class="devbtn" type="button" id="devFill">노트 자동 채우기</button>
   <button class="devbtn" type="button" id="devDone">전체 대화 완료</button>
+  <button class="devbtn" type="button" id="devEvidence">증거 모두 수집</button>
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
 </div>
 
@@ -2281,6 +2282,19 @@ $('#devDone').onclick = () => {
   if(S.investigate) renderDock(); else setInvestigate(true);
   openSheet('map');
   toast('모든 대화를 마쳤어요. 지도에서 장소를 골라 보세요.');
+};
+
+// 증거 모두 수집: every clue of every place is found and saved in the evidence notebook (no photo sequence).
+$('#devEvidence').onclick = () => {
+  let n = 0;
+  PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
+    S.found[place.id].add(clueIndex);
+    if(S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)) return;
+    S.evidence.push({ placeId:place.id, clueIndex, photo:evidencePhoto(place, clueIndex) }); n++;
+  }));
+  renderPlaces(); renderDock();
+  if(S.investigate && S.place){ renderSceneHead(); renderScene(); }
+  toast(n ? `증거 ${n}개를 노트에 기록했어요.` : '이미 모든 증거를 모았어요.');
 };
 
 // 튜토리얼 초기화: forget that the tutorial was seen and start over.
