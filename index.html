@@ -651,7 +651,7 @@ const PEOPLE = {
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
     hello:"Hey, detective. I'm Ray. I didn't do anything, okay?",
     audio:{ hello:'audio/ray-hello.mp3', q1:'audio/ray-q1.mp3', q2:'audio/ray-q2.mp3', q3:'audio/ray-q3.mp3' },
-    unlocks:{ q1:{ places:['cafe'] } },
+    unlocks:{ q1:{ places:['cafe'] }, q2:{ people:['duck'] } },
     answers:{
       q1:"I was at the Lake Cafe. I played my guitar on stage from eight to nine thirty.",
       q2:"The whole cafe saw me! Ask Mr. Duck. He owns the cafe.",
@@ -688,6 +688,27 @@ const PEOPLE = {
       q2:['Nobody','Mr. Duck','shooting star','rainbow','8:45','8:15','Star Club','Book Club'],
       q3:['stars','flowers','birds']
     }
+  },
+  // a witness: someone whose word checks another person's alibi. Not a suspect, and talking to him is optional.
+  duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'cafe', witness:true, pitch:.95, voice:3, bg:'#DCEBD9',
+    hello:"Hello, detective! I'm Mr. Duck. Welcome to my cafe.",
+    audio:{ hello:'audio/duck-hello.mp3', d1:'audio/duck-d1.mp3', d2:'audio/duck-d2.mp3' },
+    questions:[
+      { id:'d1', en:'Was Ray here tonight?', ko:'레이가 오늘 밤 여기 있었나요?' },
+      { id:'d2', en:'Did he leave the stage?', ko:'레이가 무대를 떠난 적이 있나요?' }
+    ],
+    answers:{
+      d1:"Yes! Ray played his guitar on my stage, from eight to nine thirty.",
+      d2:"No, never. I was behind the counter all night, and I watched him. He played twelve songs!"
+    },
+    notes:{
+      d1:["Ray played his guitar on the {{a|stage}}.","He played from {{b|8 PM/8/eight}} to {{c|9:30 PM/9:30/nine thirty}}."],
+      d2:["Ray {{d|never}} left the stage.","Mr. Duck was behind the {{e|counter}} all night.","Ray played {{f|twelve/12}} songs."]
+    },
+    bank:{
+      d1:['stage','counter','8 PM','9 PM','9:30 PM','10 PM'],
+      d2:['never','often','counter','door','twelve','two']
+    }
   }
 };
 const PEOPLE_ORDER = Object.keys(PEOPLE);
@@ -717,6 +738,10 @@ const ANSWERS_KO = {
     q1:'8시부터 10시까지 망원경을 들고 달빛 언덕에 있었어요. 오늘 밤 하늘이 정말 맑았어요.',
     q2:'아무도 같이 없었어요. 하지만 8시 45분에 별똥별을 봤어요! 별 동호회 노트에 적어 뒀어요.',
     q3:'후트 교수님이 별 이름을 가르쳐 주셨어요. 교수님이 정말 많이 보고 싶을 거예요.'
+  },
+  duck:{
+    d1:'그럼요! 레이는 8시부터 9시 30분까지 우리 무대에서 기타를 쳤어요.',
+    d2:'아니요, 한 번도요. 나는 밤새 카운터 뒤에 있으면서 레이를 지켜봤어요. 열두 곡이나 불렀다니까요!'
   }
 };
 
@@ -749,12 +774,10 @@ const PLACES = [
     ]},
   { id:'cafe', x:71, y:58, label:'Lake Cafe', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
-      { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.' },
-      { label:'Mr. Duck', en:"Mr. Duck: 'Ray never left the stage. He played twelve songs!'", ko:"오리 아저씨: '레이는 무대를 한 번도 안 떠났어. 열두 곡이나 불렀다고!'" }
+      { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.' }
     ],
     spots:[
-      { clue:0, x:50.9, y:17.6, w:9.4, h:20.8, photo:{x:666,y:140,w:200,h:150} },
-      { clue:1, x:26.2, y:26.7, w:10.2, h:23.4, photo:{x:340,y:205,w:200,h:150} }
+      { clue:0, x:50.9, y:17.6, w:9.4, h:20.8, photo:{x:666,y:140,w:200,h:150} }
     ]},
   { id:'hill', x:68, y:21, label:'Moon Hill', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
@@ -772,7 +795,8 @@ const NPC_POSITIONS = {
   mole:{x:58, floor:93, height:40},
   fiona:{x:62, floor:93, height:44},
   ray:{x:60, floor:92, height:44},
-  rosie:{x:48, floor:93, height:42}
+  rosie:{x:48, floor:93, height:42},
+  duck:{x:38, floor:93, height:42}   // in front of the counter, left of Ray
 };
 const CULPRIT = 'fiona';
 
@@ -876,7 +900,8 @@ const SPRITES = {
   mole:{src:'assets/characters/mole-higgsfield.png', w:408, h:620, face:'37 -5 340 340', anchor:199/408, mouth:{x:207,y:211,w:56,h:23}},
   fiona:{src:'assets/characters/fiona-higgsfield.png', w:439, h:621, face:'12 -4 340 340', anchor:182/439, mouth:{x:179,y:225,w:48,h:24}},
   ray:{src:'assets/characters/ray-higgsfield.png', w:509, h:628, face:'24 -5 340 340', anchor:194/509, mouth:{x:192,y:205,w:49,h:24}},
-  rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316, mouth:{x:161,y:339,w:24,h:17}}
+  rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316, mouth:{x:161,y:339,w:24,h:17}},
+  duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5, mouth:{x:218,y:224,w:46,h:16}}
 };
 function spriteMouth(id){
   const mouth = SPRITES[id].mouth, width = mouth.w, height = mouth.h;
@@ -915,7 +940,7 @@ const availableQuestions = speaker => {
 };
 const cur = () => spk(S.cur);
 const st = () => per(S.cur);
-const suspects = () => S.met.filter(id => !spk(id).partner);
+const suspects = () => S.met.filter(id => !spk(id).partner && !spk(id).witness);
 
 let toastT;
 function toast(msg, discovery = false){
@@ -1581,7 +1606,7 @@ function revealPins(){
 
 /* ---------- accuse ---------- */
 function allConversationsDone(){
-  return PEOPLE_ORDER.every(id => per(id).phase === 'done');
+  return PEOPLE_ORDER.filter(id => !spk(id).witness).every(id => per(id).phase === 'done');
 }
 $('#accuseBtn').onclick = () => {
   if(!allConversationsDone()) return;

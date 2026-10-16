@@ -12,7 +12,7 @@
 
 - 현재 기준은 이 문서와 저장소의 `index.html`이다. 예전 공유 아티팩트는 최신 상태가 아니다.
 - **구현 완료**
-  - 브리핑(첫 질문 제한), 현장 NPC와 카메라 전환, 다섯 캐릭터 PNG와 숨쉬기·발화 애니메이션.
+  - 브리핑(첫 질문 제한), 현장 NPC와 카메라 전환, 여섯 캐릭터 PNG(참고인 오리 아저씨 포함)와 숨쉬기·발화 애니메이션.
   - 네 장소 배경 + 아래로 이어 그린 바닥, 증거 확대 촬영·셔터음·탐정 나레이션.
   - 서류철 모양 노트와 서류 뒤에 꽂힌 인덱스 탭.
   - **마지막까지 질문마다 조용히 확인 → 오답은 같은 노트에서 다시 듣고 수정 → 정답 정보 해금. 전체 기록은 Note로 직접 열기.**
@@ -134,8 +134,9 @@ node server.js            # http://localhost:5173/
 - **증거 노트**는 최신순이다. 사진(장소 그림을 잘라 낸 SVG), 영어 설명, `해석` 토글로 구성된다.
 - **증거는 인물을 열지 않는다.** 문의 주황색 털을 찍어도 피오나가 열리지 않는다. 피오나는 두더지 부인의 셋째 대답을 바르게 받아 적으면 열린다.
 - **현장의 NPC**
-  - 장소마다 알려진 인물이 전신으로 서 있다: 도서관 오소리·두더지, 빵집 피오나, 카페 레이, 언덕 로지.
-  - 레이는 카페 의자와 겹치지 않게 x 60, 발 92에 둔다.
+  - 장소마다 알려진 인물이 전신으로 서 있다: 도서관 오소리·두더지, 빵집 피오나, 카페 레이·오리 아저씨, 언덕 로지.
+  - 레이는 카페 의자와 겹치지 않게 x 60, 발 92에 둔다. 오리 아저씨는 카운터 앞 x 38, 발 93이다.
+- **카페 단서는 포스터 하나다.** 오리 아저씨의 진술은 촬영하지 않고 대화로 듣는다(3.8절).
   - NPC를 누르면 대화로 들어간다.
 
 ### 3.6 마을 지도
@@ -154,18 +155,26 @@ node server.js            # http://localhost:5173/
 
 ### 3.7 범인 지목과 복습
 
-- `범인 지목하기`는 동료 경찰·목격자를 포함한 모든 인물의 모든 질문 기록을 확인하여 대화가 끝났을 때만 지도에 나타난다. 대화가 남아 있으면 비활성화 표시 대신 버튼 자체를 숨긴다. `allConversationsDone()`으로 화면 표시와 지목 처리 모두 검사하며, 증거 수집 완료는 조건이 아니다.
-- 알게 된 인물 중에서 고른다(동료 제외). 결과창은 정답/오답만 알려 준다.
+- `범인 지목하기`는 동료 경찰·목격자를 포함한 모든 인물(참고인 제외)의 모든 질문 기록을 확인하여 대화가 끝났을 때만 지도에 나타난다. 대화가 남아 있으면 비활성화 표시 대신 버튼 자체를 숨긴다. `allConversationsDone()`으로 화면 표시와 지목 처리 모두 검사하며, 증거 수집 완료는 조건이 아니다.
+- 알게 된 인물 중에서 고른다(동료·참고인 제외). 결과창은 정답/오답만 알려 준다.
 - **정답이면 `복습하기`로 복습 화면을 연다(`openReview()`)**
   - 별점: 각 질문 첫 제출 결과를 합산한 정확도로 1–3개(90% / 70% 기준).
   - 인물별 대사 원문, ▶ 다시 듣기, `해석`(`ANSWERS_KO`).
   - 노트 문장: 첫 채점 때 틀린 칸은 "~~내가 쓴 답~~ 정답"으로 보여 준다.
   - 사건이 끝난 뒤라 원문·해석 공개가 허용된다.
 
+### 3.8 참고인 (Mr. Duck)
+
+- 물건·흔적은 현장 조사 → 촬영 → 증거 노트, **사람의 진술은 NPC에게 질문 → 음성 → 받아 적기**로 나눈다.
+- 오리 아저씨(`duck`, 카페 주인)는 `witness:true`인 참고인이다. 레이의 q2(`Can anyone prove that?`)를 바르게 받아 적으면 카페에 나타나고, 같은 현장이라 카메라로 소개한다.
+- 질문 2개(사용자 결정): d1 `Was Ray here tonight?` → 8시–9시 30분 무대에서 기타. d2 `Did he leave the stage?` → 한 번도 안 떠남, 밤새 카운터 뒤에서 지켜봄, 열두 곡. 새 장소·인물을 열지 않는다.
+- 참고인은 범인 지목 목록(`suspects()`)에 나오지 않고, 대화를 마치지 않아도 `범인 지목하기`가 열린다(사용자 결정: 선택 대화). 대화했으면 복습 화면에는 나온다.
+
 ## 4. 반드시 지킬 설계 규칙 (사용자 결정 사항)
 
 - **사건 정보는 인물과의 대화, 현장 증거로만 알 수 있다.** 팝업·안내창·결과창·이름표·토스트에 사건의 전말, 시각, 장소, 인물의 직업·알리바이를 쓰지 않는다. 결과창은 정답/오답만, 현장 이름표는 이름만 보여 준다. 진상은 나중에 **범인의 자백 대사(음성)**로 공개한다.
 - **장소·인물은 그 대사를 노트에 바르게 받아 적어야(채점 통과) 열린다.** 대답을 듣는 것만으로는 열리지 않는다.
+- **물건·흔적은 촬영해 증거 노트에, 사람의 진술은 NPC 대화로 받아 적는다.** 진술을 사진 증거로 만들지 않는다.
 - **증거는 누구의 것인지 알려 주지 않는다.** 단서는 사실만 기록하고 범인을 가리키는 인물을 열지 않는다. 증거와 인물을 잇는 것은 플레이어의 추리다.
 - **용의자를 미리 정해 붙잡아 두지 않는다.** 인물은 각자 자기 장소에 있다.
 - **채점은 마지막까지 질문마다 조용히 한다.** `기록 완료`를 누르기 전에는 맞고 틀림을 드러내지 않는다. 오답은 같은 노트에서 다시 듣고 수정하며 정답·오답 팝업은 사용하지 않는다. 전체 기록은 자동으로 펼치지 않고 `Note`로 직접 연다.
@@ -183,9 +192,9 @@ node server.js            # http://localhost:5173/
 | 이름 | 내용 |
 |---|---|
 | `QUESTIONS` | 용의자 공통 질문 3개(q1 어디 있었나 / q2 증명해 줄 사람 / q3 피해자와의 관계) |
-| `PEOPLE` | 인물별: `place`, `hello`, `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner` |
-| `ANSWERS_KO` | 대답 15줄의 한국어. 복습 화면에서만 쓴다 |
-| `SPRITES` | 다섯 인물 PNG 경로·크기·얼굴 아이콘 viewBox·가로 중심 `anchor`·입 좌표 `mouth` |
+| `PEOPLE` | 인물별: `place`, `hello`, `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 지목 대상 아님·대화 선택) |
+| `ANSWERS_KO` | 대답 17줄의 한국어. 복습 화면에서만 쓴다 |
+| `SPRITES` | 여섯 인물 PNG 경로·크기·얼굴 아이콘 viewBox·가로 중심 `anchor`·입 좌표 `mouth` |
 | `NPC_POSITIONS` | 배경 기준 가로 위치·발 위치·전신 높이(%). 대화와 현장에서 같은 좌표 |
 | `PLACES` | 지도 핀 `x,y`(지도 그림 %), `clues`(label/en/ko/`audio`), 누르는 영역 `spots`(%), 촬영 범위 `spots.photo`(원본 좌표, 4:3) |
 | `ART`, `ART_FLOOR` | 장소 그림 SVG(1376×768 PNG + 덧그림), 장소별 바닥 확장 그림과 높이 |
@@ -223,7 +232,7 @@ node server.js            # http://localhost:5173/
 | `unlock(u, quiet)` | 장소·인물 열기. 새로 열린 장소와 인물 ID 목록을 돌려준다 |
 | `revealDiscoveries()`, `presentDiscovery()`, `finishDiscovery(showMap)`, `afterMotion()` | 노트 전환 뒤 같은 현장 인물 초점 또는 지도 통합 안내, 중단·원래 화면 복귀 |
 | `revealPins()` | 지도를 열고 새 핀 강조 |
-| `allConversationsDone()` | `PEOPLE_ORDER` 전체의 `phase === 'done'` 검사. 지도 지목 버튼 표시·지목 처리 조건 |
+| `allConversationsDone()` | 참고인을 뺀 `PEOPLE_ORDER`의 `phase === 'done'` 검사. 지도 지목 버튼 표시·지목 처리 조건 |
 | `openReview()`, `replayLine()` | 복습 화면, 노트·복습의 문장별 다시 듣기 |
 | `speak(text, key, who)` | `spk(who).audio[key]`가 있으면 mp3, 없으면 브라우저 TTS. 보통 1 / 천천히 0.75배속 |
 | `setTalking()`, `stopVoice()` | 발화 애니메이션(`talker`)과 음성 정지. `speechTurn`으로 취소된 TTS 이벤트 방어 |
@@ -249,6 +258,7 @@ node server.js            # http://localhost:5173/
 | Fiona Fox | Petra | 4줄 완료 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정 미적용, 사용자 확인 대기) |
+| Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
 - **증거 나레이션**: 도서관 창문(`detective-library-window.mp3`, 사용자 제공), 시계(`detective-library-clock.mp3`), 문(`detective-library-door.mp3`, 둘 다 MiniMax Grady, 사용자 제작). `PLACES.clues[].audio`로 연결한다. 나머지 장소 증거는 나레이션 없음.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
@@ -263,11 +273,12 @@ node server.js            # http://localhost:5173/
 |---|---|---|
 | 도서관 | `places/library-higgsfield-v2.png` | 사용자 제작, 1376×768 |
 | 빵집 | `places/bakery-higgsfield.png` | 사용자 제작, 1376×768 |
-| 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768 |
+| 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768. 카페는 카운터 뒤 오리를 지운 판(원본 `cafe-higgsfield-with-duck.png`) |
 | 바닥 확장 | `places/<id>-floor.jpg` | outpaint로 원본 아래를 이어 그림(높이 370–725). 원본 `*-outpaint-original.png` |
 | 마을 지도 | `places/village-map-higgsfield.png` | Claude 제작, 768×1376, 글자 없음 |
 | 동료 경찰 | `characters/sgt-badger-higgsfield.png` | 1060×1484 |
 | 두더지·여우·너구리·토끼 | `characters/<id>-higgsfield.png` | Claude 제작. 흰 스티커 테두리를 지운 버전(408×620, 439×621, 509×628, 316×661). 이전 `*-sticker.png` |
+| 오리 아저씨 | `characters/duck-higgsfield.png` | Claude 제작, 447×694, 투명 배경. 원본 `duck-higgsfield-original.png` |
 | 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠, 오른쪽 위 클립 |
 | 인덱스 탭 | `ui/tab-1.png` … `tab-6.png` | 흰 손그림 탭. CSS 마스크 + 곱하기로 인물 색을 입힌다 |
 
@@ -331,11 +342,6 @@ node server.js            # http://localhost:5173/
 
 ### 10.1 최근 논의 — 미구현·미확정 사항
 
-- **미스터 덕 등 증언 인물의 NPC 전환**
-  - 사용자가 다른 인물의 진술도 NPC 방식으로 나와야 하지 않겠느냐고 제안했다. 아직 적용 요청·작업은 없었다.
-  - 현재 미스터 덕은 `PEOPLE`에 없고 카페의 두 번째 `clues`/`spots`에 진술이 들어 있다. 누르면 다른 물건과 마찬가지로 촬영·증거 노트 저장을 한다.
-  - 제안한 흐름: 레이 q2를 바르게 기록 → 미스터 덕 해금 → 카페 NPC에게 질문·음성 듣기·받아 적기로 레이의 주장을 확인. 물건·흔적은 촬영, 사람의 말은 대화 노트로 구분한다. 단순히 이름만 언급된 인물 전부를 추가할 필요는 없다는 제안이다.
-  - 적용 전에 덕의 그림·목소리·질문·노트와 필수 대화 범위를 정해야 한다. 현재 `suspects()`는 동료 외 모든 인물을 선택창에 넣으므로 참고인 역할을 별도로 설계해야 하며, `allConversationsDone()`의 필수 대화 대상도 함께 검토한다.
 - **범인 검거 성공 뒤 스토리 연출**
   - 사용자가 엔딩 스토리 연출을 원했고 아이디어 몇 가지를 요청했다. 아직 안을 선택하거나 구현을 지시하지 않았다. 현재 성공 뒤에는 기존 정답 결과창과 `복습하기 / 사건 목록으로`만 나온다.
   - 제안 ① 범인의 침묵 뒤 영어 음성 자백 ② 자백과 함께 시계·잼·털 단서를 연결하는 비폭력적 회상 ③ 동료 경찰의 마무리 대사와 수첩 `CASE CLOSED` 도장·닫힘 ④ 다음 날 도서관에서 피해자를 기억하는 짧은 후일담.
