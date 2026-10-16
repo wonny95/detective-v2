@@ -96,7 +96,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.partner .bubble::after{left:70px}
 @keyframes pop-side{from{transform:scale(.85);opacity:0}}
 /* phase title card (case start / each suspect coming in) */
-.app.ending .chip,.app.ending #hint,.app.ending .nav{visibility:hidden}
+.app.ending .chip,.app.ending #hint{visibility:hidden}
+/* the map/Note bar is gone during the ending, so the scene runs to the bottom edge */
+.app.ending .nav{display:none}
 .end-tools{display:flex;justify-content:flex-end;gap:8px}
 .end-ko{margin:0;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.45;box-shadow:2px 3px 0 rgba(74,54,40,.2)}
 .ask-panel .end-leave{align-self:center}
@@ -2127,7 +2129,7 @@ function renderSceneHead(){
 }
 
 /* ---------- how-to-play tutorial ----------
-   Three steps, one at a time, each with a picture guide. Shown automatically only the first
+   Four steps, one at a time, each with a picture guide. Shown automatically only the first
    time on this device; later cases start from the case card. Pictures use generic examples,
    never this case's people, places or facts. */
 const TUT_KEY = 'pioo.tutorialSeen';
@@ -2136,7 +2138,7 @@ const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e)
 const T_INK = `stroke="${INK}" stroke-width="2"`;
 const TUT = [
   { title:'듣고 질문해요',
-    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 잘 안 들리면 <b>오른쪽 위 도토리 힌트</b>를 눌러 말풍선 자막을 볼 수 있어요. 한 사람당 3번이에요.',
+    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 노트 위의 <b>다시 듣기 · 천천히</b>로 몇 번이든 다시 들을 수 있어요. 그래도 어려우면 <b>오른쪽 위 도토리 힌트</b>로 자막을 볼 수 있어요(한 사람당 3번).',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="10" y="18" width="120" height="120" viewBox="40 22 120 120">${charSVG('badger')}</svg>
       <g fill="none" stroke="${INK}" stroke-width="2.5" stroke-linecap="round">
@@ -2158,7 +2160,7 @@ const TUT = [
       <text x="70" y="166" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">글자 없이 소리로만</text>
     </svg>` },
   { title:'Note에 받아 적어요',
-    text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 끌어다 놓거나</b> 빈칸을 눌러 직접 써요. 빈칸을 다 채우고 <b>기록 완료</b>를 눌러야 다음 질문이 나와요.',
+    text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 끌어다 놓거나</b> 빈칸을 눌러 직접 써요. <b>기록 완료</b>를 누르면 그 질문을 확인해요. 틀린 칸에는 <b>점선 밑줄</b>이 생기니 다시 듣고 고쳐요. <b>바르게 적어야</b> 새 장소와 인물이 나타나요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <g filter="url(#wob)" ${T_INK}><rect x="14" y="16" width="292" height="78" rx="12" fill="#FFFDF7"/></g>
       <path d="M40 18 V92" stroke="#C96F86" stroke-width="2" opacity=".6"/>
@@ -2178,7 +2180,7 @@ const TUT = [
       <text x="160" y="170" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">단어 카드를 빈칸으로 끌어다 놓기</text>
     </svg>` },
   { title:'찾아가서 조사해요',
-    text:'<b>하단 지도 버튼</b>으로 마을 지도를 열어 장소를 골라요. 그림을 눌러 <b>증거</b>를 찾고, 그곳에 있는 <b>인물</b>과도 이야기할 수 있어요. 대화와 증거 속에서 새 장소와 인물이 나타나요.',
+    text:'<b>하단 지도 버튼</b>으로 마을 지도를 열어 장소를 골라요. 수상한 곳을 누르면 사진을 찍어 <b>증거 노트</b>에 남겨요. 그곳에 있는 <b>인물</b>과도 이야기할 수 있어요. 증거가 누구 것인지는 직접 추리해요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <g filter="url(#wob)" ${T_INK}>
         <rect x="14" y="18" width="118" height="114" rx="12" fill="#DDE8C9"/>
@@ -2199,6 +2201,29 @@ const TUT = [
       <text x="212" y="128" font-family="Gaegu, cursive" font-weight="700" font-size="15" fill="${INK}">대화하기</text>
       <text x="73" y="158" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">지도에서 장소 고르기</text>
       <text x="241" y="158" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">증거 찾기 · 인물과 대화</text>
+    </svg>` },
+  { title:'증거로 범인을 밝혀요',
+    text:'모든 인물과 이야기를 마치면 지도에 <b>범인 지목하기</b>가 나타나요. 범인을 고르면 대질이 시작돼요. 상대의 말이 거짓이면 <b>증거 내밀기</b>로 맞는 증거를 보여 줘요. <b>틀린 증거를 내밀면 처음부터</b> 다시 물어야 해요.',
+    fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
+      <g filter="url(#wob)" ${T_INK}>
+        <circle cx="62" cy="62" r="30" fill="#E8DCCB"/>
+        <path d="M24 150 C24 112 40 96 62 96 C84 96 100 112 100 150Z" fill="#DCE3F0"/>
+        <rect x="112" y="22" width="96" height="34" rx="12" fill="#FFFDF7"/>
+      </g>
+      <circle cx="52" cy="58" r="3" fill="${INK}"/><circle cx="72" cy="58" r="3" fill="${INK}"/>
+      <path d="M54 74 q8 6 16 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>
+      <path d="M120 56 L108 68 L132 56" fill="#FFFDF7" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
+      <text x="160" y="44" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="${INK}">I was home!</text>
+      <g class="drag" transform="rotate(-6 250 86)">
+        <rect x="206" y="44" width="88" height="80" fill="#FFFDF7" ${T_INK}/>
+        <rect x="214" y="52" width="72" height="52" fill="#9C7656"/>
+        <path d="M222 94 l14 -16 l12 10 l10 -8 l20 14" fill="none" stroke="#F2CF73" stroke-width="3" stroke-linejoin="round"/>
+      </g>
+      <circle class="pulse" cx="250" cy="84" r="50" fill="none" stroke="#C96F86" stroke-width="3"/>
+      <path d="M196 92 H122 M130 86 L122 92 L130 98" fill="none" stroke="${INK}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g filter="url(#wob)" ${T_INK}><rect x="196" y="138" width="110" height="30" rx="13" fill="#8DB48E"/></g>
+      <text x="251" y="158" text-anchor="middle" font-family="Jua, sans-serif" font-size="13" fill="${INK}">증거 내밀기</text>
+      <text x="62" y="170" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">거짓말에 증거로 반박</text>
     </svg>` }
 ];
 let tutStep = 0, tutThenStart = false;
