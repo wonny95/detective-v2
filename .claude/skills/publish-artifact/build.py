@@ -1,10 +1,10 @@
 """Build the artifact copy of the game.
 
-usage: python -I build.py <project dir> <out dir> <title> [--keep-dev]
+usage: python -I build.py <project dir> <out dir> <title> [--hide-dev]
 
 - copies index.html with the given <title>, without the <!doctype>/<html>/<head>/<body> wrapper tags
   (the artifact host adds its own document skeleton)
-- hides the test buttons outside the phone frame unless --keep-dev
+- keeps the test buttons outside the phone frame (user decision); --hide-dev hides them
 - finds every assets/... and audio/... file the page references and writes files.json:
   {"<published path>": "<absolute source path>"} for the Artifact tool's `files`
 - prints the page path, the file count and the total size, and fails on a missing file or a size limit
@@ -12,7 +12,7 @@ usage: python -I build.py <project dir> <out dir> <title> [--keep-dev]
 import json, os, re, sys
 
 project, out, title = sys.argv[1], sys.argv[2], sys.argv[3]
-keep_dev = '--keep-dev' in sys.argv[4:]
+keep_dev = '--hide-dev' not in sys.argv[4:]
 
 src = open(os.path.join(project, 'index.html'), encoding='utf-8').read()
 
