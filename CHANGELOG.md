@@ -13,7 +13,16 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-16 19:55 · Claude · (이 커밋)
+## 2026-10-16 20:05 · Claude · (이 커밋)
+
+- 사용자 요청: GitHub 푸시 스킬을 만들었다(`.claude/skills/push-github/SKILL.md`). 사용자 결정은 비공개 저장소, 요청할 때만 푸시.
+  - 순서: 미커밋이면 `/wrap-up` → main·origin 확인 → 비밀 값·큰 파일 점검 → `git fetch`(GitHub 쪽만 앞서면 fast-forward, 갈라지면 멈춤) → `git push -u origin main` → 상태 확인·보고. 강제 푸시 금지. 로그인은 사용자가 직접 한다(Git Credential Manager).
+  - 원격 `origin = https://github.com/wonny95/pioo.git`을 추가했다. **아직 푸시하지 않았다**(사용자 요청).
+  - 지금 파일과 전체 이력에서 비밀 값 패턴 없음. 가장 큰 파일은 약 7MB.
+- `AGENTS.md`의 "원격 저장소는 없다"를 고치고, 푸시 규칙을 넣었다. `HANDOFF.md` 2·9절에 저장소를 적었다.
+- **다음**: 사용자 지시 대기(푸시는 요청 시 `/push-github`). 남은 질문: "다른 NPC 말하는 연출"의 뜻, confess1 테이크 선택, 아티팩트 공유 설정·동작 확인.
+
+## 2026-10-16 19:55 · Claude · 46ccdbc
 
 - 사용자 요청: 아티팩트 배포. `publish-artifact` 절차대로(이 대화에선 슬래시 명령이 아직 없어 직접 따름) 새 아티팩트 `영어듣기 추리 게임 앱_261016`을 만들었다: https://claude.ai/artifact/CwgyEH4tqLa4kNJaxHyRi6
   - 기준 커밋 `cfb1001`, 테스트 버튼 포함, 그림·음성 58개 + 페이지 = 59개 파일 업로드 확인.

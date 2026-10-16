@@ -75,7 +75,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 git log --oneline -1
 ```
 
-- 브랜치를 만들지 않는다. 원격 저장소가 없으므로 push하지 않는다.
+- 브랜치를 만들지 않는다. 마무리에서는 push하지 않는다. GitHub 푸시는 사용자가 요청할 때만 `/push-github`로 한다.
 - 다른 에이전트의 미커밋 파일이 있었다면 `git add -A` 대신 이번 작업 파일만 지정해 넣는다.
 - 훅이 실패하면 우회하지 말고 원인을 고친다.
 

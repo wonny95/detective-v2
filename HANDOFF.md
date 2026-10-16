@@ -65,6 +65,7 @@ node server.js            # http://localhost:5173/
 | `AGENTS.md` | 에이전트용 작업 규칙·시작/마무리 절차(Codex가 자동으로 읽음) |
 | `CLAUDE.md` | Claude Code용 진입 파일. `AGENTS.md`를 불러온다 |
 | `.claude/skills/publish-artifact/` | 아티팩트 배포 스킬(`SKILL.md`)과 배포본 빌드 스크립트(`build.py`). 제목 `영어듣기 추리 게임 앱_YYMMDD`, 같은 날짜는 덮어쓰기 |
+| `.claude/skills/push-github/SKILL.md` | GitHub 비공개 저장소에 `main` 푸시(요청할 때만). 먼저 받고, 강제 푸시 금지 |
 | `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
 
 ## 3. 현재 앱 흐름
@@ -348,6 +349,8 @@ node server.js            # http://localhost:5173/
 7. 대화가 남은 상태에서는 지도에 지목 버튼이 없는지, 모든 대화 완료 뒤에는 버튼과 선택창이 열리는지 확인한다.
 
 ## 9. 관련 링크
+
+- **GitHub**(비공개): https://github.com/wonny95/pioo — 원격 `origin`이 설정돼 있다. 사용자가 요청할 때만 `/push-github`로 푸시한다.
 
 - **기획서**(Claude Docs): https://claude.ai/code/artifact/08bcf0e7-0d78-4add-818f-21d70acf3db7 — 앱 프로세스, 단계별 규칙, 결정이 필요한 사항. 채점·해금 방식은 이 문서(3.4)가 더 최신이다.
 - **아티팩트 배포**(사용자 결정): 사용자가 요청할 때만 한다. **날짜마다 아티팩트 하나**, 제목은 `영어듣기 추리 게임 앱_YYMMDD`(한국 시간). 같은 날 다시 배포하면 그 아티팩트를 덮어쓴다. 먼저 작업 마무리(커밋)를 하고 배포한다. 절차는 `.claude/skills/publish-artifact/SKILL.md`(Claude Code에서 `/publish-artifact`). 그림·음성은 `build.py`가 찾아 `files`로 함께 올린다. 테스트 버튼은 기본으로 보인다.
