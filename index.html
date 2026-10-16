@@ -953,6 +953,7 @@ const S = {
   known:new Set(),   // places someone has mentioned — only these appear on the map
   met:['badger'],    // people the player knows about
   mood:{},           // a person shown with another expression (ending)
+  visit:{},          // a person standing somewhere else for a scene: { id:{ place, x, floor, height } } (ending)
   per:Object.fromEntries(PEOPLE_ORDER.map(id => [id, newSpeakerState()]))
 };
 const $ = s => document.querySelector(s);
@@ -1065,10 +1066,10 @@ function animateCamera(art, from, to){
 function focusCamera(fromRect, glide = false){
   if(S.investigate) return;
   const subject = discoveryPerson || S.cur;
-  const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(spk(subject).place);
+  const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(placeIdOf(subject));
   const width = viewport.clientWidth, height = viewport.clientHeight;
   if(!width || !height) return;
-  const position = NPC_POSITIONS[subject];
+  const position = positionOf(subject);
   const worldWidth = place.artWidth || 900, worldHeight = place.artHeight || 600;
   // Note closed: a 44%-tall NPC fills 58% of the scene with the feet just above the question
   // buttons. Note open: it shrinks to 46% with the head just under the top chips, so the face
@@ -1077,9 +1078,22 @@ function focusCamera(fromRect, glide = false){
   const notes = $('#app').classList.contains('notes-open');
   const share = notes ? .46 : .58, headTop = notes ? .07 : .16;
   const fullHeight = worldHeight + (ART_FLOOR[place.id]?.h || 0);
-  const scale = Math.max(width / worldWidth, height / fullHeight, height * share / (worldHeight * Math.max(44, position.height) / 100));
-  const left = Math.min(0, Math.max(width - worldWidth * scale, width / 2 - worldWidth * position.x / 100 * scale));
-  const top = Math.min(0, Math.max(height - fullHeight * scale, height * headTop - worldHeight * (position.floor - position.height) / 100 * scale));
+  const minScale = Math.max(width / worldWidth, height / fullHeight);
+  let scale = Math.max(minScale, height * share / (worldHeight * Math.max(44, position.height) / 100));
+  let centerX = position.x, top = null;
+  // the ending: everyone in the scene (Fiona and the partner who came along) stays in one wider shot
+  const group = ending && !discoveryPerson ? peopleAt(place.id) : [];
+  if(group.length > 1){
+    const boxes = group.map(id => npcBox(id, place));
+    const l = Math.min(...boxes.map(b => b.left)), r = Math.max(...boxes.map(b => b.right));
+    scale = Math.max(minScale, Math.min(scale, width / (worldWidth * (r - l) / 100 * 1.06)));
+    centerX = (l + r) / 2;
+    // feet just above the buttons (or above the notebook), like a single conversation shot
+    top = height * (notes ? .42 : .76) - worldHeight * Math.max(...group.map(id => positionOf(id).floor)) / 100 * scale;
+  }
+  top ??= height * headTop - worldHeight * (position.floor - position.height) / 100 * scale;
+  const left = Math.min(0, Math.max(width - worldWidth * scale, width / 2 - worldWidth * centerX / 100 * scale));
+  top = Math.min(0, Math.max(height - fullHeight * scale, top));
   const bounds = viewport.getBoundingClientRect();
   const from = fromRect?.width ? `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / worldWidth})`
     : glide ? getComputedStyle(art).transform : null;
@@ -1087,7 +1101,7 @@ function focusCamera(fromRect, glide = false){
 }
 function renderStage(fromRect){
   $('#app').classList.toggle('partner', !!cur().partner);
-  renderScene(spk(discoveryPerson || S.cur).place);
+  renderScene(placeIdOf(discoveryPerson || S.cur));
   const art = $('#art');
   $('#talkCamera').appendChild(art);
   art.inert = true;
@@ -1552,7 +1566,9 @@ function renderPlaces(){
     map.appendChild(b);
   });
 }
-const peopleAt = placeId => S.met.filter(id => spk(id).place === placeId);
+const placeIdOf = id => S.visit[id]?.place || spk(id).place;
+const positionOf = id => S.visit[id] || NPC_POSITIONS[id];
+const peopleAt = placeId => S.met.filter(id => placeIdOf(id) === placeId);
 // Hearing a line or finding a clue can reveal places and people ({ places:[…], people:[…] }).
 // A newly known person brings their place onto the map.
 function unlock(u, quiet){
@@ -1673,14 +1689,15 @@ $('#accuse').addEventListener('click', e => {
 });
 $('#result').addEventListener('click', e => {
   if(e.target.closest('[data-close-result]')) $('#result').hidden = true;
+  if(e.target.closest('[data-solved], [data-review]')) S.visit = {};   // the partner goes back to the library
   if(e.target.closest('[data-solved]')){ markSolved(CASES[0].id); $('#result').hidden = true; openCaseList(); }
   if(e.target.closest('[data-review]')){ markSolved(CASES[0].id); $('#result').hidden = true; openReview(); }
 });
 
 /* ---------- ending ----------
    Right accusation: ① at the bakery the player answers each of Fiona's claims with a photo from the
-   evidence notebook (a wrong photo: she brushes it off, no penalty) → ② she confesses → ③ Sgt. Badger
-   closes the case at the library (CASE CLOSED stamp) → ④ result → review.
+   evidence notebook (a wrong photo: she brushes it off and the questioning starts over) → ② she confesses → ③ Sgt. Badger,
+   who came along to the bakery, closes the case (CASE CLOSED stamp) → ④ result → review.
    What happened is told only by these lines. 해석 appears only once she has confessed.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
 const ENDING = {
@@ -1706,7 +1723,7 @@ const confrontMood = round => round >= 2 ? 'nervous' : null;
 function setMood(id, mood){
   if((S.mood[id] || null) === mood) return;
   if(mood) S.mood[id] = mood; else delete S.mood[id];
-  if(!S.investigate) renderScene(spk(S.cur).place);
+  if(!S.investigate) renderScene(placeIdOf(S.cur));
 }
 
 function endingControls(){
@@ -1733,18 +1750,23 @@ function endingSay(line, mood){
   ending.line = line; ending.ko = false;
   if(mood !== undefined){ if(mood) S.mood[line.who] = mood; else delete S.mood[line.who]; }
   if(ending.shown !== line.who || S.investigate){
+    const samePlace = ending.shown && !S.investigate && placeIdOf(ending.shown) === placeIdOf(line.who);
     ending.shown = line.who;
     stopVoice(); S.cur = line.who; S.view = line.who; S.sel = null;
     openSheet(null); setNotes(false);
     if(S.investigate) setInvestigate(false);
-    renderStage();
+    if(samePlace){ $('#app').classList.toggle('partner', !!cur().partner); focusCamera(null, true); }
+    else renderStage();
   }
-  else if(mood !== undefined) renderScene(spk(S.cur).place);
+  else if(mood !== undefined) renderScene(placeIdOf(S.cur));
   renderDock();
   endTimer = setTimeout(() => { if(ending?.line === line) speak(line.en, line.key, line.who); }, 500);
 }
+// Sgt. Badger comes along to the bakery and stands by the counter, left of Fiona
+const ENDING_VISIT = { badger:{ place:'bakery', x:45, floor:93, height:44 } };
 function startEnding(){
   ending = { step:'confront' };
+  S.visit = { ...ENDING_VISIT };
   endingRound = 0;   // the questioning always starts from her first claim
   $('#app').classList.add('ending');
   endingSay(fionaLine(ENDING.confront[0]), null);
@@ -1758,6 +1780,7 @@ function wrongAccusation(id){
 function leaveEnding(){
   clearTimeout(endTimer); stopVoice();
   ending = null; $('#app').classList.remove('ending');
+  S.visit = {};
   setMood('fiona', null);
   enterPlace(cur().place, true);
   openSheet('map');
@@ -1816,7 +1839,7 @@ function caseClosedStamp(){
 function finishEnding(){
   clearTimeout(endTimer); stopVoice();
   ending = null; $('#app').classList.remove('ending');
-  S.mood = {};
+  S.mood = {};   // the result card opens over the bakery with both of them still there
   renderDock();
   markSolved(CASES[0].id);
   $('#resultCard').innerHTML = `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
@@ -1934,6 +1957,13 @@ const ART_FLOOR = {
 
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
 
+// a person's on-picture box in % of the picture: left/right of the sprite, top of the head, plus its height
+function npcBox(id, pl){
+  const position = positionOf(id), sprite = SPRITES[spriteKey(id)], height = position.height * (sprite?.height || 1);
+  const width = height * (pl.artHeight || 600) / (pl.artWidth || 900) * (sprite ? sprite.w / sprite.h : .5);
+  const left = position.x - width * (sprite?.anchor ?? .5);
+  return { left, right:left + width, top:position.floor - height, width, height };
+}
 function renderScene(placeId = S.place){
   const pl = placeOf(placeId), art = $('#art');
   if(!pl){ art.innerHTML = ''; return; }
@@ -1954,8 +1984,7 @@ function renderScene(placeId = S.place){
     pl.spots.map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
     people.map(id => {
-      const position = NPC_POSITIONS[id], sprite = SPRITES[spriteKey(id)], height = position.height * (sprite?.height || 1);
-      const width = height * (pl.artHeight || 600) / (pl.artWidth || 900) * (sprite ? sprite.w / sprite.h : .5);
+      const position = positionOf(id), sprite = SPRITES[spriteKey(id)], { width, height } = npcBox(id, pl);
       return `<button class="scene-npc" type="button" data-talk="${id}" style="left:${position.x}%;bottom:${100 - position.floor}%;height:${height}%;width:${width}%;transform:translateX(-${(sprite?.anchor ?? .5) * 100}%)" aria-label="${esc(spk(id).name)}와 대화">${fullSVG(id)}<span>${esc(spk(id).name)}</span></button>`;
     }).join('');
 }
