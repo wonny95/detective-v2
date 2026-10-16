@@ -55,8 +55,11 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 
 /* ---------- stage ---------- */
 .scene{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column}
-.stage-area{position:absolute;inset:0 0 24%;overflow:hidden;background:var(--paper-2)}
+.stage-area{position:absolute;inset:0;overflow:hidden;background:var(--paper-2)}
 .stage-area .art{width:var(--world-width);height:var(--world-height);transform-origin:0 0;pointer-events:none}
+.art > .art-floor{display:none}
+.stage-area .art-floor,.art-wrap .art > .art-floor{display:block;position:absolute;left:0;top:100%;width:100%;height:auto;pointer-events:none}
+.art-wrap .art{height:calc(100% * var(--art-share, 1))}
 .stage-area .spot,.stage-area .scene-npc span{display:none}
 .stage-area .scene-npc{pointer-events:none}
 .ask-panel{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-direction:column;gap:8px;padding:4px 16px 16px}
@@ -107,22 +110,75 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
 /* ---------- docked notebook (Note) ---------- */
 /* Note = a notebook the detective pulls up from the bottom (sketch 3) */
-.dock{position:absolute;left:10px;right:10px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;background:#FFFDF7;border:3px solid var(--ink);border-bottom:0;border-radius:14px 18px 0 0;box-shadow:-4px -4px 0 rgba(74,54,40,.12);transform:translateY(calc(100% + 48px));transition:transform .55s cubic-bezier(.2,.9,.3,1.05)}
+/* The case-file picture (assets/ui/casefile-panel.webp: navy folder with one cream sheet, header strip
+   at the top, paper clip top right) is scaled to the panel width, so the padding and the header height
+   are % of the width (padding % always refers to width): sheet top 7.9%, header strip 13.6%, sheet
+   from 6.5% to 93.8%. */
+.dock{position:absolute;left:6px;right:6px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;box-sizing:border-box;padding:7.9% 9% 0 9.5%;transform:translateY(calc(100% + 48px));transition:transform .55s cubic-bezier(.2,.9,.3,1.05)}
+/* the picture is a ::before layer so the index tabs (z-index -1) can sit behind it and peek over the folder */
+.dock::before{content:"";position:absolute;inset:0;z-index:0;background:url(assets/ui/casefile-panel.webp) top center/100% auto no-repeat;pointer-events:none}
+.dock-head,.dock-body{position:relative;z-index:1}
 .app.notes-open .dock{transform:translateY(0)}
 .app.investigate .dock{height:80%}
-.dock-head{flex:none;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 8px;padding:10px 12px;border-bottom:2px solid var(--line)}
+.dock-head{flex:none;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 8px;aspect-ratio:81.5 / 13.6;padding:0 2px}
 .dock-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px;display:flex;align-items:center;gap:6px}
 .dock-head h2 svg{width:24px;height:24px}
-.dock-close{display:block;margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:32px;height:32px;border-radius:50%;font-size:17px;line-height:1}
+.dock-head .finish{margin-left:auto;padding:6px 14px;background:var(--moss);font-size:15px}
+.dock-head .finish[hidden]{display:none}
+/* behind the open notebook the scene darkens toward the bottom, so the notebook stands out from
+   warm floors while the NPC's face at the top stays clear */
+.note-scrim{position:absolute;inset:0;z-index:10;opacity:0;pointer-events:none;transition:opacity .45s;background:linear-gradient(to bottom,rgba(43,30,20,0) 25%,rgba(43,30,20,.45) 75%)}
+.app.notes-open .note-scrim{opacity:1;pointer-events:auto}
+.app.notes-open .chip,.app.notes-open .bubble{z-index:12}
 /* horizontal notebook tabs: the case file + one per person */
-.who{position:absolute;bottom:100%;left:12px;right:12px;display:flex;align-items:flex-end;gap:6px;min-width:0;overflow-x:auto;padding:4px 4px 0;scrollbar-width:none}
+/* Tabs: hand-drawn white paper tabs (assets/ui/tab-1…6.png, cycled) tinted with each page's colour:
+   the PNG masks the button and is multiplied over --tab-bg, keeping the pencil outline and grain. */
+.who{position:absolute;z-index:-1;bottom:100%;margin-bottom:calc(-2.8% - 14px);left:7%;right:22%;display:flex;align-items:flex-end;gap:4px;min-width:0;overflow-x:auto;padding:4px 2px 0;scrollbar-width:none}
 .who::-webkit-scrollbar{display:none}
 .who:empty{display:none}
-.who button{flex:none;width:42px;height:38px;padding:0;border:2px solid var(--ink);border-bottom:0;border-radius:10px 10px 0 0;overflow:hidden;position:relative;background:var(--tab-bg,var(--paper-2));display:grid;place-items:center}
-.who button[aria-pressed="true"]{background:var(--honey);box-shadow:inset 0 -3px 0 var(--ink)}
+.who button{--tab:url(assets/ui/tab-1.png);flex:none;width:46px;height:44px;padding:0;border:0;position:relative;background:var(--tab-bg,var(--paper-2));display:grid;place-items:center;-webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat}
+.who button:nth-child(6n+2){--tab:url(assets/ui/tab-2.png)}
+.who button:nth-child(6n+3){--tab:url(assets/ui/tab-3.png)}
+.who button:nth-child(6n+4){--tab:url(assets/ui/tab-4.png)}
+.who button:nth-child(6n+5){--tab:url(assets/ui/tab-5.png)}
+.who button:nth-child(6n+6){--tab:url(assets/ui/tab-6.png)}
+.who button::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.who button > *{position:relative}
+.who button[aria-pressed="true"]{background:var(--honey);height:52px}
+.who button svg{margin-bottom:10px}
 .who button:disabled{cursor:default;filter:grayscale(1);opacity:.45}
 .who button svg{width:24px;height:24px;display:block;border-radius:50%}
-.dock-body{flex:1;min-height:0;overflow-y:auto;padding:12px 16px 18px;display:flex;flex-direction:column;gap:12px}
+.dock-body{flex:1;min-height:0;overflow-y:auto;padding:12px 2px 18px;display:flex;flex-direction:column;gap:12px}
+/* writing goes straight onto the notebook page: no separate card, keep the pink margin line */
+.dock .note-page{background:none;border:0;border-radius:0;padding-left:4px}
+.dock-head .listen{flex-wrap:nowrap}
+.dock-head .listen[hidden]{display:none}
+.dock-head .listen .pill{padding:5px 10px;font-size:13px}
+.note-page{position:relative}
+.note-page.checked::after{content:"확인됨";position:absolute;top:2px;right:4px;transform:rotate(-10deg);border:3px solid var(--no);border-radius:8px;padding:1px 10px;color:var(--no);font-family:var(--f-display);font-size:18px;opacity:.8;pointer-events:none}
+.mcard.alert{max-width:300px;align-items:stretch;text-align:center}
+.mcard.alert p{font-size:16px;line-height:1.5;padding:6px 0 2px}
+/* checking a finished conversation: the notebook rises to the top (tabs stay visible above it) */
+.app.note-full .dock{height:calc(100% - 50px)}
+.app.note-full .pill.hint,.app.note-full .chip,.app.note-full .bubble{visibility:hidden}
+.note-page.checked::after{animation:stamp-in .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes stamp-in{from{transform:rotate(-10deg) scale(1.8);opacity:0}}
+.replay-q{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:6px;padding:0;vertical-align:middle;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper)}
+.replay-q svg{width:10px;height:10px}
+.review{gap:14px}
+.rv-stars{font-size:30px;line-height:1;letter-spacing:4px;color:#E0A526}
+.rv-person{display:flex;flex-direction:column;gap:10px;padding-top:10px;border-top:2px dashed var(--line)}
+.rv-person h3{margin:0;display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:400;font-size:17px}
+.rv-person h3 .mini{width:30px;height:30px}
+.rv-person h3 small{margin-left:auto;font-size:13px;color:var(--ink-soft)}
+.rv-q{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.rv-label{font-size:11px;color:var(--ink-soft)}
+.mcard .rv-en{font-family:var(--f-hand);font-size:18px;line-height:1.35}
+.mcard .rv-ko{font-size:13px;color:var(--ink-soft)}
+.rv-notes{font-family:var(--f-hand);font-size:17px;line-height:1.45;background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px;align-self:stretch}
+.rv-notes .ok{color:var(--ok)}
+.rv-notes s{color:var(--no)}
+.rv-notes .fix{color:var(--ok);text-decoration:underline}
 .evidence-page{display:flex;flex-direction:column;gap:18px}
 .evidence-page h3{margin:0;font-family:var(--f-display);font-size:18px;font-weight:400}
 .evidence-card{padding:10px;background:#FFFDF7;border:2px solid var(--ink);border-radius:5px;box-shadow:3px 4px 0 rgba(74,54,40,.12)}
@@ -149,6 +205,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .q{width:100%;display:grid;grid-template-columns:28px 1fr;align-items:center;gap:10px;text-align:left;background:#FFFDF7;border:2px solid var(--ink);border-radius:var(--r-wobble);padding:7px 12px 7px 8px;box-shadow:2px 3px 0 rgba(74,54,40,.18)}
 .q:active{transform:translateY(2px);box-shadow:none}
 .q .n{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-size:13px;background:var(--peach)}
+/* a question to ask again after a wrong check: blue number */
+.q.again .n{background:var(--sky)}
 .q .en{display:block;font-family:var(--f-hand);font-weight:700;font-size:19px;line-height:1.1}
 .q .ko{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
 
@@ -170,11 +228,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nblock .qlabel{display:block;font-size:11px;color:var(--ink-soft);padding-top:4px}
 .nline{font-family:var(--f-hand);font-size:20px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
-.blank{font:inherit;font-weight:700;color:var(--berry);border:0;border-bottom:2.5px dashed var(--ink-soft);background:transparent;min-width:3.5em;padding:0 4px;margin:0 2px;text-align:center;border-radius:0}
+/* written answers are in neutral pen ink; a check strikes through only the wrong ones */
+.blank{font:inherit;font-weight:700;color:#34506E;border:0;border-bottom:2.5px dashed var(--ink-soft);background:transparent;min-width:3.5em;padding:0 4px;margin:0 2px;text-align:center;border-radius:0}
 .blank:focus{outline:none;background:rgba(242,207,115,.35)}
 .blank.hot{background:rgba(141,180,142,.35)}
 .blank.ok{border-bottom:2.5px solid var(--ok);color:var(--ok)}
-.blank.no{border-bottom:2.5px solid var(--no);color:var(--no)}
+.blank.no{color:var(--no);text-decoration:line-through 2.5px var(--no)}
 .howto{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.5}
 .bank{display:flex;flex-wrap:wrap;gap:8px}
 .word{touch-action:none;user-select:none;-webkit-user-select:none;border:2px solid var(--ink);border-radius:12px 14px 11px 15px;background:var(--honey);padding:4px 11px;font-family:var(--f-hand);font-weight:700;font-size:18px;box-shadow:2px 2px 0 rgba(74,54,40,.22);cursor:grab}
@@ -184,8 +243,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-60%) rotate(-4deg);opacity:.95}
 .big{width:100%;justify-content:center;font-size:17px;padding:11px 14px;background:var(--berry);color:#FFFDF7}
 .big.green{background:var(--moss);color:var(--ink)}
-.viewing{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;background:var(--paper-2);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 12px}
-.viewing .pill{margin-left:auto}
 
 /* ---------- investigation: one large illustration per place, tap to find clues ---------- */
 .inv{display:none;flex:1 1 auto;min-height:0;flex-direction:column;background:var(--paper)}
@@ -230,24 +287,35 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .mini{width:34px;height:34px;flex:none;border-radius:50%;background:var(--sky);border:2px solid var(--ink);overflow:hidden}
 .mini svg{width:100%;height:100%;display:block}
 
-/* tonight: full-screen map over the whole app (covers the bottom tabs) */
+/* village map: full-screen over the whole app (covers the bottom tabs) */
 .sheet.full{top:0;height:auto;z-index:30;border-top:0;border-radius:0;box-shadow:none}
 /* it grows out of the button that opened it, in that button's rounded shape (--t/--r/--b/--l = the button's edges, set in JS) */
-.sheet.full{transform:none;visibility:hidden;--t:50%;--r:50%;--b:50%;--l:50%;clip-path:inset(var(--t) var(--r) var(--b) var(--l) round 14px);transition:clip-path .42s cubic-bezier(.4,0,.2,1),visibility 0s linear .42s}
-.sheet.full.open{visibility:visible;clip-path:inset(0 0 0 0 round 0);transition:clip-path .6s cubic-bezier(.45,.05,.25,1),visibility 0s}
-.sheet.full > *{transition:opacity .3s .12s}
-.sheet.full:not(.open) > *{opacity:0;transition:opacity .15s}
-.map-head{flex:none;display:flex;align-items:center;gap:10px;padding:12px 16px 8px}
-.map-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:30px;line-height:1}
-.map-head small{display:block;font-size:12px;color:var(--ink-soft)}
+/* container transform: the frame grows out of the map button while the map picture zooms up from
+   the same point (fast start, soft landing); closing shrinks both back into the button */
+.sheet.full{transform:none;visibility:hidden;--t:50%;--r:50%;--b:50%;--l:50%;clip-path:inset(var(--t) var(--r) var(--b) var(--l) round 18px);transition:clip-path .36s cubic-bezier(.3,0,.8,.15),visibility 0s linear .36s}
+.sheet.full.open{visibility:visible;clip-path:inset(0 0 0 0 round 0);transition:clip-path .56s cubic-bezier(.2,0,0,1),visibility 0s}
+.sheet.full .map-stage{transform-origin:var(--ox,50%) var(--oy,100%);transform:scale(.3);opacity:0;transition:transform .36s cubic-bezier(.3,0,.8,.15),opacity .2s linear .16s}
+.sheet.full.open .map-stage{transform:none;opacity:1;transition:transform .56s cubic-bezier(.2,0,0,1),opacity .18s linear}
+.sheet.full .map-head,.sheet.full .map-foot{opacity:0;transition:opacity .12s}
+.sheet.full.open .map-head,.sheet.full.open .map-foot{opacity:1;transition:opacity .3s .32s}
+@media(prefers-reduced-motion:reduce){.sheet.full,.sheet.full .map-stage,.sheet.full .map-head,.sheet.full .map-foot{transition:none!important}}
+/* the map picture (9:16) covers the whole screen; the title and the footer float over it */
+.map-head{position:absolute;top:0;left:0;right:0;z-index:1;display:flex;align-items:center;gap:10px;padding:12px 16px 24px;background:linear-gradient(rgba(251,244,230,.85),rgba(251,244,230,0))}
+.map-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.2;color:var(--ink)}
 .map-head .x{margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:36px;height:36px;border-radius:50%;font-size:18px;line-height:1}
-.map-stage{flex:1;min-height:0;display:flex;padding:4px 16px}
-.map{position:relative;flex:1;border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);overflow:hidden}
-.map > svg{position:absolute;inset:0;width:100%;height:100%}
+.map-stage{position:absolute;inset:0;overflow:hidden;container-type:size;background:#7FA06A}
+.map{position:absolute;left:50%;top:50%;width:max(100cqw, 100cqh * 9 / 16);aspect-ratio:9 / 16;transform:translate(-50%,-50%)}
+.map-art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 .map-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;background:rgba(251,244,230,.92);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 14px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
-.map-foot{flex:none;display:flex;flex-direction:column;gap:4px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:28px 16px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(rgba(251,244,230,0),rgba(251,244,230,.9) 45%)}
 .pin{position:absolute;transform:translate(-50%,-50%);border:2px solid var(--ink);background:var(--paper);border-radius:var(--r-wobble);padding:4px 10px;font-family:var(--f-display);font-size:13px;white-space:nowrap;box-shadow:2px 2px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;align-items:center;gap:3px}
 .pin.crime{background:var(--berry);color:#FFFDF7}
+/* a place that has just become known: the pin pops out, then a honey ring pulses around it */
+.pin.fresh{animation:pin-pop .7s cubic-bezier(.3,1.7,.5,1) .55s both;z-index:2}
+.pin.fresh::after{content:"";position:absolute;inset:-7px;border:3px solid var(--honey);border-radius:20px;opacity:0;pointer-events:none;animation:pin-ring 1.1s ease-out 1.2s 3}
+@keyframes pin-pop{from{transform:translate(-50%,-50%) scale(0)}to{transform:translate(-50%,-50%) scale(1)}}
+@keyframes pin-ring{0%{opacity:1;transform:scale(.92)}100%{opacity:0;transform:scale(1.45)}}
+@media(prefers-reduced-motion:reduce){.pin.fresh,.pin.fresh::after{animation:none}.pin.fresh{box-shadow:0 0 0 4px var(--honey)}}
 .pin-label{display:flex;align-items:center;gap:4px}
 .pin .done{font-style:normal;font-size:11px;background:var(--moss);color:var(--ink);border:1.5px solid var(--ink);border-radius:50%;width:16px;height:16px;display:grid;place-items:center}
 .pin-people{display:flex;gap:2px}
@@ -314,7 +382,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pick button{border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-hand);font-weight:700;font-size:16px}
 .pick .mini{width:58px;height:58px}
 
-.toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
+.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
 
 /* test tool outside the frame: left of the phone on wide screens, small top-right badge on phones */
@@ -384,51 +452,37 @@ button.chip:disabled{cursor:default;box-shadow:none}
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
         <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
-        <div class="inv-empty" id="sceneEmpty">tonight 지도에서 갈 곳을 골라 주세요.</div>
+        <div class="inv-empty" id="sceneEmpty">지도에서 갈 곳을 골라 주세요.</div>
       </div>
     </section>
 
     <!-- Note: a notebook pulled up from the bottom — automatically while writing down an answer, or from the Note tab -->
+    <div class="note-scrim" id="noteScrim" aria-hidden="true"></div>
     <section class="dock" aria-label="노트">
       <div class="who" id="who" aria-label="노트 페이지"></div>
       <div class="dock-head">
-        <h2><svg aria-hidden="true"><use href="#noteIcon"/></svg>Note</h2>
-        <button class="dock-close" type="button" id="dockClose" aria-label="노트 닫기">×</button>
+        <div class="listen" id="listen" hidden>
+          <button class="pill" id="replay" type="button">다시 듣기</button>
+          <button class="pill" id="slow" type="button" aria-pressed="false">천천히</button>
+        </div>
+        <button class="pill finish" type="button" id="finish" hidden>기록 완료</button>
       </div>
       <div class="dock-body" id="dockBody"></div>
     </section>
 
   </div>
 
-  <!-- tonight: the town map, full screen. Only places someone has mentioned get a pin. -->
-  <section class="sheet full" id="sheet-map" aria-label="Tonight 사건 지도">
-    <div class="map-head">
-      <div><h2>tonight</h2><small>모시할로우 숲 마을</small></div>
-      <button class="x" type="button" data-close aria-label="지도 닫기">×</button>
-    </div>
+  <!-- the village map, full screen. Only places someone has mentioned get a pin. -->
+  <section class="sheet full" id="sheet-map" aria-label="마을 지도">
     <div class="map-stage">
       <div class="map" id="map">
-        <svg viewBox="0 0 360 600" preserveAspectRatio="none" aria-hidden="true">
-          <rect width="360" height="600" fill="#DDE8C9"/>
-          <g filter="url(#wob)" stroke="#4A3628" stroke-width="2" stroke-linejoin="round">
-            <path d="M180 0 Q196 118 300 150 Q346 160 360 150 L360 0Z" fill="#CFC4EA" opacity=".6"/>
-            <ellipse cx="252" cy="446" rx="96" ry="62" fill="#BFD3EE"/>
-            <path d="M212 446 q8 -4 16 0 M262 470 q8 -4 16 0 M246 424 q8 -4 16 0" fill="none" stroke="#FFFDF7"/>
-          </g>
-          <path d="M110 236 C150 186 220 150 266 118 M110 236 C140 300 196 330 226 376 M110 236 C70 320 70 420 90 476" fill="none" stroke="#9C7656" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
-          <g filter="url(#wob)" stroke="#4A3628" stroke-width="2">
-            <use href="#pine" x="12" y="24" width="26" height="52"/><use href="#pine" x="40" y="46" width="22" height="44"/>
-            <use href="#pine" x="300" y="196" width="24" height="48"/><use href="#pine" x="18" y="326" width="24" height="48"/>
-            <use href="#pine" x="150" y="512" width="22" height="44"/><use href="#pine" x="312" y="536" width="24" height="48"/>
-            <use href="#pine" x="168" y="246" width="20" height="40"/>
-            <path d="M84 205 L110 182 L136 205 Z" fill="#C96F86"/><rect x="88" y="205" width="44" height="30" fill="#F4EAD4"/><rect x="104" y="218" width="12" height="17" fill="#9C7656"/>
-            <path d="M70 478 L90 460 L110 478 Z" fill="#F6B89A"/><rect x="73" y="478" width="34" height="26" fill="#FBF4E6"/><circle cx="90" cy="490" r="5" fill="#F2CF73"/>
-            <rect x="208" y="374" width="38" height="22" fill="#FBF4E6"/><path d="M203 374 L251 374 L244 362 L210 362Z" fill="#8DB48E"/>
-            <path d="M262 98 L284 84" stroke-width="5" stroke-linecap="round"/><path d="M272 92 L264 114 M272 92 L282 114" fill="none"/>
-          </g>
-        </svg>
+        <img class="map-art" src="assets/places/village-map-higgsfield.png" alt="">
         <p class="map-empty" id="mapEmpty">아직 알게 된 장소가 없어요.</p>
       </div>
+    </div>
+    <div class="map-head">
+      <h2>모시할로우 숲 마을</h2>
+      <button class="x" type="button" data-close aria-label="지도 닫기">×</button>
     </div>
     <div class="map-foot">
       <button class="pill big" id="accuseBtn" type="button">범인 지목하기</button>
@@ -485,6 +539,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
   <div class="modal" id="result" hidden>
     <div class="mcard" id="resultCard"></div>
+  </div>
+
+  <div class="modal" id="checkAlert" hidden role="alertdialog" aria-labelledby="checkAlertText">
+    <div class="mcard alert">
+      <p id="checkAlertText"></p>
+      <button class="pill big" type="button" data-ok>확인</button>
+    </div>
+  </div>
+
+  <div class="modal" id="review" hidden>
+    <div class="mcard review" id="reviewCard"></div>
   </div>
 
   <div class="toast" id="toast" hidden></div>
@@ -588,6 +653,8 @@ const PEOPLE = {
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
     hello:"Hey, detective. I'm Ray. I didn't do anything, okay?",
+    // recorded voice (Higgsfield · MiniMax · Archie): q1 only so far, the rest uses browser TTS
+    audio:{ q1:'audio/ray-q1.mp3' },
     unlocks:{ q1:{ places:['cafe'] } },
     answers:{
       q1:"I was at the Lake Cafe. I played my guitar on stage from eight to nine thirty.",
@@ -607,6 +674,8 @@ const PEOPLE = {
   },
   rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
     hello:"H-hello. I'm Rosie. I'm a little scared, detective.",
+    // recorded voice (Higgsfield · MiniMax · Evie, fearful)
+    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3' },
     unlocks:{ q1:{ places:['hill'] } },
     answers:{
       q1:"I was on Moon Hill with my telescope, from eight to ten. The sky was so clear tonight.",
@@ -626,24 +695,52 @@ const PEOPLE = {
   }
 };
 const PEOPLE_ORDER = Object.keys(PEOPLE);
+// Korean for each answer. Shown only on the review screen after the case is solved.
+const ANSWERS_KO = {
+  badger:{
+    b1:'여기는 옛 도서관이에요. 후트 교수님이 오늘 밤 9시에 여기서 발견됐어요. 바닥에 쓰러져 계셨어요.',
+    b2:'사서인 두더지 부인이 발견했어요. 8시에서 9시 사이에 일어난 일 같아요. 아직 안에 계시니 이야기해 보세요.',
+    b3:'도서관을 꼼꼼히 둘러보세요. 누가 범인인지 알게 되면 저에게 알려 주세요.'
+  },
+  mole:{
+    m1:'문을 잠그려고 9시에 돌아왔어요. 교수님이 바닥에 쓰러져 계셨고, 큰 시계가 멈춰 있었어요.',
+    m2:'너구리 레이가 7시 30분에 음악책을 빌리러 왔어요. 그리고 토끼 로지가 7시에 별에 관한 책을 반납하러 왔어요.',
+    m3:'지난주에 교수님이 여우 피오나의 파이가 너무 달다고 글을 쓰셨어요. 피오나가 그 일로 몹시 화가 났어요.'
+  },
+  fiona:{
+    q1:'저녁 내내, 7시부터 10시까지 빵집에 있었어요. 내일 축제에 쓸 블루베리 파이를 굽고 있었어요.',
+    q2:'물론이죠! 곰 아주머니가 8시 30분에 빵을 사러 오셨어요. 그분께 물어보세요.',
+    q3:'그분은 매일 아침 제 빵집에 오셨어요. 그런데 지난주에 제 파이가 너무 달다고 하셨죠. 조금 속상했을 뿐이에요.'
+  },
+  ray:{
+    q1:'호수 카페에 있었어요. 8시부터 9시 30분까지 무대에서 기타를 쳤어요.',
+    q2:'카페에 있던 모두가 저를 봤어요! 오리 아저씨에게 물어보세요. 카페 주인이에요.',
+    q3:'지난달에 제 랜턴을 빌려 가시고 돌려주지 않으셨어요. 그래도 친절한 부엉이 할아버지였어요.'
+  },
+  rosie:{
+    q1:'8시부터 10시까지 망원경을 들고 달빛 언덕에 있었어요. 오늘 밤 하늘이 정말 맑았어요.',
+    q2:'아무도 같이 없었어요. 하지만 8시 45분에 별똥별을 봤어요! 별 동호회 노트에 적어 뒀어요.',
+    q3:'후트 교수님이 별 이름을 가르쳐 주셨어요. 교수님이 정말 많이 보고 싶을 거예요.'
+  }
+};
 
 /* Places for the investigation. Each place is one large illustration (ART[id], 900×600, 3:2)
    plus tap areas (`spots`) given in % of the illustration, so a finished artwork can replace
    the placeholder drawing without touching the logic. Turn on 핫스팟 보기 (outside the frame) to see them.
    A clue can point to a person (`unlocks`), who then appears at their place. */
 const PLACES = [
-  { id:'library', crime:true, x:30.5, y:44, label:'Old Library', kind:'사건 현장', artWidth:1376, artHeight:768,
+  { id:'library', crime:true, x:27, y:47, label:'Old Library', kind:'사건 현장', artWidth:1376, artHeight:768,
     clues:[
-      { label:'Big clock', en:'The big clock stopped at 8:40 PM.', ko:'큰 시계가 오후 8시 40분에 멈춰 있다.' },
+      { label:'Big clock', en:'The big clock stopped at 8:40 PM.', ko:'큰 시계가 오후 8시 40분에 멈춰 있다.', audio:'audio/detective-library-clock.mp3' },
       { label:'Window', en:'There is sticky purple jam on the window.', ko:'창문에 끈적한 보라색 잼이 묻어 있다.', audio:'audio/detective-library-window.mp3' },
-      { label:'Door', en:'A tuft of orange fur is caught on the door.', ko:'문에 주황색 털 뭉치가 걸려 있다.', unlocks:{ people:['fiona'] } }
+      { label:'Door', en:'A tuft of orange fur is caught on the door.', ko:'문에 주황색 털 뭉치가 걸려 있다.', audio:'audio/detective-library-door.mp3' }
     ],
     spots:[
       { clue:0, x:71.5, y:11, w:12.5, h:63, photo:{x:971,y:129,w:160,h:120} },
       { clue:1, x:2, y:4, w:26, h:62, photo:{x:116,y:309,w:176,h:132} },
       { clue:2, x:85.5, y:6, w:14, h:83, photo:{x:1216,y:350,w:160,h:120} }
     ]},
-  { id:'bakery', x:25, y:89, label:"Fiona's Bakery", kind:'장소', artWidth:1376, artHeight:768,
+  { id:'bakery', x:28, y:79, label:"Fiona's Bakery", kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Front door', en:'A sign on the door: CLOSED AT 7 PM TONIGHT.', ko:'문에 붙은 안내문: 오늘은 오후 7시에 문 닫음.' },
       { label:'Oven', en:'The oven is cold. No pies were baked tonight.', ko:'오븐이 차갑다. 오늘 밤 구운 파이는 없다.' },
@@ -654,7 +751,7 @@ const PLACES = [
       { clue:1, x:75.6, y:15.6, w:21.8, h:67.7, photo:{x:1070,y:210,w:240,h:180} },
       { clue:2, x:33.5, y:41.5, w:9.5, h:12, photo:{x:465,y:315,w:120,h:90} }
     ]},
-  { id:'cafe', x:63, y:70, label:'Lake Cafe', kind:'장소', artWidth:1376, artHeight:768,
+  { id:'cafe', x:71, y:58, label:'Lake Cafe', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.' },
       { label:'Mr. Duck', en:"Mr. Duck: 'Ray never left the stage. He played twelve songs!'", ko:"오리 아저씨: '레이는 무대를 한 번도 안 떠났어. 열두 곡이나 불렀다고!'" }
@@ -663,7 +760,7 @@ const PLACES = [
       { clue:0, x:50.9, y:17.6, w:9.4, h:20.8, photo:{x:666,y:140,w:200,h:150} },
       { clue:1, x:26.2, y:26.7, w:10.2, h:23.4, photo:{x:340,y:205,w:200,h:150} }
     ]},
-  { id:'hill', x:75, y:24, label:'Moon Hill', kind:'장소', artWidth:1376, artHeight:768,
+  { id:'hill', x:68, y:21, label:'Moon Hill', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Star Club notebook', en:"Star Club notebook: '8:30 PM, Saturn is bright. 8:45 PM, a shooting star! — Rosie'", ko:"별 동호회 노트: '8:30 토성이 밝다. 8:45 별똥별! — 로지'" },
       { label:'Footprints', en:'Small rabbit footprints are all around the telescope.', ko:'망원경 주변에 작은 토끼 발자국이 가득하다.' }
@@ -678,7 +775,7 @@ const NPC_POSITIONS = {
   badger:{x:40, floor:93, height:44},
   mole:{x:58, floor:93, height:40},
   fiona:{x:62, floor:93, height:44},
-  ray:{x:76, floor:90, height:44},
+  ray:{x:60, floor:92, height:44},
   rosie:{x:48, floor:93, height:42}
 };
 const CULPRIT = 'fiona';
@@ -779,10 +876,11 @@ function charSVG(id){
 }
 const SPRITES = {
   badger:{src:'assets/characters/sgt-badger-higgsfield.png', w:1060, h:1484, face:'180 80 700 700', anchor:.5, mouth:{x:538,y:643,w:156,h:64}},
-  mole:{src:'assets/characters/mole-higgsfield.png', w:454, h:665, face:'65 25 340 340', anchor:.5, mouth:{x:235,y:241,w:56,h:23}},
-  fiona:{src:'assets/characters/fiona-higgsfield.png', w:493, h:677, face:'40 25 340 340', anchor:210/493, mouth:{x:207,y:254,w:48,h:24}},
-  ray:{src:'assets/characters/ray-higgsfield.png', w:569, h:675, face:'55 25 340 340', anchor:225/569, mouth:{x:223,y:235,w:49,h:24}},
-  rosie:{src:'assets/characters/rosie-higgsfield.png', w:361, h:724, face:'28 150 300 300', anchor:.5, mouth:{x:180,y:371,w:24,h:17}}
+  // mole/fiona/ray/rosie: white sticker border peeled off and re-cropped (2026-10-16); coordinates shifted to match
+  mole:{src:'assets/characters/mole-higgsfield.png', w:408, h:620, face:'37 -5 340 340', anchor:199/408, mouth:{x:207,y:211,w:56,h:23}},
+  fiona:{src:'assets/characters/fiona-higgsfield.png', w:439, h:621, face:'12 -4 340 340', anchor:182/439, mouth:{x:179,y:225,w:48,h:24}},
+  ray:{src:'assets/characters/ray-higgsfield.png', w:509, h:628, face:'24 -5 340 340', anchor:194/509, mouth:{x:192,y:205,w:49,h:24}},
+  rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316, mouth:{x:161,y:339,w:24,h:17}}
 };
 function spriteMouth(id){
   const mouth = SPRITES[id].mouth, width = mouth.w, height = mouth.h;
@@ -799,7 +897,8 @@ const miniSVG = id => SPRITES[id]
    People are keyed by id. S.met = everyone the player knows about, in the order they turned up.
    phase per person: 'wait' (not talked to yet) → 'choose' (question cards) → 'record' (listening + writing) → … → 'done'
    S.investigate = the place view is showing (otherwise the conversation view). */
-const newSpeakerState = () => ({ phase:'wait', hints:3, order:[], recording:null, revealed:new Set(), notes:{}, marks:{} });
+// checked: the page got its 확인됨 stamp. first/firstWrong: the result of the first 노트 확인 (for the review).
+const newSpeakerState = () => ({ phase:'wait', hints:3, order:[], recording:null, revealed:new Set(), notes:{}, marks:{}, checked:false, retry:[], first:null, firstWrong:{} });
 const S = {
   cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
   place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
@@ -814,6 +913,7 @@ const per = id => S.per[id];
 const qs = sp => sp.questions || QUESTIONS;
 const availableQuestions = speaker => {
   const progress = per(speaker.id);
+  if(progress.retry.length) return qs(speaker).filter(question => progress.retry.includes(question.id));
   return qs(speaker).filter(question => !progress.order.includes(question.id) &&
     (!speaker.openingQuestion || progress.order.includes(speaker.openingQuestion) || question.id === speaker.openingQuestion));
 };
@@ -836,10 +936,11 @@ function loadVoices(){
 }
 if('speechSynthesis' in window){ loadVoices(); speechSynthesis.addEventListener?.('voiceschanged', loadVoices); }
 let talkT, speechTurn = 0;
+let talker = null;   // whose line is playing (a replay from the notebook can be someone else's)
 function setTalking(on){
   document.querySelectorAll('.scene-npc').forEach(npc => {
     npc.style.setProperty('--talk-cycle', S.slow ? '.99s' : '.74s');
-    npc.classList.toggle('talking', on && npc.dataset.talk === S.cur);
+    npc.classList.toggle('talking', on && npc.dataset.talk === (talker || S.cur));
   });
 }
 const clip = new Audio();
@@ -854,10 +955,11 @@ function stopVoice(){
   if('speechSynthesis' in window) speechSynthesis.cancel();
   setTalking(false);
 }
-function speak(text, key){
+function speak(text, key, who = S.cur){
   stopVoice();
   const turn = speechTurn;
-  const src = cur().audio?.[key];
+  talker = who;
+  const src = spk(who).audio?.[key];
   if(src){
     clip.src = src;
     clip.preservesPitch = true;
@@ -866,7 +968,7 @@ function speak(text, key){
     return;
   }
   if(!('speechSynthesis' in window)){ toast('이 브라우저는 음성 읽기를 지원하지 않아요. 힌트로 내용을 확인하세요.'); return; }
-  const s = cur();
+  const s = spk(who);
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US'; u.rate = S.slow ? .72 : .95; u.pitch = s.pitch;
   if(voices.length) u.voice = voices[s.voice % voices.length];
@@ -890,18 +992,28 @@ function animateCamera(art, from, to){
     cameraMotion.onfinish = () => { if(!S.investigate) focusCamera(); };
   }
 }
-function focusCamera(fromRect){
+// fromRect: the NPC's on-screen rect when coming from the place view. glide: move from the
+// current framing (the note opened or closed).
+function focusCamera(fromRect, glide = false){
   if(S.investigate) return;
   const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(cur().place);
   const width = viewport.clientWidth, height = viewport.clientHeight;
   if(!width || !height) return;
   const position = NPC_POSITIONS[S.cur];
   const worldWidth = place.artWidth || 900, worldHeight = place.artHeight || 600;
-  const scale = Math.max(width / worldWidth, height / worldHeight, height * .76 / (worldHeight * Math.max(44, position.height) / 100));
+  // Note closed: a 44%-tall NPC fills 58% of the scene with the feet just above the question
+  // buttons. Note open: it shrinks to 46% with the head just under the top chips, so the face
+  // stays above the note (top ~40%). The NPC never moves in the world; only the camera does.
+  // Below the picture's bottom edge, the outpainted floor (ART_FLOOR) fills the scene.
+  const notes = $('#app').classList.contains('notes-open');
+  const share = notes ? .46 : .58, headTop = notes ? .07 : .16;
+  const fullHeight = worldHeight + (ART_FLOOR[place.id]?.h || 0);
+  const scale = Math.max(width / worldWidth, height / fullHeight, height * share / (worldHeight * Math.max(44, position.height) / 100));
   const left = Math.min(0, Math.max(width - worldWidth * scale, width / 2 - worldWidth * position.x / 100 * scale));
-  const top = Math.min(0, Math.max(height - worldHeight * scale, height * .12 - worldHeight * (position.floor - position.height) / 100 * scale));
+  const top = Math.min(0, Math.max(height - fullHeight * scale, height * headTop - worldHeight * (position.floor - position.height) / 100 * scale));
   const bounds = viewport.getBoundingClientRect();
-  const from = fromRect?.width ? `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / worldWidth})` : null;
+  const from = fromRect?.width ? `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / worldWidth})`
+    : glide ? getComputedStyle(art).transform : null;
   animateCamera(art, from, `translate(${left}px, ${top}px) scale(${scale})`);
 }
 function renderStage(fromRect){
@@ -966,13 +1078,15 @@ function blockHTML(sIdx, qid, now){
     line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans, idx) => {
       html += esc(line.slice(last, idx));
       const v = p.notes[id] || '', mk = p.marks[id] || '';
-      html += `<input class="blank ${mk}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸">`;
+      html += `<input class="blank ${mk}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸"${p.checked ? ' readonly' : ''}>`;
       last = idx + m.length; return m;
     });
     return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
   }).join('');
   const label = `Q. ${esc(q.en)}`;
-  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}</span>${lines}</div>`;
+  // outside the live recording, each answer can be heard again while checking the page
+  const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
+  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${lines}</div>`;
 }
 
 // Under the person: question buttons (choose), a button to take the notebook out again (record),
@@ -985,7 +1099,7 @@ function renderAsk(){
   if(p.phase === 'choose'){
     const all = qs(s), left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
-      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
+      left.map(q => `<button class="q${p.retry.includes(q.id) ? ' again' : ''}" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
   } else if(p.phase === 'record'){
     html = `<button class="pill big green" type="button" id="openNote">노트에 기록하기</button>`;
   } else if(p.phase === 'done'){
@@ -1001,11 +1115,17 @@ $('#askPanel').addEventListener('click', e => {
   if(e.target.closest('#openNote')){ S.view = S.cur; renderDock(); setNotes(true); return; }
   if(e.target.closest('#toPlace')) leaveTalk();
 });
+// a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
+let stampShowing = false, checkShowing = false, noteRaised = false, stampTimer;
 function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint();
   const body = $('#dockBody');
+  const mode = noteMode();
+  $('#finish').hidden = !mode;
+  // the check of a finished conversation (its result or fresh stamp) takes the whole screen
+  $('#app').classList.toggle('note-full', checkShowing || stampShowing || noteRaised);
   if(S.view === 'evidence'){
-    body.innerHTML = `${!S.investigate ? '<div class="viewing"><span>증거 노트</span><button class="pill" type="button" id="backLive">지금 대화로</button></div>' : ''}<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
+    body.innerHTML = `<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
       const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
       return `<article class="evidence-card" data-evidence="${record.placeId}-${record.clueIndex}"><figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${record.photo}</figure><span class="place">${esc(place.label)}</span><h4>${esc(clue.label)}</h4><p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button></article>`;
     }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
@@ -1018,26 +1138,19 @@ function renderDock(){
   const p = st();
   let html = '';
 
-  if(!S.investigate && S.view !== S.cur){
-    html += `<div class="viewing"><span>${vs.partner ? '사건 브리핑 노트를' : esc(vs.name) + '의 노트를'} 보는 중이에요.</span><button class="pill" type="button" id="backLive">지금 대화로</button></div>`;
-  }
+  $('#listen').hidden = !(live && p.phase === 'record');
+  $('#slow').setAttribute('aria-pressed', S.slow);
 
-  if(live && p.phase === 'record'){
-    html += `<div class="listen">
-      <button class="pill" id="replay" type="button">${playIcon}다시 듣기</button>
-      <button class="pill" id="slow" type="button" aria-pressed="${S.slow}">천천히</button>
-    </div>`;
-  }
-
-  html += `<div class="note-page" id="notePage">${
-    vp.order.length
-      ? vp.order.map(qid => blockHTML(S.view, qid, live && qid === p.recording)).join('')
+  // while writing down an answer, the page shows only that question; the full page comes back afterwards
+  const shown = live && p.phase === 'record' ? [p.recording] : vp.order;
+  html += `<div class="note-page${vp.checked ? ' checked' : ''}" id="notePage">${
+    shown.length
+      ? shown.map(qid => blockHTML(S.view, qid, live && qid === p.recording)).join('')
       : `<div class="empty-note">질문을 고르면 받아 적을 줄이 여기에 생겨요.</div>`
   }</div>`;
 
   if(live && p.phase === 'record'){
-    html += `<div class="bank" id="bank">${cur().bank[p.recording].map(w => `<button class="word" type="button" data-w="${esc(w)}">${esc(w)}</button>`).join('')}</div>
-      <button class="pill big green" id="finish" type="button">기록 완료</button>`;
+    html += `<div class="bank" id="bank">${cur().bank[p.recording].map(w => `<button class="word" type="button" data-w="${esc(w)}">${esc(w)}</button>`).join('')}</div>`;
   }
 
   body.innerHTML = html;
@@ -1058,10 +1171,7 @@ function bindDock(){
     translation.hidden = !translation.hidden;
     button.setAttribute('aria-pressed', !translation.hidden);
   }));
-  body.querySelector('#backLive')?.addEventListener('click', () => { S.view = S.cur; renderDock(); });
-  body.querySelector('#replay')?.addEventListener('click', () => speak(cur().answers[st().recording], st().recording));
-  body.querySelector('#slow')?.addEventListener('click', e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); });
-  body.querySelector('#finish')?.addEventListener('click', finishRecord);
+  body.querySelectorAll('[data-replay]').forEach(button => button.addEventListener('click', () => replayLine(button.dataset.replay)));
   const bank = body.querySelector('#bank');
   if(bank){
     bank.addEventListener('pointerdown', dragStart);
@@ -1108,8 +1218,8 @@ function ask(qid){
   clearTimeout(greetingTimer);
   const speakerId = S.cur;
   const p = st();
-  p.phase = 'record'; p.recording = qid; p.order.push(qid);
-  unlock(cur().unlocks?.[qid]);
+  p.phase = 'record'; p.recording = qid;
+  if(!p.order.includes(qid)) p.order.push(qid);
   hideBubble();
   speak(cur().answers[qid], qid);
   renderDock();
@@ -1131,19 +1241,95 @@ function finishRecord(){
   const blanks = [...document.querySelectorAll(`.nblock[data-q="${p.recording}"] .blank`)];
   const empty = blanks.filter(b => !b.value.trim());
   if(empty.length){ empty[0].focus(); return toast(`빈칸 ${empty.length}개가 남았어요. 모두 채워야 기록이 끝나요.`); }
-  let ok = 0;
-  blanks.forEach(b => {
-    const good = b.dataset.ans.split('/').map(norm).includes(norm(b.value));
-    p.marks[b.dataset.id] = good ? 'ok' : 'no'; if(good) ok++;
-  });
+  // saved as heard: no right/wrong here. The page is checked once the whole conversation is done.
+  const again = p.retry.includes(p.recording);
+  p.retry = p.retry.filter(qid => qid !== p.recording);
   p.recording = null;
-  p.phase = p.order.length === qs(cur()).length ? 'done' : 'choose';
+  p.phase = !p.retry.length && p.order.length === qs(cur()).length ? 'done' : 'choose';
   hideBubble();
   stopVoice();
   setTalking(false);
-  toast(ok === blanks.length ? `기록 완료! ${blanks.length}칸 모두 맞았어요.` : `기록 완료. ${blanks.length}칸 중 ${ok}칸이 맞았어요. 빨간 칸은 나중에 고칠 수 있어요.`);
+  if(p.phase === 'done'){ S.view = S.cur; checkNotes(S.cur); return; }   // conversation over: the page is checked now
+  if(!again) toast('노트에 기록했어요.');
   setNotes(false);   // the notebook goes away and the remaining questions come back
   renderDock();
+}
+// What the header button does on the page being viewed.
+function noteMode(){
+  if(S.view === 'evidence') return null;
+  const p = per(S.view);
+  if(S.view === S.cur && !S.investigate && p.phase === 'record') return 'record';
+  return null;
+}
+const BLANK_RE = /\{\{(\w+)\|([^}]+)\}\}/g;
+// Every blank on a person's page, in the order the questions were asked.
+function blanksOf(id){
+  const s = spk(id), p = per(id), out = [];
+  p.order.forEach(qid => s.notes[qid].forEach(line => line.replace(BLANK_RE, (m, bid, ans) => {
+    out.push({ qid, id:bid, ans, value:p.notes[bid] || '' }); return m;
+  })));
+  return out;
+}
+const isRight = b => b.ans.split('/').map(norm).includes(norm(b.value));
+function recordFirst(id){
+  const p = per(id);
+  if(p.first) return;
+  const all = blanksOf(id), wrong = all.filter(b => !isRight(b));
+  p.first = { ok:all.length - wrong.length, total:all.length };
+  p.firstWrong = Object.fromEntries(wrong.map(b => [b.id, b.value]));
+}
+function checkNotes(id){
+  const p = per(id), all = blanksOf(id);
+  const empty = all.filter(b => !b.value.trim());
+  if(empty.length) return toast(`빈칸 ${empty.length}개가 비어 있어요.`);
+  recordFirst(id);
+  const wrong = all.filter(b => !isRight(b)).length;
+  // what an answer reveals opens only once it is written down correctly
+  let newPlace = false, newPerson = false;
+  per(id).order.filter(qid => all.every(b => b.qid !== qid || isRight(b))).forEach(qid => {
+    const r = unlock(spk(id).unlocks?.[qid], true) || {};
+    newPlace ||= r.newPlace; newPerson ||= r.newPerson;
+    pendingPins.push(...(r.places || []));
+  });
+  if(newPlace || newPerson) toast(newPlace && newPerson ? '새로운 장소와 인물을 알게 됐어요.' : newPerson ? '새로운 인물을 알게 됐어요.' : '지도에 새 장소가 표시됐어요.');
+  if(!wrong){
+    p.checked = true;
+    all.forEach(b => p.marks[b.id] = 'ok');
+    stampShowing = true;
+    clearTimeout(stampTimer);
+    stampTimer = setTimeout(() => { stampShowing = false; setNotes(false); renderDock(); revealPins(); }, 1800);
+  } else {
+    all.forEach(b => { if(isRight(b)) delete p.marks[b.id]; else p.marks[b.id] = 'no'; });
+    p.retry = [...new Set(all.filter(b => !isRight(b)).map(b => b.qid))];
+    p.phase = 'choose';
+    checkShowing = true; checkPerson = id;
+    showCheckAlert(wrong <= 2 ? `거의 맞았어요. ${wrong}칸이 달라요.` : `아직 ${wrong}칸이 달라요. 다시 들어 보는 게 좋겠어요.`);
+  }
+  setNotes(true);
+  renderDock();
+  $('#dockBody').scrollTop = 0;
+}
+// the check result pops up as an alert over the notebook
+function showCheckAlert(text){
+  $('#checkAlertText').textContent = text;
+  $('#checkAlert').hidden = false;
+  $('#checkAlert [data-ok]').focus();
+}
+// closing the alert puts the notebook away and goes back to that person to ask the wrong questions again
+let checkPerson = null;
+$('#checkAlert').addEventListener('click', e => {
+  if(!(e.target.closest('[data-ok]') || e.target.id === 'checkAlert')) return;
+  $('#checkAlert').hidden = true;
+  checkShowing = false;
+  setNotes(false);
+  if(checkPerson && (S.investigate || S.cur !== checkPerson)) talkTo(checkPerson);
+  else renderDock();
+  checkPerson = null;
+  revealPins();
+});
+function replayLine(ref){
+  const [id, qid] = ref.split(':');
+  speak(spk(id).answers[qid], qid, id);
 }
 // Switch between the conversation view and the place view. Either can be left and resumed;
 // an unfinished recording waits in the notebook until the player comes back.
@@ -1219,8 +1405,11 @@ function cancelCapture(){
 }
 function setNotes(open){
   cancelCapture();
+  const changed = $('#app').classList.contains('notes-open') !== open;
   $('#app').classList.toggle('notes-open', open);
+  if(!open){ $('#app').classList.remove('note-full'); stampShowing = false; checkShowing = false; noteRaised = false; clearTimeout(stampTimer); }
   $('#noteTab').setAttribute('aria-expanded', open);
+  if(changed) focusCamera(null, true);
 }
 function openSheet(name){
   if(name === 'map') setMapOrigin($('#mapTab'));
@@ -1230,12 +1419,18 @@ function openSheet(name){
   if(name === 'map') setMapNew(false);
 }
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openSheet(null));
+// opened by hand, the notebook rises as high as it can; while recording it stays low so the NPC is visible
 $('#noteTab').onclick = () => {
   const open = !$('#app').classList.contains('notes-open');
   openSheet(null); setNotes(open);
-  if(open) renderDock();
+  if(open){ noteRaised = true; renderDock(); }
 };
-$('#dockClose').onclick = () => setNotes(false);
+$('#finish').onclick = finishRecord;
+$('#replay').prepend(document.createRange().createContextualFragment(playIcon));
+$('#replay').onclick = () => { if(st()?.recording) speak(cur().answers[st().recording], st().recording); };
+$('#slow').onclick = e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); };
+// tapping the scene behind the open notebook puts it away (word-card drags never land here as a click)
+$('#noteScrim').onclick = () => setNotes(false);
 // The map grows out of the button that opened it and shrinks back into it when closed.
 function setMapOrigin(btn){
   const sh = $('#sheet-map');
@@ -1246,6 +1441,8 @@ function setMapOrigin(btn){
   sh.style.setProperty('--l', `${r.left - a.left}px`);
   sh.style.setProperty('--r', `${a.right - r.right}px`);
   sh.style.setProperty('--b', `${a.bottom - r.bottom}px`);
+  sh.style.setProperty('--ox', `${r.left - a.left + r.width / 2}px`);
+  sh.style.setProperty('--oy', `${r.top - a.top + r.height / 2}px`);
   void sh.offsetWidth;
   sh.style.transition = '';
 }
@@ -1266,7 +1463,7 @@ function renderPlaces(){
     const done = S.found[pl.id].size === pl.clues.length, people = peopleAt(pl.id);
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'pin' + (pl.crime ? ' crime' : '');
+    b.className = 'pin' + (pl.crime ? ' crime' : '') + (freshPins.has(pl.id) ? ' fresh' : '');
     b.style.left = pl.x + '%'; b.style.top = pl.y + '%';
     b.innerHTML = `<span class="pin-label">${esc(pl.label)}${done ? '<i class="done">✓</i>' : ''}</span>` +
       (people.length ? `<span class="pin-people">${people.map(id => `<span class="mini" style="background:${spk(id).bg}">${miniSVG(id)}</span>`).join('')}</span>` : '');
@@ -1280,17 +1477,30 @@ const peopleAt = placeId => S.met.filter(id => spk(id).place === placeId);
 // A newly known person brings their place onto the map.
 function unlock(u, quiet){
   if(!u) return;
-  let newPlace = false, newPerson = false;
-  (u.places || []).forEach(id => { if(!S.known.has(id)){ S.known.add(id); newPlace = true; } });
+  let newPerson = false;
+  const places = [];
+  (u.places || []).forEach(id => { if(!S.known.has(id)){ S.known.add(id); places.push(id); } });
   (u.people || []).forEach(id => {
     if(S.met.includes(id)) return;
     S.met.push(id); newPerson = true;
-    if(!S.known.has(spk(id).place)){ S.known.add(spk(id).place); newPlace = true; }
+    if(!S.known.has(spk(id).place)){ S.known.add(spk(id).place); places.push(spk(id).place); }
   });
-  if(!newPlace && !newPerson) return;
+  const newPlace = places.length > 0;
+  if(!newPlace && !newPerson) return {};
   renderPlaces();
   if(newPlace) setMapNew(true);
-  if(!quiet) toast(newPerson ? '새로운 인물을 알게 됐어요.' : 'tonight 지도에 새 장소가 표시됐어요.');
+  if(!quiet) toast(newPerson ? '새로운 인물을 알게 됐어요.' : '지도에 새 장소가 표시됐어요.');
+  return { newPlace, newPerson, places };
+}
+// New places from a check wait until the notebook is put away; then the map opens and their pins pop out.
+let pendingPins = [], freshPins = new Set(), freshTimer;
+function revealPins(){
+  if(!pendingPins.length) return;
+  freshPins = new Set(pendingPins); pendingPins = [];
+  openSheet('map');
+  renderPlaces();
+  clearTimeout(freshTimer);
+  freshTimer = setTimeout(() => { freshPins.clear(); document.querySelectorAll('.pin.fresh').forEach(pin => pin.classList.remove('fresh')); }, 4200);
 }
 
 /* ---------- accuse ---------- */
@@ -1308,6 +1518,7 @@ $('#accuse').addEventListener('click', e => {
   $('#resultCard').innerHTML = right
     ? `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
        <p>정답이에요.</p>
+       <button class="pill big green" type="button" data-review>복습하기</button>
        <button class="pill big" type="button" data-solved>사건 목록으로</button>`
     : `<span class="eyebrow">Hmm, not quite…</span><h2>아직 확신할 수 없어요</h2>
        <p>노트와 단서를 다시 살펴보세요.</p>
@@ -1317,6 +1528,50 @@ $('#accuse').addEventListener('click', e => {
 $('#result').addEventListener('click', e => {
   if(e.target.closest('[data-close-result]')) $('#result').hidden = true;
   if(e.target.closest('[data-solved]')){ markSolved(CASES[0].id); $('#result').hidden = true; openCaseList(); }
+  if(e.target.closest('[data-review]')){ markSolved(CASES[0].id); $('#result').hidden = true; openReview(); }
+});
+
+/* ---------- review: after the case, the full lines, Korean, and the blanks missed at the first check ---------- */
+function openReview(){
+  const people = S.met.filter(id => per(id).order.length);
+  people.forEach(recordFirst);   // a page never checked counts as checked now
+  const ok = people.reduce((n, id) => n + per(id).first.ok, 0), total = people.reduce((n, id) => n + per(id).first.total, 0);
+  const rate = total ? ok / total : 0, stars = rate >= .9 ? 3 : rate >= .7 ? 2 : 1;
+  $('#reviewCard').innerHTML = `<span class="eyebrow">Review</span><h2>복습</h2>
+    <div class="rv-stars" aria-label="별 ${stars}개">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>
+    <p>처음 확인했을 때 ${total}칸 중 ${ok}칸을 맞혔어요.</p>` +
+    people.map(id => {
+      const s = spk(id), p = per(id);
+      return `<section class="rv-person"><h3><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}<small>${p.first.ok}/${p.first.total}</small></h3>` +
+        p.order.map(qid => {
+          const lines = s.notes[qid].map(line => {
+            let html = '', last = 0;
+            line.replace(BLANK_RE, (m, bid, ans, idx) => {
+              const right = esc(ans.split('/')[0]);
+              html += esc(line.slice(last, idx)) + (bid in p.firstWrong
+                ? `<s>${esc(p.firstWrong[bid] || '…')}</s> <b class="fix">${right}</b>`
+                : `<b class="ok">${right}</b>`);
+              last = idx + m.length; return m;
+            });
+            return `<div>${html}${esc(line.slice(last))}</div>`;
+          }).join('');
+          return `<div class="rv-q"><div class="rv-label">Q. ${esc(qs(s).find(q => q.id === qid).en)}</div>
+            <p class="rv-en">${esc(s.answers[qid])} <button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button></p>
+            <p class="rv-ko" hidden>${esc(ANSWERS_KO[id]?.[qid] || '')}</p>
+            <button class="pill sm" type="button" data-rv-ko aria-pressed="false">해석</button>
+            <div class="rv-notes">${lines}</div></div>`;
+        }).join('') + '</section>';
+    }).join('') +
+    `<button class="pill big" type="button" data-solved>사건 목록으로</button>`;
+  $('#review').hidden = false;
+  $('#reviewCard').scrollTop = 0;
+}
+$('#review').addEventListener('click', e => {
+  const replay = e.target.closest('[data-replay]');
+  if(replay) return replayLine(replay.dataset.replay);
+  const ko = e.target.closest('[data-rv-ko]');
+  if(ko){ const t = ko.previousElementSibling; t.hidden = !t.hidden; ko.setAttribute('aria-pressed', !t.hidden); return; }
+  if(e.target.closest('[data-solved]')){ stopVoice(); $('#review').hidden = true; openCaseList(); }
 });
 
 /* =====================================================================
@@ -1374,6 +1629,14 @@ const ART = {
   hill: () => `
     <image href="assets/places/hill-higgsfield.png" width="1376" height="768"/>`
 };
+// Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
+// conversation camera shows it, behind the question buttons; investigation keeps the original frame.
+const ART_FLOOR = {
+  library:{ src:'assets/places/library-floor.jpg', h:506 },
+  bakery: { src:'assets/places/bakery-floor.jpg', h:518 },
+  cafe:   { src:'assets/places/cafe-floor.jpg', h:725 },
+  hill:   { src:'assets/places/hill-floor.jpg', h:370 }
+};
 
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
 
@@ -1389,7 +1652,11 @@ function renderScene(placeId = S.place){
     return;
   }
   art.dataset.scene = signature;
+  const floor = ART_FLOOR[pl.id], artHeight = pl.artHeight || 600;
+  // the place view shows up to 30% of the floor extension under the picture, so the feet are not on the edge
+  art.style.setProperty('--art-share', artHeight / (artHeight + (floor ? Math.min(floor.h, artHeight * .3) : 0)));
   art.innerHTML = `<svg viewBox="0 0 ${pl.artWidth || 900} ${pl.artHeight || 600}" aria-hidden="true">${ART[pl.id]()}</svg>` +
+    (floor ? `<img class="art-floor" src="${floor.src}" alt="">` : '') +
     pl.spots.map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
     people.map(id => {
@@ -1588,7 +1855,7 @@ const TUT = [
       <text x="160" y="170" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">단어 카드를 빈칸으로 끌어다 놓기</text>
     </svg>` },
   { title:'찾아가서 조사해요',
-    text:'<b>하단 지도 버튼</b>으로 <b>tonight</b> 지도를 열어 장소를 골라요. 그림을 눌러 <b>증거</b>를 찾고, 그곳에 있는 <b>인물</b>과도 이야기할 수 있어요. 대화와 증거 속에서 새 장소와 인물이 나타나요.',
+    text:'<b>하단 지도 버튼</b>으로 마을 지도를 열어 장소를 골라요. 그림을 눌러 <b>증거</b>를 찾고, 그곳에 있는 <b>인물</b>과도 이야기할 수 있어요. 대화와 증거 속에서 새 장소와 인물이 나타나요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <g filter="url(#wob)" ${T_INK}>
         <rect x="14" y="18" width="118" height="114" rx="12" fill="#DDE8C9"/>
@@ -1700,7 +1967,7 @@ $('#devFill').onclick = () => {
   const n = PEOPLE_ORDER.reduce((sum, id) => sum + fillAnswers(id, per(id).order, false), 0);
   if(!n) return toast('채울 빈칸이 없어요. 먼저 질문을 골라 주세요.');
   renderDock();
-  toast(`빈칸 ${n}개를 정답으로 채웠어요.`);
+  toast(`빈칸 ${n}개를 채웠어요.`);
 };
 // 전체 대화 완료: everyone met, every question asked and recorded correctly, every place known → map.
 $('#devDone').onclick = () => {
@@ -1709,7 +1976,7 @@ $('#devDone').onclick = () => {
   PEOPLE_ORDER.forEach(id => {
     const p = per(id);
     p.order = qs(spk(id)).map(q => q.id); p.recording = null; p.phase = 'done';
-    fillAnswers(id, p.order, true);
+    fillAnswers(id, p.order, false);
   });
   S.met = [...PEOPLE_ORDER];
   PLACES.forEach(pl => S.known.add(pl.id));
