@@ -17,15 +17,16 @@
   - 서류철 모양 노트와 서류 뒤에 꽂힌 인덱스 탭.
   - **마지막까지 질문마다 조용히 확인 → 오답은 같은 노트에서 다시 듣고 수정 → 정답 정보 해금. 전체 기록은 Note로 직접 열기.**
   - 채점을 통과해야 장소·인물이 열리고, 새 장소가 열리면 지도가 열리며 핀이 강조된다.
-  - 전체 화면 그림 마을 지도, 사건 해결 뒤 복습 화면.
+  - 전체 화면 그림 마을 지도.
+  - **엔딩**: 빵집 대질(증거 내밀기) → 피오나 자백 → 도서관 CASE CLOSED → 언덕 후일담 → 결과 → 복습. 오답 지목은 그 인물의 음성 반박(3.7절).
 - **미리보기 주소**
   - Claude Code는 `.claude/launch.json`의 `pioo-dev`로 **http://localhost:5173/** 을 쓴다.
   - Codex는 `PORT=5174`로 **http://localhost:5174/** 을 썼다. 같은 폴더를 서빙하므로 둘 다 최신 화면이다.
 - **공유·최종본**: 완성본은 **claude.ai 아티팩트로 마무리**한다(사용자가 요청할 때만, 9절). Codex가 만든 공개 데모 사이트는 더 갱신하지 않는다(1.1절).
 - **에이전트 협업**: Codex와 Claude Code가 같은 폴더·같은 `main` 브랜치에서 번갈아 작업한다. 한 번에 한 쪽만 작업하고, 끝낸 쪽이 `HANDOFF.md`·`CHANGELOG.md`를 갱신해 커밋한다(`AGENTS.md`). 동시에 일해야 할 때만 `CLAUDE_REQUEST.md`로 요청을 넘긴다.
 - **아직 없는 것**
-  - 진행 상태 자동 저장, 증거 내밀기, 모순 지목, 자백 장면.
-  - 미스터 덕의 NPC 전환과 검거 후 스토리 엔딩은 **논의만 했고 구현하지 않았다**. 제안·미확정 사항은 10.1절에 구분했다.
+  - 진행 상태 자동 저장, 사건 도중의 증거 내밀기·모순 지목(엔딩 대질에만 있다).
+  - 엔딩 새 대사 8줄의 녹음(지금은 브라우저 TTS, 6절).
   - 다음 작업 후보는 10절에 있다.
 
 ## 1. 실행
@@ -153,11 +154,22 @@ node server.js            # http://localhost:5173/
   - 정답 확인으로 지도가 자동으로 열리면 새 핀이 부드럽게 나타나고 얇은 꿀색 고리가 두 번 퍼진다(`pendingPins`, `revealPins()`, `.pin.fresh`).
   - 현재 현장에 인물만 늘면 현장 카메라로 소개한다. 다른 장소의 새 인물은 그 장소를 이미 알아도 지도 얼굴 핀에서 함께 안내한다.
 
-### 3.7 범인 지목과 복습
+### 3.7 범인 지목, 엔딩, 복습
 
-- `범인 지목하기`는 동료 경찰·목격자를 포함한 모든 인물(참고인 제외)의 모든 질문 기록을 확인하여 대화가 끝났을 때만 지도에 나타난다. 대화가 남아 있으면 비활성화 표시 대신 버튼 자체를 숨긴다. `allConversationsDone()`으로 화면 표시와 지목 처리 모두 검사하며, 증거 수집 완료는 조건이 아니다.
-- 알게 된 인물 중에서 고른다(동료·참고인 제외). 결과창은 정답/오답만 알려 준다.
-- **정답이면 `복습하기`로 복습 화면을 연다(`openReview()`)**
+- `범인 지목하기`는 동료 경찰·목격자를 포함한 모든 인물(참고인 제외)의 모든 질문 기록을 확인하여 대화가 끝났을 때만 지도에 나타난다. 대화가 남아 있으면 버튼 자체를 숨긴다. `allConversationsDone()`으로 화면 표시와 지목 처리 모두 검사하며, 증거 수집 완료는 조건이 아니다.
+- 알게 된 인물 중에서 고른다(동료·참고인 제외).
+- **엔딩 모드**(`ending`, `.app.ending`): 대화 장면과 카메라를 그대로 쓰고, 질문 버튼 자리(`renderAsk` → `endingControls()`)에 엔딩 버튼을 둔다. 상단 칩·힌트·아래 지도/Note 줄은 숨긴다. 진상은 대사로만 알려 주며 결과창에는 설명문이 없다. 데이터는 `ENDING`.
+  1. **대질(빵집, 피오나)**: 주장 4개를 차례로 말한다(1·2는 기존 `fiona-q1/q2.mp3`). 버튼은 `다시 듣기`, `증거 내밀기`, `조금 더 조사할래요`. `증거 내밀기`는 증거 노트를 열고 카드마다 `내밀기` 버튼을 붙인다. 고른 사진이 장면 위로 들려 보인다(`.presented`).
+     - 정답 증거: ① 7시 안내문 또는 차가운 오븐 ② "No bread tonight" 쪽지 ③ 문의 주황색 털 ④ 창문의 보라색 잼.
+     - 틀린 사진이면 "That has nothing to do with me." 한마디만 하고 같은 주장에 머문다. 감점 없음.
+     - 증거가 없으면 `조금 더 조사할래요`로 빵집 현장 + 지도로 나간다. 다시 피오나를 지목하면 **답한 주장 다음부터** 이어진다(`endingRound`).
+     - 사건 중이라 대질 단계에는 `해석`이 없다.
+  2. **자백**: 잠깐 침묵 뒤 3줄. 버튼은 `다시 듣기`, `해석`(한국어 상자), `다음`.
+  3. **마무리**: 도서관으로 바뀌어 오소리 경사 1줄 → `다음` → `CASE CLOSED` 도장 카드(2.6초, `.case-closed`).
+  4. **후일담**: 언덕의 로지 1줄 → `다음`.
+  5. 해결 기록 저장(`markSolved`) 후 결과창(`사건 해결` + `복습하기` / `사건 목록으로`).
+- **오답 지목**: 결과창 대신 그 인물이 이미 한 알리바이를 음성으로 다시 말한다(`REBUTTAL`: 두더지 m1, 레이 q2, 로지 q2). 버튼은 `다시 듣기`, `다시 조사하기`(그 장소 현장 + 지도).
+- **복습 화면**(`openReview()`)
   - 별점: 각 질문 첫 제출 결과를 합산한 정확도로 1–3개(90% / 70% 기준).
   - 인물별 대사 원문, ▶ 다시 듣기, `해석`(`ANSWERS_KO`).
   - 노트 문장: 첫 채점 때 틀린 칸은 "~~내가 쓴 답~~ 정답"으로 보여 준다.
@@ -258,8 +270,12 @@ node server.js            # http://localhost:5173/
 | Fiona Fox | Petra | 4줄 완료 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정 미적용, 사용자 확인 대기) |
+| 엔딩 (TTS 임시) | Petra·Fraser·Evie | 아래 8줄. 파일을 `audio/`에 넣고 해당 인물 `audio`에 키를 추가하면 바로 재생된다 |
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
+- **엔딩 대사 녹음 대기**(키 → 파일 이름 제안). 대사는 `ENDING`에 있다.
+  - 피오나(Petra): `end3` → `audio/fiona-end3.mp3` "Fine, I closed early. But I was never at the library!", `end4` → `fiona-end4.mp3` "Lots of animals have orange fur!", `endMiss` → `fiona-endMiss.mp3` "That has nothing to do with me.", `confess1`–`confess3` → `fiona-confess1…3.mp3`(자백 3줄, 감정 권장).
+  - 오소리 경사(Fraser): `closing` → `audio/badger-closing.mp3`. 로지(Evie): `after` → `audio/rosie-after.mp3`.
 - **증거 나레이션**: 도서관 창문(`detective-library-window.mp3`, 사용자 제공), 시계(`detective-library-clock.mp3`), 문(`detective-library-door.mp3`, 둘 다 MiniMax Grady, 사용자 제작). `PLACES.clues[].audio`로 연결한다. 나머지 장소 증거는 나레이션 없음.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 남은 답변(2026-10-16 적용)**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
@@ -328,32 +344,20 @@ node server.js            # http://localhost:5173/
 
 ## 10. 다음 할 일 (미구현 후보, 별도 요청 후 진행)
 
-1. **증거를 인물에게 내밀기**: 게임이 증거와 인물을 자동으로 잇지 않는다. 플레이어가 고른 인물에게 증거를 보여 주면 반응한다(예: 주황색 털을 피오나에게). 누구에게 보여 줄지가 추리다.
+1. **사건 도중 증거를 인물에게 내밀기**(지금은 엔딩 대질에만 있다): 게임이 증거와 인물을 자동으로 잇지 않는다. 플레이어가 고른 인물에게 증거를 보여 주면 반응한다(예: 주황색 털을 피오나에게). 누구에게 보여 줄지가 추리다.
 2. **모순 지목**: 범인만 고르는 대신 노트 문장 + 증거를 짝지어 제시한다. 틀리면 동료가 대화로 힌트를 준다. 틀린 노트 문장이면 동료가 "정말 그렇게 말했어요?"라고 되묻는다.
-3. **자백 장면**: 정답 뒤 범인이 영어 음성으로 진상을 말한다(피오나 Petra로 1–2줄).
+3. **엔딩 보완**: 자백 장면용 피오나 고개 숙인 그림(약 1.5 크레딧), 엔딩 음악.
 4. **채점 보완**: 재확인 횟수 제한·도토리 소모 또는 직접 입력 철자 관용을 검토한다. 현재 오답은 점선 밑줄로 표시하고 정답은 알려 주지 않는다.
 5. **자동 저장**: 기록 완료, 채점, 증거 획득, 장소 열림 때마다 저장하고 이어 하기를 지원한다.
 6. **복습 보완**: 틀린 문장만 모아 다시 듣기.
 7. **난이도 3단계**(단어 카드 / 첫 글자 힌트 / 직접 입력).
-8. **남은 목소리**: 빵집·카페·언덕 증거 나레이션. Mole m3·Rosie q1–q3의 감정 확인. Ray 네 대사는 모두 적용 완료.
+8. **남은 목소리**: 엔딩 8줄(6절 표). 빵집·카페·언덕 증거 나레이션. Mole m3·Rosie q1–q3의 감정 확인. Ray 네 대사는 모두 적용 완료.
 9. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다. 미사용 그림(`ui/notebook-*`, `*-sticker.png` 등) 정리 여부를 정한다.
 10. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 
 ### 10.1 최근 논의 — 미구현·미확정 사항
 
-- **범인 검거 성공 뒤 스토리 연출 (설계 확정 중, 미구현)**
-  - 사용자 결정: 대질은 **증거 내밀기**, 진상은 **다투다 일어난 사고**. 후일담·오답 반박·표정 그림은 사용자가 Claude 판단에 맡김.
-  - 흐름(약 60–90초): ① 빵집 대질(피오나의 주장마다 증거 노트에서 사진을 골라 반박, 틀리면 피오나가 한마디 하고 다시 고름, 감점·팝업 없음) → ② 자백(영어 음성 3줄, `다시 듣기`·`해석`만, 채점 없음) → ③ 도서관에서 오소리 경사 마무리 + 서류철 노트에 `CASE CLOSED` 도장 → ④ 후일담(언덕의 로지, 10초) → ⑤ 기존 복습 → 사건 목록.
-  - 대질 대본 초안(정답 증거):
-    1. 피오나 "I was at my bakery all evening…"(기존 `fiona-q1.mp3` 재사용) → 차가운 오븐 또는 문의 안내문(7시에 닫음).
-    2. 피오나 "Mrs. Bear came in to buy bread at eight thirty."(기존 `fiona-q2.mp3`) → "No bread tonight" 쪽지.
-    3. 피오나 "Fine, I closed early. But I was never at the library!"(새 줄) → 도서관 문의 주황색 털.
-    4. 피오나 "Lots of animals have orange fur!"(새 줄) → 창문의 보라색 잼(블루베리 파이와 연결은 플레이어 추리).
-    - 틀린 증거: "That has nothing to do with me."(새 줄)
-  - 자백 초안: "All right… I went to the library at eight thirty. I only wanted him to take back what he wrote about my pies." / "We argued. He stepped back, slipped, and hit the big clock. It stopped at eight forty." / "I was so scared, so I ran out through the window. I'm so sorry, Professor."
-  - 마무리 초안: 오소리 경사 "Fiona told us everything. Good work, detective. Case closed." 후일담 초안: 로지 "I found a new star last night. I'm going to call it Hoot."
-  - 오답 지목: 결과창 대신 지목된 인물이 기존 음성으로 반박(레이 q2, 로지 q2, 두더지 m1 재사용) 후 지도로 돌아간다.
-  - 새 음성 8줄(약 2.4 크레딧, 감정이 필요한 자백·후일담은 사용자 제작 권장). 진상은 결과 팝업 설명문이 아니라 자백 음성으로만 공개한다.
+- 지금 미확정 논의는 없다.
 
 ## 11. 알려진 이슈와 주의점
 

@@ -96,6 +96,24 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.partner .bubble::after{left:70px}
 @keyframes pop-side{from{transform:scale(.85);opacity:0}}
 /* phase title card (case start / each suspect coming in) */
+.app.ending .chip,.app.ending #hint,.app.ending .nav{visibility:hidden}
+.end-tools{display:flex;justify-content:flex-end;gap:8px}
+.end-ko{margin:0;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.45;box-shadow:2px 3px 0 rgba(74,54,40,.2)}
+.ask-panel .end-leave{align-self:center}
+/* a photo held up to the suspect */
+.presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
+.presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
+.presented svg{display:block;width:100%;height:100%}
+@keyframes present-in{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}80%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(-12px) rotate(-3deg)}}
+/* CASE CLOSED: the case file gets its stamp */
+.case-closed{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(40,30,24,.45);pointer-events:none;animation:cc-fade 2.6s ease forwards}
+.cc-file{position:relative;width:min(76%,290px);padding:34px 18px 64px;text-align:center;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);box-shadow:5px 6px 0 rgba(40,30,24,.3);transform:rotate(-1.5deg)}
+.cc-file small{display:block;font-size:12px;color:var(--ink-soft)}
+.cc-file b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
+.cc-stamp{position:absolute;left:50%;bottom:16px;font-family:var(--f-display);font-size:26px;letter-spacing:1px;color:#B8433F;border:4px solid #B8433F;border-radius:10px;padding:2px 12px;white-space:nowrap;transform:translateX(-50%) rotate(-10deg);animation:cc-stamp .45s cubic-bezier(.2,1.6,.4,1) .55s both}
+@keyframes cc-stamp{from{opacity:0;transform:translateX(-50%) rotate(-10deg) scale(2.4)}to{opacity:.92;transform:translateX(-50%) rotate(-10deg) scale(1)}}
+@keyframes cc-fade{0%{opacity:0}10%{opacity:1}86%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.presented figure,.cc-stamp{animation:none}}
 .stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(74,54,40,.38);pointer-events:none;animation:stage-card 1.9s ease forwards}
 .stage-card div{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);padding:12px 22px;text-align:center;box-shadow:4px 5px 0 rgba(74,54,40,.25)}
 .stage-card small{display:block;font-size:12px;color:var(--ink-soft)}
@@ -245,7 +263,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .word.sel{outline:3px solid var(--berry);outline-offset:2px}
 .ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-60%) rotate(-4deg);opacity:.95}
 .big{width:100%;justify-content:center;font-size:17px;padding:11px 14px;background:var(--berry);color:#FFFDF7}
-.big.green{background:var(--moss);color:var(--ink)}
+.big.green,.sm.green{background:var(--moss);color:var(--ink)}
 
 /* ---------- investigation: one large illustration per place, tap to find clues ---------- */
 .inv{display:none;flex:1 1 auto;min-height:0;flex-direction:column;background:var(--paper)}
@@ -939,6 +957,8 @@ const availableQuestions = speaker => {
 const cur = () => spk(S.cur);
 const st = () => per(S.cur);
 const suspects = () => S.met.filter(id => !spk(id).partner && !spk(id).witness);
+// the ending in progress (see "ending" below); endingRound = how many of Fiona's claims are answered (kept if the player leaves)
+let ending = null, endingRound = 0, endTimer;
 
 let toastT;
 function toast(msg, discovery = false){
@@ -1118,6 +1138,7 @@ function blockHTML(sIdx, qid, now){
 function renderAsk(){
   const box = $('#askPanel'), p = st(), s = cur();
   box.classList.remove('show-ko');
+  if(ending && !S.investigate){ box.innerHTML = endingControls(); return; }
   if(S.investigate || discoveryPerson){ box.innerHTML = ''; return; }
   let html = '';
   if(p.phase === 'choose'){
@@ -1132,6 +1153,8 @@ function renderAsk(){
   box.innerHTML = html;
 }
 $('#askPanel').addEventListener('click', e => {
+  const end = e.target.closest('[data-end]');
+  if(end) return endingAction(end.dataset.end);
   const q = e.target.closest('[data-q]');
   if(q) return ask(q.dataset.q);
   const ko = e.target.closest('#qKo');
@@ -1152,7 +1175,7 @@ function renderDock(){
   if(S.view === 'evidence'){
     body.innerHTML = `<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
       const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
-      return `<article class="evidence-card" data-evidence="${record.placeId}-${record.clueIndex}"><figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${record.photo}</figure><span class="place">${esc(place.label)}</span><h4>${esc(clue.label)}</h4><p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button></article>`;
+      return `<article class="evidence-card" data-evidence="${record.placeId}-${record.clueIndex}"><figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${record.photo}</figure><span class="place">${esc(place.label)}</span><h4>${esc(clue.label)}</h4><p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${record.placeId}-${record.clueIndex}">내밀기</button>` : ''}</article>`;
     }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
     body.scrollTop = 0;
     bindDock();
@@ -1197,6 +1220,7 @@ function bindDock(){
     button.setAttribute('aria-pressed', !translation.hidden);
   }));
   body.querySelectorAll('[data-replay]').forEach(button => button.addEventListener('click', () => replayLine(button.dataset.replay)));
+  body.querySelectorAll('[data-present]').forEach(button => button.addEventListener('click', () => present(button.dataset.present)));
   const bank = body.querySelector('#bank');
   if(bank){
     bank.addEventListener('pointerdown', dragStart);
@@ -1617,23 +1641,142 @@ $('#accuse').addEventListener('click', e => {
   if(!allConversationsDone()) return;
   const b = e.target.closest('[data-i]'); if(!b) return;
   $('#accuse').hidden = true;
-  const right = b.dataset.i === CULPRIT;
-  // Right/wrong feedback only — what happened is never explained in a popup.
-  $('#resultCard').innerHTML = right
-    ? `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
-       <p>정답이에요.</p>
-       <button class="pill big green" type="button" data-review>복습하기</button>
-       <button class="pill big" type="button" data-solved>사건 목록으로</button>`
-    : `<span class="eyebrow">Hmm, not quite…</span><h2>아직 확신할 수 없어요</h2>
-       <p>노트와 단서를 다시 살펴보세요.</p>
-       <button class="pill big" type="button" data-close-result>다시 조사하기</button>`;
-  $('#result').hidden = false;
+  if(b.dataset.i === CULPRIT) startEnding(); else wrongAccusation(b.dataset.i);
 });
 $('#result').addEventListener('click', e => {
   if(e.target.closest('[data-close-result]')) $('#result').hidden = true;
   if(e.target.closest('[data-solved]')){ markSolved(CASES[0].id); $('#result').hidden = true; openCaseList(); }
   if(e.target.closest('[data-review]')){ markSolved(CASES[0].id); $('#result').hidden = true; openReview(); }
 });
+
+/* ---------- ending ----------
+   Right accusation: ① at the bakery the player answers each of Fiona's claims with a photo from the
+   evidence notebook (a wrong photo: she brushes it off, no penalty) → ② she confesses → ③ Sgt. Badger
+   closes the case at the library (CASE CLOSED stamp) → ④ Rosie on the hill → ⑤ result → review.
+   What happened is told only by these lines. 해석 appears only once she has confessed.
+   Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
+const ENDING = {
+  confront:[
+    { key:'q1', accept:['bakery-0', 'bakery-1'] },   // "at my bakery all evening" → the 7 PM sign / the cold oven
+    { key:'q2', accept:['bakery-2'] },               // "Mrs. Bear came in at 8:30" → "No bread tonight"
+    { key:'end3', en:"Fine, I closed early. But I was never at the library!", ko:'좋아요, 일찍 닫았어요. 하지만 도서관에는 가지도 않았어요!', accept:['library-2'] },   // → the orange fur
+    { key:'end4', en:"Lots of animals have orange fur!", ko:'주황색 털을 가진 동물은 많잖아요!', accept:['library-1'] }   // → the purple jam
+  ],
+  miss:{ key:'endMiss', en:"That has nothing to do with me.", ko:'그건 저랑 아무 상관 없어요.' },
+  confession:[
+    { key:'confess1', en:"All right... I went to the library at eight thirty. I only wanted him to take back what he wrote about my pies.", ko:'알았어요… 8시 30분에 도서관에 갔어요. 제 파이에 대해 쓴 글을 거둬 달라고 하고 싶었을 뿐이에요.' },
+    { key:'confess2', en:"We argued. He stepped back, slipped, and hit the big clock. It stopped at eight forty.", ko:'우리는 말다툼을 했어요. 교수님이 뒤로 물러서다 미끄러져 큰 시계에 부딪혔어요. 시계는 8시 40분에 멈췄어요.' },
+    { key:'confess3', en:"I was so scared, so I ran out through the window. I'm so sorry, Professor.", ko:'너무 무서워서 창문으로 빠져나갔어요. 정말 죄송해요, 교수님.' }
+  ],
+  closing:{ who:'badger', key:'closing', en:"Fiona told us everything. Good work, detective. Case closed.", ko:'피오나가 모두 털어놓았어요. 수고했어요, 탐정님. 사건 종결이에요.' },
+  after:{ who:'rosie', key:'after', en:"I found a new star last night. I'm going to call it Hoot.", ko:'어젯밤에 새 별을 찾았어요. 그 별을 후트라고 부를 거예요.' }
+};
+// a wrong accusation: that person answers with the alibi they already gave
+const REBUTTAL = { mole:'m1', ray:'q2', rosie:'q2' };
+const fionaLine = l => ({ who:'fiona', key:l.key, en:l.en ?? spk('fiona').answers[l.key], ko:l.ko ?? ANSWERS_KO.fiona[l.key] });
+
+function endingControls(){
+  const e = ending;
+  if(!e.line || e.step === 'stamp') return '';
+  const solved = !['confront', 'wrong'].includes(e.step);
+  const tools = `<div class="end-tools"><button class="pill sm" type="button" data-end="replay">다시 듣기</button>${solved ? `<button class="pill sm" type="button" data-end="ko" aria-pressed="${e.ko}">해석</button>` : ''}</div>` +
+    (solved && e.ko ? `<p class="end-ko">${esc(e.line.ko)}</p>` : '');
+  if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button><button class="pill sm end-leave" type="button" data-end="leave">조금 더 조사할래요</button>`;
+  if(e.step === 'wrong') return tools + `<button class="pill big" type="button" data-end="leave">다시 조사하기</button>`;
+  return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
+}
+function endingAction(action){
+  const e = ending; if(!e) return;
+  if(action === 'replay') return speak(e.line.en, e.line.key, e.line.who);
+  if(action === 'ko'){ e.ko = !e.ko; renderAsk(); return; }
+  if(action === 'present'){ stopVoice(); S.view = 'evidence'; setNotes(true); noteRaised = true; renderDock(); return; }
+  if(action === 'leave') return leaveEnding();
+  if(action === 'next') endingNext();
+}
+// show someone (camera on them at their place) and play the line
+function endingSay(line){
+  clearTimeout(endTimer);
+  ending.line = line; ending.ko = false;
+  if(ending.shown !== line.who || S.investigate){
+    ending.shown = line.who;
+    stopVoice(); S.cur = line.who; S.view = line.who; S.sel = null;
+    openSheet(null); setNotes(false);
+    if(S.investigate) setInvestigate(false);
+    renderStage();
+  }
+  renderDock();
+  endTimer = setTimeout(() => { if(ending?.line === line) speak(line.en, line.key, line.who); }, 500);
+}
+function startEnding(){
+  ending = { step:'confront' };
+  $('#app').classList.add('ending');
+  endingSay(fionaLine(ENDING.confront[endingRound]));
+}
+function wrongAccusation(id){
+  ending = { step:'wrong' };
+  $('#app').classList.add('ending');
+  const key = REBUTTAL[id] || 'q2';
+  endingSay({ who:id, key, en:spk(id).answers[key], ko:ANSWERS_KO[id]?.[key] || '' });
+}
+function leaveEnding(){
+  clearTimeout(endTimer); stopVoice();
+  ending = null; $('#app').classList.remove('ending');
+  enterPlace(cur().place, true);
+  openSheet('map');
+}
+function present(ref){
+  if(ending?.step !== 'confront') return;
+  clearTimeout(endTimer); stopVoice();
+  setNotes(false); renderDock();
+  const record = S.evidence.find(r => `${r.placeId}-${r.clueIndex}` === ref);
+  const shot = document.createElement('div');
+  shot.className = 'presented';
+  shot.innerHTML = `<figure>${record.photo}</figure>`;
+  $('.scene').appendChild(shot);
+  setTimeout(() => shot.remove(), 1300);
+  const round = ENDING.confront[endingRound], right = round.accept.includes(ref);
+  endTimer = setTimeout(() => {
+    if(ending?.step !== 'confront') return;
+    if(!right) return speak(ENDING.miss.en, ENDING.miss.key, 'fiona');   // the claim stays; 다시 듣기 replays it
+    endingRound++;
+    if(endingRound < ENDING.confront.length) return endingSay(fionaLine(ENDING.confront[endingRound]));
+    // all four answered: a moment of silence, then she gives in
+    ending.step = 'confession'; ending.i = 0; ending.line = null; renderAsk();
+    endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0])), 1100);
+  }, 1300);
+}
+function endingNext(){
+  const e = ending;
+  clearTimeout(endTimer); stopVoice();
+  if(e.step === 'confession'){
+    if(++e.i < ENDING.confession.length) return endingSay(fionaLine(ENDING.confession[e.i]));
+    e.step = 'closing'; return endingSay(ENDING.closing);
+  }
+  if(e.step === 'closing') return caseClosedStamp();
+  if(e.step === 'after') finishEnding();
+}
+function caseClosedStamp(){
+  ending.step = 'stamp'; renderAsk();
+  const card = document.createElement('div');
+  card.className = 'case-closed';
+  card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b><span class="cc-stamp">CASE CLOSED</span></div>`;
+  $('.scene').appendChild(card);
+  endTimer = setTimeout(() => {
+    card.remove();
+    if(!ending) return;
+    ending.step = 'after'; endingSay(ENDING.after);
+  }, 2600);
+}
+function finishEnding(){
+  clearTimeout(endTimer); stopVoice();
+  ending = null; $('#app').classList.remove('ending');
+  renderDock();
+  markSolved(CASES[0].id);
+  $('#resultCard').innerHTML = `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
+     <button class="pill big green" type="button" data-review>복습하기</button>
+     <button class="pill big" type="button" data-solved>사건 목록으로</button>`;
+  $('#result').hidden = false;
+}
 
 /* ---------- review: after the case, the full lines, Korean, and the blanks missed at the first check ---------- */
 function openReview(){

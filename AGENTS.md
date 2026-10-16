@@ -30,7 +30,7 @@ Claude Code는 `.claude/launch.json`의 `pioo-dev`(5173)로 미리보기를 띄�
 ## 코드
 
 - 게임 전체가 `index.html` 한 파일이다(CSS → HTML → JS). 섹션은 `/* ---------- 이름 ---------- */` 주석으로 나뉜다.
-- 콘텐츠(인물, 대사, 노트 빈칸, 장소, 단서)는 JS 상단의 `PEOPLE`, `PLACES`, `CASES` 데이터에 있다.
+- 콘텐츠(인물, 대사, 노트 빈칸, 장소, 단서)는 JS 상단의 `PEOPLE`, `PLACES`, `CASES` 데이터에 있다. 엔딩 대사·정답 증거는 `ENDING`.
 - 음성은 `audio/<인물id>-<키>.mp3`이고, 인물 데이터의 `audio`에 연결한다.
 
 ## 지켜야 할 규칙
