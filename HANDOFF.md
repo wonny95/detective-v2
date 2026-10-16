@@ -18,7 +18,7 @@
   - **마지막까지 질문마다 조용히 확인 → 오답은 같은 노트에서 다시 듣고 수정 → 정답 정보 해금. 전체 기록은 Note로 직접 열기.**
   - 채점을 통과해야 장소·인물이 열리고, 새 장소가 열리면 지도가 열리며 핀이 강조된다.
   - 전체 화면 그림 마을 지도.
-  - **엔딩**: 빵집 대질(증거 내밀기) → 피오나 자백 → 도서관 CASE CLOSED → 언덕 후일담 → 결과 → 복습. 오답 지목은 그 인물의 음성 반박(3.7절).
+  - **엔딩**: 빵집 대질(증거 내밀기) → 피오나 자백 → 도서관 CASE CLOSED → 결과 → 복습. 오답 지목은 그 인물의 음성 반박(3.7절).
 - **미리보기 주소**
   - Claude Code는 `.claude/launch.json`의 `pioo-dev`로 **http://localhost:5173/** 을 쓴다.
   - Codex는 `PORT=5174`로 **http://localhost:5174/** 을 썼다. 같은 폴더를 서빙하므로 둘 다 최신 화면이다.
@@ -165,9 +165,8 @@ node server.js            # http://localhost:5173/
      - **피오나 표정**(`S.mood`, `setMood()`): 주장 1·2는 기본, 빵집 거짓말이 들킨 뒤 주장 3·4는 당황(`fiona-nervous.png`), 자백은 고개 숙임(`fiona-sad.png`). 틀린 사진이면 기본으로 돌아간다.
      - 사건 중이라 대질 단계에는 `해석`이 없다.
   2. **자백**: 잠깐 침묵 뒤 3줄. 버튼은 `다시 듣기`, `해석`(한국어 상자), `다음`.
-  3. **마무리**: 도서관으로 바뀌어 오소리 경사 1줄 → `다음` → `CASE CLOSED` 도장 카드(2.6초, `.case-closed`).
-  4. **후일담**: 언덕의 로지 1줄 → `다음`.
-  5. 해결 기록 저장(`markSolved`) 후 결과창(`사건 해결` + `복습하기` / `사건 목록으로`).
+  3. **마무리**: 도서관으로 바뀌어 오소리 경사 1줄 → `다음` → `CASE CLOSED` 도장 카드(2.6초, `.case-closed`). 후일담 장면은 사용자 결정으로 없앴다.
+  4. 도장 카드가 사라지면 해결 기록 저장(`markSolved`) 후 결과창(`사건 해결` + `복습하기` / `사건 목록으로`).
 - **오답 지목**: 결과창 대신 그 인물이 이미 한 알리바이를 음성으로 다시 말한다(`REBUTTAL`: 두더지 m1, 레이 q2, 로지 q2). 버튼은 `다시 듣기`, `다시 조사하기`(그 장소 현장 + 지도).
 - **복습 화면**(`openReview()`)
   - 별점: 각 질문 첫 제출 결과를 합산한 정확도로 1–3개(90% / 70% 기준).
@@ -270,12 +269,12 @@ node server.js            # http://localhost:5173/
 | Fiona Fox | Petra | 4줄 완료 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정 미적용, 사용자 확인 대기) |
-| 엔딩 | Petra·Fraser·Evie | 8줄 모두 사용자 제작본 적용(아래) |
+| 엔딩 | Petra·Fraser | 7줄 모두 사용자 제작본 적용(아래) |
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
 - **엔딩 대사**(사용자 제작, MiniMax, 2026-10-16). 대사는 `ENDING`, 파일은 각 인물 `audio`의 키로 연결한다.
   - 피오나(Petra): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess2` fearful(`5dcffd54-…`), `confess3` fearful(`4cd66913-…`).
-  - 오소리 경사(Fraser) `closing`(`e596cbfc-…`), 로지(Evie, sad) `after`(`675f1ad5-…`).
+  - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
 - **사용자가 Higgsfield에서 만든 음성 찾기**: 링크가 없어도 Higgsfield MCP `show_generations`(type `audio`)로 최근 생성 목록(대사·목소리·감정·mp3 주소)을 읽어 대사 문장으로 짝지을 수 있다. 같은 줄이 여러 번 있으면 최신 테이크를 쓰고 사용자에게 알린다.
 - **증거 나레이션**: 도서관 창문(`detective-library-window.mp3`, 사용자 제공), 시계(`detective-library-clock.mp3`), 문(`detective-library-door.mp3`, 둘 다 MiniMax Grady, 사용자 제작). `PLACES.clues[].audio`로 연결한다. 나머지 장소 증거는 나레이션 없음.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.

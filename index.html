@@ -692,8 +692,7 @@ const PEOPLE = {
   rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
     hello:"H-hello. I'm Rosie. I'm a little scared, detective.",
     // recorded voice (Higgsfield · MiniMax · Evie, fearful)
-    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3',
-      after:'audio/rosie-after.mp3' },
+    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3' },
     unlocks:{ q1:{ places:['hill'] } },
     answers:{
       q1:"I was on Moon Hill with my telescope, from eight to ten. The sky was so clear tonight.",
@@ -1681,7 +1680,7 @@ $('#result').addEventListener('click', e => {
 /* ---------- ending ----------
    Right accusation: ① at the bakery the player answers each of Fiona's claims with a photo from the
    evidence notebook (a wrong photo: she brushes it off, no penalty) → ② she confesses → ③ Sgt. Badger
-   closes the case at the library (CASE CLOSED stamp) → ④ Rosie on the hill → ⑤ result → review.
+   closes the case at the library (CASE CLOSED stamp) → ④ result → review.
    What happened is told only by these lines. 해석 appears only once she has confessed.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
 const ENDING = {
@@ -1697,8 +1696,7 @@ const ENDING = {
     { key:'confess2', en:"We argued. He stepped back, slipped, and hit the big clock. It stopped at eight forty.", ko:'우리는 말다툼을 했어요. 교수님이 뒤로 물러서다 미끄러져 큰 시계에 부딪혔어요. 시계는 8시 40분에 멈췄어요.' },
     { key:'confess3', en:"I was so scared, so I ran out through the window. I'm so sorry, Professor.", ko:'너무 무서워서 창문으로 빠져나갔어요. 정말 죄송해요, 교수님.' }
   ],
-  closing:{ who:'badger', key:'closing', en:"Fiona told us everything. Good work, detective. Case closed.", ko:'피오나가 모두 털어놓았어요. 수고했어요, 탐정님. 사건 종결이에요.' },
-  after:{ who:'rosie', key:'after', en:"I found a new star last night. I'm going to call it Hoot.", ko:'어젯밤에 새 별을 찾았어요. 그 별을 후트라고 부를 거예요.' }
+  closing:{ who:'badger', key:'closing', en:"Fiona told us everything. Good work, detective. Case closed.", ko:'피오나가 모두 털어놓았어요. 수고했어요, 탐정님. 사건 종결이에요.' }
 };
 // a wrong accusation: that person answers with the alibi they already gave
 const REBUTTAL = { mole:'m1', ray:'q2', rosie:'q2' };
@@ -1803,7 +1801,6 @@ function endingNext(){
     e.step = 'closing'; return endingSay(ENDING.closing);
   }
   if(e.step === 'closing') return caseClosedStamp();
-  if(e.step === 'after') finishEnding();
 }
 function caseClosedStamp(){
   ending.step = 'stamp'; renderAsk();
@@ -1813,8 +1810,7 @@ function caseClosedStamp(){
   $('.scene').appendChild(card);
   endTimer = setTimeout(() => {
     card.remove();
-    if(!ending) return;
-    ending.step = 'after'; endingSay(ENDING.after);
+    if(ending) finishEnding();
   }, 2600);
 }
 function finishEnding(){
