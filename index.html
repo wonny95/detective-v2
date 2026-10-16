@@ -594,7 +594,8 @@ const PEOPLE = {
     pitch:.9, voice:3, bg:'#DCE3F0', openingQuestion:'b1',
     hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
     // recorded voice (Higgsfield · MiniMax · Fraser)
-    audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3' },
+    audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3',
+      closing:'audio/badger-closing.mp3' },
     questions:[
       { id:'b1', en:'What happened here?', ko:'여기서 무슨 일이 있었나요?' },
       { id:'b2', en:'Who found the victim?', ko:'피해자를 누가 발견했나요?' },
@@ -646,7 +647,10 @@ const PEOPLE = {
   fiona: { id:'fiona', name:'Fiona Fox', ko:'여우 피오나', job:'빵집 주인', place:'bakery', pitch:1.15, voice:0, bg:'#F8D9C6',
     hello:"Good evening, detective. I'm Fiona. Please, make it quick. I have pies to bake.",
     // recorded voice (Higgsfield · MiniMax · Petra). People without clips fall back to browser TTS.
-    audio:{ hello:'audio/fiona-hello.mp3', q1:'audio/fiona-q1.mp3', q2:'audio/fiona-q2.mp3', q3:'audio/fiona-q3.mp3' },
+    audio:{ hello:'audio/fiona-hello.mp3', q1:'audio/fiona-q1.mp3', q2:'audio/fiona-q2.mp3', q3:'audio/fiona-q3.mp3',
+      // ending (user-made, Petra with emotion): the confrontation, a wrong photo, the confession
+      end3:'audio/fiona-end3.mp3', end4:'audio/fiona-end4.mp3', endMiss:'audio/fiona-endMiss.mp3',
+      confess1:'audio/fiona-confess1.mp3', confess2:'audio/fiona-confess2.mp3', confess3:'audio/fiona-confess3.mp3' },
     unlocks:{ q1:{ places:['bakery'] } },
     answers:{
       q1:"I was at my bakery all evening, from seven to ten. I was baking blueberry pies for the festival tomorrow.",
@@ -687,7 +691,8 @@ const PEOPLE = {
   rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
     hello:"H-hello. I'm Rosie. I'm a little scared, detective.",
     // recorded voice (Higgsfield · MiniMax · Evie, fearful)
-    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3' },
+    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3',
+      after:'audio/rosie-after.mp3' },
     unlocks:{ q1:{ places:['hill'] } },
     answers:{
       q1:"I was on Moon Hill with my telescope, from eight to ten. The sky was so clear tonight.",

@@ -26,7 +26,6 @@
 - **에이전트 협업**: Codex와 Claude Code가 같은 폴더·같은 `main` 브랜치에서 번갈아 작업한다. 한 번에 한 쪽만 작업하고, 끝낸 쪽이 `HANDOFF.md`·`CHANGELOG.md`를 갱신해 커밋한다(`AGENTS.md`). 동시에 일해야 할 때만 `CLAUDE_REQUEST.md`로 요청을 넘긴다.
 - **아직 없는 것**
   - 진행 상태 자동 저장, 사건 도중의 증거 내밀기·모순 지목(엔딩 대질에만 있다).
-  - 엔딩 새 대사 8줄의 녹음(지금은 브라우저 TTS, 6절).
   - 다음 작업 후보는 10절에 있다.
 
 ## 1. 실행
@@ -271,12 +270,13 @@ node server.js            # http://localhost:5173/
 | Fiona Fox | Petra | 4줄 완료 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정 미적용, 사용자 확인 대기) |
-| 엔딩 (TTS 임시) | Petra·Fraser·Evie | 아래 8줄. 파일을 `audio/`에 넣고 해당 인물 `audio`에 키를 추가하면 바로 재생된다 |
+| 엔딩 | Petra·Fraser·Evie | 8줄 모두 사용자 제작본 적용(아래) |
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
-- **엔딩 대사 녹음 대기**(키 → 파일 이름 제안). 대사는 `ENDING`에 있다.
-  - 피오나(Petra): `end3` → `audio/fiona-end3.mp3` "Fine, I closed early. But I was never at the library!", `end4` → `fiona-end4.mp3` "Lots of animals have orange fur!", `endMiss` → `fiona-endMiss.mp3` "That has nothing to do with me.", `confess1`–`confess3` → `fiona-confess1…3.mp3`(자백 3줄, 감정 권장).
-  - 오소리 경사(Fraser): `closing` → `audio/badger-closing.mp3`. 로지(Evie): `after` → `audio/rosie-after.mp3`.
+- **엔딩 대사**(사용자 제작, MiniMax, 2026-10-16). 대사는 `ENDING`, 파일은 각 인물 `audio`의 키로 연결한다.
+  - 피오나(Petra): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess2` fearful(`5dcffd54-…`), `confess3` fearful(`4cd66913-…`).
+  - 오소리 경사(Fraser) `closing`(`e596cbfc-…`), 로지(Evie, sad) `after`(`675f1ad5-…`).
+- **사용자가 Higgsfield에서 만든 음성 찾기**: 링크가 없어도 Higgsfield MCP `show_generations`(type `audio`)로 최근 생성 목록(대사·목소리·감정·mp3 주소)을 읽어 대사 문장으로 짝지을 수 있다. 같은 줄이 여러 번 있으면 최신 테이크를 쓰고 사용자에게 알린다.
 - **증거 나레이션**: 도서관 창문(`detective-library-window.mp3`, 사용자 제공), 시계(`detective-library-clock.mp3`), 문(`detective-library-door.mp3`, 둘 다 MiniMax Grady, 사용자 제작). `PLACES.clues[].audio`로 연결한다. 나머지 장소 증거는 나레이션 없음.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 남은 답변(2026-10-16 적용)**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
@@ -353,7 +353,7 @@ node server.js            # http://localhost:5173/
 5. **자동 저장**: 기록 완료, 채점, 증거 획득, 장소 열림 때마다 저장하고 이어 하기를 지원한다.
 6. **복습 보완**: 틀린 문장만 모아 다시 듣기.
 7. **난이도 3단계**(단어 카드 / 첫 글자 힌트 / 직접 입력).
-8. **남은 목소리**: 엔딩 8줄(6절 표). 빵집·카페·언덕 증거 나레이션. Mole m3·Rosie q1–q3의 감정 확인. Ray 네 대사는 모두 적용 완료.
+8. **남은 목소리**: 빵집·카페·언덕 증거 나레이션. Mole m3·Rosie q1–q3의 감정 확인. Ray 네 대사는 모두 적용 완료.
 9. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다. 미사용 그림(`ui/notebook-*`, `*-sticker.png` 등) 정리 여부를 정한다.
 10. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 
