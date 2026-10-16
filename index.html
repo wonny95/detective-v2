@@ -73,7 +73,6 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 140px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
 .chip.l{left:14px}
 .chip-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.chip-progress{flex:none;font-size:12px;color:var(--ink-soft);white-space:nowrap}
 .map-btn{position:relative}
 .map-btn:active{transform:translateY(2px);box-shadow:none}
 .map-btn.new::after{content:"";position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
@@ -461,7 +460,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
     <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
     <!-- PART 1: interrogation stage -->
     <section class="scene" aria-label="대화 장면">
-      <button class="chip l" type="button" id="orderChip">브리핑 · 0/3</button>
+      <button class="chip l" type="button" id="orderChip">← 현장 둘러보기</button>
       <div class="bubble" id="bubble" hidden role="status"></div>
       <div class="stage-area" id="talkCamera"></div>
       <div class="ask-panel" id="askPanel"></div>
@@ -1116,12 +1115,11 @@ new ResizeObserver(() => {
 }).observe($('#talkCamera'));
 // The top-left chip leaves the conversation for the place it happens in (not until the briefing is done).
 function renderChip(){
-  const p = st(), s = cur(), oc = $('#orderChip');
+  const s = cur(), oc = $('#orderChip');
   if(discoveryPerson){ oc.textContent = '← 돌아가기'; oc.disabled = false; return; }
   const location = S.known.has(s.place) ? placeOf(s.place).label : '현장 둘러보기';
-  const n = p.order.length - (p.phase === 'record' ? 1 : 0);
-  oc.innerHTML = `<span class="chip-label">← ${esc(location)}</span>` +
-    (p.phase === 'done' ? '' : `<span class="chip-progress">· ${n}/${qs(s).length}</span>`);
+  // no question count: how many questions someone has is not shown
+  oc.innerHTML = `<span class="chip-label">← ${esc(location)}</span>`;
   oc.disabled = false;
 }
 function showBubble(qid){
@@ -1308,6 +1306,14 @@ function talkTo(id){
 }
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
 function leaveTalk(){ enterPlace(cur().place, true); }
+// Tapping the scene around the person (not the person, not a button) also goes back to the whole place,
+// with the same camera move as the top chip. The picture itself is inert here, so the tap lands on #talkCamera.
+$('#talkCamera').addEventListener('click', e => {
+  if(S.investigate || ending || discoveryPerson || $('#app').classList.contains('notes-open')) return;
+  const r = $(`#talkCamera .scene-npc[data-talk="${S.cur}"]`)?.getBoundingClientRect();
+  if(r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) return;
+  leaveTalk();
+});
 function ask(qid){
   if(discoveryPerson || S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
   clearTimeout(greetingTimer);
