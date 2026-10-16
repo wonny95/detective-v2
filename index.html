@@ -68,6 +68,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .ask-panel:not(.show-ko) .ko{display:none}
 .ask-panel .q{box-shadow:3px 3px 0 rgba(74,54,40,.25)}
 .app.notes-open .ask-panel{display:none}
+.app.discovering .ask-panel,.app.discovering #hint{display:none}
 .app.investigate .scene{display:none}
 .chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 140px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
 .chip.l{left:14px}
@@ -156,8 +157,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .dock-head .listen .pill{padding:5px 10px;font-size:13px}
 .note-page{position:relative}
 .note-page.checked::after{content:"확인됨";position:absolute;top:2px;right:4px;transform:rotate(-10deg);border:3px solid var(--no);border-radius:8px;padding:1px 10px;color:var(--no);font-family:var(--f-display);font-size:18px;opacity:.8;pointer-events:none}
-.mcard.alert{max-width:300px;align-items:stretch;text-align:center}
-.mcard.alert p{font-size:16px;line-height:1.5;padding:6px 0 2px}
 /* checking a finished conversation: the notebook rises to the top (tabs stay visible above it) */
 .app.note-full .dock{height:calc(100% - 50px)}
 .app.note-full .pill.hint,.app.note-full .chip,.app.note-full .bubble{visibility:hidden}
@@ -226,6 +225,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nblock{border-radius:10px;padding:2px 6px;margin-left:-6px}
 .nblock.now{background:rgba(242,207,115,.28)}
 .nblock .qlabel{display:block;font-size:11px;color:var(--ink-soft);padding-top:4px}
+.question-state{display:inline-flex;align-items:center;gap:4px;margin:6px 0 2px;padding:2px 8px;border-radius:12px;font-family:var(--f-display);font-size:12px;line-height:1.5}
+.question-state.ok{background:#E8EFDD;color:#466249}
+.question-state.review{background:#F8EAC4;color:#816124}
+.blank.review{border-bottom-color:#BC9854;border-bottom-style:dotted}
 .nline{font-family:var(--f-hand);font-size:20px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
 /* written answers are in neutral pen ink; a check strikes through only the wrong ones */
@@ -311,8 +314,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pin{position:absolute;transform:translate(-50%,-50%);border:2px solid var(--ink);background:var(--paper);border-radius:var(--r-wobble);padding:4px 10px;font-family:var(--f-display);font-size:13px;white-space:nowrap;box-shadow:2px 2px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;align-items:center;gap:3px}
 .pin.crime{background:var(--berry);color:#FFFDF7}
 /* a place that has just become known: the pin pops out, then a honey ring pulses around it */
-.pin.fresh{animation:pin-pop .7s cubic-bezier(.3,1.7,.5,1) .55s both;z-index:2}
-.pin.fresh::after{content:"";position:absolute;inset:-7px;border:3px solid var(--honey);border-radius:20px;opacity:0;pointer-events:none;animation:pin-ring 1.1s ease-out 1.2s 3}
+.pin.fresh{animation:pin-pop .6s cubic-bezier(.22,.7,.25,1) .5s both;z-index:2}
+.pin.fresh::after{content:"";position:absolute;inset:-7px;border:2px solid var(--honey);border-radius:20px;opacity:0;pointer-events:none;animation:pin-ring 1.2s ease-out 1.1s 2}
 @keyframes pin-pop{from{transform:translate(-50%,-50%) scale(0)}to{transform:translate(-50%,-50%) scale(1)}}
 @keyframes pin-ring{0%{opacity:1;transform:scale(.92)}100%{opacity:0;transform:scale(1.45)}}
 @media(prefers-reduced-motion:reduce){.pin.fresh,.pin.fresh::after{animation:none}.pin.fresh{box-shadow:0 0 0 4px var(--honey)}}
@@ -384,6 +387,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
+.toast.discovery-toast{background:var(--paper);color:var(--ink);border:1.5px solid rgba(74,54,40,.3);box-shadow:0 3px 12px rgba(74,54,40,.12)}
 
 /* test tool outside the frame: left of the phone on wide screens, small top-right badge on phones */
 .devtools{position:fixed;z-index:200;top:16px;right:16px;display:flex;gap:6px}
@@ -485,7 +489,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
       <button class="x" type="button" data-close aria-label="지도 닫기">×</button>
     </div>
     <div class="map-foot">
-      <button class="pill big" id="accuseBtn" type="button">범인 지목하기</button>
+      <button class="pill big" id="accuseBtn" type="button" hidden>범인 지목하기</button>
       <div class="map-links">
         <button class="linkbtn" type="button" id="toCases">사건 목록</button>
         <button class="linkbtn" type="button" id="howtoMap">플레이 방법 다시 보기</button>
@@ -539,13 +543,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
   <div class="modal" id="result" hidden>
     <div class="mcard" id="resultCard"></div>
-  </div>
-
-  <div class="modal" id="checkAlert" hidden role="alertdialog" aria-labelledby="checkAlertText">
-    <div class="mcard alert">
-      <p id="checkAlertText"></p>
-      <button class="pill big" type="button" data-ok>확인</button>
-    </div>
   </div>
 
   <div class="modal" id="review" hidden>
@@ -653,8 +650,7 @@ const PEOPLE = {
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
     hello:"Hey, detective. I'm Ray. I didn't do anything, okay?",
-    // recorded voice (Higgsfield · MiniMax · Archie): q1 only so far, the rest uses browser TTS
-    audio:{ q1:'audio/ray-q1.mp3' },
+    audio:{ hello:'audio/ray-hello.mp3', q1:'audio/ray-q1.mp3', q2:'audio/ray-q2.mp3', q3:'audio/ray-q3.mp3' },
     unlocks:{ q1:{ places:['cafe'] } },
     answers:{
       q1:"I was at the Lake Cafe. I played my guitar on stage from eight to nine thirty.",
@@ -898,7 +894,7 @@ const miniSVG = id => SPRITES[id]
    phase per person: 'wait' (not talked to yet) → 'choose' (question cards) → 'record' (listening + writing) → … → 'done'
    S.investigate = the place view is showing (otherwise the conversation view). */
 // checked: the page got its 확인됨 stamp. first/firstWrong: the result of the first 노트 확인 (for the review).
-const newSpeakerState = () => ({ phase:'wait', hints:3, order:[], recording:null, revealed:new Set(), notes:{}, marks:{}, checked:false, retry:[], first:null, firstWrong:{} });
+const newSpeakerState = () => ({ phase:'wait', hints:3, order:[], recording:null, revealed:new Set(), notes:{}, marks:{}, checked:false, retry:[], questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
 const S = {
   cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
   place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
@@ -922,8 +918,9 @@ const st = () => per(S.cur);
 const suspects = () => S.met.filter(id => !spk(id).partner);
 
 let toastT;
-function toast(msg){
+function toast(msg, discovery = false){
   const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  t.classList.toggle('discovery-toast', discovery);
   clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400);
 }
 
@@ -983,7 +980,7 @@ function speak(text, key, who = S.cur){
 }
 
 /* ---------- stage ---------- */
-let cameraMotion;
+let cameraMotion, discoveryPerson = null, discoveryTimer, discoveryOrigin = null, discoveryRun = 0;
 function animateCamera(art, from, to){
   cameraMotion?.cancel();
   art.style.transform = to;
@@ -996,10 +993,11 @@ function animateCamera(art, from, to){
 // current framing (the note opened or closed).
 function focusCamera(fromRect, glide = false){
   if(S.investigate) return;
-  const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(cur().place);
+  const subject = discoveryPerson || S.cur;
+  const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(spk(subject).place);
   const width = viewport.clientWidth, height = viewport.clientHeight;
   if(!width || !height) return;
-  const position = NPC_POSITIONS[S.cur];
+  const position = NPC_POSITIONS[subject];
   const worldWidth = place.artWidth || 900, worldHeight = place.artHeight || 600;
   // Note closed: a 44%-tall NPC fills 58% of the scene with the feet just above the question
   // buttons. Note open: it shrinks to 46% with the head just under the top chips, so the face
@@ -1018,7 +1016,7 @@ function focusCamera(fromRect, glide = false){
 }
 function renderStage(fromRect){
   $('#app').classList.toggle('partner', !!cur().partner);
-  renderScene(cur().place);
+  renderScene(spk(discoveryPerson || S.cur).place);
   const art = $('#art');
   $('#talkCamera').appendChild(art);
   art.inert = true;
@@ -1032,6 +1030,7 @@ new ResizeObserver(() => {
 // The top-left chip leaves the conversation for the place it happens in (not until the briefing is done).
 function renderChip(){
   const p = st(), s = cur(), oc = $('#orderChip');
+  if(discoveryPerson){ oc.textContent = '← 돌아가기'; oc.disabled = false; return; }
   const location = S.known.has(s.place) ? placeOf(s.place).label : '현장 둘러보기';
   const n = p.order.length - (p.phase === 'record' ? 1 : 0);
   oc.innerHTML = `<span class="chip-label">← ${esc(location)}</span>` +
@@ -1078,7 +1077,7 @@ function blockHTML(sIdx, qid, now){
     line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans, idx) => {
       html += esc(line.slice(last, idx));
       const v = p.notes[id] || '', mk = p.marks[id] || '';
-      html += `<input class="blank ${mk}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸"${p.checked ? ' readonly' : ''}>`;
+      html += `<input class="blank ${mk}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
       last = idx + m.length; return m;
     });
     return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
@@ -1086,7 +1085,9 @@ function blockHTML(sIdx, qid, now){
   const label = `Q. ${esc(q.en)}`;
   // outside the live recording, each answer can be heard again while checking the page
   const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
-  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${lines}</div>`;
+  const status = p.questionChecks[qid];
+  const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
+  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}</div>`;
 }
 
 // Under the person: question buttons (choose), a button to take the notebook out again (record),
@@ -1094,7 +1095,7 @@ function blockHTML(sIdx, qid, now){
 function renderAsk(){
   const box = $('#askPanel'), p = st(), s = cur();
   box.classList.remove('show-ko');
-  if(S.investigate){ box.innerHTML = ''; return; }
+  if(S.investigate || discoveryPerson){ box.innerHTML = ''; return; }
   let html = '';
   if(p.phase === 'choose'){
     const all = qs(s), left = availableQuestions(s);
@@ -1116,14 +1117,15 @@ $('#askPanel').addEventListener('click', e => {
   if(e.target.closest('#toPlace')) leaveTalk();
 });
 // a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
-let stampShowing = false, checkShowing = false, noteRaised = false, stampTimer;
+let noteRaised = false, stampTimer;
 function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint();
   const body = $('#dockBody');
   const mode = noteMode();
   $('#finish').hidden = !mode;
   // the check of a finished conversation (its result or fresh stamp) takes the whole screen
-  $('#app').classList.toggle('note-full', checkShowing || stampShowing || noteRaised);
+  $('#app').classList.toggle('note-full', noteRaised);
+  $('#finish').textContent = mode === 'summary' ? '계속' : mode && per(S.view).questionChecks[per(S.view).recording] === 'review' ? '다시 확인' : '기록 완료';
   if(S.view === 'evidence'){
     body.innerHTML = `<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
       const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
@@ -1142,8 +1144,8 @@ function renderDock(){
   $('#slow').setAttribute('aria-pressed', S.slow);
 
   // while writing down an answer, the page shows only that question; the full page comes back afterwards
-  const shown = live && p.phase === 'record' ? [p.recording] : vp.order;
-  html += `<div class="note-page${vp.checked ? ' checked' : ''}" id="notePage">${
+  const shown = live && (p.phase === 'record' || p.feedback) ? [p.recording || p.feedback] : vp.order;
+  html += `<div class="note-page${vp.checked && !(live && p.feedback) ? ' checked' : ''}" id="notePage">${
     shown.length
       ? shown.map(qid => blockHTML(S.view, qid, live && qid === p.recording)).join('')
       : `<div class="empty-note">질문을 고르면 받아 적을 줄이 여기에 생겨요.</div>`
@@ -1193,6 +1195,8 @@ function stageCard(title, sub){
 let greetingTimer;
 const sceneScroll = {};
 function talkTo(id){
+  discoveryRun++;
+  if(discoveryPerson) finishDiscovery(false);
   clearTimeout(greetingTimer);
   const fromRect = S.investigate && S.place === spk(id).place ? $('#art').getBoundingClientRect() : null;
   if(S.investigate && S.place) sceneScroll[S.place] = artWrap.scrollLeft;
@@ -1214,19 +1218,19 @@ function talkTo(id){
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
 function leaveTalk(){ enterPlace(cur().place, true); }
 function ask(qid){
-  if(S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
+  if(discoveryPerson || S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
   clearTimeout(greetingTimer);
-  const speakerId = S.cur;
+  clearTimeout(stampTimer);
+  discoveryRun++;
   const p = st();
+  p.feedback = null;
   p.phase = 'record'; p.recording = qid;
   if(!p.order.includes(qid)) p.order.push(qid);
   hideBubble();
   speak(cur().answers[qid], qid);
+  S.view = S.cur;
   renderDock();
-  // as the answer starts, the detective pulls the notebook out (sketch 3)
-  setTimeout(() => {
-    if(!S.investigate && S.cur === speakerId && st().phase === 'record' && st().recording === qid){ S.view = S.cur; renderDock(); setNotes(true); }
-  }, 700);
+  setNotes(true);
 }
 function useHint(){
   const p = st(), qid = p.recording;
@@ -1237,96 +1241,80 @@ function useHint(){
 }
 const norm = s => s.toLowerCase().replace(/[.'’,!]/g,'').replace(/\s+/g,' ').trim().replace(/\s?pm$/,'');
 function finishRecord(){
+  if(S.investigate || st().phase !== 'record' || S.view !== S.cur) return;
   const p = st();
-  const blanks = [...document.querySelectorAll(`.nblock[data-q="${p.recording}"] .blank`)];
+  const qid = p.recording;
+  const blanks = [...document.querySelectorAll(`.nblock[data-q="${qid}"] .blank`)];
   const empty = blanks.filter(b => !b.value.trim());
   if(empty.length){ empty[0].focus(); return toast(`빈칸 ${empty.length}개가 남았어요. 모두 채워야 기록이 끝나요.`); }
-  // saved as heard: no right/wrong here. The page is checked once the whole conversation is done.
-  const again = p.retry.includes(p.recording);
-  p.retry = p.retry.filter(qid => qid !== p.recording);
-  p.recording = null;
-  p.phase = !p.retry.length && p.order.length === qs(cur()).length ? 'done' : 'choose';
+  const answers = blanksOf(S.cur, [qid]);
+  recordFirst(S.cur, qid);
+  const correct = answers.every(isRight);
+  p.questionChecks[qid] = correct ? 'ok' : 'review';
+  answers.forEach(answer => {
+    if(correct) p.marks[answer.id] = 'ok';
+    else if(!isRight(answer)) p.marks[answer.id] = 'review';
+    else delete p.marks[answer.id];
+  });
   hideBubble();
   stopVoice();
-  setTalking(false);
-  if(p.phase === 'done'){ S.view = S.cur; checkNotes(S.cur); return; }   // conversation over: the page is checked now
-  if(!again) toast('노트에 기록했어요.');
-  setNotes(false);   // the notebook goes away and the remaining questions come back
+  if(!correct){
+    if(!p.retry.includes(qid)) p.retry.push(qid);
+    renderDock();
+    return;
+  }
+  p.retry = p.retry.filter(question => question !== qid);
+  p.recording = null;
+  p.phase = qs(cur()).every(question => p.questionChecks[question.id] === 'ok') ? 'done' : 'choose';
+  const revealed = unlock(cur().unlocks?.[qid], true) || {};
+  pendingPins.push(...(revealed.places || []));
+  pendingPeople.push(...(revealed.people || []));
+  if(p.phase === 'done') checkNotes(S.cur);
+  p.feedback = qid;
   renderDock();
+  const speakerId = S.cur;
+  clearTimeout(stampTimer);
+  stampTimer = setTimeout(() => {
+    if(S.cur !== speakerId || p.feedback !== qid || S.investigate) return;
+    setNotes(false);
+    revealDiscoveries();
+  }, 1800);
 }
 // What the header button does on the page being viewed.
 function noteMode(){
   if(S.view === 'evidence') return null;
   const p = per(S.view);
+  if(noteRaised && p.checked && !p.feedback) return 'summary';
   if(S.view === S.cur && !S.investigate && p.phase === 'record') return 'record';
   return null;
 }
 const BLANK_RE = /\{\{(\w+)\|([^}]+)\}\}/g;
 // Every blank on a person's page, in the order the questions were asked.
-function blanksOf(id){
+function blanksOf(id, qids = per(id).order){
   const s = spk(id), p = per(id), out = [];
-  p.order.forEach(qid => s.notes[qid].forEach(line => line.replace(BLANK_RE, (m, bid, ans) => {
+  qids.forEach(qid => s.notes[qid].forEach(line => line.replace(BLANK_RE, (m, bid, ans) => {
     out.push({ qid, id:bid, ans, value:p.notes[bid] || '' }); return m;
   })));
   return out;
 }
 const isRight = b => b.ans.split('/').map(norm).includes(norm(b.value));
-function recordFirst(id){
+function recordFirst(id, qid){
   const p = per(id);
-  if(p.first) return;
-  const all = blanksOf(id), wrong = all.filter(b => !isRight(b));
-  p.first = { ok:all.length - wrong.length, total:all.length };
-  p.firstWrong = Object.fromEntries(wrong.map(b => [b.id, b.value]));
+  const questions = qid ? [qid] : p.order;
+  questions.forEach(question => {
+    if(p.firstQuestions[question]) return;
+    const answers = blanksOf(id, [question]), wrong = answers.filter(answer => !isRight(answer));
+    p.firstQuestions[question] = {ok:answers.length - wrong.length, total:answers.length};
+    Object.assign(p.firstWrong, Object.fromEntries(wrong.map(answer => [answer.id, answer.value])));
+  });
+  p.first = Object.values(p.firstQuestions).reduce((total, result) => ({ok:total.ok + result.ok, total:total.total + result.total}), {ok:0, total:0});
 }
 function checkNotes(id){
-  const p = per(id), all = blanksOf(id);
-  const empty = all.filter(b => !b.value.trim());
-  if(empty.length) return toast(`빈칸 ${empty.length}개가 비어 있어요.`);
-  recordFirst(id);
-  const wrong = all.filter(b => !isRight(b)).length;
-  // what an answer reveals opens only once it is written down correctly
-  let newPlace = false, newPerson = false;
-  per(id).order.filter(qid => all.every(b => b.qid !== qid || isRight(b))).forEach(qid => {
-    const r = unlock(spk(id).unlocks?.[qid], true) || {};
-    newPlace ||= r.newPlace; newPerson ||= r.newPerson;
-    pendingPins.push(...(r.places || []));
-  });
-  if(newPlace || newPerson) toast(newPlace && newPerson ? '새로운 장소와 인물을 알게 됐어요.' : newPerson ? '새로운 인물을 알게 됐어요.' : '지도에 새 장소가 표시됐어요.');
-  if(!wrong){
-    p.checked = true;
-    all.forEach(b => p.marks[b.id] = 'ok');
-    stampShowing = true;
-    clearTimeout(stampTimer);
-    stampTimer = setTimeout(() => { stampShowing = false; setNotes(false); renderDock(); revealPins(); }, 1800);
-  } else {
-    all.forEach(b => { if(isRight(b)) delete p.marks[b.id]; else p.marks[b.id] = 'no'; });
-    p.retry = [...new Set(all.filter(b => !isRight(b)).map(b => b.qid))];
-    p.phase = 'choose';
-    checkShowing = true; checkPerson = id;
-    showCheckAlert(wrong <= 2 ? `거의 맞았어요. ${wrong}칸이 달라요.` : `아직 ${wrong}칸이 달라요. 다시 들어 보는 게 좋겠어요.`);
-  }
-  setNotes(true);
-  renderDock();
-  $('#dockBody').scrollTop = 0;
+  const p = per(id);
+  if(!qs(spk(id)).every(question => p.questionChecks[question.id] === 'ok')) return;
+  p.feedback = null;
+  p.checked = true;
 }
-// the check result pops up as an alert over the notebook
-function showCheckAlert(text){
-  $('#checkAlertText').textContent = text;
-  $('#checkAlert').hidden = false;
-  $('#checkAlert [data-ok]').focus();
-}
-// closing the alert puts the notebook away and goes back to that person to ask the wrong questions again
-let checkPerson = null;
-$('#checkAlert').addEventListener('click', e => {
-  if(!(e.target.closest('[data-ok]') || e.target.id === 'checkAlert')) return;
-  $('#checkAlert').hidden = true;
-  checkShowing = false;
-  setNotes(false);
-  if(checkPerson && (S.investigate || S.cur !== checkPerson)) talkTo(checkPerson);
-  else renderDock();
-  checkPerson = null;
-  revealPins();
-});
 function replayLine(ref){
   const [id, qid] = ref.split(':');
   speak(spk(id).answers[qid], qid, id);
@@ -1354,6 +1342,7 @@ $('#dockBody').addEventListener('pointerdown', e => {
   if(b && S.sel){ e.preventDefault(); fillBlank(b, S.sel); clearSel(); }
 });
 function fillBlank(input, word){
+  if(input.readOnly) return;
   input.value = word; input.size = Math.max(5, word.length+1); input.classList.remove('ok','no');
   const p = per(input.dataset.s); p.notes[input.dataset.id] = word; delete p.marks[input.dataset.id];
 }
@@ -1404,15 +1393,23 @@ function cancelCapture(){
   voice.pause();
 }
 function setNotes(open){
+  if(open) discoveryRun++;
+  if(open && discoveryPerson) finishDiscovery(false);
   cancelCapture();
   const changed = $('#app').classList.contains('notes-open') !== open;
   $('#app').classList.toggle('notes-open', open);
-  if(!open){ $('#app').classList.remove('note-full'); stampShowing = false; checkShowing = false; noteRaised = false; clearTimeout(stampTimer); }
+  if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; clearTimeout(stampTimer); }
   $('#noteTab').setAttribute('aria-expanded', open);
   if(changed) focusCamera(null, true);
 }
 function openSheet(name){
-  if(name === 'map') setMapOrigin($('#mapTab'));
+  if(name) discoveryRun++;
+  if(name && discoveryPerson) finishDiscovery(false);
+  if(name === 'map' && (pendingPins.length || pendingPeople.length)){ revealPins(); return; }
+  if(name === 'map'){
+    $('#accuseBtn').hidden = !allConversationsDone();
+    setMapOrigin($('#mapTab'));
+  }
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
@@ -1425,7 +1422,12 @@ $('#noteTab').onclick = () => {
   openSheet(null); setNotes(open);
   if(open){ noteRaised = true; renderDock(); }
 };
-$('#finish').onclick = finishRecord;
+$('#finish').onclick = () => {
+  if(noteMode() !== 'summary'){ finishRecord(); return; }
+  setNotes(false);
+  renderDock();
+  revealDiscoveries();
+};
 $('#replay').prepend(document.createRange().createContextualFragment(playIcon));
 $('#replay').onclick = () => { if(st()?.recording) speak(cur().answers[st().recording], st().recording); };
 $('#slow').onclick = e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); };
@@ -1450,7 +1452,10 @@ $('#mapTab').onclick = () => openSheet($('#sheet-map').classList.contains('open'
 $('#hint').onclick = useHint;
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
-$('#orderChip').onclick = () => { if(!$('#orderChip').disabled) leaveTalk(); };
+$('#orderChip').onclick = () => {
+  if(discoveryPerson){ finishDiscovery(); return; }
+  if(!$('#orderChip').disabled) leaveTalk();
+};
 
 /* ---------- map (place picker) ---------- */
 // Only places a character has mentioned appear on the map.
@@ -1478,39 +1483,115 @@ const peopleAt = placeId => S.met.filter(id => spk(id).place === placeId);
 function unlock(u, quiet){
   if(!u) return;
   let newPerson = false;
-  const places = [];
+  const places = [], people = [];
   (u.places || []).forEach(id => { if(!S.known.has(id)){ S.known.add(id); places.push(id); } });
   (u.people || []).forEach(id => {
     if(S.met.includes(id)) return;
-    S.met.push(id); newPerson = true;
+    S.met.push(id); people.push(id); newPerson = true;
     if(!S.known.has(spk(id).place)){ S.known.add(spk(id).place); places.push(spk(id).place); }
   });
   const newPlace = places.length > 0;
   if(!newPlace && !newPerson) return {};
   renderPlaces();
   if(newPlace) setMapNew(true);
-  if(!quiet) toast(newPerson ? '새로운 인물을 알게 됐어요.' : '지도에 새 장소가 표시됐어요.');
-  return { newPlace, newPerson, places };
+  if(!quiet){
+    pendingPins.push(...places);
+    pendingPeople.push(...people);
+    revealDiscoveries();
+  }
+  return { newPlace, newPerson, places, people };
 }
 // New places from a check wait until the notebook is put away; then the map opens and their pins pop out.
-let pendingPins = [], freshPins = new Set(), freshTimer;
+let pendingPins = [], pendingPeople = [], freshPins = new Set(), freshTimer;
+function afterMotion(element, callback){
+  const animations = element.getAnimations();
+  if(!animations.length){ callback(); return; }
+  Promise.allSettled(animations.map(animation => animation.finished)).then(callback);
+}
+function revealDiscoveries(){
+  if(!pendingPins.length && !pendingPeople.length) return;
+  const run = ++discoveryRun;
+  afterMotion($('.dock'), () => {
+    if(run !== discoveryRun || $('#app').classList.contains('notes-open') || $('#sheet-map').classList.contains('open') || !$('#caseList').hidden) return;
+    presentDiscovery();
+  });
+}
+function presentDiscovery(){
+  clearTimeout(discoveryTimer);
+  const person = pendingPeople.find(id => spk(id).place === (S.investigate ? S.place : cur().place));
+  if(!person){ revealPins(); return; }
+  pendingPeople = pendingPeople.filter(id => id !== person);
+  const place = spk(person).place;
+  const fromRect = $('#art').dataset.scene?.split(':')[0] === place ? $('#art').getBoundingClientRect() : null;
+  stopVoice();
+  setNotes(false);
+  if(S.investigate){
+    discoveryOrigin = S.place;
+    if(S.place) sceneScroll[S.place] = artWrap.scrollLeft;
+    setInvestigate(false);
+  }
+  discoveryPerson = person;
+  $('#app').classList.add('discovering');
+  $('#app').classList.remove('discovery-ready');
+  renderStage(fromRect);
+  renderDock();
+  const announce = () => {
+    if(discoveryPerson !== person) return;
+    $('#app').classList.add('discovery-ready');
+    toast('새로운 인물을 알게 됐어요.', true);
+    discoveryTimer = setTimeout(finishDiscovery, 2200);
+  };
+  if(cameraMotion?.playState === 'running') cameraMotion.finished.then(announce).catch(() => {});
+  else announce();
+}
+function finishDiscovery(showMap = true){
+  discoveryRun++;
+  clearTimeout(discoveryTimer);
+  if(discoveryPerson){
+    const fromRect = spk(discoveryPerson).place === cur().place ? $('#art').getBoundingClientRect() : null;
+    discoveryPerson = null;
+    $('#app').classList.remove('discovering', 'discovery-ready');
+    $('#toast').hidden = true;
+    if(discoveryOrigin){
+      const place = discoveryOrigin;
+      discoveryOrigin = null;
+      enterPlace(place);
+    } else {
+      renderStage(fromRect);
+      renderDock();
+    }
+  }
+  if(showMap) revealPins();
+}
 function revealPins(){
-  if(!pendingPins.length) return;
-  freshPins = new Set(pendingPins); pendingPins = [];
+  if(!pendingPins.length && !pendingPeople.length) return;
+  const places = [...new Set(pendingPins)], people = [...new Set(pendingPeople)];
+  freshPins = new Set([...places, ...people.map(id => spk(id).place)]);
+  pendingPins = []; pendingPeople = [];
   openSheet('map');
   renderPlaces();
+  const run = discoveryRun;
+  afterMotion($('#sheet-map'), () => {
+    if(run !== discoveryRun || !$('#sheet-map').classList.contains('open')) return;
+    toast(places.length && people.length ? '새로운 장소와 인물을 알게 됐어요.' : people.length ? '새로운 인물을 알게 됐어요.' : '새로운 장소를 알게 됐어요.', true);
+  });
   clearTimeout(freshTimer);
   freshTimer = setTimeout(() => { freshPins.clear(); document.querySelectorAll('.pin.fresh').forEach(pin => pin.classList.remove('fresh')); }, 4200);
 }
 
 /* ---------- accuse ---------- */
+function allConversationsDone(){
+  return PEOPLE_ORDER.every(id => per(id).phase === 'done');
+}
 $('#accuseBtn').onclick = () => {
+  if(!allConversationsDone()) return;
   if(!suspects().length) return toast('아직 지목할 인물이 없어요.');
   $('#pick').innerHTML = suspects().map(id => { const s = spk(id); return `<button type="button" data-i="${id}"><span class="mini" style="background:${s.bg}">${miniSVG(s.id)}</span>${esc(s.name)}</button>`; }).join('');
   $('#accuse').hidden = false;
 };
 $('#accuse').addEventListener('click', e => {
   if(e.target.closest('[data-dismiss]') || e.target.id === 'accuse'){ $('#accuse').hidden = true; return; }
+  if(!allConversationsDone()) return;
   const b = e.target.closest('[data-i]'); if(!b) return;
   $('#accuse').hidden = true;
   const right = b.dataset.i === CULPRIT;
@@ -1534,7 +1615,7 @@ $('#result').addEventListener('click', e => {
 /* ---------- review: after the case, the full lines, Korean, and the blanks missed at the first check ---------- */
 function openReview(){
   const people = S.met.filter(id => per(id).order.length);
-  people.forEach(recordFirst);   // a page never checked counts as checked now
+  people.forEach(id => recordFirst(id));
   const ok = people.reduce((n, id) => n + per(id).first.ok, 0), total = people.reduce((n, id) => n + per(id).first.total, 0);
   const rate = total ? ok / total : 0, stars = rate >= .9 ? 3 : rate >= .7 ? 2 : 1;
   $('#reviewCard').innerHTML = `<span class="eyebrow">Review</span><h2>복습</h2>
@@ -1936,7 +2017,7 @@ function renderCaseList(){
       <span><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span><span class="badge ${cls}">${label}</span></span></button>`;
   }).join('');
 }
-function openCaseList(){ stopVoice(); hideBubble(); openSheet(null); renderCaseList(); $('#caseList').hidden = false; }
+function openCaseList(){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); renderCaseList(); $('#caseList').hidden = false; }
 // Opening a case: the first time on this device the tutorial comes first; a case in progress resumes where it was left.
 function startCase(){
   $('#caseList').hidden = true;
