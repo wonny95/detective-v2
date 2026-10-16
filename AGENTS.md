@@ -25,7 +25,7 @@
 node server.js   # http://localhost:5173, 파일 저장 시 자동 새로고침, 의존성 없음
 ```
 
-Claude Code는 `.claude/launch.json`의 `pioo-dev`(5173)로 미리보기를 띄운다. 공개 데모 사이트 재배포 절차는 `HANDOFF.md` 1.1절이다.
+Claude Code는 `.claude/launch.json`의 `pioo-dev`(5173)로 미리보기를 띄운다. 최종 공유는 claude.ai 아티팩트로 한다(`HANDOFF.md` 9절). 공개 데모 사이트(chatgpt.site)는 갱신을 멈췄으니 재배포하지 않는다.
 
 ## 코드
 
@@ -40,7 +40,7 @@ Claude Code는 `.claude/launch.json`의 `pioo-dev`(5173)로 미리보기를 띄�
 - 채점 흐름(질문별 조용한 확인, 오답은 같은 노트에서 다시 듣고 수정, 정답 정보 즉시 해금, 전체 기록은 Note로 직접 열기)은 `HANDOFF.md` 3.4절을 따른다.
 - 한국어 해석은 `해석` 버튼을 눌러야만 보인다. 화면 안에 조작 설명 문장을 넣지 않는다(튜토리얼이 담당).
 - NPC는 전신으로 제자리에 고정한다. UI(질문 버튼, 노트)가 아래를 덮는다.
-- 사용자에게는 한국어로 답한다. claude.ai 아티팩트 업로드와 공개 사이트 배포는 사용자가 요청할 때만 한다.
+- 사용자에게는 한국어로 답한다. claude.ai 아티팩트 업로드는 사용자가 요청할 때만 한다.
 - Higgsfield 크레딧을 쓰는 생성은 쓰기 전에 대략의 비용을 알린다.
 
 ## 확인

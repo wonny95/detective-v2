@@ -21,7 +21,7 @@
 - **미리보기 주소**
   - Claude Code는 `.claude/launch.json`의 `pioo-dev`로 **http://localhost:5173/** 을 쓴다.
   - Codex는 `PORT=5174`로 **http://localhost:5174/** 을 썼다. 같은 폴더를 서빙하므로 둘 다 최신 화면이다.
-- **공유용 배포 사이트**: https://pioo-detective-demo.wonny7339.chatgpt.site — 링크를 가진 누구나 볼 수 있는 공개 데모. 로컬 미리보기와 별도이며, 수정 후에는 다시 빌드·푸시·배포해야 갱신된다(1.1절).
+- **공유·최종본**: 완성본은 **claude.ai 아티팩트로 마무리**한다(사용자가 요청할 때만, 9절). Codex가 만든 공개 데모 사이트는 더 갱신하지 않는다(1.1절).
 - **에이전트 협업**: Codex와 Claude Code가 같은 폴더·같은 `main` 브랜치에서 번갈아 작업한다. 한 번에 한 쪽만 작업하고, 끝낸 쪽이 `HANDOFF.md`·`CHANGELOG.md`를 갱신해 커밋한다(`AGENTS.md`). 동시에 일해야 할 때만 `CLAUDE_REQUEST.md`로 요청을 넘긴다.
 - **아직 없는 것**
   - 진행 상태 자동 저장, 증거 내밀기, 모순 지목, 자백 장면.
@@ -41,23 +41,11 @@ node server.js            # http://localhost:5173/
 - `server.js`는 폴더 안 파일이 바뀌면 브라우저를 자동 새로고침한다(문서 수정·커밋에도 반응해 메모리 진행이 초기화된다). 새로고침 스니펫은 서빙할 때만 HTML에 끼워 넣는다.
 - 질문 진행·노트 입력·증거 사진은 메모리에만 있어 새로고침하면 초기화된다. 튜토리얼 확인 여부와 해결한 사건 ID만 `localStorage`에 저장한다.
 
-### 1.1 공유용 데모 배포 (2026-10-16)
+### 1.1 공개 데모 사이트 (갱신 중단)
 
-- **Sites 프로젝트**: `appgprj_6ad1abbe20208191bcc55144aab76ef2`, slug `pioo-detective-demo`, 제목 `숲속 탐정 Pioo · 데모`.
-- **공개 주소**: https://pioo-detective-demo.wonny7339.chatgpt.site . 사용자의 요청에 따라 접근 모드는 `public`이다. 링크 전용 비밀 인증은 아니며, HTML에 `noindex, nofollow`를 넣었다고 접근이 제한되는 것은 아니다.
-- **최초 배포**: 버전 1, 소스 커밋 `133688986ab25e03a4bce7b7e6de8a002b93775b`, 배포 `appgdep_6ad1ac9ce9e481918753607137c2b8de`가 `succeeded`로 완료됐다. 원본 게임 기준 커밋은 `7043ecb`다.
-- **배포 확인**: 공개 URL에서 사건 목록 → 첫 실행 튜토리얼 → 브리핑 → 첫 질문 입력·정답 확인 → 도서관 지도 해금·현장 이동을 새 브라우저 탭에서 확인했다. 테스트 도구는 표시되지 않았다. 쿠키·인증 헤더 없는 HTTPS 요청에서도 첫 페이지와 주요 배경·캐릭터·노트·지도 그림, 동료 및 레이 음성이 200으로 응답했다.
-- **별도 소스 저장소**: `sites/pioo-demo/`는 Sites 도구가 초기화·푸시한 독립 Git 체크아웃이다. 부모 저장소에서는 중첩 저장소·중복 자산을 커밋하지 않도록 `.gitignore`로 제외한다. 이 폴더의 `.openai/hosting.json`에 저장한 프로젝트 ID를 재사용하며, 다시 `create_site`하지 않는다. 부모 저장소에는 아직 Git 원격이 없으며, 공유 사이트 소스는 Sites 전용 원격에 푸시했다.
-- **배포 내용**: 원래 게임 동작과 그림·음성을 유지한다. 최초 배포에서는 개발자 테스트 버튼을 제외했으나, 이후 사용자 요청으로 `build.mjs`를 바꿔 네 단축 버튼과 핸들러를 포함하도록 로컬 빌드를 준비했다. 실제로 참조하는 그림·음성 45개만 복사한다. 문서·Git 메타데이터·미사용 원본 그림·백업 음성은 웹 배포에 포함하지 않는다. 별도 서버·로그인·데이터베이스는 없다.
-- **재배포 대기**: 2026-10-16 개발 단축 버튼 복원 요청 시 연결된 Sites 계정에서 기존 프로젝트 조회가 `project_not_found`로 실패했다. 현재 계정 목록에도 이 프로젝트가 없어 소스 열기·푸시·재배포는 하지 못했다. 기존 사이트를 소유한 계정으로 다시 연결한 뒤 로컬 변경을 같은 프로젝트에 반영해야 한다. 새 사이트나 다른 프로젝트로 대체하지 않았다. 공개 사이트는 아직 최초 버전이다.
-- **다음 업데이트 순서**
-  1. 원본 `index.html` 및 자산 수정·검증.
-  2. 부모 폴더에서 `node scripts/prepare-demo.mjs`로 `sites/pioo-demo/source/`를 최신화한 뒤 `node sites/pioo-demo/build.mjs`로 `dist/`를 생성한다.
-  3. Sites 스킬을 읽고 같은 프로젝트의 쓰기 자격 증명을 새로 받는다. 토큰은 파일·명령 인자·로그에 남기지 않고 source helper의 숨김 stdin으로만 전달한다.
-  4. `sites/pioo-demo/`에서 Sites `site-workflow.mjs`로 커밋·푸시·패키징한다. 이 Windows 환경은 GNU tar의 드라이브 문자 오인 문제를 피하도록 실행 세션에 `$env:TAR_OPTIONS = '--force-local'`이 필요했다.
-  5. helper가 반환한 정확한 `commit_sha`와 `archive`로 `save_site_version` → `deploy_site_version`을 호출한다. 이 사이트는 공개 상태이므로 private 전용 배포 도구를 쓰거나 접근 모드를 바꾸지 않는다.
-- 로컬 폴더를 잃어버렸다면 저장된 프로젝트 ID와 Sites 소스 복구 절차로 별도 체크아웃을 복원한다. 새 사이트를 중복 생성하지 않는다.
-- 공개 주소는 localhost와 다른 출처이므로 튜토리얼·해결 기록도 별도로 저장된다. 자동 진행 저장은 여전히 없고, 페이지를 새로고침하면 진행 중 수사는 초기화된다.
+- https://pioo-detective-demo.wonny7339.chatgpt.site 는 Codex가 커밋 `7043ecb` 기준으로 한 번 배포한 공개 데모다. 그 뒤의 변경은 반영되지 않았다.
+- 사용자 결정으로 **이 사이트는 재배포하지 않는다.** 최종 공유는 claude.ai 아티팩트로 한다(9절). Sites 계정·재배포 작업을 다음 할 일로 잡지 않는다.
+- 배포용으로 만든 `scripts/prepare-demo.mjs`와 `sites/pioo-demo/`(부모 Git에서 제외된 독립 체크아웃)는 지우지 않고 남겨 두었다. 지금 흐름에서는 쓰지 않는다.
 
 ## 2. 파일 구조
 
@@ -326,7 +314,7 @@ node server.js            # http://localhost:5173/
 ## 9. 관련 링크
 
 - **기획서**(Claude Docs): https://claude.ai/code/artifact/08bcf0e7-0d78-4add-818f-21d70acf3db7 — 앱 프로세스, 단계별 규칙, 결정이 필요한 사항. 채점·해금 방식은 이 문서(3.4)가 더 최신이다.
-- **공유용 아티팩트**(예전 버전): https://claude.ai/artifact/5wAAWzLT6utA2eZA6ExwZ7 — **사용자가 요청할 때만 업로드한다.** 지금은 로컬 `assets/`·`audio/`를 쓰므로 HTML만 올리면 그림·음성이 빠진다.
+- **공유용 아티팩트**(예전 버전): https://claude.ai/artifact/5wAAWzLT6utA2eZA6ExwZ7 — **최종본은 여기서 마무리한다. 사용자가 요청할 때만 업로드한다.** 지금은 로컬 `assets/`·`audio/`를 쓰므로 HTML만 올리면 그림·음성이 빠진다. 올릴 때는 실제로 참조하는 그림·음성을 아티팩트에 함께 올리는 파일(`files`)로 같은 상대 경로에 넣고, 테스트 버튼 포함 여부는 그때 사용자에게 확인한다.
 
 ## 10. 다음 할 일 (미구현 후보, 별도 요청 후 진행)
 
