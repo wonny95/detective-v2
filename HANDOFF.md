@@ -28,6 +28,7 @@
 - **미리보기 주소**
   - Claude Code는 `.claude/launch.json`의 `pioo-dev`로 **http://localhost:5173/** 을 쓴다.
   - Codex는 `PORT=5174`로 **http://localhost:5174/** 을 썼다. 같은 폴더를 서빙하므로 둘 다 최신 화면이다.
+- **공유용 배포 사이트**: https://pioo-detective-demo.wonny7339.chatgpt.site — 링크를 가진 누구나 볼 수 있는 공개 데모. 로컬 미리보기와 별도이며, 수정 후에는 다시 빌드·푸시·배포해야 갱신된다(1.1절).
 - **에이전트 협업**
   - `CLAUDE_REQUEST.md`가 있으면 먼저 읽고, 반영한 뒤 삭제한다. 지금은 없다.
   - 같은 폴더를 쓰는 에이전트끼리 `index.html`을 동시에 수정하지 않는다.
@@ -49,12 +50,31 @@ node server.js            # http://localhost:5173/
 - `server.js`는 폴더 안 파일이 바뀌면 브라우저를 자동 새로고침한다(문서 수정·커밋에도 반응해 메모리 진행이 초기화된다). 새로고침 스니펫은 서빙할 때만 HTML에 끼워 넣는다.
 - 질문 진행·노트 입력·증거 사진은 메모리에만 있어 새로고침하면 초기화된다. 튜토리얼 확인 여부와 해결한 사건 ID만 `localStorage`에 저장한다.
 
+### 1.1 공유용 데모 배포 (2026-10-16)
+
+- **Sites 프로젝트**: `appgprj_6ad1abbe20208191bcc55144aab76ef2`, slug `pioo-detective-demo`, 제목 `숲속 탐정 Pioo · 데모`.
+- **공개 주소**: https://pioo-detective-demo.wonny7339.chatgpt.site . 사용자의 요청에 따라 접근 모드는 `public`이다. 링크 전용 비밀 인증은 아니며, HTML에 `noindex, nofollow`를 넣었다고 접근이 제한되는 것은 아니다.
+- **최초 배포**: 버전 1, 소스 커밋 `133688986ab25e03a4bce7b7e6de8a002b93775b`, 배포 `appgdep_6ad1ac9ce9e481918753607137c2b8de`가 `succeeded`로 완료됐다. 원본 게임 기준 커밋은 `7043ecb`다.
+- **배포 확인**: 공개 URL에서 사건 목록 → 첫 실행 튜토리얼 → 브리핑 → 첫 질문 입력·정답 확인 → 도서관 지도 해금·현장 이동을 새 브라우저 탭에서 확인했다. 테스트 도구는 표시되지 않았다. 쿠키·인증 헤더 없는 HTTPS 요청에서도 첫 페이지와 주요 배경·캐릭터·노트·지도 그림, 동료 및 레이 음성이 200으로 응답했다.
+- **별도 소스 저장소**: `sites/pioo-demo/`는 Sites 도구가 초기화·푸시한 독립 Git 체크아웃이다. 부모 저장소에서는 중첩 저장소·중복 자산을 커밋하지 않도록 `.gitignore`로 제외한다. 이 폴더의 `.openai/hosting.json`에 저장한 프로젝트 ID를 재사용하며, 다시 `create_site`하지 않는다. 부모 저장소에는 아직 Git 원격이 없으며, 공유 사이트 소스는 Sites 전용 원격에 푸시했다.
+- **배포 내용**: 원래 게임 동작과 그림·음성을 유지하며, 개발자 테스트 버튼과 테스트 핸들러는 빌드에서 제거한다. 실제로 참조하는 그림·음성 45개만 복사한다. 문서·Git 메타데이터·미사용 원본 그림·백업 음성은 웹 배포에 포함하지 않는다. 별도 서버·로그인·데이터베이스는 없다.
+- **다음 업데이트 순서**
+  1. 원본 `index.html` 및 자산 수정·검증.
+  2. 부모 폴더에서 `node scripts/prepare-demo.mjs`로 `sites/pioo-demo/source/`를 최신화한 뒤 `node sites/pioo-demo/build.mjs`로 `dist/`를 생성한다.
+  3. Sites 스킬을 읽고 같은 프로젝트의 쓰기 자격 증명을 새로 받는다. 토큰은 파일·명령 인자·로그에 남기지 않고 source helper의 숨김 stdin으로만 전달한다.
+  4. `sites/pioo-demo/`에서 Sites `site-workflow.mjs`로 커밋·푸시·패키징한다. 이 Windows 환경은 GNU tar의 드라이브 문자 오인 문제를 피하도록 실행 세션에 `$env:TAR_OPTIONS = '--force-local'`이 필요했다.
+  5. helper가 반환한 정확한 `commit_sha`와 `archive`로 `save_site_version` → `deploy_site_version`을 호출한다. 이 사이트는 공개 상태이므로 private 전용 배포 도구를 쓰거나 접근 모드를 바꾸지 않는다.
+- 로컬 폴더를 잃어버렸다면 저장된 프로젝트 ID와 Sites 소스 복구 절차로 별도 체크아웃을 복원한다. 새 사이트를 중복 생성하지 않는다.
+- 공개 주소는 localhost와 다른 출처이므로 튜토리얼·해결 기록도 별도로 저장된다. 자동 진행 저장은 여전히 없고, 페이지를 새로고침하면 진행 중 수사는 초기화된다.
+
 ## 2. 파일 구조
 
 | 경로 | 내용 |
 |---|---|
 | `index.html` | 게임 전체: CSS → HTML → JS가 한 파일에 있음(약 2,000줄) |
 | `server.js` | 정적 파일 서버 + 자동 새로고침(약 55줄) |
+| `scripts/prepare-demo.mjs` | 공유 사이트에 현재 게임 HTML·참조 자산만 복사하는 준비 스크립트 |
+| `sites/pioo-demo/` | 공유 사이트의 독립 Git 체크아웃(부모 Git에서는 제외). `source/`, `build.mjs`, `.openai/hosting.json`, 빌드 결과 `dist/` |
 | `audio/` | 캐릭터 음성, 탐정 나레이션, 셔터음, 이전 음성 백업(`linda-old/`) |
 | `assets/characters/` | 다섯 인물 투명 PNG, 제작 원본, 흰 테두리 버전 백업(`*-sticker.png`) |
 | `assets/places/` | 네 장소 배경, 대화용 바닥 확장(`*-floor.jpg`), 마을 지도, 출처 README |
