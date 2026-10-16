@@ -265,7 +265,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .scene-npc:hover span,.scene-npc:focus-visible span{background:var(--honey)}
 .scene-npc:focus-visible{outline:3px dashed var(--berry);outline-offset:4px;border-radius:18px}
 .spot{position:absolute;padding:0;border:0;background:transparent;border-radius:16px;cursor:zoom-in}
-.app.show-spots .spot{outline:2px dashed var(--berry);background:rgba(201,111,134,.18)}
 .tapfx{position:absolute;pointer-events:none;transform:translate(-50%,-50%);animation:tapfx .9s ease-out forwards;white-space:nowrap}
 .tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:18px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
 @keyframes tapfx{from{opacity:1;transform:translate(-50%,-50%) scale(.6)}to{opacity:0;transform:translate(-50%,-80%) scale(1.15)}}
@@ -556,7 +555,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 <div class="devtools" aria-label="테스트 도구">
   <button class="devbtn" type="button" id="devFill">노트 자동 채우기</button>
   <button class="devbtn" type="button" id="devDone">전체 대화 완료</button>
-  <button class="devbtn" type="button" id="devSpots" aria-pressed="false">핫스팟 보기</button>
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
 </div>
 
@@ -747,7 +745,7 @@ const ANSWERS_KO = {
 
 /* Places for the investigation. Each place is one large illustration (ART[id], 900×600, 3:2)
    plus tap areas (`spots`) given in % of the illustration, so a finished artwork can replace
-   the placeholder drawing without touching the logic. Turn on 핫스팟 보기 (outside the frame) to see them.
+   the placeholder drawing without touching the logic.
    A clue can point to a person (`unlocks`), who then appears at their place. */
 const PLACES = [
   { id:'library', crime:true, x:27, y:47, label:'Old Library', kind:'사건 현장', artWidth:1376, artHeight:768,
@@ -2090,12 +2088,6 @@ $('#devDone').onclick = () => {
   if(S.investigate) renderDock(); else setInvestigate(true);
   openSheet('map');
   toast('모든 대화를 마쳤어요. 지도에서 장소를 골라 보세요.');
-};
-
-// 핫스팟 보기: outline every tap area, for placing spots on real artwork.
-$('#devSpots').onclick = e => {
-  const on = $('#app').classList.toggle('show-spots');
-  e.currentTarget.setAttribute('aria-pressed', on);
 };
 
 // 튜토리얼 초기화: forget that the tutorial was seen and start over.
