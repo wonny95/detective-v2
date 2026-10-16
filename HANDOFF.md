@@ -64,6 +64,7 @@ node server.js            # http://localhost:5173/
 | `CHANGELOG.md` | 작업 기록과 다음에 이어서 할 일(새 항목이 맨 위) |
 | `AGENTS.md` | 에이전트용 작업 규칙·시작/마무리 절차(Codex가 자동으로 읽음) |
 | `CLAUDE.md` | Claude Code용 진입 파일. `AGENTS.md`를 불러온다 |
+| `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
 
 ## 3. 현재 앱 흐름
 
