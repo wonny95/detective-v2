@@ -919,13 +919,19 @@ const SPRITES = {
   rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316, mouth:{x:161,y:339,w:24,h:17}},
   duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5, mouth:{x:218,y:224,w:46,h:16}}
 };
+// Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
+Object.assign(SPRITES, {
+  'fiona:nervous':{src:'assets/characters/fiona-nervous.png', w:477, h:641, height:641/621, anchor:.42, mouth:{x:200,y:230,w:52,h:22}},
+  'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415, mouth:{x:236,y:215,w:36,h:16}}
+});
+const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : id;
 function spriteMouth(id){
   const mouth = SPRITES[id].mouth, width = mouth.w, height = mouth.h;
   return `<g transform="translate(${mouth.x} ${mouth.y})"><g class="npc-mouth"><g class="npc-mouth-shape"><path d="M${-width/2} 0 Q0 ${height*.45} ${width/2} 0 Q${width*.4} ${height} 0 ${height} Q${-width*.4} ${height} ${-width/2} 0" fill="#493333"/><ellipse cx="0" cy="${height*.72}" rx="${width*.2}" ry="${height*.15}" fill="#BE7D76" opacity=".7"/></g></g></g>`;
 }
-const fullSVG = id => SPRITES[id]
-  ? `<svg viewBox="0 0 ${SPRITES[id].w} ${SPRITES[id].h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/>${spriteMouth(id)}</g></g></svg>`
-  : `<svg viewBox="0 0 200 400" aria-hidden="true">${charSVG(id)}</svg>`;
+const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
+  ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouth(k)}</g></g></svg>`
+  : `<svg viewBox="0 0 200 400" aria-hidden="true">${charSVG(id)}</svg>`; };
 const miniSVG = id => SPRITES[id]
   ? `<svg viewBox="${SPRITES[id].face}" aria-hidden="true"><image href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/></svg>`
   : `<svg viewBox="40 22 120 120" aria-hidden="true">${charSVG(id)}</svg>`;
@@ -941,6 +947,7 @@ const S = {
   place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
   known:new Set(),   // places someone has mentioned — only these appear on the map
   met:['badger'],    // people the player knows about
+  mood:{},           // a person shown with another expression (ending)
   per:Object.fromEntries(PEOPLE_ORDER.map(id => [id, newSpeakerState()]))
 };
 const $ = s => document.querySelector(s);
@@ -995,31 +1002,47 @@ function stopVoice(){
   if('speechSynthesis' in window) speechSynthesis.cancel();
   setTalking(false);
 }
-function speak(text, key, who = S.cur){
+// onDone runs once the line has finished (not when it is cut off by another line or stopVoice).
+function speak(text, key, who = S.cur, onDone){
   stopVoice();
   const turn = speechTurn;
   talker = who;
+  const done = () => { if(turn === speechTurn) onDone?.(); };
+  const length = text.length * (S.slow ? 95 : 70) + 500;
   const src = spk(who).audio?.[key];
   if(src){
     clip.src = src;
     clip.preservesPitch = true;
     clip.playbackRate = S.slow ? .75 : 1;
-    clip.play().catch(() => { if(turn === speechTurn){ setTalking(false); toast('음성을 재생하지 못했어요. 다시 듣기를 눌러 주세요.'); } });
+    clip.addEventListener('ended', done, { once:true });
+    clip.play().catch(() => { if(turn === speechTurn){ setTalking(false); toast('음성을 재생하지 못했어요. 다시 듣기를 눌러 주세요.'); done(); } });
     return;
   }
-  if(!('speechSynthesis' in window)){ toast('이 브라우저는 음성 읽기를 지원하지 않아요. 힌트로 내용을 확인하세요.'); return; }
+  // No recording: browser TTS. If it never starts (no voices, e.g. inside an app preview), the person
+  // still moves their mouth for about as long as the line would take, so the scene reads as speech.
+  const mime = () => {
+    if(turn !== speechTurn) return;
+    setTalking(true);
+    clearTimeout(talkT);
+    talkT = setTimeout(() => { if(turn === speechTurn){ setTalking(false); done(); } }, length);
+  };
+  if(!('speechSynthesis' in window)){ mime(); return; }
   const s = spk(who);
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US'; u.rate = S.slow ? .72 : .95; u.pitch = s.pitch;
   if(voices.length) u.voice = voices[s.voice % voices.length];
+  let started = false;
   u.onstart = u.onresume = () => {
+    started = true;
     if(turn !== speechTurn) return;
     setTalking(true);
     clearTimeout(talkT);
-    talkT = setTimeout(() => { if(turn === speechTurn) setTalking(false); }, text.length * (S.slow ? 95 : 70) + 800);
+    talkT = setTimeout(() => { if(turn === speechTurn) setTalking(false); }, length + 300);
   };
-  u.onend = u.onerror = u.onpause = () => { if(turn === speechTurn){ setTalking(false); clearTimeout(talkT); } };
+  u.onend = () => { if(turn === speechTurn){ setTalking(false); clearTimeout(talkT); done(); } };
+  u.onerror = u.onpause = () => { if(turn === speechTurn){ setTalking(false); clearTimeout(talkT); } };
   speechSynthesis.speak(u);
+  setTimeout(() => { if(!started) mime(); }, 700);
 }
 
 /* ---------- stage ---------- */
@@ -1674,6 +1697,13 @@ const ENDING = {
 // a wrong accusation: that person answers with the alibi they already gave
 const REBUTTAL = { mole:'m1', ray:'q2', rosie:'q2' };
 const fionaLine = l => ({ who:'fiona', key:l.key, en:l.en ?? spk('fiona').answers[l.key], ko:l.ko ?? ANSWERS_KO.fiona[l.key] });
+// her face: composed for the first two claims, cornered once the bakery story falls apart, sorry when she confesses
+const confrontMood = round => round >= 2 ? 'nervous' : null;
+function setMood(id, mood){
+  if((S.mood[id] || null) === mood) return;
+  if(mood) S.mood[id] = mood; else delete S.mood[id];
+  if(!S.investigate) renderScene(spk(S.cur).place);
+}
 
 function endingControls(){
   const e = ending;
@@ -1694,9 +1724,10 @@ function endingAction(action){
   if(action === 'next') endingNext();
 }
 // show someone (camera on them at their place) and play the line
-function endingSay(line){
+function endingSay(line, mood){
   clearTimeout(endTimer);
   ending.line = line; ending.ko = false;
+  if(mood !== undefined){ if(mood) S.mood[line.who] = mood; else delete S.mood[line.who]; }
   if(ending.shown !== line.who || S.investigate){
     ending.shown = line.who;
     stopVoice(); S.cur = line.who; S.view = line.who; S.sel = null;
@@ -1704,13 +1735,15 @@ function endingSay(line){
     if(S.investigate) setInvestigate(false);
     renderStage();
   }
+  else if(mood !== undefined) renderScene(spk(S.cur).place);
   renderDock();
   endTimer = setTimeout(() => { if(ending?.line === line) speak(line.en, line.key, line.who); }, 500);
 }
 function startEnding(){
   ending = { step:'confront' };
+  endingRound = 0;   // the questioning always starts from her first claim
   $('#app').classList.add('ending');
-  endingSay(fionaLine(ENDING.confront[endingRound]));
+  endingSay(fionaLine(ENDING.confront[0]), null);
 }
 function wrongAccusation(id){
   ending = { step:'wrong' };
@@ -1721,6 +1754,7 @@ function wrongAccusation(id){
 function leaveEnding(){
   clearTimeout(endTimer); stopVoice();
   ending = null; $('#app').classList.remove('ending');
+  setMood('fiona', null);
   enterPlace(cur().place, true);
   openSheet('map');
 }
@@ -1737,12 +1771,22 @@ function present(ref){
   const round = ENDING.confront[endingRound], right = round.accept.includes(ref);
   endTimer = setTimeout(() => {
     if(ending?.step !== 'confront') return;
-    if(!right) return speak(ENDING.miss.en, ENDING.miss.key, 'fiona');   // the claim stays; 다시 듣기 replays it
+    if(!right){
+      // a wrong photo: she regains her composure and the questioning starts over from her first claim
+      endingRound = 0;
+      ending.line = null; renderAsk();
+      setMood('fiona', null);
+      speak(ENDING.miss.en, ENDING.miss.key, 'fiona', () => {
+        endTimer = setTimeout(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[0]), null), 700);
+      });
+      return;
+    }
     endingRound++;
-    if(endingRound < ENDING.confront.length) return endingSay(fionaLine(ENDING.confront[endingRound]));
+    if(endingRound < ENDING.confront.length) return endingSay(fionaLine(ENDING.confront[endingRound]), confrontMood(endingRound));
     // all four answered: a moment of silence, then she gives in
     ending.step = 'confession'; ending.i = 0; ending.line = null; renderAsk();
-    endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0])), 1100);
+    setMood('fiona', 'sad');
+    endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0]), 'sad'), 1400);
   }, 1300);
 }
 function endingNext(){
@@ -1770,6 +1814,7 @@ function caseClosedStamp(){
 function finishEnding(){
   clearTimeout(endTimer); stopVoice();
   ending = null; $('#app').classList.remove('ending');
+  S.mood = {};
   renderDock();
   markSolved(CASES[0].id);
   $('#resultCard').innerHTML = `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
@@ -1893,7 +1938,7 @@ function renderScene(placeId = S.place){
   art.style.aspectRatio = `${pl.artWidth || 900} / ${pl.artHeight || 600}`;
   art.style.setProperty('--world-width', `${pl.artWidth || 900}px`);
   art.style.setProperty('--world-height', `${pl.artHeight || 600}px`);
-  const people = peopleAt(pl.id), signature = `${pl.id}:${people.join(',')}`;
+  const people = peopleAt(pl.id), signature = `${pl.id}:${people.map(spriteKey).join(',')}`;
   if(art.dataset.scene === signature){
     art.querySelectorAll('.spot').forEach(spot => spot.classList.toggle('found', S.found[pl.id].has(+spot.dataset.clue)));
     return;
@@ -1907,9 +1952,9 @@ function renderScene(placeId = S.place){
     pl.spots.map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
     people.map(id => {
-      const position = NPC_POSITIONS[id], sprite = SPRITES[id];
-      const width = position.height * (pl.artHeight || 600) / (pl.artWidth || 900) * (sprite ? sprite.w / sprite.h : .5);
-      return `<button class="scene-npc" type="button" data-talk="${id}" style="left:${position.x}%;bottom:${100 - position.floor}%;height:${position.height}%;width:${width}%;transform:translateX(-${(sprite?.anchor ?? .5) * 100}%)" aria-label="${esc(spk(id).name)}와 대화">${fullSVG(id)}<span>${esc(spk(id).name)}</span></button>`;
+      const position = NPC_POSITIONS[id], sprite = SPRITES[spriteKey(id)], height = position.height * (sprite?.height || 1);
+      const width = height * (pl.artHeight || 600) / (pl.artWidth || 900) * (sprite ? sprite.w / sprite.h : .5);
+      return `<button class="scene-npc" type="button" data-talk="${id}" style="left:${position.x}%;bottom:${100 - position.floor}%;height:${height}%;width:${width}%;transform:translateX(-${(sprite?.anchor ?? .5) * 100}%)" aria-label="${esc(spk(id).name)}와 대화">${fullSVG(id)}<span>${esc(spk(id).name)}</span></button>`;
     }).join('');
 }
 function tapFx(x, y, kind, text){

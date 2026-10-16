@@ -161,8 +161,9 @@ node server.js            # http://localhost:5173/
 - **엔딩 모드**(`ending`, `.app.ending`): 대화 장면과 카메라를 그대로 쓰고, 질문 버튼 자리(`renderAsk` → `endingControls()`)에 엔딩 버튼을 둔다. 상단 칩·힌트·아래 지도/Note 줄은 숨긴다. 진상은 대사로만 알려 주며 결과창에는 설명문이 없다. 데이터는 `ENDING`.
   1. **대질(빵집, 피오나)**: 주장 4개를 차례로 말한다(1·2는 기존 `fiona-q1/q2.mp3`). 버튼은 `다시 듣기`, `증거 내밀기`, `조금 더 조사할래요`. `증거 내밀기`는 증거 노트를 열고 카드마다 `내밀기` 버튼을 붙인다. 고른 사진이 장면 위로 들려 보인다(`.presented`).
      - 정답 증거: ① 7시 안내문 또는 차가운 오븐 ② "No bread tonight" 쪽지 ③ 문의 주황색 털 ④ 창문의 보라색 잼.
-     - 틀린 사진이면 "That has nothing to do with me." 한마디만 하고 같은 주장에 머문다. 감점 없음.
-     - 증거가 없으면 `조금 더 조사할래요`로 빵집 현장 + 지도로 나간다. 다시 피오나를 지목하면 **답한 주장 다음부터** 이어진다(`endingRound`).
+     - **틀린 사진이면 심문이 처음부터 다시 시작된다**(사용자 결정): 피오나가 침착해져 "That has nothing to do with me."라고 한 뒤 첫 주장부터 다시 말한다(`endingRound = 0`).
+     - 증거가 없으면 `조금 더 조사할래요`로 빵집 현장 + 지도로 나간다. 다시 지목해도 처음부터다.
+     - **피오나 표정**(`S.mood`, `setMood()`): 주장 1·2는 기본, 빵집 거짓말이 들킨 뒤 주장 3·4는 당황(`fiona-nervous.png`), 자백은 고개 숙임(`fiona-sad.png`). 틀린 사진이면 기본으로 돌아간다.
      - 사건 중이라 대질 단계에는 `해석`이 없다.
   2. **자백**: 잠깐 침묵 뒤 3줄. 버튼은 `다시 듣기`, `해석`(한국어 상자), `다음`.
   3. **마무리**: 도서관으로 바뀌어 오소리 경사 1줄 → `다음` → `CASE CLOSED` 도장 카드(2.6초, `.case-closed`).
@@ -206,7 +207,7 @@ node server.js            # http://localhost:5173/
 | `QUESTIONS` | 용의자 공통 질문 3개(q1 어디 있었나 / q2 증명해 줄 사람 / q3 피해자와의 관계) |
 | `PEOPLE` | 인물별: `place`, `hello`, `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 지목 대상 아님·대화 선택) |
 | `ANSWERS_KO` | 대답 17줄의 한국어. 복습 화면에서만 쓴다 |
-| `SPRITES` | 여섯 인물 PNG 경로·크기·얼굴 아이콘 viewBox·가로 중심 `anchor`·입 좌표 `mouth` |
+| `SPRITES` | 여섯 인물 PNG(+ `'fiona:nervous'`, `'fiona:sad'` 표정. `height`는 기본 그림 대비 키, `spriteKey()`로 고른다) 경로·크기·얼굴 아이콘 viewBox·가로 중심 `anchor`·입 좌표 `mouth` |
 | `NPC_POSITIONS` | 배경 기준 가로 위치·발 위치·전신 높이(%). 대화와 현장에서 같은 좌표 |
 | `PLACES` | 지도 핀 `x,y`(지도 그림 %), `clues`(label/en/ko/`audio`), 누르는 영역 `spots`(%), 촬영 범위 `spots.photo`(원본 좌표, 4:3) |
 | `ART`, `ART_FLOOR` | 장소 그림 SVG(1376×768 PNG + 덧그림), 장소별 바닥 확장 그림과 높이 |
@@ -246,7 +247,7 @@ node server.js            # http://localhost:5173/
 | `revealPins()` | 지도를 열고 새 핀 강조 |
 | `allConversationsDone()` | 참고인을 뺀 `PEOPLE_ORDER`의 `phase === 'done'` 검사. 지도 지목 버튼 표시·지목 처리 조건 |
 | `openReview()`, `replayLine()` | 복습 화면, 노트·복습의 문장별 다시 듣기 |
-| `speak(text, key, who)` | `spk(who).audio[key]`가 있으면 mp3, 없으면 브라우저 TTS. 보통 1 / 천천히 0.75배속 |
+| `speak(text, key, who, onDone)` | `spk(who).audio[key]`가 있으면 mp3, 없으면 브라우저 TTS. TTS가 0.7초 안에 시작하지 않으면(앱 미리보기 등) 대사 길이만큼 입만 움직인다. `onDone`은 끝까지 재생됐을 때만. 보통 1 / 천천히 0.75배속 |
 | `setTalking()`, `stopVoice()` | 발화 애니메이션(`talker`)과 음성 정지. `speechTurn`으로 취소된 TTS 이벤트 방어 |
 | `enterPlace(id)`, `renderScene()`, `examine(i)` | 장소 화면, 장면 그림(원본 + 바닥 확장 + 핫스팟 + NPC) |
 | `evidencePhoto()`, `captureEvidence()`, `cancelCapture()` | 4:3 증거 사진, 셔터·나레이션·저장 순서, 취소 정리 |
@@ -294,6 +295,7 @@ node server.js            # http://localhost:5173/
 | 마을 지도 | `places/village-map-higgsfield.png` | Claude 제작, 768×1376, 글자 없음 |
 | 동료 경찰 | `characters/sgt-badger-higgsfield.png` | 1060×1484 |
 | 두더지·여우·너구리·토끼 | `characters/<id>-higgsfield.png` | Claude 제작. 흰 스티커 테두리를 지운 버전(408×620, 439×621, 509×628, 316×661). 이전 `*-sticker.png` |
+| 피오나 표정 | `characters/fiona-nervous.png`, `fiona-sad.png` | Claude 제작, 477×641 / 569×624. 원본 `*-original.png` |
 | 오리 아저씨 | `characters/duck-higgsfield.png` | Claude 제작, 447×694, 투명 배경. 원본 `duck-higgsfield-original.png` |
 | 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠, 오른쪽 위 클립 |
 | 인덱스 탭 | `ui/tab-1.png` … `tab-6.png` | 흰 손그림 탭. CSS 마스크 + 곱하기로 인물 색을 입힌다 |
@@ -346,7 +348,7 @@ node server.js            # http://localhost:5173/
 
 1. **사건 도중 증거를 인물에게 내밀기**(지금은 엔딩 대질에만 있다): 게임이 증거와 인물을 자동으로 잇지 않는다. 플레이어가 고른 인물에게 증거를 보여 주면 반응한다(예: 주황색 털을 피오나에게). 누구에게 보여 줄지가 추리다.
 2. **모순 지목**: 범인만 고르는 대신 노트 문장 + 증거를 짝지어 제시한다. 틀리면 동료가 대화로 힌트를 준다. 틀린 노트 문장이면 동료가 "정말 그렇게 말했어요?"라고 되묻는다.
-3. **엔딩 보완**: 자백 장면용 피오나 고개 숙인 그림(약 1.5 크레딧), 엔딩 음악.
+3. **엔딩 보완**: 엔딩 음악·효과음.
 4. **채점 보완**: 재확인 횟수 제한·도토리 소모 또는 직접 입력 철자 관용을 검토한다. 현재 오답은 점선 밑줄로 표시하고 정답은 알려 주지 않는다.
 5. **자동 저장**: 기록 완료, 채점, 증거 획득, 장소 열림 때마다 저장하고 이어 하기를 지원한다.
 6. **복습 보완**: 틀린 문장만 모아 다시 듣기.
