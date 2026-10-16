@@ -339,7 +339,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes pin-ring{0%{opacity:1;transform:scale(.92)}100%{opacity:0;transform:scale(1.45)}}
 @media(prefers-reduced-motion:reduce){.pin.fresh,.pin.fresh::after{animation:none}.pin.fresh{box-shadow:0 0 0 4px var(--honey)}}
 .pin-label{display:flex;align-items:center;gap:4px}
-.pin .done{font-style:normal;font-size:11px;background:var(--moss);color:var(--ink);border:1.5px solid var(--ink);border-radius:50%;width:16px;height:16px;display:grid;place-items:center}
 .pin-people{display:flex;gap:2px}
 .pin-people .mini{width:24px;height:24px;border-width:1.5px}
 
@@ -472,7 +471,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
     <section class="inv" aria-label="현장 조사">
       <div class="inv-head">
         <div><span class="kind" id="sceneKind">현장 조사</span><h2 id="sceneTitle">어디로 갈까요?</h2></div>
-        <span class="badge" id="sceneCount" hidden></span>
       </div>
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
@@ -1558,14 +1556,15 @@ function renderPlaces(){
   const known = PLACES.filter(pl => S.known.has(pl.id));
   $('#mapEmpty').hidden = known.length > 0;
   known.forEach(pl => {
-    const done = S.found[pl.id].size === pl.clues.length, people = peopleAt(pl.id);
+    // no clue counts or "all found" marks anywhere: how many things are worth photographing is the player's to find out
+    const people = peopleAt(pl.id);
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'pin' + (pl.crime ? ' crime' : '') + (freshPins.has(pl.id) ? ' fresh' : '');
     b.style.left = pl.x + '%'; b.style.top = pl.y + '%';
-    b.innerHTML = `<span class="pin-label">${esc(pl.label)}${done ? '<i class="done">✓</i>' : ''}</span>` +
+    b.innerHTML = `<span class="pin-label">${esc(pl.label)}</span>` +
       (people.length ? `<span class="pin-people">${people.map(id => `<span class="mini" style="background:${spk(id).bg}">${miniSVG(id)}</span>`).join('')}</span>` : '');
-    b.setAttribute('aria-label', [pl.label, done ? '모두 살펴봄' : '', ...people.map(id => spk(id).name)].filter(Boolean).join(', '));
+    b.setAttribute('aria-label', [pl.label, ...people.map(id => spk(id).name)].filter(Boolean).join(', '));
     b.onclick = () => enterPlace(pl.id);
     map.appendChild(b);
   });
@@ -2126,8 +2125,6 @@ function renderSceneHead(){
   const pl = placeObj();
   $('#sceneKind').textContent = pl ? pl.kind : '현장 조사';
   $('#sceneTitle').textContent = pl ? pl.label : '어디로 갈까요?';
-  const c = $('#sceneCount'); c.hidden = !pl;
-  if(pl) c.textContent = `단서 ${S.found[pl.id].size}/${pl.clues.length}`;
 }
 
 /* ---------- how-to-play tutorial ----------
