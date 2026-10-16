@@ -341,11 +341,19 @@ node server.js            # http://localhost:5173/
 
 ### 10.1 최근 논의 — 미구현·미확정 사항
 
-- **범인 검거 성공 뒤 스토리 연출**
-  - 사용자가 엔딩 스토리 연출을 원했고 아이디어 몇 가지를 요청했다. 아직 안을 선택하거나 구현을 지시하지 않았다. 현재 성공 뒤에는 기존 정답 결과창과 `복습하기 / 사건 목록으로`만 나온다.
-  - 제안 ① 범인의 침묵 뒤 영어 음성 자백 ② 자백과 함께 시계·잼·털 단서를 연결하는 비폭력적 회상 ③ 동료 경찰의 마무리 대사와 수첩 `CASE CLOSED` 도장·닫힘 ④ 다음 날 도서관에서 피해자를 기억하는 짧은 후일담.
-  - 추천안은 ① → ② → ③의 약 30–45초 엔딩이다. 추가 받아쓰기·채점 없이 `다시 듣기 / 해석 / 다음`으로 감상하게 하는 제안이며, 자동 진행·건너뛰기 방식은 미정이다.
-  - 진상은 결과 팝업의 설명문이 아니라 범인의 대화·자백으로 공개한다는 기존 규칙을 유지한다. 범행 동기·과정·자백 대본과 그림·음성·음악은 아직 확정·제작하지 않았으며, 현재 단서를 넘어서는 설정을 확정 사실로 취급하지 않는다.
+- **범인 검거 성공 뒤 스토리 연출 (설계 확정 중, 미구현)**
+  - 사용자 결정: 대질은 **증거 내밀기**, 진상은 **다투다 일어난 사고**. 후일담·오답 반박·표정 그림은 사용자가 Claude 판단에 맡김.
+  - 흐름(약 60–90초): ① 빵집 대질(피오나의 주장마다 증거 노트에서 사진을 골라 반박, 틀리면 피오나가 한마디 하고 다시 고름, 감점·팝업 없음) → ② 자백(영어 음성 3줄, `다시 듣기`·`해석`만, 채점 없음) → ③ 도서관에서 오소리 경사 마무리 + 서류철 노트에 `CASE CLOSED` 도장 → ④ 후일담(언덕의 로지, 10초) → ⑤ 기존 복습 → 사건 목록.
+  - 대질 대본 초안(정답 증거):
+    1. 피오나 "I was at my bakery all evening…"(기존 `fiona-q1.mp3` 재사용) → 차가운 오븐 또는 문의 안내문(7시에 닫음).
+    2. 피오나 "Mrs. Bear came in to buy bread at eight thirty."(기존 `fiona-q2.mp3`) → "No bread tonight" 쪽지.
+    3. 피오나 "Fine, I closed early. But I was never at the library!"(새 줄) → 도서관 문의 주황색 털.
+    4. 피오나 "Lots of animals have orange fur!"(새 줄) → 창문의 보라색 잼(블루베리 파이와 연결은 플레이어 추리).
+    - 틀린 증거: "That has nothing to do with me."(새 줄)
+  - 자백 초안: "All right… I went to the library at eight thirty. I only wanted him to take back what he wrote about my pies." / "We argued. He stepped back, slipped, and hit the big clock. It stopped at eight forty." / "I was so scared, so I ran out through the window. I'm so sorry, Professor."
+  - 마무리 초안: 오소리 경사 "Fiona told us everything. Good work, detective. Case closed." 후일담 초안: 로지 "I found a new star last night. I'm going to call it Hoot."
+  - 오답 지목: 결과창 대신 지목된 인물이 기존 음성으로 반박(레이 q2, 로지 q2, 두더지 m1 재사용) 후 지도로 돌아간다.
+  - 새 음성 8줄(약 2.4 크레딧, 감정이 필요한 자백·후일담은 사용자 제작 권장). 진상은 결과 팝업 설명문이 아니라 자백 음성으로만 공개한다.
 
 ## 11. 알려진 이슈와 주의점
 
