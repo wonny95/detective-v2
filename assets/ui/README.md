@@ -13,6 +13,9 @@
   - 탭은 서류철 그림(`.dock::before`) 뒤(`z-index:-1`)에 놓여 윗변 너머로 머리만 나온다. 아래 14px은 서류철에 가려지고, 선택된 탭은 더 높이 나온다.
   - 탭 버튼은 이 PNG로 마스크하고 `--tab-bg` 색 위에 곱하기로 겹쳐 색을 입힌다. 선택된 탭은 꿀색(`--honey`)이며 조금 더 높다. 순서대로 1–6번 모양을 돌려 쓴다.
 
+- `corkboard-cork.webp` (512×512, 화면에서 320px 타일): 사건 수첩 코르크판 바탕. Higgsfield Nano Banana 2.1(1K, thinking high), 카페 배경 그림(job `354bb7cb-…`)을 화풍 참조로 한 손그림 코르크 2장 중 고른 것(job `b4aa7ed9-993b-4f17-8c5e-e42688cb7edf`, 원본 `corkboard-cork-higgsfield-original.png`). 반 칸 밀어 낸 사본과 가장자리만 섞어 이음매 없는 타일로 만들었다. 처음 뽑은 사진 같은 코르크(job `96438498-…`)는 사용자가 "너무 리얼하다"고 해 버렸다.
+- `corkboard-frame.webp` (773×1027, 투명): 코르크판 나무 액자. 같은 모델, 오리 NPC 그림(job `6f92a3f3-…`) 화풍 참조, 마젠타 배경(job `75a1eb0e-5a39-46b4-8a11-ef0865101024`, 원본 `corkboard-frame-higgsfield-original.png`)을 로컬에서 지우고 잘랐다. 나무 두께 좌우 약 88px·위아래 약 95px → CSS `border-image` 조각 `96 90 98 90`, 화면 두께 19px·18px, `stretch`.
+
 ## 제작
 
 - Nano Banana 2.1, 1K, thinking high, 오소리 경사 그림을 화풍 참조(`image_references`)로 사용. 수첩 4:5, 탭 시트 3:2.
