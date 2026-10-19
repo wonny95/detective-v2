@@ -1540,6 +1540,7 @@ function setNotes(open){
   if(changed) focusCamera(null, true);
 }
 function openSheet(name){
+  clearTimeout(mapAutoTimer);
   if(name) discoveryRun++;
   if(name && discoveryPerson) finishDiscovery(false);
   if(name === 'map' && (pendingPins.length || pendingPeople.length)){ revealPins(); return; }
@@ -1588,6 +1589,7 @@ function setMapOrigin(btn){
   sh.style.transition = '';
 }
 $('#mapTab').onclick = () => openSheet($('#sheet-map').classList.contains('open') ? null : 'map');
+$('#sheet-map').addEventListener('pointerdown', () => clearTimeout(mapAutoTimer));
 $('#hint').onclick = useHint;
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
@@ -1644,7 +1646,8 @@ function unlock(u, quiet){
   return { newPlace, newPerson, places, people };
 }
 // New places from a check wait until the notebook is put away; then the map opens and their pins pop out.
-let pendingPins = [], pendingPeople = [], freshPins = new Set(), freshTimer;
+let pendingPins = [], pendingPeople = [], freshPins = new Set(), freshTimer, mapAutoTimer;
+const MAP_AUTO_CLOSE_MS = 3000;   // how long a map that opened for new pins stays before it closes by itself
 function afterMotion(element, callback){
   const animations = element.getAnimations();
   if(!animations.length){ callback(); return; }
@@ -1716,6 +1719,11 @@ function revealPins(){
   afterMotion($('#sheet-map'), () => {
     if(run !== discoveryRun || !$('#sheet-map').classList.contains('open')) return;
     toast(places.length && people.length ? '새로운 장소와 인물을 알게 됐어요.' : people.length ? '새로운 인물을 알게 됐어요.' : '새로운 장소를 알게 됐어요.', true);
+    // the map opened by itself, so it closes by itself too and the game carries on where it was;
+    // touching the map (a pin, the menu) keeps it open
+    mapAutoTimer = setTimeout(() => {
+      if(run === discoveryRun && $('#sheet-map').classList.contains('open')) openSheet(null);
+    }, MAP_AUTO_CLOSE_MS);
   });
   clearTimeout(freshTimer);
   freshTimer = setTimeout(() => { freshPins.clear(); document.querySelectorAll('.pin.fresh').forEach(pin => pin.classList.remove('fresh')); }, 4200);
