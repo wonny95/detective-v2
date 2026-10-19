@@ -292,7 +292,13 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes unfold{from{opacity:0;transform:translateY(-6px);clip-path:inset(0 0 100% 0)}to{opacity:1;transform:none;clip-path:inset(0 0 -4px 0)}}
 .nblock.fresh .gmark{animation:mark-sweep .5s ease-out calc(1.4s + var(--i) * 180ms) both}
 @keyframes mark-sweep{from{background-size:0% 100%;border-bottom-color:transparent}}
-@media (prefers-reduced-motion:reduce){.nblock.fresh *{animation:none!important}.dock{transition:transform .2s}}
+/* a check with wrong blanks (.miss, one render only): those blanks shake with a red flash and 다시 확인 jolts —
+   it still never shows the right answer */
+.nblock.miss .blank.review{animation:ink-miss .55s ease-out calc(var(--i) * 50ms) both}
+@keyframes ink-miss{0%{transform:translateX(0);background-color:rgba(201,111,134,0)}12%{transform:translateX(-6px);background-color:rgba(201,111,134,.4)}28%{transform:translateX(6px)}44%{transform:translateX(-4px)}60%{transform:translateX(4px);background-color:rgba(201,111,134,.25)}78%{transform:translateX(-2px)}100%{transform:translateX(0);background-color:rgba(201,111,134,0)}}
+.nblock.miss .question-state{animation:state-jolt .5s ease-out .05s both}
+@keyframes state-jolt{0%{transform:scale(1.35) rotate(-6deg)}35%{transform:scale(1) rotate(4deg)}60%{transform:rotate(-2deg)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.nblock.fresh *,.nblock.miss *{animation:none!important}.dock{transition:transform .2s}}
 .blank.no{color:var(--no);text-decoration:line-through 2.5px var(--no)}
 .howto{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.5}
 .bank{display:flex;flex-wrap:wrap;gap:8px}
@@ -553,6 +559,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 <div class="app" id="app">
   <audio id="cameraShutter" src="audio/camera-shutter.mp3" preload="auto" hidden></audio>
   <audio id="correctChime" src="audio/note-correct.mp3" preload="auto" hidden></audio>
+  <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <div class="main">
     <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
@@ -1405,7 +1412,7 @@ function blockHTML(sIdx, qid, now){
   // outside the live recording, each answer can be heard again while checking the page
   const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
   const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
-  return `<div class="nblock${now?' now':''}${freshCheck === ref ? ' fresh' : ''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? passageToggle(ref, openPassages.has(ref)) +
+  return `<div class="nblock${now?' now':''}${freshCheck === ref ? ' fresh' : ''}${missCheck === ref ? ' miss' : ''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? passageToggle(ref, openPassages.has(ref)) +
     `<p class="npassage"${openPassages.has(ref) ? '' : ' hidden'}>${markGrammar(s.answers[qid], items)}</p>` : ''}</div>`;
 }
 
@@ -1444,6 +1451,7 @@ let noteRaised = false;
 // notebook away folds them all, so the full page starts compact and 지문 opens one again
 const openPassages = new Set();
 let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
+let missCheck = null;    // 'person:question' just checked with wrong blanks: they shake on the next render only
 function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint();
   const body = $('#dockBody');
@@ -1482,7 +1490,7 @@ function renderDock(){
   }
 
   body.innerHTML = html;
-  freshCheck = null;
+  freshCheck = missCheck = null;
   bindDock();
   // scroll only the notebook (scrollIntoView would also scroll the clipped app frame)
   const now = body.querySelector('.nblock.now');
@@ -1604,6 +1612,10 @@ function finishRecord(){
   stopVoice();
   if(!correct){
     if(!p.retry.includes(qid)) p.retry.push(qid);
+    const buzz = $('#retryBuzz');   // a low falling "bonk" and a short buzz on phones
+    buzz.currentTime = 0; buzz.play().catch(() => {});
+    if(navigator.userActivation?.hasBeenActive) try { navigator.vibrate?.(90); } catch(e){}
+    missCheck = `${S.cur}:${qid}`;
     renderDock();
     return;
   }
