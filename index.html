@@ -330,7 +330,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.investigate .inv{display:flex}
 .inv-head{flex:none;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:12px 124px 10px 16px;border-bottom:3px solid var(--ink);background:var(--paper-2)}
 .inv-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:20px;line-height:1}
-.inv-head .kind{display:block;font-family:var(--f-display);font-size:11px;color:var(--berry)}
 .badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
 .art-stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper-2)}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
@@ -618,7 +617,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <!-- PART 2: investigation — a large illustration per place; tap suspicious things to find clues -->
     <section class="inv" aria-label="현장 조사">
       <div class="inv-head">
-        <div><span class="kind" id="sceneKind">현장 조사</span><h2 id="sceneTitle"></h2></div>
+        <h2 id="sceneTitle"></h2>
       </div>
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
@@ -1025,7 +1024,7 @@ const ANSWERS_KO = {
    `prop:true` = an ordinary object, not a clue: photographed and kept the same way (nothing on screen tells
    them apart), but showing it in the confrontation counts as a wrong photo. Some look suspicious on purpose. */
 const PLACES = [
-  { id:'library', crime:true, x:27, y:47, label:'Old Library', kind:'사건 현장', artWidth:1376, artHeight:768,
+  { id:'library', crime:true, x:27, y:47, label:'Old Library', artWidth:1376, artHeight:768,
     clues:[
       { label:'Big clock', en:'The big clock stopped at 8:40 PM.', ko:'큰 시계가 오후 8시 40분에 멈춰 있다.', audio:'audio/detective-library-clock.mp3' },
       { label:'Window', en:'There is sticky purple jam on the window.', ko:'창문에 끈적한 보라색 잼이 묻어 있다.', audio:'audio/detective-library-window.mp3' },
@@ -1042,7 +1041,7 @@ const PLACES = [
       { clue:4, x:46.5, y:0, w:7, h:10, photo:{x:590,y:0,w:160,h:120} },
       { clue:5, x:17.5, y:44, w:4, h:9.5, photo:{x:208,y:315,w:120,h:90} }
     ]},
-  { id:'bakery', x:28, y:79, label:"Fiona's Bakery", kind:'장소', artWidth:1376, artHeight:768,
+  { id:'bakery', x:28, y:79, label:"Fiona's Bakery", artWidth:1376, artHeight:768,
     clues:[
       { label:'Front door', en:'A sign on the door: CLOSED AT 7 PM TONIGHT.', ko:'문에 붙은 안내문: 오늘은 오후 7시에 문 닫음.', audio:'audio/detective-bakery-door.mp3' },
       { label:'Oven', en:'The oven is cold. No pies were baked tonight.', ko:'오븐이 차갑다. 오늘 밤 구운 파이는 없다.', audio:'audio/detective-bakery-oven.mp3' },
@@ -1059,7 +1058,7 @@ const PLACES = [
       { clue:4, x:62.6, y:11, w:9, h:6.5, photo:{x:842,y:52,w:160,h:120} },
       { clue:5, x:32, y:19, w:17.5, h:21, photo:{x:430,y:120,w:260,h:195} }
     ]},
-  { id:'cafe', x:71, y:58, label:'Lake Cafe', kind:'장소', artWidth:1376, artHeight:768,
+  { id:'cafe', x:71, y:58, label:'Lake Cafe', artWidth:1376, artHeight:768,
     clues:[
       { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.', audio:'audio/detective-cafe-poster.mp3' },
       { label:'Guitar', prop:true, en:'A guitar leans on the stage.', ko:'기타 한 대가 무대에 기대어 있다.', audio:'audio/detective-cafe-guitar.mp3' },
@@ -1072,7 +1071,7 @@ const PLACES = [
       { clue:2, x:85.8, y:73.6, w:13, h:9, photo:{x:1176,y:525,w:200,h:150} },
       { clue:3, x:5, y:8, w:11, h:14, photo:{x:40,y:60,w:200,h:150} }
     ]},
-  { id:'hill', x:68, y:21, label:'Moon Hill', kind:'장소', artWidth:1376, artHeight:768,
+  { id:'hill', x:68, y:21, label:'Moon Hill', artWidth:1376, artHeight:768,
     clues:[
       { label:'Star Club notebook', en:"Star Club notebook: '8:30 PM, Saturn is bright. 8:45 PM, a shooting star! — Rosie'", ko:"별 동호회 노트: '8:30 토성이 밝다. 8:45 별똥별! — 로지'", audio:'audio/detective-hill-notebook.mp3' },
       { label:'Footprints', en:'Small rabbit footprints are all around the telescope.', ko:'망원경 주변에 작은 토끼 발자국이 가득하다.', audio:'audio/detective-hill-footprints.mp3' },
@@ -2536,7 +2535,6 @@ function enterPlace(id, fromConversation = false){
 }
 function renderSceneHead(){
   const pl = placeObj();
-  $('#sceneKind').textContent = pl ? pl.kind : '현장 조사';
   $('#sceneTitle').textContent = pl ? pl.label : '';
 }
 
