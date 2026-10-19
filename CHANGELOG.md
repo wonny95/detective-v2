@@ -15,6 +15,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-10-19 · Claude · (이 커밋)
 
+- 사용자 요청: 노트 패널 그림(`assets/ui/casefile-panel.webp`)의 배경 제거가 지저분했다. 서류철 바깥을 따라 남은 밝은 회색 띠와, 클립 고리 안쪽(서류철 위로 튀어나온 부분)에 남은 회색 배경을 로컬에서 지웠다(크레딧 없음). 경계 1px은 어둡게 다듬어 밝은 테두리가 보이지 않게 했다. 서류 안쪽은 건드리지 않았다.
+- 확인: 어두운·밝은 바탕 위에 겹쳐 확대 확인. 새 탭(폰 크기)에서 클립 고리 사이로 뒤 배경이 보이고 모서리에 흰 띠가 없다. 콘솔 오류 없음.
+- **다음**: 사용자 지시 대기. 남은 질문: "다른 NPC 말하는 연출"의 뜻, confess1 테이크 선택, 아티팩트 공유 설정·동작 확인.
+
+## 2026-10-19 · Claude · 04368fc
+
 - 사용자 요청: 글꼴을 모두 페이퍼로지(Paperlogy)로 바꿨다(Jua·Gowun Dodum·Gaegu → Paperlogy). Google Fonts 연결을 없애고 `assets/fonts/`에 Regular·SemiBold·Bold woff2를 넣었다(OFL 1.1, 눈누 배포본). 제목·버튼은 SemiBold(`Paperlogy Display`), 본문·손글씨 자리는 Regular.
   - 손글씨 글꼴보다 넓어서 `--f-hand` 규칙의 글자 크기를 85%로 줄였다(노트 빈칸 줄바꿈 방지). 그림 속 글자도 맞췄다: 튜토리얼 손글씨 문구 85%, 빵집 CLOSED 21→17, 카페 LIVE 26→23.
   - `publish-artifact/build.py`가 woff2 파일도 함께 올리도록 했다.
