@@ -126,6 +126,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
   background:radial-gradient(ellipse 66% 48% at 50% 40%,rgba(255,236,190,.12) 0 30%,rgba(34,20,10,.42) 62%,rgba(24,14,8,.82) 100%)}
 .app.interrogate .spotlight{opacity:1}
+/* in the ending every line is also shown in a speech bubble (user decision) — under the locks while she is questioned,
+   its tail pointing down at whoever speaks; it stays up while the evidence drawer is open */
+.bubble.say{top:44px;padding-bottom:12px}
+.app.interrogate .bubble.say{top:66px}
+.bubble.say::after{content:"";position:absolute;left:50%;bottom:-9px;width:14px;height:14px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
 .locks{position:absolute;top:12px;left:50%;z-index:5;display:flex;gap:10px;padding:7px 14px;transform:translateX(-50%);background:rgba(40,28,20,.6);border-radius:16px}
 .lock{display:block;width:30px;height:35px}
 .lock svg{display:block;width:100%;height:100%;overflow:visible}
@@ -659,6 +664,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="stage-area" id="talkCamera"></div>
       <div class="ask-panel" id="askPanel"></div>
       <div class="spotlight" aria-hidden="true"></div>
+      <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
       <div class="locks" id="locks" hidden></div>
       <section class="drawer" id="drawer" aria-label="증거 서랍">
         <div class="drawer-head"><h3>증거</h3><button class="x" type="button" data-drawer-close aria-label="증거 서랍 닫기">×</button></div>
@@ -2186,6 +2192,13 @@ function setMood(id, mood){
   if(!S.investigate) renderScene(placeIdOf(S.cur));
 }
 
+// The line being spoken in the ending, as a speech bubble (null hides it).
+function renderSay(line){
+  const b = $('#sayBubble');
+  if(!line){ b.hidden = true; return; }
+  b.innerHTML = `<span class="tag">${esc(spk(line.who).name)}</span>${esc(line.en)}`;
+  b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
+}
 // The four claim locks and the dimmed room, while she is being questioned (confront) and while she gives in.
 const LOCK_SHUT = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 12.5V8.5a5.5 5.5 0 0 1 11 0v4" fill="none" stroke="#4A3628" stroke-width="2.4"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#F2CF73" stroke="#4A3628" stroke-width="2"/><circle cx="12" cy="18" r="1.9" fill="#4A3628"/><path d="M12 19v3.2" stroke="#4A3628" stroke-width="1.9" stroke-linecap="round"/></svg>`;
 const LOCK_OPEN = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 10V6.5a5.5 5.5 0 0 1 11 0" fill="none" stroke="#4A3628" stroke-width="2.4" transform="rotate(-28 6.5 10) translate(-1 -2)"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#D8CDBB" stroke="#4A3628" stroke-width="2"/><path d="M10 12l2.6 4.4-2 2.6 2.8 3.4-1.2 3.6" fill="none" stroke="#4A3628" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
@@ -2286,6 +2299,7 @@ function endingAction(action){
 function endingSay(line, mood){
   clearTimeout(endTimer);
   ending.line = line; ending.ko = false;
+  renderSay(line);
   if(mood !== undefined){ if(mood) S.mood[line.who] = mood; else delete S.mood[line.who]; }
   if(ending.shown !== line.who || S.investigate){
     const samePlace = ending.shown && !S.investigate && placeIdOf(ending.shown) === placeIdOf(line.who);
@@ -2316,7 +2330,7 @@ function wrongAccusation(id){
   endingSay({ who:id, key, en:spk(id).answers[key], ko:ANSWERS_KO[id]?.[key] || '' });
 }
 function leaveEnding(){
-  clearTimeout(endTimer); stopVoice(); closeDrawer();
+  clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderLocks();
   S.visit = {};
   setMood('fiona', null);
@@ -2327,6 +2341,7 @@ function present(ref){
   if(ending?.step !== 'confront') return;
   clearTimeout(endTimer); stopVoice();
   setNotes(false); renderDock();
+  renderSay(null);
   const record = S.evidence.find(r => `${r.placeId}-${r.clueIndex}` === ref);
   const round = ENDING.confront[endingRound], right = round.accept.includes(ref);
   const shot = document.createElement('div');
@@ -2354,6 +2369,7 @@ function present(ref){
       ending.line = null; renderAsk();
       if(broken) renderLocks(broken);
       setMood('fiona', null);
+      renderSay({ who:'fiona', en:ENDING.miss.en });
       speak(ENDING.miss.en, ENDING.miss.key, 'fiona', () => {
         endTimer = setTimeout(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[0]), null), 700);
       });
@@ -2362,7 +2378,7 @@ function present(ref){
     endingRound++;
     if(endingRound < ENDING.confront.length) return endingSay(fionaLine(ENDING.confront[endingRound]), confrontMood(endingRound));
     // all four answered: a moment of silence, then she gives in
-    ending.step = 'confession'; ending.i = 0; ending.line = null; renderAsk();
+    ending.step = 'confession'; ending.i = 0; ending.line = null; renderAsk(); renderSay(null);
     setMood('fiona', 'sad');
     endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0]), 'sad'), 1400);
   }, 1300);
@@ -2377,7 +2393,7 @@ function endingNext(){
   if(e.step === 'closing') return caseClosedStamp();
 }
 function caseClosedStamp(){
-  ending.step = 'stamp'; renderAsk();
+  ending.step = 'stamp'; renderAsk(); renderSay(null);
   const card = document.createElement('div');
   card.className = 'case-closed';
   card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b><span class="cc-stamp">CASE CLOSED</span></div>`;
@@ -2388,7 +2404,7 @@ function caseClosedStamp(){
   }, 2600);
 }
 function finishEnding(){
-  clearTimeout(endTimer); stopVoice(); closeDrawer();
+  clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderLocks();
   S.mood = {};   // the result card opens over the bakery with both of them still there
   renderDock();
