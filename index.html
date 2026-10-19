@@ -104,8 +104,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.ending .chip,.app.ending #hint{visibility:hidden}
 /* the map/Note bar is gone during the ending, so the scene runs to the bottom edge */
 .app.ending .nav{display:none}
-.end-tools{display:flex;justify-content:flex-end;gap:8px}
-.end-ko{margin:0;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.45;box-shadow:2px 3px 0 rgba(74,54,40,.2)}
 .ask-panel .end-leave{align-self:center}
 /* a photo held up to the suspect */
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
@@ -130,6 +128,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
    its tail pointing down at whoever speaks; it stays up while the evidence drawer is open */
 .bubble.say{top:44px;padding-bottom:12px}
 .app.interrogate .bubble.say{top:66px}
+.bubble.say .say-ko{display:block;margin-top:6px;padding-top:6px;border-top:1.5px dashed var(--line);font-family:var(--f-body);font-size:14px;font-weight:700;line-height:1.45;color:var(--berry)}
+.bubble.say .say-ko[hidden]{display:none}
+.bubble.say .say-foot{display:flex;justify-content:flex-end;gap:6px;margin-top:8px}
+.bubble.say .say-foot button{position:static;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;min-height:30px;padding:0 10px;font-family:var(--f-display);font-size:12px;color:var(--ink)}
+.bubble.say .say-foot svg{width:9px;height:9px}
 .bubble.say::after{content:"";position:absolute;left:50%;bottom:-9px;width:14px;height:14px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
 .locks{position:absolute;top:12px;left:50%;z-index:5;display:flex;gap:10px;padding:7px 14px;transform:translateX(-50%);background:rgba(40,28,20,.6);border-radius:16px}
 .lock{display:block;width:30px;height:35px}
@@ -2196,9 +2199,20 @@ function setMood(id, mood){
 function renderSay(line){
   const b = $('#sayBubble');
   if(!line){ b.hidden = true; return; }
-  b.innerHTML = `<span class="tag">${esc(spk(line.who).name)}</span>${esc(line.en)}`;
+  // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
+  const again = line === ending?.line;
+  b.innerHTML = `<span class="tag">${esc(spk(line.who).name)}</span>${esc(line.en)}` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') +
+    (again || line.ko ? `<span class="say-foot">${again ? `<button class="pill sm" type="button" data-say-again>${playIcon}다시 듣기</button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
 }
+// 해석 in the bubble: the Korean of the line under the English (user decision: in every part of the ending)
+$('#sayBubble').addEventListener('click', e => {
+  if(e.target.closest('[data-say-again]')) return ending?.line && speak(ending.line.en, ending.line.key, ending.line.who);
+  const button = e.target.closest('[data-say-ko]'); if(!button) return;
+  const ko = $('#sayBubble .say-ko');
+  ko.hidden = !ko.hidden;
+  button.setAttribute('aria-pressed', !ko.hidden);
+});
 // The four claim locks and the dimmed room, while she is being questioned (confront) and while she gives in.
 const LOCK_SHUT = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 12.5V8.5a5.5 5.5 0 0 1 11 0v4" fill="none" stroke="#4A3628" stroke-width="2.4"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#F2CF73" stroke="#4A3628" stroke-width="2"/><circle cx="12" cy="18" r="1.9" fill="#4A3628"/><path d="M12 19v3.2" stroke="#4A3628" stroke-width="1.9" stroke-linecap="round"/></svg>`;
 const LOCK_OPEN = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 10V6.5a5.5 5.5 0 0 1 11 0" fill="none" stroke="#4A3628" stroke-width="2.4" transform="rotate(-28 6.5 10) translate(-1 -2)"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#D8CDBB" stroke="#4A3628" stroke-width="2"/><path d="M10 12l2.6 4.4-2 2.6 2.8 3.4-1.2 3.6" fill="none" stroke="#4A3628" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
@@ -2280,17 +2294,13 @@ $('#drawer').addEventListener('click', e => {
 function endingControls(){
   const e = ending;
   if(!e.line || e.step === 'stamp') return '';
-  const solved = !['confront', 'wrong'].includes(e.step);
-  const tools = `<div class="end-tools"><button class="pill sm" type="button" data-end="replay">다시 듣기</button>${solved ? `<button class="pill sm" type="button" data-end="ko" aria-pressed="${e.ko}">해석</button>` : ''}</div>` +
-    (solved && e.ko ? `<p class="end-ko">${esc(e.line.ko)}</p>` : '');
+  const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
   if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button><button class="pill sm end-leave" type="button" data-end="leave">조금 더 조사할래요</button>`;
   if(e.step === 'wrong') return tools + `<button class="pill big" type="button" data-end="leave">다시 조사하기</button>`;
   return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
 }
 function endingAction(action){
   const e = ending; if(!e) return;
-  if(action === 'replay') return speak(e.line.en, e.line.key, e.line.who);
-  if(action === 'ko'){ e.ko = !e.ko; renderAsk(); return; }
   if(action === 'present'){ stopVoice(); openDrawer(); return; }
   if(action === 'leave') return leaveEnding();
   if(action === 'next') endingNext();
@@ -2298,7 +2308,7 @@ function endingAction(action){
 // show someone (camera on them at their place) and play the line
 function endingSay(line, mood){
   clearTimeout(endTimer);
-  ending.line = line; ending.ko = false;
+  ending.line = line;
   renderSay(line);
   if(mood !== undefined){ if(mood) S.mood[line.who] = mood; else delete S.mood[line.who]; }
   if(ending.shown !== line.who || S.investigate){
@@ -2369,7 +2379,7 @@ function present(ref){
       ending.line = null; renderAsk();
       if(broken) renderLocks(broken);
       setMood('fiona', null);
-      renderSay({ who:'fiona', en:ENDING.miss.en });
+      renderSay({ who:'fiona', en:ENDING.miss.en, ko:ENDING.miss.ko });
       speak(ENDING.miss.en, ENDING.miss.key, 'fiona', () => {
         endTimer = setTimeout(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[0]), null), 700);
       });
