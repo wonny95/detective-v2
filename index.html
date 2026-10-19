@@ -338,7 +338,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
 @keyframes tapfx{from{opacity:1;transform:translate(-50%,-50%) scale(.6)}to{opacity:0;transform:translate(-50%,-80%) scale(1.15)}}
 .swipe-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(74,54,40,.8);color:var(--paper);padding:6px 12px;border-radius:14px;font-size:12px;pointer-events:none;white-space:nowrap}
-.inv-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;font-family:var(--f-display);font-size:15px;color:var(--ink-soft)}
 .people-here{display:flex;flex-direction:column;gap:6px}
 .people-here .lbl{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
 .people-row{display:flex;gap:8px;flex-wrap:wrap}
@@ -608,12 +607,11 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <!-- PART 2: investigation — a large illustration per place; tap suspicious things to find clues -->
     <section class="inv" aria-label="현장 조사">
       <div class="inv-head">
-        <div><span class="kind" id="sceneKind">현장 조사</span><h2 id="sceneTitle">어디로 갈까요?</h2></div>
+        <div><span class="kind" id="sceneKind">현장 조사</span><h2 id="sceneTitle"></h2></div>
       </div>
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
         <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
-        <div class="inv-empty" id="sceneEmpty">지도에서 갈 곳을 골라 주세요.</div>
       </div>
     </section>
 
@@ -2471,7 +2469,6 @@ function enterPlace(id, fromConversation = false){
   cameraMotion?.cancel();
   if(!S.investigate) setInvestigate(true);
   S.place = id;
-  $('#sceneEmpty').hidden = true;
   openSheet(null); setNotes(false);
   const art = $('#art');
   artWrap.appendChild(art);
@@ -2492,7 +2489,7 @@ function enterPlace(id, fromConversation = false){
 function renderSceneHead(){
   const pl = placeObj();
   $('#sceneKind').textContent = pl ? pl.kind : '현장 조사';
-  $('#sceneTitle').textContent = pl ? pl.label : '어디로 갈까요?';
+  $('#sceneTitle').textContent = pl ? pl.label : '';
 }
 
 /* ---------- how-to-play tutorial ----------
@@ -2997,7 +2994,8 @@ $('#devFill').onclick = () => {
   renderDock();
   toast(`빈칸 ${n}개를 채웠어요.`);
 };
-// 전체 대화 완료: everyone met, every question asked and recorded correctly, every place known → map.
+// 전체 대화 완료: everyone met, every question asked and recorded correctly, every place known → the map, opened over
+// the place of the current conversation (so closing it never leaves an empty place view).
 $('#devDone').onclick = () => {
   stopVoice(); hideBubble(); clearSel();
   $('#intro').hidden = true; $('#caseList').hidden = true; caseStarted = true;
@@ -3009,7 +3007,7 @@ $('#devDone').onclick = () => {
   S.met = [...PEOPLE_ORDER];
   PLACES.forEach(pl => S.known.add(pl.id));
   renderPlaces();
-  if(S.investigate) renderDock(); else setInvestigate(true);
+  if(S.investigate && S.place) renderDock(); else enterPlace(cur().place, true);
   openSheet('map');
   toast('모든 대화를 마쳤어요. 지도에서 장소를 골라 보세요.');
 };
