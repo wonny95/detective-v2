@@ -18,10 +18,12 @@
 - Nano Banana 2.1, 1K, thinking high, 오소리 경사 그림을 화풍 참조(`image_references`)로 사용. 수첩 4:5, 탭 시트 3:2.
 - `notebook-higgsfield-original.png`: 1차 시안(참조 없음, 줄 있음). 매끈해서 미사용.
 
-## 미적용 후보 (2026-10-19, 사용자 요청으로 만들기만 함)
+## 버튼·아이콘 (2026-10-19)
 
 - `icons-higgsfield-original.png` (1200×896, job `4104e401-…`): 아이콘 12개 시트. 잘라 낸 투명 PNG는 `icons/`에 있다: map, note, camera, folder, acorn, play, turtle, lock, close, check, magnifier, speaker.
 - `buttons-higgsfield-original.png` (1264×848, job `3599eae3-…`): 빈 버튼 시트. 잘라 낸 PNG는 `buttons/`에 있다: 알약 버튼 sage·berry·honey·cream·sky·peach(각각 보통·`-pressed`), 둥근 버튼 `round-cream`·`round-honey`·`round-sage`·`round-berry`.
   - 문제: 보통 상태 알약 6개는 오른쪽 위 모서리가 각지게 나왔다. 눌린 상태(`-pressed`)는 온전한 알약 모양이다.
 - 제작: Nano Banana 2.1, 1K, thinking high, 오소리 경사 그림을 화풍 참조로 사용. 배경은 마젠타(#FF00FF) 단색으로 지정해 로컬에서 지웠다(마젠타 정도로 알파를 매기고 가장자리 색에서 마젠타를 빼냄). 색은 게임 CSS 토큰(--moss, --berry, --honey, --paper, --sky, --peach)에 맞췄다.
-- 아직 `index.html`에서 쓰지 않는다. 버튼은 글자·크기 변화가 있어 그림을 그대로 늘이면 끝이 찌그러질 수 있으니, 쓰게 되면 `border-image`(좌우 끝 고정) 또는 배경 질감만 따오는 방식을 검토한다.
+- 적용:
+  - 아이콘: 지도·Note 버튼, 도토리 힌트, 서류 폴더 탭, 카메라(증거 노트) 탭, 재생(다시 듣기), 자물쇠(잠긴 사건), 지도 닫기, `천천히` 버튼의 거북이. SVG `<image>`로 넣는다(`#acorn`·`#mapIcon`·`#noteIcon`·`#caseIcon` 심볼, `playIcon`·`cameraIcon`·`LOCK_ICON`). 확인 도장·돋보기·스피커는 아직 미사용.
+  - 버튼: `.pill`과 `.tab`에 `border-image`로 그림을 입힌다(조각 `56 60 57 60`, 둥근 끝은 늘이지 않음, 크기 `--bw`). 모서리가 각진 보통 상태 대신 아래 종이 두께가 보이는 `-pressed` 그림을 기본 모양으로 쓴다. 색: 기본 cream, `.big` berry, `.green`·`기록 완료` sage, 힌트·열린 Note honey, 켜진 토글 sky. peach와 둥근 버튼은 미사용.
