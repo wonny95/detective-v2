@@ -186,7 +186,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .note-page.checked::after{animation:stamp-in .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes stamp-in{from{transform:rotate(-10deg) scale(1.8);opacity:0}}
 .replay-q{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:6px;padding:0;vertical-align:middle;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper)}
-.replay-q svg{width:13px;height:13px}
+.replay-q svg{width:10px;height:10px}
 .review{gap:14px}
 .rv-stars{font-size:30px;line-height:1;letter-spacing:4px;color:#E0A526}
 .rv-person{display:flex;flex-direction:column;gap:10px;padding-top:10px;border-top:2px dashed var(--line)}
@@ -241,8 +241,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pill.hint{position:absolute;top:9px;right:14px;z-index:12;box-sizing:border-box;min-height:36px;padding:4px 9px;font-size:13px;background:var(--honey)}
 .pill:disabled{opacity:.5;cursor:default}
 .acorns{display:inline-flex;gap:2px}
-.acorns svg{width:17px;height:17px}
-.acorns .used{opacity:.3;filter:grayscale(1)}
+.acorns svg{width:15px;height:15px}
+.acorns .used{opacity:.25}
 
 .note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:var(--r-wobble-2);padding:8px 12px 10px 42px;display:flex;flex-direction:column;gap:6px}
 .nblock{border-radius:10px;padding:2px 6px;margin-left:-6px}
@@ -339,8 +339,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* the map picture (9:16) covers the whole screen; the title and the footer float over it */
 .map-head{position:absolute;top:0;left:0;right:0;z-index:1;display:flex;align-items:center;gap:10px;padding:12px 16px 24px;background:linear-gradient(rgba(251,244,230,.85),rgba(251,244,230,0))}
 .map-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.2;color:var(--ink)}
-.map-head .x{margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:36px;height:36px;border-radius:50%;font-size:18px;line-height:1;display:grid;place-items:center;padding:0}
-.map-head .x svg{width:20px;height:20px}
+.map-head .x{margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:36px;height:36px;border-radius:50%;font-size:18px;line-height:1}
 .map-stage{position:absolute;inset:0;overflow:hidden;container-type:size;background:#7FA06A}
 .map{position:absolute;left:50%;top:50%;width:max(100cqw, 100cqh * 9 / 16);aspect-ratio:9 / 16;transform:translate(-50%,-50%)}
 .map-art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
@@ -451,16 +450,20 @@ button.chip:disabled{cursor:default;box-shadow:none}
       <rect x="17" y="58" width="6" height="16" fill="#9C7656" stroke="#4A3628" stroke-width="2"/>
     </symbol>
     <symbol id="acorn" viewBox="0 0 20 20">
-      <image href="assets/ui/icons/acorn.png" width="20" height="20" preserveAspectRatio="xMidYMid meet"/>
+      <path d="M4 8 Q10 3 16 8 Z" fill="#9C7656" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M5 8 Q5 16 10 18 Q15 16 15 8Z" fill="#E8B27A" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M10 4 L10 1.5" stroke="#4A3628" stroke-width="1.6" stroke-linecap="round"/>
     </symbol>
     <symbol id="caseIcon" viewBox="0 0 24 24">
-      <image href="assets/ui/icons/folder.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6.5 h7 l2 2 h10 v11.5 h-19z" fill="#E8C79A"/><path d="M2.5 10 h19" fill="none"/></g>
     </symbol>
     <symbol id="mapIcon" viewBox="0 0 24 24">
-      <image href="assets/ui/icons/map.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6 L8 4 L16 6 L21.5 4 V18 L16 20 L8 18 L2.5 20Z" fill="#DDE8C9"/><path d="M8 4 V18 M16 6 V20" fill="none"/></g>
+      <path d="M12 8.5 a2.6 2.6 0 0 1 2.6 2.6 c0 2 -2.6 4.4 -2.6 4.4 s-2.6 -2.4 -2.6 -4.4 a2.6 2.6 0 0 1 2.6 -2.6z" fill="#C96F86" stroke="#4A3628" stroke-width="1.3"/>
     </symbol>
     <symbol id="noteIcon" viewBox="0 0 24 24">
-      <image href="assets/ui/icons/note.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="3" width="14" height="18" rx="2" fill="#F2CF73"/><path d="M8 8h6M8 12h6" fill="none"/><path d="M14 18 L20.5 11.5 L22.5 13.5 L16 20 L13.5 20.5Z" fill="#F6B89A"/></g>
+      <g fill="#FBF4E6" stroke="#4A3628" stroke-width="1.2"><circle cx="4" cy="7" r="1.3"/><circle cx="4" cy="12" r="1.3"/><circle cx="4" cy="17" r="1.3"/></g>
     </symbol>
   </defs>
 </svg>
@@ -497,7 +500,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
       <div class="dock-head">
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
-          <button class="pill" id="slow" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><image href="assets/ui/icons/turtle.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/></svg>천천히</button>
+          <button class="pill" id="slow" type="button" aria-pressed="false">천천히</button>
         </div>
         <button class="pill finish" type="button" id="finish" hidden>기록 완료</button>
       </div>
@@ -516,7 +519,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
     </div>
     <div class="map-head">
       <h2>모시할로우 숲 마을</h2>
-      <button class="x" type="button" data-close aria-label="지도 닫기"><svg viewBox="0 0 24 24" aria-hidden="true"><image href="assets/ui/icons/close.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/></svg></button>
+      <button class="x" type="button" data-close aria-label="지도 닫기">×</button>
     </div>
     <div class="map-foot">
       <button class="pill big" id="accuseBtn" type="button" hidden>범인 지목하기</button>
@@ -1169,7 +1172,7 @@ function showBubble(qid){
 function hideBubble(){ $('#bubble').hidden = true; }
 
 /* ---------- notebook (Note) ---------- */
-const playIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><image href="assets/ui/icons/play.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/></svg>`;
+const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5Z" fill="#4A3628"/></svg>`;
 const acorns = n => `<span class="acorns">${[0,1,2].map(i => `<svg class="${i < n ? '' : 'used'}"><use href="#acorn"/></svg>`).join('')}</span>`;
 
 function renderHint(){
@@ -1179,7 +1182,7 @@ function renderHint(){
   button.setAttribute('aria-label', `힌트 ${p.hints}번 남음`);
 }
 
-const cameraIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><image href="assets/ui/icons/camera.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/></svg>`;
+const cameraIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7h4l2-3h6l2 3h4v13H3Z"/><circle cx="12" cy="13" r="4"/><path d="M18 10h1"/></g></svg>`;
 function renderWho(){
   // pages for everyone the player has talked to; the partner's page is the case file
   $('#who').innerHTML = `<button type="button" data-i="evidence" aria-pressed="${S.view === 'evidence'}" style="--tab-bg:#DDE8C9" aria-label="증거 노트">${cameraIcon}</button>` + S.met.filter(id => per(id).phase !== 'wait').map(id => {
@@ -2329,7 +2332,7 @@ const CASES = [
 const SOLVED_KEY = 'pioo.solvedCases';
 const solvedCases = () => { try { return JSON.parse(localStorage.getItem(SOLVED_KEY) || '[]'); } catch(e){ return []; } };
 function markSolved(id){ try { localStorage.setItem(SOLVED_KEY, JSON.stringify([...new Set([...solvedCases(), id])])); } catch(e){} }
-const LOCK_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><image href="assets/ui/icons/lock.png" width="24" height="24" preserveAspectRatio="xMidYMid meet"/></svg>`;
+const LOCK_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#7D6A58" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5 V8 a3.5 3.5 0 0 1 7 0 V10.5"/></g></svg>`;
 let caseStarted = false;
 function renderCaseList(){
   const solved = solvedCases();
