@@ -434,7 +434,7 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .board{position:relative;flex:1 0 auto;min-height:500px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-evenly;gap:10px;padding:24px 8px 20px;
   /* Higgsfield art (assets/ui/README.md): a cork tile repeated as far as the board grows, inside a wooden frame cut
      into nine pieces — the corners stay put, the sides stretch with the board's length */
-  border:19px solid transparent;border-width:19px 18px;border-image:url(assets/ui/corkboard-frame.webp) 96 90 98 90 / 19px 18px stretch;
+  border:18px solid transparent;border-image:url(assets/ui/corkboard-frame.webp) 89 / 18px stretch;
   background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/320px 320px repeat padding-box;
   box-shadow:inset 0 3px 14px rgba(60,35,15,.4),inset 0 0 0 1px rgba(74,54,40,.35);filter:drop-shadow(2px 4px 0 rgba(74,54,40,.18))}
 .polaroid{--tilt:0deg;position:relative;z-index:1;display:block;box-sizing:border-box;width:52%;padding:8px 8px 10px;text-align:left;background:#FFFDF7;
@@ -741,6 +741,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <button class="devbtn" type="button" id="devDone">전체 대화 완료</button>
   <button class="devbtn" type="button" id="devEvidence">증거 모두 수집</button>
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
+  <button class="devbtn" type="button" id="devReset">리셋</button>
 </div>
 
 <script>
@@ -1829,7 +1830,7 @@ function openSheet(name){
 }
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openSheet(null));
 // opened by hand, the notebook rises as high as it can; while recording it stays low so the NPC is visible
-$('#backTab').onclick = () => { setNotes(false); openCaseList(); };
+$('#backTab').onclick = () => { setNotes(false); saveGame(); openCaseList(); };
 $('#noteTab').onclick = () => {
   const open = !$('#app').classList.contains('notes-open');
   openSheet(null);
@@ -2763,11 +2764,50 @@ function startCase(){
   stopVoice();
   $('#caseList').hidden = true;
   markStudyDay();
+  if(resumePending){ resumePending = false; resumeCase(); return; }
   if(caseStarted) return;
   caseStarted = true;
   if(tutSeen()) talkTo('badger'); else openTutorial(true);
 }
 $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case]')) startCase(); });
+
+/* ---------- save ----------
+   The case in progress is kept on this device (SAVE_KEY): the whole state S (Sets stored as { $set:[…] }), and how far
+   the ending got. Saved when the page is hidden or closed, on the way out (<), and every few seconds while a case is
+   open. On the next visit the case resumes where it was: in the conversation or the place the player had open. Not kept:
+   an ending scene in progress (the accusation is made again), a note check's open feedback, a line that was playing. */
+const SAVE_KEY = 'pioo.save';
+let resumePending = false, saveOff = false;
+function saveGame(){
+  if(!caseStarted || saveOff) return;
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ v:1, S:{ ...S, sel:null }, endingRound },
+      (key, value) => value instanceof Set ? { $set:[...value] } : value));
+  } catch(e){}
+}
+function loadGame(){
+  let data;
+  try { data = JSON.parse(localStorage.getItem(SAVE_KEY), (key, value) => value && Array.isArray(value.$set) ? new Set(value.$set) : value); }
+  catch(e){ return; }
+  if(data?.v !== 1 || !data.S?.per) return;
+  const saved = data.S.per;
+  Object.assign(S, data.S, { sel:null, mood:{}, visit:{} });
+  // anyone added to the case since the save starts fresh; a check's open feedback is not kept
+  S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
+  PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
+  S.met = S.met.filter(id => PEOPLE[id]);
+  endingRound = data.endingRound || 0;
+  caseStarted = resumePending = true;
+}
+// The saved case on screen again: the place the player had open, else the conversation.
+function resumeCase(){
+  renderPlaces();
+  if(S.investigate && S.known.has(S.place)){ S.investigate = false; enterPlace(S.place); }
+  else { S.investigate = false; talkTo(S.cur); }
+}
+document.addEventListener('visibilitychange', () => { if(document.hidden) saveGame(); });
+addEventListener('pagehide', saveGame);
+setInterval(() => { if(caseStarted && $('#caseList').hidden) saveGame(); }, 5000);
 
 /* ---------- grammar notes ----------
    A checked question gets chips for the grammar in its answer (GRAMMAR_LINES). A chip opens the card:
@@ -3012,7 +3052,16 @@ $('#devEvidence').onclick = () => {
 // 튜토리얼 초기화: forget that the tutorial was seen and start over.
 $('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); } catch(e){} location.reload(); };
 
+// 리셋: everything this game keeps on the device (case in progress, solved cases, records, study days, tutorial) is
+// forgotten and the app starts over.
+$('#devReset').onclick = () => {
+  saveOff = true;
+  try { Object.keys(localStorage).filter(key => key.startsWith('pioo.')).forEach(key => localStorage.removeItem(key)); } catch(e){}
+  location.reload();
+};
+
 /* ---------- boot ---------- */
+loadGame();
 renderStage(false); renderDock(); renderPlaces(); renderSceneHead();
 // the app opens on the case list (tapping a case is also the tap that lets audio play)
 openCaseList();
