@@ -2,6 +2,27 @@
 
 ## 적용 중
 
+- `speech-paper-frame.png` (1536×1024, 투명 바깥): 힌트·엔딩 공용 말풍선 본문. **Codex가 기본 내장 `image_gen` 도구로 생성**, Higgsfield·CLI 미사용. 기존 `buttons/cream-flat.png`는 재질 참조, `places/library-higgsfield-v2.png`는 화풍 참조로 사용했다. 따뜻한 아이보리 종이, 갈색 색연필선과 가는 황토색 안쪽 선, 장식 없는 읽기 영역이다. 생성 출력 `exec-19bb79b2-db66-495c-ad43-11e798066f23.png`를 알파 채널 그대로 복사했고 자르기·색 보정은 하지 않았다.
+  - `.bubble::before`의 `border-image`로 **9조각 확장**한다. slice `100`, 표시 테두리 `22px`, 원본 투명 여백을 고려해 `inset:-8px -3px`. 모서리와 선 두께를 유지하고 가운데만 늘린다. 본문 폭은 `min(88%,380px)`이며 화면 높이에 따라 내용만 스크롤한다.
+- `speech-paper-tail.png` (1792×896, 투명): 위 본문을 재질 참조로 생성한 별도 꼬리. 생성 출력 `exec-9e79024f-9613-455f-b0d6-e19a5b57a5f6.png`를 원형대로 복사했다. 위 연결 부분에는 외곽선이 없고 양 옆만 갈색·황토색 선이다. `.bubble::after`에서 `48×28px`, `bottom:-14px`로 본문의 밑선을 덮어 이어 붙인다. 본문 높이에 따라 꼬리를 늘리지 않는다. 색·이미지를 바꿀 때는 `--bubble-frame`과 `--bubble-tail`을 함께 교체한다.
+  - 두 이미지 모두 글자·캐릭터·조작 요소가 없는 배경 부품이다. 이름·영어·한국어·버튼은 HTML이므로 콘텐츠를 추가하거나 문장이 길어져도 이미지를 다시 만들 필요가 없다.
+
+### 말풍선 생성 프롬프트
+
+본문(참조 순서: 기존 크림 버튼, 도서관 배경; `transparent_background:true`):
+
+```text
+Use case: illustration-story. Create ONE production-ready raster UI asset: an empty expandable speech-panel body for a cozy woodland detective listening game. Reference image 1 is the existing cream paper button material and brown outline. Reference image 2 is STYLE REFERENCE ONLY: warm colored pencil, gouache, subtle paper grain, slightly imperfect ink contours. Draw a single large warm ivory paper speech panel, viewed perfectly flat front-on, landscape 3:2 composition, nearly filling the canvas with only 8px transparent safety margin. Rounded softly irregular rectangle, slightly wavering dark warm brown pencil outline, a fine golden ochre inner rim and gentle warm paper grain. Rounded corners are modest, NOT pill-shaped. Mostly plain very light cream center (#FFF8E9) to read black text over it. Restrained handmade tactile appearance, neither glossy nor photoreal. Outline thin but clear, approximately 7 pixels on a 1024px wide asset. Very subtle shading near edge ONLY, no directional cast shadow. No speech tail on this body asset: the tail is a separate component to be positioned by code. The straight middle parts of all four edges must stay straight enough to stretch, with corner details confined to the outer 80px; this is a nine-slice UI frame. Fully opaque interior, truly transparent outside panel. Absolutely no text, no letters, no buttons, no icons, no ornaments, no scene, no characters, no watermark. Return the asset alone, never a mockup or sheet.
+```
+
+꼬리(참조: 생성된 본문; `transparent_background:true`):
+
+```text
+Use case: illustration-story. Generate ONE standalone UI speech-bubble TAIL asset that matches the attached cream paper frame exactly. The attachment is only a material/style reference; do NOT reproduce its rectangular frame. This output is only a single small downward-pointing speech tail, isolated on true transparent alpha. Front-on flat view. Shape is a broad gently curving downward triangular paper tongue, slightly leaning to the right, width about twice its height. The upper edge is a straight horizontal OPEN CONNECTION to the speech panel: there must be NO brown outline, NO gold outline and NO shadow across that top edge; just solid warm ivory #FFF8E9 paper all the way to its flat top. The left and right slanted edges and bottom tip have the same dark warm brown colored-pencil contour and fine golden ochre rim as the reference. Cream interior with barely perceptible paper grain, NO gradients to dark brown, no thick shadow. Tail fills almost the whole canvas, with only 8px transparent safety padding; landscape 2:1 canvas. Make it broad enough to read as a speech tail rather than a long spike. No rectangle body, no sheet, no labels, no text, no decorations, no characters, no mockup, no background.
+```
+
+### 수첩·공용 부품
+
 - `casefile-panel.webp` (728×2206): 노트 패널 배경(2026-10-19 교체). 남색 서류철 위에 크림색 서류 한 장, 오른쪽 위 클립. **사용자가 직접 누끼 딴 그림** `casefile-cutout-original.png`(762×1071)의 빈 여백을 잘라 내고(18,7–746,1071), 아래 y 560–1064 구간을 위아래로 뒤집어 가며 이어 붙여 예전 그림과 같은 세로 비율(가로의 3.03배)로 늘렸다. 서류 위치·머리줄(가로의 21.7%)·클립 위치가 예전 그림과 같아 CSS 수치는 그대로다. 예전 원본·누끼는 `casefile-higgsfield-original.png`, `casefile-nobg.png`.
   - 남색은 나무 바닥·타일·풀밭 같은 따뜻한 배경과 대비되도록 고른 색이다.
   - CSS는 그림 폭 기준 %로 맞춘다: 서류 윗변 7.9%, 머리 띠 높이 13.6%, 서류 폭 6.5%–93.8%. 클립(약 81–86%)을 피해 탭은 오른쪽 22%까지만 놓는다.

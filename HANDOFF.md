@@ -204,6 +204,7 @@ node server.js            # http://localhost:5173/
   1. **대질(빵집, 피오나)**: 주장 4개를 차례로 말한다(1·2는 기존 `fiona-q1/q2.mp3`). 아래 버튼은 `증거 내밀기`, `조금 더 조사할래요`.
      - **심문 무대**(사용자 요청): 대질·자백 동안 방이 어두워지고 피오나 쪽만 밝다(`.spotlight`, `.app.interrogate`). 화면 위 가운데 **심문 진행 게이지**(`#interrogationGauge`, `renderInterrogationGauge()`): 반박한 주장 비율(`endingRound / ENDING.confront.length`)만큼 금빛으로 차오르고, 모두 반박하면 초록색으로 바뀐다. 숫자·칸 구분은 표시하지 않는다. 자백 중엔 가득 찬 상태를 유지하고 마무리 대사부터 사라진다. `role="progressbar"`와 현재 진행률을 제공하며, 동작 줄이기 설정에서는 게이지 전환·반짝임·흔들림을 끈다.
      - **대사 말풍선**(사용자 요청): 엔딩의 모든 대사(대질 주장, 틀린 사진에 대한 대꾸, 자백, 마무리, 오답 지목의 반박)가 말하는 사람 이름과 영어 원문으로 말풍선에 뜬다(`#sayBubble`, `renderSay()`). 심문 중에는 게이지 아래, 꼬리는 아래 인물 쪽. 증거 서랍을 열어도 남아 있어 주장을 보며 증거를 고른다. 사진을 내밀 때·자백 전 침묵·도장 때는 숨긴다.
+     - **말풍선 그림·확장**(사용자 요청): 힌트와 엔딩 모두 아이보리 종이 질감·갈색 연필선의 생성 이미지 `ui/speech-paper-frame.png`를 공유한다. `.bubble::before`에 9조각 `border-image`(slice 100, 화면 테두리 22px)를 써서 모서리를 유지하며 가로·세로로 늘린다. 꼬리는 `speech-paper-tail.png`를 별도 크기로 겹쳐 길어지지 않게 한다. 스킨은 `--bubble-frame`·`--bubble-tail`, 위치는 `--bubble-top`으로 바꿀 수 있다. 글·해석·버튼은 실제 HTML이다. 화면 높이를 넘으면 `.bubble-copy`만 스크롤하고 아래 듣기·해석 버튼은 고정한다. 해석을 펼치면 해당 스크롤 영역에서 한국어 쪽으로 이동하고 접으면 영어 처음으로 돌아온다. 출처·생성 프롬프트는 `assets/ui/README.md`.
      - 말풍선 오른쪽 아래에 `▶ 다시 듣기`와 `해석`(사용자 요청)이 있다. `해석`은 영어 아래 점선 너머에 한국어를 펼친다(엔딩 전체, 대질 주장 포함). `다시 듣기`는 지금 엔딩이 머문 대사만(틀린 사진에 대한 짧은 대꾸에는 없음). 엔딩 아래 버튼 줄에는 이 둘이 없다.
      - **증거 서랍**(`#drawer`, `openDrawer()`): `증거 내밀기`는 노트 대신 화면 아래 서랍을 연다. 사진 카드가 가로 한 줄(최신순)이고 피오나는 위에 보인다. 손가락은 밀어서, 마우스는 끌거나 휠로 넘긴다(끌기가 움직였으면 카드 선택으로 치지 않음). 카드를 누르면 들려 올라가고(분홍 테두리) 문장·▶·`내밀기`가 나오며 형사 음성이 재생된다(`pickEvidence()`). `내밀기` → 서랍이 닫히고 `present()`. 노트 증거 상세의 `내밀기`도 그대로 쓸 수 있다.
      - **맞힘·틀림 연출**(`present()`): 사진이 장면 위로 들려 보이고(`.presented`), 0.48초에 맞으면 빨간 **모순!** 도장 + 장면 흔들림(`.scene.jolt`) + 피오나 움찔(`.scene-npc.flinch`) + 게이지 증가·반짝임(`updateInterrogationGauge()`) + 정답 효과음, 틀리면 사진이 흔들리다 떨어지고 낮은 효과음, 심문이 재시작될 때 게이지가 비워지며 살짝 흔들린다(`renderInterrogationGauge(true)`).
@@ -356,6 +357,7 @@ node server.js            # http://localhost:5173/
 | 오리 아저씨 | `characters/duck-higgsfield.png` | Claude 제작, 447×694, 투명 배경. 원본 `duck-higgsfield-original.png` |
 | 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠, 오른쪽 위 클립 |
 | 인덱스 탭 | `ui/tab-1.png` … `tab-6.png` | 흰 손그림 탭. CSS 마스크 + 곱하기로 인물 색을 입힌다 |
+| 말풍선 | `ui/speech-paper-frame.png`, `ui/speech-paper-tail.png` | 기본 이미지 생성 도구로 제작. 종이 본문은 9조각으로 확장하고 꼬리는 별도 고정 크기로 배치. 힌트·엔딩 공용 |
 
 - 출처·프롬프트·잘라 낸 좌표는 `assets/characters/README.md`, `assets/places/README.md`, `assets/ui/README.md`에 있다.
 - 미사용 보관본: `characters/sgt-badger.png`, `places/library-higgsfield.png`, `ui/notebook-*`(스프링 수첩 시안), 각종 `*-original.png`.

@@ -125,14 +125,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.interrogate .spotlight{opacity:1}
 /* in the ending every line is also shown in a speech bubble (user decision) — under the gauge while she is questioned,
    its tail pointing down at whoever speaks; it stays up while the evidence drawer is open */
-.bubble.say{top:44px;padding-bottom:12px}
-.app.interrogate .bubble.say{top:66px}
+.app.interrogate .bubble.say{--bubble-top:66px}
 .bubble.say .say-ko{display:block;margin-top:6px;padding-top:6px;border-top:1.5px dashed var(--line);font-family:var(--f-body);font-size:14px;font-weight:700;line-height:1.45;color:var(--berry)}
 .bubble.say .say-ko[hidden]{display:none}
-.bubble.say .say-foot{display:flex;justify-content:flex-end;gap:6px;margin-top:8px}
+.bubble.say .say-foot{display:flex;flex:none;flex-wrap:wrap;justify-content:flex-end;gap:6px;margin-top:12px;padding-top:9px;border-top:1px solid rgba(145,107,67,.2)}
 .bubble.say .say-foot button{position:static;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;min-height:30px;padding:0 10px;font-family:var(--f-display);font-size:12px;color:var(--ink)}
 .bubble.say .say-foot svg{width:9px;height:9px}
-.bubble.say::after{content:"";position:absolute;left:50%;bottom:-9px;width:14px;height:14px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
 .interrogation-gauge{position:absolute;top:14px;left:50%;z-index:5;display:flex;align-items:center;gap:10px;width:280px;max-width:calc(100% - 48px);box-sizing:border-box;padding:8px 12px;transform:translateX(-50%);background:rgba(40,28,20,.78);border:1.5px solid rgba(255,239,207,.35);border-radius:18px;box-shadow:0 3px 8px rgba(24,14,8,.2);pointer-events:none}
 .gauge-label{flex:none;font-family:var(--f-display);font-size:12px;line-height:16px;color:#FFF3D6}
 .gauge-track{flex:1;height:13px;overflow:hidden;border:2px solid #4A3628;border-radius:9px;background:#E4D8C3;box-shadow:inset 0 2px 3px rgba(74,54,40,.18)}
@@ -179,10 +177,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes stage-card{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
 .pill.blue{background:var(--sky);color:var(--ink)}
 
-.bubble{position:absolute;left:50%;top:44px;transform:translateX(-50%);z-index:5;width:max-content;max-width:min(88%,340px);background:#FFFDF7;border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);padding:10px 14px;font-family:var(--f-hand);font-size:16px;line-height:1.25;box-shadow:3px 4px 0 rgba(74,54,40,.18);animation:pop .25s ease-out}
-.bubble::after{content:"";position:absolute;left:50%;bottom:-13px;width:20px;height:20px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg) skew(8deg,8deg)}
-.bubble .tag{display:block;font-family:var(--f-display);font-size:11px;color:var(--berry);margin-bottom:2px}
-.bubble button{position:absolute;top:2px;right:6px;border:0;background:none;font-size:16px;line-height:1;padding:4px;color:var(--ink-soft)}
+/* Reusable illustrated skin: nine-slice body, independent tail, live text and controls.
+   Keep corner pixels fixed as dialogue grows; long copy scrolls while the controls stay visible. */
+.bubble{--bubble-top:44px;--bubble-frame:url(assets/ui/speech-paper-frame.png);--bubble-tail:url(assets/ui/speech-paper-tail.png);position:absolute;left:50%;top:var(--bubble-top);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;box-sizing:border-box;width:min(88%,380px);max-width:calc(100% - 32px);max-height:calc(100% - var(--bubble-top) - 112px);padding:24px 20px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:pop .25s ease-out}
+.bubble::before{content:"";position:absolute;inset:-8px -3px;z-index:-1;border:20px solid transparent;border-image:var(--bubble-frame) 100 fill / 22px / 0 stretch;pointer-events:none}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-14px;width:48px;height:28px;transform:translateX(-50%);background:var(--bubble-tail) center/100% 100% no-repeat;pointer-events:none}
+.bubble-copy{min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-wrap:anywhere}
+.bubble .tag{display:block;font-family:var(--f-display);font-size:11px;line-height:1.4;color:var(--berry);margin-bottom:6px;letter-spacing:.02em}
+.bubble .say-en{display:block}
+#bubble .tag{padding-right:22px}
+.bubble .bubble-close{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:28px;height:28px;border:0;background:none;font-size:20px;line-height:1;padding:0;color:var(--ink-soft)}
+@media(prefers-reduced-motion:reduce){.bubble,.app.partner .bubble{animation:none}}
 @keyframes pop{from{transform:translateX(-50%) scale(.85);opacity:0}}
 
 /* ---------- docked notebook (Note) ---------- */
@@ -1473,7 +1478,7 @@ function renderChip(){
 }
 function showBubble(qid){
   const s = cur(), q = qs(s).find(x => x.id===qid), b = $('#bubble');
-  b.innerHTML = `<span class="tag">HINT · ${esc(q.en)}</span>${esc(s.answers[qid])}<button type="button" aria-label="말풍선 닫기">×</button>`;
+  b.innerHTML = `<div class="bubble-copy"><span class="tag">HINT · ${esc(q.en)}</span>${esc(s.answers[qid])}</div><button class="bubble-close" type="button" aria-label="말풍선 닫기">×</button>`;
   b.hidden = false;
   b.querySelector('button').onclick = hideBubble;
 }
@@ -2213,7 +2218,7 @@ function renderSay(line){
   if(!line){ b.hidden = true; return; }
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
   const again = line === ending?.line;
-  b.innerHTML = `<span class="tag">${esc(spk(line.who).name)}</span>${esc(line.en)}` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') +
+  b.innerHTML = `<div class="bubble-copy"><span class="tag">${esc(spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="pill sm" type="button" data-say-again>${playIcon}다시 듣기</button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
 }
@@ -2224,6 +2229,9 @@ $('#sayBubble').addEventListener('click', e => {
   const ko = $('#sayBubble .say-ko');
   ko.hidden = !ko.hidden;
   button.setAttribute('aria-pressed', !ko.hidden);
+  // On short screens, bring the newly opened translation into the copy viewport, not the whole scene.
+  const copy = ko.closest('.bubble-copy');
+  copy.scrollTop = ko.hidden ? 0 : ko.offsetTop - copy.offsetTop;
 });
 // The progress gauge and dimmed room, during questioning and confession.
 function renderInterrogationGauge(reset = false){
