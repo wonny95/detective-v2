@@ -271,8 +271,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
 .evidence-page{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:stretch}
-.evidence-page h3,.evidence-page .empty-note,.evidence-page .evidence-detail{grid-column:1 / -1;margin:0}
-.evidence-page h3{font-family:var(--f-display);font-size:18px;font-weight:400}
+.evidence-page .empty-note,.evidence-page .evidence-detail{grid-column:1 / -1;margin:0}
 .ev-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;box-sizing:border-box;text-align:left;padding:6px 6px 8px;background:#FFFDF7;border:2px solid var(--ink);border-radius:5px;box-shadow:2px 3px 0 rgba(74,54,40,.12)}
 .ev-card:active{transform:translateY(1px);box-shadow:1px 1px 0 rgba(74,54,40,.12)}
 .ev-card .evidence-photo{margin-bottom:3px;border-width:1px;border-color:var(--line);border-radius:0}
@@ -717,6 +716,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <section class="dock" aria-label="노트">
       <div class="who" id="who" aria-label="노트 페이지"></div>
       <div class="dock-head">
+        <h2 id="evidenceTitle" hidden>증거 기록</h2>
         <button class="ev-back" id="evidenceBack" type="button" hidden>‹ 증거 기록</button>
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
@@ -1613,6 +1613,7 @@ function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint(); updateAccuse();
   const body = $('#dockBody');
   const mode = noteMode();
+  $('#evidenceTitle').hidden = true;
   $('#evidenceBack').hidden = true;
   $('#finish').hidden = !mode;
   // the check of a finished conversation (its result or fresh stamp) takes the whole screen
@@ -1622,6 +1623,7 @@ function renderDock(){
     const ref = record => `${record.placeId}-${record.clueIndex}`;
     const open = S.evidence.find(record => ref(record) === evidenceOpen);
     $('#listen').hidden = true;
+    $('#evidenceTitle').hidden = !!open;
     $('#evidenceBack').hidden = !open;
     if(open){
       const place = placeOf(open.placeId), clue = place.clues[open.clueIndex];
@@ -1633,7 +1635,7 @@ function renderDock(){
         <span class="ev-btns"><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${ref(open)}">내밀기</button>` : ''}</span></div></div>`;
     } else {
       evidenceOpen = null;
-      body.innerHTML = `<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
+      body.innerHTML = `<div class="evidence-page">${S.evidence.length ? [...S.evidence].reverse().map(record => {
         const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
         return `<button class="ev-card" type="button" data-ev-open="${ref(record)}" data-evidence="${ref(record)}"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="ev-title">${esc(clue.label)}</span><span class="place">${esc(place.label)}</span></button>`;
       }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
