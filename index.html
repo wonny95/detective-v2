@@ -251,6 +251,20 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .question-state{display:inline-flex;align-items:center;gap:4px;margin:6px 0 2px;padding:2px 8px;border-radius:12px;font-family:var(--f-display);font-size:12px;line-height:1.5}
 .question-state.ok{background:#E8EFDD;color:#466249}
 .question-state.review{background:#F8EAC4;color:#816124}
+/* grammar chips under a checked question (note, review, word book) and the grammar card they open */
+.gchips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.gchip{display:inline-flex;align-items:center;min-height:26px;border:1.5px solid var(--ink);border-radius:13px;background:#FFFDF7;padding:1px 10px;font-family:var(--f-display);font-size:12px;color:var(--ink);box-shadow:1px 2px 0 rgba(74,54,40,.15)}
+.gchip:active{transform:translateY(1px);box-shadow:none}
+.gcard .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
+.gcard .gko{margin:0;font-size:14px;line-height:1.6}
+.gex{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--line)}
+.gex h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
+.gline{display:flex;flex-direction:column;gap:2px;background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px}
+.gline .wwho{font-size:12px}
+.gline .wwho .mini{width:22px;height:22px}
+.gline p{margin:0;font-family:var(--f-hand);font-size:15px;line-height:1.4}
+.gline mark{background:#F8EAC4;color:var(--ink);border-radius:3px;padding:0 2px}
+.wb-switch{display:flex;gap:8px}
 .blank.review{border-bottom-color:#BC9854;border-bottom-style:dotted}
 .nline{font-family:var(--f-hand);font-size:17px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
@@ -635,6 +649,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
     <div class="mcard review" id="reviewCard"></div>
   </div>
 
+  <div class="modal" id="grammar" hidden>
+    <div class="mcard gcard" id="grammarCard" role="dialog" aria-labelledby="grammarTitle"></div>
+  </div>
+
   <div class="toast" id="toast" hidden></div>
 </div>
 
@@ -816,6 +834,46 @@ const WORDS = {
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
 };
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','이름·장소']];
+// Grammar notes. chip: the label under a checked question; name/pattern/ko: the card (Korean shown as soon as the
+// card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
+const GRAMMAR = {
+  'be-past':   { chip:'was / were', name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.' },
+  'past-prog': { chip:'was + -ing', name:'과거진행', pattern:'was / were + -ing', ko:'지난 어느 때에 "하고 있던 중"이던 일을 말해요. I was reading = 책을 읽고 있었어요.' },
+  'past-reg':  { chip:'-ed 과거', name:'규칙 과거형', pattern:'동사 + -ed', ko:'동사 끝에 -ed를 붙여 지난 일을 말해요. play → played, borrow → borrowed, watch → watched. 끝의 -ed는 /d/·/t/로 아주 약하게 들려요.' },
+  'past-irr':  { chip:'불규칙 과거', name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.' },
+  'time-prep': { chip:'at · from · between', name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.' },
+  'to-purpose':{ chip:'to + 동사', name:'목적의 to부정사', pattern:'to + 동사원형', ko:'"~하려고, ~하러"라는 목적을 말해요. went to see a friend = 친구를 만나러 갔다.' },
+  'too-adj':   { chip:'too + 형용사', name:'too + 형용사', pattern:'too + 형용사', ko:'"너무 ~한"이라는 뜻이에요. 보통 지나쳐서 좋지 않다는 느낌이 들어 있어요. too hot = 너무 뜨겁다.' },
+  'passive':   { chip:'was + p.p.', name:'수동태', pattern:'was / were + 과거분사', ko:'누가 했는지보다 "~되었다"는 일에 초점을 둘 때 써요. was found = 발견되었다.' },
+  'negative':  { chip:'not · never · nobody', name:'부정 표현', pattern:'not / never / nobody', ko:'not은 "~않다", never는 "한 번도 ~않다", nobody는 "아무도 ~않다"예요. never·nobody가 있으면 not을 또 쓰지 않아요.' },
+  'going-to':  { chip:'be going to', name:'미래 표현', pattern:'be going to + 동사원형', ko:'"~할 거예요"라는 앞으로의 일을 말해요. I\'m going to call her = 그녀에게 전화할 거예요.' },
+  'modal':     { chip:'can · should', name:'조동사', pattern:'can / should + 동사원형', ko:'can은 "~할 수 있다", should는 "~해야 한다, ~하는 게 좋다"예요. 뒤에는 늘 동사원형이 와요.' },
+  'imperative':{ chip:'명령문', name:'명령문', pattern:'동사원형으로 시작', ko:'주어 없이 동사원형으로 시작하면 "~하세요"라는 지시·부탁이에요. Open the door = 문을 여세요.' },
+  'did-q':     { chip:'Did …?', name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)' },
+  'wh-q':      { chip:'Wh- 질문', name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.' },
+  'phrasal':   { chip:'동사 + back/in', name:'구동사', pattern:'come back · come in · give back', ko:'동사에 back·in 같은 작은 말이 붙어 새 뜻이 돼요. come back = 돌아오다, come in = 들어오다, give it back = 돌려주다(it이 가운데 들어가요).' }
+};
+// Where each grammar shows up: [grammar id, the words to highlight] per answer. The words are looked up in the
+// answer first, then in the player's question.
+const GRAMMAR_LINES = {
+  'badger:b1':[['passive','was found'], ['past-prog','was lying'], ['time-prep',"at nine o'clock"]],
+  'badger:b2':[['wh-q','Who found'], ['past-irr','found him'], ['time-prep','between eight and nine']],
+  'badger:b3':[['wh-q','What should I do'], ['modal','should I do'], ['imperative','Look around']],
+  'mole:m1':  [['wh-q','What did you see'], ['phrasal','came back'], ['to-purpose','to lock'], ['negative','was not ticking']],
+  'mole:m2':  [['did-q','Did anyone visit'], ['time-prep','at seven thirty'], ['to-purpose','to borrow']],
+  'mole:m3':  [['did-q','Did the professor have'], ['past-irr','he wrote'], ['too-adj','too sweet']],
+  'fiona:q1': [['be-past','I was at my bakery'], ['time-prep','from seven to ten'], ['past-prog','was baking']],
+  'fiona:q2': [['phrasal','came in'], ['to-purpose','to buy'], ['modal','You can ask']],
+  'fiona:q3': [['wh-q','How did you know'], ['past-irr','he said'], ['too-adj','too sweet']],
+  'ray:q1':   [['be-past','I was at the Lake Cafe'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
+  'ray:q2':   [['modal','Can anyone prove'], ['past-irr','saw me'], ['imperative','Ask Mr. Duck']],
+  'ray:q3':   [['past-reg','borrowed'], ['negative','never gave'], ['phrasal','gave it back']],
+  'rosie:q1': [['be-past','I was on Moon Hill'], ['time-prep','from eight to ten']],
+  'rosie:q2': [['negative','Nobody was with me'], ['past-irr','I saw'], ['time-prep','at eight forty-five']],
+  'rosie:q3': [['past-irr','taught'], ['going-to',"I'm going to miss"]],
+  'duck:d1':  [['be-past','Was Ray here'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
+  'duck:d2':  [['did-q','Did he leave'], ['negative','No, never'], ['past-reg','watched']]
+};
 // Korean for each answer. Shown only on the review screen after the case is solved.
 const ANSWERS_KO = {
   badger:{
@@ -1281,7 +1339,7 @@ function blockHTML(sIdx, qid, now){
   const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
   const status = p.questionChecks[qid];
   const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
-  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}</div>`;
+  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? grammarChips(sIdx, qid) : ''}</div>`;
 }
 
 // Under the person: question buttons (choose), a button to take the notebook out again (record),
@@ -1371,6 +1429,7 @@ function bindDock(){
     button.setAttribute('aria-pressed', !translation.hidden);
   }));
   body.querySelectorAll('[data-replay]').forEach(button => button.addEventListener('click', () => replayLine(button.dataset.replay)));
+  body.querySelectorAll('[data-grammar]').forEach(button => button.addEventListener('click', () => openGrammar(button.dataset.grammar)));
   body.querySelectorAll('[data-present]').forEach(button => button.addEventListener('click', () => present(button.dataset.present)));
   const bank = body.querySelector('#bank');
   if(bank){
@@ -2018,7 +2077,7 @@ function openReview(fromHome){
             <p class="rv-en">${esc(s.answers[qid])} <button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button></p>
             <p class="rv-ko" hidden>${esc(ANSWERS_KO[id]?.[qid] || '')}</p>
             <button class="pill sm" type="button" data-rv-ko aria-pressed="false">해석</button>
-            <div class="rv-notes">${lines}</div></div>`;
+            <div class="rv-notes">${lines}</div>${grammarChips(id, qid)}</div>`;
         }).join('') + '</section>';
     }).join('') +
     `<button class="pill big" type="button" data-solved>${reviewFromHome ? '닫기' : '사건 목록으로'}</button>`;
@@ -2026,6 +2085,8 @@ function openReview(fromHome){
   $('#reviewCard').scrollTop = 0;
 }
 $('#review').addEventListener('click', e => {
+  const grammar = e.target.closest('[data-grammar]');
+  if(grammar) return openGrammar(grammar.dataset.grammar);
   const replay = e.target.closest('[data-replay]');
   if(replay) return replayLine(replay.dataset.replay);
   const ko = e.target.closest('[data-rv-ko]');
@@ -2479,17 +2540,64 @@ function startCase(){
 }
 $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case]')) startCase(); });
 
+/* ---------- grammar notes ----------
+   A checked question gets chips for the grammar in its answer (GRAMMAR_LINES). A chip opens the card:
+   the pattern, a Korean explanation, and every learned line that uses it, with the words highlighted. */
+function grammarChips(id, qid){
+  const items = GRAMMAR_LINES[`${id}:${qid}`] || [];
+  return !items.length ? '' : `<div class="gchips">${[...new Set(items.map(([g]) => g))].map(g =>
+    `<button class="gchip" type="button" data-grammar="${g}">${esc(GRAMMAR[g].chip)}</button>`).join('')}</div>`;
+}
+// The sentence of the answer (or the question) that holds the words, with the words marked.
+function grammarLine(id, qid, words){
+  const s = spk(id), answer = s.answers[qid], question = qs(s).find(q => q.id === qid).en;
+  const inAnswer = answer.includes(words), text = inAnswer ? answer : question;
+  const sentence = text.split(/(?<=[.!?])\s+/).find(part => part.includes(words)) || text;
+  const at = sentence.indexOf(words);
+  return { inAnswer, html:esc(sentence.slice(0, at)) + `<mark>${esc(words)}</mark>` + esc(sentence.slice(at + words.length)) };
+}
+const grammarUses = g => Object.entries(GRAMMAR_LINES).flatMap(([ref, items]) => {
+  const [id, qid] = ref.split(':');
+  return knownQuestion(id, qid) ? items.filter(([gid]) => gid === g).map(([, words]) => ({ id, qid, words })) : [];
+});
+function learnedGrammar(){
+  return Object.keys(GRAMMAR).map(g => [g, grammarUses(g).length]).filter(([, n]) => n);
+}
+function openGrammar(g){
+  const gr = GRAMMAR[g];
+  $('#grammarCard').innerHTML = `<span class="eyebrow">문법 노트 · ${esc(gr.name)}</span>
+    <h2 class="gpattern" id="grammarTitle">${esc(gr.pattern)}</h2>
+    <p class="gko">${esc(gr.ko)}</p>
+    <div class="gex"><h3>이 문법이 나온 문장</h3>${grammarUses(g).map(({ id, qid, words }) => {
+      const s = spk(id), line = grammarLine(id, qid, words);
+      return `<div class="gline"><div class="wtop"><span class="wwho">${line.inAnswer
+        ? `<span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}` : '내 질문'}</span>
+        ${line.inAnswer ? `<button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button>` : ''}</div>
+        <p>${line.html}</p></div>`;
+    }).join('')}</div>
+    <button class="pill big" type="button" data-gclose>닫기</button>`;
+  $('#grammar').hidden = false;
+  $('#grammarCard').scrollTop = 0;
+}
+$('#grammar').addEventListener('click', e => {
+  const replay = e.target.closest('[data-replay]');
+  if(replay) return replayLine(replay.dataset.replay);
+  if(e.target.closest('[data-gclose]') || e.target.id === 'grammar'){ stopVoice(); $('#grammar').hidden = true; }
+});
+
 /* ---------- home pages ----------
    단어장: blanks the player has written right (every blank once a case is solved). The line it came from
    plays with ▶; Korean only with 해석. 복습: solved cases and the lines missed at the first check.
    내 기록: streak, totals, and the how-to. All of it reads only what this device saved or the case in memory. */
-let homeTab = 'cases';
+let homeTab = 'cases', wordMode = 'words';
+// A question whose words and grammar count as learned: checked right in the case in memory, or any once the case is solved.
+const knownQuestion = (id, qid) => solvedCases().includes(CASES[0].id) || per(id).questionChecks[qid] === 'ok';
 function learnedWords(){
-  const solved = solvedCases().includes(CASES[0].id), seen = new Map();
+  const seen = new Map();
   PEOPLE_ORDER.forEach(id => {
-    const s = spk(id), p = per(id);
+    const s = spk(id);
     qs(s).forEach(q => {
-      if(!solved && p.questionChecks[q.id] !== 'ok') return;
+      if(!knownQuestion(id, q.id)) return;
       (s.notes[q.id] || []).forEach(line => line.replace(BLANK_RE, (m, bid, ans) => {
         const key = ans.split('/')[0].toLowerCase();
         if(WORDS[key] && !seen.has(key)) seen.set(key, { word:ans.split('/')[0], key, line, bid, ref:`${id}:${q.id}` });
@@ -2511,8 +2619,17 @@ function filledLine(line, mark){
 }
 const koToggle = text => `<p class="wko" hidden>${esc(text)}</p><button class="pill sm" type="button" data-wko aria-pressed="false">해석</button>`;
 function renderWords(){
-  const words = learnedWords();
-  $('#home-words').innerHTML = `<header class="cases-head"><h1>단어장</h1></header>` + (!words.length
+  const words = learnedWords(), switcher = `<div class="wb-switch">${[['words','단어'], ['grammar','문법']].map(([mode, label]) =>
+    `<button class="pill sm" type="button" data-wbmode="${mode}" aria-pressed="${wordMode === mode}">${label}</button>`).join('')}</div>`;
+  if(wordMode === 'grammar'){
+    const list = learnedGrammar();
+    $('#home-words').innerHTML = `<header class="cases-head"><h1>단어장</h1></header>${switcher}` + (!list.length
+      ? `<p class="home-empty">아직 모은 문법이 없어요.</p>`
+      : list.map(([g, n]) => `<button class="wcard" type="button" data-grammar="${g}" style="text-align:left;width:100%">
+          <span class="wword">${esc(GRAMMAR[g].pattern)}</span><span class="wsay">${esc(GRAMMAR[g].name)} · 문장 ${n}</span></button>`).join(''));
+    return;
+  }
+  $('#home-words').innerHTML = `<header class="cases-head"><h1>단어장</h1></header>${switcher}` + (!words.length
     ? `<p class="home-empty">아직 모은 단어가 없어요.</p>`
     : WORD_GROUPS.map(([g, label]) => {
         const list = words.filter(w => WORDS[w.key][0] === g);
@@ -2578,6 +2695,10 @@ $('#caseList').addEventListener('click', e => {
   if(tab){ if(tab.dataset.home !== homeTab){ homeTab = tab.dataset.home; renderHome(); } return; }
   const play = e.target.closest('[data-wplay]');
   if(play) return replayLine(play.dataset.wplay);
+  const mode = e.target.closest('[data-wbmode]');
+  if(mode){ wordMode = mode.dataset.wbmode; renderWords(); $('#home-words').scrollTop = 0; return; }
+  const grammar = e.target.closest('[data-grammar]');
+  if(grammar) return openGrammar(grammar.dataset.grammar);
   const toggle = e.target.closest('[data-wko], [data-wen]');
   if(toggle){
     const box = toggle.closest('.wcard').querySelector(toggle.hasAttribute('data-wko') ? '.wko' : '.wline');
