@@ -256,6 +256,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
 /* written answers are in neutral pen ink; a check strikes through only the wrong ones */
 .blank{font:inherit;font-weight:700;color:#34506E;border:0;border-bottom:2.5px dashed var(--ink-soft);background:transparent;min-width:3.5em;padding:0 4px;margin:0 2px;text-align:center;border-radius:0}
+/* a blank fills the whole ruled line, so its dashed underline lies on the line's ruling */
+.nline .blank{box-sizing:border-box;height:38px;vertical-align:bottom}
 .blank:focus{outline:none;background:rgba(242,207,115,.35)}
 .blank.hot{background:rgba(141,180,142,.35)}
 .blank.ok{border-bottom:2.5px solid var(--ok);color:var(--ok)}
