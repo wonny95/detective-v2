@@ -138,7 +138,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
    at the top, paper clip top right) is scaled to the panel width, so the padding and the header height
    are % of the width (padding % always refers to width): sheet top 7.9%, header strip 13.6%, sheet
    from 6.5% to 93.8%. */
-.dock{position:absolute;left:6px;right:6px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;box-sizing:border-box;padding:7.9% 9% 0 9.5%;transform:translateY(calc(100% + 48px));transition:transform .55s cubic-bezier(.2,.9,.3,1.05)}
+.dock{position:absolute;left:6px;right:6px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;box-sizing:border-box;padding:7.9% 9% 0 9.5%;transform:translateY(calc(100% + 48px));transition:transform .55s cubic-bezier(.2,.9,.3,1.05),height .5s cubic-bezier(.3,.9,.3,1)}
 /* the picture is a ::before layer so the index tabs (z-index -1) can sit behind it and peek over the folder */
 .dock::before{content:"";position:absolute;inset:0;z-index:0;background:url(assets/ui/casefile-panel.webp) top center/100% auto no-repeat;pointer-events:none}
 .dock-head,.dock-body{position:relative;z-index:1}
@@ -258,7 +258,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .gchip[aria-pressed="true"]{background:var(--honey)}
 /* the answer the person said, shown once the question is checked; grammar words are links to their card */
 .npassage{margin:2px 0 4px;padding:8px 10px;border:1.5px dashed var(--line);border-radius:10px;background:rgba(255,253,247,.75);font-size:15px;line-height:1.65}
-.gmark{display:inline;margin:0;padding:0 1px;border:0;border-bottom:1.5px solid #C9952E;border-radius:0;background:linear-gradient(transparent 58%,rgba(242,207,115,.55) 58%);font:inherit;color:inherit}
+.gmark{display:inline;margin:0;padding:0 1px;border:0;border-bottom:1.5px solid #C9952E;border-radius:0;background:linear-gradient(transparent 58%,rgba(242,207,115,.55) 58%) no-repeat 0 0/100% 100%;font:inherit;color:inherit}
 .gcard .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
 .gcard .gko{margin:0;font-size:14px;line-height:1.6}
 .gex{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--line)}
@@ -279,6 +279,18 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .blank:focus{outline:none;background:rgba(242,207,115,.35)}
 .blank.hot{background:rgba(141,180,142,.35)}
 .blank.ok{border-bottom:2.5px solid var(--ok);color:var(--ok)}
+/* a question just written down right (.fresh, one render only): the right blanks light up one by one, 확인됨 is
+   stamped, the notebook rises, the grammar chips float up, then the passage unfolds and its grammar is highlighted */
+.nblock.fresh .blank.ok{animation:ink-ok .5s cubic-bezier(.3,1.5,.5,1) calc(var(--i) * 110ms) both}
+@keyframes ink-ok{0%{transform:scale(1);background-color:rgba(141,180,142,0)}35%{transform:scale(1.14);background-color:rgba(141,180,142,.45)}100%{transform:scale(1);background-color:rgba(141,180,142,0)}}
+.nblock.fresh .question-state{animation:state-stamp .45s cubic-bezier(.3,1.6,.5,1) .2s both}
+@keyframes state-stamp{from{transform:scale(1.9) rotate(-8deg);opacity:0}}
+.nblock.fresh .gchip{animation:rise .38s ease-out calc(.6s + var(--i) * 90ms) both}
+.nblock.fresh .npassage{animation:unfold .5s ease-out .95s both}
+@keyframes unfold{from{opacity:0;transform:translateY(-6px);clip-path:inset(0 0 100% 0)}to{opacity:1;transform:none;clip-path:inset(0 0 -4px 0)}}
+.nblock.fresh .gmark{animation:mark-sweep .5s ease-out calc(1.4s + var(--i) * 180ms) both}
+@keyframes mark-sweep{from{background-size:0% 100%;border-bottom-color:transparent}}
+@media (prefers-reduced-motion:reduce){.nblock.fresh *{animation:none!important}.dock{transition:transform .2s}}
 .blank.no{color:var(--no);text-decoration:line-through 2.5px var(--no)}
 .howto{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.5}
 .bank{display:flex;flex-wrap:wrap;gap:8px}
@@ -1375,12 +1387,13 @@ $('#who').addEventListener('click', e => {
 
 function blockHTML(sIdx, qid, now){
   const s = spk(sIdx), p = per(sIdx), q = qs(s).find(x => x.id === qid);
+  let n = 0;   // blank order, for the one-by-one light-up of a fresh check
   const lines = s.notes[qid].map(line => {
     let html = '', last = 0;
     line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans, idx) => {
       html += esc(line.slice(last, idx));
       const v = p.notes[id] || '', mk = p.marks[id] || '';
-      html += `<input class="blank ${mk}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
+      html += `<input class="blank ${mk}" style="--i:${n++}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
       last = idx + m.length; return m;
     });
     return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
@@ -1390,7 +1403,7 @@ function blockHTML(sIdx, qid, now){
   // outside the live recording, each answer can be heard again while checking the page
   const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
   const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
-  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? grammarChips(sIdx, qid, { open:openPassages.has(ref) }) +
+  return `<div class="nblock${now?' now':''}${freshCheck === ref ? ' fresh' : ''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? grammarChips(sIdx, qid, { open:openPassages.has(ref) }) +
     `<p class="npassage"${openPassages.has(ref) ? '' : ' hidden'}>${markGrammar(s.answers[qid], items)}</p>` : ''}</div>`;
 }
 
@@ -1428,6 +1441,7 @@ let noteRaised = false;
 // 'person:question' whose answer text (지문) is open under a checked question: the fresh check opens it; putting the
 // notebook away folds them all, so the full page starts compact and 지문 opens one again
 const openPassages = new Set();
+let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
 function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint();
   const body = $('#dockBody');
@@ -1466,6 +1480,7 @@ function renderDock(){
   }
 
   body.innerHTML = html;
+  freshCheck = null;
   bindDock();
   // scroll only the notebook (scrollIntoView would also scroll the clipped app frame)
   const now = body.querySelector('.nblock.now');
@@ -1602,6 +1617,7 @@ function finishRecord(){
   // unlocked shows after that (closeNotes)
   p.feedback = qid;
   openPassages.add(`${S.cur}:${qid}`);
+  freshCheck = `${S.cur}:${qid}`;
   noteRaised = true;   // the checked question with its passage takes the whole screen for study
   renderDock();
 }
@@ -2637,9 +2653,10 @@ $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case
 function markGrammar(text, items = []){
   const ranges = items.map(([g, words]) => ({ g, at:text.indexOf(words), len:words.length })).filter(r => r.at >= 0).sort((a, b) => a.at - b.at);
   let html = '', last = 0;
+  let i = 0;
   ranges.forEach(r => {
     if(r.at < last) return;
-    html += esc(text.slice(last, r.at)) + `<button class="gmark" type="button" data-grammar="${r.g}">${esc(text.substr(r.at, r.len))}</button>`;
+    html += esc(text.slice(last, r.at)) + `<button class="gmark" type="button" data-grammar="${r.g}" style="--i:${i++}">${esc(text.substr(r.at, r.len))}</button>`;
     last = r.at + r.len;
   });
   return html + esc(text.slice(last));
@@ -2647,9 +2664,9 @@ function markGrammar(text, items = []){
 // passage: the 지문 toggle for a checked question in the note (open = the answer text is showing).
 function grammarChips(id, qid, passage){
   const items = GRAMMAR_LINES[`${id}:${qid}`] || [];
-  const toggle = passage ? `<button class="gchip" type="button" data-passage="${id}:${qid}" aria-pressed="${passage.open}">지문</button>` : '';
-  return !items.length && !toggle ? '' : `<div class="gchips">${toggle}${[...new Set(items.map(([g]) => g))].map(g =>
-    `<button class="gchip" type="button" data-grammar="${g}">${esc(GRAMMAR[g].chip)}</button>`).join('')}</div>`;
+  const toggle = passage ? `<button class="gchip" type="button" data-passage="${id}:${qid}" aria-pressed="${passage.open}" style="--i:0">지문</button>` : '';
+  return !items.length && !toggle ? '' : `<div class="gchips">${toggle}${[...new Set(items.map(([g]) => g))].map((g, i) =>
+    `<button class="gchip" type="button" data-grammar="${g}" style="--i:${i + 1}">${esc(GRAMMAR[g].chip)}</button>`).join('')}</div>`;
 }
 // The sentence of the answer (or the question) that holds the words, with the words marked.
 function grammarLine(id, qid, words){
