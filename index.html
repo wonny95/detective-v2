@@ -104,6 +104,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.ending .chip,.app.ending #hint{visibility:hidden}
 /* the map/Note bar is gone during the ending, so the scene runs to the bottom edge */
 .app.ending .nav{display:none}
+.app.in-interview .spotlight{opacity:1;background:radial-gradient(ellipse 78% 70% at 50% 40%,rgba(255,225,158,.1) 0 35%,rgba(48,31,20,.15) 70%,rgba(28,23,18,.35) 100%)}
+.app.interview-arriving .scene::after{content:"";position:absolute;inset:0;z-index:20;background:#30271E;animation:interview-arrive .75s ease both}
+@keyframes interview-arrive{0%,15%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.app.interview-arriving .scene::after{animation:none;opacity:0;pointer-events:none}}
 .ask-panel .end-leave{align-self:center}
 /* a photo held up to the suspect */
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
@@ -1159,7 +1163,9 @@ const PLACES = [
       { clue:4, x:18, y:84, w:7, h:8, photo:{x:220,y:620,w:160,h:120} }
     ]}
 ];
-const placeOf = id => PLACES.find(p => p.id === id);
+// A dialogue-only setting: it has no map pin, unlock condition, hotspots or collectible evidence.
+const INTERVIEW_ROOM = { id:'interview', label:'조사실', artWidth:1536, artHeight:1536, spots:[], clues:[] };
+const placeOf = id => id === INTERVIEW_ROOM.id ? INTERVIEW_ROOM : PLACES.find(p => p.id === id);
 const NPC_POSITIONS = {
   badger:{x:50, floor:93, height:44},   // right of the table, so the open book on it stays tappable
   mole:{x:66, floor:93, height:40},
@@ -1443,7 +1449,9 @@ function focusCamera(fromRect, glide = false){
   // stays above the note (top ~40%). The NPC never moves in the world; only the camera does.
   // Below the picture's bottom edge, the outpainted floor (ART_FLOOR) fills the scene.
   const notes = $('#app').classList.contains('notes-open');
-  const share = notes ? .46 : .58, headTop = notes ? .07 : .16;
+  // The interview room leaves more room above the speaker for dialogue, showing the face below the bubble.
+  const interview = place.id === INTERVIEW_ROOM.id;
+  const share = notes ? .46 : interview ? .52 : .58, headTop = notes ? .07 : interview ? .35 : .16;
   const fullHeight = worldHeight + (ART_FLOOR[place.id]?.h || 0);
   const minScale = Math.max(width / worldWidth, height / fullHeight);
   const scale = Math.max(minScale, height * share / (worldHeight * Math.max(44, position.height) / 100));
@@ -2178,16 +2186,17 @@ $('#accused').addEventListener('click', e => {
 });
 $('#result').addEventListener('click', e => {
   if(e.target.closest('[data-close-result]')) $('#result').hidden = true;
-  if(e.target.closest('[data-solved], [data-review]')) S.visit = {};   // the partner goes back to the library
+  if(e.target.closest('[data-solved], [data-review]')){ leaveInterview(); renderPlaces(); renderStage(); renderDock(); }
   if(e.target.closest('[data-solved]')){ markSolved(CASES[0].id); $('#result').hidden = true; openCaseList(); }
   if(e.target.closest('[data-review]')){ markSolved(CASES[0].id); $('#result').hidden = true; openReview(); }
 });
 
 /* ---------- ending ----------
-   Right accusation: ① at the bakery the player answers each of Fiona's claims with a photo from the
+   Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
+   Right accusation: ① the player answers each of Fiona's claims with a photo from the
    evidence notebook (a wrong photo: she brushes it off and the questioning starts over) → ② she confesses → ③ Sgt. Badger,
-   who came along to the bakery, closes the case (CASE CLOSED stamp) → ④ result → review.
-   What happened is told only by these lines. 해석 appears only once she has confessed.
+   closes the case (CASE CLOSED stamp) → ④ result → review.
+   What happened is told only by these lines. 해석 is available inside the speech bubble.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
 const ENDING = {
   confront:[
@@ -2346,27 +2355,43 @@ function endingSay(line, mood){
   renderDock();
   endTimer = setTimeout(() => { if(ending?.line === line) speak(line.en, line.key, line.who); }, 500);
 }
-// Sgt. Badger comes along to the bakery and stands by the counter, left of Fiona
-const ENDING_VISIT = { badger:{ place:'bakery', x:45, floor:93, height:44 } };
+// The same room, arrival and light for every suspect. Positions stay fixed while the camera follows the speaker.
+let interviewTimer;
+function enterInterview(id, step){
+  clearTimeout(interviewTimer); clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
+  ending = { step, returnPlace:spk(id).place };
+  S.mood = {};
+  S.visit = {
+    badger:{ place:INTERVIEW_ROOM.id, x:25, floor:82, height:44 },
+    [id]:{ place:INTERVIEW_ROOM.id, x:64, floor:82, height:44 }
+  };
+  const app = $('#app');
+  app.classList.remove('interview-arriving'); void app.offsetWidth;
+  app.classList.add('ending', 'in-interview', 'interview-arriving');
+  interviewTimer = setTimeout(() => app.classList.remove('interview-arriving'), 800);
+}
+function leaveInterview(){
+  clearTimeout(interviewTimer);
+  S.visit = {};
+  $('#app').classList.remove('in-interview', 'interview-arriving');
+}
 function startEnding(){
-  ending = { step:'confront' };
-  S.visit = { ...ENDING_VISIT };
+  enterInterview('fiona', 'confront');
   endingRound = 0;   // the questioning always starts from her first claim
-  $('#app').classList.add('ending');
   endingSay(fionaLine(ENDING.confront[0]), null);
 }
 function wrongAccusation(id){
-  ending = { step:'wrong' };
-  $('#app').classList.add('ending');
+  enterInterview(id, 'wrong');
   const key = REBUTTAL[id] || 'q2';
   endingSay({ who:id, key, en:spk(id).answers[key], ko:ANSWERS_KO[id]?.[key] || '' });
 }
 function leaveEnding(){
+  const returnPlace = ending?.returnPlace || cur().place;
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
-  S.visit = {};
+  leaveInterview();
   setMood('fiona', null);
-  enterPlace(cur().place, true);
+  enterPlace(returnPlace, true);
   openSheet('map');
 }
 function present(ref){
@@ -2438,7 +2463,7 @@ function caseClosedStamp(){
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
-  S.mood = {};   // the result card opens over the bakery with both of them still there
+  S.mood = {};   // the result card opens over the interview room; result actions release the temporary visits
   renderDock();
   markSolved(CASES[0].id);
   $('#resultCard').innerHTML = `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
@@ -2530,6 +2555,7 @@ function bookRows(){
 }
 
 const ART = {
+  interview: () => `<image href="assets/places/station-interview-room.png" width="1536" height="1536"/>`,
   library: () => `
     <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
     <path d="M1047 197 L1047 175 M1047 197 L1031 210" fill="none" stroke="#FFF8D9" stroke-width="12" stroke-linecap="round"/>
