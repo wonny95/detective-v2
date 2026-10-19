@@ -205,13 +205,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-notes .fix{color:var(--ok);text-decoration:underline}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
-.evidence-page{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:start}
+.evidence-page{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:stretch}
 .evidence-page h3,.evidence-page .empty-note,.evidence-page .evidence-detail{grid-column:1 / -1;margin:0}
 .evidence-page h3{font-family:var(--f-display);font-size:18px;font-weight:400}
 .ev-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;box-sizing:border-box;text-align:left;padding:6px 6px 8px;background:#FFFDF7;border:2px solid var(--ink);border-radius:5px;box-shadow:2px 3px 0 rgba(74,54,40,.12)}
 .ev-card:active{transform:translateY(1px);box-shadow:1px 1px 0 rgba(74,54,40,.12)}
 .ev-card .evidence-photo{margin-bottom:3px;border-width:1px;border-color:var(--line);border-radius:0}
-.ev-card .ev-title{font-family:var(--f-hand);font-weight:700;font-size:15px;line-height:1.2}
+/* every title keeps two lines' room (longer ones end in …), so all cards and their photos line up */
+.ev-card .ev-title{align-self:stretch;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.4em;font-family:var(--f-hand);font-weight:700;font-size:15px;line-height:1.2}
 .ev-card .place{font-size:11px;color:var(--ink-soft)}
 /* one piece of evidence: the photo, the detective's sentence (played on opening, the play button again), 해석, and 내밀기 in the ending */
 .evidence-detail{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
