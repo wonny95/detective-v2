@@ -371,7 +371,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .steps li{display:grid;grid-template-columns:26px 1fr;gap:8px;font-size:13px;line-height:1.45;counter-increment:s}
 .steps li::before{content:counter(s);width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:var(--honey);display:grid;place-items:center;font-family:var(--f-display);font-size:12px}
 /* case select: the first screen — a case notebook with one folder card per case */
-.cases{box-sizing:border-box;position:absolute;inset:0;z-index:35;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px calc(18px + env(safe-area-inset-bottom,0px));overflow-y:auto;background-color:var(--paper);
+.cases{box-sizing:border-box;position:absolute;inset:0;z-index:35;overflow:hidden;display:flex;flex-direction:column;background-color:var(--paper);
   background-image:radial-gradient(circle at 20% 30%,rgba(141,180,142,.16) 0 2px,transparent 3px),radial-gradient(circle at 70% 80%,rgba(242,207,115,.18) 0 2px,transparent 3px);background-size:38px 38px,52px 52px}
 .cases-head h1{margin:2px 0 0;font-family:var(--f-hand);font-weight:700;font-size:31px;line-height:1}
 .case-list{display:flex;flex-direction:column;gap:22px;padding-top:6px}
@@ -391,7 +391,41 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .case-card.locked .case-thumb svg{width:34px;height:34px}
 .case-card.locked .case-no{color:var(--ink-soft)}
 .case-lock{display:block;font-size:12px}
-.cases .linkbtn{margin-top:auto}
+.case-focus{display:block;font-size:12px;color:var(--ink-soft);margin:-4px 0 8px}
+.case-stars{margin-left:6px;font-size:14px;letter-spacing:1px;color:#E0A526;vertical-align:middle}
+/* home: the screens outside a case (사건 · 단어장 · 복습 · 내 기록), each scrolling above the app menu */
+.home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
+.home-page[hidden]{display:none}
+.cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding-left:12px;padding-right:12px}
+.cases .nav .tab{--bw:16px;flex-direction:column;gap:1px;min-height:54px;font-size:13px}
+.cases .nav .tab svg{width:22px;height:22px}
+.cases .nav .tab[aria-current="page"]{--btn:url(assets/ui/buttons/honey-flat.png)}
+.home-sec{margin:4px 0 0;font-family:var(--f-display);font-weight:400;font-size:16px}
+.home-sec small{font-size:13px;color:var(--ink-soft)}
+.home-empty{margin:20px 0;text-align:center;font-size:14px;color:var(--ink-soft)}
+.wcard{display:flex;flex-direction:column;gap:5px;align-items:flex-start;background:#FFFDF7;border:2px solid var(--ink);border-radius:12px 16px 14px 18px/16px 12px 18px 14px;padding:10px 12px}
+.wtop{display:flex;align-items:center;gap:8px;width:100%;min-width:0}
+.wtop .replay-q{margin-left:auto;flex:none}
+.wword{font-family:var(--f-hand);font-weight:700;font-size:20px;line-height:1.15}
+.wsay{display:block;font-size:12px;color:var(--ink-soft)}
+.wline{margin:0;font-family:var(--f-hand);font-size:14px;line-height:1.4;color:var(--ink-soft)}
+.wline mark{background:#F8EAC4;color:var(--ink);border-radius:3px;padding:0 2px}
+.wko{margin:0;font-size:14px;font-weight:700;color:var(--berry)}
+.wwho{display:flex;align-items:center;gap:6px;font-family:var(--f-display);font-size:14px}
+.wwho .mini{width:26px;height:26px}
+.wq{font-size:12px;color:var(--ink-soft)}
+.wbtns{display:flex;gap:6px}
+.rv-case{flex-direction:row;align-items:center;gap:10px}
+.rv-case > span{flex:1;min-width:0}
+.stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{display:flex;flex-direction:column;gap:2px;background:#FFFDF7;border:2px solid var(--ink);border-radius:12px 16px 14px 18px/16px 12px 18px 14px;padding:10px 12px}
+.stat b{font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.1}
+.stat span{font-size:12px;color:var(--ink-soft)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center;font-size:11px;color:var(--ink-soft)}
+.week i{display:block;width:26px;height:26px;margin:0 auto 3px;border-radius:50%;border:2px dashed var(--line);box-sizing:border-box}
+.week .on i{background:var(--honey);border:2px solid var(--ink)}
+.week .today{color:var(--ink);font-weight:700}
+.home-page > .pill{align-self:flex-start}
 .linkbtn{border:0;background:none;padding:4px;text-decoration:underline;font-size:12px;color:var(--ink-soft);align-self:center}
 /* tutorial: one step per page, picture guide on top */
 .tut{gap:12px}
@@ -458,6 +492,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
     </symbol>
     <symbol id="caseIcon" viewBox="0 0 24 24">
       <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6.5 h7 l2 2 h10 v11.5 h-19z" fill="#E8C79A"/><path d="M2.5 10 h19" fill="none"/></g>
+    </symbol>
+    <symbol id="wordIcon" viewBox="0 0 24 24">
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12 6.5 C9.5 4.8 6 4.5 2.5 5.2 V19 C6 18.3 9.5 18.6 12 20.3Z" fill="#DDE8C9"/><path d="M12 6.5 C14.5 4.8 18 4.5 21.5 5.2 V19 C18 18.3 14.5 18.6 12 20.3Z" fill="#CFE0EE"/><path d="M5.5 9.2 h3.6 M5.5 12.4 h3.6 M14.9 9.2 h3.6 M14.9 12.4 h3.6" fill="none"/></g>
+    </symbol>
+    <symbol id="reviewIcon" viewBox="0 0 24 24">
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M4.3 15 V12 a7.7 7.7 0 0 1 15.4 0 V15" fill="none"/><rect x="2.8" y="13" width="5" height="7.5" rx="2" fill="#F6B89A"/><rect x="16.2" y="13" width="5" height="7.5" rx="2" fill="#F6B89A"/></g>
+    </symbol>
+    <symbol id="meIcon" viewBox="0 0 24 24">
+      <g stroke="#4A3628" stroke-width="1.5" stroke-linejoin="round"><path d="M6.5 2.5 h4 l2.2 6 h-4z" fill="#C96F86"/><path d="M17.5 2.5 h-4 l-2.2 6 h4z" fill="#9CC0DE"/><circle cx="12" cy="15" r="6.3" fill="#F2CF73"/><path d="M12 11.6 l1.1 2.2 2.4.3 -1.75 1.65 .45 2.4 -2.2-1.2 -2.2 1.2 .45-2.4 -1.75-1.65 2.4-.3z" fill="#FBF4E6" stroke-width="1.1"/></g>
     </symbol>
     <symbol id="mapIcon" viewBox="0 0 24 24">
       <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6 L8 4 L16 6 L21.5 4 V18 L16 20 L8 18 L2.5 20Z" fill="#DDE8C9"/><path d="M8 4 V18 M16 6 V20" fill="none"/></g>
@@ -557,11 +600,22 @@ button.chip:disabled{cursor:default;box-shadow:none}
     </div>
   </div>
 
-  <!-- Case select: the first screen. Cases open in order; a locked card shows no title. -->
-  <section class="cases" id="caseList" aria-label="사건 목록">
-    <header class="cases-head"><h1>사건 수첩</h1></header>
-    <div class="case-list" id="caseCards"></div>
-    <button class="linkbtn" type="button" id="howtoList">플레이 방법 다시 보기</button>
+  <!-- Home: the first screen. Four pages outside a case — case select (cases open in order; a locked card
+       shows no title), word book, review, my record — switched by their own bottom menu. -->
+  <section class="cases" id="caseList" aria-label="사건 수첩">
+    <div class="home-page" id="home-cases">
+      <header class="cases-head"><h1>사건 수첩</h1></header>
+      <div class="case-list" id="caseCards"></div>
+    </div>
+    <div class="home-page" id="home-words" hidden></div>
+    <div class="home-page" id="home-review" hidden></div>
+    <div class="home-page" id="home-me" hidden></div>
+    <nav class="nav" aria-label="앱 메뉴">
+      <button class="tab" type="button" data-home="cases" aria-current="page"><svg aria-hidden="true"><use href="#caseIcon"/></svg>사건</button>
+      <button class="tab" type="button" data-home="words"><svg aria-hidden="true"><use href="#wordIcon"/></svg>단어장</button>
+      <button class="tab" type="button" data-home="review"><svg aria-hidden="true"><use href="#reviewIcon"/></svg>복습</button>
+      <button class="tab" type="button" data-home="me"><svg aria-hidden="true"><use href="#meIcon"/></svg>내 기록</button>
+    </nav>
   </section>
 
   <div class="modal" id="accuse" hidden>
@@ -748,6 +802,20 @@ const PEOPLE = {
   }
 };
 const PEOPLE_ORDER = Object.keys(PEOPLE);
+// Word book entries for the note blanks (key: the first answer, lower case).
+// [group, Korean (shown only with 해석), how a number or time is said]. Groups: w 단어, t 숫자·시간, n 이름·장소.
+const WORDS = {
+  'library':['n','도서관'], 'bakery':['n','빵집'], 'cafe':['n','카페'], 'lake cafe':['n','호수 카페'], 'moon hill':['n','달 언덕'], 'star club':['n','별 동호회'],
+  'hoot':['n','후트 (교수 이름)'], 'mrs. mole':['n','두더지 부인'], 'sgt. badger':['n','오소리 경사'], 'ray raccoon':['n','너구리 레이'],
+  'rosie rabbit':['n','토끼 로지'], 'fiona fox':['n','여우 피오나'], 'mrs. bear':['n','곰 부인'], 'mr. duck':['n','오리 아저씨'],
+  'librarian':['w','사서'], 'clock':['w','시계'], 'music':['w','음악'], 'stars':['w','별들'], 'sweet':['w','달콤한, 단'], 'angry':['w','화가 난'],
+  'blueberry pies':['w','블루베리 파이'], 'morning':['w','아침'], 'upset':['w','속상한, 기분이 상한'], 'guitar':['w','기타'], 'lantern':['w','랜턴, 등불'],
+  'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
+  'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'],
+  '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
+  '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
+};
+const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','이름·장소']];
 // Korean for each answer. Shown only on the review screen after the case is solved.
 const ANSWERS_KO = {
   badger:{
@@ -1385,6 +1453,7 @@ function finishRecord(){
   const blanks = [...document.querySelectorAll(`.nblock[data-q="${qid}"] .blank`)];
   const empty = blanks.filter(b => !b.value.trim());
   if(empty.length){ empty[0].focus(); return toast(`빈칸 ${empty.length}개가 남았어요. 모두 채워야 기록이 끝나요.`); }
+  markStudyDay();
   const answers = blanksOf(S.cur, [qid]);
   recordFirst(S.cur, qid);
   const correct = answers.every(isRight);
@@ -1909,24 +1978,37 @@ function finishEnding(){
 }
 
 /* ---------- review: after the case, the full lines, Korean, and the blanks missed at the first check ---------- */
-function openReview(){
+// First-check results of the case just solved in this visit: totals, stars, and the questions missed at first.
+function liveStats(){
   const people = S.met.filter(id => per(id).order.length);
   people.forEach(id => recordFirst(id));
   const ok = people.reduce((n, id) => n + per(id).first.ok, 0), total = people.reduce((n, id) => n + per(id).first.total, 0);
   const rate = total ? ok / total : 0, stars = rate >= .9 ? 3 : rate >= .7 ? 2 : 1;
-  $('#reviewCard').innerHTML = `<span class="eyebrow">Review</span><h2>복습</h2>
+  const missed = people.flatMap(id => Object.entries(per(id).firstQuestions).filter(([, r]) => r.ok < r.total).map(([qid]) => `${id}:${qid}`));
+  return { ok, total, stars, missed };
+}
+// Opened from the result card (the case just solved: first-check results are in memory) or from the home
+// 복습 page (fromHome; after a reload only the saved totals remain, so every line shows as written right).
+let reviewFromHome = false;
+function openReview(fromHome){
+  reviewFromHome = !!fromHome;
+  const live = solvedThisRun;
+  const people = live ? S.met.filter(id => per(id).order.length) : PEOPLE_ORDER;
+  const stat = live ? liveStats() : caseStats()[CASES[0].id];
+  const stars = stat?.stars || 0;
+  $('#reviewCard').innerHTML = `<span class="eyebrow">Review</span><h2>복습</h2>` + (stat ? `
     <div class="rv-stars" aria-label="별 ${stars}개">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>
-    <p>처음 확인했을 때 ${total}칸 중 ${ok}칸을 맞혔어요.</p>` +
+    <p>처음 확인했을 때 ${stat.total}칸 중 ${stat.ok}칸을 맞혔어요.</p>` : '') +
     people.map(id => {
-      const s = spk(id), p = per(id);
-      return `<section class="rv-person"><h3><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}<small>${p.first.ok}/${p.first.total}</small></h3>` +
-        p.order.map(qid => {
+      const s = spk(id), p = per(id), order = live ? p.order : qs(s).map(q => q.id), firstWrong = live ? p.firstWrong : {};
+      return `<section class="rv-person"><h3><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}${live ? `<small>${p.first.ok}/${p.first.total}</small>` : ''}</h3>` +
+        order.map(qid => {
           const lines = s.notes[qid].map(line => {
             let html = '', last = 0;
             line.replace(BLANK_RE, (m, bid, ans, idx) => {
               const right = esc(ans.split('/')[0]);
-              html += esc(line.slice(last, idx)) + (bid in p.firstWrong
-                ? `<s>${esc(p.firstWrong[bid] || '…')}</s> <b class="fix">${right}</b>`
+              html += esc(line.slice(last, idx)) + (bid in firstWrong
+                ? `<s>${esc(firstWrong[bid] || '…')}</s> <b class="fix">${right}</b>`
                 : `<b class="ok">${right}</b>`);
               last = idx + m.length; return m;
             });
@@ -1939,7 +2021,7 @@ function openReview(){
             <div class="rv-notes">${lines}</div></div>`;
         }).join('') + '</section>';
     }).join('') +
-    `<button class="pill big" type="button" data-solved>사건 목록으로</button>`;
+    `<button class="pill big" type="button" data-solved>${reviewFromHome ? '닫기' : '사건 목록으로'}</button>`;
   $('#review').hidden = false;
   $('#reviewCard').scrollTop = 0;
 }
@@ -1948,7 +2030,7 @@ $('#review').addEventListener('click', e => {
   if(replay) return replayLine(replay.dataset.replay);
   const ko = e.target.closest('[data-rv-ko]');
   if(ko){ const t = ko.previousElementSibling; t.hidden = !t.hidden; ko.setAttribute('aria-pressed', !t.hidden); return; }
-  if(e.target.closest('[data-solved]')){ stopVoice(); $('#review').hidden = true; openCaseList(); }
+  if(e.target.closest('[data-solved]')){ stopVoice(); $('#review').hidden = true; if(!reviewFromHome) openCaseList(); }
 });
 
 /* =====================================================================
@@ -2335,13 +2417,39 @@ document.addEventListener('keydown', e => {
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
    this device; the case in progress lives in memory only until saving is added. */
 const CASES = [
-  { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true },
+  { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기' },
   { id:'case02', no:'Case 02' },
   { id:'case03', no:'Case 03' }
 ];
-const SOLVED_KEY = 'pioo.solvedCases';
-const solvedCases = () => { try { return JSON.parse(localStorage.getItem(SOLVED_KEY) || '[]'); } catch(e){ return []; } };
-function markSolved(id){ try { localStorage.setItem(SOLVED_KEY, JSON.stringify([...new Set([...solvedCases(), id])])); } catch(e){} }
+const SOLVED_KEY = 'pioo.solvedCases', STATS_KEY = 'pioo.caseStats', DAYS_KEY = 'pioo.studyDays';
+const readJSON = (key, empty) => { try { return JSON.parse(localStorage.getItem(key)) || empty; } catch(e){ return empty; } };
+const solvedCases = () => readJSON(SOLVED_KEY, []);
+const caseStats = () => readJSON(STATS_KEY, {});   // { caseId: { ok, total, stars, missed:['mole:m2', …] } }, the best first-check result
+let solvedThisRun = false;
+function markSolved(id){
+  solvedThisRun = true;
+  const all = caseStats(), now = liveStats(), old = all[id];
+  if(!old || now.ok / (now.total || 1) >= old.ok / (old.total || 1)) all[id] = now;
+  try {
+    localStorage.setItem(SOLVED_KEY, JSON.stringify([...new Set([...solvedCases(), id])]));
+    localStorage.setItem(STATS_KEY, JSON.stringify(all));
+  } catch(e){}
+}
+// Study days (local dates) for the streak on 내 기록: a day counts once a case is opened or a note is checked.
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const studyDays = () => readJSON(DAYS_KEY, []);
+function markStudyDay(){
+  const today = dayKey(), days = studyDays();
+  if(days.includes(today)) return;
+  try { localStorage.setItem(DAYS_KEY, JSON.stringify([...days, today].slice(-120))); } catch(e){}
+}
+function studyStreak(){
+  const days = new Set(studyDays()), d = new Date();
+  if(!days.has(dayKey(d))) d.setDate(d.getDate() - 1);   // today not studied yet: the streak still counts up to yesterday
+  let n = 0;
+  while(days.has(dayKey(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
 const LOCK_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#7D6A58" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5 V8 a3.5 3.5 0 0 1 7 0 V10.5"/></g></svg>`;
 let caseStarted = false;
 function renderCaseList(){
@@ -2353,21 +2461,131 @@ function renderCaseList(){
       <span><span class="case-no">${c.no}</span><span class="case-title">???</span>
         <span class="case-lock">${open ? '준비 중이에요' : `${CASES[i - 1].no}을 해결하면 열려요`}</span></span></div>`;
     const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : caseStarted ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
+    const stars = solved.includes(c.id) && caseStats()[c.id]?.stars;
     return `<button class="case-card" type="button" data-case="${c.id}">
       <span class="case-thumb"><svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg></span>
-      <span><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span><span class="badge ${cls}">${label}</span></span></button>`;
+      <span><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}<span class="badge ${cls}">${label}</span>${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>` : ''}</span></button>`;
   }).join('');
 }
-function openCaseList(){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); renderCaseList(); $('#caseList').hidden = false; }
+function openCaseList(){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); homeTab = 'cases'; renderHome(); $('#caseList').hidden = false; }
 // Opening a case: the first time on this device the tutorial comes first; a case in progress resumes where it was left.
 function startCase(){
+  stopVoice();
   $('#caseList').hidden = true;
+  markStudyDay();
   if(caseStarted) return;
   caseStarted = true;
   if(tutSeen()) talkTo('badger'); else openTutorial(true);
 }
 $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case]')) startCase(); });
-$('#howtoList').onclick = () => openTutorial(false);
+
+/* ---------- home pages ----------
+   단어장: blanks the player has written right (every blank once a case is solved). The line it came from
+   plays with ▶; Korean only with 해석. 복습: solved cases and the lines missed at the first check.
+   내 기록: streak, totals, and the how-to. All of it reads only what this device saved or the case in memory. */
+let homeTab = 'cases';
+function learnedWords(){
+  const solved = solvedCases().includes(CASES[0].id), seen = new Map();
+  PEOPLE_ORDER.forEach(id => {
+    const s = spk(id), p = per(id);
+    qs(s).forEach(q => {
+      if(!solved && p.questionChecks[q.id] !== 'ok') return;
+      (s.notes[q.id] || []).forEach(line => line.replace(BLANK_RE, (m, bid, ans) => {
+        const key = ans.split('/')[0].toLowerCase();
+        if(WORDS[key] && !seen.has(key)) seen.set(key, { word:ans.split('/')[0], key, line, bid, ref:`${id}:${q.id}` });
+        return m;
+      }));
+    });
+  });
+  return [...seen.values()];
+}
+// A note line with its blanks filled in; the blank `mark` is highlighted.
+function filledLine(line, mark){
+  let html = '', last = 0;
+  line.replace(BLANK_RE, (m, bid, ans, idx) => {
+    const word = esc(ans.split('/')[0]);
+    html += esc(line.slice(last, idx)) + (bid === mark ? `<mark>${word}</mark>` : word);
+    last = idx + m.length; return m;
+  });
+  return html + esc(line.slice(last));
+}
+const koToggle = text => `<p class="wko" hidden>${esc(text)}</p><button class="pill sm" type="button" data-wko aria-pressed="false">해석</button>`;
+function renderWords(){
+  const words = learnedWords();
+  $('#home-words').innerHTML = `<header class="cases-head"><h1>단어장</h1></header>` + (!words.length
+    ? `<p class="home-empty">아직 모은 단어가 없어요.</p>`
+    : WORD_GROUPS.map(([g, label]) => {
+        const list = words.filter(w => WORDS[w.key][0] === g);
+        return !list.length ? '' : `<h2 class="home-sec">${label} <small>${list.length}</small></h2>` + list.map(w => {
+          const [, ko, say] = WORDS[w.key];
+          return `<div class="wcard"><div class="wtop"><span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}</span>
+            <button class="replay-q" type="button" data-wplay="${w.ref}" aria-label="문장 듣기">${playIcon}</button></div>
+            <p class="wline">${filledLine(w.line, w.bid)}</p>${koToggle(ko)}</div>`;
+        }).join('');
+      }).join(''));
+}
+function renderReviewTab(){
+  const stats = caseStats(), solved = CASES.filter(c => solvedCases().includes(c.id));
+  const missed = solved.flatMap(c => stats[c.id]?.missed || []);
+  $('#home-review').innerHTML = `<header class="cases-head"><h1>복습</h1></header>` + (!solved.length
+    ? `<p class="home-empty">아직 해결한 사건이 없어요.</p>`
+    : solved.map(c => {
+        const st = stats[c.id];
+        return `<div class="wcard rv-case"><span><span class="case-no">${c.no}</span><span class="wword">${esc(c.title)}</span>
+          ${st ? `<span class="wsay">별 ${st.stars}개 · 처음 확인 ${st.ok}/${st.total}칸</span>` : ''}</span>
+          <button class="pill sm" type="button" data-open-review>복습 보기</button></div>`;
+      }).join('') +
+      `<h2 class="home-sec">다시 들을 문장 <small>${missed.length}</small></h2>` + (!missed.length
+        ? `<p class="home-empty">처음부터 모두 맞혔어요.</p>`
+        : missed.map(ref => {
+            const [id, qid] = ref.split(':'), s = spk(id);
+            return `<div class="wcard"><div class="wtop"><span class="wwho"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}</span>
+              <button class="replay-q" type="button" data-wplay="${ref}" aria-label="다시 듣기">${playIcon}</button></div>
+              <span class="wq">Q. ${esc(qs(s).find(q => q.id === qid).en)}</span>
+              <p class="wline" hidden>${esc(s.answers[qid])}</p>
+              <p class="wko" hidden>${esc(ANSWERS_KO[id]?.[qid] || '')}</p>
+              <span class="wbtns"><button class="pill sm" type="button" data-wen aria-pressed="false">문장</button><button class="pill sm" type="button" data-wko aria-pressed="false">해석</button></span></div>`;
+          }).join('')));
+}
+function renderMe(){
+  const stats = Object.values(caseStats()), ok = stats.reduce((n, s) => n + s.ok, 0), total = stats.reduce((n, s) => n + s.total, 0);
+  const days = new Set(studyDays()), today = new Date(), monday = new Date(today);
+  monday.setDate(today.getDate() - (today.getDay() + 6) % 7);
+  const week = [...'월화수목금토일'].map((label, i) => {
+    const d = new Date(monday); d.setDate(monday.getDate() + i);
+    return `<span class="${days.has(dayKey(d)) ? 'on' : ''} ${dayKey(d) === dayKey(today) ? 'today' : ''}"><i></i>${label}</span>`;
+  }).join('');
+  $('#home-me').innerHTML = `<header class="cases-head"><h1>내 기록</h1></header>
+    <div class="stat-grid">
+      <div class="stat"><b>${studyStreak()}일</b><span>연속 학습</span></div>
+      <div class="stat"><b>${solvedCases().length}</b><span>해결한 사건</span></div>
+      <div class="stat"><b>${total ? Math.round(ok / total * 100) + '%' : '–'}</b><span>처음 확인 정확도</span></div>
+      <div class="stat"><b>${learnedWords().length}</b><span>모은 단어</span></div>
+    </div>
+    <h2 class="home-sec">이번 주</h2><div class="week">${week}</div>
+    <h2 class="home-sec">설정</h2>
+    <button class="pill" type="button" data-howto>플레이 방법 다시 보기</button>`;
+}
+function renderHome(){
+  stopVoice();
+  ({ cases:renderCaseList, words:renderWords, review:renderReviewTab, me:renderMe })[homeTab]();
+  document.querySelectorAll('.home-page').forEach(page => { page.hidden = page.id !== `home-${homeTab}`; });
+  document.querySelectorAll('[data-home]').forEach(b => b.dataset.home === homeTab ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
+  $(`#home-${homeTab}`).scrollTop = 0;
+}
+$('#caseList').addEventListener('click', e => {
+  const tab = e.target.closest('[data-home]');
+  if(tab){ if(tab.dataset.home !== homeTab){ homeTab = tab.dataset.home; renderHome(); } return; }
+  const play = e.target.closest('[data-wplay]');
+  if(play) return replayLine(play.dataset.wplay);
+  const toggle = e.target.closest('[data-wko], [data-wen]');
+  if(toggle){
+    const box = toggle.closest('.wcard').querySelector(toggle.hasAttribute('data-wko') ? '.wko' : '.wline');
+    box.hidden = !box.hidden; toggle.setAttribute('aria-pressed', !box.hidden); return;
+  }
+  if(e.target.closest('[data-open-review]')) return openReview(true);
+  if(e.target.closest('[data-howto]')) openTutorial(false);
+});
 
 /* ---------- test tools ---------- */
 // Write the correct answer into every blank of the given questions; returns how many blanks were filled.
