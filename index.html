@@ -119,12 +119,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes cc-stamp{from{opacity:0;transform:translateX(-50%) rotate(-10deg) scale(2.4)}to{opacity:.92;transform:translateX(-50%) rotate(-10deg) scale(1)}}
 @keyframes cc-fade{0%{opacity:0}10%{opacity:1}86%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.presented figure,.cc-stamp{animation:none}}
-/* the questioning (confront, confession): the room dims around her, and four locks at the top stand for her four
-   claims — each claim broken by the right photo cracks one open */
+/* the questioning (confront, confession): the room dims around her; the gauge fills as her claims are answered */
 .spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
   background:radial-gradient(ellipse 66% 48% at 50% 40%,rgba(255,236,190,.12) 0 30%,rgba(34,20,10,.42) 62%,rgba(24,14,8,.82) 100%)}
 .app.interrogate .spotlight{opacity:1}
-/* in the ending every line is also shown in a speech bubble (user decision) — under the locks while she is questioned,
+/* in the ending every line is also shown in a speech bubble (user decision) — under the gauge while she is questioned,
    its tail pointing down at whoever speaks; it stays up while the evidence drawer is open */
 .bubble.say{top:44px;padding-bottom:12px}
 .app.interrogate .bubble.say{top:66px}
@@ -134,13 +133,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .bubble.say .say-foot button{position:static;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;min-height:30px;padding:0 10px;font-family:var(--f-display);font-size:12px;color:var(--ink)}
 .bubble.say .say-foot svg{width:9px;height:9px}
 .bubble.say::after{content:"";position:absolute;left:50%;bottom:-9px;width:14px;height:14px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
-.locks{position:absolute;top:12px;left:50%;z-index:5;display:flex;gap:10px;padding:7px 14px;transform:translateX(-50%);background:rgba(40,28,20,.6);border-radius:16px}
-.lock{display:block;width:30px;height:35px}
-.lock svg{display:block;width:100%;height:100%;overflow:visible}
-.lock.breaking{animation:lock-break .7s cubic-bezier(.3,1.5,.5,1)}
-@keyframes lock-break{0%{transform:scale(1)}25%{transform:scale(1.45) rotate(-12deg)}50%{transform:scale(.9) rotate(8deg)}100%{transform:none}}
-.lock.mending{animation:lock-mend .45s ease-out}
-@keyframes lock-mend{from{transform:scale(.6);opacity:.3}}
+.interrogation-gauge{position:absolute;top:14px;left:50%;z-index:5;display:flex;align-items:center;gap:10px;width:280px;max-width:calc(100% - 48px);box-sizing:border-box;padding:8px 12px;transform:translateX(-50%);background:rgba(40,28,20,.78);border:1.5px solid rgba(255,239,207,.35);border-radius:18px;box-shadow:0 3px 8px rgba(24,14,8,.2);pointer-events:none}
+.gauge-label{flex:none;font-family:var(--f-display);font-size:12px;line-height:16px;color:#FFF3D6}
+.gauge-track{flex:1;height:13px;overflow:hidden;border:2px solid #4A3628;border-radius:9px;background:#E4D8C3;box-shadow:inset 0 2px 3px rgba(74,54,40,.18)}
+.gauge-fill{display:block;width:0;height:100%;border-radius:6px;background:linear-gradient(#F9DE8F,#E7AE4E);box-shadow:inset 0 2px 0 rgba(255,255,255,.45);transition:width .6s cubic-bezier(.2,.8,.3,1)}
+.interrogation-gauge.complete .gauge-fill{background:linear-gradient(#D8E9A3,#9CBA67)}
+.interrogation-gauge.hit .gauge-track{animation:gauge-hit .65s ease-out}
+.interrogation-gauge.reset .gauge-track{animation:gauge-reset .45s ease-out}
+@keyframes gauge-hit{35%{box-shadow:0 0 0 4px rgba(249,222,143,.4),0 0 16px rgba(249,222,143,.6)}}
+@keyframes gauge-reset{25%,65%{translate:-3px 0}45%,85%{translate:3px 0}}
 /* the evidence drawer: a strip of photos under her; picking one plays its sentence, 내밀기 holds it up */
 .drawer{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;padding:12px 0 16px;background:var(--paper);
   border-top:3px solid var(--ink);border-radius:24px 26px 0 0/20px 22px 0 0;box-shadow:0 -6px 18px rgba(34,20,10,.35);
@@ -170,7 +171,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes jolt{15%{translate:-7px 3px}35%{translate:6px -3px}55%{translate:-4px 2px}75%{translate:2px -1px}100%{translate:0 0}}
 .scene-npc.flinch svg{animation:flinch .5s ease-out}
 @keyframes flinch{20%{translate:6px 0;scale:.96 1.03}45%{translate:-4px 0}100%{translate:0 0;scale:1}}
-@media(prefers-reduced-motion:reduce){.presented .contra,.presented.miss figure,.scene.jolt #talkCamera,.scene-npc.flinch svg,.lock.breaking,.lock.mending{animation:none}.drawer{transition:none}}
+@media(prefers-reduced-motion:reduce){.presented .contra,.presented.miss figure,.scene.jolt #talkCamera,.scene-npc.flinch svg,.interrogation-gauge.hit .gauge-track,.interrogation-gauge.reset .gauge-track{animation:none}.drawer,.gauge-fill{transition:none}}
 .stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(74,54,40,.38);pointer-events:none;animation:stage-card 1.9s ease forwards}
 .stage-card div{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);padding:12px 22px;text-align:center;box-shadow:4px 5px 0 rgba(74,54,40,.25)}
 .stage-card small{display:block;font-size:12px;color:var(--ink-soft)}
@@ -668,7 +669,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="ask-panel" id="askPanel"></div>
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
-      <div class="locks" id="locks" hidden></div>
+      <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-label" aria-hidden="true">심문</span><span class="gauge-track" aria-hidden="true"><span class="gauge-fill"></span></span></div>
       <section class="drawer" id="drawer" aria-label="증거 서랍">
         <div class="drawer-head"><h3>증거</h3><button class="x" type="button" data-drawer-close aria-label="증거 서랍 닫기">×</button></div>
         <div class="drawer-strip" id="drawerStrip"></div>
@@ -1533,7 +1534,7 @@ function blockHTML(sIdx, qid, now){
 function renderAsk(){
   const box = $('#askPanel'), p = st(), s = cur();
   box.classList.remove('show-ko');
-  renderLocks();
+  renderInterrogationGauge();
   if(ending && !S.investigate){ box.innerHTML = endingControls(); return; }
   if(S.investigate || discoveryPerson){ box.innerHTML = ''; return; }
   let html = '';
@@ -1675,6 +1676,11 @@ function bindDock(){
   body.querySelectorAll('[data-present]').forEach(button => button.addEventListener('click', () => present(button.dataset.present)));
   const bank = body.querySelector('#bank');
   if(bank){
+    bank.addEventListener('click', e => {
+      const word = e.target.closest('.word');
+      if(word && (!suppressWordClick || e.detail === 0)) fillNextBlank(word.dataset.w);
+      suppressWordClick = false;
+    });
     bank.addEventListener('pointerdown', dragStart);
     bank.addEventListener('pointermove', dragMove);
     bank.addEventListener('pointerup', dragEnd);
@@ -1864,11 +1870,18 @@ function fillBlank(input, word){
   input.value = word; input.size = Math.max(5, word.length+1); input.classList.remove('ok','no');
   const p = per(input.dataset.s); p.notes[input.dataset.id] = word; delete p.marks[input.dataset.id];
 }
+function fillNextBlank(word){
+  if(S.view !== S.cur || S.investigate || st().phase !== 'record') return;
+  const blank = [...document.querySelectorAll('#dockBody .nblock.now .blank')].find(input => !input.readOnly && !input.value.trim());
+  if(blank) fillBlank(blank, word);
+  clearSel();
+}
 function clearSel(){ S.sel = null; document.querySelectorAll('.word.sel').forEach(w => w.classList.remove('sel')); }
 
-let drag = null;
+let drag = null, suppressWordClick = false;
 function dragStart(e){
-  const w = e.target.closest('.word'); if(!w) return;
+  const w = e.target.closest('.word'); if(!w || !e.isPrimary || e.button !== 0) return;
+  suppressWordClick = false;
   drag = { w, x:e.clientX, y:e.clientY, ghost:null, hot:null, id:e.pointerId };
   w.setPointerCapture(e.pointerId);
 }
@@ -1881,7 +1894,8 @@ function dragMove(e){
   }
   drag.ghost.style.left = e.clientX+'px'; drag.ghost.style.top = e.clientY+'px';
   const under = document.elementFromPoint(e.clientX, e.clientY);
-  const hot = under && under.closest ? under.closest('.blank') : null;
+  const target = under?.closest?.('.blank');
+  const hot = target && !target.readOnly ? target : null;
   if(drag.hot && drag.hot !== hot) drag.hot.classList.remove('hot');
   if(hot) hot.classList.add('hot');
   drag.hot = hot;
@@ -1890,12 +1904,10 @@ function dragEnd(e){
   if(!drag || e.pointerId !== drag.id) return;
   const word = drag.w.dataset.w;
   if(drag.ghost){
+    suppressWordClick = true;
     drag.ghost.remove();
-    if(drag.hot){ drag.hot.classList.remove('hot'); fillBlank(drag.hot, word); }
+    if(drag.hot){ drag.hot.classList.remove('hot'); if(e.type === 'pointerup') fillBlank(drag.hot, word); }
     clearSel();
-  } else if(e.type === 'pointerup'){
-    const was = S.sel === word; clearSel();
-    if(!was){ S.sel = word; drag.w.classList.add('sel'); toast(`'${word}' 카드를 골랐어요. 빈칸을 눌러 넣으세요.`); }
   }
   drag = null;
 }
@@ -2213,24 +2225,23 @@ $('#sayBubble').addEventListener('click', e => {
   ko.hidden = !ko.hidden;
   button.setAttribute('aria-pressed', !ko.hidden);
 });
-// The four claim locks and the dimmed room, while she is being questioned (confront) and while she gives in.
-const LOCK_SHUT = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 12.5V8.5a5.5 5.5 0 0 1 11 0v4" fill="none" stroke="#4A3628" stroke-width="2.4"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#F2CF73" stroke="#4A3628" stroke-width="2"/><circle cx="12" cy="18" r="1.9" fill="#4A3628"/><path d="M12 19v3.2" stroke="#4A3628" stroke-width="1.9" stroke-linecap="round"/></svg>`;
-const LOCK_OPEN = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 10V6.5a5.5 5.5 0 0 1 11 0" fill="none" stroke="#4A3628" stroke-width="2.4" transform="rotate(-28 6.5 10) translate(-1 -2)"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#D8CDBB" stroke="#4A3628" stroke-width="2"/><path d="M10 12l2.6 4.4-2 2.6 2.8 3.4-1.2 3.6" fill="none" stroke="#4A3628" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
-function renderLocks(mend = 0){   // mend: how many locks just closed again (a miss)
+// The progress gauge and dimmed room, during questioning and confession.
+function renderInterrogationGauge(reset = false){
   const on = !!ending && ['confront', 'confession'].includes(ending.step);
   $('#app').classList.toggle('interrogate', on);
-  const box = $('#locks');
+  const box = $('#interrogationGauge');
   box.hidden = !on;
   if(!on) return;
-  const open = ending.step === 'confession' ? ENDING.confront.length : endingRound;
-  box.setAttribute('aria-label', `주장 ${ENDING.confront.length}개 중 ${open}개를 깼어요`);
-  box.innerHTML = ENDING.confront.map((_, i) => `<span class="lock${i < mend ? ' mending' : ''}">${i < open ? LOCK_OPEN : LOCK_SHUT}</span>`).join('');
+  updateInterrogationGauge(ending.step === 'confession' ? ENDING.confront.length : endingRound, reset ? 'reset' : '');
 }
-// one lock cracks open the moment the right photo lands
-function breakLock(i){
-  const lock = $('#locks').children[i]; if(!lock) return;
-  lock.innerHTML = LOCK_OPEN;
-  lock.classList.remove('breaking'); void lock.offsetWidth; lock.classList.add('breaking');
+// Fill on impact, before the next line starts; keep the same fill element so changes animate.
+function updateInterrogationGauge(round, feedback = ''){
+  const box = $('#interrogationGauge'), progress = Math.min(100, Math.max(0, round / ENDING.confront.length * 100));
+  box.setAttribute('aria-valuenow', progress);
+  box.querySelector('.gauge-fill').style.width = `${progress}%`;
+  box.classList.toggle('complete', progress === 100);
+  box.classList.remove('hit', 'reset');
+  if(feedback){ void box.offsetWidth; box.classList.add(feedback); }
 }
 
 // The evidence drawer: every photo in a strip under her; one picked plays its sentence and can be held up (내밀기).
@@ -2341,7 +2352,7 @@ function wrongAccusation(id){
 }
 function leaveEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
-  ending = null; $('#app').classList.remove('ending'); renderLocks();
+  ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
   S.visit = {};
   setMood('fiona', null);
   enterPlace(cur().place, true);
@@ -2358,7 +2369,7 @@ function present(ref){
   shot.className = `presented ${right ? 'hit' : 'miss'}`;
   shot.innerHTML = `<figure>${record.photo}</figure>${right ? '<span class="contra">모순!</span>' : ''}`;
   $('.scene').appendChild(shot);
-  // the moment it lands: a hit stamps 모순!, jolts the room, makes her flinch and cracks a lock; a miss just bounces off
+  // the moment it lands: a hit stamps 모순!, jolts the room, makes her flinch and fills the gauge; a miss just bounces off
   const at = endingRound;
   setTimeout(() => {
     if(ending?.step !== 'confront') return;
@@ -2367,7 +2378,7 @@ function present(ref){
     const scene = $('.scene'), npc = $('#talkCamera .scene-npc[data-talk="fiona"]');
     scene.classList.remove('jolt'); npc?.classList.remove('flinch'); void scene.offsetWidth;
     scene.classList.add('jolt'); npc?.classList.add('flinch');
-    breakLock(at);
+    updateInterrogationGauge(at + 1, 'hit');
   }, 480);
   setTimeout(() => { shot.remove(); $('.scene').classList.remove('jolt'); }, 1300);
   endTimer = setTimeout(() => {
@@ -2377,7 +2388,7 @@ function present(ref){
       const broken = endingRound;
       endingRound = 0;
       ending.line = null; renderAsk();
-      if(broken) renderLocks(broken);
+      if(broken) renderInterrogationGauge(true);
       setMood('fiona', null);
       renderSay({ who:'fiona', en:ENDING.miss.en, ko:ENDING.miss.ko });
       speak(ENDING.miss.en, ENDING.miss.key, 'fiona', () => {
@@ -2415,7 +2426,7 @@ function caseClosedStamp(){
 }
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
-  ending = null; $('#app').classList.remove('ending'); renderLocks();
+  ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
   S.mood = {};   // the result card opens over the bakery with both of them still there
   renderDock();
   markSolved(CASES[0].id);
@@ -2754,7 +2765,7 @@ const TUT = [
       <text x="236" y="164" text-anchor="middle" font-family="Paperlogy, sans-serif" font-size="11" fill="#7D6A58">글자 없이 소리로만</text>
     </svg>` },
   { title:'Note에 받아 적어요',
-    text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 끌어다 놓거나</b> 빈칸을 눌러 직접 써요. <b>기록 완료</b>를 누르면 그 질문을 확인해요. 틀린 칸에는 <b>점선 밑줄</b>이 생기니 다시 듣고 고쳐요. <b>바르게 적어야</b> 새 장소와 인물이 나타나요.',
+    text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 누르면 앞의 빈칸부터</b> 차례로 들어가요. 원하는 칸에 <b>끌어다 놓거나</b> 직접 써도 돼요. <b>기록 완료</b>를 누르면 그 질문을 확인해요. 틀린 칸에는 <b>점선 밑줄</b>이 생기니 다시 듣고 고쳐요. <b>바르게 적어야</b> 새 장소와 인물이 나타나요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="0" y="0" width="320" height="180" viewBox="0 0 640 360" preserveAspectRatio="xMidYMin slice">
         <rect width="640" height="360" fill="#5E7A97"/>
