@@ -1372,7 +1372,7 @@ $('#askPanel').addEventListener('click', e => {
   if(e.target.closest('#toPlace')) leaveTalk();
 });
 // a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
-let noteRaised = false, stampTimer;
+let noteRaised = false;
 function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint();
   const body = $('#dockBody');
@@ -1380,7 +1380,7 @@ function renderDock(){
   $('#finish').hidden = !mode;
   // the check of a finished conversation (its result or fresh stamp) takes the whole screen
   $('#app').classList.toggle('note-full', noteRaised);
-  $('#finish').textContent = mode === 'summary' ? '계속' : mode && per(S.view).questionChecks[per(S.view).recording] === 'review' ? '다시 확인' : '기록 완료';
+  $('#finish').textContent = mode === 'summary' ? '계속' : mode === 'feedback' ? '닫기' : mode && per(S.view).questionChecks[per(S.view).recording] === 'review' ? '다시 확인' : '기록 완료';
   if(S.view === 'evidence'){
     body.innerHTML = `<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
       const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
@@ -1485,7 +1485,6 @@ $('#talkCamera').addEventListener('click', e => {
 function ask(qid){
   if(discoveryPerson || S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
   clearTimeout(greetingTimer);
-  clearTimeout(stampTimer);
   discoveryRun++;
   const p = st();
   p.feedback = null;
@@ -1536,21 +1535,17 @@ function finishRecord(){
   pendingPins.push(...(revealed.places || []));
   pendingPeople.push(...(revealed.people || []));
   if(p.phase === 'done') checkNotes(S.cur);
+  // the checked question stays open (lines, grammar chips) until the player closes the notebook; what it
+  // unlocked shows after that (closeNotes)
   p.feedback = qid;
   renderDock();
-  const speakerId = S.cur;
-  clearTimeout(stampTimer);
-  stampTimer = setTimeout(() => {
-    if(S.cur !== speakerId || p.feedback !== qid || S.investigate) return;
-    setNotes(false);
-    revealDiscoveries();
-  }, 1800);
 }
 // What the header button does on the page being viewed.
 function noteMode(){
   if(S.view === 'evidence') return null;
   const p = per(S.view);
   if(noteRaised && p.checked && !p.feedback) return 'summary';
+  if(S.view === S.cur && !S.investigate && p.feedback) return 'feedback';
   if(S.view === S.cur && !S.investigate && p.phase === 'record') return 'record';
   return null;
 }
@@ -1664,7 +1659,7 @@ function setNotes(open){
   cancelCapture();
   const changed = $('#app').classList.contains('notes-open') !== open;
   $('#app').classList.toggle('notes-open', open);
-  if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; clearTimeout(stampTimer); }
+  if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; }
   $('#noteTab').setAttribute('aria-expanded', open);
   if(changed) focusCamera(null, true);
 }
@@ -1686,20 +1681,26 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openShe
 // opened by hand, the notebook rises as high as it can; while recording it stays low so the NPC is visible
 $('#noteTab').onclick = () => {
   const open = !$('#app').classList.contains('notes-open');
-  openSheet(null); setNotes(open);
-  if(open){ noteRaised = true; renderDock(); }
+  openSheet(null);
+  if(!open) return closeNotes();
+  setNotes(true);
+  noteRaised = true; renderDock();
 };
-$('#finish').onclick = () => {
-  if(noteMode() !== 'summary'){ finishRecord(); return; }
+// Putting the notebook away by hand; anything a checked question unlocked shows after it.
+function closeNotes(){
   setNotes(false);
   renderDock();
   revealDiscoveries();
+}
+$('#finish').onclick = () => {
+  if(noteMode() === 'record'){ finishRecord(); return; }
+  closeNotes();
 };
 $('#replay').prepend(document.createRange().createContextualFragment(playIcon));
 $('#replay').onclick = () => { if(st()?.recording) speak(cur().answers[st().recording], st().recording); };
 $('#slow').onclick = e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); };
 // tapping the scene behind the open notebook puts it away (word-card drags never land here as a click)
-$('#noteScrim').onclick = () => setNotes(false);
+$('#noteScrim').onclick = closeNotes;
 // The map grows out of the button that opened it and shrinks back into it when closed.
 function setMapOrigin(btn){
   const sh = $('#sheet-map');
