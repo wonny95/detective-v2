@@ -987,9 +987,10 @@ const miniSVG = id => SPRITES[id]
    phase per person: 'wait' (not talked to yet) → 'choose' (question cards) → 'record' (listening + writing) → … → 'done'
    S.investigate = the place view is showing (otherwise the conversation view). */
 // checked: the page got its 확인됨 stamp. first/firstWrong: the result of the first 노트 확인 (for the review).
-const newSpeakerState = () => ({ phase:'wait', hints:3, order:[], recording:null, revealed:new Set(), notes:{}, marks:{}, checked:false, retry:[], questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
+const newSpeakerState = () => ({ phase:'wait', order:[], recording:null, revealed:new Set(), notes:{}, marks:{}, checked:false, retry:[], questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
 const S = {
   cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
+  hints:3,           // acorn hints left for the whole case (shared by everyone)
   place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
   known:new Set(),   // places someone has mentioned — only these appear on the map
   met:['badger'],    // people the player knows about
@@ -1176,9 +1177,9 @@ const acorns = n => `<span class="acorns">${[0,1,2].map(i => `<svg class="${i < 
 
 function renderHint(){
   const p = st(), button = $('#hint'), qid = p.recording;
-  button.innerHTML = `힌트 ${acorns(p.hints)}`;
-  button.disabled = S.investigate || p.phase !== 'record' || !qid || (p.hints <= 0 && !p.revealed.has(qid));
-  button.setAttribute('aria-label', `힌트 ${p.hints}번 남음`);
+  button.innerHTML = `힌트 ${acorns(S.hints)}`;
+  button.disabled = S.investigate || p.phase !== 'record' || !qid || (S.hints <= 0 && !p.revealed.has(qid));
+  button.setAttribute('aria-label', `힌트 ${S.hints}번 남음`);
 }
 
 const cameraIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7h4l2-3h6l2 3h4v13H3Z"/><circle cx="12" cy="13" r="4"/><path d="M18 10h1"/></g></svg>`;
@@ -1373,8 +1374,8 @@ function useHint(){
   const p = st(), qid = p.recording;
   if(S.investigate || p.phase !== 'record' || !qid) return;
   if(p.revealed.has(qid)) return showBubble(qid);
-  if(p.hints <= 0) return toast(`${cur().name}에게 쓸 힌트를 다 썼어요.`);
-  p.hints--; p.revealed.add(qid); showBubble(qid); renderDock();
+  if(S.hints <= 0) return toast('힌트를 다 썼어요.');
+  S.hints--; p.revealed.add(qid); showBubble(qid); renderDock();
 }
 const norm = s => s.toLowerCase().replace(/[.'’,!]/g,'').replace(/\s+/g,' ').trim().replace(/\s?pm$/,'');
 function finishRecord(){
@@ -2193,7 +2194,7 @@ const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e)
 const T_INK = `stroke="${INK}" stroke-width="2"`;
 const TUT = [
   { title:'듣고 질문해요',
-    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 노트 위의 <b>다시 듣기 · 천천히</b>로 몇 번이든 다시 들을 수 있어요. 그래도 어려우면 <b>오른쪽 위 도토리 힌트</b>로 자막을 볼 수 있어요(한 사람당 3번).',
+    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 노트 위의 <b>다시 듣기 · 천천히</b>로 몇 번이든 다시 들을 수 있어요. 그래도 어려우면 <b>오른쪽 위 도토리 힌트</b>로 자막을 볼 수 있어요(사건 전체에서 3번).',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="10" y="12" width="140" height="156" viewBox="380 330 340 379" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
