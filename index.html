@@ -305,17 +305,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .tab svg{width:24px;height:24px;flex:none}
 .tab[aria-expanded="true"]{background:var(--honey)}
 
-/* Paper buttons: hand-drawn button art (assets/ui/buttons, the raised "-pressed" cut with a paper edge underneath).
+/* Paper buttons: flat hand-drawn button art (assets/ui/buttons/*-flat.png, no raised edge).
    border-image keeps the rounded ends unstretched; only the straight middle stretches. --bw = drawn corner size. */
-.pill,.tab{--btn:url(assets/ui/buttons/cream-pressed.png);--bw:15px;border:2px solid transparent;border-radius:0;box-shadow:none!important;background:none!important;
-  border-image:var(--btn) 56 60 57 60 fill / var(--bw) calc(var(--bw) * 1.07) stretch}
+.pill,.tab{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;border:2px solid transparent;border-radius:0;box-shadow:none!important;background:none!important;
+  border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch}
 .pill.sm{--bw:12px}
 .pill.big,.tab{--bw:20px}
-.pill.big{--btn:url(assets/ui/buttons/berry-pressed.png)}
-.pill.green,.dock-head .finish{--btn:url(assets/ui/buttons/sage-pressed.png)}
-.pill.hint,.tab[aria-expanded="true"]{--btn:url(assets/ui/buttons/honey-pressed.png)}
-.pill[aria-pressed="true"],.pill.blue{--btn:url(assets/ui/buttons/sky-pressed.png)}
-.pill:active,.tab:active{transform:translateY(2px);filter:brightness(.96)}
+.pill.big{--btn:url(assets/ui/buttons/berry-flat.png)}
+.pill.green,.dock-head .finish{--btn:url(assets/ui/buttons/sage-flat.png)}
+.pill.hint,.tab[aria-expanded="true"]{--btn:url(assets/ui/buttons/honey-flat.png)}
+.pill[aria-pressed="true"],.pill.blue{--btn:url(assets/ui/buttons/sky-flat.png)}
+.pill:active,.tab:active{transform:translateY(1px);filter:brightness(.94)}
 
 /* ---------- sheets ---------- */
 .sheet{position:absolute;left:0;right:0;bottom:0;height:86%;z-index:10;background:var(--paper);border-top:3px solid var(--ink);border-radius:28px 32px 0 0/26px 30px 0 0;box-shadow:0 -6px 0 rgba(74,54,40,.12);transform:translateY(104%);transition:transform .32s cubic-bezier(.3,1.2,.5,1);display:flex;flex-direction:column}
