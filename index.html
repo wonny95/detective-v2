@@ -248,6 +248,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .note-page.checked::after{content:"확인됨";position:absolute;top:2px;right:4px;transform:rotate(-10deg);border:3px solid var(--no);border-radius:8px;padding:1px 10px;color:var(--no);font-family:var(--f-display);font-size:18px;opacity:.8;pointer-events:none}
 /* checking a finished conversation: the notebook rises to the top (tabs stay visible above it) */
 .app.note-full .dock{height:calc(100% - 50px)}
+.app.notes-open.note-full .note-scrim{background:rgba(43,30,20,.68);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
 .app.note-full .pill.hint,.app.note-full .chip,.app.note-full .bubble{visibility:hidden}
 .note-page.checked::after{animation:stamp-in .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes stamp-in{from{transform:rotate(-10deg) scale(1.8);opacity:0}}
