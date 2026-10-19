@@ -769,45 +769,71 @@ const ANSWERS_KO = {
 /* Places for the investigation. Each place is one large illustration (ART[id], 900×600, 3:2)
    plus tap areas (`spots`) given in % of the illustration, so a finished artwork can replace
    the placeholder drawing without touching the logic.
-   A clue can point to a person (`unlocks`), who then appears at their place. */
+   A clue can point to a person (`unlocks`), who then appears at their place.
+   `prop:true` = an ordinary object, not a clue: photographed and kept the same way (nothing on screen tells
+   them apart), but showing it in the confrontation counts as a wrong photo. Some look suspicious on purpose. */
 const PLACES = [
   { id:'library', crime:true, x:27, y:47, label:'Old Library', kind:'사건 현장', artWidth:1376, artHeight:768,
     clues:[
       { label:'Big clock', en:'The big clock stopped at 8:40 PM.', ko:'큰 시계가 오후 8시 40분에 멈춰 있다.', audio:'audio/detective-library-clock.mp3' },
       { label:'Window', en:'There is sticky purple jam on the window.', ko:'창문에 끈적한 보라색 잼이 묻어 있다.', audio:'audio/detective-library-window.mp3' },
-      { label:'Door', en:'A tuft of orange fur is caught on the door.', ko:'문에 주황색 털 뭉치가 걸려 있다.', audio:'audio/detective-library-door.mp3' }
+      { label:'Door', en:'A tuft of orange fur is caught on the door.', ko:'문에 주황색 털 뭉치가 걸려 있다.', audio:'audio/detective-library-door.mp3' },
+      { label:'Open book', prop:true, en:"An open book on the table: 'The Moon and the Stars.'", ko:"책상 위에 펼쳐진 책: '달과 별'." },
+      { label:'Lamp', prop:true, en:'The lamps are still on.', ko:'전등이 아직 켜져 있다.' },
+      { label:'Plant', prop:true, en:'A small plant sits by the window.', ko:'창가에 작은 화분이 놓여 있다.' }
     ],
     spots:[
       { clue:0, x:71.5, y:11, w:12.5, h:63, photo:{x:971,y:129,w:160,h:120} },
       { clue:1, x:2, y:4, w:26, h:62, photo:{x:116,y:309,w:176,h:132} },
-      { clue:2, x:85.5, y:6, w:14, h:83, photo:{x:1216,y:350,w:160,h:120} }
+      { clue:2, x:85.5, y:6, w:14, h:83, photo:{x:1216,y:350,w:160,h:120} },
+      { clue:3, x:32.5, y:49, w:8, h:7, photo:{x:420,y:350,w:160,h:120} },
+      { clue:4, x:46.5, y:0, w:7, h:10, photo:{x:590,y:0,w:160,h:120} },
+      { clue:5, x:17.5, y:44, w:4, h:9.5, photo:{x:208,y:315,w:120,h:90} }
     ]},
   { id:'bakery', x:28, y:79, label:"Fiona's Bakery", kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Front door', en:'A sign on the door: CLOSED AT 7 PM TONIGHT.', ko:'문에 붙은 안내문: 오늘은 오후 7시에 문 닫음.' },
       { label:'Oven', en:'The oven is cold. No pies were baked tonight.', ko:'오븐이 차갑다. 오늘 밤 구운 파이는 없다.' },
-      { label:'Note', en:"A note on the counter: 'Sorry, Mrs. Bear! No bread tonight.'", ko:"계산대 위 쪽지: '곰 아주머니 죄송해요! 오늘 밤은 빵이 없어요.'" }
+      { label:'Note', en:"A note on the counter: 'Sorry, Mrs. Bear! No bread tonight.'", ko:"계산대 위 쪽지: '곰 아주머니 죄송해요! 오늘 밤은 빵이 없어요.'" },
+      { label:'Jam jars', prop:true, en:'Jars of jam on the shelf. They are orange and red.', ko:'선반 위 잼 병들. 주황색과 빨간색이다.' },
+      { label:'Rolling pin', prop:true, en:'A rolling pin is on the shelf.', ko:'선반 위에 밀대가 있다.' },
+      { label:'Bread baskets', prop:true, en:'All the bread baskets are empty.', ko:'빵 바구니가 모두 비어 있다.' }
     ],
     spots:[
       { clue:0, x:4.5, y:5, w:12, h:78, photo:{x:57,y:194,w:176,h:132} },
       { clue:1, x:75.6, y:15.6, w:21.8, h:67.7, photo:{x:1070,y:210,w:240,h:180} },
-      { clue:2, x:33.5, y:41.5, w:9.5, h:12, photo:{x:465,y:315,w:120,h:90} }
+      { clue:2, x:33.5, y:41.5, w:9.5, h:12, photo:{x:465,y:315,w:120,h:90} },
+      { clue:3, x:52.3, y:9.5, w:9.9, h:7.7, photo:{x:707,y:42,w:160,h:120} },
+      { clue:4, x:62.6, y:11, w:9, h:6.5, photo:{x:842,y:52,w:160,h:120} },
+      { clue:5, x:32, y:19, w:17.5, h:21, photo:{x:430,y:120,w:260,h:195} }
     ]},
   { id:'cafe', x:71, y:58, label:'Lake Cafe', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
-      { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.' }
+      { label:'Poster', en:'Poster: LIVE MUSIC by Ray Raccoon, 8:00 to 9:30 PM.', ko:'포스터: 너구리 레이 라이브 공연, 오후 8:00~9:30.' },
+      { label:'Guitar', prop:true, en:'A guitar leans on the stage.', ko:'기타 한 대가 무대에 기대어 있다.' },
+      { label:'Cups', prop:true, en:'Three cups on the table. They are still warm.', ko:'탁자 위에 컵 세 개. 아직 따뜻하다.' },
+      { label:'Window', prop:true, en:'A full moon over the lake.', ko:'호수 위에 보름달이 떠 있다.' }
     ],
     spots:[
-      { clue:0, x:50.9, y:17.6, w:9.4, h:20.8, photo:{x:666,y:140,w:200,h:150} }
+      { clue:0, x:50.9, y:17.6, w:9.4, h:20.8, photo:{x:666,y:140,w:200,h:150} },
+      { clue:1, x:86, y:44, w:8.5, h:29.5, photo:{x:1110,y:350,w:260,h:195} },
+      { clue:2, x:85.8, y:73.6, w:13, h:9, photo:{x:1176,y:525,w:200,h:150} },
+      { clue:3, x:5, y:8, w:11, h:14, photo:{x:40,y:60,w:200,h:150} }
     ]},
   { id:'hill', x:68, y:21, label:'Moon Hill', kind:'장소', artWidth:1376, artHeight:768,
     clues:[
       { label:'Star Club notebook', en:"Star Club notebook: '8:30 PM, Saturn is bright. 8:45 PM, a shooting star! — Rosie'", ko:"별 동호회 노트: '8:30 토성이 밝다. 8:45 별똥별! — 로지'" },
-      { label:'Footprints', en:'Small rabbit footprints are all around the telescope.', ko:'망원경 주변에 작은 토끼 발자국이 가득하다.' }
+      { label:'Footprints', en:'Small rabbit footprints are all around the telescope.', ko:'망원경 주변에 작은 토끼 발자국이 가득하다.' },
+      { label:'Telescope', prop:true, en:'The telescope points up at the sky.', ko:'망원경이 하늘을 향해 있다.' },
+      { label:'Shooting star', prop:true, en:'A shooting star flies over the hill.', ko:'별똥별이 언덕 위로 지나간다.' },
+      { label:'Flowers', prop:true, en:'Little white flowers in the grass.', ko:'풀밭에 작은 흰 꽃들이 피어 있다.' }
     ],
     spots:[
       { clue:0, x:79.5, y:58, w:10, h:13, photo:{x:1080,y:440,w:160,h:120} },
-      { clue:1, x:19.6, y:60.5, w:21.8, h:19.5, photo:{x:280,y:435,w:280,h:210} }
+      { clue:1, x:19.6, y:60.5, w:21.8, h:19.5, photo:{x:280,y:435,w:280,h:210} },
+      { clue:2, x:22, y:30, w:14.5, h:18, photo:{x:290,y:210,w:240,h:180} },
+      { clue:3, x:41.5, y:3, w:15, h:21, photo:{x:540,y:40,w:240,h:180} },
+      { clue:4, x:18, y:84, w:7, h:8, photo:{x:220,y:620,w:160,h:120} }
     ]}
 ];
 const placeOf = id => PLACES.find(p => p.id === id);
@@ -2356,7 +2382,7 @@ $('#devDone').onclick = () => {
   toast('모든 대화를 마쳤어요. 지도에서 장소를 골라 보세요.');
 };
 
-// 증거 모두 수집: every clue of every place is found and saved in the evidence notebook (no photo sequence).
+// 증거 모두 수집: every clue and prop of every place is found and saved in the evidence notebook (no photo sequence).
 $('#devEvidence').onclick = () => {
   let n = 0;
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
