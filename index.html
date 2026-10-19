@@ -121,6 +121,46 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes cc-stamp{from{opacity:0;transform:translateX(-50%) rotate(-10deg) scale(2.4)}to{opacity:.92;transform:translateX(-50%) rotate(-10deg) scale(1)}}
 @keyframes cc-fade{0%{opacity:0}10%{opacity:1}86%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.presented figure,.cc-stamp{animation:none}}
+/* the questioning (confront, confession): the room dims around her, and four locks at the top stand for her four
+   claims — each claim broken by the right photo cracks one open */
+.spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
+  background:radial-gradient(ellipse 66% 48% at 50% 40%,rgba(255,236,190,.12) 0 30%,rgba(34,20,10,.42) 62%,rgba(24,14,8,.82) 100%)}
+.app.interrogate .spotlight{opacity:1}
+.locks{position:absolute;top:12px;left:50%;z-index:5;display:flex;gap:10px;padding:7px 14px;transform:translateX(-50%);background:rgba(40,28,20,.6);border-radius:16px}
+.lock{display:block;width:30px;height:35px}
+.lock svg{display:block;width:100%;height:100%;overflow:visible}
+.lock.breaking{animation:lock-break .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes lock-break{0%{transform:scale(1)}25%{transform:scale(1.45) rotate(-12deg)}50%{transform:scale(.9) rotate(8deg)}100%{transform:none}}
+.lock.mending{animation:lock-mend .45s ease-out}
+@keyframes lock-mend{from{transform:scale(.6);opacity:.3}}
+/* the evidence drawer: a strip of photos under her; picking one plays its sentence, 내밀기 holds it up */
+.drawer{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;padding:12px 0 16px;background:var(--paper);
+  border-top:3px solid var(--ink);border-radius:24px 26px 0 0/20px 22px 0 0;box-shadow:0 -6px 18px rgba(34,20,10,.35);
+  transform:translateY(105%);visibility:hidden;transition:transform .38s cubic-bezier(.2,.9,.3,1.05),visibility 0s linear .38s}
+.drawer.open{transform:none;visibility:visible;transition:transform .42s cubic-bezier(.2,.9,.3,1.05),visibility 0s}
+.app.drawer-open .ask-panel{visibility:hidden}
+.drawer-head{display:flex;align-items:center;padding:0 16px}
+.drawer-head h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px}
+.drawer-head .x{margin-left:auto;width:32px;height:32px;border:2px solid var(--ink);border-radius:50%;background:var(--paper);font-size:16px;line-height:1}
+.drawer-strip{display:flex;gap:10px;overflow-x:auto;padding:8px 16px 6px;scroll-padding-inline:16px;scroll-snap-type:x proximity}
+.dcard{flex:none;width:104px;display:flex;flex-direction:column;gap:3px;padding:5px 5px 7px;text-align:left;scroll-snap-align:start;background:#FFFDF7;
+  border:2px solid var(--ink);border-radius:5px;box-shadow:2px 3px 0 rgba(74,54,40,.15);transition:transform .2s,box-shadow .2s}
+.dcard .evidence-photo{border-width:1px;border-color:var(--line);border-radius:0;margin:0}
+.dcard .dlabel{font-family:var(--f-hand);font-weight:700;font-size:13px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dcard[aria-pressed="true"]{transform:translateY(-6px) rotate(-2deg);border-color:var(--berry);box-shadow:0 0 0 3px var(--berry),3px 8px 10px rgba(74,54,40,.25)}
+.drawer-pick{display:flex;flex-direction:column;gap:8px;min-height:92px;padding:0 16px}
+.drawer-pick p{margin:0;font-size:15px;line-height:1.45}
+.drawer .empty-note{padding:0 16px}
+/* holding up a photo: the right one gets a red 모순! stamp, the scene jolts and she flinches; a wrong one wobbles and drops */
+.presented .contra{position:absolute;left:50%;top:48%;font-family:var(--f-display);font-size:34px;letter-spacing:2px;color:#B8433F;border:5px solid #B8433F;border-radius:12px;padding:0 14px;background:rgba(255,253,247,.75);white-space:nowrap;animation:contra 1.3s ease forwards}
+@keyframes contra{0%,28%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(2.4)}40%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}82%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
+.presented.miss figure{animation:present-miss 1.3s ease forwards}
+@keyframes present-miss{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}30%{transform:translateX(-12px) rotate(-7deg)}38%{transform:translateX(10px) rotate(2deg)}46%{transform:translateX(-6px) rotate(-5deg)}56%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(140px) rotate(10deg) scale(.85)}}
+.scene.jolt #talkCamera{animation:jolt .42s ease-out}
+@keyframes jolt{15%{translate:-7px 3px}35%{translate:6px -3px}55%{translate:-4px 2px}75%{translate:2px -1px}100%{translate:0 0}}
+.scene-npc.flinch svg{animation:flinch .5s ease-out}
+@keyframes flinch{20%{translate:6px 0;scale:.96 1.03}45%{translate:-4px 0}100%{translate:0 0;scale:1}}
+@media(prefers-reduced-motion:reduce){.presented .contra,.presented.miss figure,.scene.jolt #talkCamera,.scene-npc.flinch svg,.lock.breaking,.lock.mending{animation:none}.drawer{transition:none}}
 .stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(74,54,40,.38);pointer-events:none;animation:stage-card 1.9s ease forwards}
 .stage-card div{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);padding:12px 22px;text-align:center;box-shadow:4px 5px 0 rgba(74,54,40,.25)}
 .stage-card small{display:block;font-size:12px;color:var(--ink-soft)}
@@ -616,6 +656,13 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="bubble" id="bubble" hidden role="status"></div>
       <div class="stage-area" id="talkCamera"></div>
       <div class="ask-panel" id="askPanel"></div>
+      <div class="spotlight" aria-hidden="true"></div>
+      <div class="locks" id="locks" hidden></div>
+      <section class="drawer" id="drawer" aria-label="증거 서랍">
+        <div class="drawer-head"><h3>증거</h3><button class="x" type="button" data-drawer-close aria-label="증거 서랍 닫기">×</button></div>
+        <div class="drawer-strip" id="drawerStrip"></div>
+        <div class="drawer-pick" id="drawerPick"></div>
+      </section>
     </section>
 
     <!-- PART 2: investigation — a large illustration per place; tap suspicious things to find clues -->
@@ -1475,6 +1522,7 @@ function blockHTML(sIdx, qid, now){
 function renderAsk(){
   const box = $('#askPanel'), p = st(), s = cur();
   box.classList.remove('show-ko');
+  renderLocks();
   if(ending && !S.investigate){ box.innerHTML = endingControls(); return; }
   if(S.investigate || discoveryPerson){ box.innerHTML = ''; return; }
   let html = '';
@@ -2136,6 +2184,63 @@ function setMood(id, mood){
   if(!S.investigate) renderScene(placeIdOf(S.cur));
 }
 
+// The four claim locks and the dimmed room, while she is being questioned (confront) and while she gives in.
+const LOCK_SHUT = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 12.5V8.5a5.5 5.5 0 0 1 11 0v4" fill="none" stroke="#4A3628" stroke-width="2.4"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#F2CF73" stroke="#4A3628" stroke-width="2"/><circle cx="12" cy="18" r="1.9" fill="#4A3628"/><path d="M12 19v3.2" stroke="#4A3628" stroke-width="1.9" stroke-linecap="round"/></svg>`;
+const LOCK_OPEN = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M6.5 10V6.5a5.5 5.5 0 0 1 11 0" fill="none" stroke="#4A3628" stroke-width="2.4" transform="rotate(-28 6.5 10) translate(-1 -2)"/><rect x="2.5" y="12" width="19" height="14" rx="3" fill="#D8CDBB" stroke="#4A3628" stroke-width="2"/><path d="M10 12l2.6 4.4-2 2.6 2.8 3.4-1.2 3.6" fill="none" stroke="#4A3628" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
+function renderLocks(mend = 0){   // mend: how many locks just closed again (a miss)
+  const on = !!ending && ['confront', 'confession'].includes(ending.step);
+  $('#app').classList.toggle('interrogate', on);
+  const box = $('#locks');
+  box.hidden = !on;
+  if(!on) return;
+  const open = ending.step === 'confession' ? ENDING.confront.length : endingRound;
+  box.setAttribute('aria-label', `주장 ${ENDING.confront.length}개 중 ${open}개를 깼어요`);
+  box.innerHTML = ENDING.confront.map((_, i) => `<span class="lock${i < mend ? ' mending' : ''}">${i < open ? LOCK_OPEN : LOCK_SHUT}</span>`).join('');
+}
+// one lock cracks open the moment the right photo lands
+function breakLock(i){
+  const lock = $('#locks').children[i]; if(!lock) return;
+  lock.innerHTML = LOCK_OPEN;
+  lock.classList.remove('breaking'); void lock.offsetWidth; lock.classList.add('breaking');
+}
+
+// The evidence drawer: every photo in a strip under her; one picked plays its sentence and can be held up (내밀기).
+let drawerPick = null;
+const evRef = record => `${record.placeId}-${record.clueIndex}`;
+function openDrawer(){
+  drawerPick = null;
+  $('#drawerStrip').innerHTML = S.evidence.length ? [...S.evidence].reverse().map(record => {
+    const clue = placeOf(record.placeId).clues[record.clueIndex];
+    return `<button class="dcard" type="button" data-pick="${evRef(record)}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="dlabel">${esc(clue.label)}</span></button>`;
+  }).join('') : '<p class="empty-note">아직 수집한 증거가 없어요.</p>';
+  $('#drawerStrip').scrollLeft = 0;
+  $('#drawerPick').innerHTML = '';
+  $('#drawer').classList.add('open');
+  $('#app').classList.add('drawer-open');
+}
+function closeDrawer(){
+  $('#drawer').classList.remove('open');
+  $('#app').classList.remove('drawer-open');
+  $('#evidenceVoice').pause();
+}
+function pickEvidence(ref){
+  drawerPick = ref;
+  $('#drawerStrip').querySelectorAll('[data-pick]').forEach(card => card.setAttribute('aria-pressed', card.dataset.pick === ref));
+  const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
+  $('#drawerPick').innerHTML = `<p>${esc(clue.en)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref}" aria-label="다시 듣기">${playIcon}</button>` : ''}</p>
+    <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+  playEvidence(ref);
+}
+$('#drawer').addEventListener('click', e => {
+  if(e.target.closest('[data-drawer-close]')) return closeDrawer();
+  const card = e.target.closest('[data-pick]');
+  if(card) return pickEvidence(card.dataset.pick);
+  const play = e.target.closest('[data-ev-play]');
+  if(play) return playEvidence(play.dataset.evPlay);
+  const give = e.target.closest('[data-present]');
+  if(give){ closeDrawer(); present(give.dataset.present); }
+});
+
 function endingControls(){
   const e = ending;
   if(!e.line || e.step === 'stamp') return '';
@@ -2150,7 +2255,7 @@ function endingAction(action){
   const e = ending; if(!e) return;
   if(action === 'replay') return speak(e.line.en, e.line.key, e.line.who);
   if(action === 'ko'){ e.ko = !e.ko; renderAsk(); return; }
-  if(action === 'present'){ stopVoice(); S.view = 'evidence'; setNotes(true); evidenceOpen = null; noteRaised = true; renderDock(); return; }
+  if(action === 'present'){ stopVoice(); openDrawer(); return; }
   if(action === 'leave') return leaveEnding();
   if(action === 'next') endingNext();
 }
@@ -2188,8 +2293,8 @@ function wrongAccusation(id){
   endingSay({ who:id, key, en:spk(id).answers[key], ko:ANSWERS_KO[id]?.[key] || '' });
 }
 function leaveEnding(){
-  clearTimeout(endTimer); stopVoice();
-  ending = null; $('#app').classList.remove('ending');
+  clearTimeout(endTimer); stopVoice(); closeDrawer();
+  ending = null; $('#app').classList.remove('ending'); renderLocks();
   S.visit = {};
   setMood('fiona', null);
   enterPlace(cur().place, true);
@@ -2200,18 +2305,31 @@ function present(ref){
   clearTimeout(endTimer); stopVoice();
   setNotes(false); renderDock();
   const record = S.evidence.find(r => `${r.placeId}-${r.clueIndex}` === ref);
-  const shot = document.createElement('div');
-  shot.className = 'presented';
-  shot.innerHTML = `<figure>${record.photo}</figure>`;
-  $('.scene').appendChild(shot);
-  setTimeout(() => shot.remove(), 1300);
   const round = ENDING.confront[endingRound], right = round.accept.includes(ref);
+  const shot = document.createElement('div');
+  shot.className = `presented ${right ? 'hit' : 'miss'}`;
+  shot.innerHTML = `<figure>${record.photo}</figure>${right ? '<span class="contra">모순!</span>' : ''}`;
+  $('.scene').appendChild(shot);
+  // the moment it lands: a hit stamps 모순!, jolts the room, makes her flinch and cracks a lock; a miss just bounces off
+  const at = endingRound;
+  setTimeout(() => {
+    if(ending?.step !== 'confront') return;
+    const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {});
+    if(!right) return;
+    const scene = $('.scene'), npc = $('#talkCamera .scene-npc[data-talk="fiona"]');
+    scene.classList.remove('jolt'); npc?.classList.remove('flinch'); void scene.offsetWidth;
+    scene.classList.add('jolt'); npc?.classList.add('flinch');
+    breakLock(at);
+  }, 480);
+  setTimeout(() => { shot.remove(); $('.scene').classList.remove('jolt'); }, 1300);
   endTimer = setTimeout(() => {
     if(ending?.step !== 'confront') return;
     if(!right){
       // a wrong photo: she regains her composure and the questioning starts over from her first claim
+      const broken = endingRound;
       endingRound = 0;
       ending.line = null; renderAsk();
+      if(broken) renderLocks(broken);
       setMood('fiona', null);
       speak(ENDING.miss.en, ENDING.miss.key, 'fiona', () => {
         endTimer = setTimeout(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[0]), null), 700);
@@ -2247,8 +2365,8 @@ function caseClosedStamp(){
   }, 2600);
 }
 function finishEnding(){
-  clearTimeout(endTimer); stopVoice();
-  ending = null; $('#app').classList.remove('ending');
+  clearTimeout(endTimer); stopVoice(); closeDrawer();
+  ending = null; $('#app').classList.remove('ending'); renderLocks();
   S.mood = {};   // the result card opens over the bakery with both of them still there
   renderDock();
   markSolved(CASES[0].id);
