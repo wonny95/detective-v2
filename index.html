@@ -338,7 +338,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .npassage[hidden]{display:none}
 .npassage p{margin:0}
 .npassage .np-ko{padding-top:6px;border-top:1.5px dashed var(--line);font-size:14px;line-height:1.5;color:var(--berry);font-weight:700}
-.npassage .pill{align-self:flex-end}
+.np-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.np-actions .replay-q{flex:none;margin:0;width:30px;height:30px}
 .gmark{display:inline;margin:0;padding:0 1px;border:0;border-bottom:1.5px solid #C9952E;border-radius:0;background:linear-gradient(transparent 58%,rgba(242,207,115,.55) 58%) no-repeat 0 0/100% 100%;font:inherit;color:inherit}
 .gcard .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
 .gcard .gko{margin:0;font-size:14px;line-height:1.6}
@@ -1540,13 +1541,13 @@ function blockHTML(sIdx, qid, now){
   }).join('');
   const status = p.questionChecks[qid], ref = `${s.id}:${qid}`, items = GRAMMAR_LINES[ref];
   const label = `Q. ${status === 'ok' ? markGrammar(q.en, items) : esc(q.en)}`;
-  // outside the live recording, each answer can be heard again while checking the page
-  const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
+  // Checked answers keep playback beside translation in the passage footer.
+  const replay = `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
   const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
-  return `<div class="nblock${now?' now':''}${freshCheck === ref ? ' fresh' : ''}${missCheck === ref ? ' miss' : ''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? passageToggle(ref, openPassages.has(ref)) +
+  return `<div class="nblock${now?' now':''}${freshCheck === ref ? ' fresh' : ''}${missCheck === ref ? ' miss' : ''}" data-q="${qid}"><span class="qlabel">${label}${!now && status !== 'ok' ? replay : ''}</span>${feedback}${lines}${status === 'ok' ? passageToggle(ref, openPassages.has(ref)) +
     `<div class="npassage"${openPassages.has(ref) ? '' : ' hidden'}><p>${markGrammar(s.answers[qid], items)}</p>` +
     `<p class="np-ko"${openPassageKo.has(ref) ? '' : ' hidden'}>${esc(ANSWERS_KO[s.id]?.[qid] || '')}</p>` +
-    `<button class="pill sm" type="button" data-passage-ko="${ref}" aria-pressed="${openPassageKo.has(ref)}">해석</button></div>` : ''}</div>`;
+    `<div class="np-actions">${replay}<button class="pill sm" type="button" data-passage-ko="${ref}" aria-pressed="${openPassageKo.has(ref)}">해석</button></div></div>` : ''}</div>`;
 }
 
 // Under the person: question buttons (choose), a button to take the notebook out again (record),
