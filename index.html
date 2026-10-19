@@ -255,6 +255,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .gchips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
 .gchip{display:inline-flex;align-items:center;min-height:26px;border:1.5px solid var(--ink);border-radius:13px;background:#FFFDF7;padding:1px 10px;font-family:var(--f-display);font-size:12px;color:var(--ink);box-shadow:1px 2px 0 rgba(74,54,40,.15)}
 .gchip:active{transform:translateY(1px);box-shadow:none}
+.gchip[aria-pressed="true"]{background:var(--honey)}
+/* the answer the person said, shown once the question is checked; grammar words are links to their card */
+.npassage{margin:2px 0 4px;padding:8px 10px;border:1.5px dashed var(--line);border-radius:10px;background:rgba(255,253,247,.75);font-size:15px;line-height:1.65}
+.gmark{display:inline;margin:0;padding:0 1px;border:0;border-bottom:1.5px solid #C9952E;border-radius:0;background:linear-gradient(transparent 58%,rgba(242,207,115,.55) 58%);font:inherit;color:inherit}
 .gcard .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
 .gcard .gko{margin:0;font-size:14px;line-height:1.6}
 .gex{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--line)}
@@ -1334,12 +1338,13 @@ function blockHTML(sIdx, qid, now){
     });
     return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
   }).join('');
-  const label = `Q. ${esc(q.en)}`;
+  const status = p.questionChecks[qid], ref = `${s.id}:${qid}`, items = GRAMMAR_LINES[ref];
+  const label = `Q. ${status === 'ok' ? markGrammar(q.en, items) : esc(q.en)}`;
   // outside the live recording, each answer can be heard again while checking the page
   const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
-  const status = p.questionChecks[qid];
   const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
-  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? grammarChips(sIdx, qid) : ''}</div>`;
+  return `<div class="nblock${now?' now':''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? grammarChips(sIdx, qid, { open:openPassages.has(ref) }) +
+    `<p class="npassage"${openPassages.has(ref) ? '' : ' hidden'}>${markGrammar(s.answers[qid], items)}</p>` : ''}</div>`;
 }
 
 // Under the person: question buttons (choose), a button to take the notebook out again (record),
@@ -1373,6 +1378,9 @@ $('#askPanel').addEventListener('click', e => {
 });
 // a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
 let noteRaised = false;
+// 'person:question' whose answer text (지문) is open under a checked question: the fresh check opens it; putting the
+// notebook away folds them all, so the full page starts compact and 지문 opens one again
+const openPassages = new Set();
 function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint();
   const body = $('#dockBody');
@@ -1430,6 +1438,12 @@ function bindDock(){
   }));
   body.querySelectorAll('[data-replay]').forEach(button => button.addEventListener('click', () => replayLine(button.dataset.replay)));
   body.querySelectorAll('[data-grammar]').forEach(button => button.addEventListener('click', () => openGrammar(button.dataset.grammar)));
+  body.querySelectorAll('[data-passage]').forEach(button => button.addEventListener('click', () => {
+    const text = button.closest('.nblock').querySelector('.npassage');
+    text.hidden = !text.hidden;
+    openPassages[text.hidden ? 'delete' : 'add'](button.dataset.passage);
+    button.setAttribute('aria-pressed', !text.hidden);
+  }));
   body.querySelectorAll('[data-present]').forEach(button => button.addEventListener('click', () => present(button.dataset.present)));
   const bank = body.querySelector('#bank');
   if(bank){
@@ -1538,6 +1552,8 @@ function finishRecord(){
   // the checked question stays open (lines, grammar chips) until the player closes the notebook; what it
   // unlocked shows after that (closeNotes)
   p.feedback = qid;
+  openPassages.add(`${S.cur}:${qid}`);
+  noteRaised = true;   // the checked question with its passage takes the whole screen for study
   renderDock();
 }
 // What the header button does on the page being viewed.
@@ -1659,7 +1675,7 @@ function setNotes(open){
   cancelCapture();
   const changed = $('#app').classList.contains('notes-open') !== open;
   $('#app').classList.toggle('notes-open', open);
-  if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; }
+  if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; openPassages.clear(); }
   $('#noteTab').setAttribute('aria-expanded', open);
   if(changed) focusCamera(null, true);
 }
@@ -2074,8 +2090,9 @@ function openReview(fromHome){
             });
             return `<div>${html}${esc(line.slice(last))}</div>`;
           }).join('');
-          return `<div class="rv-q"><div class="rv-label">Q. ${esc(qs(s).find(q => q.id === qid).en)}</div>
-            <p class="rv-en">${esc(s.answers[qid])} <button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button></p>
+          const items = GRAMMAR_LINES[`${id}:${qid}`];
+          return `<div class="rv-q"><div class="rv-label">Q. ${markGrammar(qs(s).find(q => q.id === qid).en, items)}</div>
+            <p class="rv-en">${markGrammar(s.answers[qid], items)} <button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button></p>
             <p class="rv-ko" hidden>${esc(ANSWERS_KO[id]?.[qid] || '')}</p>
             <button class="pill sm" type="button" data-rv-ko aria-pressed="false">해석</button>
             <div class="rv-notes">${lines}</div>${grammarChips(id, qid)}</div>`;
@@ -2544,9 +2561,22 @@ $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case
 /* ---------- grammar notes ----------
    A checked question gets chips for the grammar in its answer (GRAMMAR_LINES). A chip opens the card:
    the pattern, a Korean explanation, and every learned line that uses it, with the words highlighted. */
-function grammarChips(id, qid){
+// The text with each grammar's words turned into a link to its card (overlapping words: the first one wins).
+function markGrammar(text, items = []){
+  const ranges = items.map(([g, words]) => ({ g, at:text.indexOf(words), len:words.length })).filter(r => r.at >= 0).sort((a, b) => a.at - b.at);
+  let html = '', last = 0;
+  ranges.forEach(r => {
+    if(r.at < last) return;
+    html += esc(text.slice(last, r.at)) + `<button class="gmark" type="button" data-grammar="${r.g}">${esc(text.substr(r.at, r.len))}</button>`;
+    last = r.at + r.len;
+  });
+  return html + esc(text.slice(last));
+}
+// passage: the 지문 toggle for a checked question in the note (open = the answer text is showing).
+function grammarChips(id, qid, passage){
   const items = GRAMMAR_LINES[`${id}:${qid}`] || [];
-  return !items.length ? '' : `<div class="gchips">${[...new Set(items.map(([g]) => g))].map(g =>
+  const toggle = passage ? `<button class="gchip" type="button" data-passage="${id}:${qid}" aria-pressed="${passage.open}">지문</button>` : '';
+  return !items.length && !toggle ? '' : `<div class="gchips">${toggle}${[...new Set(items.map(([g]) => g))].map(g =>
     `<button class="gchip" type="button" data-grammar="${g}">${esc(GRAMMAR[g].chip)}</button>`).join('')}</div>`;
 }
 // The sentence of the answer (or the question) that holds the words, with the words marked.
