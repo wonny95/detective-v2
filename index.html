@@ -428,32 +428,34 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .cases-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .streak{display:inline-flex;align-items:center;gap:3px;font-family:var(--f-display);font-size:14px;color:var(--ink);background:#FFFDF7;border:2px solid var(--ink);border-radius:14px;padding:2px 10px 2px 6px}
 .streak svg{width:18px;height:18px}
-.board{position:relative;flex:1 0 auto;min-height:500px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-evenly;gap:10px;padding:24px 8px 20px;
+.board{position:relative;flex:1 0 auto;min-height:500px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-evenly;gap:10px;padding:36px 8px 20px;
   /* Higgsfield art (assets/ui/README.md): a cork tile repeated as far as the board grows, inside a wooden frame cut
      into nine pieces — the corners stay put, the sides stretch with the board's length */
   border:18px solid transparent;border-radius:9px;border-image:url(assets/ui/corkboard-frame.webp) 86 / 18px stretch;
   background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/320px 320px repeat border-box;
   box-shadow:inset 0 3px 14px rgba(60,35,15,.4),inset 0 0 0 1px rgba(74,54,40,.35);filter:drop-shadow(2px 4px 0 rgba(74,54,40,.18))}
-.polaroid{--tilt:0deg;position:relative;z-index:1;display:block;box-sizing:border-box;width:52%;padding:8px 8px 10px;text-align:left;background:#FFFDF7;
-  border:1.5px solid rgba(74,54,40,.5);border-radius:2px;box-shadow:2px 5px 7px rgba(50,30,15,.38);transform:rotate(var(--tilt));
+/* the photo card is Higgsfield art (assets/ui/polaroid-card.webp), stretched to the card's box */
+.polaroid{--tilt:0deg;position:relative;z-index:1;display:block;box-sizing:border-box;width:52%;padding:9px 9px 12px;text-align:left;
+  background:url(assets/ui/polaroid-card.webp) 0 0/100% 100% no-repeat;border:0;filter:drop-shadow(2px 5px 4px rgba(50,30,15,.35));transform:rotate(var(--tilt));
   animation:pol-in .5s cubic-bezier(.3,1.4,.5,1) calc(var(--i) * 110ms) both}
 .polaroid.l{align-self:flex-start;margin-left:4%}
 .polaroid.r{align-self:flex-end;margin-right:4%}
 @keyframes pol-in{from{opacity:0;transform:translateY(-18px) rotate(calc(var(--tilt) * -2))}}
-button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);box-shadow:1px 2px 4px rgba(50,30,15,.38)}
+button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);filter:drop-shadow(1px 2px 2px rgba(50,30,15,.35))}
 .pol-photo{display:block;aspect-ratio:4/3;border:1.5px solid var(--ink);overflow:hidden;background:#3E3128}
 .pol-photo svg{width:100%;height:100%;display:block}
 .pol-cap{display:block;padding:8px 2px 0}
 .pol-cap .case-title{font-size:17px;margin:1px 0 4px}
 .polaroid.current{width:64%}
 .polaroid.current .case-title{font-size:20px}
-.polaroid.locked{width:42%;background:#EFE6D3;border-style:dashed;cursor:default}
+.polaroid.locked{width:42%;cursor:default;filter:saturate(.45) brightness(.94) drop-shadow(2px 4px 3px rgba(50,30,15,.3))}
 .polaroid.locked .pol-photo{display:grid;place-items:center;border-style:dashed;background:#5A4A3C;font-family:var(--f-display);font-size:38px;color:rgba(255,253,247,.45)}
 .polaroid.locked .case-no{color:var(--ink-soft)}
 .case-lock{display:flex;align-items:center;gap:3px;margin-top:2px;font-size:11px;line-height:1.3;color:var(--ink-soft)}
 .case-lock svg{flex:none;width:13px;height:13px}
 /* the string and the tack heads lie over the photos; the string leaves a tack sideways along the photo's top edge
    and drops through the empty side of the board, so it never crosses a scene */
+.board-string .tack{filter:drop-shadow(1px 2px 1.5px rgba(40,20,10,.3))}
 .board-string{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible;animation:fade-in .4s ease-out .55s both}
 @keyframes fade-in{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.polaroid,.board-string{animation:none}}
@@ -2726,9 +2728,10 @@ function drawBoardString(){
     return `<path d="${d}" fill="none" stroke="rgba(40,20,10,.25)" stroke-width="2.4" transform="translate(1 2)"${t.locked ? ' stroke-dasharray="6 5"' : ''}/>
       <path d="${d}" fill="none" stroke="#B8433F" stroke-width="2.2" stroke-linecap="round"${t.locked ? ' stroke-dasharray="6 5" opacity=".6"' : ''}/>`;
   }).join('');
-  const heads = tacks.map(t => `<circle cx="${t.x.toFixed(1)}" cy="${(t.y + 1.5).toFixed(1)}" r="7.5" fill="rgba(40,20,10,.3)"/>
-    <circle cx="${t.x.toFixed(1)}" cy="${t.y.toFixed(1)}" r="7.5" fill="${t.locked ? '#9A9284' : '#C9473F'}" stroke="#4A3628" stroke-width="1.5"/>
-    <circle cx="${(t.x - 2.4).toFixed(1)}" cy="${(t.y - 2.4).toFixed(1)}" r="2.2" fill="rgba(255,255,255,.55)"/>`).join('');
+  // the push pins are Higgsfield art (assets/ui/tack-red/-grey.webp): the needle tip, at 36% across and the very
+  // bottom of the picture, goes into the tack point; red for an open case, grey for a locked one
+  const heads = tacks.map(t => `<ellipse cx="${n(t.x + 2)}" cy="${n(t.y + 1)}" rx="4" ry="1.8" fill="rgba(40,20,10,.35)"/>
+    <image class="tack" href="assets/ui/tack-${t.locked ? 'grey' : 'red'}.webp" x="${n(t.x - .363 * 24)}" y="${n(t.y - 33)}" width="24" height="33"/>`).join('');
   board.insertAdjacentHTML('beforeend', `<svg class="board-string" aria-hidden="true">${strings}${heads}</svg>`);
 }
 new ResizeObserver(() => { if(homeTab === 'cases' && !$('#caseList').hidden) drawBoardString(); }).observe($('#caseCards'));
