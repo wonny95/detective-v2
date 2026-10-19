@@ -107,7 +107,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .end-tools{display:flex;justify-content:flex-end;gap:8px}
 .end-ko{margin:0;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.45;box-shadow:2px 3px 0 rgba(74,54,40,.2)}
 .ask-panel .end-leave{align-self:center}
-.ask-panel #toPlace{justify-content:center;text-align:center}
 /* a photo held up to the suspect */
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
@@ -666,7 +665,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
 
   <nav class="nav" aria-label="메뉴">
-    <button class="tab back" type="button" id="backTab" aria-label="사건 수첩으로 나가기">
+    <button class="tab back" type="button" id="backTab" aria-label="사건 목록으로 나가기">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <button class="tab map-btn" type="button" id="mapTab" aria-expanded="false" aria-controls="sheet-map" aria-label="사건 지도 열기">
@@ -698,9 +697,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <!-- Home: the first screen. Four pages outside a case — case select (cases open in order; a locked card
        shows no title), word book, review, my record — switched by their own bottom menu. -->
-  <section class="cases" id="caseList" aria-label="사건 수첩">
+  <section class="cases" id="caseList" aria-label="사건 목록">
     <div class="home-page" id="home-cases">
-      <header class="cases-head"><h1>사건 수첩</h1><span class="streak" id="caseStreak" hidden></span></header>
+      <header class="cases-head"><h1>사건 목록</h1><span class="streak" id="caseStreak" hidden></span></header>
       <div class="board" id="caseCards"></div>
     </div>
     <div class="home-page" id="home-words" hidden></div>
@@ -1485,9 +1484,8 @@ function renderAsk(){
       left.map(q => `<button class="q${p.retry.includes(q.id) ? ' again' : ''}" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
   } else if(p.phase === 'record'){
     html = `<button class="pill big green" type="button" id="openNote">노트에 기록하기</button>`;
-  } else if(p.phase === 'done'){
-    html = `<button class="pill${allConversationsDone() ? '' : ' big'}" type="button" id="toPlace">${esc(placeOf(s.place).label)} 둘러보기</button>`;
   }
+  // a finished conversation has no button of its own: the top chip and a tap on the scene lead back to the place
   if(allConversationsDone()) html += `<button class="pill big" type="button" data-accuse>범인 지목하기</button>`;
   box.innerHTML = html;
 }
@@ -1499,7 +1497,6 @@ $('#askPanel').addEventListener('click', e => {
   const ko = e.target.closest('#qKo');
   if(ko){ ko.setAttribute('aria-pressed', $('#askPanel').classList.toggle('show-ko')); return; }
   if(e.target.closest('#openNote')){ S.view = S.cur; renderDock(); setNotes(true); return; }
-  if(e.target.closest('#toPlace')) leaveTalk();
   if(e.target.closest('[data-accuse]')) openAccuse();
 });
 // a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
