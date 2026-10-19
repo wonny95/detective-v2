@@ -107,6 +107,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .end-tools{display:flex;justify-content:flex-end;gap:8px}
 .end-ko{margin:0;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.45;box-shadow:2px 3px 0 rgba(74,54,40,.2)}
 .ask-panel .end-leave{align-self:center}
+.ask-panel #toPlace{justify-content:center;text-align:center}
 /* a photo held up to the suspect */
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
@@ -359,9 +360,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .tab svg{width:24px;height:24px;flex:none}
 /* in a case: a small way out to the case notebook before 지도 · Note (the case stays as it was and resumes) */
 .app > .nav{grid-template-columns:52px repeat(2,minmax(0,1fr))}
-/* once every conversation is done the menu gets a fourth item, 범인 지목 (berry), between 지도 and Note */
-.app > .nav:has(#accuseTab:not([hidden])){grid-template-columns:52px repeat(3,minmax(0,1fr));gap:8px}
-.tab.accuse{--btn:url(assets/ui/buttons/berry-flat.png);font-size:14px;white-space:nowrap}
 .tab.back{padding:0}
 .tab[aria-expanded="true"]{background:var(--honey)}
 
@@ -399,9 +397,9 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .sheet.full{visibility:hidden;transform-origin:50% 100%;transform:translateY(108%) rotate(4deg);box-shadow:0 -4px 18px rgba(50,30,15,.25);
   transition:transform .34s cubic-bezier(.5,0,.9,.4),visibility 0s linear .34s}
 .sheet.full.open{visibility:visible;transform:none;transition:transform .5s cubic-bezier(.22,1.12,.36,1),visibility 0s}
-.sheet.full .map-head{opacity:0;transition:opacity .12s}
-.sheet.full.open .map-head{opacity:1;transition:opacity .3s .32s}
-@media(prefers-reduced-motion:reduce){.sheet.full,.sheet.full .map-head{transition:none!important}}
+.sheet.full .map-head,.sheet.full .map-foot{opacity:0;transition:opacity .12s}
+.sheet.full.open .map-head,.sheet.full.open .map-foot{opacity:1;transition:opacity .3s .32s}
+@media(prefers-reduced-motion:reduce){.sheet.full,.sheet.full .map-head,.sheet.full .map-foot{transition:none!important}}
 /* the map picture (9:16) covers the whole screen; the title and the footer float over it */
 .map-head{position:absolute;top:0;left:0;right:0;z-index:1;display:flex;align-items:center;gap:10px;padding:12px 16px 24px;background:linear-gradient(rgba(251,244,230,.85),rgba(251,244,230,0))}
 .map-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.2;color:var(--ink)}
@@ -410,6 +408,11 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .map{position:absolute;left:50%;top:50%;width:max(100cqw, 100cqh * 9 / 16);aspect-ratio:9 / 16;transform:translate(-50%,-50%)}
 .map-art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 .map-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;background:rgba(251,244,230,.92);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 14px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
+.map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:28px 16px 12px;background:linear-gradient(rgba(251,244,230,0),rgba(251,244,230,.9) 45%)}
+.map-foot:has(#accuseBtn[hidden]){display:none}
+/* 범인 지목하기 is the same big berry button on the map, in a place and in a conversation (once every conversation is done) */
+.accuse-foot{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;flex-direction:column;padding:28px 16px 12px;background:linear-gradient(rgba(251,244,230,0),rgba(251,244,230,.9) 45%)}
+.art-stage:has(.accuse-foot:not([hidden])) .swipe-hint{bottom:78px}
 .pin{position:absolute;transform:translate(-50%,-50%);border:2px solid var(--ink);background:var(--paper);border-radius:var(--r-wobble);padding:4px 10px;font-family:var(--f-display);font-size:13px;white-space:nowrap;box-shadow:2px 2px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;align-items:center;gap:3px}
 .pin.crime{background:var(--berry);color:#FFFDF7}
 /* a place that has just become known: the pin pops out, then a honey ring pulses around it */
@@ -623,6 +626,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       </div>
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
+        <div class="accuse-foot" id="accuseFoot" hidden><button class="pill big" type="button" data-accuse>범인 지목하기</button></div>
         <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
       </div>
     </section>
@@ -653,6 +657,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <h2>모시할로우 숲 마을</h2>
         <button class="x" type="button" data-close aria-label="지도 닫기">×</button>
       </div>
+      <div class="map-foot">
+        <button class="pill big" id="accuseBtn" type="button" hidden>범인 지목하기</button>
+      </div>
     </section>
 
   </div>
@@ -665,7 +672,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <button class="tab map-btn" type="button" id="mapTab" aria-expanded="false" aria-controls="sheet-map" aria-label="사건 지도 열기">
       <svg aria-hidden="true"><use href="#mapIcon"/></svg>지도
     </button>
-    <button class="tab accuse" type="button" id="accuseTab" hidden>범인 지목</button>
     <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
       <svg aria-hidden="true"><use href="#noteIcon"/></svg>Note
     </button>
@@ -1480,8 +1486,9 @@ function renderAsk(){
   } else if(p.phase === 'record'){
     html = `<button class="pill big green" type="button" id="openNote">노트에 기록하기</button>`;
   } else if(p.phase === 'done'){
-    html = `<button class="pill big" type="button" id="toPlace">${esc(placeOf(s.place).label)} 둘러보기</button>`;
+    html = `<button class="pill${allConversationsDone() ? '' : ' big'}" type="button" id="toPlace">${esc(placeOf(s.place).label)} 둘러보기</button>`;
   }
+  if(allConversationsDone()) html += `<button class="pill big" type="button" data-accuse>범인 지목하기</button>`;
   box.innerHTML = html;
 }
 $('#askPanel').addEventListener('click', e => {
@@ -1493,6 +1500,7 @@ $('#askPanel').addEventListener('click', e => {
   if(ko){ ko.setAttribute('aria-pressed', $('#askPanel').classList.toggle('show-ko')); return; }
   if(e.target.closest('#openNote')){ S.view = S.cur; renderDock(); setNotes(true); return; }
   if(e.target.closest('#toPlace')) leaveTalk();
+  if(e.target.closest('[data-accuse]')) openAccuse();
 });
 // a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
 let noteRaised = false;
@@ -1861,6 +1869,7 @@ function openSheet(name){
   if(name) discoveryRun++;
   if(name && discoveryPerson) finishDiscovery(false);
   if(name === 'map' && (pendingPins.length || pendingPeople.length)){ revealPins(); return; }
+  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone();
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
@@ -2056,15 +2065,17 @@ function goToDiscovery(){
 function allConversationsDone(){
   return PEOPLE_ORDER.filter(id => !spk(id).witness).every(id => per(id).phase === 'done');
 }
-// 범인 지목 in the bottom menu: shown on every screen of the case once every conversation is done.
-function updateAccuse(){ $('#accuseTab').hidden = !allConversationsDone(); }
-$('#accuseTab').onclick = () => {
+// The place view's 범인 지목하기 (the conversation's is drawn by renderAsk, the map's in openSheet).
+function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!ending; }
+$('#accuseFoot').onclick = e => { if(e.target.closest('[data-accuse]')) openAccuse(); };
+$('#accuseBtn').onclick = () => openAccuse();
+function openAccuse(){
   if(!allConversationsDone()) return;
-  openSheet(null); setNotes(false);
+  setNotes(false);
   if(!suspects().length) return toast('아직 지목할 인물이 없어요.');
   $('#pick').innerHTML = suspects().map(id => { const s = spk(id); return `<button type="button" data-i="${id}"><span class="mini" style="background:${s.bg}">${miniSVG(s.id)}</span>${esc(s.name)}</button>`; }).join('');
   $('#accuse').hidden = false;
-};
+}
 $('#accuse').addEventListener('click', e => {
   if(e.target.closest('[data-dismiss]') || e.target.id === 'accuse'){ $('#accuse').hidden = true; return; }
   if(!allConversationsDone()) return;
@@ -2634,7 +2645,7 @@ const TUT = [
       <text x="240" y="160" text-anchor="middle" font-family="Paperlogy, sans-serif" font-size="11" fill="#7D6A58">눌러서 증거 사진 · 대화</text>
     </svg>` },
   { title:'증거로 범인을 밝혀요',
-    text:'모든 인물과 이야기를 마치면 아래 메뉴에 <b>범인 지목</b>이 나타나요. 범인을 고르면 대질이 시작돼요. 상대의 말이 거짓이면 <b>증거 내밀기</b>로 맞는 증거를 보여 줘요. <b>틀린 증거를 내밀면 처음부터</b> 다시 물어야 해요.',
+    text:'모든 인물과 이야기를 마치면 <b>범인 지목하기</b>가 나타나요. 범인을 고르면 대질이 시작돼요. 상대의 말이 거짓이면 <b>증거 내밀기</b>로 맞는 증거를 보여 줘요. <b>틀린 증거를 내밀면 처음부터</b> 다시 물어야 해요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="10" y="14" width="170" height="126" viewBox="300 120 680 504" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
