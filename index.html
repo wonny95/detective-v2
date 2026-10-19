@@ -204,16 +204,24 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-notes s{color:var(--no)}
 .rv-notes .fix{color:var(--ok);text-decoration:underline}
 /* evidence notebook: two photos per row so several fit on screen at once */
+/* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
 .evidence-page{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:start}
-.evidence-page h3,.evidence-page .empty-note{grid-column:1 / -1}
-.evidence-page h3{margin:0;font-family:var(--f-display);font-size:18px;font-weight:400}
-.evidence-card{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;padding:6px 6px 8px;background:#FFFDF7;border:2px solid var(--ink);border-radius:5px;box-shadow:2px 3px 0 rgba(74,54,40,.12)}
-.evidence-photo{align-self:stretch;margin:0 0 3px;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--line);background:var(--paper-2)}
+.evidence-page h3,.evidence-page .empty-note,.evidence-page .evidence-detail{grid-column:1 / -1;margin:0}
+.evidence-page h3{font-family:var(--f-display);font-size:18px;font-weight:400}
+.ev-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0;box-sizing:border-box;text-align:left;padding:6px 6px 8px;background:#FFFDF7;border:2px solid var(--ink);border-radius:5px;box-shadow:2px 3px 0 rgba(74,54,40,.12)}
+.ev-card:active{transform:translateY(1px);box-shadow:1px 1px 0 rgba(74,54,40,.12)}
+.ev-card .evidence-photo{margin-bottom:3px;border-width:1px;border-color:var(--line);border-radius:0}
+.ev-card .ev-title{font-family:var(--f-hand);font-weight:700;font-size:15px;line-height:1.2}
+.ev-card .place{font-size:11px;color:var(--ink-soft)}
+/* one piece of evidence: the photo, the detective's sentence (played on opening, the play button again), 해석, and 내밀기 in the ending */
+.evidence-detail{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.ev-back{border:0;background:none;padding:2px 0;font-family:var(--f-display);font-size:14px;color:var(--ink-soft)}
+.evidence-photo{display:block;align-self:stretch;margin:0 0 2px;aspect-ratio:4/3;overflow:hidden;border:2px solid var(--ink);border-radius:6px;background:var(--paper-2)}
 .evidence-photo svg{display:block;width:100%;height:100%}
-.evidence-card h4{margin:0;font-family:var(--f-hand);font-size:15px;line-height:1.2}
-.evidence-card .place{font-family:var(--f-hand);font-size:11px;color:var(--ink-soft)}
-.evidence-card p{margin:0 0 4px;font-size:12.5px;line-height:1.4}
-.evidence-card .ko{font-size:12px;color:var(--ink-soft)}
+.evidence-detail .place{font-size:12px;color:var(--ink-soft)}
+.evidence-detail h4{margin:0;font-family:var(--f-hand);font-size:20px;line-height:1.2}
+.evidence-detail p{margin:0;font-size:16px;line-height:1.5}
+.evidence-detail .ko{font-size:14px;font-weight:700;color:var(--berry)}
 .ev-btns{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto}
 .capture-flash{position:absolute;inset:0;z-index:7;background:#fff;pointer-events:none;animation:shutter-flash .38s ease-out forwards}
 .capture-view{position:absolute;inset:0;z-index:6;display:grid;place-items:center;background:rgba(30,28,24,.72);overflow:hidden}
@@ -1429,6 +1437,7 @@ function renderWho(){
 }
 $('#who').addEventListener('click', e => {
   const b = e.target.closest('[data-i]'); if(!b || b.disabled) return;
+  if(b.dataset.i === 'evidence') evidenceOpen = null;   // the evidence tab always opens on the list
   S.view = b.dataset.i; renderDock();
 });
 
@@ -1489,6 +1498,20 @@ $('#askPanel').addEventListener('click', e => {
 let noteRaised = false;
 // 'person:question' whose answer text (지문) is open under a checked question: the fresh check opens it; putting the
 // notebook away folds them all, so the full page starts compact and 지문 opens one again
+let evidenceOpen = null;   // 'place-clueIndex' of the evidence shown on its own in the evidence notebook, else its list
+// The detective's recorded sentence for a piece of evidence.
+function playEvidence(ref){
+  const record = S.evidence.find(item => `${item.placeId}-${item.clueIndex}` === ref);
+  const clue = record && placeOf(record.placeId).clues[record.clueIndex];
+  if(!clue?.audio) return;
+  stopVoice();
+  const voice = $('#evidenceVoice');
+  voice.onended = voice.onerror = null;
+  if(!voice.src.endsWith(clue.audio)) voice.src = clue.audio;
+  voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
+  voice.currentTime = 0;
+  voice.play().catch(() => {});
+}
 const openPassages = new Set(), openPassageKo = new Set();   // passages shown, and of those the ones showing 해석
 let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
 let missCheck = null;    // 'person:question' just checked with wrong blanks: they shake on the next render only
@@ -1501,10 +1524,24 @@ function renderDock(){
   $('#app').classList.toggle('note-full', noteRaised);
   $('#finish').textContent = mode === 'summary' ? '계속' : mode === 'feedback' ? '닫기' : mode && per(S.view).questionChecks[per(S.view).recording] === 'review' ? '다시 확인' : '기록 완료';
   if(S.view === 'evidence'){
-    body.innerHTML = `<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
-      const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
-      return `<article class="evidence-card" data-evidence="${record.placeId}-${record.clueIndex}"><figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${record.photo}</figure><span class="place">${esc(place.label)}</span><h4>${esc(clue.label)}</h4><p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p><span class="ev-btns"><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${record.placeId}-${record.clueIndex}">내밀기</button>` : ''}</span></article>`;
-    }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
+    const ref = record => `${record.placeId}-${record.clueIndex}`;
+    const open = S.evidence.find(record => ref(record) === evidenceOpen);
+    if(open){
+      const place = placeOf(open.placeId), clue = place.clues[open.clueIndex];
+      body.innerHTML = `<div class="evidence-page"><div class="evidence-detail" data-evidence="${ref(open)}">
+        <button class="ev-back" type="button" data-ev-back>‹ 증거 기록</button>
+        <figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${open.photo}</figure>
+        <span class="place">${esc(place.label)}</span>
+        <h4>${esc(clue.label)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref(open)}" aria-label="다시 듣기">${playIcon}</button>` : ''}</h4>
+        <p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p>
+        <span class="ev-btns"><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${ref(open)}">내밀기</button>` : ''}</span></div></div>`;
+    } else {
+      evidenceOpen = null;
+      body.innerHTML = `<div class="evidence-page"><h3>증거 기록</h3>${S.evidence.length ? [...S.evidence].reverse().map(record => {
+        const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
+        return `<button class="ev-card" type="button" data-ev-open="${ref(record)}" data-evidence="${ref(record)}"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="ev-title">${esc(clue.label)}</span><span class="place">${esc(place.label)}</span></button>`;
+      }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
+    }
     body.scrollTop = 0;
     bindDock();
     return;
@@ -1543,8 +1580,15 @@ function renderDock(){
 
 function bindDock(){
   const body = $('#dockBody');
+  body.querySelectorAll('[data-ev-open]').forEach(button => button.addEventListener('click', () => {
+    evidenceOpen = button.dataset.evOpen; renderDock(); playEvidence(evidenceOpen);
+  }));
+  body.querySelectorAll('[data-ev-back]').forEach(button => button.addEventListener('click', () => {
+    $('#evidenceVoice').pause(); evidenceOpen = null; renderDock();
+  }));
+  body.querySelectorAll('[data-ev-play]').forEach(button => button.addEventListener('click', () => playEvidence(button.dataset.evPlay)));
   body.querySelectorAll('[data-evidence-ko]').forEach(button => button.addEventListener('click', () => {
-    const translation = button.closest('.evidence-card').querySelector('.ko');
+    const translation = button.closest('[data-evidence]').querySelector('.ko');
     translation.hidden = !translation.hidden;
     button.setAttribute('aria-pressed', !translation.hidden);
   }));
@@ -1808,7 +1852,7 @@ function setNotes(open){
   cancelCapture();
   const changed = $('#app').classList.contains('notes-open') !== open;
   $('#app').classList.toggle('notes-open', open);
-  if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; openPassages.clear(); openPassageKo.clear(); }
+  if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; openPassages.clear(); openPassageKo.clear(); evidenceOpen = null; }
   $('#noteTab').setAttribute('aria-expanded', open);
   if(changed) focusCamera(null, true);
 }
@@ -2095,7 +2139,7 @@ function endingAction(action){
   const e = ending; if(!e) return;
   if(action === 'replay') return speak(e.line.en, e.line.key, e.line.who);
   if(action === 'ko'){ e.ko = !e.ko; renderAsk(); return; }
-  if(action === 'present'){ stopVoice(); S.view = 'evidence'; setNotes(true); noteRaised = true; renderDock(); return; }
+  if(action === 'present'){ stopVoice(); S.view = 'evidence'; setNotes(true); evidenceOpen = null; noteRaised = true; renderDock(); return; }
   if(action === 'leave') return leaveEnding();
   if(action === 'next') endingNext();
 }
@@ -2399,7 +2443,8 @@ function captureEvidence(place, clueIndex){
     if(!S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)){
       S.evidence.push({ placeId:place.id, clueIndex, photo });
     }
-    S.view = 'evidence'; renderDock(); setNotes(true);
+    S.view = 'evidence'; setNotes(true);
+    evidenceOpen = `${place.id}-${clueIndex}`; renderDock();
     toast('증거를 노트에 기록했어요.');
   };
   captureShotTimer = setTimeout(() => {
@@ -2428,8 +2473,8 @@ function examine(i){
   renderSceneHead(); renderPlaces();
   if(!S.evidence.some(item => item.placeId === pl.id && item.clueIndex === i)) captureEvidence(pl, i);
   else {
-    S.view = 'evidence'; renderDock(); setNotes(true);
-    $(`[data-evidence="${pl.id}-${i}"]`).scrollIntoView({block:'nearest'});
+    S.view = 'evidence'; setNotes(true);
+    evidenceOpen = `${pl.id}-${i}`; renderDock(); playEvidence(evidenceOpen);
   }
 }
 
