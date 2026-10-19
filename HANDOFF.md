@@ -302,6 +302,7 @@ node server.js            # http://localhost:5173/
 ## 6. 음성
 
 - **도구**: Higgsfield `text2speech_v2`, `variant: minimax`, 프리셋 목소리. 파일 이름은 `audio/<인물id>-<키>.mp3`(키는 `hello` 또는 질문 id)이고 인물 데이터의 `audio`에 연결한다. 없는 키는 브라우저 TTS로 읽는다.
+- **문장 단위 재생**(사용자 요청): 학습 화면이 한 문장만 보여 줄 때(문법 카드의 예문, 단어장 카드) ▶도 그 문장만 재생한다. 대사 녹음 17개의 문장별 시작·끝 초는 `SENTENCE_TIMES`(문장 사이 쉼을 ffmpeg `silencedetect`로 찾음, ray:q3·duck:d2는 쉼표 쉼을 손으로 바로잡음). 문장 나누기는 `sentencesOf()`(Mrs./Mr./Sgt.에서 끊지 않음). 재생은 `replaySentence(ref, idx)` → `speak(..., range)`: 녹음을 메모리 사본(blob URL, `seekableSrc()`)으로 받아 `#t=시작,끝`으로 재생하고 15ms 감시로 끝에서 바로 멈춘다(개발 서버가 Range 요청을 지원하지 않아 파일 URL로는 건너뛰기가 안 된다). 단어 카드의 문장은 `sentenceFor()`(그 단어를 말한 문장, 여럿이면 노트 줄과 가장 겹치는 문장). **녹음을 바꾸면 `SENTENCE_TIMES`도 다시 잰다.**
 
 | 인물 | 목소리 | 상태 |
 |---|---|---|
