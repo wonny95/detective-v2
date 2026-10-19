@@ -2,6 +2,24 @@
 
 ## 적용 중
 
+### 수사완료 도장
+
+- `investigation-complete-stamp.png` (1774×887, 투명 PNG): Codex가 기본 내장 `image_gen`으로 생성. Higgsfield·CLI 미사용. 프롬프트만으로 제작한 적갈색 잉크 자국이며 글자는 `수사완료` 네 글자. 원본 `exec-be163cb2-3e7e-4028-82d1-d600c6210822.png`를 가공 없이 복사해 알파 유지(바깥·글자 사이 투명 확인).
+- 엔딩의 `.cc-stamp` 이미지로 표시. 사건명 아래 여백을 확보하고, 회전(-10도)·축소하며 찍히는 동작은 CSS로 처리한다. 원본은 수평이라 다른 크기·각도로 재사용 가능. 시작 시 미리 불러오며 대체 텍스트는 `수사완료`.
+
+최종 프롬프트 (`transparent_background:true`):
+
+```text
+Use case: illustration-story
+Asset type: a transparent PNG rubber-stamp imprint for the completion of a cozy woodland detective game.
+Create one horizontal rounded rectangular double-outline stamp containing ONLY the exact Korean text "수사완료". Four syllables, left to right: 수 사 완 료. Bold, rounded, friendly hand-lettered Hangul, large and perfectly readable on a small mobile screen.
+Warm gouache and colored-pencil sensibility with subtly irregular hand-drawn contours, consistent with a cream-paper illustrated storybook game. Single red-brown ink color #B8433F. Light ink bleed and scattered tiny worn gaps in the ink, but keep the characters and double outline strong and legible. Restrained vintage rubber-stamp texture.
+Front-on, perfectly horizontal, no rotation, perspective, lighting, shadows, embossing, or 3D. Landscape 2:1 canvas; stamp occupies about 90% of width and 75% of height, with transparent safety margins on every side. The interior between text and outline is also transparent.
+Actual transparent alpha background. ONLY the ink imprint. No paper sheet, white background, checkerboard pattern, stamp handle, icons, characters, stars, additional text or watermark. Ready-to-use game UI asset.
+```
+
+### 말풍선
+
 - `speech-paper-frame.png` (1536×1024, 투명 바깥): 힌트·엔딩 공용 말풍선 본문. **Codex가 기본 내장 `image_gen` 도구로 생성**, Higgsfield·CLI 미사용. 기존 `buttons/cream-flat.png`는 재질 참조, `places/library-higgsfield-v2.png`는 화풍 참조로 사용했다. 따뜻한 아이보리 종이, 갈색 색연필선과 가는 황토색 안쪽 선, 장식 없는 읽기 영역이다. 생성 출력 `exec-19bb79b2-db66-495c-ad43-11e798066f23.png`를 알파 채널 그대로 복사했고 자르기·색 보정은 하지 않았다.
   - `.bubble::before`의 `border-image`로 **9조각 확장**한다. slice `100`, 표시 테두리 `22px`, 원본 투명 여백을 고려해 `inset:-8px -3px`. 모서리와 선 두께를 유지하고 가운데만 늘린다. 본문 폭은 `min(88%,380px)`이며 화면 높이에 따라 내용만 스크롤한다.
   - 이미지의 반투명한 안쪽 조각 경계에 얇은 선이 드러나지 않도록 `background-clip:padding-box`인 불투명 종이색 바탕을 함께 쓴다(`--bubble-paper`, 기본 `#FFF8E9`). 바깥 투명 모서리는 채우지 않는다. 말풍선 안의 영어·한국어·버튼 영역에는 구분선을 넣지 않고 여백만 둔다.

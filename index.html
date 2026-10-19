@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>숲속 탐정 Pioo</title>
 <link rel="preload" href="assets/fonts/Paperlogy-4Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/ui/investigation-complete-stamp.png" as="image">
 <style>
 /* Paperlogy (SIL OFL 1.1), bundled in assets/fonts. "Paperlogy Display" = the SemiBold cut for titles, buttons and stamps,
    so those rules can keep font-weight:400. */
@@ -114,12 +115,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
 .presented svg{display:block;width:100%;height:100%}
 @keyframes present-in{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}80%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(-12px) rotate(-3deg)}}
-/* CASE CLOSED: the case file gets its stamp */
+/* The case file receives a transparent illustrated completion stamp. */
 .case-closed{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(40,30,24,.45);pointer-events:none;animation:cc-fade 2.6s ease forwards}
-.cc-file{position:relative;width:min(76%,290px);padding:34px 18px 64px;text-align:center;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);box-shadow:5px 6px 0 rgba(40,30,24,.3);transform:rotate(-1.5deg)}
+.cc-file{position:relative;width:min(76%,290px);padding:34px 18px 132px;text-align:center;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);box-shadow:5px 6px 0 rgba(40,30,24,.3);transform:rotate(-1.5deg)}
 .cc-file small{display:block;font-size:12px;color:var(--ink-soft)}
 .cc-file b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
-.cc-stamp{position:absolute;left:50%;bottom:16px;font-family:var(--f-display);font-size:26px;letter-spacing:1px;color:#B8433F;border:4px solid #B8433F;border-radius:10px;padding:2px 12px;white-space:nowrap;transform:translateX(-50%) rotate(-10deg);animation:cc-stamp .45s cubic-bezier(.2,1.6,.4,1) .55s both}
+.cc-stamp{position:absolute;left:50%;bottom:8px;display:block;width:min(86%,240px);height:auto;transform:translateX(-50%) rotate(-10deg);animation:cc-stamp .45s cubic-bezier(.2,1.6,.4,1) .55s both}
 @keyframes cc-stamp{from{opacity:0;transform:translateX(-50%) rotate(-10deg) scale(2.4)}to{opacity:.92;transform:translateX(-50%) rotate(-10deg) scale(1)}}
 @keyframes cc-fade{0%{opacity:0}10%{opacity:1}86%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.presented figure,.cc-stamp{animation:none}}
@@ -2453,7 +2454,7 @@ function caseClosedStamp(){
   ending.step = 'stamp'; renderAsk(); renderSay(null);
   const card = document.createElement('div');
   card.className = 'case-closed';
-  card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b><span class="cc-stamp">CASE CLOSED</span></div>`;
+  card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b><img class="cc-stamp" src="assets/ui/investigation-complete-stamp.png" alt="수사완료" decoding="sync"></div>`;
   $('.scene').appendChild(card);
   endTimer = setTimeout(() => {
     card.remove();
