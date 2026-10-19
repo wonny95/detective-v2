@@ -156,6 +156,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
   border:2px solid var(--ink);border-radius:5px;box-shadow:2px 3px 0 rgba(74,54,40,.15);transition:transform .2s,box-shadow .2s}
 .dcard .evidence-photo{border-width:1px;border-color:var(--line);border-radius:0;margin:0}
 .dcard .dlabel{font-family:var(--f-hand);font-weight:700;font-size:13px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dcard .dplace{font-family:var(--f-body);font-size:11px;line-height:1.25;color:var(--ink-soft);overflow-wrap:anywhere}
 .dcard[aria-pressed="true"]{transform:translateY(-6px) rotate(-2deg);border-color:var(--berry);box-shadow:0 0 0 3px var(--berry),3px 8px 10px rgba(74,54,40,.25)}
 .drawer-pick{display:flex;flex-direction:column;gap:8px;min-height:92px;padding:0 16px}
 .drawer-pick p{margin:0;font-size:15px;line-height:1.45}
@@ -2258,8 +2259,8 @@ const evRef = record => `${record.placeId}-${record.clueIndex}`;
 function openDrawer(){
   drawerPick = null;
   $('#drawerStrip').innerHTML = S.evidence.length ? [...S.evidence].reverse().map(record => {
-    const clue = placeOf(record.placeId).clues[record.clueIndex];
-    return `<button class="dcard" type="button" data-pick="${evRef(record)}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="dlabel">${esc(clue.label)}</span></button>`;
+    const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
+    return `<button class="dcard" type="button" data-pick="${evRef(record)}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="dlabel">${esc(clue.label)}</span><span class="dplace">${esc(place.label)}</span></button>`;
   }).join('') : '<p class="empty-note">아직 수집한 증거가 없어요.</p>';
   $('#drawerStrip').scrollLeft = 0;
   $('#drawerPick').innerHTML = '';
