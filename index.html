@@ -383,16 +383,14 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 
 /* village map: full-screen over the whole app (covers the bottom tabs) */
 .sheet.full{top:0;height:auto;z-index:30;border-top:0;border-radius:0;box-shadow:none}
-/* it grows out of the button that opened it, in that button's rounded shape (--t/--r/--b/--l = the button's edges, set in JS) */
-/* container transform: the frame grows out of the map button while the map picture zooms up from
-   the same point (fast start, soft landing); closing shrinks both back into the button */
-.sheet.full{transform:none;visibility:hidden;--t:50%;--r:50%;--b:50%;--l:50%;clip-path:inset(var(--t) var(--r) var(--b) var(--l) round 18px);transition:clip-path .36s cubic-bezier(.3,0,.8,.15),visibility 0s linear .36s}
-.sheet.full.open{visibility:visible;clip-path:inset(0 0 0 0 round 0);transition:clip-path .56s cubic-bezier(.2,0,0,1),visibility 0s}
-.sheet.full .map-stage{transform-origin:var(--ox,50%) var(--oy,100%);transform:scale(.3);opacity:0;transition:transform .36s cubic-bezier(.3,0,.8,.15),opacity .2s linear .16s}
-.sheet.full.open .map-stage{transform:none;opacity:1;transition:transform .56s cubic-bezier(.2,0,0,1),opacity .18s linear}
+/* like a paper map pulled out of the bag: it slides up from below, slightly turned, and settles flat on the table
+   with a small bounce; closing slides it back down. The picture keeps its size the whole time. */
+.sheet.full{visibility:hidden;transform-origin:50% 100%;transform:translateY(108%) rotate(4deg);box-shadow:0 -4px 18px rgba(50,30,15,.25);
+  transition:transform .34s cubic-bezier(.5,0,.9,.4),visibility 0s linear .34s}
+.sheet.full.open{visibility:visible;transform:none;transition:transform .5s cubic-bezier(.22,1.12,.36,1),visibility 0s}
 .sheet.full .map-head,.sheet.full .map-foot{opacity:0;transition:opacity .12s}
 .sheet.full.open .map-head,.sheet.full.open .map-foot{opacity:1;transition:opacity .3s .32s}
-@media(prefers-reduced-motion:reduce){.sheet.full,.sheet.full .map-stage,.sheet.full .map-head,.sheet.full .map-foot{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.sheet.full,.sheet.full .map-head,.sheet.full .map-foot{transition:none!important}}
 /* the map picture (9:16) covers the whole screen; the title and the footer float over it */
 .map-head{position:absolute;top:0;left:0;right:0;z-index:1;display:flex;align-items:center;gap:10px;padding:12px 16px 24px;background:linear-gradient(rgba(251,244,230,.85),rgba(251,244,230,0))}
 .map-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.2;color:var(--ink)}
@@ -434,8 +432,8 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .board{position:relative;flex:1 0 auto;min-height:500px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-evenly;gap:10px;padding:24px 8px 20px;
   /* Higgsfield art (assets/ui/README.md): a cork tile repeated as far as the board grows, inside a wooden frame cut
      into nine pieces — the corners stay put, the sides stretch with the board's length */
-  border:18px solid transparent;border-image:url(assets/ui/corkboard-frame.webp) 89 / 18px stretch;
-  background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/320px 320px repeat padding-box;
+  border:18px solid transparent;border-radius:9px;border-image:url(assets/ui/corkboard-frame.webp) 86 / 18px stretch;
+  background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/320px 320px repeat border-box;
   box-shadow:inset 0 3px 14px rgba(60,35,15,.4),inset 0 0 0 1px rgba(74,54,40,.35);filter:drop-shadow(2px 4px 0 rgba(74,54,40,.18))}
 .polaroid{--tilt:0deg;position:relative;z-index:1;display:block;box-sizing:border-box;width:52%;padding:8px 8px 10px;text-align:left;background:#FFFDF7;
   border:1.5px solid rgba(74,54,40,.5);border-radius:2px;box-shadow:2px 5px 7px rgba(50,30,15,.38);transform:rotate(var(--tilt));
@@ -1819,10 +1817,7 @@ function openSheet(name){
   if(name) discoveryRun++;
   if(name && discoveryPerson) finishDiscovery(false);
   if(name === 'map' && (pendingPins.length || pendingPeople.length)){ revealPins(); return; }
-  if(name === 'map'){
-    $('#accuseBtn').hidden = !allConversationsDone();
-    setMapOrigin($('#mapTab'));
-  }
+  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone();
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
@@ -1853,23 +1848,6 @@ $('#replay').onclick = () => { if(st()?.recording) speak(cur().answers[st().reco
 $('#slow').onclick = e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); };
 // tapping the scene behind the open notebook puts it away (word-card drags never land here as a click)
 $('#noteScrim').onclick = closeNotes;
-// The map grows out of the button that opened it and shrinks back into it when closed.
-function setMapOrigin(btn){
-  const sh = $('#sheet-map');
-  if(!btn || sh.classList.contains('open')) return;
-  // the map's own box ends above the bottom menu, so a button down there opens it from the bottom edge
-  const a = sh.offsetParent.getBoundingClientRect(), r = btn.getBoundingClientRect();
-  const top = Math.min(r.top - a.top, a.height - 2), bottom = Math.max(a.bottom - r.bottom, 0);
-  sh.style.transition = 'none';
-  sh.style.setProperty('--t', `${top}px`);
-  sh.style.setProperty('--l', `${r.left - a.left}px`);
-  sh.style.setProperty('--r', `${a.right - r.right}px`);
-  sh.style.setProperty('--b', `${bottom}px`);
-  sh.style.setProperty('--ox', `${r.left - a.left + r.width / 2}px`);
-  sh.style.setProperty('--oy', `${Math.min(r.top - a.top + r.height / 2, a.height)}px`);
-  void sh.offsetWidth;
-  sh.style.transition = '';
-}
 $('#mapTab').onclick = () => openSheet($('#sheet-map').classList.contains('open') ? null : 'map');
 $('#sheet-map').addEventListener('pointerdown', () => { clearTimeout(mapAutoTimer); discoveryGoal = null; });
 $('#hint').onclick = useHint;
