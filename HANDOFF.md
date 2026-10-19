@@ -140,7 +140,7 @@ node server.js            # http://localhost:5173/
   - 나레이션이 없거나 재생에 실패하면 바로 저장한다.
   - 이동하거나 노트를 조작하면 촬영이 취소되고, 다시 누르면 재촬영한다.
   - 이미 찍은 증거를 다시 누르면 노트의 해당 카드로 간다.
-- **단서가 아닌 물건**(`prop:true`)도 장소마다 세 개씩 찍을 수 있다. 촬영·노트 카드가 단서와 똑같아 화면에서는 구분되지 않는다. 대질에서 내밀면 틀린 증거로 처리된다(심문이 처음부터). 나레이션은 아직 없다. 장소마다 하나는 일부러 수상해 보이는 물건(★)이다.
+- **단서가 아닌 물건**(`prop:true`)도 장소마다 세 개씩 찍을 수 있다. 촬영·노트 카드가 단서와 똑같아 화면에서는 구분되지 않는다. 대질에서 내밀면 틀린 증거로 처리된다(심문이 처음부터). 단서처럼 탐정 나레이션이 나온다. 장소마다 하나는 일부러 수상해 보이는 물건(★)이다.
 
   | 장소 | 물건 (★ = 수상해 보이는 물건) |
   |---|---|
@@ -296,7 +296,9 @@ node server.js            # http://localhost:5173/
   - 피오나(Petra): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess2` fearful(`5dcffd54-…`), `confess3` fearful(`4cd66913-…`).
   - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
 - **사용자가 Higgsfield에서 만든 음성 찾기**: 링크가 없어도 Higgsfield MCP `show_generations`(type `audio`)로 최근 생성 목록(대사·목소리·감정·mp3 주소)을 읽어 대사 문장으로 짝지을 수 있다. 같은 줄이 여러 번 있으면 최신 테이크를 쓰고 사용자에게 알린다.
-- **증거 나레이션**: 도서관 창문(`detective-library-window.mp3`, 사용자 제공), 시계(`detective-library-clock.mp3`), 문(`detective-library-door.mp3`, 둘 다 MiniMax Grady, 사용자 제작). `PLACES.clues[].audio`로 연결한다. 나머지 장소 증거는 나레이션 없음.
+- **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(21개)에 있다.
+  - 사용자 제작: 도서관 시계·창문·문.
+  - Claude 제작: 나머지 18줄(빵집 door·oven·note·jam·pin·baskets, 카페 poster·guitar·cups·window, 언덕 notebook·footprints·telescope·star·flowers, 도서관 book·lamp·plant). 화면 문장과 달리 대문자 문구(CLOSED, LIVE MUSIC)는 보통 글자로, 노트의 따옴표·줄표는 빼고 읽혔다. `hill-notebook`은 "Rosie." 앞의 5초 공백을 잘라 11초다.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 남은 답변(2026-10-16 적용)**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
 - **Claude의 Higgsfield MCP `generate_audio`는 `emotion`·`language_boost`를 저장하지 않는다.** 감정이 필요한 대사는 사용자가 Higgsfield 화면에서 만든다. 공유 링크(`higgsfield.ai/s/…`)는 WebFetch로 mp3 주소와 job id를 얻고, `show_generation_by_ids`로 대사·목소리 설정을 확인한다.
@@ -381,7 +383,7 @@ node server.js            # http://localhost:5173/
 5. **자동 저장**: 기록 완료, 채점, 증거 획득, 장소 열림 때마다 저장하고 이어 하기를 지원한다.
 6. **복습 보완**: 틀린 문장만 모아 다시 듣기.
 7. **난이도 3단계**(단어 카드 / 첫 글자 힌트 / 직접 입력).
-8. **남은 목소리**: 빵집·카페·언덕 증거 나레이션, 물건 12개 나레이션(탐정 목소리, 줄당 약 0.3크레딧). Mole m3·Rosie q1–q3의 감정 확인. Ray 네 대사는 모두 적용 완료.
+8. **남은 목소리**: Mole m3·Rosie q1–q3의 감정 확인. Ray 네 대사는 모두 적용 완료.
 9. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다. 미사용 그림(`ui/notebook-*`, `*-sticker.png` 등) 정리 여부를 정한다.
 10. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 11. **물건 더 늘리기**: 지금은 장소마다 세 개다(3.5절). 사용자가 원하면 더 추가한다.
