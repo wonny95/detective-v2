@@ -473,6 +473,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .pick button{border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-hand);font-weight:700;font-size:14px}
 .pick .mini{width:58px;height:58px}
+/* the accusation notice: whom the player just named, before the questioning (or their rebuttal) starts */
+.accused{align-items:center;text-align:center;gap:14px;max-width:300px}
+.accused .mini{width:84px;height:84px;border-width:2.5px}
+.mcard .accused-text{font-family:var(--f-display);font-size:18px;line-height:1.5;text-wrap:balance}
+.accused .pill.big{align-self:stretch}
 
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
@@ -643,6 +648,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
       <h2>범인은 누구일까요?</h2>
       <div class="pick" id="pick"></div>
       <button class="pill" type="button" data-dismiss>조금 더 조사할래요</button>
+    </div>
+  </div>
+
+  <div class="modal" id="accused" hidden>
+    <div class="mcard accused" role="alertdialog" aria-labelledby="accusedText">
+      <span class="mini" id="accusedFace"></span>
+      <p class="accused-text" id="accusedText"></p>
+      <button class="pill big" type="button" data-accused-go>심문 시작</button>
+      <button class="pill sm" type="button" data-accused-back>다시 고를래요</button>
     </div>
   </div>
 
@@ -1931,7 +1945,24 @@ $('#accuse').addEventListener('click', e => {
   if(!allConversationsDone()) return;
   const b = e.target.closest('[data-i]'); if(!b) return;
   $('#accuse').hidden = true;
-  if(b.dataset.i === CULPRIT) startEnding(); else wrongAccusation(b.dataset.i);
+  showAccused(b.dataset.i);
+});
+// "○○을/를 범인으로 지목했어요." — the same notice whether the pick is right or wrong; 심문 시작 goes on.
+const ACCUSE_JOSA = { fiona:'를', ray:'을', mole:'을', rosie:'을' };   // by how the English name ends when read aloud
+let accusedId = null;
+function showAccused(id){
+  const s = spk(id);
+  accusedId = id;
+  $('#accusedFace').style.background = s.bg;
+  $('#accusedFace').innerHTML = miniSVG(id);
+  $('#accusedText').innerHTML = `<b>${esc(s.name)}</b>${ACCUSE_JOSA[id] || '을(를)'} 범인으로 지목했어요.`;
+  $('#accused').hidden = false;
+}
+$('#accused').addEventListener('click', e => {
+  if(e.target.closest('[data-accused-back]')){ $('#accused').hidden = true; $('#accuse').hidden = false; return; }
+  if(!e.target.closest('[data-accused-go]')) return;
+  $('#accused').hidden = true;
+  if(accusedId === CULPRIT) startEnding(); else wrongAccusation(accusedId);
 });
 $('#result').addEventListener('click', e => {
   if(e.target.closest('[data-close-result]')) $('#result').hidden = true;
