@@ -533,6 +533,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
 <div class="app" id="app">
   <audio id="cameraShutter" src="audio/camera-shutter.mp3" preload="auto" hidden></audio>
+  <audio id="correctChime" src="audio/note-correct.mp3" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <div class="main">
     <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
@@ -1543,6 +1544,8 @@ function finishRecord(){
     return;
   }
   p.retry = p.retry.filter(question => question !== qid);
+  const chime = $('#correctChime');   // a short two-note chime for a question written down right
+  chime.currentTime = 0; chime.play().catch(() => {});
   p.recording = null;
   p.phase = qs(cur()).every(question => p.questionChecks[question.id] === 'ok') ? 'done' : 'choose';
   const revealed = unlock(cur().unlocks?.[qid], true) || {};
