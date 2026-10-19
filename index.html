@@ -1295,8 +1295,9 @@ function focusCamera(fromRect, glide = false){
   const minScale = Math.max(width / worldWidth, height / fullHeight);
   let scale = Math.max(minScale, height * share / (worldHeight * Math.max(44, position.height) / 100));
   let centerX = position.x, top = null;
-  // the ending: everyone in the scene (Fiona and the partner who came along) stays in one wider shot
-  const group = ending && !discoveryPerson ? peopleAt(place.id) : [];
+  // the ending: while Fiona is questioned and confesses the camera stays on her (like a conversation); for the
+  // partner's closing line and the result, everyone in the scene (Fiona and the partner) shares one wider shot
+  const group = ending && !discoveryPerson && !['confront', 'confession'].includes(ending.step) ? peopleAt(place.id) : [];
   if(group.length > 1){
     const boxes = group.map(id => npcBox(id, place));
     const l = Math.min(...boxes.map(b => b.left)), r = Math.max(...boxes.map(b => b.right));
