@@ -386,6 +386,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .word:nth-child(3n+2){background:#DCEAD3}
 .word.sel{outline:3px solid var(--berry);outline-offset:2px}
 .ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-60%) rotate(-4deg);opacity:.95}
+.word-flight{position:fixed;z-index:100;pointer-events:none;margin:0;box-sizing:border-box;white-space:nowrap;transform-origin:center}
 .big{width:100%;justify-content:center;font-size:17px;padding:11px 14px;background:var(--berry);color:#FFFDF7}
 .big.green,.sm.green{background:var(--moss);color:var(--ink)}
 
@@ -672,6 +673,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="cameraShutter" src="audio/camera-shutter.mp3" preload="auto" hidden></audio>
   <audio id="correctChime" src="audio/note-correct.mp3" preload="auto" hidden></audio>
   <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
+  <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <div class="main">
     <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
@@ -1599,6 +1601,7 @@ const openPassages = new Set(), openPassageKo = new Set();   // passages shown, 
 let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
 let missCheck = null;    // 'person:question' just checked with wrong blanks: they shake on the next render only
 function renderDock(){
+  clearWordFlights();
   renderWho(); renderChip(); renderAsk(); renderHint(); updateAccuse();
   const body = $('#dockBody');
   const mode = noteMode();
@@ -1696,7 +1699,7 @@ function bindDock(){
   if(bank){
     bank.addEventListener('click', e => {
       const word = e.target.closest('.word');
-      if(word && (!suppressWordClick || e.detail === 0)) fillNextBlank(word.dataset.w);
+      if(word && (!suppressWordClick || e.detail === 0)) fillNextBlank(word.dataset.w, word);
       suppressWordClick = false;
     });
     bank.addEventListener('pointerdown', dragStart);
@@ -1888,11 +1891,48 @@ function fillBlank(input, word){
   input.value = word; input.size = Math.max(5, word.length+1); input.classList.remove('ok','no');
   const p = per(input.dataset.s); p.notes[input.dataset.id] = word; delete p.marks[input.dataset.id];
 }
-function fillNextBlank(word){
+function fillNextBlank(word, source){
   if(S.view !== S.cur || S.investigate || st().phase !== 'record') return;
   const blank = [...document.querySelectorAll('#dockBody .nblock.now .blank')].find(input => !input.readOnly && !input.value.trim());
-  if(blank) fillBlank(blank, word);
+  if(blank){
+    const from = source?.getBoundingClientRect();
+    fillBlank(blank, word);   // commit immediately, so rapid taps always reserve different blanks
+    wordPlacementFeedback(blank, source, from);
+  }
   clearSel();
+}
+function clearWordFlights(){ document.querySelectorAll('.word-flight').forEach(el => el.remove()); }
+function wordPlacementFeedback(input, source, from){
+  const sound = $('#wordPlace');
+  sound.volume = .55; sound.currentTime = 0; sound.play().catch(() => {});
+  if(!input.animate) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  input.animate(reduced ? [
+    {backgroundColor:'rgba(242,207,115,.5)'}, {backgroundColor:'transparent'}
+  ] : [
+    {transform:'scale(1)',backgroundColor:'rgba(242,207,115,.2)'},
+    {transform:'scale(1.07)',backgroundColor:'rgba(242,207,115,.55)',offset:.45},
+    {transform:'scale(1)',backgroundColor:'transparent'}
+  ], {duration:reduced ? 180 : 360,easing:'ease-out'});
+  if(reduced || !source || !from) return;
+  source.getAnimations().forEach(animation => animation.cancel());
+  source.animate([{transform:'scale(1)'},{transform:'scale(.92)',offset:.3},{transform:'scale(1)'}],{duration:220,easing:'ease-out'});
+  const to = input.getBoundingClientRect(), ghost = document.createElement('span');
+  ghost.className = 'word word-flight'; ghost.textContent = source.dataset.w;
+  ghost.setAttribute('aria-hidden','true');
+  Object.assign(ghost.style,{
+    left:from.left+'px',top:from.top+'px',width:from.width+'px',height:from.height+'px',
+    backgroundColor:getComputedStyle(source).backgroundColor
+  });
+  document.body.appendChild(ghost);
+  const dx = to.left + to.width/2 - from.left - from.width/2;
+  const dy = to.top + to.height/2 - from.top - from.height/2;
+  const flight = ghost.animate([
+    {transform:'translate(0,0) rotate(0deg) scale(1)',opacity:.95},
+    {transform:`translate(${dx*.5}px,${dy*.5-16}px) rotate(-4deg) scale(.85)`,opacity:.9,offset:.5},
+    {transform:`translate(${dx}px,${dy}px) rotate(0deg) scale(.55)`,opacity:0}
+  ],{duration:260,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'});
+  flight.finished.then(() => ghost.remove(), () => ghost.remove());
 }
 function clearSel(){ S.sel = null; document.querySelectorAll('.word.sel').forEach(w => w.classList.remove('sel')); }
 
@@ -1924,7 +1964,10 @@ function dragEnd(e){
   if(drag.ghost){
     suppressWordClick = true;
     drag.ghost.remove();
-    if(drag.hot){ drag.hot.classList.remove('hot'); if(e.type === 'pointerup') fillBlank(drag.hot, word); }
+    if(drag.hot){
+      drag.hot.classList.remove('hot');
+      if(e.type === 'pointerup'){ fillBlank(drag.hot, word); wordPlacementFeedback(drag.hot); }
+    }
     clearSel();
   }
   drag = null;
@@ -1941,6 +1984,7 @@ function cancelCapture(){
   voice.pause();
 }
 function setNotes(open){
+  if(!open) clearWordFlights();
   if(open) discoveryRun++;
   if(open && discoveryPerson) finishDiscovery(false);
   cancelCapture();

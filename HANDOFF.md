@@ -118,6 +118,7 @@ node server.js            # http://localhost:5173/
 - **질문 → 듣기 → 받아 적기**
   - 질문을 고르면 NPC가 영어 음성으로만 대답하고, 대기 시간 없이 바로 노트가 아래에서 올라온다(화면 아래 60%). 질문 선택과 동시에 해당 인물 페이지로 전환하며 기존 슬라이드 애니메이션은 유지한다.
   - 받아 적는 동안 노트에는 **지금 질문의 빈칸만** 보인다. **단어 카드를 터치하면 지금 질문의 앞쪽 비어 있는 칸부터 차례로 채워진다**(사용자 요청, `fillNextBlank()`). 이미 채운 칸은 건너뛰고, 전부 차 있으면 덮어쓰지 않는다. 원하는 칸에 카드를 드래그해 넣거나 직접 입력할 수도 있다. 드래그는 해당 칸만 바꾸며, 칸 밖에 놓거나 취소하면 입력하지 않는다. 키보드로 카드 버튼을 실행해도 같은 순서로 채워진다. 채점 전에는 정답 여부를 드러내지 않는다.
+  - **단어 입력 반응**(`wordPlacementFeedback()`): 클릭·터치·키보드 실행 시 카드가 살짝 눌리고, 복제 카드가 빈칸으로 260ms 동안 날아가 사라진다. 입력된 칸은 금빛으로 살짝 튀며 `audio/word-place.wav`의 짧은 톡 소리(95ms)가 난다. 드래그 착지도 칸 반응·같은 소리를 쓴다. 정답·오답에 같은 중립 효과이며, 모든 칸이 차 있거나 드래그가 취소되면 반응하지 않는다. 값은 애니메이션 전에 즉시 저장해 연속 클릭의 중복·덮어쓰기를 막는다. 모션 줄이기에서는 이동·확대 없이 짧은 금빛 표시와 소리만 낸다. `clearWordFlights()`가 노트 재렌더·닫기에서 이동 중인 복제 카드를 정리한다.
   - 노트 머리줄 왼쪽에 `다시 듣기`·`천천히`, 오른쪽에 `기록 완료`가 있다. `Note` 제목, 분홍 여백선, × 닫기는 없앴다.
   - 써넣은 글자는 중립 펜 색(남색 #34506E)이다. `기록 완료`를 누르기 전에는 맞고 틀림을 드러내지 않는다.
   - 도토리 힌트(사건 전체에서 3번, 모든 인물이 함께 쓴다, `S.hints`)는 오른쪽 위에 있고, 받아 적는 중에만 쓸 수 있다. 영어 자막 말풍선을 보여 준다.
@@ -343,6 +344,7 @@ node server.js            # http://localhost:5173/
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 남은 답변(2026-10-16 적용)**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
 - **Claude의 Higgsfield MCP `generate_audio`는 `emotion`·`language_boost`를 저장하지 않는다.** 감정이 필요한 대사는 사용자가 Higgsfield 화면에서 만든다. 공유 링크(`higgsfield.ai/s/…`)는 WebFetch로 mp3 주소와 job id를 얻고, `show_generation_by_ids`로 대사·목소리 설정을 확인한다.
+- **단어 입력 효과음**: `audio/word-place.wav`, Codex가 직접 합성한 짧은 톡 소리. 22,050Hz·16bit·모노 PCM, 약 95ms·4,234바이트. 감쇠하는 단일 음과 낮춘 잡음의 조합이며 정답 채점 소리와 구분한다. `#wordPlace`로 미리 불러오고 볼륨 .55에서 재생. 외부 생성 서비스·크레딧 미사용.
 - 효과음 `camera-shutter.mp3`(사용자 제공). `mole-m2-alt.mp3`는 미사용 대체 테이크, `linda-old/`는 이전 두더지 목소리 백업이다.
 - `천천히`는 다음 재생부터 적용한다. 현장 이동·다른 NPC 대화·기록 완료에서 대사를 멈춘다.
 
