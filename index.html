@@ -408,13 +408,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .toast[hidden]{display:block!important;opacity:0}
 .toast.discovery-toast{background:var(--paper);color:var(--ink);border:1.5px solid rgba(74,54,40,.3);box-shadow:0 3px 12px rgba(74,54,40,.12)}
 
-/* test tool outside the frame: left of the phone on wide screens, small top-right badge on phones */
-.devtools{position:fixed;z-index:200;top:16px;right:16px;display:flex;gap:6px}
+/* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
+.devtools{display:none}
 .devbtn[aria-pressed="true"]{background:var(--honey)}
-.devbtn{border:2px dashed var(--ink);background:var(--paper-2);color:var(--ink);border-radius:12px;padding:6px 10px;font-family:var(--f-display);font-size:12px;opacity:.9}
-@media (min-width:520px){
-  .devtools{right:auto;left:16px;flex-direction:column;gap:8px}
-  .devbtn{font-size:14px;padding:8px 14px}
+.devbtn{border:2px dashed var(--ink);background:var(--paper-2);color:var(--ink);border-radius:12px;font-family:var(--f-display);font-size:14px;padding:8px 14px;opacity:.9}
+@media (min-width:768px){
+  .devtools{position:fixed;z-index:200;top:16px;left:16px;display:flex;flex-direction:column;gap:8px}
 }
 
 @media (prefers-reduced-motion:reduce){
