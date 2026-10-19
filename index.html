@@ -282,6 +282,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* one piece of evidence: the photo, the detective's sentence (played on opening, the play button again), 해석, and 내밀기 in the ending */
 .evidence-detail{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
 .ev-back{border:0;background:none;padding:2px 0;font-family:var(--f-display);font-size:14px;color:var(--ink-soft)}
+.dock-head .ev-back{justify-self:start;min-height:36px}
 .evidence-photo{display:block;align-self:stretch;margin:0 0 2px;aspect-ratio:4/3;overflow:hidden;border:2px solid var(--ink);border-radius:6px;background:var(--paper-2)}
 .evidence-photo svg{display:block;width:100%;height:100%}
 .evidence-detail .place{font-size:12px;color:var(--ink-soft)}
@@ -716,6 +717,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <section class="dock" aria-label="노트">
       <div class="who" id="who" aria-label="노트 페이지"></div>
       <div class="dock-head">
+        <button class="ev-back" id="evidenceBack" type="button" hidden>‹ 증거 기록</button>
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
           <button class="pill" id="slow" type="button" aria-pressed="false">천천히</button>
@@ -1611,6 +1613,7 @@ function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint(); updateAccuse();
   const body = $('#dockBody');
   const mode = noteMode();
+  $('#evidenceBack').hidden = true;
   $('#finish').hidden = !mode;
   // the check of a finished conversation (its result or fresh stamp) takes the whole screen
   $('#app').classList.toggle('note-full', noteRaised);
@@ -1618,10 +1621,11 @@ function renderDock(){
   if(S.view === 'evidence'){
     const ref = record => `${record.placeId}-${record.clueIndex}`;
     const open = S.evidence.find(record => ref(record) === evidenceOpen);
+    $('#listen').hidden = true;
+    $('#evidenceBack').hidden = !open;
     if(open){
       const place = placeOf(open.placeId), clue = place.clues[open.clueIndex];
       body.innerHTML = `<div class="evidence-page"><div class="evidence-detail" data-evidence="${ref(open)}">
-        <button class="ev-back" type="button" data-ev-back>‹ 증거 기록</button>
         <figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${open.photo}</figure>
         <span class="place">${esc(place.label)}</span>
         <h4>${esc(clue.label)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref(open)}" aria-label="다시 듣기">${playIcon}</button>` : ''}</h4>
@@ -1674,9 +1678,6 @@ function bindDock(){
   const body = $('#dockBody');
   body.querySelectorAll('[data-ev-open]').forEach(button => button.addEventListener('click', () => {
     evidenceOpen = button.dataset.evOpen; renderDock(); playEvidence(evidenceOpen);
-  }));
-  body.querySelectorAll('[data-ev-back]').forEach(button => button.addEventListener('click', () => {
-    $('#evidenceVoice').pause(); evidenceOpen = null; renderDock();
   }));
   body.querySelectorAll('[data-ev-play]').forEach(button => button.addEventListener('click', () => playEvidence(button.dataset.evPlay)));
   body.querySelectorAll('[data-evidence-ko]').forEach(button => button.addEventListener('click', () => {
@@ -2036,6 +2037,9 @@ $('#replay').onclick = () => { if(st()?.recording) speak(cur().answers[st().reco
 $('#slow').onclick = e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); };
 // tapping the scene behind the open notebook puts it away (word-card drags never land here as a click)
 $('#noteScrim').onclick = closeNotes;
+$('#evidenceBack').onclick = () => {
+  $('#evidenceVoice').pause(); evidenceOpen = null; renderDock();
+};
 $('#mapTab').onclick = () => openSheet($('#sheet-map').classList.contains('open') ? null : 'map');
 $('#sheet-map').addEventListener('pointerdown', () => { clearTimeout(mapAutoTimer); discoveryGoal = null; });
 $('#hint').onclick = useHint;
