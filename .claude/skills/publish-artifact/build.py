@@ -24,7 +24,7 @@ if not keep_dev:
     # the handlers stay (their buttons still exist); the buttons are just not shown
     html = html.replace('</style>', '.devtools{display:none!important}\n</style>', 1)
 
-refs = sorted(set(re.findall(r'(?:assets|audio)/[\w./-]+?\.(?:png|jpe?g|webp|svg|mp3|wav|ogg)', html)))
+refs = sorted(set(re.findall(r'(?:assets|audio)/[\w./-]+?\.(?:png|jpe?g|webp|svg|mp3|wav|ogg|woff2)', html)))
 files, missing, total = {}, [], len(html.encode('utf-8'))
 for ref in refs:
     path = os.path.join(project, *ref.split('/'))

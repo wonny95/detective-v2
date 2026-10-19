@@ -4,10 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>숲속 탐정 Pioo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap">
+<link rel="preload" href="assets/fonts/Paperlogy-4Regular.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* Paperlogy (SIL OFL 1.1), bundled in assets/fonts. "Paperlogy Display" = the SemiBold cut for titles, buttons and stamps,
+   so those rules can keep font-weight:400. */
+@font-face{font-family:"Paperlogy";src:url("assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Paperlogy";src:url("assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Paperlogy Display";src:url("assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Paperlogy Display";src:url("assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700;font-display:swap}
 /* base reset (was supplied by the artifact host) */
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0;font-size:14px}
@@ -32,9 +36,9 @@ img{max-width:100%}
   --sky:#BFD3EE;
   --ok:#5E8A63;
   --no:#C25B5B;
-  --f-display:"Jua","Gowun Dodum",system-ui,sans-serif;
-  --f-body:"Gowun Dodum",system-ui,sans-serif;
-  --f-hand:"Gaegu","Gowun Dodum",cursive;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;
+  --f-body:"Paperlogy",system-ui,sans-serif;
+  --f-hand:"Paperlogy",system-ui,sans-serif;
   --r-wobble:18px 22px 16px 24px / 22px 16px 24px 18px;
   --r-wobble-2:24px 14px 22px 16px / 16px 24px 14px 22px;
   color-scheme:light;
@@ -122,7 +126,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes stage-card{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
 .pill.blue{background:var(--sky);color:var(--ink)}
 
-.bubble{position:absolute;left:50%;top:44px;transform:translateX(-50%);z-index:5;width:max-content;max-width:min(88%,340px);background:#FFFDF7;border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);padding:10px 14px;font-family:var(--f-hand);font-size:19px;line-height:1.25;box-shadow:3px 4px 0 rgba(74,54,40,.18);animation:pop .25s ease-out}
+.bubble{position:absolute;left:50%;top:44px;transform:translateX(-50%);z-index:5;width:max-content;max-width:min(88%,340px);background:#FFFDF7;border:2.5px solid var(--ink);border-radius:var(--r-wobble-2);padding:10px 14px;font-family:var(--f-hand);font-size:16px;line-height:1.25;box-shadow:3px 4px 0 rgba(74,54,40,.18);animation:pop .25s ease-out}
 .bubble::after{content:"";position:absolute;left:50%;bottom:-13px;width:20px;height:20px;background:#FFFDF7;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg) skew(8deg,8deg)}
 .bubble .tag{display:block;font-family:var(--f-display);font-size:11px;color:var(--berry);margin-bottom:2px}
 .bubble button{position:absolute;top:2px;right:6px;border:0;background:none;font-size:16px;line-height:1;padding:4px;color:var(--ink-soft)}
@@ -191,9 +195,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-person h3 small{margin-left:auto;font-size:13px;color:var(--ink-soft)}
 .rv-q{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
 .rv-label{font-size:11px;color:var(--ink-soft)}
-.mcard .rv-en{font-family:var(--f-hand);font-size:18px;line-height:1.35}
+.mcard .rv-en{font-family:var(--f-hand);font-size:15px;line-height:1.35}
 .mcard .rv-ko{font-size:13px;color:var(--ink-soft)}
-.rv-notes{font-family:var(--f-hand);font-size:17px;line-height:1.45;background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px;align-self:stretch}
+.rv-notes{font-family:var(--f-hand);font-size:14px;line-height:1.45;background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px;align-self:stretch}
 .rv-notes .ok{color:var(--ok)}
 .rv-notes s{color:var(--no)}
 .rv-notes .fix{color:var(--ok);text-decoration:underline}
@@ -202,8 +206,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .evidence-card{padding:10px;background:#FFFDF7;border:2px solid var(--ink);border-radius:5px;box-shadow:3px 4px 0 rgba(74,54,40,.12)}
 .evidence-photo{margin:0 0 10px;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--line);background:var(--paper-2)}
 .evidence-photo svg{display:block;width:100%;height:100%}
-.evidence-card h4{margin:4px 0;font-family:var(--f-hand);font-size:23px}
-.evidence-card .place{font-family:var(--f-hand);font-size:16px;color:var(--ink-soft)}
+.evidence-card h4{margin:4px 0;font-family:var(--f-hand);font-size:20px}
+.evidence-card .place{font-family:var(--f-hand);font-size:14px;color:var(--ink-soft)}
 .evidence-card p{margin:8px 0;font-size:16px;line-height:1.5}
 .evidence-card .ko{font-size:14px;color:var(--ink-soft)}
 .capture-flash{position:absolute;inset:0;z-index:7;background:#fff;pointer-events:none;animation:shutter-flash .38s ease-out forwards}
@@ -225,7 +229,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .q .n{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-size:13px;background:var(--peach)}
 /* a question to ask again after a wrong check: blue number */
 .q.again .n{background:var(--sky)}
-.q .en{display:block;font-family:var(--f-hand);font-weight:700;font-size:19px;line-height:1.1}
+.q .en{display:block;font-family:var(--f-hand);font-weight:700;font-size:16px;line-height:1.1}
 .q .ko{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
 
 .listen{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -248,7 +252,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .question-state.ok{background:#E8EFDD;color:#466249}
 .question-state.review{background:#F8EAC4;color:#816124}
 .blank.review{border-bottom-color:#BC9854;border-bottom-style:dotted}
-.nline{font-family:var(--f-hand);font-size:20px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
+.nline{font-family:var(--f-hand);font-size:17px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
 /* written answers are in neutral pen ink; a check strikes through only the wrong ones */
 .blank{font:inherit;font-weight:700;color:#34506E;border:0;border-bottom:2.5px dashed var(--ink-soft);background:transparent;min-width:3.5em;padding:0 4px;margin:0 2px;text-align:center;border-radius:0}
@@ -258,7 +262,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .blank.no{color:var(--no);text-decoration:line-through 2.5px var(--no)}
 .howto{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.5}
 .bank{display:flex;flex-wrap:wrap;gap:8px}
-.word{touch-action:none;user-select:none;-webkit-user-select:none;border:2px solid var(--ink);border-radius:12px 14px 11px 15px;background:var(--honey);padding:4px 11px;font-family:var(--f-hand);font-weight:700;font-size:18px;box-shadow:2px 2px 0 rgba(74,54,40,.22);cursor:grab}
+.word{touch-action:none;user-select:none;-webkit-user-select:none;border:2px solid var(--ink);border-radius:12px 14px 11px 15px;background:var(--honey);padding:4px 11px;font-family:var(--f-hand);font-weight:700;font-size:15px;box-shadow:2px 2px 0 rgba(74,54,40,.22);cursor:grab}
 .word:nth-child(3n+1){background:#F8D9C6}
 .word:nth-child(3n+2){background:#DCEAD3}
 .word.sel{outline:3px solid var(--berry);outline-offset:2px}
@@ -270,7 +274,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .inv{display:none;flex:1 1 auto;min-height:0;flex-direction:column;background:var(--paper)}
 .app.investigate .inv{display:flex}
 .inv-head{flex:none;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:12px 124px 10px 16px;border-bottom:3px solid var(--ink);background:var(--paper-2)}
-.inv-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1}
+.inv-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:20px;line-height:1}
 .inv-head .kind{display:block;font-family:var(--f-display);font-size:11px;color:var(--berry)}
 .badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
 .art-stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper-2)}
@@ -280,19 +284,19 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .art > svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .scene-npc{position:absolute;z-index:2;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer}
 .scene-npc svg{display:block;width:100%;height:100%;overflow:visible}
-.scene-npc span{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);padding:2px 8px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-family:var(--f-hand);font-size:15px;font-weight:700;white-space:nowrap}
+.scene-npc span{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);padding:2px 8px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-family:var(--f-hand);font-size:13px;font-weight:700;white-space:nowrap}
 .scene-npc:hover span,.scene-npc:focus-visible span{background:var(--honey)}
 .scene-npc:focus-visible{outline:3px dashed var(--berry);outline-offset:4px;border-radius:18px}
 .spot{position:absolute;padding:0;border:0;background:transparent;border-radius:16px;cursor:zoom-in}
 .tapfx{position:absolute;pointer-events:none;transform:translate(-50%,-50%);animation:tapfx .9s ease-out forwards;white-space:nowrap}
-.tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:18px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
+.tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
 @keyframes tapfx{from{opacity:1;transform:translate(-50%,-50%) scale(.6)}to{opacity:0;transform:translate(-50%,-80%) scale(1.15)}}
 .swipe-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(74,54,40,.8);color:var(--paper);padding:6px 12px;border-radius:14px;font-size:12px;pointer-events:none;white-space:nowrap}
 .inv-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;font-family:var(--f-display);font-size:15px;color:var(--ink-soft)}
 .people-here{display:flex;flex-direction:column;gap:6px}
 .people-here .lbl{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
 .people-row{display:flex;gap:8px;flex-wrap:wrap}
-.person{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:3px 12px 3px 3px;font-family:var(--f-hand);font-weight:700;font-size:17px;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
+.person{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:3px 12px 3px 3px;font-family:var(--f-hand);font-weight:700;font-size:14px;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
 .person .mini{width:32px;height:32px}
 
 /* ---------- bottom navigation ---------- */
@@ -347,14 +351,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .mcard{width:100%;max-width:370px;max-height:100%;overflow-y:auto;background:var(--paper);border:3px solid var(--ink);border-radius:26px 30px 24px 32px/30px 24px 32px 26px;padding:18px 18px 16px;box-shadow:5px 6px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;gap:12px}
 .mcard h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:24px;text-wrap:balance}
 .mcard p{margin:0;line-height:1.6;font-size:14px}
-.eyebrow{font-family:var(--f-hand);font-weight:700;font-size:18px;color:var(--berry)}
+.eyebrow{font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--berry)}
 .steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;counter-reset:s}
 .steps li{display:grid;grid-template-columns:26px 1fr;gap:8px;font-size:13px;line-height:1.45;counter-increment:s}
 .steps li::before{content:counter(s);width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:var(--honey);display:grid;place-items:center;font-family:var(--f-display);font-size:12px}
 /* case select: the first screen — a case notebook with one folder card per case */
 .cases{box-sizing:border-box;position:absolute;inset:0;z-index:35;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px calc(18px + env(safe-area-inset-bottom,0px));overflow-y:auto;background-color:var(--paper);
   background-image:radial-gradient(circle at 20% 30%,rgba(141,180,142,.16) 0 2px,transparent 3px),radial-gradient(circle at 70% 80%,rgba(242,207,115,.18) 0 2px,transparent 3px);background-size:38px 38px,52px 52px}
-.cases-head h1{margin:2px 0 0;font-family:var(--f-hand);font-weight:700;font-size:36px;line-height:1}
+.cases-head h1{margin:2px 0 0;font-family:var(--f-hand);font-weight:700;font-size:31px;line-height:1}
 .case-list{display:flex;flex-direction:column;gap:22px;padding-top:6px}
 .case-card{box-sizing:border-box;position:relative;display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:center;width:100%;text-align:left;border:2.5px solid var(--ink);border-radius:6px 18px 16px 20px/6px 20px 16px 18px;background:#FFFDF7;padding:12px;box-shadow:3px 4px 0 rgba(74,54,40,.2)}
 .case-card::before{content:"";position:absolute;top:-13px;left:14px;width:64px;height:13px;background:inherit;border:2.5px solid var(--ink);border-bottom:0;border-radius:9px 9px 0 0}
@@ -362,7 +366,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .case-thumb{width:104px;height:78px;border:2px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper-2);display:grid;place-items:center}
 .case-thumb svg{width:100%;height:100%;display:block}
 .case-no{display:block;font-family:var(--f-display);font-size:12px;color:var(--berry)}
-.case-title{display:block;font-family:var(--f-hand);font-weight:700;font-size:25px;line-height:1.1;margin:2px 0 8px}
+.case-title{display:block;font-family:var(--f-hand);font-weight:700;font-size:21px;line-height:1.1;margin:2px 0 8px}
 .badge.st-new{background:var(--honey)}
 .badge.st-going{background:var(--sky)}
 .badge.st-solved{background:var(--moss)}
@@ -401,7 +405,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes tdrag2{0%,15%{transform:translate(0,0)}55%,85%{transform:translate(116px,-46px)}100%{transform:translate(0,0)}}
 @keyframes tdrag{0%,15%{transform:translate(0,0)}55%,85%{transform:translate(121px,-90px)}100%{transform:translate(0,0)}}
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pick button{border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-hand);font-weight:700;font-size:16px}
+.pick button{border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-hand);font-weight:700;font-size:14px}
 .pick .mini{width:58px;height:58px}
 
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
@@ -1964,17 +1968,17 @@ const ART = {
   bakery: () => `
     <image href="assets/places/bakery-higgsfield.png" width="1376" height="768"/>
     <g transform="rotate(-2 145 250)" text-anchor="middle">
-      <text x="145" y="250" font-family="Jua, sans-serif" font-size="21" fill="#C25B5B">CLOSED</text>
-      <text x="145" y="270" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="#4A3628">at 7 PM</text>
+      <text x="145" y="250" font-family="'Paperlogy Display', sans-serif" font-size="17" fill="#C25B5B">CLOSED</text>
+      <text x="145" y="270" font-family="Paperlogy, sans-serif" font-weight="700" font-size="13.6" fill="#4A3628">at 7 PM</text>
     </g>`,
 
   cafe: () => `
     <image href="assets/places/cafe-higgsfield.png" width="1376" height="768"/>
     <g transform="rotate(-1.5 762 212)" text-anchor="middle">
-      <text x="762" y="190" font-family="Jua, sans-serif" font-size="26" fill="#C96F86">LIVE</text>
-      <text x="762" y="214" font-family="Jua, sans-serif" font-size="17" fill="#4A3628">MUSIC</text>
-      <text x="762" y="244" font-family="Gaegu, cursive" font-weight="700" font-size="17" fill="#4A3628">Ray Raccoon</text>
-      <text x="762" y="266" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="#4A3628">8:00–9:30</text>
+      <text x="762" y="190" font-family="'Paperlogy Display', sans-serif" font-size="23" fill="#C96F86">LIVE</text>
+      <text x="762" y="214" font-family="'Paperlogy Display', sans-serif" font-size="17" fill="#4A3628">MUSIC</text>
+      <text x="762" y="244" font-family="Paperlogy, sans-serif" font-weight="700" font-size="14.4" fill="#4A3628">Ray Raccoon</text>
+      <text x="762" y="266" font-family="Paperlogy, sans-serif" font-weight="700" font-size="13.6" fill="#4A3628">8:00–9:30</text>
     </g>`,
 
   hill: () => `
@@ -2186,14 +2190,14 @@ const TUT = [
         <rect x="232" y="74" width="50" height="24" rx="11" fill="#FFFDF7"/>
         <rect x="162" y="112" width="100" height="28" rx="13" fill="#F2CF73"/>
       </g>
-      <text x="180" y="44" text-anchor="middle" font-family="Jua, sans-serif" font-size="12" fill="${INK}">1</text>
-      <text x="195" y="45" font-family="Gaegu, cursive" font-weight="700" font-size="14" fill="${INK}">What happened?</text>
+      <text x="180" y="44" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="12" fill="${INK}">1</text>
+      <text x="195" y="45" font-family="Paperlogy, sans-serif" font-weight="700" font-size="11.9" fill="${INK}">What happened?</text>
       <circle class="pulse" cx="180" cy="40" r="15" fill="none" stroke="#C96F86" stroke-width="3"/>
-      <text x="194" y="90" text-anchor="middle" font-family="Jua, sans-serif" font-size="11.5" fill="${INK}">다시 듣기</text>
-      <text x="257" y="90" text-anchor="middle" font-family="Jua, sans-serif" font-size="11.5" fill="${INK}">천천히</text>
-      <text x="176" y="131" font-family="Jua, sans-serif" font-size="12.5" fill="${INK}">힌트</text>
+      <text x="194" y="90" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="11.5" fill="${INK}">다시 듣기</text>
+      <text x="257" y="90" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="11.5" fill="${INK}">천천히</text>
+      <text x="176" y="131" font-family="'Paperlogy Display', sans-serif" font-size="12.5" fill="${INK}">힌트</text>
       <use href="#acorn" x="204" y="117" width="16" height="16"/><use href="#acorn" x="222" y="117" width="16" height="16"/><use href="#acorn" x="240" y="117" width="16" height="16"/>
-      <text x="236" y="164" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">글자 없이 소리로만</text>
+      <text x="236" y="164" text-anchor="middle" font-family="Paperlogy, sans-serif" font-size="11" fill="#7D6A58">글자 없이 소리로만</text>
     </svg>` },
   { title:'Note에 받아 적어요',
     text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 끌어다 놓거나</b> 빈칸을 눌러 직접 써요. <b>기록 완료</b>를 누르면 그 질문을 확인해요. 틀린 칸에는 <b>점선 밑줄</b>이 생기니 다시 듣고 고쳐요. <b>바르게 적어야</b> 새 장소와 인물이 나타나요.',
@@ -2207,21 +2211,21 @@ const TUT = [
         <rect x="94" y="32" width="44" height="20" rx="9" fill="#FFFDF7"/>
         <rect x="196" y="31" width="62" height="22" rx="10" fill="#8DB48E"/>
       </g>
-      <text x="60" y="46" text-anchor="middle" font-family="Jua, sans-serif" font-size="11" fill="${INK}">다시 듣기</text>
-      <text x="116" y="46" text-anchor="middle" font-family="Jua, sans-serif" font-size="11" fill="${INK}">천천히</text>
-      <text x="227" y="46" text-anchor="middle" font-family="Jua, sans-serif" font-size="12" fill="${INK}">기록 완료</text>
-      <text x="38" y="104" font-family="Gaegu, cursive" font-weight="700" font-size="19" fill="${INK}">I was at the</text>
+      <text x="60" y="46" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="11" fill="${INK}">다시 듣기</text>
+      <text x="116" y="46" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="11" fill="${INK}">천천히</text>
+      <text x="227" y="46" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="12" fill="${INK}">기록 완료</text>
+      <text x="38" y="104" font-family="Paperlogy, sans-serif" font-weight="700" font-size="16.1" fill="${INK}">I was at the</text>
       <path d="M152 108 H232" stroke="#7D6A58" stroke-width="2.5" stroke-dasharray="6 5"/>
-      <text x="38" y="132" font-family="Gaegu, cursive" font-weight="700" font-size="19" fill="${INK}">It was very</text>
-      <text x="152" y="132" font-family="Gaegu, cursive" font-weight="700" font-size="19" fill="#34506E">cold</text>
+      <text x="38" y="132" font-family="Paperlogy, sans-serif" font-weight="700" font-size="16.1" fill="${INK}">It was very</text>
+      <text x="152" y="132" font-family="Paperlogy, sans-serif" font-weight="700" font-size="16.1" fill="#34506E">cold</text>
       <path d="M150 136 H196" stroke="#BC9854" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/>
       <rect x="202" y="120" width="54" height="17" rx="8" fill="#F8EAC4"/>
-      <text x="229" y="132" text-anchor="middle" font-family="Jua, sans-serif" font-size="10" fill="#816124">다시 확인</text>
+      <text x="229" y="132" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="10" fill="#816124">다시 확인</text>
       <g filter="url(#wob)" ${T_INK}><rect x="112" y="148" width="64" height="24" rx="11" fill="#DCEAD3"/></g>
-      <text x="144" y="165" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="${INK}">school</text>
+      <text x="144" y="165" text-anchor="middle" font-family="Paperlogy, sans-serif" font-weight="700" font-size="13.6" fill="${INK}">school</text>
       <g class="drag2">
         <rect x="38" y="148" width="62" height="24" rx="11" fill="#F2CF73" ${T_INK}/>
-        <text x="69" y="165" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="${INK}">park</text>
+        <text x="69" y="165" text-anchor="middle" font-family="Paperlogy, sans-serif" font-weight="700" font-size="13.6" fill="${INK}">park</text>
       </g>
     </svg>` },
   { title:'찾아가서 조사해요',
@@ -2229,7 +2233,7 @@ const TUT = [
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="10" y="14" width="140" height="126" viewBox="40 60 720 648" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/village-map-higgsfield.png" width="768" height="1376"/>
-        <g font-family="Jua, sans-serif" font-size="34" text-anchor="middle" fill="${INK}" stroke-linejoin="round">
+        <g font-family="'Paperlogy Display', sans-serif" font-size="34" text-anchor="middle" fill="${INK}" stroke-linejoin="round">
           <rect x="60" y="392" width="220" height="56" rx="24" fill="#FFFDF7" stroke="${INK}" stroke-width="5"/><text x="170" y="432">Old Library</text>
           <rect x="390" y="196" width="220" height="56" rx="24" fill="#FFFDF7" stroke="${INK}" stroke-width="5"/><text x="500" y="236">Moon Hill</text>
         </g>
@@ -2247,8 +2251,8 @@ const TUT = [
         <rect class="pulse" x="270" y="450" width="280" height="200" rx="24" fill="none" stroke="#C96F86" stroke-width="9"/>
       </svg>
       <rect x="170" y="14" width="140" height="126" rx="10" fill="none" ${T_INK}/>
-      <text x="80" y="160" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">지도에서 장소 고르기</text>
-      <text x="240" y="160" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">눌러서 증거 사진 · 대화</text>
+      <text x="80" y="160" text-anchor="middle" font-family="Paperlogy, sans-serif" font-size="11" fill="#7D6A58">지도에서 장소 고르기</text>
+      <text x="240" y="160" text-anchor="middle" font-family="Paperlogy, sans-serif" font-size="11" fill="#7D6A58">눌러서 증거 사진 · 대화</text>
     </svg>` },
   { title:'증거로 범인을 밝혀요',
     text:'모든 인물과 이야기를 마치면 지도에 <b>범인 지목하기</b>가 나타나요. 범인을 고르면 대질이 시작돼요. 상대의 말이 거짓이면 <b>증거 내밀기</b>로 맞는 증거를 보여 줘요. <b>틀린 증거를 내밀면 처음부터</b> 다시 물어야 해요.',
@@ -2260,18 +2264,18 @@ const TUT = [
       <rect x="10" y="14" width="170" height="126" rx="10" fill="none" ${T_INK}/>
       <g filter="url(#wob)" ${T_INK}><rect x="22" y="30" width="134" height="34" rx="12" fill="#FFFDF7"/></g>
       <path d="M44 63 L38 76 L58 63" fill="#FFFDF7" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
-      <text x="89" y="52" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="${INK}">I was at home!</text>
+      <text x="89" y="52" text-anchor="middle" font-family="Paperlogy, sans-serif" font-weight="700" font-size="13.6" fill="${INK}">I was at home!</text>
       <g filter="url(#wob)" ${T_INK}><rect x="192" y="14" width="118" height="126" rx="10" fill="#FFFDF7"/></g>
       <svg x="200" y="22" width="102" height="66" viewBox="270 450 280 181" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/hill-higgsfield.png" width="1376" height="768"/>
       </svg>
       <rect x="200" y="22" width="102" height="66" fill="none" stroke="${INK}" stroke-width="1.5"/>
-      <text x="204" y="106" font-family="Gaegu, cursive" font-weight="700" font-size="14" fill="${INK}">Footprints</text>
+      <text x="204" y="106" font-family="Paperlogy, sans-serif" font-weight="700" font-size="11.9" fill="${INK}">Footprints</text>
       <g filter="url(#wob)" ${T_INK}><rect x="246" y="113" width="56" height="20" rx="9" fill="#8DB48E"/></g>
-      <text x="274" y="127" text-anchor="middle" font-family="Jua, sans-serif" font-size="11.5" fill="${INK}">내밀기</text>
+      <text x="274" y="127" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="11.5" fill="${INK}">내밀기</text>
       <circle class="pulse" cx="274" cy="123" r="20" fill="none" stroke="#C96F86" stroke-width="3"/>
       <path d="M188 96 H130 M138 90 L130 96 L138 102" fill="none" stroke="#FFFDF7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="160" y="164" text-anchor="middle" font-family="Gowun Dodum, sans-serif" font-size="11" fill="#7D6A58">거짓말에 맞는 증거를 내밀기 · 틀리면 처음부터</text>
+      <text x="160" y="164" text-anchor="middle" font-family="Paperlogy, sans-serif" font-size="11" fill="#7D6A58">거짓말에 맞는 증거를 내밀기 · 틀리면 처음부터</text>
     </svg>` }
 ];
 let tutStep = 0, tutThenStart = false;
