@@ -879,6 +879,30 @@ const GRAMMAR_LINES = {
   'duck:d1':  [['be-past','Was Ray here'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
   'duck:d2':  [['did-q','Did he leave'], ['negative','No, never'], ['past-reg','watched']]
 };
+// Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
+// pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
+// Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
+const SENTENCE_TIMES = {
+  'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
+  'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],
+  'badger:b3':[[0,1.6],[1.9,3.83]],
+  'mole:m1':[[0.21,2.85],[3.52,8.34]],
+  'mole:m2':[[0.13,4.1],[4.5,8.92]],
+  'mole:m3':[[0,4.08],[4.8,7.05]],
+  'fiona:q1':[[0.09,3.3],[3.46,6.75]],
+  'fiona:q2':[[0,1.03],[1.39,3.79],[4.03,5.02]],
+  'fiona:q3':[[0.1,1.81],[2.07,4.76],[5.09,7.39]],
+  'ray:q1':[[0.11,1.59],[1.99,5.09]],
+  'ray:q2':[[0.08,1.35],[1.4,2.54],[3.08,4.31]],
+  'ray:q3':[[0,3.21],[4.17,6.17]],
+  'rosie:q1':[[0.08,3.8],[4.39,6.27]],
+  'rosie:q2':[[0.14,1.24],[1.46,3.89],[4.31,6.11]],
+  'rosie:q3':[[0.09,2.8],[3.05,5.04]],
+  'duck:d1':[[0,0.7],[1.14,4.29]],
+  'duck:d2':[[0,1.21],[1.63,4.49],[4.7,6.2]]
+};
+// Sentences of an answer ("Mrs." / "Mr." / "Sgt." do not end one).
+const sentencesOf = text => text.split(/(?<!\b(?:Mrs|Mr|Sgt|Dr)\.)(?<=[.!?])\s+/);
 // Korean for each answer. Shown only on the review screen after the case is solved.
 const ANSWERS_KO = {
   badger:{
@@ -1181,8 +1205,11 @@ function stopVoice(){
   if('speechSynthesis' in window) speechSynthesis.cancel();
   setTalking(false);
 }
+const blobSrc = {};
+const seekableSrc = src => blobSrc[src] ||= fetch(src).then(r => r.ok ? r.blob() : Promise.reject()).then(b => URL.createObjectURL(b)).catch(() => src);
 // onDone runs once the line has finished (not when it is cut off by another line or stopVoice).
-function speak(text, key, who = S.cur, onDone){
+// range: [start, end] seconds of the recording to play (one sentence); it never calls onDone.
+function speak(text, key, who = S.cur, onDone, range){
   stopVoice();
   const turn = speechTurn;
   talker = who;
@@ -1190,11 +1217,25 @@ function speak(text, key, who = S.cur, onDone){
   const length = text.length * (S.slow ? 95 : 70) + 500;
   const src = spk(who).audio?.[key];
   if(src){
-    clip.src = src;
-    clip.preservesPitch = true;
-    clip.playbackRate = S.slow ? .75 : 1;
-    clip.addEventListener('ended', done, { once:true });
-    clip.play().catch(() => { if(turn === speechTurn){ setTalking(false); toast('음성을 재생하지 못했어요. 다시 듣기를 눌러 주세요.'); done(); } });
+    const play = url => {
+      if(turn !== speechTurn) return;
+      clip.src = url;
+      clip.preservesPitch = true;
+      clip.playbackRate = S.slow ? .75 : 1;
+      clip.addEventListener('ended', done, { once:true });
+      clip.play().catch(() => { if(turn === speechTurn){ setTalking(false); toast('음성을 재생하지 못했어요. 다시 듣기를 눌러 주세요.'); done(); } });
+    };
+    // one sentence: a media fragment on an in-memory copy, which can always seek (a plain file URL can only
+    // when the server answers range requests)
+    if(range) seekableSrc(src).then(url => {
+      play(`${url}#t=${range[0]},${range[1]}`);
+      // the fragment end is only checked a few times a second; stop right at the end so the next sentence never leaks in
+      const watch = setInterval(() => {
+        if(turn !== speechTurn) return clearInterval(watch);
+        if(clip.currentTime >= range[1] - .02){ clip.pause(); clearInterval(watch); }
+      }, 15);
+    });
+    else play(src);
     return;
   }
   // No recording: browser TTS. If it never starts (no voices, e.g. inside an app preview), the person
@@ -1598,6 +1639,12 @@ function checkNotes(id){
 function replayLine(ref){
   const [id, qid] = ref.split(':');
   speak(spk(id).answers[qid], qid, id);
+}
+// One sentence of an answer: the matching part of the recording (or that sentence by browser TTS).
+function replaySentence(ref, idx){
+  const [id, qid] = ref.split(':'), range = SENTENCE_TIMES[ref]?.[idx];
+  if(!range) return replayLine(ref);
+  speak(sentencesOf(spk(id).answers[qid])[idx], qid, id, undefined, range);
 }
 // Switch between the conversation view and the place view. Either can be left and resumed;
 // an unfinished recording waits in the notebook until the player comes back.
@@ -2586,9 +2633,9 @@ function grammarChips(id, qid, passage){
 function grammarLine(id, qid, words){
   const s = spk(id), answer = s.answers[qid], question = qs(s).find(q => q.id === qid).en;
   const inAnswer = answer.includes(words), text = inAnswer ? answer : question;
-  const sentence = text.split(/(?<=[.!?])\s+/).find(part => part.includes(words)) || text;
+  const parts = sentencesOf(text), idx = Math.max(0, parts.findIndex(part => part.includes(words))), sentence = parts[idx];
   const at = sentence.indexOf(words);
-  return { inAnswer, html:esc(sentence.slice(0, at)) + `<mark>${esc(words)}</mark>` + esc(sentence.slice(at + words.length)) };
+  return { inAnswer, idx, html:esc(sentence.slice(0, at)) + `<mark>${esc(words)}</mark>` + esc(sentence.slice(at + words.length)) };
 }
 const grammarUses = g => Object.entries(GRAMMAR_LINES).flatMap(([ref, items]) => {
   const [id, qid] = ref.split(':');
@@ -2606,7 +2653,7 @@ function openGrammar(g){
       const s = spk(id), line = grammarLine(id, qid, words);
       return `<div class="gline"><div class="wtop"><span class="wwho">${line.inAnswer
         ? `<span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}` : '내 질문'}</span>
-        ${line.inAnswer ? `<button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button>` : ''}</div>
+        ${line.inAnswer ? `<button class="replay-q" type="button" data-replay="${id}:${qid}" data-sent="${line.idx}" aria-label="다시 듣기">${playIcon}</button>` : ''}</div>
         <p>${line.html}</p></div>`;
     }).join('')}</div>
     <button class="pill big" type="button" data-gclose>닫기</button>`;
@@ -2615,7 +2662,7 @@ function openGrammar(g){
 }
 $('#grammar').addEventListener('click', e => {
   const replay = e.target.closest('[data-replay]');
-  if(replay) return replayLine(replay.dataset.replay);
+  if(replay) return replaySentence(replay.dataset.replay, +replay.dataset.sent);
   if(e.target.closest('[data-gclose]') || e.target.id === 'grammar'){ stopVoice(); $('#grammar').hidden = true; }
 });
 
@@ -2634,12 +2681,25 @@ function learnedWords(){
       if(!knownQuestion(id, q.id)) return;
       (s.notes[q.id] || []).forEach(line => line.replace(BLANK_RE, (m, bid, ans) => {
         const key = ans.split('/')[0].toLowerCase();
-        if(WORDS[key] && !seen.has(key)) seen.set(key, { word:ans.split('/')[0], key, line, bid, ref:`${id}:${q.id}` });
+        if(WORDS[key] && !seen.has(key)) seen.set(key, { word:ans.split('/')[0], key, line, bid, ref:`${id}:${q.id}`, sent:sentenceFor(s.answers[q.id], ans, line) });
         return m;
       }));
     });
   });
   return [...seen.values()];
+}
+// Which sentence of the answer a note blank was heard in: one that says the word (any accepted form), the one
+// sharing most words with the note line when several or none do.
+function sentenceFor(answer, ans, line){
+  const tokens = text => text.toLowerCase().replace(/[^a-z0-9: ]/g, ' ').split(/\s+/).filter(Boolean);
+  const said = ans.split('/').map(v => new RegExp(`\\b${v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'));
+  const lineWords = new Set(tokens(line.replace(BLANK_RE, (m, bid, a) => a.split('/')[0])));
+  let best = 0, top = -1;
+  sentencesOf(answer).forEach((sentence, i) => {
+    const score = (said.some(re => re.test(sentence)) ? 100 : 0) + tokens(sentence).filter(w => lineWords.has(w)).length;
+    if(score > top){ top = score; best = i; }
+  });
+  return best;
 }
 // A note line with its blanks filled in; the blank `mark` is highlighted.
 function filledLine(line, mark){
@@ -2670,7 +2730,7 @@ function renderWords(){
         return !list.length ? '' : `<h2 class="home-sec">${label} <small>${list.length}</small></h2>` + list.map(w => {
           const [, ko, say] = WORDS[w.key];
           return `<div class="wcard"><div class="wtop"><span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}</span>
-            <button class="replay-q" type="button" data-wplay="${w.ref}" aria-label="문장 듣기">${playIcon}</button></div>
+            <button class="replay-q" type="button" data-wplay="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기">${playIcon}</button></div>
             <p class="wline">${filledLine(w.line, w.bid)}</p>${koToggle(ko)}</div>`;
         }).join('');
       }).join(''));
@@ -2728,7 +2788,7 @@ $('#caseList').addEventListener('click', e => {
   const tab = e.target.closest('[data-home]');
   if(tab){ if(tab.dataset.home !== homeTab){ homeTab = tab.dataset.home; renderHome(); } return; }
   const play = e.target.closest('[data-wplay]');
-  if(play) return replayLine(play.dataset.wplay);
+  if(play) return play.dataset.sent ? replaySentence(play.dataset.wplay, +play.dataset.sent) : replayLine(play.dataset.wplay);
   const mode = e.target.closest('[data-wbmode]');
   if(mode){ wordMode = mode.dataset.wbmode; renderWords(); $('#home-words').scrollTop = 0; return; }
   const grammar = e.target.closest('[data-grammar]');
