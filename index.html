@@ -347,6 +347,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .map-art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 .map-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;background:rgba(251,244,230,.92);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 14px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
 .map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:28px 16px 12px;background:linear-gradient(rgba(251,244,230,0),rgba(251,244,230,.9) 45%)}
+.map-foot:has(#accuseBtn[hidden]){display:none}
 .pin{position:absolute;transform:translate(-50%,-50%);border:2px solid var(--ink);background:var(--paper);border-radius:var(--r-wobble);padding:4px 10px;font-family:var(--f-display);font-size:13px;white-space:nowrap;box-shadow:2px 2px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;align-items:center;gap:3px}
 .pin.crime{background:var(--berry);color:#FFFDF7}
 /* a place that has just become known: the pin pops out, then a honey ring pulses around it */
@@ -391,7 +392,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .case-card.locked .case-no{color:var(--ink-soft)}
 .case-lock{display:block;font-size:12px}
 .cases .linkbtn{margin-top:auto}
-.map-links{display:flex;justify-content:center;gap:14px}
 .linkbtn{border:0;background:none;padding:4px;text-decoration:underline;font-size:12px;color:var(--ink-soft);align-self:center}
 /* tutorial: one step per page, picture guide on top */
 .tut{gap:12px}
@@ -523,10 +523,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
       </div>
       <div class="map-foot">
         <button class="pill big" id="accuseBtn" type="button" hidden>범인 지목하기</button>
-        <div class="map-links">
-          <button class="linkbtn" type="button" id="toCases">사건 목록</button>
-          <button class="linkbtn" type="button" id="howtoMap">플레이 방법 다시 보기</button>
-        </div>
       </div>
     </section>
 
@@ -2363,8 +2359,6 @@ function startCase(){
 }
 $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case]')) startCase(); });
 $('#howtoList').onclick = () => openTutorial(false);
-$('#toCases').onclick = openCaseList;
-$('#howtoMap').onclick = () => openTutorial(false);
 
 /* ---------- test tools ---------- */
 // Write the correct answer into every blank of the given questions; returns how many blanks were filled.
