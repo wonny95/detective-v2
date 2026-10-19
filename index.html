@@ -252,10 +252,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .question-state.ok{background:#E8EFDD;color:#466249}
 .question-state.review{background:#F8EAC4;color:#816124}
 /* grammar chips under a checked question (note, review, word book) and the grammar card they open */
-.gchips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
-.gchip{display:inline-flex;align-items:center;min-height:26px;border:1.5px solid var(--ink);border-radius:13px;background:#FFFDF7;padding:1px 10px;font-family:var(--f-display);font-size:12px;color:var(--ink);box-shadow:1px 2px 0 rgba(74,54,40,.15)}
-.gchip:active{transform:translateY(1px);box-shadow:none}
-.gchip[aria-pressed="true"]{background:var(--honey)}
+.ptoggle{display:inline-flex;align-items:center;gap:4px;min-height:28px;margin:4px 0 2px;padding:0 2px;border:0;background:none;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
+.ptoggle::after{content:"▾";font-size:11px}
+.ptoggle[aria-pressed="true"]::after{content:"▴"}
 /* the answer the person said, shown once the question is checked; grammar words are links to their card */
 .npassage{margin:2px 0 4px;padding:8px 10px;border:1.5px dashed var(--line);border-radius:10px;background:rgba(255,253,247,.75);font-size:15px;line-height:1.65}
 .gmark{display:inline;margin:0;padding:0 1px;border:0;border-bottom:1.5px solid #C9952E;border-radius:0;background:linear-gradient(transparent 58%,rgba(242,207,115,.55) 58%) no-repeat 0 0/100% 100%;font:inherit;color:inherit}
@@ -280,12 +279,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .blank.hot{background:rgba(141,180,142,.35)}
 .blank.ok{border-bottom:2.5px solid var(--ok);color:var(--ok)}
 /* a question just written down right (.fresh, one render only): the right blanks light up one by one, 확인됨 is
-   stamped, the notebook rises, the grammar chips float up, then the passage unfolds and its grammar is highlighted */
+   stamped, the notebook rises, the 지문 toggle floats up, then the passage unfolds and its grammar is highlighted */
 .nblock.fresh .blank.ok{animation:ink-ok .5s cubic-bezier(.3,1.5,.5,1) calc(var(--i) * 110ms) both}
 @keyframes ink-ok{0%{transform:scale(1);background-color:rgba(141,180,142,0)}35%{transform:scale(1.14);background-color:rgba(141,180,142,.45)}100%{transform:scale(1);background-color:rgba(141,180,142,0)}}
 .nblock.fresh .question-state{animation:state-stamp .45s cubic-bezier(.3,1.6,.5,1) .2s both}
 @keyframes state-stamp{from{transform:scale(1.9) rotate(-8deg);opacity:0}}
-.nblock.fresh .gchip{animation:rise .38s ease-out calc(.6s + var(--i) * 90ms) both}
+.nblock.fresh .ptoggle{animation:rise .38s ease-out .6s both}
 .nblock.fresh .npassage{animation:unfold .5s ease-out .95s both}
 @keyframes unfold{from{opacity:0;transform:translateY(-6px);clip-path:inset(0 0 100% 0)}to{opacity:1;transform:none;clip-path:inset(0 0 -4px 0)}}
 .nblock.fresh .gmark{animation:mark-sweep .5s ease-out calc(1.4s + var(--i) * 180ms) both}
@@ -865,24 +864,24 @@ const WORDS = {
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
 };
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','이름·장소']];
-// Grammar notes. chip: the label under a checked question; name/pattern/ko: the card (Korean shown as soon as the
+// Grammar notes, opened from the grammar links in a passage. name/pattern/ko: the card (Korean shown as soon as the
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
-  'be-past':   { chip:'was / were', name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.' },
-  'past-prog': { chip:'was + -ing', name:'과거진행', pattern:'was / were + -ing', ko:'지난 어느 때에 "하고 있던 중"이던 일을 말해요. I was reading = 책을 읽고 있었어요.' },
-  'past-reg':  { chip:'-ed 과거', name:'규칙 과거형', pattern:'동사 + -ed', ko:'동사 끝에 -ed를 붙여 지난 일을 말해요. play → played, borrow → borrowed, watch → watched. 끝의 -ed는 /d/·/t/로 아주 약하게 들려요.' },
-  'past-irr':  { chip:'불규칙 과거', name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.' },
-  'time-prep': { chip:'at · from · between', name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.' },
-  'to-purpose':{ chip:'to + 동사', name:'목적의 to부정사', pattern:'to + 동사원형', ko:'"~하려고, ~하러"라는 목적을 말해요. went to see a friend = 친구를 만나러 갔다.' },
-  'too-adj':   { chip:'too + 형용사', name:'too + 형용사', pattern:'too + 형용사', ko:'"너무 ~한"이라는 뜻이에요. 보통 지나쳐서 좋지 않다는 느낌이 들어 있어요. too hot = 너무 뜨겁다.' },
-  'passive':   { chip:'was + p.p.', name:'수동태', pattern:'was / were + 과거분사', ko:'누가 했는지보다 "~되었다"는 일에 초점을 둘 때 써요. was found = 발견되었다.' },
-  'negative':  { chip:'not · never · nobody', name:'부정 표현', pattern:'not / never / nobody', ko:'not은 "~않다", never는 "한 번도 ~않다", nobody는 "아무도 ~않다"예요. never·nobody가 있으면 not을 또 쓰지 않아요.' },
-  'going-to':  { chip:'be going to', name:'미래 표현', pattern:'be going to + 동사원형', ko:'"~할 거예요"라는 앞으로의 일을 말해요. I\'m going to call her = 그녀에게 전화할 거예요.' },
-  'modal':     { chip:'can · should', name:'조동사', pattern:'can / should + 동사원형', ko:'can은 "~할 수 있다", should는 "~해야 한다, ~하는 게 좋다"예요. 뒤에는 늘 동사원형이 와요.' },
-  'imperative':{ chip:'명령문', name:'명령문', pattern:'동사원형으로 시작', ko:'주어 없이 동사원형으로 시작하면 "~하세요"라는 지시·부탁이에요. Open the door = 문을 여세요.' },
-  'did-q':     { chip:'Did …?', name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)' },
-  'wh-q':      { chip:'Wh- 질문', name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.' },
-  'phrasal':   { chip:'동사 + back/in', name:'구동사', pattern:'come back · come in · give back', ko:'동사에 back·in 같은 작은 말이 붙어 새 뜻이 돼요. come back = 돌아오다, come in = 들어오다, give it back = 돌려주다(it이 가운데 들어가요).' }
+  'be-past':   { name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.' },
+  'past-prog': { name:'과거진행', pattern:'was / were + -ing', ko:'지난 어느 때에 "하고 있던 중"이던 일을 말해요. I was reading = 책을 읽고 있었어요.' },
+  'past-reg':  { name:'규칙 과거형', pattern:'동사 + -ed', ko:'동사 끝에 -ed를 붙여 지난 일을 말해요. play → played, borrow → borrowed, watch → watched. 끝의 -ed는 /d/·/t/로 아주 약하게 들려요.' },
+  'past-irr':  { name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.' },
+  'time-prep': { name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.' },
+  'to-purpose':{ name:'목적의 to부정사', pattern:'to + 동사원형', ko:'"~하려고, ~하러"라는 목적을 말해요. went to see a friend = 친구를 만나러 갔다.' },
+  'too-adj':   { name:'too + 형용사', pattern:'too + 형용사', ko:'"너무 ~한"이라는 뜻이에요. 보통 지나쳐서 좋지 않다는 느낌이 들어 있어요. too hot = 너무 뜨겁다.' },
+  'passive':   { name:'수동태', pattern:'was / were + 과거분사', ko:'누가 했는지보다 "~되었다"는 일에 초점을 둘 때 써요. was found = 발견되었다.' },
+  'negative':  { name:'부정 표현', pattern:'not / never / nobody', ko:'not은 "~않다", never는 "한 번도 ~않다", nobody는 "아무도 ~않다"예요. never·nobody가 있으면 not을 또 쓰지 않아요.' },
+  'going-to':  { name:'미래 표현', pattern:'be going to + 동사원형', ko:'"~할 거예요"라는 앞으로의 일을 말해요. I\'m going to call her = 그녀에게 전화할 거예요.' },
+  'modal':     { name:'조동사', pattern:'can / should + 동사원형', ko:'can은 "~할 수 있다", should는 "~해야 한다, ~하는 게 좋다"예요. 뒤에는 늘 동사원형이 와요.' },
+  'imperative':{ name:'명령문', pattern:'동사원형으로 시작', ko:'주어 없이 동사원형으로 시작하면 "~하세요"라는 지시·부탁이에요. Open the door = 문을 여세요.' },
+  'did-q':     { name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)' },
+  'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.' },
+  'phrasal':   { name:'구동사', pattern:'come back · come in · give back', ko:'동사에 back·in 같은 작은 말이 붙어 새 뜻이 돼요. come back = 돌아오다, come in = 들어오다, give it back = 돌려주다(it이 가운데 들어가요).' }
 };
 // Where each grammar shows up: [grammar id, the words to highlight] per answer. The words are looked up in the
 // answer first, then in the player's question.
@@ -1403,7 +1402,7 @@ function blockHTML(sIdx, qid, now){
   // outside the live recording, each answer can be heard again while checking the page
   const replay = now ? '' : `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
   const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
-  return `<div class="nblock${now?' now':''}${freshCheck === ref ? ' fresh' : ''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? grammarChips(sIdx, qid, { open:openPassages.has(ref) }) +
+  return `<div class="nblock${now?' now':''}${freshCheck === ref ? ' fresh' : ''}" data-q="${qid}"><span class="qlabel">${label}${replay}</span>${feedback}${lines}${status === 'ok' ? passageToggle(ref, openPassages.has(ref)) +
     `<p class="npassage"${openPassages.has(ref) ? '' : ' hidden'}>${markGrammar(s.answers[qid], items)}</p>` : ''}</div>`;
 }
 
@@ -1505,6 +1504,7 @@ function bindDock(){
     text.hidden = !text.hidden;
     openPassages[text.hidden ? 'delete' : 'add'](button.dataset.passage);
     button.setAttribute('aria-pressed', !text.hidden);
+    button.textContent = text.hidden ? '지문 보기' : '지문 접기';
   }));
   body.querySelectorAll('[data-present]').forEach(button => button.addEventListener('click', () => present(button.dataset.present)));
   const bank = body.querySelector('#bank');
@@ -1806,7 +1806,7 @@ function setMapOrigin(btn){
   sh.style.transition = '';
 }
 $('#mapTab').onclick = () => openSheet($('#sheet-map').classList.contains('open') ? null : 'map');
-$('#sheet-map').addEventListener('pointerdown', () => clearTimeout(mapAutoTimer));
+$('#sheet-map').addEventListener('pointerdown', () => { clearTimeout(mapAutoTimer); discoveryGoal = null; });
 $('#hint').onclick = useHint;
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
@@ -1864,6 +1864,9 @@ function unlock(u, quiet){
 }
 // New places from a check wait until the notebook is put away; then the map opens and their pins pop out.
 let pendingPins = [], pendingPeople = [], freshPins = new Set(), freshTimer, mapAutoTimer;
+// Where the player is taken once a check's discoveries have been shown: the first new person (their conversation),
+// else the first new place (its scene). Set when the notebook is put away; dropped if the player takes over the map.
+let discoveryGoal = null;
 const MAP_AUTO_CLOSE_MS = 3000;   // how long a map that opened for new pins stays before it closes by itself
 function afterMotion(element, callback){
   const animations = element.getAnimations();
@@ -1872,6 +1875,7 @@ function afterMotion(element, callback){
 }
 function revealDiscoveries(){
   if(!pendingPins.length && !pendingPeople.length) return;
+  discoveryGoal = pendingPeople.length ? { person:pendingPeople[0] } : { place:pendingPins[0] };
   const run = ++discoveryRun;
   afterMotion($('.dock'), () => {
     if(run !== discoveryRun || $('#app').classList.contains('notes-open') || $('#sheet-map').classList.contains('open') || !$('#caseList').hidden) return;
@@ -1910,10 +1914,17 @@ function finishDiscovery(showMap = true){
   discoveryRun++;
   clearTimeout(discoveryTimer);
   if(discoveryPerson){
-    const fromRect = spk(discoveryPerson).place === cur().place ? $('#art').getBoundingClientRect() : null;
+    const person = discoveryPerson;
+    const fromRect = spk(person).place === cur().place ? $('#art').getBoundingClientRect() : null;
     discoveryPerson = null;
     $('#app').classList.remove('discovering', 'discovery-ready');
     $('#toast').hidden = true;
+    // introduced right here and nothing else to show: straight into a conversation with them
+    if(showMap && discoveryGoal?.person === person && !pendingPins.length && !pendingPeople.length){
+      discoveryGoal = null; discoveryOrigin = null;
+      talkTo(person);
+      return;
+    }
     if(discoveryOrigin){
       const place = discoveryOrigin;
       discoveryOrigin = null;
@@ -1936,14 +1947,22 @@ function revealPins(){
   afterMotion($('#sheet-map'), () => {
     if(run !== discoveryRun || !$('#sheet-map').classList.contains('open')) return;
     toast(places.length && people.length ? '새로운 장소와 인물을 알게 됐어요.' : people.length ? '새로운 인물을 알게 됐어요.' : '새로운 장소를 알게 됐어요.', true);
-    // the map opened by itself, so it closes by itself too and the game carries on where it was;
-    // touching the map (a pin, the menu) keeps it open
+    // the map opened by itself, so it closes by itself too: to the new person or place (discoveryGoal), or back to
+    // where the game was; touching the map (a pin, the menu) keeps it open
     mapAutoTimer = setTimeout(() => {
-      if(run === discoveryRun && $('#sheet-map').classList.contains('open')) openSheet(null);
+      if(run === discoveryRun && $('#sheet-map').classList.contains('open')) goToDiscovery();
     }, MAP_AUTO_CLOSE_MS);
   });
   clearTimeout(freshTimer);
   freshTimer = setTimeout(() => { freshPins.clear(); document.querySelectorAll('.pin.fresh').forEach(pin => pin.classList.remove('fresh')); }, 4200);
+}
+
+function goToDiscovery(){
+  const goal = discoveryGoal;
+  discoveryGoal = null;
+  if(goal?.person) talkTo(goal.person);
+  else if(goal?.place) enterPlace(goal.place);
+  else openSheet(null);
 }
 
 /* ---------- accuse ---------- */
@@ -2183,7 +2202,7 @@ function openReview(fromHome){
             <p class="rv-en">${markGrammar(s.answers[qid], items)} <button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button></p>
             <p class="rv-ko" hidden>${esc(ANSWERS_KO[id]?.[qid] || '')}</p>
             <button class="pill sm" type="button" data-rv-ko aria-pressed="false">해석</button>
-            <div class="rv-notes">${lines}</div>${grammarChips(id, qid)}</div>`;
+            <div class="rv-notes">${lines}</div></div>`;
         }).join('') + '</section>';
     }).join('') +
     `<button class="pill big" type="button" data-solved>${reviewFromHome ? '닫기' : '사건 목록으로'}</button>`;
@@ -2661,13 +2680,8 @@ function markGrammar(text, items = []){
   });
   return html + esc(text.slice(last));
 }
-// passage: the 지문 toggle for a checked question in the note (open = the answer text is showing).
-function grammarChips(id, qid, passage){
-  const items = GRAMMAR_LINES[`${id}:${qid}`] || [];
-  const toggle = passage ? `<button class="gchip" type="button" data-passage="${id}:${qid}" aria-pressed="${passage.open}" style="--i:0">지문</button>` : '';
-  return !items.length && !toggle ? '' : `<div class="gchips">${toggle}${[...new Set(items.map(([g]) => g))].map((g, i) =>
-    `<button class="gchip" type="button" data-grammar="${g}" style="--i:${i + 1}">${esc(GRAMMAR[g].chip)}</button>`).join('')}</div>`;
-}
+// The 지문 toggle under a checked question in the note (open = the answer text is showing).
+const passageToggle = (ref, open) => `<button class="ptoggle" type="button" data-passage="${ref}" aria-pressed="${open}">${open ? '지문 접기' : '지문 보기'}</button>`;
 // The sentence of the answer (or the question) that holds the words, with the words marked.
 function grammarLine(id, qid, words){
   const s = spk(id), answer = s.answers[qid], question = qs(s).find(q => q.id === qid).en;
