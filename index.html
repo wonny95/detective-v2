@@ -1869,14 +1869,12 @@ function ask(qid){
   p.phase = 'record'; p.recording = qid;
   if(!p.order.includes(qid)) p.order.push(qid);
   hideBubble();
-  // the answer is first heard with the camera still close on the speaker (user decision: no zoom-out
-  // while it plays); the notebook rises when it ends, unless it was opened by hand meanwhile
-  const id = S.cur;
-  speak(cur().answers[qid], qid, id, () => {
-    if(S.cur === id && !S.investigate && !discoveryPerson && p.phase === 'record' && p.recording === qid && !document.querySelector('.sheet.open')) setNotes(true);
-  });
+  // Open the current question immediately, so the player can write while listening.
   S.view = S.cur;
+  noteRaised = false;
   renderDock();
+  setNotes(true);
+  speak(cur().answers[qid], qid, S.cur);
 }
 // 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
 function useHint(){
@@ -3142,7 +3140,7 @@ const tutToolbar = (finish='기록 완료') => tutButton(27,23,76,'▶ 다시 �
 const tutFrame = body => `<svg viewBox="0 0 320 180" aria-hidden="true" font-family="Paperlogy, sans-serif" fill="${INK}">${body}</svg>`;
 const TUT = [
   { title:'질문하고 들어요',
-    text:'인물을 누르고 <b>질문 카드</b>를 골라요. 답변은 <b>영어 음성</b>으로 들려요. 음성이 끝나면 노트가 올라와요. 노트 위의 <b>다시 듣기 · 천천히</b>로 반복해서 들을 수 있어요.',
+    text:'인물을 누르고 <b>질문 카드</b>를 골라요. <b>노트가 바로 올라오고 영어 답변이 재생</b>돼요. 들으면서 빈칸을 채우고, <b>다시 듣기 · 천천히</b>로 반복해서 들을 수 있어요.',
     fig:() => tutFrame(`
       <svg x="10" y="12" width="140" height="156" viewBox="380 330 340 379" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
@@ -3157,7 +3155,7 @@ const TUT = [
       <circle class="pulse" cx="178" cy="43" r="15" fill="none" stroke="#C96F86" stroke-width="3"/>
       <path d="M235 68 v20 m-5 -5 5 5 5 -5" fill="none" stroke="${INK}" stroke-width="2"/>
       ${tutButton(162,104,84,'▶ 다시 듣기')}${tutButton(250,104,60,'천천히')}
-      <text x="236" y="155" text-anchor="middle" font-size="12" fill="#7D6A58">듣고, 노트에서 다시 듣기</text>`)
+      <text x="236" y="155" text-anchor="middle" font-size="12" fill="#7D6A58">질문과 동시에 노트 열기</text>`)
   },
   { title:'단어를 눌러 채워요',
     text:'<b>단어 카드를 누르면 맨 앞의 빈칸부터</b> 차례로 들어가요. 원하는 칸에 <b>드래그</b>하거나 직접 입력해도 돼요. 막히면 <b>힌트</b>로 한 칸을 채워요. 도토리는 <b>사건 전체에서 3개</b>예요.',
