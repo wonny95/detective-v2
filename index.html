@@ -75,7 +75,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .ask-panel:not(.show-ko) .ko{display:none}
 .ask-panel .q{box-shadow:3px 3px 0 rgba(74,54,40,.25)}
 .app.notes-open .ask-panel{display:none}
-.app.discovering .ask-panel,.app.discovering #hint{display:none}
+.app.discovering .ask-panel{display:none}
 .app.investigate .scene{display:none}
 .chip[hidden]{display:none}
 .chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 192px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
@@ -103,7 +103,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.partner .bubble::after{left:70px}
 @keyframes pop-side{from{transform:scale(.85);opacity:0}}
 /* phase title card (case start / each suspect coming in) */
-.app.ending .chip,.app.ending #hint{visibility:hidden}
+.app.ending .chip{visibility:hidden}
 /* the map/Note bar is gone during the ending, so the scene runs to the bottom edge */
 .app.ending .nav{display:none}
 .app.in-interview .spotlight{opacity:1;background:radial-gradient(ellipse 78% 70% at 50% 40%,rgba(255,225,158,.1) 0 35%,rgba(48,31,20,.15) 70%,rgba(28,23,18,.35) 100%)}
@@ -248,13 +248,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .dock .note-page{background:none;border:0;border-radius:0;padding-left:0;padding-right:0}
 .dock-head .listen{flex-wrap:nowrap}
 .dock-head .listen[hidden]{display:none}
-.dock-head .listen .pill{padding:5px 10px;font-size:13px}
+.dock-head .listen{gap:4px}
+.dock-head .listen .pill{white-space:nowrap}
 .note-page{position:relative}
 .note-page.checked::after{content:"확인됨";position:absolute;top:2px;right:4px;transform:rotate(-10deg);border:3px solid var(--no);border-radius:8px;padding:1px 10px;color:var(--no);font-family:var(--f-display);font-size:18px;opacity:.8;pointer-events:none}
 /* checking a finished conversation: the notebook rises to the top (tabs stay visible above it) */
 .app.note-full .dock{height:calc(100% - 50px)}
 .app.notes-open.note-full .note-scrim{background:rgba(43,30,20,.68);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
-.app.note-full .pill.hint,.app.note-full .chip,.app.note-full .bubble{visibility:hidden}
+.app.note-full .chip,.app.note-full .bubble{visibility:hidden}
 .note-page.checked::after{animation:stamp-in .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes stamp-in{from{transform:rotate(-10deg) scale(1.8);opacity:0}}
 .replay-q{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:6px;padding:0;vertical-align:middle;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper)}
@@ -366,11 +367,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pill svg{width:16px;height:16px;flex:none}
 .pill.sm{padding:3px 10px;font-size:12px}
 .pill[aria-pressed="true"]{background:var(--sky)}
-.pill.hint{position:absolute;top:9px;right:14px;z-index:12;box-sizing:border-box;min-height:36px;padding:4px 9px;font-size:13px;background:var(--honey)}
+/* 힌트 (user decision): writes the right word into the first empty or wrong blank of the question being written down;
+   acorns left for the whole case beside the word. A hinted blank is tinted honey until it is checked. */
+.dock-head .listen .pill.hint{gap:3px;padding:0 8px}
+.pill.hint .acorn-n{display:inline-flex;align-items:center;gap:1px;font-size:13px}
+.pill.hint .acorn-n img{width:15px;height:15px;display:block}
+.pill.hint:disabled{opacity:.5}
+.blank.hint{background-color:rgba(242,207,115,.5);color:#7A5A12}
 .pill:disabled{opacity:.5;cursor:default}
-.acorns{display:inline-flex;gap:2px}
-.acorns img{width:17px;height:17px;display:block}
-.acorns .used{opacity:.25}
 
 .note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:var(--r-wobble-2);padding:8px 12px 10px 42px;display:flex;flex-direction:column;gap:6px}
 .nblock{border-radius:10px;padding:2px 10px}
@@ -452,8 +456,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .inv-head h2{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;max-width:100%;margin:0;padding:0 14px;border:2px solid transparent;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-weight:400;font-size:15px;line-height:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inv-head h2:empty{display:none}
-/* hints only work while writing an answer down, so the place view does not show the (disabled) hint */
-.app.investigate #hint{display:none}
+
 .badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
 .art-stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper-2)}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
@@ -503,8 +506,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch}
 button.chip{box-shadow:none}
 button.chip:active{transform:translateY(1px);filter:brightness(.94)}
-.chip,.pill.hint{top:10px}
-.chip,.pill.hint,.dock-head .listen .pill,.dock-head .finish{box-sizing:border-box;min-height:36px;padding:0 12px;font-size:14px;line-height:1}
+.chip{top:10px}
+.chip,.dock-head .listen .pill,.dock-head .finish{box-sizing:border-box;min-height:36px;padding:0 12px;font-size:14px;line-height:1}
+/* four buttons share the notebook head now (다시 듣기 · 천천히 · 힌트 · 기록 완료), so they are a little narrower */
+.dock-head .listen .pill,.dock-head .finish{padding:0 8px;font-size:13px}
 
 /* ---------- sheets ---------- */
 .sheet{position:absolute;left:0;right:0;bottom:0;height:86%;z-index:10;background:var(--paper);border-top:3px solid var(--ink);border-radius:28px 32px 0 0/26px 30px 0 0;box-shadow:0 -6px 0 rgba(74,54,40,.12);transform:translateY(104%);transition:transform .32s cubic-bezier(.3,1.2,.5,1);display:flex;flex-direction:column}
@@ -748,7 +753,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <div class="main">
-    <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
     <button class="pill top-back" type="button" id="backTab" aria-label="뒤로">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -791,6 +795,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
           <button class="pill" id="slow" type="button" aria-pressed="false">천천히</button>
+          <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" disabled>힌트</button>
         </div>
         <button class="pill finish" type="button" id="finish" hidden>기록 완료</button>
       </div>
@@ -1389,7 +1394,7 @@ const miniSVG = id => FACE_ICONS.includes(id) ? `<img class="face" src="assets/u
    phase per person: 'wait' (not talked to yet) → 'choose' (question cards) → 'record' (listening + writing) → … → 'done'
    S.investigate = the place view is showing (otherwise the conversation view). */
 // checked: the page got its 확인됨 stamp. first/firstWrong: the result of the first 노트 확인 (for the review).
-const newSpeakerState = () => ({ phase:'wait', order:[], recording:null, revealed:new Set(), notes:{}, marks:{}, checked:false, retry:[], questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
+const newSpeakerState = () => ({ phase:'wait', order:[], recording:null, notes:{}, marks:{}, checked:false, retry:[], questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
 const S = {
   cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
   hints:3,           // acorn hints left for the whole case (shared by everyone)
@@ -1575,22 +1580,15 @@ function renderChip(){
   // no question count: how many questions someone has is not shown
   if(!oc.hidden) oc.innerHTML = `<span class="chip-label">${esc(placeOf(s.place).label)}</span>`;
 }
-function showBubble(qid){
-  const s = cur(), q = qs(s).find(x => x.id===qid), b = $('#bubble');
-  b.innerHTML = `<div class="bubble-copy"><span class="tag">HINT · ${esc(q.en)}</span>${esc(s.answers[qid])}</div><button class="bubble-close" type="button" aria-label="말풍선 닫기">×</button>`;
-  b.hidden = false;
-  b.querySelector('button').onclick = hideBubble;
-}
 function hideBubble(){ $('#bubble').hidden = true; }
 
 /* ---------- notebook (Note) ---------- */
 const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5Z" fill="#4A3628"/></svg>`;
-const acorns = n => `<span class="acorns">${[0,1,2].map(i => `<img class="${i < n ? '' : 'used'}" src="assets/ui/icons-v2/acorn.png" alt="" draggable="false">`).join('')}</span>`;
 
 function renderHint(){
   const p = st(), button = $('#hint'), qid = p.recording;
-  button.innerHTML = `힌트 ${acorns(S.hints)}`;
-  button.disabled = S.investigate || p.phase !== 'record' || !qid || (S.hints <= 0 && !p.revealed.has(qid));
+  button.innerHTML = `힌트<span class="acorn-n"><img src="assets/ui/icons-v2/acorn.png" alt="" draggable="false">${S.hints}</span>`;
+  button.disabled = S.investigate || p.phase !== 'record' || !qid || S.hints <= 0;
   button.setAttribute('aria-label', `힌트 ${S.hints}번 남음`);
 }
 
@@ -1858,12 +1856,17 @@ function ask(qid){
   S.view = S.cur;
   renderDock();
 }
+// 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
 function useHint(){
   const p = st(), qid = p.recording;
-  if(S.investigate || p.phase !== 'record' || !qid) return;
-  if(p.revealed.has(qid)) return showBubble(qid);
+  if(S.investigate || p.phase !== 'record' || !qid || S.view !== S.cur) return;
   if(S.hints <= 0) return toast('힌트를 다 썼어요.');
-  S.hints--; p.revealed.add(qid); showBubble(qid); renderDock();
+  const blank = blanksOf(S.cur, [qid]).find(b => !b.value.trim() || !isRight(b));
+  if(!blank) return toast('더 채울 칸이 없어요.');
+  S.hints--;
+  p.notes[blank.id] = blank.ans.split('/')[0];
+  p.marks[blank.id] = 'hint';
+  renderDock();
 }
 const norm = s => s.toLowerCase().replace(/[.'’,!]/g,'').replace(/\s+/g,' ').trim().replace(/\s?pm$/,'');
 function finishRecord(){
@@ -3052,7 +3055,7 @@ const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e)
 const T_INK = `stroke="${INK}" stroke-width="2"`;
 const TUT = [
   { title:'듣고 질문해요',
-    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 노트 위의 <b>다시 듣기 · 천천히</b>로 몇 번이든 다시 들을 수 있어요. 그래도 어려우면 <b>오른쪽 위 도토리 힌트</b>로 자막을 볼 수 있어요(사건 전체에서 3번).',
+    text:'질문 카드를 고르면 상대가 <b>영어 음성으로만</b> 대답해요. 노트 위의 <b>다시 듣기 · 천천히</b>로 몇 번이든 다시 들을 수 있어요. 그래도 어려우면 <b>힌트</b>를 눌러 막힌 칸 하나에 정답을 채울 수 있어요(도토리, 사건 전체에서 3번).',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="10" y="12" width="140" height="156" viewBox="380 330 340 379" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
