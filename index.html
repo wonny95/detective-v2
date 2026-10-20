@@ -77,8 +77,8 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .app.notes-open .ask-panel{display:none}
 .app.discovering .ask-panel,.app.discovering #hint{display:none}
 .app.investigate .scene{display:none}
-.chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 140px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
-.chip.l{left:14px}
+.chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 192px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
+.chip.l{left:66px}
 .chip-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .map-btn{position:relative}
 .map-btn:active{transform:translateY(2px);box-shadow:none}
@@ -445,7 +445,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* as tall as the hint button beside it (top 10px + 36px + 10px), the place name centred on the same line */
 /* the place name floats over the picture as a paper chip, like the top-left chip of a conversation
    (user decision: no header band or rule above the place) */
-.inv-head{position:absolute;top:10px;left:12px;right:12px;z-index:4;display:flex;pointer-events:none}
+.inv-head{position:absolute;top:10px;left:66px;right:12px;z-index:4;display:flex;pointer-events:none}
 .inv-head h2{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;max-width:100%;margin:0;padding:0 14px;border:2px solid transparent;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-weight:400;font-size:15px;line-height:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inv-head h2:empty{display:none}
@@ -477,10 +477,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nav{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:10px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:3px solid var(--ink);background:var(--paper-2);position:relative;z-index:20}
 .tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper);font-family:var(--f-display);font-size:15px;box-shadow:2px 3px 0 rgba(74,54,40,.22)}
 .tab svg{width:24px;height:24px;flex:none}
-/* in a case: a small way out to the case notebook before 지도 · Note (the case stays as it was and resumes) */
-.app > .nav{grid-template-columns:52px repeat(2,minmax(0,1fr))}
-.tab.back{padding:0}
-.tab[aria-expanded="true"]{background:var(--honey)}
+/* in a case: the way out to the case list sits top-left (user decision; the case stays as it was and resumes).
+   Under the notebook's dimming and the map sheet, which have their own ways back. */
+.top-back{position:absolute;top:10px;left:14px;z-index:9;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
+.top-back svg{width:20px;height:20px;display:block}
+.app.ending .top-back{display:none}.tab[aria-expanded="true"]{background:var(--honey)}
 
 /* Paper buttons: flat hand-drawn button art (assets/ui/buttons/*-flat.png, no raised edge).
    border-image keeps the rounded ends unstretched; only the straight middle stretches. --bw = drawn corner size. */
@@ -522,17 +523,22 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .sheet.full.open .map-head,.sheet.full.open .map-foot{opacity:1;transition:opacity .3s .32s}
 @media(prefers-reduced-motion:reduce){.sheet.full,.sheet.full .map-head,.sheet.full .map-foot{transition:none!important}}
 /* the map picture (9:16) covers the whole screen; the title and the footer float over it */
-.map-head{position:absolute;top:0;left:0;right:0;z-index:1;display:flex;align-items:center;gap:10px;padding:12px 16px 24px;background:linear-gradient(rgba(251,244,230,.85),rgba(251,244,230,0))}
-.map-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.2;color:var(--ink)}
-.map-head .x{margin-left:auto;border:2px solid var(--ink);background:var(--paper);width:36px;height:36px;border-radius:50%;font-size:18px;line-height:1}
+/* nothing but the hand-drawn close button over the top of the map (user decision: no title, no white fade) */
+.map-head{position:absolute;top:10px;right:12px;z-index:1}
+.map-head .x{display:block;width:42px;height:42px;padding:0;border:0;background:url(assets/ui/close-button.png) center/contain no-repeat;filter:drop-shadow(0 3px 0 rgba(74,54,40,.3))}
+.map-head .x:active{transform:translateY(1px)}
 .map-stage{position:absolute;inset:0;overflow:hidden;container-type:size;background:#7FA06A}
 .map{position:absolute;left:50%;top:50%;width:max(100cqw, 100cqh * 9 / 16);aspect-ratio:9 / 16;transform:translate(-50%,-50%)}
 .map-art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 .map-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;background:rgba(251,244,230,.92);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 14px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
-.map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:28px 16px 12px;background:linear-gradient(rgba(251,244,230,0),rgba(251,244,230,.9) 45%)}
+.map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:0 16px 14px;pointer-events:none}
+.map-foot > *{pointer-events:auto}
 .map-foot:has(#accuseBtn[hidden]){display:none}
-/* 범인 지목하기 is the same big berry button on the map, in a place and in a conversation (once every conversation is done) */
-.accuse-foot{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;flex-direction:column;padding:28px 16px 12px;background:linear-gradient(rgba(251,244,230,0),rgba(251,244,230,.9) 45%)}
+/* 범인 지목하기 is the same big berry button on the map, in a place and in a conversation (once every conversation is done);
+   on the map and in a place it floats over the picture with a short brown shadow (user decision: no white fade band) */
+.accuse-foot{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;flex-direction:column;padding:0 16px 14px;pointer-events:none}
+.accuse-foot > *{pointer-events:auto}
+.map-foot .pill.big,.accuse-foot .pill.big{filter:drop-shadow(0 4px 0 rgba(74,54,40,.35))}
 .art-stage:has(.accuse-foot:not([hidden])) .swipe-hint{bottom:78px}
 .pin{position:absolute;transform:translate(-50%,-50%);border:2px solid var(--ink);background:var(--paper);border-radius:var(--r-wobble);padding:4px 10px;font-family:var(--f-display);font-size:13px;white-space:nowrap;box-shadow:2px 2px 0 rgba(74,54,40,.25);display:flex;flex-direction:column;align-items:center;gap:3px}
 .pin.crime{background:var(--berry);color:#FFFDF7}
@@ -739,6 +745,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <div class="main">
     <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
+    <button class="pill top-back" type="button" id="backTab" aria-label="사건 목록으로 나가기">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
     <!-- PART 1: interrogation stage -->
     <section class="scene" aria-label="대화 장면">
       <button class="chip l" type="button" id="orderChip">← 현장 둘러보기</button>
@@ -792,8 +801,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         </div>
       </div>
       <div class="map-head">
-        <h2>모시할로우 숲 마을</h2>
-        <button class="x" type="button" data-close aria-label="지도 닫기">×</button>
+        <button class="x" type="button" data-close aria-label="지도 닫기"></button>
       </div>
       <div class="map-foot">
         <button class="pill big" id="accuseBtn" type="button" hidden>범인 지목하기</button>
@@ -804,9 +812,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
 
   <nav class="nav" aria-label="메뉴">
-    <button class="tab back" type="button" id="backTab" aria-label="사건 목록으로 나가기">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
     <button class="tab map-btn" type="button" id="mapTab" aria-expanded="false" aria-controls="sheet-map" aria-label="사건 지도 열기">
       <svg aria-hidden="true"><use href="#mapIcon"/></svg>지도
     </button>

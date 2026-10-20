@@ -88,3 +88,7 @@ Use case: illustration-story. Generate ONE standalone UI speech-bubble TAIL asse
 - `complete-stamp.png` (900×332, 투명): 사용자 요청으로 `수사완료` 한글 도장을 영문 `COMPLETE` 도장으로 교체. Nano Banana 2.1(1K, thinking high, 16:9), 참조: 기존 `investigation-complete-stamp.png`(모양) + `notebook-v2-nobg.png`(화풍). job `f656df82-84d3-447a-a9f1-29b1bfe258de`, 원본 `complete-stamp-higgsfield-original.png`. 마젠타 배경을 지우고(테두리 중앙값을 배경색으로 잡아 알파·색 분리) 잉크 영역으로 잘라 가로 900px로 줄였다. 엔딩 도장 카드(`.cc-stamp`)와 복습 1단계 서류(`.rv-file img`)에 쓴다. 이전 `investigation-complete-stamp.png`는 미사용 보관.
 - `star.png`, `star-empty.png` (160×155, 투명): 얻은 별 / 못 얻은 별. 같은 모델, 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `1d60cfdf-9737-437c-ac15-91b7f5f8aad5`, 원본 `stars-higgsfield-original.png`(왼쪽 금색, 오른쪽 베이지). 반씩 잘라 마젠타를 지웠다. 사건 목록 사진 카드(`.case-stars img`, 16px)와 복습 1단계(`.rv-stars img`, 50px)에 쓴다.
 - 두 장 합계 3크레딧.
+
+## 닫기 버튼 (2026-10-20)
+
+- `close-button.png` (128×128, 투명): 지도 닫기. 사용자 요청으로 Higgsfield 제작. Nano Banana 2.1(1K, thinking high, 1:1, 1.5크레딧), 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `4cb64d76-b816-4afd-8f7b-0b75a0e89e8d`, 원본 `close-button-higgsfield-original.png`. 둥근 크림 종이 + 굵은 갈색 테두리 + 갈색 X. 마젠타를 지우고 잘랐다. `.map-head .x` 배경(42px).
