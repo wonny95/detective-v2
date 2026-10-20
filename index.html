@@ -326,7 +326,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:var(--r-wobble-2);padding:8px 12px 10px 42px;display:flex;flex-direction:column;gap:6px}
 .nblock{border-radius:10px;padding:2px 10px}
 .nblock.now{background:rgba(242,207,115,.28)}
-.nblock .qlabel{display:block;font-family:var(--f-display);font-size:14px;color:var(--ink-soft);padding-top:5px}
+.nblock .qlabel{display:block;font-family:var(--f-display);font-size:14px;color:var(--ink-soft);padding:6px 0 8px}
 .question-state{display:inline-flex;align-items:center;gap:4px;margin:6px 0 2px;padding:2px 8px;border-radius:12px;font-family:var(--f-display);font-size:12px;line-height:1.5}
 .question-state.ok{background:#E8EFDD;color:#466249}
 .question-state.review{background:#F8EAC4;color:#816124}
@@ -352,20 +352,21 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .gline p{margin:0;font-family:var(--f-hand);font-size:15px;line-height:1.4}
 .gline mark{background:#F8EAC4;color:var(--ink);border-radius:3px;padding:0 2px}
 .wb-switch{display:flex;gap:8px}
-.blank.review{border-bottom-color:#BC9854;border-bottom-style:dotted}
+.blank.review{background-color:rgba(188,152,84,.2);box-shadow:inset 0 0 0 1.5px #BC9854}
 .nline{font-family:var(--f-hand);font-size:17px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
-/* written answers are in neutral pen ink; a check strikes through only the wrong ones */
-.blank{font:inherit;font-weight:700;color:#34506E;border:0;border-bottom:2.5px dashed var(--ink-soft);background:transparent;min-width:3.5em;padding:0 4px;margin:0 2px;text-align:center;border-radius:0}
-/* a blank fills the whole ruled line, so its dashed underline lies on the line's ruling */
-.nline .blank{box-sizing:border-box;height:38px;vertical-align:bottom}
-.blank:focus{outline:none;background:rgba(242,207,115,.35)}
-.blank.hot{background:rgba(141,180,142,.35)}
-.blank.ok{border-bottom:2.5px solid var(--ok);color:var(--ok)}
+/* written answers are in neutral pen ink. A blank is a faint rounded slot (user decision: no dashed underline) */
+.blank{font:inherit;font-weight:700;color:#34506E;border:0;background-color:rgba(125,106,88,.1);min-width:3.5em;padding:0 6px;margin:0 2px;text-align:center;border-radius:7px}
+/* in a ruled line the blank still takes the line's full height (so it sits on the ruling), but its slot is
+   inset 5px top and bottom by transparent borders */
+.nline .blank{box-sizing:border-box;height:38px;vertical-align:bottom;border-block:5px solid transparent;background-clip:padding-box;border-radius:12px}
+.blank:focus{outline:none;background-color:rgba(242,207,115,.45)}
+.blank.hot{background-color:rgba(141,180,142,.4)}
+.blank.ok{background-color:rgba(94,138,99,.13);color:var(--ok)}
 /* a question just written down right (.fresh, one render only): the right blanks light up one by one, 확인됨 is
    stamped, the notebook rises, the 지문 toggle floats up, then the passage unfolds and its grammar is highlighted */
 .nblock.fresh .blank.ok{animation:ink-ok .5s cubic-bezier(.3,1.5,.5,1) calc(var(--i) * 110ms) both}
-@keyframes ink-ok{0%{transform:scale(1);background-color:rgba(141,180,142,0)}35%{transform:scale(1.14);background-color:rgba(141,180,142,.45)}100%{transform:scale(1);background-color:rgba(141,180,142,0)}}
+@keyframes ink-ok{0%{transform:scale(1)}35%{transform:scale(1.14);background-color:rgba(141,180,142,.45)}100%{transform:scale(1)}}
 .nblock.fresh .question-state{animation:state-stamp .45s cubic-bezier(.3,1.6,.5,1) .2s both}
 @keyframes state-stamp{from{transform:scale(1.9) rotate(-8deg);opacity:0}}
 .nblock.fresh .ptoggle{animation:rise .38s ease-out .6s both}
@@ -376,7 +377,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* a check with wrong blanks (.miss, one render only): those blanks shake with a red flash and 다시 확인 jolts —
    it still never shows the right answer */
 .nblock.miss .blank.review{animation:ink-miss .55s ease-out calc(var(--i) * 50ms) both}
-@keyframes ink-miss{0%{transform:translateX(0);background-color:rgba(201,111,134,0)}12%{transform:translateX(-6px);background-color:rgba(201,111,134,.4)}28%{transform:translateX(6px)}44%{transform:translateX(-4px)}60%{transform:translateX(4px);background-color:rgba(201,111,134,.25)}78%{transform:translateX(-2px)}100%{transform:translateX(0);background-color:rgba(201,111,134,0)}}
+@keyframes ink-miss{0%{transform:translateX(0)}12%{transform:translateX(-6px);background-color:rgba(201,111,134,.4)}28%{transform:translateX(6px)}44%{transform:translateX(-4px)}60%{transform:translateX(4px);background-color:rgba(201,111,134,.25)}78%{transform:translateX(-2px)}100%{transform:translateX(0)}}
 .nblock.miss .question-state{animation:state-jolt .5s ease-out .05s both}
 @keyframes state-jolt{0%{transform:scale(1.35) rotate(-6deg)}35%{transform:scale(1) rotate(4deg)}60%{transform:rotate(-2deg)}100%{transform:none}}
 @media (prefers-reduced-motion:reduce){.nblock.fresh *,.nblock.miss *{animation:none!important}.dock{transition:transform .2s}}
@@ -2881,7 +2882,7 @@ const TUT = [
       <text x="236" y="164" text-anchor="middle" font-family="Paperlogy, sans-serif" font-size="11" fill="#7D6A58">글자 없이 소리로만</text>
     </svg>` },
   { title:'Note에 받아 적어요',
-    text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 누르면 앞의 빈칸부터</b> 차례로 들어가요. 원하는 칸에 <b>끌어다 놓거나</b> 직접 써도 돼요. <b>기록 완료</b>를 누르면 그 질문을 확인해요. 틀린 칸에는 <b>점선 밑줄</b>이 생기니 다시 듣고 고쳐요. <b>바르게 적어야</b> 새 장소와 인물이 나타나요.',
+    text:'들은 내용을 빈칸에 채워요. <b>단어 카드를 누르면 앞의 빈칸부터</b> 차례로 들어가요. 원하는 칸에 <b>끌어다 놓거나</b> 직접 써도 돼요. <b>기록 완료</b>를 누르면 그 질문을 확인해요. 틀린 칸은 <b>황토색 테두리</b>로 바뀌니 다시 듣고 고쳐요. <b>바르게 적어야</b> 새 장소와 인물이 나타나요.',
     fig:() => `<svg viewBox="0 0 320 180" aria-hidden="true">
       <svg x="0" y="0" width="320" height="180" viewBox="0 0 640 360" preserveAspectRatio="xMidYMin slice">
         <rect width="640" height="360" fill="#5E7A97"/>
@@ -2896,10 +2897,10 @@ const TUT = [
       <text x="116" y="46" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="11" fill="${INK}">천천히</text>
       <text x="227" y="46" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="12" fill="${INK}">기록 완료</text>
       <text x="38" y="104" font-family="Paperlogy, sans-serif" font-weight="700" font-size="16.1" fill="${INK}">I was at the</text>
-      <path d="M152 108 H232" stroke="#7D6A58" stroke-width="2.5" stroke-dasharray="6 5"/>
+      <rect x="150" y="89" width="84" height="22" rx="7" fill="#7D6A58" fill-opacity=".1"/>
       <text x="38" y="132" font-family="Paperlogy, sans-serif" font-weight="700" font-size="16.1" fill="${INK}">It was very</text>
+      <rect x="148" y="117" width="50" height="22" rx="7" fill="#BC9854" fill-opacity=".2" stroke="#BC9854" stroke-width="1.5"/>
       <text x="152" y="132" font-family="Paperlogy, sans-serif" font-weight="700" font-size="16.1" fill="#34506E">cold</text>
-      <path d="M150 136 H196" stroke="#BC9854" stroke-width="2.5" stroke-dasharray="2 4" stroke-linecap="round"/>
       <rect x="202" y="120" width="54" height="17" rx="8" fill="#F8EAC4"/>
       <text x="229" y="132" text-anchor="middle" font-family="'Paperlogy Display', sans-serif" font-size="10" fill="#816124">다시 확인</text>
       <g filter="url(#wob)" ${T_INK}><rect x="112" y="148" width="64" height="24" rx="11" fill="#DCEAD3"/></g>
