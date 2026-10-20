@@ -682,6 +682,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .accused .mini{width:84px;height:84px;border-width:2.5px}
 .mcard .accused-text{font-family:var(--f-display);font-size:18px;line-height:1.5;text-wrap:balance}
 .accused .pill.big{align-self:stretch}
+.mcard .leave-sub{margin-top:-8px;font-size:13px;color:var(--ink-soft)}
 
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
@@ -876,6 +877,16 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <p class="accused-text" id="accusedText"></p>
       <button class="pill big" type="button" data-accused-go>심문 시작</button>
       <button class="pill sm" type="button" data-accused-back>다시 고를래요</button>
+    </div>
+  </div>
+
+  <!-- leaving the case for the case list from a place asks once (user decision); the case is saved either way -->
+  <div class="modal" id="leaveCase" hidden>
+    <div class="mcard accused" role="alertdialog" aria-labelledby="leaveCaseText">
+      <p class="accused-text" id="leaveCaseText">사건 목록으로 나갈까요?</p>
+      <p class="leave-sub">지금까지 조사한 내용은 저장돼요.</p>
+      <button class="pill big" type="button" data-leave-go>사건 목록으로</button>
+      <button class="pill sm" type="button" data-leave-stay>계속 조사하기</button>
     </div>
   </div>
 
@@ -2094,8 +2105,13 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openShe
 $('#backTab').onclick = () => {
   if(discoveryPerson) return finishDiscovery();
   if(!S.investigate && !ending) return leaveTalk();
-  setNotes(false); saveGame(); openCaseList();
+  setNotes(false); $('#leaveCase').hidden = false;
 };
+$('#leaveCase').addEventListener('click', e => {
+  if(e.target.closest('[data-leave-go]')){ $('#leaveCase').hidden = true; saveGame(); openCaseList(); return; }
+  // 계속 조사하기, or a tap outside the card
+  if(e.target.closest('[data-leave-stay]') || e.target.id === 'leaveCase') $('#leaveCase').hidden = true;
+});
 $('#noteTab').onclick = () => {
   const open = !$('#app').classList.contains('notes-open');
   openSheet(null);
