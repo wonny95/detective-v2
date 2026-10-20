@@ -106,7 +106,7 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 - 사용자 요청: 이전 아이콘(위 `icons/`)은 외곽선이 얇아 잘 안 보였다 → 굵은 갈색 외곽선(1024px 기준 약 14px), 노트(서류철)와 어울리는 색연필 화풍.
 - 제작: Nano Banana 2.1, 1K, thinking high, 1.5크레딧. 참조: `notebook-v2-nobg.png`(화풍) + 여섯 인물 `characters/<id>-higgsfield.png`(생김새). 마젠타 배경.
 - 자르기: 마젠타 정도로 알파를 매기고 가장자리 색에서 마젠타를 빼낸 뒤, 칸이 아니라 이어진 덩어리(8방향)별로 잘라 정사각형 여백 4px를 두고 160×160으로 줄였다 → `icons-v2/<이름>.png`. 토끼 귀가 윗줄 칸까지 올라가 있어 칸 자르기는 쓰지 않는다.
-- 적용: 심문 게이지 왼쪽(`.gauge-label`, 26px), 증거 탭 카메라(`cameraIcon`, 30px), 힌트 도토리(`acorns()`, 17px), 작은 얼굴 전부(`miniSVG()`의 `FACE_ICONS`; 둥근 `.mini` 틀 안에서는 아래로 8% 내리고 1.06배).
+- 적용: 증거 탭 카메라(`cameraIcon`, 30px), 힌트 도토리(`acorns()`, 17px), 작은 얼굴 전부(`miniSVG()`의 `FACE_ICONS`; 둥근 `.mini` 틀 안에서는 아래로 8% 내리고 1.06배).
 
 ## COMPLETE 도장·별 (2026-10-20)
 
@@ -118,7 +118,7 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 
 - `close-button.png` (128×128, 투명): 지도·증거 서랍·문법 노트·홈에서 연 복습 창·범인 선택 창의 공용 닫기. 사용자 요청으로 Higgsfield 제작. Nano Banana 2.1(1K, thinking high, 1:1, 1.5크레딧), 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `4cb64d76-b816-4afd-8f7b-0b75a0e89e8d`, 원본 `close-button-higgsfield-original.png`. 둥근 크림 종이 + 굵은 갈색 테두리 + 갈색 X. 마젠타를 지우고 잘랐다. `.close-button` 배경(42px), 갈색 그림자·누를 때 1px 이동 공용. 문법 노트는 오른쪽 위에 배치하며 모두 화면별 접근성 이름을 둔다. 재사용 확장에는 추가 생성·크레딧 없음.
 
-## 심문 게이지 (2026-10-20)
+## 보관된 심문 게이지 (미사용)
 
 - `gauge-empty.png`, `gauge-full.png` (각 651×185, 투명): 사용자 요청으로 돋보기와 막대를 한 덩어리로 그린 손그림 게이지. Nano Banana 2.1(1K, thinking high, 16:9, 1.5크레딧), 참조: 첫 게이지 시안(job `cea84c82-…`) + 아이콘 v2 시트. job `d3e797e1-afa4-424a-8ee2-4b5fcc0b30a6`, 원본 `gauge-magnifier-higgsfield-original.png`(위 빈 게이지, 아래 꿀색 꽉 찬 게이지). 위 게이지의 손잡이가 아래 게이지와 몇 줄 겹쳐 이어진 덩어리별로 나눠 마젠타를 지웠다. 아래 그림이 11px 높게 그려져 막대 위치에 맞춰 내린 뒤 같은 캔버스(1302×370)에서 반으로 줄였다.
 - 첫 시안(돋보기 없는 막대만, job `cea84c82-…`, 원본 `gauge-higgsfield-original.png`)은 돋보기와 따로 논다는 피드백으로 교체.
@@ -135,4 +135,16 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 
 ```text
 EDIT IMAGE 1 ONLY. Keep its complete triangular V point, exact overall triangle dimensions and open unoutlined top edge, transparent canvas and generous transparent safety space beneath its pointed tip. Image 2 is only the material reference. The most important change is dramatic THICKENING of the DARK BROWN OUTER CONTOUR on both diagonal sides: make the dark brown band THREE TIMES its existing normal perpendicular thickness, roughly 110-130 pixels thick at the source image's current width around 1600 pixels. It will be displayed only 44px wide, so without this extreme source thickness it becomes a thin hairline. This is a deliberately very bold chunky hand-drawn dark brown pencil/crayon V stroke, NOT a slender elegant outline. Grow the dark stroke inward into the cream area, so the exterior triangle size and the fully intact pointed tip do not change. Also thicken the muted golden ochre inner rim to 1.5 times its current width but keep dark brown dominant, not orange. Make the outline visibly imperfect and coarse: broad pencil marks, irregular pressure, small wavers around the straight underlying triangular geometry, slightly rough ragged pencil edges; NOT parallel ruler-cut vector bands. Cream interior remains warm pale #FFF8E9. No horizontal line at top. No curve in overall triangular silhouette, no round droplet, no flat cutoff at the V tip. Keep at least 100 pixels of transparent margin below the V point, no cropping. Do not add any object, any rectangle, any whole speech bubble, text, icon or cast shadow. One isolated transparent TAIL asset. The large brown band is essential; change it substantially, not subtly.
+```
+
+## 종이 심문 게이지
+
+- 사용자 요청으로 같은 페이지의 종이 버튼·말풍선과 맞춘 디자인. 외곽은 CSS 2px 갈색 선·비대칭 둥근 모서리, 바탕과 진행 채움은 기존 `buttons/cream-flat.png`·`honey-flat.png`의 가운데 질감을 확대해 쓴다. 높이 36px로 뒤로 버튼과 맞추고, 내부 16px 채널의 꿀색만 진행률에 따라 표시한다. 숫자·칸 구분·바깥 그림자는 없다.
+- `magnifier-paper.png` (1254×1254, 투명): Codex가 내장 `image_gen`으로 제작. 출력 `exec-dd3a8872-2ceb-4d40-9677-55cf2c687ab2.png`를 가공 없이 복사해 알파 유지. 크림 종이 렌즈·차분한 손잡이·갈색 연필선, 무광. 실제 표시 상자는 34px. Higgsfield·CLI 미사용, 추가 Higgsfield 크레딧 없음. 참조: `close-button.png`(갈색 손그림 선), `speech-paper-frame.png`(종이 재질).
+- UI 구조는 `.gauge-track` → 아이콘 + `.gauge-meter` → `.gauge-fill`이고, 종이 외곽·아이콘은 고정한 채 채움만 clip-path로 표시한다. 튜토리얼 마지막 그림도 같은 아이콘/색으로 구성한다.
+
+생성 프롬프트(`transparent_background:true`):
+
+```text
+Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true transparent alpha for the progress gauge of a cozy paper storybook detective game. Images 1 and 2 are STYLE references only (dark brown hand-drawn X on cream paper and the speech paper frame). Do not reproduce their circular button or rectangular panel. Draw a simple magnifying glass, round lens at upper left, short diagonal handle to lower right, front-on flat paper-cut illustration. Warm DARK BROWN #4A3628 broad rough colored-pencil contours with slight pressure variation and paper grain, clear at just 26px displayed size. Source contour should be approximately 70-90px wide in a 1024px image so it remains around 2px at final small size. Lens is matte IVORY #FBF4E6 paper, not blue glass, no glass shine, no white reflection dots. Handle is a flat muted tan/cream with brown sketch contours, NOT glossy wood. Very simple restrained two-tone cream and brown appearance, matching the existing hand-drawn close/back paper buttons. NO gold metallic rim, NO blue, NO highlights, NO bevel, NO gradients, NO cast shadow, NO circular badge background, NO extra ring framing the entire icon, NO text, NO other objects. Keep lens and handle complete with at least 8 percent truly transparent margin on all sides, use about 80 percent of the square canvas for the icon. Coarse pencil edge irregularity should survive reduction; underlying circular lens geometry remains easy to recognize. Output this single isolated icon only, not a whole gauge, not a mockup, not a sprite sheet.
 ```

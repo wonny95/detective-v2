@@ -136,17 +136,18 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .bubble.say .say-foot{display:flex;flex:none;flex-wrap:wrap;justify-content:flex-end;gap:6px;margin-top:12px;padding-top:9px}
 .bubble.say .say-foot button{position:static;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;min-height:30px;padding:0 10px;font-family:var(--f-display);font-size:12px;color:var(--ink)}
 .bubble.say .say-foot svg{width:9px;height:9px}
-.interrogation-gauge{position:absolute;top:14px;left:50%;z-index:5;display:flex;align-items:center;width:280px;max-width:calc(100% - 48px);transform:translateX(-50%);filter:drop-shadow(0 3px 0 rgba(74,54,40,.3));pointer-events:none}
-.app.questioning .interrogation-gauge{left:calc(50% + 26px);max-width:calc(100% - 100px)}
-/* hand-drawn gauge (user request: Higgsfield, one drawing with its magnifier): the empty gauge, and over it the same
-   gauge full of honey, showing only its bar up to the progress (--q, 0–1) so the honey level rises. Both pictures are
-   651x185; the magnifier end (215px) and the round right end (80px) keep their shape, only the middle stretches.
-   On screen: 32px tall, magnifier end 37px, right end 14px; the bar starts 26px in and ends 19% above the bottom. */
-.gauge-track{position:relative;flex:1;box-sizing:border-box;height:32px;border:solid transparent;border-width:0 14px 0 37px;border-image:url(assets/ui/gauge-empty.png) 0 80 0 215 fill / 0 14px 0 37px stretch}
-.gauge-fill{position:absolute;top:0;bottom:0;left:-37px;right:-14px;box-sizing:border-box;border:solid transparent;border-width:0 14px 0 37px;border-image:url(assets/ui/gauge-full.png) 0 80 0 215 fill / 0 14px 0 37px stretch;clip-path:inset(0 calc((100% - 26px) * (1 - var(--q, 0))) 19% 26px);transition:clip-path .6s cubic-bezier(.2,.8,.3,1)}
+.interrogation-gauge{position:absolute;top:10px;left:50%;z-index:5;display:flex;align-items:center;width:280px;max-width:calc(100% - 48px);transform:translateX(-50%);pointer-events:none}
+.app.questioning .interrogation-gauge{left:74px;right:14px;width:auto;max-width:none;transform:none}
+/* Use the same flat paper artwork as the back/replay buttons. The matte pencil icon sits inside the paper;
+   a separate clipped channel fills without repainting or stretching the icon and outer outline. */
+.gauge-track{position:relative;flex:1;box-sizing:border-box;height:36px}
+.gauge-track::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper) url(assets/ui/buttons/cream-flat.png) center/calc(100% + 64px) 400% no-repeat}
+.gauge-symbol{position:absolute;left:5px;top:50%;width:34px;height:34px;object-fit:contain;transform:translateY(-50%)}
+.gauge-meter{position:absolute;left:45px;right:12px;top:10px;bottom:10px;overflow:hidden;border-radius:8px 10px 7px 9px;background:#E8DCC3}
+.gauge-fill{position:absolute;inset:0;background:#F2CF73 url(assets/ui/buttons/honey-flat.png) center/calc(100% + 64px) 400% no-repeat;clip-path:inset(0 calc(100% * (1 - var(--q,0))) 0 0);transition:clip-path .6s cubic-bezier(.2,.8,.3,1)}
 .interrogation-gauge.hit .gauge-track{animation:gauge-hit .65s ease-out}
 .interrogation-gauge.reset .gauge-track{animation:gauge-reset .45s ease-out}
-@keyframes gauge-hit{35%{transform:scale(1.07)}}
+@keyframes gauge-hit{35%{transform:scale(1.025)}}
 @keyframes gauge-reset{25%,65%{translate:-3px 0}45%,85%{translate:3px 0}}
 /* the evidence drawer: a strip of photos under her; picking one plays its sentence, 내밀기 holds it up */
 .drawer{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;max-height:calc(100% - 70px);overflow:hidden;padding:12px 0 16px;background:var(--paper);
@@ -778,7 +779,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="ask-panel" id="askPanel"></div>
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
-      <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><span class="gauge-fill"></span></span></div>
+      <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt="" draggable="false"><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
       <section class="drawer" id="drawer" aria-label="증거 서랍">
         <div class="drawer-head"><h3>증거</h3><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
         <div class="drawer-strip" id="drawerStrip"></div>
@@ -3224,7 +3225,9 @@ const TUT = [
       </svg>
       <rect x="10" y="10" width="194" height="132" rx="10" fill="none" stroke="${INK}" stroke-width="2"/>
       ${tutButton(16,21,34,'〈')}
-      <image href="assets/ui/gauge-empty.png" x="58" y="18" width="132" height="38"/>
+      ${tutButton(58,21,132,'')}
+      <image href="assets/ui/magnifier-paper.png" x="62" y="23" width="22" height="22"/>
+      <rect x="88" y="30" width="91" height="8" rx="4" fill="#E8DCC3"/>
       ${tutButton(31,104,152,'증거 내밀기','sage')}
       <rect x="218" y="32" width="90" height="105" rx="7" fill="#FFFDF7" stroke="${INK}" stroke-width="2"/>
       <image href="assets/ui/icons-v2/camera.png" x="241" y="40" width="45" height="45"/>
