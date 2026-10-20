@@ -149,7 +149,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes gauge-hit{35%{transform:scale(1.07)}}
 @keyframes gauge-reset{25%,65%{translate:-3px 0}45%,85%{translate:3px 0}}
 /* the evidence drawer: a strip of photos under her; picking one plays its sentence, 내밀기 holds it up */
-.drawer{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;padding:12px 0 16px;background:var(--paper);
+.drawer{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;max-height:calc(100% - 70px);overflow:hidden;padding:12px 0 16px;background:var(--paper);
   border-top:3px solid var(--ink);border-radius:24px 26px 0 0/20px 22px 0 0;box-shadow:0 -6px 18px rgba(34,20,10,.35);
   transform:translateY(105%);visibility:hidden;transition:transform .38s cubic-bezier(.2,.9,.3,1.05),visibility 0s linear .38s}
 .drawer.open{transform:none;visibility:visible;transition:transform .42s cubic-bezier(.2,.9,.3,1.05),visibility 0s}
@@ -157,6 +157,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .drawer-head{display:flex;align-items:center;padding:0 16px}
 .drawer-head h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px}
 .drawer-head .x{margin-left:auto}
+.drawer-head,.drawer-strip{flex-shrink:0}
 /* Leave room inside the scroll viewport for a selected card's lift, rotation, ring and shadow. */
 .drawer-strip{display:flex;gap:10px;overflow-x:auto;padding:18px 16px 16px;scroll-padding-inline:16px;scroll-snap-type:x proximity;user-select:none;-webkit-user-select:none;cursor:grab}
 .drawer-strip.dragging{scroll-snap-type:none;cursor:grabbing}
@@ -167,7 +168,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .dcard .dlabel{font-family:var(--f-hand);font-weight:700;font-size:13px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .dcard .dplace{font-family:var(--f-body);font-size:11px;line-height:1.25;color:var(--ink-soft);overflow-wrap:anywhere}
 .dcard[aria-pressed="true"]{transform:translateY(-6px) rotate(-2deg);border-color:var(--berry);box-shadow:0 0 0 3px var(--berry),3px 8px 10px rgba(74,54,40,.25)}
-.drawer-pick{display:flex;flex-direction:column;gap:8px;min-height:92px;padding:0 16px}
+.drawer-pick{display:flex;flex-direction:column;gap:8px;min-height:0;overflow-y:auto;padding:0 16px}
+.drawer-pick .pill{flex-shrink:0}
 .drawer-pick p{margin:0;font-size:15px;line-height:1.45}
 .drawer .empty-note{padding:0 16px}
 /* holding up a photo: the right one gets a red 모순! stamp, the scene jolts and she flinches; a wrong one wobbles and drops */
@@ -780,7 +782,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <section class="drawer" id="drawer" aria-label="증거 서랍">
         <div class="drawer-head"><h3>증거</h3><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
         <div class="drawer-strip" id="drawerStrip"></div>
-        <div class="drawer-pick" id="drawerPick"></div>
+        <div class="drawer-pick" id="drawerPick" hidden></div>
       </section>
     </section>
 
@@ -2463,9 +2465,14 @@ function updateInterrogationGauge(round, feedback = ''){
 }
 
 // The evidence drawer: every photo in a strip under her; one picked plays its sentence and can be held up (내밀기).
-let drawerPick = null;
+let drawerPick = null, drawerSizeAnimation = null, drawerTextAnimation = null;
 const evRef = record => `${record.placeId}-${record.clueIndex}`;
+function stopDrawerAnimations(){
+  drawerSizeAnimation?.cancel(); drawerTextAnimation?.cancel();
+  drawerSizeAnimation = drawerTextAnimation = null;
+}
 function openDrawer(){
+  stopDrawerAnimations();
   drawerPick = null;
   $('#drawerStrip').innerHTML = S.evidence.length ? [...S.evidence].reverse().map(record => {
     const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
@@ -2473,20 +2480,36 @@ function openDrawer(){
   }).join('') : '<p class="empty-note">아직 수집한 증거가 없어요.</p>';
   $('#drawerStrip').scrollLeft = 0;
   $('#drawerPick').innerHTML = '';
+  $('#drawerPick').hidden = true;
   $('#drawer').classList.add('open');
   $('#app').classList.add('drawer-open');
 }
 function closeDrawer(){
+  stopDrawerAnimations();
   $('#drawer').classList.remove('open');
   $('#app').classList.remove('drawer-open');
   $('#evidenceVoice').pause();
 }
 function pickEvidence(ref){
+  const drawer = $('#drawer'), detail = $('#drawerPick');
+  const fromHeight = drawer.getBoundingClientRect().height;
+  stopDrawerAnimations();
   drawerPick = ref;
   $('#drawerStrip').querySelectorAll('[data-pick]').forEach(card => card.setAttribute('aria-pressed', card.dataset.pick === ref));
   const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
-  $('#drawerPick').innerHTML = `<p>${esc(clue.en)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref}" aria-label="다시 듣기">${playIcon}</button>` : ''}</p>
+  detail.innerHTML = `<p>${esc(clue.en)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref}" aria-label="다시 듣기">${playIcon}</button>` : ''}</p>
     <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+  detail.hidden = false;
+  detail.scrollTop = 0;
+  const toHeight = drawer.getBoundingClientRect().height;
+  // Animate the measured height rather than a fixed maximum: longer descriptions and rapid picks stay smooth.
+  // The natural height takes over at the end, so resizing and text wrapping still work afterwards.
+  if(drawer.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    drawerSizeAnimation = drawer.animate([{height:`${fromHeight}px`},{height:`${toHeight}px`}],
+      {duration:320,easing:'cubic-bezier(.2,.8,.3,1)'});
+    drawerTextAnimation = detail.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],
+      {duration:220,delay:90,fill:'backwards',easing:'ease-out'});
+  }
   playEvidence(ref);
 }
 // A mouse can drag the strip sideways and its wheel scrolls it sideways (a finger already swipes it natively);
