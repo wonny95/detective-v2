@@ -398,7 +398,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .np-actions .replay-q{flex:none;margin:0;width:30px;height:30px}
 .gmark{display:inline;margin:0;padding:0 1px;border:0;border-bottom:1.5px solid #C9952E;border-radius:0;background:linear-gradient(transparent 58%,rgba(242,207,115,.55) 58%) no-repeat 0 0/100% 100%;font:inherit;color:inherit}
 .gcard .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
-.gcard-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gcard-head,.accuse-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .gcard .gko{margin:0;font-size:14px;line-height:1.6}
 .gex{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--line)}
 .gex h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
@@ -873,10 +873,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <div class="modal" id="accuse" hidden>
     <div class="mcard">
-      <span class="eyebrow">Who did it?</span>
+      <div class="accuse-head"><span class="eyebrow">Who did it?</span><button class="close-button" type="button" data-dismiss aria-label="범인 지목 닫기"></button></div>
       <h2>범인은 누구일까요?</h2>
       <div class="pick" id="pick"></div>
-      <button class="pill" type="button" data-dismiss>조금 더 조사할래요</button>
     </div>
   </div>
 
