@@ -80,7 +80,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .chip[hidden]{display:none}
 .chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 192px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
 .chip.l{left:66px}
-.chip-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip-label{min-width:0;padding-block:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .map-btn{position:relative}
 .map-btn:active{transform:translateY(2px);box-shadow:none}
 .map-btn.new::after{content:"";position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
@@ -517,7 +517,8 @@ button.chip{box-shadow:none}
 button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .chip{top:10px}
 .chip,.dock-head .listen .pill,.dock-head .finish{box-sizing:border-box;min-height:36px;padding:0 12px;font-size:14px;line-height:1}
-.chip,.inv-head h2{font-size:18px}
+/* Keep room for descenders (e.g. Badger's g) inside the clipped title label. */
+.chip,.inv-head h2{font-size:18px;line-height:1.4}
 .chip{max-width:calc(100% - 82px)}
 /* four buttons share the notebook head now (다시 듣기 · 천천히 · 힌트 · 기록 완료), so they are a little narrower */
 .dock-head .listen .pill,.dock-head .finish{padding:0 8px;font-size:13px}
