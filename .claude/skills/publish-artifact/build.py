@@ -24,7 +24,21 @@ if not keep_dev:
     # the handlers stay (their buttons still exist); the buttons are just not shown
     html = html.replace('</style>', '.devtools{display:none!important}\n</style>', 1)
 
-refs = sorted(set(re.findall(r'(?:assets|audio)/[\w./-]+?\.(?:png|jpe?g|webp|svg|mp3|wav|ogg|woff2)', html)))
+# comments can name files loosely (e.g. "tack-red/-grey.webp"), so only the code is scanned
+code = re.sub(r'/\*.*?\*/|<!--.*?-->|^[ \t]*//[^\n]*', '', html, flags=re.S | re.M)
+EXT = r'\.(?:png|jpe?g|webp|svg|mp3|wav|ogg|woff2)'
+refs = set(re.findall(r'(?:assets|audio)/[\w./-]+?' + EXT, code))
+# paths built in a template: a choice between quoted words (`tack-${locked ? 'grey' : 'red'}.webp`) gives those
+# files; a plain variable (`audio/words/${file}.wav`) gives every file in that folder that fits the fixed start and end
+for head, expr, tail in re.findall(r'((?:assets|audio)/[\w./-]*)\$\{([^}`]*)\}([\w./-]*?' + EXT + ')', code):
+    words = re.findall(r"'([\w./-]*)'", expr)
+    if words:
+        refs.update(head + w + tail for w in words)
+        continue
+    folder, start = head.rsplit('/', 1)
+    names = os.listdir(os.path.join(project, *folder.split('/')))
+    refs.update(f'{folder}/{f}' for f in names if f.startswith(start) and f.endswith(tail) and '/' not in tail)
+refs = sorted(refs)
 files, missing, total = {}, [], len(html.encode('utf-8'))
 for ref in refs:
     path = os.path.join(project, *ref.split('/'))

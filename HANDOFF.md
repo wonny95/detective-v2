@@ -438,7 +438,9 @@ node server.js            # http://localhost:5173/
 - **기획서**(Claude Docs): https://claude.ai/code/artifact/08bcf0e7-0d78-4add-818f-21d70acf3db7 — 앱 프로세스, 단계별 규칙, 결정이 필요한 사항. 채점·해금 방식은 이 문서(3.4)가 더 최신이다.
 - **아티팩트 배포**(사용자 결정): 사용자가 요청할 때만 한다. **날짜마다 아티팩트 하나**, 제목은 `영어듣기 추리 게임 앱_YYMMDD`(한국 시간). 같은 날 다시 배포하면 그 아티팩트를 덮어쓴다. 먼저 작업 마무리(커밋)를 하고 배포한다. 절차는 `.claude/skills/publish-artifact/SKILL.md`(Claude Code에서 `/publish-artifact`). 그림·음성은 `build.py`가 찾아 `files`로 함께 올린다. 테스트 버튼은 기본으로 보인다.
   - 공유 범위 "링크가 있는 사람"은 Artifact 도구로 바꿀 수 없어 사용자가 공유 메뉴에서 직접 바꾼다.
-  - 공유본 참고: https://claude.ai/artifact/CwgyEH4tqLa4kNJaxHyRi6 — 현재 저장소와 자동 동기화되지 않는다. 최신 기준은 로컬 소스와 이 문서다.
+  - 배포 기록(새 날짜가 위). 배포본은 저장소와 자동 동기화되지 않는다. 최신 기준은 로컬 소스와 이 문서다.
+    - `영어듣기 추리 게임 앱_261020` — https://claude.ai/artifact/3RHp96YQ4ZadjNoTjhYuui — 기준 커밋 `1760d7a`, 테스트 버튼 포함, 파일 150개(약 32MB)
+    - `영어듣기 추리 게임 앱_261016` — https://claude.ai/artifact/CwgyEH4tqLa4kNJaxHyRi6
 
 ## 10. 다음 할 일 (미구현 후보, 별도 요청 후 진행)
 
