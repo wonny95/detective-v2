@@ -23,7 +23,8 @@ Actual transparent alpha background. ONLY the ink imprint. No paper sheet, white
 - `speech-paper-frame.png` (1536×1024, 투명 바깥): 힌트·엔딩 공용 말풍선 본문. **Codex가 기본 내장 `image_gen` 도구로 생성**, Higgsfield·CLI 미사용. 기존 `buttons/cream-flat.png`는 재질 참조, `places/library-higgsfield-v2.png`는 화풍 참조로 사용했다. 따뜻한 아이보리 종이, 갈색 색연필선과 가는 황토색 안쪽 선, 장식 없는 읽기 영역이다. 생성 출력 `exec-19bb79b2-db66-495c-ad43-11e798066f23.png`를 알파 채널 그대로 복사했고 자르기·색 보정은 하지 않았다.
   - `.bubble::before`의 `border-image`로 **9조각 확장**한다. slice `100`, 표시 테두리 `22px`, 원본 투명 여백을 고려해 `inset:-8px -3px`. 모서리와 선 두께를 유지하고 가운데만 늘린다. 본문 폭은 `min(88%,380px)`이며 화면 높이에 따라 내용만 스크롤한다.
   - 이미지의 반투명한 안쪽 조각 경계에 얇은 선이 드러나지 않도록 `background-clip:padding-box`인 불투명 종이색 바탕을 함께 쓴다(`--bubble-paper`, 기본 `#FFF8E9`). 바깥 투명 모서리는 채우지 않는다. 말풍선 안의 영어·한국어·버튼 영역에는 구분선을 넣지 않고 여백만 둔다.
-- `speech-paper-tail.png` (1792×896, 투명): 위 본문을 재질 참조로 생성한 별도 꼬리. 생성 출력 `exec-9e79024f-9613-455f-b0d6-e19a5b57a5f6.png`를 원형대로 복사했다. 위 연결 부분에는 외곽선이 없고 양 옆만 갈색·황토색 선이다. `.bubble::after`에서 `48×28px`, `bottom:-14px`로 본문의 밑선을 덮어 이어 붙인다. 본문 높이에 따라 꼬리를 늘리지 않는다. 색·이미지를 바꿀 때는 `--bubble-frame`과 `--bubble-tail`을 함께 교체한다.
+- `speech-paper-tail-flat.png` (1774×887, 투명): Codex가 기본 내장 `image_gen`으로 편집한 직선 삼각형 꼬리(사용자 결정: 곡선 없음). 원본 출력 `exec-2ab58def-170a-4c49-a180-d8841a44b768.png`를 가공 없이 복사해 알파 유지. 위쪽 가로 연결선은 없고 양옆에 굵은 갈색 외곽·황토색 안쪽 선을 둔다. 40px로 줄인 화면에서도 본체와 맞는 굵기를 목표로 원본 선을 두껍게 제작했다. `.bubble::after`는 `40×20px`, `bottom:-6px`로 밑선을 덮어 연결하며, 본문 높이에 따라 늘리지 않는다. 스킨은 `--bubble-frame`·`--bubble-tail`로 교체. Higgsfield·CLI 미사용.
+- `speech-paper-tail.png` (1792×896, 투명): 미사용 곡선 꼬리 보관. 생성 출력 `exec-9e79024f-9613-455f-b0d6-e19a5b57a5f6.png`.
   - 두 이미지 모두 글자·캐릭터·조작 요소가 없는 배경 부품이다. 이름·영어·한국어·버튼은 HTML이므로 콘텐츠를 추가하거나 문장이 길어져도 이미지를 다시 만들 필요가 없다.
 
 ### 말풍선 생성 프롬프트
@@ -38,6 +39,29 @@ Use case: illustration-story. Create ONE production-ready raster UI asset: an em
 
 ```text
 Use case: illustration-story. Generate ONE standalone UI speech-bubble TAIL asset that matches the attached cream paper frame exactly. The attachment is only a material/style reference; do NOT reproduce its rectangular frame. This output is only a single small downward-pointing speech tail, isolated on true transparent alpha. Front-on flat view. Shape is a broad gently curving downward triangular paper tongue, slightly leaning to the right, width about twice its height. The upper edge is a straight horizontal OPEN CONNECTION to the speech panel: there must be NO brown outline, NO gold outline and NO shadow across that top edge; just solid warm ivory #FFF8E9 paper all the way to its flat top. The left and right slanted edges and bottom tip have the same dark warm brown colored-pencil contour and fine golden ochre rim as the reference. Cream interior with barely perceptible paper grain, NO gradients to dark brown, no thick shadow. Tail fills almost the whole canvas, with only 8px transparent safety padding; landscape 2:1 canvas. Make it broad enough to read as a speech tail rather than a long spike. No rectangle body, no sheet, no labels, no text, no decorations, no characters, no mockup, no background.
+```
+
+### 플랫 삼각형 꼬리 프롬프트
+
+기본 형태 편집(참조: 보관 곡선 꼬리, 본체; `transparent_background:true`):
+
+```text
+Use case: precise-object-edit
+Asset type: transparent PNG speech bubble tail, replacement for a woodland detective game's illustrated paper dialog.
+Image 1 is the existing tail to replace. Image 2 is ONLY the color, paper grain, brown pencil outline and gold inner rim reference.
+User specifically requests a FLAT TRIANGLE: a simple downward-pointing isosceles triangle with perfectly straight left and right diagonal sides meeting at a sharp point. Absolutely NO curved sides, rounded shoulders, rounded tip, bulge, swoosh or droplet. Flat 2D shape, no bevel or shadow.
+Opaque pale warm ivory #FFF8E9 interior with very faint paper grain matching the reference body. Thin warm dark brown colored-pencil outer outline and restrained ochre inner rim ONLY along the TWO diagonal sides and bottom point. Top horizontal base must be OPEN, with no visible outline or colored rim across it, so it seamlessly overlaps the body. At mobile display size 40px wide, brown outline should read about 1.2px thick and gold about .8px. Keep the outline geometrically straight while its material has fine colored-pencil grain.
+One standalone triangle only on a landscape 2:1 canvas. Top base nearly fills canvas width, begins at 2% canvas height; sharp bottom point at 97% height. Minimal transparent safety padding around silhouette. Preserve true transparent alpha outside triangle, no white halo or stray detached pixels. No bubble rectangle, sheet, text, icons, buttons, background, checkerboard, drop shadow or additional shapes.
+```
+
+최종 굵기 편집(참조: 삼각형 꼬리 시안 `exec-f4c5b3fb-e6fa-4e13-b385-b3a5874589b8.png`; `transparent_background:true`):
+
+```text
+Precise image edit of the attached flat triangular speech tail.
+The ONLY requested change is to TRIPLE the thickness of BOTH colored outline bands. Keep the same straight-sided triangle, sharp point, cream paper color, open top base and transparent background.
+IMPORTANT: the current image has only about 43 pixels of brown and 44 pixels of gold along a horizontal scanline through a diagonal side. The result MUST instead have about 130 pixels of BROWN followed by about 125 pixels of GOLD at each side on that horizontal scanline. This means about 90 pixels thickness perpendicular to each diagonal for each color. Make the outline three times bolder than the attached image. NOT a subtle adjustment.
+The combined brown and gold contour should take up roughly 30% of the triangle's vertical height at its bottom point, with a much smaller inset cream triangle remaining inside. It may look unusually thick at this large asset scale; that is intentional, since it is displayed at only 40px wide in the UI. Final rendered band widths should each be about 2px, a visible 4px total double border.
+Warm dark brown outer band, golden ochre inner band, both strong opaque textured colored pencil. Straight geometry, flat 2D, no rounded edges, shadows, bevel or glossy effects. Do NOT put any horizontal colored line across the open upper base. Triangle nearly fills a landscape 2:1 canvas. Preserve genuine transparent alpha outside the triangle and opaque pale ivory paper inside, with no extra objects, specks, text or background.
 ```
 
 ### 수첩·공용 부품
@@ -91,7 +115,7 @@ Use case: illustration-story. Generate ONE standalone UI speech-bubble TAIL asse
 
 ## 닫기 버튼 (2026-10-20)
 
-- `close-button.png` (128×128, 투명): 지도 닫기. 사용자 요청으로 Higgsfield 제작. Nano Banana 2.1(1K, thinking high, 1:1, 1.5크레딧), 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `4cb64d76-b816-4afd-8f7b-0b75a0e89e8d`, 원본 `close-button-higgsfield-original.png`. 둥근 크림 종이 + 굵은 갈색 테두리 + 갈색 X. 마젠타를 지우고 잘랐다. `.map-head .x` 배경(42px).
+- `close-button.png` (128×128, 투명): 지도·증거 서랍·문법 노트·홈에서 연 복습 창의 공용 닫기. 사용자 요청으로 Higgsfield 제작. Nano Banana 2.1(1K, thinking high, 1:1, 1.5크레딧), 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `4cb64d76-b816-4afd-8f7b-0b75a0e89e8d`, 원본 `close-button-higgsfield-original.png`. 둥근 크림 종이 + 굵은 갈색 테두리 + 갈색 X. 마젠타를 지우고 잘랐다. `.close-button` 배경(42px), 갈색 그림자·누를 때 1px 이동 공용. 문법 노트는 오른쪽 위에 배치하며 모두 화면별 접근성 이름을 둔다. 재사용 확장에는 추가 생성·크레딧 없음.
 
 ## 심문 게이지 (2026-10-20)
 
