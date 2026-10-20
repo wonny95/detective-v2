@@ -396,11 +396,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .big.green,.sm.green{background:var(--moss);color:var(--ink)}
 
 /* ---------- investigation: one large illustration per place, tap to find clues ---------- */
-.inv{display:none;flex:1 1 auto;min-height:0;flex-direction:column;background:var(--paper)}
+.inv{display:none;position:relative;flex:1 1 auto;min-height:0;flex-direction:column;background:var(--paper)}
 .app.investigate .inv{display:flex}
 /* as tall as the hint button beside it (top 10px + 36px + 10px), the place name centred on the same line */
-.inv-head{flex:none;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;box-sizing:border-box;min-height:59px;padding:0 124px 0 16px;border-bottom:3px solid var(--ink);background:var(--paper-2)}
-.inv-head h2{margin:0;font-family:var(--f-hand);font-weight:700;font-size:20px;line-height:1}
+/* the place name floats over the picture as a paper chip, like the top-left chip of a conversation
+   (user decision: no header band or rule above the place) */
+.inv-head{position:absolute;top:10px;left:12px;right:12px;z-index:4;display:flex;pointer-events:none}
+.inv-head h2{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;max-width:100%;margin:0;padding:0 14px;border:2px solid transparent;
+  border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-weight:400;font-size:15px;line-height:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-head h2:empty{display:none}
+/* hints only work while writing an answer down, so the place view does not show the (disabled) hint */
+.app.investigate #hint{display:none}
 .badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
 .art-stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper-2)}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
