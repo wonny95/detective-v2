@@ -74,3 +74,11 @@ Use case: illustration-story. Generate ONE standalone UI speech-bubble TAIL asse
 - 적용:
   - 아이콘: 한 번 적용했다가 사용자 판단("안 어울린다")으로 되돌렸다. 게임은 원래의 SVG 선 아이콘을 쓴다. `icons/` 파일은 남겨 두었다.
   - 버튼: `.pill`과 `.tab`에 `border-image`로 `*-flat.png`를 입힌다(조각 `60 62 62 62`, 둥근 끝은 늘이지 않음, 크기 `--bw`). `*-flat.png`는 보통 상태 그림의 왼쪽 절반을 좌우로 뒤집어 붙여 만든 평평한 알약이다(각진 오른쪽 위 모서리를 없앰, 279×125 안팎). 입체감 있는 `-pressed`는 사용자가 별로라고 해 쓰지 않는다. 색: 기본 cream, `.big` berry, `.green`·`기록 완료` sage, 힌트·열린 Note honey, 켜진 토글 sky. peach와 둥근 버튼은 미사용.
+
+## 손그림 아이콘 v2 (2026-10-20)
+
+- `icons-v2-higgsfield-original.png` (1024×1024, job `782fc121-af0e-4cb5-ae70-245350d74452`): 3×3 시트 — 돋보기, 카메라, 도토리 / 오소리 경사, 두더지 부인, 여우 피오나 / 너구리 레이, 토끼 로지, 오리 아저씨.
+- 사용자 요청: 이전 아이콘(위 `icons/`)은 외곽선이 얇아 잘 안 보였다 → 굵은 갈색 외곽선(1024px 기준 약 14px), 노트(서류철)와 어울리는 색연필 화풍.
+- 제작: Nano Banana 2.1, 1K, thinking high, 1.5크레딧. 참조: `notebook-v2-nobg.png`(화풍) + 여섯 인물 `characters/<id>-higgsfield.png`(생김새). 마젠타 배경.
+- 자르기: 마젠타 정도로 알파를 매기고 가장자리 색에서 마젠타를 빼낸 뒤, 칸이 아니라 이어진 덩어리(8방향)별로 잘라 정사각형 여백 4px를 두고 160×160으로 줄였다 → `icons-v2/<이름>.png`. 토끼 귀가 윗줄 칸까지 올라가 있어 칸 자르기는 쓰지 않는다.
+- 적용: 심문 게이지 왼쪽(`.gauge-label`, 26px), 증거 탭 카메라(`cameraIcon`, 30px), 힌트 도토리(`acorns()`, 17px), 작은 얼굴 전부(`miniSVG()`의 `FACE_ICONS`; 둥근 `.mini` 틀 안에서는 아래로 8% 내리고 1.06배).
