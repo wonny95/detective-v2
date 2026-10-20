@@ -77,6 +77,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .app.notes-open .ask-panel{display:none}
 .app.discovering .ask-panel,.app.discovering #hint{display:none}
 .app.investigate .scene{display:none}
+.chip[hidden]{display:none}
 .chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 192px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
 .chip.l{left:66px}
 .chip-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -747,12 +748,12 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <div class="main">
     <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" aria-controls="bubble" disabled>힌트</button>
-    <button class="pill top-back" type="button" id="backTab" aria-label="사건 목록으로 나가기">
+    <button class="pill top-back" type="button" id="backTab" aria-label="뒤로">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <!-- PART 1: interrogation stage -->
     <section class="scene" aria-label="대화 장면">
-      <button class="chip l" type="button" id="orderChip">← 현장 둘러보기</button>
+      <span class="chip l" id="orderChip" hidden></span>
       <div class="bubble" id="bubble" hidden role="status"></div>
       <div class="stage-area" id="talkCamera"></div>
       <div class="ask-panel" id="askPanel"></div>
@@ -1555,13 +1556,13 @@ new ResizeObserver(() => {
   if(!S.investigate && cameraMotion?.playState !== 'running') focusCamera();
 }).observe($('#talkCamera'));
 // The top-left chip leaves the conversation for the place it happens in (not until the briefing is done).
+// The top-left chip only says where the conversation is (user decision: one way back, the top-left < button).
+// Before the place has a name, and while someone new is being shown, it is not there.
 function renderChip(){
   const s = cur(), oc = $('#orderChip');
-  if(discoveryPerson){ oc.textContent = '← 돌아가기'; oc.disabled = false; return; }
-  const location = S.known.has(s.place) ? placeOf(s.place).label : '현장 둘러보기';
+  oc.hidden = !!discoveryPerson || !S.known.has(s.place);
   // no question count: how many questions someone has is not shown
-  oc.innerHTML = `<span class="chip-label">← ${esc(location)}</span>`;
-  oc.disabled = false;
+  if(!oc.hidden) oc.innerHTML = `<span class="chip-label">${esc(placeOf(s.place).label)}</span>`;
 }
 function showBubble(qid){
   const s = cur(), q = qs(s).find(x => x.id===qid), b = $('#bubble');
@@ -2088,7 +2089,13 @@ function openSheet(name){
 }
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openSheet(null));
 // opened by hand, the notebook rises as high as it can; while recording it stays low so the NPC is visible
-$('#backTab').onclick = () => { setNotes(false); saveGame(); openCaseList(); };
+// The one way back, one level up (user decision): someone just introduced → back to where the player was;
+// a conversation → its place; a place → the case list (progress is saved and resumes).
+$('#backTab').onclick = () => {
+  if(discoveryPerson) return finishDiscovery();
+  if(!S.investigate && !ending) return leaveTalk();
+  setNotes(false); saveGame(); openCaseList();
+};
 $('#noteTab').onclick = () => {
   const open = !$('#app').classList.contains('notes-open');
   openSheet(null);
@@ -2136,10 +2143,6 @@ $('#sheet-map').addEventListener('pointerdown', () => { clearTimeout(mapAutoTime
 $('#hint').onclick = useHint;
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
-$('#orderChip').onclick = () => {
-  if(discoveryPerson){ finishDiscovery(); return; }
-  if(!$('#orderChip').disabled) leaveTalk();
-};
 
 /* ---------- map (place picker) ---------- */
 // Only places a character has mentioned appear on the map.
