@@ -92,3 +92,7 @@ Use case: illustration-story. Generate ONE standalone UI speech-bubble TAIL asse
 ## 닫기 버튼 (2026-10-20)
 
 - `close-button.png` (128×128, 투명): 지도 닫기. 사용자 요청으로 Higgsfield 제작. Nano Banana 2.1(1K, thinking high, 1:1, 1.5크레딧), 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `4cb64d76-b816-4afd-8f7b-0b75a0e89e8d`, 원본 `close-button-higgsfield-original.png`. 둥근 크림 종이 + 굵은 갈색 테두리 + 갈색 X. 마젠타를 지우고 잘랐다. `.map-head .x` 배경(42px).
+
+## 심문 게이지 (2026-10-20)
+
+- `gauge-empty.png`, `gauge-full.png` (각 640×145, 투명): 사용자 요청으로 심문 진행 게이지를 손그림으로. Nano Banana 2.1(1K, thinking high, 16:9, 1.5크레딧), 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `cea84c82-796f-48b5-b8ec-d7106dc74f4b`, 원본 `gauge-higgsfield-original.png`(위 빈 막대, 아래 꿀색으로 꽉 찬 막대). 위아래 반씩 잘라 마젠타를 지웠다. 두 장의 크기·외곽이 같아 겹쳐 쓴다(`.gauge-track` / `.gauge-fill`, `border-image` 0 72 fill / 0 14px).
