@@ -110,7 +110,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.interview-arriving .scene::after{content:"";position:absolute;inset:0;z-index:20;background:#30271E;animation:interview-arrive .75s ease both}
 @keyframes interview-arrive{0%,15%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.app.interview-arriving .scene::after{animation:none;opacity:0;pointer-events:none}}
-.ask-panel .end-leave{align-self:center}
 /* a photo held up to the suspect */
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
@@ -138,6 +137,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .bubble.say .say-foot button{position:static;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;min-height:30px;padding:0 10px;font-family:var(--f-display);font-size:12px;color:var(--ink)}
 .bubble.say .say-foot svg{width:9px;height:9px}
 .interrogation-gauge{position:absolute;top:14px;left:50%;z-index:5;display:flex;align-items:center;width:280px;max-width:calc(100% - 48px);transform:translateX(-50%);filter:drop-shadow(0 3px 0 rgba(74,54,40,.3));pointer-events:none}
+.app.questioning .interrogation-gauge{left:calc(50% + 26px);max-width:calc(100% - 100px)}
 /* hand-drawn gauge (user request: Higgsfield, one drawing with its magnifier): the empty gauge, and over it the same
    gauge full of honey, showing only its bar up to the progress (--q, 0–1) so the honey level rises. Both pictures are
    651x185; the magnifier end (215px) and the round right end (80px) keep their shape, only the middle stretches.
@@ -490,7 +490,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
    Under the notebook's dimming and the map sheet, which have their own ways back. */
 .top-back{position:absolute;top:10px;left:14px;z-index:9;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
 .top-back svg{width:20px;height:20px;display:block}
-.app.ending .top-back{display:none}.tab[aria-expanded="true"]{background:var(--honey)}
+.app.ending .top-back{display:none}
+.app.ending.questioning .top-back{display:grid}
+.tab[aria-expanded="true"]{background:var(--honey)}
 
 /* Paper buttons: flat hand-drawn button art (assets/ui/buttons/*-flat.png, no raised edge).
    border-image keeps the rounded ends unstretched; only the straight middle stretches. --bw = drawn corner size. */
@@ -899,6 +901,15 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <p class="leave-sub">지금까지 조사한 내용은 저장돼요.</p>
       <button class="pill big" type="button" data-leave-go>사건 목록으로</button>
       <button class="pill sm" type="button" data-leave-stay>계속 조사하기</button>
+    </div>
+  </div>
+
+  <div class="modal" id="leaveInterrogation" hidden>
+    <div class="mcard accused" role="alertdialog" aria-labelledby="leaveInterrogationTitle" aria-describedby="leaveInterrogationText" aria-modal="true">
+      <p class="accused-text" id="leaveInterrogationTitle">심문을 나갈까요?</p>
+      <p class="leave-sub" id="leaveInterrogationText">다시 심문할 때는 처음부터 시작해요.<br>수집한 증거와 기록은 그대로 남아요.</p>
+      <button class="pill big green" type="button" data-interrogation-stay>계속 심문하기</button>
+      <button class="pill sm" type="button" data-interrogation-leave>나가서 조사하기</button>
     </div>
   </div>
 
@@ -1426,7 +1437,7 @@ const availableQuestions = speaker => {
 const cur = () => spk(S.cur);
 const st = () => per(S.cur);
 const suspects = () => S.met.filter(id => !spk(id).partner && !spk(id).witness);
-// the ending in progress (see "ending" below); endingRound = how many of Fiona's claims are answered (kept if the player leaves)
+// the ending in progress; endingRound resets when the player confirms leaving the questioning.
 let ending = null, endingRound = 0, endTimer;
 
 let toastT;
@@ -2124,6 +2135,7 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openShe
 // The one way back, one level up (user decision): someone just introduced → back to where the player was;
 // a conversation → its place; a place → the case list (progress is saved and resumes).
 $('#backTab').onclick = () => {
+  if(ending) return requestLeaveInterrogation();
   if(discoveryPerson) return finishDiscovery();
   if(!S.investigate && !ending) return leaveTalk();
   setNotes(false); $('#leaveCase').hidden = false;
@@ -2429,6 +2441,10 @@ $('#sayBubble').addEventListener('click', e => {
 // The progress gauge and dimmed room, during questioning and confession.
 function renderInterrogationGauge(reset = false){
   const on = !!ending && ['confront', 'confession'].includes(ending.step);
+  const questioning = ending?.step === 'confront';
+  $('#app').classList.toggle('questioning', questioning);
+  $('#backTab').disabled = questioning && (!ending.line || !!$('.presented'));
+  $('#backTab').setAttribute('aria-label', questioning ? '심문 나가기' : '뒤로');
   $('#app').classList.toggle('interrogate', on);
   const box = $('#interrogationGauge');
   box.hidden = !on;
@@ -2507,7 +2523,7 @@ function endingControls(){
   const e = ending;
   if(!e.line || e.step === 'stamp') return '';
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
-  if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button><button class="pill sm end-leave" type="button" data-end="leave">조금 더 조사할래요</button>`;
+  if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
   if(e.step === 'wrong') return tools + `<button class="pill big" type="button" data-end="leave">다시 조사하기</button>`;
   return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
 }
@@ -2566,10 +2582,33 @@ function wrongAccusation(id){
   const key = REBUTTAL[id] || 'q2';
   endingSay({ who:id, key, en:spk(id).answers[key], ko:ANSWERS_KO[id]?.[key] || '' });
 }
+function requestLeaveInterrogation(){
+  if(ending?.step !== 'confront' || !ending.line || $('.presented')) return;
+  clearTimeout(endTimer); stopVoice();
+  $('#leaveInterrogation').hidden = false;
+  $('#leaveInterrogation [data-interrogation-stay]').focus();
+}
+function stayInInterrogation(){
+  $('#leaveInterrogation').hidden = true;
+  $('#backTab').focus();
+}
+$('#leaveInterrogation').addEventListener('click', e => {
+  if(e.target.closest('[data-interrogation-leave]')) return leaveEnding();
+  if(e.target.closest('[data-interrogation-stay]') || e.target.id === 'leaveInterrogation') stayInInterrogation();
+});
+$('#leaveInterrogation').addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ e.preventDefault(); stayInInterrogation(); }
+  if(e.key === 'Tab'){
+    const buttons = [...$('#leaveInterrogation').querySelectorAll('button')];
+    const target = e.shiftKey ? buttons[buttons.length-1] : buttons[0];
+    if(document.activeElement === (e.shiftKey ? buttons[0] : buttons[buttons.length-1])){ e.preventDefault(); target.focus(); }
+  }
+});
 function leaveEnding(){
   const returnPlace = ending?.returnPlace || cur().place;
+  $('#leaveInterrogation').hidden = true;
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
-  ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
+  ending = null; endingRound = 0; $('#app').classList.remove('ending'); renderInterrogationGauge();
   leaveInterview();
   setMood('fiona', null);
   enterPlace(returnPlace, true);
@@ -2586,6 +2625,7 @@ function present(ref){
   shot.className = `presented ${right ? 'hit' : 'miss'}`;
   shot.innerHTML = `<figure>${record.photo}</figure>${right ? '<span class="contra">모순!</span>' : ''}`;
   $('.scene').appendChild(shot);
+  $('#backTab').disabled = true;   // wait for the photo response before offering to leave
   // the moment it lands: a hit stamps 모순!, jolts the room, makes her flinch and fills the gauge; a miss just bounces off
   const at = endingRound;
   setTimeout(() => {
@@ -3153,13 +3193,14 @@ const TUT = [
       ${tutButton(111,149,98,'Note','honey')}`)
   },
   { title:'심문하고 복습해요',
-    text:'필요한 대화와 기록을 마치면 <b>범인 지목하기 → 심문 시작</b>으로 파출소에 가요. 말을 듣고 <b>증거 내밀기 → 사진 선택 → 내밀기</b>로 반박해요. 틀린 증거면 심문을 처음부터 다시 해요. 수사 뒤에는 <b>문장·문법·단어</b>를 복습하고 기억할 단어를 <b>단어장에 담아요</b>.',
+    text:'대화와 기록을 마치면 <b>범인 지목하기 → 심문 시작</b>으로 파출소에 가요. <b>증거 내밀기 → 사진 선택 → 내밀기</b>로 말을 반박해요. 틀린 증거를 내밀면 처음부터 다시 해요. <b>왼쪽 위 〈로 나가도 심문은 처음부터</b>예요. 수사 후에는 복습하고 기억할 단어를 <b>단어장에 담아요</b>.',
     fig:() => tutFrame(`
       <svg x="10" y="10" width="194" height="132" viewBox="100 150 1150 783" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/station-interview-room.png" width="1254" height="1254"/>
       </svg>
       <rect x="10" y="10" width="194" height="132" rx="10" fill="none" stroke="${INK}" stroke-width="2"/>
-      <image href="assets/ui/gauge-empty.png" x="24" y="18" width="165" height="47"/>
+      ${tutButton(16,21,34,'〈')}
+      <image href="assets/ui/gauge-empty.png" x="58" y="18" width="132" height="38"/>
       ${tutButton(31,104,152,'증거 내밀기','sage')}
       <rect x="218" y="32" width="90" height="105" rx="7" fill="#FFFDF7" stroke="${INK}" stroke-width="2"/>
       <image href="assets/ui/icons-v2/camera.png" x="241" y="40" width="45" height="45"/>
