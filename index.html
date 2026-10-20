@@ -256,20 +256,65 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes stamp-in{from{transform:rotate(-10deg) scale(1.8);opacity:0}}
 .replay-q{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:6px;padding:0;vertical-align:middle;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper)}
 .replay-q svg{width:10px;height:10px}
-.review{gap:14px}
-.rv-stars{font-size:30px;line-height:1;letter-spacing:4px;color:#E0A526}
-.rv-person{display:flex;flex-direction:column;gap:10px;padding-top:10px;border-top:2px dashed var(--line)}
-.rv-person h3{margin:0;display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:400;font-size:17px}
-.rv-person h3 .mini{width:30px;height:30px}
-.rv-person h3 small{margin-left:auto;font-size:13px;color:var(--ink-soft)}
-.rv-q{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
-.rv-label{font-size:11px;color:var(--ink-soft)}
-.mcard .rv-en{font-family:var(--f-hand);font-size:15px;line-height:1.35}
-.mcard .rv-ko{font-size:13px;color:var(--ink-soft)}
-.rv-notes{font-family:var(--f-hand);font-size:14px;line-height:1.45;background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px;align-self:stretch}
-.rv-notes .ok{color:var(--ok)}
-.rv-notes s{color:var(--no)}
-.rv-notes .fix{color:var(--ok);text-decoration:underline}
+/* review: a full page the player always goes through after solving (user decision), one step at a time —
+   result → lines missed at the first check (refill) → the case's grammar → new words (the player picks what goes
+   into the word book). Progress bar on top, one big button at the bottom. */
+#review{padding:0;background:var(--paper);place-items:stretch}
+#review .mcard.review{max-width:none;max-height:none;height:100%;box-sizing:border-box;overflow:hidden;border:0;border-radius:0;box-shadow:none;padding:16px 16px 18px;gap:14px}
+.rv-top{flex:none;display:flex;align-items:center;gap:10px;min-height:30px}
+.rv-steps{flex:1;display:flex;gap:6px}
+.rv-steps i{flex:1;height:7px;border-radius:4px;background:var(--line)}
+.rv-steps i.on{background:#E0A526}
+.rv-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:2px 2px 8px;scrollbar-width:none}
+.rv-body::-webkit-scrollbar{display:none}
+.rv-body.mid{justify-content:center;padding-bottom:40px}
+.rv-foot{flex:none}
+.rv-foot .pill.big{width:100%}
+.rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:8px}
+.rv-title small{font-size:14px;color:var(--ink-soft)}
+.rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:10px;padding:14px 26px 30px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;transform:rotate(-1.5deg)}
+.rv-file small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
+.rv-file b{font-family:var(--f-hand);font-size:22px}
+.rv-file img{position:absolute;right:-28px;bottom:-22px;width:120px;transform:rotate(-12deg);animation:rv-stamp .45s cubic-bezier(.3,1.6,.5,1) .2s both}
+@keyframes rv-stamp{from{opacity:0;transform:rotate(-12deg) scale(1.8)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
+.rv-stars{display:flex;justify-content:center;gap:8px;margin-top:6px;font-size:40px;line-height:1;color:#E0A526}
+.rv-stars span{animation:rv-star .4s cubic-bezier(.3,1.7,.5,1) calc(.6s + var(--i) * .22s) both}
+.rv-stars .off{color:var(--line)}
+@keyframes rv-star{from{opacity:0;transform:scale(2.2) rotate(-20deg)}to{opacity:1;transform:none}}
+.rv-score{text-align:center;font-family:var(--f-display);font-size:19px}
+.rv-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rv-tiles div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.3}
+.rv-tiles b{font-family:var(--f-display);font-weight:400;font-size:24px;color:var(--ink)}
+.rv-tiles .all b{color:var(--ok)}
+.rv-who{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-size:17px}
+.rv-who .mini{width:34px;height:34px}
+.rv-who small{margin-left:auto;font-size:13px;color:var(--ink-soft)}
+.rv-label{font-size:13px;color:var(--ink-soft)}
+.rv-listen{display:flex;gap:8px}
+.rv-quiz{padding:6px 12px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-quiz .nline{font-size:17px}
+.rv-slot{display:inline-block;box-sizing:border-box;min-width:4.5em;height:28px;margin:0 2px;padding:0 8px;vertical-align:middle;border:0;border-radius:8px;background:rgba(125,106,88,.17);font:inherit;font-weight:700;line-height:28px;color:#34506E;text-align:center}
+.rv-slot.hit{background:rgba(94,138,99,.18);color:var(--ok)}
+.rv-slot.miss{animation:ink-miss .55s ease-out both}
+.rv-quiz .got{font-weight:700;color:var(--ok)}
+.rv-first{font-size:13px;color:var(--ink-soft)}
+.rv-first s{color:var(--no);font-weight:700}
+.rv-gcard{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-gcard header{display:flex;align-items:baseline;gap:8px}
+.rv-gcard header b{font-family:var(--f-display);font-weight:400;font-size:17px}
+.rv-gcard header small{margin-left:auto;font-size:12px;color:var(--ink-soft)}
+.rv-gcard .gpat{font-size:13px;color:var(--ink-soft)}
+.rv-gcard p{margin:0;font-family:var(--f-hand);font-size:16px;line-height:1.4}
+.rv-gcard mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
+.rv-gcard .gko{font-size:13px;line-height:1.5;color:var(--ink-soft)}
+.rv-gbtns{display:flex;gap:6px;align-items:center}
+.rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
+.rv-word{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
+.rv-word .wword{font-family:var(--f-hand);font-weight:700;font-size:17px}
+.rv-word .wsay{display:block;font-size:12px;color:var(--ink-soft)}
+.rv-word .wko{grid-column:2 / -1;margin:0;font-size:13px;color:var(--berry)}
+.rv-word .keep[aria-pressed="true"]{--btn:url(assets/ui/buttons/sage-flat.png)}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
 .evidence-page{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:stretch}
@@ -823,10 +868,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <button class="pill big" type="button" data-accused-go>심문 시작</button>
       <button class="pill sm" type="button" data-accused-back>다시 고를래요</button>
     </div>
-  </div>
-
-  <div class="modal" id="result" hidden>
-    <div class="mcard" id="resultCard"></div>
   </div>
 
   <div class="modal" id="review" hidden>
@@ -2277,12 +2318,6 @@ $('#accused').addEventListener('click', e => {
   $('#accused').hidden = true;
   if(accusedId === CULPRIT) startEnding(); else wrongAccusation(accusedId);
 });
-$('#result').addEventListener('click', e => {
-  if(e.target.closest('[data-close-result]')) $('#result').hidden = true;
-  if(e.target.closest('[data-solved], [data-review]')){ leaveInterview(); renderPlaces(); renderStage(); renderDock(); }
-  if(e.target.closest('[data-solved]')){ markSolved(CASES[0].id); $('#result').hidden = true; openCaseList(); }
-  if(e.target.closest('[data-review]')){ markSolved(CASES[0].id); $('#result').hidden = true; openReview(); }
-});
 
 /* ---------- ending ----------
    Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
@@ -2556,13 +2591,11 @@ function caseClosedStamp(){
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
-  S.mood = {};   // the result card opens over the interview room; result actions release the temporary visits
-  renderDock();
+  S.mood = {};
+  // solved is saved before the review opens, so leaving the app during the review keeps the case solved
   markSolved(CASES[0].id);
-  $('#resultCard').innerHTML = `<span class="eyebrow">Case closed!</span><h2>사건 해결</h2>
-     <button class="pill big green" type="button" data-review>복습하기</button>
-     <button class="pill big" type="button" data-solved>사건 목록으로</button>`;
-  $('#result').hidden = false;
+  leaveInterview(); renderPlaces(); renderStage(); renderDock();
+  openReview();
 }
 
 /* ---------- review: after the case, the full lines, Korean, and the blanks missed at the first check ---------- */
@@ -2573,55 +2606,175 @@ function liveStats(){
   const ok = people.reduce((n, id) => n + per(id).first.ok, 0), total = people.reduce((n, id) => n + per(id).first.total, 0);
   const rate = total ? ok / total : 0, stars = rate >= .9 ? 3 : rate >= .7 ? 2 : 1;
   const missed = people.flatMap(id => Object.entries(per(id).firstQuestions).filter(([, r]) => r.ok < r.total).map(([qid]) => `${id}:${qid}`));
-  return { ok, total, stars, missed };
+  // wrong: { 'mole:m2': { blankId: what was written first } }
+  const wrong = Object.fromEntries(missed.map(ref => {
+    const [id, qid] = ref.split(':'), first = per(id).firstWrong;
+    return [ref, Object.fromEntries(blanksOf(id, [qid]).filter(b => b.id in first).map(b => [b.id, first[b.id]]))];
+  }));
+  return { ok, total, stars, missed, wrong };
 }
-// Opened from the result card (the case just solved: first-check results are in memory) or from the home
-// 복습 page (fromHome; after a reload only the saved totals remain, so every line shows as written right).
-let reviewFromHome = false;
+// Opened right after the case-closed stamp (fromHome false: the case just solved, first-check results in memory; no way
+// out but the last step) or from the home 복습 page (fromHome: saved totals; 닫기 at the top).
+let rv = null;
 function openReview(fromHome){
-  reviewFromHome = !!fromHome;
-  const live = solvedThisRun;
-  const people = live ? S.met.filter(id => per(id).order.length) : PEOPLE_ORDER;
-  const stat = live ? liveStats() : caseStats()[CASES[0].id];
-  const stars = stat?.stars || 0;
-  $('#reviewCard').innerHTML = `<span class="eyebrow">Review</span><h2>복습</h2>` + (stat ? `
-    <div class="rv-stars" aria-label="별 ${stars}개">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>
-    <p>처음 확인했을 때 ${stat.total}칸 중 ${stat.ok}칸을 맞혔어요.</p>` : '') +
-    people.map(id => {
-      const s = spk(id), p = per(id), order = live ? p.order : qs(s).map(q => q.id), firstWrong = live ? p.firstWrong : {};
-      return `<section class="rv-person"><h3><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}${live ? `<small>${p.first.ok}/${p.first.total}</small>` : ''}</h3>` +
-        order.map(qid => {
-          const lines = s.notes[qid].map(line => {
-            let html = '', last = 0;
-            line.replace(BLANK_RE, (m, bid, ans, idx) => {
-              const right = esc(ans.split('/')[0]);
-              html += esc(line.slice(last, idx)) + (bid in firstWrong
-                ? `<s>${esc(firstWrong[bid] || '…')}</s> <b class="fix">${right}</b>`
-                : `<b class="ok">${right}</b>`);
-              last = idx + m.length; return m;
-            });
-            return `<div>${html}${esc(line.slice(last))}</div>`;
-          }).join('');
-          const items = GRAMMAR_LINES[`${id}:${qid}`];
-          return `<div class="rv-q"><div class="rv-label">Q. ${markGrammar(qs(s).find(q => q.id === qid).en, items)}</div>
-            <p class="rv-en">${markGrammar(s.answers[qid], items)} <button class="replay-q" type="button" data-replay="${id}:${qid}" aria-label="다시 듣기">${playIcon}</button></p>
-            <p class="rv-ko" hidden>${esc(ANSWERS_KO[id]?.[qid] || '')}</p>
-            <button class="pill sm" type="button" data-rv-ko aria-pressed="false">해석</button>
-            <div class="rv-notes">${lines}</div></div>`;
-        }).join('') + '</section>';
-    }).join('') +
-    `<button class="pill big" type="button" data-solved>${reviewFromHome ? '닫기' : '사건 목록으로'}</button>`;
+  const stat = fromHome ? caseStats()[CASES[0].id] : liveStats();
+  const missed = stat?.missed || [];
+  const words = learnedWords(), kept = keptWords();
+  rv = { fromHome:!!fromHome, stat, missed, wrong:stat?.wrong || {}, card:0, filled:{}, step:0,
+    steps:['result', ...(missed.length ? ['missed'] : []), 'grammar', 'words'],
+    words, keep:new Set(kept ? words.filter(w => kept.includes(w.key)).map(w => w.key) : words.map(w => w.key)) };
+  // a first review starts with nothing kept: the player picks
+  if(!fromHome && !kept) rv.keep.clear();
   $('#review').hidden = false;
-  $('#reviewCard').scrollTop = 0;
+  renderReview();
+}
+// The case's grammar, most used first: [id, uses].
+function caseGrammar(){
+  return Object.keys(GRAMMAR).map(g => [g, grammarUses(g)]).filter(([, uses]) => uses.length).sort((a, b) => b[1].length - a[1].length);
+}
+function renderReview(){
+  const step = rv.steps[rv.step], st = rv.stat;
+  const bar = `<div class="rv-top"><div class="rv-steps" aria-label="복습 ${rv.step + 1} / ${rv.steps.length}">${rv.steps.map((x, i) => `<i class="${i <= rv.step ? 'on' : ''}"></i>`).join('')}</div>` +
+    (rv.fromHome ? `<button class="pill sm" type="button" data-rv-close>닫기</button>` : '') + `</div>`;
+  let body = '', foot = '';
+  if(step === 'result'){
+    const stars = st?.stars || 0, grammar = caseGrammar().length;
+    body = `<div class="rv-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b><img src="assets/ui/investigation-complete-stamp.png" alt="수사완료"></div>
+      <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<span class="${i < stars ? '' : 'off'}" style="--i:${i}">★</span>`).join('')}</div>
+      ${st ? `<p class="rv-score">${st.total}칸 중 ${st.ok}칸</p>` : ''}
+      <div class="rv-tiles">
+        ${rv.missed.length ? `<div><b>${rv.missed.length}</b>다시 들을<br>문장</div>` : `<div class="all"><b>✓</b>모두<br>맞힘</div>`}
+        <div><b>${Math.min(3, grammar)}</b>핵심<br>문법</div>
+        <div><b>${rv.words.length}</b>새 단어</div>
+      </div>`;
+    foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
+  }
+  if(step === 'missed'){
+    const ref = rv.missed[rv.card], [id, qid] = ref.split(':'), s = spk(id), wrong = rv.wrong[ref] || {};
+    // the blanks to write again: the ones wrong at first (all of the question's when an older save did not keep them)
+    const slots = Object.keys(wrong).length ? Object.keys(wrong) : blanksOf(id, [qid]).map(b => b.id);
+    const lines = s.notes[qid].map(line => {
+      let html = '', last = 0;
+      line.replace(BLANK_RE, (m, bid, ans, idx) => {
+        html += esc(line.slice(last, idx)) + (slots.includes(bid)
+          ? `<button class="rv-slot" type="button" data-rv-slot="${bid}">${esc(rv.filled[bid] || '')}</button>`
+          : `<span class="got">${esc(ans.split('/')[0])}</span>`);
+        last = idx + m.length; return m;
+      });
+      return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
+    }).join('');
+    const firsts = slots.map(bid => wrong[bid]).filter(v => v !== undefined);
+    body = `<div class="rv-who"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}<small>${rv.card + 1} / ${rv.missed.length}</small></div>
+      <span class="rv-label">Q. ${esc(qs(s).find(q => q.id === qid).en)}</span>
+      <div class="rv-listen"><button class="pill sm" type="button" data-rv-play>${playIcon}다시 듣기</button><button class="pill sm" type="button" data-rv-slow>천천히</button></div>
+      <div class="rv-quiz">${lines}</div>
+      ${firsts.length ? `<p class="rv-first">처음 쓴 답 ${firsts.map(v => `<s>${esc(v || '…')}</s>`).join(' ')}</p>` : ''}
+      <div class="bank">${(s.bank?.[qid] || []).map(w => `<button class="word" type="button" data-rv-word="${esc(w)}">${esc(w)}</button>`).join('')}</div>`;
+    foot = `<button class="pill big" type="button" data-rv-check>확인</button>`;
+  }
+  if(step === 'grammar'){
+    body = `<h2 class="rv-title">이번 사건의 문법</h2>` + caseGrammar().slice(0, 3).map(([g, uses]) => {
+      // an example the player heard: the first use found in an answer (not in the question they picked)
+      const use = uses.find(u => spk(u.id).answers[u.qid].includes(u.words)) || uses[0];
+      const answer = spk(use.id).answers[use.qid], sents = sentencesOf(answer);
+      const idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
+      const sent = sents[idx], at = sent.indexOf(use.words);
+      const shown = at < 0 ? esc(sent) : esc(sent.slice(0, at)) + `<mark>${esc(use.words)}</mark>` + esc(sent.slice(at + use.words.length));
+      return `<div class="rv-gcard"><header><b>${esc(GRAMMAR[g].name)}</b><small>${uses.length}번</small></header>
+        <span class="gpat">${esc(GRAMMAR[g].pattern)}</span><p>${shown}</p>
+        <p class="gko" hidden>${esc(GRAMMAR[g].ko)}</p>
+        <div class="rv-gbtns"><button class="replay-q" type="button" data-rv-sent="${use.id}:${use.qid}" data-sent="${idx}" aria-label="문장 듣기">${playIcon}</button>
+          <button class="pill sm" type="button" data-rv-gko aria-pressed="false">설명</button>
+          <button class="pill sm" type="button" data-grammar="${g}">문법 노트</button></div></div>`;
+    }).join('');
+    foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
+  }
+  if(step === 'words'){
+    const all = rv.words.length && rv.words.every(w => rv.keep.has(w.key));
+    body = `<h2 class="rv-title">새 단어 <small>${rv.keep.size} / ${rv.words.length}</small>
+        <button class="pill sm" type="button" data-rv-all aria-pressed="${all}" style="margin-left:auto">${all ? '모두 빼기' : '모두 담기'}</button></h2>` +
+      WORD_GROUPS.map(([g, label]) => {
+        const list = rv.words.filter(w => WORDS[w.key][0] === g);
+        return !list.length ? '' : `<h3 class="rv-wsec">${label}</h3>` + list.map(w => {
+          const [, ko, say] = WORDS[w.key], on = rv.keep.has(w.key);
+          return `<div class="rv-word${on ? ' kept' : ''}"><button class="replay-q" type="button" data-rv-sent="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기">${playIcon}</button>
+            <span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}</span>
+            <button class="pill sm" type="button" data-rv-wko aria-pressed="false">해석</button>
+            <button class="pill sm keep" type="button" data-rv-keep="${w.key}" aria-pressed="${on}">${on ? '담음' : '담기'}</button>
+            <p class="wko" hidden>${esc(ko)}</p></div>`;
+        }).join('');
+      }).join('');
+    foot = `<button class="pill big" type="button" data-rv-done>${rv.fromHome ? '닫기' : '사건 목록으로'}</button>`;
+  }
+  $('#reviewCard').innerHTML = `${bar}<div class="rv-body${step === 'result' ? ' mid' : ''}">${body}</div><div class="rv-foot">${foot}</div>`;
+}
+function reviewNext(){
+  stopVoice();
+  if(rv.step < rv.steps.length - 1){ rv.step++; renderReview(); }
+}
+// Words the player keeps join the word book; the case's words left out are taken out of it.
+function closeReview(){
+  stopVoice();
+  const kept = keptWords() ?? learnedWords().map(w => w.key), caseKeys = new Set(rv.words.map(w => w.key));
+  keepWords([...kept.filter(k => !caseKeys.has(k)), ...rv.keep]);
+  $('#review').hidden = true;
+  const home = rv.fromHome; rv = null;
+  if(home) renderHome(); else openCaseList();
 }
 $('#review').addEventListener('click', e => {
+  if(!rv) return;
   const grammar = e.target.closest('[data-grammar]');
   if(grammar) return openGrammar(grammar.dataset.grammar);
-  const replay = e.target.closest('[data-replay]');
-  if(replay) return replayLine(replay.dataset.replay);
-  const ko = e.target.closest('[data-rv-ko]');
-  if(ko){ const t = ko.previousElementSibling; t.hidden = !t.hidden; ko.setAttribute('aria-pressed', !t.hidden); return; }
-  if(e.target.closest('[data-solved]')){ stopVoice(); $('#review').hidden = true; if(!reviewFromHome) openCaseList(); }
+  const sent = e.target.closest('[data-rv-sent]');
+  if(sent) return replaySentence(sent.dataset.rvSent, +sent.dataset.sent);
+  if(e.target.closest('[data-rv-next]')) return reviewNext();
+  if(e.target.closest('[data-rv-close], [data-rv-done]')) return closeReview();
+  const ref = rv.steps[rv.step] === 'missed' ? rv.missed[rv.card] : null;
+  if(e.target.closest('[data-rv-play]')) return replayLine(ref);
+  if(e.target.closest('[data-rv-slow]')){ const was = S.slow; S.slow = true; replayLine(ref); S.slow = was; return; }
+  const word = e.target.closest('[data-rv-word]');
+  if(word){
+    const empty = [...document.querySelectorAll('#reviewCard [data-rv-slot]')].find(b => !rv.filled[b.dataset.rvSlot]);
+    if(empty){ rv.filled[empty.dataset.rvSlot] = word.dataset.rvWord; empty.textContent = word.dataset.rvWord; empty.classList.remove('miss'); }
+    return;
+  }
+  const slot = e.target.closest('[data-rv-slot]');
+  if(slot){ delete rv.filled[slot.dataset.rvSlot]; slot.textContent = ''; return; }
+  if(e.target.closest('[data-rv-check]')){
+    const [id, qid] = ref.split(':'), slots = [...document.querySelectorAll('#reviewCard [data-rv-slot]')];
+    const answers = Object.fromEntries(blanksOf(id, [qid]).map(b => [b.id, b.ans]));
+    const wrong = slots.filter(b => !isRight({ ans:answers[b.dataset.rvSlot], value:rv.filled[b.dataset.rvSlot] || '' }));
+    const sound = $(wrong.length ? '#retryBuzz' : '#correctChime'); sound.currentTime = 0; sound.play().catch(() => {});
+    if(wrong.length){
+      // the wrong ones are emptied with a shake; the right answer is never shown
+      wrong.forEach(b => { delete rv.filled[b.dataset.rvSlot]; b.textContent = ''; b.classList.remove('miss'); void b.offsetWidth; b.classList.add('miss'); });
+      return;
+    }
+    slots.forEach(b => b.classList.add('hit'));
+    e.target.closest('[data-rv-check]').disabled = true;
+    setTimeout(() => {
+      if(!rv) return;
+      rv.filled = {};
+      if(rv.card < rv.missed.length - 1){ rv.card++; renderReview(); } else reviewNext();
+    }, 750);
+    return;
+  }
+  const gko = e.target.closest('[data-rv-gko]');
+  if(gko){ const t = gko.closest('.rv-gcard').querySelector('.gko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
+  const wko = e.target.closest('[data-rv-wko]');
+  if(wko){ const t = wko.closest('.rv-word').querySelector('.wko'); t.hidden = !t.hidden; wko.setAttribute('aria-pressed', !t.hidden); return; }
+  const keep = e.target.closest('[data-rv-keep]');
+  if(keep){
+    const k = keep.dataset.rvKeep, on = !rv.keep.has(k);
+    if(on) rv.keep.add(k); else rv.keep.delete(k);
+    const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
+    return;
+  }
+  if(e.target.closest('[data-rv-all]')){
+    const all = rv.words.every(w => rv.keep.has(w.key));
+    rv.keep = new Set(all ? [] : rv.words.map(w => w.key));
+    const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
+  }
 });
 
 /* =====================================================================
@@ -3017,7 +3170,12 @@ const CASES = [
 const SOLVED_KEY = 'pioo.solvedCases', STATS_KEY = 'pioo.caseStats', DAYS_KEY = 'pioo.studyDays';
 const readJSON = (key, empty) => { try { return JSON.parse(localStorage.getItem(key)) || empty; } catch(e){ return empty; } };
 const solvedCases = () => readJSON(SOLVED_KEY, []);
-const caseStats = () => readJSON(STATS_KEY, {});   // { caseId: { ok, total, stars, missed:['mole:m2', …] } }, the best first-check result
+const caseStats = () => readJSON(STATS_KEY, {});   // { caseId: { ok, total, stars, missed:['mole:m2', …], wrong:{ref:{blank:value}} } }, the best first-check result
+// The word book holds only the words the player chose to keep in a review (user decision: known words stay out).
+// Before the first choice (key missing) it shows every learned word, as before.
+const WORDBOOK_KEY = 'pioo.wordBook';
+const keptWords = () => readJSON(WORDBOOK_KEY, null);
+function keepWords(keys){ try { localStorage.setItem(WORDBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 let solvedThisRun = false;
 function markSolved(id){
   solvedThisRun = true;
@@ -3251,8 +3409,13 @@ function filledLine(line, mark){
   return html + esc(line.slice(last));
 }
 const koToggle = text => `<p class="wko" hidden>${esc(text)}</p><button class="pill sm" type="button" data-wko aria-pressed="false">해석</button>`;
+// The word book: learned words the player kept (every learned word before the first review choice).
+function bookWords(){
+  const all = learnedWords(), kept = keptWords();
+  return kept ? all.filter(w => kept.includes(w.key)) : all;
+}
 function renderWords(){
-  const words = learnedWords(), switcher = `<div class="wb-switch">${[['words','단어'], ['grammar','문법']].map(([mode, label]) =>
+  const words = bookWords(), switcher = `<div class="wb-switch">${[['words','단어'], ['grammar','문법']].map(([mode, label]) =>
     `<button class="pill sm" type="button" data-wbmode="${mode}" aria-pressed="${wordMode === mode}">${label}</button>`).join('')}</div>`;
   if(wordMode === 'grammar'){
     const list = learnedGrammar();
@@ -3310,7 +3473,7 @@ function renderMe(){
       <div class="stat"><b>${studyStreak()}일</b><span>연속 학습</span></div>
       <div class="stat"><b>${solvedCases().length}</b><span>해결한 사건</span></div>
       <div class="stat"><b>${total ? Math.round(ok / total * 100) + '%' : '–'}</b><span>처음 확인 정확도</span></div>
-      <div class="stat"><b>${learnedWords().length}</b><span>모은 단어</span></div>
+      <div class="stat"><b>${bookWords().length}</b><span>모은 단어</span></div>
     </div>
     <h2 class="home-sec">이번 주</h2><div class="week">${week}</div>
     <h2 class="home-sec">설정</h2>
