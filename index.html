@@ -755,6 +755,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
   <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
+  <audio id="wordVoice" preload="none" hidden></audio>
   <div class="main">
     <button class="pill top-back" type="button" id="backTab" aria-label="뒤로">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1457,6 +1458,7 @@ function stopVoice(){
   clearTimeout(talkT);
   clip.pause();
   $('#evidenceVoice').pause();
+  $('#wordVoice').pause();
   if('speechSynthesis' in window) speechSynthesis.cancel();
   setTalking(false);
 }
@@ -1955,6 +1957,17 @@ function checkNotes(id){
 function replayLine(ref){
   const [id, qid] = ref.split(':');
   speak(spk(id).answers[qid], qid, id);
+}
+// Word-book playback uses a bundled pronunciation, never the sentence that taught the word.
+function pronounceWord(key){
+  if(!Object.prototype.hasOwnProperty.call(WORDS, key)) return;
+  stopVoice();
+  const turn = speechTurn;
+  const voice = $('#wordVoice'), file = key.replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  voice.src = `audio/words/${file}.wav`;
+  voice.preservesPitch = true;
+  voice.playbackRate = S.slow ? .75 : 1;
+  voice.play().catch(() => { if(turn === speechTurn) toast('발음을 재생하지 못했어요. 다시 눌러 주세요.'); });
 }
 // One sentence of an answer: the matching part of the recording (or that sentence by browser TTS).
 function replaySentence(ref, idx){
@@ -3468,7 +3481,7 @@ function renderWords(){
         return !list.length ? '' : `<h2 class="home-sec">${label} <small>${list.length}</small></h2>` + list.map(w => {
           const [, ko, say] = WORDS[w.key];
           return `<div class="wcard"><div class="wtop"><span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}</span>
-            <button class="replay-q" type="button" data-wplay="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기">${playIcon}</button></div>
+            <button class="replay-q" type="button" data-word-play="${esc(w.key)}" aria-label="${esc(w.word)} 발음 듣기">${playIcon}</button></div>
             <p class="wline">${filledLine(w.line, w.bid)}</p>${koToggle(ko)}</div>`;
         }).join('');
       }).join(''));
@@ -3523,6 +3536,8 @@ function renderHome(){
   $(`#home-${homeTab}`).scrollTop = 0;
 }
 $('#caseList').addEventListener('click', e => {
+  const word = e.target.closest('[data-word-play]');
+  if(word) return pronounceWord(word.dataset.wordPlay);
   const tab = e.target.closest('[data-home]');
   if(tab){ if(tab.dataset.home !== homeTab){ homeTab = tab.dataset.home; renderHome(); } return; }
   const play = e.target.closest('[data-wplay]');
