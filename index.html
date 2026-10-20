@@ -891,6 +891,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <button class="devbtn" type="button" id="devFill">노트 자동 채우기</button>
   <button class="devbtn" type="button" id="devDone">전체 대화 완료</button>
   <button class="devbtn" type="button" id="devEvidence">증거 모두 수집</button>
+  <button class="devbtn" type="button" id="devInterro">심문 완료</button>
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
   <button class="devbtn" type="button" id="devReset">리셋</button>
 </div>
@@ -1583,7 +1584,7 @@ function renderWho(){
   // pages for everyone the player has talked to; the partner's page is the case file
   $('#who').innerHTML = `<button type="button" data-i="evidence" aria-pressed="${S.view === 'evidence'}" style="--tab-bg:#DDE8C9" aria-label="증거 노트">${cameraIcon}</button>` + S.met.filter(id => per(id).phase !== 'wait').map(id => {
     const s = spk(id);
-    if(s.partner) return `<button class="case" type="button" data-i="${id}" aria-pressed="${S.view === id}" style="--tab-bg:${s.bg}" aria-label="사건 브리핑 노트"><svg aria-hidden="true"><use href="#caseIcon"/></svg></button>`;
+    if(s.partner) return `<button class="case" type="button" data-i="${id}" aria-pressed="${S.view === id}" style="--tab-bg:${s.bg}" aria-label="사건 브리핑 노트">${miniSVG(id)}</button>`;
     return `<button type="button" data-i="${id}" aria-pressed="${S.view === id}" style="--tab-bg:${s.bg}" aria-label="${esc(s.name)} 노트">${miniSVG(s.id)}</button>`;
   }).join('');
 }
@@ -3558,6 +3559,24 @@ $('#devEvidence').onclick = () => {
   renderPlaces(); renderDock();
   if(S.investigate && S.place){ renderSceneHead(); renderScene(); }
   toast(n ? `증거 ${n}개를 노트에 기록했어요.` : '이미 모든 증거를 모았어요.');
+};
+
+// 심문 완료: skip the questioning — from anywhere in the case (every conversation and clue done first) straight to the
+// silence before Fiona gives in, so the confession, the COMPLETE stamp and the review can be checked.
+$('#devInterro').onclick = () => {
+  if(ending?.step !== 'confront'){
+    if(ending) leaveEnding();
+    if(!allConversationsDone()) $('#devDone').click();
+    $('#devEvidence').click();
+    $('#accuse').hidden = true; $('#accused').hidden = true;
+    startEnding();
+  }
+  clearTimeout(endTimer); stopVoice(); closeDrawer();
+  endingRound = ENDING.confront.length;
+  ending.step = 'confession'; ending.i = 0; ending.line = null; renderAsk(); renderSay(null);
+  renderInterrogationGauge();
+  setMood('fiona', 'sad');
+  endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0]), 'sad'), 1400);
 };
 
 // 튜토리얼 초기화: forget that the tutorial was seen and start over.
