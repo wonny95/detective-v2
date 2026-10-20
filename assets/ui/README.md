@@ -121,3 +121,9 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 
 - `gauge-empty.png`, `gauge-full.png` (각 651×185, 투명): 사용자 요청으로 돋보기와 막대를 한 덩어리로 그린 손그림 게이지. Nano Banana 2.1(1K, thinking high, 16:9, 1.5크레딧), 참조: 첫 게이지 시안(job `cea84c82-…`) + 아이콘 v2 시트. job `d3e797e1-afa4-424a-8ee2-4b5fcc0b30a6`, 원본 `gauge-magnifier-higgsfield-original.png`(위 빈 게이지, 아래 꿀색 꽉 찬 게이지). 위 게이지의 손잡이가 아래 게이지와 몇 줄 겹쳐 이어진 덩어리별로 나눠 마젠타를 지웠다. 아래 그림이 11px 높게 그려져 막대 위치에 맞춰 내린 뒤 같은 캔버스(1302×370)에서 반으로 줄였다.
 - 첫 시안(돋보기 없는 막대만, job `cea84c82-…`, 원본 `gauge-higgsfield-original.png`)은 돋보기와 따로 논다는 피드백으로 교체.
+
+## 튜토리얼 그림
+
+- `index.html`의 `TUT` 6장에 쓰는 인라인 SVG 조합. Codex가 현재 플레이 방식에 맞춰 구성했다. 새 비트맵 생성·기존 이미지 가공·추가 크레딧 사용 없음.
+- 공용 `buttons/*-flat.png`, `casefile-panel.webp`, `icons-v2/camera.png`·`acorn.png`, `gauge-empty.png`와 기존 인물·장소 그림을 그대로 참조한다. 노트의 네 버튼 배치, 단어 터치 후 빈칸으로 이동, 증거 획득 장소·듣기·해석, 파출소 심문을 안내한다.
+- 정답·범인·핵심 증거를 보여 주지 않는다. 빈칸 예문은 사건과 무관한 문장이며 증거 사진은 카메라 아이콘으로 대신한다. 원본 이미지의 출처는 각 그림 항목을 따른다.
