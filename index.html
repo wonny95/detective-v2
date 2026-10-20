@@ -1769,10 +1769,14 @@ function ask(qid){
   p.phase = 'record'; p.recording = qid;
   if(!p.order.includes(qid)) p.order.push(qid);
   hideBubble();
-  speak(cur().answers[qid], qid);
+  // the answer is first heard with the camera still close on the speaker (user decision: no zoom-out
+  // while it plays); the notebook rises when it ends, unless it was opened by hand meanwhile
+  const id = S.cur;
+  speak(cur().answers[qid], qid, id, () => {
+    if(S.cur === id && !S.investigate && !discoveryPerson && p.phase === 'record' && p.recording === qid && !document.querySelector('.sheet.open')) setNotes(true);
+  });
   S.view = S.cur;
   renderDock();
-  setNotes(true);
 }
 function useHint(){
   const p = st(), qid = p.recording;
