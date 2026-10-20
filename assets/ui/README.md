@@ -126,7 +126,7 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 ## 튜토리얼 그림
 
 - `index.html`의 `TUT` 6장에 쓰는 인라인 SVG 조합. Codex가 현재 플레이 방식에 맞춰 구성했다. 새 비트맵 생성·기존 이미지 가공·추가 크레딧 사용 없음.
-- 공용 `buttons/*-flat.png`, `casefile-panel.webp`, `icons-v2/camera.png`·`acorn.png`, `gauge-empty.png`와 기존 인물·장소 그림을 그대로 참조한다. 노트의 네 버튼 배치, 단어 터치 후 빈칸으로 이동, 증거 획득 장소·듣기·해석, 파출소 심문을 안내한다.
+- 공용 `buttons/*-flat.png`, `casefile-panel.webp`, `icons-v2/camera.png`·`acorn.png`, `magnifier-paper.png`와 기존 인물·장소 그림을 그대로 참조한다. 심문 게이지는 크림/갈색 종이 외곽과 꿀색 채움으로 그린다. 노트의 네 버튼 배치, 단어 터치 후 빈칸으로 이동, 증거 획득 장소·듣기·해석, 파출소 심문을 안내한다.
 - 정답·범인·핵심 증거를 보여 주지 않는다. 빈칸 예문은 사건과 무관한 문장이며 증거 사진은 카메라 아이콘으로 대신한다. 원본 이미지의 출처는 각 그림 항목을 따른다.
 
 ### 연필선 삼각형 꼬리 편집 프롬프트
