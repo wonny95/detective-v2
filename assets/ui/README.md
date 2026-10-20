@@ -95,4 +95,5 @@ Use case: illustration-story. Generate ONE standalone UI speech-bubble TAIL asse
 
 ## 심문 게이지 (2026-10-20)
 
-- `gauge-empty.png`, `gauge-full.png` (각 640×145, 투명): 사용자 요청으로 심문 진행 게이지를 손그림으로. Nano Banana 2.1(1K, thinking high, 16:9, 1.5크레딧), 참조: 아이콘 v2 시트(job `782fc121-…`) + 노트 화풍. job `cea84c82-796f-48b5-b8ec-d7106dc74f4b`, 원본 `gauge-higgsfield-original.png`(위 빈 막대, 아래 꿀색으로 꽉 찬 막대). 위아래 반씩 잘라 마젠타를 지웠다. 두 장의 크기·외곽이 같아 겹쳐 쓴다(`.gauge-track` / `.gauge-fill`, `border-image` 0 72 fill / 0 14px).
+- `gauge-empty.png`, `gauge-full.png` (각 651×185, 투명): 사용자 요청으로 돋보기와 막대를 한 덩어리로 그린 손그림 게이지. Nano Banana 2.1(1K, thinking high, 16:9, 1.5크레딧), 참조: 첫 게이지 시안(job `cea84c82-…`) + 아이콘 v2 시트. job `d3e797e1-afa4-424a-8ee2-4b5fcc0b30a6`, 원본 `gauge-magnifier-higgsfield-original.png`(위 빈 게이지, 아래 꿀색 꽉 찬 게이지). 위 게이지의 손잡이가 아래 게이지와 몇 줄 겹쳐 이어진 덩어리별로 나눠 마젠타를 지웠다. 아래 그림이 11px 높게 그려져 막대 위치에 맞춰 내린 뒤 같은 캔버스(1302×370)에서 반으로 줄였다.
+- 첫 시안(돋보기 없는 막대만, job `cea84c82-…`, 원본 `gauge-higgsfield-original.png`)은 돋보기와 따로 논다는 피드백으로 교체.
