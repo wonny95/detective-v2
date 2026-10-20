@@ -23,7 +23,8 @@ Actual transparent alpha background. ONLY the ink imprint. No paper sheet, white
 - `speech-paper-frame.png` (1536×1024, 투명 바깥): 힌트·엔딩 공용 말풍선 본문. **Codex가 기본 내장 `image_gen` 도구로 생성**, Higgsfield·CLI 미사용. 기존 `buttons/cream-flat.png`는 재질 참조, `places/library-higgsfield-v2.png`는 화풍 참조로 사용했다. 따뜻한 아이보리 종이, 갈색 색연필선과 가는 황토색 안쪽 선, 장식 없는 읽기 영역이다. 생성 출력 `exec-19bb79b2-db66-495c-ad43-11e798066f23.png`를 알파 채널 그대로 복사했고 자르기·색 보정은 하지 않았다.
   - `.bubble::before`의 `border-image`로 **9조각 확장**한다. slice `100`, 표시 테두리 `22px`, 원본 투명 여백을 고려해 `inset:-8px -3px`. 모서리와 선 두께를 유지하고 가운데만 늘린다. 본문 폭은 `min(88%,380px)`이며 화면 높이에 따라 내용만 스크롤한다.
   - 이미지의 반투명한 안쪽 조각 경계에 얇은 선이 드러나지 않도록 `background-clip:padding-box`인 불투명 종이색 바탕을 함께 쓴다(`--bubble-paper`, 기본 `#FFF8E9`). 바깥 투명 모서리는 채우지 않는다. 말풍선 안의 영어·한국어·버튼 영역에는 구분선을 넣지 않고 여백만 둔다.
-- `speech-paper-tail-flat.png` (1774×887, 투명): Codex가 기본 내장 `image_gen`으로 편집한 직선 삼각형 꼬리(사용자 결정: 곡선 없음). 원본 출력 `exec-2ab58def-170a-4c49-a180-d8841a44b768.png`를 가공 없이 복사해 알파 유지. 위쪽 가로 연결선은 없고 양옆에 굵은 갈색 외곽·황토색 안쪽 선을 둔다. 40px로 줄인 화면에서도 본체와 맞는 굵기를 목표로 원본 선을 두껍게 제작했다. `.bubble::after`는 `40×20px`, `bottom:-6px`로 밑선을 덮어 연결하며, 본문 높이에 따라 늘리지 않는다. 스킨은 `--bubble-frame`·`--bubble-tail`로 교체. Higgsfield·CLI 미사용.
+- `speech-paper-tail-pencil.png` (1585×992, 투명): **현재 적용**. Codex가 내장 `image_gen`으로 편집. 원본 `exec-fe952193-7816-4263-b158-60420c65dc26.png`를 가공 없이 복사해 알파 유지. 직선 삼각형, 거친 갈색 연필 외곽·황토색 안쪽 선, 열린 윗변. 불투명 V 끝 아래 약 80px 여백이 있어 끝이 잘리지 않는다. `.bubble::after`의 48×30px 상자에서 `contain`, `bottom:-14px`로 배치한다. 본체는 그대로 9조각 확장, 꼬리 크기는 고정이다. 원본 색상 구간을 기준으로 축소 후 갈색 선 약 2.5–2.7px(본문 약 2.2px)로 확인했다. Higgsfield·CLI 미사용.
+- `speech-paper-tail-flat.png` (1774×887, 투명): 미사용 이전 직선 꼬리 보관. 생성 출력 `exec-2ab58def-170a-4c49-a180-d8841a44b768.png`.
 - `speech-paper-tail.png` (1792×896, 투명): 미사용 곡선 꼬리 보관. 생성 출력 `exec-9e79024f-9613-455f-b0d6-e19a5b57a5f6.png`.
   - 두 이미지 모두 글자·캐릭터·조작 요소가 없는 배경 부품이다. 이름·영어·한국어·버튼은 HTML이므로 콘텐츠를 추가하거나 문장이 길어져도 이미지를 다시 만들 필요가 없다.
 
@@ -127,3 +128,11 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 - `index.html`의 `TUT` 6장에 쓰는 인라인 SVG 조합. Codex가 현재 플레이 방식에 맞춰 구성했다. 새 비트맵 생성·기존 이미지 가공·추가 크레딧 사용 없음.
 - 공용 `buttons/*-flat.png`, `casefile-panel.webp`, `icons-v2/camera.png`·`acorn.png`, `gauge-empty.png`와 기존 인물·장소 그림을 그대로 참조한다. 노트의 네 버튼 배치, 단어 터치 후 빈칸으로 이동, 증거 획득 장소·듣기·해석, 파출소 심문을 안내한다.
 - 정답·범인·핵심 증거를 보여 주지 않는다. 빈칸 예문은 사건과 무관한 문장이며 증거 사진은 카메라 아이콘으로 대신한다. 원본 이미지의 출처는 각 그림 항목을 따른다.
+
+### 연필선 삼각형 꼬리 편집 프롬프트
+
+내장 `image_gen`, `transparent_background:true`. 1차 편집은 이전 직선 꼬리 + 본체를 참조해 끝 아래 투명 여백과 온전한 V 끝을 생성했다(`exec-e51ecd10-8f3f-4313-bae5-d83a2d072c99.png`). 최종 편집의 참조 순서는 1차 꼬리(수정 대상), 본체(재질 참조)다.
+
+```text
+EDIT IMAGE 1 ONLY. Keep its complete triangular V point, exact overall triangle dimensions and open unoutlined top edge, transparent canvas and generous transparent safety space beneath its pointed tip. Image 2 is only the material reference. The most important change is dramatic THICKENING of the DARK BROWN OUTER CONTOUR on both diagonal sides: make the dark brown band THREE TIMES its existing normal perpendicular thickness, roughly 110-130 pixels thick at the source image's current width around 1600 pixels. It will be displayed only 44px wide, so without this extreme source thickness it becomes a thin hairline. This is a deliberately very bold chunky hand-drawn dark brown pencil/crayon V stroke, NOT a slender elegant outline. Grow the dark stroke inward into the cream area, so the exterior triangle size and the fully intact pointed tip do not change. Also thicken the muted golden ochre inner rim to 1.5 times its current width but keep dark brown dominant, not orange. Make the outline visibly imperfect and coarse: broad pencil marks, irregular pressure, small wavers around the straight underlying triangular geometry, slightly rough ragged pencil edges; NOT parallel ruler-cut vector bands. Cream interior remains warm pale #FFF8E9. No horizontal line at top. No curve in overall triangular silhouette, no round droplet, no flat cutoff at the V tip. Keep at least 100 pixels of transparent margin below the V point, no cropping. Do not add any object, any rectangle, any whole speech bubble, text, icon or cast shadow. One isolated transparent TAIL asset. The large brown band is essential; change it substantially, not subtly.
+```
