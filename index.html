@@ -213,6 +213,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .dock-head{flex:none;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 8px;aspect-ratio:81.5 / 13.6;padding:0 2px}
 .dock-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px;display:flex;align-items:center;gap:6px}
 .dock-head h2 svg{width:24px;height:24px}
+.dock-head h2[hidden]{display:none}
+#personTitle{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .dock-head .finish{margin-left:auto;padding:6px 14px;background:var(--moss);font-size:15px}
 .dock-head .finish[hidden]{display:none}
 /* behind the open notebook the scene darkens toward the bottom, so the notebook stands out from
@@ -782,6 +784,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="who" id="who" aria-label="노트 페이지"></div>
       <div class="dock-head">
         <h2 id="evidenceTitle" hidden>증거 기록</h2>
+        <h2 id="personTitle" hidden></h2>
         <button class="ev-back" id="evidenceBack" type="button" hidden>‹ 증거 기록</button>
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
@@ -1676,6 +1679,7 @@ function renderDock(){
   const mode = noteMode();
   $('#evidenceTitle').hidden = true;
   $('#evidenceBack').hidden = true;
+  $('#personTitle').hidden = true;
   $('#finish').hidden = !mode;
   // the check of a finished conversation (its result or fresh stamp) takes the whole screen
   $('#app').classList.toggle('note-full', noteRaised);
@@ -1711,6 +1715,9 @@ function renderDock(){
   let html = '';
 
   $('#listen').hidden = !(live && p.phase === 'record');
+  // a person's page is titled "<name>의 진술" (user request); while writing an answer down the head holds the listening tools instead
+  $('#personTitle').textContent = `${vs.name}의 진술`;
+  $('#personTitle').hidden = !$('#listen').hidden;
   $('#slow').setAttribute('aria-pressed', S.slow);
 
   // while writing down an answer, the page shows only that question; the full page comes back afterwards
