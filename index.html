@@ -2248,6 +2248,8 @@ function unlock(u, quiet){
 let pendingPins = [], pendingPeople = [], freshPins = new Set(), freshTimer, mapAutoTimer;
 // Where the player is taken once a check's discoveries have been shown: the first new person (their conversation),
 // else the first new place (its scene). Set when the notebook is put away; dropped if the player takes over the map.
+// None while the conversation the check came from still has questions (user request): the new person or pins are
+// shown, then the player is back with the same person and their questions, and goes to the new ones by the map.
 let discoveryGoal = null;
 const MAP_AUTO_CLOSE_MS = 3000;   // how long a map that opened for new pins stays before it closes by itself
 function afterMotion(element, callback){
@@ -2257,7 +2259,8 @@ function afterMotion(element, callback){
 }
 function revealDiscoveries(){
   if(!pendingPins.length && !pendingPeople.length) return;
-  discoveryGoal = pendingPeople.length ? { person:pendingPeople[0] } : { place:pendingPins[0] };
+  const questionsLeft = !S.investigate && !ending && per(S.cur).phase === 'choose';
+  discoveryGoal = questionsLeft ? null : pendingPeople.length ? { person:pendingPeople[0] } : { place:pendingPins[0] };
   const run = ++discoveryRun;
   afterMotion($('.dock'), () => {
     if(run !== discoveryRun || $('#app').classList.contains('notes-open') || $('#sheet-map').classList.contains('open') || !$('#caseList').hidden) return;
