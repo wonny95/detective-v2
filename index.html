@@ -200,8 +200,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .bubble{--bubble-top:44px;--bubble-frame:url(assets/ui/speech-paper-frame.png);--bubble-tail:url(assets/ui/speech-paper-tail-pencil.png);position:absolute;left:50%;top:var(--bubble-top);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;box-sizing:border-box;width:min(88%,380px);max-width:calc(100% - 32px);max-height:calc(100% - var(--bubble-top) - 112px);padding:24px 20px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:pop .25s ease-out}
 /* Opaque paper behind the translucent image slices prevents hairline seams inside the frame. */
 .bubble::before{content:"";position:absolute;inset:0;z-index:-1;background-color:var(--bubble-paper,#FFF8E9);background-clip:padding-box;border:20px solid transparent;border-image:var(--bubble-frame) 150 190 fill / 33px 42px / 0 stretch;pointer-events:none}
-/* Keep the tail asset's transparent safety margin and aspect ratio, including the complete pencil-drawn V tip. */
-.bubble::after{content:"";position:absolute;left:50%;bottom:-14px;width:48px;height:30px;transform:translateX(-50%);background:var(--bubble-tail) center/contain no-repeat;pointer-events:none}
+/* Keep the tail asset's transparent safety margin and aspect ratio, including the complete pencil-drawn V tip. Its open
+   top (3.6px down in the 48×30 box) lays its paper over the bubble's bottom outline (the last ~5px), so the two join. */
+.bubble::after{content:"";position:absolute;left:50%;bottom:-21px;width:48px;height:30px;transform:translateX(-50%);background:var(--bubble-tail) center/contain no-repeat;pointer-events:none}
 .bubble-copy{min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-wrap:anywhere}
 .bubble .tag{display:block;font-family:var(--f-display);font-size:11px;line-height:1.4;color:var(--berry);margin-bottom:6px;letter-spacing:.02em}
 .bubble .say-en{display:block}
@@ -724,7 +725,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .office-say{position:absolute;left:50%;top:7%;z-index:2;box-sizing:border-box;width:min(88%,360px);transform:translateX(-50%);padding:20px 18px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:pop .25s ease-out}
 .office-say[hidden]{display:none}
 .office-say::before,.oh-say::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;pointer-events:none}
-.office-say::after,.oh-say::after{content:"";position:absolute;left:50%;bottom:-14px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
+.office-say::after,.oh-say::after{content:"";position:absolute;left:50%;bottom:-21px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
 .office.naming .office-say{top:auto;bottom:17%}
 .office.naming .office-say::after{display:none}
 .office-say p,.oh-say p{margin:0}
