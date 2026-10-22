@@ -185,11 +185,11 @@ node server.js            # http://localhost:5173/
   - 나레이션이 없거나 재생에 실패하면 바로 저장한다.
   - 이동하거나 노트를 조작하면 촬영이 취소되고, 다시 누르면 재촬영한다.
   - 이미 찍은 증거를 다시 누르면 노트의 해당 카드로 간다.
-- **단서가 아닌 물건**(`prop:true`)도 장소마다 세 개씩 누를 수 있다. **촬영은 단서만 한다**(사용자 요청): 물건을 누르면 확대·플래시·셔터 없이 탐정 나레이션만 나오고(`sayProp()`) 증거 노트에 남지 않는다. 다시 누르면 다시 들린다. 장소마다 하나는 일부러 수상해 보이는 물건(★)이다. 예전 저장 기록에 남은 물건 사진은 불러올 때 지운다(`loadGame`).
+- **단서가 아닌 물건**(`prop:true`)도 장소마다 세 개씩(도서관은 네 개) 누를 수 있다. **촬영은 단서만 한다**(사용자 요청): 물건을 누르면 확대·플래시·셔터 없이 탐정 나레이션만 나오고(`sayProp()`) 증거 노트에 남지 않는다. 다시 누르면 다시 들린다. 장소마다 하나는 일부러 수상해 보이는 물건(★)이다. 예전 저장 기록에 남은 물건 사진은 불러올 때 지운다(`loadGame`).
 
   | 장소 | 물건 (★ = 수상해 보이는 물건) |
   |---|---|
-  | 도서관 | ★ 펼친 책 'The Moon and the Stars', 천장 전등, 창가 화분 |
+  | 도서관 | ★ 펼친 책 'The Moon and the Stars', 천장 전등, 창가 화분, 바닥의 크레용(사용자 요청, "Some crayons are lying on the floor.") |
   | 빵집 | ★ 잼 병(주황·빨강, 보라색이라고 쓰지 않는다), 밀대, 빈 빵 바구니 |
   | 카페 | ★ 무대 옆 기타, 탁자 위 따뜻한 컵 세 개, 창밖 보름달 |
   | 언덕 | ★ 망원경, 별똥별, 흰 꽃 |
@@ -374,10 +374,10 @@ node server.js            # http://localhost:5173/
   - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
 - **음성 교체**: 사용자 링크 또는 연결된 생성 목록에서 대사·목소리·테이크를 확인하고 인물의 `audio` 키에 맞춘다. 같은 줄의 여러 테이크는 사용자 지정본을 우선한다. 파일을 받은 뒤 실제 녹음과 설정을 확인하며, 도구의 감정 적용 여부를 추정하지 않는다.
 
-- **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(21개)에 있다.
+- **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(22개)에 있다.
   - 사용자 제작: 도서관 시계·창문·문.
   - 탐정 자신의 대사 11줄(Claude 제작, 3.1·3.1.1절): `audio/detective-intro1·intro2·askname·named·casestart·accuse·closed.mp3`(2.7–4.7초), 홈 한마디 `detective-home-going·new·again·quiet.mp3`(2.7–4.4초). 대본은 `DETECTIVE`, 녹음의 "Sergeant Badger"는 화면에서 `Sgt. Badger`.
-  - Claude 제작: 나머지 18줄(빵집 door·oven·note·jam·pin·baskets, 카페 poster·guitar·cups·window, 언덕 notebook·footprints·telescope·star·flowers, 도서관 book·lamp·plant). 화면 문장과 달리 대문자 문구(CLOSED, LIVE MUSIC)는 보통 글자로, 노트의 따옴표·줄표는 빼고 읽혔다. `hill-notebook`은 "Rosie." 앞의 5초 공백을 잘라 11초다.
+  - Claude 제작: 나머지 19줄(빵집 door·oven·note·jam·pin·baskets, 카페 poster·guitar·cups·window, 언덕 notebook·footprints·telescope·star·flowers, 도서관 book·lamp·plant·crayons). 화면 문장과 달리 대문자 문구(CLOSED, LIVE MUSIC)는 보통 글자로, 노트의 따옴표·줄표는 빼고 읽혔다. `hill-notebook`은 "Rosie." 앞의 5초 공백을 잘라 11초다.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 답변 q2·q3**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
 

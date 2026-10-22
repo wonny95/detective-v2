@@ -1353,7 +1353,8 @@ const PLACES = [
       { label:'Door', en:'A tuft of orange fur is caught on the door.', ko:'문에 주황색 털 뭉치가 걸려 있다.', audio:'audio/detective-library-door.mp3' },
       { label:'Open book', prop:true, en:"An open book on the table: 'The Moon and the Stars.'", ko:"책상 위에 펼쳐진 책: '달과 별'.", audio:'audio/detective-library-book.mp3' },
       { label:'Lamp', prop:true, en:'The lamps are still on.', ko:'전등이 아직 켜져 있다.', audio:'audio/detective-library-lamp.mp3' },
-      { label:'Plant', prop:true, en:'A small plant sits by the window.', ko:'창가에 작은 화분이 놓여 있다.', audio:'audio/detective-library-plant.mp3' }
+      { label:'Plant', prop:true, en:'A small plant sits by the window.', ko:'창가에 작은 화분이 놓여 있다.', audio:'audio/detective-library-plant.mp3' },
+      { label:'Crayons', prop:true, en:'Some crayons are lying on the floor.', ko:'바닥에 크레용 몇 개가 떨어져 있다.', audio:'audio/detective-library-crayons.mp3' }
     ],
     spots:[
       { clue:0, x:71.5, y:11, w:12.5, h:63, photo:{x:971,y:129,w:160,h:120} },
@@ -1361,7 +1362,13 @@ const PLACES = [
       { clue:2, x:85.5, y:6, w:14, h:83, photo:{x:1216,y:350,w:160,h:120} },
       { clue:3, x:32.5, y:49, w:8, h:7, photo:{x:420,y:350,w:160,h:120} },
       { clue:4, x:46.5, y:0, w:7, h:10, photo:{x:590,y:0,w:160,h:120} },
-      { clue:5, x:17.5, y:44, w:4, h:9.5, photo:{x:208,y:315,w:120,h:90} }
+      { clue:5, x:17.5, y:44, w:4, h:9.5, photo:{x:208,y:315,w:120,h:90} },
+      // the crayons: two at the front left of the picture, and on the floor below it (y past 100%) the red and blue
+      // ones at the left, the green one at the right and the yellow one at the front (the red one by the clock stands behind Mrs. Mole)
+      { clue:6, x:13.5, y:72, w:13.5, h:12.5, photo:{x:214,y:552,w:160,h:120} },
+      { clue:6, x:16, y:104, w:13, h:20, photo:{x:220,y:768,w:160,h:120} },
+      { clue:6, x:77.5, y:114, w:8, h:9.5, photo:{x:1060,y:830,w:120,h:90} },
+      { clue:6, x:61, y:149, w:8, h:12, photo:{x:830,y:1130,w:120,h:90} }
     ]},
   { id:'bakery', x:28, y:79, label:"Fiona's Bakery", artWidth:1376, artHeight:768,
     clues:[
