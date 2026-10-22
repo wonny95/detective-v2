@@ -723,12 +723,12 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .office.naming .office-det{opacity:0}
 .office-say{position:absolute;left:50%;top:7%;z-index:2;box-sizing:border-box;width:min(88%,360px);transform:translateX(-50%);padding:20px 18px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:pop .25s ease-out}
 .office-say[hidden]{display:none}
-.office-say::before{content:"";position:absolute;inset:-8px -3px;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 100 fill / 22px / 0 stretch;pointer-events:none}
-.office-say::after{content:"";position:absolute;left:50%;bottom:-14px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
+.office-say::before,.oh-say::before{content:"";position:absolute;inset:-8px -3px;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 100 fill / 22px / 0 stretch;pointer-events:none}
+.office-say::after,.oh-say::after{content:"";position:absolute;left:50%;bottom:-14px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
 .office.naming .office-say{top:auto;bottom:17%}
 .office.naming .office-say::after{display:none}
-.office-say p{margin:0}
-.office-say .office-ko{margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;color:var(--berry)}
+.office-say p,.oh-say p{margin:0}
+.office-say .office-ko,.oh-say .office-ko{margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;color:var(--berry)}
 .office-ko[hidden]{display:none}
 .office-foot{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:10px}
 /* a small bobbing arrow once the line has been said: a tap anywhere goes on */
@@ -757,21 +757,35 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 @keyframes id-stamp{from{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(2.4)}}
 .id-actions{display:flex;gap:10px}
 .id-actions[hidden]{display:none}
-/* 홈 (user request): the office picture fills the whole page, the detective on the rug as in the office scene; paper
-   chips on top: the name plate (탐정 사무소 before a name), the streak, and the lines to hear again. A tap on the
-   detective and they speak. */
-#home-home{position:relative;padding:0;overflow:hidden;background:#6B4A30 url(assets/places/detective-office-higgsfield.png) center 62%/cover no-repeat}
+/* 홈 = a living office (user request, plan A): the office picture fills the page; the detective on the rug says a line
+   for the moment (▶ 다시 듣기 · 해석); things in the picture are the way in (the cork board → 사건, the notebook on the
+   desk → 학습); one pinned note with the one thing to do now; name plate and streak on top. */
+#home-home{position:relative;padding:0;overflow:hidden;background:#6B4A30;container-type:size}
 #home-home[hidden]{display:none}
-/* the box keeps the picture's own shape (627×700): a button sized only by its child's % height collapses and squeezes it */
-.oh-det{position:absolute;left:50%;bottom:6%;height:44%;aspect-ratio:627/700;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
+/* the picture's own box, cropped like a cover background (centre, 62% down), so the detective and the spots stay on
+   their places in the picture at any screen shape; everything inside is in % of the picture (768×1376) */
+.oh-stage{position:absolute;left:50%;top:62%;width:max(100cqw,calc(100cqh * 768 / 1376));aspect-ratio:768/1376;transform:translate(-50%,-62%);background:url(assets/places/detective-office-higgsfield.png) center/100% 100% no-repeat}
+.oh-spot{position:absolute;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer}
+.oh-spot:active{background:rgba(255,248,233,.18)}
+/* the box keeps the detective's own shape (627×700): a button sized only by its child's % height collapses and squeezes it */
+.oh-det{position:absolute;left:37%;bottom:24%;height:30%;aspect-ratio:627/700;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
 .oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
-.oh-top{position:absolute;top:16px;left:16px;right:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.oh-chips{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
-.oh-plate,.home-again{box-sizing:border-box;max-width:100%;padding:5px 14px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch;background:none;font-family:var(--f-display);font-size:17px;line-height:1.4;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.home-again{display:inline-flex;align-items:center;gap:6px;font-size:14px;cursor:pointer}
-.home-again b{font-weight:400;color:var(--berry)}
-.home-again:active{transform:translateY(1px)}
 .oh-det:active{transform:translateX(-50%) translateY(1px)}
+/* the line, over the window, its tail down to the detective's head; it grows upward when 해석 opens */
+.oh-say{position:absolute;left:4%;bottom:57%;z-index:2;box-sizing:border-box;width:52%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:15px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:fade-in .25s ease-out}
+.oh-say[hidden]{display:none}
+.oh-say::after{left:50%}
+.oh-say .office-foot{margin-top:8px}
+.oh-top{position:absolute;top:16px;left:16px;right:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.oh-plate{box-sizing:border-box;max-width:100%;min-width:0;margin:0;padding:5px 14px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.4;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oh-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex:none}
+/* 오늘의 의뢰: a paper note pinned on the wall with a red tack */
+.oh-note{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:min(42cqw,168px);box-sizing:border-box;padding:16px 12px 10px;border:1.5px solid rgba(74,54,40,.55);border-radius:3px;background:#FFFBEF;box-shadow:2px 4px 6px rgba(40,24,12,.35);transform:rotate(2deg);text-align:left;font-family:var(--f-body);color:var(--ink);cursor:pointer}
+.oh-note:active{transform:rotate(2deg) translateY(1px)}
+.oh-note::before{content:"";position:absolute;left:50%;top:-14px;width:18px;height:25px;transform:translateX(-36%);background:url(assets/ui/tack-red.webp) center/contain no-repeat}
+.oh-note small{font-size:11px;color:var(--berry);font-family:var(--f-display)}
+.oh-note b{font-family:var(--f-hand);font-weight:700;font-size:16px;line-height:1.2}
+.oh-note span{margin-top:4px;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
 
 /* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
 .devtools{display:none}
@@ -935,8 +949,16 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
        review in one), 마이 (records and settings). -->
   <section class="cases" id="caseList" aria-label="홈">
     <div class="home-page" id="home-home">
-      <button class="oh-det" type="button" id="officeDetective" aria-label="탐정"><img src="assets/characters/detective-higgsfield.png" alt=""></button>
-      <div class="oh-top"><div class="oh-chips"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span id="homeAgain"></span></div><span class="streak" id="homeStreak" hidden></span></div>
+      <div class="oh-stage">
+        <button class="oh-spot" type="button" data-go="cases" style="left:44%;top:27%;width:39%;height:18%" aria-label="사건 게시판"></button>
+        <button class="oh-spot" type="button" data-go="study" style="left:44%;top:48%;width:23%;height:7.5%" aria-label="수첩"></button>
+        <button class="oh-det" type="button" id="officeDetective" aria-label="탐정"><img src="assets/characters/detective-higgsfield.png" alt=""></button>
+        <div class="oh-say" id="homeSay" hidden aria-live="polite">
+          <p id="homeEn"></p><p class="office-ko" id="homeKo" hidden></p>
+          <div class="office-foot"><button class="pill sm" type="button" id="homeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
+        </div>
+      </div>
+      <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><div class="oh-right"><span class="streak" id="homeStreak" hidden></span><span id="homeNote"></span></div></div>
     </div>
     <div class="home-page" id="home-cases" hidden>
       <header class="cases-head"><h1>사건 목록</h1><span class="streak" id="caseStreak" hidden></span></header>
@@ -3413,7 +3435,12 @@ const DETECTIVE = {
   named:{ en:"I like it. Let's get to work!", ko:'마음에 들어. 이제 일하러 가자!' },
   casestart:{ en:"Sgt. Badger needs me. Let's go.", ko:'오소리 경사가 날 찾고 있어. 가 보자.' },
   accuse:{ en:"I've heard enough. I know who did it.", ko:'들을 만큼 들었어. 누가 했는지 알겠어.' },
-  closed:{ en:'Another case closed. Acorn Hollow can sleep tonight.', ko:'또 하나의 사건 종결. 오늘 밤 도토리 골짜기는 편히 잘 수 있겠어.' }
+  closed:{ en:'Another case closed. Acorn Hollow can sleep tonight.', ko:'또 하나의 사건 종결. 오늘 밤 도토리 골짜기는 편히 잘 수 있겠어.' },
+  // 홈, one for the moment (homeState())
+  'home-going':{ en:"We left a case open. Let's finish it.", ko:'끝내지 못한 사건이 있어. 마무리하자.' },
+  'home-new':{ en:'A new case is waiting on the board.', ko:'게시판에 새 사건이 기다리고 있어.' },
+  'home-again':{ en:"Some words slipped past my ears. Let's check my notebook.", ko:'몇 마디가 내 귀를 빠져나갔어. 수첩을 확인해 보자.' },
+  'home-quiet':{ en:'A quiet day in Acorn Hollow.', ko:'도토리 골짜기의 조용한 하루야.' }
 };
 const NAME_IDEAS = ['Hazel', 'Nutty', 'Maple', 'Pip', 'Acorn', 'Chestnut', 'Sunny', 'Juniper'];
 let nameMemo = '';   // the name for this visit when the device keeps nothing
@@ -3470,7 +3497,8 @@ function closeOffice(){
   const then = office?.then;
   office = null;
   $('#office').hidden = true;
-  if(!$('#caseList').hidden) renderHome();
+  // back on the home pages (a case opening next does not need them redrawn, nor 홈's line said)
+  if(!then && !$('#caseList').hidden) renderHome();
   then?.();
 }
 // the first meeting, when the app opens without a name (or a case is opened without one); renaming from 마이
@@ -3513,7 +3541,11 @@ $('#officeKoBtn').onclick = () => {
   const ko = $('#officeKo');
   ko.hidden = !ko.hidden; $('#officeKoBtn').setAttribute('aria-pressed', !ko.hidden);
 };
-$('#officeDetective').onclick = () => detectiveSay('intro2');
+$('#officeDetective').onclick = $('#homeReplay').onclick = () => sayHome(homeState().key);
+$('#homeKoBtn').onclick = () => {
+  const ko = $('#homeKo');
+  ko.hidden = !ko.hidden; $('#homeKoBtn').setAttribute('aria-pressed', !ko.hidden);
+};
 
 /* ---------- case select ----------
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
@@ -3778,15 +3810,35 @@ function bookWords(){
   const all = learnedWords(), kept = keptWords();
   return kept ? all.filter(w => kept.includes(w.key)) : all;
 }
-// 홈: the name plate, the streak, and how many lines wait to be heard again (a chip to 학습 > 복습)
+// 홈's moment, first that applies: a case in progress, a new case open, lines missed at a first check, nothing to do.
+// note: what the pinned note shows and opens (none when there is nothing to do)
+function homeState(){
+  const solved = solvedCases(), c = CASES.find((x, i) => x.playable && !solved.includes(x.id) && (i === 0 || solved.includes(CASES[i - 1].id)));
+  const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
+  if(c) return { key:caseStarted ? 'home-going' : 'home-new', note:`<small>오늘의 의뢰</small><b>${esc(c.title)}</b><span>${caseStarted ? '이어서 수사' : '새 사건'}</span>`, go:'case' };
+  if(again) return { key:'home-again', note:`<small>오늘의 의뢰</small><b>다시 들을 문장 ${again}</b><span>학습 · 복습</span>`, go:'again' };
+  return { key:'home-quiet' };
+}
+let homeSaid = null;   // the 홈 line already said on this visit: said again only when the moment changes (or on a tap)
 function renderHomeOffice(){
-  const solved = solvedCases(), streak = studyStreak(), name = detectiveName();
+  const streak = studyStreak(), name = detectiveName(), st = homeState();
   $('#homeStreak').hidden = !streak;
   $('#homeStreak').innerHTML = `${FLAME_ICON}${streak}일`;
   $('#officePlate').textContent = name ? `Detective ${name}` : '탐정 사무소';
-  const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
-  $('#homeAgain').innerHTML = again ? `<button class="home-again" type="button" data-home="study" data-study="review">다시 들을 문장 <b>${again}</b></button>` : '';
+  $('#homeNote').innerHTML = st.note ? `<button class="oh-note" type="button" data-note="${st.go}">${st.note}</button>` : '';
+  // before a name the first meeting is about to open over 홈: nothing said yet
+  if(!name || office){ $('#homeSay').hidden = true; return; }
+  if(homeSaid !== st.key){ homeSaid = st.key; sayHome(st.key); }
+  else showHomeLine(st.key);
 }
+function showHomeLine(key){
+  $('#homeEn').textContent = DETECTIVE[key].en;
+  $('#homeKo').textContent = DETECTIVE[key].ko;
+  if($('#homeSay').hidden || $('#homeSay').dataset.key !== key){ $('#homeKo').hidden = true; $('#homeKoBtn').setAttribute('aria-pressed', 'false'); }
+  $('#homeSay').dataset.key = key;
+  $('#homeSay').hidden = false;
+}
+function sayHome(key){ showHomeLine(key); detectiveSay(key); }
 // 학습: one page with 단어 / 문법 / 복습 at the top
 function renderStudy(){
   const switcher = `<div class="wb-switch">${[['words','단어'], ['grammar','문법'], ['review','복습']].map(([mode, label]) =>
@@ -3869,11 +3921,14 @@ $('#caseList').addEventListener('click', e => {
   const word = e.target.closest('[data-word-play]');
   if(word) return pronounceWord(word.dataset.wordPlay);
   const tab = e.target.closest('[data-home]');
-  if(tab){
-    // 홈's 다시 들을 문장 goes straight to 학습 > 복습
-    if(tab.dataset.study) studyMode = tab.dataset.study;
-    if(tab.dataset.home !== homeTab || tab.dataset.study){ homeTab = tab.dataset.home; renderHome(); }
-    return;
+  if(tab){ if(tab.dataset.home !== homeTab){ homeTab = tab.dataset.home; renderHome(); } return; }
+  // 홈: the cork board and the notebook in the picture; the pinned note (a case opens, or 학습 > 복습)
+  const go = e.target.closest('[data-go]');
+  if(go){ homeTab = go.dataset.go; renderHome(); return; }
+  const note = e.target.closest('[data-note]');
+  if(note){
+    if(note.dataset.note === 'case') return startCase();
+    homeTab = 'study'; studyMode = 'review'; renderHome(); return;
   }
   const play = e.target.closest('[data-wplay]');
   if(play) return play.dataset.sent ? replaySentence(play.dataset.wplay, +play.dataset.sent) : replayLine(play.dataset.wplay);

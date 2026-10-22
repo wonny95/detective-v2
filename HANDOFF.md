@@ -74,7 +74,12 @@ node server.js            # http://localhost:5173/
 ### 3.1 홈(사건 밖 화면)·튜토리얼
 
 - 앱을 열면 홈 화면 묶음(`#caseList`)의 `홈` 칸이 먼저 열린다. 아래 종이 메뉴 4칸 `홈`·`사건`·`학습`·`마이`(사용자 요청)가 `#home-home/cases/study/me`를 전환한다(`homeTab`, `renderHome()`). 선택한 칸은 꿀색이다. 사건에서 나오면 `사건` 칸으로 돌아온다(`openCaseList()`). 사건 안의 하단 메뉴는 `지도`·`Note`다.
-- **홈**(`renderHomeOffice()`, 사용자 요청): 사무소 그림이 페이지 전체를 채우고(사건 목록 카드 없음), 탐정이 깔개 위에 선다(`#officeDetective`, 누르면 `intro2`). 위에 종이 칩: 왼쪽 `Detective <이름>` 문패(이름 전에는 `탐정 사무소`), 그 아래 다시 들을 문장이 있으면 `다시 들을 문장 n`(누르면 `학습` > `복습`), 오른쪽 연속 학습일.
+- **홈 = 살아 있는 사무소**(`renderHomeOffice()`, 사용자가 고른 A안): 사무소 그림이 페이지 전체를 채운다(사건 목록 카드 없음). 그림은 `.oh-stage`(그림 비율 상자를 cover처럼 가운데·62% 위치로 자름, 컨테이너 단위 `cq*`) 안에 두고, 탐정·누르는 곳·말풍선을 그림 기준 %로 놓아 화면 비율이 달라도 제자리에 있다.
+  - **탐정의 한마디**(`homeState()` → `sayHome()`): 지금 상황에 맞는 한 줄을 말풍선(`▶ 다시 듣기`·`해석`)과 목소리로. 우선순위: 수사 중 사건 `home-going` "We left a case open. Let's finish it." → 새 사건 `home-new` "A new case is waiting on the board." → 처음 확인에서 틀린 문장 `home-again` "Some words slipped past my ears. Let's check my notebook." → 없음 `home-quiet` "A quiet day in Acorn Hollow." 같은 방문에서는 상황이 바뀔 때만 다시 말하고(`homeSaid`), 탐정을 누르면 다시 말한다. 이름이 없으면(첫 만남이 열릴 때) 말하지 않는다.
+  - **그림 속 물건**(`data-go`): 벽의 코르크 게시판 → `사건`, 책상 위 수첩 → `학습`. 표시는 없고 누를 때만 살짝 밝아진다. 탐정 대사가 게시판·수첩을 가리킨다.
+  - **오늘의 의뢰 쪽지**(오른쪽 위, 빨간 압정으로 꽂은 종이 한 장, `data-note`): 할 일 하나만. 수사 중이면 `<사건 제목> · 이어서 수사`, 새 사건이면 `· 새 사건`(누르면 `startCase()`), 아니면 `다시 들을 문장 n · 학습 · 복습`(→ 학습 > 복습), 할 일이 없으면 쪽지 없음.
+  - 위쪽: 왼쪽 `Detective <이름>` 문패(이름 전에는 `탐정 사무소`), 오른쪽 연속 학습일과 그 아래 쪽지.
+  - 다음 단계 후보: 책장 → 해결한 사건 기념품(10절 11).
 - 사건 안 왼쪽 위 `<` 종이 버튼(`#backTab`, `.top-back`)은 한 단계씩 돌아간다: 인물 소개 → 원래 대화, 대화 → 현장, 현장 → 사건 목록. 현장에서 나갈 때 `#leaveCase`가 저장 유지 안내와 `사건 목록으로`·`계속 조사하기`를 보여 준다. 바깥 터치는 계속 조사한다. 심문에서는 별도 나가기 확인을 쓰며 자백·마무리에서는 뒤로 버튼을 숨긴다(3.7절).
 - 대화 제목(`#orderChip`)은 현재 NPC 이름, 현장 제목(`.inv-head h2`)은 장소명이다. 누르는 기능 없이 18px·줄 높이 1.4(25.2px)·칩 높이 36px로 통일한다. NPC 라벨 위아래 1px 여백과 충분한 가로 폭을 확보해 g·y 등의 아랫부분과 긴 이름이 잘리지 않게 한다. 인물 소개 중에는 칩을 숨기며, 전체 노트 가림막과 지도는 제목 위를 덮는다.
 - 진행 중인 사건을 다시 누르면 저장된 대화 또는 현장에서 이어지고 사건 배지는 `수사 중`이다.
@@ -371,7 +376,7 @@ node server.js            # http://localhost:5173/
 
 - **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(21개)에 있다.
   - 사용자 제작: 도서관 시계·창문·문.
-  - 탐정 자신의 대사 7줄(Claude 제작, 3.1.1절): `audio/detective-intro1·intro2·askname·named·casestart·accuse·closed.mp3`(2.7–4.7초). 대본은 `DETECTIVE`, 녹음의 "Sergeant Badger"는 화면에서 `Sgt. Badger`.
+  - 탐정 자신의 대사 11줄(Claude 제작, 3.1·3.1.1절): `audio/detective-intro1·intro2·askname·named·casestart·accuse·closed.mp3`(2.7–4.7초), 홈 한마디 `detective-home-going·new·again·quiet.mp3`(2.7–4.4초). 대본은 `DETECTIVE`, 녹음의 "Sergeant Badger"는 화면에서 `Sgt. Badger`.
   - Claude 제작: 나머지 18줄(빵집 door·oven·note·jam·pin·baskets, 카페 poster·guitar·cups·window, 언덕 notebook·footprints·telescope·star·flowers, 도서관 book·lamp·plant). 화면 문장과 달리 대문자 문구(CLOSED, LIVE MUSIC)는 보통 글자로, 노트의 따옴표·줄표는 빼고 읽혔다. `hill-notebook`은 "Rosie." 앞의 5초 공백을 잘라 11초다.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 답변 q2·q3**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
@@ -472,7 +477,7 @@ node server.js            # http://localhost:5173/
 8. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다. 미사용 그림(`ui/notebook-*`, `*-sticker.png` 등) 정리 여부를 정한다.
 9. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 10. **물건 더 늘리기**: 지금은 장소마다 세 개다(3.5절). 사용자가 원하면 더 추가한다.
-11. **플레이어 탐정 다음 단계**(1단계는 적용됨, 3.1.1절): 노트(수사 수첩) 표지에 탐정 얼굴·이름(1단계 후보였지만 아직 안 함), 도토리 힌트를 쓸 때 탐정 혼잣말("Crunch… let me think."), 2단계 사무소 기념품 선반(해결한 사건마다), 3단계 긴 줄기. 앱 이름은 9번과 함께 정한다.
+11. **플레이어 탐정 다음 단계**(1단계·홈 A안 적용됨, 3.1·3.1.1절): 홈 책장 → 해결한 사건 기념품(사건마다 그림 하나, 홈 A안 3번째), 노트(수사 수첩) 표지에 탐정 얼굴·이름, 도토리 힌트를 쓸 때 탐정 혼잣말("Crunch… let me think."), 3단계 긴 줄기. 앱 이름은 9번과 함께 정한다.
 
 ### 10.1 학습 요소 기획 — 미구현·미확정
 
