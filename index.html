@@ -757,20 +757,20 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 @keyframes id-stamp{from{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(2.4)}}
 .id-actions{display:flex;gap:10px}
 .id-actions[hidden]{display:none}
-/* home: the office with the detective, the name plate once named; a tap and the detective speaks */
-.office-banner{position:relative;flex:none;height:118px;padding:0;border:3px solid var(--ink);border-radius:var(--r-wobble);background:#6B4A30 url(assets/places/detective-office-higgsfield.png) center 52%/cover no-repeat;box-shadow:3px 4px 0 rgba(74,54,40,.22);overflow:hidden;cursor:pointer}
-.ob-det{position:absolute;right:7%;bottom:-20px;height:132px;pointer-events:none}
-.ob-plate{position:absolute;left:12px;bottom:12px;max-width:58%;box-sizing:border-box;padding:4px 12px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 13px 13.4px stretch;font-family:var(--f-display);font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ob-plate[hidden]{display:none}
-/* 홈: the office is the big picture at the top; the case to play and the lines to hear again below it */
-.office-banner.big{height:min(56vw,236px)}
-.office-banner.big .ob-det{height:118%;bottom:-24%}
-.home-case{flex-direction:row;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer}
-.home-case .pol-photo{flex:none;width:96px;border-radius:4px}
-.home-case > span:last-child{flex:1;min-width:0}
-.home-case .case-title{margin:2px 0 6px}
-.home-again{flex-direction:row;align-items:center;justify-content:space-between;width:100%;font-family:var(--f-display);font-size:15px;cursor:pointer}
+/* 홈 (user request): the office picture fills the whole page, the detective on the rug as in the office scene; paper
+   chips on top: the name plate (탐정 사무소 before a name), the streak, and the lines to hear again. A tap on the
+   detective and they speak. */
+#home-home{position:relative;padding:0;overflow:hidden;background:#6B4A30 url(assets/places/detective-office-higgsfield.png) center 62%/cover no-repeat}
+#home-home[hidden]{display:none}
+.oh-det{position:absolute;left:50%;bottom:6%;height:44%;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
+.oh-det img{display:block;height:100%}
+.oh-top{position:absolute;top:16px;left:16px;right:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.oh-chips{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.oh-plate,.home-again{box-sizing:border-box;max-width:100%;padding:5px 14px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch;background:none;font-family:var(--f-display);font-size:17px;line-height:1.4;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-again{display:inline-flex;align-items:center;gap:6px;font-size:14px;cursor:pointer}
 .home-again b{font-weight:400;color:var(--berry)}
+.home-again:active{transform:translateY(1px)}
+.oh-det:active{transform:translateX(-50%) translateY(1px)}
 
 /* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
 .devtools{display:none}
@@ -930,13 +930,12 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   </div>
 
   <!-- Home: the screens outside a case, switched by their own bottom menu (user request): 홈 (the detective's office,
-       the case to play), 사건 (case select; cases open in order, a locked card shows no title), 학습 (words, grammar,
+       no case list, user request), 사건 (case select; cases open in order, a locked card shows no title), 학습 (words, grammar,
        review in one), 마이 (records and settings). -->
   <section class="cases" id="caseList" aria-label="홈">
     <div class="home-page" id="home-home">
-      <header class="cases-head"><h1>탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></header>
-      <button class="office-banner big" type="button" id="officeBanner" aria-label="탐정 사무소"><img class="ob-det" src="assets/characters/detective-higgsfield.png" alt=""><span class="ob-plate" id="officePlate" hidden></span></button>
-      <div id="homeNow"></div>
+      <button class="oh-det" type="button" id="officeDetective" aria-label="탐정"><img src="assets/characters/detective-higgsfield.png" alt=""></button>
+      <div class="oh-top"><div class="oh-chips"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span id="homeAgain"></span></div><span class="streak" id="homeStreak" hidden></span></div>
     </div>
     <div class="home-page" id="home-cases" hidden>
       <header class="cases-head"><h1>사건 목록</h1><span class="streak" id="caseStreak" hidden></span></header>
@@ -3504,7 +3503,7 @@ $('#officeKoBtn').onclick = () => {
   const ko = $('#officeKo');
   ko.hidden = !ko.hidden; $('#officeKoBtn').setAttribute('aria-pressed', !ko.hidden);
 };
-$('#officeBanner').onclick = () => detectiveSay('intro2');
+$('#officeDetective').onclick = () => detectiveSay('intro2');
 
 /* ---------- case select ----------
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
@@ -3769,22 +3768,14 @@ function bookWords(){
   const all = learnedWords(), kept = keptWords();
   return kept ? all.filter(w => kept.includes(w.key)) : all;
 }
-// 홈: the case to play next (the last solved one once all are), and how many lines wait to be heard again
+// 홈: the name plate, the streak, and how many lines wait to be heard again (a chip to 학습 > 복습)
 function renderHomeOffice(){
   const solved = solvedCases(), streak = studyStreak(), name = detectiveName();
   $('#homeStreak').hidden = !streak;
   $('#homeStreak').innerHTML = `${FLAME_ICON}${streak}일`;
-  $('#officePlate').hidden = !name;
-  $('#officePlate').textContent = name ? `Detective ${name}` : '';
-  const open = CASES.filter((c, i) => c.playable && (i === 0 || solved.includes(CASES[i - 1].id)));
-  const c = open.find(x => !solved.includes(x.id)) || open[open.length - 1];
-  const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : caseStarted ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
+  $('#officePlate').textContent = name ? `Detective ${name}` : '탐정 사무소';
   const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
-  $('#homeNow').innerHTML = `<div style="display:flex;flex-direction:column;gap:12px">
-    <button class="wcard home-case" type="button" data-home-case>
-      <span class="pol-photo"><svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg></span>
-      <span><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span><span class="badge ${cls}">${label}</span></span></button>` +
-    (again ? `<button class="wcard home-again" type="button" data-home="study" data-study="review"><span>다시 들을 문장</span><b>${again}</b></button>` : '') + `</div>`;
+  $('#homeAgain').innerHTML = again ? `<button class="home-again" type="button" data-home="study" data-study="review">다시 들을 문장 <b>${again}</b></button>` : '';
 }
 // 학습: one page with 단어 / 문법 / 복습 at the top
 function renderStudy(){
@@ -3874,7 +3865,6 @@ $('#caseList').addEventListener('click', e => {
     if(tab.dataset.home !== homeTab || tab.dataset.study){ homeTab = tab.dataset.home; renderHome(); }
     return;
   }
-  if(e.target.closest('[data-home-case]')) return startCase();
   const play = e.target.closest('[data-wplay]');
   if(play) return play.dataset.sent ? replaySentence(play.dataset.wplay, +play.dataset.sent) : replayLine(play.dataset.wplay);
   const mode = e.target.closest('[data-study]');
