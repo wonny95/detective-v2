@@ -1210,8 +1210,8 @@ const ANSWERS_KO = {
    plus tap areas (`spots`) given in % of the illustration, so a finished artwork can replace
    the placeholder drawing without touching the logic.
    A clue can point to a person (`unlocks`), who then appears at their place.
-   `prop:true` = an ordinary object, not a clue: photographed and kept the same way (nothing on screen tells
-   them apart), but showing it in the confrontation counts as a wrong photo. Some look suspicious on purpose. */
+   `prop:true` = an ordinary object, not a clue: tapping it only plays the detective's sentence, with no photo and
+   nothing kept in the evidence notebook (user request: only what matters is photographed). Some look suspicious on purpose. */
 const PLACES = [
   { id:'library', crime:true, x:27, y:47, label:'Old Library', artWidth:1376, artHeight:768,
     clues:[
@@ -3058,8 +3058,21 @@ function captureEvidence(place, clueIndex){
     } else finishCapture();
   }, 1100);
 }
+// an ordinary object: only the detective's sentence, no photo
+function sayProp(clue){
+  cancelCapture();
+  stopVoice();
+  if(!clue.audio) return;
+  const voice = $('#evidenceVoice');
+  if(!voice.src.endsWith(clue.audio)) voice.src = clue.audio;
+  voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
+  voice.currentTime = 0;
+  voice.play().catch(() => {});
+}
 function examine(i){
-  const pl = placeObj(), fresh = !S.found[pl.id].has(i);
+  const pl = placeObj();
+  if(pl.clues[i].prop){ sayProp(pl.clues[i]); return; }
+  const fresh = !S.found[pl.id].has(i);
   S.found[pl.id].add(i);
   if(fresh) unlock(pl.clues[i].unlocks);
   renderSceneHead(); renderPlaces();
@@ -3407,6 +3420,8 @@ function loadGame(){
   // anyone added to the case since the save starts fresh; a check's open feedback is not kept
   S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
+  // ordinary objects are no longer photographed: an older save's photos of them are dropped
+  S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);
   S.met = S.met.filter(id => PEOPLE[id]);
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
@@ -3655,10 +3670,11 @@ $('#devDone').onclick = () => {
   toast('모든 대화를 마쳤어요. 지도에서 장소를 골라 보세요.');
 };
 
-// 증거 모두 수집: every clue and prop of every place is found and saved in the evidence notebook (no photo sequence).
+// 증거 모두 수집: every clue of every place is found and saved in the evidence notebook (no photo sequence).
 $('#devEvidence').onclick = () => {
   let n = 0;
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
+    if(clue.prop) return;
     S.found[place.id].add(clueIndex);
     if(S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)) return;
     S.evidence.push({ placeId:place.id, clueIndex, photo:evidencePhoto(place, clueIndex) }); n++;
