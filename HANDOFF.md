@@ -382,6 +382,7 @@ node server.js            # http://localhost:5173/
 - **레이 답변 q2·q3**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
 
 - **단어 입력 효과음**: `audio/word-place.wav`, Codex가 직접 합성한 짧은 톡 소리. 22,050Hz·16bit·모노 PCM, 약 95ms·4,234바이트. 감쇠하는 단일 음과 낮춘 잡음의 조합이며 정답 채점 소리와 구분한다. `#wordPlace`로 미리 불러오고 볼륨 .55에서 재생. 외부 생성 서비스·크레딧 미사용.
+- **도장 효과음**: `audio/stamp.mp3`, 사용자 제공 freesound "traditional stamp"(44189). 원본 1.66초 중 앞의 무음 0.49초를 잘라 쿵 소리로 바로 시작하게 하고 0.64초(끝 0.14초 페이드), 모노 96kbps로 줄였다. `#stampThud`로 미리 불러오고 `stampSound(ms)`가 도장 그림이 종이에 닿는 순간에 맞춰 낸다(사용자 요청: 도장이 찍히는 모든 장면): 신분증 도토리 도장 0.13초, 노트 `✓ 확인됨` 0.34초(정답 효과음과 함께), 심문 **모순!** 0.48초(정답 효과음과 함께), 종결 COMPLETE 카드 0.7초, 복습 첫 페이지 COMPLETE 0.34초. 노트 전체 `확인됨` 도장은 마지막 질문의 `✓ 확인됨`과 같은 순간이라 따로 내지 않는다.
 - 효과음 `camera-shutter.mp3`(사용자 제공). `mole-m2-alt.mp3`는 미사용 대체 테이크, `linda-old/`는 이전 두더지 목소리 백업이다.
 - `천천히`는 다음 재생부터 적용한다. 현장 이동·다른 NPC 대화·기록 완료에서 대사를 멈춘다.
 

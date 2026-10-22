@@ -864,6 +864,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="correctChime" src="audio/note-correct.mp3" preload="auto" hidden></audio>
   <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
   <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
+  <audio id="stampThud" src="audio/stamp.mp3" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <audio id="wordVoice" preload="none" hidden></audio>
   <div class="main">
@@ -1613,6 +1614,8 @@ function stopVoice(){
   if('speechSynthesis' in window) speechSynthesis.cancel();
   setTalking(false);
 }
+// Every stamp that lands thuds (user request): ms = when the stamp's animation hits the paper.
+function stampSound(ms = 0){ setTimeout(() => { const s = $('#stampThud'); s.currentTime = 0; s.play().catch(() => {}); }, ms); }
 const blobSrc = {};
 const seekableSrc = src => blobSrc[src] ||= fetch(src).then(r => r.ok ? r.blob() : Promise.reject()).then(b => URL.createObjectURL(b)).catch(() => src);
 // onDone runs once the line has finished (not when it is cut off by another line or stopVoice).
@@ -2068,6 +2071,7 @@ function finishRecord(){
   p.retry = p.retry.filter(question => question !== qid);
   const chime = $('#correctChime');   // a short two-note chime for a question written down right
   chime.currentTime = 0; chime.play().catch(() => {});
+  stampSound(340);
   p.recording = null;
   p.phase = qs(cur()).every(question => p.questionChecks[question.id] === 'ok') ? 'done' : 'choose';
   const revealed = unlock(cur().unlocks?.[qid], true) || {};
@@ -2808,6 +2812,7 @@ function present(ref){
     if(ending?.step !== 'confront') return;
     const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {});
     if(!right) return;
+    stampSound();
     const scene = $('.scene'), npc = $('#talkCamera .scene-npc[data-talk="fiona"]');
     scene.classList.remove('jolt'); npc?.classList.remove('flinch'); void scene.offsetWidth;
     scene.classList.add('jolt'); npc?.classList.add('flinch');
@@ -2854,6 +2859,7 @@ function caseClosedStamp(){
   card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b>${name ? `<span class="cc-by">Detective ${esc(name)}</span>` : ''}<img class="cc-stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE" decoding="sync"></div>` +
     `<img class="cc-det" src="assets/characters/detective-higgsfield.png" alt="">`;
   $('.scene').appendChild(card);
+  stampSound(700);
   const close = () => {
     clearTimeout(endTimer);
     if(!card.isConnected) return;
@@ -2904,6 +2910,7 @@ function openReview(fromHome){
   if(!fromHome && !kept) rv.keep.clear();
   $('#review').hidden = false;
   renderReview();
+  stampSound(340);
 }
 // The case's grammar, most used first: [id, uses].
 function caseGrammar(){
@@ -3574,6 +3581,7 @@ $('#idStampBtn').onclick = () => {
   try { localStorage.setItem(NAME_KEY, name); } catch(e){}
   $('#idName').value = name; $('#idName').readOnly = true; $('#idName').blur();
   $('#idActions').hidden = true; $('#idStamp').hidden = false; $('#officeClose').hidden = true; showVkb(false);
+  stampSound(130);
   setTimeout(() => {
     if(!office) return;
     officeLine('named');
