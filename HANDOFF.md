@@ -99,6 +99,19 @@ node server.js            # http://localhost:5173/
 - `이전`·`다음`·`건너뛰기`를 제공하고 마지막은 첫 시작 때 `브리핑 시작`, 설정에서 다시 볼 때 `닫기`다. 단계 수·점 표시는 `TUT.length`를 따른다.
 - 튜토리얼은 기기에서 처음 사건을 열 때 한 번만 뜨고, `내 기록` > 설정의 `플레이 방법 다시 보기`로 다시 볼 수 있다.
 
+### 3.1.1 플레이어 탐정 (사용자 요청)
+
+- 플레이어가 곧 탐정이다: 주황 다람쥐(체크무늬 모자·트렌치코트·돋보기). 대화·현장에는 나오지 않고(1인칭), 목소리(증거 나레이션과 같은 Grady)가 탐정의 속마음이다. 모습은 사무소·홈·종결 장면에만 나온다. 마을 이름 Acorn Hollow와 사무소 설정은 가벼운 이야기 안(사건마다 독립, 긴 줄기는 나중에, 사용자 결정)이다.
+- **사무소 화면**(`#office`, `openOffice()`): 참나무 사무소 그림 위에 탐정이 깔개에 서고, 대사가 종이 말풍선(`▶ 다시 듣기`·`해석`)으로 나온다. 음성이 끝나면 말풍선 왼쪽 아래 작은 ▼가 까딱이고, 화면 아무 곳이나 누르면 다음 대사. 대사는 `DETECTIVE`(영어·한국어), 음성은 `audio/detective-<키>.mp3`(`detectiveSay()`, `#evidenceVoice` 사용).
+  - **첫 만남**: 기기에서 처음 사건 카드를 누를 때(이름이 없으면) `intro1` → `intro2` → `askname` → 신분증. 음성 자동 재생 제한 때문에 앱을 열자마자가 아니라 사건 카드를 누른 뒤에 연다. 이미 튜토리얼을 본 기기도 이름이 없으면 한 번 본다. 건너뛰기 없음.
+  - **이름 짓기**(설계 `design/detective-name.html`, 사용자 확정): 사무소가 어두워지고 빈 신분증(`ui/detective-id-card.png`)이 올라온다. 사진 칸에 탐정 얼굴, 첫 줄이 입력 칸(`#idName`), 둘째·셋째 줄은 `DETECTIVE`·`ACORN HOLLOW`. `다른 이름`은 `NAME_IDEAS`(Hazel, Nutty, Maple…)를 차례로 채우고, `도장 찍기`(이름이 비면 흐림, Enter도 같음)를 누르면 오른쪽 아래 동그라미에 붉은 도토리 도장이 찍힌다 → `named` 대사 → `시작하기` → 튜토리얼(본 적 있으면 브리핑). 이름 규칙: 1–12자, 글자(한글·영어 등)·숫자·공백·`'.-`만(`cleanName()`), 길면 글자를 줄여 한 줄에 맞춘다. 화면에 조작 설명 문장은 없다.
+  - **새 사건 시작**: 이름이 있고 진행 중이 아닌 사건을 열면 사무소에서 `casestart`("Sgt. Badger needs me. Let's go.") 뒤 브리핑. 이어 하기는 바로 그 자리로.
+  - **이름 바꾸기**: `내 기록` > 설정 `탐정 이름 바꾸기` → 신분증부터(현재 이름이 채워짐), 오른쪽 위 공용 닫기로 바꾸지 않고 나갈 수 있다. 도장 뒤 버튼은 `닫기`.
+- **이름은 글자로만** 쓴다: 홈 사무소 문패(`Detective <이름>`), 사건 종결 서류. 녹음에는 이름이 없고 NPC는 "detective"라고 부른다(사용자 결정) → 이름을 바꿔도 음성을 다시 만들 필요가 없다. 저장 `pioo.detectiveName`.
+- **홈**: `사건 목록` 제목 아래 사무소 띠(`#officeBanner`, 사무소 그림 + 오른쪽 탐정 + 왼쪽 아래 이름 문패). 누르면 탐정이 `intro2`를 말한다. 코르크 단서판은 그대로.
+- **범인 지목**: 사건에서 처음 `범인 지목하기`를 열 때 탐정이 "I've heard enough. I know who did it."(음성만, `S.saidAccuse`).
+- **종결**: COMPLETE 도장 카드에 `Detective <이름>`이 들어가고, 탐정이 오른쪽 아래에서 올라와 "Another case closed. Acorn Hollow can sleep tonight."을 말한 뒤 카드가 사라지고 복습으로 간다(3.7절).
+
 ### 3.2 브리핑
 
 - 도서관 현장에서 동료 경찰 Sgt. Badger에게 먼저 묻는다. 처음에는 `What happened here?`만 나오고, 첫 기록을 마치면 나머지 두 질문이 열린다(`openingQuestion`, `availableQuestions()`).
@@ -219,7 +232,7 @@ node server.js            # http://localhost:5173/
      - **심문 나가기 확인**(사용자 요청): 상단 뒤로가기는 `requestLeaveInterrogation()`으로 `#leaveInterrogation` 확인창을 연다. 제목 `심문을 나갈까요?`, 안내 `다시 심문할 때는 처음부터 시작해요. 수집한 증거와 기록은 그대로 남아요.`. `계속 심문하기`·바깥 터치·Escape는 같은 대사와 진행률을 유지하고, `나가서 조사하기`를 확정해야 `leaveEnding()`이 `endingRound = 0`으로 초기화해 원래 현장 + 지도로 돌아간다. 증거·노트는 유지한다. 확인창은 음성을 멈추고 계속 버튼에 초점을 둔다. Tab/Shift+Tab은 창 안 두 버튼을 순환하며 취소 후 뒤로 버튼에 초점을 돌려준다. 사진 반박 연출·다음 대사 준비 중에는 뒤로가기를 잠시 비활성화한다.
      - **피오나 표정**(`S.mood`, `setMood()`): 주장 1·2는 기본, 빵집 거짓말이 들킨 뒤 주장 3·4는 당황(`fiona-nervous.png`), 자백은 고개 숙임(`fiona-sad.png`). 틀린 사진이면 기본으로 돌아간다.
   2. **자백**: 잠깐 침묵 뒤 3줄. 아래 버튼은 `다음`(듣기·해석은 말풍선 안).
-  3. **마무리**: 같은 조사실에서 오소리 경사 1줄 → `다음` → `COMPLETE` 이미지 도장 카드(2.6초, `.case-closed`). 투명 PNG(`ui/complete-stamp.png`, Higgsfield, 사용자 요청으로 영문)를 사건명 아래에 표시하고 CSS로 -10도 회전·찍히는 애니메이션을 준다. 이미지는 미리 불러오며 대체 텍스트도 `COMPLETE`. 동작 줄이기에서는 도장 애니메이션 없이 표시한다. 후일담 장면은 넣지 않는다(사용자 결정).
+  3. **마무리**: 같은 조사실에서 오소리 경사 1줄 → `다음` → `COMPLETE` 이미지 도장 카드(`.case-closed`, 탐정 이름 줄 포함). 도장 뒤 탐정이 올라와 마지막 대사(`closed`)를 하고, 끝나면 0.7초 뒤 카드가 사라진다(음성이 안 나오면 바로, 최대 8초). 투명 PNG(`ui/complete-stamp.png`, Higgsfield, 사용자 요청으로 영문)를 사건명 아래에 표시하고 CSS로 -10도 회전·찍히는 애니메이션을 준다. 이미지는 미리 불러오며 대체 텍스트도 `COMPLETE`. 동작 줄이기에서는 도장 애니메이션 없이 표시한다. 후일담 장면은 넣지 않는다(사용자 결정).
   4. 도장 카드가 사라지면 해결 기록 저장(`markSolved`) 후 결과창 없이 **바로 복습 페이지**(사용자 결정: 꼭 보는 페이지).
 - **오답 지목**: 같은 조사실에서 그 인물이 이미 한 알리바이를 음성·말풍선으로 다시 말한다(`REBUTTAL`: 두더지 m1, 레이 q2, 로지 q2). 아래 버튼은 `다시 조사하기`(그 인물의 원래 장소 현장 + 지도).
 - **복습 페이지**(`openReview(fromHome)`, `renderReview()`, 상태 `rv`; 사용자 결정): 전체 화면 종이 페이지를 최대 4단계로 넘긴다(첫 확인에서 틀린 질문이 없으면 2단계 생략). 위에 진행 막대(단계 수만큼), 아래에 큰 버튼 하나. 사건 대화 전체 다시 보기는 넣지 않는다(사용자 결정).
@@ -327,6 +340,7 @@ node server.js            # http://localhost:5173/
 
 - `pioo.save`: 버전 1의 진행 저장(상태 `S`·`endingRound`, Set 직렬화 포함). 실제 저장 객체 구조·복원 제외 사항은 `saveGame()`/`loadGame()`과 3.1절 참조. 조사실 임시 배치·진행 중 음성·방금 채점한 피드백은 복원하지 않는다.
 - `pioo.tutorialSeen`: 튜토리얼을 봤는지
+- `pioo.detectiveName`: 플레이어가 지은 탐정 이름(없으면 다음 사건 카드에서 첫 만남)
 - `pioo.solvedCases`: 해결한 사건 id 배열(수사완료 도장 뒤 복습 페이지가 열릴 때 저장)
 - `pioo.caseStats`: 사건별 최고 첫 확인 기록 `{ ok, total, stars, missed:['mole:m2', …], wrong:{'mole:m2':{빈칸id:처음 쓴 답}} }`(같은 때 저장, 정확도가 같거나 높을 때만 덮어씀)
 - `pioo.wordBook`: 단어장에 담은 단어 키 배열(복습 4단계에서 고름). 없으면 배운 단어 전부를 보여 준다
@@ -355,6 +369,7 @@ node server.js            # http://localhost:5173/
 
 - **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(21개)에 있다.
   - 사용자 제작: 도서관 시계·창문·문.
+  - 탐정 자신의 대사 7줄(Claude 제작, 3.1.1절): `audio/detective-intro1·intro2·askname·named·casestart·accuse·closed.mp3`(2.7–4.7초). 대본은 `DETECTIVE`, 녹음의 "Sergeant Badger"는 화면에서 `Sgt. Badger`.
   - Claude 제작: 나머지 18줄(빵집 door·oven·note·jam·pin·baskets, 카페 poster·guitar·cups·window, 언덕 notebook·footprints·telescope·star·flowers, 도서관 book·lamp·plant). 화면 문장과 달리 대문자 문구(CLOSED, LIVE MUSIC)는 보통 글자로, 노트의 따옴표·줄표는 빼고 읽혔다. `hill-notebook`은 "Rosie." 앞의 5초 공백을 잘라 11초다.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 답변 q2·q3**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
@@ -377,7 +392,7 @@ node server.js            # http://localhost:5173/
 | 두더지·여우·너구리·토끼 | `characters/<id>-higgsfield.png` | Claude 제작. 흰 스티커 테두리를 지운 버전(408×620, 439×621, 509×628, 316×661). 이전 `*-sticker.png` |
 | 피오나 표정 | `characters/fiona-nervous.png`, `fiona-sad.png` | Claude 제작, 477×641 / 569×624. 원본 `*-original.png` |
 | 오리 아저씨 | `characters/duck-higgsfield.png` | Claude 제작, 447×694, 투명 배경. 원본 `duck-higgsfield-original.png` |
-| 플레이어 탐정(미적용) | `characters/detective-higgsfield.png`, `places/detective-office-higgsfield.png`, `ui/detective-id-card.png`, `ui/icons-v2/detective.png` | Claude 제작. 주황 다람쥐 탐정(체크무늬 모자·트렌치코트·돋보기, 627×700), 참나무 사무소(768×1376), 빈 신분증(1143×747), 얼굴 아이콘. 1단계 적용 계획은 10절 11 |
+| 플레이어 탐정 | `characters/detective-higgsfield.png`, `places/detective-office-higgsfield.png`, `ui/detective-id-card.png`, `ui/icons-v2/detective.png` | Claude 제작. 주황 다람쥐 탐정(체크무늬 모자·트렌치코트·돋보기, 627×700), 참나무 사무소(768×1376), 빈 신분증(1143×747), 얼굴 아이콘(신분증 사진 칸). 3.1.1절 |
 | 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠, 오른쪽 위 클립 |
 | 인덱스 탭 | `ui/tab-1.png` … `tab-6.png` | 흰 손그림 탭. CSS 마스크 + 곱하기로 인물 색을 입힌다 |
 | 손그림 아이콘 | `ui/icons-v2/*.png` (160×160) | Higgsfield 한 장(돋보기·카메라·도토리·여섯 인물 얼굴). 증거 탭 카메라, 힌트 도토리, 작은 얼굴(`miniSVG()` → `FACE_ICONS`: 인덱스 탭·지도 핀·지목·복습·단어장). 사건 브리핑 탭은 오소리 경사 얼굴 |
@@ -408,7 +423,7 @@ node server.js            # http://localhost:5173/
 | 전체 대화 완료 | 모든 인물·장소를 열고 질문을 정답으로 기록(채점·도장은 하지 않음) 후, 지금 대화하던 인물의 현장 위에 지도를 엶(지도를 닫으면 그 현장) |
 | 증거 모두 수집 | 모든 장소의 단서(물건 제외)를 찾음 처리하고 증거 노트에 사진째 저장(촬영 연출 없음). 엔딩 대질 시험용 |
 | 심문 완료 | 대질을 건너뛰고 피오나가 무너지는 침묵부터 시작(게이지 가득). 사건 어디서든 누르면 전체 대화 완료·증거 수집 후 조사실로 간다. 자백 → 마무리 → COMPLETE 도장 → 복습 시험용 |
-| 튜토리얼 초기화 | 튜토리얼 본 기록을 지우고 새로고침 |
+| 튜토리얼 초기화 | 튜토리얼 본 기록과 탐정 이름을 지우고 새로고침(다음 사건 카드에서 첫 만남부터) |
 | 리셋 | 이 게임이 기기에 둔 것(`pioo.*`: 진행 저장, 해결 기록, 별점, 학습일, 튜토리얼 본 기록)을 모두 지우고 새로고침 |
 
 - **브라우저 확인은 사용자 탭이 아닌 새 탭에서 한다.** 같은 호스트·포트의 탭은 `localStorage`를 공유하고 자동 저장도 마지막 탭이 덮어쓴다. 사용하지 않은 `127.0.0.1:5173` 등 별도 오리진으로 격리하고, 종료 후 시험용 기록을 정리하고 탭을 닫는다. 사용자의 `localhost:5173` 기록은 조작하지 않는다.
@@ -455,11 +470,7 @@ node server.js            # http://localhost:5173/
 8. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다. 미사용 그림(`ui/notebook-*`, `*-sticker.png` 등) 정리 여부를 정한다.
 9. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 10. **물건 더 늘리기**: 지금은 장소마다 세 개다(3.5절). 사용자가 원하면 더 추가한다.
-11. **플레이어 탐정 캐릭터 1단계**(사용자 요청 진행 중, 그림 준비됨): 주황 다람쥐 탐정. 이름 Pioo·마을 Acorn Hollow는 임시. 이야기 줄기는 사건마다 독립인 가벼운 안으로 시작하고 긴 줄기는 나중에(사용자 결정).
-    - 탐정은 대화·현장에 나오지 않는다(1인칭). 목소리(증거 나레이션의 Grady)가 탐정의 속마음이다. 모습은 프롤로그·홈 사무소·종결 장면에만.
-    - 1단계: 첫 실행 프롤로그(사무소 + 자기소개 음성) → **플레이어가 탐정 이름 짓기**(사용자 결정, 설계 `design/detective-name.html`) → 튜토리얼. 홈에 사무소·탐정, 탐정 혼잣말(사건 시작·지목 직전·종결), 노트 표지에 탐정 얼굴.
-    - 음성에는 이름을 넣지 않는다(NPC는 "detective"). 이름은 글자로만(사무소 문패·수첩 표지·종결 서류·내 기록), `pioo.detectiveName`.
-    - 남은 일: 설계 확정 → 탐정 대사 음성(Grady) 제작(비용 먼저 알림) → 구현.
+11. **플레이어 탐정 다음 단계**(1단계는 적용됨, 3.1.1절): 노트(수사 수첩) 표지에 탐정 얼굴·이름(1단계 후보였지만 아직 안 함), 도토리 힌트를 쓸 때 탐정 혼잣말("Crunch… let me think."), 2단계 사무소 기념품 선반(해결한 사건마다), 3단계 긴 줄기. 앱 이름은 9번과 함께 정한다.
 
 ### 10.1 학습 요소 기획 — 미구현·미확정
 

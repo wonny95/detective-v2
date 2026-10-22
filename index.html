@@ -116,13 +116,18 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .presented svg{display:block;width:100%;height:100%}
 @keyframes present-in{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}80%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(-12px) rotate(-3deg)}}
 /* The case file receives a transparent illustrated completion stamp. */
-.case-closed{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(40,30,24,.45);pointer-events:none;animation:cc-fade 2.6s ease forwards}
+.case-closed{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(40,30,24,.45);pointer-events:none;animation:cc-in .26s ease both;transition:opacity .36s}
+.case-closed.out{opacity:0}
 .cc-file{position:relative;width:min(76%,290px);padding:34px 18px 132px;text-align:center;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);box-shadow:5px 6px 0 rgba(40,30,24,.3);transform:rotate(-1.5deg)}
 .cc-file small{display:block;font-size:12px;color:var(--ink-soft)}
 .cc-file b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
+.cc-by{display:block;margin-top:6px;font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink-soft)}
+/* the detective comes up beside the file for the last word */
+.cc-det{position:absolute;right:3%;bottom:0;height:34%;animation:cc-det .5s ease-out 1s both}
+@keyframes cc-det{from{opacity:0;transform:translateY(40px)}}
 .cc-stamp{position:absolute;left:50%;bottom:8px;display:block;width:min(86%,240px);height:auto;transform:translateX(-50%) rotate(-10deg);animation:cc-stamp .45s cubic-bezier(.2,1.6,.4,1) .55s both}
 @keyframes cc-stamp{from{opacity:0;transform:translateX(-50%) rotate(-10deg) scale(2.4)}to{opacity:.92;transform:translateX(-50%) rotate(-10deg) scale(1)}}
-@keyframes cc-fade{0%{opacity:0}10%{opacity:1}86%{opacity:1}100%{opacity:0}}
+@keyframes cc-in{from{opacity:0}}
 @media(prefers-reduced-motion:reduce){.presented figure,.cc-stamp{animation:none}}
 /* the questioning (confront, confession): the room dims around her; the gauge fills as her claims are answered */
 .spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
@@ -708,6 +713,56 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .toast[hidden]{display:block!important;opacity:0}
 .toast.discovery-toast{background:var(--paper);color:var(--ink);border:1.5px solid rgba(74,54,40,.3);box-shadow:0 3px 12px rgba(74,54,40,.12)}
 
+/* The detective's office (the player character, user request): the first meeting and naming on the ID card, a new
+   case's first line, renaming from 내 기록. Office picture behind, the detective on the rug, their line in a paper bubble. */
+.office{position:absolute;inset:0;z-index:45;overflow:hidden;background:#6B4A30 url(assets/places/detective-office-higgsfield.png) center 62%/cover no-repeat}
+.office[hidden]{display:none}
+.office::after{content:"";position:absolute;inset:0;background:rgba(40,26,16,.45);opacity:0;transition:opacity .3s;pointer-events:none}
+.office.naming::after{opacity:1}
+.office-det{position:absolute;left:50%;bottom:7%;height:42%;transform:translateX(-50%);pointer-events:none;transition:opacity .3s}
+.office.naming .office-det{opacity:0}
+.office-say{position:absolute;left:50%;top:7%;z-index:2;box-sizing:border-box;width:min(88%,360px);transform:translateX(-50%);padding:20px 18px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:pop .25s ease-out}
+.office-say[hidden]{display:none}
+.office-say::before{content:"";position:absolute;inset:-8px -3px;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 100 fill / 22px / 0 stretch;pointer-events:none}
+.office-say::after{content:"";position:absolute;left:50%;bottom:-14px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
+.office.naming .office-say{top:auto;bottom:17%}
+.office.naming .office-say::after{display:none}
+.office-say p{margin:0}
+.office-say .office-ko{margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;color:var(--berry)}
+.office-ko[hidden]{display:none}
+.office-foot{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:10px}
+/* a small bobbing arrow once the line has been said: a tap anywhere goes on */
+.office-next{margin-right:auto;width:0;height:0;border:7px solid transparent;border-top:9px solid var(--ink);border-bottom:0;opacity:0}
+.office-say.done .office-next{opacity:.7;animation:office-next 1s ease-in-out infinite}
+@keyframes office-next{50%{transform:translateY(3px)}}
+.office-go{position:absolute;left:50%;bottom:6%;z-index:2;width:max-content;transform:translateX(-50%);min-width:150px;justify-content:center}
+.office-go[hidden]{display:none}
+.office-close{position:absolute;top:14px;right:14px;z-index:3}
+.office-close[hidden]{display:none}
+.office-go:active{transform:translateX(-50%) translateY(1px)}
+.id-wrap{position:absolute;left:0;right:0;top:9%;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px}
+.id-wrap[hidden]{display:none}
+/* the ID card picture (assets/ui/detective-id-card.png); boxes in % of the picture: photo, three lines, stamp circle */
+.id-card{position:relative;width:min(90%,350px);aspect-ratio:1143/747;background:url(assets/ui/detective-id-card.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35));transform:rotate(-2deg);animation:id-in .4s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes id-in{from{opacity:0;transform:translateY(60px) rotate(-6deg)}}
+.id-photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(assets/ui/icons-v2/detective.png) center/94% no-repeat}
+.id-name{position:absolute;left:47.5%;top:37.1%;width:42.5%;box-sizing:border-box;margin:0;padding:0 0 2px;transform:translateY(-100%);border:0;border-radius:0;background:transparent;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.15;color:var(--ink);caret-color:var(--ink);outline:none}
+.id-name:focus-visible{outline:none}
+.id-line{position:absolute;left:47.5%;transform:translateY(-100%);padding-bottom:3px;font-family:var(--f-display);font-size:11px;letter-spacing:.06em;color:var(--ink);opacity:.75}
+.id-title{top:49.8%}
+.id-town{top:62.5%}
+.id-stamp{position:absolute;left:85.1%;top:77.5%;width:15%;aspect-ratio:1;box-sizing:border-box;display:grid;place-items:center;border:3px solid #B9473A;border-radius:50%;opacity:.88;transform:translate(-50%,-50%) rotate(-14deg);animation:id-stamp .4s cubic-bezier(.2,1.6,.4,1) both}
+.id-stamp[hidden]{display:none}
+.id-stamp img{width:64%;filter:sepia(1) saturate(4) hue-rotate(-30deg) brightness(.75)}
+@keyframes id-stamp{from{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(2.4)}}
+.id-actions{display:flex;gap:10px}
+.id-actions[hidden]{display:none}
+/* home: the office with the detective, the name plate once named; a tap and the detective speaks */
+.office-banner{position:relative;flex:none;height:118px;padding:0;border:3px solid var(--ink);border-radius:var(--r-wobble);background:#6B4A30 url(assets/places/detective-office-higgsfield.png) center 52%/cover no-repeat;box-shadow:3px 4px 0 rgba(74,54,40,.22);overflow:hidden;cursor:pointer}
+.ob-det{position:absolute;right:7%;bottom:-20px;height:132px;pointer-events:none}
+.ob-plate{position:absolute;left:12px;bottom:12px;max-width:58%;box-sizing:border-box;padding:4px 12px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 13px 13.4px stretch;font-family:var(--f-display);font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ob-plate[hidden]{display:none}
+
 /* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
 .devtools{display:none}
 .devbtn[aria-pressed="true"]{background:var(--honey)}
@@ -870,6 +925,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <section class="cases" id="caseList" aria-label="사건 목록">
     <div class="home-page" id="home-cases">
       <header class="cases-head"><h1>사건 목록</h1><span class="streak" id="caseStreak" hidden></span></header>
+      <button class="office-banner" type="button" id="officeBanner" aria-label="탐정 사무소"><img class="ob-det" src="assets/characters/detective-higgsfield.png" alt=""><span class="ob-plate" id="officePlate" hidden></span></button>
       <div class="board" id="caseCards"></div>
     </div>
     <div class="home-page" id="home-words" hidden></div>
@@ -925,6 +981,27 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <div class="modal" id="grammar" hidden>
     <div class="mcard gcard" id="grammarCard" role="dialog" aria-labelledby="grammarTitle"></div>
   </div>
+
+  <!-- The detective's office: the first meeting and naming, a new case's first line, renaming (see "the detective") -->
+  <section class="office" id="office" hidden aria-label="탐정 사무소">
+    <img class="office-det" src="assets/characters/detective-higgsfield.png" alt="">
+    <div class="id-wrap" id="idWrap" hidden>
+      <div class="id-card">
+        <span class="id-photo" aria-hidden="true"></span>
+        <input class="id-name" id="idName" maxlength="12" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="done" aria-label="탐정 이름">
+        <span class="id-line id-title" aria-hidden="true">DETECTIVE</span>
+        <span class="id-line id-town" aria-hidden="true">ACORN HOLLOW</span>
+        <span class="id-stamp" id="idStamp" hidden aria-hidden="true"><img src="assets/ui/icons-v2/acorn.png" alt=""></span>
+      </div>
+      <div class="id-actions" id="idActions"><button class="pill" type="button" id="idDice">다른 이름</button><button class="pill hint" type="button" id="idStampBtn">도장 찍기</button></div>
+    </div>
+    <div class="office-say" id="officeSay" hidden aria-live="polite">
+      <p id="officeEn"></p><p class="office-ko" id="officeKo" hidden></p>
+      <div class="office-foot"><span class="office-next" aria-hidden="true"></span><button class="pill sm" type="button" id="officeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="officeKoBtn" aria-pressed="false">해석</button></div>
+    </div>
+    <button class="pill big office-go" type="button" id="officeGo" hidden>시작하기</button>
+    <button class="close-button office-close" type="button" id="officeClose" aria-label="탐정 이름 바꾸기 닫기" hidden></button>
+  </section>
 
   <div class="toast" id="toast" hidden></div>
 </div>
@@ -1702,6 +1779,17 @@ function playEvidence(ref){
   voice.currentTime = 0;
   voice.play().catch(() => {});
 }
+// One of the detective's own lines (DETECTIVE, audio/detective-<key>.mp3), in the same voice as the evidence sentences.
+// onDone runs once it has been said, or at once if it cannot play (not when stopVoice cuts it off).
+function detectiveSay(key, onDone){
+  stopVoice();
+  const voice = $('#evidenceVoice'), done = () => { voice.onended = voice.onerror = null; onDone?.(); };
+  voice.onended = voice.onerror = null;
+  voice.src = `audio/detective-${key}.mp3`;
+  voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
+  voice.onended = done; voice.onerror = done;
+  voice.play().catch(done);
+}
 const openPassages = new Set(), openPassageKo = new Set();   // passages shown, and of those the ones showing 해석
 let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
 let missCheck = null;    // 'person:question' just checked with wrong blanks: they shake on the next render only
@@ -2364,6 +2452,8 @@ function openAccuse(){
   if(!suspects().length) return toast('아직 지목할 인물이 없어요.');
   $('#pick').innerHTML = suspects().map(id => { const s = spk(id); return `<button type="button" data-i="${id}"><span class="mini" style="background:${s.bg}">${miniSVG(s.id)}</span>${esc(s.name)}</button>`; }).join('');
   $('#accuse').hidden = false;
+  // the first time in a case the detective says it out loud
+  if(!S.saidAccuse){ S.saidAccuse = true; detectiveSay('accuse'); }
 }
 $('#accuse').addEventListener('click', e => {
   if(e.target.closest('[data-dismiss]') || e.target.id === 'accuse'){ $('#accuse').hidden = true; return; }
@@ -2697,16 +2787,24 @@ function endingNext(){
   }
   if(e.step === 'closing') return caseClosedStamp();
 }
+// The case file gets the COMPLETE stamp and the detective's name; the detective comes up and has the last word, then the review.
 function caseClosedStamp(){
   ending.step = 'stamp'; renderAsk(); renderSay(null);
-  const card = document.createElement('div');
+  const card = document.createElement('div'), name = detectiveName();
   card.className = 'case-closed';
-  card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b><img class="cc-stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE" decoding="sync"></div>`;
+  card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b>${name ? `<span class="cc-by">Detective ${esc(name)}</span>` : ''}<img class="cc-stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE" decoding="sync"></div>` +
+    `<img class="cc-det" src="assets/characters/detective-higgsfield.png" alt="">`;
   $('.scene').appendChild(card);
+  const close = () => {
+    clearTimeout(endTimer);
+    if(!card.isConnected) return;
+    card.classList.add('out');
+    endTimer = setTimeout(() => { card.remove(); if(ending) finishEnding(); }, 360);
+  };
   endTimer = setTimeout(() => {
-    card.remove();
-    if(ending) finishEnding();
-  }, 2600);
+    const fallback = setTimeout(close, 8000);
+    detectiveSay('closed', () => { clearTimeout(fallback); endTimer = setTimeout(close, 700); });
+  }, 1100);
 }
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
@@ -3282,6 +3380,119 @@ document.addEventListener('keydown', e => {
   if(e.key === 'ArrowLeft') $('#tutPrev').click();
 });
 
+/* ---------- the detective ----------
+   The player is the detective (user request: a squirrel; the name is the player's own). Never seen in a conversation
+   or a place (first person): heard as the evidence sentences and a few lines of their own, seen only in the office —
+   the first time a case is opened (two lines, then the player writes a name on the ID card and stamps it), when a new
+   case starts, and from 내 기록 to rename. The first meeting waits for that tap so the voice can play.
+   The name is only ever written (home plate, case-closed file, 내 기록), never spoken: no recording says it, NPCs say
+   "detective" (user decision), so renaming needs no new audio. */
+const NAME_KEY = 'pioo.detectiveName';
+const DETECTIVE = {
+  intro1:{ en:"Welcome to my office. I'm the detective of Acorn Hollow.", ko:'내 사무소에 온 걸 환영해. 나는 도토리 골짜기의 탐정이야.' },
+  intro2:{ en:'My ears are small, but they catch every word.', ko:'내 귀는 작지만, 어떤 말도 놓치지 않지.' },
+  askname:{ en:"Every detective needs a name. What's mine?", ko:'탐정에게는 이름이 필요해. 내 이름은 뭘까?' },
+  named:{ en:"I like it. Let's get to work!", ko:'마음에 들어. 이제 일하러 가자!' },
+  casestart:{ en:"Sgt. Badger needs me. Let's go.", ko:'오소리 경사가 날 찾고 있어. 가 보자.' },
+  accuse:{ en:"I've heard enough. I know who did it.", ko:'들을 만큼 들었어. 누가 했는지 알겠어.' },
+  closed:{ en:'Another case closed. Acorn Hollow can sleep tonight.', ko:'또 하나의 사건 종결. 오늘 밤 도토리 골짜기는 편히 잘 수 있겠어.' }
+};
+const NAME_IDEAS = ['Hazel', 'Nutty', 'Maple', 'Pip', 'Acorn', 'Chestnut', 'Sunny', 'Juniper'];
+const detectiveName = () => { try { return localStorage.getItem(NAME_KEY) || ''; } catch(e){ return ''; } };
+// letters of any language, digits, spaces and ' . - only; at most 12
+const cleanName = v => v.replace(/[^\p{L}\p{N} '.-]/gu, '').replace(/\s+/g, ' ').slice(0, 12);
+let office = null;   // { lines:[keys still to come, 'name' = the ID card], then, rename, key:the line on screen }
+function openOffice(lines, then, rename = false){
+  office = { lines:[...lines], then, rename };
+  $('#office').classList.remove('naming');
+  $('#idWrap').hidden = $('#officeGo').hidden = $('#officeSay').hidden = true;
+  $('#officeClose').hidden = !rename;   // renaming can be left as it was; the first meeting cannot
+  $('#office').hidden = false;
+  officeNext();
+}
+function officeNext(){
+  const key = office.lines.shift();
+  if(key === undefined) return closeOffice();
+  if(key === 'name') return officeName();
+  officeLine(key);
+}
+function officeLine(key){
+  const say = $('#officeSay');
+  office.key = key;
+  $('#officeEn').textContent = DETECTIVE[key].en;
+  $('#officeKo').textContent = DETECTIVE[key].ko; $('#officeKo').hidden = true;
+  $('#officeKoBtn').setAttribute('aria-pressed', 'false');
+  say.hidden = false; say.classList.remove('done');
+  say.style.animation = 'none'; void say.offsetWidth; say.style.animation = '';
+  detectiveSay(key, () => say.classList.add('done'));
+}
+// the ID card: the first line is the name; 다른 이름 fills in ideas one by one, 도장 찍기 stamps it once there is a name
+function officeName(){
+  const input = $('#idName');
+  office.key = null;
+  $('#officeSay').hidden = true;
+  $('#office').classList.add('naming');
+  input.value = office.rename ? detectiveName() : ''; input.readOnly = false;
+  $('#idStamp').hidden = true; $('#idActions').hidden = false; $('#idWrap').hidden = false;
+  updateStampButton();
+  setTimeout(() => office && !input.readOnly && input.focus(), 420);
+}
+// a long name gets smaller letters so it stays on its line
+function updateStampButton(){
+  const input = $('#idName');
+  $('#idStampBtn').disabled = !input.value.trim();
+  let size = 22;
+  input.style.fontSize = size + 'px';
+  while(input.scrollWidth > input.clientWidth && size > 12) input.style.fontSize = --size + 'px';
+}
+function closeOffice(){
+  stopVoice();
+  const then = office?.then;
+  office = null;
+  $('#office').hidden = true;
+  if(!$('#caseList').hidden) renderHome();
+  then?.();
+}
+// the first meeting, before the first case opens; renaming from 내 기록
+const meetDetective = then => openOffice(['intro1', 'intro2', 'askname', 'name'], then);
+const renameDetective = () => openOffice(['name'], null, true);
+$('#idName').addEventListener('input', e => {
+  const value = cleanName(e.target.value);
+  if(value !== e.target.value) e.target.value = value;
+  updateStampButton();
+});
+$('#idName').addEventListener('keydown', e => { if(e.key === 'Enter' && !e.isComposing) $('#idStampBtn').click(); });
+let nameIdea = -1;
+$('#idDice').onclick = () => {
+  nameIdea = (nameIdea + 1) % NAME_IDEAS.length;
+  $('#idName').value = NAME_IDEAS[nameIdea]; updateStampButton();
+};
+$('#idStampBtn').onclick = () => {
+  const name = $('#idName').value.trim();
+  if(!office || !name) return;
+  try { localStorage.setItem(NAME_KEY, name); } catch(e){}
+  $('#idName').value = name; $('#idName').readOnly = true; $('#idName').blur();
+  $('#idActions').hidden = true; $('#idStamp').hidden = false; $('#officeClose').hidden = true;
+  setTimeout(() => {
+    if(!office) return;
+    officeLine('named');
+    $('#officeGo').textContent = office.rename ? '닫기' : '시작하기';
+    $('#officeGo').hidden = false;
+  }, 700);
+};
+$('#officeGo').onclick = $('#officeClose').onclick = closeOffice;
+// a tap anywhere on the office goes to the next line (not on the card or a button; after the stamp, the button goes on)
+$('#office').addEventListener('click', e => {
+  if(!office?.key || e.target.closest('button, .id-wrap') || !$('#officeGo').hidden) return;
+  officeNext();
+});
+$('#officeReplay').onclick = () => { if(office?.key) detectiveSay(office.key, () => $('#officeSay').classList.add('done')); };
+$('#officeKoBtn').onclick = () => {
+  const ko = $('#officeKo');
+  ko.hidden = !ko.hidden; $('#officeKoBtn').setAttribute('aria-pressed', !ko.hidden);
+};
+$('#officeBanner').onclick = () => detectiveSay('intro2');
+
 /* ---------- case select ----------
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
    this device; the case in progress lives in memory only until saving is added. */
@@ -3331,7 +3542,9 @@ const FLAME_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5
 const TILTS = [-2.5, 3, -2, 2.5];
 let caseStarted = false;
 function renderCaseList(){
-  const solved = solvedCases(), streak = studyStreak();
+  const solved = solvedCases(), streak = studyStreak(), name = detectiveName();
+  $('#officePlate').hidden = !name;
+  $('#officePlate').textContent = name ? `Detective ${name}` : '';
   $('#caseStreak').hidden = !streak;
   $('#caseStreak').innerHTML = `${FLAME_ICON}${streak}일`;
   $('#caseCards').innerHTML = CASES.map((c, i) => {
@@ -3384,15 +3597,18 @@ function drawBoardString(){
 new ResizeObserver(() => { if(homeTab === 'cases' && !$('#caseList').hidden) drawBoardString(); }).observe($('#caseCards'));
 document.fonts?.ready.then(() => drawBoardString());
 function openCaseList(){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); homeTab = 'cases'; renderHome(); $('#caseList').hidden = false; }
-// Opening a case: the first time on this device the tutorial comes first; a case in progress resumes where it was left.
-function startCase(){
+// Opening a case: the first time on this device the player meets and names the detective, then the tutorial comes
+// first; a new case starts with the detective's line in the office; a case in progress resumes where it was left.
+function startCase(justNamed){
   stopVoice();
+  if(!detectiveName()) return meetDetective(() => startCase(true));
   $('#caseList').hidden = true;
   markStudyDay();
   if(resumePending){ resumePending = false; resumeCase(); return; }
   if(caseStarted) return;
   caseStarted = true;
-  if(tutSeen()) talkTo('badger'); else openTutorial(true);
+  const begin = () => tutSeen() ? talkTo('badger') : openTutorial(true);
+  if(justNamed === true) begin(); else openOffice(['casestart'], begin);
 }
 $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case]')) startCase(); });
 
@@ -3603,7 +3819,8 @@ function renderMe(){
     </div>
     <h2 class="home-sec">이번 주</h2><div class="week">${week}</div>
     <h2 class="home-sec">설정</h2>
-    <button class="pill" type="button" data-howto>플레이 방법 다시 보기</button>`;
+    <button class="pill" type="button" data-howto>플레이 방법 다시 보기</button>
+    <button class="pill" type="button" data-rename>탐정 이름 바꾸기</button>`;
 }
 function renderHome(){
   stopVoice();
@@ -3630,6 +3847,7 @@ $('#caseList').addEventListener('click', e => {
   }
   if(e.target.closest('[data-open-review]')) return openReview(true);
   if(e.target.closest('[data-howto]')) openTutorial(false);
+  if(e.target.closest('[data-rename]')) renameDetective();
 });
 
 /* ---------- test tools ---------- */
@@ -3703,7 +3921,7 @@ $('#devInterro').onclick = () => {
 };
 
 // 튜토리얼 초기화: forget that the tutorial was seen and start over.
-$('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); } catch(e){} location.reload(); };
+$('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); localStorage.removeItem(NAME_KEY); } catch(e){} location.reload(); };
 
 // 리셋: everything this game keeps on the device (case in progress, solved cases, records, study days, tutorial) is
 // forgotten and the app starts over.
