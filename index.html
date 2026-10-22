@@ -1793,15 +1793,19 @@ function playEvidence(ref){
   voice.play().catch(() => {});
 }
 // One of the detective's own lines (DETECTIVE, audio/detective-<key>.mp3), in the same voice as the evidence sentences.
-// onDone runs once it has been said, or at once if it cannot play (not when stopVoice cuts it off).
-function detectiveSay(key, onDone){
+// onDone runs once it has been said, or at once if it cannot play (not when stopVoice cuts it off); onBlocked instead,
+// when given, if the browser holds the sound back until the first tap.
+function detectiveSay(key, onDone, onBlocked){
   stopVoice();
   const voice = $('#evidenceVoice'), done = () => { voice.onended = voice.onerror = null; onDone?.(); };
   voice.onended = voice.onerror = null;
   voice.src = `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
-  voice.play().catch(done);
+  voice.play().catch(err => {
+    if(err?.name !== 'NotAllowedError' || !onBlocked) return done();
+    voice.onended = voice.onerror = null; onBlocked();
+  });
 }
 const openPassages = new Set(), openPassageKo = new Set();   // passages shown, and of those the ones showing 해석
 let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
@@ -3396,8 +3400,9 @@ document.addEventListener('keydown', e => {
 /* ---------- the detective ----------
    The player is the detective (user request: a squirrel; the name is the player's own). Never seen in a conversation
    or a place (first person): heard as the evidence sentences and a few lines of their own, seen only in the office —
-   the first time a case is opened (two lines, then the player writes a name on the ID card and stamps it), when a new
-   case starts, and from 내 기록 to rename. The first meeting waits for that tap so the voice can play.
+   when the app opens without a name (user request: two lines, then the player writes a name on the ID card and stamps
+   it), when a new case starts, and from 마이 to rename. Before the first tap the browser holds sound back: the line is
+   on screen, and the first tap says it instead of going on.
    The name is only ever written (home plate, case-closed file, 내 기록), never spoken: no recording says it, NPCs say
    "detective" (user decision), so renaming needs no new audio. */
 const NAME_KEY = 'pioo.detectiveName';
@@ -3411,7 +3416,8 @@ const DETECTIVE = {
   closed:{ en:'Another case closed. Acorn Hollow can sleep tonight.', ko:'또 하나의 사건 종결. 오늘 밤 도토리 골짜기는 편히 잘 수 있겠어.' }
 };
 const NAME_IDEAS = ['Hazel', 'Nutty', 'Maple', 'Pip', 'Acorn', 'Chestnut', 'Sunny', 'Juniper'];
-const detectiveName = () => { try { return localStorage.getItem(NAME_KEY) || ''; } catch(e){ return ''; } };
+let nameMemo = '';   // the name for this visit when the device keeps nothing
+const detectiveName = () => { try { return localStorage.getItem(NAME_KEY) || nameMemo; } catch(e){ return nameMemo; } };
 // letters of any language, digits, spaces and ' . - only; at most 12
 const cleanName = v => v.replace(/[^\p{L}\p{N} '.-]/gu, '').replace(/\s+/g, ' ').slice(0, 12);
 let office = null;   // { lines:[keys still to come, 'name' = the ID card], then, rename, key:the line on screen }
@@ -3437,7 +3443,8 @@ function officeLine(key){
   $('#officeKoBtn').setAttribute('aria-pressed', 'false');
   say.hidden = false; say.classList.remove('done');
   say.style.animation = 'none'; void say.offsetWidth; say.style.animation = '';
-  detectiveSay(key, () => say.classList.add('done'));
+  office.blocked = false;
+  detectiveSay(key, () => say.classList.add('done'), () => { office.blocked = true; say.classList.add('done'); });
 }
 // the ID card: the first line is the name; 다른 이름 fills in ideas one by one, 도장 찍기 stamps it once there is a name
 function officeName(){
@@ -3466,7 +3473,7 @@ function closeOffice(){
   if(!$('#caseList').hidden) renderHome();
   then?.();
 }
-// the first meeting, before the first case opens; renaming from 내 기록
+// the first meeting, when the app opens without a name (or a case is opened without one); renaming from 마이
 const meetDetective = then => openOffice(['intro1', 'intro2', 'askname', 'name'], then);
 const renameDetective = () => openOffice(['name'], null, true);
 $('#idName').addEventListener('input', e => {
@@ -3483,6 +3490,7 @@ $('#idDice').onclick = () => {
 $('#idStampBtn').onclick = () => {
   const name = $('#idName').value.trim();
   if(!office || !name) return;
+  nameMemo = name;
   try { localStorage.setItem(NAME_KEY, name); } catch(e){}
   $('#idName').value = name; $('#idName').readOnly = true; $('#idName').blur();
   $('#idActions').hidden = true; $('#idStamp').hidden = false; $('#officeClose').hidden = true;
@@ -3497,9 +3505,10 @@ $('#officeGo').onclick = $('#officeClose').onclick = closeOffice;
 // a tap anywhere on the office goes to the next line (not on the card or a button; after the stamp, the button goes on)
 $('#office').addEventListener('click', e => {
   if(!office?.key || e.target.closest('button, .id-wrap') || !$('#officeGo').hidden) return;
+  if(office.blocked) return officeLine(office.key);   // the first tap of the visit: now the line can be heard
   officeNext();
 });
-$('#officeReplay').onclick = () => { if(office?.key) detectiveSay(office.key, () => $('#officeSay').classList.add('done')); };
+$('#officeReplay').onclick = () => { if(office?.key){ office.blocked = false; detectiveSay(office.key, () => $('#officeSay').classList.add('done')); } };
 $('#officeKoBtn').onclick = () => {
   const ko = $('#officeKo');
   ko.hidden = !ko.hidden; $('#officeKoBtn').setAttribute('aria-pressed', !ko.hidden);
@@ -3966,8 +3975,9 @@ $('#devReset').onclick = () => {
 /* ---------- boot ---------- */
 loadGame();
 renderStage(false); renderDock(); renderPlaces(); renderSceneHead();
-// the app opens on the case list (tapping a case is also the tap that lets audio play)
+// the app opens on 홈; without a detective name, the first meeting and naming come first (user request)
 openCaseList('home');
+if(!detectiveName()) meetDetective(null);
 })();
 </script>
 </body>
