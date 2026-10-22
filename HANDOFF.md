@@ -404,7 +404,7 @@ node server.js            # http://localhost:5173/
 | 인덱스 탭 | `ui/tab-1.png` … `tab-6.png` | 흰 손그림 탭. CSS 마스크 + 곱하기로 인물 색을 입힌다 |
 | 손그림 아이콘 | `ui/icons-v2/*.png` (160×160) | Higgsfield 한 장(돋보기·카메라·도토리·여섯 인물 얼굴). 증거 탭 카메라, 힌트 도토리, 작은 얼굴(`miniSVG()` → `FACE_ICONS`: 인덱스 탭·지도 핀·지목·복습·단어장). 사건 브리핑 탭은 오소리 경사 얼굴 |
 | 심문 게이지 | `ui/magnifier-paper.png`, `ui/buttons/cream-flat.png`, `ui/buttons/honey-flat.png` | 돋보기는 내장 이미지 생성. 크림/갈색 종이 외곽과 꿀색 채움은 기존 버튼 질감 재사용 |
-| 말풍선 | `ui/speech-paper-frame.png`, `ui/speech-paper-tail-pencil.png` | 기본 이미지 생성 도구로 제작. 종이 본문은 9조각으로 확장하고 꼬리는 별도 고정 크기로 배치. 엔딩의 주장·반박·자백·마무리에 사용 |
+| 말풍선 | `ui/speech-paper-frame.png`, `ui/speech-paper-tail-pencil.png` | 기본 이미지 생성 도구로 제작. 종이 본문은 종이 외곽으로 잘라(1508×908) 9조각(위·아래 150, 좌우 190 = 모서리 전체)으로 확장해 어떤 크기에서도 모서리가 일그러지지 않는다(`ui/README.md`). 꼬리는 별도 고정 크기로 배치. 엔딩의 주장·반박·자백·마무리에 사용 |
 | 공용 닫기 | `ui/close-button.png` | 지도·증거 서랍·문법·홈에서 연 복습·범인 선택 창, 42px 손그림 버튼 |
 | COMPLETE 도장 | `ui/complete-stamp.png` | Higgsfield, 900×332 투명 PNG. 수평 원본, 회전·찍기 동작은 CSS. 이전 한글 `investigation-complete-stamp.png`는 미사용 |
 | 별 | `ui/star.png`, `ui/star-empty.png` | Higgsfield, 160×155. 사건 목록 사진 카드·복습 1단계 |

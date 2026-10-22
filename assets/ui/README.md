@@ -20,7 +20,8 @@ Actual transparent alpha background. ONLY the ink imprint. No paper sheet, white
 
 ### 말풍선
 
-- `speech-paper-frame.png` (1536×1024, 투명 바깥): 힌트·엔딩 공용 말풍선 본문. **Codex가 기본 내장 `image_gen` 도구로 생성**, Higgsfield·CLI 미사용. 기존 `buttons/cream-flat.png`는 재질 참조, `places/library-higgsfield-v2.png`는 화풍 참조로 사용했다. 따뜻한 아이보리 종이, 갈색 색연필선과 가는 황토색 안쪽 선, 장식 없는 읽기 영역이다. 생성 출력 `exec-19bb79b2-db66-495c-ad43-11e798066f23.png`를 알파 채널 그대로 복사했고 자르기·색 보정은 하지 않았다.
+- `speech-paper-frame.png` (1536×1024, 투명 바깥): 힌트·엔딩 공용 말풍선 본문. **Codex가 기본 내장 `image_gen` 도구로 생성**, Higgsfield·CLI 미사용. 기존 `buttons/cream-flat.png`는 재질 참조, `places/library-higgsfield-v2.png`는 화풍 참조로 사용했다. 따뜻한 아이보리 종이, 갈색 색연필선과 가는 황토색 안쪽 선, 장식 없는 읽기 영역이다. 생성 출력 `exec-19bb79b2-db66-495c-ad43-11e798066f23.png`를 알파 채널 그대로 복사했다(원본 보관 `speech-paper-frame-original.png`, 1536×1024).
+  - 2026-10-22 Claude 다시 자름(사용자 제보: 말풍선이 크기에 따라 일그러짐): 원본은 위 52·아래 64·좌우 14px가 투명 여백이고 모서리 곡선이 가로 약 170·세로 약 125px인데, 9조각을 사방 100px로 잘라 모서리 곡선이 변 조각에 걸려 함께 늘어났다. 종이 외곽 (14,52)–(1522,960)으로 잘라 1508×908로 만들고, CSS 조각을 위·아래 150 · 좌우 190px(모서리를 다 담음), 화면 두께 33px·42px(예전과 같은 0.22배), `inset:0`으로 바꿨다(`.bubble::before`, `.office-say::before`·`.oh-say::before`).
   - `.bubble::before`의 `border-image`로 **9조각 확장**한다. slice `100`, 표시 테두리 `22px`, 원본 투명 여백을 고려해 `inset:-8px -3px`. 모서리와 선 두께를 유지하고 가운데만 늘린다. 본문 폭은 `min(88%,380px)`이며 화면 높이에 따라 내용만 스크롤한다.
   - 이미지의 반투명한 안쪽 조각 경계에 얇은 선이 드러나지 않도록 `background-clip:padding-box`인 불투명 종이색 바탕을 함께 쓴다(`--bubble-paper`, 기본 `#FFF8E9`). 바깥 투명 모서리는 채우지 않는다. 말풍선 안의 영어·한국어·버튼 영역에는 구분선을 넣지 않고 여백만 둔다.
 - `speech-paper-tail-pencil.png` (1585×992, 투명): **현재 적용**. Codex가 내장 `image_gen`으로 편집. 원본 `exec-fe952193-7816-4263-b158-60420c65dc26.png`를 가공 없이 복사해 알파 유지. 직선 삼각형, 거친 갈색 연필 외곽·황토색 안쪽 선, 열린 윗변. 불투명 V 끝 아래 약 80px 여백이 있어 끝이 잘리지 않는다. `.bubble::after`의 48×30px 상자에서 `contain`, `bottom:-14px`로 배치한다. 본체는 그대로 9조각 확장, 꼬리 크기는 고정이다. 원본 색상 구간을 기준으로 축소 후 갈색 선 약 2.5–2.7px(본문 약 2.2px)로 확인했다. Higgsfield·CLI 미사용.
