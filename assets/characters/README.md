@@ -63,3 +63,15 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - `fiona-nervous.png`(477×641, job `9789584a-…`): 눈을 옆으로 피하고 땀방울, 두 손을 모은 당황한 표정. mouth `{x:200,y:230,w:52,h:22}`, anchor .42.
 - `fiona-sad.png`(569×624, job `390cc566-…`): 귀가 처지고 앞치마를 쥔 고개 숙인 표정. mouth `{x:236,y:215,w:36,h:16}`, anchor .415.
 - 기본 그림과 같은 화면 배율이라고 보고 `height`를 스프라이트 높이 비(641/621, 624/621)로 둔다.
+
+## 후보: 플레이어 탐정 다람쥐 (Claude 제작, 2026-10-22, 미적용)
+
+- 사용자 요청: 플레이어인 탐정의 비주얼을 다람쥐로. 후보 3장 중 사용자가 고르면 배경 제거·적용한다.
+- 도구: Higgsfield Nano Banana 2.1, 16:9, 1K, thinking high, 참조 오리 아저씨 원본(job `6f92a3f3-dcaa-471e-b35e-edfa9f3af87b`). 장당 1.5크레딧.
+- 공통 프롬프트: 위 공통 프롬프트(기준 캐릭터 duck) + "Pioo, a clever young red squirrel detective, the hero of the game. Warm russet-orange fur with a cream belly and muzzle, small ear tufts, a big fluffy curled russet tail … no white sticker outline".
+
+| 파일 | job | 차림 |
+|---|---|---|
+| `detective-candidate-a.png` | `a66500b9-6ed2-43e7-8118-3713c4d8efc5` | 체크무늬 탐정 모자, 베이지 트렌치코트, 돋보기 |
+| `detective-candidate-b.png` | `5dd13d0d-644e-450b-ba92-9ff4800acacc` | 겨자색 헌팅캡, 꿀색 조끼(도토리 배지), 수첩·연필 |
+| `detective-candidate-c.png` | `23f91937-62a2-4eb2-921b-63657e35e78a` | 올리브색 야전 코트, 목에 카메라, 도토리 장식 가방 |
