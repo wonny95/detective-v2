@@ -76,3 +76,11 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 | `detective-candidate-a.png` | `a66500b9-6ed2-43e7-8118-3713c4d8efc5` | 체크무늬 탐정 모자, 베이지 트렌치코트, 돋보기 |
 | `detective-candidate-b.png` | `5dd13d0d-644e-450b-ba92-9ff4800acacc` | 겨자색 헌팅캡, 꿀색 조끼(도토리 배지), 수첩·연필 |
 | `detective-candidate-c.png` | `23f91937-62a2-4eb2-921b-63657e35e78a` | 올리브색 야전 코트, 목에 카메라, 도토리 장식 가방 |
+
+## NPC 입 (`mouths/`)
+
+- 사용자 요청: 말할 때 입 모양 개선. 그림의 입을 가리고 닫은 입·벌린 입을 번갈아. 크레딧을 아끼려고 **이미지 1장**에 모든 입을 모아 생성했다.
+- `sheet-original.png`: Claude 제작, Higgsfield Nano Banana 2.1(job `bdd5aa63-00f7-4aa2-af64-3525b7a306bb`, 1.5크레딧), 1376×768. 순수 초록 배경 위 4×2: 미소 / 미소 벌림 / 당황(물결) / 당황 벌림(이) / 슬픔 / 슬픔 벌림 / 오리 부리 / 오리 부리 벌림. 프롬프트 요지: 그림책 동물 캐릭터의 말하기용 입 스프라이트, 진갈색 색연필 외곽선과 과슈 색, 칸마다 하나씩 같은 크기, 얼굴·코·글자 없음.
+- `smile.png`, `smile-open.png`, `nervous*.png`, `sad*.png`, `beak*.png`: 초록을 빼고 하나씩 잘라 낸 입.
+- `<인물>-closed.png`, `<인물>-open.png`(badger, mole, fiona, ray, rosie, fiona-nervous, fiona-sad, duck): 게임에 쓰는 그림. 그려진 입을 찾아 주변 털색으로 덮고(코는 남김) 그 위에 새 입을 얹었다. 닫은 입 선은 각 그림의 원래 선 굵기에 맞춰 굵혔다. 오리는 생성한 부리로 부리 전체를 바꾼다.
+- 만드는 법: `python -I scripts/make-npc-mouths.py`(Pillow만 사용). 출력된 `[x, y, w, h]`를 `index.html`의 `MOUTHS`에 넣는다. 같은 입력이면 같은 파일이 나온다.

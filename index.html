@@ -93,12 +93,16 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .npc-breathe,.npc-gesture{transform-box:fill-box;transform-origin:50% 100%}
 .npc-breathe{animation:npc-breathe 4.8s ease-in-out infinite;animation-delay:var(--idle-delay,0s)}
 .scene-npc.talking .npc-gesture{animation:npc-speak 1.7s ease-in-out infinite}
-.npc-mouth{opacity:0;pointer-events:none}
-.scene-npc.talking .npc-mouth{animation:npc-mouth var(--talk-cycle,.74s) steps(1,end) infinite}
-.npc-mouth-shape{transform:scaleY(var(--mouth-open,.7));transform-origin:0 0}
+/* NPC mouths (user request): the drawn mouth is covered and a closed and an open mouth picture take turns while they
+   talk (assets/characters/mouths, MOUTHS); quiet, the closed one shows */
+.npc-mouth{pointer-events:none}
+.npc-mouth.open{opacity:0}
+.scene-npc.talking .npc-mouth.open{animation:npc-mouth-open var(--talk-cycle,.74s) steps(1,end) infinite}
+.scene-npc.talking .npc-mouth.closed{animation:npc-mouth-closed var(--talk-cycle,.74s) steps(1,end) infinite}
 @keyframes npc-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.008,1.012)}}
 @keyframes npc-speak{0%,100%{transform:rotate(0)}28%{transform:rotate(-.35deg)}65%{transform:rotate(.3deg)}}
-@keyframes npc-mouth{0%,43%,85%,100%{opacity:0;--mouth-open:.2}12%,57%{opacity:1;--mouth-open:.55}25%,70%{opacity:1;--mouth-open:1}}
+@keyframes npc-mouth-open{0%,43%,85%,100%{opacity:0}12%,57%{opacity:1}}
+@keyframes npc-mouth-closed{0%,43%,85%,100%{opacity:1}12%,57%{opacity:0}}
 .app.partner .bubble{left:16px;transform:none;transform-origin:70px calc(100% + 21px);animation-name:bubble-pop-plain}
 .app.partner .bubble::after{left:70px}
 /* phase title card (case start / each suspect coming in) */
@@ -1547,23 +1551,38 @@ function charSVG(id){
     ${back}${torso}${front}<path d="M88 146 L90 136 M112 146 L110 136" fill="none"/>${ears}${head}${face}</g>`;
 }
 const SPRITES = {
-  badger:{src:'assets/characters/sgt-badger-higgsfield.png', w:1060, h:1484, face:'180 80 700 700', anchor:.5, mouth:{x:538,y:643,w:156,h:64}},
+  badger:{src:'assets/characters/sgt-badger-higgsfield.png', w:1060, h:1484, face:'180 80 700 700', anchor:.5},
   // mole/fiona/ray/rosie: white sticker border peeled off and re-cropped (2026-10-16); coordinates shifted to match
-  mole:{src:'assets/characters/mole-higgsfield.png', w:408, h:620, face:'37 -5 340 340', anchor:199/408, mouth:{x:207,y:211,w:56,h:23}},
-  fiona:{src:'assets/characters/fiona-higgsfield.png', w:439, h:621, face:'12 -4 340 340', anchor:182/439, mouth:{x:179,y:225,w:48,h:24}},
-  ray:{src:'assets/characters/ray-higgsfield.png', w:509, h:628, face:'24 -5 340 340', anchor:194/509, mouth:{x:192,y:205,w:49,h:24}},
-  rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316, mouth:{x:161,y:339,w:24,h:17}},
-  duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5, mouth:{x:218,y:224,w:46,h:16}}
+  mole:{src:'assets/characters/mole-higgsfield.png', w:408, h:620, face:'37 -5 340 340', anchor:199/408},
+  fiona:{src:'assets/characters/fiona-higgsfield.png', w:439, h:621, face:'12 -4 340 340', anchor:182/439},
+  ray:{src:'assets/characters/ray-higgsfield.png', w:509, h:628, face:'24 -5 340 340', anchor:194/509},
+  rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316},
+  duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
-  'fiona:nervous':{src:'assets/characters/fiona-nervous.png', w:477, h:641, height:641/621, anchor:.42, mouth:{x:200,y:230,w:52,h:22}},
-  'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415, mouth:{x:236,y:215,w:36,h:16}}
+  'fiona:nervous':{src:'assets/characters/fiona-nervous.png', w:477, h:641, height:641/621, anchor:.42},
+  'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415}
 });
 const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : id;
+// Each sprite's mouth pictures, [x, y, w, h] in sprite px: the drawn mouth painted over with the fur around it, and a
+// closed or an open mouth on top (one generated sheet of mouths, mouths/sheet-original.png; the duck's beak is replaced
+// whole). Made by a script from the drawn mouth's place; see assets/characters/README.md.
+const MOUTHS = {
+  badger:{closed:[438,613,208,67], open:[438,613,208,95]},
+  mole:{closed:[156,197,96,34], open:[156,197,96,41]},
+  fiona:{closed:[144,216,74,27], open:[144,216,74,31]},
+  ray:{closed:[158,194,95,26], open:[158,194,95,37]},
+  rosie:{closed:[140,333,45,19], open:[140,333,45,19]},
+  duck:{closed:[140,160,166,99], open:[140,160,166,117]},
+  'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
+  'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]}
+};
 function spriteMouth(id){
-  const mouth = SPRITES[id].mouth, width = mouth.w, height = mouth.h;
-  return `<g transform="translate(${mouth.x} ${mouth.y})"><g class="npc-mouth"><g class="npc-mouth-shape"><path d="M${-width/2} 0 Q0 ${height*.45} ${width/2} 0 Q${width*.4} ${height} 0 ${height} Q${-width*.4} ${height} ${-width/2} 0" fill="#493333"/><ellipse cx="0" cy="${height*.72}" rx="${width*.2}" ry="${height*.15}" fill="#BE7D76" opacity=".7"/></g></g></g>`;
+  const m = MOUTHS[id]; if(!m) return '';
+  const file = id.replace(':', '-');
+  return ['closed', 'open'].map(state => { const [x, y, w, h] = m[state];
+    return `<image class="npc-mouth ${state}" href="assets/characters/mouths/${file}-${state}.png" x="${x}" y="${y}" width="${w}" height="${h}"/>`; }).join('');
 }
 const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
   ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouth(k)}</g></g></svg>`

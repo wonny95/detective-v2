@@ -135,7 +135,7 @@ node server.js            # http://localhost:5173/
   - **노트가 열리면** 46%(머리 7%)로 줄여 얼굴이 노트 위에 오게 한다. 여닫을 때 카메라가 부드럽게 옮겨 가고(`focusCamera(null, true)`), NPC의 세계 좌표는 그대로다.
 - **캐릭터 애니메이션**
   - 발밑 기준 약 1% 숨쉬기, 말할 때만 0.35도 이내 기울기.
-  - `SPRITES.mouth` 좌표의 SVG 입이 대사 재생 중 불규칙 리듬으로 여닫힌다. 노트의 다시 듣기로 다른 인물 대사를 틀면 그 인물의 입이 움직인다(`talker`).
+  - **입**(사용자 요청): 그림에 그려진 입은 주변 털색으로 덮고, 그 위에 닫은 입·벌린 입 그림을 얹는다(`MOUTHS`, `spriteMouth()`, `assets/characters/mouths/<인물>-closed·open.png`). 말하지 않을 때는 닫은 입, 대사 재생 중에는 둘이 불규칙 리듬으로 번갈아 나온다(`npc-mouth-open`·`npc-mouth-closed`, `--talk-cycle`). 피오나는 표정마다(기본 미소, 당황 `nervous`, 슬픔 `sad`) 입 모양이 다르고, 오리는 부리 전체를 바꾼다. 노트의 다시 듣기로 다른 인물 대사를 틀면 그 인물의 입이 움직인다(`talker`).
   - OS 모션 줄이기 설정에서는 끈다.
 - **질문 → 듣기 → 받아 적기**
   - 질문을 고르면 **해당 인물 노트가 즉시 아래에서 올라오고 영어 답변 음성이 함께 재생된다**(사용자 요청). `ask()`에서 해당 페이지를 렌더링한 뒤 `setNotes(true)`와 `speak()`를 호출한다. 노트는 화면 아래 60% 높이로 열려 들으면서 빈칸에 단어를 누르거나 직접 입력할 수 있다. 음성 종료를 기다리는 예약 콜백은 없다. 듣는 중 직접 닫은 노트가 음성 종료 후 다시 열리지 않으며, `노트에 기록하기` 또는 `Note`로 다시 열 수 있다. 기존 슬라이드·카메라 전환은 유지한다.
@@ -343,7 +343,7 @@ node server.js            # http://localhost:5173/
 | `requestLeaveInterrogation()`, `stayInInterrogation()`, `leaveEnding()` | 심문 나가기 확인·진행 유지·확정 후 초기화/현장 복귀 |
 | `renderInterrogationGauge()`, `updateInterrogationGauge()` | 진행률·채움·정답/초기화 반응 |
 | `setNotes(open)`, `setInvestigate(on)` | 노트 꺼내기·넣기(카메라 구도 전환 포함), 대화 ↔ 장소 전환 |
-| `fullSVG()`, `miniSVG()`, `spriteMouth()` | 전신 PNG·얼굴 아이콘·발화용 입 |
+| `fullSVG()`, `miniSVG()`, `spriteMouth()` | 전신 PNG·얼굴 아이콘·입 그림 두 장(`MOUTHS`) |
 
 ### localStorage
 
@@ -417,7 +417,7 @@ node server.js            # http://localhost:5173/
 - 미사용 보관본: `characters/sgt-badger.png`, `places/library-higgsfield.png`, `ui/notebook-*`(스프링 수첩 시안), 각종 `*-original.png`, `ui/gauge-empty.png`·`gauge-full.png`, `ui/speech-paper-tail.png`·`speech-paper-tail-flat.png`.
 - **그림을 바꿀 때 함께 볼 것**
   - 장소 배경을 바꾸면 `ART`, `PLACES.spots`, `spots.photo`, 덧그림 위치를 다시 맞춘다. 바닥 확장(`*-floor.jpg`)도 다시 만들어야 이음새가 맞는다.
-  - 캐릭터 얼굴이 바뀌면 `SPRITES.face`·`anchor`·`mouth`를 다시 맞춘다.
+  - 캐릭터 얼굴이 바뀌면 `SPRITES.face`·`anchor`를 다시 맞추고, `scripts/make-npc-mouths.py`의 입 위치를 고쳐 입 그림을 다시 만든 뒤 출력된 좌표를 `MOUTHS`에 넣는다.
   - 지도를 바꾸면 `PLACES[].x/y`를 다시 맞춘다.
   - 노트 그림을 바꾸면 `.dock` 패딩과 `.dock-head` 비율(그림 폭 기준 %)을 다시 맞춘다.
 - Nano Banana로 화풍을 맞출 때는 오소리 경사 그림(media `96ec1512-…`)이나 빵집 그림(`f4464d9f-…`)을 `image_references`로 넣고 "drawing style only"라고 적는다. 살아 있는 작가 이름은 프롬프트에 쓰지 않는다.
