@@ -377,6 +377,7 @@ node server.js            # http://localhost:5173/
 | 두더지·여우·너구리·토끼 | `characters/<id>-higgsfield.png` | Claude 제작. 흰 스티커 테두리를 지운 버전(408×620, 439×621, 509×628, 316×661). 이전 `*-sticker.png` |
 | 피오나 표정 | `characters/fiona-nervous.png`, `fiona-sad.png` | Claude 제작, 477×641 / 569×624. 원본 `*-original.png` |
 | 오리 아저씨 | `characters/duck-higgsfield.png` | Claude 제작, 447×694, 투명 배경. 원본 `duck-higgsfield-original.png` |
+| 플레이어 탐정(미적용) | `characters/detective-higgsfield.png`, `places/detective-office-higgsfield.png`, `ui/detective-id-card.png`, `ui/icons-v2/detective.png` | Claude 제작. 주황 다람쥐 탐정(체크무늬 모자·트렌치코트·돋보기, 627×700), 참나무 사무소(768×1376), 빈 신분증(1143×747), 얼굴 아이콘. 1단계 적용 계획은 10절 11 |
 | 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠, 오른쪽 위 클립 |
 | 인덱스 탭 | `ui/tab-1.png` … `tab-6.png` | 흰 손그림 탭. CSS 마스크 + 곱하기로 인물 색을 입힌다 |
 | 손그림 아이콘 | `ui/icons-v2/*.png` (160×160) | Higgsfield 한 장(돋보기·카메라·도토리·여섯 인물 얼굴). 증거 탭 카메라, 힌트 도토리, 작은 얼굴(`miniSVG()` → `FACE_ICONS`: 인덱스 탭·지도 핀·지목·복습·단어장). 사건 브리핑 탭은 오소리 경사 얼굴 |
@@ -454,6 +455,11 @@ node server.js            # http://localhost:5173/
 8. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다. 미사용 그림(`ui/notebook-*`, `*-sticker.png` 등) 정리 여부를 정한다.
 9. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 10. **물건 더 늘리기**: 지금은 장소마다 세 개다(3.5절). 사용자가 원하면 더 추가한다.
+11. **플레이어 탐정 캐릭터 1단계**(사용자 요청 진행 중, 그림 준비됨): 주황 다람쥐 탐정. 이름 Pioo·마을 Acorn Hollow는 임시. 이야기 줄기는 사건마다 독립인 가벼운 안으로 시작하고 긴 줄기는 나중에(사용자 결정).
+    - 탐정은 대화·현장에 나오지 않는다(1인칭). 목소리(증거 나레이션의 Grady)가 탐정의 속마음이다. 모습은 프롤로그·홈 사무소·종결 장면에만.
+    - 1단계: 첫 실행 프롤로그(사무소 + 자기소개 음성) → **플레이어가 탐정 이름 짓기**(사용자 결정, 설계 `design/detective-name.html`) → 튜토리얼. 홈에 사무소·탐정, 탐정 혼잣말(사건 시작·지목 직전·종결), 노트 표지에 탐정 얼굴.
+    - 음성에는 이름을 넣지 않는다(NPC는 "detective"). 이름은 글자로만(사무소 문패·수첩 표지·종결 서류·내 기록), `pioo.detectiveName`.
+    - 남은 일: 설계 확정 → 탐정 대사 음성(Grady) 제작(비용 먼저 알림) → 구현.
 
 ### 10.1 학습 요소 기획 — 미구현·미확정
 

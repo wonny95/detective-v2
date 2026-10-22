@@ -47,3 +47,9 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - 오리 아저씨를 NPC로 세우려고 카운터 뒤에 그려져 있던 오리를 지웠다. Nano Banana 2.1 편집(job `354bb7cb-245c-43da-b41f-3c27bbe0634c`).
 - 원본과 어긋나지 않도록 **오리 주변 상자(345,182)–(515,398)만** 편집본에서 가져와 흐리게 섞고 나머지는 원본 픽셀을 그대로 썼다. 핫스팟·증거 좌표와 `cafe-floor.jpg` 이음새는 바뀌지 않는다.
 - 이전 판은 `cafe-higgsfield-with-duck.png`로 보관한다.
+
+# 탐정 사무소 (Claude 제작, 2026-10-22, 게임에는 아직 미적용)
+
+- 플레이어 탐정의 참나무 구멍 속 사무소. 첫 실행 프롤로그·탐정 이름 짓기·홈 사무소에 쓸 예정(설계 `design/detective-name.html`).
+- `detective-office-higgsfield.png` (768×1376, 9:16): Nano Banana 2.1(1K, thinking high, 1.5크레딧), 화풍 참조 카페 편집본(job `354bb7cb-…`). job `0b35855d-efca-4847-8d9c-ad46af85aae4`. 인물 없음, 글자 없음. 아래 3분의 1은 탐정이 설 빈 바닥(가운데 둥근 깔개).
+- 프롬프트 요지: cozy detective office inside the hollow of a big old oak tree, evening; round window to the forest village at dusk, hanging lamp, desk with open notebook, pencil, magnifying glass, jar of acorns, desk lamp; cork board with blank pinned photos and red string; coat hook with scarf, small bookshelf, cup of tea; lower third empty wooden floor with a round woven rug; no characters, no text.

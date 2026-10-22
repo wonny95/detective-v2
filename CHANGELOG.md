@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-22 10:59 · Claude · (이 커밋)
+## 2026-10-22 11:40 · Claude · (이 커밋)
+
+- 사용자 요청: 탐정 후보 A안 선택(털은 주황 그대로). 배경 제거 → `characters/detective-higgsfield.png`(0eadb7e).
+- 사용자 결정: 이름 Pioo는 임시, 이야기는 가벼운 안(사건마다 독립)으로 시작해 나중에 긴 줄기를 붙인다. 탐정 이름은 플레이어가 짓는다.
+- 사용자 요청: 1단계 그림과 이름 짓기 화면 설계. 그림 2장(Nano Banana 2.1, 3크레딧): 참나무 사무소 `places/detective-office-higgsfield.png`, 빈 신분증 `ui/detective-id-card.png`(마젠타 제거). 얼굴 아이콘 `ui/icons-v2/detective.png`는 탐정 그림에서 잘라 냄(크레딧 없음). 설계 시안 `design/detective-name.html`(실제 그림으로 만든 4단계 화면 + 흐름·입력 규칙·이름이 쓰이는 곳). 게임 코드는 바꾸지 않음.
+- 확인: 설계 시안을 브라우저 새 탭에서 열어 겹침(버튼 줄바꿈, 말풍선이 카드를 가림)을 고침. 
+- **다음**: 사용자가 설계 시안을 확인·수정 지시 → 탐정 대사 4–7줄 음성(Grady, 비용 먼저 알림) → 프롤로그·이름 짓기 구현(HANDOFF 10절 11).
+
+## 2026-10-22 10:59 · Claude · a5d9e30
 
 - 사용자 요청: 플레이어 탐정 비주얼을 다람쥐로, 후보 3장 제작(Higgsfield Nano Banana 2.1, 4.5크레딧). `assets/characters/detective-candidate-a/b/c.png`(1376×768, 크림 배경, 미적용). 프롬프트·job은 `assets/characters/README.md`.
 - 확인: 세 장 모두 기존 NPC 화풍·비율과 맞음. 주의: 털이 주황색이라 핵심 단서 '문의 주황색 털'(피오나)과 겹칠 수 있음 → 고를 때 털색(갈색·회색) 조정 여부도 정해야 함.

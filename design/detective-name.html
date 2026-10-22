@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>탐정 이름 짓기 화면 설계</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--ink:#4A3628;--honey:#F2CF73;--berry:#C96F86;--stamp:#B9473A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Paperlogy",system-ui,sans-serif}
+.wrap{padding:28px 24px 48px}
+h1{font-family:"Paperlogy Display","Paperlogy",sans-serif;font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 24px;font-size:14px;opacity:.8}
+.row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+figure{margin:0;width:300px}
+figcaption{margin-top:10px;font-size:13px;line-height:1.5}
+figcaption b{display:block;font-size:15px;margin-bottom:2px}
+
+/* phone */
+.phone{position:relative;width:300px;height:600px;border-radius:28px;overflow:hidden;background:#3b2a1e;box-shadow:0 10px 24px rgba(40,30,20,.25)}
+.office{position:absolute;inset:0;background:url(../assets/places/detective-office-higgsfield.png) center 62%/cover}
+.dim{position:absolute;inset:0;background:rgba(40,26,16,.45)}
+.det{position:absolute;left:50%;bottom:58px;height:250px;transform:translateX(-50%)}
+.det img{height:100%;display:block}
+
+/* speech bubble: the game's paper frame + pencil tail */
+.bubble{position:absolute;left:50%;top:46px;transform:translateX(-50%);width:262px;padding:20px 18px 14px;font-size:15px;line-height:1.42;filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2))}
+.bubble::before{content:"";position:absolute;inset:-8px -3px;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 100 fill / 22px / 0 stretch}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-14px;width:44px;height:28px;transform:translateX(-50%);background:url(../assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat}
+.bubble .ko{display:block;margin-top:6px;padding-top:6px;font-size:13px;font-weight:700;color:var(--berry)}
+.foot{display:flex;justify-content:flex-end;gap:6px;margin-top:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:0 10px;border:2px solid transparent;border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 10px 10.3px stretch;font-family:"Paperlogy Display",sans-serif;font-size:12px;color:var(--ink);background:none;white-space:nowrap}
+.btn.honey{border-image-source:url(../assets/ui/buttons/honey-flat.png)}
+.btn.big{min-height:44px;font-size:15px;padding:0 18px}
+.btn.off{opacity:.45}
+
+/* ID card */
+.card{position:absolute;left:50%;top:118px;width:280px;transform:translateX(-50%) rotate(-2deg);aspect-ratio:1143/747;background:url(../assets/ui/detective-id-card.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35))}
+.card .photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(../assets/ui/icons-v2/detective.png) center/94% no-repeat}
+.card .line{position:absolute;left:47.5%;width:42.5%;transform:translateY(-100%);padding-bottom:2px;white-space:nowrap;overflow:hidden}
+.card .name{top:37.1%;font-weight:700;font-size:19px;line-height:1.1}
+.card .name .caret{display:inline-block;width:2px;height:18px;background:var(--ink);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+.card .title{top:49.8%;font-size:11px;letter-spacing:.04em;opacity:.75}
+.card .town{top:62.5%;font-size:11px;letter-spacing:.04em;opacity:.75}
+.card .stamp{position:absolute;left:85.1%;top:77.5%;width:15%;aspect-ratio:1;transform:translate(-50%,-50%) rotate(-14deg);border:3px solid var(--stamp);border-radius:50%;opacity:.85;display:grid;place-items:center}
+.card .stamp img{width:62%;filter:sepia(1) saturate(4) hue-rotate(-30deg) brightness(.75)}
+@keyframes blink{50%{opacity:0}}
+
+.dice{position:absolute;left:50%;top:330px;transform:translateX(-50%);display:flex;gap:8px}
+.kbd{position:absolute;left:0;right:0;bottom:0;height:200px;background:#d9d4cb;border-top:1px solid #bdb6aa;display:grid;grid-template-rows:repeat(4,1fr);gap:6px;padding:10px 6px}
+.kbd div{display:flex;gap:4px;justify-content:center}
+.kbd span{flex:0 0 24px;height:100%;border-radius:5px;background:#fff;box-shadow:0 1px 0 #a9a196}
+.kbd .wide{flex:0 0 140px}
+.confirm{position:absolute;left:50%;bottom:44px;transform:translateX(-50%)}
+
+.spec{margin-top:36px;max-width:980px;background:var(--paper);border-radius:14px;padding:20px 24px;font-size:14px;line-height:1.65}
+.spec h2{font-family:"Paperlogy Display",sans-serif;font-weight:400;font-size:18px;margin:18px 0 6px}
+.spec h2:first-child{margin-top:0}
+.spec ul{margin:0;padding-left:20px}
+.spec code{background:#efe5d2;border-radius:4px;padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>탐정 이름 짓기 화면 설계</h1>
+  <p class="lead">첫 실행에 한 번만: 프롤로그 → 이름 짓기 → 튜토리얼. 그림은 실제 자산(사무소 배경, 탐정, 신분증, 말풍선·버튼)으로 맞췄다.</p>
+
+  <div class="row">
+    <figure>
+      <div class="phone">
+        <div class="office"></div>
+        <div class="det"><img src="../assets/characters/detective-higgsfield.png" alt=""></div>
+        <div class="bubble">Welcome to my office. I'm the detective of Acorn Hollow. My ears catch every word.
+          <div class="foot"><span class="btn">▶ 다시 듣기</span><span class="btn">해석</span></div>
+        </div>
+      </div>
+      <figcaption><b>① 프롤로그</b>사무소에 탐정이 서 있고 음성(탐정 목소리)이 나온다. 화면 아무 곳이나 누르면 다음 대사. 대사 2–3줄.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone">
+        <div class="office"></div>
+        <div class="det"><img src="../assets/characters/detective-higgsfield.png" alt=""></div>
+        <div class="bubble">Every detective needs a name. What's mine?
+          <span class="ko">탐정에게는 이름이 필요해. 내 이름은 뭘까?</span>
+          <div class="foot"><span class="btn">▶ 다시 듣기</span><span class="btn">해석</span></div>
+        </div>
+      </div>
+      <figcaption><b>② 이름을 묻는 대사</b>마지막 대사. 여기서는 <code>해석</code>을 누른 상태. 대사가 끝나면 신분증이 아래에서 올라온다.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone">
+        <div class="office"></div><div class="dim"></div>
+        <div class="card">
+          <div class="photo"></div>
+          <div class="line name">Hazel<span class="caret"></span></div>
+          <div class="line title">DETECTIVE</div>
+          <div class="line town">ACORN HOLLOW</div>
+        </div>
+        <div class="dice"><span class="btn">🎲 다른 이름</span><span class="btn honey">도장 찍기</span></div>
+        <div class="kbd"><div><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><span class="wide"></span></div></div>
+      </div>
+      <figcaption><b>③ 신분증에 이름 쓰기</b>신분증 첫 줄이 곧 입력 칸(누르면 키보드). 사진 칸에 탐정 얼굴. <code>다른 이름</code>은 추천 이름을 하나씩 채운다. 비어 있으면 <code>도장 찍기</code>가 흐리다.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone">
+        <div class="office"></div><div class="dim"></div>
+        <div class="card">
+          <div class="photo"></div>
+          <div class="line name">Hazel</div>
+          <div class="line title">DETECTIVE</div>
+          <div class="line town">ACORN HOLLOW</div>
+          <div class="stamp"><img src="../assets/ui/icons-v2/acorn.png" alt=""></div>
+        </div>
+        <div class="bubble" style="top:345px;width:230px">I like it. Let's get to work!
+          <div class="foot"><span class="btn">▶ 다시 듣기</span><span class="btn">해석</span></div>
+        </div>
+        <div class="confirm"><span class="btn honey big">시작하기</span></div>
+      </div>
+      <figcaption><b>④ 도장</b>빈 동그라미에 도토리 도장이 쾅(종결 도장과 같은 찍기 동작·소리). 탐정의 짧은 대사 뒤 <code>시작하기</code> → 튜토리얼.</figcaption>
+    </figure>
+  </div>
+
+  <div class="spec">
+    <h2>흐름</h2>
+    <ul>
+      <li>첫 실행: 홈 대신 프롤로그 → 이름 짓기 → (도장) → 튜토리얼 → 브리핑. 이미 튜토리얼을 본 기기도 다음 실행 때 프롤로그·이름 짓기만 한 번 본다.</li>
+      <li>프롤로그 대사는 넘길 수 있지만 이름은 건너뛸 수 없다. 대신 <code>다른 이름</code>으로 바로 채울 수 있다.</li>
+      <li>이름 바꾸기: <code>내 기록</code> &gt; 설정에 <code>탐정 이름 바꾸기</code> → 같은 신분증 화면(②의 대사 없이 ③부터).</li>
+    </ul>
+    <h2>입력 규칙</h2>
+    <ul>
+      <li>1–12자, 앞뒤 공백 제거. 영어·한글 모두 허용(영어 앱이지만 아이들이 한글 이름을 쓰고 싶어 할 수 있음). 이모지·기호는 받지 않는다.</li>
+      <li>추천 이름(<code>다른 이름</code>): 숲·도토리 느낌의 영어 이름 목록에서 차례로. 예: Hazel, Nutty, Maple, Pip, Acorn, Chestnut, Sunny, Juniper.</li>
+      <li>화면에 조작 설명 문장은 넣지 않는다. 무엇을 할지는 탐정의 질문 대사(+<code>해석</code>)와 비어 있는 신분증 줄, 깜박이는 커서로 알 수 있다.</li>
+    </ul>
+    <h2>이름이 쓰이는 곳</h2>
+    <ul>
+      <li>글자로만: 홈 사무소 문패, 노트(수사 수첩) 표지, 사건 종결 서류(“Case closed by Hazel”), 내 기록.</li>
+      <li>음성에는 넣지 않는다. NPC는 지금처럼 “detective”라고 부르고, 탐정 대사도 이름을 말하지 않는다 → 이름을 바꿔도 다시 녹음할 필요가 없다.</li>
+      <li>저장: <code>localStorage</code> <code>pioo.detectiveName</code>. <code>리셋</code>이 함께 지운다.</li>
+    </ul>
+    <h2>필요한 것</h2>
+    <ul>
+      <li>그림: 사무소 배경·신분증·탐정 얼굴은 준비됨. 도장은 기존 도토리 아이콘을 붉은 잉크로 칠해 쓴다(추가 생성 없음).</li>
+      <li>음성(탐정 목소리 Grady): 프롤로그 2줄, 이름 묻기 1줄, 도장 뒤 1줄 = 4줄.</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
