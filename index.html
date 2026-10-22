@@ -442,6 +442,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
    inset 5px top and bottom by transparent borders */
 .nline .blank{box-sizing:border-box;height:38px;vertical-align:bottom;border-block:5px solid transparent;background-clip:padding-box;border-radius:12px}
 .blank:focus{outline:none;background-color:rgba(242,207,115,.45)}
+/* The typing caret (user request: cute, like the drawings): the browser's thin line is hidden and a little pencil
+   stands in its place, a rounded stroke in the text's own ink with a honey eraser cap; it blinks softly and stays
+   solid while typing (placeCaret). The 이름 on the ID card and the note blanks use it. */
+.blank,.id-name{caret-color:transparent}
+.cute-caret{position:fixed;left:0;top:0;z-index:1000;width:3px;border-radius:2px;background:var(--caret,var(--ink));pointer-events:none;animation:caret-blink 1.1s ease-in-out .5s infinite}
+.cute-caret[hidden]{display:none}
+.cute-caret::before{content:"";position:absolute;left:50%;top:0;width:7px;height:7px;box-sizing:border-box;border:1.5px solid var(--caret,var(--ink));border-radius:50%;background:var(--honey);transform:translate(-50%,-62%)}
+@keyframes caret-blink{0%,45%,100%{opacity:1}60%,85%{opacity:.12}}
+@media(prefers-reduced-motion:reduce){.cute-caret{animation:none}}
 .blank.hot{background-color:rgba(141,180,142,.4)}
 .blank.ok{background-color:rgba(94,138,99,.13);color:var(--ok)}
 /* a question just written down right (.fresh, one render only): the right blanks light up one by one, 확인됨 is
@@ -767,7 +776,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .id-card{position:relative;flex-shrink:0;width:min(90%,350px);aspect-ratio:1143/747;background:url(assets/ui/detective-id-card.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35));transform:rotate(-2deg);animation:id-in .4s cubic-bezier(.2,1.2,.4,1) both}
 @keyframes id-in{from{opacity:0;transform:translateY(60px) rotate(-6deg)}}
 .id-photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(assets/ui/icons-v2/detective.png) center/94% no-repeat}
-.id-name{position:absolute;left:47.5%;top:37.1%;width:42.5%;box-sizing:border-box;margin:0;padding:0 0 2px;transform:translateY(-100%);border:0;border-radius:0;background:transparent;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.15;color:var(--ink);caret-color:var(--ink);outline:none}
+.id-name{position:absolute;left:47.5%;top:37.1%;width:42.5%;box-sizing:border-box;margin:0;padding:0 0 2px;transform:translateY(-100%);border:0;border-radius:0;background:transparent;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.15;color:var(--ink);caret-color:transparent;outline:none}
 .id-name:focus-visible{outline:none}
 .id-line{position:absolute;left:47.5%;transform:translateY(-100%);padding-bottom:3px;font-family:var(--f-display);font-size:11px;letter-spacing:.06em;color:var(--ink);opacity:.75}
 .id-title{top:49.8%}
@@ -2301,6 +2310,49 @@ function dragEnd(e){
     clearSel();
   }
   drag = null;
+}
+
+/* ---------- the caret ---------- */
+// The pencil caret (.cute-caret) follows the caret of the focused 이름 or note blank: the text before it is measured in
+// the field's own font, inside the field's box (centred text in the blanks, scrolled text when it overflows). It is
+// placed every frame while the field has the focus, so it rides along with the notebook and the keyboard moving.
+const cuteCaret = Object.assign(document.createElement('span'), { className:'cute-caret', hidden:true });
+document.body.appendChild(cuteCaret);
+const caretPen = document.createElement('canvas').getContext('2d');
+let caretField = null, caretWas = '';
+const caretTarget = el => el?.matches?.('input.blank, input.id-name') ? el : null;
+document.addEventListener('focusin', e => {
+  const el = caretTarget(e.target); if(!el) return;
+  const idle = !caretField; caretField = el; caretWas = '';
+  if(idle) requestAnimationFrame(placeCaret);
+});
+document.addEventListener('focusout', e => { if(e.target === caretField){ caretField = null; cuteCaret.hidden = true; } });
+function placeCaret(){
+  const el = caretField;
+  if(!el || document.activeElement !== el){ caretField = null; cuteCaret.hidden = true; return; }
+  requestAnimationFrame(placeCaret);
+  const r = el.getBoundingClientRect(), k = r.width / el.offsetWidth || 1, cs = getComputedStyle(el);
+  const at = el.selectionEnd ?? el.value.length;
+  // a selection shows as itself; a read-only field (the stamped name) has no caret
+  if(el.readOnly || el.selectionStart !== at || !r.width){ cuteCaret.hidden = true; return; }
+  caretPen.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  caretPen.letterSpacing = cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing;
+  const width = text => caretPen.measureText(text).width;
+  const pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight), pt = parseFloat(cs.paddingTop), pb = parseFloat(cs.paddingBottom);
+  const room = el.clientWidth - pl - pr, all = width(el.value);
+  const lead = cs.textAlign === 'center' && all < room ? (room - all) / 2 : cs.textAlign === 'right' || cs.textAlign === 'end' ? Math.max(0, room - all) : 0;
+  const x = Math.min(Math.max(pl + lead + width(el.value.slice(0, at)) - el.scrollLeft, 1), el.clientWidth - 1);
+  const size = parseFloat(cs.fontSize) * 1.1, mid = el.clientTop + pt + (el.clientHeight - pt - pb) / 2;
+  const X = r.left + (el.clientLeft + x) * k, Y = r.top + mid * k;
+  // hidden when the spot is covered or scrolled out of its notebook
+  if(document.elementFromPoint(X, Y) !== el){ cuteCaret.hidden = true; return; }
+  cuteCaret.hidden = false;
+  cuteCaret.style.height = `${size * k}px`;
+  cuteCaret.style.transform = `translate(${X + .5}px, ${Y - size * k / 2}px)`;   // just after the letter, not on it
+  cuteCaret.style.setProperty('--caret', cs.color);
+  // typing keeps it solid: the blink starts over whenever the text or the caret moves
+  const now = `${el.value}|${at}`;
+  if(now !== caretWas){ caretWas = now; cuteCaret.style.animation = 'none'; void cuteCaret.offsetWidth; cuteCaret.style.animation = ''; }
 }
 
 /* ---------- sheets + tabs ---------- */
