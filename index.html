@@ -637,7 +637,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .case-focus{display:block;font-size:12px;color:var(--ink-soft);margin:0 0 6px}
 .case-stars{display:inline-flex;gap:1px;margin-left:6px;vertical-align:middle}
 .case-stars img{display:block;width:16px;height:auto}
-/* home: the screens outside a case (사건 · 단어장 · 복습 · 내 기록), each scrolling above the app menu */
+/* home: the screens outside a case (홈 · 사건 · 학습 · 마이), each scrolling above the app menu */
 .home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
 .home-page[hidden]{display:none}
 .cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding-left:12px;padding-right:12px}
@@ -762,6 +762,15 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .ob-det{position:absolute;right:7%;bottom:-20px;height:132px;pointer-events:none}
 .ob-plate{position:absolute;left:12px;bottom:12px;max-width:58%;box-sizing:border-box;padding:4px 12px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 13px 13.4px stretch;font-family:var(--f-display);font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ob-plate[hidden]{display:none}
+/* 홈: the office is the big picture at the top; the case to play and the lines to hear again below it */
+.office-banner.big{height:min(56vw,236px)}
+.office-banner.big .ob-det{height:118%;bottom:-24%}
+.home-case{flex-direction:row;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer}
+.home-case .pol-photo{flex:none;width:96px;border-radius:4px}
+.home-case > span:last-child{flex:1;min-width:0}
+.home-case .case-title{margin:2px 0 6px}
+.home-again{flex-direction:row;align-items:center;justify-content:space-between;width:100%;font-family:var(--f-display);font-size:15px;cursor:pointer}
+.home-again b{font-weight:400;color:var(--berry)}
 
 /* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
 .devtools{display:none}
@@ -793,14 +802,14 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <path d="M5 8 Q5 16 10 18 Q15 16 15 8Z" fill="#E8B27A" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/>
       <path d="M10 4 L10 1.5" stroke="#4A3628" stroke-width="1.6" stroke-linecap="round"/>
     </symbol>
+    <symbol id="homeIcon" viewBox="0 0 24 24">
+      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11.2 L12 3.5 L21 11.2" fill="none"/><path d="M5.2 9.6 V20.5 H18.8 V9.6" fill="#E8B27A"/><path d="M10 20.5 V14.5 H14 V20.5" fill="#9CC0DE"/></g>
+    </symbol>
     <symbol id="caseIcon" viewBox="0 0 24 24">
       <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6.5 h7 l2 2 h10 v11.5 h-19z" fill="#E8C79A"/><path d="M2.5 10 h19" fill="none"/></g>
     </symbol>
     <symbol id="wordIcon" viewBox="0 0 24 24">
       <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12 6.5 C9.5 4.8 6 4.5 2.5 5.2 V19 C6 18.3 9.5 18.6 12 20.3Z" fill="#DDE8C9"/><path d="M12 6.5 C14.5 4.8 18 4.5 21.5 5.2 V19 C18 18.3 14.5 18.6 12 20.3Z" fill="#CFE0EE"/><path d="M5.5 9.2 h3.6 M5.5 12.4 h3.6 M14.9 9.2 h3.6 M14.9 12.4 h3.6" fill="none"/></g>
-    </symbol>
-    <symbol id="reviewIcon" viewBox="0 0 24 24">
-      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M4.3 15 V12 a7.7 7.7 0 0 1 15.4 0 V15" fill="none"/><rect x="2.8" y="13" width="5" height="7.5" rx="2" fill="#F6B89A"/><rect x="16.2" y="13" width="5" height="7.5" rx="2" fill="#F6B89A"/></g>
     </symbol>
     <symbol id="meIcon" viewBox="0 0 24 24">
       <g stroke="#4A3628" stroke-width="1.5" stroke-linejoin="round"><path d="M6.5 2.5 h4 l2.2 6 h-4z" fill="#C96F86"/><path d="M17.5 2.5 h-4 l-2.2 6 h4z" fill="#9CC0DE"/><circle cx="12" cy="15" r="6.3" fill="#F2CF73"/><path d="M12 11.6 l1.1 2.2 2.4.3 -1.75 1.65 .45 2.4 -2.2-1.2 -2.2 1.2 .45-2.4 -1.75-1.65 2.4-.3z" fill="#FBF4E6" stroke-width="1.1"/></g>
@@ -920,22 +929,26 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     </div>
   </div>
 
-  <!-- Home: the first screen. Four pages outside a case — case select (cases open in order; a locked card
-       shows no title), word book, review, my record — switched by their own bottom menu. -->
-  <section class="cases" id="caseList" aria-label="사건 목록">
-    <div class="home-page" id="home-cases">
+  <!-- Home: the screens outside a case, switched by their own bottom menu (user request): 홈 (the detective's office,
+       the case to play), 사건 (case select; cases open in order, a locked card shows no title), 학습 (words, grammar,
+       review in one), 마이 (records and settings). -->
+  <section class="cases" id="caseList" aria-label="홈">
+    <div class="home-page" id="home-home">
+      <header class="cases-head"><h1>탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></header>
+      <button class="office-banner big" type="button" id="officeBanner" aria-label="탐정 사무소"><img class="ob-det" src="assets/characters/detective-higgsfield.png" alt=""><span class="ob-plate" id="officePlate" hidden></span></button>
+      <div id="homeNow"></div>
+    </div>
+    <div class="home-page" id="home-cases" hidden>
       <header class="cases-head"><h1>사건 목록</h1><span class="streak" id="caseStreak" hidden></span></header>
-      <button class="office-banner" type="button" id="officeBanner" aria-label="탐정 사무소"><img class="ob-det" src="assets/characters/detective-higgsfield.png" alt=""><span class="ob-plate" id="officePlate" hidden></span></button>
       <div class="board" id="caseCards"></div>
     </div>
-    <div class="home-page" id="home-words" hidden></div>
-    <div class="home-page" id="home-review" hidden></div>
+    <div class="home-page" id="home-study" hidden></div>
     <div class="home-page" id="home-me" hidden></div>
     <nav class="nav" aria-label="앱 메뉴">
-      <button class="tab" type="button" data-home="cases" aria-current="page"><svg aria-hidden="true"><use href="#caseIcon"/></svg>사건</button>
-      <button class="tab" type="button" data-home="words"><svg aria-hidden="true"><use href="#wordIcon"/></svg>단어장</button>
-      <button class="tab" type="button" data-home="review"><svg aria-hidden="true"><use href="#reviewIcon"/></svg>복습</button>
-      <button class="tab" type="button" data-home="me"><svg aria-hidden="true"><use href="#meIcon"/></svg>내 기록</button>
+      <button class="tab" type="button" data-home="home" aria-current="page"><svg aria-hidden="true"><use href="#homeIcon"/></svg>홈</button>
+      <button class="tab" type="button" data-home="cases"><svg aria-hidden="true"><use href="#caseIcon"/></svg>사건</button>
+      <button class="tab" type="button" data-home="study"><svg aria-hidden="true"><use href="#wordIcon"/></svg>학습</button>
+      <button class="tab" type="button" data-home="me"><svg aria-hidden="true"><use href="#meIcon"/></svg>마이</button>
     </nav>
   </section>
 
@@ -3331,7 +3344,7 @@ const TUT = [
       ${tutButton(111,149,98,'Note','honey')}`)
   },
   { title:'심문하고 복습해요',
-    text:'대화와 기록을 마치면 <b>범인 지목하기 → 심문 시작</b>으로 파출소에 가요. <b>증거 내밀기 → 사진 선택 → 내밀기</b>로 말을 반박해요. 틀린 증거를 내밀면 처음부터 다시 해요. <b>왼쪽 위 〈로 나가도 심문은 처음부터</b>예요. 수사 후에는 복습하고 기억할 단어를 <b>단어장에 담아요</b>.',
+    text:'대화와 기록을 마치면 <b>범인 지목하기 → 심문 시작</b>으로 파출소에 가요. <b>증거 내밀기 → 사진 선택 → 내밀기</b>로 말을 반박해요. 틀린 증거를 내밀면 처음부터 다시 해요. <b>왼쪽 위 〈로 나가도 심문은 처음부터</b>예요. 수사 후에는 복습하고 기억할 단어를 담아 <b>학습</b>에서 다시 봐요.',
     fig:() => tutFrame(`
       <svg x="10" y="10" width="194" height="132" viewBox="100 150 1150 783" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/station-interview-room.png" width="1254" height="1254"/>
@@ -3542,9 +3555,7 @@ const FLAME_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5
 const TILTS = [-2.5, 3, -2, 2.5];
 let caseStarted = false;
 function renderCaseList(){
-  const solved = solvedCases(), streak = studyStreak(), name = detectiveName();
-  $('#officePlate').hidden = !name;
-  $('#officePlate').textContent = name ? `Detective ${name}` : '';
+  const solved = solvedCases(), streak = studyStreak();
   $('#caseStreak').hidden = !streak;
   $('#caseStreak').innerHTML = `${FLAME_ICON}${streak}일`;
   $('#caseCards').innerHTML = CASES.map((c, i) => {
@@ -3596,7 +3607,7 @@ function drawBoardString(){
 }
 new ResizeObserver(() => { if(homeTab === 'cases' && !$('#caseList').hidden) drawBoardString(); }).observe($('#caseCards'));
 document.fonts?.ready.then(() => drawBoardString());
-function openCaseList(){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); homeTab = 'cases'; renderHome(); $('#caseList').hidden = false; }
+function openCaseList(tab = 'cases'){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false; }
 // Opening a case: the first time on this device the player meets and names the detective, then the tutorial comes
 // first; a new case starts with the detective's line in the office; a case in progress resumes where it was left.
 function startCase(justNamed){
@@ -3706,10 +3717,12 @@ $('#grammar').addEventListener('click', e => {
 });
 
 /* ---------- home pages ----------
-   단어장: blanks the player has written right (every blank once a case is solved). The line it came from
-   plays with ▶; Korean only with 해석. 복습: solved cases and the lines missed at the first check.
-   내 기록: streak, totals, and the how-to. All of it reads only what this device saved or the case in memory. */
-let homeTab = 'cases', wordMode = 'words';
+   홈: the detective's office (name plate), the case to play now, the lines to hear again.
+   학습 (user request: 단어장 and 복습 in one, switched 단어 / 문법 / 복습): 단어 = blanks the player has written right
+   (every blank once a case is solved), the line it came from plays with ▶, Korean only with 해석; 문법 = grammar cards;
+   복습 = solved cases and the lines missed at the first check.
+   마이: streak, totals, the how-to and the detective's name. All of it reads only what this device saved or the case in memory. */
+let homeTab = 'home', studyMode = 'words';
 // A question whose words and grammar count as learned: checked right in the case in memory, or any once the case is solved.
 const knownQuestion = (id, qid) => solvedCases().includes(CASES[0].id) || per(id).questionChecks[qid] === 'ok';
 function learnedWords(){
@@ -3756,18 +3769,40 @@ function bookWords(){
   const all = learnedWords(), kept = keptWords();
   return kept ? all.filter(w => kept.includes(w.key)) : all;
 }
-function renderWords(){
-  const words = bookWords(), switcher = `<div class="wb-switch">${[['words','단어'], ['grammar','문법']].map(([mode, label]) =>
-    `<button class="pill sm" type="button" data-wbmode="${mode}" aria-pressed="${wordMode === mode}">${label}</button>`).join('')}</div>`;
-  if(wordMode === 'grammar'){
-    const list = learnedGrammar();
-    $('#home-words').innerHTML = `<header class="cases-head"><h1>단어장</h1></header>${switcher}` + (!list.length
-      ? `<p class="home-empty">아직 모은 문법이 없어요.</p>`
-      : list.map(([g, n]) => `<button class="wcard" type="button" data-grammar="${g}" style="text-align:left;width:100%">
-          <span class="wword">${esc(GRAMMAR[g].pattern)}</span><span class="wsay">${esc(GRAMMAR[g].name)} · 문장 ${n}</span></button>`).join(''));
-    return;
-  }
-  $('#home-words').innerHTML = `<header class="cases-head"><h1>단어장</h1></header>${switcher}` + (!words.length
+// 홈: the case to play next (the last solved one once all are), and how many lines wait to be heard again
+function renderHomeOffice(){
+  const solved = solvedCases(), streak = studyStreak(), name = detectiveName();
+  $('#homeStreak').hidden = !streak;
+  $('#homeStreak').innerHTML = `${FLAME_ICON}${streak}일`;
+  $('#officePlate').hidden = !name;
+  $('#officePlate').textContent = name ? `Detective ${name}` : '';
+  const open = CASES.filter((c, i) => c.playable && (i === 0 || solved.includes(CASES[i - 1].id)));
+  const c = open.find(x => !solved.includes(x.id)) || open[open.length - 1];
+  const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : caseStarted ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
+  const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
+  $('#homeNow').innerHTML = `<div style="display:flex;flex-direction:column;gap:12px">
+    <button class="wcard home-case" type="button" data-home-case>
+      <span class="pol-photo"><svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg></span>
+      <span><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span><span class="badge ${cls}">${label}</span></span></button>` +
+    (again ? `<button class="wcard home-again" type="button" data-home="study" data-study="review"><span>다시 들을 문장</span><b>${again}</b></button>` : '') + `</div>`;
+}
+// 학습: one page with 단어 / 문법 / 복습 at the top
+function renderStudy(){
+  const switcher = `<div class="wb-switch">${[['words','단어'], ['grammar','문법'], ['review','복습']].map(([mode, label]) =>
+    `<button class="pill sm" type="button" data-study="${mode}" aria-pressed="${studyMode === mode}">${label}</button>`).join('')}</div>`;
+  $('#home-study').innerHTML = `<header class="cases-head"><h1>학습</h1></header>${switcher}` +
+    ({ words:studyWords, grammar:studyGrammar, review:studyReview })[studyMode]();
+}
+function studyGrammar(){
+  const list = learnedGrammar();
+  return !list.length
+    ? `<p class="home-empty">아직 모은 문법이 없어요.</p>`
+    : list.map(([g, n]) => `<button class="wcard" type="button" data-grammar="${g}" style="text-align:left;width:100%">
+        <span class="wword">${esc(GRAMMAR[g].pattern)}</span><span class="wsay">${esc(GRAMMAR[g].name)} · 문장 ${n}</span></button>`).join('');
+}
+function studyWords(){
+  const words = bookWords();
+  return !words.length
     ? `<p class="home-empty">아직 모은 단어가 없어요.</p>`
     : WORD_GROUPS.map(([g, label]) => {
         const list = words.filter(w => WORDS[w.key][0] === g);
@@ -3777,12 +3812,12 @@ function renderWords(){
             <button class="replay-q" type="button" data-word-play="${esc(w.key)}" aria-label="${esc(w.word)} 발음 듣기">${playIcon}</button></div>
             <p class="wline">${filledLine(w.line, w.bid)}</p>${koToggle(ko)}</div>`;
         }).join('');
-      }).join(''));
+      }).join('');
 }
-function renderReviewTab(){
+function studyReview(){
   const stats = caseStats(), solved = CASES.filter(c => solvedCases().includes(c.id));
   const missed = solved.flatMap(c => stats[c.id]?.missed || []);
-  $('#home-review').innerHTML = `<header class="cases-head"><h1>복습</h1></header>` + (!solved.length
+  return (!solved.length
     ? `<p class="home-empty">아직 해결한 사건이 없어요.</p>`
     : solved.map(c => {
         const st = stats[c.id];
@@ -3810,7 +3845,7 @@ function renderMe(){
     const d = new Date(monday); d.setDate(monday.getDate() + i);
     return `<span class="${days.has(dayKey(d)) ? 'on' : ''} ${dayKey(d) === dayKey(today) ? 'today' : ''}"><i></i>${label}</span>`;
   }).join('');
-  $('#home-me').innerHTML = `<header class="cases-head"><h1>내 기록</h1></header>
+  $('#home-me').innerHTML = `<header class="cases-head"><h1>마이</h1></header>
     <div class="stat-grid">
       <div class="stat"><b>${studyStreak()}일</b><span>연속 학습</span></div>
       <div class="stat"><b>${solvedCases().length}</b><span>해결한 사건</span></div>
@@ -3824,7 +3859,7 @@ function renderMe(){
 }
 function renderHome(){
   stopVoice();
-  ({ cases:renderCaseList, words:renderWords, review:renderReviewTab, me:renderMe })[homeTab]();
+  ({ home:renderHomeOffice, cases:renderCaseList, study:renderStudy, me:renderMe })[homeTab]();
   document.querySelectorAll('.home-page').forEach(page => { page.hidden = page.id !== `home-${homeTab}`; });
   document.querySelectorAll('[data-home]').forEach(b => b.dataset.home === homeTab ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
   $(`#home-${homeTab}`).scrollTop = 0;
@@ -3833,11 +3868,17 @@ $('#caseList').addEventListener('click', e => {
   const word = e.target.closest('[data-word-play]');
   if(word) return pronounceWord(word.dataset.wordPlay);
   const tab = e.target.closest('[data-home]');
-  if(tab){ if(tab.dataset.home !== homeTab){ homeTab = tab.dataset.home; renderHome(); } return; }
+  if(tab){
+    // 홈's 다시 들을 문장 goes straight to 학습 > 복습
+    if(tab.dataset.study) studyMode = tab.dataset.study;
+    if(tab.dataset.home !== homeTab || tab.dataset.study){ homeTab = tab.dataset.home; renderHome(); }
+    return;
+  }
+  if(e.target.closest('[data-home-case]')) return startCase();
   const play = e.target.closest('[data-wplay]');
   if(play) return play.dataset.sent ? replaySentence(play.dataset.wplay, +play.dataset.sent) : replayLine(play.dataset.wplay);
-  const mode = e.target.closest('[data-wbmode]');
-  if(mode){ wordMode = mode.dataset.wbmode; renderWords(); $('#home-words').scrollTop = 0; return; }
+  const mode = e.target.closest('[data-study]');
+  if(mode){ studyMode = mode.dataset.study; renderStudy(); $('#home-study').scrollTop = 0; return; }
   const grammar = e.target.closest('[data-grammar]');
   if(grammar) return openGrammar(grammar.dataset.grammar);
   const toggle = e.target.closest('[data-wko], [data-wen]');
@@ -3935,7 +3976,7 @@ $('#devReset').onclick = () => {
 loadGame();
 renderStage(false); renderDock(); renderPlaces(); renderSceneHead();
 // the app opens on the case list (tapping a case is also the tap that lets audio play)
-openCaseList();
+openCaseList('home');
 })();
 </script>
 </body>
