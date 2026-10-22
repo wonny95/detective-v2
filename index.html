@@ -3482,7 +3482,9 @@ function officeName(){
   input.value = office.rename ? detectiveName() : ''; input.readOnly = false;
   $('#idStamp').hidden = true; $('#idActions').hidden = false; $('#idWrap').hidden = false;
   updateStampButton();
-  setTimeout(() => office && !input.readOnly && input.focus(), 420);
+  // focus right inside the tap that brought the card (askname, or 탐정 이름 바꾸기): iOS opens its keyboard only for
+  // a focus made during the tap itself, not one put off with a timer
+  input.focus({ preventScroll:true });
 }
 // a long name gets smaller letters so it stays on its line
 function updateStampButton(){
