@@ -759,10 +759,12 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .office-close{position:absolute;top:14px;right:14px;z-index:3}
 .office-close[hidden]{display:none}
 .office-go:active{transform:translateX(-50%) translateY(1px)}
-.id-wrap{position:absolute;left:0;right:0;top:9%;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px}
+.id-wrap{position:absolute;left:0;right:0;top:16%;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px}
 .id-wrap[hidden]{display:none}
+/* Center the card and its buttons in the space above the preview keyboard. */
+.office:has(.vkb:not([hidden])) .id-wrap{top:0;bottom:336px;justify-content:safe center;padding-block:16px;box-sizing:border-box}
 /* the ID card picture (assets/ui/detective-id-card.png); boxes in % of the picture: photo, three lines, stamp circle */
-.id-card{position:relative;width:min(90%,350px);aspect-ratio:1143/747;background:url(assets/ui/detective-id-card.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35));transform:rotate(-2deg);animation:id-in .4s cubic-bezier(.2,1.2,.4,1) both}
+.id-card{position:relative;flex-shrink:0;width:min(90%,350px);aspect-ratio:1143/747;background:url(assets/ui/detective-id-card.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35));transform:rotate(-2deg);animation:id-in .4s cubic-bezier(.2,1.2,.4,1) both}
 @keyframes id-in{from{opacity:0;transform:translateY(60px) rotate(-6deg)}}
 .id-photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(assets/ui/icons-v2/detective.png) center/94% no-repeat}
 .id-name{position:absolute;left:47.5%;top:37.1%;width:42.5%;box-sizing:border-box;margin:0;padding:0 0 2px;transform:translateY(-100%);border:0;border-radius:0;background:transparent;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.15;color:var(--ink);caret-color:var(--ink);outline:none}
