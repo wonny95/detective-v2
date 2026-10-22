@@ -797,8 +797,18 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
 .oh-det:active{transform:translateX(-50%) translateY(1px)}
 /* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens */
-.oh-say{position:absolute;left:8%;bottom:59%;z-index:2;box-sizing:border-box;width:84%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:fade-in .25s ease-out}
+.oh-say{position:absolute;left:8%;bottom:59%;z-index:2;box-sizing:border-box;width:84%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
 .oh-say[hidden]{display:none}
+/* the bubble comes out (user request): it pops up from its tail with a little overshoot, then the words and buttons
+   rise in; the detective hops as they speak. .pop/.hop are put back on every time (popHomeSay) */
+.oh-say.pop{animation:oh-pop .42s cubic-bezier(.3,1.45,.5,1) both}
+.oh-say.pop > *{animation:oh-rise .3s ease-out .16s both}
+.oh-say.pop .office-foot > *{animation:oh-rise .3s ease-out calc(.22s + var(--i, 0) * 60ms) both}
+.oh-det.hop img{animation:oh-hop .5s ease-out}
+@keyframes oh-pop{from{opacity:0;transform:scale(.3)}40%{opacity:1}}
+@keyframes oh-rise{from{opacity:0;transform:translateY(5px)}}
+@keyframes oh-hop{30%{transform:translateY(-6%) scaleY(1.03)}55%{transform:translateY(0) scale(1.03,.97)}75%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.oh-say.pop,.oh-say.pop *,.oh-det.hop img{animation:none}}
 .oh-say .office-foot{margin-top:10px}
 /* the app's close button, small, in the bubble's top right (user request); a tap on the detective brings the bubble back */
 .oh-say .oh-close{position:absolute;top:8px;right:8px;width:30px;height:30px}
@@ -979,7 +989,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <div class="oh-say" id="homeSay" hidden aria-live="polite">
           <button class="close-button oh-close" type="button" id="homeSayClose" aria-label="말풍선 닫기"></button>
           <p id="homeEn"></p><p class="office-ko" id="homeKo" hidden></p>
-          <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="pill sm" type="button" id="homeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
+          <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="pill sm" type="button" id="homeReplay" style="--i:1">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false" style="--i:2">해석</button></div>
         </div>
       </div>
       <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></div>
@@ -3607,7 +3617,8 @@ $('#officeKoBtn').onclick = () => {
   const ko = $('#officeKo');
   ko.hidden = !ko.hidden; $('#officeKoBtn').setAttribute('aria-pressed', !ko.hidden);
 };
-$('#officeDetective').onclick = $('#homeReplay').onclick = () => sayHome(homeState().key);
+$('#officeDetective').onclick = () => sayHome(homeState().key);
+$('#homeReplay').onclick = () => sayHome(homeState().key, false);   // the bubble stays put under the finger; the detective hops
 $('#homeKoBtn').onclick = () => {
   const ko = $('#homeKo');
   ko.hidden = !ko.hidden; $('#homeKoBtn').setAttribute('aria-pressed', !ko.hidden);
@@ -3906,9 +3917,18 @@ function showHomeLine(key){
   $('#homeKo').textContent = DETECTIVE[key].ko;
   if($('#homeSay').hidden || $('#homeSay').dataset.key !== key){ $('#homeKo').hidden = true; $('#homeKoBtn').setAttribute('aria-pressed', 'false'); }
   $('#homeSay').dataset.key = key;
+  if($('#homeSay').hidden) popHomeSay(false);
   $('#homeSay').hidden = false;
 }
-function sayHome(key){ homeClosed = false; showHomeLine(key); detectiveSay(key); }
+// play the bubble's pop (bubble) and the detective's hop (hop, when they speak) again from the start
+function popHomeSay(hop, bubble = true){
+  const say = $('#homeSay'), det = $('#officeDetective');
+  if(bubble) say.classList.remove('pop'); if(hop) det.classList.remove('hop');
+  void say.offsetWidth;
+  if(bubble) say.classList.add('pop'); if(hop) det.classList.add('hop');
+}
+$('#officeDetective').addEventListener('animationend', e => e.target.closest('.oh-det').classList.remove('hop'));
+function sayHome(key, pop = true){ const was = !$('#homeSay').hidden; homeClosed = false; showHomeLine(key); popHomeSay(true, pop || !was); detectiveSay(key); }
 $('#homeSayClose').onclick = () => { stopVoice(); homeClosed = true; $('#homeSay').hidden = true; };
 // 학습: one page with 단어 / 문법 / 복습 at the top
 function renderStudy(){
