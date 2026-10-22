@@ -780,9 +780,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .vkb-row .k-done:active{background:#0866CC}
 .vkb-bar{flex:1;display:flex;justify-content:space-between;padding:6px 28px 0;font-size:24px;color:#50555C}
 .vkb-bar span{line-height:1}
-/* 홈 = a living office (user request, plan A): the office picture fills the page; the detective on the rug says a line
-   for the moment (▶ 다시 듣기 · 해석); things in the picture are the way in (the cork board → 사건, the notebook on the
-   desk → 학습); one pinned note with the one thing to do now; name plate and streak on top. */
+/* 홈 = a living office (user request, plan A, then reworked: the detective in the middle, the thing to do inside their
+   speech bubble): the office picture fills the page; the detective stands on the rug in the middle and says a line for
+   the moment with the button for it (이어서 수사 / 사건 시작 / 복습하기) beside ▶ 다시 듣기 · 해석; the cork board
+   (→ 사건) and the bookshelf (→ 학습) still lead on where they show; name plate and streak on top. */
 #home-home{position:relative;padding:0;overflow:hidden;background:#6B4A30;container-type:size}
 #home-home[hidden]{display:none}
 /* the picture's own box, cropped like a cover background (centre, 62% down), so the detective and the spots stay on
@@ -791,24 +792,18 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-spot{position:absolute;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer}
 .oh-spot:active{background:rgba(255,248,233,.18)}
 /* the box keeps the detective's own shape (627×700): a button sized only by its child's % height collapses and squeezes it */
-.oh-det{position:absolute;left:37%;bottom:24%;height:30%;aspect-ratio:627/700;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
+.oh-det{position:absolute;left:50%;bottom:25%;height:32%;aspect-ratio:627/700;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
 .oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
 .oh-det:active{transform:translateX(-50%) translateY(1px)}
-/* the line, over the window, its tail down to the detective's head; it grows upward when 해석 opens */
-.oh-say{position:absolute;left:4%;bottom:57%;z-index:2;box-sizing:border-box;width:52%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:15px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:fade-in .25s ease-out}
+/* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens */
+.oh-say{position:absolute;left:8%;bottom:59%;z-index:2;box-sizing:border-box;width:84%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:fade-in .25s ease-out}
 .oh-say[hidden]{display:none}
-.oh-say::after{left:50%}
-.oh-say .office-foot{margin-top:8px}
+.oh-say .office-foot{margin-top:10px}
+.oh-go{margin-right:auto}
+.oh-go[hidden]{display:none}
 .oh-top{position:absolute;top:16px;left:16px;right:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .oh-plate{box-sizing:border-box;max-width:100%;min-width:0;margin:0;padding:5px 14px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.4;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.oh-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex:none}
-/* 오늘의 의뢰: a paper note pinned on the wall with a red tack */
-.oh-note{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:min(42cqw,168px);box-sizing:border-box;padding:16px 12px 10px;border:1.5px solid rgba(74,54,40,.55);border-radius:3px;background:#FFFBEF;box-shadow:2px 4px 6px rgba(40,24,12,.35);transform:rotate(2deg);text-align:left;font-family:var(--f-body);color:var(--ink);cursor:pointer}
-.oh-note:active{transform:rotate(2deg) translateY(1px)}
-.oh-note::before{content:"";position:absolute;left:50%;top:-14px;width:18px;height:25px;transform:translateX(-36%);background:url(assets/ui/tack-red.webp) center/contain no-repeat}
-.oh-note small{font-size:11px;color:var(--berry);font-family:var(--f-display)}
-.oh-note b{font-family:var(--f-hand);font-weight:700;font-size:16px;line-height:1.2}
-.oh-note span{margin-top:4px;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
+
 
 /* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
 .devtools{display:none}
@@ -974,14 +969,14 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <div class="home-page" id="home-home">
       <div class="oh-stage">
         <button class="oh-spot" type="button" data-go="cases" style="left:44%;top:27%;width:39%;height:18%" aria-label="사건 게시판"></button>
-        <button class="oh-spot" type="button" data-go="study" style="left:44%;top:48%;width:23%;height:7.5%" aria-label="수첩"></button>
+        <button class="oh-spot" type="button" data-go="study" style="left:84%;top:52%;width:16%;height:21%" aria-label="책장"></button>
         <button class="oh-det" type="button" id="officeDetective" aria-label="탐정"><img src="assets/characters/detective-higgsfield.png" alt=""></button>
         <div class="oh-say" id="homeSay" hidden aria-live="polite">
           <p id="homeEn"></p><p class="office-ko" id="homeKo" hidden></p>
-          <div class="office-foot"><button class="pill sm" type="button" id="homeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
+          <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="pill sm" type="button" id="homeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
         </div>
       </div>
-      <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><div class="oh-right"><span class="streak" id="homeStreak" hidden></span><span id="homeNote"></span></div></div>
+      <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></div>
     </div>
     <div class="home-page" id="home-cases" hidden>
       <header class="cases-head"><h1>사건 목록</h1><span class="streak" id="caseStreak" hidden></span></header>
@@ -3866,13 +3861,13 @@ function bookWords(){
   const all = learnedWords(), kept = keptWords();
   return kept ? all.filter(w => kept.includes(w.key)) : all;
 }
-// 홈's moment, first that applies: a case in progress, a new case open, lines missed at a first check, nothing to do.
-// note: what the pinned note shows and opens (none when there is nothing to do)
+// 홈's moment, first that applies: a case in progress, a new case open, lines missed at a first check, nothing to do;
+// button: what the button in the detective's bubble says, go: what it does (none when there is nothing to do)
 function homeState(){
   const solved = solvedCases(), c = CASES.find((x, i) => x.playable && !solved.includes(x.id) && (i === 0 || solved.includes(CASES[i - 1].id)));
   const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
-  if(c) return { key:caseStarted ? 'home-going' : 'home-new', note:`<small>오늘의 의뢰</small><b>${esc(c.title)}</b><span>${caseStarted ? '이어서 수사' : '새 사건'}</span>`, go:'case' };
-  if(again) return { key:'home-again', note:`<small>오늘의 의뢰</small><b>다시 들을 문장 ${again}</b><span>학습 · 복습</span>`, go:'again' };
+  if(c) return caseStarted ? { key:'home-going', button:'이어서 수사', go:'case' } : { key:'home-new', button:'사건 시작', go:'case' };
+  if(again) return { key:'home-again', button:'복습하기', go:'again' };
   return { key:'home-quiet' };
 }
 let homeSaid = null;   // the 홈 line already said on this visit: said again only when the moment changes (or on a tap)
@@ -3881,7 +3876,9 @@ function renderHomeOffice(){
   $('#homeStreak').hidden = !streak;
   $('#homeStreak').innerHTML = `${FLAME_ICON}${streak}일`;
   $('#officePlate').textContent = name ? `Detective ${name}` : '탐정 사무소';
-  $('#homeNote').innerHTML = st.note ? `<button class="oh-note" type="button" data-note="${st.go}">${st.note}</button>` : '';
+  $('#homeGo').hidden = !st.button;
+  $('#homeGo').textContent = st.button || '';
+  $('#homeGo').dataset.note = st.go || '';
   // before a name the first meeting is about to open over 홈: nothing said yet
   if(!name || office){ $('#homeSay').hidden = true; return; }
   if(homeSaid !== st.key){ homeSaid = st.key; sayHome(st.key); }
@@ -3978,7 +3975,7 @@ $('#caseList').addEventListener('click', e => {
   if(word) return pronounceWord(word.dataset.wordPlay);
   const tab = e.target.closest('[data-home]');
   if(tab){ if(tab.dataset.home !== homeTab){ homeTab = tab.dataset.home; renderHome(); } return; }
-  // 홈: the cork board and the notebook in the picture; the pinned note (a case opens, or 학습 > 복습)
+  // 홈: the cork board and the bookshelf in the picture; the button in the detective's bubble (a case opens, or 학습 > 복습)
   const go = e.target.closest('[data-go]');
   if(go){ homeTab = go.dataset.go; renderHome(); return; }
   const note = e.target.closest('[data-note]');
