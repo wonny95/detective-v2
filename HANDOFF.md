@@ -178,7 +178,7 @@ node server.js            # http://localhost:5173/
 - 원본 아래에 바닥 확장을 최대 30%까지 붙여 발밑이 화면 끝에 닿지 않게 한다(`--art-share`). 누르는 영역·증거 사진 좌표는 원본 1376×768 기준이다.
 - **도서관**
   - 그림은 `library-higgsfield-v2.png`다.
-  - 시계 바늘(8:40)과 부엉이 모양 분필 윤곽선을 SVG로 덧그린다.
+  - 시계 바늘(8:40)은 SVG로 덧그린다. 시계 앞 바닥에 피해자 Hoot 교수(부엉이)의 분필 윤곽선 그림(`places/library-chalk-owl.png`)을 위에서 본 그림 그대로 세로 0.56배로 눕히고 -10도 돌려 바닥 원근에 맞춘다(사용자 요청: 예전 손그림 선은 상어처럼 보였다).
   - 증거 세 개: 시계판, 창문의 잼, 문의 털 뭉치.
 - **증거 촬영 순서**
   - 처음 누르면 핵심 부분 확대 프레임 → 0.5초 뒤 플래시·셔터음 → 1.1초 뒤 탐정 나레이션 → 나레이션이 끝나면 증거 노트에 저장하고 그 증거의 상세를 연다. 이미 찍은 것을 다시 누르면 그 상세를 열고 나레이션을 다시 들려준다.
@@ -391,6 +391,7 @@ node server.js            # http://localhost:5173/
 | 용도 | 적용 파일 (`assets/` 아래) | 비고 |
 |---|---|---|
 | 도서관 | `places/library-higgsfield-v2.png` | 사용자 제작, 1376×768 |
+| 피해자 분필 윤곽선 | `places/library-chalk-owl.png` | Claude 제작(Nano Banana 2.1, job 418fefc0), 640×450 투명 PNG. 검은 배경 위 흰 분필 선을 밝기로 투명도를 만들고 선을 조금 굵혔다. 원본 `library-chalk-owl-original.png` |
 | 빵집 | `places/bakery-higgsfield.png` | 사용자 제작, 1376×768 |
 | 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768. 카페는 카운터 뒤 오리를 지운 판(원본 `cafe-higgsfield-with-duck.png`) |
 | 바닥 확장 | `places/<id>-floor.jpg` | outpaint로 원본 아래를 이어 그림(높이 370–725). 원본 `*-outpaint-original.png` |

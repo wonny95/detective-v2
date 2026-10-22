@@ -16,7 +16,8 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - 사용자 제작: Higgsfield / Nano Banana
 - 공유 출처: https://higgsfield.ai/s/s2Ajq1IuOdk (2026-10-15 교체)
 - 이전 `library-higgsfield.png`는 미사용 원본으로 보관한다. 이전 출처: https://higgsfield.ai/s/tZfhIDZWdaQ
-- 원본을 그대로 보관하고, 앱의 SVG 레이어에서 시계 바늘(8:40)과 피해자 위치 윤곽선을 표시한다.
+- 원본을 그대로 보관하고, 앱의 SVG 레이어에서 시계 바늘(8:40)과 피해자 윤곽선(`library-chalk-owl.png`)을 얹는다.
+- `library-chalk-owl.png`: Hoot 교수(부엉이)의 분필 윤곽선. Claude 제작, Higgsfield Nano Banana 2.1(job `418fefc0-4d1f-4393-82b8-8ceec2c1115c`), 원본 `library-chalk-owl-original.png`(1376×768, 검은 배경). 밝기를 투명도로 바꾸고 선을 5px 굵힌 뒤 잘라 2/3로 줄였다(640×450). 위에서 본 모양이라 SVG에서 세로 0.56배·-10도로 바닥에 눕힌다. 프롬프트 요지: 날개를 양옆으로 편 통통한 부엉이가 누운 실루엣, 귀깃·작은 발·짧은 꼬리, 흰 분필 크레용의 거친 한 줄, 그림책 화풍, 순수 검은 배경, 얼굴·채움·피 없음.
 - 도서관 대화 배경·현장 조사·사건 카드에서 공통으로 사용한다.
 - 새 창문 잼·시계판·문 오른쪽 털 위치에 맞춰 핫스팟과 4:3 증거 촬영 범위를 조정했다.
 
