@@ -757,6 +757,29 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 @keyframes id-stamp{from{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(2.4)}}
 .id-actions{display:flex;gap:10px}
 .id-actions[hidden]{display:none}
+/* On a computer (no keyboard of its own on screen) 이름 짓기 shows an iPhone-sized keyboard in the phone frame (user
+   request: the preview has to show the room the phone's keyboard takes, to design around it). Sizes follow an iPhone 15
+   in portrait, English keys: suggestion bar 45 + keys 216 + globe/mic bar 75 = 336pt. A phone or tablet hides it and
+   opens its own; real typing on the computer still goes into the name. */
+.vkb{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-direction:column;height:336px;box-sizing:border-box;background:#D1D4DA;font-family:-apple-system,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;color:#000;user-select:none;-webkit-user-select:none;animation:vkb-in .25s ease-out}
+.vkb[hidden]{display:none}
+@keyframes vkb-in{from{transform:translateY(100%)}}
+.vkb-suggest{flex:0 0 45px;display:grid;grid-template-columns:repeat(3,1fr);align-items:center}
+.vkb-suggest span{height:22px;border-left:1px solid rgba(60,60,67,.29)}
+.vkb-suggest span:first-child{border:0}
+.vkb-keys{flex:0 0 216px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:8px 3px 4px}
+.vkb-row{display:flex;justify-content:center;gap:6px;height:42px}
+.vkb-row button{flex:0 0 calc((100% - 54px) / 10);height:100%;padding:0;border:0;border-radius:5px;background:#FFF;box-shadow:0 1px 0 #898A8D;font:inherit;font-size:22px;line-height:1;color:#000;cursor:pointer}
+.vkb-row button:active{background:#ABB0BA}
+.vkb-row .k-fn{flex-basis:calc((100% - 54px) / 10 * 1.32);background:#ABB0BA;font-size:16px}
+.vkb-row .k-fn:active{background:#FFF}
+.vkb-row .k-fn[aria-pressed="true"]{background:#FFF}
+.vkb-row .k-gap{flex-basis:calc((100% - 54px) / 10 * .2);visibility:hidden}
+.vkb-row .k-space{flex:1 1 auto;font-size:16px}
+.vkb-row .k-done{flex-basis:calc((100% - 54px) / 10 * 2.3);background:#0A84FF;color:#FFF;font-size:16px}
+.vkb-row .k-done:active{background:#0866CC}
+.vkb-bar{flex:1;display:flex;justify-content:space-between;padding:6px 28px 0;font-size:24px;color:#50555C}
+.vkb-bar span{line-height:1}
 /* 홈 = a living office (user request, plan A): the office picture fills the page; the detective on the rug says a line
    for the moment (▶ 다시 듣기 · 해석); things in the picture are the way in (the cork board → 사건, the notebook on the
    desk → 학습); one pinned note with the one thing to do now; name plate and streak on top. */
@@ -1036,6 +1059,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     </div>
     <button class="pill big office-go" type="button" id="officeGo" hidden>시작하기</button>
     <button class="close-button office-close" type="button" id="officeClose" aria-label="탐정 이름 바꾸기 닫기" hidden></button>
+    <div class="vkb" id="vkb" hidden aria-hidden="true"></div>
   </section>
 
   <div class="toast" id="toast" hidden></div>
@@ -3485,6 +3509,7 @@ function officeName(){
   // focus right inside the tap that brought the card (askname, or 탐정 이름 바꾸기): iOS opens its keyboard only for
   // a focus made during the tap itself, not one put off with a timer
   input.focus({ preventScroll:true });
+  showVkb(true);
 }
 // a long name gets smaller letters so it stays on its line
 function updateStampButton(){
@@ -3498,7 +3523,7 @@ function closeOffice(){
   stopVoice();
   const then = office?.then;
   office = null;
-  $('#office').hidden = true;
+  $('#office').hidden = true; showVkb(false);
   // back on the home pages (a case opening next does not need them redrawn, nor 홈's line said)
   if(!then && !$('#caseList').hidden) renderHome();
   then?.();
@@ -3509,7 +3534,36 @@ const renameDetective = () => openOffice(['name'], null, true);
 $('#idName').addEventListener('input', e => {
   const value = cleanName(e.target.value);
   if(value !== e.target.value) e.target.value = value;
-  updateStampButton();
+  updateStampButton(); vkbAutoShift();
+});
+// The phone-sized keyboard for computers (see .vkb). Shift starts on and comes back after a space, as on the phone
+// (autocapitalize=words); a key never takes the focus from the name.
+const ownKeyboard = matchMedia('(pointer: coarse)').matches;
+let vkbShift = true;
+$('#vkb').innerHTML = `<div class="vkb-suggest"><span></span><span></span><span></span></div><div class="vkb-keys">` +
+  ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'].map((row, i) =>
+    `<div class="vkb-row">${i === 2 ? `<button class="k-fn" type="button" data-k="shift" aria-pressed="true">⇧</button><span class="k-gap"></span>` : ''}` +
+    [...row].map(ch => `<button type="button" data-k="${ch}">${ch}</button>`).join('') +
+    `${i === 2 ? `<span class="k-gap"></span><button class="k-fn" type="button" data-k="back">⌫</button>` : ''}</div>`).join('') +
+  `<div class="vkb-row"><button class="k-fn" type="button" data-k="num">123</button><button class="k-space" type="button" data-k=" ">space</button><button class="k-done" type="button" data-k="done">완료</button></div></div>` +
+  `<div class="vkb-bar"><span>🌐</span><span>🎙</span></div>`;
+function showVkb(on){ $('#vkb').hidden = ownKeyboard || !on; if(on) vkbAutoShift(); }
+function vkbAutoShift(){ const v = $('#idName').value; setVkbShift(!v || v.endsWith(' ')); }
+function setVkbShift(on){
+  vkbShift = on;
+  $('#vkb [data-k="shift"]').setAttribute('aria-pressed', on);
+  $('#vkb').querySelectorAll('.vkb-row button[data-k]').forEach(b => { if(b.dataset.k.length === 1 && b.dataset.k !== ' ') b.textContent = on ? b.dataset.k.toUpperCase() : b.dataset.k; });
+}
+$('#vkb').addEventListener('pointerdown', e => {
+  e.preventDefault();
+  const key = e.target.closest('[data-k]')?.dataset.k, input = $('#idName');
+  if(!key || input.readOnly || key === 'num') return;
+  if(key === 'shift') return setVkbShift(!vkbShift);
+  if(key === 'done') return $('#idStampBtn').click();
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  if(key === 'back') input.setRangeText('', a === b ? Math.max(0, a - 1) : a, b, 'end');
+  else input.setRangeText(vkbShift ? key.toUpperCase() : key, a, b, 'end');
+  input.dispatchEvent(new Event('input', { bubbles:true }));
 });
 $('#idName').addEventListener('keydown', e => { if(e.key === 'Enter' && !e.isComposing) $('#idStampBtn').click(); });
 let nameIdea = -1;
@@ -3523,7 +3577,7 @@ $('#idStampBtn').onclick = () => {
   nameMemo = name;
   try { localStorage.setItem(NAME_KEY, name); } catch(e){}
   $('#idName').value = name; $('#idName').readOnly = true; $('#idName').blur();
-  $('#idActions').hidden = true; $('#idStamp').hidden = false; $('#officeClose').hidden = true;
+  $('#idActions').hidden = true; $('#idStamp').hidden = false; $('#officeClose').hidden = true; showVkb(false);
   setTimeout(() => {
     if(!office) return;
     officeLine('named');
