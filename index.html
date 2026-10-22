@@ -99,9 +99,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes npc-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.008,1.012)}}
 @keyframes npc-speak{0%,100%{transform:rotate(0)}28%{transform:rotate(-.35deg)}65%{transform:rotate(.3deg)}}
 @keyframes npc-mouth{0%,43%,85%,100%{opacity:0;--mouth-open:.2}12%,57%{opacity:1;--mouth-open:.55}25%,70%{opacity:1;--mouth-open:1}}
-.app.partner .bubble{left:16px;transform:none;animation:pop-side .25s ease-out}
+.app.partner .bubble{left:16px;transform:none;transform-origin:70px calc(100% + 21px);animation-name:bubble-pop-plain}
 .app.partner .bubble::after{left:70px}
-@keyframes pop-side{from{transform:scale(.85);opacity:0}}
 /* phase title card (case start / each suspect coming in) */
 .app.ending .chip{visibility:hidden}
 /* the map/Note bar is gone during the ending, so the scene runs to the bottom edge */
@@ -197,7 +196,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
 /* Reusable illustrated skin: nine-slice body, independent tail, live text and controls.
    Keep corner pixels fixed as dialogue grows; long copy scrolls while the controls stay visible. */
-.bubble{--bubble-top:44px;--bubble-frame:url(assets/ui/speech-paper-frame.png);--bubble-tail:url(assets/ui/speech-paper-tail-pencil.png);position:absolute;left:50%;top:var(--bubble-top);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;box-sizing:border-box;width:min(88%,380px);max-width:calc(100% - 32px);max-height:calc(100% - var(--bubble-top) - 112px);padding:24px 20px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:pop .25s ease-out}
+.bubble{--bubble-top:44px;--bubble-frame:url(assets/ui/speech-paper-frame.png);--bubble-tail:url(assets/ui/speech-paper-tail-pencil.png);position:absolute;left:50%;top:var(--bubble-top);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;box-sizing:border-box;width:min(88%,380px);max-width:calc(100% - 32px);max-height:calc(100% - var(--bubble-top) - 112px);padding:24px 20px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px);animation:bubble-pop .42s cubic-bezier(.3,1.45,.5,1) both}
 /* Opaque paper behind the translucent image slices prevents hairline seams inside the frame. */
 .bubble::before{content:"";position:absolute;inset:0;z-index:-1;background-color:var(--bubble-paper,#FFF8E9);background-clip:padding-box;border:20px solid transparent;border-image:var(--bubble-frame) 150 190 fill / 33px 42px / 0 stretch;pointer-events:none}
 /* Keep the tail asset's transparent safety margin and aspect ratio, including the complete pencil-drawn V tip. Its open
@@ -208,8 +207,20 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .bubble .say-en{display:block}
 #bubble .tag{padding-right:22px}
 .bubble .bubble-close{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:28px;height:28px;border:0;background:none;font-size:20px;line-height:1;padding:0;color:var(--ink-soft)}
-@media(prefers-reduced-motion:reduce){.bubble,.app.partner .bubble{animation:none}}
-@keyframes pop{from{transform:translateX(-50%) scale(.85);opacity:0}}
+/* Every speech bubble comes out the same way (user request): it pops up from the tip of its tail with a little
+   overshoot, then the words and buttons rise in one after another (.bubble, .office-say, and .oh-say on 홈). A bubble
+   shown again (hidden, then shown) plays it again. */
+@keyframes bubble-pop{from{opacity:0;transform:translateX(-50%) scale(.3)}40%{opacity:1}}
+@keyframes bubble-pop-plain{from{opacity:0;transform:scale(.3)}40%{opacity:1}}
+@keyframes bubble-rise{from{opacity:0;transform:translateY(5px)}}
+.bubble > *,.office-say > *,.oh-say.pop > *{animation:bubble-rise .3s ease-out .16s both}
+.bubble .say-foot > *,.office-say .office-foot > *,.oh-say.pop .office-foot > *{animation:bubble-rise .3s ease-out calc(.22s + var(--i, 0) * 60ms) both}
+.say-foot > :nth-child(2),.office-foot > :nth-child(2){--i:1}
+.say-foot > :nth-child(3),.office-foot > :nth-child(3){--i:2}
+/* the detective hops once as they start a line (office and 홈) */
+@keyframes det-hop{30%{transform:translateY(-6%) scaleY(1.03)}55%{transform:translateY(0) scale(1.03,.97)}75%{transform:scale(1)}}
+@keyframes det-hop-c{30%{transform:translateX(-50%) translateY(-6%) scaleY(1.03)}55%{transform:translateX(-50%) scale(1.03,.97)}75%{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.bubble,.app.partner .bubble,.bubble *,.office-say,.office-say *,.oh-say.pop,.oh-say.pop *,.office-det.hop,.oh-det.hop img{animation:none}}
 
 /* ---------- docked notebook (Note) ---------- */
 /* Note = a notebook the detective pulls up from the bottom (sketch 3) */
@@ -722,19 +733,22 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .office.naming::after{opacity:1}
 .office-det{position:absolute;left:50%;bottom:7%;height:42%;transform:translateX(-50%);pointer-events:none;transition:opacity .3s}
 .office.naming .office-det{opacity:0}
-.office-say{position:absolute;left:50%;top:7%;z-index:2;box-sizing:border-box;width:min(88%,360px);transform:translateX(-50%);padding:20px 18px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:pop .25s ease-out}
+.office-say{position:absolute;left:50%;top:7%;z-index:2;box-sizing:border-box;width:min(88%,360px);transform:translateX(-50%);padding:20px 18px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px);animation:bubble-pop .42s cubic-bezier(.3,1.45,.5,1) both}
 .office-say[hidden]{display:none}
 .office-say::before,.oh-say::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;pointer-events:none}
 .office-say::after,.oh-say::after{content:"";position:absolute;left:50%;bottom:-21px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
 .office.naming .office-say{top:auto;bottom:17%}
 .office.naming .office-say::after{display:none}
+.office.naming .office-say{transform-origin:50% 100%}
+.office-det{transform-origin:50% 100%}
+.office-det.hop{animation:det-hop-c .5s ease-out}
 .office-say p,.oh-say p{margin:0}
 .office-say .office-ko,.oh-say .office-ko{margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;color:var(--berry)}
 .office-ko[hidden]{display:none}
 .office-foot{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:10px}
 /* a small bobbing arrow once the line has been said: a tap anywhere goes on */
 .office-next{margin-right:auto;width:0;height:0;border:7px solid transparent;border-top:9px solid var(--ink);border-bottom:0;opacity:0}
-.office-say.done .office-next{opacity:.7;animation:office-next 1s ease-in-out infinite}
+.office-say.done .office-foot .office-next{opacity:.7;animation:office-next 1s ease-in-out infinite}
 @keyframes office-next{50%{transform:translateY(3px)}}
 .office-go{position:absolute;left:50%;bottom:6%;z-index:2;width:max-content;transform:translateX(-50%);min-width:150px;justify-content:center}
 .office-go[hidden]{display:none}
@@ -799,16 +813,11 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens */
 .oh-say{position:absolute;left:8%;bottom:59%;z-index:2;box-sizing:border-box;width:84%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
 .oh-say[hidden]{display:none}
-/* the bubble comes out (user request): it pops up from its tail with a little overshoot, then the words and buttons
-   rise in; the detective hops as they speak. .pop/.hop are put back on every time (popHomeSay) */
-.oh-say.pop{animation:oh-pop .42s cubic-bezier(.3,1.45,.5,1) both}
-.oh-say.pop > *{animation:oh-rise .3s ease-out .16s both}
-.oh-say.pop .office-foot > *{animation:oh-rise .3s ease-out calc(.22s + var(--i, 0) * 60ms) both}
-.oh-det.hop img{animation:oh-hop .5s ease-out}
-@keyframes oh-pop{from{opacity:0;transform:scale(.3)}40%{opacity:1}}
-@keyframes oh-rise{from{opacity:0;transform:translateY(5px)}}
-@keyframes oh-hop{30%{transform:translateY(-6%) scaleY(1.03)}55%{transform:translateY(0) scale(1.03,.97)}75%{transform:scale(1)}}
-@media(prefers-reduced-motion:reduce){.oh-say.pop,.oh-say.pop *,.oh-det.hop img{animation:none}}
+/* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
+   a tap on the detective plays it again even while the bubble is open */
+.oh-say.pop{animation:bubble-pop-plain .42s cubic-bezier(.3,1.45,.5,1) both}
+.oh-det img{transform-origin:50% 100%}
+.oh-det.hop img{animation:det-hop .5s ease-out}
 .oh-say .office-foot{margin-top:10px}
 /* the app's close button, small, in the bubble's top right (user request); a tap on the detective brings the bubble back */
 .oh-say .oh-close{position:absolute;top:8px;right:8px;width:30px;height:30px}
@@ -989,7 +998,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <div class="oh-say" id="homeSay" hidden aria-live="polite">
           <button class="close-button oh-close" type="button" id="homeSayClose" aria-label="말풍선 닫기"></button>
           <p id="homeEn"></p><p class="office-ko" id="homeKo" hidden></p>
-          <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="pill sm" type="button" id="homeReplay" style="--i:1">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false" style="--i:2">해석</button></div>
+          <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="pill sm" type="button" id="homeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
         </div>
       </div>
       <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></div>
@@ -3511,8 +3520,9 @@ function officeLine(key){
   $('#officeEn').textContent = DETECTIVE[key].en;
   $('#officeKo').textContent = DETECTIVE[key].ko; $('#officeKo').hidden = true;
   $('#officeKoBtn').setAttribute('aria-pressed', 'false');
-  say.hidden = false; say.classList.remove('done');
-  say.style.animation = 'none'; void say.offsetWidth; say.style.animation = '';
+  say.classList.remove('done');
+  say.hidden = true; void say.offsetWidth; say.hidden = false;   // pop in again for each line
+  const det = $('.office-det'); det.classList.remove('hop'); void det.offsetWidth; det.classList.add('hop');
   office.blocked = false;
   detectiveSay(key, () => say.classList.add('done'), () => { office.blocked = true; say.classList.add('done'); });
 }
