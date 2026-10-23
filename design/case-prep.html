@@ -82,48 +82,25 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 .word.on .dots i.strong{animation:beat .5s ease-out}
 @keyframes beat{40%{transform:scale(1.35)}}
 
-/* page 2: hear it, pick it */
-.listen{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 12px;background:var(--card);border:2px solid var(--line);border-radius:14px}
-.speaker{--bw:18px;width:84px;height:84px;padding:0}
-.speaker svg{width:40px;height:40px}
-.speaker.playing svg .wave{animation:wave .6s ease-in-out infinite alternate}
-@keyframes wave{to{opacity:.25}}
-.sentence{font-size:17px;text-align:center;line-height:1.5}
-.sentence .gap{display:inline-block;min-width:64px;height:26px;margin:0 3px;vertical-align:-6px;border-radius:8px;background:rgba(125,106,88,.17)}
-.sentence .gap.hit{background:rgba(94,138,99,.18);color:var(--ok);font-weight:700;line-height:26px;text-align:center}
-.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.opts.one{grid-template-columns:1fr}
-.opts.three{grid-template-columns:repeat(3,1fr)}
-.opt{position:relative;display:grid;place-items:center;min-height:64px;padding:8px;border:2px solid var(--line);border-radius:14px;background:var(--card);font-family:var(--f-display);font-size:20px;color:var(--ink);cursor:pointer}
-.opt:active{transform:translateY(1px)}
-.opt.right{border-color:var(--ok);background:#EEF5EA}
-.opt.right::after{content:"✓";position:absolute;top:-10px;right:-8px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ok);color:#fff;font-size:17px;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
-@keyframes pop{from{transform:scale(0)}}
-.opt.wrong{animation:shake .4s;border-color:#D9B48A}
-@keyframes shake{20%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
-/* a wrong pick brings back the key it needs, small */
-.remind{display:flex;gap:10px;align-items:center;padding:10px 12px;background:#FFF6DE;border:2px dashed #E6C77A;border-radius:12px;font-size:13px;line-height:1.5;animation:turn .3s ease-out}
-.remind .key{flex:none;width:24px;height:24px}
-.remind b{font-family:var(--f-display);font-weight:400;color:var(--blue-ink)}
-.tally{display:flex;justify-content:center;gap:8px}
-.tally .key{width:26px;height:26px;opacity:.25;transition:opacity .3s,transform .3s}
-.tally .key.got{opacity:1;transform:rotate(-12deg)}
-
-/* page 3: ready */
-.ready{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:10px;position:relative}
-.ready .bub{position:relative;max-width:300px;padding:18px 20px 14px;font-size:16px;line-height:1.45;filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));animation:bub .42s cubic-bezier(.3,1.45,.5,1) both;transform-origin:50% calc(100% + 18px)}
-.ready .bub::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:18px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 30px 38px / 0 stretch}
-.ready .bub::after{content:"";position:absolute;left:50%;bottom:-18px;width:42px;height:26px;transform:translateX(-50%);background:url(../assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat}
-.ready .bub .ko{display:block;margin-top:6px;font-size:13px;font-weight:700;color:var(--berry)}
-.ready .bub .row{display:flex;justify-content:flex-end;gap:6px;margin-top:8px}
-@keyframes bub{from{opacity:0;transform:scale(.3)}40%{opacity:1}}
-.ready .det{height:250px;margin-top:12px}
-.keys{display:flex;flex-direction:column;gap:6px;width:100%}
-.keys div{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--card);border:2px solid var(--line);border-radius:12px;font-size:13.5px;animation:turn .35s ease-out calc(var(--i) * .12s) both}
-.keys .key{width:22px;height:22px}
-.keys b{font-family:var(--f-display);font-weight:400}
-.keys small{margin-left:auto;color:var(--ink-soft);font-size:12px}
-
+/* the detective's day: one diary page; each line is a time expression, tapping it plays it and the picture shows it */
+.diary{display:flex;flex-direction:column;gap:0;padding:4px 0;background:var(--card);border:2px solid var(--line);border-radius:14px;
+  background-image:repeating-linear-gradient(transparent 0 43px,rgba(52,80,110,.12) 43px 45px);background-position:0 6px}
+.dl{display:flex;align-items:center;gap:10px;min-height:45px;padding:4px 12px;border:0;background:none;font:inherit;font-size:15.5px;line-height:1.35;color:var(--ink);text-align:left;cursor:pointer}
+.dl .play{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);font-size:10px;background:#FFFDF7}
+.dl.on{background:rgba(242,207,115,.28)}
+.dl.on .play{background:var(--honey)}
+.dl mark{background:linear-gradient(transparent 55%,rgba(242,207,115,.75) 55%);color:inherit;font-weight:700}
+.dl .ko{display:block;font-size:12px;font-weight:700;color:var(--berry)}
+.stage2{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#FBF1DC;border-radius:14px}
+.stage2 .clockbox{flex:none;display:flex;flex-direction:column;align-items:center}
+.stage2 .clockbox .digital{font-size:16px;margin-top:0}
+.stage2 .stripbox{flex:1;min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;color:var(--ink-soft)}
+.legend b{font-family:var(--f-display);font-weight:400;color:var(--blue-ink)}
+.whoami{display:flex;align-items:center;gap:8px}
+.whoami img{width:44px;height:44px;border-radius:50%;background:#FFF8E9;border:2px solid var(--ink);object-fit:cover;object-position:50% 18%}
+.whoami b{font-family:var(--f-display);font-weight:400;font-size:18px}
+.whoami .ko-btn{margin-left:auto}
 /* ---------- the spec ---------- */
 .spec{flex:1 1 420px;min-width:0;max-width:720px;background:var(--paper);border-radius:14px;padding:20px 24px;font-size:14px;line-height:1.65}
 .spec h2{font-family:var(--f-display);font-weight:400;font-size:18px;margin:20px 0 6px}
@@ -148,239 +125,124 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 <div class="wrap">
   <div>
     <h1 class="page-title">수사 준비 시안 · Case 01</h1>
-    <p class="lead">사건 카드에서 브리핑 전에 열리는 종이 한 장이에요. 이번 사건의 학습 포인트(시간 표현)를 배우고, 듣고 고르고, 준비를 마쳐요. 소리는 시안이라 브라우저 음성이에요.</p>
+    <p class="lead">브리핑 전에 한 쪽만 보는 "이번 사건의 열쇠"예요. 퀴즈 없이, 탐정이 자기 하루를 시간 표현으로 들려줘요. 문장을 누르면 소리와 함께 시계·시간 막대가 그 문장대로 움직여요. 소리는 시안이라 브라우저 음성이에요.</p>
     <div class="phone" id="phone">
       <div class="top">
         <button class="pill back" type="button" aria-label="뒤로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <div class="steps" id="steps"><i><b></b></i><i><b></b></i><i><b></b></i></div>
       </div>
-      <div class="head" id="head"></div>
-      <div class="body" id="body"></div>
-      <div class="foot" id="foot"></div>
+      <div class="head"><small>Case 01 · 도서관 살인사건</small><h2><svg class="key" aria-hidden="true"><use href="#key"/></svg>시간 표현</h2></div>
+      <div class="body" id="body">
+        <div class="whoami"><img src="../assets/ui/icons-v2/detective.png" alt=""><b>My day</b><button class="pill ko-btn" type="button" id="koBtn" aria-pressed="false">해석</button></div>
+        <div class="stage2" id="stage"></div>
+        <div class="diary" id="diary"></div>
+        <div class="legend"><span><b>at</b> 딱 한 시각</span><span><b>from A to B</b> 처음부터 끝까지</span><span><b>between A and B</b> 그 사이 어느 때</span><span><b>-teen / -ty</b> 13은 뒤를, 30은 앞을 세게</span></div>
+      </div>
+      <div class="foot"><button class="pill big" type="button">브리핑으로</button></div>
     </div>
-    <div class="tools"><button class="pill" type="button" data-jump="0">1 배우기</button><button class="pill" type="button" data-jump="1">2 귀 맞추기</button><button class="pill" type="button" data-jump="2">3 준비 끝</button></div>
   </div>
 
   <div class="spec">
-    <h2>1. 자리와 흐름</h2>
+    <h2>1. 무엇을, 어떻게</h2>
     <ul>
-      <li><code>사건</code> 카드 → <b>수사 준비</b> → 브리핑(오소리 경사). 사건 카드의 <code>학습 포인트</code>(<code>CASES[].focus</code>, Case 01 "시간 표현 듣기")가 이 화면의 주제다.</li>
-      <li>복습 페이지와 짝이 되는 모양: 전체 화면 종이, 위에 진행 막대(배우기 · 귀 맞추기 · 준비 끝), 아래에 큰 버튼 하나. 사건 뒤의 보고서와 사건 앞의 준비가 같은 종이다.</li>
-      <li>처음 여는 사건은 여기부터. 다시 열 때 건너뛸지, <code>학습</code>에서 다시 볼 자리는 결정 필요(아래 5절).</li>
+      <li>사용자 결정: 예습은 단어가 아니라 그 사건의 학습 포인트. <b>퀴즈 없이, 한 쪽만, 알려 주기만</b>(사용자 요청: 너무 본격적이지 않게).</li>
+      <li><code>사건</code> 카드 → <b>수사 준비 한 쪽</b> → <code>브리핑으로</code> → 오소리 경사. 맞고 틀림·점수·진행 막대가 없다.</li>
+      <li>형식은 <b>탐정의 하루</b>: 탐정 Pioo가 자기 하루를 다섯 문장으로 들려주는 일기장 한 쪽. 문장마다 이번 사건의 열쇠(시각 읽기, at / from A to B / between A and B, -teen/-ty)가 하나씩 들어 있다.</li>
+      <li>문장을 누르면 탐정 목소리로 듣고, 위 그림이 그 문장대로 움직인다: <code>at</code>은 시계 바늘이 그 시각으로 돌고 막대에 핀 하나, <code>from A to B</code>는 막대가 칠해짐, <code>between A and B</code>는 그 사이를 ? 핀이 오간다, 숫자 줄은 센 박자가 뛴다(한 번 더 누르면 13 ↔ 30).</li>
+      <li>아래 한 줄 정리(at · from A to B · between A and B · -teen/-ty)는 한국어로 바로 보인다(문법 카드와 같은 설명). 문장 해석은 <code>해석</code> 버튼 뒤.</li>
+      <li>문장은 사건 밖 이야기다. 사건의 단서 시각(7–10시, 8:30, 8:40, 8:45 등)·인물·장소는 쓰지 않는다.</li>
+      <li>사건 안에서는 노트의 시간 칸을 맞히면 작은 열쇠 표시, 보고서에 "이번 사건의 열쇠 n/m"(LEARNING_PLAN 3.4).</li>
     </ul>
 
-    <h2>2. 배우기 — 이번 사건의 열쇠 3장</h2>
-    <ul>
-      <li>카드마다 이름 · 패턴 · <b>누르면 움직이는 그림</b> · 짧은 한국어 설명 · 사건 밖 예문 2개(▶, 예문 해석은 <code>해석</code>). 설명은 지금 문법 카드처럼 바로 보인다(사용자 결정: 직접 여는 설명 카드).</li>
-      <li><b>시각 말하기</b>: 시각 칩을 누르면 소리와 함께 시계 바늘이 그 시각으로 돈다.</li>
-      <li><b>시간 전치사</b>: <code>at two</code> = 시간 막대 위 핀 하나, <code>from two to four</code> = 막대 전체가 칠해짐, <code>between two and four</code> = 그 사이를 핀이 오간다(어느 때인지는 모름). Case 01의 알리바이("between eight and nine", "from seven to ten")를 들을 귀를 만든다.</li>
-      <li><b>-teen / -ty</b>: 숫자 쌍을 누르면 세게 말하는 박자가 크게 뛴다. thir·<b>teen</b> / <b>thir</b>·ty.</li>
-      <li>그림은 모두 코드(SVG)라 크레딧이 들지 않는다.</li>
-    </ul>
+    <h2>2. 다른 방식 후보 (퀴즈가 아닌 것)</h2>
+    <table>
+      <tr><th>방식</th><th>모습</th><th>좋은 점 / 아쉬운 점</th></tr>
+      <tr><td><b>탐정의 하루</b> (이 시안)</td><td>탐정이 자기 하루를 들려주는 일기장 한 쪽, 누르면 그림이 움직임</td><td>캐릭터와 이어져 재미있고 한 쪽으로 끝남 / 문장 5개를 직접 눌러야 다 들음</td></tr>
+      <tr><td>탐정의 메모 한 장</td><td>탐정이 손글씨로 적은 요점 메모 + 예시 한 줄씩 ▶</td><td>가장 짧고 명확 / 교과서처럼 느껴질 수 있음</td></tr>
+      <tr><td>시계 장난감</td><td>시계 바늘을 손가락으로 돌리면 그 시각을 읽어 줌, 막대를 끌면 from/between을 읽어 줌</td><td>만지는 재미 / 전치사 차이를 보여 주기엔 약함</td></tr>
+      <tr><td>브리핑 속 열쇠</td><td>따로 쪽 없이, 경사 브리핑의 시간 표현에 열쇠 표시 → 누르면 작은 설명 카드</td><td>흐름이 끊기지 않음 / 엄밀히는 예습이 아니라 그 자리 설명</td></tr>
+    </table>
 
-    <h2>3. 귀 맞추기 — 듣고 고르기 5문항</h2>
-    <ul>
-      <li>큰 스피커를 누르면 듣는다(처음엔 자동 재생). 시계 · 시간 막대 · 숫자 · 전치사 중에서 고른다. 점수는 없다.</li>
-      <li>맞히면 ✓와 함께 위의 열쇠 하나가 채워지고 다음 문항으로. 틀리면 흔들리고, 그 문항에 필요한 열쇠 카드가 작게 다시 나오며 소리를 한 번 더 들려준다. 같은 문항을 다시 고른다.</li>
-      <li><b>사건 정보가 새지 않게</b>: 예문·문항의 시각은 사건의 단서 시각(7–10시, 8:30, 8:40, 8:45 등)과 겹치지 않는다. 사람·장소 이름도 쓰지 않는다.</li>
-    </ul>
-
-    <h2>4. 준비 끝 → 사건 안에서 돌려주기</h2>
-    <ul>
-      <li>탐정(가리키기 포즈, 말하는 입) "Time is the key to this case. Let's go." + 모은 열쇠 카드 3장 → <code>브리핑으로</code>. 열쇠 카드는 <code>학습</code> &gt; <code>문법</code>에 들어간다(시간 전치사는 지금의 <code>time-prep</code> 카드와 같은 카드).</li>
-      <li>사건 안: 노트의 시각 · 시간 전치사 칸을 맞히면 작은 열쇠 표시, 지문의 해당 문법 링크는 열쇠 색. 보고서 1단계에 <b>이번 사건의 열쇠 n/m</b>(시간 칸의 첫 확인 정답 수).</li>
-    </ul>
-
-    <h2>5. 정할 것</h2>
+    <h2>3. 정할 것</h2>
     <ol>
-      <li>처음 여는 사건만 꼭 거치게 할지(제안), 언제나 건너뛸 수 있게 할지.</li>
-      <li>분량: 카드 3장 + 5문항(이 시안, 약 3분)이 적당한지.</li>
-      <li>소리: 녹음(약 3.6크레딧: 예문 6 + 문항 5 + 탐정 한마디 1)으로 할지, 브라우저 음성으로 먼저 할지.</li>
-      <li>배우기 카드를 한 장씩 넘길지(이 시안), 세 장을 한 화면에 쌓아 스크롤할지.</li>
+      <li>이 형식(탐정의 하루)으로 갈지, 위의 다른 방식으로 갈지.</li>
+      <li>처음 여는 사건만 보여 줄지, 매번 보여 주고 바로 넘길 수 있게 할지.</li>
+      <li>소리: 녹음(문장 5개, 약 1.5크레딧)으로 할지, 브라우저 음성으로 먼저 할지.</li>
     </ol>
   </div>
 </div>
 
 <script>
 const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
-const KEY = (cls = 'key') => `<svg class="${cls}" aria-hidden="true"><use href="#key"/></svg>`;
 
 // ---- sound: the browser voice stands in for the recordings
 let voice = null;
 function pickVoice(){ const v = speechSynthesis.getVoices().filter(v => /^en[-_]US/i.test(v.lang)); voice = v[0] || speechSynthesis.getVoices().find(v => /^en/i.test(v.lang)) || null; }
 if('speechSynthesis' in window){ pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', pickVoice); }
-function say(text, el){
+function say(text){
   if(!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = .85; if(voice) u.voice = voice;
-  if(el){ el.classList.add('playing'); u.onend = u.onerror = () => el.classList.remove('playing'); setTimeout(() => el.classList.remove('playing'), 2600); }
   speechSynthesis.speak(u);
 }
 
 // ---- pictures
-function clock(h, m, size = 150, id = ''){
+function clock(h, m, size){
   const ticks = Array.from({ length:12 }, (_, i) => { const a = i * 30 * Math.PI / 180, r1 = i % 3 ? 47 : 43;
     return `<line x1="${60 + Math.sin(a) * r1}" y1="${60 - Math.cos(a) * r1}" x2="${60 + Math.sin(a) * 51}" y2="${60 - Math.cos(a) * 51}" stroke="#4A3628" stroke-width="${i % 3 ? 2 : 3.2}" stroke-linecap="round"/>`; }).join('');
-  return `<svg class="clock" ${id ? `id="${id}"` : ''} viewBox="0 0 120 120" width="${size}" height="${size}" aria-hidden="true">
+  return `<svg class="clock" id="clock" viewBox="0 0 120 120" width="${size}" height="${size}" aria-hidden="true">
     <circle cx="60" cy="60" r="56" fill="#FFFDF7" stroke="#4A3628" stroke-width="3.2"/>${ticks}
     <line class="hand hh" x1="60" y1="60" x2="60" y2="32" stroke="#4A3628" stroke-width="5" stroke-linecap="round" style="transform:rotate(${(h % 12) * 30 + m / 2}deg)"/>
     <line class="hand mh" x1="60" y1="60" x2="60" y2="17" stroke="#C96F86" stroke-width="3.4" stroke-linecap="round" style="transform:rotate(${m * 6}deg)"/>
     <circle cx="60" cy="60" r="4.5" fill="#4A3628"/></svg>`;
 }
-function setClock(svg, h, m){ svg.querySelector('.hh').style.transform = `rotate(${(h % 12) * 30 + m / 2}deg)`; svg.querySelector('.mh').style.transform = `rotate(${m * 6}deg)`; }
-// the time strip from `first` to `first + n` o'clock; mode: at / from / between
-function strip(mode, a, b, { first = 1, n = 4, w = 300 } = {}){
-  const pad = 22, x = t => pad + (t - first) * (w - pad * 2) / n, hour = t => ((t - 1) % 12) + 1;
-  const labels = Array.from({ length:n + 1 }, (_, i) => `<line x1="${x(first + i)}" y1="40" x2="${x(first + i)}" y2="50" stroke="#7D6A58" stroke-width="2"/><text x="${x(first + i)}" y="68" text-anchor="middle" font-size="14" fill="#7D6A58" font-family="Paperlogy Display, sans-serif">${hour(first + i)}</text>`).join('');
+function setClock(h, m){ const c = $('#clock'); c.querySelector('.hh').style.transform = `rotate(${(h % 12) * 30 + m / 2}deg)`; c.querySelector('.mh').style.transform = `rotate(${m * 6}deg)`; }
+// the day, 6 in the morning to 6 in the evening; mode: at / from / between (hours, may be fractional)
+function strip(mode, a, b){
+  const w = 220, pad = 12, first = 6, n = 12, x = t => pad + (t - first) * (w - pad * 2) / n, hour = t => ((t - 1) % 12) + 1;
+  const labels = Array.from({ length:n / 2 + 1 }, (_, i) => first + i * 2).map(t => `<line x1="${x(t)}" y1="40" x2="${x(t)}" y2="48" stroke="#7D6A58" stroke-width="1.6"/><text x="${x(t)}" y="64" text-anchor="middle" font-size="12" fill="#7D6A58" font-family="Paperlogy Display, sans-serif">${hour(t)}</text>`).join('');
   let mark = '';
-  if(mode === 'at') mark = `<g><line x1="${x(a)}" y1="44" x2="${x(a)}" y2="16" stroke="#4A3628" stroke-width="2.4"/><circle cx="${x(a)}" cy="13" r="8" fill="#C96F86" stroke="#4A3628" stroke-width="2"/></g>`;
-  if(mode === 'from') mark = `<rect x="${x(a)}" y="36" width="${x(b) - x(a)}" height="16" rx="8" fill="#F2CF73" stroke="#4A3628" stroke-width="2"/><circle cx="${x(a)}" cy="44" r="4" fill="#4A3628"/><circle cx="${x(b)}" cy="44" r="4" fill="#4A3628"/>`;
-  if(mode === 'between') mark = `<path d="M${x(a)} 30 v-8 h${x(b) - x(a)} v8" fill="none" stroke="#4A3628" stroke-width="2.2" stroke-dasharray="5 4"/>
-    <g class="roam" style="--span:${x(b) - x(a) - 16}px"><line x1="${x(a) + 8}" y1="44" x2="${x(a) + 8}" y2="22" stroke="#4A3628" stroke-width="2.4"/><circle cx="${x(a) + 8}" cy="20" r="7" fill="#9CC8F0" stroke="#4A3628" stroke-width="2"/><text x="${x(a) + 8}" y="24" text-anchor="middle" font-size="10" font-weight="700" fill="#4A3628">?</text></g>`;
-  return `<svg class="strip" viewBox="0 0 ${w} 76" width="100%" style="max-width:${w}px" aria-hidden="true"><line x1="${pad}" y1="44" x2="${w - pad}" y2="44" stroke="#C9B48E" stroke-width="5" stroke-linecap="round"/>${labels}${mark}</svg>`;
+  if(mode === 'at') mark = `<line x1="${x(a)}" y1="44" x2="${x(a)}" y2="16" stroke="#4A3628" stroke-width="2.2"/><circle cx="${x(a)}" cy="13" r="7" fill="#C96F86" stroke="#4A3628" stroke-width="2"/>`;
+  if(mode === 'from') mark = `<rect x="${x(a)}" y="37" width="${x(b) - x(a)}" height="14" rx="7" fill="#F2CF73" stroke="#4A3628" stroke-width="2"/>`;
+  if(mode === 'between') mark = `<path d="M${x(a)} 30 v-8 h${x(b) - x(a)} v8" fill="none" stroke="#4A3628" stroke-width="2" stroke-dasharray="4 3"/>
+    <g class="roam" style="--span:${x(b) - x(a) - 12}px"><line x1="${x(a) + 6}" y1="44" x2="${x(a) + 6}" y2="24" stroke="#4A3628" stroke-width="2.2"/><circle cx="${x(a) + 6}" cy="21" r="6.5" fill="#9CC8F0" stroke="#4A3628" stroke-width="2"/><text x="${x(a) + 6}" y="25" text-anchor="middle" font-size="9" font-weight="700" fill="#4A3628">?</text></g>`;
+  return `<svg class="strip" viewBox="0 0 ${w} 70" width="100%" aria-hidden="true"><line x1="${pad}" y1="44" x2="${w - pad}" y2="44" stroke="#C9B48E" stroke-width="5" stroke-linecap="round"/>${labels}${mark}</svg>`;
+}
+function beats(which){
+  const w = (n, a, b, strongLast) => `<div class="word${which === n ? ' on' : ''}"><span class="n">${n}</span><span class="syl"><span class="${strongLast ? '' : 'strong'}">${a}</span>·<span class="${strongLast ? 'strong' : ''}">${b}</span></span><span class="dots"><i class="${strongLast ? '' : 'strong'}"></i><i class="${strongLast ? 'strong' : ''}"></i></span></div>`;
+  return `<div class="beats" style="flex:1">${w(13, 'thir', 'teen', true)}${w(30, 'thir', 'ty', false)}</div>`;
 }
 
-// ---- the three keys of Case 01 (examples stay outside the case: none of its times, people or places)
-const KEYS = [
-  { name:'시각 말하기', pattern:'six o\'clock · six fifteen · six thirty · six forty-five',
-    why:'시 다음에 분을 그대로 읽어요. 정각일 때만 o\'clock을 붙여요.',
-    chips:[['six o\'clock', 6, 0], ['six fifteen', 6, 15], ['six thirty', 6, 30], ['six forty-five', 6, 45]],
-    ex:[['The shop opens at <mark>eleven fifteen</mark>.', '가게는 11시 15분에 문을 열어요.'], ['It\'s <mark>three o\'clock</mark>. Time for tea!', '3시예요. 차 마실 시간!']] },
-  { name:'시간 전치사', pattern:'at · from A to B · between A and B',
-    why:'at은 딱 한 시각, from A to B는 처음부터 끝까지 내내, between A and B는 그 사이 어느 한 때예요.',
-    chips:[['at two', 'at', 2], ['from two to four', 'from', 2, 4], ['between two and four', 'between', 2, 4]],
-    ex:[['I swim <mark>from two to four</mark>.', '나는 2시부터 4시까지 수영해요.'], ['Call me <mark>between one and three</mark>.', '1시에서 3시 사이에 전화 주세요.']] },
-  { name:'-teen / -ty', pattern:'thirteen ↔ thirty · fourteen ↔ forty · fifteen ↔ fifty',
-    why:'-teen은 뒤를 세고 길게, -ty는 앞을 세게 말해요. 숫자 끝이 들리면 -teen이에요.',
-    pairs:[[13, 'thir', 'teen', 30, 'thir', 'ty'], [14, 'four', 'teen', 40, 'for', 'ty'], [15, 'fif', 'teen', 50, 'fif', 'ty']],
-    ex:[['Take bus <mark>thirteen</mark>, not <mark>thirty</mark>.', '30번 말고 13번 버스를 타세요.'], ['The cake is <mark>fifty</mark> acorns.', '케이크는 도토리 50개예요.']] }
+// ---- the detective's day: outside the case (none of its clue times, people or places)
+const DAY = [
+  { en:'I get up <mark>at six thirty</mark>.', ko:'나는 6시 30분에 일어나요.', show:['at', 6.5], time:[6, 30] },
+  { en:'I read the news <mark>from eleven to one</mark>.', ko:'11시부터 1시까지 신문을 읽어요.', show:['from', 11, 13], time:[11, 0] },
+  { en:'I have lunch <mark>at one fifteen</mark>.', ko:'1시 15분에 점심을 먹어요.', show:['at', 13.25], time:[1, 15] },
+  { en:'Visitors come <mark>between two and four</mark>.', ko:'손님은 2시에서 4시 사이에 와요.', show:['between', 14, 16], time:[2, 0] },
+  { en:'I have <mark>thirteen</mark> acorns, not <mark>thirty</mark>!', ko:'도토리가 30개가 아니라 13개 있어요!', teen:true }
 ];
-// ---- five to hear (none of the case's clue times)
-const QUIZ = [
-  { say:'four forty-five', key:0, kind:'clock', opts:[[4, 45], [4, 15], [5, 45], [9, 20]], right:0 },
-  { say:'Call me between one and three.', key:1, kind:'strip', opts:[['from', 1, 3], ['between', 1, 3]], right:1 },
-  { say:'fifty', key:2, kind:'text', opts:['15', '50'], right:1 },
-  { say:'The bus leaves at six.', key:1, kind:'gap', text:'The bus leaves ___ six.', opts:['at', 'from', 'between'], right:0 },
-  { say:'The pool is open from twelve to two.', key:1, kind:'strip', opts:[['at', 12, 0], ['from', 12, 14], ['between', 12, 14]], right:1, first:11 }
-];
-
-let page = 0, card = 0, q = 0, got = 0, koOpen = new Set(), sayKo = false;
-const shuffleOnce = QUIZ.map(it => it.opts.map((o, i) => i).sort(() => Math.random() - .5));
-
-function steps(){
-  const p = [ (card + 1) / KEYS.length, got / QUIZ.length, page === 2 ? 1 : 0 ];
-  document.querySelectorAll('#steps i b').forEach((b, i) => b.style.setProperty('--p', `${(i < page ? 1 : i === page ? p[i] : 0) * 100}%`));
+let on = 0, koOn = false, teenNow = null;
+function renderStage(){
+  const d = DAY[on];
+  if(d.teen){ $('#stage').innerHTML = beats(teenNow); return; }
+  if(!$('#clock')) $('#stage').innerHTML = `<div class="clockbox">${clock(...d.time, 92)}<div class="digital" id="digi"></div></div><div class="stripbox" id="stripBox"></div>`;
+  setClock(...d.time);
+  $('#digi').textContent = `${d.time[0]}:${String(d.time[1]).padStart(2, '0')}`;
+  $('#stripBox').innerHTML = strip(...d.show);
 }
-function render(turn){
-  steps();
-  const body = $('#body'); body.className = `body${turn ? ' turn' : ''}`;
-  if(page === 0) renderLearn(); else if(page === 1) renderQuiz(); else renderReady();
+function renderDiary(){
+  $('#diary').innerHTML = DAY.map((d, i) => `<button class="dl${i === on ? ' on' : ''}" type="button" data-i="${i}"><span class="play">▶</span><span>${d.en}${koOn ? `<span class="ko">${d.ko}</span>` : ''}</span></button>`).join('');
 }
-
-// ---- page 1: learn
-function renderLearn(){
-  const k = KEYS[card];
-  $('#head').innerHTML = `<small>Case 01 · 도서관 살인사건</small><h2>${KEY()}시간 표현</h2>`;
-  let stage = '';
-  if(card === 0) stage = `<div>${clock(6, 0, 150, 'bigClock')}<div class="digital" id="digi">6:00</div></div>`;
-  if(card === 1) stage = `<div id="stripBox" style="width:100%;padding:0 6px">${strip('at', 2)}</div>`;
-  if(card === 2) stage = `<div class="beats" id="beats"></div>`;
-  const chips = card === 2 ? k.pairs.map((p, i) => `<button class="pill${i === 0 ? ' honey' : ''}" type="button" data-pair="${i}">${p[0]} · ${p[3]}</button>`).join('')
-    : k.chips.map((c, i) => `<button class="pill${i === 0 ? ' honey' : ''}" type="button" data-chip="${i}">${esc(c[0])}</button>`).join('');
-  $('#body').innerHTML = `<section class="card">
-      <header><b>${esc(k.name)}</b><small>열쇠 ${card + 1} / ${KEYS.length}</small></header>
-      <div class="pattern">${esc(k.pattern)}</div>
-      <div class="stage">${stage}</div>
-      <div class="chips">${chips}</div>
-      <p class="why">${esc(k.why)}</p>
-      <div class="ex">${k.ex.map((e, i) => `<div class="exl"><button class="pill play" type="button" data-ex="${i}" aria-label="듣기">▶</button><span class="t">${e[0]}${koOpen.has(`${card}-${i}`) ? `<span class="ko">${esc(e[1])}</span>` : ''}</span></div>`).join('')}
-        <button class="pill ko-btn" type="button" id="exKo" aria-pressed="${koOpen.has(`${card}-0`)}">해석</button></div>
-    </section>`;
-  if(card === 2) showPair(0, null);
-  $('#foot').innerHTML = `<button class="pill big" type="button" id="next">${card < KEYS.length - 1 ? '다음' : '귀 맞추기'}</button>`;
-}
-function showPair(i, which){
-  const p = KEYS[2].pairs[i];
-  const w = (n, a, b, strongLast) => `<button class="word${which === (strongLast ? 'teen' : 'ty') ? ' on' : ''}" type="button" data-say="${n}" data-which="${strongLast ? 'teen' : 'ty'}">
-    <span class="n">${n}</span><span class="syl"><span class="${strongLast ? '' : 'strong'}">${a}</span>·<span class="${strongLast ? 'strong' : ''}">${b}</span></span>
-    <span class="dots"><i class="${strongLast ? '' : 'strong'}"></i><i class="${strongLast ? 'strong' : ''}"></i></span></button>`;
-  $('#beats').innerHTML = w(p[0], p[1], p[2], true) + w(p[3], p[4], p[5], false);
-  $('#beats').dataset.pair = i;
-}
-$('#body').addEventListener('click', e => {
-  if(page !== 0) return;
-  const chip = e.target.closest('[data-chip]'), pair = e.target.closest('[data-pair]'), word = e.target.closest('[data-say]'), ex = e.target.closest('[data-ex]');
-  if(chip){
-    document.querySelectorAll('[data-chip]').forEach(b => b.classList.toggle('honey', b === chip));
-    const c = KEYS[card].chips[+chip.dataset.chip];
-    if(card === 0){ setClock($('#bigClock'), c[1], c[2]); $('#digi').textContent = `${c[1]}:${String(c[2]).padStart(2, '0')}`; say(c[0]); }
-    else { $('#stripBox').innerHTML = strip(c[1], c[2], c[3]); say(c[0]); }
-  }
-  if(pair){ document.querySelectorAll('[data-pair]').forEach(b => b.classList.toggle('honey', b === pair)); showPair(+pair.dataset.pair, null); }
-  if(word){ showPair(+$('#beats').dataset.pair, word.dataset.which); say(word.dataset.say); }
-  if(ex) say(KEYS[card].ex[+ex.dataset.ex][0].replace(/<[^>]+>/g, ''));
-  if(e.target.closest('#exKo')){ const on = !koOpen.has(`${card}-0`); [0, 1].forEach(i => on ? koOpen.add(`${card}-${i}`) : koOpen.delete(`${card}-${i}`)); renderLearn(); }
+$('#diary').addEventListener('click', e => {
+  const b = e.target.closest('[data-i]'); if(!b) return;
+  const i = +b.dataset.i, d = DAY[i];
+  // the number line: tapping it again shows the other beat
+  teenNow = d.teen ? (on === i && teenNow === 13 ? 30 : 13) : null;
+  if(!d.teen && DAY[on].teen) $('#stage').innerHTML = '';
+  on = i; renderDiary(); renderStage();
+  say(d.teen ? String(teenNow === 13 ? 'thirteen' : 'thirty') + '. ' + d.en.replace(/<[^>]+>/g, '') : d.en.replace(/<[^>]+>/g, ''));
 });
-
-// ---- page 2: hear and pick
-function renderQuiz(){
-  const it = QUIZ[q], order = shuffleOnce[q];
-  $('#head').innerHTML = `<small>Case 01 · 도서관 살인사건</small><h2>${KEY()}귀 맞추기</h2>`;
-  const opt = (o, i) => {
-    if(it.kind === 'clock') return clock(o[0], o[1], 86);
-    if(it.kind === 'strip') return strip(o[0], o[1], o[2], { first:it.first || 1 });
-    return esc(o);
-  };
-  const cols = it.kind === 'strip' ? ' one' : it.kind === 'gap' ? ' three' : '';
-  $('#body').innerHTML = `<div class="tally">${QUIZ.map((x, i) => KEY(`key${i < got ? ' got' : ''}`)).join('')}</div>
-    <div class="listen"><button class="pill speaker" type="button" id="spk" aria-label="듣기"><svg aria-hidden="true"><use href="#spk"/></svg></button>
-      ${it.kind === 'gap' ? `<div class="sentence">${esc(it.text).replace('___', '<span class="gap" id="gap"></span>')}</div>` : ''}</div>
-    <div class="opts${cols}">${order.map(i => `<button class="opt" type="button" data-opt="${i}">${opt(it.opts[i], i)}</button>`).join('')}</div>
-    <div id="remindBox"></div>`;
-  $('#foot').innerHTML = '';
-  setTimeout(() => say(it.say, $('#spk')), 350);
-}
-$('#body').addEventListener('click', e => {
-  if(page !== 1) return;
-  if(e.target.closest('#spk')) return say(QUIZ[q].say, $('#spk'));
-  const b = e.target.closest('[data-opt]'); if(!b || $('#body').dataset.lock) return;
-  const it = QUIZ[q];
-  if(+b.dataset.opt === it.right){
-    b.classList.add('right'); $('#body').dataset.lock = '1';
-    if(it.kind === 'gap'){ $('#gap').textContent = it.opts[it.right]; $('#gap').classList.add('hit'); }
-    got++; document.querySelectorAll('.tally .key')[got - 1]?.classList.add('got'); steps();
-    setTimeout(() => { delete $('#body').dataset.lock; if(q < QUIZ.length - 1){ q++; render(true); } else { page = 2; render(true); } }, 900);
-  } else {
-    b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong');
-    const k = KEYS[it.key];
-    $('#remindBox').innerHTML = `<div class="remind">${KEY()}<div><b>${esc(k.name)}</b> · ${esc(k.pattern)}<br>${esc(k.why)}</div></div>`;
-    setTimeout(() => say(it.say, $('#spk')), 450);
-  }
-});
-
-// ---- page 3: ready
-function renderReady(){
-  $('#head').innerHTML = `<small>Case 01 · 도서관 살인사건</small><h2>${KEY()}준비 끝</h2>`;
-  $('#body').innerHTML = `<div class="keys">${KEYS.map((k, i) => `<div style="--i:${i}">${KEY()}<b>${esc(k.name)}</b><small>학습 › 문법</small></div>`).join('')}</div>
-    <div class="ready"><div class="bub">Time is the key to this case. Let's go.${sayKo ? '<span class="ko">이번 사건의 열쇠는 시간이야. 가자.</span>' : ''}
-      <div class="row"><button class="pill" type="button" id="again">▶ 다시 듣기</button><button class="pill" type="button" id="readyKo" aria-pressed="${sayKo}">해석</button></div></div>
-      <img class="det" src="../assets/characters/detective-point.png" alt=""></div>`;
-  $('#foot').innerHTML = `<button class="pill big" type="button" id="brief">브리핑으로</button>`;
-  setTimeout(() => say('Time is the key to this case. Let\'s go.'), 400);
-}
-$('#body').addEventListener('click', e => {
-  if(page !== 2) return;
-  if(e.target.closest('#again')) say('Time is the key to this case. Let\'s go.');
-  if(e.target.closest('#readyKo')){ sayKo = !sayKo; renderReady(); }
-});
-
-$('#foot').addEventListener('click', e => {
-  if(e.target.closest('#next')){ if(card < KEYS.length - 1){ card++; render(true); } else { page = 1; q = 0; got = 0; render(true); } }
-  if(e.target.closest('#brief')){ page = 0; card = 0; q = 0; got = 0; render(true); }
-});
-document.querySelectorAll('[data-jump]').forEach(b => b.onclick = () => { page = +b.dataset.jump; card = 0; q = 0; got = 0; render(true); });
-render(false);
+$('#koBtn').onclick = () => { koOn = !koOn; $('#koBtn').setAttribute('aria-pressed', koOn); renderDiary(); };
+renderDiary(); renderStage();
 </script>
 </body>
 </html>
