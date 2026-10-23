@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>노트 개편 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--paper-2:#F4EAD4;--card:#FFFDF7;--line:#E3D5B8;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--berry:#C96F86;--ok:#5E8A63;--blue-ink:#34506E;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--f-body:"Paperlogy",system-ui,sans-serif;--f-hand:"Paperlogy",system-ui,sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body)}
+.wrap{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start;padding:28px 24px 48px}
+.wrap > div:first-child{flex:none;width:375px;max-width:100%}
+h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 16px;font-size:14px;opacity:.8}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{--btn:url(../assets/ui/buttons/cream-flat.png);--bw:12px;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:30px;padding:0 11px;border:2px solid transparent;background:none;
+  border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-size:13px;color:var(--ink);white-space:nowrap;cursor:pointer}
+.pill[aria-pressed="true"]{--btn:url(../assets/ui/buttons/honey-flat.png)}
+.pill:active{transform:translateY(1px);filter:brightness(.94)}
+
+/* ---------- the phone: a scene behind, the notebook open at full height (as the game's Note), the menu below ---------- */
+.phone{position:relative;flex:none;width:375px;height:780px;max-width:100%;border-radius:38px 42px 36px 44px/44px 36px 42px 38px;overflow:hidden;background:#6B4A30 url(../assets/places/library-higgsfield-v2.png) 40% 30%/auto 100% no-repeat;-webkit-user-select:none;user-select:none}
+.phone::before{content:"";position:absolute;inset:0;background:rgba(43,30,20,.68);backdrop-filter:blur(6px)}
+.nav{position:absolute;left:0;right:0;bottom:0;height:64px;z-index:5;display:flex;gap:10px;padding:10px 12px 14px;background:var(--paper)}
+.nav .pill{flex:1;--bw:16px;font-size:14px}
+/* the case file picture, as the game's dock: header strip and sheet are % of the width */
+.nb{position:absolute;left:6px;right:6px;top:58px;bottom:60px;z-index:3;display:flex;flex-direction:column;padding:7.9% 9% 0 9.5%}
+.nb::before{content:"";position:absolute;inset:0;z-index:0;background:url(../assets/ui/casefile-panel.webp) top center/100% auto no-repeat;pointer-events:none}
+.nb > *{position:relative;z-index:1}
+.nb-head{flex:none;position:relative;z-index:4;display:flex;align-items:center;gap:6px;aspect-ratio:81.5 / 13.6;padding:0 2px}
+.nb-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px;display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nb-head h2 img{width:26px;height:26px}
+.nb-body{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding:10px 2px 18px;display:flex;flex-direction:column;gap:12px}
+.nb-body::-webkit-scrollbar{display:none}
+.nb-body.turn{animation:turn .3s ease-out}
+@keyframes turn{from{opacity:0;transform:translateY(6px)}}
+
+/* three fixed tabs over the folder: they never grow, however many people the case has */
+.cats{position:absolute;z-index:2;left:calc(6px + 7%);bottom:calc(100% - 58px - 2px);display:flex;gap:4px;align-items:flex-end}
+.cat{--tab:url(../assets/ui/tab-1.png);position:relative;display:flex;align-items:center;gap:5px;height:42px;padding:0 14px 8px;border:0;background:var(--tab-bg,var(--paper-2));
+  -webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat;font-family:var(--f-display);font-size:13px;color:var(--ink);cursor:pointer}
+.cat:nth-child(2){--tab:url(../assets/ui/tab-2.png)}.cat:nth-child(3){--tab:url(../assets/ui/tab-3.png)}
+.cat::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.cat > *{position:relative}
+.cat img{width:22px;height:22px}
+.cat[aria-pressed="true"]{--tab-bg:var(--honey);height:50px}
+.cat .badge{position:absolute;top:4px;right:8px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--berry);color:#fff;font-size:10px;line-height:16px;text-align:center;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(0)}}
+
+/* the person menu in the note's own title (user idea): the title is a button, ▾ opens a paper menu of faces under it;
+   ‹ › turn to the person before / after */
+.who-btn{display:flex;align-items:center;gap:8px;min-width:0;padding:4px 8px 4px 4px;border:0;border-radius:12px;background:none;font-family:var(--f-display);font-size:17px;color:var(--ink);cursor:pointer}
+.who-btn img{flex:none;width:30px;height:30px;border-radius:50%;background:var(--bg) center/86% no-repeat;border:2px solid var(--ink)}
+.who-btn span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who-btn .caret{flex:none;width:18px;height:18px;transition:transform .2s}
+.who-btn[aria-expanded="true"]{background:rgba(242,207,115,.45)}
+.who-btn[aria-expanded="true"] .caret{transform:rotate(180deg)}
+.flip{margin-left:auto;display:flex;gap:2px}
+.flip button{display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:none;font-family:var(--f-display);font-size:18px;color:var(--ink);cursor:pointer}
+.flip button:disabled{opacity:.3;cursor:default}
+.pmenu{position:absolute;left:-4px;right:-4px;top:calc(100% + 14px);z-index:5;filter:drop-shadow(2px 5px 3px rgba(0,0,0,.3));animation:drop .2s ease-out;transform-origin:30px 0}
+.pmenu::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch;pointer-events:none}
+.pmenu::after{content:"";position:absolute;left:28px;top:-17px;width:36px;height:23px;transform:translateX(-50%) rotate(180deg);background:url(../assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat}
+@keyframes drop{from{opacity:0;transform:scale(.92)}}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-height:300px;overflow-y:auto;scrollbar-width:none;padding:14px 10px 12px}
+.pgrid::-webkit-scrollbar{display:none}
+
+/* a face: picture, progress in its corner, name under it (the menu and the strip both use it) */
+.face{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px 5px;border:2px solid transparent;border-radius:12px;background:none;cursor:pointer;font-family:var(--f-display);font-size:10.5px;color:var(--ink-soft);line-height:1.15;text-align:center}
+.face .pic{position:relative;width:48px;height:48px;border-radius:50%;background:var(--bg,#EEE) center/86% no-repeat;border:2px solid var(--ink)}
+.face .pic i{position:absolute;right:-5px;bottom:-3px;display:grid;place-items:center;min-width:19px;height:19px;padding:0 3px;border-radius:10px;background:var(--card);border:1.5px solid var(--ink);font-style:normal;font-size:9.5px;color:var(--ink)}
+.face .pic i.done{background:var(--ok);color:#fff;border-color:var(--ok)}
+.face[aria-pressed="true"]{border-image:url(../assets/ui/buttons/honey-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;color:var(--ink)}
+.faces{flex:none;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;margin:0 -2px;border-bottom:2px dashed var(--line)}
+.faces::-webkit-scrollbar{display:none}
+.faces .face{width:60px}
+.faces .face .pic{width:42px;height:42px}
+
+/* statements: the notebook's lined page, blanks as written */
+.nblock{position:relative;border-radius:10px;padding:2px 8px}
+.qlabel{display:flex;align-items:center;gap:6px;font-family:var(--f-display);font-size:13.5px;color:var(--ink-soft);padding:6px 0 4px}
+.nline{font-family:var(--f-hand);font-size:16px;line-height:34px;min-height:34px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
+.blank{display:inline-block;min-width:3.2em;padding:0 6px;margin:0 2px;border-radius:7px;background:rgba(125,106,88,.15);font-weight:700;color:var(--blue-ink);text-align:center;line-height:26px}
+.pin{margin-left:auto;flex:none;display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:none;cursor:pointer}
+.pin svg{width:20px;height:20px}
+.pin.on svg .head{fill:var(--berry)}
+.pin:active{transform:scale(.9)}
+.none{margin:18px 0;text-align:center;font-size:13px;color:var(--ink-soft)}
+
+/* evidence: polaroids */
+.evs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.ev{position:relative;padding:6px 6px 8px;background:var(--card);border:1.5px solid var(--line);box-shadow:2px 3px 0 rgba(74,54,40,.12);transform:rotate(var(--r,-1deg))}
+.ev .ph{aspect-ratio:4/3;background:#3E3128 var(--img) var(--pos,50% 50%)/var(--size,300%) no-repeat;border:1.5px solid var(--ink)}
+.ev b{display:block;margin-top:5px;font-family:var(--f-display);font-weight:400;font-size:13px}
+.ev small{font-size:11px;color:var(--ink-soft)}
+.ev .pin{position:absolute;top:-8px;right:-8px;background:var(--card);border:1.5px solid var(--line)}
+
+/* memo: what the player pinned, then their own lines on ruled paper */
+.pins{display:flex;flex-direction:column;gap:8px}
+.pinned{position:relative;display:flex;gap:10px;align-items:flex-start;padding:8px 34px 8px 10px;background:#FFF6DE;border:1.5px solid #E6C77A;border-radius:10px;font-family:var(--f-hand);font-size:14px;line-height:1.45;transform:rotate(var(--r,0deg));animation:turn .3s ease-out}
+.pinned .src{flex:none;width:30px;height:30px;border-radius:50%;background:var(--bg,#EEE) center/86% no-repeat;border:1.5px solid var(--ink)}
+.pinned .src.photo{border-radius:4px;background:#3E3128 var(--img) var(--pos)/var(--size) no-repeat}
+.pinned small{display:block;font-family:var(--f-display);font-size:11px;color:var(--ink-soft)}
+.pinned .x{position:absolute;top:6px;right:6px;width:22px;height:22px;padding:0;border:0;border-radius:50%;background:rgba(74,54,40,.1);font-size:13px;line-height:22px;color:var(--ink-soft);cursor:pointer}
+.memo{width:100%;min-height:300px;flex:1;resize:none;border:0;outline:none;padding:0 4px;background:transparent repeating-linear-gradient(transparent 0 32px,var(--line) 32px 34px);background-attachment:local;
+  font-family:var(--f-hand);font-size:16px;line-height:34px;color:var(--blue-ink)}
+
+/* ---------- the spec ---------- */
+.spec{flex:1 1 420px;min-width:0;max-width:720px;background:var(--paper);border-radius:14px;padding:20px 24px;font-size:14px;line-height:1.65}
+.spec h2{font-family:var(--f-display);font-weight:400;font-size:18px;margin:20px 0 6px}
+.spec h2:first-child{margin-top:0}
+.spec ul,.spec ol{margin:4px 0;padding-left:20px}
+.spec code{font-family:inherit;font-size:.92em;background:#F1E4C8;padding:0 4px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="pin" viewBox="0 0 24 24"><g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12 14 v7" fill="none"/><path class="head" d="M8 3 h8 l-1.2 5 3 4 H6.2 l3-4z" fill="#F2CF73"/></g></symbol>
+  <symbol id="caret" viewBox="0 0 24 24"><path d="M6 9 l6 6 l6 -6" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<div class="wrap">
+  <div>
+    <h1 class="page-title">노트 개편 시안</h1>
+    <p class="lead">Note를 연 모습이에요. 위 탭은 <b>인물 · 증거 · 메모</b> 세 개로 고정이에요. 인물은 노트 제목을 눌러 여는 <b>인물 메뉴</b>로 바꾸고, ‹ ›로 앞뒤 인물로 넘겨요. 📌로 진술·증거를 메모에 붙이고, 메모에 내 생각을 적어요.</p>
+    <div class="phone" id="phone">
+      <div class="cats" id="cats"></div>
+      <section class="nb" aria-label="노트">
+        <div class="nb-head" id="head"></div>
+        <div class="nb-body" id="body"></div>
+      </section>
+      <nav class="nav"><button class="pill" type="button">지도</button><button class="pill" type="button" aria-pressed="true">Note</button></nav>
+    </div>
+    <div class="tools"><button class="pill" type="button" data-pick="menu" aria-pressed="true">인물 메뉴</button><button class="pill" type="button" data-pick="strip" aria-pressed="false">비교: 얼굴 줄</button><button class="pill" type="button" id="many">인물 12명으로</button></div>
+  </div>
+
+  <div class="spec">
+    <h2>1. 탭 3개로 고정 (사용자 선택)</h2>
+    <ul>
+      <li>노트 위 탭은 언제나 <b>인물 · 증거 · 메모</b> 세 개. 인물이 몇 명이 되어도 늘지 않는다. 그림은 지금의 손그림 종이 탭 그대로, 아이콘 옆에 글자.</li>
+      <li>옆 인덱스 탭은 넣지 않는다(사용자: 화면이 좁다).</li>
+    </ul>
+
+    <h2>2. 인물 메뉴 (사용자 아이디어)</h2>
+    <ul>
+      <li>인물 탭의 노트 제목 줄이 곧 메뉴다: <code>[얼굴] Sgt. Badger의 진술 ▾</code>. 누르면 제목 아래로 종이 메뉴(말풍선 종이 + 연필 꼬리, 추리 칠판의 드롭다운과 같은 모양)가 펼쳐지고, 만난 인물이 큰 얼굴 + 작은 이름으로 4열. 얼굴 모서리에 진행(✓ 다 기록 / 1/3), 지금 인물은 꿀색 종이.</li>
+      <li>제목 오른쪽 ‹ ›로 앞뒤 인물로 바로 넘긴다(만난 순서). 메뉴 밖을 누르면 닫힌다.</li>
+      <li>공간: 제목 줄은 지금도 있는 자리라 노트 글 영역이 한 줄도 줄지 않는다. 비교용 "얼굴 줄"은 얼굴 한 줄(약 70px)만큼 글이 줄어든다.</li>
+      <li>대화 중(받아 적는 중)에는 지금처럼 그 질문만 보이고, 대화가 끝날 때까지 메뉴는 지금 인물에 고정(대화 잠금과 같은 원칙).</li>
+    </ul>
+
+    <h2>3. 메모</h2>
+    <ul>
+      <li><b>자유 메모</b>: 줄 노트에 직접 쓴다. 사건마다 저장(이어서 수사 때 그대로), 추리 칠판에서 Note를 열어도 보인다.</li>
+      <li><b>📌 붙이기</b>: 진술 질문 옆, 증거 사진 모서리의 📌를 누르면 메모 위쪽에 쪽지로 붙고 메모 탭에 숫자가 톡 뜬다. 다시 누르거나 메모에서 ×로 뗀다.</li>
+      <li>메모 글은 플레이어가 쓴 것이라 게임 규칙(사건 정보는 대화·증거로만)과 부딪히지 않는다. 안내 문장(빈 메모의 예시 글 등)은 넣지 않는다.</li>
+      <li>나중 후보: 용의자 도장(○ △ ✕ + 한 줄), 시간표 메모.</li>
+    </ul>
+
+    <h2>4. 정할 것</h2>
+    <ol>
+      <li>인물 메뉴(4열 얼굴)로 갈지, 얼굴 줄이 나은지.</li>
+      <li>‹ › 넘기기를 둘지.</li>
+      <li>메모를 사건마다 따로 둘지(제안), 모든 사건에 하나로 둘지.</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const ICON = id => `../assets/ui/icons-v2/${id}.png`;
+// Case 01 as the player has it partway: the statements written right so far
+const BASE = [
+  { id:'badger', name:'Sgt. Badger', title:'사건 브리핑', bg:'#DCE3F0', total:3, qs:[
+    ['What happened here?', ['Victim: Professor [Hoot].', 'Place: the Old [Library].', 'He was found at [9 PM].']],
+    ['Who found the victim?', ['[Mrs. Mole] found him. She is the [librarian].', 'It happened between [8 PM] and [9 PM].']],
+    ['What should I do next?', ['Look around the [library] carefully.', 'When I know who did it, I tell [Sgt. Badger].']] ] },
+  { id:'mole', name:'Mrs. Mole', bg:'#E8DDF0', total:3, qs:[
+    ['What did you see tonight?', ['She came back at [9 PM] to lock the door.', 'The big [clock] was not ticking.']],
+    ['Did anyone visit the library tonight?', ['[Ray Raccoon] came at 7:30 to borrow a [music] book.', '[Rosie Rabbit] came at [7 PM] to return a book about [stars].']] ] },
+  { id:'fiona', name:'Fiona Fox', bg:'#F6DCCB', total:3, qs:[
+    ['Where were you tonight, between 8 and 10 PM?', ['Fiona was at the [bakery] from [7 PM] to [10 PM].', 'She was baking [blueberry pies].']] ] },
+  { id:'ray', name:'Ray Raccoon', bg:'#DDE6EE', total:3, qs:[] },
+  { id:'rosie', name:'Rosie Rabbit', bg:'#F3E0EA', total:3, qs:[] },
+  { id:'duck', name:'Mr. Duck', bg:'#E3EEDC', total:2, qs:[] }
+];
+let PEOPLE = BASE.map(p => ({ ...p, icon:p.id }));
+const EVIDENCE = [
+  { id:'clock', name:'Big clock', where:'Old Library', img:'library-higgsfield-v2.png', pos:'88% 40%', size:'420%' },
+  { id:'jam', name:'Window', where:'Old Library', img:'library-higgsfield-v2.png', pos:'8% 30%', size:'420%' },
+  { id:'fur', name:'Door', where:'Old Library', img:'library-higgsfield-v2.png', pos:'62% 55%', size:'420%' },
+  { id:'sign', name:'Front door', where:'Bakery', img:'bakery-higgsfield.png', pos:'50% 45%', size:'380%' }
+];
+let pick = 'menu', tab = 'people', who = 'badger', menuOpen = false, pins = [], memoText = '', newPins = 0;
+try { const saved = JSON.parse(localStorage.getItem('mock.notebook') || '{}'); pins = (saved.pins || []).filter(p => p.kind !== 'say' || PEOPLE.some(x => x.id === p.a)); memoText = saved.memo || ''; } catch(e){}
+const save = () => { try { localStorage.setItem('mock.notebook', JSON.stringify({ pins, memo:memoText })); } catch(e){} };
+const lineHTML = l => esc(l).replace(/\[([^\]]+)\]/g, '<span class="blank">$1</span>');
+const pinned = key => pins.some(p => p.key === key);
+const pinBtn = key => `<button class="pin${pinned(key) ? ' on' : ''}" type="button" data-pin="${key}" aria-label="메모에 붙이기"><svg aria-hidden="true"><use href="#pin"/></svg></button>`;
+const faceBtn = x => `<button class="face" type="button" data-who="${x.id}" aria-pressed="${x.id === who}"><span class="pic" style="--bg:${x.bg};background-image:url(${ICON(x.icon)})"><i class="${x.qs.length === x.total ? 'done' : ''}">${x.qs.length === x.total ? '✓' : `${x.qs.length}/${x.total}`}</i></span>${esc(x.name)}</button>`;
+
+function renderTabs(){
+  $('#cats').innerHTML = [['people', '인물', ICON('detective')], ['evidence', '증거', ICON('camera')], ['memo', '메모', '../assets/ui/icons/note.png']].map(([k, label, img], i) =>
+    `<button class="cat" type="button" data-cat="${k}" aria-pressed="${tab === k}" style="--tab-bg:${['#F4EAD4', '#DDE8C9', '#F6E3C2'][i]}"><img src="${img}" alt="">${label}${k === 'memo' && newPins ? `<span class="badge">${newPins}</span>` : ''}</button>`).join('');
+}
+function render(turn){
+  renderTabs();
+  const body = $('#body'); body.className = `nb-body${turn ? ' turn' : ''}`;
+  if(tab === 'people'){
+    const i = PEOPLE.findIndex(x => x.id === who), p = PEOPLE[i];
+    const title = esc(p.title || `${p.name}의 진술`);
+    $('#head').innerHTML = pick === 'menu'
+      ? `<button class="who-btn" type="button" id="whoBtn" aria-expanded="${menuOpen}" aria-haspopup="true"><img src="${ICON(p.icon)}" alt="" style="--bg:${p.bg}"><span>${title}</span><svg class="caret" aria-hidden="true"><use href="#caret"/></svg></button>
+         <div class="flip"><button type="button" data-flip="-1" aria-label="앞 인물"${i ? '' : ' disabled'}>‹</button><button type="button" data-flip="1" aria-label="뒤 인물"${i < PEOPLE.length - 1 ? '' : ' disabled'}>›</button></div>
+         ${menuOpen ? `<div class="pmenu" role="menu"><div class="pgrid">${PEOPLE.map(faceBtn).join('')}</div></div>` : ''}`
+      : `<h2><img src="${ICON(p.icon)}" alt="">${title}</h2>`;
+    body.innerHTML = (pick === 'strip' ? `<div class="faces">${PEOPLE.map(faceBtn).join('')}</div>` : '') +
+      (p.qs.length ? p.qs.map(([q, lines], k) => `<div class="nblock"><div class="qlabel">Q. ${esc(q)}${pinBtn(`say:${p.id}:${k}`)}</div>${lines.map(l => `<div class="nline">${lineHTML(l)}</div>`).join('')}</div>`).join('') : `<p class="none">—</p>`);
+  }
+  if(tab === 'evidence'){
+    $('#head').innerHTML = `<h2><img src="${ICON('camera')}" alt="">증거 기록</h2>`;
+    body.innerHTML = `<div class="evs">${EVIDENCE.map((e, i) => `<div class="ev" style="--r:${[-1.5, 1.2, .8, -1][i % 4]}deg;--img:url(../assets/places/${e.img});--pos:${e.pos};--size:${e.size}"><div class="ph"></div><b>${esc(e.name)}</b><small>${esc(e.where)}</small>${pinBtn(`ev:${e.id}:0`)}</div>`).join('')}</div>`;
+  }
+  if(tab === 'memo'){
+    newPins = 0; renderTabs();
+    $('#head').innerHTML = `<h2><img src="../assets/ui/icons/note.png" alt="">내 메모</h2>`;
+    body.innerHTML = `<div class="pins">${pins.map((p, i) => {
+      if(p.kind === 'say'){ const x = PEOPLE.find(y => y.id === p.a), [q, lines] = x.qs[p.b];
+        return `<div class="pinned" style="--r:${i % 2 ? .6 : -.6}deg"><span class="src" style="--bg:${x.bg};background-image:url(${ICON(x.icon)})"></span><div><small>${esc(x.name)} · ${esc(q)}</small>${lines.map(l => esc(l.replace(/[\[\]]/g, ''))).join(' ')}</div><button class="x" type="button" data-unpin="${p.key}" aria-label="떼기">×</button></div>`; }
+      const e = EVIDENCE.find(y => y.id === p.a);
+      return `<div class="pinned" style="--r:${i % 2 ? .6 : -.6}deg"><span class="src photo" style="--img:url(../assets/places/${e.img});--pos:${e.pos};--size:${e.size}"></span><div><small>증거 · ${esc(e.where)}</small>${esc(e.name)}</div><button class="x" type="button" data-unpin="${p.key}" aria-label="떼기">×</button></div>`;
+    }).join('')}</div>
+    <textarea class="memo" id="memo" spellcheck="false" aria-label="내 메모">${esc(memoText)}</textarea>`;
+  }
+}
+document.addEventListener('click', e => {
+  const t = e.target;
+  const cat = t.closest('[data-cat]'), w = t.closest('[data-who]'), pin = t.closest('[data-pin]'), un = t.closest('[data-unpin]'), pk = t.closest('[data-pick]'), flip = t.closest('[data-flip]');
+  if(pk){ pick = pk.dataset.pick; menuOpen = false; tab = 'people'; document.querySelectorAll('[data-pick]').forEach(b => b.setAttribute('aria-pressed', b === pk)); return render(true); }
+  if(t.id === 'many'){ while(PEOPLE.length < 12){ const b = BASE[PEOPLE.length % BASE.length]; PEOPLE.push({ ...b, icon:b.id, id:`guest${PEOPLE.length}`, name:`Guest ${PEOPLE.length - 5}`, title:null, qs:[] }); } return render(); }
+  if(t.closest('#whoBtn')){ menuOpen = !menuOpen; return render(); }
+  if(flip){ const i = PEOPLE.findIndex(x => x.id === who) + +flip.dataset.flip; if(PEOPLE[i]){ who = PEOPLE[i].id; menuOpen = false; render(true); } return; }
+  if(w){ tab = 'people'; who = w.dataset.who; menuOpen = false; return render(true); }
+  if(cat){ tab = cat.dataset.cat; menuOpen = false; return render(true); }
+  if(pin){
+    const key = pin.dataset.pin, [kind, a, b] = key.split(':');
+    if(pinned(key)) pins = pins.filter(p => p.key !== key);
+    else { pins.push({ key, kind, a, b:+b }); newPins++; }
+    save(); return render();
+  }
+  if(un){ pins = pins.filter(p => p.key !== un.dataset.unpin); save(); return render(); }
+  // a tap anywhere else puts the person menu away
+  if(menuOpen && !t.closest('.pmenu')){ menuOpen = false; render(); }
+});
+document.addEventListener('input', e => { if(e.target.id === 'memo'){ memoText = e.target.value; save(); } });
+render();
+</script>
+</body>
+</html>
