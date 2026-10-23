@@ -48,7 +48,19 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 .cat::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
 .cat > *{position:relative}
 .cat img{width:22px;height:22px}
-.cat[aria-pressed="true"]{--tab-bg:var(--honey);height:50px}
+/* tab colours (user request: the open tab hardly stood out). Two ways to try:
+   paper — the open tab is the page's own cream and reaches down over the folder's band into the page, as one sheet;
+           the others are the folder's blue, lower, behind it
+   color — each tab has its colour and the open page wears it (title strip, a band along the top); the others fade */
+.t-paper .cats{z-index:4}
+.t-paper .cat{--tab-bg:#7488A8;color:#FBF4E6;height:38px}
+.t-paper .cat img{filter:drop-shadow(0 0 1.5px rgba(251,244,230,.9))}
+.t-paper .cat[aria-pressed="true"]{--tab-bg:#FCFAED;color:var(--ink);height:62px;margin-bottom:-24px;padding-bottom:30px}
+.t-paper .cat[aria-pressed="true"]::after{content:"";position:absolute;left:2px;right:2px;bottom:0;height:9px;background:#FCFAED}
+.t-color .cat{--tab-bg:var(--c);height:40px;filter:saturate(.55) brightness(.92);opacity:.8}
+.t-color .cat[aria-pressed="true"]{height:52px;filter:none;opacity:1}
+.t-color .nb-head{border-radius:12px;background:color-mix(in srgb,var(--page) 75%,transparent)}
+.t-color .nb-body{border-top:6px solid var(--page);border-radius:4px 4px 0 0}
 .cat .badge{position:absolute;top:4px;right:8px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--berry);color:#fff;font-size:10px;line-height:16px;text-align:center;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes pop{from{transform:scale(0)}}
 
@@ -137,6 +149,7 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
       <nav class="nav"><button class="pill" type="button">지도</button><button class="pill" type="button" aria-pressed="true">Note</button></nav>
     </div>
     <div class="tools"><button class="pill" type="button" data-pick="menu" aria-pressed="true">인물 메뉴</button><button class="pill" type="button" data-pick="strip" aria-pressed="false">비교: 얼굴 줄</button><button class="pill" type="button" id="many">인물 12명으로</button></div>
+    <div class="tools"><button class="pill" type="button" data-tabstyle="paper" aria-pressed="true">탭 색: 종이로 이어짐</button><button class="pill" type="button" data-tabstyle="color" aria-pressed="false">탭 색: 탭마다 색</button></div>
   </div>
 
   <div class="spec">
@@ -162,11 +175,19 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
       <li>나중 후보: 용의자 도장(○ △ ✕ + 한 줄), 시간표 메모.</li>
     </ul>
 
-    <h2>4. 정할 것</h2>
+    <h2>4. 탭 색 (사용자 요청: 열린 탭이 잘 구분되지 않음)</h2>
+    <ul>
+      <li><b>종이로 이어짐</b>(추천): 열린 탭은 노트 종이와 같은 크림색이고, 폴더의 파란 테두리를 덮고 내려와 종이와 한 장처럼 이어진다. 나머지 탭은 폴더와 같은 파란색에 크림색 글자, 더 낮고 뒤에. 진짜 인덱스 탭처럼 "지금 이 장"이 바로 보인다.</li>
+      <li><b>탭마다 색</b>: 인물 하늘색 · 증거 연두 · 메모 꿀색. 열린 장의 제목 줄과 위쪽 띠가 같은 색이 되고, 나머지 탭은 흐려진다. 색으로 장을 기억하기 쉽지만, 노트 종이 자체는 크림색 그대로라 이어지는 느낌은 약하다.</li>
+      <li>폴더 그림의 클립은 지웠다(사용자 요청: 오른쪽 위 UI를 가림). 원본은 <code>assets/ui/casefile-panel-with-clip.webp</code>. 같은 그림을 게임 노트도 쓰므로 게임에서도 클립이 사라졌다.</li>
+    </ul>
+
+    <h2>5. 정할 것</h2>
     <ol>
       <li>인물 메뉴(4열 얼굴)로 갈지, 얼굴 줄이 나은지.</li>
       <li>‹ › 넘기기를 둘지.</li>
       <li>메모를 사건마다 따로 둘지(제안), 모든 사건에 하나로 둘지.</li>
+      <li>탭 색: 종이로 이어짐(추천) / 탭마다 색.</li>
     </ol>
   </div>
 </div>
@@ -203,11 +224,15 @@ const save = () => { try { localStorage.setItem('mock.notebook', JSON.stringify(
 const lineHTML = l => esc(l).replace(/\[([^\]]+)\]/g, '<span class="blank">$1</span>');
 const pinned = key => pins.some(p => p.key === key);
 const pinBtn = key => `<button class="pin${pinned(key) ? ' on' : ''}" type="button" data-pin="${key}" aria-label="메모에 붙이기"><svg aria-hidden="true"><use href="#pin"/></svg></button>`;
+const TAB_COLORS = { people:'#CFE0F2', evidence:'#D5E6C2', memo:'#F6DFAE' };
+let tabStyle = 'paper';
 const faceBtn = x => `<button class="face" type="button" data-who="${x.id}" aria-pressed="${x.id === who}"><span class="pic" style="--bg:${x.bg};background-image:url(${ICON(x.icon)})"><i class="${x.qs.length === x.total ? 'done' : ''}">${x.qs.length === x.total ? '✓' : `${x.qs.length}/${x.total}`}</i></span>${esc(x.name)}</button>`;
 
 function renderTabs(){
-  $('#cats').innerHTML = [['people', '인물', ICON('detective')], ['evidence', '증거', ICON('camera')], ['memo', '메모', '../assets/ui/icons/note.png']].map(([k, label, img], i) =>
-    `<button class="cat" type="button" data-cat="${k}" aria-pressed="${tab === k}" style="--tab-bg:${['#F4EAD4', '#DDE8C9', '#F6E3C2'][i]}"><img src="${img}" alt="">${label}${k === 'memo' && newPins ? `<span class="badge">${newPins}</span>` : ''}</button>`).join('');
+  $('#phone').className = `phone t-${tabStyle}`;
+  $('#phone').style.setProperty('--page', TAB_COLORS[tab]);
+  $('#cats').innerHTML = [['people', '인물', ICON('detective')], ['evidence', '증거', ICON('camera')], ['memo', '메모', '../assets/ui/icons/note.png']].map(([k, label, img]) =>
+    `<button class="cat" type="button" data-cat="${k}" aria-pressed="${tab === k}" style="--c:${TAB_COLORS[k]}"><img src="${img}" alt="">${label}${k === 'memo' && newPins ? `<span class="badge">${newPins}</span>` : ''}</button>`).join('');
 }
 function render(turn){
   renderTabs();
@@ -242,6 +267,8 @@ function render(turn){
 document.addEventListener('click', e => {
   const t = e.target;
   const cat = t.closest('[data-cat]'), w = t.closest('[data-who]'), pin = t.closest('[data-pin]'), un = t.closest('[data-unpin]'), pk = t.closest('[data-pick]'), flip = t.closest('[data-flip]');
+  const ts = t.closest('[data-tabstyle]');
+  if(ts){ tabStyle = ts.dataset.tabstyle; document.querySelectorAll('[data-tabstyle]').forEach(b => b.setAttribute('aria-pressed', b === ts)); return render(); }
   if(pk){ pick = pk.dataset.pick; menuOpen = false; tab = 'people'; document.querySelectorAll('[data-pick]').forEach(b => b.setAttribute('aria-pressed', b === pk)); return render(true); }
   if(t.id === 'many'){ while(PEOPLE.length < 12){ const b = BASE[PEOPLE.length % BASE.length]; PEOPLE.push({ ...b, icon:b.id, id:`guest${PEOPLE.length}`, name:`Guest ${PEOPLE.length - 5}`, title:null, qs:[] }); } return render(); }
   if(t.closest('#whoBtn')){ menuOpen = !menuOpen; return render(); }
