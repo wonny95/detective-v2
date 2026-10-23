@@ -353,6 +353,16 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-key .ck-name{font-family:var(--f-display);font-size:14px;color:var(--ink-soft)}
 .ck-key .gko{margin:0;font-size:14px;line-height:1.6}
 .rv-gcard p.ck-ex{display:flex;flex-direction:column}
+#caseKey .rv-steps{flex:none}
+.ck-turn{animation:ck-turn .35s ease-out}
+@keyframes ck-turn{from{opacity:0;transform:translateX(16px)}}
+@media(prefers-reduced-motion:reduce){.ck-turn{animation:none}}
+.ck-foot{display:flex;gap:8px}
+.ck-foot .pill:not(.big){flex:none;min-height:50px;padding:0 18px}
+.ck-foot .pill.big{flex:1;width:auto}
+.ck-key .gpattern{font-size:30px}
+#caseKey .rv-gcard{gap:12px;padding:14px 16px}
+#caseKey .rv-gcard p{font-size:18px}
 .rv-gcard p.ck-ex .ko{font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
 .rv-word{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
@@ -1413,9 +1423,9 @@ const GRAMMAR = {
   'past-irr':  { name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.' },
   'time-prep': { name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.',
     examples:[
-      { head:'at', ko:'딱 한 시각', lines:[['The shop opens {at eleven}.', '가게는 11시에 문을 열어요.'], ["Let's meet {at noon}.", '정오에 만나요.'], ['The train leaves {at six fifteen}.', '기차는 6시 15분에 떠나요.']] },
-      { head:'from A to B', ko:'시작부터 끝까지', lines:[['I swim {from two to four}.', '나는 2시부터 4시까지 수영해요.'], ['The market is open {from six to noon}.', '시장은 6시부터 정오까지 열어요.'], ['We studied {from one to five}.', '우리는 1시부터 5시까지 공부했어요.']] },
-      { head:'between A and B', ko:'두 시각 사이의 어느 때', lines:[['Call me {between one and three}.', '1시에서 3시 사이에 전화해 줘요.'], ['The bus comes {between five and six}.', '버스는 5시에서 6시 사이에 와요.'], ['Come home {between eleven and twelve}.', '11시에서 12시 사이에 집에 오세요.']] }
+      { head:'at', ko:'딱 한 시각', why:'시각 하나를 콕 집어 말할 때 써요. "몇 시에"예요. at six = 6시에.', lines:[['The shop opens {at eleven}.', '가게는 11시에 문을 열어요.'], ["Let's meet {at noon}.", '정오에 만나요.'], ['The train leaves {at six fifteen}.', '기차는 6시 15분에 떠나요.']] },
+      { head:'from A to B', ko:'시작부터 끝까지', why:'A에 시작해서 B까지 내내 이어질 때 써요. "A부터 B까지"예요.', lines:[['I swim {from two to four}.', '나는 2시부터 4시까지 수영해요.'], ['The market is open {from six to noon}.', '시장은 6시부터 정오까지 열어요.'], ['We studied {from one to five}.', '우리는 1시부터 5시까지 공부했어요.']] },
+      { head:'between A and B', ko:'두 시각 사이의 어느 때', why:'A와 B 사이 어느 때인지는 콕 집지 않을 때 써요. "A에서 B 사이에"예요.', lines:[['Call me {between one and three}.', '1시에서 3시 사이에 전화해 줘요.'], ['The bus comes {between five and six}.', '버스는 5시에서 6시 사이에 와요.'], ['Come home {between eleven and twelve}.', '11시에서 12시 사이에 집에 오세요.']] }
     ] },
   'to-purpose':{ name:'목적의 to부정사', pattern:'to + 동사원형', ko:'"~하려고, ~하러"라는 목적을 말해요. went to see a friend = 친구를 만나러 갔다.' },
   'too-adj':   { name:'too + 형용사', pattern:'too + 형용사', ko:'"너무 ~한"이라는 뜻이에요. 보통 지나쳐서 좋지 않다는 느낌이 들어 있어요. too hot = 너무 뜨겁다.' },
@@ -4232,22 +4242,31 @@ $('#grammar').addEventListener('click', e => {
 // a whole page over the case cards (user request: not a pop-up) with each key's pattern, its Korean and its examples
 // (GRAMMAR[].examples, outside the case: none of its times, people or places). 사건 시작 goes on to the case; × goes
 // back to the case cards.
-let caseKeyThen = null, caseKeyKo = false, caseKeyList = [];
-function openCaseKey(list, then){ caseKeyThen = then; caseKeyKo = false; caseKeyList = list; renderCaseKey(); $('#caseKey').hidden = false; $('#caseKeyCard .rv-body').scrollTop = 0; }
-function renderCaseKey(){
+// One form a page (user request: at / from A to B / between A and B each on its own page), the steps on top like the
+// review's; a grammar without examples is one page of its card.
+let caseKeyThen = null, caseKeyKo = false, caseKeyPages = [], caseKeyAt = 0;
+function openCaseKey(list, then){
+  caseKeyThen = then; caseKeyKo = false; caseKeyAt = 0;
+  caseKeyPages = list.flatMap(g => (GRAMMAR[g].examples || [{ head:GRAMMAR[g].pattern, why:GRAMMAR[g].ko, lines:[] }]).map(ex => ({ g, ex })));
+  renderCaseKey(); $('#caseKey').hidden = false;
+}
+function renderCaseKey(turn){
   const mark = t => esc(t).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
-  const keys = caseKeyList.map(g => { const gr = GRAMMAR[g];
-    return `<div class="ck-key"><span class="ck-name">${esc(gr.name)}</span><h3 class="gpattern">${esc(gr.pattern)}</h3><p class="gko">${esc(gr.ko)}</p></div>` +
-      (gr.examples || []).map(ex => `<div class="rv-gcard"><header><b>${esc(ex.head)}</b><small>${esc(ex.ko)}</small></header>${ex.lines.map(([en, ko]) =>
-        `<p class="ck-ex"><span>${mark(en)}</span>${caseKeyKo ? `<span class="ko">${esc(ko)}</span>` : ''}</p>`).join('')}</div>`).join(''); }).join('');
+  const { g, ex } = caseKeyPages[caseKeyAt], last = caseKeyAt === caseKeyPages.length - 1;
   $('#caseKeyCard').innerHTML = `<div class="ck-top"><small>${esc(CASES[0].no)} · ${esc(CASES[0].title)}</small><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
-    <div class="rv-body"><h2 class="rv-title">이번 사건의 열쇠<button class="pill sm" type="button" data-ck-ko aria-pressed="${caseKeyKo}" style="margin-left:auto">해석</button></h2>${keys}</div>
-    <div class="rv-foot"><button class="pill big" type="button" data-ck-go>사건 시작</button></div>`;
+    <div class="rv-steps" aria-label="${caseKeyAt + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i class="${i <= caseKeyAt ? 'on' : ''}"></i>`).join('')}</div>
+    <div class="rv-body${turn ? ' ck-turn' : ''}"><h2 class="rv-title">이번 사건의 열쇠<button class="pill sm" type="button" data-ck-ko aria-pressed="${caseKeyKo}" style="margin-left:auto">해석</button></h2>
+      <div class="ck-key"><span class="ck-name">${esc(GRAMMAR[g].name)}</span><h3 class="gpattern">${esc(ex.head)}</h3><p class="gko">${esc(ex.why || ex.ko)}</p></div>
+      ${ex.lines.length ? `<div class="rv-gcard">${ex.lines.map(([en, ko]) => `<p class="ck-ex"><span>${mark(en)}</span>${caseKeyKo ? `<span class="ko">${esc(ko)}</span>` : ''}</p>`).join('')}</div>` : ''}</div>
+    <div class="rv-foot ck-foot">${caseKeyAt ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
 }
 $('#caseKey').addEventListener('click', e => {
-  if(e.target.closest('[data-ck-ko]')){ const scroll = $('#caseKeyCard .rv-body').scrollTop; caseKeyKo = !caseKeyKo; renderCaseKey(); $('#caseKeyCard .rv-body').scrollTop = scroll; return; }
+  if(e.target.closest('[data-ck-ko]')){ caseKeyKo = !caseKeyKo; return renderCaseKey(); }
   if(e.target.closest('[data-ck-close]')){ $('#caseKey').hidden = true; caseKeyThen = null; return; }
-  if(e.target.closest('[data-ck-go]')){ $('#caseKey').hidden = true; const then = caseKeyThen; caseKeyThen = null; then?.(); }
+  if(e.target.closest('[data-ck-prev]')){ caseKeyAt--; return renderCaseKey(true); }
+  if(!e.target.closest('[data-ck-next]')) return;
+  if(caseKeyAt < caseKeyPages.length - 1){ caseKeyAt++; return renderCaseKey(true); }
+  $('#caseKey').hidden = true; const then = caseKeyThen; caseKeyThen = null; then?.();
 });
 
 /* ---------- home pages ----------
