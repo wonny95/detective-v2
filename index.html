@@ -217,6 +217,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes bubble-pop{from{opacity:0;transform:translateX(-50%) scale(.3)}40%{opacity:1}}
 @keyframes bubble-pop-plain{from{opacity:0;transform:scale(.3)}40%{opacity:1}}
 @keyframes bubble-rise{from{opacity:0;transform:translateY(5px)}}
+/* closing: the pop played backwards, a little swell and then back into its tail */
+@keyframes bubble-close-plain{30%{opacity:1;transform:scale(1.05)}to{opacity:0;transform:scale(.3)}}
 .bubble > *,.office-say > *,.oh-say.pop > *{animation:bubble-rise .3s ease-out .16s both}
 .bubble .say-foot > *,.office-say .office-foot > *,.oh-say.pop .office-foot > *{animation:bubble-rise .3s ease-out calc(.22s + var(--i, 0) * 60ms) both}
 .say-foot > :nth-child(2),.office-foot > :nth-child(2){--i:1}
@@ -225,7 +227,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes det-hop{30%{transform:translateY(-6%) scaleY(1.03)}55%{transform:translateY(0) scale(1.03,.97)}75%{transform:scale(1)}}
 /* the detective (DETECTIVE_POSES): a box in the pose's own shape (--ar), its body centred on the spot (--ax) */
 .det svg{display:block;width:100%;height:100%;overflow:visible;transform-origin:50% 100%}
-@media(prefers-reduced-motion:reduce){.bubble,.app.partner .bubble,.bubble *,.office-say,.office-say *,.oh-say.pop,.oh-say.pop *,.office-det.hop svg,.oh-det.hop svg{animation:none}}
+@media(prefers-reduced-motion:reduce){.bubble,.app.partner .bubble,.bubble *,.office-say,.office-say *,.oh-say.pop,.oh-say.pop *,.oh-say.closing,.office-det.hop svg,.oh-det.hop svg{animation:none}}
 
 /* ---------- docked notebook (Note) ---------- */
 /* Note = a notebook the detective pulls up from the bottom (sketch 3) */
@@ -919,6 +921,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
    a tap on the detective plays it again even while the bubble is open */
 .oh-say.pop{animation:bubble-pop-plain .42s cubic-bezier(.3,1.45,.5,1) both}
+/* closed with its X (user request: the closing moves too): it goes back into its tail, then hides (closeHomeSay) */
+.oh-say.closing{animation:bubble-close-plain .26s ease-in both;pointer-events:none}
 .oh-det.hop svg{animation:det-hop .5s ease-out}
 .oh-say .office-foot{margin-top:10px}
 /* the app's close button, small, in the bubble's top right (user request); a tap on the detective brings the bubble back */
@@ -4262,8 +4266,18 @@ function showHomeLine(key){
   $('#homeKo').textContent = DETECTIVE[key].ko;
   if($('#homeSay').hidden || $('#homeSay').dataset.key !== key){ $('#homeKo').hidden = true; $('#homeKoBtn').setAttribute('aria-pressed', 'false'); }
   $('#homeSay').dataset.key = key;
+  if($('#homeSay').classList.contains('closing')){ $('#homeSay').classList.remove('closing'); $('#homeSay').hidden = true; }
   if($('#homeSay').hidden) popHomeSay(false);
   $('#homeSay').hidden = false;
+}
+let homeCloseT;
+function closeHomeSay(){
+  const say = $('#homeSay');
+  if(say.hidden) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ say.hidden = true; return; }
+  say.classList.remove('pop'); say.classList.add('closing');
+  // hidden when the animation is over (by the clock: a page in the background never ends an animation)
+  clearTimeout(homeCloseT); homeCloseT = setTimeout(() => { if(say.classList.contains('closing')){ say.classList.remove('closing'); say.hidden = true; } }, 260);
 }
 // play the bubble's pop (bubble) and the detective's hop (hop, when they speak) again from the start
 function popHomeSay(hop, bubble = true){
@@ -4292,7 +4306,7 @@ window.addEventListener('pointerup', () => { if(homeDrag){ homeDragged = homeDra
 homePan.addEventListener('wheel', e => { if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ homePan.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive:false });
 homePan.addEventListener('click', e => { if(homeDragged){ homeDragged = false; e.stopPropagation(); e.preventDefault(); } }, true);
 function sayHome(key, pop = true){ const was = !$('#homeSay').hidden; homeClosed = false; showHomeLine(key); popHomeSay(true, pop || !was); detectiveSay(key); }
-$('#homeSayClose').onclick = () => { stopVoice(); homeClosed = true; $('#homeSay').hidden = true; };
+$('#homeSayClose').onclick = () => { stopVoice(); homeClosed = true; closeHomeSay(); };
 // 학습: one page with 단어 / 문법 / 복습 at the top
 function renderStudy(){
   const switcher = `<div class="wb-switch">${[['words','단어'], ['grammar','문법'], ['review','복습']].map(([mode, label]) =>
