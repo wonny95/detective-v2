@@ -49,8 +49,10 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - 원본과 어긋나지 않도록 **오리 주변 상자(345,182)–(515,398)만** 편집본에서 가져와 흐리게 섞고 나머지는 원본 픽셀을 그대로 썼다. 핫스팟·증거 좌표와 `cafe-floor.jpg` 이음새는 바뀌지 않는다.
 - 이전 판은 `cafe-higgsfield-with-duck.png`로 보관한다.
 
-# 탐정 사무소 (Claude 제작, 2026-10-22, 게임에는 아직 미적용)
+# 탐정 사무소 (Claude 제작)
 
-- 플레이어 탐정의 참나무 구멍 속 사무소. 첫 실행 프롤로그·탐정 이름 짓기·홈 사무소에 쓸 예정(설계 `design/detective-name.html`).
-- `detective-office-higgsfield.png` (768×1376, 9:16): Nano Banana 2.1(1K, thinking high, 1.5크레딧), 화풍 참조 카페 편집본(job `354bb7cb-…`). job `0b35855d-efca-4847-8d9c-ad46af85aae4`. 인물 없음, 글자 없음. 아래 3분의 1은 탐정이 설 빈 바닥(가운데 둥근 깔개).
+- 플레이어 탐정의 참나무 구멍 속 사무소. 첫 실행 사무소 화면·탐정 이름 짓기·홈 사무소에 쓴다.
+- **게임에 쓰는 그림 `detective-office-wide.jpg` (1843×1376, 4:3)**: 사용자 요청(홈 사무소를 옆으로 밀어 둘러보기). 아래 세로 원본을 Higgsfield `outpaint_image`(4:3, 2크레딧, job `8061e105-90ad-465c-b0ca-26cd1aa9ae82`)로 양옆을 넓힌 2400×1792를 높이 1376으로 줄여 JPEG(품질 90)로 저장했다. 바깥 확장이 그림 전체를 다시 그려서, 세로 원본과 물건 크기·위치가 조금 다르다(왼쪽 둥근 창 전체, 오른쪽 끝 문이 새로 생김). 확장 원본은 `detective-office-outpaint-original.png`.
+- 그림 기준 위치(%): 깔개 가운데 x 50.2·y 72.3, 코르크 게시판 x 47.8–63.4·y 28.8–44.1, 책장 x 64.8–80·y 52.5–77.
+- `detective-office-higgsfield.png` (768×1376, 9:16, 지금은 보관만): Nano Banana 2.1(1K, thinking high, 1.5크레딧), 화풍 참조 카페 편집본(job `354bb7cb-…`). job `0b35855d-efca-4847-8d9c-ad46af85aae4`. 인물 없음, 글자 없음. 아래 3분의 1은 탐정이 설 빈 바닥(가운데 둥근 깔개).
 - 프롬프트 요지: cozy detective office inside the hollow of a big old oak tree, evening; round window to the forest village at dusk, hanging lamp, desk with open notebook, pencil, magnifying glass, jar of acorns, desk lamp; cork board with blank pinned photos and red string; coat hook with scarf, small bookshelf, cup of tea; lower third empty wooden floor with a round woven rug; no characters, no text.

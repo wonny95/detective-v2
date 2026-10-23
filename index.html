@@ -739,7 +739,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
 /* The detective's office (the player character, user request): the first meeting and naming on the ID card, a new
    case's first line, renaming from 내 기록. Office picture behind, the detective on the rug, their line in a paper bubble. */
-.office{position:absolute;inset:0;z-index:45;overflow:hidden;background:#6B4A30 url(assets/places/detective-office-higgsfield.png) center 62%/cover no-repeat}
+.office{position:absolute;inset:0;z-index:45;overflow:hidden;background:#6B4A30 url(assets/places/detective-office-wide.jpg) center 62%/cover no-repeat}
 .office[hidden]{display:none}
 .office::after{content:"";position:absolute;inset:0;background:rgba(40,26,16,.45);opacity:0;transition:opacity .3s;pointer-events:none}
 .office.naming::after{opacity:1}
@@ -815,9 +815,14 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
    (→ 사건) and the bookshelf (→ 학습) still lead on where they show; name plate and streak on top. */
 #home-home{position:relative;padding:0;overflow:hidden;background:#6B4A30;container-type:size}
 #home-home[hidden]{display:none}
-/* the picture's own box, cropped like a cover background (centre, 62% down), so the detective and the spots stay on
-   their places in the picture at any screen shape; everything inside is in % of the picture (768×1376) */
-.oh-stage{position:absolute;left:50%;top:62%;width:max(100cqw,calc(100cqh * 768 / 1376));aspect-ratio:768/1376;transform:translate(-50%,-62%);background:url(assets/places/detective-office-higgsfield.png) center/100% 100% no-repeat}
+/* the office is wider than the screen (user request): it pans sideways like a place (touch scrolls, a mouse drags,
+   .oh-pan) and opens centred on the detective. The picture's own box fills the height (cropped 62% down on a screen
+   wider than the picture), so the detective and the spots stay on their places in it; everything inside is in % of
+   the picture (1843×1376) */
+.oh-pan{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-user-select:none;user-select:none}
+.oh-pan img{-webkit-user-drag:none}
+.oh-pan::-webkit-scrollbar{display:none}
+.oh-stage{--oh-h:max(100cqh,calc(100cqw * 1376 / 1843));position:relative;top:calc((100cqh - var(--oh-h)) * .62);width:calc(var(--oh-h) * 1843 / 1376);height:var(--oh-h);background:url(assets/places/detective-office-wide.jpg) center/100% 100% no-repeat}
 .oh-spot{position:absolute;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer}
 .oh-spot:active{background:rgba(255,248,233,.18)}
 /* the box keeps the detective's own shape (627×700): a button sized only by its child's % height collapses and squeezes it */
@@ -825,8 +830,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
 .oh-det:active{transform:translateX(-50%) translateY(1px)}
 /* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens. It is as wide as
-   its words and buttons (up to 84%), centred; a line can break where its text has \n (user request: home-new) */
-.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:59%;z-index:2;box-sizing:border-box;width:fit-content;max-width:84%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
+   its words and buttons (up to 84% of the screen), centred over the detective; a line can break where its text has \n (user request: home-new) */
+.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:59%;z-index:2;box-sizing:border-box;width:fit-content;max-width:84cqw;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
 .oh-say[hidden]{display:none}
 /* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
    a tap on the detective plays it again even while the bubble is open */
@@ -1007,16 +1012,16 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
        review in one), 마이 (records and settings). -->
   <section class="cases" id="caseList" aria-label="홈">
     <div class="home-page" id="home-home">
-      <div class="oh-stage">
-        <button class="oh-spot" type="button" data-go="cases" style="left:44%;top:27%;width:39%;height:18%" aria-label="사건 게시판"></button>
-        <button class="oh-spot" type="button" data-go="study" style="left:84%;top:52%;width:16%;height:21%" aria-label="책장"></button>
+      <div class="oh-pan" id="homePan"><div class="oh-stage">
+        <button class="oh-spot" type="button" data-go="cases" style="left:46.5%;top:27.5%;width:18.5%;height:17.5%" aria-label="사건 게시판"></button>
+        <button class="oh-spot" type="button" data-go="study" style="left:64.5%;top:51.5%;width:15.5%;height:25.5%" aria-label="책장"></button>
         <button class="oh-det" type="button" id="officeDetective" aria-label="탐정"><img src="assets/characters/detective-higgsfield.png" alt=""></button>
         <div class="oh-say" id="homeSay" hidden aria-live="polite">
           <button class="close-button oh-close" type="button" id="homeSayClose" aria-label="말풍선 닫기"></button>
           <p id="homeEn"></p><p class="office-ko" id="homeKo" hidden></p>
           <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="pill sm" type="button" id="homeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
         </div>
-      </div>
+      </div></div>
       <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></div>
     </div>
     <div class="home-page" id="home-cases" hidden>
@@ -4012,6 +4017,24 @@ function popHomeSay(hop, bubble = true){
   if(bubble) say.classList.add('pop'); if(hop) det.classList.add('hop');
 }
 $('#officeDetective').addEventListener('animationend', e => e.target.closest('.oh-det').classList.remove('hop'));
+// the office pans sideways: it opens (or comes back into view) centred on the detective; a mouse drags it like a place
+// (touch scrolls natively) and a drag never counts as a tap on the picture
+const homePan = $('#homePan');
+let homePanW = 0, homeDrag = null, homeDragged = false;
+new ResizeObserver(() => {
+  if(homePan.clientWidth && homePan.clientWidth !== homePanW) homePan.scrollLeft = (homePan.scrollWidth - homePan.clientWidth) / 2;
+  homePanW = homePan.clientWidth;
+}).observe(homePan);
+homePan.addEventListener('pointerdown', e => { homeDragged = false; if(e.pointerType === 'mouse' && e.button === 0) homeDrag = { x:e.clientX, s:homePan.scrollLeft, moved:false }; });
+window.addEventListener('pointermove', e => {
+  if(!homeDrag) return;
+  const dx = e.clientX - homeDrag.x;
+  if(Math.abs(dx) > 5) homeDrag.moved = true;
+  if(homeDrag.moved) homePan.scrollLeft = homeDrag.s - dx;
+});
+window.addEventListener('pointerup', () => { if(homeDrag){ homeDragged = homeDrag.moved; homeDrag = null; } });
+homePan.addEventListener('wheel', e => { if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ homePan.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive:false });
+homePan.addEventListener('click', e => { if(homeDragged){ homeDragged = false; e.stopPropagation(); e.preventDefault(); } }, true);
 function sayHome(key, pop = true){ const was = !$('#homeSay').hidden; homeClosed = false; showHomeLine(key); popHomeSay(true, pop || !was); detectiveSay(key); }
 $('#homeSayClose').onclick = () => { stopVoice(); homeClosed = true; $('#homeSay').hidden = true; };
 // 학습: one page with 단어 / 문법 / 복습 at the top
