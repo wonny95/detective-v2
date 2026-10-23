@@ -419,6 +419,7 @@ node server.js            # http://localhost:5173/
 | 오리 아저씨 | `characters/duck-higgsfield.png` | Claude 제작, 447×694, 투명 배경. 원본 `duck-higgsfield-original.png` |
 | 플레이어 탐정 | `characters/detective-higgsfield.png`(기본), `characters/detective-thinking·point·lens·wave.png`(포즈, 각 약 610×700), `places/detective-office-wide.jpg`, `ui/detective-id-card.png`, `ui/icons-v2/detective.png` | Claude 제작. 주황 다람쥐 탐정(체크무늬 모자·트렌치코트·돋보기, 627×700), 참나무 사무소(가로 1843×1376, 세로 원본 768×1376은 보관만), 빈 신분증(1143×747), 얼굴 아이콘(신분증 사진 칸). 3.1.1절 |
 | 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠. 클립은 지움(사용자 요청: 오른쪽 위 UI를 가림, 원본 `casefile-panel-with-clip.webp`) |
+| 홈 메뉴 아이콘(시안) | `ui/nav/*.png` (160×160) | `nav-icons-higgsfield-original.png` 3×2 시트를 `scripts/cut-nav-icons.py`로 자름. 게임 미적용 |
 | 노트 탭 | `ui/tab-1-closed.png` … `tab-3-closed.png` | `tab-1…3.png`의 위 테두리를 아래로 뒤집어 붙여 닫은 손그림 견출지. CSS 마스크 + 곱하기로 색(열린 탭 크림, 나머지 파랑)을 입힌다. `tab-1…6.png`(아래가 열린 원본)는 지금 쓰지 않는다 |
 | 손그림 아이콘 | `ui/icons-v2/*.png` (160×160) | Higgsfield 한 장(돋보기·카메라·도토리·여섯 인물 얼굴). 증거 탭 카메라, 힌트 도토리, 작은 얼굴(`miniSVG()` → `FACE_ICONS`: 노트 얼굴 줄·제목·메모 쪽지·지도 핀·지목·복습·단어장). 노트 인물 탭은 `detective.png` |
 | 심문 게이지 | `ui/magnifier-paper.png`, `ui/buttons/cream-flat.png`, `ui/buttons/honey-flat.png` | 돋보기는 내장 이미지 생성. 크림/갈색 종이 외곽과 꿀색 채움은 기존 버튼 질감 재사용 |
@@ -486,7 +487,7 @@ node server.js            # http://localhost:5173/
 
 ## 10. 다음 할 일 (미구현 후보, 별도 요청 후 진행)
 
-0. **홈 메뉴 개편 — 시안 검토 중, 게임 미적용**(사용자 요청: 메뉴 띠 안에 칸마다 테두리 상자가 또 있어 어색함, 일러스트 같은 버튼, 사건 아이콘은 돋보기, 마이는 메달 말고 다른 것, 홈은 탐정사무소 느낌). 시안 `design/home-nav.html`: A 종이 띠 + 꿀색 손칠(추천) / B 솟은 종이 탭 / C 둥근 종이 단추 / D 사무소 나무 선반 / E 코르크 게시판 쪽지. 아이콘은 임시(홈 = 탐정 얼굴, 사건 = 돋보기, 학습 = 노트, 마이 = 탐정 신분증). 고르면 Higgsfield 3×3 시트 한 장(약 1.5크레딧)으로 같은 화풍의 메뉴 아이콘 한 벌(사건 돋보기, 학습 책+연필, 홈 후보: 나무 문 사무소·모자걸이·스탠드 램프, 마이 후보: 탐정 신분증·사냥 모자·탐정 얼굴). `홈` 이름을 `사무소`로 바꿀지, 사건 안 `지도`·`Note` 메뉴도 맞출지 결정 대기.
+0. **홈 메뉴 개편 — 시안 검토 중, 게임 미적용**(사용자 요청: 메뉴 띠 안에 칸마다 테두리 상자가 또 있어 어색함, 일러스트 같은 버튼). 시안 `design/home-nav.html`: 다섯 안 중 **A 종이 띠 + 꿀색 손칠**(사용자 선택, 위아래를 줄여 띠 높이 약 62px; 칸 상자 없이 아이콘·글자, 띠 위쪽은 손으로 그은 물결선, 선택 칸은 아이콘 뒤 꿀색 얼룩 + 진한 글자). 아이콘 새 한 벌 `assets/ui/nav/`(Higgsfield, 더 단순하게): 사건 돋보기 `case-magnifier`, 학습 책 `study-book`, 홈 동그란 나무 문 `home-door`(후보 `home-door-lantern`), 마이 다람쥐 탐정 얼굴 `my-squirrel`(후보 탐정 모자 `my-hat`; 얼굴은 탐정 그림을 참조하지 않고 그려져 여우처럼 보일 수 있음). 남은 결정: 홈·마이 아이콘, `홈` 이름, 사건 안 `지도`·`Note` 메뉴도 맞출지. 정해지면 게임의 `.cases .nav`(`#homeIcon` 등 SVG 기호 → 그림)에 적용.
 1. **추리 칠판 다듬기**(게임 적용됨, 3.7절): 두더지 알리바이 쪽(오리 아저씨 새 진술 d3 "Mrs. Mole had tea here. She left at ten to nine." + 음성 약 0.3크레딧, 또는 두더지를 용의자에서 빼기), 틀렸을 때 알려 줄 정도(지금은 없음 / "거의 맞았어" / 도토리 힌트), 탐정 말풍선 2줄의 음성(약 0.6크레딧), 남아 있는 옛 지목 창·오답 반박 코드 정리. 시안 기록: `design/deduction-book.html`(적용한 안), `design/case-board.html`·`design/deduction-ideas.html`(검토했다가 고르지 않은 안).
 2. **사건 도중 증거를 인물에게 내밀기**(지금은 엔딩 대질에만 있다): 게임이 증거와 인물을 자동으로 잇지 않는다. 플레이어가 고른 인물에게 증거를 보여 주면 반응한다(예: 주황색 털을 피오나에게). 누구에게 보여 줄지가 추리다.
 3. **모순 지목**: 범인만 고르는 대신 노트 문장 + 증거를 짝지어 제시한다. 틀리면 동료가 대화로 힌트를 준다. 틀린 노트 문장이면 동료가 "정말 그렇게 말했어요?"라고 되묻는다.

@@ -20,6 +20,11 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 .opt h2{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:17px;display:flex;align-items:baseline;gap:8px}
 .opt h2 small{font-size:12px;color:var(--ink-soft)}
 .opt p{margin:8px 2px 0;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:-8px 0 22px;font-family:var(--f-display);font-size:13px}
+.tools span{margin-left:6px}
+.tools button{padding:5px 12px;border:2px solid var(--ink);border-radius:14px;background:var(--card);font:inherit;color:var(--ink);cursor:pointer}
+.tools button[aria-pressed="true"]{background:var(--honey)}
+code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
 .rec{display:inline-block;padding:1px 8px;border-radius:10px;background:var(--honey);font-size:11px;color:var(--ink)}
 
 /* the bottom of the phone: the office picture, then the menu */
@@ -34,13 +39,13 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 .idc i{position:absolute;left:10%;top:22%;width:32%;height:56%;background:url(../assets/ui/icons-v2/detective.png) 50% 30%/160% no-repeat}
 
 /* ---------- A. 종이 띠 + 꿀색 손칠 ---------- */
-.a .nav{padding:12px 10px 18px;background:var(--paper-2)}
+.a .nav{padding:6px 10px 9px;background:var(--paper-2)}
 .a .nav::before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6 L400 12 L0 12Z' fill='%23F4EAD4'/%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6' fill='none' stroke='%234A3628' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
-.a .it{color:var(--ink-soft);gap:4px}
-.a .it .ic{width:52px;height:40px}
+.a .it{color:var(--ink-soft);gap:0;font-size:12px}
+.a .it .ic{width:46px;height:32px}
 .a .it .ic img,.a .it .idc{position:relative;z-index:1}
-.a .it .ic img{max-width:32px;max-height:32px}
-.a .it .ic::before{content:"";position:absolute;inset:2px 0;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;background:var(--honey);opacity:0;transform:scale(.6) rotate(-6deg);transition:.25s cubic-bezier(.3,1.5,.5,1);filter:url(#rough)}
+.a .it .ic img{max-width:27px;max-height:27px}
+.a .it .ic::before{content:"";position:absolute;inset:1px 2px;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;background:var(--honey);opacity:0;transform:scale(.6) rotate(-6deg);transition:.25s cubic-bezier(.3,1.5,.5,1);filter:url(#rough)}
 .a .it[aria-current] {color:var(--ink);font-weight:700}
 .a .it[aria-current] .ic::before{opacity:.95;transform:none}
 .a .it:not([aria-current]) .ic img,.a .it:not([aria-current]) .idc{filter:saturate(.6);opacity:.8}
@@ -101,7 +106,9 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 </svg>
 <div class="wrap">
   <h1>홈 메뉴 시안</h1>
-  <p class="lead">홈 화면 아래 메뉴 다섯 가지예요. 메뉴를 눌러 선택 모양을 바꿔 볼 수 있어요. 아이콘은 지금 있는 그림을 임시로 쓴 것이고(홈 = 탐정 얼굴, 사건 = 돋보기, 학습 = 노트, 마이 = 탐정 신분증), 고른 메뉴에 맞춰 Higgsfield에서 같은 화풍의 한 벌로 새로 그려요.</p>
+  <p class="lead">홈 화면 아래 메뉴 다섯 가지예요. 메뉴를 눌러 선택 모양을 바꿔 볼 수 있어요. 사용자 선택은 A안(위아래 높이를 줄임). 아이콘은 Higgsfield로 새로 그린 한 벌(<code>assets/ui/nav/</code>)이고, 홈·마이는 후보를 아래 버튼으로 바꿔 볼 수 있어요.</p>
+  <div class="tools"><span>홈</span><button type="button" data-home-ic="home-door" aria-pressed="true">동그란 나무 문</button><button type="button" data-home-ic="home-door-lantern" aria-pressed="false">문 + 등불</button>
+    <span>마이</span><button type="button" data-my-ic="my-squirrel" aria-pressed="true">다람쥐 탐정 얼굴</button><button type="button" data-my-ic="my-hat" aria-pressed="false">탐정 모자</button></div>
   <div class="grid" id="grid"></div>
   <div class="spec">
     <h2>공통</h2>
@@ -113,20 +120,30 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
   </div>
 </div>
 <script>
-const ITEMS = [['홈', '<img src="../assets/ui/icons-v2/detective.png" alt="">'], ['사건', '<img src="../assets/ui/icons/magnifier.png" alt="">'], ['학습', '<img src="../assets/ui/icons/note.png" alt="">'], ['마이', '<span class="idc"><i></i></span>']];
+const ic = n => `<img src="../assets/ui/nav/${n}.png" alt="">`;
+let homeIc = 'home-door', myIc = 'my-squirrel';
+const items = () => [['홈', ic(homeIc)], ['사건', ic('case-magnifier')], ['학습', ic('study-book')], ['마이', ic(myIc)]];
 const OPTS = [
-  ['a', 'A. 종이 띠 + 꿀색 손칠', true, '상자를 모두 없애고, 띠 위쪽 선도 손으로 그은 물결선으로. 선택한 칸은 아이콘 뒤에 색연필로 칠한 듯한 꿀색 얼룩이 번지고 글자가 진해진다. 가장 가볍고 깔끔하다.'],
+  ['a', 'A. 종이 띠 + 꿀색 손칠', true, '상자를 모두 없애고, 띠 위쪽 선도 손으로 그은 물결선으로. 위아래를 줄여 띠가 얇다(사용자 요청). 선택한 칸은 아이콘 뒤에 색연필로 칠한 듯한 꿀색 얼룩이 번지고 글자가 진해진다. 가장 가볍고 깔끔하다.'],
   ['b', 'B. 솟은 종이 탭', false, '선택한 칸의 아이콘이 노트 탭과 같은 손그림 종이 탭에 담겨 띠 위로 톡 솟는다. 노트 탭과 같은 말이라 앱 전체가 이어진다.'],
   ['c', 'C. 둥근 종이 단추', false, '칸마다 손그림 둥근 종이 단추(앱의 닫기·재생 단추와 같은 그림). 선택한 단추는 꿀색으로 바뀌며 커져서 위로 떠오른다. 누르는 맛이 가장 크다.'],
   ['d', 'D. 사무소 나무 선반', false, '메뉴 띠가 홈 그림 바닥과 같은 나무 선반이 되고, 아이콘이 선반 위에 놓인 물건처럼 그림자를 드리운다. 이름은 작은 종이 꼬리표. 선택하면 물건이 들리고 꼬리표가 꿀색. 사무소 느낌이 가장 강하다.'],
   ['e', 'E. 코르크 게시판 쪽지', false, '사건 목록의 코르크 게시판처럼, 메뉴가 압정으로 꽂힌 쪽지들. 선택한 쪽지는 빨간 압정에 반듯하게 펴진다. 탐정 느낌이 강하지만 가장 장식이 많다.']
 ];
 const R = ['-2deg', '1.5deg', '-1deg', '2deg'];
-document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text]) => `<section class="opt ${k}"><h2>${title}${rec ? ' <span class="rec">추천</span>' : ''}</h2>
-  <div class="phone"><nav class="nav">${ITEMS.map(([label, icon], i) => `<button class="it" type="button" style="--r:${R[i]}"${i === 0 ? ' aria-current="page"' : ''}><span class="ic">${icon}</span><span class="lab">${label}</span></button>`).join('')}</nav></div>
+const picked = {};   // the item each menu has on, kept across re-renders
+function render(){
+  document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text]) => `<section class="opt ${k}"><h2>${title}${rec ? ' <span class="rec">사용자 선택</span>' : ''}</h2>
+  <div class="phone"><nav class="nav" data-k="${k}">${items().map(([label, icon], i) => `<button class="it" type="button" data-i="${i}" style="--r:${R[i]}"${i === (picked[k] || 0) ? ' aria-current="page"' : ''}><span class="ic">${icon}</span><span class="lab">${label}</span></button>`).join('')}</nav></div>
   <p>${text}</p></section>`).join('');
+}
+render();
 document.addEventListener('click', e => {
+  const h = e.target.closest('[data-home-ic]'), m = e.target.closest('[data-my-ic]');
+  if(h){ homeIc = h.dataset.homeIc; document.querySelectorAll('[data-home-ic]').forEach(b => b.setAttribute('aria-pressed', b === h)); return render(); }
+  if(m){ myIc = m.dataset.myIc; document.querySelectorAll('[data-my-ic]').forEach(b => b.setAttribute('aria-pressed', b === m)); return render(); }
   const it = e.target.closest('.it'); if(!it) return;
+  picked[it.parentNode.dataset.k] = +it.dataset.i;
   it.parentNode.querySelectorAll('.it').forEach(b => b.toggleAttribute('aria-current', b === it));
 });
 </script>

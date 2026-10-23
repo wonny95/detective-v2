@@ -158,3 +158,11 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - `detective-id-card.png` (1143×747, 투명): 탐정 이름 짓기 화면의 빈 신분증(왼쪽 위 도토리, 왼쪽 사진 칸, 오른쪽 빈 줄 세 개, 오른쪽 아래 도장 동그라미). Nano Banana 2.1(1K, thinking high, 3:2, 1.5크레딧), 화풍 참조 아이콘 v2 시트(job `782fc121-…`). job `ff14130a-afef-447c-bded-ba767b186f49`, 원본 `detective-id-card-higgsfield-original.png`. 마젠타를 로컬에서 지우고(가장자리 색 분리) 잘랐다.
   - 칸 위치(그림 대비 %): 사진 칸 left 11.3 · top 24.9 · w 29.6 · h 50.6 / 줄 x 47.5–90, 바닥선 y 37.1·49.8·62.5 / 도장 동그라미 중심 (85.1, 77.5), 지름 w 12.6.
 - `icons-v2/detective.png` (160×160): 탐정 얼굴 아이콘. `characters/detective-higgsfield.png`에서 (95,15)–(465,385)를 잘라 줄였고, 왼쪽 아래 돋보기 테두리는 지웠다(크레딧 없음).
+
+## 홈 메뉴 아이콘 (2026-10-23)
+
+- `nav-icons-higgsfield-original.png` (1264×848, job `2ba9fd48-3269-4795-9c52-f945c8a0ea47`): 3×2 시트 — 동그란 나무 문, 돋보기, 펼친 책 / 다람쥐 탐정 얼굴, 탐정 모자, 나무 문 + 등불.
+- 사용자 요청: 홈 메뉴 아이콘을 앱 일러스트와 같은 화풍으로, 지금 아이콘보다 더 단순하게. 사건 = 돋보기, 홈 = 동그란 나무 문(탐정사무소), 마이 = 다람쥐 탐정 얼굴 또는 탐정 모자.
+- 제작: Nano Banana 2.1, 3:2, 1.5크레딧, 마젠타 배경. 참조 그림 없이 글로만 화풍을 지정했다(그래서 탐정 얼굴이 실제 탐정 그림과 조금 다르다).
+- 자르기: `scripts/cut-nav-icons.py` — 마젠타 정도로 알파, 가장자리에서 마젠타를 빼고, 칸마다 그림만 잘라 정사각형 여백을 두고 160×160 → `nav/<이름>.png`.
+- 사용처: 시안 `design/home-nav.html`(게임 미적용).
