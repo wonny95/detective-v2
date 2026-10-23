@@ -109,6 +109,13 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 .opt .fc{flex:none;width:28px;height:28px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:2px solid var(--ink)}
 .opt .fc.unknown{display:grid;place-items:center;background:#EDE3CF;color:var(--ink-soft);font-size:13px;font-style:normal}
 .opt .ph{flex:none;width:36px;height:27px;border:2px solid var(--ink);background-repeat:no-repeat;transform:rotate(-2deg)}
+/* people: a grid of big faces with the name small underneath (user request), not a list */
+.drop.faces{width:300px;max-width:none}
+.drop-list.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-height:none;padding:14px 10px 12px}
+.opt.face{flex-direction:column;justify-content:flex-start;gap:4px;min-height:0;padding:6px 2px 5px;font-size:11px;line-height:1.15;text-align:center;white-space:normal}
+.opt.face + .opt.face{box-shadow:none}
+.opt.face .fc{width:54px;height:54px;border-width:2.5px}
+.opt.face .fc.unknown{font-size:24px}
 /* the notes: as in the game, a page per person plus the photos; the board stays in view above */
 .notes{height:62%;display:flex;flex-direction:column;padding:12px 14px 0}
 .who{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px;border-bottom:1.5px solid rgba(74,54,40,.15)}
@@ -311,7 +318,9 @@ function openWords(k){
     const icon = kind === 'person' ? (FACE[w] ? `<i class="fc" style="background-image:url(../assets/ui/icons-v2/${FACE[w]}.png)"></i>` : '<i class="fc unknown">?</i>')
       : kind === 'thing' ? `<i class="ph" style="${photoStyle(w, 32)}"></i>` : '<i class="dotk"></i>';
     return `<button class="opt" type="button" role="option" data-w="${w}" aria-selected="${w === now}">${icon}${w}</button>`; }).join('');
-  drop.innerHTML = `<div class="drop-list">${drop.innerHTML}</div>`;
+  drop.innerHTML = `<div class="drop-list ${kind === 'person' ? 'grid' : ''}">${drop.innerHTML}</div>`;
+  drop.classList.toggle('faces', kind === 'person');
+  if(kind === 'person') drop.querySelectorAll('.opt').forEach(o => o.classList.add('face'));
   drop.hidden = false;
   // under the blank, kept inside the board; above it when the board runs out below
   const board = $('.board').getBoundingClientRect(), b = document.querySelector(`#page [data-b="${k}"]`).getBoundingClientRect();
