@@ -31,6 +31,8 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 .phone::before{content:"";position:absolute;inset:0;background:rgba(48,30,18,.55);backdrop-filter:blur(3px)}
 .top{position:absolute;left:14px;right:14px;top:14px;z-index:3;display:flex;align-items:center;gap:8px}
 .top .back{--bw:15px;min-height:36px;padding:0 14px;font-size:14px}
+/* the page's title, the same paper chip as a place's name */
+.top .title{--bw:15px;min-height:36px;margin:0;padding:0 14px;font-size:18px;font-weight:400;cursor:default}
 /* page tabs along the top: a page done gets its stamp-red dot */
 .tabs{display:flex;gap:6px;margin-left:auto}
 .tab{width:30px;height:30px;border:2px solid var(--ink);border-radius:50%;background:var(--paper);font-family:var(--f-display);font-size:13px;color:var(--ink);cursor:pointer;padding:0}
@@ -62,6 +64,17 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 .b.on{opacity:1;outline:3px solid var(--honey);outline-offset:2px;transform:translateY(-2px)}
 .b.person{--c:var(--person)}.b.place{--c:var(--place)}.b.time{--c:var(--time)}.b.thing{--c:var(--thing)}
 .ko .b{height:20px;line-height:20px;min-width:50px;font-size:11.5px;vertical-align:-3px;cursor:default}
+/* a person shows their face, a thing shows the player's photo of it, at the left end of the pill */
+.b.pic{padding-left:3px;display:inline-flex;align-items:center;gap:5px}
+.b .fc{width:22px;height:22px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:1.5px solid rgba(255,255,255,.85);flex:none}
+.b .ph{width:28px;height:20px;border-radius:4px;border:1.5px solid rgba(255,255,255,.85);background-repeat:no-repeat;flex:none}
+.ko .b .fc{width:16px;height:16px}.ko .b .ph{width:20px;height:15px}
+.wl.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.card{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px 7px;border:0;border-radius:12px;background:var(--c);color:#fff;font-family:var(--f-display);font-size:11.5px;line-height:1.15;text-align:center;cursor:pointer;box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}
+.card .fc{width:52px;height:52px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:2px solid rgba(255,255,255,.9)}
+.card .fc.unknown{display:grid;place-items:center;background:#E9DFCB;color:var(--ink-soft);font-size:24px}
+.card .ph{width:100%;aspect-ratio:4/3;border-radius:6px;border:2px solid rgba(255,255,255,.9);background-repeat:no-repeat}
+.card:active{transform:translateY(1px)}
 .page.solved .b{cursor:default}
 /* the page's stamp once it is right */
 .stamp{position:absolute;right:18px;bottom:40px;padding:2px 12px;border:3px solid var(--no);border-radius:8px;color:var(--no);font-family:var(--f-display);font-size:20px;transform:rotate(-10deg);opacity:.85;animation:stamp .4s cubic-bezier(.3,1.6,.5,1)}
@@ -110,7 +123,7 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
     <h1>추리 수첩 시안</h1>
     <p class="lead">Duck Detective의 추리 페이지처럼, 모은 단어로 빈칸을 채워 추리를 완성해요. 빈칸을 누르면 그 종류의 단어만 나와요.</p>
     <div class="phone" id="phone">
-      <div class="top"><button class="pill back" type="button">‹</button><div class="tabs" id="tabs"></div></div>
+      <div class="top"><button class="pill back" type="button">‹</button><h1 class="pill title">Deduction</h1><div class="tabs" id="tabs"></div></div>
       <div class="book"><div class="page" id="page"></div></div>
       <div class="foot"><button class="pill arrow" type="button" id="prev" aria-label="이전 쪽">◀</button><button class="pill ko-btn" type="button" id="koBtn" aria-pressed="false">해석</button><button class="pill arrow" type="button" id="next" aria-label="다음 쪽">▶</button></div>
       <div class="say" id="say" hidden><img src="../assets/ui/icons-v2/detective.png" alt=""><div class="bub" id="bub"></div></div>
@@ -175,6 +188,19 @@ const WORDS = {
   thing:['big clock', 'sign', 'oven', 'note', 'poster', 'Star Club notebook', 'footprints', 'orange fur', 'purple jam']
 };
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건' };
+// faces (ui/icons-v2): Mrs. Bear was only ever named, never met, so she has no face yet
+const FACE = { 'Ray Raccoon':'ray', 'Rosie Rabbit':'rosie', 'Fiona Fox':'fiona', 'Mrs. Mole':'mole', 'Mr. Duck':'duck', 'Sgt. Badger':'badger' };
+const ART = { library:'library-higgsfield-v2.png', bakery:'bakery-higgsfield.png', cafe:'cafe-higgsfield.png', hill:'hill-higgsfield.png' };
+const PHOTO = {
+  'big clock':['library', 971, 129, 160, 120], 'purple jam':['library', 116, 309, 176, 132], 'orange fur':['library', 1216, 350, 160, 120],
+  sign:['bakery', 57, 194, 176, 132], oven:['bakery', 1070, 210, 240, 180], note:['bakery', 465, 315, 120, 90],
+  poster:['cafe', 666, 140, 200, 150], 'Star Club notebook':['hill', 1080, 440, 160, 120], footprints:['hill', 280, 435, 280, 210]
+};
+const photoStyle = (w, W) => { const [pl, x, y, pw, ph] = PHOTO[w], k = W / pw;
+  return `background-image:url(../assets/places/${ART[pl]});background-size:${1376 * k}px ${768 * k}px;background-position:${-x * k}px ${-y * k}px`; };
+const pic = (w, W) => FACE[w] ? `<i class="fc" style="background-image:url(../assets/ui/icons-v2/${FACE[w]}.png)"></i>`
+  : PHOTO[w] ? `<i class="ph" style="${photoStyle(w, W)}"></i>` : '';
+const filledPill = (kind, w, cls = '', attrs = '') => `<span class="b ${kind} ${w ? 'full' : ''} ${w && pic(w, 28) ? 'pic' : ''} ${cls}" ${attrs}>${w ? pic(w, 28) + w : ''}</span>`;
 // {kind:answer} is a blank
 const PAGES = [
   { title:'When?', en:'Professor Hoot was hurt at {time:8:40}. I know it because the {thing:big clock} stopped then.',
@@ -195,11 +221,11 @@ function render(turn){
   const p = PAGES[at], bl = blanksOf(p);
   let i = 0;
   const en = p.en.replace(/\{(\w+):[^}]+\}/g, (m, kind) => { const k = i++, w = fill[at][k];
-    return `<span class="b ${kind} ${w ? 'full' : ''} ${on === k ? 'on' : ''}" data-b="${k}">${w || ''}</span>`; });
+    return filledPill(kind, w, on === k ? 'on' : '', `data-b="${k}"`); });
   // the Korean follows the English blanks in order of kind
   const seen = {}; const order = bl.map((b, k) => ({ ...b, k }));
   const kot = p.ko.replace(/\{(\w+)\}/g, (m, kind) => { seen[kind] = (seen[kind] || 0); const hit = order.filter(o => o.kind === kind)[seen[kind]++];
-    const w = hit && fill[at][hit.k]; return `<span class="b ${kind} ${w ? 'full' : ''}">${w || ''}</span>`; });
+    const w = hit && fill[at][hit.k]; return filledPill(kind, w); });
   $('#page').className = `page ${solved[at] ? 'solved' : ''} ${turn ? 'turn' : ''}`;
   $('#page').innerHTML = `<i class="ribbon"></i><h2>${p.title}${p.proposal ? '<span class="prop">제안</span>' : ''}</h2>
     <div class="text">${en}</div>${ko ? `<div class="text ko">${kot}</div>` : ''}
@@ -213,7 +239,11 @@ function openWords(k){
   on = k; render();
   $('#words').className = `words ${kind}`;
   $('#words').innerHTML = `<div class="kind"><i></i>${KIND_KO[kind]}<button class="x" type="button" aria-label="닫기"></button></div>
-    <div class="wl">${WORDS[kind].map(w => `<button class="w" type="button" data-w="${w}">${w}</button>`).join('')}</div>`;
+    ${kind === 'person' || kind === 'thing'
+      ? `<div class="wl cards">${WORDS[kind].map(w => `<button class="card" type="button" data-w="${w}">${kind === 'person'
+          ? (FACE[w] ? `<i class="fc" style="background-image:url(../assets/ui/icons-v2/${FACE[w]}.png)"></i>` : '<i class="fc unknown">?</i>')
+          : `<i class="ph" style="${photoStyle(w, 76)}"></i>`}${w}</button>`).join('')}</div>`
+      : `<div class="wl">${WORDS[kind].map(w => `<button class="w" type="button" data-w="${w}">${w}</button>`).join('')}</div>`}`;
   $('#words').hidden = false; $('#say').hidden = true;
 }
 function closeWords(){ on = null; $('#words').hidden = true; render(); }
