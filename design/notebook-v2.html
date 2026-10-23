@@ -50,14 +50,13 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 .cat > *{position:relative}
 .cat img{width:24px;height:24px}
 /* tab colours (user request: the open tab hardly stood out). Two ways to try:
-   paper — the open tab is the page's own cream and reaches down over the folder's band into the page, as one sheet;
-           the others are the folder's blue, lower, behind it
+   paper — the open tab is the page's own cream, a little taller; the others are the folder's blue. It stops at the
+           folder's band (user request: the tab reaching down into the page looked too long)
    color — each tab has its colour and the open page wears it (title strip, a band along the top); the others fade */
 .t-paper .cats{z-index:4}
-.t-paper .cat{--tab-bg:#7488A8;color:#FBF4E6;height:30px}
+.t-paper .cat{--tab-bg:#7488A8;color:#FBF4E6;height:28px}
 .t-paper .cat img{filter:drop-shadow(0 0 1.5px rgba(251,244,230,.9))}
-.t-paper .cat[aria-pressed="true"]{--tab-bg:#FCFAED;color:var(--ink);height:60px;margin-bottom:-24px;padding-bottom:24px}
-.t-paper .cat[aria-pressed="true"]::after{content:"";position:absolute;left:2px;right:2px;bottom:0;height:9px;background:#FCFAED}
+.t-paper .cat[aria-pressed="true"]{--tab-bg:#FCFAED;color:var(--ink);height:34px}
 .t-color .cat{--tab-bg:var(--c);height:30px;filter:saturate(.55) brightness(.92);opacity:.8}
 .t-color .cat[aria-pressed="true"]{height:38px;filter:none;opacity:1}
 .t-color .nb-head{border-radius:12px;background:color-mix(in srgb,var(--page) 75%,transparent)}
@@ -140,7 +139,7 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 <div class="wrap">
   <div>
     <h1 class="page-title">노트 개편 시안</h1>
-    <p class="lead">Note를 연 모습이에요. 위 탭은 <b>인물 · 증거 · 메모</b> 세 개로 고정이에요. 인물은 노트 제목을 눌러 여는 <b>인물 메뉴</b>로 바꾸고, ‹ ›로 앞뒤 인물로 넘겨요. 📌로 진술·증거를 메모에 붙이고, 메모에 내 생각을 적어요.</p>
+    <p class="lead">Note를 연 모습이에요. 위 탭은 <b>인물 · 증거 · 메모</b> 세 개로 고정이에요. 인물은 노트 제목 아래 <b>얼굴 줄</b>에서 골라요. 📌로 진술·증거를 메모에 붙이고, 메모에 내 생각을 적어요.</p>
     <div class="phone" id="phone">
       <div class="cats" id="cats"></div>
       <section class="nb" aria-label="노트">
@@ -149,24 +148,23 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
       </section>
       <nav class="nav"><button class="pill" type="button">지도</button><button class="pill" type="button" aria-pressed="true">Note</button></nav>
     </div>
-    <div class="tools"><button class="pill" type="button" data-pick="menu" aria-pressed="true">인물 메뉴</button><button class="pill" type="button" data-pick="strip" aria-pressed="false">비교: 얼굴 줄</button><button class="pill" type="button" id="many">인물 12명으로</button></div>
-    <div class="tools"><button class="pill" type="button" data-tabstyle="paper" aria-pressed="true">탭 색: 종이로 이어짐</button><button class="pill" type="button" data-tabstyle="color" aria-pressed="false">탭 색: 탭마다 색</button></div>
+    <div class="tools"><button class="pill" type="button" data-pick="strip" aria-pressed="true">얼굴 줄</button><button class="pill" type="button" data-pick="menu" aria-pressed="false">비교: 인물 메뉴</button><button class="pill" type="button" id="many">인물 12명으로</button></div>
+    <div class="tools"><button class="pill" type="button" data-tabstyle="paper" aria-pressed="true">탭 색: 종이색</button><button class="pill" type="button" data-tabstyle="color" aria-pressed="false">탭 색: 탭마다 색</button></div>
   </div>
 
   <div class="spec">
     <h2>1. 탭 3개로 고정 (사용자 선택)</h2>
     <ul>
-      <li>노트 위 탭은 언제나 <b>인물 · 증거 · 메모</b> 세 개. 인물이 몇 명이 되어도 늘지 않는다. 그림은 지금의 손그림 종이 탭 그대로, <b>아이콘만</b>(사용자 요청: 가로가 좁다; 글자는 접근성 이름으로만). 탭 폭 50px, 높이 30–36px(사용자 요청: 세로도 줄임).</li>
+      <li>노트 위 탭은 언제나 <b>인물 · 증거 · 메모</b> 세 개. 인물이 몇 명이 되어도 늘지 않는다. 그림은 지금의 손그림 종이 탭 그대로, <b>아이콘만</b>(사용자 요청: 가로가 좁다; 글자는 접근성 이름으로만). 탭 폭 50px, 높이 28px · 열린 탭 34px(사용자 요청: 세로도 줄임, 열린 탭이 종이까지 내려와 너무 길다).</li>
       <li>옆 인덱스 탭은 넣지 않는다(사용자: 화면이 좁다).</li>
     </ul>
 
-    <h2>2. 인물 메뉴 (사용자 아이디어)</h2>
+    <h2>2. 인물 고르기 — 얼굴 줄 (사용자 선택)</h2>
     <ul>
-      <li>인물 탭의 노트 제목 줄이 곧 메뉴다: <code>[얼굴] Sgt. Badger의 진술 ▾</code>. 누르면 제목 아래로 종이 메뉴(말풍선 종이 + 연필 꼬리, 추리 칠판의 드롭다운과 같은 모양)가 펼쳐지고, 만난 인물이 큰 얼굴 + 작은 이름으로 4열. 얼굴 모서리에 진행(✓ 다 기록 / 1/3), 지금 인물은 꿀색 종이.</li>
-      <li>제목 오른쪽 ‹ ›로 앞뒤 인물로 바로 넘긴다(만난 순서). 메뉴 밖을 누르면 닫힌다.</li>
-      <li>공간: 제목 줄은 지금도 있는 자리라 노트 글 영역이 한 줄도 줄지 않는다. 비교용 "얼굴 줄"은 얼굴 한 줄(약 70px)만큼 글이 줄어든다.</li>
-      <li>대화 중(받아 적는 중)에는 지금처럼 그 질문만 보이고, 대화가 끝날 때까지 메뉴는 지금 인물에 고정(대화 잠금과 같은 원칙).</li>
+      <li>인물 장의 제목(<code>[얼굴] 사건 브리핑</code> / <code>Sgt. Badger의 진술</code>) 아래에 만난 인물의 얼굴이 한 줄로 놓인다. 얼굴 모서리에 진행(✓ 다 기록 / 1/3), 지금 인물은 꿀색 종이. 인물이 많으면 줄을 옆으로 밀어 본다. 그 아래 점선 뒤로 진술.</li>
+      <li>대화 중(받아 적는 중)에는 지금처럼 그 질문만 보이고, 대화가 끝날 때까지 지금 인물에 고정(대화 잠금과 같은 원칙).</li>
     </ul>
+    <p>비교했던 인물 메뉴(제목을 눌러 4열 얼굴 메뉴, ‹ › 넘기기)는 아래 버튼으로 볼 수 있다. 쓰지 않는다.</p>
 
     <h2>3. 메모</h2>
     <ul>
@@ -178,17 +176,15 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 
     <h2>4. 탭 색 (사용자 요청: 열린 탭이 잘 구분되지 않음)</h2>
     <ul>
-      <li><b>종이로 이어짐</b>(추천): 열린 탭은 노트 종이와 같은 크림색이고, 폴더의 파란 테두리를 덮고 내려와 종이와 한 장처럼 이어진다. 나머지 탭은 폴더와 같은 파란색에 크림색 글자, 더 낮고 뒤에. 진짜 인덱스 탭처럼 "지금 이 장"이 바로 보인다.</li>
+      <li><b>종이색</b>(추천): 열린 탭은 노트 종이와 같은 크림색에 조금 더 높고, 나머지 탭은 폴더와 같은 파란색. 폴더 테두리까지만 온다(종이까지 내려오면 탭이 너무 길어 보여서 줄임).</li>
       <li><b>탭마다 색</b>: 인물 하늘색 · 증거 연두 · 메모 꿀색. 열린 장의 제목 줄과 위쪽 띠가 같은 색이 되고, 나머지 탭은 흐려진다. 색으로 장을 기억하기 쉽지만, 노트 종이 자체는 크림색 그대로라 이어지는 느낌은 약하다.</li>
       <li>폴더 그림의 클립은 지웠다(사용자 요청: 오른쪽 위 UI를 가림). 원본은 <code>assets/ui/casefile-panel-with-clip.webp</code>. 같은 그림을 게임 노트도 쓰므로 게임에서도 클립이 사라졌다.</li>
     </ul>
 
     <h2>5. 정할 것</h2>
     <ol>
-      <li>인물 메뉴(4열 얼굴)로 갈지, 얼굴 줄이 나은지.</li>
-      <li>‹ › 넘기기를 둘지.</li>
       <li>메모를 사건마다 따로 둘지(제안), 모든 사건에 하나로 둘지.</li>
-      <li>탭 색: 종이로 이어짐(추천) / 탭마다 색.</li>
+      <li>탭 색: 종이색(추천) / 탭마다 색.</li>
     </ol>
   </div>
 </div>
@@ -219,7 +215,7 @@ const EVIDENCE = [
   { id:'fur', name:'Door', where:'Old Library', img:'library-higgsfield-v2.png', pos:'62% 55%', size:'420%' },
   { id:'sign', name:'Front door', where:'Bakery', img:'bakery-higgsfield.png', pos:'50% 45%', size:'380%' }
 ];
-let pick = 'menu', tab = 'people', who = 'badger', menuOpen = false, pins = [], memoText = '', newPins = 0;
+let pick = 'strip', tab = 'people', who = 'badger', menuOpen = false, pins = [], memoText = '', newPins = 0;
 try { const saved = JSON.parse(localStorage.getItem('mock.notebook') || '{}'); pins = (saved.pins || []).filter(p => p.kind !== 'say' || PEOPLE.some(x => x.id === p.a)); memoText = saved.memo || ''; } catch(e){}
 const save = () => { try { localStorage.setItem('mock.notebook', JSON.stringify({ pins, memo:memoText })); } catch(e){} };
 const lineHTML = l => esc(l).replace(/\[([^\]]+)\]/g, '<span class="blank">$1</span>');
