@@ -591,14 +591,14 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
    colour, paler while empty. Tapping a blank drops down the words of that kind the player has collected, in the speech
    bubbles' paper with a pencil tail to the blank; people as a grid of big faces with their names small underneath,
    things with the player's own photo. A page is checked only once all its blanks are filled. The menu stays, so the
-   notebook can be opened to look things up (it rises part way and the board stays in view). */
+   notebook can be opened to look things up, the same notebook as everywhere else (user request). */
 .deduce{position:absolute;inset:0;z-index:10;overflow:hidden;color:rgba(244,240,226,.94);
   background:radial-gradient(ellipse at 25% 20%,rgba(255,255,255,.08),transparent 45%),radial-gradient(ellipse at 80% 65%,rgba(255,255,255,.05),transparent 40%),
   radial-gradient(ellipse at 55% 35%,rgba(255,255,255,.04),transparent 30%),#2F4739}
 .deduce[hidden]{display:none}
 .deduce::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
   background:repeating-linear-gradient(-12deg,transparent 0 38px,rgba(255,255,255,.025) 38px 60px),repeating-linear-gradient(8deg,transparent 0 70px,rgba(255,255,255,.02) 70px 96px)}
-.app.deducing .top-back{z-index:12}
+.app.deducing:not(.note-full) .top-back{z-index:12}
 .deduce-head{position:absolute;top:10px;left:66px;right:14px;z-index:2;display:flex;align-items:center;gap:8px}
 .deduce-dots{display:flex;gap:6px;margin-left:auto}
 .deduce-dots button{width:28px;height:28px;padding:0;border:2px solid rgba(244,240,226,.55);border-radius:50%;background:none;font-family:var(--f-display);font-size:13px;color:rgba(244,240,226,.94)}
@@ -664,9 +664,6 @@ button.dz{cursor:pointer}
 .dz-opt.face + .dz-opt.face{box-shadow:none}
 .dz-opt.face .fc{width:54px;height:54px;border-width:2.5px}
 .dz-opt.face .fc.unknown{font-size:24px}
-/* the notebook over the board rises only part way, so the board stays in view while looking things up */
-.app.deducing.note-full .dock{height:62%}
-.app.deducing.notes-open.note-full .note-scrim{background:rgba(43,30,20,.25);-webkit-backdrop-filter:none;backdrop-filter:none}
 @media(prefers-reduced-motion:reduce){.deduce-page.turn,.deduce-page.wrong .deduce-text,.deduce-drop,.deduce-bub,.deduce-tick path{animation:none}.deduce-tick path{stroke-dashoffset:0}}
 
 /* 범인 지목하기 is the same big berry button on the map, in a place and in a conversation (once every conversation is done);
@@ -4425,12 +4422,12 @@ $('#devEvidence').onclick = () => {
   toast(n ? `증거 ${n}개를 노트에 기록했어요.` : '이미 모든 증거를 모았어요.');
 };
 
-// 추리 완성: every conversation and clue done first (the board offers only collected words), then every blank of the
-// deduction board filled with its answer and every page solved → the board on its last page, with 심문 시작.
+// 추리 완성: from wherever it is pressed, every conversation and clue done first (the board offers only collected words,
+// and the home pages are put away), then every blank of the deduction board filled with its answer and every page
+// solved → the board on its last page, with 심문 시작.
 $('#devDeduce').onclick = () => {
   if(ending) return toast('심문 중에는 쓸 수 없어요.');
-  if(!allConversationsDone()) $('#devDone').click();
-  $('#devEvidence').click();
+  $('#devDone').click(); $('#devEvidence').click();
   const st = deduceState();
   DEDUCE.pages.forEach((page, i) => { st.fill[i] = deduceBlanks(page).map(b => b.answer); st.solved[i] = true; });
   S.saidAccuse = true; saveGame();
