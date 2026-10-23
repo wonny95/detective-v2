@@ -824,8 +824,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-det{position:absolute;left:50%;bottom:25%;height:32%;aspect-ratio:627/700;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
 .oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
 .oh-det:active{transform:translateX(-50%) translateY(1px)}
-/* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens */
-.oh-say{position:absolute;left:8%;bottom:59%;z-index:2;box-sizing:border-box;width:84%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
+/* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens. It is as wide as
+   its words and buttons (up to 84%), centred; a line can break where its text has \n (user request: home-new) */
+.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:59%;z-index:2;box-sizing:border-box;width:fit-content;max-width:84%;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
 .oh-say[hidden]{display:none}
 /* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
    a tap on the detective plays it again even while the bubble is open */
@@ -836,6 +837,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the app's close button, small, in the bubble's top right (user request); a tap on the detective brings the bubble back */
 .oh-say .oh-close{position:absolute;top:8px;right:8px;width:30px;height:30px}
 .oh-say #homeEn{padding-right:30px}
+.oh-say #homeEn,.oh-say #homeKo{white-space:pre-line}
 .oh-go{margin-right:auto}
 .oh-go[hidden]{display:none}
 .oh-top{position:absolute;top:16px;left:16px;right:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
@@ -3562,7 +3564,7 @@ const DETECTIVE = {
   closed:{ en:'Another case closed. Acorn Hollow can sleep tonight.', ko:'또 하나의 사건 종결. 오늘 밤 도토리 골짜기는 편히 잘 수 있겠어.' },
   // 홈, one for the moment (homeState())
   'home-going':{ en:"We left a case open. Let's finish it.", ko:'끝내지 못한 사건이 있어. 마무리하자.' },
-  'home-new':{ en:"A new request just came in. Let's check the case board.", ko:'새로운 의뢰가 들어왔어. 사건 보드를 살펴보자.' },
+  'home-new':{ en:"A new request just came in.\nLet's check the case board.", ko:'새로운 의뢰가 들어왔어.\n사건 보드를 살펴보자.' },
   'home-again':{ en:"Some words slipped past my ears. Let's check my notebook.", ko:'몇 마디가 내 귀를 빠져나갔어. 수첩을 확인해 보자.' },
   'home-quiet':{ en:'A quiet day in Acorn Hollow.', ko:'도토리 골짜기의 조용한 하루야.' }
 };
