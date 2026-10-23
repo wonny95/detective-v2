@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>추리 수첩 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--berry:#C96F86;--no:#C25B5B;
+  --person:#6E9659;--place:#B97A45;--time:#4C7BA6;--thing:#94659A;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--f-body:"Paperlogy",system-ui,sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body)}
+.wrap{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start;padding:28px 24px 48px}
+.wrap > div:first-child{flex:none;width:375px;max-width:100%}
+h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 16px;font-size:14px;opacity:.8}
+.tools{display:flex;gap:8px;margin-top:10px}
+.pill{--btn:url(../assets/ui/buttons/cream-flat.png);--bw:12px;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:30px;padding:0 11px;border:2px solid transparent;background:none;
+  border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-size:13px;color:var(--ink);white-space:nowrap;cursor:pointer}
+.pill.big{--btn:url(../assets/ui/buttons/berry-flat.png);--bw:20px;min-height:50px;padding:0 26px;font-size:17px;color:#FFFDF7}
+.pill[aria-pressed="true"]{--btn:url(../assets/ui/buttons/sky-flat.png)}
+.pill:active{transform:translateY(1px);filter:brightness(.94)}
+
+/* ---------- the phone: the detective's desk, the case book open on it ---------- */
+.phone{position:relative;flex:none;width:375px;height:780px;max-width:100%;border-radius:38px 42px 36px 44px/44px 36px 42px 38px;overflow:hidden;
+  background:#5C3F2A url(../assets/places/detective-office-wide.jpg) 50% 66%/auto 150%;-webkit-user-select:none;user-select:none}
+.phone::before{content:"";position:absolute;inset:0;background:rgba(48,30,18,.55);backdrop-filter:blur(3px)}
+.top{position:absolute;left:14px;right:14px;top:14px;z-index:3;display:flex;align-items:center;gap:8px}
+.top .back{--bw:15px;min-height:36px;padding:0 14px;font-size:14px}
+/* page tabs along the top: a page done gets its stamp-red dot */
+.tabs{display:flex;gap:6px;margin-left:auto}
+.tab{width:30px;height:30px;border:2px solid var(--ink);border-radius:50%;background:var(--paper);font-family:var(--f-display);font-size:13px;color:var(--ink);cursor:pointer;padding:0}
+.tab[aria-current="true"]{background:var(--honey)}
+.tab.done{background:#E9D8C4;position:relative}
+.tab.done::after{content:"✓";position:absolute;right:-5px;top:-6px;width:16px;height:16px;border-radius:50%;background:var(--no);color:#fff;font-size:10px;line-height:16px}
+
+/* the book: a cloth cover with a cream page on it, a ribbon down the page */
+.book{position:absolute;left:16px;right:16px;top:66px;bottom:128px;z-index:2;padding:10px 12px 10px 10px;border-radius:10px 16px 16px 10px;
+  background:linear-gradient(90deg,#3E5A3A,#567A4C 8%,#4F7046);box-shadow:0 10px 20px rgba(0,0,0,.4),inset 0 0 0 2px rgba(0,0,0,.18)}
+.page{position:relative;height:100%;padding:26px 22px 18px;border-radius:4px 10px 10px 4px;background:#F7F0DE;overflow:hidden;
+  box-shadow:inset 10px 0 14px -10px rgba(80,50,20,.35),3px 0 0 #E6DCC4,5px 0 0 #D9CDB2;display:flex;flex-direction:column}
+.page::after{content:"";position:absolute;right:-1px;bottom:-1px;width:34px;height:34px;background:linear-gradient(135deg,#F7F0DE 50%,#E2D6BB 50%);border-top-left-radius:6px;box-shadow:-2px -2px 3px rgba(80,50,20,.15)}
+.ribbon{position:absolute;right:34px;top:-2px;width:14px;height:58px;background:#B9473A;clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%)}
+.page h2{margin:0 0 14px;font-family:var(--f-display);font-weight:400;font-size:21px;color:var(--ink)}
+.page .num{position:absolute;left:22px;bottom:16px;font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
+.text{font-size:16.5px;line-height:2.15;color:#3C2E24}
+.text.ko{font-size:13.5px;line-height:1.8;font-weight:700;color:var(--berry);margin-top:12px;padding-top:10px;border-top:1px dashed rgba(74,54,40,.25)}
+.page.turn{animation:turn .45s ease-out}
+@keyframes turn{from{opacity:0;transform:perspective(900px) rotateY(-18deg);transform-origin:0 50%}}
+.page.wrong .text{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
+
+/* a blank: a pill in its kind's colour (person / place / time / thing), empty until a word goes in */
+.b{display:inline-block;min-width:78px;height:26px;margin:0 2px;padding:0 12px;border-radius:13px;vertical-align:-5px;line-height:26px;text-align:center;
+  font-family:var(--f-display);font-size:13.5px;color:#fff;background:var(--c);opacity:.45;cursor:pointer;transition:transform .15s,opacity .2s;white-space:nowrap;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}
+.b.full{opacity:1}
+.b.on{opacity:1;outline:3px solid var(--honey);outline-offset:2px;transform:translateY(-2px)}
+.b.person{--c:var(--person)}.b.place{--c:var(--place)}.b.time{--c:var(--time)}.b.thing{--c:var(--thing)}
+.ko .b{height:20px;line-height:20px;min-width:50px;font-size:11.5px;vertical-align:-3px;cursor:default}
+.page.solved .b{cursor:default}
+/* the page's stamp once it is right */
+.stamp{position:absolute;right:18px;bottom:40px;padding:2px 12px;border:3px solid var(--no);border-radius:8px;color:var(--no);font-family:var(--f-display);font-size:20px;transform:rotate(-10deg);opacity:.85;animation:stamp .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes stamp{from{opacity:0;transform:rotate(-10deg) scale(2.2)}}
+.prop{display:inline-block;margin-left:6px;padding:0 6px;border-radius:6px;background:var(--berry);color:#fff;font-size:11px;vertical-align:3px;font-family:var(--f-body)}
+
+/* under the book: page turns and 해석 */
+.foot{position:absolute;left:16px;right:16px;bottom:82px;z-index:2;display:flex;align-items:center;gap:6px}
+.foot .arrow{width:38px;padding:0}
+.foot .ko-btn{margin:0 auto}
+
+/* the word sheet: only the words of the blank's kind, the ones the player has collected (their notes and photos) */
+.words{position:absolute;left:0;right:0;bottom:0;z-index:5;padding:14px 14px 18px;background:var(--paper);border-radius:22px 26px 0 0/18px 22px 0 0;box-shadow:0 -6px 18px rgba(0,0,0,.3);animation:up .28s cubic-bezier(.3,1.2,.5,1)}
+@keyframes up{from{transform:translateY(100%)}}
+.words .kind{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-family:var(--f-display);font-size:15px}
+.words .kind i{width:14px;height:14px;border-radius:50%;background:var(--c)}
+.words .kind .x{margin-left:auto;width:30px;height:30px;border:0;background:url(../assets/ui/close-button.png) center/contain no-repeat;cursor:pointer}
+.wl{display:flex;flex-wrap:wrap;gap:8px}
+.w{padding:0 14px;height:32px;border:0;border-radius:16px;background:var(--c);color:#fff;font-family:var(--f-display);font-size:14px;cursor:pointer;box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}
+.w:active{transform:translateY(1px)}
+.words.person{--c:var(--person)}.words.place{--c:var(--place)}.words.time{--c:var(--time)}.words.thing{--c:var(--thing)}
+
+/* the detective mutters to themself */
+.say{position:absolute;left:12px;right:12px;bottom:128px;z-index:4;display:flex;align-items:flex-end;gap:6px;pointer-events:none}
+.say img{flex:none;width:46px;height:46px;border-radius:50%;background:#F6E2C8;border:2px solid var(--ink)}
+.bub{position:relative;flex:1;padding:14px 16px 10px;font-size:13.5px;line-height:1.4;pointer-events:auto;filter:drop-shadow(2px 4px 2px rgba(52,32,17,.25));animation:bub .42s cubic-bezier(.3,1.45,.5,1) both;transform-origin:0 100%}
+.bub::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch}
+.bub .k{display:block;margin-top:4px;font-size:12px;font-weight:700;color:var(--berry)}
+@keyframes bub{from{opacity:0;transform:scale(.4)}40%{opacity:1}}
+.go{position:absolute;left:50%;bottom:24px;z-index:3;transform:translateX(-50%);filter:drop-shadow(0 4px 3px rgba(30,20,10,.35));animation:rise .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes rise{from{opacity:0;transform:translate(-50%,20px)}}
+.toast{position:absolute;left:50%;top:45%;z-index:9;transform:translate(-50%,-50%);padding:12px 18px;background:rgba(74,54,40,.92);color:#fff;border-radius:12px;font-size:13px;width:max-content;max-width:80%;text-align:center}
+
+/* ---------- the spec ---------- */
+.spec{flex:1 1 420px;min-width:0;max-width:720px;background:var(--paper);border-radius:14px;padding:20px 24px;font-size:14px;line-height:1.65}
+.spec h2{font-family:var(--f-display);font-weight:400;font-size:18px;margin:20px 0 6px}
+.spec h2:first-child{margin-top:0}
+.spec ul,.spec ol{margin:4px 0;padding-left:20px}
+.spec code{font-family:inherit;font-size:.92em;background:#F1E4C8;padding:0 4px;border-radius:4px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px;margin-right:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <h1>추리 수첩 시안</h1>
+    <p class="lead">Duck Detective의 추리 페이지처럼, 모은 단어로 빈칸을 채워 추리를 완성해요. 빈칸을 누르면 그 종류의 단어만 나와요.</p>
+    <div class="phone" id="phone">
+      <div class="top"><button class="pill back" type="button">‹</button><div class="tabs" id="tabs"></div></div>
+      <div class="book"><div class="page" id="page"></div></div>
+      <div class="foot"><button class="pill arrow" type="button" id="prev" aria-label="이전 쪽">◀</button><button class="pill ko-btn" type="button" id="koBtn" aria-pressed="false">해석</button><button class="pill arrow" type="button" id="next" aria-label="다음 쪽">▶</button></div>
+      <div class="say" id="say" hidden><img src="../assets/ui/icons-v2/detective.png" alt=""><div class="bub" id="bub"></div></div>
+      <button class="pill big go" id="go" type="button" hidden>심문 시작</button>
+      <div class="words" id="words" hidden></div>
+      <div class="toast" id="toast" hidden></div>
+    </div>
+    <div class="tools"><button class="pill" type="button" id="reset">처음부터</button><button class="pill" type="button" id="solve">이 쪽 정답</button><button class="pill" type="button" id="solveAll">전부 정답</button></div>
+  </div>
+
+  <div class="spec">
+    <h2>1. 흐름</h2>
+    <ol>
+      <li>모든 대화를 마치면 지금의 <code>범인 지목하기</code> 자리에 <b><code>추리하기</code></b>가 뜬다. 누르면 탐정의 <b>추리 수첩</b>이 책상 위에 펼쳐진다. 지목은 수첩에서만 한다(사용자 결정).</li>
+      <li>쪽마다 영어 추리 문장이 있고, 빈칸은 종류별 색이다: <span class="dot" style="background:var(--person)"></span>인물 <span class="dot" style="background:var(--place)"></span>장소 <span class="dot" style="background:var(--time)"></span>시각 <span class="dot" style="background:var(--thing)"></span>물건.</li>
+      <li>빈칸을 누르면 그 종류의 <b>모은 단어</b>만 나온다(노트에 받아 적어 맞힌 단어 + 찍은 증거). 같은 단어를 여러 번 써도 된다. 아직 못 모은 단어는 없다 → 듣고 조사한 만큼 추리할 수 있다.</li>
+      <li><b>빈칸을 다 채워야 판정</b>한다. 맞으면 <code>확인</code> 도장과 탐정의 한마디, 틀리면 문장이 흔들리고 "Hmm… something's not right."(어느 칸이 틀렸는지는 알려 주지 않는다).</li>
+      <li>마지막 쪽 "누가?"를 맞히는 것이 곧 지목이다 → <code>심문 시작</code> → 지금의 심문(그대로).</li>
+    </ol>
+
+    <h2>2. Case 01 쪽 구성</h2>
+    <ol>
+      <li><b>When?</b> 시각 8:40 · 큰 시계</li>
+      <li><b>Ray and Rosie</b> 레이 · 카페 · 오리 아저씨 / 로지 · 언덕 · 별 노트 · 8:45</li>
+      <li><b>Mrs. Mole</b> <span class="prop">제안</span> 오리 아저씨 새 진술이 있어야 풀린다(지금 데이터엔 없음)</li>
+      <li><b>Fiona's story</b> 피오나 · 빵집 · 안내문 · 7 PM · 오븐</li>
+      <li><b>Who?</b> 피오나 · 도서관 · 8:40 → 지목</li>
+    </ol>
+    <p>주황 털·보라 잼은 쪽에 넣지 않는다. 심문에서 피오나가 꺼내는 주장(3·4번)에 쓴다. 쪽은 순서 없이 풀어도 되지만, 마지막 쪽은 앞의 네 쪽을 다 맞혀야 열린다(시안은 열어 둠).</p>
+
+    <h2>3. 노트(받아쓰기)와 다른 점</h2>
+    <ul>
+      <li>노트: 들은 문장을 <b>그대로</b> 받아 적고, 빈칸마다 바로 맞는지 안다.</li>
+      <li>수첩: 들은 것들을 <b>엮어서 내 결론</b>을 쓴다. 단어는 색으로 나뉜 수집품이고, 쪽 전체를 채워야 맞는지 안다.</li>
+      <li>보기 모양도 다르다: 노트는 스프링 수첩, 수첩은 천 표지 책 + 색 알약 빈칸.</li>
+    </ul>
+
+    <h2>4. 규칙 확인</h2>
+    <ul>
+      <li>문장은 플레이어가 이미 들은 사실만 잇는다. 새 사건 정보를 알려 주지 않는다(빈칸이 정답 자리).</li>
+      <li>한국어는 <code>해석</code>을 눌러야만 보인다. 화면에 조작 설명 문장 없음(튜토리얼 한 단계 추가).</li>
+      <li>틀렸을 때 도움은 탐정 혼잣말(플레이어 탐정 목소리)로만.</li>
+    </ul>
+
+    <h2>5. 정할 것</h2>
+    <ol>
+      <li>틀렸을 때 얼마나 알려 줄지: 아무것도(시안) / "거의 맞았어"(1–2칸만 틀림) / 도토리 힌트로 한 칸 공개.</li>
+      <li>두더지 쪽: 오리 아저씨 대사를 보탤지, 두더지를 용의자에서 뺄지.</li>
+      <li>쪽 수: 5쪽(시안) / 3쪽으로 줄이기(시각 · 알리바이 · 범인).</li>
+      <li>필요한 음성: 탐정 혼잣말 2–3줄(맞음·틀림), 쪽을 맞혔을 때 그 쪽 문장을 탐정이 읽어 주는 음성(쪽마다 1줄, 약 0.3크레딧씩).</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+// the words the player has collected so far, by kind (from their notes and photos)
+const WORDS = {
+  person:['Ray Raccoon', 'Rosie Rabbit', 'Fiona Fox', 'Mrs. Mole', 'Mr. Duck', 'Mrs. Bear', 'Sgt. Badger'],
+  place:['library', 'bakery', 'Lake Cafe', 'Moon Hill'],
+  time:['7 PM', '7:30', '8:30', '8:40', '8:45', '8:50', '9 PM', '10 PM'],
+  thing:['big clock', 'sign', 'oven', 'note', 'poster', 'Star Club notebook', 'footprints', 'orange fur', 'purple jam']
+};
+const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건' };
+// {kind:answer} is a blank
+const PAGES = [
+  { title:'When?', en:'Professor Hoot was hurt at {time:8:40}. I know it because the {thing:big clock} stopped then.',
+    ko:'후트 교수는 {time}에 다쳤다. 그때 {thing}가 멈췄으니까.' },
+  { title:'Ray and Rosie', en:'At that time, {person:Ray Raccoon} was playing the guitar at the {place:Lake Cafe}. {person:Mr. Duck} watched him all night. {person:Rosie Rabbit} was on {place:Moon Hill}. Her {thing:Star Club notebook} says she saw a shooting star at {time:8:45}.',
+    ko:'그 시각 {person}은 {place}에서 기타를 치고 있었다. {person}가 밤새 그를 봤다. {person}은 {place}에 있었다. 그녀의 {thing}에는 {time}에 별똥별을 봤다고 적혀 있다.' },
+  { title:'Mrs. Mole', proposal:true, en:'{person:Mrs. Mole} had tea at the {place:Lake Cafe} until {time:8:50}. Then she went back and found the professor at {time:9 PM}.',
+    ko:'{person}은 {time}까지 {place}에서 차를 마셨다. 그리고 돌아가 {time}에 교수를 발견했다.' },
+  { title:"Fiona's story", en:'{person:Fiona Fox} said she was baking at her {place:bakery} until ten. But the {thing:sign} on her door said it closed at {time:7 PM}, and the {thing:oven} was cold.',
+    ko:'{person}는 10시까지 {place}에서 빵을 구웠다고 했다. 하지만 문의 {thing}에는 {time}에 닫는다고 적혀 있었고, {thing}은 차가웠다.' },
+  { title:'Who?', en:'Everyone else was somewhere else. Only {person:Fiona Fox} lied about where she was. So she was at the {place:library} at {time:8:40}.',
+    ko:'다른 사람들은 모두 다른 곳에 있었다. 오직 {person}만 어디 있었는지 거짓말을 했다. 그러니 그녀는 {time}에 {place}에 있었다.' }
+];
+const blanksOf = p => [...p.en.matchAll(/\{(\w+):([^}]+)\}/g)].map(m => ({ kind:m[1], ans:m[2] }));
+let at = 0, fill = PAGES.map(p => blanksOf(p).map(() => null)), solved = PAGES.map(() => false), on = null, ko = false, sayT = 0;
+
+function render(turn){
+  const p = PAGES[at], bl = blanksOf(p);
+  let i = 0;
+  const en = p.en.replace(/\{(\w+):[^}]+\}/g, (m, kind) => { const k = i++, w = fill[at][k];
+    return `<span class="b ${kind} ${w ? 'full' : ''} ${on === k ? 'on' : ''}" data-b="${k}">${w || ''}</span>`; });
+  // the Korean follows the English blanks in order of kind
+  const seen = {}; const order = bl.map((b, k) => ({ ...b, k }));
+  const kot = p.ko.replace(/\{(\w+)\}/g, (m, kind) => { seen[kind] = (seen[kind] || 0); const hit = order.filter(o => o.kind === kind)[seen[kind]++];
+    const w = hit && fill[at][hit.k]; return `<span class="b ${kind} ${w ? 'full' : ''}">${w || ''}</span>`; });
+  $('#page').className = `page ${solved[at] ? 'solved' : ''} ${turn ? 'turn' : ''}`;
+  $('#page').innerHTML = `<i class="ribbon"></i><h2>${p.title}${p.proposal ? '<span class="prop">제안</span>' : ''}</h2>
+    <div class="text">${en}</div>${ko ? `<div class="text ko">${kot}</div>` : ''}
+    <span class="num">${at + 1} / ${PAGES.length}</span>${solved[at] ? '<span class="stamp">확인</span>' : ''}`;
+  $('#tabs').innerHTML = PAGES.map((q, k) => `<button class="tab ${solved[k] ? 'done' : ''}" type="button" data-p="${k}" aria-current="${k === at}">${k + 1}</button>`).join('');
+  $('#prev').disabled = at === 0; $('#next').disabled = at === PAGES.length - 1;
+  $('#go').hidden = !solved[PAGES.length - 1];
+}
+function openWords(k){
+  const kind = blanksOf(PAGES[at])[k].kind;
+  on = k; render();
+  $('#words').className = `words ${kind}`;
+  $('#words').innerHTML = `<div class="kind"><i></i>${KIND_KO[kind]}<button class="x" type="button" aria-label="닫기"></button></div>
+    <div class="wl">${WORDS[kind].map(w => `<button class="w" type="button" data-w="${w}">${w}</button>`).join('')}</div>`;
+  $('#words').hidden = false; $('#say').hidden = true;
+}
+function closeWords(){ on = null; $('#words').hidden = true; render(); }
+function mutter(en, k){
+  $('#bub').innerHTML = `${en}<span class="k" hidden>${k}</span>`;
+  $('#say').hidden = false; const b = $('#bub'); b.style.animation = 'none'; void b.offsetWidth; b.style.animation = '';
+  clearTimeout(sayT); sayT = setTimeout(() => $('#say').hidden = true, 3500);
+}
+function check(){
+  const bl = blanksOf(PAGES[at]);
+  if(fill[at].some(w => !w)) return;
+  if(bl.every((b, k) => fill[at][k] === b.ans)){
+    solved[at] = true; render();
+    mutter(at === PAGES.length - 1 ? "That's it. I know who did it." : 'Yes! That makes sense.', '');
+  } else {
+    render(); const p = $('#page'); p.classList.remove('wrong'); void p.offsetWidth; p.classList.add('wrong');
+    mutter("Hmm… something's not right.", '');
+  }
+}
+$('#page').addEventListener('click', e => { const b = e.target.closest('.text:not(.ko) .b'); if(!b || solved[at]) return; openWords(+b.dataset.b); });
+$('#words').addEventListener('click', e => {
+  if(e.target.closest('.x')) return closeWords();
+  const w = e.target.closest('[data-w]'); if(!w) return;
+  fill[at][on] = w.dataset.w;
+  // go on to the next empty blank of the page, or close and check
+  const next = fill[at].findIndex(x => !x);
+  if(next >= 0) openWords(next); else { closeWords(); check(); }
+});
+$('#tabs').addEventListener('click', e => { const t = e.target.closest('[data-p]'); if(!t) return; at = +t.dataset.p; closeWords(); render(true); });
+$('#prev').addEventListener('click', () => { if(at > 0){ at--; closeWords(); render(true); } });
+$('#next').addEventListener('click', () => { if(at < PAGES.length - 1){ at++; closeWords(); render(true); } });
+$('#koBtn').addEventListener('click', () => { ko = !ko; $('#koBtn').setAttribute('aria-pressed', ko); render(); });
+$('#go').addEventListener('click', () => { $('#toast').textContent = '→ 조사실로, 지금의 심문'; $('#toast').hidden = false; setTimeout(() => $('#toast').hidden = true, 1700); });
+$('#reset').addEventListener('click', () => { fill = PAGES.map(p => blanksOf(p).map(() => null)); solved = PAGES.map(() => false); at = 0; closeWords(); $('#say').hidden = true; render(true); });
+$('#solve').addEventListener('click', () => { fill[at] = blanksOf(PAGES[at]).map(b => b.ans); closeWords(); check(); });
+$('#solveAll').addEventListener('click', () => { PAGES.forEach((p, k) => { fill[k] = blanksOf(p).map(b => b.ans); solved[k] = true; }); at = PAGES.length - 1; closeWords(); render(true); });
+render();
+</script>
+</body>
+</html>
