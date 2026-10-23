@@ -430,6 +430,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .gcard .gko{margin:0;font-size:14px;line-height:1.6}
 .gex{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--line)}
 .gex h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
+.gcard .gkey-go{width:100%;margin-top:4px}
 .gline{display:flex;flex-direction:column;gap:2px;background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px}
 .gline .wwho{font-size:12px}
 .gline .wwho .mini{width:22px;height:22px}
@@ -3977,7 +3978,7 @@ $('#homeKoBtn').onclick = () => {
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
    this device; the case in progress lives in memory only until saving is added. */
 const CASES = [
-  { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기' },
+  { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'] },
   { id:'case02', no:'Case 02' },
   { id:'case03', no:'Case 03' },
   { id:'case04', no:'Case 04' },
@@ -4077,9 +4078,11 @@ document.fonts?.ready.then(() => drawBoardString());
 function openCaseList(tab = 'cases'){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false; }
 // Opening a case: the first time on this device the player meets and names the detective, then the tutorial comes
 // first; a new case starts with the detective's line in the office; a case in progress resumes where it was left.
-function startCase(){
+// keySeen: the case's key grammar cards (CASES[].keys) were shown; a new case shows them first, over the case cards
+function startCase(keySeen = false){
   stopVoice();
-  if(!detectiveName()) return meetDetective(startCase);
+  if(!detectiveName()) return meetDetective(() => startCase(keySeen));
+  if(!keySeen && !resumePending && !caseStarted && CASES[0].keys?.length) return openCaseKey(CASES[0].keys, () => startCase(true));
   $('#caseList').hidden = true;
   markStudyDay();
   if(resumePending){ resumePending = false; resumeCase(); return; }
@@ -4162,25 +4165,40 @@ const grammarUses = g => Object.entries(GRAMMAR_LINES).flatMap(([ref, items]) =>
 function learnedGrammar(){
   return Object.keys(GRAMMAR).map(g => [g, grammarUses(g).length]).filter(([, n]) => n);
 }
-function openGrammar(g){
-  const gr = GRAMMAR[g];
-  $('#grammarCard').innerHTML = `<div class="gcard-head"><span class="eyebrow">문법 노트 · ${esc(gr.name)}</span><button class="close-button" type="button" data-gclose aria-label="문법 노트 닫기"></button></div>
+// key: the card is one of the case's keys, shown before the briefing (user decision: the case's learning point is
+// previewed with the grammar card it already has, nothing made per case); go is its button's label
+function openGrammar(g, key = null){
+  const gr = GRAMMAR[g], uses = grammarUses(g);
+  $('#grammarCard').innerHTML = `<div class="gcard-head"><span class="eyebrow">${key ? '이번 사건의 열쇠' : '문법 노트'} · ${esc(gr.name)}</span><button class="close-button" type="button" data-gclose aria-label="문법 노트 닫기"></button></div>
     <h2 class="gpattern" id="grammarTitle">${esc(gr.pattern)}</h2>
     <p class="gko">${esc(gr.ko)}</p>
-    <div class="gex"><h3>이 문법이 나온 문장</h3>${grammarUses(g).map(({ id, qid, words }) => {
+    ${uses.length ? `<div class="gex"><h3>이 문법이 나온 문장</h3>${uses.map(({ id, qid, words }) => {
       const s = spk(id), line = grammarLine(id, qid, words);
       return `<div class="gline"><div class="wtop"><span class="wwho">${line.inAnswer
         ? `<span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}` : '내 질문'}</span>
         ${line.inAnswer ? `<button class="replay-q" type="button" data-replay="${id}:${qid}" data-sent="${line.idx}" aria-label="다시 듣기">${playIcon}</button>` : ''}</div>
         <p>${line.html}</p></div>`;
-    }).join('')}</div>`;
+    }).join('')}</div>` : ''}
+    ${key ? `<button class="pill big gkey-go" type="button" data-gclose>${esc(key.go)}</button>` : ''}`;
   $('#grammar').hidden = false;
   $('#grammarCard').scrollTop = 0;
+}
+// the case's key cards one after another; closing the last one (its button, the X or around it) goes on to the case
+let caseKey = null;
+function openCaseKey(list, then){
+  caseKey = { list, i:0, then };
+  openGrammar(list[0], { go:list.length > 1 ? '다음' : '사건 시작' });
 }
 $('#grammar').addEventListener('click', e => {
   const replay = e.target.closest('[data-replay]');
   if(replay) return replaySentence(replay.dataset.replay, +replay.dataset.sent);
-  if(e.target.closest('[data-gclose]') || e.target.id === 'grammar'){ stopVoice(); $('#grammar').hidden = true; }
+  if(e.target.closest('[data-gclose]') || e.target.id === 'grammar'){
+    stopVoice(); $('#grammar').hidden = true;
+    if(!caseKey) return;
+    const k = caseKey;
+    if(++k.i < k.list.length) return openGrammar(k.list[k.i], { go:k.i < k.list.length - 1 ? '다음' : '사건 시작' });
+    caseKey = null; k.then();
+  }
 });
 
 /* ---------- home pages ----------
