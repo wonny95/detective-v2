@@ -87,19 +87,28 @@ h1.page-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin
 .sheet .head{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-family:var(--f-display);font-size:15px}
 .sheet .head i{width:14px;height:14px;border-radius:50%;background:var(--c)}
 .sheet .x{margin-left:auto;width:30px;height:30px;border:0;background:url(../assets/ui/close-button.png) center/contain no-repeat;cursor:pointer;flex:none}
-/* the words: a small dropdown right under the blank (above it when there is no room), in the blank's colour, tinted */
-.drop{position:absolute;z-index:6;min-width:150px;max-width:230px;max-height:260px;overflow-y:auto;scrollbar-width:none;padding:6px;border-radius:14px;background:var(--tint);
-  box-shadow:0 8px 18px rgba(0,0,0,.35),inset 0 0 0 1.5px rgba(74,54,40,.15);animation:drop .18s ease-out;transform-origin:var(--ox,0) 0}
-.drop::-webkit-scrollbar{display:none}
+/* the words: a dropdown right under the blank (above it when there is no room), in the app's own look (user request):
+   the speech bubbles' pencil-lined paper with their tail pointing at the blank; the word already in it sits on a honey
+   paper button, like the game's pressed buttons; place and time words carry a dot of their kind's colour */
+.drop{position:absolute;z-index:6;min-width:160px;max-width:236px;filter:drop-shadow(2px 5px 3px rgba(0,0,0,.35));animation:drop .2s ease-out;transform-origin:var(--ox,0) 0}
 .drop.up{transform-origin:var(--ox,0) 100%}
-@keyframes drop{from{opacity:0;transform:scale(.92) translateY(-4px)}}
-.drop.person{--tint:#E2EEDA}.drop.place{--tint:#F6E5D3}.drop.time{--tint:#DCE9F6}.drop.thing{--tint:#EEE1F2}
-.opt{display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border:0;border-radius:9px;background:none;font-family:var(--f-body);font-size:14px;color:var(--ink);text-align:left;cursor:pointer;white-space:nowrap}
-.opt:hover,.opt:focus-visible{background:rgba(74,54,40,.08);outline:none}
-.opt[aria-selected="true"]{background:rgba(74,54,40,.12);font-weight:700}
-.opt .fc{flex:none;width:26px;height:26px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:1.5px solid rgba(74,54,40,.3)}
+.drop::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch;pointer-events:none}
+.drop::after{content:"";position:absolute;left:var(--ox,30px);top:-17px;width:36px;height:23px;transform:translateX(-50%) rotate(180deg);background:url(../assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
+.drop.up::after{top:auto;bottom:-17px;transform:translateX(-50%)}
+@keyframes drop{from{opacity:0;transform:scale(.9)}}
+.drop-list{max-height:252px;overflow-y:auto;scrollbar-width:none;padding:13px 10px 11px}
+.drop-list::-webkit-scrollbar{display:none}
+.opt{--btn:none;display:flex;align-items:center;gap:8px;width:100%;min-height:38px;padding:4px 10px;border:2px solid transparent;border-radius:0;background:none;
+  font-family:var(--f-display);font-size:14px;color:var(--ink);text-align:left;cursor:pointer;white-space:nowrap}
+.opt + .opt{box-shadow:0 -1.5px 0 rgba(74,54,40,.12)}
+.opt:hover,.opt:focus-visible{outline:none;background:rgba(242,207,115,.25)}
+.opt[aria-selected="true"]{border-image:url(../assets/ui/buttons/honey-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;box-shadow:none;background:none}
+.opt[aria-selected="true"] + .opt{box-shadow:none}
+.opt .dotk{flex:none;width:12px;height:12px;border-radius:50%;background:var(--c);border:1.5px solid rgba(74,54,40,.45)}
+.drop.place{--c:var(--place)}.drop.time{--c:var(--time)}
+.opt .fc{flex:none;width:28px;height:28px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:2px solid var(--ink)}
 .opt .fc.unknown{display:grid;place-items:center;background:#EDE3CF;color:var(--ink-soft);font-size:13px;font-style:normal}
-.opt .ph{flex:none;width:34px;height:25px;border-radius:4px;border:1.5px solid rgba(74,54,40,.3);background-repeat:no-repeat}
+.opt .ph{flex:none;width:36px;height:27px;border:2px solid var(--ink);background-repeat:no-repeat;transform:rotate(-2deg)}
 /* the notes: as in the game, a page per person plus the photos; the board stays in view above */
 .notes{height:62%;display:flex;flex-direction:column;padding:12px 14px 0}
 .who{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px;border-bottom:1.5px solid rgba(74,54,40,.15)}
@@ -300,17 +309,18 @@ function openWords(k){
   drop.className = `drop ${kind}`;
   drop.innerHTML = WORDS[kind].map(w => {
     const icon = kind === 'person' ? (FACE[w] ? `<i class="fc" style="background-image:url(../assets/ui/icons-v2/${FACE[w]}.png)"></i>` : '<i class="fc unknown">?</i>')
-      : kind === 'thing' ? `<i class="ph" style="${photoStyle(w, 34)}"></i>` : '';
+      : kind === 'thing' ? `<i class="ph" style="${photoStyle(w, 32)}"></i>` : '<i class="dotk"></i>';
     return `<button class="opt" type="button" role="option" data-w="${w}" aria-selected="${w === now}">${icon}${w}</button>`; }).join('');
+  drop.innerHTML = `<div class="drop-list">${drop.innerHTML}</div>`;
   drop.hidden = false;
   // under the blank, kept inside the board; above it when the board runs out below
   const board = $('.board').getBoundingClientRect(), b = document.querySelector(`#page [data-b="${k}"]`).getBoundingClientRect();
   const w = drop.offsetWidth, h = drop.offsetHeight;
   const left = Math.min(Math.max(b.left - board.left, 8), board.width - w - 8);
-  const below = b.bottom - board.top + 6, up = below + h > board.height - 8;
+  const below = b.bottom - board.top + 16, up = below + h > board.height - 8;
   drop.style.left = `${left}px`;
-  drop.style.top = `${up ? b.top - board.top - 6 - h : below}px`;
-  drop.style.setProperty('--ox', `${b.left - board.left - left + b.width / 2}px`);
+  drop.style.top = `${up ? b.top - board.top - 16 - h : below}px`;
+  drop.style.setProperty('--ox', `${Math.min(Math.max(b.left - board.left - left + b.width / 2, 34), w - 34)}px`);
   drop.classList.toggle('up', up);
 }
 function closeWords(){ on = null; $('#drop').hidden = true; render(); }
