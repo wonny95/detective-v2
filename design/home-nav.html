@@ -69,10 +69,10 @@ code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
 </div>
 <script>
 const ic = n => `<img src="../assets/ui/nav/${n}.png" alt="">`;
-const homeIc = 'home-door', myIc = 'my-hat';
+const homeIc = 'home-house', myIc = 'my-hat';
 const items = () => [['홈', ic(homeIc)], ['사건', ic('case-magnifier')], ['학습', ic('study-book')], ['마이', ic(myIc)]];
 const OPTS = [
-  ['a', 'A. 종이 띠 + 꿀색 손칠', true, '상자를 모두 없애고, 띠 위쪽 선도 손으로 그은 물결선으로. 위아래를 줄여 띠가 얇다(사용자 요청). 선택한 칸은 아이콘 뒤에 색연필로 칠한 듯한 꿀색 얼룩이 번지고 글자가 진해진다. 홈 = 동그란 나무 문, 마이 = 탐정 모자(사용자 선택).']
+  ['a', 'A. 종이 띠 + 꿀색 손칠', true, '상자를 모두 없애고, 띠 위쪽 선도 손으로 그은 물결선으로. 위아래를 줄여 띠가 얇다(사용자 요청). 선택한 칸은 아이콘 뒤에 색연필로 칠한 듯한 꿀색 얼룩이 번지고 글자가 진해진다. 홈 = 집, 마이 = 탐정 모자(사용자 선택; 나무 문은 직관적이지 않아 집으로 바꿈).']
 ];
 const R = ['-2deg', '1.5deg', '-1deg', '2deg'];
 const picked = {};   // the item each menu has on, kept across re-renders

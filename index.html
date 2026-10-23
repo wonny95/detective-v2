@@ -85,7 +85,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .map-btn:active{transform:translateY(2px);box-shadow:none}
 /* a conversation under way is finished before anything else (talkLocked): the map waits, dimmed */
 .app.talk-locked #mapTab{opacity:.45}
-.map-btn.new::after{content:"";position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
+.map-btn.new .hn-ic::after{content:"";position:absolute;z-index:2;top:0;right:6px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
 button.chip{color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
 button.chip:disabled{cursor:default;box-shadow:none}
 .scene-npc .m-open{opacity:0}
@@ -572,7 +572,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .person .mini{width:32px;height:32px}
 
 /* ---------- bottom navigation ---------- */
-.nav{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:10px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:3px solid var(--ink);background:var(--paper-2);position:relative;z-index:20}
+.nav{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:10px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));background:var(--paper-2);position:relative;z-index:20}
 .tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper);font-family:var(--f-display);font-size:15px;box-shadow:2px 3px 0 rgba(74,54,40,.22)}
 .tab svg{width:24px;height:24px;flex:none}
 /* in a case: the way out to the case list sits top-left (user decision; the case stays as it was and resumes).
@@ -801,19 +801,19 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* home: the screens outside a case (홈 · 사건 · 학습 · 마이), each scrolling above the app menu */
 .home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
 .home-page[hidden]{display:none}
-.cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));border-top:0}
-/* the app menu (user choice, design/home-nav.html A): no box around each item — an illustrated icon and its name on the
-   paper strip, whose top is a hand-drawn wavy line; the page shown has a honey colored-pencil patch behind its icon and a
-   darker name. Icons: assets/ui/nav (Higgsfield, one set). */
-.cases .nav::before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:12px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6 L400 12 L0 12Z' fill='%23F4EAD4'/%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6' fill='none' stroke='%234A3628' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
-.cases .nav .tab{flex-direction:column;gap:0;min-height:0;padding:0;border:0;border-image:none;font-size:12px;color:var(--ink-soft)}
-.cases .nav .tab:active{transform:translateY(1px)}
+.cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+/* the menus (user choice, design/home-nav.html A; the app's 홈 · 사건 · 학습 · 마이 and a case's 지도 · Note alike): no box
+   around each item — an illustrated icon and its name on the paper strip, whose top is a hand-drawn wavy line; the page
+   shown (or the sheet open) has a honey colored-pencil patch behind its icon and a darker name. Icons: assets/ui/nav. */
+.nav::before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:12px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6 L400 12 L0 12Z' fill='%23F4EAD4'/%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6' fill='none' stroke='%234A3628' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
+.nav .tab{flex-direction:column;gap:0;min-height:0;padding:0;border:0;border-image:none;font-size:12px;color:var(--ink-soft)}
+.nav .tab:active{transform:translateY(1px)}
 .hn-ic{position:relative;display:grid;place-items:center;width:56px;height:40px}
 .hn-ic img{position:relative;z-index:1;display:block;width:34px;height:34px;filter:saturate(.6);opacity:.8}
 .hn-ic::before{content:"";position:absolute;inset:1px 2px;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;background:var(--honey);opacity:0;transform:scale(.6) rotate(-6deg);transition:.25s cubic-bezier(.3,1.5,.5,1);filter:url(#navRough)}
-.cases .nav .tab[aria-current="page"]{color:var(--ink);font-weight:700}
-.cases .nav .tab[aria-current="page"] .hn-ic::before{opacity:.95;transform:none}
-.cases .nav .tab[aria-current="page"] .hn-ic img{filter:none;opacity:1}
+.nav .tab:is([aria-current="page"],[aria-expanded="true"]){color:var(--ink);font-weight:700}
+.nav .tab:is([aria-current="page"],[aria-expanded="true"]) .hn-ic::before{opacity:.95;transform:none}
+.nav .tab:is([aria-current="page"],[aria-expanded="true"]) .hn-ic img{filter:none;opacity:1}
 @media(prefers-reduced-motion:reduce){.hn-ic::before{transition:none}}
 .home-sec{margin:4px 0 0;font-family:var(--f-display);font-weight:400;font-size:16px}
 .home-sec small{font-size:13px;color:var(--ink-soft)}
@@ -1031,15 +1031,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <path d="M5 8 Q5 16 10 18 Q15 16 15 8Z" fill="#E8B27A" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/>
       <path d="M10 4 L10 1.5" stroke="#4A3628" stroke-width="1.6" stroke-linecap="round"/>
     </symbol>
-    <symbol id="mapIcon" viewBox="0 0 24 24">
-      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6 L8 4 L16 6 L21.5 4 V18 L16 20 L8 18 L2.5 20Z" fill="#DDE8C9"/><path d="M8 4 V18 M16 6 V20" fill="none"/></g>
-      <path d="M12 8.5 a2.6 2.6 0 0 1 2.6 2.6 c0 2 -2.6 4.4 -2.6 4.4 s-2.6 -2.4 -2.6 -4.4 a2.6 2.6 0 0 1 2.6 -2.6z" fill="#C96F86" stroke="#4A3628" stroke-width="1.3"/>
-    </symbol>
     <symbol id="pinIcon" viewBox="0 0 24 24"><g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12 14 v7" fill="none"/><path class="head" d="M8 3 h8 l-1.2 5 3 4 H6.2 l3-4z" fill="#F2CF73"/></g></symbol>
-    <symbol id="noteIcon" viewBox="0 0 24 24">
-      <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="3" width="14" height="18" rx="2" fill="#F2CF73"/><path d="M8 8h6M8 12h6" fill="none"/><path d="M14 18 L20.5 11.5 L22.5 13.5 L16 20 L13.5 20.5Z" fill="#F6B89A"/></g>
-      <g fill="#FBF4E6" stroke="#4A3628" stroke-width="1.2"><circle cx="4" cy="7" r="1.3"/><circle cx="4" cy="12" r="1.3"/><circle cx="4" cy="17" r="1.3"/></g>
-    </symbol>
   </defs>
 </svg>
 
@@ -1133,10 +1125,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <nav class="nav" aria-label="메뉴">
     <button class="tab map-btn" type="button" id="mapTab" aria-expanded="false" aria-controls="sheet-map" aria-label="사건 지도 열기">
-      <svg aria-hidden="true"><use href="#mapIcon"/></svg>지도
+      <span class="hn-ic"><img src="assets/ui/nav/map.png" alt="" draggable="false"></span>지도
     </button>
     <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
-      <svg aria-hidden="true"><use href="#noteIcon"/></svg>Note
+      <span class="hn-ic"><img src="assets/ui/nav/note.png" alt="" draggable="false"></span>Note
     </button>
   </nav>
 
@@ -1183,7 +1175,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <div class="home-page" id="home-study" hidden></div>
     <div class="home-page" id="home-me" hidden></div>
     <nav class="nav" aria-label="앱 메뉴">
-      <button class="tab" type="button" data-home="home" aria-current="page"><span class="hn-ic"><img src="assets/ui/nav/home-door.png" alt="" draggable="false"></span>홈</button>
+      <button class="tab" type="button" data-home="home" aria-current="page"><span class="hn-ic"><img src="assets/ui/nav/home-house.png" alt="" draggable="false"></span>홈</button>
       <button class="tab" type="button" data-home="cases"><span class="hn-ic"><img src="assets/ui/nav/case-magnifier.png" alt="" draggable="false"></span>사건</button>
       <button class="tab" type="button" data-home="study"><span class="hn-ic"><img src="assets/ui/nav/study-book.png" alt="" draggable="false"></span>학습</button>
       <button class="tab" type="button" data-home="me"><span class="hn-ic"><img src="assets/ui/nav/my-hat.png" alt="" draggable="false"></span>마이</button>
