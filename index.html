@@ -829,9 +829,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-det{position:absolute;left:50%;bottom:25%;height:32%;aspect-ratio:627/700;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
 .oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
 .oh-det:active{transform:translateX(-50%) translateY(1px)}
-/* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens. It is as wide as
+/* the line above the cork board (user request: raised off the board), its tail down toward the detective; it grows
+   upward when 해석 opens. It is as wide as
    its words and buttons (up to 88% of the screen, with roomy paper margins, user request), centred over the detective; a line can break where its text has \n (user request: home-new) */
-.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:59%;z-index:2;box-sizing:border-box;width:fit-content;max-width:88cqw;padding:22px 24px 18px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
+.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:72%;z-index:2;box-sizing:border-box;width:fit-content;max-width:88cqw;padding:22px 24px 18px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
 .oh-say[hidden]{display:none}
 /* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
    a tap on the detective plays it again even while the bubble is open */
