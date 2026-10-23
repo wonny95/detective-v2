@@ -801,15 +801,15 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* home: the screens outside a case (홈 · 사건 · 학습 · 마이), each scrolling above the app menu */
 .home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
 .home-page[hidden]{display:none}
-.cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px 10px calc(9px + env(safe-area-inset-bottom,0px));border-top:0}
+.cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));border-top:0}
 /* the app menu (user choice, design/home-nav.html A): no box around each item — an illustrated icon and its name on the
    paper strip, whose top is a hand-drawn wavy line; the page shown has a honey colored-pencil patch behind its icon and a
    darker name. Icons: assets/ui/nav (Higgsfield, one set). */
 .cases .nav::before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:12px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6 L400 12 L0 12Z' fill='%23F4EAD4'/%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6' fill='none' stroke='%234A3628' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
 .cases .nav .tab{flex-direction:column;gap:0;min-height:0;padding:0;border:0;border-image:none;font-size:12px;color:var(--ink-soft)}
 .cases .nav .tab:active{transform:translateY(1px)}
-.hn-ic{position:relative;display:grid;place-items:center;width:46px;height:32px}
-.hn-ic img{position:relative;z-index:1;display:block;width:27px;height:27px;filter:saturate(.6);opacity:.8}
+.hn-ic{position:relative;display:grid;place-items:center;width:56px;height:40px}
+.hn-ic img{position:relative;z-index:1;display:block;width:34px;height:34px;filter:saturate(.6);opacity:.8}
 .hn-ic::before{content:"";position:absolute;inset:1px 2px;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;background:var(--honey);opacity:0;transform:scale(.6) rotate(-6deg);transition:.25s cubic-bezier(.3,1.5,.5,1);filter:url(#navRough)}
 .cases .nav .tab[aria-current="page"]{color:var(--ink);font-weight:700}
 .cases .nav .tab[aria-current="page"] .hn-ic::before{opacity:.95;transform:none}
