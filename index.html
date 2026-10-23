@@ -830,8 +830,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
 .oh-det:active{transform:translateX(-50%) translateY(1px)}
 /* the line right above the detective's head, its tail down to them; it grows upward when 해석 opens. It is as wide as
-   its words and buttons (up to 84% of the screen), centred over the detective; a line can break where its text has \n (user request: home-new) */
-.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:59%;z-index:2;box-sizing:border-box;width:fit-content;max-width:84cqw;padding:16px 14px 10px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
+   its words and buttons (up to 88% of the screen, with roomy paper margins, user request), centred over the detective; a line can break where its text has \n (user request: home-new) */
+.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:59%;z-index:2;box-sizing:border-box;width:fit-content;max-width:88cqw;padding:22px 24px 18px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
 .oh-say[hidden]{display:none}
 /* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
    a tap on the detective plays it again even while the bubble is open */
@@ -840,8 +840,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-det.hop img{animation:det-hop .5s ease-out}
 .oh-say .office-foot{margin-top:10px}
 /* the app's close button, small, in the bubble's top right (user request); a tap on the detective brings the bubble back */
-.oh-say .oh-close{position:absolute;top:8px;right:8px;width:30px;height:30px}
-.oh-say #homeEn{padding-right:30px}
+.oh-say .oh-close{position:absolute;top:12px;right:12px;width:30px;height:30px}
+.oh-say #homeEn{padding-right:28px}
 .oh-say #homeEn,.oh-say #homeKo{white-space:pre-line}
 .oh-go{margin-right:auto}
 .oh-go[hidden]{display:none}
@@ -3564,7 +3564,6 @@ const DETECTIVE = {
   intro2:{ en:'My ears are small, but they catch every word.', ko:'내 귀는 작지만, 어떤 말도 놓치지 않지.' },
   askname:{ en:"Every detective needs a name. What's mine?", ko:'탐정에게는 이름이 필요해. 내 이름은 뭘까?' },
   named:{ en:"I like it. Let's get to work!", ko:'마음에 들어. 이제 일하러 가자!' },
-  casestart:{ en:"Sgt. Badger needs me. Let's go.", ko:'오소리 경사가 날 찾고 있어. 가 보자.' },
   accuse:{ en:"I've heard enough. I know who did it.", ko:'들을 만큼 들었어. 누가 했는지 알겠어.' },
   closed:{ en:'Another case closed. Acorn Hollow can sleep tonight.', ko:'또 하나의 사건 종결. 오늘 밤 도토리 골짜기는 편히 잘 수 있겠어.' },
   // 홈, one for the moment (homeState())
@@ -3817,16 +3816,16 @@ document.fonts?.ready.then(() => drawBoardString());
 function openCaseList(tab = 'cases'){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false; }
 // Opening a case: the first time on this device the player meets and names the detective, then the tutorial comes
 // first; a new case starts with the detective's line in the office; a case in progress resumes where it was left.
-function startCase(justNamed){
+function startCase(){
   stopVoice();
-  if(!detectiveName()) return meetDetective(() => startCase(true));
+  if(!detectiveName()) return meetDetective(startCase);
   $('#caseList').hidden = true;
   markStudyDay();
   if(resumePending){ resumePending = false; resumeCase(); return; }
   if(caseStarted) return;
   caseStarted = true;
-  const begin = () => tutSeen() ? talkTo('badger') : openTutorial(true);
-  if(justNamed === true) begin(); else openOffice(['casestart'], begin);
+  // straight to Sgt. Badger (or the tutorial first), no stop in the office (user request)
+  tutSeen() ? talkTo('badger') : openTutorial(true);
 }
 $('#caseCards').addEventListener('click', e => { if(e.target.closest('[data-case]')) startCase(); });
 
