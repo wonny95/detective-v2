@@ -4,7 +4,8 @@ each cell cropped to its icon with a 4px square margin and scaled to 160x160."""
 from PIL import Image
 
 SRC = 'assets/ui/nav-icons-higgsfield-original.png'
-NAMES = [['home-door', 'case-magnifier', 'study-book'], ['my-squirrel', 'my-hat', 'home-door-lantern']]
+# the cells not used (squirrel face, door with a lantern: candidates the user did not pick) are None
+NAMES = [['home-door', 'case-magnifier', 'study-book'], [None, 'my-hat', None]]
 
 im = Image.open(SRC).convert('RGB')
 W, H = im.size
@@ -22,6 +23,7 @@ for y in range(H):
 
 for row, names in enumerate(NAMES):
     for col, name in enumerate(names):
+        if not name: continue
         cell = out.crop((col * W // 3, row * H // 2, (col + 1) * W // 3, (row + 1) * H // 2))
         l, t, r, b = cell.getchannel('A').point(lambda v: 255 if v > 24 else 0).getbbox()
         side = max(r - l, b - t) + 8

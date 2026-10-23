@@ -16,14 +16,10 @@ body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body
 .wrap{max-width:1240px;margin:0 auto;padding:28px 20px 56px}
 h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 .lead{margin:0 0 22px;font-size:14px;opacity:.8;max-width:760px;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:26px 22px}
+.grid{display:grid;grid-template-columns:minmax(0,375px);gap:26px 22px}
 .opt h2{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:17px;display:flex;align-items:baseline;gap:8px}
 .opt h2 small{font-size:12px;color:var(--ink-soft)}
 .opt p{margin:8px 2px 0;font-size:13px;line-height:1.55;color:var(--ink-soft)}
-.tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:-8px 0 22px;font-family:var(--f-display);font-size:13px}
-.tools span{margin-left:6px}
-.tools button{padding:5px 12px;border:2px solid var(--ink);border-radius:14px;background:var(--card);font:inherit;color:var(--ink);cursor:pointer}
-.tools button[aria-pressed="true"]{background:var(--honey)}
 code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
 .rec{display:inline-block;padding:1px 8px;border-radius:10px;background:var(--honey);font-size:11px;color:var(--ink)}
 
@@ -35,8 +31,6 @@ code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
 .ic{position:relative;display:grid;place-items:center;width:34px;height:34px}
 .ic img{display:block;max-width:100%;max-height:100%}
 /* 마이 placeholder: the detective's ID card with the face in its photo box */
-.idc{position:relative;width:36px;height:24px;background:url(../assets/ui/detective-id-card.png) center/100% 100% no-repeat}
-.idc i{position:absolute;left:10%;top:22%;width:32%;height:56%;background:url(../assets/ui/icons-v2/detective.png) 50% 30%/160% no-repeat}
 
 /* ---------- A. 종이 띠 + 꿀색 손칠 ---------- */
 .a .nav{padding:6px 10px 9px;background:var(--paper-2)}
@@ -50,50 +44,6 @@ code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
 .a .it[aria-current] .ic::before{opacity:.95;transform:none}
 .a .it:not([aria-current]) .ic img,.a .it:not([aria-current]) .idc{filter:saturate(.6);opacity:.8}
 
-/* ---------- B. 솟은 종이 탭 (노트 탭과 같은 말) ---------- */
-.b .nav{padding:12px 10px 18px;background:var(--paper-2);border-top:2.5px solid var(--ink)}
-.b .it{color:var(--ink-soft);gap:3px;transition:transform .25s}
-.b .it .ic{width:58px;height:44px;transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
-.b .it .ic img{max-width:30px;max-height:30px;position:relative;z-index:1}
-.b .it .idc{z-index:1}
-.b .it .ic::before{content:"";position:absolute;inset:0;background:#FCFAED;-webkit-mask:url(../assets/ui/tab-2-closed.png) center/100% 100%;mask:url(../assets/ui/tab-2-closed.png) center/100% 100%;opacity:0}
-.b .it .ic::after{content:"";position:absolute;inset:0;background:url(../assets/ui/tab-2-closed.png) center/100% 100%;mix-blend-mode:multiply;opacity:0}
-.b .it[aria-current]{color:var(--ink);font-weight:700}
-.b .it[aria-current] .ic{transform:translateY(-22px);filter:drop-shadow(0 3px 2px rgba(40,28,20,.3))}
-.b .it[aria-current] .ic::before,.b .it[aria-current] .ic::after{opacity:1}
-.b .it[aria-current] .lab{transform:translateY(-14px)}
-.b .lab{transition:transform .25s}
-.b .nav{padding-top:16px}
-
-/* ---------- C. 둥근 종이 단추 ---------- */
-.c .nav{padding:10px 10px 16px;background:var(--paper-2)}
-.c .nav::before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:12px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'%3E%3Cpath d='M0 6 C50 8 90 4 140 6 S240 8 290 5 S370 7 400 6 L400 12 L0 12Z' fill='%23F4EAD4'/%3E%3Cpath d='M0 6 C50 8 90 4 140 6 S240 8 290 5 S370 7 400 6' fill='none' stroke='%234A3628' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
-.c .it{color:var(--ink-soft);gap:3px}
-.c .it .ic{width:50px;height:50px;background:url(../assets/ui/buttons/round-cream.png) center/100% 100%;transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
-.c .it .ic img{max-width:30px;max-height:30px}
-.c .it[aria-current]{color:var(--ink);font-weight:700}
-.c .it[aria-current] .ic{background-image:url(../assets/ui/buttons/round-honey.png);transform:translateY(-14px) scale(1.12);filter:drop-shadow(0 4px 2px rgba(40,28,20,.28))}
-
-/* ---------- D. 사무소 나무 선반 ---------- */
-.d .nav{padding:14px 8px 16px;background:#7A5234 url(../assets/places/detective-office-wide.jpg) 50% 100%/auto 900px no-repeat;border-top:5px solid #4A3020;box-shadow:inset 0 3px 0 rgba(255,230,190,.25),0 -3px 6px rgba(0,0,0,.25)}
-.d .nav::after{content:"";position:absolute;inset:0;background:rgba(60,36,20,.25);pointer-events:none}
-.d .it{z-index:1;gap:5px}
-.d .it .ic{width:42px;height:42px;filter:drop-shadow(0 3px 1.5px rgba(30,18,10,.45));transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
-.d .lab{padding:1px 10px 2px;background:var(--card);border:1.8px solid var(--ink);border-radius:5px 7px 5px 8px/7px 5px 8px 5px;font-size:12px;transform:rotate(-1.5deg)}
-.d .it:nth-child(2n) .lab{transform:rotate(1.5deg)}
-.d .it[aria-current] .ic{transform:translateY(-8px) scale(1.15)}
-.d .it[aria-current] .lab{background:var(--honey);font-weight:700}
-.d .it:not([aria-current]) .lab{color:var(--ink-soft)}
-
-/* ---------- E. 코르크 게시판 쪽지 ---------- */
-.e .nav{padding:16px 8px 16px;gap:4px;background:url(../assets/ui/corkboard-cork.webp) 0 0/180px;border-top:4px solid #6B4A30;box-shadow:0 -3px 6px rgba(0,0,0,.2)}
-.e .it{padding:10px 4px 6px;background:var(--card);box-shadow:1px 2px 0 rgba(60,40,20,.25);transform:rotate(var(--r));transition:transform .25s cubic-bezier(.3,1.5,.5,1);gap:2px}
-.e .it .ic{width:30px;height:30px}
-.e .it::before{content:"";position:absolute;top:-10px;left:50%;width:14px;height:19px;margin-left:-7px;background:url(../assets/ui/tack-grey.webp) center/contain no-repeat;z-index:1}
-.e .it:not([aria-current]){color:var(--ink-soft)}
-.e .it[aria-current]{background:#FFF1BF;transform:rotate(0deg) translateY(-6px) scale(1.06);font-weight:700}
-.e .it[aria-current]::before{background-image:url(../assets/ui/tack-red.webp)}
-
 .spec{margin-top:34px;max-width:860px;background:var(--paper);border-radius:14px;padding:18px 22px;font-size:14px;line-height:1.65}
 .spec h2{font-family:var(--f-display);font-weight:400;font-size:17px;margin:0 0 6px}
 .spec ul{margin:4px 0;padding-left:20px}
@@ -106,9 +56,7 @@ code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
 </svg>
 <div class="wrap">
   <h1>홈 메뉴 시안</h1>
-  <p class="lead">홈 화면 아래 메뉴 다섯 가지예요. 메뉴를 눌러 선택 모양을 바꿔 볼 수 있어요. 사용자 선택은 A안(위아래 높이를 줄임). 아이콘은 Higgsfield로 새로 그린 한 벌(<code>assets/ui/nav/</code>)이고, 홈·마이는 후보를 아래 버튼으로 바꿔 볼 수 있어요.</p>
-  <div class="tools"><span>홈</span><button type="button" data-home-ic="home-door" aria-pressed="true">동그란 나무 문</button><button type="button" data-home-ic="home-door-lantern" aria-pressed="false">문 + 등불</button>
-    <span>마이</span><button type="button" data-my-ic="my-squirrel" aria-pressed="true">다람쥐 탐정 얼굴</button><button type="button" data-my-ic="my-hat" aria-pressed="false">탐정 모자</button></div>
+  <p class="lead">홈 화면 아래 메뉴 — 게임에 적용한 안(사용자 선택). 칸마다의 상자 없이 아이콘과 이름만, 띠 위쪽은 손으로 그은 물결선, 선택한 칸은 아이콘 뒤 꿀색 손칠과 진한 글자. 아이콘은 <code>assets/ui/nav/</code>(Higgsfield). 메뉴를 눌러 선택을 바꿔 볼 수 있어요.</p>
   <div class="grid" id="grid"></div>
   <div class="spec">
     <h2>공통</h2>
@@ -121,14 +69,10 @@ code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
 </div>
 <script>
 const ic = n => `<img src="../assets/ui/nav/${n}.png" alt="">`;
-let homeIc = 'home-door', myIc = 'my-squirrel';
+const homeIc = 'home-door', myIc = 'my-hat';
 const items = () => [['홈', ic(homeIc)], ['사건', ic('case-magnifier')], ['학습', ic('study-book')], ['마이', ic(myIc)]];
 const OPTS = [
-  ['a', 'A. 종이 띠 + 꿀색 손칠', true, '상자를 모두 없애고, 띠 위쪽 선도 손으로 그은 물결선으로. 위아래를 줄여 띠가 얇다(사용자 요청). 선택한 칸은 아이콘 뒤에 색연필로 칠한 듯한 꿀색 얼룩이 번지고 글자가 진해진다. 가장 가볍고 깔끔하다.'],
-  ['b', 'B. 솟은 종이 탭', false, '선택한 칸의 아이콘이 노트 탭과 같은 손그림 종이 탭에 담겨 띠 위로 톡 솟는다. 노트 탭과 같은 말이라 앱 전체가 이어진다.'],
-  ['c', 'C. 둥근 종이 단추', false, '칸마다 손그림 둥근 종이 단추(앱의 닫기·재생 단추와 같은 그림). 선택한 단추는 꿀색으로 바뀌며 커져서 위로 떠오른다. 누르는 맛이 가장 크다.'],
-  ['d', 'D. 사무소 나무 선반', false, '메뉴 띠가 홈 그림 바닥과 같은 나무 선반이 되고, 아이콘이 선반 위에 놓인 물건처럼 그림자를 드리운다. 이름은 작은 종이 꼬리표. 선택하면 물건이 들리고 꼬리표가 꿀색. 사무소 느낌이 가장 강하다.'],
-  ['e', 'E. 코르크 게시판 쪽지', false, '사건 목록의 코르크 게시판처럼, 메뉴가 압정으로 꽂힌 쪽지들. 선택한 쪽지는 빨간 압정에 반듯하게 펴진다. 탐정 느낌이 강하지만 가장 장식이 많다.']
+  ['a', 'A. 종이 띠 + 꿀색 손칠', true, '상자를 모두 없애고, 띠 위쪽 선도 손으로 그은 물결선으로. 위아래를 줄여 띠가 얇다(사용자 요청). 선택한 칸은 아이콘 뒤에 색연필로 칠한 듯한 꿀색 얼룩이 번지고 글자가 진해진다. 홈 = 동그란 나무 문, 마이 = 탐정 모자(사용자 선택).']
 ];
 const R = ['-2deg', '1.5deg', '-1deg', '2deg'];
 const picked = {};   // the item each menu has on, kept across re-renders
@@ -139,9 +83,6 @@ function render(){
 }
 render();
 document.addEventListener('click', e => {
-  const h = e.target.closest('[data-home-ic]'), m = e.target.closest('[data-my-ic]');
-  if(h){ homeIc = h.dataset.homeIc; document.querySelectorAll('[data-home-ic]').forEach(b => b.setAttribute('aria-pressed', b === h)); return render(); }
-  if(m){ myIc = m.dataset.myIc; document.querySelectorAll('[data-my-ic]').forEach(b => b.setAttribute('aria-pressed', b === m)); return render(); }
   const it = e.target.closest('.it'); if(!it) return;
   picked[it.parentNode.dataset.k] = +it.dataset.i;
   it.parentNode.querySelectorAll('.it').forEach(b => b.toggleAttribute('aria-current', b === it));
