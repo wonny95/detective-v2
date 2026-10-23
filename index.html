@@ -247,7 +247,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .dock-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px;display:flex;align-items:center;gap:6px}
 .dock-head h2 svg{width:24px;height:24px}
 .dock-head h2[hidden]{display:none}
-#personTitle{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+#personTitle{min-width:0}
+#personTitle span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock-head h2 img{flex:none;width:28px;height:28px;display:block}
 .dock-head .finish{margin-left:auto;padding:6px 14px;background:var(--moss);font-size:15px}
 .dock-head .finish[hidden]{display:none}
 /* behind the open notebook the scene darkens toward the bottom, so the notebook stands out from
@@ -255,26 +257,49 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .note-scrim{position:absolute;inset:0;z-index:10;opacity:0;pointer-events:none;transition:opacity .45s;background:linear-gradient(to bottom,rgba(43,30,20,0) 25%,rgba(43,30,20,.45) 75%)}
 .app.notes-open .note-scrim{opacity:1;pointer-events:auto}
 .app.notes-open .chip,.app.notes-open .bubble{z-index:12}
-/* horizontal notebook tabs: the case file + one per person */
-/* Tabs: hand-drawn white paper tabs (assets/ui/tab-1…6.png, cycled) tinted with each page's colour:
-   the PNG masks the button and is multiplied over --tab-bg, keeping the pencil outline and grain. */
-.who{position:absolute;z-index:-1;bottom:100%;margin-bottom:calc(-2.8% - 14px);left:7%;right:22%;display:flex;align-items:flex-end;gap:4px;min-width:0;overflow-x:auto;padding:4px 2px 0;scrollbar-width:none}
-.who::-webkit-scrollbar{display:none}
-.who:empty{display:none}
-.who button{--tab:url(assets/ui/tab-1.png);flex:none;width:46px;height:44px;padding:0;border:0;position:relative;background:var(--tab-bg,var(--paper-2));display:grid;place-items:center;-webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat}
-.who button:nth-child(6n+2){--tab:url(assets/ui/tab-2.png)}
-.who button:nth-child(6n+3){--tab:url(assets/ui/tab-3.png)}
-.who button:nth-child(6n+4){--tab:url(assets/ui/tab-4.png)}
-.who button:nth-child(6n+5){--tab:url(assets/ui/tab-5.png)}
-.who button:nth-child(6n+6){--tab:url(assets/ui/tab-6.png)}
-.who button::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
-.who button > *{position:relative}
-.who button[aria-pressed="true"]{background:var(--honey);height:52px}
-.who button svg{margin-bottom:10px}
-.who button:disabled{cursor:default;filter:grayscale(1);opacity:.45}
-.who button svg{width:24px;height:24px;display:block;border-radius:50%}
-/* the hand-drawn icon pictures (camera, faces) are a little larger than the line icons */
-.who button img{width:30px;height:30px;display:block;margin-bottom:8px}
+/* three fixed tabs over the folder — 인물 · 증거 · 메모 (user decision: one tab per person overflowed as the cast grew).
+   Icons only (the row is narrow). Hand-drawn paper tabs (assets/ui/tab-1…3.png): the PNG masks the button and is
+   multiplied over its colour, keeping the pencil outline. The open one is the page's cream and a little taller; the
+   others are the folder's blue. They stop at the folder's band (user request: reaching into the page looked too long). */
+.note-cats{position:absolute;z-index:2;bottom:calc(100% - 2px);left:7%;display:flex;gap:4px;align-items:flex-end}
+.ncat{--tab:url(assets/ui/tab-1.png);position:relative;flex:none;display:grid;place-items:center;width:50px;height:28px;padding:0 0 4px;border:0;background:#7488A8;
+  -webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat}
+.ncat:nth-child(2){--tab:url(assets/ui/tab-2.png)}
+.ncat:nth-child(3){--tab:url(assets/ui/tab-3.png)}
+.ncat::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.ncat > *{position:relative}
+.ncat img{width:24px;height:24px;display:block;filter:drop-shadow(0 0 1.5px rgba(251,244,230,.9))}
+.ncat[aria-pressed="true"]{background:#FCFAED;height:34px}
+.ncat .badge{position:absolute;top:3px;right:4px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--berry);color:#fff;font-size:10px;line-height:16px;text-align:center;animation:ncat-pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes ncat-pop{from{transform:scale(0)}}
+/* the person page: everyone the player has talked to as a row of faces under the title (user decision), progress in
+   each face's corner (✓ all written down), the page shown on honey paper; many people scroll sideways */
+.nfaces{flex:none;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:0 2px 6px;margin:-4px -2px 0;border-bottom:2px dashed var(--line)}
+.nfaces::-webkit-scrollbar{display:none}
+.nface{flex:none;width:60px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px 5px;border:2px solid transparent;border-radius:12px;background:none;font-family:var(--f-display);font-size:10.5px;line-height:1.15;color:var(--ink-soft);text-align:center}
+.nface .pic{position:relative}
+.nface .mini{display:block;width:42px;height:42px}
+.nface .pic i{position:absolute;right:-6px;bottom:-3px;display:grid;place-items:center;min-width:19px;height:19px;padding:0 3px;box-sizing:border-box;border-radius:10px;background:#FFFDF7;border:1.5px solid var(--ink);font-style:normal;font-size:9.5px;color:var(--ink)}
+.nface .pic i.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.nface[aria-pressed="true"]{border-image:url(assets/ui/buttons/honey-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;color:var(--ink)}
+/* 📌: a checked statement or a piece of evidence pinned to the memo */
+.nb-pin{display:inline-grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:none;vertical-align:middle}
+.nb-pin svg{width:19px;height:19px}
+.nb-pin.on .head{fill:var(--berry)}
+.nb-pin:active{transform:scale(.9)}
+.nblock .qlabel .nb-pin{float:right;margin:-5px -8px 0 4px}
+.ev-cell{position:relative;display:flex;min-width:0}
+.ev-cell .ev-card{flex:1}
+.ev-cell .nb-pin{position:absolute;top:-8px;right:-8px;background:#FFFDF7;border:1.5px solid var(--line)}
+/* the memo: what was pinned, then the player's own lines on ruled paper (kept with the case, S.memo) */
+.memo-page{flex:1;display:flex;flex-direction:column;gap:8px}
+.memo-pin{position:relative;display:flex;gap:10px;align-items:flex-start;padding:8px 34px 8px 10px;background:#FFF6DE;border:1.5px solid #E6C77A;border-radius:10px;font-family:var(--f-hand);font-size:14px;line-height:1.45;transform:rotate(var(--r,0deg))}
+.memo-pin .mini{display:block;width:30px;height:30px;border-width:1.5px}
+.memo-pin .evidence-photo{flex:none;width:40px;margin:0;border-width:1.5px;border-radius:4px}
+.memo-pin small{display:block;font-family:var(--f-display);font-size:11px;color:var(--ink-soft)}
+.memo-pin .x{position:absolute;top:6px;right:6px;width:22px;height:22px;padding:0;border:0;border-radius:50%;background:rgba(74,54,40,.1);font-size:13px;line-height:22px;color:var(--ink-soft)}
+.memo-text{flex:1;width:100%;min-height:240px;box-sizing:border-box;resize:none;border:0;outline:none;padding:0 4px;background:transparent repeating-linear-gradient(transparent 0 32px,var(--line) 32px 34px);background-attachment:local;
+  font-family:var(--f-hand);font-size:16px;line-height:34px;color:#34506E}
 .dock-body{flex:1;min-height:0;overflow-y:auto;padding:12px 2px 18px;display:flex;flex-direction:column;gap:12px}
 /* writing goes straight onto the notebook page: no separate card, keep the pink margin line */
 .dock .note-page{background:none;border:0;border-radius:0;padding-left:0;padding-right:0}
@@ -1007,6 +1032,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 6 L8 4 L16 6 L21.5 4 V18 L16 20 L8 18 L2.5 20Z" fill="#DDE8C9"/><path d="M8 4 V18 M16 6 V20" fill="none"/></g>
       <path d="M12 8.5 a2.6 2.6 0 0 1 2.6 2.6 c0 2 -2.6 4.4 -2.6 4.4 s-2.6 -2.4 -2.6 -4.4 a2.6 2.6 0 0 1 2.6 -2.6z" fill="#C96F86" stroke="#4A3628" stroke-width="1.3"/>
     </symbol>
+    <symbol id="pinIcon" viewBox="0 0 24 24"><g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12 14 v7" fill="none"/><path class="head" d="M8 3 h8 l-1.2 5 3 4 H6.2 l3-4z" fill="#F2CF73"/></g></symbol>
     <symbol id="noteIcon" viewBox="0 0 24 24">
       <g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="3" width="14" height="18" rx="2" fill="#F2CF73"/><path d="M8 8h6M8 12h6" fill="none"/><path d="M14 18 L20.5 11.5 L22.5 13.5 L16 20 L13.5 20.5Z" fill="#F6B89A"/></g>
       <g fill="#FBF4E6" stroke="#4A3628" stroke-width="1.2"><circle cx="4" cy="7" r="1.3"/><circle cx="4" cy="12" r="1.3"/><circle cx="4" cy="17" r="1.3"/></g>
@@ -1067,10 +1093,11 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <!-- Note: a notebook pulled up from the bottom — automatically while writing down an answer, or from the Note tab -->
     <div class="note-scrim" id="noteScrim" aria-hidden="true"></div>
     <section class="dock" aria-label="노트">
-      <div class="who" id="who" aria-label="노트 페이지"></div>
+      <div class="note-cats" id="noteCats" aria-label="노트 페이지"></div>
       <div class="dock-head">
         <h2 id="evidenceTitle" hidden>증거 기록</h2>
         <h2 id="personTitle" hidden></h2>
+        <h2 id="memoTitle" hidden><img src="assets/ui/icons/note.png" alt="" draggable="false">내 메모</h2>
         <button class="ev-back" id="evidenceBack" type="button" hidden>‹ 증거 기록</button>
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
@@ -1779,6 +1806,7 @@ const S = {
   met:['badger'],    // people the player knows about
   mood:{},           // a person shown with another expression (ending)
   visit:{},          // a person standing somewhere else for a scene: { id:{ place, x, floor, height } } (ending)
+  memo:{ text:'', pins:[] },   // the notebook's memo: the player's own lines, and 📌 keys ('say:<person>:<question>', 'ev:<place>-<clue>')
   per:Object.fromEntries(PEOPLE_ORDER.map(id => [id, newSpeakerState()]))
 };
 const $ = s => document.querySelector(s);
@@ -1974,20 +2002,44 @@ function renderHint(){
   button.setAttribute('aria-label', `힌트 ${S.hints}번 남음`);
 }
 
-const cameraIcon = `<img src="assets/ui/icons-v2/camera.png" alt="" draggable="false">`;
+// S.view: a person's id (the 인물 tab), 'evidence' or 'memo'. notePerson: the person page last shown, for the 인물 tab.
+const NOTE_CATS = [['people', '인물', 'assets/ui/icons-v2/detective.png'], ['evidence', '증거', 'assets/ui/icons-v2/camera.png'], ['memo', '메모', 'assets/ui/icons/note.png']];
+const noteCat = () => S.view === 'evidence' || S.view === 'memo' ? S.view : 'people';
+let notePerson = null, memoNew = 0;   // memoNew: pins added since the memo was last open (the number on its tab)
 function renderWho(){
-  // pages for everyone the player has talked to; the partner's page is the case file
-  $('#who').innerHTML = `<button type="button" data-i="evidence" aria-pressed="${S.view === 'evidence'}" style="--tab-bg:#DDE8C9" aria-label="증거 노트">${cameraIcon}</button>` + S.met.filter(id => per(id).phase !== 'wait').map(id => {
-    const s = spk(id);
-    if(s.partner) return `<button class="case" type="button" data-i="${id}" aria-pressed="${S.view === id}" style="--tab-bg:${s.bg}" aria-label="사건 브리핑 노트">${miniSVG(id)}</button>`;
-    return `<button type="button" data-i="${id}" aria-pressed="${S.view === id}" style="--tab-bg:${s.bg}" aria-label="${esc(s.name)} 노트">${miniSVG(s.id)}</button>`;
-  }).join('');
+  $('#noteCats').innerHTML = NOTE_CATS.map(([k, label, img]) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${noteCat() === k}" aria-label="${label}"><img src="${img}" alt="" draggable="false">${k === 'memo' && memoNew ? `<span class="badge">${memoNew}</span>` : ''}</button>`).join('');
 }
-$('#who').addEventListener('click', e => {
-  const b = e.target.closest('[data-i]'); if(!b || b.disabled) return;
-  if(b.dataset.i === 'evidence') evidenceOpen = null;   // the evidence tab always opens on the list
-  S.view = b.dataset.i; renderDock();
+$('#noteCats').addEventListener('click', e => {
+  const b = e.target.closest('[data-cat]'); if(!b) return;
+  const k = b.dataset.cat;
+  if(k === 'evidence') evidenceOpen = null;   // the evidence tab always opens on the list
+  S.view = k === 'people' ? (S.met.includes(notePerson) ? notePerson : S.cur) : k;
+  renderDock();
 });
+const pinBtn = key => `<button class="nb-pin${S.memo.pins.includes(key) ? ' on' : ''}" type="button" data-pin="${key}" aria-label="메모에 붙이기" aria-pressed="${S.memo.pins.includes(key)}"><svg aria-hidden="true"><use href="#pinIcon"/></svg></button>`;
+function togglePin(key){
+  const pins = S.memo.pins;
+  if(pins.includes(key)) pins.splice(pins.indexOf(key), 1);
+  else { pins.push(key); memoNew++; }
+  saveGame();
+}
+// what was written for a checked question, blanks filled
+const writtenLines = (id, qid) => spk(id).notes[qid].map(line => line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, bid, ans) => per(id).notes[bid] || ans));
+function memoHTML(){
+  const pins = S.memo.pins.map((key, i) => {
+    const [kind, a, b] = key.split(':'), r = i % 2 ? .6 : -.6, x = `<button class="x" type="button" data-unpin="${key}" aria-label="떼기">×</button>`;
+    if(kind === 'say'){
+      const s = spk(a), q = s && qs(s).find(y => y.id === b);
+      if(!q) return '';
+      return `<div class="memo-pin" style="--r:${r}deg"><span class="mini" style="background:${s.bg}">${miniSVG(a)}</span><div><small>${esc(s.name)} · ${esc(q.en)}</small>${esc(writtenLines(a, b).join(' '))}</div>${x}</div>`;
+    }
+    const record = S.evidence.find(y => `${y.placeId}-${y.clueIndex}` === a);
+    if(!record) return '';
+    const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
+    return `<div class="memo-pin" style="--r:${r}deg"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><div><small>${esc(place.label)}</small>${esc(clue.label)}</div>${x}</div>`;
+  }).join('');
+  return `<div class="memo-page">${pins}<textarea class="memo-text" id="memoText" spellcheck="false" autocomplete="off" aria-label="내 메모">${esc(S.memo.text)}</textarea></div>`;
+}
 
 function blockHTML(sIdx, qid, now){
   const s = spk(sIdx), p = per(sIdx), q = qs(s).find(x => x.id === qid);
@@ -2003,7 +2055,7 @@ function blockHTML(sIdx, qid, now){
     return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
   }).join('');
   const status = p.questionChecks[qid], ref = `${s.id}:${qid}`, items = GRAMMAR_LINES[ref];
-  const label = `Q. ${status === 'ok' ? markGrammar(q.en, items) : esc(q.en)}`;
+  const label = `${status === 'ok' && !now ? pinBtn(`say:${ref}`) : ''}Q. ${status === 'ok' ? markGrammar(q.en, items) : esc(q.en)}`;
   // Checked answers keep playback beside translation in the passage footer.
   const replay = `<button class="replay-q" type="button" data-replay="${sIdx}:${qid}" aria-label="다시 듣기">${playIcon}</button>`;
   const feedback = status ? `<span class="question-state ${status}" role="status">${status === 'ok' ? '✓ 확인됨' : '다시 확인'}</span>` : '';
@@ -2096,6 +2148,7 @@ function renderDock(){
   $('#evidenceTitle').hidden = true;
   $('#evidenceBack').hidden = true;
   $('#personTitle').hidden = true;
+  $('#memoTitle').hidden = true;
   $('#finish').hidden = !mode;
   // the check of a finished conversation (its result or fresh stamp) takes the whole screen
   $('#app').classList.toggle('note-full', noteRaised);
@@ -2113,29 +2166,44 @@ function renderDock(){
         <span class="place">${esc(place.label)}</span>
         <h4>${esc(clue.label)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref(open)}" aria-label="다시 듣기">${playIcon}</button>` : ''}</h4>
         <p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p>
-        <span class="ev-btns"><button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${ref(open)}">내밀기</button>` : ''}</span></div></div>`;
+        <span class="ev-btns">${pinBtn(`ev:${ref(open)}`)}<button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${ref(open)}">내밀기</button>` : ''}</span></div></div>`;
     } else {
       evidenceOpen = null;
       body.innerHTML = `<div class="evidence-page">${S.evidence.length ? [...S.evidence].reverse().map(record => {
         const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
-        return `<button class="ev-card" type="button" data-ev-open="${ref(record)}" data-evidence="${ref(record)}"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="ev-title">${esc(clue.label)}</span><span class="place">${esc(place.label)}</span></button>`;
+        return `<div class="ev-cell"><button class="ev-card" type="button" data-ev-open="${ref(record)}" data-evidence="${ref(record)}"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="ev-title">${esc(clue.label)}</span><span class="place">${esc(place.label)}</span></button>${pinBtn(`ev:${ref(record)}`)}</div>`;
       }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
     }
     body.scrollTop = 0;
     bindDock();
     return;
   }
+  if(S.view === 'memo'){
+    memoNew = 0; renderWho();
+    $('#listen').hidden = true; $('#memoTitle').hidden = false;
+    body.innerHTML = memoHTML();
+    body.scrollTop = 0;
+    bindDock();
+    return;
+  }
+  notePerson = S.view;
   const vs = spk(S.view), vp = per(S.view);
   const live = S.view === S.cur && !S.investigate;
   const p = st();
   let html = '';
 
   $('#listen').hidden = !(live && p.phase === 'record');
-  // a person's page is titled "<name>의 진술" (user request); while writing an answer down the head holds the listening tools instead
-  $('#personTitle').textContent = `${vs.name}의 진술`;
+  // a person's page is titled "<name>의 진술" (user request), the partner's "사건 브리핑"; while writing an answer down the
+  // head holds the listening tools instead
+  $('#personTitle').innerHTML = `${miniSVG(vs.id)}<span>${vs.partner ? '사건 브리핑' : `${esc(vs.name)}의 진술`}</span>`;
   $('#personTitle').hidden = !$('#listen').hidden;
   $('#slow').setAttribute('aria-pressed', S.slow);
 
+  // the faces of everyone talked to, to turn to their page; not while a page is being written or checked
+  if(!mode) html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait').map(id => {
+    const s = spk(id), all = qs(s).length, done = qs(s).filter(q => per(id).questionChecks[q.id] === 'ok').length;
+    return `<button class="nface" type="button" data-face="${id}" aria-pressed="${id === S.view}"><span class="pic"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span><i class="${done === all ? 'done' : ''}">${done === all ? '✓' : `${done}/${all}`}</i></span>${esc(s.name)}</button>`;
+  }).join('')}</div>`;
   // while writing down an answer, the page shows only that question; the full page comes back afterwards
   const shown = live && (p.phase === 'record' || p.feedback) ? [p.recording || p.feedback] : vp.order;
   html += `<div class="note-page${vp.checked && !(live && p.feedback) ? ' checked' : ''}" id="notePage">${
@@ -2149,6 +2217,7 @@ function renderDock(){
   }
 
   body.innerHTML = html;
+  body.querySelector('.nface[aria-pressed="true"]')?.scrollIntoView({ block:'nearest', inline:'nearest' });
   freshCheck = missCheck = null;
   bindDock();
   // scroll only the notebook (scrollIntoView would also scroll the clipped app frame)
@@ -2188,6 +2257,14 @@ function bindDock(){
     button.setAttribute('aria-pressed', !ko.hidden);
   }));
   body.querySelectorAll('[data-present]').forEach(button => button.addEventListener('click', () => present(button.dataset.present)));
+  body.querySelectorAll('[data-face]').forEach(button => button.addEventListener('click', () => { S.view = button.dataset.face; renderDock(); }));
+  body.querySelectorAll('[data-pin]').forEach(button => button.addEventListener('click', e => {
+    e.stopPropagation(); togglePin(button.dataset.pin);
+    const on = S.memo.pins.includes(button.dataset.pin);
+    button.classList.toggle('on', on); button.setAttribute('aria-pressed', on); renderWho();
+  }));
+  body.querySelectorAll('[data-unpin]').forEach(button => button.addEventListener('click', () => { togglePin(button.dataset.unpin); renderDock(); }));
+  body.querySelector('#memoText')?.addEventListener('input', e => { S.memo.text = e.target.value; });
   const bank = body.querySelector('#bank');
   if(bank){
     bank.addEventListener('click', e => {
@@ -2321,7 +2398,7 @@ function finishRecord(){
 }
 // What the header button does on the page being viewed.
 function noteMode(){
-  if(S.view === 'evidence') return null;
+  if(S.view === 'evidence' || S.view === 'memo') return null;
   const p = per(S.view);
   if(noteRaised && p.checked && !p.feedback) return 'summary';
   if(S.view === S.cur && !S.investigate && p.feedback) return 'feedback';
@@ -2601,7 +2678,7 @@ $('#slow').onclick = e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria
 $('#noteScrim').onclick = closeNotes;
 // Empty paper/header/edge space also dismisses the notebook; content and drag gestures do not.
 let noteSpaceTap = null;
-const noteSpaceTargets = '.dock,.dock-head,.dock-body,.note-page,.evidence-page,.evidence-detail,.who';
+const noteSpaceTargets = '.dock,.dock-head,.dock-body,.note-page,.evidence-page,.evidence-detail,.note-cats,.memo-page';
 $('#app').addEventListener('pointerdown', e => {
   noteSpaceTap = null;
   if(!e.isPrimary || e.button !== 0 || !$('#app').classList.contains('notes-open') || !e.target.matches(noteSpaceTargets)) return;
@@ -3799,7 +3876,7 @@ const TUT = [
       <image href="assets/ui/icons-v2/camera.png" x="223" y="144" width="34" height="34"/>`)
   },
   { title:'Note에서 기록을 모아 봐요',
-    text:'아래 <b>Note</b>를 열고 <b>인물 탭 · 카메라 탭</b>을 골라요. 확인한 진술은 <b>지문 보기</b>로, 증거 사진은 획득 장소와 함께 볼 수 있어요. <b>▶</b>로 다시 듣고, <b>해석</b>을 눌러 뜻을 확인해요. <b>Note를 다시 누르거나 빈 여백</b>을 누르면 닫혀요.',
+    text:'아래 <b>Note</b>를 열고 위의 <b>인물 · 증거 · 메모</b> 탭을 골라요. 인물은 얼굴을 눌러 바꾸고, <b>📌</b>를 누르면 진술·증거가 메모에 붙어요. 확인한 진술은 <b>지문 보기</b>로, 증거 사진은 획득 장소와 함께 볼 수 있어요. <b>▶</b>로 다시 듣고, <b>해석</b>을 눌러 뜻을 확인해요. <b>Note를 다시 누르거나 빈 여백</b>을 누르면 닫혀요.',
     fig:() => tutFrame(`${tutPaper()}
       <image href="assets/ui/icons-v2/camera.png" x="31" y="19" width="27" height="27"/>
       <text x="65" y="39" font-size="15" font-weight="700">증거 기록</text>
@@ -4167,6 +4244,7 @@ function loadGame(){
   if(data?.v !== 1 || !data.S?.per) return;
   const saved = data.S.per;
   Object.assign(S, data.S, { sel:null, mood:{}, visit:{} });
+  S.memo = { text:'', pins:[], ...data.S.memo };
   // anyone added to the case since the save starts fresh; a check's open feedback is not kept
   S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
@@ -4529,6 +4607,7 @@ $('#devDone').onclick = () => {
   PEOPLE_ORDER.forEach(id => {
     const p = per(id);
     p.order = qs(spk(id)).map(q => q.id); p.recording = null; p.phase = 'done';
+    p.order.forEach(qid => { p.questionChecks[qid] = 'ok'; });
     fillAnswers(id, p.order, false);
   });
   S.met = [...PEOPLE_ORDER];
