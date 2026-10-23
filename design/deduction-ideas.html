@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>추리 단계 시안 비교</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--paper-2:#F4EAD4;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--berry:#C96F86;--moss-deep:#5E8A63;--no:#C25B5B;--blue-ink:#2F5A9E;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--f-body:"Paperlogy",system-ui,sans-serif;--f-news:Georgia,"Times New Roman",serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body)}
+.wrap{padding:28px 24px 48px}
+h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 20px;font-size:14px;opacity:.8}
+.sheet .who img{flex:none}
+.row{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}
+.col{width:375px;max-width:100%}
+.col h2{font-family:var(--f-display);font-weight:400;font-size:19px;margin:0 0 10px}
+.notes{margin-top:12px;background:var(--paper);border-radius:12px;padding:12px 16px;font-size:13px;line-height:1.6}
+.notes ul{margin:0;padding-left:18px}
+.tools{display:flex;gap:8px;margin-top:10px}
+
+.phone{position:relative;width:375px;height:780px;max-width:100%;border-radius:38px 42px 36px 44px/44px 36px 42px 38px;overflow:hidden;background:var(--paper);-webkit-user-select:none;user-select:none}
+.phone img{-webkit-user-drag:none}
+.chip,.pill{--btn:url(../assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:36px;padding:0 14px;border:2px solid transparent;background:none;
+  border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-size:14px;color:var(--ink);white-space:nowrap;cursor:pointer}
+.pill.sm{--bw:12px;min-height:28px;padding:0 10px;font-size:12px}
+.pill.big{--btn:url(../assets/ui/buttons/berry-flat.png);--bw:20px;min-height:50px;padding:0 26px;font-size:17px;color:#FFFDF7}
+.pill[aria-pressed="true"]{--btn:url(../assets/ui/buttons/sky-flat.png)}
+.pill:active,.chip:active{transform:translateY(1px);filter:brightness(.94)}
+.accuse{position:absolute;left:50%;bottom:26px;z-index:6;transform:translateX(-50%);filter:drop-shadow(0 4px 3px rgba(30,20,40,.35));animation:rise .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes rise{from{opacity:0;transform:translate(-50%,20px)}}
+.toast{position:absolute;left:50%;top:50%;z-index:20;transform:translate(-50%,-50%);padding:12px 18px;background:rgba(74,54,40,.92);color:#fff;border-radius:12px;font-size:13px;text-align:center;width:max-content;max-width:80%}
+
+/* Sgt. Badger chips in (in-world help), shared */
+.say{position:absolute;left:12px;right:12px;z-index:8;display:flex;align-items:flex-end;gap:6px;pointer-events:none}
+.say img{flex:none;width:44px;height:44px;border-radius:50%;background:#DCE3F0;border:2px solid var(--ink)}
+.bub{position:relative;flex:1;padding:14px 16px 10px;font-size:13px;line-height:1.4;pointer-events:auto;filter:drop-shadow(2px 4px 2px rgba(52,32,17,.25));animation:bub .42s cubic-bezier(.3,1.45,.5,1) both;transform-origin:0 100%}
+.bub::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch}
+.bub .ko{display:block;margin-top:5px;font-size:12px;font-weight:700;color:var(--berry)}
+.bub .foot{display:flex;justify-content:flex-end;gap:5px;margin-top:6px}
+@keyframes bub{from{opacity:0;transform:scale(.4)}40%{opacity:1}}
+.w{color:var(--blue-ink);font-weight:700}
+.play{display:inline-grid;place-items:center;width:22px;height:22px;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);font-size:9px;padding:0;vertical-align:middle;cursor:pointer}
+
+/* ================= 1. the village at 8:40 ================= */
+.map{position:absolute;inset:0;overflow:hidden;background:#1d2440}
+/* the game's map, cropped like a cover (it is 768×1376), and turned to night */
+.map .stage{position:absolute;left:50%;top:0;height:100%;aspect-ratio:768/1376;transform:translateX(-50%)}
+.map .art{position:absolute;inset:0;background:url(../assets/places/village-map-higgsfield.png) center/100% 100%;filter:saturate(.75) brightness(.62) hue-rotate(-8deg)}
+.map .art::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(40,50,110,.05),rgba(18,22,60,.55))}
+.map .top{position:absolute;left:14px;right:14px;top:14px;z-index:5;display:flex;justify-content:space-between;align-items:flex-start}
+/* the stopped clock: the player's own photo of it, nothing written */
+.clockpol{width:96px;padding:5px 5px 7px;background:url(../assets/ui/polaroid-card.webp) 0 0/100% 100% no-repeat;transform:rotate(4deg);filter:drop-shadow(0 4px 4px rgba(0,0,0,.4))}
+.clockpol span{display:block;aspect-ratio:4/3;border:1px solid var(--ink);background-repeat:no-repeat}
+/* a suspect's token stands at the place they say they were */
+.tok{position:absolute;z-index:3;width:58px;height:58px;margin:-29px 0 0 -29px;padding:0;border:0;background:none;cursor:pointer;transition:left .9s cubic-bezier(.4,1.4,.5,1),top .9s cubic-bezier(.4,1.4,.5,1)}
+.tok .face{position:absolute;inset:0;border-radius:50%;background:#FFF8E9 center/88% no-repeat;border:3px dashed rgba(255,248,233,.9);opacity:.62;box-shadow:0 0 0 4px rgba(255,248,233,.12);transition:opacity .4s,border-color .4s}
+.tok::after{content:"";position:absolute;left:50%;bottom:-9px;width:30px;height:8px;margin-left:-15px;border-radius:50%;background:rgba(0,0,0,.35)}
+.tok .badge{position:absolute;right:-6px;top:-6px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font-family:var(--f-display);font-size:14px;color:#fff;opacity:0;transform:scale(.3);transition:.35s cubic-bezier(.3,1.6,.5,1)}
+.tok.clear .face{opacity:1;border:3px solid var(--moss-deep);box-shadow:0 0 0 4px rgba(255,248,233,.85),0 0 18px 6px rgba(255,230,150,.55)}
+.tok.clear .badge{opacity:1;transform:none;background:var(--moss-deep)}
+.tok.doubt .face{opacity:1;border:3px solid var(--no);box-shadow:0 0 0 4px rgba(255,248,233,.85)}
+.tok.doubt .badge{opacity:1;transform:none;background:var(--no)}
+.tok.doubt{animation:float 2.4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-7px) rotate(-4deg)}}
+.tok.pick .face{opacity:1;border-style:solid;border-color:var(--honey)}
+.tok.bump{animation:bump .35s}
+@keyframes bump{30%{transform:translateX(-6px)}60%{transform:translateX(5px)}}
+/* the sheet: the person's own words, and what the player gathered to answer them */
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:7;background:var(--paper);border-radius:22px 26px 0 0/18px 22px 0 0;padding:14px 14px 16px;box-shadow:0 -6px 18px rgba(0,0,0,.3);animation:up .3s cubic-bezier(.3,1.2,.5,1)}
+@keyframes up{from{transform:translateY(100%)}}
+.sheet .who{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-family:var(--f-display);font-size:16px}
+.sheet .who img{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);background:#F4EAD4}
+.sheet .who .x{margin-left:auto;width:32px;height:32px;border:0;background:url(../assets/ui/close-button.png) center/contain no-repeat;cursor:pointer}
+.lines{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.line{padding:7px 10px;background:#FFFDF7;border-radius:3px;font-size:12.5px;line-height:1.45;box-shadow:1px 2px 3px rgba(50,30,15,.18)}
+.line .play{float:right;margin-left:6px}
+.strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 4px}
+.strip::-webkit-scrollbar{display:none}
+.ev{flex:none;width:78px;padding:4px 4px 5px;border:0;background:url(../assets/ui/polaroid-card.webp) 0 0/100% 100% no-repeat;filter:drop-shadow(1px 2px 2px rgba(50,30,15,.3));cursor:pointer;font:inherit;color:inherit}
+.ev .ph{display:block;width:100%;aspect-ratio:4/3;border:1px solid var(--ink);background-repeat:no-repeat}
+.ev .cap{display:block;margin-top:3px;font-size:9px;line-height:1.2;font-family:var(--f-display)}
+.st{flex:none;width:150px;padding:6px 7px;border:0;background:#FFFDF7;box-shadow:1px 2px 3px rgba(50,30,15,.22);text-align:left;font:inherit;font-size:10px;line-height:1.38;color:inherit;cursor:pointer;position:relative}
+.st .wh{display:flex;align-items:center;gap:4px;margin-bottom:2px;font-family:var(--f-display);font-size:10px}
+.st .wh img{width:16px;height:16px}
+.st.new::after{content:"제안";position:absolute;right:-3px;top:-7px;padding:0 5px;border-radius:6px;background:var(--berry);color:#fff;font-size:9px;line-height:15px}
+
+/* ================= 4. tomorrow's newspaper ================= */
+.news{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none;background:#E9E1CF;padding:14px 12px 150px}
+.news::-webkit-scrollbar{display:none}
+.paper{position:relative;padding:14px 14px 18px;background:#F8F2E2;box-shadow:0 2px 0 #d8cdb4,0 6px 14px rgba(60,40,20,.18);font-family:var(--f-news);color:#2E2A25;transform:rotate(-.4deg)}
+.paper::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(80,60,30,.025) 0 2px,transparent 2px 5px)}
+.mast{text-align:center;border-bottom:3px double #2E2A25;padding-bottom:6px}
+.mast .nm{font-size:25px;font-weight:700;letter-spacing:.01em;line-height:1}
+.mast .sub{display:flex;justify-content:space-between;margin-top:5px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;border-top:1px solid #2E2A25;padding-top:3px}
+.head{margin:10px 0 8px;font-size:21px;font-weight:700;line-height:1.12;text-align:center}
+/* the front-page photo: empty until the player picks who goes there (that is the accusation) */
+.frontpic{position:relative;display:grid;place-items:center;width:62%;margin:0 auto 4px;aspect-ratio:4/3;border:2px dashed #8f8370;background:#EFE6D2;cursor:default}
+.frontpic img{width:62%;opacity:.15}
+.frontpic.ready{border-color:var(--berry);cursor:pointer;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(201,111,134,.35)}}
+.cap2{text-align:center;font-size:10px;font-style:italic;color:#6b6152;margin-bottom:8px}
+.cols{columns:2;column-gap:14px;column-rule:1px solid #cfc3a9}
+.par{position:relative;break-inside:avoid;margin:0 0 12px;font-size:12px;line-height:1.5;text-align:left}
+.par b.by{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.slot{display:inline-block;min-width:54px;padding:0 4px;border-bottom:1.5px solid #2E2A25;text-align:center;font-family:var(--f-body);font-weight:700;color:var(--blue-ink);cursor:pointer;line-height:1.25}
+.slot:empty::before{content:"\00a0"}
+.slot.on{background:rgba(242,207,115,.55)}
+.slot.ok{border-bottom-color:transparent;cursor:default}
+.slot.no{animation:bump .35s;background:rgba(194,91,91,.18)}
+.par .stamp{position:absolute;right:-2px;bottom:-6px;padding:1px 7px;border:2.5px solid;border-radius:6px;font-family:var(--f-display);font-size:12px;transform:rotate(-10deg);opacity:0;pointer-events:none;background:rgba(248,242,226,.7)}
+.par.clear .stamp{opacity:.9;color:var(--moss-deep);animation:stamp .4s cubic-bezier(.3,1.6,.5,1)}
+.par.doubt .stamp{opacity:.9;color:var(--no);animation:stamp .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes stamp{from{opacity:0;transform:rotate(-10deg) scale(2.2)}}
+/* the word tray: the words the player wrote in their notes */
+.wordtray{position:absolute;left:0;right:0;bottom:0;z-index:6;background:var(--paper);border-top:2px solid rgba(74,54,40,.18);padding:10px 12px 14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.word{padding:5px 10px;border:1.5px solid var(--ink);border-radius:var(--r,14px 16px 12px 18px/16px 12px 18px 14px);background:#FFFDF7;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer}
+.word.used{opacity:.35}
+.pickface{position:absolute;inset:0;z-index:9;display:grid;place-items:center;background:rgba(40,30,20,.45)}
+.pickface .box{width:300px;padding:16px;background:var(--paper);border-radius:18px}
+.pickface .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.pickface button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px;border:2px solid var(--ink);border-radius:14px;background:#FFFDF7;font-family:var(--f-display);font-size:12px;cursor:pointer}
+.pickface button img{width:56px;height:56px}
+
+/* ================= 2. the detective at the chalkboard ================= */
+.chalk{position:absolute;inset:0;padding:12px 10px 10px;background:#6B4A30 url(../assets/places/detective-office-wide.jpg) center 40%/cover}
+.slate{position:relative;height:100%;border:13px solid #8A5A32;border-radius:6px;box-shadow:inset 0 0 0 2px #5E3B1E,inset 0 0 40px rgba(0,0,0,.45),0 6px 14px rgba(0,0,0,.4);
+  background:radial-gradient(ellipse at 30% 25%,rgba(255,255,255,.07),transparent 45%),radial-gradient(ellipse at 75% 70%,rgba(255,255,255,.05),transparent 40%),
+  radial-gradient(ellipse at 60% 30%,rgba(255,255,255,.035),transparent 30%),#2E4639;overflow:hidden}
+.slate::after{content:"";position:absolute;left:-13px;right:-13px;bottom:-13px;height:13px;background:linear-gradient(#9A6A40,#6E4626)}
+.slate .top{position:absolute;left:8px;right:8px;top:8px;z-index:5;display:flex;gap:10px;align-items:flex-start}
+.chalk-title{flex:1;margin-top:6px;font-family:"Paperlogy Display",sans-serif;font-size:22px;color:rgba(244,240,226,.9);filter:url(#chalky);transform:rotate(-2deg)}
+.rows{position:absolute;left:8px;right:8px;top:92px;bottom:150px;display:flex;flex-direction:column;justify-content:space-around}
+.crow{position:relative;display:flex;gap:12px;align-items:flex-start;padding:4px 30px 4px 2px;border:0;background:none;text-align:left;font:inherit;cursor:pointer;color:rgba(244,240,226,.9)}
+.crow .ctok{position:relative;flex:none;margin:0;left:auto;top:auto;opacity:1}
+.crow.pick .ctok{outline:2px dashed rgba(244,240,226,.9);outline-offset:3px}
+.ctext{flex:1;min-width:0;font-size:12.5px;line-height:1.5;filter:url(#chalky);text-shadow:0 0 1px rgba(255,255,255,.35)}
+.ctext b{display:block;font-family:"Paperlogy Display",sans-serif;font-weight:400;font-size:14px;margin-bottom:1px}
+.ctext .w{color:#F6E08A;font-weight:700}
+.crow.clear .ctext{opacity:.62}
+.crow .chalk-mark{position:absolute}
+.chalk-det{position:absolute;right:-6px;bottom:0;z-index:4;height:170px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35));pointer-events:none}
+/* the stopped clock: the player's photo, held up by a magnet */
+.magpol{position:relative;width:88px;margin-top:6px;padding:4px 4px 6px;background:url(../assets/ui/polaroid-card.webp) 0 0/100% 100% no-repeat;transform:rotate(-5deg);filter:drop-shadow(0 4px 3px rgba(0,0,0,.45))}
+.magpol span{display:block;aspect-ratio:4/3;border:1px solid var(--ink);background-repeat:no-repeat}
+.mag{position:absolute;left:50%;top:-8px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffb4a8,#c9473a 60%,#8e2a22);box-shadow:0 2px 2px rgba(0,0,0,.4)}
+/* a suspect: their face on a little card, held by a magnet where they say they were */
+.ctok{position:absolute;z-index:3;width:54px;margin:-30px 0 0 -27px;cursor:inherit;padding:3px 3px 4px;border:0;background:url(../assets/ui/polaroid-card.webp) 0 0/100% 100% no-repeat;cursor:pointer;
+  filter:drop-shadow(0 3px 2px rgba(0,0,0,.45));transform:rotate(var(--t,-4deg));transition:left .9s cubic-bezier(.4,1.4,.5,1),top .9s cubic-bezier(.4,1.4,.5,1),transform .5s,opacity .4s;opacity:.72}
+.ctok .face{display:block;aspect-ratio:1;border:1px solid var(--ink);background:#F4EAD4 center/86% no-repeat}
+.ctok .mag{width:13px;height:13px;margin-left:-6.5px;top:-6px}
+.ctok.pick{opacity:1;outline:2px dashed rgba(244,240,226,.9);outline-offset:3px}
+.ctok.clear,.ctok.doubt{opacity:1}
+.ctok.doubt{--t:14deg}
+.ctok.bump{animation:bump .35s}
+.chalk-mark{position:absolute;z-index:2;pointer-events:none;overflow:visible}
+.chalk-mark path{fill:none;stroke-linecap:round;stroke-linejoin:round;filter:url(#chalky);stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw .7s ease-out forwards}
+.chalk-mark path + path{animation-delay:.55s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.chalk-mark.ok path{stroke:rgba(250,240,190,.95);stroke-width:3}
+.chalk-mark.no path{stroke:#F2A0A6;stroke-width:3.2}
+.chalk-q{position:absolute;z-index:2;font-family:"Paperlogy Display",sans-serif;font-size:34px;color:#F2A0A6;pointer-events:none;transform:rotate(12deg);filter:url(#chalky);animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{opacity:0;transform:rotate(12deg) scale(2)}}
+/* the detective thinks aloud (no partner here) */
+.say.self img{background:#F6E2C8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>추리 단계 시안 비교</h1>
+  <p class="lead">셋 다 Case 01 데이터로 움직여요. 1번은 인물을, 2번은 칠판 줄을 눌러 증거·진술을 내밀고, 4번은 기사 빈칸을 누른 뒤 아래 단어를 눌러요.</p>
+  <div class="row">
+
+    <div class="col">
+      <h2>1번 · 8시 40분의 마을</h2>
+      <div class="phone" id="mapPhone">
+        <div class="map">
+          <div class="stage" id="stage"><div class="art"></div></div>
+          <div class="top"><button class="chip" type="button">‹</button><div class="clockpol"><span id="clockPh"></span></div></div>
+        </div>
+        <div class="say" id="mapSay" style="bottom:300px" hidden><img src="../assets/ui/icons-v2/badger.png" alt=""><div class="bub"></div></div>
+        <div class="sheet" id="sheet" hidden></div>
+        <button class="pill big accuse" id="mapAccuse" type="button" hidden>범인 지목하기</button>
+        <div class="toast" id="mapToast" hidden></div>
+      </div>
+      <div class="tools"><button class="pill sm" type="button" id="mapReset">처음부터</button><button class="pill sm" type="button" id="mapSolve">정답 채우기</button></div>
+      <div class="notes"><ul>
+        <li>밤의 마을 지도, 오른쪽 위에 플레이어가 찍은 멈춘 시계 사진. 글자 없음.</li>
+        <li>용의자는 <b>자기가 있었다고 말한 곳</b>에 흐릿하게 서 있다(두더지는 말한 곳이 없어 지도 가장자리).</li>
+        <li>인물을 누르면 그 사람의 말(노트, ▶)과 증거·진술 줄. 받쳐 주면 그 자리에 <b>진하게 고정</b>(✓, 불빛), 어긋나면 <b>튕겨 나와 떠다님</b>(?), 상관없으면 경사 한마디.</li>
+        <li>모두 정해지면 <code>범인 지목하기</code>.</li>
+      </ul></div>
+    </div>
+
+    <div class="col">
+      <h2>4번 · 내일 아침 신문</h2>
+      <div class="phone" id="newsPhone">
+        <div class="news" id="news">
+          <div class="paper">
+            <div class="mast"><div class="nm">The Acorn Hollow Times</div><div class="sub"><span>Morning edition</span><span>One acorn</span></div></div>
+            <div class="head">Who Was Where at 8:40?</div>
+            <div class="frontpic" id="frontpic"><img src="../assets/ui/icons-v2/detective.png" alt=""></div>
+            <div class="cap2" id="frontcap">&nbsp;</div>
+            <div class="cols" id="cols"></div>
+          </div>
+        </div>
+        <div class="say" id="newsSay" style="bottom:190px" hidden><img src="../assets/ui/icons-v2/badger.png" alt=""><div class="bub"></div></div>
+        <div class="wordtray"><div class="chips" id="chips"></div></div>
+        <div class="pickface" id="pickface" hidden><div class="box"><b style="font-family:var(--f-display)">1면 사진</b><div class="grid" id="faces"></div></div></div>
+        <div class="toast" id="newsToast" hidden></div>
+      </div>
+      <div class="tools"><button class="pill sm" type="button" id="newsReset">처음부터</button><button class="pill sm" type="button" id="newsSolve">정답 채우기</button></div>
+      <div class="notes"><ul>
+        <li>탐정이 쓰는 다음 날 신문 1면. 용의자마다 한 단락, 빈칸은 노트에서 들은 단어로 채운다(아래 단어 = 노트에 적은 단어).</li>
+        <li>단락의 빈칸이 다 맞으면 <b>알리바이 확인</b> 도장. 피오나 단락은 그녀의 말 뒤에 증거 문장("But the sign said …")이 붙어 채우는 순간 <b>수상함</b>.</li>
+        <li>틀린 단어면 빈칸이 흔들리고 경사 한마디.</li>
+        <li>네 단락이 끝나면 빈 1면 사진 칸이 깜빡이고, 누르면 사진을 고른다 = 지목.</li>
+      </ul></div>
+    </div>
+
+    <div class="col">
+      <h2>2 · 칠판 앞의 탐정</h2>
+      <div class="phone" id="chalkPhone">
+        <svg width="0" height="0" style="position:absolute"><filter id="chalky"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></svg>
+        <div class="chalk">
+          <div class="slate" id="slate">
+            <div class="top"><button class="chip" type="button">‹</button><span class="chalk-title">Who was where?</span><div class="magpol"><i class="mag"></i><span id="chalkClock"></span></div></div>
+            <div class="rows" id="chalkLayer"></div>
+          </div>
+          <img class="chalk-det" src="../assets/characters/detective-higgsfield.png" alt="">
+        </div>
+        <div class="say self" id="chalkSay" style="bottom:300px" hidden><img src="../assets/ui/icons-v2/detective.png" alt=""><div class="bub"></div></div>
+        <div class="sheet" id="chalkSheet" hidden></div>
+        <button class="pill big accuse" id="chalkAccuse" type="button" hidden>범인 지목하기</button>
+        <div class="toast" id="chalkToast" hidden></div>
+      </div>
+      <div class="tools"><button class="pill sm" type="button" id="chalkReset">처음부터</button><button class="pill sm" type="button" id="chalkSolve">정답 채우기</button></div>
+      <div class="notes"><ul>
+        <li>탐정 사무소의 칠판. 탐정이 <b>혼자</b> 칠판 앞에 서 있다(오소리 경사 없음). 지도는 쓰지 않는다.</li>
+        <li>칠판에 용의자 사진이 자석으로 붙고, 옆에 그 사람의 알리바이가 <b>분필 글씨</b>로 적혀 있다(노트에 받아 적은 문장, 채운 단어는 노란 분필, ▶).</li>
+        <li>줄을 누르면 증거·진술 서랍. 받쳐 주면 노란 분필 <b>✓</b>와 밑줄, 어긋나면 사진에 분홍 분필 <b>동그라미 + ?</b>.</li>
+        <li>상관없는 짝이면 <b>탐정이 혼잣말</b>(플레이어 탐정 목소리, 해석 버튼). 예: "A poster only shows the plan. Did he really play?"</li>
+        <li>네 줄 모두 표시되면 <code>범인 지목하기</code>.</li>
+      </ul></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const words = t => t.replace(/\{([^}]+)\}/g, '<span class="w">$1</span>');
+const PLACE = { library:'library-higgsfield-v2.png', bakery:'bakery-higgsfield.png', cafe:'cafe-higgsfield.png', hill:'hill-higgsfield.png' };
+const crop = (e, W) => { const k = W / e.w;
+  return `background-image:url(../assets/places/${PLACE[e.place]});background-size:${1376 * k}px ${768 * k}px;background-position:${-e.x * k}px ${-e.y * k}px`; };
+function badger(box, en, ko){
+  box.querySelector('.bub').innerHTML = `${en}<span class="ko" hidden>${ko}</span><span class="foot"><button class="pill sm" type="button">▶ 다시 듣기</button><button class="pill sm" type="button" data-ko aria-pressed="false">해석</button></span>`;
+  box.hidden = false; const b = box.querySelector('.bub'); b.style.animation = 'none'; void b.offsetWidth; b.style.animation = '';
+  clearTimeout(box.t); box.t = setTimeout(() => box.hidden = true, 6000);
+}
+document.addEventListener('click', e => {
+  const k = e.target.closest('[data-ko]'); if(!k) return;
+  const on = k.getAttribute('aria-pressed') !== 'true'; k.setAttribute('aria-pressed', on);
+  k.closest('.bub').querySelector('.ko').hidden = !on; clearTimeout(k.closest('.say').t);
+});
+function toast(el, t){ el.textContent = t; el.hidden = false; clearTimeout(el.t); el.t = setTimeout(() => el.hidden = true, 1700); }
+
+/* ================= 1. the village at 8:40 ================= */
+const EVIDENCE = [
+  { id:'clock', place:'library', x:971, y:129, w:160, h:120, cap:'Big clock' },
+  { id:'sign', place:'bakery', x:57, y:194, w:176, h:132, cap:'Front door' },
+  { id:'oven', place:'bakery', x:1070, y:210, w:240, h:180, cap:'Oven' },
+  { id:'note', place:'bakery', x:465, y:315, w:120, h:90, cap:'Note' },
+  { id:'poster', place:'cafe', x:666, y:140, w:200, h:150, cap:'Poster' },
+  { id:'star', place:'hill', x:1080, y:440, w:160, h:120, cap:'Star Club notebook' },
+  { id:'prints', place:'hill', x:280, y:435, w:280, h:210, cap:'Footprints' },
+  { id:'fur', place:'library', x:1216, y:350, w:160, h:120, cap:'Door' },
+  { id:'jam', place:'library', x:116, y:309, w:176, h:132, cap:'Window' }
+];
+const STATEMENTS = [
+  { id:'d2', who:'duck', name:'Mr. Duck', text:'Ray {never} left the stage. Mr. Duck was behind the {counter} all night.' },
+  { id:'d3', who:'duck', name:'Mr. Duck', text:'{Mrs. Mole} had tea at the cafe. She left at {8:50}.', proposal:true },
+  { id:'b1', who:'badger', name:'Sgt. Badger', text:'Professor {Hoot} was found at {9 PM}.' },
+  { id:'m2', who:'mole', name:'Mrs. Mole', text:'{Rosie Rabbit} came at {7 PM} to return a book about {stars}.' }
+];
+// where each says they were (% of the 768×1376 map), and where the proof puts them
+const SPOT = { library:[27, 40], bakery:[29, 73], cafe:[81, 50], hill:[64, 15], edge:[12, 92] };
+const MAP_SUS = [
+  { id:'ray', name:'Ray Raccoon', at:'cafe', lines:['Ray was at the {Lake Cafe}. He played the {guitar} from {8 PM} to {9:30 PM}.', 'Witness: {Mr. Duck}, the cafe owner.'] },
+  { id:'rosie', name:'Rosie Rabbit', at:'hill', lines:['Rosie was on {Moon Hill} from {8 PM} to {10 PM}.', 'She saw a {shooting star} at {8:45}. She wrote it in the {Star Club} notebook.'] },
+  { id:'fiona', name:'Fiona Fox', at:'bakery', lines:['Fiona was at the {bakery} from {7 PM} to {10 PM}. She was baking {blueberry pies}.', '{Mrs. Bear} came to buy bread at {8:30}.'] },
+  { id:'mole', name:'Mrs. Mole', at:'edge', lines:['She came back at {9 PM} to lock the door.'], proven:'cafe' }
+];
+const MAP_OK = { ray:['d2'], rosie:['star'], mole:['d3'] }, MAP_BAD = { fiona:['sign', 'oven', 'note'] };
+const MAP_SAY = {
+  clock:["That tells us when. Now, where was everyone?", "그건 '언제'를 알려 주지. 이제 다들 어디 있었는지 보자."],
+  poster:["A poster only shows the plan. Did he really play?", '포스터는 계획일 뿐이야. 정말 연주했을까?'],
+  prints:["She was there, sure. But when?", '거기 있었던 건 맞아. 그런데 언제?'],
+  b1:["That's when she found him. Where was she before that?", '그건 발견한 시각이야. 그 전엔 어디 있었지?'],
+  any:["Hmm. I don't think that proves anything.", '음, 그걸로는 증명이 안 될 것 같아.']
+};
+let mapState = {}, openSus = null;
+$('#clockPh').setAttribute('style', crop(EVIDENCE[0], 84));
+function renderMap(){
+  $('#stage').querySelectorAll('.tok').forEach(t => t.remove());
+  MAP_SUS.forEach(s => {
+    const st = mapState[s.id], at = st === 'clear' && s.proven ? s.proven : s.at;
+    let [x, y] = SPOT[at]; if(st === 'doubt'){ x += 9; y -= 6; }
+    if(at === 'cafe' && s.id === 'mole'){ x -= 13; y += 2; }
+    $('#stage').insertAdjacentHTML('beforeend', `<button class="tok ${st || ''} ${openSus === s.id ? 'pick' : ''}" type="button" data-tok="${s.id}" style="left:${x}%;top:${y}%"><span class="face" style="background-image:url(../assets/ui/icons-v2/${s.id}.png)"></span><span class="badge">${st === 'doubt' ? '?' : '✓'}</span></button>`);
+  });
+  $('#mapAccuse').hidden = MAP_SUS.some(s => !mapState[s.id]) || !!openSus;
+}
+function openSheet(id){
+  openSus = id; const s = MAP_SUS.find(x => x.id === id);
+  $('#sheet').innerHTML = `<div class="who"><img src="../assets/ui/icons-v2/${id}.png" alt="">${s.name}<button class="x" type="button" aria-label="닫기"></button></div>
+    <div class="lines">${s.lines.map(l => `<div class="line"><button class="play" type="button" aria-label="다시 듣기">▶</button>${words(l)}</div>`).join('')}</div>
+    <div class="strip">${EVIDENCE.map(e => `<button class="ev" type="button" data-give="${e.id}"><span class="ph" style="${crop(e, 70)}"></span><span class="cap">${e.cap}</span></button>`).join('')}
+    ${STATEMENTS.map(t => `<button class="st ${t.proposal ? 'new' : ''}" type="button" data-give="${t.id}"><span class="wh"><img src="../assets/ui/icons-v2/${t.who}.png" alt="">${t.name}</span>${words(t.text)}</button>`).join('')}</div>`;
+  $('#sheet').hidden = false; renderMap();
+}
+function closeSheet(){ openSus = null; $('#sheet').hidden = true; renderMap(); }
+$('#stage').addEventListener('click', e => { const t = e.target.closest('[data-tok]'); if(t) openSheet(t.dataset.tok); });
+$('#sheet').addEventListener('click', e => {
+  if(e.target.closest('.x')) return closeSheet();
+  if(e.target.closest('.play')) return toast($('#mapToast'), '▶ 이 문장 음성');
+  const g = e.target.closest('[data-give]'); if(!g) return;
+  const id = openSus, item = g.dataset.give;
+  if(MAP_OK[id]?.includes(item)) mapState[id] = 'clear';
+  else if(MAP_BAD[id]?.includes(item)) mapState[id] = 'doubt';
+  else { const [en, ko] = MAP_SAY[item] || MAP_SAY.any; badger($('#mapSay'), en, ko);
+    const t = document.querySelector(`[data-tok="${id}"]`); t.classList.remove('bump'); void t.offsetWidth; t.classList.add('bump'); return; }
+  $('#mapSay').hidden = true; closeSheet();
+});
+$('#mapAccuse').addEventListener('click', () => toast($('#mapToast'), '→ 지금의 범인 지목 창'));
+$('#mapReset').addEventListener('click', () => { mapState = {}; $('#mapSay').hidden = true; closeSheet(); });
+$('#mapSolve').addEventListener('click', () => { mapState = { ray:'clear', rosie:'clear', mole:'clear', fiona:'doubt' }; closeSheet(); });
+renderMap();
+
+/* ================= 4. tomorrow's newspaper ================= */
+// [paragraph] text with [[answer]] slots; a paragraph whose slots are all right gets its stamp
+const PARS = [
+  { id:'ray', by:'Ray Raccoon', kind:'clear', text:'Ray Raccoon played his [[guitar]] at the [[Lake Cafe]] from 8 to 9:30. Mr. Duck says he [[never]] left the stage.' },
+  { id:'rosie', by:'Rosie Rabbit', kind:'clear', text:'Rosie Rabbit was on [[Moon Hill]]. At [[8:45]] she saw a shooting star and wrote it in the [[Star Club]] notebook.' },
+  { id:'mole', by:'Mrs. Mole', kind:'clear', text:'Mrs. Mole had tea at the [[Lake Cafe]]. She left at [[8:50]] and came back to the library at [[9 PM]].', proposal:true },
+  { id:'fiona', by:'Fiona Fox', kind:'doubt', text:'Fiona Fox says she was baking pies at her [[bakery]] all evening. But the sign on her door said CLOSED AT [[7 PM]], and the oven was [[cold]].' }
+];
+const WORDS = ['guitar', 'drum', 'Lake Cafe', 'Moon Hill', 'bakery', 'library', 'never', 'often', '8:45', '8:50', '8:30', '7 PM', '9 PM', 'Star Club', 'Book Club', 'cold', 'hot'];
+const NEWS_SAY = {
+  '8:30':["8:30? That's when Mrs. Bear came, Fiona said.", '8시 30분? 그건 곰 아주머니가 왔다고 피오나가 말한 시각이야.'],
+  library:["The library? Not according to your notes.", '도서관? 노트에 적힌 거랑 다른데.'],
+  any:["Hmm, is that what you heard?", '음, 그렇게 들었어?']
+};
+let filled = {}, slotOn = null, front = null;
+function renderNews(){
+  let n = 0;
+  $('#cols').innerHTML = PARS.map(p => {
+    let done = true;
+    const html = p.text.replace(/\[\[([^\]]+)\]\]/g, (m, ans) => { const k = `${p.id}:${n++}`, f = filled[k]; if(!f) done = false;
+      return `<span class="slot ${f ? 'ok' : ''} ${slotOn === k ? 'on' : ''}" data-slot="${k}" data-ans="${ans}">${f || ''}</span>`; });
+    return `<p class="par ${done ? p.kind : ''}"><b class="by">${p.by}${p.proposal ? ' <span style="color:var(--berry);letter-spacing:0">(제안)</span>' : ''}</b>${html}<span class="stamp">${p.kind === 'clear' ? '알리바이 확인' : '수상함'}</span></p>`;
+  }).join('');
+  const all = document.querySelectorAll('#cols .slot').length === Object.keys(filled).length;
+  $('#frontpic').classList.toggle('ready', all && !front);
+  $('#frontpic').innerHTML = front ? `<img src="../assets/ui/icons-v2/${front}.png" alt="" style="opacity:1;width:70%">` : `<img src="../assets/ui/icons-v2/detective.png" alt="">`;
+  $('#chips').innerHTML = WORDS.map(w => `<button class="word" type="button" data-word="${w}">${w}</button>`).join('');
+}
+$('#cols').addEventListener('click', e => { const s = e.target.closest('.slot:not(.ok)'); if(!s) return; slotOn = slotOn === s.dataset.slot ? null : s.dataset.slot; renderNews(); });
+$('#chips').addEventListener('click', e => {
+  const w = e.target.closest('[data-word]'); if(!w) return;
+  if(!slotOn){ slotOn = document.querySelector('#cols .slot:not(.ok)')?.dataset.slot || null; if(!slotOn) return; }
+  const s = document.querySelector(`[data-slot="${slotOn}"]`);
+  if(s.dataset.ans === w.dataset.word){ filled[slotOn] = w.dataset.word; slotOn = null; $('#newsSay').hidden = true; renderNews(); }
+  else { const [en, ko] = NEWS_SAY[w.dataset.word] || NEWS_SAY.any; badger($('#newsSay'), en, ko); s.classList.remove('no'); void s.offsetWidth; s.classList.add('no'); }
+});
+$('#frontpic').addEventListener('click', () => {
+  if(!$('#frontpic').classList.contains('ready')) return;
+  $('#faces').innerHTML = ['mole', 'ray', 'rosie', 'fiona'].map(id => `<button type="button" data-face="${id}"><img src="../assets/ui/icons-v2/${id}.png" alt="">${MAP_SUS.find(s => s.id === id).name}</button>`).join('');
+  $('#pickface').hidden = false;
+});
+$('#faces').addEventListener('click', e => { const f = e.target.closest('[data-face]'); if(!f) return; front = f.dataset.face; $('#pickface').hidden = true; renderNews(); toast($('#newsToast'), '→ 지목 확인 창 → 심문'); });
+$('#pickface').addEventListener('click', e => { if(e.target.id === 'pickface') $('#pickface').hidden = true; });
+$('#newsReset').addEventListener('click', () => { filled = {}; slotOn = null; front = null; $('#newsSay').hidden = true; renderNews(); });
+$('#newsSolve').addEventListener('click', () => { document.querySelectorAll('#cols .slot').forEach(s => filled[s.dataset.slot] = s.dataset.ans); slotOn = null; renderNews(); });
+renderNews();
+
+/* ================= 2. the detective at the chalkboard ================= */
+// the detective thinks aloud (no partner at the board)
+const SELF_SAY = {
+  clock:["That tells me when. Now, where was everyone?", "이건 '언제'를 알려 줘. 이제 다들 어디 있었는지 보자."],
+  poster:["A poster only shows the plan. Did he really play?", '포스터는 계획일 뿐이야. 정말 연주했을까?'],
+  prints:["She was there, sure. But when?", '거기 있었던 건 맞아. 그런데 언제?'],
+  b1:["That's when she found him. Where was she before that?", '그건 발견한 시각이야. 그 전엔 어디 있었지?'],
+  any:["Hmm. That doesn't prove anything.", '음, 그걸로는 증명이 안 돼.']
+};
+let chalkState = {}, chalkOpen = null;
+$('#chalkClock').setAttribute('style', crop(EVIDENCE[0], 78));
+function chalkMark(kind){
+  // drawn on as if by hand: a yellow tick (proved) or a pink circle round the photo (does not fit)
+  return kind === 'ok'
+    ? `<svg class="chalk-mark ok" width="44" height="40" viewBox="0 0 44 40" style="right:-4px;top:4px"><path d="M4 20 l 12 13 l 24 -30" style="--len:60"/></svg>`
+    : `<svg class="chalk-mark no" width="80" height="84" viewBox="0 0 80 84" style="left:-13px;top:-12px"><path d="M14 40 C 8 14, 44 0, 66 14 S 78 62, 50 76 S 2 72, 8 36" style="--len:250"/></svg><span class="chalk-q" style="left:44px;top:-22px">?</span>`;
+}
+function renderChalk(){
+  $('#chalkLayer').innerHTML = MAP_SUS.map((s, i) => {
+    const st = chalkState[s.id];
+    return `<div class="crow ${st || ''} ${chalkOpen === s.id ? 'pick' : ''}" role="button" tabindex="0" data-ctok="${s.id}">
+      <span class="ctok" style="--t:${st === 'doubt' ? 12 : [-4, 3, -2, 5][i]}deg"><i class="mag"></i><span class="face" style="background-image:url(../assets/ui/icons-v2/${s.id}.png)"></span></span>
+      <span class="ctext"><b>${s.name}</b>${s.lines.map(words).join(' ')}</span>${st ? chalkMark(st === 'clear' ? 'ok' : 'no') : ''}</div>`;
+  }).join('');
+  $('#chalkAccuse').hidden = MAP_SUS.some(s => !chalkState[s.id]) || !!chalkOpen;
+}
+function chalkSheet(id){
+  chalkOpen = id; const s = MAP_SUS.find(x => x.id === id);
+  $('#chalkSheet').innerHTML = `<div class="who"><img src="../assets/ui/icons-v2/${id}.png" alt="">${s.name}<button class="x" type="button" aria-label="닫기"></button></div>
+    <div class="lines">${s.lines.map(l => `<div class="line"><button class="play" type="button" aria-label="다시 듣기">▶</button>${words(l)}</div>`).join('')}</div>
+    <div class="strip">${EVIDENCE.map(e => `<button class="ev" type="button" data-give="${e.id}"><span class="ph" style="${crop(e, 70)}"></span><span class="cap">${e.cap}</span></button>`).join('')}
+    ${STATEMENTS.map(t => `<button class="st ${t.proposal ? 'new' : ''}" type="button" data-give="${t.id}"><span class="wh"><img src="../assets/ui/icons-v2/${t.who}.png" alt="">${t.name}</span>${words(t.text)}</button>`).join('')}</div>`;
+  $('#chalkSheet').hidden = false; renderChalk();
+}
+function chalkClose(){ chalkOpen = null; $('#chalkSheet').hidden = true; renderChalk(); }
+$('#chalkLayer').addEventListener('click', e => { const t = e.target.closest('[data-ctok]'); if(t) chalkSheet(t.dataset.ctok); });
+$('#chalkSheet').addEventListener('click', e => {
+  if(e.target.closest('.x')) return chalkClose();
+  if(e.target.closest('.play')) return toast($('#chalkToast'), '▶ 이 문장 음성');
+  const g = e.target.closest('[data-give]'); if(!g) return;
+  const id = chalkOpen, item = g.dataset.give;
+  if(MAP_OK[id]?.includes(item)) chalkState[id] = 'clear';
+  else if(MAP_BAD[id]?.includes(item)) chalkState[id] = 'doubt';
+  else { const [en, ko] = SELF_SAY[item] || SELF_SAY.any; badger($('#chalkSay'), en, ko);
+    const t = document.querySelector(`[data-ctok="${id}"]`); t.classList.remove('bump'); void t.offsetWidth; t.classList.add('bump'); return; }
+  $('#chalkSay').hidden = true; chalkClose();
+});
+$('#chalkAccuse').addEventListener('click', () => toast($('#chalkToast'), '→ 지금의 범인 지목 창'));
+$('#chalkReset').addEventListener('click', () => { chalkState = {}; $('#chalkSay').hidden = true; chalkClose(); });
+$('#chalkSolve').addEventListener('click', () => { chalkState = { ray:'clear', rosie:'clear', mole:'clear', fiona:'doubt' }; chalkClose(); });
+renderChalk();
+</script>
+</body>
+</html>
