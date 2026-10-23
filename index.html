@@ -293,8 +293,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* review: a full page the player always goes through after solving (user decision), one step at a time —
    result → lines missed at the first check (refill) → the case's grammar → new words (the player picks what goes
    into the word book). Progress bar on top, one big button at the bottom. */
-#review{padding:0;background:var(--paper);place-items:stretch}
-#review .mcard.review{max-width:none;max-height:none;height:100%;box-sizing:border-box;overflow:hidden;border:0;border-radius:0;box-shadow:none;padding:16px 16px 18px;gap:14px}
+#review,#caseKey{padding:0;background:var(--paper);place-items:stretch}
+#review .mcard.review,#caseKey .mcard.review{max-width:none;max-height:none;height:100%;box-sizing:border-box;overflow:hidden;border:0;border-radius:0;box-shadow:none;padding:16px 16px 18px;gap:14px}
 .rv-top{flex:none;display:flex;align-items:center;gap:10px;min-height:30px}
 .rv-steps{flex:1;display:flex;gap:6px}
 .rv-steps i{flex:1;height:7px;border-radius:4px;background:var(--line)}
@@ -341,6 +341,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gcard mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
 .rv-gcard .gko{font-size:13px;line-height:1.5;color:var(--ink-soft)}
 .rv-gbtns{display:flex;gap:6px;align-items:center}
+/* 이번 사건의 열쇠: the case's key grammar on a whole page before the briefing (user request: not a pop-up), its
+   examples grouped by form, each in its own card; the Korean of the examples behind 해석 */
+.ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px}
+.ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
+.ck-top .close-button{margin-left:auto}
+.ck-key{display:flex;flex-direction:column;gap:6px}
+.ck-key .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
+.ck-key .ck-name{font-family:var(--f-display);font-size:14px;color:var(--ink-soft)}
+.ck-key .gko{margin:0;font-size:14px;line-height:1.6}
+.rv-gcard p.ck-ex{display:flex;flex-direction:column}
+.rv-gcard p.ck-ex .ko{font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
 .rv-word{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
@@ -430,7 +441,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .gcard .gko{margin:0;font-size:14px;line-height:1.6}
 .gex{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--line)}
 .gex h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
-.gcard .gkey-go{width:100%;margin-top:4px}
 .gline{display:flex;flex-direction:column;gap:2px;background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px}
 .gline .wwho{font-size:12px}
 .gline .wwho .mini{width:22px;height:22px}
@@ -820,6 +830,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .accused .pill.big{align-self:stretch}
 .mcard .leave-sub{margin-top:-8px;font-size:13px;color:var(--ink-soft)}
 
+/* while a check's discoveries are shown (the camera on a new person, the map with new pins), nothing else on the
+   screen takes a tap (user request: a tap used to cut the showing and the conversation short) */
+.reveal-block{position:absolute;inset:0;z-index:70}
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
 .toast.discovery-toast{background:var(--paper);color:var(--ink);border:1.5px solid rgba(74,54,40,.3);box-shadow:0 3px 12px rgba(74,54,40,.12)}
@@ -1174,6 +1187,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <div class="mcard review" id="reviewCard"></div>
   </div>
 
+  <div class="modal" id="caseKey" hidden>
+    <div class="mcard review" id="caseKeyCard" role="dialog" aria-label="이번 사건의 열쇠"></div>
+  </div>
+
   <div class="modal" id="grammar" hidden>
     <div class="mcard gcard" id="grammarCard" role="dialog" aria-labelledby="grammarTitle"></div>
   </div>
@@ -1201,6 +1218,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   </section>
 
   <div class="toast" id="toast" hidden></div>
+  <div class="reveal-block" id="revealBlock" hidden></div>
 </div>
 
 <!-- test tools, outside the phone frame -->
@@ -1391,7 +1409,12 @@ const GRAMMAR = {
   'past-prog': { name:'과거진행', pattern:'was / were + -ing', ko:'지난 어느 때에 "하고 있던 중"이던 일을 말해요. I was reading = 책을 읽고 있었어요.' },
   'past-reg':  { name:'규칙 과거형', pattern:'동사 + -ed', ko:'동사 끝에 -ed를 붙여 지난 일을 말해요. play → played, borrow → borrowed, watch → watched. 끝의 -ed는 /d/·/t/로 아주 약하게 들려요.' },
   'past-irr':  { name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.' },
-  'time-prep': { name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.' },
+  'time-prep': { name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.',
+    examples:[
+      { head:'at', ko:'딱 한 시각', lines:[['The shop opens {at eleven}.', '가게는 11시에 문을 열어요.'], ["Let's meet {at noon}.", '정오에 만나요.'], ['The train leaves {at six fifteen}.', '기차는 6시 15분에 떠나요.']] },
+      { head:'from A to B', ko:'시작부터 끝까지', lines:[['I swim {from two to four}.', '나는 2시부터 4시까지 수영해요.'], ['The market is open {from six to noon}.', '시장은 6시부터 정오까지 열어요.'], ['We studied {from one to five}.', '우리는 1시부터 5시까지 공부했어요.']] },
+      { head:'between A and B', ko:'두 시각 사이의 어느 때', lines:[['Call me {between one and three}.', '1시에서 3시 사이에 전화해 줘요.'], ['The bus comes {between five and six}.', '버스는 5시에서 6시 사이에 와요.'], ['Come home {between eleven and twelve}.', '11시에서 12시 사이에 집에 오세요.']] }
+    ] },
   'to-purpose':{ name:'목적의 to부정사', pattern:'to + 동사원형', ko:'"~하려고, ~하러"라는 목적을 말해요. went to see a friend = 친구를 만나러 갔다.' },
   'too-adj':   { name:'too + 형용사', pattern:'too + 형용사', ko:'"너무 ~한"이라는 뜻이에요. 보통 지나쳐서 좋지 않다는 느낌이 들어 있어요. too hot = 너무 뜨겁다.' },
   'passive':   { name:'수동태', pattern:'was / were + 과거분사', ko:'누가 했는지보다 "~되었다"는 일에 초점을 둘 때 써요. was found = 발견되었다.' },
@@ -2644,13 +2667,22 @@ function afterMotion(element, callback){
   if(!animations.length){ callback(); return; }
   Promise.allSettled(animations.map(animation => animation.finished)).then(callback);
 }
+// the screen takes no taps from the notebook going down until the last discovery has been shown (user request); a
+// clock lets it go in any case, so a showing cut short by the code never leaves the screen stuck
+let revealSafety;
+function setRevealing(on){
+  $('#revealBlock').hidden = !on;
+  clearTimeout(revealSafety);
+  if(on) revealSafety = setTimeout(() => setRevealing(false), 9000);
+}
 function revealDiscoveries(){
   if(!pendingPins.length && !pendingPeople.length) return;
   const questionsLeft = !S.investigate && !ending && per(S.cur).phase === 'choose';
   discoveryGoal = questionsLeft ? null : pendingPeople.length ? { person:pendingPeople[0] } : { place:pendingPins[0] };
   const run = ++discoveryRun;
+  setRevealing(true);
   afterMotion($('.dock'), () => {
-    if(run !== discoveryRun || $('#app').classList.contains('notes-open') || $('#sheet-map').classList.contains('open') || !$('#caseList').hidden) return;
+    if(run !== discoveryRun || $('#app').classList.contains('notes-open') || $('#sheet-map').classList.contains('open') || !$('#caseList').hidden) return setRevealing(false);
     presentDiscovery();
   });
 }
@@ -2694,7 +2726,7 @@ function finishDiscovery(showMap = true){
     // introduced right here and nothing else to show: straight into a conversation with them
     if(showMap && discoveryGoal?.person === person && !pendingPins.length && !pendingPeople.length){
       discoveryGoal = null; discoveryOrigin = null;
-      talkTo(person);
+      talkTo(person); setRevealing(false);
       return;
     }
     if(discoveryOrigin){
@@ -2706,10 +2738,11 @@ function finishDiscovery(showMap = true){
       renderDock();
     }
   }
-  if(showMap) revealPins();
+  if(showMap) revealPins(); else setRevealing(false);
 }
 function revealPins(){
-  if(!pendingPins.length && !pendingPeople.length) return;
+  if(!pendingPins.length && !pendingPeople.length) return setRevealing(false);
+  setRevealing(true);
   const places = [...new Set(pendingPins)], people = [...new Set(pendingPeople)];
   freshPins = new Set([...places, ...people.map(id => spk(id).place)]);
   pendingPins = []; pendingPeople = [];
@@ -2717,12 +2750,12 @@ function revealPins(){
   renderPlaces();
   const run = discoveryRun;
   afterMotion($('#sheet-map'), () => {
-    if(run !== discoveryRun || !$('#sheet-map').classList.contains('open')) return;
+    if(run !== discoveryRun || !$('#sheet-map').classList.contains('open')) return setRevealing(false);
     toast(places.length && people.length ? '새로운 장소와 인물을 알게 됐어요.' : people.length ? '새로운 인물을 알게 됐어요.' : '새로운 장소를 알게 됐어요.', true);
     // the map opened by itself, so it closes by itself too: to the new person or place (discoveryGoal), or back to
-    // where the game was; touching the map (a pin, the menu) keeps it open
+    // where the game was; nothing takes a tap meanwhile (setRevealing)
     mapAutoTimer = setTimeout(() => {
-      if(run === discoveryRun && $('#sheet-map').classList.contains('open')) goToDiscovery();
+      if(run === discoveryRun && $('#sheet-map').classList.contains('open')) goToDiscovery(); else setRevealing(false);
     }, MAP_AUTO_CLOSE_MS);
   });
   clearTimeout(freshTimer);
@@ -2735,6 +2768,7 @@ function goToDiscovery(){
   if(goal?.person) talkTo(goal.person);
   else if(goal?.place) enterPlace(goal.place);
   else openSheet(null);
+  setRevealing(false);
 }
 
 /* ---------- accuse ---------- */
@@ -4165,11 +4199,9 @@ const grammarUses = g => Object.entries(GRAMMAR_LINES).flatMap(([ref, items]) =>
 function learnedGrammar(){
   return Object.keys(GRAMMAR).map(g => [g, grammarUses(g).length]).filter(([, n]) => n);
 }
-// key: the card is one of the case's keys, shown before the briefing (user decision: the case's learning point is
-// previewed with the grammar card it already has, nothing made per case); go is its button's label
-function openGrammar(g, key = null){
+function openGrammar(g){
   const gr = GRAMMAR[g], uses = grammarUses(g);
-  $('#grammarCard').innerHTML = `<div class="gcard-head"><span class="eyebrow">${key ? '이번 사건의 열쇠' : '문법 노트'} · ${esc(gr.name)}</span><button class="close-button" type="button" data-gclose aria-label="문법 노트 닫기"></button></div>
+  $('#grammarCard').innerHTML = `<div class="gcard-head"><span class="eyebrow">문법 노트 · ${esc(gr.name)}</span><button class="close-button" type="button" data-gclose aria-label="문법 노트 닫기"></button></div>
     <h2 class="gpattern" id="grammarTitle">${esc(gr.pattern)}</h2>
     <p class="gko">${esc(gr.ko)}</p>
     ${uses.length ? `<div class="gex"><h3>이 문법이 나온 문장</h3>${uses.map(({ id, qid, words }) => {
@@ -4178,27 +4210,35 @@ function openGrammar(g, key = null){
         ? `<span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}` : '내 질문'}</span>
         ${line.inAnswer ? `<button class="replay-q" type="button" data-replay="${id}:${qid}" data-sent="${line.idx}" aria-label="다시 듣기">${playIcon}</button>` : ''}</div>
         <p>${line.html}</p></div>`;
-    }).join('')}</div>` : ''}
-    ${key ? `<button class="pill big gkey-go" type="button" data-gclose>${esc(key.go)}</button>` : ''}`;
+    }).join('')}</div>` : ''}`;
   $('#grammar').hidden = false;
   $('#grammarCard').scrollTop = 0;
-}
-// the case's key cards one after another; closing the last one (its button, the X or around it) goes on to the case
-let caseKey = null;
-function openCaseKey(list, then){
-  caseKey = { list, i:0, then };
-  openGrammar(list[0], { go:list.length > 1 ? '다음' : '사건 시작' });
 }
 $('#grammar').addEventListener('click', e => {
   const replay = e.target.closest('[data-replay]');
   if(replay) return replaySentence(replay.dataset.replay, +replay.dataset.sent);
-  if(e.target.closest('[data-gclose]') || e.target.id === 'grammar'){
-    stopVoice(); $('#grammar').hidden = true;
-    if(!caseKey) return;
-    const k = caseKey;
-    if(++k.i < k.list.length) return openGrammar(k.list[k.i], { go:k.i < k.list.length - 1 ? '다음' : '사건 시작' });
-    caseKey = null; k.then();
-  }
+  if(e.target.closest('[data-gclose]') || e.target.id === 'grammar'){ stopVoice(); $('#grammar').hidden = true; }
+});
+// 이번 사건의 열쇠 (user decision: the case's learning point before the briefing, from the grammar data it already has):
+// a whole page over the case cards (user request: not a pop-up) with each key's pattern, its Korean and its examples
+// (GRAMMAR[].examples, outside the case: none of its times, people or places). 사건 시작 goes on to the case; × goes
+// back to the case cards.
+let caseKeyThen = null, caseKeyKo = false, caseKeyList = [];
+function openCaseKey(list, then){ caseKeyThen = then; caseKeyKo = false; caseKeyList = list; renderCaseKey(); $('#caseKey').hidden = false; $('#caseKeyCard .rv-body').scrollTop = 0; }
+function renderCaseKey(){
+  const mark = t => esc(t).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
+  const keys = caseKeyList.map(g => { const gr = GRAMMAR[g];
+    return `<div class="ck-key"><span class="ck-name">${esc(gr.name)}</span><h3 class="gpattern">${esc(gr.pattern)}</h3><p class="gko">${esc(gr.ko)}</p></div>` +
+      (gr.examples || []).map(ex => `<div class="rv-gcard"><header><b>${esc(ex.head)}</b><small>${esc(ex.ko)}</small></header>${ex.lines.map(([en, ko]) =>
+        `<p class="ck-ex"><span>${mark(en)}</span>${caseKeyKo ? `<span class="ko">${esc(ko)}</span>` : ''}</p>`).join('')}</div>`).join(''); }).join('');
+  $('#caseKeyCard').innerHTML = `<div class="ck-top"><small>${esc(CASES[0].no)} · ${esc(CASES[0].title)}</small><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
+    <div class="rv-body"><h2 class="rv-title">이번 사건의 열쇠<button class="pill sm" type="button" data-ck-ko aria-pressed="${caseKeyKo}" style="margin-left:auto">해석</button></h2>${keys}</div>
+    <div class="rv-foot"><button class="pill big" type="button" data-ck-go>사건 시작</button></div>`;
+}
+$('#caseKey').addEventListener('click', e => {
+  if(e.target.closest('[data-ck-ko]')){ const scroll = $('#caseKeyCard .rv-body').scrollTop; caseKeyKo = !caseKeyKo; renderCaseKey(); $('#caseKeyCard .rv-body').scrollTop = scroll; return; }
+  if(e.target.closest('[data-ck-close]')){ $('#caseKey').hidden = true; caseKeyThen = null; return; }
+  if(e.target.closest('[data-ck-go]')){ $('#caseKey').hidden = true; const then = caseKeyThen; caseKeyThen = null; then?.(); }
 });
 
 /* ---------- home pages ----------
