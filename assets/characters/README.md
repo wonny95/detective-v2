@@ -64,7 +64,7 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - `fiona-sad.png`(569×624, job `390cc566-…`): 귀가 처지고 앞치마를 쥔 고개 숙인 표정. mouth `{x:236,y:215,w:36,h:16}`, anchor .415.
 - 기본 그림과 같은 화면 배율이라고 보고 `height`를 스프라이트 높이 비(641/621, 624/621)로 둔다.
 
-## 플레이어 탐정 다람쥐 Pioo (Claude 제작, 2026-10-22, 게임에는 아직 미적용)
+## 플레이어 탐정 다람쥐 Pioo (Claude 제작, 2026-10-22, 적용 중)
 
 - 사용자 요청: 플레이어인 탐정의 비주얼을 다람쥐로. 후보 3장 중 **A안**(사용자 선택, 털은 주황색 그대로).
 - 적용본 `detective-higgsfield.png`(627×700, 투명): Higgsfield `remove_background`(job `93e2ad30-681e-4015-af3a-7d1be40dd9e6`) 후 알파 경계로 자르고 3% 여백. 원본 `detective-higgsfield-original.png`(= 후보 A).
@@ -77,10 +77,23 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 | `detective-candidate-b.png` | `5dd13d0d-644e-450b-ba92-9ff4800acacc` | 겨자색 헌팅캡, 꿀색 조끼(도토리 배지), 수첩·연필 |
 | `detective-candidate-c.png` | `23f91937-62a2-4eb2-921b-63657e35e78a` | 올리브색 야전 코트, 목에 카메라, 도토리 장식 가방 |
 
+## 탐정 포즈 4종 (Claude 제작, 2026-10-23, 적용 중)
+
+- 사용자 요청: 홈에서 탐정을 누를 때마다 포즈가 바뀌게. Higgsfield Nano Banana 2.1, 3:4, 1K, thinking high, 참조 `detective-higgsfield-original.png`(job `a66500b9-…`). 장당 1.5크레딧(모두 6크레딧).
+- 배경 제거 Higgsfield `remove_background` 후 알파 경계 + 3% 여백으로 자르고 높이 700px로 맞췄다(기본 그림과 같은 키). 원본은 `detective-<포즈>-original.png`(896×1200).
+- 프롬프트: "Redraw this exact same squirrel detective character from the reference image in a NEW POSE. Keep everything else identical: same face, … the same small closed w-shaped smile (mouth closed, clearly visible), … POSE: {아래} … plain flat cream paper background. No floor shadow, no text, no stars, dots or decorations, no white sticker outline, exactly one character."
+
+| 파일 | 크기 | job | 포즈 |
+|---|---|---|---|
+| `detective-thinking.png` | 611×700 | `58376661-244d-43a4-8825-5e512a43536a` | 턱에 손, 위를 보며 생각 |
+| `detective-point.png` | 614×700 | `7c0fdd81-efd4-4eae-9f93-ee0eaf546d33` | 앞을 손가락으로 가리킴 |
+| `detective-lens.png` | 606×700 | `62fa87c7-51d3-4243-a57a-205966ca601a` | 돋보기를 얼굴 옆에 들고 들여다봄 |
+| `detective-wave.png` | 614×700 | `52fb8489-d879-4471-8544-9986991169c9` | 한 손을 높이 들어 인사 |
+
 ## NPC 입 (`mouths/`)
 
 - 사용자 요청: 말할 때 입 모양 개선. 그림의 입을 가리고 닫은 입·벌린 입을 번갈아. 크레딧을 아끼려고 **이미지 1장**에 모든 입을 모아 생성했다.
 - `sheet-original.png`: Claude 제작, Higgsfield Nano Banana 2.1(job `bdd5aa63-00f7-4aa2-af64-3525b7a306bb`, 1.5크레딧), 1376×768. 순수 초록 배경 위 4×2: 미소 / 미소 벌림 / 당황(물결) / 당황 벌림(이) / 슬픔 / 슬픔 벌림 / 오리 부리 / 오리 부리 벌림. 프롬프트 요지: 그림책 동물 캐릭터의 말하기용 입 스프라이트, 진갈색 색연필 외곽선과 과슈 색, 칸마다 하나씩 같은 크기, 얼굴·코·글자 없음.
 - `smile.png`, `smile-open.png`, `nervous*.png`, `sad*.png`, `beak*.png`: 초록을 빼고 하나씩 잘라 낸 입.
-- `<인물>-closed.png`, `<인물>-open.png`(badger, mole, fiona, ray, rosie, fiona-nervous, fiona-sad, duck): 게임에 쓰는 그림. 그려진 입을 찾아 주변 털색으로 덮고(코는 남김) 그 위에 새 입을 얹었다. 닫은 입 선은 각 그림의 원래 선 굵기에 맞춰 굵혔다. 오리는 생성한 부리로 부리 전체를 바꾼다.
+- `<인물>-closed.png`, `<인물>-open.png`(badger, mole, fiona, ray, rosie, fiona-nervous, fiona-sad, duck, detective, detective-thinking·point·lens·wave): 게임에 쓰는 그림. 그려진 입을 찾아 주변 털색으로 덮고(코는 남김) 그 위에 새 입을 얹었다. 닫은 입 선은 각 그림의 원래 선 굵기에 맞춰 굵혔다. 오리는 생성한 부리로 부리 전체를 바꾼다.
 - 만드는 법: `python -I scripts/make-npc-mouths.py`(Pillow만 사용). 출력된 `[x, y, w, h]`를 `index.html`의 `MOUTHS`에 넣는다. 같은 입력이면 같은 파일이 나온다.

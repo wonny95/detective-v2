@@ -97,8 +97,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
    talk (assets/characters/mouths, MOUTHS); quiet, the closed one shows */
 .npc-mouth{pointer-events:none}
 .npc-mouth.open{opacity:0}
-.scene-npc.talking .npc-mouth.open{animation:npc-mouth-open var(--talk-cycle,.74s) steps(1,end) infinite}
-.scene-npc.talking .npc-mouth.closed{animation:npc-mouth-closed var(--talk-cycle,.74s) steps(1,end) infinite}
+.scene-npc.talking .npc-mouth.open,.det.talking .npc-mouth.open{animation:npc-mouth-open var(--talk-cycle,.74s) steps(1,end) infinite}
+.scene-npc.talking .npc-mouth.closed,.det.talking .npc-mouth.closed{animation:npc-mouth-closed var(--talk-cycle,.74s) steps(1,end) infinite}
 @keyframes npc-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.008,1.012)}}
 @keyframes npc-speak{0%,100%{transform:rotate(0)}28%{transform:rotate(-.35deg)}65%{transform:rotate(.3deg)}}
 @keyframes npc-mouth-open{0%,43%,85%,100%{opacity:0}12%,57%{opacity:1}}
@@ -126,7 +126,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .cc-file b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
 .cc-by{display:block;margin-top:6px;font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink-soft)}
 /* the detective comes up beside the file for the last word */
-.cc-det{position:absolute;right:3%;bottom:0;height:34%;animation:cc-det .5s ease-out 1s both}
+.cc-det{position:absolute;right:3%;bottom:0;height:34%;aspect-ratio:var(--ar);animation:cc-det .5s ease-out 1s both}
 @keyframes cc-det{from{opacity:0;transform:translateY(40px)}}
 .cc-stamp{position:absolute;left:50%;bottom:8px;display:block;width:min(86%,240px);height:auto;transform:translateX(-50%) rotate(-10deg);animation:cc-stamp .45s cubic-bezier(.2,1.6,.4,1) .55s both}
 @keyframes cc-stamp{from{opacity:0;transform:translateX(-50%) rotate(-10deg) scale(2.4)}to{opacity:.92;transform:translateX(-50%) rotate(-10deg) scale(1)}}
@@ -223,8 +223,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .say-foot > :nth-child(3),.office-foot > :nth-child(3){--i:2}
 /* the detective hops once as they start a line (office and 홈) */
 @keyframes det-hop{30%{transform:translateY(-6%) scaleY(1.03)}55%{transform:translateY(0) scale(1.03,.97)}75%{transform:scale(1)}}
-@keyframes det-hop-c{30%{transform:translateX(-50%) translateY(-6%) scaleY(1.03)}55%{transform:translateX(-50%) scale(1.03,.97)}75%{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.bubble,.app.partner .bubble,.bubble *,.office-say,.office-say *,.oh-say.pop,.oh-say.pop *,.office-det.hop,.oh-det.hop img{animation:none}}
+/* the detective (DETECTIVE_POSES): a box in the pose's own shape (--ar), its body centred on the spot (--ax) */
+.det svg{display:block;width:100%;height:100%;overflow:visible;transform-origin:50% 100%}
+@media(prefers-reduced-motion:reduce){.bubble,.app.partner .bubble,.bubble *,.office-say,.office-say *,.oh-say.pop,.oh-say.pop *,.office-det.hop svg,.oh-det.hop svg{animation:none}}
 
 /* ---------- docked notebook (Note) ---------- */
 /* Note = a notebook the detective pulls up from the bottom (sketch 3) */
@@ -826,7 +827,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .office[hidden]{display:none}
 .office::after{content:"";position:absolute;inset:0;background:rgba(40,26,16,.45);opacity:0;transition:opacity .3s;pointer-events:none}
 .office.naming::after{opacity:1}
-.office-det{position:absolute;left:50%;bottom:7%;height:42%;transform:translateX(-50%);pointer-events:none;transition:opacity .3s}
+.office-det{position:absolute;left:50%;bottom:7%;height:42%;aspect-ratio:var(--ar,627/700);transform:translateX(calc(var(--ax,.5) * -100%));pointer-events:none;transition:opacity .3s}
 .office.naming .office-det{opacity:0}
 .office-say{position:absolute;left:50%;top:7%;z-index:2;box-sizing:border-box;width:min(88%,360px);transform:translateX(-50%);padding:20px 18px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px);animation:bubble-pop .42s cubic-bezier(.3,1.45,.5,1) both}
 .office-say[hidden]{display:none}
@@ -835,8 +836,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .office.naming .office-say{top:auto;bottom:17%}
 .office.naming .office-say::after{display:none}
 .office.naming .office-say{transform-origin:50% 100%}
-.office-det{transform-origin:50% 100%}
-.office-det.hop{animation:det-hop-c .5s ease-out}
+.office-det.hop svg{animation:det-hop .5s ease-out}
 .office-say p,.oh-say p{margin:0}
 .office-say .office-ko,.oh-say .office-ko{margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;color:var(--berry)}
 .office-ko[hidden]{display:none}
@@ -908,10 +908,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-stage{--oh-h:max(100cqh,calc(100cqw * 1376 / 1843));position:relative;top:calc((100cqh - var(--oh-h)) * .62);width:calc(var(--oh-h) * 1843 / 1376);height:var(--oh-h);background:url(assets/places/detective-office-wide.jpg) center/100% 100% no-repeat}
 .oh-spot{position:absolute;padding:0;border:0;border-radius:14px;background:transparent;cursor:pointer}
 .oh-spot:active{background:rgba(255,248,233,.18)}
-/* the box keeps the detective's own shape (627×700): a button sized only by its child's % height collapses and squeezes it */
-.oh-det{position:absolute;left:50%;bottom:25%;height:32%;aspect-ratio:627/700;padding:0;border:0;background:none;transform:translateX(-50%);cursor:pointer}
-.oh-det img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
-.oh-det:active{transform:translateX(-50%) translateY(1px)}
+/* the box keeps the pose's own shape (--ar): a button sized only by its child's % height collapses and squeezes it */
+.oh-det{position:absolute;left:50%;bottom:25%;height:32%;aspect-ratio:var(--ar,627/700);padding:0;border:0;background:none;transform:translateX(calc(var(--ax,.5) * -100%));cursor:pointer}
+.oh-det:active{transform:translateX(calc(var(--ax,.5) * -100%)) translateY(1px)}
 /* the line above the cork board (user request: raised off the board), its tail down toward the detective; it grows
    upward when 해석 opens. It is as wide as
    its words and buttons (up to 88% of the screen, with roomy paper margins, user request), centred over the detective; a line can break where its text has \n (user request: home-new) */
@@ -920,8 +919,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
    a tap on the detective plays it again even while the bubble is open */
 .oh-say.pop{animation:bubble-pop-plain .42s cubic-bezier(.3,1.45,.5,1) both}
-.oh-det img{transform-origin:50% 100%}
-.oh-det.hop img{animation:det-hop .5s ease-out}
+.oh-det.hop svg{animation:det-hop .5s ease-out}
 .oh-say .office-foot{margin-top:10px}
 /* the app's close button, small, in the bubble's top right (user request); a tap on the detective brings the bubble back */
 .oh-say .oh-close{position:absolute;top:12px;right:12px;width:30px;height:30px}
@@ -1109,7 +1107,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="oh-pan" id="homePan"><div class="oh-stage">
         <button class="oh-spot" type="button" data-go="cases" style="left:46.5%;top:27.5%;width:18.5%;height:17.5%" aria-label="사건 게시판"></button>
         <button class="oh-spot" type="button" data-go="study" style="left:64.5%;top:51.5%;width:15.5%;height:25.5%" aria-label="책장"></button>
-        <button class="oh-det" type="button" id="officeDetective" aria-label="탐정"><img src="assets/characters/detective-higgsfield.png" alt=""></button>
+        <button class="oh-det det" type="button" id="officeDetective" aria-label="탐정"></button>
         <div class="oh-say" id="homeSay" hidden aria-live="polite">
           <button class="close-button oh-close" type="button" id="homeSayClose" aria-label="말풍선 닫기"></button>
           <p id="homeEn"></p><p class="office-ko" id="homeKo" hidden></p>
@@ -1177,7 +1175,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <!-- The detective's office: the first meeting and naming, a new case's first line, renaming (see "the detective") -->
   <section class="office" id="office" hidden aria-label="탐정 사무소">
-    <img class="office-det" src="assets/characters/detective-higgsfield.png" alt="">
+    <div class="office-det det"></div>
     <div class="id-wrap" id="idWrap" hidden>
       <div class="id-card">
         <span class="id-photo" aria-hidden="true"></span>
@@ -1688,13 +1686,34 @@ const MOUTHS = {
   rosie:{closed:[140,333,45,19], open:[140,333,45,19]},
   duck:{closed:[140,160,166,99], open:[140,160,166,117]},
   'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
-  'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]}
+  'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]},
+  detective:{closed:[229,270,100,34], open:[229,270,100,45]},
+  'detective:thinking':{closed:[228,271,81,35], open:[228,271,81,39]},
+  'detective:point':{closed:[217,268,100,37], open:[217,268,100,47]},
+  'detective:lens':{closed:[152,291,68,31], open:[152,291,68,33]},
+  'detective:wave':{closed:[224,268,98,36], open:[224,268,98,46]}
 };
 function spriteMouth(id){
   const m = MOUTHS[id]; if(!m) return '';
   const file = id.replace(':', '-');
   return ['closed', 'open'].map(state => { const [x, y, w, h] = m[state];
     return `<image class="npc-mouth ${state}" href="assets/characters/mouths/${file}-${state}.png" x="${x}" y="${y}" width="${w}" height="${h}"/>`; }).join('');
+}
+// The detective's poses (user request: a new one on every tap at 홈), each with the NPCs' talking mouth; ax: where the
+// body's middle is across the picture, kept on the same spot whichever pose it is
+const DETECTIVE_POSES = [
+  { src:'assets/characters/detective-higgsfield.png', w:627, h:700, ax:.44, mouth:'detective' },
+  { src:'assets/characters/detective-thinking.png', w:611, h:700, ax:.44, mouth:'detective:thinking' },
+  { src:'assets/characters/detective-point.png', w:614, h:700, ax:.43, mouth:'detective:point' },
+  { src:'assets/characters/detective-lens.png', w:606, h:700, ax:.41, mouth:'detective:lens' },
+  { src:'assets/characters/detective-wave.png', w:614, h:700, ax:.44, mouth:'detective:wave' }
+];
+DETECTIVE_POSES.forEach(p => [p.src, ...['closed', 'open'].map(st => `assets/characters/mouths/${p.mouth.replace(':', '-')}-${st}.png`)].forEach(src => { new Image().src = src; }));
+const detSVG = p => `<svg viewBox="0 0 ${p.w} ${p.h}" aria-hidden="true"><image href="${p.src}" width="${p.w}" height="${p.h}"/>${spriteMouth(p.mouth)}</svg>`;
+function setDetPose(box, i){
+  const p = DETECTIVE_POSES[i];
+  box.dataset.pose = i; box.style.setProperty('--ar', `${p.w}/${p.h}`); box.style.setProperty('--ax', p.ax);
+  box.innerHTML = detSVG(p);
 }
 const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
   ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouth(k)}</g></g></svg>`
@@ -2013,6 +2032,13 @@ function detectiveSay(key, onDone, onBlocked){
     voice.onended = voice.onerror = null; onBlocked();
   });
 }
+// the detective's mouth moves while one of their own lines plays (the same player also reads the evidence sentences)
+function setDetTalking(on){
+  document.querySelectorAll('.det').forEach(d => { d.style.setProperty('--talk-cycle', S.slow ? '.99s' : '.74s'); d.classList.toggle('talking', on); });
+}
+{ const voice = $('#evidenceVoice');
+  voice.addEventListener('playing', () => setDetTalking(/\/detective-[\w-]+\.mp3$/.test(voice.src)));
+  ['pause', 'ended', 'error', 'waiting'].forEach(ev => voice.addEventListener(ev, () => setDetTalking(false))); }
 const openPassages = new Set(), openPassageKo = new Set();   // passages shown, and of those the ones showing 해석
 let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
 let missCheck = null;    // 'person:question' just checked with wrong blanks: they shake on the next render only
@@ -3192,7 +3218,7 @@ function caseClosedStamp(){
   const card = document.createElement('div'), name = detectiveName();
   card.className = 'case-closed';
   card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b>${name ? `<span class="cc-by">Detective ${esc(name)}</span>` : ''}<img class="cc-stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE" decoding="sync"></div>` +
-    `<img class="cc-det" src="assets/characters/detective-higgsfield.png" alt="">`;
+    `<div class="cc-det det" style="--ar:${DETECTIVE_POSES[0].w}/${DETECTIVE_POSES[0].h}">${detSVG(DETECTIVE_POSES[0])}</div>`;
   $('.scene').appendChild(card);
   stampSound(700);
   const close = () => {
@@ -3931,7 +3957,12 @@ $('#officeKoBtn').onclick = () => {
   const ko = $('#officeKo');
   ko.hidden = !ko.hidden; $('#officeKoBtn').setAttribute('aria-pressed', !ko.hidden);
 };
-$('#officeDetective').onclick = () => sayHome(homeState().key);
+setDetPose($('#officeDetective'), 0); setDetPose($('.office-det'), 0);
+$('#officeDetective').onclick = () => {
+  const box = $('#officeDetective'), others = DETECTIVE_POSES.map((p, i) => i).filter(i => i !== +box.dataset.pose);
+  setDetPose(box, others[Math.floor(Math.random() * others.length)]);
+  sayHome(homeState().key);
+};
 $('#homeReplay').onclick = () => sayHome(homeState().key, false);   // the bubble stays put under the finger; the detective hops
 $('#homeKoBtn').onclick = () => {
   const ko = $('#homeKo');

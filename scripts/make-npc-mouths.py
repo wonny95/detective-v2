@@ -23,8 +23,14 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'ray':('ray-higgsfield.png',192,205,49,24,'smile',4,194),
    'rosie':('rosie-higgsfield.png',161,339,24,17,'smile',2.6,333),
    'fiona-nervous':('fiona-nervous.png',200,230,52,22,'nervous',3,222),
-   'fiona-sad':('fiona-sad.png',236,215,36,16,'sad',3,212)}
-KEEP={'badger':(466,600,604,627)}   # areas never covered (sprite px): the badger's nose sits right above the curled mouth ends
+   'fiona-sad':('fiona-sad.png',236,215,36,16,'sad',3,212),
+   'detective':('detective-higgsfield.png',279,279,60,20,'smile',3.3,269),
+   'detective-thinking':('detective-thinking.png',268,282,60,18,'smile',3.3,268),
+   'detective-point':('detective-point.png',267,280,62,18,'smile',3.3,268),
+   'detective-lens':('detective-lens.png',186,299,40,14,'smile',2.6,290),
+   'detective-wave':('detective-wave.png',272,278,62,18,'smile',3.3,268)}
+KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinking':(248,252,288,276),
+      'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276)}   # areas never covered (sprite px): the badger's nose sits right above the curled mouth ends
 SRC_LINE=6   # line weight of the closed mouths in the sheet (px)
 L=lambda im: im.convert('L')
 
