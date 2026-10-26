@@ -1221,13 +1221,14 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <button class="pill sm" type="button" data-leave-stay>계속 조사하기</button>
     </div>
   </div>
-  <!-- < in a conversation under way (talkLocked): stop it and go back to its place, one level up like < always is -->
+  <!-- < in a conversation under way (talkLocked): stop it and go back to its place, one level up like < always is.
+       Going on talking is the main button (user request), stopping the small one -->
   <div class="modal" id="stopTalk" hidden>
     <div class="mcard accused" role="alertdialog" aria-labelledby="stopTalkText">
       <p class="accused-text" id="stopTalkText"></p>
       <p class="leave-sub">지금까지 적은 기록은 남아요.</p>
-      <button class="pill big" type="button" data-stop-go>대화 중단</button>
-      <button class="pill sm" type="button" data-stop-stay>계속 대화하기</button>
+      <button class="pill big" type="button" data-stop-stay>계속 대화하기</button>
+      <button class="pill sm" type="button" data-stop-go>대화 중단</button>
     </div>
   </div>
 
