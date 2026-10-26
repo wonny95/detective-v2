@@ -264,15 +264,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
    looked stuck to the back of the note; not longer, lowered. The PNG masks the button and is multiplied over its colour,
    keeping the pencil outline. The open one is the page's cream and a little taller, the others the folder's blue. The
    foot is at 6% of the dock's width (margin %): the picture's folder edge is at 2.8%, its band runs to 7.7%. */
-.note-cats{position:absolute;z-index:2;bottom:100%;margin-bottom:-6%;left:7%;display:flex;gap:4px;align-items:flex-end;filter:drop-shadow(0 2px 1.5px rgba(30,24,20,.35))}
-.ncat{--tab:url(assets/ui/tab-1-closed.png);position:relative;flex:none;display:grid;place-items:center;width:50px;height:34px;padding:0;border:0;background:#7488A8;
+.note-cats{position:absolute;z-index:2;bottom:100%;margin-bottom:-6%;left:7%;display:flex;gap:5px;align-items:flex-end;filter:drop-shadow(0 2px 1.5px rgba(30,24,20,.35))}
+.ncat{--tab:url(assets/ui/tab-1-closed.png);position:relative;flex:none;display:grid;place-items:center;width:58px;height:40px;padding:0;border:0;background:#7488A8;
   -webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat}
 .ncat:nth-child(2){--tab:url(assets/ui/tab-2-closed.png)}
 .ncat:nth-child(3){--tab:url(assets/ui/tab-3-closed.png)}
 .ncat::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
 .ncat > *{position:relative}
-.ncat img{width:24px;height:24px;display:block;filter:drop-shadow(0 0 1.5px rgba(251,244,230,.9))}
-.ncat[aria-pressed="true"]{background:#FCFAED;height:40px}
+.ncat img{width:30px;height:30px;display:block;filter:drop-shadow(0 0 1.5px rgba(251,244,230,.9))}
+.ncat[aria-pressed="true"]{background:#FCFAED;height:46px}
 .ncat .badge{position:absolute;top:3px;right:4px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--berry);color:#fff;font-size:10px;line-height:16px;text-align:center;animation:ncat-pop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes ncat-pop{from{transform:scale(0)}}
 /* the person page: everyone the player has talked to as a row of faces under the title (user decision), progress in
@@ -2008,7 +2008,7 @@ function renderHint(){
 }
 
 // S.view: a person's id (the 인물 tab), 'evidence' or 'memo'. notePerson: the person page last shown, for the 인물 tab.
-const NOTE_CATS = [['people', '인물', 'assets/ui/icons-v2/detective.png'], ['evidence', '증거', 'assets/ui/icons-v2/camera.png'], ['memo', '메모', 'assets/ui/icons/note.png']];
+const NOTE_CATS = [['people', '인물', 'assets/ui/nav/talk.png'], ['evidence', '증거', 'assets/ui/icons-v2/camera.png'], ['memo', '메모', 'assets/ui/icons/note.png']];
 const noteCat = () => S.view === 'evidence' || S.view === 'memo' ? S.view : 'people';
 let notePerson = null, memoNew = 0;   // memoNew: pins added since the memo was last open (the number on its tab)
 function renderWho(){

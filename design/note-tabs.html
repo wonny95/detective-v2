@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>노트 탭 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Paperlogy",system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 20px 56px}
+h1{font-family:"Paperlogy Display","Paperlogy",sans-serif;font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 22px;font-size:14px;opacity:.8;max-width:760px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:26px 22px}
+.opt h2{margin:0 0 8px;font-family:"Paperlogy Display","Paperlogy",sans-serif;font-weight:400;font-size:16px}
+.rec{display:inline-block;padding:1px 8px;border-radius:10px;background:var(--honey);font-size:11px}
+.opt h2 small{font-size:12px;color:var(--ink-soft)}
+.pair{display:flex;flex-direction:column;gap:6px}
+
+/* the top of the note: the case-file picture with the tabs on it (same rules as index.html) */
+.dock{position:relative;width:340px;max-width:100%;height:96px;margin-top:46px;border-radius:0 0 10px 10px;overflow:visible}
+.dock::before{content:"";position:absolute;inset:0;background:url(../assets/ui/casefile-panel.webp) top center/100% auto no-repeat;border-radius:inherit}
+.note-cats{position:absolute;z-index:2;bottom:100%;margin-bottom:-6%;left:7%;display:flex;gap:5px;align-items:flex-end;filter:drop-shadow(0 2px 1.5px rgba(30,24,20,.35))}
+.ncat{--tab:url(../assets/ui/tab-1-closed.png);position:relative;flex:none;display:grid;place-items:center;width:58px;height:40px;padding:0;border:0;background:#7488A8;
+  -webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat;cursor:pointer}
+.ncat:nth-child(2){--tab:url(../assets/ui/tab-2-closed.png)}
+.ncat:nth-child(3){--tab:url(../assets/ui/tab-3-closed.png)}
+.ncat::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.ncat > *{position:relative}
+.ncat img{width:30px;height:30px;display:block;filter:drop-shadow(0 0 1.5px rgba(251,244,230,.9))}
+.ncat[aria-pressed="true"]{background:#FCFAED;height:46px}
+.old .note-cats{gap:4px}
+.old .ncat{width:50px;height:34px}
+.old .ncat img{width:24px;height:24px}
+.old .ncat[aria-pressed="true"]{height:40px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>노트 탭 시안</h1>
+  <p class="lead">노트 위 탭 세 개. 탭과 아이콘을 키웠고(탭 50×34 → 58×40, 연 탭 높이 40 → 46, 아이콘 24 → 30), 인물 탭 아이콘을 '대화' 말풍선(사용자 선택: 큰 꿀색 + 작은 크림)으로 바꿨다. 게임에 적용한 안. 아이콘은 Higgsfield 시트 한 장(<code>assets/ui/talk-icons-higgsfield-original.png</code>). 안마다 위는 인물 탭을 연 상태, 아래는 증거 탭을 연 상태. 탭을 눌러 바꿔 볼 수 있어요.</p>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const OPTS = [
+  ['old', '이전', '../assets/ui/icons-v2/detective.png', '탐정 얼굴, 이전 크기'],
+  ['talk', '대화 말풍선 <span class="rec">사용자 선택</span>', '../assets/ui/nav/talk.png', '큰 꿀색 + 작은 크림, 키운 크기'],
+];
+const tabs = (people, on) => [people, '../assets/ui/icons-v2/camera.png', '../assets/ui/icons/note.png'].map((src, i) =>
+  `<button class="ncat" type="button" aria-pressed="${i === on}"><img src="${src}" alt=""></button>`).join('');
+document.getElementById('grid').innerHTML = OPTS.map(([k, title, src, sub]) => `<section class="opt${k === 'old' ? ' old' : ''}"><h2>${title}${sub ? ` <small>${sub}</small>` : ''}</h2>
+  <div class="pair">${[0, 1].map(on => `<div class="dock"><div class="note-cats">${tabs(src, on)}</div></div>`).join('')}</div></section>`).join('');
+document.addEventListener('click', e => {
+  const b = e.target.closest('.ncat'); if(!b) return;
+  b.parentNode.querySelectorAll('.ncat').forEach(x => x.setAttribute('aria-pressed', x === b));
+});
+</script>
+</body>
+</html>
