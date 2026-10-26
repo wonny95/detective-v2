@@ -423,7 +423,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gbtns{display:flex;gap:6px;align-items:center}
 /* 이번 사건의 열쇠: the case's key grammar on a whole page before the briefing (user request: not a pop-up), one form a
    page; each example's Korean behind its own 해석 (user request: beside its ▶). User decision (design/case-key.html B-2): graph paper, the key on a
-   card pinned with the red tack, the examples on three taped notes, each with ▶ */
+   card pinned with the red tack, the examples on three taped notes, each with ▶. The paper, notes and tape are
+   hand-drawn (assets/ui/casekey/, user request: in the game's illustration style), the buttons the game's own. */
 .ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px}
 .ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
 .ck-top .close-button{margin-left:auto}
@@ -431,22 +432,25 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-key .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
 .ck-key .ck-name{font-family:var(--f-display);font-size:14px;color:var(--ink-soft)}
 .ck-key .gko{margin:0;font-size:14px;line-height:1.6}
-#caseKey{background-color:var(--paper);background-image:repeating-linear-gradient(0deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px),repeating-linear-gradient(90deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px)}
+#caseKey{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat}
 #caseKey .mcard.review{background:none}
 #caseKey .rv-steps{flex:none}
 #caseKey .rv-body{gap:0;padding:0 6px 12px}
-.ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:20px 18px 16px;background:#FDFAEE;border-radius:4px;box-shadow:2px 5px 9px rgba(70,50,30,.22);transform:rotate(-1.5deg)}
-.ck-card::before{content:"";position:absolute;left:50%;top:-16px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
+.ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:8px 8px 4px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg)}
+.ck-card::before{content:"";position:absolute;left:50%;top:-28px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
 .ck-card .rv-title{font-size:16px;color:var(--ink-soft)}
 .ck-notes{display:flex;flex-direction:column;gap:14px;margin:22px 4px 0}
-.ck-note{position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2px 6px;margin:0;padding:12px 12px 12px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border-radius:2px;box-shadow:1px 3px 5px rgba(70,50,30,.2)}
-.ck-note:nth-child(3n+1){background:#FFF1B8;transform:rotate(1.2deg);margin-right:26px}
-.ck-note:nth-child(3n+2){background:#DCEBF7;transform:rotate(-1deg);margin-left:26px}
-.ck-note:nth-child(3n){background:#F8DDE3;transform:rotate(.8deg);margin-right:12px}
-.ck-note::before{content:"";position:absolute;left:50%;top:-7px;width:46px;height:14px;margin-left:-23px;background:rgba(255,253,240,.6);transform:rotate(-3deg)}
+.ck-note{--note:url(assets/ui/casekey/note-yellow.webp);position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2px 6px;margin:0;padding:3px 0 3px 4px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border:11px solid transparent;border-width:11px 26px 11px 11px;border-image:var(--note) 22 54 22 22 fill / 11px 26px 11px 11px stretch;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18))}
+.ck-note:nth-child(3n+1){transform:rotate(1.2deg);margin-right:20px}
+.ck-note:nth-child(3n+2){--note:url(assets/ui/casekey/note-blue.webp);transform:rotate(-1deg);margin-left:20px}
+.ck-note:nth-child(3n){--note:url(assets/ui/casekey/note-pink.webp);transform:rotate(.8deg);margin-right:8px}
+.ck-note::before{content:"";position:absolute;left:50%;top:-19px;width:58px;height:18px;margin-left:-29px;background:url(assets/ui/casekey/tape.webp) center/100% 100% no-repeat;opacity:.92;transform:rotate(-3deg)}
+.ck-note:nth-child(3n+2)::before{transform:rotate(4deg)}
 .ck-note mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%);color:inherit}
-.ck-note .replay-q{grid-row:1;grid-column:2;width:30px;height:30px;margin:0;background:#FFFDF7}
-.ck-note .replay-q svg{width:12px;height:12px}
+.ck-note .replay-q{grid-row:1;grid-column:2;width:32px;height:32px;margin:0}
+#caseKey .replay-q{border:0;background:url(assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(assets/ui/buttons/round-cream.png) center/100% no-repeat}
+#caseKey .replay-q:active{transform:translateY(1px)}
+#caseKey .replay-q svg{display:none}
 .ck-note .pill.sm{grid-row:1;grid-column:3;padding:3px 8px}
 .ck-note:not(.ko-on) .ko{display:none}
 .ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
@@ -458,8 +462,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-foot .pill.big{flex:1;width:auto}
 .ck-key .gpattern{font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.05;text-wrap:balance}
 .ck-key .ck-name{font-size:12px}
-.ck-key .gpattern .replay-q{width:30px;height:30px;margin-left:10px;vertical-align:.35em;background:#FFFDF7}
-.ck-key .gpattern .replay-q svg{width:12px;height:12px}
+.ck-key .gpattern .replay-q{width:34px;height:34px;margin-left:10px;vertical-align:.3em}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
 .rv-word{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}

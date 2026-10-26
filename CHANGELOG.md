@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-26 16:50 · Claude · (이 커밋)
+## 2026-10-26 17:40 · Claude · (이 커밋)
+
+- 사용자 요청: 사건의 열쇠 화면을 게임 일러스트 화풍으로(Higgsfield 새 그림 허용). 손그림 모눈 종이 타일, 크림 열쇠 카드, 노랑·하늘·분홍 쪽지, 마스킹 테이프를 새로 그려(`assets/ui/casekey/`, `scripts/cut-casekey-pieces.py`) 카드·쪽지는 9조각 `border-image`, 그림자는 `drop-shadow`. ▶는 게임의 `round-cream` 버튼 + `icons/play.png`.
+- 크레딧 약 3(Nano Banana 2.1 두 장, job `b824d795…`, `2ddbcb24…`).
+- 확인(새 탭): 열쇠 1쪽 모양, `해석`을 켜면 쪽지가 늘어남, 3쪽(between A and B, 두 줄 예문) 모양, 콘솔 오류 없음. 시험 키 `pioo.detectiveName` 지움. 폰 실기기는 못 봄.
+- **다음**: 사용자 지시 대기(화면 아래 빈 공간을 둘지, 예문·형태 음성을 탐정 목소리로 바꿀지).
+
+## 2026-10-26 16:50 · Claude · 0051507
 
 - 사용자 요청: 사건의 열쇠 예문마다 ▶ 옆에 `해석`(카드 위의 공통 `해석`은 뺌, 누른 쪽지만 한국어가 나옴). 큰 형태(at / from A to B / between A and B) 옆에도 ▶. 형태 음성 3개를 같은 로컬 SAPI 음성으로 더 만듦(`audio/examples/time-prep-1~3.wav`, 스크립트가 형태도 만들게 고침).
 - 크레딧 없음.

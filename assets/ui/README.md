@@ -177,3 +177,10 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - 제작: Nano Banana 2.1, 3:2, 1.5크레딧, 마젠타 배경. 참조 그림으로 `nav-icons-2` 시트(job `cd4840ad…`)와 `icons-v2` 시트(job `782fc121…`)를 붙였다.
 - 자르기: `scripts/cut-nav-icons.py`(같은 문턱) → `nav/talk.png`(160×160). 나머지 칸은 쓰지 않는다(시트 원본에는 남아 있음).
 - 지금은 게임에서 쓰지 않는다: 노트 탭 아이콘을 도장(인라인 SVG)으로 바꿨다(사용자 결정: 손그림 아이콘이 아래 메뉴와 같은 그림체라 복잡해 보임). 시안의 '이전' 비교용으로만 남겨 둔다.
+
+## 이번 사건의 열쇠 종이 (2026-10-26)
+
+- 사용자 요청: 사건의 열쇠 화면(모눈 종이 + 열쇠 카드 + 색 쪽지)을 게임 일러스트 화풍으로. Claude 제작, Nano Banana 2.1, 크레딧 약 3(1.5 × 2장).
+- `casekey-pieces-higgsfield-original.png` (1264×848, job `b824d795-353a-49b3-90a6-2e4dbd276eae`, 3:2): 마젠타 바탕에 빈 크림 카드, 노랑·하늘·분홍 긴 쪽지(오른쪽 끝 말린 귀퉁이), 마스킹 테이프 두 조각. 참조: 아이콘 v2 시트(job `782fc121-…`) + 폴라로이드 카드(job `68f66e93-…`).
+- `graph-paper-higgsfield-original.png` (1024×1024, job `2ddbcb24-d472-41d4-a350-03f69bcc6108`, 1:1): 손그림 모눈 종이 한 장(마젠타 위, 칸 약 50px). 참조: 폴라로이드 카드.
+- `scripts/cut-casekey-pieces.py`로 `casekey/`에 잘라 냄: `card.webp`(539×194, 절반 크기, 9조각 `border-image` 20 → 12px), `note-yellow/blue/pink.webp`(632×110, 조각 22 54 22 22 → 11 26 11 11px, 오른쪽은 말린 귀퉁이까지), `tape.webp`(405×122, 쪽지 위 58×18px, 위 조각 하나만 씀), `graph-paper.webp`(352×352 타일: 원본 x 238–635, y 286–688 = 가운데 8×8칸을 연필선 사이에서 잘라 이음매에서 선이 이어짐, 화면 176px 반복 + 옅은 크림 덧칠).
