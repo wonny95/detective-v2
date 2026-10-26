@@ -78,7 +78,8 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 - `notebook-panel.webp` (640×1731): 노트 패널 배경. `notebook-v2-higgsfield-original.png`의 배경을 Higgsfield `remove_background`로 지운 뒤(`notebook-v2-nobg.png`) 수첩만 잘라, 스프링 4칸 구간(원본 y 380–680)을 6번 이어 붙여 길게 만들었다. 패널 폭에 맞춰 위에서부터 그리며 아래는 화면 밖으로 잘린다.
   - CSS는 그림 폭 기준 %로 맞춘다: 종이 윗변 4.7%, 머리 띠 높이 12%(제목과 `기록 완료`), 스프링 영역 ~12.4%, 오른쪽 표지 ~9%.
 - `tab-1.png` … `tab-6.png` (160×146): 인덱스 탭. 흰 종이 탭 6개를 한 장(`tabs-higgsfield-original.png`)에 그려 크레딧을 아끼고, 칸별로 잘라 아래 외곽선을 지우고 바깥을 투명하게 만들었다.
-- `tab-1-closed.png` … `tab-3-closed.png` (160×146): 노트 탭(폴더 앞에 붙인 견출지). `tab-1…3.png`의 위쪽 42%를 위아래로 뒤집어 아래에 붙여 테두리를 닫았다(PIL, 크레딧 없음).
+- `tab-1-closed.png` … `tab-3-closed.png` (160×146): 아래 테두리를 닫은 노트 탭(폴더 앞에 붙인 견출지였다, 지금 쓰지 않음). `tab-1…3.png`의 위쪽 42%를 위아래로 뒤집어 아래에 붙여 테두리를 닫았다(PIL, 크레딧 없음).
+- `casefile-paper-edge.png` (728×44): 노트 탭(칸막이 종이)용 종이 위 테두리 조각. `casefile-panel.webp`의 y 40–84에서 열마다 파란 띠가 끝나고 연필선이 시작하는 줄부터 아래만 남기고(그 위·종이 밖은 투명, 첫 줄은 반투명) 잘라 냈다(PIL, 크레딧 없음). 게임에서 닫힌 탭의 발 위에 같은 크기로 겹쳐 얹는다(독 너비의 5.49%부터).
   - 탭은 서류철 그림(`.dock::before`) 뒤(`z-index:-1`)에 놓여 윗변 너머로 머리만 나온다. 아래 14px은 서류철에 가려지고, 선택된 탭은 더 높이 나온다.
   - 탭 버튼은 이 PNG로 마스크하고 `--tab-bg` 색 위에 곱하기로 겹쳐 색을 입힌다. 선택된 탭은 꿀색(`--honey`)이며 조금 더 높다. 순서대로 1–6번 모양을 돌려 쓴다.
 

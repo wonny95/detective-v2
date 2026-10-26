@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>노트 인덱스 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--line:#E3D5B8;--sheet:#FDFAEE}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Paperlogy",system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 20px 56px}
+h1{font-family:"Paperlogy Display","Paperlogy",sans-serif;font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 22px;font-size:14px;opacity:.8;max-width:780px;line-height:1.6}
+code{font-family:inherit;background:#F1E4C8;padding:0 4px;border-radius:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:30px 24px}
+.opt h2{margin:0 0 4px;font-family:"Paperlogy Display","Paperlogy",sans-serif;font-weight:400;font-size:17px}
+.opt p{margin:10px 2px 0;font-size:13px;line-height:1.55;color:var(--ink-soft);max-width:360px}
+.rec{display:inline-block;padding:1px 8px;border-radius:10px;background:var(--honey);font-size:11px;vertical-align:2px}
+
+/* the top of the note at a phone's width (360px): the case-file picture, the tabs, the page title */
+.dock{position:relative;width:360px;max-width:100%;height:150px;margin-top:60px;padding:7.9% 9% 0 9.5%}
+.dock::before{content:"";position:absolute;inset:0;background:url(../assets/ui/casefile-panel.webp) top center/100% auto no-repeat}
+.head{position:relative;display:flex;align-items:center;gap:6px;aspect-ratio:81.5/13.6;padding:0 2px;font-family:"Paperlogy Display","Paperlogy",sans-serif;font-size:18px}
+.head img{width:28px;height:28px}
+.rule{position:relative;height:0;border-top:2px dashed var(--line);margin:4px 0 12px}
+.text{position:relative;font-size:13px;color:var(--ink-soft)}
+
+/* tabs: the button carries the shadow, its face is the hand-drawn tab (mask + multiplied pencil outline) */
+.note-cats{position:absolute;z-index:2;bottom:100%;margin-bottom:-6%;left:7%;display:flex;gap:5px;align-items:flex-end;filter:drop-shadow(0 2px 1.5px rgba(30,24,20,.35))}
+.ncat{--tab:url(../assets/ui/tab-1-closed.png);--open:url(../assets/ui/tab-1.png);position:relative;flex:none;display:block;width:58px;height:40px;padding:0;border:0;background:none;cursor:pointer}
+.ncat:nth-child(2){--tab:url(../assets/ui/tab-2-closed.png);--open:url(../assets/ui/tab-2.png)}
+.ncat:nth-child(3){--tab:url(../assets/ui/tab-3-closed.png);--open:url(../assets/ui/tab-3.png)}
+.face{position:absolute;inset:0;display:grid;place-items:center;background:#7488A8;-webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat}
+.face::before{content:"";position:absolute;inset:0;background:var(--tab) center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.face img{position:relative;width:30px;height:30px;display:block;filter:drop-shadow(0 0 1.5px rgba(251,244,230,.9))}
+.ncat[aria-pressed="true"]{height:46px}
+.ncat[aria-pressed="true"] .face{background:#FCFAED}
+
+/* the open tab is the page itself: open at the bottom (tab-N.png, its slightly grey last rows pushed below), past the
+   sheet's pencil edge and fading into the cream there, so the edge runs into the tab's sides with no seam */
+.b2 .ncat[aria-pressed="true"] .face{--tab:var(--open);background:var(--sheet);
+  -webkit-mask:var(--open) top/100% 112% no-repeat,linear-gradient(#000 calc(100% - 5px),transparent);-webkit-mask-composite:source-in;
+  mask:var(--open) top/100% 112% no-repeat,linear-gradient(#000 calc(100% - 5px),transparent);mask-composite:intersect}
+.b2 .ncat[aria-pressed="true"] .face::before{background-position:top;background-size:100% 112%}
+
+/* ---- B2: the closed tabs really go behind the sheet — the sheet's own top edge (assets/ui/casefile-paper-edge.png, cut
+   from the picture: its pencil line and the paper under it, the blue band clear) is laid again over their feet,
+   with a faint shadow up onto them; the open tab sits above that strip and joins the page ---- */
+.b2 .note-cats{z-index:auto;filter:none;margin-bottom:-9.5%}
+.b2 .ncat{filter:drop-shadow(0 1px 1.2px rgba(30,24,20,.3))}
+.b2 .ncat:not([aria-pressed="true"]){--tab:var(--open);height:44px;z-index:3}
+.b2 .ncat:nth-child(2):not([aria-pressed="true"]){z-index:2}
+.b2 .ncat:nth-child(3):not([aria-pressed="true"]){z-index:1}
+.b2 .ncat:not([aria-pressed="true"]) .face{background:#DCCCA8;padding-bottom:6px}
+.b2 .ncat:nth-child(2):not([aria-pressed="true"]) .face{background:#D5C39C}
+.b2 .ncat:nth-child(3):not([aria-pressed="true"]) .face{background:#CFBD96}
+.b2 .ncat:not([aria-pressed="true"]) img{opacity:.88}
+.b2 .ncat[aria-pressed="true"]{height:52px;z-index:5;filter:none}
+.b2 .ncat[aria-pressed="true"] .face{padding-bottom:7px}
+.edge{position:absolute;z-index:4;left:0;right:0;top:0;margin-top:5.4945%;aspect-ratio:728/44;background:url(../assets/ui/casefile-paper-edge.png) 0 0/100% 100% no-repeat;
+  filter:drop-shadow(0 -1px 1px rgba(40,28,18,.28));pointer-events:none}
+.dock .edge{display:none}
+.b2 .dock .edge{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>노트 인덱스 시안</h1>
+  <p class="lead">노트 위 탭 — 게임에 적용한 안(사용자 선택: 칸막이 종이, 닫힌 탭도 종이 아래에, 탭 사이 좌우 여백은 유지). 고르지 않은 안: 종이에서 솟은 탭(닫힌 탭은 파란 견출지), 색 인덱스 스티커. 폰 너비(360px) 기준, 탭을 눌러 바꿔 볼 수 있어요.</p>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const OPTS = [
+  ['now', '이전', '', '탭이 파란 테두리 위에 놓여 있고, 탭과 종이 사이에 파란 띠가 보인다.'],
+  ['b2', '칸막이 종이 — 종이 테두리 밑으로', 1, '노트 그림에서 종이의 위 테두리(연필선 + 그 아래 종이)만 오려 내 닫힌 탭의 발 위에 다시 얹었다. 닫힌 탭이 정말 종이 밑으로 들어가고, 종이 테두리가 탭 위로 옅은 그림자를 드리운다. 칸막이는 뒤로 갈수록 조금씩 진한 크라프트지. 연 탭만 그 테두리 위로 올라와 종이와 한 장으로 이어진다.'],
+];
+const ICONS = ['../assets/ui/nav/talk.png', '../assets/ui/icons-v2/camera.png', '../assets/ui/icons/note.png'];
+const TITLES = ['사건 브리핑', '증거 기록', '메모'];
+const on = {};
+function dock(k){
+  const i = on[k] || 0;
+  return `<div class="dock"><div class="note-cats">${ICONS.map((src, j) => `<button class="ncat" type="button" data-j="${j}" aria-pressed="${i === j}"><span class="face"><img src="${src}" alt=""></span></button>`).join('')}</div><div class="edge"></div>
+    <div class="head">${i === 0 ? '<img src="../assets/ui/icons-v2/badger.png" alt="">' : ''}${TITLES[i]}</div><div class="rule"></div><div class="text">Q. What happened here?</div></div>`;
+}
+function render(){
+  document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text]) => `<section class="opt ${k}" data-k="${k}"><h2>${title}${rec ? ' <span class="rec">사용자 선택</span>' : ''}</h2>${dock(k)}<p>${text}</p></section>`).join('');
+}
+render();
+document.addEventListener('click', e => {
+  const b = e.target.closest('.ncat'); if(!b) return;
+  on[b.closest('.opt').dataset.k] = +b.dataset.j; render();
+});
+</script>
+</body>
+</html>
