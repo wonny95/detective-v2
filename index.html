@@ -734,61 +734,77 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:0 16px 14px;pointer-events:none}
 .map-foot > *{pointer-events:auto}
 .map-foot:has(#accuseBtn[hidden]){display:none}
-/* ---------- deduction (user request: a Duck Detective style page, between the investigation and the questioning) ----------
-   The whole screen above the menu is a borderless chalkboard (user request). Each page is one English sentence of the
-   detective's reasoning with coloured blanks (person / place / time / thing); a blank is a solid pill in its kind's
-   colour, paler while empty. Tapping a blank drops down the words of that kind the player has collected, in the speech
-   bubbles' paper with a pencil tail to the blank; people as a grid of big faces with their names small underneath,
-   things with the player's own photo. A page is checked only once all its blanks are filled. The menu stays, so the
-   notebook can be opened to look things up, the same notebook as everywhere else (user request). */
-.deduce{position:absolute;inset:0;z-index:10;overflow:hidden;color:rgba(244,240,226,.94);
-  background:radial-gradient(ellipse at 25% 20%,rgba(255,255,255,.08),transparent 45%),radial-gradient(ellipse at 80% 65%,rgba(255,255,255,.05),transparent 40%),
-  radial-gradient(ellipse at 55% 35%,rgba(255,255,255,.04),transparent 30%),#2F4739}
+/* ---------- deduction (user decision: the detective's questions lead the player's thinking; holding up evidence is for the
+   questioning) ----------
+   The screen above the menu is the case list's cork board. At the top the detective asks one question at a time (voice,
+   ▶ 다시 듣기 · 해석). On the board: the time card, the three suspects (crossed out once their alibi holds, the liar
+   circled in red, a memo under each) and a pinned card with the question's sentence. Its blank drops down the words the
+   player has met, in the speech paper with a pencil tail (people as a grid of faces). The menu stays, so the notebook
+   can be opened to look things up, the same notebook as everywhere else (user request). Script: DEDUCE.qs. */
+.deduce{position:absolute;inset:0;z-index:10;overflow:hidden;display:flex;flex-direction:column;padding-top:54px;color:var(--ink);
+  background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/300px 300px repeat}
 .deduce[hidden]{display:none}
-.deduce::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background:repeating-linear-gradient(-12deg,transparent 0 38px,rgba(255,255,255,.025) 38px 60px),repeating-linear-gradient(8deg,transparent 0 70px,rgba(255,255,255,.02) 70px 96px)}
 .app.deducing:not(.note-full) .top-back{z-index:12}
 .deduce-head{position:absolute;top:10px;left:66px;right:14px;z-index:2;display:flex;align-items:center;gap:8px}
-.deduce-dots{display:flex;gap:6px;margin-left:auto}
-.deduce-dots button{width:28px;height:28px;padding:0;border:2px solid rgba(244,240,226,.55);border-radius:50%;background:none;font-family:var(--f-display);font-size:13px;color:rgba(244,240,226,.94)}
-.deduce-dots button[aria-current="true"]{border-color:rgba(244,240,226,.94);background:rgba(244,240,226,.16)}
-.deduce-dots button.done{border-color:#F6E08A;color:#F6E08A}
-.deduce-page{position:absolute;left:22px;right:22px;top:72px;bottom:64px;overflow-y:auto}
-.deduce-page h2{margin:0 0 14px;font-family:var(--f-display);font-weight:400;font-size:25px}
-.deduce-text{font-size:17px;line-height:2.25}
-.deduce-text.ko{font-size:13.5px;line-height:1.85;font-weight:700;color:#F3B7C4;margin-top:12px;padding-top:10px;border-top:1.5px dashed rgba(244,240,226,.3)}
-.deduce-page.turn{animation:deduce-turn .4s ease-out}
-@keyframes deduce-turn{from{opacity:0;transform:translateX(18px)}}
-.deduce-page.wrong .deduce-text{animation:deduce-shake .4s}
-@keyframes deduce-shake{20%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
-.dz{--c:#A9D79A;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-width:78px;height:28px;margin:0 2px;padding:0 12px;border:0;border-radius:14px;vertical-align:-6px;
-  background:var(--c);opacity:.68;font-family:var(--f-display);font-size:14px;color:#22352A;white-space:nowrap;transition:transform .15s}
-button.dz{cursor:pointer}
-.dz.full{opacity:1;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12)}
-.dz.on{opacity:1;transform:translateY(-2px);box-shadow:0 0 0 3px rgba(246,224,138,.8)}
-.dz.person{--c:#A9D79A}.dz.place{--c:#F2B983}.dz.time{--c:#9CC8F0}.dz.thing{--c:#D9B0E6}
-.dz.pic{padding-left:3px}
-.dz .fc{flex:none;width:22px;height:22px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:1.5px solid rgba(255,255,255,.9)}
-.dz .ph{flex:none;width:28px;height:20px;border-radius:4px;border:1.5px solid rgba(255,255,255,.9);overflow:hidden;background:#3E3128}
-.dz .ph svg,.dz-opt .ph svg{display:block;width:100%;height:100%}
-.deduce-text.ko .dz{height:21px;min-width:50px;font-size:11.5px;vertical-align:-4px}
-.deduce-text.ko .dz .fc{width:16px;height:16px}.deduce-text.ko .dz .ph{width:20px;height:15px}
-.deduce-tick{position:absolute;right:0;top:-6px;width:62px;height:50px;pointer-events:none;overflow:visible}
-.deduce-tick path{fill:none;stroke:#F6E08A;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:110;stroke-dashoffset:110;animation:deduce-draw .6s ease-out forwards}
-@keyframes deduce-draw{to{stroke-dashoffset:0}}
-.deduce-foot{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;display:flex;align-items:center;gap:6px}
+.deduce-steps{display:flex;gap:5px;margin-left:auto}
+.deduce-steps i{width:26px;height:20px;border-radius:2px;display:grid;place-items:center;background:#FBF4E6;box-shadow:0 2px 2px rgba(0,0,0,.25);transform:rotate(-3deg);
+  font-style:normal;font-family:var(--f-display);font-size:11px;transition:transform .2s,background-color .3s}
+.deduce-steps i.done{background:var(--honey)}
+.deduce-steps i.now{transform:translateY(-3px) rotate(2deg);outline:2px solid var(--berry)}
+.deduce-q{position:relative;z-index:4;flex:none;display:flex;gap:10px;margin:0 12px;padding:8px 12px 6px;min-height:110px;border:20px solid transparent;
+  border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;background:#FFF8E9;background-clip:padding-box;transition:background-color .3s}
+.deduce-q.read{background-color:#FFF0BF}
+.deduce-q.wrong{background-color:#FBE6DF}
+.deduce-q > img{flex:none;width:44px;height:44px;border-radius:50%;background:#F3E6CC;box-shadow:0 0 0 2px #fff}
+.deduce-q.talk > img{animation:deduce-nod .5s ease-in-out infinite alternate}
+@keyframes deduce-nod{to{transform:translateY(-2px) rotate(-4deg)}}
+.deduce-q-txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.deduce-q-txt p{margin:0;font-size:15.5px;line-height:1.38}
+.deduce-q-txt .ko{margin-top:5px;font-size:13px;font-weight:700;line-height:1.45;color:var(--berry)}
+.deduce-q-row{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:auto;padding-top:6px}
 .deduce .pill:not(.big){color:var(--ink)}
-.deduce-foot .pill{min-height:30px}
-.deduce-foot .deduce-arrow{width:38px;justify-content:center;padding:0}
-.deduce-foot #deduceKo{margin:0 auto}
-.deduce-say{position:absolute;left:12px;right:12px;bottom:62px;z-index:4;display:flex;align-items:flex-end;gap:6px;pointer-events:none}
-.deduce-say[hidden]{display:none}
-.deduce-say img{flex:none;width:46px;height:46px;border-radius:50%;background:#F6E2C8;border:2px solid var(--ink)}
-.deduce-bub{position:relative;flex:1;padding:14px 16px 10px;font-size:13.5px;line-height:1.4;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(0,0,0,.3));animation:bubble-pop-plain .42s cubic-bezier(.3,1.45,.5,1) both;transform-origin:0 100%}
-.deduce-bub::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch}
-.deduce-go{position:absolute;left:0;right:0;bottom:58px;z-index:3;display:flex;flex-direction:column;padding:0 16px;pointer-events:none}
+.deduce-board{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;align-items:center}
+.ded-time{position:relative;margin-top:18px;width:84px;padding:6px 0;text-align:center;font-family:var(--f-display);font-size:20px;background:var(--honey);box-shadow:1px 3px 3px rgba(0,0,0,.3);visibility:hidden}
+.ded-time::before{content:"";position:absolute;left:50%;top:-22px;width:20px;height:28px;margin-left:-7px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
+.ded-time.on{visibility:visible}
+.ded-sus-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;padding:12px 30px 0}
+.ded-sus{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--ink)}
+.ded-pol{width:80px;padding:5px 5px 4px;background:url(assets/ui/polaroid-card.webp) 0 0/100% 100%;filter:drop-shadow(1px 3px 2px rgba(40,25,10,.35));text-align:center;font-family:var(--f-display);font-size:12px;transition:filter .3s,opacity .3s}
+.ded-sus:nth-child(1) .ded-pol{transform:rotate(-3deg)}.ded-sus:nth-child(2) .ded-pol{transform:rotate(2.5deg)}.ded-sus:nth-child(3) .ded-pol{transform:rotate(-1.5deg)}
+.ded-pol i{display:block;width:54px;height:54px;margin:0 auto 1px;border-radius:50%;background:#FFF8E9 center/88% no-repeat}
+.ded-sus-row.dim .ded-pol{opacity:.55;filter:grayscale(.4)}
+.ded-sus.now .ded-pol{outline:3px solid var(--honey);outline-offset:2px}
+.ded-sus.out .ded-pol{filter:grayscale(.7) brightness(.9)}
+.ded-sus.out::after{content:"";position:absolute;left:50%;top:5px;width:72px;height:72px;margin-left:-36px;pointer-events:none;opacity:.85;
+  background:linear-gradient(45deg,transparent 46%,#A4352C 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#A4352C 46% 54%,transparent 54%)}
+.ded-sus.culprit::after{content:"";position:absolute;left:50%;top:-8px;width:92px;height:100px;margin-left:-46px;border:3px solid #A4352C;border-radius:50%;transform:rotate(-8deg);pointer-events:none}
+.ded-memo{min-width:74px;min-height:20px;padding:3px 6px;text-align:center;background:#FAD9BC;box-shadow:1px 2px 2px rgba(0,0,0,.25);font-family:var(--f-display);font-size:11.5px;visibility:hidden}
+.ded-memo.on{visibility:visible}
+.ded-memo.lie{text-decoration:line-through;text-decoration-color:#A4352C;text-decoration-thickness:2px}
+/* only what has just been worked out pops (the board is redrawn for every question) */
+.deduce .pop{animation:deduce-pin .4s cubic-bezier(.3,1.5,.5,1)}
+@keyframes deduce-pin{from{transform:scale(1.4) rotate(-8deg);opacity:0}}
+.ded-card{position:relative;align-self:stretch;margin:20px 16px 0;padding:8px 12px 10px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;
+  filter:drop-shadow(2px 5px 4px rgba(50,30,15,.35));transform:rotate(-1deg)}
+.ded-card::before{content:"";position:absolute;left:50%;top:-30px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
+.ded-card p{margin:0;font-size:16.5px;line-height:2}
+.ded-card .ko{font-size:12.5px;font-weight:700;line-height:1.45;color:var(--berry)}
+.ded-card.shake{animation:deduce-shake .4s}
+@keyframes deduce-shake{20%,60%{transform:translateX(-6px) rotate(-1deg)}40%,80%{transform:translateX(6px) rotate(-1deg)}}
+.ded-card.solved{animation:deduce-ok .35s ease-out}
+@keyframes deduce-ok{50%{transform:scale(1.04) rotate(-1deg)}}
+.ded-slot{--c:#A9D79A;display:inline-flex;align-items:center;justify-content:center;min-width:76px;height:30px;padding:0 8px;vertical-align:-8px;border-radius:5px;border:2px dashed var(--c);
+  background:rgba(255,255,255,.4);font-family:var(--f-display);font-size:14px;color:var(--ink)}
+.ded-slot.person{--c:#A9D79A}.ded-slot.place{--c:#F2B983}.ded-slot.time{--c:#9CC8F0}
+button.ded-slot{cursor:pointer;border-color:#D9A93A;background:color-mix(in srgb,var(--honey) 45%,#fff);animation:deduce-blink 1.4s ease-in-out infinite}
+button.ded-slot[aria-expanded="true"]{animation:none;box-shadow:0 0 0 3px rgba(242,207,115,.9)}
+@keyframes deduce-blink{50%{opacity:.55}}
+.ded-slot.full{border-style:solid;background:color-mix(in srgb,var(--c) 40%,#FFFDF6)}
+.ded-string{position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:visible;pointer-events:none}
+.ded-string path{fill:none;stroke:#A4352C;stroke-width:2.6;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:deduce-draw 1s ease-out forwards}
+@keyframes deduce-draw{to{stroke-dashoffset:0}}
+.deduce-go{flex:none;padding:0 16px 14px}
 .deduce-go[hidden]{display:none}
-.deduce-go .pill{pointer-events:auto;filter:drop-shadow(0 4px 3px rgba(0,0,0,.4))}
 .deduce-drop{position:absolute;z-index:6;min-width:160px;max-width:236px;filter:drop-shadow(2px 5px 3px rgba(0,0,0,.35));animation:deduce-drop .2s ease-out;transform-origin:var(--ox,0) 0;color:var(--ink)}
 .deduce-drop[hidden]{display:none}
 .deduce-drop.up{transform-origin:var(--ox,0) 100%}
@@ -796,24 +812,20 @@ button.dz{cursor:pointer}
 .deduce-drop::after{content:"";position:absolute;left:var(--ox,30px);top:-17px;width:36px;height:23px;transform:translateX(-50%) rotate(180deg);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
 .deduce-drop.up::after{top:auto;bottom:-17px;transform:translateX(-50%)}
 @keyframes deduce-drop{from{opacity:0;transform:scale(.9)}}
-.deduce-drop.faces{width:300px;max-width:none}
-.dz-list{max-height:252px;overflow-y:auto;padding:13px 10px 11px}
-.dz-list.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-height:none;padding:14px 10px 12px}
-.dz-opt{display:flex;align-items:center;gap:8px;width:100%;min-height:38px;padding:4px 10px;border:2px solid transparent;background:none;font-family:var(--f-display);font-size:14px;color:var(--ink);text-align:left;white-space:nowrap}
-.dz-opt + .dz-opt{box-shadow:0 -1.5px 0 rgba(74,54,40,.12)}
-.dz-opt:hover,.dz-opt:focus-visible{outline:none;background:rgba(242,207,115,.25)}
-.dz-opt[aria-selected="true"]{border-image:url(assets/ui/buttons/honey-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;box-shadow:none;background:none}
-.dz-opt[aria-selected="true"] + .dz-opt{box-shadow:none}
-.dz-opt .dot{flex:none;width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(74,54,40,.45)}
+.deduce-drop.wide{width:300px;max-width:none}
+.dz-list{display:grid;grid-template-columns:repeat(var(--cols,1),1fr);gap:2px 4px;padding:13px 10px 11px}
+.dz-opt{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;min-height:36px;padding:4px 6px;border:2px solid transparent;border-radius:10px;background:none;
+  font-family:var(--f-display);font-size:14px;color:var(--ink);white-space:nowrap}
+.dz-opt:hover,.dz-opt:focus-visible{outline:none;background:rgba(242,207,115,.3)}
+.dz-opt.tried{opacity:.42}
+.dz-opt .dot{flex:none;width:10px;height:10px;border-radius:50%}
 .deduce-drop.place .dot{background:#F2B983}.deduce-drop.time .dot{background:#9CC8F0}
 .dz-opt .fc{flex:none;width:28px;height:28px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:2px solid var(--ink)}
 .dz-opt .fc.unknown{display:grid;place-items:center;background:#EDE3CF;color:var(--ink-soft);font-size:13px;font-style:normal}
-.dz-opt .ph{flex:none;width:36px;height:27px;border:2px solid var(--ink);overflow:hidden;background:#3E3128;transform:rotate(-2deg)}
 .dz-opt.face{flex-direction:column;justify-content:flex-start;gap:4px;min-height:0;padding:6px 2px 5px;font-size:11px;line-height:1.15;text-align:center;white-space:normal}
-.dz-opt.face + .dz-opt.face{box-shadow:none}
-.dz-opt.face .fc{width:54px;height:54px;border-width:2.5px}
-.dz-opt.face .fc.unknown{font-size:24px}
-@media(prefers-reduced-motion:reduce){.deduce-page.turn,.deduce-page.wrong .deduce-text,.deduce-drop,.deduce-bub,.deduce-tick path{animation:none}.deduce-tick path{stroke-dashoffset:0}}
+.dz-opt.face .fc{width:50px;height:50px;border-width:2.5px}
+.dz-opt.face .fc.unknown{font-size:22px}
+@media(prefers-reduced-motion:reduce){.deduce .pop,.deduce-q.talk > img,.ded-card.shake,.ded-card.solved,button.ded-slot,.deduce-drop{animation:none}.ded-string path{animation:none;stroke-dashoffset:0}}
 
 /* 범인 지목하기 is the same big berry button on the map, in a place and in a conversation (once every conversation is done);
    on the map and in a place it floats over the picture with a short brown shadow (user decision: no white fade band) */
@@ -1176,12 +1188,17 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       </div>
     </section>
 
-    <!-- Deduction: the chalkboard where the detective's reasoning is written with blanks to fill (DEDUCE) -->
+    <!-- Deduction: the cork board where the detective works it out, one question at a time (DEDUCE) -->
     <section class="deduce" id="deduce" aria-label="추리" hidden>
-      <div class="deduce-head"><h2>Deduction</h2><div class="deduce-dots" id="deduceDots"></div></div>
-      <div class="deduce-page" id="deducePage"></div>
-      <div class="deduce-foot"><button class="pill sm deduce-arrow" type="button" id="deducePrev" aria-label="이전 쪽">◀</button><button class="pill sm" type="button" id="deduceKo" aria-pressed="false">해석</button><button class="pill sm deduce-arrow" type="button" id="deduceNext" aria-label="다음 쪽">▶</button></div>
-      <div class="deduce-say" id="deduceSay" hidden><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-bub" id="deduceBub" role="status"></div></div>
+      <div class="deduce-head"><h2>Deduction</h2><div class="deduce-steps" id="deduceSteps" aria-hidden="true"></div></div>
+      <div class="deduce-q" id="deduceQ" role="status"><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-q-txt"><p id="deduceEn"></p><p class="ko" id="deduceKoText" hidden></p>
+        <div class="deduce-q-row"><button class="play-btn" type="button" id="deduceReplay" aria-label="다시 듣기"></button><button class="pill sm" type="button" id="deduceKo" aria-pressed="false">해석</button></div></div></div>
+      <div class="deduce-board" id="deduceBoard">
+        <span class="ded-time" id="deduceTime"></span>
+        <div class="ded-sus-row" id="deduceSus"></div>
+        <div class="ded-card" id="deduceCard"></div>
+        <svg class="ded-string" id="deduceString" aria-hidden="true"></svg>
+      </div>
       <div class="deduce-go" id="deduceGo" hidden><button class="pill big" type="button">심문 시작</button></div>
       <div class="deduce-drop" id="deduceDrop" role="listbox" hidden></div>
     </section>
@@ -3127,133 +3144,243 @@ $('#accused').addEventListener('click', e => {
 });
 
 /* ---------- deduction ----------
-   Each page is the detective's reasoning, not a copy of the notes (user request): what the notes add up to. {kind:answer}
-   is a blank. The words to pick are those the player has: people met (and the two only ever named), places heard of,
-   the times in the notes, and the things photographed. Right pages are kept in S.deduce; all pages right → 심문 시작. */
+   The detective thinks it through out loud, one question at a time (user decision: this page leads the player's thinking;
+   holding up evidence belongs to the questioning). Each answer is a time, a place or a person from the notes, picked
+   in a dropdown under the blank of a pinned card. Order: when → where each suspect was then (an alibi that holds crosses
+   them out) → who lied → why. A wrong pick shakes the card; the first time the detective only says it doesn't fit,
+   after that he points to the part of the notes to look at again (never the answer). The board keeps what has been
+   worked out. Progress (S.deduce) is kept with the case. */
 const DEDUCE = {
-  people:[['Ray Raccoon', 'ray'], ['Rosie Rabbit', 'rosie'], ['Fiona Fox', 'fiona'], ['Mrs. Mole', 'mole'], ['Mr. Duck', 'duck'],
-    ['Mrs. Bear'], ['Sgt. Badger', 'badger'], ['Professor Hoot']],
+  people:[['Sgt. Badger', 'badger'], ['Mrs. Mole', 'mole'], ['Ray Raccoon', 'ray'], ['Rosie Rabbit', 'rosie'], ['Fiona Fox', 'fiona'], ['Mr. Duck', 'duck'],
+    ['Mrs. Bear'], ['Professor Hoot']],
   places:[['library', 'library'], ['bakery', 'bakery'], ['Lake Cafe', 'cafe'], ['Moon Hill', 'hill']],
-  times:['7 PM', '7:30', '8:30', '8:40', '8:45', '9 PM', '10 PM'],
-  things:[['big clock', 'library-0'], ['purple jam', 'library-1'], ['orange fur', 'library-2'], ['sign', 'bakery-0'], ['oven', 'bakery-1'],
-    ['note', 'bakery-2'], ['poster', 'cafe-0'], ['Star Club notebook', 'hill-0'], ['footprints', 'hill-1']],
-  pages:[
-    { title:'When?', en:'It happened when the {thing:big clock} stopped: at {time:8:40}.',
-      ko:'그 일은 {thing}가 멈춘 때, {time}에 일어났다.' },
-    { title:'Not them', en:"{person:Ray Raccoon} couldn't do it. {person:Mr. Duck} had his eyes on him the whole time. {person:Rosie Rabbit} couldn't do it either. Her {thing:Star Club notebook} puts her on the hill.",
-      ko:'{person}일 리 없다. {person}가 내내 그를 보고 있었다. {person}도 아니다. 그녀의 {thing}이 그녀가 언덕에 있었다고 말해 준다.' },
-    { title:'The lie', en:'{person:Fiona Fox} lied. The {thing:sign} shows her bakery was closed, so she wasn\'t baking. And the {thing:note} shows {person:Mrs. Bear} got no bread, so nobody saw her there.',
-      ko:'{person}는 거짓말을 했다. {thing}을 보면 빵집은 닫혀 있었으니 빵을 굽고 있지 않았다. 그리고 {thing}을 보면 {person}는 빵을 받지 못했으니, 거기서 그녀를 본 사람은 없다.' },
-    { title:'Who and why?', en:'So it was {person:Fiona Fox}. She was still angry at {person:Professor Hoot} about her pies. At {time:8:40} she was not at her bakery. She was at the {place:library}.',
-      ko:'그러니 범인은 {person}다. 그녀는 파이 일로 아직 {person}에게 화가 나 있었다. {time}에 그녀는 빵집에 없었다. {place}에 있었다.' }
-  ],
-  right:"Yes! That makes sense.", wrong:"Hmm… something's not right."
+  times:['7 PM', '7:30', '8 PM', '8:30', '8:40', '8:45', '9 PM', '9:30 PM', '10 PM'],
+  // the suspects on the board (user decision: Mrs. Mole is not one)
+  suspects:[['ray', 'Ray'], ['rosie', 'Rosie'], ['fiona', 'Fiona']],
+  miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' },
+  // who: the suspect the question is about; memo: written under their photo; out: their alibi holds; lie: caught lying
+  qs:[
+    { step:1, q:'First things first. When did it happen?', qKo:'먼저, 그 일은 언제 일어났을까?',
+      card:'It happened at {time:8:40}.', cardKo:'그 일은 8시 40분에 일어났다.',
+      right:'Yes. The big clock stopped at 8:40.', rightKo:'맞아. 큰 시계가 8시 40분에 멈췄어.',
+      hint:'Sgt. Badger said between eight and nine. What stopped in the library?', hintKo:'오소리 경사는 8시에서 9시 사이라고 했어. 도서관에서 멈춘 게 뭐였지?' },
+    { step:2, who:'ray', q:'At 8:40, where was Ray?', qKo:'8시 40분에 레이는 어디 있었을까?',
+      card:'At 8:40, Ray was at the {place:Lake Cafe}.', cardKo:'8시 40분에 레이는 호수 카페에 있었다.',
+      right:'Right. He played on stage from eight to nine thirty.', rightKo:'맞아. 8시부터 9시 반까지 무대에서 연주했지.',
+      hint:'What did Ray say? Where did he play his guitar?', hintKo:'레이가 뭐라고 했지? 기타를 어디서 쳤다고 했어?', memo:'Lake Cafe' },
+    { step:2, who:'ray', q:'But who saw him there?', qKo:'그런데 거기서 그를 본 사람은 누구지?',
+      card:'{person:Mr. Duck} watched him all night.', cardKo:'오리 아저씨가 밤새 그를 지켜봤다.',
+      right:"Mr. Duck says Ray never left the stage. So Ray couldn't do it.", rightKo:'오리 아저씨는 레이가 무대를 한 번도 떠나지 않았대. 그러니 레이일 수 없어.',
+      hint:'Ray said the whole cafe saw him. Who owns the cafe?', hintKo:'레이는 카페 사람들이 다 자기를 봤다고 했지. 카페 주인이 누구였지?', out:true },
+    { step:2, who:'rosie', q:'At 8:40, where was Rosie?', qKo:'8시 40분에 로지는 어디 있었을까?',
+      card:'At 8:40, Rosie was on {place:Moon Hill}.', cardKo:'8시 40분에 로지는 달 언덕에 있었다.',
+      right:'Yes, with her telescope, from eight to ten.', rightKo:'응, 망원경을 들고 8시부터 10시까지.',
+      hint:'Where did Rosie watch the stars?', hintKo:'로지는 어디서 별을 봤다고 했지?', memo:'Moon Hill' },
+    { step:2, who:'rosie', q:'Nobody was with her. So how do we know? When did she see the shooting star?', qKo:'아무도 함께 있지 않았어. 그럼 어떻게 알 수 있지? 별똥별을 본 게 언제였지?',
+      card:'She saw a shooting star at {time:8:45} and wrote it in the Star Club notebook.', cardKo:'그녀는 8시 45분에 별똥별을 보고 별 동호회 노트에 적었다.',
+      right:"8:45, on the hill. She couldn't be in the library five minutes before. Rosie couldn't do it.", rightKo:'8시 45분에 언덕에 있었어. 5분 전에 도서관에 있었을 리 없지. 로지일 수 없어.',
+      hint:'Look at the Star Club notebook on Moon Hill. What time is written there?', hintKo:'달 언덕의 별 동호회 노트를 봐. 거기 몇 시라고 적혀 있지?', out:true },
+    { step:3, who:'fiona', q:'Now Fiona. Where did she say she was?', qKo:'이제 피오나. 그녀는 어디 있었다고 했지?',
+      card:'Fiona said she was at her {place:bakery} from seven to ten.', cardKo:'피오나는 7시부터 10시까지 빵집에 있었다고 했다.',
+      right:"That's her story. Let's check it.", rightKo:'그게 그녀의 말이야. 확인해 보자.',
+      hint:'What did Fiona say? Where was she baking pies?', hintKo:'피오나가 뭐라고 했지? 어디서 파이를 굽고 있었다고 했어?', memo:'bakery?' },
+    { step:3, who:'fiona', q:'But when did her bakery close tonight?', qKo:'그런데 오늘 밤 빵집은 언제 문을 닫았지?',
+      card:'But her bakery closed at {time:7 PM}.', cardKo:'하지만 빵집은 오후 7시에 문을 닫았다.',
+      right:"7 PM! So she wasn't baking there at 8:40.", rightKo:'7시! 그러니 8시 40분에 거기서 빵을 굽고 있지 않았어.',
+      hint:'Look at the sign on the bakery door.', hintKo:'빵집 문에 붙은 안내문을 봐.' },
+    { step:3, who:'fiona', q:'She said someone came to buy bread at 8:30. Who?', qKo:'그녀는 8시 30분에 누가 빵을 사러 왔다고 했지. 누구였지?',
+      card:'And {person:Mrs. Bear} got no bread tonight.', cardKo:'그리고 곰 부인은 오늘 밤 빵을 받지 못했다.',
+      right:'The note says "No bread tonight." Nobody saw Fiona at her bakery. She lied.', rightKo:'쪽지에 "오늘 밤은 빵이 없어요"라고 적혀 있어. 빵집에서 피오나를 본 사람은 없어. 그녀는 거짓말을 했어.',
+      hint:'Read the note on the bakery counter. Who is it for?', hintKo:'빵집 계산대의 쪽지를 읽어 봐. 누구에게 쓴 거지?', lie:true },
+    { step:4, who:'fiona', q:'Why would Fiona do it? Who made her angry?', qKo:'피오나가 왜 그랬을까? 누가 그녀를 화나게 했지?',
+      card:'She was still angry at {person:Professor Hoot} about her pies.', cardKo:'그녀는 파이 일로 아직 후트 교수에게 화가 나 있었다.',
+      right:'He wrote that her pies were too sweet.', rightKo:'그가 그녀의 파이가 너무 달다고 썼지.',
+      hint:"Mrs. Mole told us about the professor's problems. Who was angry?", hintKo:'두더지 부인이 교수님의 문제를 말해 줬어. 누가 화가 났었지?' },
+    { step:4, who:'fiona', q:'So at 8:40, where was Fiona?', qKo:'그럼 8시 40분에 피오나는 어디 있었을까?',
+      card:'At 8:40, Fiona was at the {place:library}.', cardKo:'8시 40분에 피오나는 도서관에 있었다.',
+      right:'So it was Fiona Fox. At 8:40 she was not at her bakery. She was at the library. She was still angry at Professor Hoot about her pies.',
+      rightKo:'그러니 범인은 여우 피오나야. 8시 40분에 그녀는 빵집에 없었어. 도서관에 있었지. 그녀는 파이 일로 아직 후트 교수에게 화가 나 있었어.',
+      hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?', memo:'library' }
+  ]
 };
-const deduceBlanks = page => [...page.en.matchAll(/\{(\w+):([^}]+)\}/g)].map(m => ({ kind:m[1], answer:m[2] }));
-const deduceState = () => S.deduce ||= { fill:DEDUCE.pages.map(page => deduceBlanks(page).map(() => null)), solved:DEDUCE.pages.map(() => false) };
-let deduceAt = 0, deduceOn = null, deduceKoOpen = false, deduceSayT;
-// the words of a kind the player has collected so far
+// lines recorded as audio/deduce/<key>.mp3 (q1…q10 questions, r1…r10 replies, h1…h10 hints, miss); the rest are read
+// by the browser's voice
+const DEDUCE_RECORDED = new Set();
+const KIND_KO = { person:'인물', place:'장소', time:'시각' };
+const deduceBlank = q => q.card.match(/\{(\w+):([^}]+)\}/);   // [, kind, answer]
+// an older save's page board (fill/solved) starts over as questions
+const deduceState = () => S.deduce?.done instanceof Set ? S.deduce : (S.deduce = { done:new Set(), misses:{}, tried:{}, at:0 });
+const deduceEnd = () => deduceState().done.size === DEDUCE.qs.length;
+let deduceKoOpen = false, deduceLine = null, deduceNextT = null, deduceWait = false, deduceShown = null;
+// the words of a kind the player has met so far
 function deduceWords(kind){
-  if(kind === 'person') return DEDUCE.people.filter(([, id]) => !id || S.met.includes(id)).map(([word, id]) => ({ word, id }));
-  if(kind === 'place') return DEDUCE.places.filter(([, id]) => id === 'library' || S.known.has(id)).map(([word]) => ({ word }));
-  if(kind === 'time') return DEDUCE.times.map(word => ({ word }));
-  return DEDUCE.things.map(([word, ref]) => ({ word, record:S.evidence.find(r => evRef(r) === ref) })).filter(w => w.record);
+  if(kind === 'person') return DEDUCE.people.filter(([, id]) => !id || S.met.includes(id)).map(([word]) => word);
+  if(kind === 'place') return DEDUCE.places.filter(([, id]) => id === 'library' || S.known.has(id)).map(([word]) => word);
+  return DEDUCE.times;
 }
-function deducePic(kind, word, big){
-  if(kind === 'person'){ const id = DEDUCE.people.find(([w]) => w === word)?.[1];
-    return id ? `<i class="fc" style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>` : big ? '<i class="fc unknown">?</i>' : ''; }
-  if(kind === 'thing'){ const ref = DEDUCE.things.find(([w]) => w === word)?.[1], record = S.evidence.find(r => evRef(r) === ref);
-    return record ? `<i class="ph">${record.photo}</i>` : ''; }
-  return big ? '<i class="dot"></i>' : '';
-}
-function deducePill(kind, word, tag = 'span', attrs = ''){
-  const pic = word ? deducePic(kind, word, false) : '';
-  return `<${tag} class="dz ${kind}${word ? ' full' : ''}${pic ? ' pic' : ''}" ${attrs}>${word ? pic + esc(word) : ''}</${tag}>`;
+function deducePic(kind, word){
+  if(kind !== 'person') return '<i class="dot"></i>';
+  const id = DEDUCE.people.find(([w]) => w === word)?.[1];
+  return id ? `<i class="fc" style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>` : '<i class="fc unknown">?</i>';
 }
 function openDeduce(){
   if(!allConversationsDone()) return;
   openSheet(null); setNotes(false);
   $('#deduce').hidden = false; $('#app').classList.add('deducing');
-  const st = deduceState(); deduceAt = Math.max(0, st.solved.indexOf(false)); if(st.solved.every(Boolean)) deduceAt = DEDUCE.pages.length - 1;
-  renderDeduce(true);
+  const st = deduceState(); deduceShown = null; deduceWait = false;
+  if(deduceEnd()){ st.at = DEDUCE.qs.length - 1; deduceShow({ en:DEDUCE.qs[st.at].right, ko:DEDUCE.qs[st.at].rightKo }, `r${st.at + 1}`, 'read', null, false); renderDeduce(); }
+  else { if(st.done.has(st.at)) st.at = deduceNextAt(); deduceAsk(); }
+  $('#deduceGo').hidden = !deduceEnd();
 }
-function closeDeduce(){ closeDeduceDrop(false); $('#deduceSay').hidden = true; $('#deduce').hidden = true; $('#app').classList.remove('deducing'); }
-function renderDeduce(turn){
-  const st = deduceState(), page = DEDUCE.pages[deduceAt], blanks = deduceBlanks(page), fill = st.fill[deduceAt], solved = st.solved[deduceAt];
-  let i = 0;
-  const en = page.en.split(/(\{\w+:[^}]+\})/).map(part => {
-    const m = part.match(/^\{(\w+):[^}]+\}$/);
-    if(!m) return esc(part);
-    const k = i++;
-    return solved ? deducePill(m[1], fill[k]) : deducePill(m[1], fill[k], 'button', `type="button" data-dz="${k}" aria-label="${KIND_KO[m[1]]} 빈칸"${deduceOn === k ? ' aria-expanded="true"' : ''}`).replace('class="dz', `class="dz${deduceOn === k ? ' on' : ''}`);
+function closeDeduce(){
+  clearTimeout(deduceNextT); deduceNextT = null; deduceWait = false;
+  closeDeduceDrop(); stopVoice(); $('#deduceQ').classList.remove('talk');
+  $('#deduce').hidden = true; $('#app').classList.remove('deducing');
+}
+// the next question: the rest of the suspect being checked first, then the first one not answered
+function deduceNextAt(){
+  const st = deduceState(), q = DEDUCE.qs[st.at], open = i => !st.done.has(i);
+  const same = DEDUCE.qs.findIndex((x, i) => q?.who && x.who === q.who && x.step === q.step && open(i));
+  return same >= 0 ? same : DEDUCE.qs.findIndex((x, i) => open(i));
+}
+function deduceAsk(){
+  const q = DEDUCE.qs[deduceState().at];
+  deduceShow({ en:q.q, ko:q.qKo }, `q${deduceState().at + 1}`);
+  renderDeduce();
+}
+// one of the detective's lines in the bubble, said out loud (onDone once it has been said)
+function deduceShow(line, key, mood = '', onDone, say = true){
+  deduceLine = { ...line, key };
+  $('#deduceQ').className = 'deduce-q' + (mood ? ' ' + mood : '');
+  $('#deduceEn').textContent = line.en; $('#deduceKoText').textContent = line.ko; $('#deduceKoText').hidden = !deduceKoOpen;
+  if(say) deduceSpeak(key, line.en, onDone); else stopVoice();
+}
+function deduceSpeak(key, text, onDone){
+  stopVoice();
+  const turn = speechTurn, bub = $('#deduceQ');
+  const done = () => { if(turn !== speechTurn) return; bub.classList.remove('talk'); onDone?.(); };
+  bub.classList.add('talk');
+  if(DEDUCE_RECORDED.has(key)){
+    const voice = $('#evidenceVoice');
+    voice.onended = voice.onerror = null;
+    voice.src = `audio/deduce/${key}.mp3`; voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
+    voice.onended = voice.onerror = done;
+    voice.play().catch(done);
+    return;
+  }
+  // the browser's voice; with no voice at all (e.g. an app preview) the line still takes about as long as it would
+  const length = text.length * (S.slow ? 95 : 70) + 500;
+  if(!('speechSynthesis' in window)){ talkT = setTimeout(done, length); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = S.slow ? .72 : .95;
+  let started = false;
+  u.onstart = () => { started = true; };
+  u.onend = u.onerror = done;
+  speechSynthesis.speak(u);
+  talkT = setTimeout(() => { if(!started) done(); }, length);
+}
+function renderDeduce(){
+  const st = deduceState(), qs = DEDUCE.qs, end = deduceEnd(), q = qs[st.at], step = end ? 5 : q.step, first = !deduceShown;
+  const was = deduceShown || {}, now = {};
+  $('#deduceSteps').innerHTML = [1, 2, 3, 4].map(n => `<i class="${n < step ? 'done' : n === step ? 'now' : ''}">${n}</i>`).join('');
+  const time = $('#deduceTime'); now.time = st.done.has(0);
+  time.textContent = deduceBlank(qs[0])[2]; time.classList.toggle('on', now.time); time.classList.toggle('pop', now.time && !was.time && !first);
+  $('#deduceSus').classList.toggle('dim', !now.time);
+  $('#deduceSus').innerHTML = DEDUCE.suspects.map(([id, name]) => {
+    const mine = qs.map((x, i) => [x, i]).filter(([x, i]) => x.who === id && st.done.has(i));
+    const memo = mine.filter(([x]) => x.memo).pop()?.[0].memo || '', out = mine.some(([x]) => x.out), lie = mine.some(([x]) => x.lie);
+    now[id] = { memo, out, lie }; const old = was[id] || {};
+    const pop = !first && ((out && !old.out) || (lie && !old.lie)), popMemo = !first && memo && memo !== old.memo;
+    const cls = [out && 'out', lie && 'culprit', !end && q.who === id && 'now', pop && 'pop'].filter(Boolean).join(' ');
+    return `<button class="ded-sus ${cls}" type="button" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>` +
+      `<span class="ded-memo${memo ? ' on' : ''}${popMemo ? ' pop' : ''}${lie && memo === 'bakery?' ? ' lie' : ''}">${esc(memo) || '&nbsp;'}</span></button>`;
   }).join('');
-  // the Korean takes the blanks of each kind in the order the English has them
-  const seen = {};
-  const ko = esc(page.ko).replace(/\{(\w+)\}/g, (m, kind) => { seen[kind] = seen[kind] || 0;
-    const hit = blanks.map((b, k) => ({ ...b, k })).filter(b => b.kind === kind)[seen[kind]++]; return deducePill(kind, hit && fill[hit.k]); });
-  $('#deducePage').className = `deduce-page${turn ? ' turn' : ''}`;
-  $('#deducePage').innerHTML = `<h2>${esc(page.title)}</h2><div class="deduce-text">${en}</div>${deduceKoOpen ? `<div class="deduce-text ko">${ko}</div>` : ''}`
-    + (solved ? '<svg class="deduce-tick" viewBox="0 0 86 70" aria-hidden="true"><path d="M8 38 l 18 20 l 50 -50"/></svg>' : '');
-  $('#deduceDots').innerHTML = DEDUCE.pages.map((p, k) => `<button class="${st.solved[k] ? 'done' : ''}" type="button" data-dpage="${k}" aria-current="${k === deduceAt}" aria-label="${k + 1}쪽">${k + 1}</button>`).join('');
-  $('#deducePrev').disabled = deduceAt === 0; $('#deduceNext').disabled = deduceAt === DEDUCE.pages.length - 1;
-  $('#deduceGo').hidden = !st.solved.every(Boolean);
+  deduceShown = now;
+  // the card: the question's sentence; at the end the reason why
+  const cq = end ? qs[qs.length - 2] : q, [, kind, answer] = deduceBlank(cq), filled = end || st.done.has(st.at);
+  const slot = filled ? `<span class="ded-slot ${kind} full">${esc(answer)}</span>`
+    : `<button class="ded-slot ${kind}" type="button" data-dslot aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
+  $('#deduceCard').innerHTML = `<p>${esc(cq.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p><p class="ko"${deduceKoOpen ? '' : ' hidden'}>${esc(cq.cardKo)}</p>`;
+  requestAnimationFrame(drawDeduceString);
 }
-const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건' };
-function openDeduceDrop(k){
-  setNotes(false); $('#deduceSay').hidden = true;
-  const kind = deduceBlanks(DEDUCE.pages[deduceAt])[k].kind, now = deduceState().fill[deduceAt][k], drop = $('#deduceDrop');
-  deduceOn = k; renderDeduce();
+// at the end two red threads run to Fiona: from the time card, and from the card with her reason
+function drawDeduceString(){
+  const svg = $('#deduceString');
+  if(!deduceEnd() || $('#deduce').hidden){ svg.innerHTML = ''; return; }
+  const B = $('#deduceBoard').getBoundingClientRect(), at = (el, fx, fy) => { const b = el.getBoundingClientRect(); return [b.left - B.left + b.width * fx, b.top - B.top + b.height * fy]; };
+  const fiona = $('[data-dsus="fiona"]'), f = at(fiona.querySelector('.ded-pol'), .5, .06), c = at($('#deduceTime'), 1, .5);
+  const m = at(fiona.querySelector('.ded-memo'), .5, 1), w = at($('#deduceCard'), .8, .04);
+  svg.innerHTML = `<path d="M${c} Q ${f[0] - 8} ${c[1] - 4} ${f}"/><path d="M${w} Q ${m[0] + 24} ${(w[1] + m[1]) / 2} ${m}"/>`;
+}
+function openDeduceDrop(slot){
+  setNotes(false);
+  const st = deduceState(), [, kind] = deduceBlank(DEDUCE.qs[st.at]), tried = st.tried[st.at] || new Set(), drop = $('#deduceDrop');
   const faces = kind === 'person', words = deduceWords(kind);
-  drop.className = `deduce-drop ${kind}${faces ? ' faces' : ''}`;
-  drop.innerHTML = `<div class="dz-list${faces ? ' grid' : ''}">${words.length ? words.map(({ word }) =>
-    `<button class="dz-opt${faces ? ' face' : ''}" type="button" role="option" data-dword="${esc(word)}" aria-selected="${word === now}">${deducePic(kind, word, true)}${esc(word)}</button>`).join('') : '<p class="empty-note">—</p>'}</div>`;
-  drop.hidden = false;
-  // under the blank and inside the board; above it when the board runs out below
-  const board = $('#deduce').getBoundingClientRect(), b = $(`#deducePage [data-dz="${k}"]`).getBoundingClientRect();
-  const w = drop.offsetWidth, h = drop.offsetHeight;
-  const left = Math.min(Math.max(b.left - board.left, 8), board.width - w - 8), below = b.bottom - board.top + 16, up = below + h > board.height - 8;
+  drop.className = `deduce-drop ${kind}${kind === 'place' ? '' : ' wide'}`;
+  drop.innerHTML = `<div class="dz-list" style="--cols:${faces ? 4 : kind === 'time' ? 3 : 2}">` + words.map(word =>
+    `<button class="dz-opt${faces ? ' face' : ''}${tried.has(word) ? ' tried' : ''}" type="button" role="option" data-dword="${esc(word)}">${deducePic(kind, word)}${esc(word)}</button>`).join('') + '</div>';
+  drop.hidden = false; slot.setAttribute('aria-expanded', 'true');
+  // under the blank; when it would run off the bottom, above the whole card so its sentence stays readable
+  const board = $('#deduce').getBoundingClientRect(), b = slot.getBoundingClientRect(), w = drop.offsetWidth, h = drop.offsetHeight;
+  const left = Math.min(Math.max(b.left - board.left + b.width / 2 - w / 2, 8), board.width - w - 8), below = b.bottom - board.top + 16;
+  const up = below + h > board.height - 8;
   drop.style.left = `${left}px`;
-  drop.style.top = `${up ? b.top - board.top - 16 - h : below}px`;
+  drop.style.top = `${up ? Math.max(8, $('#deduceCard').getBoundingClientRect().top - board.top - 16 - h) : below}px`;
   drop.style.setProperty('--ox', `${Math.min(Math.max(b.left - board.left - left + b.width / 2, 34), w - 34)}px`);
   drop.classList.toggle('up', up);
 }
-function closeDeduceDrop(render = true){ deduceOn = null; $('#deduceDrop').hidden = true; if(render && !$('#deduce').hidden) renderDeduce(); }
-function deduceSay(text){
-  $('#deduceBub').textContent = text; $('#deduceSay').hidden = false;
-  const b = $('#deduceBub'); b.style.animation = 'none'; void b.offsetWidth; b.style.animation = '';
-  clearTimeout(deduceSayT); deduceSayT = setTimeout(() => $('#deduceSay').hidden = true, 3500);
-}
-// a page is checked once every blank has a word: right → the yellow tick; wrong → the sentence shakes (which blank
-// is not told)
-function checkDeducePage(){
-  const st = deduceState(), fill = st.fill[deduceAt], blanks = deduceBlanks(DEDUCE.pages[deduceAt]);
-  if(fill.some(w => !w)) return;
-  if(blanks.every((b, k) => fill[k] === b.answer)){
-    st.solved[deduceAt] = true; renderDeduce();
-    if(st.solved.every(Boolean)){ deduceSay(DETECTIVE.accuse.en); S.saidAccuse = true; detectiveSay('accuse'); }
-    else deduceSay(DEDUCE.right);
-    const chime = $('#correctChime'); chime.currentTime = 0; chime.play().catch(() => {});
-  } else {
+function closeDeduceDrop(){ $('#deduceDrop').hidden = true; $('#deduceCard [data-dslot]')?.setAttribute('aria-expanded', 'false'); }
+function deducePick(word){
+  const st = deduceState(), i = st.at, q = DEDUCE.qs[i], [, , right] = deduceBlank(q);
+  closeDeduceDrop();
+  if(word !== right){
+    (st.tried[i] ||= new Set()).add(word);
+    const n = st.misses[i] = (st.misses[i] || 0) + 1;
     const buzz = $('#retryBuzz'); buzz.currentTime = 0; buzz.play().catch(() => {});
-    renderDeduce(); const page = $('#deducePage'); page.classList.remove('wrong'); void page.offsetWidth; page.classList.add('wrong');
-    deduceSay(DEDUCE.wrong);
+    const card = $('#deduceCard'); card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    if(n === 1) deduceShow(DEDUCE.miss, 'miss', 'wrong'); else deduceShow({ en:q.hint, ko:q.hintKo }, `h${i + 1}`, 'wrong');
+    return saveGame();
   }
+  st.done.add(i);
+  const chime = $('#correctChime'); chime.currentTime = 0; chime.play().catch(() => {});
+  renderDeduce();
+  const card = $('#deduceCard'); card.classList.remove('solved'); void card.offsetWidth; card.classList.add('solved');
   saveGame();
+  if(deduceEnd()){
+    S.saidAccuse = true;
+    deduceShow({ en:q.right, ko:q.rightKo }, `r${i + 1}`, 'read');
+    renderDeduce(); $('#deduceGo').hidden = false; return saveGame();
+  }
+  // the reply is said, then a moment later the next question (a tap on the bubble goes on at once)
+  deduceWait = true;
+  deduceShow({ en:q.right, ko:q.rightKo }, `r${i + 1}`, 'read', () => { deduceNextT = setTimeout(deduceNext, 700); });
 }
-$('#deducePage').addEventListener('click', e => { const b = e.target.closest('[data-dz]'); if(b) openDeduceDrop(+b.dataset.dz); });
-$('#deduceDrop').addEventListener('click', e => {
-  const o = e.target.closest('[data-dword]'); if(!o) return;
-  deduceState().fill[deduceAt][deduceOn] = o.dataset.dword;
-  closeDeduceDrop(); checkDeducePage();
-});
+function deduceNext(){
+  clearTimeout(deduceNextT); deduceNextT = null; deduceWait = false;
+  if($('#deduce').hidden || deduceEnd()) return;
+  deduceState().at = deduceNextAt(); saveGame(); deduceAsk();
+}
+$('#deduceCard').addEventListener('click', e => { const slot = e.target.closest('[data-dslot]'); if(slot && !deduceWait) openDeduceDrop(slot); });
+$('#deduceDrop').addEventListener('click', e => { const o = e.target.closest('[data-dword]'); if(o) deducePick(o.dataset.dword); });
 // a tap anywhere else puts the dropdown away
-document.addEventListener('pointerdown', e => { if(!$('#deduceDrop').hidden && !e.target.closest('#deduceDrop, #deducePage [data-dz]')) closeDeduceDrop(); });
-$('#deduceDots').addEventListener('click', e => { const b = e.target.closest('[data-dpage]'); if(!b) return; deduceAt = +b.dataset.dpage; closeDeduceDrop(false); renderDeduce(true); });
-$('#deducePrev').onclick = () => { if(deduceAt > 0){ deduceAt--; closeDeduceDrop(false); renderDeduce(true); } };
-$('#deduceNext').onclick = () => { if(deduceAt < DEDUCE.pages.length - 1){ deduceAt++; closeDeduceDrop(false); renderDeduce(true); } };
-$('#deduceKo').onclick = () => { deduceKoOpen = !deduceKoOpen; $('#deduceKo').setAttribute('aria-pressed', deduceKoOpen); renderDeduce(); };
-// every page right: straight to the station with the one the board points to
-$('#deduceGo').onclick = () => { if(!deduceState().solved.every(Boolean)) return; stopVoice(); closeDeduce(); accusedId = CULPRIT; startEnding(); };
+document.addEventListener('pointerdown', e => { if(!$('#deduceDrop').hidden && !e.target.closest('#deduceDrop, [data-dslot]')) closeDeduceDrop(); });
+$('#deduceQ').addEventListener('click', e => { if(deduceWait && !e.target.closest('button')) deduceNext(); });
+$('#deduceReplay').onclick = () => deduceLine && deduceSpeak(deduceLine.key, deduceLine.en);
+$('#deduceKo').onclick = () => {
+  deduceKoOpen = !deduceKoOpen; $('#deduceKo').setAttribute('aria-pressed', deduceKoOpen);
+  $('#deduceKoText').hidden = !deduceKoOpen; $('#deduceCard .ko').hidden = !deduceKoOpen; requestAnimationFrame(drawDeduceString);
+};
+// ② may start with either suspect (tap their photo), but one begun is finished first
+$('#deduceSus').addEventListener('click', e => {
+  const b = e.target.closest('[data-dsus]'), st = deduceState(), q = DEDUCE.qs[st.at];
+  if(!b || deduceWait || deduceEnd() || q.step !== 2 || b.dataset.dsus === q.who) return;
+  if(DEDUCE.qs.some((x, i) => x.who === q.who && x.step === 2 && st.done.has(i))) return;
+  const first = DEDUCE.qs.findIndex((x, i) => x.who === b.dataset.dsus && x.step === 2 && !st.done.has(i));
+  if(first >= 0){ st.at = first; closeDeduceDrop(); deduceAsk(); }
+});
+addEventListener('resize', () => requestAnimationFrame(drawDeduceString));
+// all worked out: straight to the station with the one the board points to
+$('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); accusedId = CULPRIT; startEnding(); };
 
 /* ---------- ending ----------
    Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
@@ -4132,7 +4259,7 @@ const TUT = [
       ${tutButton(111,149,98,'Note','honey')}`)
   },
   { title:'심문하고 복습해요',
-    text:'대화와 기록을 마치면 <b>추리하기</b>에서 빈칸을 채워 추리를 완성하고, <b>심문 시작</b>으로 파출소에 가요. <b>증거 내밀기 → 사진 선택 → 내밀기</b>로 말을 반박해요. 틀린 증거를 내밀면 처음부터 다시 해요. <b>왼쪽 위 〈로 나가도 심문은 처음부터</b>예요. 수사 후에는 복습하고 기억할 단어를 담아 <b>학습</b>에서 다시 봐요.',
+    text:'대화와 기록을 마치면 <b>추리하기</b>에서 탐정의 질문에 답하며 범인을 좁혀 가고, <b>심문 시작</b>으로 파출소에 가요. <b>증거 내밀기 → 사진 선택 → 내밀기</b>로 말을 반박해요. 틀린 증거를 내밀면 처음부터 다시 해요. <b>왼쪽 위 〈로 나가도 심문은 처음부터</b>예요. 수사 후에는 복습하고 기억할 단어를 담아 <b>학습</b>에서 다시 봐요.',
     fig:() => tutFrame(`
       <svg x="10" y="10" width="194" height="132" viewBox="100 150 1150 783" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/station-interview-room.png" width="1254" height="1254"/>
@@ -4902,17 +5029,17 @@ $('#devEvidence').onclick = () => {
   toast(n ? `증거 ${n}개를 노트에 기록했어요.` : '이미 모든 증거를 모았어요.');
 };
 
-// 추리 완성: from wherever it is pressed, every conversation and clue done first (the board offers only collected words,
-// and the home pages are put away), then every blank of the deduction board filled with its answer and every page
-// solved → the board on its last page, with 심문 시작.
+// 추리 완성: from wherever it is pressed, every conversation and clue done first (the dropdowns offer only words the
+// player has met, and the home pages are put away), then every question of the deduction board answered → the board
+// at its end, with 심문 시작.
 $('#devDeduce').onclick = () => {
   if(ending) return toast('심문 중에는 쓸 수 없어요.');
   $('#devDone').click(); $('#devEvidence').click();
   const st = deduceState();
-  DEDUCE.pages.forEach((page, i) => { st.fill[i] = deduceBlanks(page).map(b => b.answer); st.solved[i] = true; });
+  DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1;
   S.saidAccuse = true; saveGame();
   openDeduce();
-  toast('추리 빈칸을 모두 정답으로 채웠어요.');
+  toast('추리 질문에 모두 답했어요.');
 };
 
 // 심문 완료: skip the questioning — from anywhere in the case (every conversation and clue done first) straight to the
