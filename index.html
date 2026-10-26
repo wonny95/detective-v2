@@ -313,6 +313,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .memo-pin .mini{display:block;width:30px;height:30px;border-width:1.5px}
 .memo-pin .evidence-photo{flex:none;width:40px;margin:0;border-width:1.5px;border-radius:4px}
 .memo-pin small{display:block;font-family:var(--f-display);font-size:11px;color:var(--ink-soft)}
+.memo-pin > div{flex:1;min-width:0}
+/* the player's own thought on a pin, in the memo's blue ink under a dashed line (user request) */
+.pin-note{display:block;width:100%;box-sizing:border-box;min-height:calc(1.45em + 6px);margin:6px 0 0;padding:4px 0 0;border:0;border-top:1.5px dashed #E6C77A;border-radius:0;outline:none;resize:none;overflow:hidden;field-sizing:content;
+  background:transparent;font-family:var(--f-hand);font-size:15px;line-height:1.45;color:#34506E}
+.pin-note::placeholder{color:var(--ink-soft);opacity:.55}
 .memo-pin .x{position:absolute;top:6px;right:6px;width:22px;height:22px;padding:0;border:0;border-radius:50%;background:rgba(74,54,40,.1);font-size:13px;line-height:22px;color:var(--ink-soft)}
 .memo-text{flex:1;width:100%;min-height:240px;box-sizing:border-box;resize:none;border:0;outline:none;padding:0 4px;background:transparent repeating-linear-gradient(transparent 0 32px,var(--line) 32px 34px);background-attachment:local;
   font-family:var(--f-hand);font-size:16px;line-height:34px;color:#34506E}
@@ -1825,7 +1830,7 @@ const S = {
   met:['badger'],    // people the player knows about
   mood:{},           // a person shown with another expression (ending)
   visit:{},          // a person standing somewhere else for a scene: { id:{ place, x, floor, height } } (ending)
-  memo:{ text:'', pins:[] },   // the notebook's memo: the player's own lines, and 📌 keys ('say:<person>:<question>', 'ev:<place>-<clue>')
+  memo:{ text:'', pins:[], notes:{} },   // the notebook's memo: the player's own lines, 📌 keys ('say:<person>:<question>', 'ev:<place>-<clue>'), and a thought per pin (notes[key])
   per:Object.fromEntries(PEOPLE_ORDER.map(id => [id, newSpeakerState()]))
 };
 const $ = s => document.querySelector(s);
@@ -2047,16 +2052,17 @@ function togglePin(key){
 const writtenLines = (id, qid) => spk(id).notes[qid].map(line => line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, bid, ans) => per(id).notes[bid] || ans));
 function memoHTML(){
   const pins = S.memo.pins.map((key, i) => {
-    const [kind, a, b] = key.split(':'), r = i % 2 ? .6 : -.6, x = `<button class="x" type="button" data-unpin="${key}" aria-label="떼기">×</button>`;
+    const [kind, a, b] = key.split(':'), r = i % 2 ? .6 : -.6, x = `<button class="x" type="button" data-unpin="${key}" aria-label="떼기">×</button>`,
+      note = `<textarea class="pin-note" rows="1" data-pin-note="${key}" spellcheck="false" autocomplete="off" placeholder="내 생각" aria-label="내 생각">${esc(S.memo.notes[key] || '')}</textarea>`;
     if(kind === 'say'){
       const s = spk(a), q = s && qs(s).find(y => y.id === b);
       if(!q) return '';
-      return `<div class="memo-pin" style="--r:${r}deg"><span class="mini" style="background:${s.bg}">${miniSVG(a)}</span><div><small>${esc(s.name)} · ${esc(q.en)}</small>${esc(writtenLines(a, b).join(' '))}</div>${x}</div>`;
+      return `<div class="memo-pin" style="--r:${r}deg"><span class="mini" style="background:${s.bg}">${miniSVG(a)}</span><div><small>${esc(s.name)} · ${esc(q.en)}</small>${esc(writtenLines(a, b).join(' '))}${note}</div>${x}</div>`;
     }
     const record = S.evidence.find(y => `${y.placeId}-${y.clueIndex}` === a);
     if(!record) return '';
     const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
-    return `<div class="memo-pin" style="--r:${r}deg"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><div><small>${esc(place.label)}</small>${esc(clue.label)}</div>${x}</div>`;
+    return `<div class="memo-pin" style="--r:${r}deg"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><div><small>${esc(place.label)}</small>${esc(clue.label)}${note}</div>${x}</div>`;
   }).join('');
   return `<div class="memo-page">${pins}<textarea class="memo-text" id="memoText" spellcheck="false" autocomplete="off" aria-label="내 메모">${esc(S.memo.text)}</textarea></div>`;
 }
@@ -2285,6 +2291,16 @@ function bindDock(){
   }));
   body.querySelectorAll('[data-unpin]').forEach(button => button.addEventListener('click', () => { togglePin(button.dataset.unpin); renderDock(); }));
   body.querySelector('#memoText')?.addEventListener('input', e => { S.memo.text = e.target.value; });
+  body.querySelectorAll('[data-pin-note]').forEach(area => {
+    // grows with what is written (field-sizing does it where supported)
+    const fit = () => { area.style.height = 'auto'; area.style.height = area.scrollHeight + 'px'; };
+    if(!CSS.supports('field-sizing', 'content')) requestAnimationFrame(fit);
+    area.addEventListener('input', () => {
+      if(area.value.trim()) S.memo.notes[area.dataset.pinNote] = area.value; else delete S.memo.notes[area.dataset.pinNote];
+      if(!CSS.supports('field-sizing', 'content')) fit();
+    });
+    area.addEventListener('change', saveGame);
+  });
   const bank = body.querySelector('#bank');
   if(bank){
     bank.addEventListener('click', e => {
@@ -4271,7 +4287,7 @@ function loadGame(){
   if(data?.v !== 1 || !data.S?.per) return;
   const saved = data.S.per;
   Object.assign(S, data.S, { sel:null, mood:{}, visit:{} });
-  S.memo = { text:'', pins:[], ...data.S.memo };
+  S.memo = { text:'', pins:[], notes:{}, ...data.S.memo };
   // anyone added to the case since the save starts fresh; a check's open feedback is not kept
   S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
