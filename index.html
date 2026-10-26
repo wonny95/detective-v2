@@ -250,8 +250,13 @@ button.chip:disabled{cursor:default;box-shadow:none}
 #personTitle{min-width:0}
 #personTitle span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dock-head h2 img{flex:none;width:28px;height:28px;display:block}
-.dock-head .finish{margin-left:auto;padding:6px 14px;background:var(--moss);font-size:15px}
-.dock-head .finish[hidden]{display:none}
+/* 기록 완료 (and 계속 / 닫기 / 다시 확인): the one strong button, under the page (user decision: the head holds only the
+   listening tools). While writing down, it stays pale until every blank has something (.wait), and still says
+   what is missing when pressed */
+.dock-foot{position:relative;z-index:1;flex:none;padding:6px 2px 12px}
+.dock-foot:has(> .finish[hidden]){display:none}
+.dock-foot .finish{width:100%;min-height:46px;justify-content:center;font-size:16px;transition:filter .2s,opacity .2s}
+.dock-foot .finish.wait{filter:grayscale(.85) brightness(1.08);opacity:.55}
 /* behind the open notebook the scene darkens toward the bottom, so the notebook stands out from
    warm floors while the NPC's face at the top stays clear */
 .note-scrim{position:absolute;inset:0;z-index:10;opacity:0;pointer-events:none;transition:opacity .45s;background:linear-gradient(to bottom,rgba(43,30,20,0) 25%,rgba(43,30,20,.45) 75%)}
@@ -330,14 +335,35 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .dock-body{flex:1;min-height:0;overflow-y:auto;padding:12px 2px 18px;display:flex;flex-direction:column;gap:12px}
 /* writing goes straight onto the notebook page: no separate card, keep the pink margin line */
 .dock .note-page{background:none;border:0;border-radius:0;padding-left:0;padding-right:0}
-.dock-head .listen{flex-wrap:nowrap}
+/* the head while writing down: listening tools only — ▶ 다시 듣기, the speed chip (1× / 0.7×, user decision: no turtle),
+   and the acorn hint with what is left, on the right; no box around the chip or the hint */
+.dock-head .listen{grid-column:1 / -1;flex-wrap:nowrap;gap:8px}
 .dock-head .listen[hidden]{display:none}
-.dock-head .listen{gap:4px}
 .dock-head .listen .pill{white-space:nowrap}
+.listen #replay svg,.type-bar [data-type="replay"] svg{width:22px;height:22px;box-sizing:border-box;padding:6px 5px 6px 7px;border-radius:50%;background:var(--ink)}
+.listen #replay svg path,.type-bar [data-type="replay"] svg path{fill:#FFFDF7}
+.spd{flex:none;height:32px;min-width:48px;padding:0 10px;border:1.5px solid #CDBFA4;border-radius:16px;background:none;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
+.spd[aria-pressed="true"]{border-color:var(--ink);background:var(--honey);color:var(--ink)}
+.listen .hint{position:relative;flex:none;display:grid;place-items:center;width:36px;height:36px;margin-left:auto;padding:0;border:0;border-radius:50%;background:none}
+.listen .hint img{width:26px;height:26px;display:block}
+.listen .hint .n{position:absolute;right:0;bottom:2px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--ink);color:#FFFDF7;font-family:var(--f-display);font-size:10px;line-height:16px;text-align:center}
+.listen .hint:disabled{opacity:.45}
 .note-page{position:relative}
 .note-page.checked::after{content:"확인됨";position:absolute;top:2px;right:4px;transform:rotate(-10deg);border:3px solid var(--no);border-radius:8px;padding:1px 10px;color:var(--no);font-family:var(--f-display);font-size:18px;opacity:.8;pointer-events:none}
 /* checking a finished conversation: the notebook rises to the top (tabs stay visible above it) */
 .app.note-full .dock{height:calc(100% - 50px)}
+/* typing a blank on a phone (.typing, only when the keyboard really covers the screen): the notebook sits on the
+   keyboard (--kb = how much of the scene it hides, from visualViewport), the word cards and the head's tools give
+   their room to the sentence, the tool strip rides on the keyboard, and the person's face stays in view above */
+.type-bar{position:absolute;left:0;right:0;bottom:var(--kb,0px);z-index:13;height:46px;display:none;align-items:center;gap:6px;padding:0 8px;box-sizing:border-box;background:var(--paper-2);border-top:1.5px solid #D8C7A6}
+.app.typing .type-bar{display:flex}
+.type-bar .pill{min-height:32px;padding:0 10px 0 5px;font-size:13px;line-height:1}
+.type-bar .done{padding:0 14px}
+.type-arrows{display:flex;gap:2px;margin-left:auto}
+.type-arrows button{width:34px;height:34px;padding:0;border:0;border-radius:50%;background:none;font-size:22px;line-height:1;color:var(--ink)}
+.type-arrows button:disabled{color:#C6B79C}
+.app.typing .dock{bottom:calc(var(--kb,0px) + 42px);height:min(60%,calc(100% - var(--kb,0px) - 46px - 150px));transition:bottom .25s,height .25s}
+.app.typing .dock-head .listen,.app.typing .bank,.app.typing .dock-foot{display:none}
 .app.notes-open.note-full .note-scrim{background:rgba(43,30,20,.68);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
 .app.note-full .chip,.app.note-full .bubble{visibility:hidden}
 .note-page.checked::after{animation:stamp-in .35s cubic-bezier(.3,1.6,.5,1)}
@@ -474,16 +500,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pill[aria-pressed="true"]{background:var(--sky)}
 /* 힌트 (user decision): writes the right word into the first empty or wrong blank of the question being written down;
    acorns left for the whole case beside the word. A hinted blank is tinted honey until it is checked. */
-.dock-head .listen .pill.hint{gap:3px;padding:0 8px}
-.pill.hint .acorn-n{display:inline-flex;align-items:center;gap:1px;font-size:13px}
-.pill.hint .acorn-n img{width:15px;height:15px;display:block}
-.pill.hint:disabled{opacity:.5}
 .blank.hint{background-color:rgba(242,207,115,.5);color:#7A5A12}
 .pill:disabled{opacity:.5;cursor:default}
 
 .note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:var(--r-wobble-2);padding:8px 12px 10px 42px;display:flex;flex-direction:column;gap:6px}
 .nblock{border-radius:10px;padding:2px 10px}
-.nblock.now{background:rgba(242,207,115,.28)}
 .nblock .qlabel{display:block;font-family:var(--f-display);font-size:14px;color:var(--ink-soft);padding:6px 0 8px}
 .question-state{display:inline-flex;align-items:center;gap:4px;margin:6px 0 2px;padding:2px 8px;border-radius:12px;font-family:var(--f-display);font-size:12px;line-height:1.5}
 .question-state.ok{background:#E8EFDD;color:#466249}
@@ -519,6 +540,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* in a ruled line the blank still takes the line's full height (so it sits on the ruling), but its slot is
    inset 5px top and bottom by transparent borders */
 .nline .blank{box-sizing:border-box;height:38px;vertical-align:bottom;border-block:5px solid transparent;background-clip:padding-box;border-radius:12px}
+/* in a ruled line the blank is the line itself, only darker (user decision with the writing redesign: no slot box,
+   no second line under the word): the next one to fill is honey, the one being typed berry */
+.nline .blank{border-top:0;border-bottom:2.5px solid #BFAF92;border-radius:6px 6px 0 0;background-color:transparent;background-clip:border-box;transition:border-color .2s}
+.nline .blank.next{border-bottom:3px solid var(--honey)}
+.nline .blank:focus{border-bottom-color:var(--berry);background-color:rgba(201,111,134,.08)}
+.nline .blank.ok{border-bottom-color:var(--ok)}
 .blank:focus{outline:none;background-color:rgba(242,207,115,.45)}
 /* The typing caret (user request: cute, like the drawings): the browser's thin line is hidden and a pencil stroke
    stands in its place, rounded and in the text's own ink (no cap on top, user request); it blinks softly and stays
@@ -551,9 +578,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .blank.no{color:var(--no);text-decoration:line-through 2.5px var(--no)}
 .howto{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.5}
 .bank{display:flex;flex-wrap:wrap;gap:8px}
-.word{touch-action:none;user-select:none;-webkit-user-select:none;border:2px solid var(--ink);border-radius:12px 14px 11px 15px;background:var(--honey);padding:4px 11px;font-family:var(--f-hand);font-weight:700;font-size:15px;box-shadow:2px 2px 0 rgba(74,54,40,.22);cursor:grab}
-.word:nth-child(3n+1){background:#F8D9C6}
-.word:nth-child(3n+2){background:#DCEAD3}
+/* word cards: one cream paper (user decision: the rotating colours meant nothing); a word already on the page fades */
+.word{touch-action:none;user-select:none;-webkit-user-select:none;border:1.5px solid var(--ink);border-radius:12px 14px 11px 15px;background:#FFFDF7;padding:5px 12px;font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink);box-shadow:1.5px 2px 0 rgba(74,54,40,.18);cursor:grab;transition:opacity .2s}
+.word.used{opacity:.4;box-shadow:none}
 .word.sel{outline:3px solid var(--berry);outline-offset:2px}
 .ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-60%) rotate(-4deg);opacity:.95}
 .word-flight{position:fixed;z-index:100;pointer-events:none;margin:0;box-sizing:border-box;white-space:nowrap;transform-origin:center}
@@ -614,23 +641,21 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pill.sm{--bw:12px}
 .pill.big,.tab{--bw:20px}
 .pill.big{--btn:url(assets/ui/buttons/berry-flat.png)}
-.pill.green,.dock-head .finish{--btn:url(assets/ui/buttons/sage-flat.png)}
+.pill.green,.dock-foot .finish,.type-bar .done{--btn:url(assets/ui/buttons/sage-flat.png)}
 .pill.hint,.tab[aria-expanded="true"]{--btn:url(assets/ui/buttons/honey-flat.png)}
 .pill[aria-pressed="true"],.pill.blue{--btn:url(assets/ui/buttons/sky-flat.png)}
 .pill:active,.tab:active{transform:translateY(1px);filter:brightness(.94)}
-/* Toolbar buttons — the top-left way back, the hint, 다시 듣기 / 천천히 and 기록 완료 — share one paper look and
-   one size: 36px tall, 14px text; only the colour tells them apart (cream: move/listen, honey: hint, sage: done). */
+/* The top-left way back and 다시 듣기 share one paper look and one size: 36px tall, 14px text. */
 .chip{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;border:2px solid transparent;border-radius:0;background:none;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch}
 button.chip{box-shadow:none}
 button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .chip{top:10px}
-.chip,.dock-head .listen .pill,.dock-head .finish{box-sizing:border-box;min-height:36px;padding:0 12px;font-size:14px;line-height:1}
+.chip,.dock-head .listen .pill{box-sizing:border-box;min-height:36px;padding:0 12px;font-size:14px;line-height:1}
 /* Keep room for descenders (e.g. Badger's g) inside the clipped title label. */
 .chip,.inv-head h2{font-size:18px;line-height:1.4}
 .chip{max-width:calc(100% - 82px)}
-/* four buttons share the notebook head now (다시 듣기 · 천천히 · 힌트 · 기록 완료), so they are a little narrower */
-.dock-head .listen .pill,.dock-head .finish{padding:0 8px;font-size:13px}
+.dock-head .listen .pill{padding:0 12px 0 6px;font-size:13px}
 
 /* ---------- sheets ---------- */
 .sheet{position:absolute;left:0;right:0;bottom:0;height:86%;z-index:10;background:var(--paper);border-top:3px solid var(--ink);border-radius:28px 32px 0 0/26px 30px 0 0;box-shadow:0 -6px 0 rgba(74,54,40,.12);transform:translateY(104%);transition:transform .32s cubic-bezier(.3,1.2,.5,1);display:flex;flex-direction:column}
@@ -1123,13 +1148,20 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <button class="ev-back" id="evidenceBack" type="button" hidden>‹ 증거 기록</button>
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
-          <button class="pill" id="slow" type="button" aria-pressed="false">천천히</button>
-          <button class="pill hint" type="button" id="hint" aria-label="힌트 3번 남음" disabled>힌트</button>
+          <button class="spd" id="slow" type="button" aria-pressed="false" aria-label="천천히">1×</button>
+          <button class="hint" type="button" id="hint" aria-label="힌트 3번 남음" disabled></button>
         </div>
-        <button class="pill finish" type="button" id="finish" hidden>기록 완료</button>
       </div>
       <div class="dock-body" id="dockBody"></div>
+      <div class="dock-foot"><button class="pill finish" type="button" id="finish" hidden>기록 완료</button></div>
     </section>
+    <!-- typing a blank on a phone: a slim strip riding on the keyboard (listen, speed, the blank before / after, done) -->
+    <div class="type-bar" id="typeBar" aria-label="입력 도구">
+      <button class="pill" type="button" data-type="replay">다시 듣기</button>
+      <button class="spd" type="button" data-type="slow" aria-pressed="false" aria-label="천천히">1×</button>
+      <span class="type-arrows"><button type="button" data-type="prev" aria-label="앞 빈칸">‹</button><button type="button" data-type="next" aria-label="다음 빈칸">›</button></span>
+      <button class="pill done" type="button" data-type="done">완료</button>
+    </div>
 
     <!-- the village map: fills the screen above the bottom menu (it lives in .main, so the menu stays). Only places someone has mentioned get a pin. -->
     <section class="sheet full" id="sheet-map" aria-label="마을 지도">
@@ -2030,7 +2062,7 @@ const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L1
 
 function renderHint(){
   const p = st(), button = $('#hint'), qid = p.recording;
-  button.innerHTML = `힌트<span class="acorn-n"><img src="assets/ui/icons-v2/acorn.png" alt="" draggable="false">${S.hints}</span>`;
+  button.innerHTML = `<img src="assets/ui/icons-v2/acorn.png" alt="" draggable="false"><span class="n">${S.hints}</span>`;
   button.disabled = S.investigate || p.phase !== 'record' || !qid || S.hints <= 0;
   button.setAttribute('aria-label', `힌트 ${S.hints}번 남음`);
 }
@@ -2086,7 +2118,7 @@ function blockHTML(sIdx, qid, now){
     line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans, idx) => {
       html += esc(line.slice(last, idx));
       const v = p.notes[id] || '', mk = p.marks[id] || '';
-      html += `<input class="blank ${mk}" style="--i:${n++}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
+      html += `<input class="blank ${mk}" style="--i:${n++}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
       last = idx + m.length; return m;
     });
     return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
@@ -2234,7 +2266,7 @@ function renderDock(){
   // head holds the listening tools instead
   $('#personTitle').innerHTML = `${miniSVG(vs.id)}<span>${vs.partner ? '사건 브리핑' : `${esc(vs.name)}의 진술`}</span>`;
   $('#personTitle').hidden = !$('#listen').hidden;
-  $('#slow').setAttribute('aria-pressed', S.slow);
+  renderSlow();
 
   // the faces of everyone talked to, to turn to their page; not while a page is being written or checked
   if(!mode) html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait').map(id => {
@@ -2257,6 +2289,7 @@ function renderDock(){
   body.querySelector('.nface[aria-pressed="true"]')?.scrollIntoView({ block:'nearest', inline:'nearest' });
   freshCheck = missCheck = null;
   bindDock();
+  writeState();
   // scroll only the notebook (scrollIntoView would also scroll the clipped app frame)
   const now = body.querySelector('.nblock.now');
   if(now){
@@ -2518,6 +2551,7 @@ $('#dockBody').addEventListener('input', e => {
   const b = e.target.closest('.blank'); if(!b) return;
   b.size = Math.max(5, b.value.length+1); b.classList.remove('ok','no');
   const p = per(b.dataset.s); p.notes[b.dataset.id] = b.value; delete p.marks[b.dataset.id];
+  writeState();
 });
 $('#dockBody').addEventListener('pointerdown', e => {
   const b = e.target.closest('.blank');
@@ -2527,6 +2561,24 @@ function fillBlank(input, word){
   if(input.readOnly) return;
   input.value = word; input.size = Math.max(5, word.length+1); input.classList.remove('ok','no');
   const p = per(input.dataset.s); p.notes[input.dataset.id] = word; delete p.marks[input.dataset.id];
+  writeState();
+}
+// the blanks of the question being written down (none on any other page)
+const nowBlanks = () => [...document.querySelectorAll('#dockBody .nblock.now .blank')].filter(input => !input.readOnly);
+// while writing down: the next empty blank shows (honey line), the words already on the page fade, 기록 완료 stays pale
+// until nothing is empty, and the keyboard's return says 다음 until the last blank, then 완료
+function writeState(){
+  const blanks = nowBlanks(), empty = blanks.filter(input => !input.value.trim());
+  blanks.forEach((input, i) => {
+    input.classList.toggle('next', input === empty[0]);
+    input.enterKeyHint = i === blanks.length - 1 ? 'done' : 'next';
+  });
+  const key = v => v.trim().toLowerCase(), on = new Set(blanks.map(input => key(input.value)).filter(Boolean));
+  document.querySelectorAll('#bank .word').forEach(word => word.classList.toggle('used', on.has(key(word.dataset.w))));
+  $('#finish').classList.toggle('wait', noteMode() === 'record' && empty.length > 0);
+  const at = blanks.indexOf(document.activeElement);
+  $('[data-type="prev"]').disabled = at <= 0;
+  $('[data-type="next"]').disabled = at < 0 || at >= blanks.length - 1;
 }
 function fillNextBlank(word, source){
   if(S.view !== S.cur || S.investigate || st().phase !== 'record') return;
@@ -2728,7 +2780,10 @@ $('#finish').onclick = () => {
 };
 $('#replay').prepend(document.createRange().createContextualFragment(playIcon));
 $('#replay').onclick = () => { if(st()?.recording) speak(cur().answers[st().recording], st().recording); };
-$('#slow').onclick = e => { S.slow = !S.slow; e.currentTarget.setAttribute('aria-pressed', S.slow); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); };
+// 천천히 is a speed chip: 1× ↔ 0.7× (user decision), the same in the head and on the typing strip
+function renderSlow(){ document.querySelectorAll('.spd').forEach(chip => { chip.setAttribute('aria-pressed', S.slow); chip.textContent = S.slow ? '0.7×' : '1×'; }); }
+function toggleSlow(){ S.slow = !S.slow; renderSlow(); toast(S.slow ? '천천히 말해요' : '보통 속도로 말해요'); }
+$('#slow').onclick = toggleSlow;
 // tapping the scene behind the open notebook puts it away (word-card drags never land here as a click)
 $('#noteScrim').onclick = closeNotes;
 // Empty paper/header/edge space also dismisses the notebook; content and drag gestures do not.
@@ -2754,6 +2809,46 @@ $('#evidenceBack').onclick = () => {
 $('#mapTab').onclick = () => { if(!talkLocked()) openSheet($('#sheet-map').classList.contains('open') ? null : 'map'); };
 $('#sheet-map').addEventListener('pointerdown', () => { clearTimeout(mapAutoTimer); discoveryGoal = null; });
 $('#hint').onclick = useHint;
+
+/* ---------- typing a blank on a phone ---------- */
+// The keyboard covers the bottom of the screen without moving the app, so while a note blank has the focus the
+// notebook is lifted by how much of the scene the keyboard hides (visualViewport) and the tool strip rides on it.
+// Only when that is a real keyboard (> 120px): typing on a computer changes nothing.
+const typeBar = $('#typeBar');
+typeBar.querySelector('[data-type="replay"]').prepend(document.createRange().createContextualFragment(playIcon));
+function fitKeyboard(){
+  const vv = window.visualViewport, field = document.activeElement;
+  const typing = vv && field?.matches?.('#dockBody .nblock.now .blank:not([readonly])');
+  const hidden = typing ? Math.round(typeBar.parentElement.getBoundingClientRect().bottom - (vv.offsetTop + vv.height)) : 0;
+  $('#app').classList.toggle('typing', hidden > 120);
+  $('#app').style.setProperty('--kb', `${Math.max(0, hidden)}px`);
+  writeState();
+}
+window.visualViewport?.addEventListener('resize', fitKeyboard);
+window.visualViewport?.addEventListener('scroll', fitKeyboard);
+$('#dockBody').addEventListener('focusin', () => { fitKeyboard(); setTimeout(fitKeyboard, 350); });
+$('#dockBody').addEventListener('focusout', () => setTimeout(fitKeyboard, 60));
+function stepBlank(by){
+  const blanks = nowBlanks(), at = blanks.indexOf(document.activeElement), to = blanks[at + by];
+  if(to){ to.focus(); to.setSelectionRange(to.value.length, to.value.length); }
+}
+// return: the next blank, and on the last one the same as 기록 완료
+$('#dockBody').addEventListener('keydown', e => {
+  if(e.key !== 'Enter' || !e.target.closest('.nblock.now .blank')) return;
+  e.preventDefault();
+  const blanks = nowBlanks();
+  if(blanks.indexOf(e.target) < blanks.length - 1) return stepBlank(1);
+  e.target.blur(); finishRecord();
+});
+// the strip's buttons keep the focus (and so the keyboard) where it is
+typeBar.addEventListener('pointerdown', e => { if(e.target.closest('button')) e.preventDefault(); });
+typeBar.addEventListener('click', e => {
+  const k = e.target.closest('[data-type]')?.dataset.type; if(!k) return;
+  if(k === 'replay') $('#replay').click();
+  else if(k === 'slow') toggleSlow();
+  else if(k === 'prev' || k === 'next') stepBlank(k === 'prev' ? -1 : 1);
+  else if(k === 'done'){ document.activeElement?.blur(); finishRecord(); }
+});
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
 
@@ -3863,11 +3958,11 @@ const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e)
 // Tutorial illustrations reuse the live UI artwork; sample words never reveal case answers.
 const tutButton = (x,y,w,label,tone='cream') => `<image href="assets/ui/buttons/${tone}-flat.png" x="${x}" y="${y}" width="${w}" height="26" preserveAspectRatio="none"/><text x="${x+w/2}" y="${y+17}" text-anchor="middle" font-size="11" fill="${INK}">${label}</text>`;
 const tutPaper = () => `<image href="assets/ui/casefile-panel.webp" width="320" height="970"/>`;
-const tutToolbar = (finish='기록 완료') => tutButton(27,23,76,'▶ 다시 듣기') + tutButton(105,23,48,'천천히') + tutButton(155,23,61,'','honey') + `<text x="163" y="40" font-size="10.5">힌트</text><image href="assets/ui/icons-v2/acorn.png" x="186" y="29" width="15" height="15"/><text x="203" y="40" font-size="11">3</text>` + tutButton(218,23,77,finish,'sage');
+const tutToolbar = () => tutButton(27,23,76,'▶ 다시 듣기') + `<rect x="109" y="25" width="34" height="22" rx="11" fill="none" stroke="#CDBFA4" stroke-width="1.5"/><text x="126" y="40" text-anchor="middle" font-size="11" fill="#7D6A58">1×</text><image href="assets/ui/icons-v2/acorn.png" x="270" y="24" width="22" height="22"/><circle cx="292" cy="44" r="6.5" fill="${INK}"/><text x="292" y="47.5" text-anchor="middle" font-size="8.5" fill="#FFFDF7">3</text>`;
 const tutFrame = body => `<svg viewBox="0 0 320 180" aria-hidden="true" font-family="Paperlogy, sans-serif" fill="${INK}">${body}</svg>`;
 const TUT = [
   { title:'질문하고 들어요',
-    text:'인물을 누르고 <b>질문 카드</b>를 골라요. <b>노트가 바로 올라오고 영어 답변이 재생</b>돼요. 들으면서 빈칸을 채우고, <b>다시 듣기 · 천천히</b>로 반복해서 들을 수 있어요.',
+    text:'인물을 누르고 <b>질문 카드</b>를 골라요. <b>노트가 바로 올라오고 영어 답변이 재생</b>돼요. 들으면서 빈칸을 채우고, <b>다시 듣기</b>로 반복해서 듣고, <b>1×</b>를 누르면 <b>0.7×</b>로 천천히 들려요.',
     fig:() => tutFrame(`
       <svg x="10" y="12" width="140" height="156" viewBox="380 330 340 379" preserveAspectRatio="xMidYMid slice">
         <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
@@ -3881,19 +3976,18 @@ const TUT = [
       ${tutButton(162,30,148,'① What happened?')}
       <circle class="pulse" cx="178" cy="43" r="15" fill="none" stroke="#C96F86" stroke-width="3"/>
       <path d="M235 68 v20 m-5 -5 5 5 5 -5" fill="none" stroke="${INK}" stroke-width="2"/>
-      ${tutButton(162,104,84,'▶ 다시 듣기')}${tutButton(250,104,60,'천천히')}
+      ${tutButton(162,104,84,'▶ 다시 듣기')}<rect x="254" y="106" width="40" height="22" rx="11" fill="none" stroke="#CDBFA4" stroke-width="1.5"/><text x="274" y="121" text-anchor="middle" font-size="11" fill="#7D6A58">1×</text>
       <text x="236" y="155" text-anchor="middle" font-size="12" fill="#7D6A58">질문과 동시에 노트 열기</text>`)
   },
   { title:'단어를 눌러 채워요',
     text:'<b>단어 카드를 누르면 맨 앞의 빈칸부터</b> 차례로 들어가요. 원하는 칸에 <b>드래그</b>하거나 직접 입력해도 돼요. 막히면 <b>힌트</b>로 한 칸을 채워요. 도토리는 <b>사건 전체에서 3개</b>예요.',
     fig:() => tutFrame(`${tutPaper()}${tutToolbar()}
       <text x="34" y="91" font-size="17">I found a</text>
-      <rect x="128" y="75" width="83" height="25" rx="5" fill="#F2CF73" fill-opacity=".25"/>
-      <path d="M128 101 H211" stroke="#7D6A58" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <path d="M128 101 H211" stroke="#F2CF73" stroke-width="3" stroke-linecap="round"/>
       <text x="217" y="91" font-size="17">.</text>
-      ${tutButton(34,128,76,'book','honey')}${tutButton(120,128,76,'school','peach')}
+      ${tutButton(34,128,76,'book')}${tutButton(120,128,76,'school')}
       <circle class="pulse" cx="72" cy="141" r="19" fill="none" stroke="#C96F86" stroke-width="2.5"/>
-      <g class="tut-word-flight">${tutButton(34,128,76,'book','honey')}</g>
+      <g class="tut-word-flight">${tutButton(34,128,76,'book')}</g>
       <text x="160" y="174" text-anchor="middle" font-size="11" fill="#7D6A58">터치 · 드래그 · 직접 입력</text>`)
   },
   { title:'질문마다 확인해요',
