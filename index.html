@@ -734,6 +734,10 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:0 16px 14px;pointer-events:none}
 .map-foot > *{pointer-events:auto}
 .map-foot:has(#accuseBtn[hidden]){display:none}
+/* the suspects to name when Sgt. Badger asks who did it (user request: the player chooses), a face over each name */
+.call-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.call-pick .pill{flex-direction:column;justify-content:center;gap:2px;min-height:72px;padding:6px 4px;font-size:13px}
+.call-pick img{width:42px;height:42px}
 /* ---------- deduction (user decision: the detective's questions lead the player's thinking; holding up evidence is for the
    questioning) ----------
    The screen above the menu is the case list's cork board. At the top the detective asks one question at a time (voice,
@@ -1423,7 +1427,8 @@ const PEOPLE = {
     hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
     // recorded voice (Higgsfield · MiniMax · Fraser)
     audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3',
-      closing:'audio/badger-closing.mp3' },
+      closing:'audio/badger-closing.mp3', call1:'audio/badger-call1.mp3',
+      'call2-ray':'audio/badger-call2-ray.mp3', 'call2-rosie':'audio/badger-call2-rosie.mp3', 'call2-fiona':'audio/badger-call2-fiona.mp3' },
     questions:[
       { id:'b1', en:'What happened here?', ko:'여기서 무슨 일이 있었나요?' },
       { id:'b2', en:'Who found the victim?', ko:'피해자를 누가 발견했나요?' },
@@ -2225,7 +2230,7 @@ function renderAsk(){
 }
 $('#askPanel').addEventListener('click', e => {
   const end = e.target.closest('[data-end]');
-  if(end) return endingAction(end.dataset.end);
+  if(end) return endingAction(end.dataset.end, end.dataset.who);
   const q = e.target.closest('[data-q]');
   if(q) return ask(q.dataset.q);
   const ko = e.target.closest('#qKo');
@@ -2822,6 +2827,7 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openShe
 // a conversation → its place; a place → the case list (progress is saved and resumes).
 $('#backTab').onclick = () => {
   if(!$('#deduce').hidden){ setNotes(false); return closeDeduce(); }
+  if(ending?.step === 'call') return leaveEnding();   // before the station nothing is lost
   if(ending) return requestLeaveInterrogation();
   if(discoveryPerson) return finishDiscovery();
   if(talkLocked()){ setNotes(false); return askStopTalk(); }
@@ -3203,9 +3209,9 @@ const DEDUCE = {
       hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?', memo:'library' }
   ]
 };
-// lines recorded as audio/deduce/<key>.mp3 (q1…q10 questions, r1…r10 replies, h1…h10 hints, miss); the rest are read
-// by the browser's voice
-const DEDUCE_RECORDED = new Set();
+// lines recorded as audio/deduce/<key>.mp3 (q1…q10 questions, r1…r10 replies, h1…h10 hints, miss; the detective's
+// voice, Higgsfield MiniMax Grady); a line missing here is read by the browser's voice
+const DEDUCE_RECORDED = new Set([...DEDUCE.qs.flatMap((q, i) => [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
 const KIND_KO = { person:'인물', place:'장소', time:'시각' };
 const deduceBlank = q => q.card.match(/\{(\w+):([^}]+)\}/);   // [, kind, answer]
 // an older save's page board (fill/solved) starts over as questions
@@ -3379,8 +3385,8 @@ $('#deduceSus').addEventListener('click', e => {
   if(first >= 0){ st.at = first; closeDeduceDrop(); deduceAsk(); }
 });
 addEventListener('resize', () => requestAnimationFrame(drawDeduceString));
-// all worked out: straight to the station with the one the board points to
-$('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); accusedId = CULPRIT; startEnding(); };
+// all worked out: Sgt. Badger asks who it was and the player names them (startCall)
+$('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); startCall(); };
 
 /* ---------- ending ----------
    Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
@@ -3421,7 +3427,7 @@ function renderSay(line){
   if(!line){ b.hidden = true; return; }
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
   const again = line === ending?.line;
-  b.innerHTML = `<div class="bubble-copy"><span class="tag">${esc(spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
+  b.innerHTML = `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
 }
@@ -3541,16 +3547,20 @@ $('#drawer').addEventListener('click', e => {
 function endingControls(){
   const e = ending;
   if(!e.line || e.step === 'stamp') return '';
+  if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>'
+    : `<div class="call-pick">${DEDUCE.suspects.map(([id, name]) => `<button class="pill" type="button" data-end="pick" data-who="${id}"><img src="assets/ui/icons-v2/${id}.png" alt="">${esc(name)}</button>`).join('')}</div>`;
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
   if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
   if(e.step === 'wrong') return tools + `<button class="pill big" type="button" data-end="leave">다시 조사하기</button>`;
   return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
 }
-function endingAction(action){
+function endingAction(action, who){
   const e = ending; if(!e) return;
   if(action === 'present'){ stopVoice(); openDrawer(); return; }
   if(action === 'leave') return leaveEnding();
   if(action === 'next') endingNext();
+  if(action === 'pick') callAnswer(who);
+  if(action === 'interview') callGo();
 }
 // show someone (camera on them at their place) and play the line
 function endingSay(line, mood){
@@ -3590,6 +3600,35 @@ function leaveInterview(){
   clearTimeout(interviewTimer);
   S.visit = {};
   $('#app').classList.remove('in-interview', 'interview-arriving');
+}
+// After the board, before the station (user request: a natural way in): Sgt. Badger, at his own place, asks whether the
+// detective has worked it out; the player names one of the board's suspects (user request: the player chooses), said in
+// the detective's voice (audio/detective-call-<id>.mp3), and Badger takes them to the station with 심문 시작. The wrong
+// one answers with their alibi there, as before (wrongAccusation).
+const CALL = {
+  ask:{ who:'badger', key:'call1', en:'Detective! Did you find out who did it?', ko:'탐정님! 범인을 알아내셨나요?' },
+  answer:id => ({ key:`call-${id}`, en:`Yes. It was ${spk(id).name}.`, ko:`응. ${spk(id).ko}야.` }),
+  go:id => ({ who:'badger', key:`call2-${id}`, en:`${spk(id).name}? Then let's bring ${id === 'ray' ? 'him' : 'her'} to the station.`, ko:`${spk(id).ko}요? 그럼 파출소로 데려가요.` })
+};
+function startCall(){
+  ending = { step:'call', i:0, returnPlace:S.place || cur().place };
+  $('#app').classList.add('ending');
+  endingSay(CALL.ask);
+}
+function callAnswer(id){
+  if(ending?.step !== 'call' || ending.i || !DEDUCE.suspects.some(([s]) => s === id)) return;
+  clearTimeout(endTimer);
+  ending.pick = id; ending.line = null; renderAsk();
+  const name = detectiveName(), line = CALL.answer(id);
+  renderSay({ ...line, name:name ? `Detective ${name}` : 'Detective' });
+  // 심문 시작 takes the place of the names: a quick second tap on the same spot must not press it
+  const go = () => { if(ending?.step === 'call'){ ending.i = 1; ending.ready = performance.now() + 600; endingSay(CALL.go(id)); } };
+  detectiveSay(line.key, () => { endTimer = setTimeout(go, 500); });
+}
+function callGo(){
+  if(ending?.step !== 'call' || !ending.i || performance.now() < ending.ready) return;
+  accusedId = ending.pick;
+  if(accusedId === CULPRIT) startEnding(); else wrongAccusation(accusedId);
 }
 function startEnding(){
   enterInterview('fiona', 'confront');
