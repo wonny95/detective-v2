@@ -112,12 +112,133 @@ h1{margin:0 0 6px;font-family:var(--f-display);font-weight:400;font-size:28px}
 .C .prog i{width:10px;height:10px;border-radius:50%;background:rgba(255,248,233,.5)}
 .C .prog i.done{background:var(--honey)}
 .C .prog i.now{background:#fff;box-shadow:0 0 0 2px var(--honey)}
+
+/* ---------- A + C ---------- */
+.combo{margin:0 0 40px;padding:20px;border-radius:16px;background:rgba(251,244,230,.55)}
+.combo > h2{margin:0 0 6px;font-family:var(--f-display);font-weight:400;font-size:22px}
+.combo > p{margin:0 0 14px;max-width:960px;line-height:1.6;font-size:14px}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:0 0 18px;font-size:13.5px;line-height:1.55}
+.flow div{background:var(--paper);border-radius:10px;padding:10px 12px}
+.flow b{font-family:var(--f-display);font-weight:400}
+.AC .q-bubble{position:relative;display:flex;gap:10px;margin:12px 12px 0;padding:12px 14px 10px;border:20px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;background:#FFF8E9;background-clip:padding-box;font-size:15.5px;line-height:1.38}
+.AC .q-bubble .who{flex:none;width:44px;height:44px;border-radius:50%;background:#F3E6CC url(../assets/ui/icons-v2/detective.png) center/92% no-repeat;box-shadow:0 0 0 2px #fff}
+.AC .q-bubble .row{display:flex;justify-content:flex-end;gap:6px;margin-top:6px}
+.AC .q-bubble .txt{flex:1;min-width:0}
+.AC .q-bubble.read{background:#FFF3C9;background-clip:padding-box}
+.AC .card{margin-top:30px}
+.AC .slot.ask{background:color-mix(in srgb,var(--honey) 45%,#fff);border-color:#D9A93A;box-shadow:0 0 0 3px rgba(242,207,115,.9);animation:blink 1.4s ease-in-out infinite}
+.AC .tray h4{margin:0 0 6px;font-family:var(--f-display);font-weight:400;font-size:11px;color:#FFF3DC}
+.AC .time-card{display:block;width:84px;margin:24px auto 0;padding:6px 0;text-align:center;font-family:var(--f-display);font-size:20px;background:var(--honey);box-shadow:1px 3px 3px rgba(0,0,0,.3);position:relative}
+.AC .time-card::before{content:"";position:absolute;left:50%;top:-22px;width:20px;height:28px;margin-left:-7px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.AC .suspects{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 12px 0}
+.AC .sus{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
+.AC .sus .pol{width:76px}
+.AC .sus:nth-child(odd) .pol{transform:rotate(-3deg)}.AC .sus:nth-child(even) .pol{transform:rotate(2.5deg)}
+.AC .suspects.dim-all .pol{opacity:.55;filter:grayscale(.4)}
+.AC .memo-n{min-width:64px;padding:3px 6px;text-align:center;background:color-mix(in srgb,var(--c) 45%,#FFFDF4);box-shadow:1px 2px 2px rgba(0,0,0,.25);font-family:var(--f-display);font-size:11.5px}
+.AC .memo-n.ask{background:var(--honey);animation:blink 1.4s ease-in-out infinite}
+.AC .sus.out .pol{filter:grayscale(.7) brightness(.9)}
+.AC .sus.out::after{content:"";position:absolute;left:4px;top:10px;width:70px;height:70px;background:linear-gradient(45deg,transparent 46%,#A4352C 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#A4352C 46% 54%,transparent 54%);opacity:.85}
+.AC .sus.now .pol{outline:3px solid var(--honey);outline-offset:2px}
+.AC .sus.culprit .pol{box-shadow:0 0 0 3px #fff0,0 0 0 0 #fff0}
+.AC .sus.culprit::after{content:"";position:absolute;left:-3px;top:-4px;width:84px;height:92px;border:3px solid #A4352C;border-radius:50%;transform:rotate(-8deg)}
+.AC .memo-n.lie{outline:2px solid #A4352C}
+.AC .card.small{margin:18px 16px 0;padding:6px 10px 8px}
+.AC .answers-row{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:14px 12px 12px;background:#C99A6A;box-shadow:inset 0 6px 8px -6px rgba(0,0,0,.4)}
+.AC .ch{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px 0 10px;border:2px solid transparent;border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 14px 14.4px stretch;font-family:var(--f-display);font-size:14px}
+.AC .ch::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>추리 화면 개선 시안</h1>
   <p class="lead">지금 추리 칠판은 문장 한 줄 + 색 빈칸 + 목록 고르기라서 문제집처럼 보이고, 화면 대부분이 빈 칠판이에요. 세 시안 모두 같은 쪽("The lie", 피오나·안내문까지 채우고 쪽지를 고르는 중)을 보여 줘요. 쪽 내용(DEDUCE 네 쪽)과 "모은 단어만 고를 수 있다"는 규칙은 그대로예요.</p>
+
+  <section class="combo">
+    <h2>A + C 조합: 탐정의 질문으로 용의자를 좁혀 가는 보드</h2>
+    <p>증거를 내미는 건 심문에서 하니까, 추리 화면은 <b>플레이어가 생각을 정리하는 곳</b>으로. 탐정이 질문을 하나씩 던지고(음성), 플레이어는 노트에서 알게 된 <b>시각·장소·인물</b>로 답한다. 답은 코르크 보드에 메모로 붙고, 알리바이가 확인된 용의자는 X, 남은 한 명에게 실이 모인다. 질문 순서가 곧 생각하는 순서: <b>언제? → 그때 각자 어디? → 누가 거짓말? → 왜?</b></p>
+    <div class="flow">
+      <div><b>① 언제?</b> "When did it happen?" — 보드 맨 위에 범행 시각 카드가 꽂힌다. 이후 모든 질문의 기준.</div>
+      <div><b>② 그때 어디?</b> 용의자마다 "At 8:40, where was Ray?" → 장소로 답하면 메모가 붙고, "Who saw him?"으로 확인되면 X. 순서는 플레이어가 사진을 눌러 고를 수도 있음.</div>
+      <div><b>③ 거짓말</b> 남은 피오나: "She said she was baking. Was the bakery open at 8:40?" → No → 빨간 동그라미 "거짓말".</div>
+      <div><b>④ 왜? → 결론</b> "Why would she do it?" 다음 탐정이 결론 문장 전체를 읽어 주고 `심문 시작`. 틀리면 그 질문만 다시(두 번째부터 탐정이 노트의 어느 인물을 다시 보라고 짧게 힌트).</div>
+    </div>
+    <div class="variants">
+      <div class="variant">
+        <h2>① 언제?</h2>
+        <p>첫 질문. 답은 노트에 적은 시각 칩에서 고른다. 고른 시각이 맞으면 보드 맨 위에 "8:40" 카드로 꽂힌다.</p>
+        <div class="phone A AC">
+          <div class="top"><span class="chip back">‹</span><span class="chip">Deduction</span>
+            <span class="steps"><i class="now">1</i><i>2</i><i>3</i><i>4</i></span></div>
+          <div class="q-bubble"><i class="who"></i><div class="txt">First things first. When did it happen?
+            <div class="row"><button class="play" aria-label="다시 듣기"></button><span class="pill">해석</span></div></div></div>
+          <div class="card">
+            <h3>When?</h3>
+            <div class="sent">It happened at <span class="slot ask" style="--c:var(--time)"></span>.</div>
+          </div>
+          <div class="suspects dim-all">
+            <span class="sus"><span class="pol"><i class="face" data-face="ray"></i>Ray</span></span>
+            <span class="sus"><span class="pol"><i class="face" data-face="rosie"></i>Rosie</span></span>
+            <span class="sus"><span class="pol"><i class="face" data-face="mole"></i>Mrs. Mole</span></span>
+            <span class="sus"><span class="pol"><i class="face" data-face="fiona"></i>Fiona</span></span>
+          </div>
+          <div class="answers-row">
+            <span class="ch" style="--c:var(--time)">7 PM</span><span class="ch" style="--c:var(--time)">7:30</span><span class="ch" style="--c:var(--time)">8:30</span><span class="ch" style="--c:var(--time)">8:40</span><span class="ch" style="--c:var(--time)">8:45</span><span class="ch" style="--c:var(--time)">9 PM</span><span class="ch" style="--c:var(--time)">10 PM</span>
+          </div>
+          <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="">지도</span><span><img src="../assets/ui/nav/note.png" alt="">Note</span></div>
+        </div>
+        <ul><li>용의자 사진은 처음부터 보드 아래에 흐리게 붙어 있어 "이 중 누구?"라는 목표가 보임</li></ul>
+      </div>
+
+      <div class="variant">
+        <h2>② 그때 어디?</h2>
+        <p>레이는 이미 X(카페, 오리 아저씨가 봄). 지금은 로지 차례: "At 8:40, where was Rosie?" 장소 칩으로 답하면 사진 아래 메모가 붙는다.</p>
+        <div class="phone A AC">
+          <div class="top"><span class="chip back">‹</span><span class="chip">Deduction</span>
+            <span class="steps"><i class="done">1</i><i class="now">2</i><i>3</i><i>4</i></span></div>
+          <div class="q-bubble"><i class="who"></i><div class="txt">At 8:40, where was Rosie?
+            <div class="row"><button class="play" aria-label="다시 듣기"></button><span class="pill">해석</span></div></div></div>
+          <span class="time-card">8:40</span>
+          <div class="suspects">
+            <span class="sus out"><span class="pol"><i class="face" data-face="ray"></i>Ray</span><span class="memo-n" style="--c:var(--place)">Lake Cafe</span></span>
+            <span class="sus now"><span class="pol"><i class="face" data-face="rosie"></i>Rosie</span><span class="memo-n ask" style="--c:var(--place)">?</span></span>
+            <span class="sus"><span class="pol"><i class="face" data-face="mole"></i>Mrs. Mole</span></span>
+            <span class="sus"><span class="pol"><i class="face" data-face="fiona"></i>Fiona</span></span>
+          </div>
+          <div class="card small">
+            <div class="sent">At 8:40, Rosie was at <span class="slot ask" style="--c:var(--place)"></span>.</div>
+          </div>
+          <div class="answers-row">
+            <span class="ch" style="--c:var(--place)">library</span><span class="ch" style="--c:var(--place)">bakery</span><span class="ch" style="--c:var(--place)">Lake Cafe</span><span class="ch" style="--c:var(--place)">Moon Hill</span>
+          </div>
+          <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="">지도</span><span><img src="../assets/ui/nav/note.png" alt="">Note</span></div>
+        </div>
+        <ul><li>답한 뒤 "Who saw her?"(인물 칩)로 확인까지 하면 X — 알리바이를 "확인"하는 생각을 연습</li><li>두더지 부인은 지금 데이터로 확인할 진술이 없음(10절 숙제: 오리 아저씨 새 진술 또는 용의자에서 빼기)</li></ul>
+      </div>
+
+      <div class="variant">
+        <h2>④ 결론</h2>
+        <p>세 명이 X, 피오나에게 빨간 동그라미와 "거짓말" 메모. 실이 8:40 카드·빵집·도서관에서 피오나로 모이고, 탐정이 결론을 읽어 준다.</p>
+        <div class="phone A AC">
+          <div class="top"><span class="chip back">‹</span><span class="chip">Deduction</span>
+            <span class="steps"><i class="done">1</i><i class="done">2</i><i class="done">3</i><i class="done">4</i></span></div>
+          <div class="q-bubble read"><i class="who"></i><div class="txt">So it was Fiona Fox. At 8:40 she was not at her bakery. She was at the library.
+            <div class="row"><button class="play" aria-label="다시 듣기"></button><span class="pill">해석</span></div></div></div>
+          <span class="time-card">8:40</span>
+          <div class="suspects">
+            <span class="sus out"><span class="pol"><i class="face" data-face="ray"></i>Ray</span><span class="memo-n" style="--c:var(--place)">Lake Cafe</span></span>
+            <span class="sus out"><span class="pol"><i class="face" data-face="rosie"></i>Rosie</span><span class="memo-n" style="--c:var(--place)">Moon Hill</span></span>
+            <span class="sus out"><span class="pol"><i class="face" data-face="mole"></i>Mrs. Mole</span><span class="memo-n" style="--c:var(--place)">Lake Cafe</span></span>
+            <span class="sus culprit"><span class="pol"><i class="face" data-face="fiona"></i>Fiona</span><span class="memo-n lie" style="--c:var(--place)">library</span></span>
+          </div>
+          <svg class="string" viewBox="0 0 360 740"><path d="M221 266 Q 285 262 306 302" fill="none" stroke="#A4352C" stroke-width="2.6" stroke-linecap="round"/></svg>
+          <div style="margin-top:auto;padding:0 16px 12px"><span class="pill big">심문 시작</span></div>
+          <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="">지도</span><span><img src="../assets/ui/nav/note.png" alt="">Note</span></div>
+        </div>
+        <ul><li>보드는 쪽마다 바뀌지 않고 한 장이 계속 채워짐 → 지금까지의 생각이 한눈에</li></ul>
+      </div>
+    </div>
+  </section>
 
   <div class="plan">
     <section><h2>지금 문제</h2><ul>
