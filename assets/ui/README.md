@@ -184,3 +184,10 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - `casekey-pieces-higgsfield-original.png` (1264×848, job `b824d795-353a-49b3-90a6-2e4dbd276eae`, 3:2): 마젠타 바탕에 빈 크림 카드, 노랑·하늘·분홍 긴 쪽지(오른쪽 끝 말린 귀퉁이), 마스킹 테이프 두 조각. 참조: 아이콘 v2 시트(job `782fc121-…`) + 폴라로이드 카드(job `68f66e93-…`).
 - `graph-paper-higgsfield-original.png` (1024×1024, job `2ddbcb24-d472-41d4-a350-03f69bcc6108`, 1:1): 손그림 모눈 종이 한 장(마젠타 위, 칸 약 50px). 참조: 폴라로이드 카드.
 - `scripts/cut-casekey-pieces.py`로 `casekey/`에 잘라 냄: `card.webp`(539×194, 절반 크기, 9조각 `border-image` 20 → 12px), `note-yellow/blue/pink.webp`(632×110, 조각 22 54 22 22 → 11 26 11 11px, 오른쪽은 말린 귀퉁이까지), `tape.webp`(405×122, 쪽지 위 58×18px, 위 조각 하나만 씀), `graph-paper.webp`(352×352 타일: 원본 x 238–635, y 286–688 = 가운데 8×8칸을 연필선 사이에서 잘라 이음매에서 선이 이어짐, 화면 176px 반복 + 옅은 크림 덧칠).
+
+## 인물 부르는 표시 후보 (2026-10-26, 시안 검토 중)
+
+- 사용자 요청: 장소에서 오래 가만히 있을 때 물어볼 게 남은 인물 머리 위에 뜨는 느낌표·화살표를 Higgsfield로 여러 가지. Claude 제작, Nano Banana 2.1(3:2), 크레딧 약 3(1.5 × 2장). 참조: 아이콘 v2 시트(job `782fc121-…`) + 메뉴 아이콘 2 시트(job `cd4840ad-…`).
+- `nudge-bang-higgsfield-original.png` (job `ad920057-7b41-4812-bcb7-9fece326cb5c`): 3×2 느낌표 — 꿀색 / 크림 말풍선 속 빨강 / 놀람 선 / 나무 팻말 / 분홍 + 반짝 / 동그란 꿀색 배지.
+- `nudge-arrow-higgsfield-original.png` (job `aeb76a38-0847-4e3c-b657-ecb67dca510b`): 3×2 아래 화살표 — 꿀색 블록 / 사탕 화살촉 / 분홍 회오리 / 종이 + 테이프 / 나무 / 겹 꺾쇠.
+- `scripts/cut-nudge-marks.py`로 마젠타를 지우고 칸별로 잘라 `nudge/bang-1..6.png`, `nudge/arrow-1..6.png`(긴 변 200px). 고르면 나머지 후보는 지운다.

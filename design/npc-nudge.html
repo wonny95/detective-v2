@@ -14,78 +14,78 @@
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-hand)}
 .wrap{max-width:1600px;margin:0 auto;padding:28px 20px 56px}
 h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
-.lead{margin:0 0 22px;font-size:14px;opacity:.85;max-width:860px;line-height:1.6}
-.grid{display:flex;flex-wrap:wrap;gap:34px 28px;align-items:flex-start}
-.opt{width:340px;max-width:100%}
-.opt h2{margin:0 0 10px;font-family:var(--f-display);font-weight:400;font-size:17px;display:flex;align-items:center;gap:8px}
-.opt p{margin:12px 2px 0;font-size:13px;line-height:1.6;color:var(--ink-soft)}
-.clock{margin-left:auto;font-family:var(--f-hand);font-size:12px;color:var(--ink-soft)}
+h3{font-family:var(--f-display);font-weight:400;font-size:19px;margin:30px 0 12px}
+.lead{margin:0 0 10px;font-size:14px;opacity:.85;max-width:860px;line-height:1.6}
+.grid{display:flex;flex-wrap:wrap;gap:26px 22px;align-items:flex-start}
+.opt{width:250px;max-width:100%}
+.opt h2{margin:0 0 8px;font-family:var(--f-display);font-weight:400;font-size:15px}
+.opt p{margin:8px 2px 0;font-size:12.5px;line-height:1.55;color:var(--ink-soft)}
 
-/* the phone: the cafe with Ray and Mr. Duck (Ray still has questions, so only he calls) */
-.phone{position:relative;width:340px;max-width:100%;height:600px;border-radius:34px;overflow:hidden;background:#6B4A30 url(../assets/places/cafe-higgsfield.png) 58% 50%/auto 100% no-repeat;box-shadow:0 10px 30px rgba(40,30,20,.25);cursor:pointer;user-select:none}
-.npc{position:absolute;bottom:9%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
-.npc img{display:block;height:180px;transform-origin:50% 100%;animation:breathe 4.8s ease-in-out infinite}
-.npc.duck{left:26%} .npc.duck img{height:168px}
-.npc.ray{left:72%}
-.tag{margin-top:-6px;padding:2px 8px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);font-size:13px;font-weight:700;white-space:nowrap}
+/* the phone (cropped round Ray): the cafe with Ray and Mr. Duck; only Ray still has questions */
+.phone{position:relative;width:250px;max-width:100%;height:400px;border-radius:28px;overflow:hidden;background:#6B4A30 url(../assets/places/cafe-higgsfield.png) 62% 50%/auto 100% no-repeat;box-shadow:0 8px 24px rgba(40,30,20,.25);cursor:pointer;user-select:none}
+.npc{position:absolute;bottom:7%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.npc img{display:block;height:150px;transform-origin:50% 100%;animation:breathe 4.8s ease-in-out infinite}
+.npc.duck{left:24%} .npc.duck img{height:140px}
+.npc.ray{left:70%}
+.tag{margin-top:-6px;padding:2px 8px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);font-size:12px;font-weight:700;white-space:nowrap}
 @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.008,1.012)}}
 
-/* the mark over Ray's head: hand-inked (honey fill, brown line), stays until the player taps anything */
-.mark{position:absolute;left:50%;bottom:100%;margin-bottom:-2px;pointer-events:none;filter:drop-shadow(1px 2px 1px rgba(52,32,17,.3));opacity:0;transform:translateX(-50%) scale(.2);transform-origin:50% 100%}
-.mark svg{display:block;width:100%;height:100%;overflow:visible}
+/* the mark over Ray's head (assets/ui/nudge/), stays until the player taps anything */
+.mark{position:absolute;left:50%;bottom:100%;margin-bottom:6px;pointer-events:none;opacity:0;transform:translateX(-50%) scale(.2);transform-origin:50% 100%}
+.mark img{display:block;height:100%;width:auto;filter:drop-shadow(1px 2px 1px rgba(52,32,17,.25))}
 .go .mark{opacity:1;transform:translateX(-50%);animation:mark-in .45s cubic-bezier(.3,1.6,.5,1) both}
 @keyframes mark-in{from{opacity:0;transform:translateX(-50%) scale(.2)}}
-
-/* E. 느낌표: pops up, then every few seconds a little jump and wiggle */
-.e .mark{width:34px;height:62px;margin-bottom:6px}
-.e.go .mark svg{transform-origin:50% 100%;animation:bang 2.4s ease-in-out .5s infinite}
+/* 느낌표: a little jump and wiggle every few seconds */
+.bang .mark{height:var(--h,52px)}
+.bang.go .mark img{transform-origin:50% 100%;animation:bang 2.4s ease-in-out .5s infinite}
 @keyframes bang{0%,62%,100%{transform:none}70%{transform:translateY(-8px) rotate(-8deg)}78%{transform:translateY(0) rotate(6deg) scale(1.05,.95)}86%{transform:rotate(-3deg)}94%{transform:none}}
-
-/* F. 화살표: points down at Ray, bobbing */
-.f .mark{width:46px;height:53px;margin-bottom:10px}
-.f.go .mark svg{animation:bob 1.1s ease-in-out .45s infinite}
+/* 화살표: bobbing toward Ray */
+.arrow .mark{height:var(--h,44px);margin-bottom:10px}
+.arrow.go .mark img{animation:bob 1.1s ease-in-out .45s infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-
-@media(prefers-reduced-motion:reduce){.go .mark,.go .mark svg{animation:none}}
+@media(prefers-reduced-motion:reduce){.go .mark,.go .mark img{animation:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>인물 부르는 모션 시안</h1>
-  <p class="lead">장소에서 한동안 아무것도 누르지 않으면, 아직 물어볼 게 남은 인물 머리 위에 표시가 떠요. 여기서는 레이만 물어볼 게 남았고 오리 아저씨는 대화를 마친 상태예요. 시안에서는 <b>3초</b> 뒤에 뜨고(게임에서는 약 8초), 화면 아무 데나 누르면 사라지고 처음부터 다시 세요.</p>
-  <div class="grid" id="grid"></div>
+  <p class="lead">장소에서 한동안 아무것도 누르지 않으면, 아직 물어볼 게 남은 인물(여기서는 레이) 머리 위에 표시가 떠요. 표시는 Higgsfield 손그림이에요. 시안에서는 <b>3초</b> 뒤에 뜨고(게임에서는 약 8초), 화면을 누르면 사라지고 다시 세요. 느낌표는 몇 초마다 톡 뛰며 흔들리고, 화살표는 위아래로 둥둥 떠요.</p>
+  <h3>느낌표</h3>
+  <div class="grid" id="bangs"></div>
+  <h3>화살표</h3>
+  <div class="grid" id="arrows"></div>
 </div>
 <script>
-// hand-inked marks: honey fill, brown line, a small light stroke on the left
-const BANG = `<svg viewBox="0 0 30 54" aria-hidden="true">
-  <path d="M7.5 6.5C8 2.6 11 1.5 15 1.5s7.2 1.3 7.4 5.2L19.6 33c-.3 2.6-2.1 3.8-4.6 3.8s-4.2-1.2-4.5-3.8z" fill="#F2CF73" stroke="#4A3628" stroke-width="2.6" stroke-linejoin="round"/>
-  <path d="M11.3 7.5l1.6 18" stroke="#FFF6D8" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".9"/>
-  <path d="M15.2 40.5c3.4 0 5.6 2.2 5.6 5.4s-2.4 5.6-5.8 5.6-5.6-2.3-5.6-5.5 2.4-5.5 5.8-5.5z" fill="#F2CF73" stroke="#4A3628" stroke-width="2.6"/>
-</svg>`;
-const ARROW = `<svg viewBox="0 0 40 46" aria-hidden="true">
-  <path d="M13.2 2.6c4.6-.6 9-.5 13.6.1l-.6 19.6 9.4-.4c1.6 0 2.3 1.6 1.3 2.8L21.6 42.6c-.9 1.1-2.4 1.1-3.3 0L2.9 24.9c-1-1.2-.2-2.9 1.4-2.8l9.3.3z" fill="#F2CF73" stroke="#4A3628" stroke-width="2.6" stroke-linejoin="round"/>
-  <path d="M17 6.5l.3 15" stroke="#FFF6D8" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".9"/>
-</svg>`;
-const OPTS = [
-  ['e', 'E. 느낌표', '레이 머리 위에 꿀색 손그림 느낌표가 톡 튀어나오고, 몇 초마다 살짝 뛰며 흔들려요. “나한테 할 말이 있어” 느낌.', BANG],
-  ['f', 'F. 화살표', '레이 머리 위에 꿀색 손그림 화살표가 내려다보며 위아래로 둥둥 떠요. “여기를 눌러” 느낌, 더 직접적이에요.', ARROW],
+// [file, title, note, height on screen]
+const BANGS = [
+  ['bang-1', '1. 꿀색 느낌표', '가장 기본. 통통한 막대와 동그란 점.', 52],
+  ['bang-2', '2. 말풍선 속 빨간 느낌표', '크림 말풍선 안의 빨간 느낌표. 할 말이 있다는 뜻이 가장 분명해요.', 50],
+  ['bang-3', '3. 놀람 선 느낌표', '주위에 잉크 선이 튀어 “앗!” 하는 느낌.', 56],
+  ['bang-4', '4. 나무 팻말', '나무 판에 붙인 종이 위 느낌표. 탐정 소품 느낌이에요.', 42],
+  ['bang-5', '5. 분홍 느낌표 + 반짝', '가늘고 기울어진 분홍 느낌표와 작은 별.', 54],
+  ['bang-6', '6. 동그란 배지', '꿀색 동전 같은 스티커 배지. 크고 눈에 잘 띄어요.', 46],
 ];
-document.getElementById('grid').innerHTML = OPTS.map(([k, title, text, svg]) => `<section class="opt"><h2>${title}<span class="clock" data-clock></span></h2>
-  <div class="phone ${k}">
+const ARROWS = [
+  ['arrow-1', '1. 꿀색 블록 화살표', '가장 기본. 둥근 모서리의 통통한 화살표.', 44],
+  ['arrow-2', '2. 사탕 화살촉', '짧고 통통한 화살촉만. 가장 귀여워요.', 40],
+  ['arrow-3', '3. 분홍 회오리 화살표', '빙글 돌아 내려오는 손그림 화살표. 장난스러워요.', 48],
+  ['arrow-4', '4. 종이 화살표 + 테이프', '크림 종이를 오려 테이프로 붙인 화살표. 노트·쪽지와 같은 재료예요.', 46],
+  ['arrow-5', '5. 나무 화살표', '나무판 표지판 화살표. 숲 마을 느낌.', 46],
+  ['arrow-6', '6. 겹 꺾쇠', '꿀색 V 두 개. 가장 단순하고 게임 같아요.', 40],
+];
+const phone = (kind, [file, title, note, h]) => `<section class="opt"><h2>${title}</h2>
+  <div class="phone ${kind}" style="--h:${h}px">
     <div class="npc duck"><img src="../assets/characters/duck-higgsfield.png" alt=""><span class="tag">Mr. Duck</span></div>
-    <div class="npc ray"><span class="mark">${svg}</span><img src="../assets/characters/ray-higgsfield.png" alt=""><span class="tag">Ray</span></div>
-  </div><p>${text}</p></section>`).join('');
+    <div class="npc ray"><span class="mark"><img src="../assets/ui/nudge/${file}.png" alt=""></span><img src="../assets/characters/ray-higgsfield.png" alt=""><span class="tag">Ray</span></div>
+  </div><p>${note}</p></section>`;
+document.getElementById('bangs').innerHTML = BANGS.map(o => phone('bang', o)).join('');
+document.getElementById('arrows').innerHTML = ARROWS.map(o => phone('arrow', o)).join('');
 
-// each phone counts its own quiet time: after 3s the mark shows and stays until the phone is tapped
-document.querySelectorAll('.phone').forEach(phone => {
-  const clock = phone.closest('.opt').querySelector('[data-clock]');
+// every phone counts its own quiet time: after 3s the mark shows and stays until that phone is tapped
+document.querySelectorAll('.phone').forEach(ph => {
   let quiet = 0;
-  setInterval(() => {
-    quiet += .5;
-    clock.textContent = `조용히 ${Math.floor(quiet)}초`;
-    if(quiet === 3) phone.classList.add('go');
-  }, 500);
-  phone.addEventListener('pointerdown', () => { quiet = 0; phone.classList.remove('go'); });
+  setInterval(() => { quiet += .5; if(quiet === 3) ph.classList.add('go'); }, 500);
+  ph.addEventListener('pointerdown', () => { quiet = 0; ph.classList.remove('go'); });
 });
 </script>
 </body>
