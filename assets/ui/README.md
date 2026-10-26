@@ -176,3 +176,4 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - 사용자 요청: 노트 인물 탭 아이콘(탐정 얼굴)을 '대화'를 상징하는 아이콘으로. 사용자가 3번(큰 꿀색 + 작은 크림)을 골랐다.
 - 제작: Nano Banana 2.1, 3:2, 1.5크레딧, 마젠타 배경. 참조 그림으로 `nav-icons-2` 시트(job `cd4840ad…`)와 `icons-v2` 시트(job `782fc121…`)를 붙였다.
 - 자르기: `scripts/cut-nav-icons.py`(같은 문턱) → `nav/talk.png`(160×160). 나머지 칸은 쓰지 않는다(시트 원본에는 남아 있음).
+- 지금은 게임에서 쓰지 않는다: 노트 탭 아이콘을 도장(인라인 SVG)으로 바꿨다(사용자 결정: 손그림 아이콘이 아래 메뉴와 같은 그림체라 복잡해 보임). 시안의 '이전' 비교용으로만 남겨 둔다.
