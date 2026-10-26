@@ -143,8 +143,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.interrogate .bubble.say{--bubble-top:66px}
 .bubble.say .say-ko{display:block;margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;line-height:1.45;color:var(--berry)}
 .bubble.say .say-ko[hidden]{display:none}
-.bubble.say .say-foot{display:flex;flex:none;flex-wrap:wrap;justify-content:flex-end;gap:6px;margin-top:12px;padding-top:9px}
-.bubble.say .say-foot button{position:static;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;min-height:30px;padding:0 10px;font-family:var(--f-display);font-size:12px;color:var(--ink)}
+.bubble.say .say-foot{display:flex;flex:none;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px;margin-top:12px;padding-top:9px}
+.bubble.say .say-foot .pill{position:static;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;min-height:30px;padding:0 10px;font-family:var(--f-display);font-size:12px;color:var(--ink)}
 .bubble.say .say-foot svg{width:9px;height:9px}
 .interrogation-gauge{position:absolute;top:10px;left:50%;z-index:5;display:flex;align-items:center;width:280px;max-width:calc(100% - 48px);transform:translateX(-50%);pointer-events:none}
 .app.questioning .interrogation-gauge{left:74px;right:14px;width:auto;max-width:none;transform:none}
@@ -447,10 +447,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-note:nth-child(3n+2)::before{transform:rotate(4deg)}
 .ck-note mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%);color:inherit}
 .ck-note .replay-q{grid-row:1;grid-column:2;width:32px;height:32px;margin:0}
-#caseKey .replay-q{border:0;background:url(assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(assets/ui/buttons/round-cream.png) center/100% no-repeat}
-#caseKey .replay-q:active{transform:translateY(1px)}
+/* the round play button: the case key's, and the speech bubbles' 다시 듣기 (user decision: same form, ▶ in a round cream
+   button beside a 해석 pill) */
+#caseKey .replay-q,.play-btn{border:0;background:url(assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(assets/ui/buttons/round-cream.png) center/100% no-repeat}
+#caseKey .replay-q:active,.play-btn:active{transform:translateY(1px)}
 #caseKey .replay-q svg{display:none}
-.ck-note .pill.sm{grid-row:1;grid-column:3;padding:3px 8px}
+.play-btn{flex:none;width:32px;height:32px;padding:0}
+.ck-note .pill.sm,.office-foot .pill.sm,.bubble.say .say-foot .pill.sm{min-height:0;padding:3px 8px}
+.ck-note .pill.sm{grid-row:1;grid-column:3}
 .ck-note:not(.ko-on) .ko{display:none}
 .ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
 .ck-turn{animation:ck-turn .35s ease-out}
@@ -1068,10 +1072,11 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the box keeps the pose's own shape (--ar): a button sized only by its child's % height collapses and squeezes it */
 .oh-det{position:absolute;left:50%;bottom:25%;height:32%;aspect-ratio:var(--ar,627/700);padding:0;border:0;background:none;transform:translateX(calc(var(--ax,.5) * -100%));cursor:pointer}
 .oh-det:active{transform:translateX(calc(var(--ax,.5) * -100%)) translateY(1px)}
-/* the line above the cork board (user request: raised off the board), its tail down toward the detective; it grows
-   upward when 해석 opens. It is as wide as
+/* the line above the cork board (user request: raised off the board), its tail down toward the detective; when 해석
+   opens it grows downward, its top staying put (user request: growing upward ran it under the name plate on a phone;
+   --ko-h, homeKoShift). It is as wide as
    its words and buttons (up to 88% of the screen, with roomy paper margins, user request), centred over the detective; a line can break where its text has \n (user request: home-new) */
-.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:72%;z-index:2;box-sizing:border-box;width:fit-content;max-width:88cqw;padding:22px 24px 18px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
+.oh-say{position:absolute;left:0;right:0;margin-inline:auto;bottom:calc(72% - var(--ko-h, 0px));z-index:2;box-sizing:border-box;width:fit-content;max-width:88cqw;padding:22px 24px 18px;font-family:var(--f-hand);font-size:16px;line-height:1.38;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px)}
 .oh-say[hidden]{display:none}
 /* the bubble pops out like every speech bubble (see bubble-pop); .pop/.hop are put back on every time (popHomeSay) so
    a tap on the detective plays it again even while the bubble is open */
@@ -1265,7 +1270,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <div class="oh-say" id="homeSay" hidden aria-live="polite">
           <button class="close-button oh-close" type="button" id="homeSayClose" aria-label="말풍선 닫기"></button>
           <p id="homeEn"></p><p class="office-ko" id="homeKo" hidden></p>
-          <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="pill sm" type="button" id="homeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
+          <div class="office-foot"><button class="pill hint oh-go" type="button" id="homeGo" hidden></button><button class="play-btn" type="button" id="homeReplay" aria-label="다시 듣기"></button><button class="pill sm" type="button" id="homeKoBtn" aria-pressed="false">해석</button></div>
         </div>
       </div></div>
       <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></div>
@@ -1356,7 +1361,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     </div>
     <div class="office-say" id="officeSay" hidden aria-live="polite">
       <p id="officeEn"></p><p class="office-ko" id="officeKo" hidden></p>
-      <div class="office-foot"><span class="office-next" aria-hidden="true"></span><button class="pill sm" type="button" id="officeReplay">▶ 다시 듣기</button><button class="pill sm" type="button" id="officeKoBtn" aria-pressed="false">해석</button></div>
+      <div class="office-foot"><span class="office-next" aria-hidden="true"></span><button class="play-btn" type="button" id="officeReplay" aria-label="다시 듣기"></button><button class="pill sm" type="button" id="officeKoBtn" aria-pressed="false">해석</button></div>
     </div>
     <button class="pill big office-go" type="button" id="officeGo" hidden>시작하기</button>
     <button class="close-button office-close" type="button" id="officeClose" aria-label="탐정 이름 바꾸기 닫기" hidden></button>
@@ -3288,7 +3293,7 @@ function renderSay(line){
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
   const again = line === ending?.line;
   b.innerHTML = `<div class="bubble-copy"><span class="tag">${esc(spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
-    (again || line.ko ? `<span class="say-foot">${again ? `<button class="pill sm" type="button" data-say-again>${playIcon}다시 듣기</button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
+    (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
 }
 // 해석 in the bubble: the Korean of the line under the English (user decision: in every part of the ending)
@@ -4355,7 +4360,13 @@ $('#homeReplay').onclick = () => sayHome(homeState().key, false);   // the bubbl
 $('#homeKoBtn').onclick = () => {
   const ko = $('#homeKo');
   ko.hidden = !ko.hidden; $('#homeKoBtn').setAttribute('aria-pressed', !ko.hidden);
+  homeKoShift();
 };
+// the bubble's bottom drops by the translation's height, so its top stays where it was
+function homeKoShift(){
+  const ko = $('#homeKo');
+  $('#homeSay').style.setProperty('--ko-h', ko.hidden ? '0px' : `${ko.offsetHeight + parseFloat(getComputedStyle(ko).marginTop)}px`);
+}
 
 /* ---------- case select ----------
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
@@ -4685,7 +4696,7 @@ function renderHomeOffice(){
 function showHomeLine(key){
   $('#homeEn').textContent = DETECTIVE[key].en;
   $('#homeKo').textContent = DETECTIVE[key].ko;
-  if($('#homeSay').hidden || $('#homeSay').dataset.key !== key){ $('#homeKo').hidden = true; $('#homeKoBtn').setAttribute('aria-pressed', 'false'); }
+  if($('#homeSay').hidden || $('#homeSay').dataset.key !== key){ $('#homeKo').hidden = true; $('#homeKoBtn').setAttribute('aria-pressed', 'false'); homeKoShift(); }
   $('#homeSay').dataset.key = key;
   if($('#homeSay').classList.contains('closing')){ $('#homeSay').classList.remove('closing'); $('#homeSay').hidden = true; }
   if($('#homeSay').hidden) popHomeSay(false);
