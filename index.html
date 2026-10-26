@@ -305,15 +305,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nface .pic i.done{background:var(--ok);border-color:var(--ok);color:#fff}
 .nface[aria-pressed="true"]{border-image:url(assets/ui/buttons/honey-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;color:var(--ink)}
 /* 📌: a checked statement or a piece of evidence pinned to the memo */
-.nb-pin{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#FFFDF7;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink-soft);vertical-align:middle;transition:background .2s,box-shadow .2s}
+.nb-pin{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#FFFDF7;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink-soft);vertical-align:middle;transition:background .2s,box-shadow .2s,transform .1s}
 /* the pin icon (#pinIcon): a round head, a short needle (user request: a long needle wasn't cute). Off: grey outline lying
    tilted on a cream dot; on: standing on a honey dot, berry head with a shine (--pin-head/--pin-shine reach into <use>) */
-.nb-pin svg{width:19px;height:19px;overflow:visible;opacity:.65;transform:rotate(38deg);transition:transform .25s cubic-bezier(.3,1.6,.5,1),opacity .2s}
+.nb-pin svg{width:19px;height:19px;overflow:visible;opacity:.65;transform:rotate(38deg);transition:transform .2s ease-out,opacity .2s}
 .nb-pin.on{background:var(--honey);box-shadow:inset 0 0 0 1.5px var(--ink);color:var(--ink);--pin-head:var(--berry);--pin-shine:#FFF4F0}
 .nb-pin.on svg{opacity:1;transform:rotate(-8deg)}
-.nb-pin.on.just svg{animation:pin-pop .35s cubic-bezier(.3,1.6,.5,1)}
-@keyframes pin-pop{0%{transform:rotate(-8deg) translateY(-4px) scale(.8)}}
-.nb-pin:active{transform:scale(.9)}
+/* on / off: the colours fade and the tack stands up or lies down (user request: simple, no pop) */
+.nb-pin:active{transform:scale(.92)}
 .nblock .qlabel .nb-pin{float:right;margin:-6px -8px 0 4px}
 .ev-cell{position:relative;display:flex;min-width:0}
 .ev-cell .ev-card{flex:1}
@@ -2364,7 +2363,6 @@ function bindDock(){
     e.stopPropagation(); togglePin(button.dataset.pin);
     const on = S.memo.pins.includes(button.dataset.pin);
     button.classList.toggle('on', on); button.setAttribute('aria-pressed', on); renderWho();
-    button.classList.toggle('just', on); if(on) setTimeout(() => button.classList.remove('just'), 380);
   }));
   body.querySelectorAll('[data-unpin]').forEach(button => button.addEventListener('click', () => { togglePin(button.dataset.unpin); renderDock(); }));
   body.querySelector('#memoText')?.addEventListener('input', e => { S.memo.text = e.target.value; });
