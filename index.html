@@ -424,7 +424,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
    page; each example's Korean behind its own 해석 (user request: beside its ▶). User decision (mockup B-2): graph paper, the key on a
    card pinned with the red tack, the examples on three taped notes, each with ▶. The paper, notes and tape are
    hand-drawn (assets/ui/casekey/, user request: in the game's illustration style), the buttons the game's own. */
-.ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px}
+.ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px;padding-top:10px}
+/* the page's title sits under the case name in the top bar (user request), not on the pinned card */
+.ck-head{display:flex;flex-direction:column;gap:2px;min-width:0}
 .ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
 .ck-top .close-button{margin-left:auto}
 .ck-key{display:flex;flex-direction:column;gap:4px}
@@ -437,7 +439,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 #caseKey .rv-body{gap:0;padding:0 6px 12px}
 .ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:8px 8px 4px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg)}
 .ck-card::before{content:"";position:absolute;left:50%;top:-28px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
-.ck-card .rv-title{font-size:16px;color:var(--ink-soft)}
 .ck-notes{display:flex;flex-direction:column;gap:14px;margin:22px 4px 0}
 .ck-note{--note:url(assets/ui/casekey/note-yellow.webp);position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2px 6px;margin:0;padding:3px 0 3px 4px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border:11px solid transparent;border-width:11px 26px 11px 11px;border-image:var(--note) 22 54 22 22 fill / 11px 26px 11px 11px stretch;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18))}
 .ck-note:nth-child(3n+1){transform:rotate(1.2deg);margin-right:20px}
@@ -4595,9 +4596,9 @@ function openCaseKey(list, then){
 function renderCaseKey(turn){
   const mark = t => esc(t).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
   const { g, ex } = caseKeyPages[caseKeyAt], last = caseKeyAt === caseKeyPages.length - 1;
-  $('#caseKeyCard').innerHTML = `<div class="ck-top"><small>${esc(CASES[0].no)} · ${esc(CASES[0].title)}</small><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
+  $('#caseKeyCard').innerHTML = `<div class="ck-top"><div class="ck-head"><small>${esc(CASES[0].no)} · ${esc(CASES[0].title)}</small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-steps" aria-label="${caseKeyAt + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i class="${i <= caseKeyAt ? 'on' : ''}"></i>`).join('')}</div>
-    <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card"><h2 class="rv-title">이번 사건의 열쇠</h2>
+    <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card">
       <div class="ck-key"><h3 class="gpattern">${esc(ex.head)}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3><span class="ck-name">${esc(GRAMMAR[g].name)}</span><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
       ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${mark(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div>` : ''}</div>
     <div class="rv-foot ck-foot">${caseKeyAt ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
