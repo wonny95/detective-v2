@@ -299,14 +299,19 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nface .pic i.done{background:var(--ok);border-color:var(--ok);color:#fff}
 .nface[aria-pressed="true"]{border-image:url(assets/ui/buttons/honey-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;color:var(--ink)}
 /* 📌: a checked statement or a piece of evidence pinned to the memo */
-.nb-pin{display:inline-grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:none;vertical-align:middle}
-.nb-pin svg{width:19px;height:19px}
-.nb-pin.on .head{fill:var(--berry)}
+.nb-pin{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#FFFDF7;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink-soft);vertical-align:middle;transition:background .2s,box-shadow .2s}
+/* the pin icon (#pinIcon): a round head, a short needle (user request: a long needle wasn't cute). Off: grey outline lying
+   tilted on a cream dot; on: standing on a honey dot, berry head with a shine (--pin-head/--pin-shine reach into <use>) */
+.nb-pin svg{width:19px;height:19px;overflow:visible;opacity:.65;transform:rotate(38deg);transition:transform .25s cubic-bezier(.3,1.6,.5,1),opacity .2s}
+.nb-pin.on{background:var(--honey);box-shadow:inset 0 0 0 1.5px var(--ink);color:var(--ink);--pin-head:var(--berry);--pin-shine:#FFF4F0}
+.nb-pin.on svg{opacity:1;transform:rotate(-8deg)}
+.nb-pin.on.just svg{animation:pin-pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pin-pop{0%{transform:rotate(-8deg) translateY(-4px) scale(.8)}}
 .nb-pin:active{transform:scale(.9)}
-.nblock .qlabel .nb-pin{float:right;margin:-5px -8px 0 4px}
+.nblock .qlabel .nb-pin{float:right;margin:-6px -8px 0 4px}
 .ev-cell{position:relative;display:flex;min-width:0}
 .ev-cell .ev-card{flex:1}
-.ev-cell .nb-pin{position:absolute;top:-8px;right:-8px;background:#FFFDF7;border:1.5px solid var(--line)}
+.ev-cell .nb-pin{position:absolute;top:-9px;right:-9px}
 /* the memo: what was pinned, then the player's own lines on ruled paper (kept with the case, S.memo) */
 .memo-page{flex:1;display:flex;flex-direction:column;gap:8px}
 .memo-pin{position:relative;display:flex;gap:10px;align-items:flex-start;padding:8px 34px 8px 10px;background:#FFF6DE;border:1.5px solid #E6C77A;border-radius:10px;font-family:var(--f-hand);font-size:14px;line-height:1.45;transform:rotate(var(--r,0deg))}
@@ -1049,7 +1054,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <path d="M5 8 Q5 16 10 18 Q15 16 15 8Z" fill="#E8B27A" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/>
       <path d="M10 4 L10 1.5" stroke="#4A3628" stroke-width="1.6" stroke-linecap="round"/>
     </symbol>
-    <symbol id="pinIcon" viewBox="0 0 24 24"><g stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12 14 v7" fill="none"/><path class="head" d="M8 3 h8 l-1.2 5 3 4 H6.2 l3-4z" fill="#F2CF73"/></g></symbol>
+    <symbol id="pinIcon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.8a4.2 4.2 0 0 1 2.6 7.5l.4 1.4h1.6a1.6 1.6 0 0 1 0 3.2H7.4a1.6 1.6 0 0 1 0-3.2H9l.4-1.4A4.2 4.2 0 0 1 12 2.8z" style="fill:var(--pin-head,none)"/><path d="M12 14.9v4.3"/><ellipse cx="10.4" cy="6.1" rx="1.2" ry=".8" transform="rotate(-35 10.4 6.1)" stroke="none" style="fill:var(--pin-shine,none)"/></g></symbol>
   </defs>
 </svg>
 
@@ -2288,6 +2293,7 @@ function bindDock(){
     e.stopPropagation(); togglePin(button.dataset.pin);
     const on = S.memo.pins.includes(button.dataset.pin);
     button.classList.toggle('on', on); button.setAttribute('aria-pressed', on); renderWho();
+    button.classList.toggle('just', on); if(on) setTimeout(() => button.classList.remove('just'), 380);
   }));
   body.querySelectorAll('[data-unpin]').forEach(button => button.addEventListener('click', () => { togglePin(button.dataset.unpin); renderDock(); }));
   body.querySelector('#memoText')?.addEventListener('input', e => { S.memo.text = e.target.value; });
