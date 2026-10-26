@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>사건의 열쇠 화면 시안 B</title>
+<title>사건의 열쇠 화면 시안</title>
 <style>
 @font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
 @font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
@@ -37,8 +37,7 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 .show-ko .kobtn{border-image-source:url(../assets/ui/buttons/sky-flat.png)}
 mark{background:linear-gradient(transparent 55%,rgba(242,207,115,.75) 55%);color:inherit;padding:0 1px}
 
-/* ---- B. 코르크판: the key pinned on the case board, the examples as three notes pinned under it ---- */
-.b{background:#D69C62 url(../assets/ui/corkboard-cork.webp) 0 0/300px 300px repeat}
+/* ---- B. the key pinned with a red tack, the examples as three taped notes ---- */
 .b .top .case{color:#5B3A22;background:rgba(253,250,238,.85);padding:3px 10px;border-radius:10px}
 .b .steps i{background:rgba(253,250,238,.6)}
 .b .card{position:relative;margin:26px 22px 0;padding:22px 18px 16px;background:var(--sheet);border-radius:4px;box-shadow:2px 6px 10px rgba(50,30,15,.35);transform:rotate(-1.5deg)}
@@ -52,29 +51,25 @@ mark{background:linear-gradient(transparent 55%,rgba(242,207,115,.75) 55%);color
 .b .note:nth-child(2){background:#DCEBF7;transform:rotate(-1deg);margin-left:30px}
 .b .note:nth-child(3){background:#F8DDE3;transform:rotate(.8deg);margin-right:14px}
 .b .note::before{content:"";position:absolute;left:50%;top:-7px;width:46px;height:14px;margin-left:-23px;background:rgba(255,253,240,.6);transform:rotate(-3deg)}
+.b .note{display:flex;align-items:center;gap:10px}
+.b .note>span:first-child{flex:1}
+.b .note .play{flex:none;width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;background:#FFFDF7 url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Cpath d=%27M4 2.5 L13 8 L4 13.5Z%27 fill=%27%234A3628%27/%3E%3C/svg%3E") 55% 50%/12px no-repeat}
 .b mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%)}
 
-/* B without the cork: three grounds to choose from (user request: B, but the cork picture isn't needed) */
+/* B-2, applied to the game (user decision): B without the cork, on graph paper; ▶ by each example (user request) */
 .b .card,.b .notes{z-index:1}
 .b .notes{position:relative}
 .b .steps i:first-child{background:#E0A93A}
 .b.cream .steps i:not(:first-child){background:var(--line)}
-.b.sage{background:radial-gradient(120% 75% at 50% 32%,#C6CCB6,#A7AF95)}
-.b.sage .card{box-shadow:2px 6px 10px rgba(50,60,40,.3)}
-.b.sage .note{box-shadow:2px 4px 6px rgba(50,60,40,.25)}
 .b.cream{background-color:var(--paper);background-image:repeating-linear-gradient(0deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px),repeating-linear-gradient(90deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px)}
 .b.cream .card{box-shadow:2px 5px 9px rgba(70,50,30,.22)}
 .b.cream .note{box-shadow:1px 3px 5px rgba(70,50,30,.2)}
-.b.cream .top .case,.b.sage .top .case{background:none;padding:0;color:var(--berry)}
-.b.office{background:#8A6A4C}
-.b.office::before{content:"";position:absolute;inset:-24px;background:url(../assets/places/detective-office-wide.jpg) 50% 60%/auto 100% no-repeat;filter:blur(7px) saturate(.85)}
-.b.office::after{content:"";position:absolute;inset:0;background:rgba(251,244,230,.28)}
-</style>
+.b.cream .top .case,</style>
 </head>
 <body>
 <div class="wrap">
-  <h1>사건의 열쇠 화면 시안 B · 바탕 고르기</h1>
-  <p class="lead">B(열쇠 카드 + 색 쪽지)를 고르고, 코르크판 그림 없이 바탕만 바꾼 세 가지. 카드·쪽지·압정·테이프는 그대로. 모두 크레딧 없음. 각 화면의 <code>해석</code>을 눌러 볼 수 있어요.</p>
+  <h1>사건의 열쇠 화면 시안 — 게임 적용</h1>
+  <p class="lead">고른 안: B-2 모눈 종이(열쇠 카드 + 색 쪽지, 코르크판 그림 없음), 예문마다 ▶. 게임의 사건의 열쇠 화면에 적용했어요.</p>
   <div class="grid" id="grid"></div>
 </div>
 <script>
@@ -84,14 +79,11 @@ const topBar = () => `<div class="top"><span class="case">Case 01 · 도서관 �
 const ko = '<button class="kobtn" type="button" data-ko>해석</button>';
 const lines = () => EX.map(([en, k]) => `<div>${en}<span class="ko">${k}</span></div>`).join('');
 const bHTML = () => `${topBar()}<div class="card"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="word">at</div><div class="kind" style="font-family:var(--f-display);font-size:12px;color:var(--ink-soft)">시간 전치사</div><div class="why">${WHY}</div></div>
-      <div class="notes">${EX.map(([en, k]) => `<div class="note">${en}<span class="ko">${k}</span></div>`).join('')}</div><button class="go" type="button">다음</button>`;
+      <div class="notes">${EX.map(([en, k]) => `<div class="note"><span>${en}<span class="ko">${k}</span></span><button class="play" type="button" aria-label="예문 듣기"></button></div>`).join('')}</div><button class="go" type="button">다음</button>`;
 const OPTS = [
-  ['b sage', 'B-1. 세이지 바탕', 1, '앱 바깥과 같은 세이지색에 가운데만 살짝 밝게. 크림 카드와 노랑·하늘·분홍 쪽지가 가장 또렷하게 뜨고 화면이 차분하다. 그림이 없어 가볍다.', bHTML],
-  ['b cream', 'B-2. 모눈 종이', '', '크림 종이에 옅은 모눈. 노트 안쪽 같은 느낌. 카드와 바탕이 둘 다 밝아 그림자로만 구분된다.', bHTML],
-  ['b office', 'B-3. 흐린 사무소', '', '탐정 사무소 그림을 흐리게 깔았다. 일러스트 분위기가 가장 남지만 쪽지 색과 배경 색이 섞여 조금 복잡하다.', bHTML],
-  ['b', '이전 B. 코르크판', '', '처음 시안(코르크판 그림).', bHTML],
+  ['b cream', 'B-2. 모눈 종이 (적용)', '', '크림 종이에 옅은 모눈, 열쇠 카드는 빨간 압정, 예문은 테이프 붙인 색 쪽지 세 장과 ▶.', bHTML],
 ];
-document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text, html]) => `<section class="opt"><h2>${title}${rec ? ' <span class="rec">추천</span>' : ''}</h2><div class="phone ${k}">${html()}</div><p>${text}</p></section>`).join('');
+document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text, html]) => `<section class="opt"><h2>${title}${rec ? '' : ''}</h2><div class="phone ${k}">${html()}</div><p>${text}</p></section>`).join('');
 document.addEventListener('click', e => { const b = e.target.closest('[data-ko]'); if(b) b.closest('.phone').classList.toggle('show-ko'); });
 </script>
 </body>

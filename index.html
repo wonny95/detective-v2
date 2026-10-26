@@ -421,27 +421,41 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gcard mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
 .rv-gcard .gko{font-size:13px;line-height:1.5;color:var(--ink-soft)}
 .rv-gbtns{display:flex;gap:6px;align-items:center}
-/* 이번 사건의 열쇠: the case's key grammar on a whole page before the briefing (user request: not a pop-up), its
-   examples grouped by form, each in its own card; the Korean of the examples behind 해석 */
+/* 이번 사건의 열쇠: the case's key grammar on a whole page before the briefing (user request: not a pop-up), one form a
+   page; the Korean of the examples behind 해석. User decision (design/case-key.html B-2): graph paper, the key on a
+   card pinned with the red tack, the examples on three taped notes, each with ▶ */
 .ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px}
 .ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
 .ck-top .close-button{margin-left:auto}
-.ck-key{display:flex;flex-direction:column;gap:6px}
+.ck-key{display:flex;flex-direction:column;gap:4px}
 .ck-key .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
 .ck-key .ck-name{font-family:var(--f-display);font-size:14px;color:var(--ink-soft)}
 .ck-key .gko{margin:0;font-size:14px;line-height:1.6}
-.rv-gcard p.ck-ex{display:flex;flex-direction:column}
+#caseKey{background-color:var(--paper);background-image:repeating-linear-gradient(0deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px),repeating-linear-gradient(90deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px)}
+#caseKey .mcard.review{background:none}
 #caseKey .rv-steps{flex:none}
+#caseKey .rv-body{gap:0;padding:0 6px 12px}
+.ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:20px 18px 16px;background:#FDFAEE;border-radius:4px;box-shadow:2px 5px 9px rgba(70,50,30,.22);transform:rotate(-1.5deg)}
+.ck-card::before{content:"";position:absolute;left:50%;top:-16px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
+.ck-card .rv-title{font-size:16px;color:var(--ink-soft)}
+.ck-notes{display:flex;flex-direction:column;gap:14px;margin:22px 4px 0}
+.ck-note{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;margin:0;padding:12px 12px 12px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border-radius:2px;box-shadow:1px 3px 5px rgba(70,50,30,.2)}
+.ck-note:nth-child(3n+1){background:#FFF1B8;transform:rotate(1.2deg);margin-right:26px}
+.ck-note:nth-child(3n+2){background:#DCEBF7;transform:rotate(-1deg);margin-left:26px}
+.ck-note:nth-child(3n){background:#F8DDE3;transform:rotate(.8deg);margin-right:12px}
+.ck-note::before{content:"";position:absolute;left:50%;top:-7px;width:46px;height:14px;margin-left:-23px;background:rgba(255,253,240,.6);transform:rotate(-3deg)}
+.ck-note mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%);color:inherit}
+.ck-note .replay-q{grid-row:1;grid-column:2;width:30px;height:30px;margin:0;background:#FFFDF7}
+.ck-note .replay-q svg{width:12px;height:12px}
+.ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
 .ck-turn{animation:ck-turn .35s ease-out}
 @keyframes ck-turn{from{opacity:0;transform:translateX(16px)}}
 @media(prefers-reduced-motion:reduce){.ck-turn{animation:none}}
 .ck-foot{display:flex;gap:8px}
 .ck-foot .pill:not(.big){flex:none;min-height:50px;padding:0 18px}
 .ck-foot .pill.big{flex:1;width:auto}
-.ck-key .gpattern{font-size:30px}
-#caseKey .rv-gcard{gap:12px;padding:14px 16px}
-#caseKey .rv-gcard p{font-size:18px}
-.rv-gcard p.ck-ex .ko{font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
+.ck-key .gpattern{font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.05;text-wrap:balance}
+.ck-key .ck-name{font-size:12px}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
 .rv-word{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
@@ -2532,6 +2546,16 @@ function pronounceWord(key){
   voice.playbackRate = S.slow ? .75 : 1;
   voice.play().catch(() => { if(turn === speechTurn) toast('발음을 재생하지 못했어요. 다시 눌러 주세요.'); });
 }
+// An example sentence of 이번 사건의 열쇠: its bundled clip (audio/examples/<grammar>-<page>-<line>.wav, the word
+// book's local voice), never a person's recording.
+function playExample(file){
+  stopVoice();
+  const turn = speechTurn, voice = $('#wordVoice');
+  voice.src = `audio/examples/${file}.wav`;
+  voice.preservesPitch = true;
+  voice.playbackRate = S.slow ? .75 : 1;
+  voice.play().catch(() => { if(turn === speechTurn) toast('예문을 재생하지 못했어요. 다시 눌러 주세요.'); });
+}
 // One sentence of an answer: the matching part of the recording (or that sentence by browser TTS).
 function replaySentence(ref, idx){
   const [id, qid] = ref.split(':'), range = SENTENCE_TIMES[ref]?.[idx];
@@ -4507,16 +4531,19 @@ function renderCaseKey(turn){
   const { g, ex } = caseKeyPages[caseKeyAt], last = caseKeyAt === caseKeyPages.length - 1;
   $('#caseKeyCard').innerHTML = `<div class="ck-top"><small>${esc(CASES[0].no)} · ${esc(CASES[0].title)}</small><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-steps" aria-label="${caseKeyAt + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i class="${i <= caseKeyAt ? 'on' : ''}"></i>`).join('')}</div>
-    <div class="rv-body${turn ? ' ck-turn' : ''}"><h2 class="rv-title">이번 사건의 열쇠<button class="pill sm" type="button" data-ck-ko aria-pressed="${caseKeyKo}" style="margin-left:auto">해석</button></h2>
-      <div class="ck-key"><span class="ck-name">${esc(GRAMMAR[g].name)}</span><h3 class="gpattern">${esc(ex.head)}</h3><p class="gko">${esc(ex.why || ex.ko)}</p></div>
-      ${ex.lines.length ? `<div class="rv-gcard">${ex.lines.map(([en, ko]) => `<p class="ck-ex"><span>${mark(en)}</span>${caseKeyKo ? `<span class="ko">${esc(ko)}</span>` : ''}</p>`).join('')}</div>` : ''}</div>
+    <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card"><h2 class="rv-title">이번 사건의 열쇠<button class="pill sm" type="button" data-ck-ko aria-pressed="${caseKeyKo}" style="margin-left:auto">해석</button></h2>
+      <div class="ck-key"><h3 class="gpattern">${esc(ex.head)}</h3><span class="ck-name">${esc(GRAMMAR[g].name)}</span><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
+      ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${mark(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button>${caseKeyKo ? `<span class="ko">${esc(ko)}</span>` : ''}</p>`).join('')}</div>` : ''}</div>
     <div class="rv-foot ck-foot">${caseKeyAt ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
 }
 $('#caseKey').addEventListener('click', e => {
+  const play = e.target.closest('[data-ck-play]');
+  if(play) return playExample(play.dataset.ckPlay);
   if(e.target.closest('[data-ck-ko]')){ caseKeyKo = !caseKeyKo; return renderCaseKey(); }
-  if(e.target.closest('[data-ck-close]')){ $('#caseKey').hidden = true; caseKeyThen = null; return; }
-  if(e.target.closest('[data-ck-prev]')){ caseKeyAt--; return renderCaseKey(true); }
+  if(e.target.closest('[data-ck-close]')){ stopVoice(); $('#caseKey').hidden = true; caseKeyThen = null; return; }
+  if(e.target.closest('[data-ck-prev]')){ stopVoice(); caseKeyAt--; return renderCaseKey(true); }
   if(!e.target.closest('[data-ck-next]')) return;
+  stopVoice();
   if(caseKeyAt < caseKeyPages.length - 1){ caseKeyAt++; return renderCaseKey(true); }
   $('#caseKey').hidden = true; const then = caseKeyThen; caseKeyThen = null; then?.();
 });

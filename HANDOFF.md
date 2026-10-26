@@ -123,7 +123,7 @@ node server.js            # http://localhost:5173/
 
 ### 3.2 브리핑
 
-- **이번 사건의 열쇠**(사용자 결정: 사건 전 예습은 그 사건의 학습 포인트를, 이미 있는 문법 데이터로): 새 사건을 열면(이어서 수사가 아닐 때) 사건 카드 위에 **전체 화면 종이 페이지**(`#caseKey`, 복습 페이지와 같은 틀, 사용자 요청: 팝업이 아니게)가 열린다. **형태 하나에 한 쪽**(사용자 요청: at / from A to B / between A and B를 각각 한 페이지씩, Case 01은 3쪽). 위에 `Case 01 · 도서관 살인사건`과 ×(사건 목록으로), 복습과 같은 진행 막대, 제목 `이번 사건의 열쇠`와 `해석`, 문법 이름(시간 전치사) 아래 큰 형태(`at`), 그 형태의 한국어 설명(`GRAMMAR[].examples[].why`), 예문 3개 카드(표현은 형광펜 `{…}`, 해석은 `해석`을 누르면). 아래 `이전`(2쪽부터)·`다음`, 마지막 쪽은 `사건 시작`. `examples`가 없는 문법은 문법 카드 내용 한 쪽. 예문은 사건 밖 문장이고 사건의 단서 시각(7–10시, 7:30, 8:30, 8:40, 8:45)·인물·장소를 쓰지 않는다. 아래 `사건 시작` → (처음 한 번) 튜토리얼 → 오소리 경사. `startCase(keySeen)` → `openCaseKey(list, then)`(`caseKeyPages`) → `renderCaseKey(turn)`. 예문 음성은 아직 없다. 사건마다 할 일은 `keys`에 문법 id를 적고, 그 문법에 `examples`가 없으면 더 쓰는 것뿐이다. 따로 만든 예습 화면 시안(퀴즈 3쪽, 탐정의 하루 한 쪽)은 사용자가 고르지 않았다(`design/case-prep.html`).
+- **이번 사건의 열쇠**(사용자 결정: 사건 전 예습은 그 사건의 학습 포인트를, 이미 있는 문법 데이터로): 새 사건을 열면(이어서 수사가 아닐 때) 사건 카드 위에 **전체 화면 종이 페이지**(`#caseKey`, 복습 페이지와 같은 틀, 사용자 요청: 팝업이 아니게)가 열린다. **형태 하나에 한 쪽**(사용자 요청: at / from A to B / between A and B를 각각 한 페이지씩, Case 01은 3쪽). 위에 `Case 01 · 도서관 살인사건`과 ×(사건 목록으로), 복습과 같은 진행 막대, 바탕은 크림 모눈 종이(사용자 결정: `design/case-key.html` B-2, 코르크판 그림 없이). 빨간 압정으로 꽂은 열쇠 카드에 제목 `이번 사건의 열쇠`와 `해석`, 큰 형태(`at`), 문법 이름(시간 전치사), 그 형태의 한국어 설명(`GRAMMAR[].examples[].why`). 그 아래 예문 3개는 테이프 붙인 노랑·하늘·분홍 쪽지(조금씩 기울임, 표현은 분홍 형광펜 `{…}`, 해석은 `해석`을 누르면), 쪽지마다 오른쪽 ▶(사용자 요청)가 그 예문을 읽는다(`playExample(file)` → `#wordVoice`, `audio/examples/<문법>-<쪽>-<줄>.wav`, 천천히면 0.75배속). 쪽을 넘기거나 닫으면 재생을 멈춘다. 아래 `이전`(2쪽부터)·`다음`, 마지막 쪽은 `사건 시작`. `examples`가 없는 문법은 문법 카드 내용 한 쪽. 예문은 사건 밖 문장이고 사건의 단서 시각(7–10시, 7:30, 8:30, 8:40, 8:45)·인물·장소를 쓰지 않는다. 아래 `사건 시작` → (처음 한 번) 튜토리얼 → 오소리 경사. `startCase(keySeen)` → `openCaseKey(list, then)`(`caseKeyPages`) → `renderCaseKey(turn)`. 사건마다 할 일은 `keys`에 문법 id를 적고, 그 문법에 `examples`가 없으면 더 쓰고, `scripts/generate-example-audio.ps1`로 예문 음성을 만드는 것이다. 따로 만든 예습 화면 시안(퀴즈 3쪽, 탐정의 하루 한 쪽)은 사용자가 고르지 않았다(`design/case-prep.html`).
 - 도서관 현장에서 동료 경찰 Sgt. Badger에게 먼저 묻는다. 처음에는 `What happened here?`만 나오고, 첫 기록을 마치면 나머지 두 질문이 열린다(`openingQuestion`, `availableQuestions()`).
 - 왼쪽 위 `<`로 언제든 현장에 나갈 수 있다. 옆 칩(`#orderChip`, 누르는 기능 없음)은 장소 해금과 관계없이 현재 NPC 이름 `Sgt. Badger`를 보여 준다. 인물 소개 중에는 숨기며 질문 개수(n/3)는 보여 주지 않는다.
 - 도서관은 첫 질문, 두더지 부인은 둘째 질문의 기록을 **바르게 받아 적고 확인했을 때 각각** 열린다. 세 질문을 모두 마칠 때까지 해금을 미루지 않는다.
@@ -350,6 +350,7 @@ node server.js            # http://localhost:5173/
 | `knownQuestion()`, `passageToggle()`, `openGrammar(g)`, `grammarUses(g)`, `learnedGrammar()` | 배운 것으로 치는 질문(확인됨 또는 해결한 사건), 지문 접기/펴기 버튼, 문법 카드·나온 문장·모은 문법 |
 | `speak(text, key, who, onDone, range)` | `spk(who).audio[key]`가 있으면 mp3, 없으면 브라우저 TTS. TTS가 0.7초 안에 시작하지 않으면(앱 미리보기 등) 대사 길이만큼 입만 움직인다. `onDone`은 끝까지 재생됐을 때만. 보통 1 / 천천히 0.75배속 |
 | `pronounceWord(key)` | 단어장 전용. `WORDS` 키에 대응하는 `audio/words/<slug>.wav` 한 항목만 `#wordVoice`로 재생. 기존 음성을 멈추고 시작하며 천천히는 0.75배속 |
+| `playExample(file)` | 이번 사건의 열쇠 예문 ▶. `audio/examples/<file>.wav`를 `#wordVoice`로 재생, 기존 음성을 멈추고 시작, 천천히는 0.75배속 |
 | `setTalking()`, `stopVoice()` | 발화 애니메이션(`talker`)과 음성 정지. `speechTurn`으로 취소된 TTS 이벤트 방어 |
 | `enterPlace(id)`, `renderScene()`, `examine(i)` | 장소 화면, 장면 그림(원본 + 바닥 확장 + 핫스팟 + NPC) |
 | `evidencePhoto()`, `captureEvidence()`, `cancelCapture()` | 4:3 증거 사진, 셔터·나레이션·저장 순서, 취소 정리 |
@@ -375,6 +376,7 @@ node server.js            # http://localhost:5173/
 ## 6. 음성
 
 - **단어장 발음**(사용자 요청): `audio/words/`의 40개 개별 WAV를 재생한다. Microsoft Zira Desktop(en-US), 로컬 Windows SAPI로 합성, 22,050Hz·16bit·모노 PCM, 합계 약 3MB. 단어·여러 단어로 된 표현·이름은 그 항목만, 숫자·시간은 `WORDS`의 영어 읽는 법만 발음한다. 이름 약칭 Sgt./Mrs./Mr.는 Sergeant/Missus/Mister로 풀어 합성. 모바일에서도 브라우저 TTS 없이 파일로 재생한다. `WORDS`를 바꾸면 `scripts/generate-word-audio.ps1`로 재생성(Windows PowerShell 5.1·Node·en-US SAPI 필요). 자세한 출처·설정은 `audio/words/README.md`. 외부 크레딧 없음.
+- **사건의 열쇠 예문**(사용자 요청: 예문 옆 ▶): `audio/examples/`의 9개 WAV(`time-prep-1-1.wav` … `time-prep-3-3.wav`, 문법 id-쪽-줄). 단어장 발음과 같은 Microsoft Zira Desktop·Rate -1·Volume 85·22,050Hz·16bit·모노, 합계 약 1MB. 원문은 `GRAMMAR[].examples[].lines`의 영어에서 `{}`를 뺀 것. 예문을 바꾸거나 더하면 `scripts/generate-example-audio.ps1`로 재생성. 외부 크레딧 없음.
 - **도구**: Higgsfield `text2speech_v2`, `variant: minimax`, 프리셋 목소리. 파일 이름은 `audio/<인물id>-<키>.mp3`(키는 `hello` 또는 질문 id)이고 인물 데이터의 `audio`에 연결한다. 없는 키는 브라우저 TTS로 읽는다.
 - **문장 단위 재생**(사용자 요청): 학습 화면이 한 문장만 보여 줄 때(문법 카드의 예문·복습의 문장 듣기) ▶도 그 문장만 재생한다. 대사 녹음 17개의 문장별 시작·끝 초는 `SENTENCE_TIMES`(문장 사이 쉼을 ffmpeg `silencedetect`로 찾음, ray:q3·duck:d2는 쉼표 쉼을 손으로 바로잡음). 문장 나누기는 `sentencesOf()`(Mrs./Mr./Sgt.에서 끊지 않음). 재생은 `replaySentence(ref, idx)` → `speak(..., range)`: 녹음을 메모리 사본(blob URL, `seekableSrc()`)으로 받아 `#t=시작,끝`으로 재생하고 15ms 감시로 끝에서 바로 멈춘다(개발 서버가 Range 요청을 지원하지 않아 파일 URL로는 건너뛰기가 안 된다). 복습 단어 카드의 문장 재생 범위는 `sentenceFor()`(그 단어를 말한 문장, 여럿이면 노트 줄과 가장 겹치는 문장). **녹음을 바꾸면 `SENTENCE_TIMES`도 다시 잰다.**
 
@@ -490,7 +492,6 @@ node server.js            # http://localhost:5173/
 
 ## 10. 다음 할 일 (미구현 후보, 별도 요청 후 진행)
 
-- **사건의 열쇠(문법 카드) 화면 일러스트 개편 — 바탕 고르는 중**(사용자 결정: B 열쇠 카드를 압정으로 꽂고 예문은 색 쪽지 세 장, 코르크판 그림은 빼기): `design/case-key.html` B-1 세이지 바탕(추천) / B-2 모눈 종이 / B-3 흐린 사무소 / 이전 B 코르크판. 사용자 선택 대기, 고르면 게임의 `#caseKeyCard`에 적용.
 0. **추리 칠판 다듬기**(게임 적용됨, 3.7절): 두더지 알리바이 쪽(오리 아저씨 새 진술 d3 "Mrs. Mole had tea here. She left at ten to nine." + 음성 약 0.3크레딧, 또는 두더지를 용의자에서 빼기), 틀렸을 때 알려 줄 정도(지금은 없음 / "거의 맞았어" / 도토리 힌트), 탐정 말풍선 2줄의 음성(약 0.6크레딧), 남아 있는 옛 지목 창·오답 반박 코드 정리. 시안 기록: `design/deduction-book.html`(적용한 안), `design/case-board.html`·`design/deduction-ideas.html`(검토했다가 고르지 않은 안).
 1. **사건 도중 증거를 인물에게 내밀기**(지금은 엔딩 대질에만 있다): 게임이 증거와 인물을 자동으로 잇지 않는다. 플레이어가 고른 인물에게 증거를 보여 주면 반응한다(예: 주황색 털을 피오나에게). 누구에게 보여 줄지가 추리다.
 2. **모순 지목**: 범인만 고르는 대신 노트 문장 + 증거를 짝지어 제시한다. 틀리면 동료가 대화로 힌트를 준다. 틀린 노트 문장이면 동료가 "정말 그렇게 말했어요?"라고 되묻는다.
