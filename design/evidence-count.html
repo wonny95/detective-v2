@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>심문 증거 개수 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--berry:#C96F86;--line:#E3D5B8;--sage:#9FBF9F;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--f-hand:"Paperlogy",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-hand)}
+.wrap{max-width:1600px;margin:0 auto;padding:28px 20px 56px}
+h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 14px;font-size:14px;opacity:.85;max-width:860px;line-height:1.6}
+.ctl{display:flex;gap:8px;margin:0 0 20px}
+.ctl button{padding:6px 14px;border:2px solid var(--ink);border-radius:16px;background:var(--paper);font:inherit;font-size:13px;cursor:pointer}
+.ctl button[aria-pressed="true"]{background:var(--honey)}
+.grid{display:flex;flex-wrap:wrap;gap:30px 24px;align-items:flex-start}
+.opt{width:300px;max-width:100%}
+.opt h2{margin:0 0 10px;font-family:var(--f-display);font-weight:400;font-size:16px;display:flex;align-items:center;gap:8px}
+.opt p{margin:10px 2px 0;font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
+.rec{display:inline-block;padding:1px 8px;border-radius:10px;background:var(--honey);font-size:11px}
+
+.phone{position:relative;width:300px;max-width:100%;height:540px;border-radius:30px;overflow:hidden;box-shadow:0 8px 24px rgba(40,30,20,.25);background:var(--paper)}
+/* the place view (cropped): the library picture, the back button and the place name like the game's */
+.place{position:absolute;inset:0 0 64px;background:#6B4A30 url(../assets/places/library-higgsfield-v2.png) 30% 0/auto 100% no-repeat}
+.back{position:absolute;top:10px;left:12px;width:36px;height:36px;border-radius:50%;background:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font-size:18px;z-index:3}
+.pname{position:absolute;top:10px;left:56px;z-index:3;height:36px;display:inline-flex;align-items:center;padding:0 14px;border:2px solid transparent;font-family:var(--f-display);font-size:16px;
+  border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch}
+.menu{position:absolute;left:0;right:0;bottom:0;height:64px;background:#F3E8D2;border-top:2px solid var(--ink);display:flex;justify-content:space-around;align-items:center;font-size:12px}
+.menu span{display:flex;flex-direction:column;align-items:center;gap:2px}
+.menu img{width:30px;height:30px}
+
+/* the count: [magnifier] n / 4, the game's cream paper chip; all four found = honey with a tick */
+.count{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 10px 0 6px;border:2px solid transparent;font-family:var(--f-display);font-size:16px;white-space:nowrap;
+  border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 14px 14.5px stretch}
+.count img{width:24px;height:24px}
+.count small{font-size:12px;color:var(--ink-soft)}
+.done .count{border-image-source:url(../assets/ui/buttons/honey-flat.png)}
+.count.bump{animation:bump .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{40%{transform:scale(1.15)}}
+.slots{display:inline-flex;gap:4px}
+.slots i{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink-soft);opacity:.55}
+.slots i.on{background:var(--berry);border-color:var(--ink);opacity:1}
+.done .slots i.on{background:#7FA87F}
+
+.a .count,.a2 .count{position:absolute;top:11px;right:12px;z-index:3}
+/* B: on the map's top edge */
+.map{position:absolute;inset:0 0 64px;background:#E9DDBF url(../assets/places/village-map-higgsfield.png) center/cover no-repeat}
+.b .count{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3}
+.b .count.bump{animation:bump-c .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump-c{40%{transform:translateX(-50%) scale(1.15)}}
+/* C: the notebook's evidence page: the count over the photos */
+.note{position:absolute;inset:40px 10px 64px;background:#FDFAEE;border:2px solid var(--ink);border-radius:8px 8px 0 0;padding:14px 12px}
+.note h3{margin:0 0 10px;display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:400;font-size:17px}
+.note h3 .count{margin-left:auto;height:30px;font-size:14px}
+.photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photos div{aspect-ratio:1/1.05;border:2px solid var(--ink);border-radius:5px;background:#EFE6D2}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>심문 증거 개수 시안</h1>
+  <p class="lead">사건을 풀 때(심문) 내밀어야 하는 증거만 셉니다(사용자 결정). Case 01은 <b>4개</b>. 아래 버튼으로 찾은 개수를 바꿔 보세요. 4개를 다 찾으면 꿀색 + 초록으로 바뀌어요. 숫자가 바뀔 때 톡 커져요.</p>
+  <div class="ctl" id="ctl"></div>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const NEED = 4;
+const chip = (n, kind) => kind === 'slots'
+  ? `<span class="count"><img src="../assets/ui/icons/magnifier.png" alt=""><span class="slots">${Array.from({ length:NEED }, (_, i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</span></span>`
+  : `<span class="count"><img src="../assets/ui/icons/magnifier.png" alt="">${n} <small>/ ${NEED}</small></span>`;
+const menu = `<div class="menu"><span><img src="../assets/ui/nav/map.png" alt="">지도</span><span><img src="../assets/ui/nav/note.png" alt="">Note</span></div>`;
+const OPTS = [
+  ['a', 'A. 장소 이름 옆 숫자', 1, '장소 화면 오른쪽 위에 돋보기 + “1 / 4”. 조사하는 동안 늘 보이고, 누르면 노트의 증거 탭이 열려요. 가장 바로 읽혀요.', n => `<div class="place"></div><span class="back">‹</span><span class="pname">Old Library</span>${chip(n)}${menu}`],
+  ['a2', 'A-2. 장소 이름 옆 동그라미 네 칸', 0, '숫자 대신 빈 동그라미 네 칸이 하나씩 분홍으로 채워져요. 글자 없이 “모으는” 느낌. 칸 수가 사건마다 달라지면 길이도 달라져요.', n => `<div class="place"></div><span class="back">‹</span><span class="pname">Old Library</span>${chip(n, 'slots')}${menu}`],
+  ['b', 'B. 지도 위', 0, '마을 지도 맨 위 가운데에만. 어디로 갈지 정할 때 보여요. 장소에서 조사하는 중엔 안 보여요.', n => `<div class="map"></div>${chip(n)}${menu}`],
+  ['c', 'C. 노트 증거 탭', 0, '노트의 증거 기록 제목 오른쪽에. 모은 사진을 볼 때만 보여서 가장 조용해요.', n => `<div class="place"></div><div class="note"><h3>증거 기록 ${chip(n)}</h3><div class="photos"><div></div><div></div><div></div><div></div></div></div>${menu}`],
+];
+let found = 1;
+function render(bump){
+  document.getElementById('ctl').innerHTML = [0, 1, 2, 3, 4].map(n => `<button type="button" data-n="${n}" aria-pressed="${n === found}">${n}개 찾음</button>`).join('');
+  document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text, html]) => `<section class="opt"><h2>${title}${rec ? '<span class="rec">추천</span>' : ''}</h2><div class="phone ${k}${found === NEED ? ' done' : ''}">${html(found)}</div><p>${text}</p></section>`).join('');
+  if(bump) document.querySelectorAll('.count').forEach(c => c.classList.add('bump'));
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-n]'); if(b){ found = +b.dataset.n; render(true); } });
+render();
+</script>
+</body>
+</html>
