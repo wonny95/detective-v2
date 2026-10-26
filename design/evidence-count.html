@@ -63,7 +63,7 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 </head>
 <body>
 <div class="wrap">
-  <h1>심문 증거 개수 시안</h1>
+  <h1>심문 증거 개수 시안 — 게임 적용</h1>
   <p class="lead">사건을 풀 때(심문) 내밀어야 하는 증거만 셉니다(사용자 결정). Case 01은 <b>4개</b>. 아래 버튼으로 찾은 개수를 바꿔 보세요. 4개를 다 찾으면 꿀색 + 초록으로 바뀌어요. 숫자가 바뀔 때 톡 커져요.</p>
   <div class="ctl" id="ctl"></div>
   <div class="grid" id="grid"></div>
@@ -75,10 +75,7 @@ const chip = (n, kind) => kind === 'slots'
   : `<span class="count"><img src="../assets/ui/icons/magnifier.png" alt="">${n} <small>/ ${NEED}</small></span>`;
 const menu = `<div class="menu"><span><img src="../assets/ui/nav/map.png" alt="">지도</span><span><img src="../assets/ui/nav/note.png" alt="">Note</span></div>`;
 const OPTS = [
-  ['a', 'A. 장소 이름 옆 숫자', 1, '장소 화면 오른쪽 위에 돋보기 + “1 / 4”. 조사하는 동안 늘 보이고, 누르면 노트의 증거 탭이 열려요. 가장 바로 읽혀요.', n => `<div class="place"></div><span class="back">‹</span><span class="pname">Old Library</span>${chip(n)}${menu}`],
-  ['a2', 'A-2. 장소 이름 옆 동그라미 네 칸', 0, '숫자 대신 빈 동그라미 네 칸이 하나씩 분홍으로 채워져요. 글자 없이 “모으는” 느낌. 칸 수가 사건마다 달라지면 길이도 달라져요.', n => `<div class="place"></div><span class="back">‹</span><span class="pname">Old Library</span>${chip(n, 'slots')}${menu}`],
-  ['b', 'B. 지도 위', 0, '마을 지도 맨 위 가운데에만. 어디로 갈지 정할 때 보여요. 장소에서 조사하는 중엔 안 보여요.', n => `<div class="map"></div>${chip(n)}${menu}`],
-  ['c', 'C. 노트 증거 탭', 0, '노트의 증거 기록 제목 오른쪽에. 모은 사진을 볼 때만 보여서 가장 조용해요.', n => `<div class="place"></div><div class="note"><h3>증거 기록 ${chip(n)}</h3><div class="photos"><div></div><div></div><div></div><div></div></div></div>${menu}`],
+  ['a', 'A. 장소 이름 옆 숫자 (적용)', 0, '장소 화면 오른쪽 위에 돋보기 + “1 / 4”. 조사하는 동안 늘 보이고, 누르면 노트의 증거 탭이 열려요. 가장 바로 읽혀요.', n => `<div class="place"></div><span class="back">‹</span><span class="pname">Old Library</span>${chip(n)}${menu}`],
 ];
 let found = 1;
 function render(bump){
