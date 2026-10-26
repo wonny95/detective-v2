@@ -261,8 +261,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
    is narrow). Divider sheets behind the note's page (user decision: tabs on the folder's blue band looked apart from the
    paper): every tab comes out from under the page's top edge, the open one is the page itself. The closed ones are kraft
    paper, a shade darker each one further back; the page's own top edge (assets/ui/casefile-paper-edge.png, cut from the
-   picture: its pencil line and the paper under it, the blue band clear; .note-edge) is laid again over their feet with a
-   faint shadow up onto them. The open one sits above that strip, open at the bottom (tab-N.png, its slightly grey last
+   picture: the paper and only the last two rows of its pencil line, so a closed tab meets the paper at a thin line, not the
+   thick edge drawn against the folder (user request: no gap under the tabs); .note-edge) is laid again over their feet
+   with a faint shadow up onto them. The open one sits above that strip, open at the bottom (tab-N.png, its slightly grey last
    rows pushed below) and fading into the cream past the pencil line, so the page's edge runs into its sides with no seam.
    Layers inside the dock: picture < closed tabs < .note-edge < open tab < head and body. The PNG masks the tab's face and
    is multiplied over its colour, keeping the pencil outline; the button carries the shadow. The foot is at 9.5% of the
@@ -284,7 +285,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ncat[aria-pressed="true"] .face::before{background-position:top;background-size:100% 112%}
 .ncat[aria-pressed="true"] img{opacity:1}
 .note-edge{position:absolute;left:0;right:0;top:0;margin-top:5.4945%;aspect-ratio:728 / 44;background:url(assets/ui/casefile-paper-edge.png) 0 0/100% 100% no-repeat;
-  filter:drop-shadow(0 -1px 1px rgba(40,28,18,.28));pointer-events:none}
+  filter:drop-shadow(0 -.5px .8px rgba(40,28,18,.22));pointer-events:none}
 .ncat .badge{position:absolute;top:3px;right:4px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--berry);color:#fff;font-size:10px;line-height:16px;text-align:center;animation:ncat-pop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes ncat-pop{from{transform:scale(0)}}
 /* the person page: everyone the player has talked to as a row of faces under the title (user decision), progress in
