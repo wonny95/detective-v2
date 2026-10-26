@@ -632,6 +632,13 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .scene-npc span{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);padding:2px 8px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-family:var(--f-hand);font-size:13px;font-weight:700;white-space:nowrap}
 .scene-npc:hover span,.scene-npc:focus-visible span{background:var(--honey)}
 .scene-npc:focus-visible{outline:3px dashed var(--berry);outline-offset:4px;border-radius:18px}
+/* a quiet while in a place: someone with questions left calls the player with a hand-drawn ! in a speech bubble over
+   their head (user decision: design/npc-nudge.html 느낌표 2, assets/ui/nudge-bang.png); it pops up, gives a little
+   jump every few seconds, and goes with the next touch (nudgeTick) */
+.scene-npc .nudge{position:absolute;left:50%;bottom:100%;height:44px;width:auto;margin-bottom:2px;pointer-events:none;transform:translateX(-50%);transform-origin:50% 100%;filter:drop-shadow(1px 2px 1px rgba(52,32,17,.25));animation:nudge-in .45s cubic-bezier(.3,1.6,.5,1) both,nudge-hop 2.4s ease-in-out .5s infinite}
+@keyframes nudge-in{from{opacity:0;transform:translateX(-50%) scale(.2)}}
+@keyframes nudge-hop{0%,62%,100%{transform:translateX(-50%)}70%{transform:translateX(-50%) translateY(-8px) rotate(-8deg)}78%{transform:translateX(-50%) rotate(6deg) scale(1.05,.95)}86%{transform:translateX(-50%) rotate(-3deg)}94%{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.scene-npc .nudge{animation:none}}
 .spot{position:absolute;padding:0;border:0;background:transparent;border-radius:16px;cursor:zoom-in}
 .tapfx{position:absolute;pointer-events:none;transform:translate(-50%,-50%);animation:tapfx .9s ease-out forwards;white-space:nowrap}
 .tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
@@ -3959,6 +3966,23 @@ $('#art').addEventListener('click', e => {
   if(spot){ spot.classList.add('found'); examine(+spot.dataset.clue); }
   else tapFx(x, y, 'miss', 'Nothing here.');
 });
+
+// The nudge: after NUDGE_AFTER ms with no touch, key or wheel, while a place is showing and nothing covers it (no
+// notebook, map, drawer, pop-up or tutorial: the head point must be the person's own), the first person there who
+// still has questions (phase not 'done') gets the ! (.nudge). Any input takes it away and starts the count again.
+const NUDGE_AFTER = 8000;
+let lastInput = Date.now();
+function clearNudge(){ document.querySelectorAll('#art .nudge').forEach(n => n.remove()); }
+['pointerdown', 'keydown', 'wheel'].forEach(type => addEventListener(type, () => { lastInput = Date.now(); clearNudge(); }, { capture:true, passive:true }));
+setInterval(function nudgeTick(){
+  if(Date.now() - lastInput < NUDGE_AFTER || !S.investigate || ending || discoveryPerson || document.hidden || $('#art .nudge')) return;
+  const npc = [...$('#art').querySelectorAll('.scene-npc')].find(b => {
+    if(per(b.dataset.talk).phase === 'done') return false;
+    const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height * .25;
+    return x > 0 && x < innerWidth && document.elementFromPoint(x, y)?.closest('.scene-npc') === b;
+  });
+  if(npc) npc.insertAdjacentHTML('beforeend', '<img class="nudge" src="assets/ui/nudge-bang.png" alt="">');
+}, 1000);
 
 function enterPlace(id, fromConversation = false){
   if(!S.known.has(id) && !(fromConversation && id === cur().place)) return;

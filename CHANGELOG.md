@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-26 18:50 · Claude · (이 커밋)
+## 2026-10-26 19:20 · Claude · (이 커밋)
+
+- 사용자 결정: 인물 부르는 표시는 말풍선 속 느낌표(느낌표 2번). 게임 장소 화면에 적용: 약 8초 무입력이면 물어볼 게 남은 첫 인물 머리 위에 `assets/ui/nudge-bang.png`가 톡 튀어나와 몇 초마다 흔들림, 아무 입력에 사라짐, 그 인물 머리가 노트·지도·팝업 등에 가려지면 안 띄움(`nudgeTick`, `clearNudge`). 시안은 고른 안만 남김, 자르기 스크립트도 그 한 칸만.
+- 크레딧 없음(그림은 앞 커밋에서 만든 것).
+- 확인(새 탭): 도서관에서 10초 기다리면 오소리 경사 위에 표시, 지도를 열면 사라지고 지도가 열린 동안 10초 기다려도 안 뜸, 콘솔 오류 없음. 시험 키(`pioo.tutorialSeen`, `pioo.detectiveName`, `pioo.save`, `pioo.studyDays`) 지움. 폰 실기기는 못 봄.
+- 못 한 것: 고르지 않은 후보 그림(`assets/ui/nudge/` 12개, `nudge-arrow-higgsfield-original.png`) 삭제가 확인 대기로 막혀 아직 남아 있음.
+- **다음**: 사용자에게 고르지 않은 nudge 후보 그림을 지워도 되는지 확인 후 삭제·커밋. 그 외 사용자 지시 대기.
+
+## 2026-10-26 18:50 · Claude · 7e9a595
 
 - 사용자 요청: 화살표·느낌표를 Higgsfield로 여러 가지 그려 시안 여러 개. 느낌표 6종·화살표 6종 시트 두 장(`assets/ui/nudge-*-higgsfield-original.png`)을 잘라 `assets/ui/nudge/`(`scripts/cut-nudge-marks.py`), `design/npc-nudge.html`을 12개 화면으로(느낌표는 톡 뛰며 흔들림, 화살표는 둥둥). 코드로 그린 E/F는 지움. 게임 미적용.
 - 크레딧 약 3(Nano Banana 2.1 두 장).
