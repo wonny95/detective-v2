@@ -7,7 +7,6 @@ from PIL import Image
 SHEETS = {
     'assets/ui/nav-icons-higgsfield-original.png': [[None, 'case-magnifier', 'study-book'], [None, 'my-hat', None]],
     'assets/ui/nav-icons-2-higgsfield-original.png': [['home-house', None, None], ['map', 'note', None]],
-    'assets/ui/talk-icons-higgsfield-original.png': [[None, None, 'talk'], [None, None, None]],
 }
 
 def key(im):

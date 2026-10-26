@@ -421,7 +421,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gcard .gko{font-size:13px;line-height:1.5;color:var(--ink-soft)}
 .rv-gbtns{display:flex;gap:6px;align-items:center}
 /* 이번 사건의 열쇠: the case's key grammar on a whole page before the briefing (user request: not a pop-up), one form a
-   page; each example's Korean behind its own 해석 (user request: beside its ▶). User decision (design/case-key.html B-2): graph paper, the key on a
+   page; each example's Korean behind its own 해석 (user request: beside its ▶). User decision (mockup B-2): graph paper, the key on a
    card pinned with the red tack, the examples on three taped notes, each with ▶. The paper, notes and tape are
    hand-drawn (assets/ui/casekey/, user request: in the game's illustration style), the buttons the game's own. */
 .ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px}
@@ -617,7 +617,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .inv-head h2{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;max-width:100%;margin:0;padding:0 14px;border:2px solid transparent;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-weight:400;font-size:15px;line-height:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inv-head h2:empty{display:none}
-/* the evidence the interrogation needs, found so far (user decision: design/evidence-count.html A, only that evidence,
+/* the evidence the interrogation needs, found so far (user decision: option A, only that evidence,
    not every clue): magnifier + n / N on the cream paper chip; it gives a little bump when it goes up and turns honey when
    all are found; it opens the notebook's evidence page (evidenceNeed, renderSceneHead) */
 .ev-count{pointer-events:auto;margin-left:auto;display:inline-flex;align-items:center;gap:5px;flex:none;min-height:36px;padding:0 11px 0 6px;border:2px solid transparent;background:none;
@@ -645,7 +645,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .scene-npc:hover span,.scene-npc:focus-visible span{background:var(--honey)}
 .scene-npc:focus-visible{outline:3px dashed var(--berry);outline-offset:4px;border-radius:18px}
 /* a quiet while in a place: someone with questions left calls the player with a hand-drawn ! in a speech bubble over
-   their head (user decision: design/npc-nudge.html 느낌표 2, assets/ui/nudge-bang.png); it pops up, gives a little
+   their head (user decision: 느낌표 2, assets/ui/nudge-bang.png); it pops up, gives a little
    jump every few seconds, and goes with the next touch (nudgeTick) */
 .scene-npc .nudge{position:absolute;left:50%;bottom:100%;height:44px;width:auto;margin-bottom:2px;pointer-events:none;transform:translateX(-50%);transform-origin:50% 100%;filter:drop-shadow(1px 2px 1px rgba(52,32,17,.25));animation:nudge-in .45s cubic-bezier(.3,1.6,.5,1) both,nudge-hop 2.4s ease-in-out .5s infinite}
 @keyframes nudge-in{from{opacity:0;transform:translateX(-50%) scale(.2)}}
@@ -891,7 +891,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
 .home-page[hidden]{display:none}
 .cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-/* the menus (user choice, design/home-nav.html A; the app's 홈 · 사건 · 학습 · 마이 and a case's 지도 · Note alike): no box
+/* the menus (user choice, option A; the app's 홈 · 사건 · 학습 · 마이 and a case's 지도 · Note alike): no box
    around each item — an illustrated icon and its name on the paper strip, whose top is a hand-drawn wavy line; the page
    shown (or the sheet open) has a honey colored-pencil patch behind its icon and a darker name. Icons: assets/ui/nav. */
 .nav::before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:12px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 12' preserveAspectRatio='none'%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6 L400 12 L0 12Z' fill='%23F4EAD4'/%3E%3Cpath d='M0 7 C40 4 70 9 110 6 S190 4 230 7 S320 9 360 5 S395 7 400 6' fill='none' stroke='%234A3628' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}

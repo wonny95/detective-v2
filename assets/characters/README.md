@@ -71,11 +71,7 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 도구: Higgsfield Nano Banana 2.1, 16:9, 1K, thinking high, 참조 오리 아저씨 원본(job `6f92a3f3-dcaa-471e-b35e-edfa9f3af87b`). 장당 1.5크레딧.
 - 공통 프롬프트: 위 공통 프롬프트(기준 캐릭터 duck) + "Pioo, a clever young red squirrel detective, the hero of the game. Warm russet-orange fur with a cream belly and muzzle, small ear tufts, a big fluffy curled russet tail … no white sticker outline".
 
-| 파일 | job | 차림 |
-|---|---|---|
-| `detective-candidate-a.png` | `a66500b9-6ed2-43e7-8118-3713c4d8efc5` | 체크무늬 탐정 모자, 베이지 트렌치코트, 돋보기 |
-| `detective-candidate-b.png` | `5dd13d0d-644e-450b-ba92-9ff4800acacc` | 겨자색 헌팅캡, 꿀색 조끼(도토리 배지), 수첩·연필 |
-| `detective-candidate-c.png` | `23f91937-62a2-4eb2-921b-63657e35e78a` | 올리브색 야전 코트, 목에 카메라, 도토리 장식 가방 |
+- 후보 B(겨자색 헌팅캡, job `5dd13d0d-…`)·C(올리브색 야전 코트, job `23f91937-…`)는 고르지 않아 파일을 지웠다. A는 원본과 같다.
 
 ## 탐정 포즈 4종 (Claude 제작, 2026-10-23, 적용 중)
 

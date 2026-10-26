@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-26 20:25 · Claude · (이 커밋)
+## 2026-10-26 20:40 · Claude · (이 커밋)
+
+- 사용자 요청: 게임에 적용해 필요 없어진 시안과 쓰지 않은 시안 모두 삭제. `design/` 15개 파일 전부, 고르지 않은 후보 그림(`assets/ui/nudge/` 12개, `nudge-arrow-higgsfield-original.png`, `nav/talk.png`·`talk-icons-higgsfield-original.png`, `characters/detective-candidate-a/b/c.png`, `ui/tab-1~3-closed.png`). HANDOFF·README·LEARNING_PLAN·index.html 주석·`cut-nav-icons.py`에서 지운 파일 경로를 뺌.
+- 남겨 둔 것: 게임이 쓰는 그림, Higgsfield 원본 시트, 예전 버전 보관 그림(심문 게이지, 말풍선 꼬리, 한글 도장 등 README에 "미사용 보관"으로 적힌 것) — 지울지 사용자 확인 필요.
+- 확인: 인라인 스크립트 구문 검사 통과. 브라우저 확인은 못 함(사용량 한도).
+- **다음**: 새 탭에서 게임 흐름 한 번 확인(지운 파일을 게임이 참조하지 않는지), "미사용 보관" 그림 삭제 여부 사용자 확인. 메모리 `delete-unpicked-mockups`를 "적용 후 시안 파일도 지움"으로 고치기.
+
+## 2026-10-26 20:25 · Claude · eaef348
 
 - 사용자 결정: 심문 증거 개수 A안 적용. 장소 화면 오른쪽 위 크림 종이 칩 돋보기 + `n / 4`(`#evCount`, `evidenceNeed()` = `ENDING.confront` 단계 중 받는 증거를 하나라도 찾은 수). 오를 때 톡 커지고, 다 찾으면 꿀색, 누르면 노트 증거 목록. 시안은 A만 남김.
 - 크레딧 없음.
