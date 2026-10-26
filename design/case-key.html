@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사건의 열쇠 화면 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--paper-2:#F4EAD4;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--line:#E3D5B8;--berry:#C96F86;--sheet:#FDFAEE;--pen:#34506E;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--f-hand:"Paperlogy",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-hand)}
+.wrap{max-width:1600px;margin:0 auto;padding:28px 20px 56px}
+h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
+.lead{margin:0 0 22px;font-size:14px;opacity:.8;max-width:820px;line-height:1.6}
+.grid{display:flex;flex-wrap:wrap;gap:34px 28px;align-items:flex-start}
+.opt{width:360px;max-width:100%}
+.opt h2{margin:0 0 10px;font-family:var(--f-display);font-weight:400;font-size:17px}
+.opt p{margin:12px 2px 0;font-size:13px;line-height:1.6;color:var(--ink-soft)}
+.rec{display:inline-block;padding:1px 8px;border-radius:10px;background:var(--honey);font-size:11px;vertical-align:2px}
+
+/* the phone and what every option shares: the case line, the close button, the three steps, 해석, 다음 */
+.phone{position:relative;width:360px;max-width:100%;height:740px;border-radius:36px;overflow:hidden;background:var(--paper);box-shadow:0 10px 30px rgba(40,30,20,.25);display:flex;flex-direction:column}
+.top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:20px 18px 0}
+.top .case{font-family:var(--f-display);font-size:13px;color:var(--berry)}
+.top .x{width:40px;height:40px;background:url(../assets/ui/close-button.png) center/100% no-repeat;border:0}
+.steps{position:relative;z-index:2;display:flex;gap:6px;padding:10px 18px 0}
+.steps i{flex:1;height:6px;border-radius:3px;background:#E3D5B8}
+.steps i:first-child{background:#E0A93A}
+.go{position:absolute;left:18px;right:18px;bottom:22px;z-index:3;height:50px;border:2px solid transparent;font-family:var(--f-display);font-size:17px;color:#FFFDF7;background:none;
+  border-image:url(../assets/ui/buttons/berry-flat.png) 60 62 62 62 fill / 20px 20.6px stretch}
+.ko{display:none;font-size:13px;color:var(--berry);font-weight:700;margin-top:2px}
+.show-ko .ko{display:block}
+.kobtn{padding:3px 12px;border:2px solid transparent;background:none;font-family:var(--f-display);font-size:12px;color:var(--ink);border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 12px 12.4px stretch}
+.show-ko .kobtn{border-image-source:url(../assets/ui/buttons/sky-flat.png)}
+mark{background:linear-gradient(transparent 55%,rgba(242,207,115,.75) 55%);color:inherit;padding:0 1px}
+
+/* ---- A. 사건 서류철: the case file (the notebook's own folder picture) with the key written on its sheet ---- */
+.a{background:#5B4130 url(../assets/places/detective-office-wide.jpg) 50% 60%/auto 100% no-repeat}
+.a::before{content:"";position:absolute;inset:0;background:rgba(40,26,16,.45)}
+.a .top .case{color:#F8E7C9}
+.a .steps i{background:rgba(255,253,247,.35)}
+.a .steps i:first-child{background:var(--honey)}
+.a .file{position:relative;z-index:1;margin:16px 10px 0;flex:1;padding:12% 10% 0 11%;background:url(../assets/ui/casefile-panel-with-clip.webp) top center/100% auto no-repeat}
+.a .label{display:flex;align-items:center;justify-content:space-between;font-family:var(--f-display);font-size:17px;height:44px}
+.a .kind{margin:18px 0 0;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
+.a .word{position:relative;display:inline-block;margin:2px 0 4px;font-family:var(--f-display);font-size:54px;line-height:1}
+.a .word::after{content:"";position:absolute;left:-6px;right:-8px;bottom:4px;height:18px;z-index:-1;border-radius:8px 14px 6px 12px;background:var(--honey);opacity:.8;transform:rotate(-2deg)}
+.a .why{font-size:14px;line-height:1.55}
+.a .lines{margin-top:16px;font-size:17px;line-height:44px;background:repeating-linear-gradient(transparent 0 42px,var(--line) 42px 44px)}
+.a .stamp{position:absolute;right:13%;top:15.5%;width:66px;height:66px;display:grid;place-items:center;border:3px solid var(--berry);border-radius:50%;color:var(--berry);font-family:var(--f-display);font-size:11px;line-height:1.1;text-align:center;transform:rotate(12deg);opacity:.75}
+
+/* ---- B. 코르크판: the key pinned on the case board, the examples as three notes pinned under it ---- */
+.b{background:#D69C62 url(../assets/ui/corkboard-cork.webp) 0 0/300px 300px repeat}
+.b .top .case{color:#5B3A22;background:rgba(253,250,238,.85);padding:3px 10px;border-radius:10px}
+.b .steps i{background:rgba(253,250,238,.6)}
+.b .card{position:relative;margin:26px 22px 0;padding:22px 18px 16px;background:var(--sheet);border-radius:4px;box-shadow:2px 6px 10px rgba(50,30,15,.35);transform:rotate(-1.5deg)}
+.b .card::before{content:"";position:absolute;left:50%;top:-16px;width:24px;height:33px;margin-left:-9px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.b .card .head{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-display);font-size:15px;color:var(--ink-soft)}
+.b .card .word{margin:6px 0 2px;font-family:var(--f-display);font-size:50px;line-height:1}
+.b .card .why{font-size:13.5px;line-height:1.55}
+.b .notes{display:flex;flex-direction:column;gap:14px;margin:22px 20px 0}
+.b .note{position:relative;padding:12px 14px;font-size:16px;box-shadow:2px 4px 6px rgba(50,30,15,.3);border-radius:2px}
+.b .note:nth-child(1){background:#FFF1B8;transform:rotate(1.2deg);margin-right:30px}
+.b .note:nth-child(2){background:#DCEBF7;transform:rotate(-1deg);margin-left:30px}
+.b .note:nth-child(3){background:#F8DDE3;transform:rotate(.8deg);margin-right:14px}
+.b .note::before{content:"";position:absolute;left:50%;top:-7px;width:46px;height:14px;margin-left:-23px;background:rgba(255,253,240,.6);transform:rotate(-3deg)}
+.b mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%)}
+
+/* ---- C. 탐정이 알려 줘요: the detective in the office points at the key, said in a paper bubble; examples on a page ---- */
+.c{background:#6B4A30 url(../assets/places/detective-office-wide.jpg) 50% 0/auto 470px no-repeat}
+.c .top .case{color:#FFF3DA;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.c .steps i{background:rgba(255,253,247,.4)}
+.c .steps i:first-child{background:var(--honey)}
+.c .det{position:absolute;left:-14px;top:150px;width:190px;z-index:1}
+.c .say{position:absolute;right:14px;top:96px;width:205px;z-index:2;padding:16px 16px 18px;font-size:13px;line-height:1.5;color:var(--ink)}
+.c .say::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch}
+.c .say .word{display:block;font-family:var(--f-display);font-size:38px;line-height:1.05;margin-bottom:4px}
+.c .say .kind{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
+.c .page{position:absolute;left:8px;right:8px;bottom:-6px;height:330px;z-index:2;padding:9% 9% 0 10%;background:url(../assets/ui/casefile-panel.webp) top center/100% auto no-repeat}
+.c .page .head{display:flex;justify-content:space-between;align-items:center;height:40px;font-family:var(--f-display);font-size:16px}
+.c .page .lines{margin-top:10px;font-size:16.5px;line-height:42px;background:repeating-linear-gradient(transparent 0 40px,var(--line) 40px 42px)}
+.c .go{bottom:18px}
+
+/* ---- D. 열쇠 꼬리표: a kraft key tag on a string carries the word; the rule and examples on the paper below ---- */
+.d{background:var(--paper) linear-gradient(transparent 0 0)}
+.d .tagwrap{position:relative;height:250px;margin-top:4px}
+.d .string{position:absolute;left:50%;top:-10px;width:2px;height:58px;background:#9C7B58;transform:rotate(8deg);transform-origin:top}
+.d .tag{position:absolute;left:50%;top:40px;width:200px;height:190px;margin-left:-100px;transform:rotate(-4deg);filter:drop-shadow(2px 6px 6px rgba(70,45,25,.3))}
+.d .tag::before{content:"";position:absolute;inset:0;background:#D9B98A;clip-path:polygon(50% 0,100% 22%,100% 100%,0 100%,0 22%);border-radius:6px}
+.d .tag::after{content:"";position:absolute;left:50%;top:22px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 3px #B8946A}
+.d .tag div{position:absolute;inset:56px 0 0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.d .tag .kind{font-family:var(--f-display);font-size:12px;color:#6E5236}
+.d .tag .word{font-family:var(--f-display);font-size:58px;line-height:1.05;color:#3D2A1C}
+.d .tag .keyic{font-size:12px;color:#6E5236;letter-spacing:.1em}
+.d .body{padding:0 22px}
+.d .head{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-display);font-size:17px}
+.d .why{margin-top:8px;font-size:14px;line-height:1.55}
+.d .lines{margin-top:12px;padding:4px 14px;border-radius:6px;background:var(--sheet) repeating-linear-gradient(transparent 0 40px,var(--line) 40px 42px);font-size:16.5px;line-height:42px;box-shadow:0 2px 0 rgba(74,54,40,.1)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>사건의 열쇠 화면 시안</h1>
+  <p class="lead">사건 전 ‘이번 사건의 열쇠’(문법 카드) 화면을 일러스트 분위기로. 내용·순서는 그대로(시간 전치사 · at · 설명 · 예문 세 개 · 해석 · 다음). 모두 앱에 이미 있는 그림만 써서 크레딧 없음. 각 화면의 <code>해석</code>을 눌러 볼 수 있어요.</p>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const EX = [['The shop opens <mark>at eleven</mark>.', '가게는 11시에 문을 열어요.'], ["Let's meet <mark>at noon</mark>.", '정오에 만나요.'], ['The train leaves <mark>at six fifteen</mark>.', '기차는 6시 15분에 떠나요.']];
+const WHY = '시각 하나를 콕 집어 말할 때 써요. "몇 시에"예요. at six = 6시에.';
+const topBar = () => `<div class="top"><span class="case">Case 01 · 도서관 살인사건</span><button class="x" type="button" aria-label="닫기"></button></div><div class="steps"><i></i><i></i><i></i></div>`;
+const ko = '<button class="kobtn" type="button" data-ko>해석</button>';
+const lines = () => EX.map(([en, k]) => `<div>${en}<span class="ko">${k}</span></div>`).join('');
+const OPTS = [
+  ['a', 'A. 사건 서류철', 1, '사무소를 어둡게 깔고, 노트와 같은 남색 서류철(클립 달린 그림)에 열쇠를 적었다. 큰 <b>at</b>에 꿀색 형광펜, 예문은 줄 노트 위. 오른쪽 위에 분홍 도장 ‘KEY / 사건의 열쇠’. 게임 노트와 같은 재료라 가장 자연스럽다.',
+    () => `${topBar()}<div class="file"><div class="label">이번 사건의 열쇠 ${ko}</div><div class="stamp">KEY<br>사건의<br>열쇠</div>
+      <div class="kind">시간 전치사</div><div class="word">at</div><div class="why">${WHY}</div><div class="lines">${lines()}</div></div><button class="go" type="button">다음</button>`],
+  ['b', 'B. 코르크판', '', '사건 목록의 코르크판 위에 열쇠 카드를 빨간 압정으로 꽂고, 예문은 색 쪽지 세 장(테이프)으로 붙였다. 사건 목록과 이어지는 느낌, 가장 알록달록하다.',
+    () => `${topBar()}<div class="card"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="word">at</div><div class="kind" style="font-family:var(--f-display);font-size:12px;color:var(--ink-soft)">시간 전치사</div><div class="why">${WHY}</div></div>
+      <div class="notes">${EX.map(([en, k]) => `<div class="note">${en}<span class="ko">${k}</span></div>`).join('')}</div><button class="go" type="button">다음</button>`],
+  ['c', 'C. 탐정이 알려 줘요', '', '사무소에서 탐정이 가리키며 종이 말풍선으로 열쇠를 알려 준다(at + 설명). 예문은 아래 서류철 종이에. 캐릭터가 나와 가장 이야기 같고, 나중에 탐정 목소리를 붙이기 좋다.',
+    () => `${topBar()}<img class="det" src="../assets/characters/detective-point.png" alt=""><div class="say"><span class="kind">시간 전치사</span><span class="word">at</span>${WHY}</div>
+      <div class="page"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="lines">${lines()}</div></div><button class="go" type="button">다음</button>`],
+  ['d', 'D. 열쇠 꼬리표', '', '끈에 매단 크라프트지 꼬리표에 <b>at</b>을 크게 — ‘열쇠’라는 말을 그대로 그림으로. 아래는 설명과 예문 종이. 꼬리표는 CSS로 그린 임시 모양이라, 고르면 Higgsfield로 손그림 꼬리표(약 1.5크레딧)를 만들면 좋다.',
+    () => `${topBar()}<div class="tagwrap"><span class="string"></span><div class="tag"><div><span class="kind">시간 전치사</span><span class="word">at</span><span class="keyic">KEY</span></div></div></div>
+      <div class="body"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="why">${WHY}</div><div class="lines">${lines()}</div></div><button class="go" type="button">다음</button>`],
+];
+document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text, html]) => `<section class="opt"><h2>${title}${rec ? ' <span class="rec">추천</span>' : ''}</h2><div class="phone ${k}">${html()}</div><p>${text}</p></section>`).join('');
+document.addEventListener('click', e => { const b = e.target.closest('[data-ko]'); if(b) b.closest('.phone').classList.toggle('show-ko'); });
+</script>
+</body>
+</html>

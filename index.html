@@ -362,7 +362,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .type-arrows{display:flex;gap:2px;margin-left:auto}
 .type-arrows button{width:34px;height:34px;padding:0;border:0;border-radius:50%;background:none;font-size:22px;line-height:1;color:var(--ink)}
 .type-arrows button:disabled{color:#C6B79C}
-.app.typing .dock{bottom:calc(var(--kb,0px) + 42px);height:min(60%,calc(100% - var(--kb,0px) - 46px - 150px));transition:bottom .25s,height .25s}
+.app.typing .dock{bottom:calc(var(--kb,0px) + 42px);height:min(60%,calc(100% - var(--kb,0px) - 46px - 235px));transition:bottom .25s,height .25s}
 .app.typing .dock-head .listen,.app.typing .bank,.app.typing .dock-foot{display:none}
 .app.notes-open.note-full .note-scrim{background:rgba(43,30,20,.68);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
 .app.note-full .chip,.app.note-full .bubble{visibility:hidden}
@@ -987,9 +987,11 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* On a computer (no keyboard of its own on screen) 이름 짓기 shows an iPhone-sized keyboard in the phone frame (user
    request: the preview has to show the room the phone's keyboard takes, to design around it). Sizes follow an iPhone 15
    in portrait, English keys: suggestion bar 45 + keys 216 + globe/mic bar 75 = 336pt. A phone or tablet hides it and
-   opens its own; real typing on the computer still goes into the name. */
+   opens its own; real typing on the computer still goes into the name. The note blanks get the same keyboard
+   (#noteVkb, user request: like 이름 짓기), so the typing layout (.app.typing) shows on a computer too. */
 .vkb{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-direction:column;height:336px;box-sizing:border-box;background:#D1D4DA;font-family:-apple-system,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;color:#000;user-select:none;-webkit-user-select:none;animation:vkb-in .25s ease-out}
 .vkb[hidden]{display:none}
+.note-vkb{z-index:30}
 @keyframes vkb-in{from{transform:translateY(100%)}}
 .vkb-suggest{flex:0 0 45px;display:grid;grid-template-columns:repeat(3,1fr);align-items:center}
 .vkb-suggest span{height:22px;border-left:1px solid rgba(60,60,67,.29)}
@@ -1320,6 +1322,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <div class="vkb" id="vkb" hidden aria-hidden="true"></div>
   </section>
 
+  <!-- the note blanks' preview keyboard on a computer (the same as 이름 짓기's, see .vkb) -->
+  <div class="vkb note-vkb" id="noteVkb" hidden aria-hidden="true"></div>
   <div class="toast" id="toast" hidden></div>
   <div class="reveal-block" id="revealBlock" hidden></div>
 </div>
@@ -2579,6 +2583,7 @@ function writeState(){
   const at = blanks.indexOf(document.activeElement);
   $('[data-type="prev"]').disabled = at <= 0;
   $('[data-type="next"]').disabled = at < 0 || at >= blanks.length - 1;
+  $('#noteVkb [data-k="done"]').textContent = at >= 0 && at < blanks.length - 1 ? '다음' : '완료';
 }
 function fillNextBlank(word, source){
   if(S.view !== S.cur || S.investigate || st().phase !== 'record') return;
@@ -2792,7 +2797,7 @@ const noteSpaceTargets = '.dock,.dock-head,.dock-body,.note-page,.evidence-page,
 $('#app').addEventListener('pointerdown', e => {
   noteSpaceTap = null;
   if(!e.isPrimary || e.button !== 0 || !$('#app').classList.contains('notes-open') || !e.target.matches(noteSpaceTargets)) return;
-  noteSpaceTap = {id:e.pointerId,x:e.clientX,y:e.clientY,target:e.target};
+  noteSpaceTap = {id:e.pointerId,x:e.clientX,y:e.clientY,target:e.target,typing:$('#app').classList.contains('typing')};
 });
 $('#app').addEventListener('pointermove', e => {
   if(noteSpaceTap?.id === e.pointerId && Math.hypot(e.clientX-noteSpaceTap.x,e.clientY-noteSpaceTap.y) > 8) noteSpaceTap = null;
@@ -2801,6 +2806,7 @@ $('#app').addEventListener('pointercancel', () => { noteSpaceTap = null; });
 $('#app').addEventListener('pointerup', e => {
   const tap = noteSpaceTap; noteSpaceTap = null;
   if(!tap || tap.id !== e.pointerId || tap.target !== e.target || drag || !$('#app').classList.contains('notes-open')) return;
+  if(tap.typing){ document.activeElement?.blur(); return; }
   if(Math.hypot(e.clientX-tap.x,e.clientY-tap.y) <= 8) closeNotes();
 });
 $('#evidenceBack').onclick = () => {
@@ -2813,13 +2819,16 @@ $('#hint').onclick = useHint;
 /* ---------- typing a blank on a phone ---------- */
 // The keyboard covers the bottom of the screen without moving the app, so while a note blank has the focus the
 // notebook is lifted by how much of the scene the keyboard hides (visualViewport) and the tool strip rides on it.
-// Only when that is a real keyboard (> 120px): typing on a computer changes nothing.
+// Only when that is a real keyboard (> 120px). On a computer the preview keyboard (#noteVkb) opens instead and the
+// notebook rides on it the same way.
 const typeBar = $('#typeBar');
 typeBar.querySelector('[data-type="replay"]').prepend(document.createRange().createContextualFragment(playIcon));
 function fitKeyboard(){
   const vv = window.visualViewport, field = document.activeElement;
-  const typing = vv && field?.matches?.('#dockBody .nblock.now .blank:not([readonly])');
-  const hidden = typing ? Math.round(typeBar.parentElement.getBoundingClientRect().bottom - (vv.offsetTop + vv.height)) : 0;
+  const typing = field?.matches?.('#dockBody .nblock.now .blank:not([readonly])'), kb = $('#noteVkb');
+  kb.hidden = ownKeyboard || !typing;
+  const bottom = typeBar.parentElement.getBoundingClientRect().bottom;
+  const hidden = !typing ? 0 : !kb.hidden ? Math.round(bottom - kb.getBoundingClientRect().top) : vv ? Math.round(bottom - (vv.offsetTop + vv.height)) : 0;
   $('#app').classList.toggle('typing', hidden > 120);
   $('#app').style.setProperty('--kb', `${Math.max(0, hidden)}px`);
   writeState();
@@ -4182,8 +4191,8 @@ $('#idName').addEventListener('input', e => {
 // The phone-sized keyboard for computers (see .vkb). Shift starts on and comes back after a space, as on the phone
 // (autocapitalize=words); a key never takes the focus from the name.
 const ownKeyboard = matchMedia('(pointer: coarse)').matches;
-let vkbShift = true;
-$('#vkb').innerHTML = `<div class="vkb-suggest"><span></span><span></span><span></span></div><div class="vkb-keys">` +
+let vkbShift = true, noteShift = false;
+$('#vkb').innerHTML = $('#noteVkb').innerHTML = `<div class="vkb-suggest"><span></span><span></span><span></span></div><div class="vkb-keys">` +
   ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'].map((row, i) =>
     `<div class="vkb-row">${i === 2 ? `<button class="k-fn" type="button" data-k="shift" aria-pressed="true">⇧</button><span class="k-gap"></span>` : ''}` +
     [...row].map(ch => `<button type="button" data-k="${ch}">${ch}</button>`).join('') +
@@ -4192,10 +4201,17 @@ $('#vkb').innerHTML = `<div class="vkb-suggest"><span></span><span></span><span>
   `<div class="vkb-bar"><span>🌐</span><span>🎙</span></div>`;
 function showVkb(on){ $('#vkb').hidden = ownKeyboard || !on; if(on) vkbAutoShift(); }
 function vkbAutoShift(){ const v = $('#idName').value; setVkbShift(!v || v.endsWith(' ')); }
-function setVkbShift(on){
-  vkbShift = on;
-  $('#vkb [data-k="shift"]').setAttribute('aria-pressed', on);
-  $('#vkb').querySelectorAll('.vkb-row button[data-k]').forEach(b => { if(b.dataset.k.length === 1 && b.dataset.k !== ' ') b.textContent = on ? b.dataset.k.toUpperCase() : b.dataset.k; });
+function setVkbShift(on, kb = $('#vkb')){
+  if(kb.id === 'vkb') vkbShift = on; else noteShift = on;
+  kb.querySelector('[data-k="shift"]').setAttribute('aria-pressed', on);
+  kb.querySelectorAll('.vkb-row button[data-k]').forEach(b => { if(b.dataset.k.length === 1 && b.dataset.k !== ' ') b.textContent = on ? b.dataset.k.toUpperCase() : b.dataset.k; });
+}
+// a key typed into a field at its caret (a selection is replaced), as the phone's keyboard would
+function vkbType(input, key, upper){
+  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
+  if(key === 'back') input.setRangeText('', a === b ? Math.max(0, a - 1) : a, b, 'end');
+  else input.setRangeText(upper ? key.toUpperCase() : key, a, b, 'end');
+  input.dispatchEvent(new Event('input', { bubbles:true }));
 }
 $('#vkb').addEventListener('pointerdown', e => {
   e.preventDefault();
@@ -4203,10 +4219,19 @@ $('#vkb').addEventListener('pointerdown', e => {
   if(!key || input.readOnly || key === 'num') return;
   if(key === 'shift') return setVkbShift(!vkbShift);
   if(key === 'done') return $('#idStampBtn').click();
-  const a = input.selectionStart ?? input.value.length, b = input.selectionEnd ?? a;
-  if(key === 'back') input.setRangeText('', a === b ? Math.max(0, a - 1) : a, b, 'end');
-  else input.setRangeText(vkbShift ? key.toUpperCase() : key, a, b, 'end');
-  input.dispatchEvent(new Event('input', { bubbles:true }));
+  vkbType(input, key, vkbShift);
+});
+// the note blanks' keyboard: no capitals unless shift is on (once), return = the blank's 다음 / 완료
+setVkbShift(false, $('#noteVkb'));
+
+$('#noteVkb').addEventListener('pointerdown', e => {
+  e.preventDefault();
+  const key = e.target.closest('[data-k]')?.dataset.k, input = document.activeElement;
+  if(!key || key === 'num' || !input?.matches?.('#dockBody .nblock.now .blank:not([readonly])')) return;
+  if(key === 'shift') return setVkbShift(!noteShift, $('#noteVkb'));
+  if(key === 'done') return input.dispatchEvent(new KeyboardEvent('keydown', { key:'Enter', bubbles:true, cancelable:true }));
+  vkbType(input, key, noteShift);
+  if(noteShift) setVkbShift(false, $('#noteVkb'));
 });
 $('#idName').addEventListener('keydown', e => { if(e.key === 'Enter' && !e.isComposing) $('#idStampBtn').click(); });
 let nameIdea = -1;
