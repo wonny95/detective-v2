@@ -422,7 +422,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gcard .gko{font-size:13px;line-height:1.5;color:var(--ink-soft)}
 .rv-gbtns{display:flex;gap:6px;align-items:center}
 /* 이번 사건의 열쇠: the case's key grammar on a whole page before the briefing (user request: not a pop-up), one form a
-   page; the Korean of the examples behind 해석. User decision (design/case-key.html B-2): graph paper, the key on a
+   page; each example's Korean behind its own 해석 (user request: beside its ▶). User decision (design/case-key.html B-2): graph paper, the key on a
    card pinned with the red tack, the examples on three taped notes, each with ▶ */
 .ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px}
 .ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
@@ -439,7 +439,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-card::before{content:"";position:absolute;left:50%;top:-16px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
 .ck-card .rv-title{font-size:16px;color:var(--ink-soft)}
 .ck-notes{display:flex;flex-direction:column;gap:14px;margin:22px 4px 0}
-.ck-note{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;margin:0;padding:12px 12px 12px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border-radius:2px;box-shadow:1px 3px 5px rgba(70,50,30,.2)}
+.ck-note{position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2px 6px;margin:0;padding:12px 12px 12px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border-radius:2px;box-shadow:1px 3px 5px rgba(70,50,30,.2)}
 .ck-note:nth-child(3n+1){background:#FFF1B8;transform:rotate(1.2deg);margin-right:26px}
 .ck-note:nth-child(3n+2){background:#DCEBF7;transform:rotate(-1deg);margin-left:26px}
 .ck-note:nth-child(3n){background:#F8DDE3;transform:rotate(.8deg);margin-right:12px}
@@ -447,6 +447,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-note mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%);color:inherit}
 .ck-note .replay-q{grid-row:1;grid-column:2;width:30px;height:30px;margin:0;background:#FFFDF7}
 .ck-note .replay-q svg{width:12px;height:12px}
+.ck-note .pill.sm{grid-row:1;grid-column:3;padding:3px 8px}
+.ck-note:not(.ko-on) .ko{display:none}
 .ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
 .ck-turn{animation:ck-turn .35s ease-out}
 @keyframes ck-turn{from{opacity:0;transform:translateX(16px)}}
@@ -456,6 +458,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-foot .pill.big{flex:1;width:auto}
 .ck-key .gpattern{font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.05;text-wrap:balance}
 .ck-key .ck-name{font-size:12px}
+.ck-key .gpattern .replay-q{width:30px;height:30px;margin-left:10px;vertical-align:.35em;background:#FFFDF7}
+.ck-key .gpattern .replay-q svg{width:12px;height:12px}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
 .rv-word{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
@@ -2546,8 +2550,8 @@ function pronounceWord(key){
   voice.playbackRate = S.slow ? .75 : 1;
   voice.play().catch(() => { if(turn === speechTurn) toast('발음을 재생하지 못했어요. 다시 눌러 주세요.'); });
 }
-// An example sentence of 이번 사건의 열쇠: its bundled clip (audio/examples/<grammar>-<page>-<line>.wav, the word
-// book's local voice), never a person's recording.
+// A form or an example sentence of 이번 사건의 열쇠: its bundled clip (audio/examples/<grammar>-<page>.wav for the
+// form, <grammar>-<page>-<line>.wav for a sentence; the word book's local voice), never a person's recording.
 function playExample(file){
   stopVoice();
   const turn = speechTurn, voice = $('#wordVoice');
@@ -4520,9 +4524,9 @@ $('#grammar').addEventListener('click', e => {
 // back to the case cards.
 // One form a page (user request: at / from A to B / between A and B each on its own page), the steps on top like the
 // review's; a grammar without examples is one page of its card.
-let caseKeyThen = null, caseKeyKo = false, caseKeyPages = [], caseKeyAt = 0;
+let caseKeyThen = null, caseKeyPages = [], caseKeyAt = 0;
 function openCaseKey(list, then){
-  caseKeyThen = then; caseKeyKo = false; caseKeyAt = 0;
+  caseKeyThen = then; caseKeyAt = 0;
   caseKeyPages = list.flatMap(g => (GRAMMAR[g].examples || [{ head:GRAMMAR[g].pattern, why:GRAMMAR[g].ko, lines:[] }]).map(ex => ({ g, ex })));
   renderCaseKey(); $('#caseKey').hidden = false;
 }
@@ -4531,15 +4535,16 @@ function renderCaseKey(turn){
   const { g, ex } = caseKeyPages[caseKeyAt], last = caseKeyAt === caseKeyPages.length - 1;
   $('#caseKeyCard').innerHTML = `<div class="ck-top"><small>${esc(CASES[0].no)} · ${esc(CASES[0].title)}</small><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-steps" aria-label="${caseKeyAt + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i class="${i <= caseKeyAt ? 'on' : ''}"></i>`).join('')}</div>
-    <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card"><h2 class="rv-title">이번 사건의 열쇠<button class="pill sm" type="button" data-ck-ko aria-pressed="${caseKeyKo}" style="margin-left:auto">해석</button></h2>
-      <div class="ck-key"><h3 class="gpattern">${esc(ex.head)}</h3><span class="ck-name">${esc(GRAMMAR[g].name)}</span><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
-      ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${mark(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button>${caseKeyKo ? `<span class="ko">${esc(ko)}</span>` : ''}</p>`).join('')}</div>` : ''}</div>
+    <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card"><h2 class="rv-title">이번 사건의 열쇠</h2>
+      <div class="ck-key"><h3 class="gpattern">${esc(ex.head)}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3><span class="ck-name">${esc(GRAMMAR[g].name)}</span><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
+      ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${mark(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div>` : ''}</div>
     <div class="rv-foot ck-foot">${caseKeyAt ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
 }
 $('#caseKey').addEventListener('click', e => {
   const play = e.target.closest('[data-ck-play]');
   if(play) return playExample(play.dataset.ckPlay);
-  if(e.target.closest('[data-ck-ko]')){ caseKeyKo = !caseKeyKo; return renderCaseKey(); }
+  const ko = e.target.closest('[data-ck-ko]');
+  if(ko){ ko.setAttribute('aria-pressed', ko.closest('.ck-note').classList.toggle('ko-on')); return; }
   if(e.target.closest('[data-ck-close]')){ stopVoice(); $('#caseKey').hidden = true; caseKeyThen = null; return; }
   if(e.target.closest('[data-ck-prev]')){ stopVoice(); caseKeyAt--; return renderCaseKey(true); }
   if(!e.target.closest('[data-ck-next]')) return;

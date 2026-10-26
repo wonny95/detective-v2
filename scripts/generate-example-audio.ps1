@@ -1,5 +1,6 @@
 # Run with Windows PowerShell 5.1 from the project root. Requires Node and an installed English SAPI voice.
-# The example sentences of 이번 사건의 열쇠 (GRAMMAR[].examples[].lines) -> audio/examples/<grammar>-<page>-<line>.wav
+# 이번 사건의 열쇠: each form (GRAMMAR[].examples[].head) -> audio/examples/<grammar>-<page>.wav,
+# its example sentences (.lines) -> audio/examples/<grammar>-<page>-<line>.wav
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Speech
 $projectDir = Split-Path $PSScriptRoot -Parent
@@ -8,9 +9,11 @@ const fs=require('fs');
 const h=fs.readFileSync(process.argv[1],'utf8');
 const literal=h.match(/const GRAMMAR = (\{[\s\S]*?\n\});/)[1];
 const grammar=Function('return ('+literal+')')();
-console.log(JSON.stringify(Object.entries(grammar).flatMap(([g,v])=>(v.examples||[]).flatMap((ex,p)=>ex.lines.map(([en],i)=>({
-  file:`${g}-${p+1}-${i+1}.wav`, text:en.replace(/[{}]/g,'')
-}))))));
+// the form itself (<grammar>-<page>.wav; the A and B of a pattern read as letters), then its example lines
+console.log(JSON.stringify(Object.entries(grammar).flatMap(([g,v])=>(v.examples||[]).flatMap((ex,p)=>[
+  { file:`${g}-${p+1}.wav`, text:ex.head.replace(/\bA\b/g,'ay').replace(/\bB\b/g,'bee') },
+  ...ex.lines.map(([en],i)=>({ file:`${g}-${p+1}-${i+1}.wav`, text:en.replace(/[{}]/g,'') }))
+]))));
 '@ (Join-Path $projectDir 'index.html')) | ConvertFrom-Json
 if ($LASTEXITCODE -ne 0) { throw 'Unable to read GRAMMAR.' }
 $outDir = Join-Path $projectDir 'audio/examples'
