@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>사건의 열쇠 화면 시안</title>
+<title>사건의 열쇠 화면 시안 B</title>
 <style>
 @font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
 @font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
@@ -37,21 +37,6 @@ h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px}
 .show-ko .kobtn{border-image-source:url(../assets/ui/buttons/sky-flat.png)}
 mark{background:linear-gradient(transparent 55%,rgba(242,207,115,.75) 55%);color:inherit;padding:0 1px}
 
-/* ---- A. 사건 서류철: the case file (the notebook's own folder picture) with the key written on its sheet ---- */
-.a{background:#5B4130 url(../assets/places/detective-office-wide.jpg) 50% 60%/auto 100% no-repeat}
-.a::before{content:"";position:absolute;inset:0;background:rgba(40,26,16,.45)}
-.a .top .case{color:#F8E7C9}
-.a .steps i{background:rgba(255,253,247,.35)}
-.a .steps i:first-child{background:var(--honey)}
-.a .file{position:relative;z-index:1;margin:16px 10px 0;flex:1;padding:12% 10% 0 11%;background:url(../assets/ui/casefile-panel-with-clip.webp) top center/100% auto no-repeat}
-.a .label{display:flex;align-items:center;justify-content:space-between;font-family:var(--f-display);font-size:17px;height:44px}
-.a .kind{margin:18px 0 0;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
-.a .word{position:relative;display:inline-block;margin:2px 0 4px;font-family:var(--f-display);font-size:54px;line-height:1}
-.a .word::after{content:"";position:absolute;left:-6px;right:-8px;bottom:4px;height:18px;z-index:-1;border-radius:8px 14px 6px 12px;background:var(--honey);opacity:.8;transform:rotate(-2deg)}
-.a .why{font-size:14px;line-height:1.55}
-.a .lines{margin-top:16px;font-size:17px;line-height:44px;background:repeating-linear-gradient(transparent 0 42px,var(--line) 42px 44px)}
-.a .stamp{position:absolute;right:13%;top:15.5%;width:66px;height:66px;display:grid;place-items:center;border:3px solid var(--berry);border-radius:50%;color:var(--berry);font-family:var(--f-display);font-size:11px;line-height:1.1;text-align:center;transform:rotate(12deg);opacity:.75}
-
 /* ---- B. 코르크판: the key pinned on the case board, the examples as three notes pinned under it ---- */
 .b{background:#D69C62 url(../assets/ui/corkboard-cork.webp) 0 0/300px 300px repeat}
 .b .top .case{color:#5B3A22;background:rgba(253,250,238,.85);padding:3px 10px;border-radius:10px}
@@ -69,42 +54,27 @@ mark{background:linear-gradient(transparent 55%,rgba(242,207,115,.75) 55%);color
 .b .note::before{content:"";position:absolute;left:50%;top:-7px;width:46px;height:14px;margin-left:-23px;background:rgba(255,253,240,.6);transform:rotate(-3deg)}
 .b mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%)}
 
-/* ---- C. 탐정이 알려 줘요: the detective in the office points at the key, said in a paper bubble; examples on a page ---- */
-.c{background:#6B4A30 url(../assets/places/detective-office-wide.jpg) 50% 0/auto 470px no-repeat}
-.c .top .case{color:#FFF3DA;text-shadow:0 1px 3px rgba(0,0,0,.4)}
-.c .steps i{background:rgba(255,253,247,.4)}
-.c .steps i:first-child{background:var(--honey)}
-.c .det{position:absolute;left:-14px;top:150px;width:190px;z-index:1}
-.c .say{position:absolute;right:14px;top:96px;width:205px;z-index:2;padding:16px 16px 18px;font-size:13px;line-height:1.5;color:var(--ink)}
-.c .say::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch}
-.c .say .word{display:block;font-family:var(--f-display);font-size:38px;line-height:1.05;margin-bottom:4px}
-.c .say .kind{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
-.c .page{position:absolute;left:8px;right:8px;bottom:-6px;height:330px;z-index:2;padding:9% 9% 0 10%;background:url(../assets/ui/casefile-panel.webp) top center/100% auto no-repeat}
-.c .page .head{display:flex;justify-content:space-between;align-items:center;height:40px;font-family:var(--f-display);font-size:16px}
-.c .page .lines{margin-top:10px;font-size:16.5px;line-height:42px;background:repeating-linear-gradient(transparent 0 40px,var(--line) 40px 42px)}
-.c .go{bottom:18px}
-
-/* ---- D. 열쇠 꼬리표: a kraft key tag on a string carries the word; the rule and examples on the paper below ---- */
-.d{background:var(--paper) linear-gradient(transparent 0 0)}
-.d .tagwrap{position:relative;height:250px;margin-top:4px}
-.d .string{position:absolute;left:50%;top:-10px;width:2px;height:58px;background:#9C7B58;transform:rotate(8deg);transform-origin:top}
-.d .tag{position:absolute;left:50%;top:40px;width:200px;height:190px;margin-left:-100px;transform:rotate(-4deg);filter:drop-shadow(2px 6px 6px rgba(70,45,25,.3))}
-.d .tag::before{content:"";position:absolute;inset:0;background:#D9B98A;clip-path:polygon(50% 0,100% 22%,100% 100%,0 100%,0 22%);border-radius:6px}
-.d .tag::after{content:"";position:absolute;left:50%;top:22px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 3px #B8946A}
-.d .tag div{position:absolute;inset:56px 0 0;display:flex;flex-direction:column;align-items:center;text-align:center}
-.d .tag .kind{font-family:var(--f-display);font-size:12px;color:#6E5236}
-.d .tag .word{font-family:var(--f-display);font-size:58px;line-height:1.05;color:#3D2A1C}
-.d .tag .keyic{font-size:12px;color:#6E5236;letter-spacing:.1em}
-.d .body{padding:0 22px}
-.d .head{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-display);font-size:17px}
-.d .why{margin-top:8px;font-size:14px;line-height:1.55}
-.d .lines{margin-top:12px;padding:4px 14px;border-radius:6px;background:var(--sheet) repeating-linear-gradient(transparent 0 40px,var(--line) 40px 42px);font-size:16.5px;line-height:42px;box-shadow:0 2px 0 rgba(74,54,40,.1)}
+/* B without the cork: three grounds to choose from (user request: B, but the cork picture isn't needed) */
+.b .card,.b .notes{z-index:1}
+.b .notes{position:relative}
+.b .steps i:first-child{background:#E0A93A}
+.b.cream .steps i:not(:first-child){background:var(--line)}
+.b.sage{background:radial-gradient(120% 75% at 50% 32%,#C6CCB6,#A7AF95)}
+.b.sage .card{box-shadow:2px 6px 10px rgba(50,60,40,.3)}
+.b.sage .note{box-shadow:2px 4px 6px rgba(50,60,40,.25)}
+.b.cream{background-color:var(--paper);background-image:repeating-linear-gradient(0deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px),repeating-linear-gradient(90deg,transparent 0 21px,rgba(125,106,88,.1) 21px 22px)}
+.b.cream .card{box-shadow:2px 5px 9px rgba(70,50,30,.22)}
+.b.cream .note{box-shadow:1px 3px 5px rgba(70,50,30,.2)}
+.b.cream .top .case,.b.sage .top .case{background:none;padding:0;color:var(--berry)}
+.b.office{background:#8A6A4C}
+.b.office::before{content:"";position:absolute;inset:-24px;background:url(../assets/places/detective-office-wide.jpg) 50% 60%/auto 100% no-repeat;filter:blur(7px) saturate(.85)}
+.b.office::after{content:"";position:absolute;inset:0;background:rgba(251,244,230,.28)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>사건의 열쇠 화면 시안</h1>
-  <p class="lead">사건 전 ‘이번 사건의 열쇠’(문법 카드) 화면을 일러스트 분위기로. 내용·순서는 그대로(시간 전치사 · at · 설명 · 예문 세 개 · 해석 · 다음). 모두 앱에 이미 있는 그림만 써서 크레딧 없음. 각 화면의 <code>해석</code>을 눌러 볼 수 있어요.</p>
+  <h1>사건의 열쇠 화면 시안 B · 바탕 고르기</h1>
+  <p class="lead">B(열쇠 카드 + 색 쪽지)를 고르고, 코르크판 그림 없이 바탕만 바꾼 세 가지. 카드·쪽지·압정·테이프는 그대로. 모두 크레딧 없음. 각 화면의 <code>해석</code>을 눌러 볼 수 있어요.</p>
   <div class="grid" id="grid"></div>
 </div>
 <script>
@@ -113,19 +83,13 @@ const WHY = '시각 하나를 콕 집어 말할 때 써요. "몇 시에"예요. 
 const topBar = () => `<div class="top"><span class="case">Case 01 · 도서관 살인사건</span><button class="x" type="button" aria-label="닫기"></button></div><div class="steps"><i></i><i></i><i></i></div>`;
 const ko = '<button class="kobtn" type="button" data-ko>해석</button>';
 const lines = () => EX.map(([en, k]) => `<div>${en}<span class="ko">${k}</span></div>`).join('');
+const bHTML = () => `${topBar()}<div class="card"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="word">at</div><div class="kind" style="font-family:var(--f-display);font-size:12px;color:var(--ink-soft)">시간 전치사</div><div class="why">${WHY}</div></div>
+      <div class="notes">${EX.map(([en, k]) => `<div class="note">${en}<span class="ko">${k}</span></div>`).join('')}</div><button class="go" type="button">다음</button>`;
 const OPTS = [
-  ['a', 'A. 사건 서류철', 1, '사무소를 어둡게 깔고, 노트와 같은 남색 서류철(클립 달린 그림)에 열쇠를 적었다. 큰 <b>at</b>에 꿀색 형광펜, 예문은 줄 노트 위. 오른쪽 위에 분홍 도장 ‘KEY / 사건의 열쇠’. 게임 노트와 같은 재료라 가장 자연스럽다.',
-    () => `${topBar()}<div class="file"><div class="label">이번 사건의 열쇠 ${ko}</div><div class="stamp">KEY<br>사건의<br>열쇠</div>
-      <div class="kind">시간 전치사</div><div class="word">at</div><div class="why">${WHY}</div><div class="lines">${lines()}</div></div><button class="go" type="button">다음</button>`],
-  ['b', 'B. 코르크판', '', '사건 목록의 코르크판 위에 열쇠 카드를 빨간 압정으로 꽂고, 예문은 색 쪽지 세 장(테이프)으로 붙였다. 사건 목록과 이어지는 느낌, 가장 알록달록하다.',
-    () => `${topBar()}<div class="card"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="word">at</div><div class="kind" style="font-family:var(--f-display);font-size:12px;color:var(--ink-soft)">시간 전치사</div><div class="why">${WHY}</div></div>
-      <div class="notes">${EX.map(([en, k]) => `<div class="note">${en}<span class="ko">${k}</span></div>`).join('')}</div><button class="go" type="button">다음</button>`],
-  ['c', 'C. 탐정이 알려 줘요', '', '사무소에서 탐정이 가리키며 종이 말풍선으로 열쇠를 알려 준다(at + 설명). 예문은 아래 서류철 종이에. 캐릭터가 나와 가장 이야기 같고, 나중에 탐정 목소리를 붙이기 좋다.',
-    () => `${topBar()}<img class="det" src="../assets/characters/detective-point.png" alt=""><div class="say"><span class="kind">시간 전치사</span><span class="word">at</span>${WHY}</div>
-      <div class="page"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="lines">${lines()}</div></div><button class="go" type="button">다음</button>`],
-  ['d', 'D. 열쇠 꼬리표', '', '끈에 매단 크라프트지 꼬리표에 <b>at</b>을 크게 — ‘열쇠’라는 말을 그대로 그림으로. 아래는 설명과 예문 종이. 꼬리표는 CSS로 그린 임시 모양이라, 고르면 Higgsfield로 손그림 꼬리표(약 1.5크레딧)를 만들면 좋다.',
-    () => `${topBar()}<div class="tagwrap"><span class="string"></span><div class="tag"><div><span class="kind">시간 전치사</span><span class="word">at</span><span class="keyic">KEY</span></div></div></div>
-      <div class="body"><div class="head">이번 사건의 열쇠 ${ko}</div><div class="why">${WHY}</div><div class="lines">${lines()}</div></div><button class="go" type="button">다음</button>`],
+  ['b sage', 'B-1. 세이지 바탕', 1, '앱 바깥과 같은 세이지색에 가운데만 살짝 밝게. 크림 카드와 노랑·하늘·분홍 쪽지가 가장 또렷하게 뜨고 화면이 차분하다. 그림이 없어 가볍다.', bHTML],
+  ['b cream', 'B-2. 모눈 종이', '', '크림 종이에 옅은 모눈. 노트 안쪽 같은 느낌. 카드와 바탕이 둘 다 밝아 그림자로만 구분된다.', bHTML],
+  ['b office', 'B-3. 흐린 사무소', '', '탐정 사무소 그림을 흐리게 깔았다. 일러스트 분위기가 가장 남지만 쪽지 색과 배경 색이 섞여 조금 복잡하다.', bHTML],
+  ['b', '이전 B. 코르크판', '', '처음 시안(코르크판 그림).', bHTML],
 ];
 document.getElementById('grid').innerHTML = OPTS.map(([k, title, rec, text, html]) => `<section class="opt"><h2>${title}${rec ? ' <span class="rec">추천</span>' : ''}</h2><div class="phone ${k}">${html()}</div><p>${text}</p></section>`).join('');
 document.addEventListener('click', e => { const b = e.target.closest('[data-ko]'); if(b) b.closest('.phone').classList.toggle('show-ko'); });
