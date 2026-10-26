@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>추리 보드 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--paper:#FBF4E6;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--berry:#C96F86;--red:#A4352C;
+  --person:#A9D79A;--place:#F2B983;--time:#9CC8F0;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--f-body:"Paperlogy",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;gap:28px;justify-content:center;align-items:flex-start;padding:24px 16px;background:#B5BFA7;font-family:var(--f-body);color:var(--ink)}
+button{font:inherit;color:inherit;cursor:pointer}
+.side{width:300px;font-size:13.5px;line-height:1.6}
+.side h1{margin:0 0 8px;font-family:var(--f-display);font-weight:400;font-size:22px}
+.side .reset{margin-top:10px;padding:8px 14px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);font-family:var(--f-display)}
+@media(max-width:720px){body{flex-direction:column;align-items:center}.side{width:360px}}
+
+.phone{position:relative;width:360px;height:740px;flex:none;border-radius:34px;overflow:hidden;box-shadow:0 10px 30px rgba(40,30,20,.35);display:flex;flex-direction:column;
+  background:#D69C62 url(../assets/ui/corkboard-cork.webp) 0 0/300px 300px repeat}
+.top{flex:none;display:flex;align-items:center;gap:8px;padding:14px 14px 0}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 14px;border:2px solid transparent;border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch;font-family:var(--f-display);font-size:15px;background:none}
+.back{width:34px;padding:0}
+.steps{margin-left:auto;display:flex;gap:5px}
+.steps i{width:26px;height:20px;border-radius:2px;background:#FBF4E6;box-shadow:0 2px 2px rgba(0,0,0,.25);transform:rotate(-3deg);display:grid;place-items:center;font-style:normal;font-family:var(--f-display);font-size:11px;transition:transform .2s,background .3s}
+.steps i.done{background:var(--honey)}
+.steps i.now{transform:translateY(-3px) rotate(2deg);outline:2px solid var(--berry)}
+
+/* the detective's question */
+.bubble{position:relative;z-index:4;flex:none;display:flex;gap:10px;margin:12px 12px 0;padding:10px 12px 8px;min-height:116px;border:20px solid transparent;
+  border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;background:#FFF8E9;background-clip:padding-box;transition:background-color .3s}
+.bubble.read{background-color:#FFF0BF}
+.bubble.wrong{background-color:#FBE6DF}
+.bubble .who{flex:none;width:44px;height:44px;border-radius:50%;background:#F3E6CC url(../assets/ui/icons-v2/detective.png) center/92% no-repeat;box-shadow:0 0 0 2px #fff}
+.bubble .txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.bubble .en{font-size:15.5px;line-height:1.38}
+.bubble .ko{margin-top:5px;font-size:13px;font-weight:700;line-height:1.45;color:var(--berry)}
+.bubble .row{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:auto;padding-top:6px}
+.play{width:32px;height:32px;flex:none;padding:0;border:0;background:url(../assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(../assets/ui/buttons/round-cream.png) center/100% no-repeat}
+.play:active{transform:translateY(1px)}
+.pill{display:inline-flex;align-items:center;justify-content:center;min-height:27px;padding:3px 8px;border:2px solid transparent;border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;font-family:var(--f-display);font-size:12px;background:none}
+.pill[aria-pressed="true"]{border-image-source:url(../assets/ui/buttons/sky-flat.png)}
+.bubble.talk .who{animation:nod .5s ease-in-out infinite alternate}
+@keyframes nod{to{transform:translateY(-2px) rotate(-4deg)}}
+
+/* the board */
+.board{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;align-items:center}
+.time-card{position:relative;margin-top:22px;width:84px;padding:6px 0;text-align:center;font-family:var(--f-display);font-size:20px;background:var(--honey);box-shadow:1px 3px 3px rgba(0,0,0,.3);visibility:hidden}
+.time-card::before{content:"";position:absolute;left:50%;top:-22px;width:20px;height:28px;margin-left:-7px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.time-card.on{visibility:visible}
+.pop{animation:pin .4s cubic-bezier(.3,1.5,.5,1)}
+@keyframes pin{from{transform:scale(1.4) rotate(-8deg);opacity:0}}
+.suspects{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;padding:16px 22px 0}
+.sus{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none}
+.pol{width:88px;padding:5px 5px 4px;background:url(../assets/ui/polaroid-card.webp) 0 0/100% 100%;filter:drop-shadow(1px 3px 2px rgba(40,25,10,.35));text-align:center;font-family:var(--f-display);font-size:12px;transition:filter .3s,opacity .3s}
+.sus:nth-child(1) .pol{transform:rotate(-3deg)}.sus:nth-child(2) .pol{transform:rotate(2.5deg)}.sus:nth-child(3) .pol{transform:rotate(-1.5deg)}
+.face{display:block;width:62px;height:62px;margin:0 auto 1px;border-radius:50%;background:#FFF8E9 center/88% no-repeat}
+.suspects.dim .pol{opacity:.55;filter:grayscale(.4)}
+.sus.now .pol{outline:3px solid var(--honey);outline-offset:2px}
+.sus.out .pol{filter:grayscale(.7) brightness(.9)}
+.sus.out::after{content:"";position:absolute;left:50%;top:6px;width:80px;height:80px;margin-left:-40px;pointer-events:none;
+  background:linear-gradient(45deg,transparent 46%,var(--red) 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,var(--red) 46% 54%,transparent 54%);opacity:.85}
+.sus.out.pop::after,.sus.culprit.pop::after{animation:pin .4s ease-out}
+.sus.culprit::after{content:"";position:absolute;left:50%;top:-8px;width:100px;height:108px;margin-left:-50px;border:3px solid var(--red);border-radius:50%;transform:rotate(-8deg);pointer-events:none}
+.memo{min-width:74px;min-height:20px;padding:3px 6px;text-align:center;background:color-mix(in srgb,var(--c,#fff) 45%,#FFFDF4);box-shadow:1px 2px 2px rgba(0,0,0,.25);font-family:var(--f-display);font-size:11.5px;visibility:hidden}
+.memo.on{visibility:visible}
+.memo.lie{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px}
+
+.card{position:relative;margin:24px 16px 0;align-self:stretch;padding:8px 12px 10px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 5px 4px rgba(50,30,15,.35));transform:rotate(-1deg)}
+.card::before{content:"";position:absolute;left:50%;top:-30px;width:24px;height:33px;margin-left:-9px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.card .sent{font-size:16px;line-height:2}
+.card .ko{font-size:12.5px;font-weight:700;color:var(--berry);line-height:1.45}
+.card.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px) rotate(-1deg)}40%,80%{transform:translateX(6px) rotate(-1deg)}}
+.card.solved{animation:ok .35s ease-out}
+@keyframes ok{50%{transform:scale(1.04) rotate(-1deg)}}
+.slot{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-width:76px;height:30px;padding:0 8px;vertical-align:-8px;border-radius:5px;border:2px dashed var(--c);background:rgba(255,255,255,.4);font-family:var(--f-display);font-size:14px}
+.slot.ask{background:color-mix(in srgb,var(--honey) 45%,#fff);border-color:#D9A93A;animation:blink 1.4s ease-in-out infinite}
+.slot.full{border-style:solid;background:color-mix(in srgb,var(--c) 40%,#FFFDF6);animation:none}
+@keyframes blink{50%{opacity:.55}}
+.string{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.string path{stroke-dasharray:400;stroke-dashoffset:400;animation:draw 1s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* the answers */
+.tray{flex:none;min-height:126px;display:flex;flex-wrap:wrap;gap:7px;justify-content:center;align-content:center;padding:10px 10px;background:#C99A6A;box-shadow:inset 0 6px 8px -6px rgba(0,0,0,.4)}
+.ch{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 11px 0 8px;border:2px solid transparent;border-image:url(../assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 14px 14.4px stretch;font-family:var(--f-display);font-size:14px;background:none}
+.ch::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
+.ch.pic::before{display:none}
+.tray.people{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 4px}
+.tray.people .ch{flex-direction:column;justify-content:center;gap:2px;min-height:0;padding:4px 2px 3px;border-image-width:12px 12.4px;font-size:11px;line-height:1.1}
+.tray.people .mini{width:34px;height:34px;font-size:15px}
+.ch .mini{width:26px;height:26px;border-radius:50%;background:#FFF8E9 center/88% no-repeat;display:grid;place-items:center;font-size:12px;color:var(--ink-soft)}
+.ch.miss{animation:shake .35s;opacity:.5}
+.ch:active{transform:translateY(1px)}
+.go{flex:none;padding:12px 16px 14px}
+.big{width:100%;min-height:48px;border:2px solid transparent;border-image:url(../assets/ui/buttons/berry-flat.png) 60 62 62 62 fill / 20px 20.6px stretch;font-family:var(--f-display);font-size:16px;color:#fff;background:none}
+.nav{flex:none;display:flex;justify-content:space-around;align-items:center;height:64px;background:#F3E6CC;border-top:2px solid rgba(74,54,40,.15);font-family:var(--f-display);font-size:12px}
+.nav span{display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav img{width:30px;height:30px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="side">
+  <h1>추리 보드 (작동 시안)</h1>
+  <p>대본 <code>design/deduction-script.md</code> 그대로 움직여요. 질문을 듣고 아래 칩으로 답하세요. 한 번 틀리면 "Hmm… that doesn't fit.", 두 번째부터는 힌트가 나와요.</p>
+  <p>② 단계에서는 로지 사진을 먼저 눌러 로지부터 물어볼 수도 있어요.</p>
+  <p>음성은 시안이라 브라우저 기본 음성이에요(게임에서는 탐정 목소리). 지도·Note·뒤로 버튼은 시안에서 움직이지 않아요.</p>
+  <button class="reset" type="button" id="reset">처음부터</button>
+</div>
+
+<div class="phone" id="phone">
+  <div class="top"><span class="chip back">‹</span><span class="chip">Deduction</span><span class="steps" id="steps"></span></div>
+  <div class="bubble" id="bubble"><i class="who"></i><div class="txt"><span class="en" id="en"></span><span class="ko" id="ko" hidden></span>
+    <div class="row"><button class="play" type="button" id="play" aria-label="다시 듣기"></button><button class="pill" type="button" id="koBtn" aria-pressed="false">해석</button></div></div></div>
+  <div class="board" id="board">
+    <span class="time-card" id="timeCard">8:40</span>
+    <div class="suspects dim" id="suspects"></div>
+    <div class="card" id="card"><div class="sent" id="cardEn"></div><div class="ko" id="cardKo" hidden></div></div>
+    <svg class="string" id="string"></svg>
+  </div>
+  <div class="tray" id="tray"></div>
+  <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="">지도</span><span><img src="../assets/ui/nav/note.png" alt="">Note</span></div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const FACES = { ray:'ray', rosie:'rosie', fiona:'fiona', 'Mr. Duck':'duck', 'Sgt. Badger':'badger', 'Mrs. Mole':'mole', 'Ray Raccoon':'ray', 'Rosie Rabbit':'rosie', 'Fiona Fox':'fiona' };
+const SHORT = { 'Ray Raccoon':'Ray', 'Rosie Rabbit':'Rosie', 'Fiona Fox':'Fiona', 'Professor Hoot':'Prof. Hoot' };
+const SUSPECTS = [['ray', 'Ray'], ['rosie', 'Rosie'], ['fiona', 'Fiona']];
+const CHIPS = {
+  time:['7 PM', '7:30', '8 PM', '8:30', '8:40', '8:45', '9 PM', '9:30 PM', '10 PM'],
+  place:['library', 'bakery', 'Lake Cafe', 'Moon Hill'],
+  person:['Sgt. Badger', 'Mrs. Mole', 'Ray Raccoon', 'Rosie Rabbit', 'Fiona Fox', 'Mr. Duck', 'Mrs. Bear', 'Professor Hoot']
+};
+const MISS = ["Hmm… that doesn't fit.", '음… 그건 맞지 않아.'];
+// the script (design/deduction-script.md)
+const Q = [
+  { step:1, q:'First things first. When did it happen?', qKo:'먼저, 그 일은 언제 일어났을까?',
+    card:'It happened at {time:8:40}.', cardKo:'그 일은 8시 40분에 일어났다.',
+    right:'Yes. The big clock stopped at 8:40.', rightKo:'맞아. 큰 시계가 8시 40분에 멈췄어.',
+    hint:'Sgt. Badger said between eight and nine. What stopped in the library?', hintKo:'오소리 경사는 8시에서 9시 사이라고 했어. 도서관에서 멈춘 게 뭐였지?' },
+  { step:2, who:'ray', q:'At 8:40, where was Ray?', qKo:'8시 40분에 레이는 어디 있었을까?',
+    card:'At 8:40, Ray was at the {place:Lake Cafe}.', cardKo:'8시 40분에 레이는 호수 카페에 있었다.',
+    right:'Right. He played on stage from eight to nine thirty.', rightKo:'맞아. 8시부터 9시 반까지 무대에서 연주했지.',
+    hint:'What did Ray say? Where did he play his guitar?', hintKo:'레이가 뭐라고 했지? 기타를 어디서 쳤다고 했어?', memo:'Lake Cafe' },
+  { step:2, who:'ray', q:'But who saw him there?', qKo:'그런데 거기서 그를 본 사람은 누구지?',
+    card:'{person:Mr. Duck} watched him all night.', cardKo:'오리 아저씨가 밤새 그를 지켜봤다.',
+    right:"Mr. Duck says Ray never left the stage. So Ray couldn't do it.", rightKo:'오리 아저씨는 레이가 무대를 한 번도 떠나지 않았대. 그러니 레이일 수 없어.',
+    hint:'Ray said the whole cafe saw him. Who owns the cafe?', hintKo:'레이는 카페 사람들이 다 자기를 봤다고 했지. 카페 주인이 누구였지?', out:true },
+  { step:2, who:'rosie', q:'At 8:40, where was Rosie?', qKo:'8시 40분에 로지는 어디 있었을까?',
+    card:'At 8:40, Rosie was on {place:Moon Hill}.', cardKo:'8시 40분에 로지는 달 언덕에 있었다.',
+    right:'Yes, with her telescope, from eight to ten.', rightKo:'응, 망원경을 들고 8시부터 10시까지.',
+    hint:'Where did Rosie watch the stars?', hintKo:'로지는 어디서 별을 봤다고 했지?', memo:'Moon Hill' },
+  { step:2, who:'rosie', q:'Nobody was with her. So how do we know? When did she see the shooting star?', qKo:'아무도 함께 있지 않았어. 그럼 어떻게 알 수 있지? 별똥별을 본 게 언제였지?',
+    card:'She saw a shooting star at {time:8:45} and wrote it in the Star Club notebook.', cardKo:'그녀는 8시 45분에 별똥별을 보고 별 동호회 노트에 적었다.',
+    right:"8:45, on the hill. She couldn't be in the library five minutes before. Rosie couldn't do it.", rightKo:'8시 45분에 언덕에 있었어. 5분 전에 도서관에 있었을 리 없지. 로지일 수 없어.',
+    hint:'Look at the Star Club notebook on Moon Hill. What time is written there?', hintKo:'달 언덕의 별 동호회 노트를 봐. 거기 몇 시라고 적혀 있지?', out:true },
+  { step:3, who:'fiona', q:'Now Fiona. Where did she say she was?', qKo:'이제 피오나. 그녀는 어디 있었다고 했지?',
+    card:'Fiona said she was at her {place:bakery} from seven to ten.', cardKo:'피오나는 7시부터 10시까지 빵집에 있었다고 했다.',
+    right:"That's her story. Let's check it.", rightKo:'그게 그녀의 말이야. 확인해 보자.',
+    hint:'What did Fiona say? Where was she baking pies?', hintKo:'피오나가 뭐라고 했지? 어디서 파이를 굽고 있었다고 했어?', memo:'bakery?' },
+  { step:3, who:'fiona', q:'But when did her bakery close tonight?', qKo:'그런데 오늘 밤 빵집은 언제 문을 닫았지?',
+    card:'But her bakery closed at {time:7 PM}.', cardKo:'하지만 빵집은 오후 7시에 문을 닫았다.',
+    right:"7 PM! So she wasn't baking there at 8:40.", rightKo:'7시! 그러니 8시 40분에 거기서 빵을 굽고 있지 않았어.',
+    hint:'Look at the sign on the bakery door.', hintKo:'빵집 문에 붙은 안내문을 봐.' },
+  { step:3, who:'fiona', q:'She said someone came to buy bread at 8:30. Who?', qKo:'그녀는 8시 30분에 누가 빵을 사러 왔다고 했지. 누구였지?',
+    card:'And {person:Mrs. Bear} got no bread tonight.', cardKo:'그리고 곰 부인은 오늘 밤 빵을 받지 못했다.',
+    right:'The note says "No bread tonight." Nobody saw Fiona at her bakery. She lied.', rightKo:'쪽지에 "오늘 밤은 빵이 없어요"라고 적혀 있어. 빵집에서 피오나를 본 사람은 없어. 그녀는 거짓말을 했어.',
+    hint:'Read the note on the bakery counter. Who is it for?', hintKo:'빵집 계산대의 쪽지를 읽어 봐. 누구에게 쓴 거지?', lie:true },
+  { step:4, who:'fiona', q:'Why would Fiona do it? Who made her angry?', qKo:'피오나가 왜 그랬을까? 누가 그녀를 화나게 했지?',
+    card:'She was still angry at {person:Professor Hoot} about her pies.', cardKo:'그녀는 파이 일로 아직 후트 교수에게 화가 나 있었다.',
+    right:'He wrote that her pies were too sweet.', rightKo:'그가 그녀의 파이가 너무 달다고 썼지.',
+    hint:"Mrs. Mole told us about the professor's problems. Who was angry?", hintKo:'두더지 부인이 교수님의 문제를 말해 줬어. 누가 화가 났었지?' },
+  { step:4, who:'fiona', q:'So at 8:40, where was Fiona?', qKo:'그럼 8시 40분에 피오나는 어디 있었을까?',
+    card:'At 8:40, Fiona was at the {place:library}.', cardKo:'8시 40분에 피오나는 도서관에 있었다.',
+    right:'So it was Fiona Fox. At 8:40 she was not at her bakery. She was at the library. She was still angry at Professor Hoot about her pies.',
+    rightKo:'그러니 범인은 여우 피오나야. 8시 40분에 그녀는 빵집에 없었어. 도서관에 있었지. 그녀는 파이 일로 아직 후트 교수에게 화가 나 있었어.',
+    hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?', memo:'library', culprit:true }
+];
+const blank = q => q.card.match(/\{(\w+):([^}]+)\}/);   // [, kind, answer]
+
+let st, line, koOn = false, nextT, shown = {};   // shown: what the board showed last time, so only new marks pop
+function fresh(){ st = { done:new Set(), misses:{}, at:0, end:false }; shown = {}; }
+
+// ---------- speech (browser voice for the mockup) ----------
+const synth = window.speechSynthesis;
+function say(text){
+  if(!synth) return;
+  synth.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = .95;
+  const v = synth.getVoices().find(v => /en-US/.test(v.lang)); if(v) u.voice = v;
+  u.onstart = () => $('#bubble').classList.add('talk'); u.onend = u.onerror = () => $('#bubble').classList.remove('talk');
+  synth.speak(u);
+}
+function show(en, ko, mood = ''){
+  line = [en, ko];
+  $('#bubble').className = 'bubble' + (mood ? ' ' + mood : '');
+  $('#en').textContent = en; $('#ko').textContent = ko; $('#ko').hidden = !koOn;
+  say(en);
+}
+
+// ---------- drawing ----------
+function cardHTML(q, filled){
+  const [, kind, answer] = blank(q);
+  return q.card.replace(/\{(\w+):([^}]+)\}/, filled ? `<span class="slot full" style="--c:var(--${kind})">${answer}</span>` : `<span class="slot ask" style="--c:var(--${kind})"></span>`);
+}
+function renderBoard(){
+  const q = Q[st.at], step = st.end ? 5 : q.step;
+  $('#steps').innerHTML = [1, 2, 3, 4].map(n => `<i class="${n < step ? 'done' : n === step ? 'now' : ''}">${n}</i>`).join('');
+  const timeOn = st.done.has(0);
+  $('#timeCard').classList.toggle('pop', timeOn && !shown.time); shown.time = timeOn;
+  $('#timeCard').classList.toggle('on', timeOn);
+  $('#suspects').classList.toggle('dim', !st.done.has(0));
+  $('#suspects').innerHTML = SUSPECTS.map(([id, name]) => {
+    const mine = Q.map((x, i) => [x, i]).filter(([x]) => x.who === id);
+    const memo = [...mine].reverse().find(([x, i]) => x.memo && st.done.has(i));
+    const out = mine.some(([x, i]) => x.out && st.done.has(i));
+    const lie = mine.some(([x, i]) => x.lie && st.done.has(i));
+    const cls = [out && 'out', lie && 'culprit', !st.end && q.who === id && 'now'].filter(Boolean).join(' ');
+    const memoTxt = memo ? memo[0].memo : '', was = shown[id] || {};
+    const popMark = (out && !was.out) || (lie && !was.lie), popMemo = memoTxt && memoTxt !== was.memo;
+    shown[id] = { out, lie, memo:memoTxt };
+    return `<button class="sus ${cls}${popMark ? ' pop' : ''}" type="button" data-sus="${id}"><span class="pol"><i class="face" style="background-image:url(../assets/ui/icons-v2/${id}.png)"></i>${name}</span>` +
+      `<span class="memo${memo ? ' on' : ''}${popMemo ? ' pop' : ''}${lie && memoTxt === 'bakery?' ? ' lie' : ''}" style="--c:var(--place)">${memoTxt || '&nbsp;'}</span></button>`;
+  }).join('');
+  const cardQ = st.end ? Q[8] : q;
+  $('#cardEn').innerHTML = cardHTML(cardQ, st.end || st.done.has(st.at));
+  $('#cardKo').textContent = cardQ.cardKo; $('#cardKo').hidden = !koOn;
+  drawThreads();
+}
+function renderTray(){
+  if(st.end){ $('#tray').innerHTML = '<div class="go" style="width:100%;padding:0"><button class="big" type="button" id="start">심문 시작</button></div>'; return; }
+  const [, kind] = blank(Q[st.at]);
+  $('#tray').classList.toggle('people', kind === 'person');
+  $('#tray').innerHTML = CHIPS[kind].map(w => {
+    const face = kind === 'person' ? `<i class="mini" style="${FACES[w] ? `background-image:url(../assets/ui/icons-v2/${FACES[w]}.png)` : ''}">${FACES[w] ? '' : '?'}</i>` : '';
+    return `<button class="ch${face ? ' pic' : ''}" type="button" data-w="${w}" style="--c:var(--${kind})">${face}${SHORT[w] || w}</button>`;
+  }).join('');
+}
+function drawThreads(){
+  const svg = $('#string'); svg.innerHTML = '';
+  if(!st.end) return;
+  const B = $('#board').getBoundingClientRect(), at = (el, fx, fy) => { const b = el.getBoundingClientRect(); return [b.left - B.left + b.width * fx, b.top - B.top + b.height * fy]; };
+  const f = at($('[data-sus="fiona"] .pol'), .5, .06), c = at($('#timeCard'), 1, .5), m = at($('[data-sus="fiona"] .memo'), .5, 1), w = at($('#card'), .8, .04);
+  svg.innerHTML = `<path d="M${c} Q ${f[0] - 8} ${c[1] - 4} ${f}" fill="none" stroke="#A4352C" stroke-width="2.6" stroke-linecap="round"/>` +
+    `<path d="M${w} Q ${m[0] + 24} ${(w[1] + m[1]) / 2} ${m}" fill="none" stroke="#A4352C" stroke-width="2.6" stroke-linecap="round"/>`;
+}
+function ask(){ const q = Q[st.at]; show(q.q, q.qKo); renderBoard(); renderTray(); }
+
+// ---------- answering ----------
+function nextOpen(from){
+  for(let i = from; i < Q.length; i++) if(!st.done.has(i)) return i;
+  return -1;
+}
+function answer(w, btn){
+  if(st.end || nextT) return;
+  const q = Q[st.at], [, , right] = blank(q);
+  if(w !== right){
+    const n = st.misses[st.at] = (st.misses[st.at] || 0) + 1;
+    btn.classList.remove('miss'); void btn.offsetWidth; btn.classList.add('miss');
+    $('#card').classList.remove('shake'); void $('#card').offsetWidth; $('#card').classList.add('shake');
+    if(n === 1) show(...MISS, 'wrong'); else show(q.hint, q.hintKo, 'wrong');
+    return;
+  }
+  st.done.add(st.at);
+  renderBoard();
+  $('#card').classList.remove('solved'); void $('#card').offsetWidth; $('#card').classList.add('solved');
+  $('#tray').querySelectorAll('.ch').forEach(c => c.disabled = true);
+  const last = st.at === Q.length - 1;
+  show(q.right, q.rightKo, 'read');
+  if(last){ st.end = true; renderBoard(); renderTray(); return; }
+  // the reply stays a moment, then the next question (a tap on the bubble skips the wait)
+  nextT = setTimeout(goNext, Math.max(2200, q.right.length * 62));
+}
+function goNext(){
+  clearTimeout(nextT); nextT = null;
+  // finish the suspect being checked before going back to the first open question
+  const who = Q[st.at].who, same = Q.findIndex((x, i) => who && x.who === who && x.step === Q[st.at].step && !st.done.has(i));
+  st.at = same >= 0 ? same : nextOpen(0); ask();
+}
+
+// ---------- events ----------
+$('#tray').addEventListener('click', e => {
+  const b = e.target.closest('[data-w]'); if(b) return answer(b.dataset.w, b);
+  if(e.target.closest('#start')) show('Let\'s go and talk to Fiona.', '피오나를 만나러 가자.', 'read');
+});
+$('#bubble').addEventListener('click', e => { if(nextT && !e.target.closest('button')) goNext(); });
+$('#play').onclick = () => say(line[0]);
+$('#koBtn').onclick = () => { koOn = !koOn; $('#koBtn').setAttribute('aria-pressed', koOn); $('#ko').hidden = !koOn; $('#cardKo').hidden = !koOn; };
+// step ②: the player may pick which suspect to check first
+$('#suspects').addEventListener('click', e => {
+  const s = e.target.closest('[data-sus]'); if(!s || nextT || st.end) return;
+  const q = Q[st.at]; if(q.step !== 2) return;
+  const first = Q.findIndex((x, i) => x.who === s.dataset.sus && x.step === 2 && !st.done.has(i));
+  const started = Q.some((x, i) => x.who === q.who && x.step === 2 && st.done.has(i));   // not halfway through someone
+  if(first >= 0 && first !== st.at && !started){ st.at = first; ask(); }
+});
+$('#reset').onclick = () => { clearTimeout(nextT); nextT = null; fresh(); ask(); };
+addEventListener('resize', drawThreads);
+fresh(); ask();
+</script>
+</body>
+</html>
