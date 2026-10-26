@@ -10,16 +10,6 @@
 
 BACKGROUND REMOVAL ONLY. Return this exact existing badger policeman as a clean transparent alpha cutout. Keep the exact original pixels/appearance of the character as faithfully as possible, same drawing, pose, uniform, face, all proportions. Remove the cream paper background, ALL surrounding decorative stars dots and floor shadow. Absolutely no glow, no halo, no vignette, no gray or cream haze behind the subject. All pixels outside the character silhouette must be alpha=0, including between the legs. A tiny original paper rim touching the character is okay but there must not be any diffused light around it. Center the entire head-to-feet character on a portrait transparent canvas with small margin. Do not redesign, do not add lighting or effects. Plain isolated sprite ready for compositing over a dark library background.
 
-## Sgt. Badger
-
-- 파일: `sgt-badger.png`
-- 제작: 2026-10-15, 내장 `image_gen` 도구, 투명 배경
-- 상태: 미사용 시안으로 보관. 사용자 요청으로 앱의 동료 경찰 전신과 얼굴 아이콘은 기존 SVG로 복원했다.
-
-### 생성 프롬프트
-
-Use case: illustration-story. Asset type: transparent full-body NPC sprite for a cozy forest-animal detective web game. Primary request: Sgt. Badger, a friendly adult anthropomorphic European badger police sergeant, one single character. Subject: recognizable cream-white badger face with two broad charcoal vertical eye stripes, small round gray ears, small glossy brown-black nose, warm attentive eyes and a gentle closed-mouth smile. Wearing a muted dusty-blue police cap with a small simple gold badge, dusty-blue uniform jacket, cream shirt collar, simple gold star badge, brown belt, dark navy trousers and brown shoes. Empty relaxed paws at sides, standing still upright, both feet on same baseline, facing the viewer with a very slight three-quarter turn. Style/medium: polished storybook game character, warm hand-drawn dark-brown ink outlines, subtly irregular pencil contours, matte flat gouache fills with restrained paper-grain texture, soft pastel palette. Simple readable shapes to harmonize with existing lavender-and-beige storybook interiors; charming but mature and dependable, no realism or 3D. Composition/framing: portrait 1:2 canvas, complete body including cap and both shoes, horizontally centered, character nearly fills canvas with 3 percent transparent margins, face within top third of full image; moderately large rounded head and sturdy body, silhouette about 70 percent of canvas width. Scene/backdrop: genuinely transparent alpha background, isolated sprite, no ground shadow or scenery. Constraints: exactly one character, no text, lettering, watermark, speech bubbles, extra props, weapons, notebook, frame, or background.
-
 ## 적용 중: 두더지·여우·너구리·토끼 (Claude 제작, 2026-10-15)
 
 - 도구: Higgsfield Nano Banana 2.1, 16:9, 1K, 사고 수준 높음. 참조 이미지로 `sgt-badger-higgsfield-original.png`를 넣어 화풍·비율을 맞췄다.
@@ -47,7 +37,7 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 ## 흰 스티커 테두리 제거 (2026-10-16)
 
 - 두더지·여우·너구리·토끼 원본에는 캐릭터를 두른 흰 스티커 테두리가 함께 그려져 있었고, 배경 제거 후에도 남아 있었다.
-- Claude가 투명 바깥에서부터 밝고 채도 낮은 픽셀만 깎아(갈색 잉크 외곽선에서 멈춤) 테두리를 지우고 다시 잘랐다. 이전 파일은 `<id>-higgsfield-sticker.png`로 보관한다.
+- Claude가 투명 바깥에서부터 밝고 채도 낮은 픽셀만 깎아(갈색 잉크 외곽선에서 멈춤) 테두리를 지우고 다시 잘랐다.
 - 새 크기: mole 408×620, fiona 439×621, ray 509×628, rosie 316×661. `SPRITES`의 얼굴 viewBox·`anchor`·`mouth` 좌표를 잘라 낸 만큼 옮겼다.
 
 ## 적용 중: 오리 아저씨 (Claude 제작, 2026-10-16)
@@ -90,6 +80,6 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 
 - 사용자 요청: 말할 때 입 모양 개선. 그림의 입을 가리고 닫은 입·벌린 입을 번갈아. 크레딧을 아끼려고 **이미지 1장**에 모든 입을 모아 생성했다.
 - `sheet-original.png`: Claude 제작, Higgsfield Nano Banana 2.1(job `bdd5aa63-00f7-4aa2-af64-3525b7a306bb`, 1.5크레딧), 1376×768. 순수 초록 배경 위 4×2: 미소 / 미소 벌림 / 당황(물결) / 당황 벌림(이) / 슬픔 / 슬픔 벌림 / 오리 부리 / 오리 부리 벌림. 프롬프트 요지: 그림책 동물 캐릭터의 말하기용 입 스프라이트, 진갈색 색연필 외곽선과 과슈 색, 칸마다 하나씩 같은 크기, 얼굴·코·글자 없음.
-- `smile.png`, `smile-open.png`, `nervous*.png`, `sad*.png`, `beak*.png`: 초록을 빼고 하나씩 잘라 낸 입.
+- 미소·당황·슬픔·오리 부리(각각 벌림 포함): 스크립트가 시트에서 초록을 빼고 하나씩 잘라 낸 입. 중간 단계라 파일로 남기지 않는다.
 - `<인물>-closed.png`, `<인물>-open.png`(badger, mole, fiona, ray, rosie, fiona-nervous, fiona-sad, duck, detective, detective-thinking·point·lens·wave): 게임에 쓰는 그림. 그려진 입을 찾아 주변 털색으로 덮고(코는 남김) 그 위에 새 입을 얹었다. 닫은 입 선은 각 그림의 원래 선 굵기에 맞춰 굵혔다. 오리는 생성한 부리로 부리 전체를 바꾼다.
 - 만드는 법: `python -I scripts/make-npc-mouths.py`(Pillow만 사용). 출력된 `[x, y, w, h]`를 `index.html`의 `MOUTHS`에 넣는다. 같은 입력이면 같은 파일이 나온다.

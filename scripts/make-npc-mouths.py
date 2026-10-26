@@ -61,8 +61,10 @@ def fill_from_around(reg, hole, r):
         chans.append(out)
     return Image.merge('RGB',chans).convert('RGBA')
 
+CUT={}  # the sheet's mouths, cut by split_sheet()
+
 def closed_art(name, tw, line, ink):
-    m=Image.open(M+name+'.png').convert('RGBA')
+    m=CUT[name]
     need=line*m.size[0]/tw; steps=int(round((need-SRC_LINE)/2))
     a=m.getchannel('A')
     for _ in range(max(0,steps)): a=a.filter(ImageFilter.MaxFilter(3))
@@ -71,7 +73,7 @@ def closed_art(name, tw, line, ink):
     th=max(1,int(m.size[1]*tw/m.size[0])); return out.resize((tw,th),Image.LANCZOS)
 
 def open_art(name, tw):
-    m=Image.open(M+name+'.png').convert('RGBA'); th=max(1,int(m.size[1]*tw/m.size[0])); return m.resize((tw,th),Image.LANCZOS)
+    m=CUT[name]; th=max(1,int(m.size[1]*tw/m.size[0])); return m.resize((tw,th),Image.LANCZOS)
 
 def split_sheet():
     src=Image.open(M+'sheet-original.png').convert('RGB')
@@ -96,7 +98,7 @@ def split_sheet():
         pad=6
         bb=(max(bb[0]-pad,0),max(bb[1]-pad,0),min(bb[2]+pad,cw),min(bb[3]+pad,ch))
         c=cell.crop(bb)
-        c.save(M+f'{n}.png',optimize=True)
+        CUT[n]=c.convert('RGBA')
         print(n,c.size)
 
 split_sheet()
@@ -141,7 +143,7 @@ for key,(f,x,y,w,h,kind,line,top) in S.items():
     print(key,'drawn mouth',[x0+bb[0],y0+bb[1],cw,bb[3]-bb[1]],meta[key])
 # duck: the generated beaks replace the drawn one (147..300 x 167..248)
 for state,name in [('closed','beak'),('open','beak-open')]:
-    m=Image.open(M+name+'.png').convert('RGBA'); BW=166; th=int(m.size[1]*BW/m.size[0]*0.9)
+    m=CUT[name]; BW=166; th=int(m.size[1]*BW/m.size[0]*0.9)
     m=m.resize((BW,th),Image.LANCZOS); m.save(M+f'duck-{state}.png',optimize=True)
     meta.setdefault('duck',{})[state]=[223-83,160,BW,th]
 print(json.dumps(meta))

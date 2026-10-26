@@ -53,9 +53,9 @@ node server.js            # http://localhost:5173/
 | `scripts/prepare-demo.mjs` | 공개 데모 준비 스크립트(보관용, 현재 공유에는 쓰지 않음) |
 | `sites/pioo-demo/` | 갱신 중단한 공개 데모의 독립 Git 체크아웃(부모 Git에서는 제외). `source/`, `build.mjs`, `.openai/hosting.json`, 빌드 결과 `dist/` |
 | `audio/` | 캐릭터 음성·탐정 나레이션·효과음, `words/` 단어 발음, 이전 음성 백업(`linda-old/`) |
-| `assets/characters/` | 여섯 인물 투명 PNG, 제작 원본, 흰 테두리 버전 백업(`*-sticker.png`) |
+| `assets/characters/` | 여섯 인물 투명 PNG, 제작 원본 |
 | `assets/places/` | 네 장소 배경, 대화용 바닥 확장(`*-floor.jpg`), 마을 지도, 출처 README |
-| `assets/ui/` | 종이 버튼·노트·노트 탭·말풍선·아이콘·도장·별, 보관 시안, 출처 README |
+| `assets/ui/` | 종이 버튼·노트·노트 탭·말풍선·아이콘·도장·별, 제작 원본, 출처 README |
 | `.claude/launch.json` | Claude Code 미리보기 설정(`pioo-dev`, 5173) |
 | `scripts/generate-word-audio.ps1` | Windows SAPI로 단어장 발음 WAV 생성 |
 | `LEARNING_PLAN.md` | 학습 설계 기획안: 수사 준비(학습 포인트 예습)·커리큘럼·사건 제작 틀·탐정 훈련·보상(미구현·미확정) |
@@ -418,27 +418,27 @@ node server.js            # http://localhost:5173/
 | 도서관 | `places/library-higgsfield-v2.png` | 사용자 제작, 1376×768 |
 | 피해자 분필 윤곽선 | `places/library-chalk-owl.png` | Claude 제작(Nano Banana 2.1, job 418fefc0), 640×450 투명 PNG. 검은 배경 위 흰 분필 선을 밝기로 투명도를 만들고 선을 조금 굵혔다. 원본 `library-chalk-owl-original.png` |
 | 빵집 | `places/bakery-higgsfield.png` | 사용자 제작, 1376×768 |
-| 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768. 카페는 카운터 뒤 오리를 지운 판(원본 `cafe-higgsfield-with-duck.png`) |
+| 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768. 카페는 카운터 뒤 오리를 지운 판 |
 | 바닥 확장 | `places/<id>-floor.jpg` | outpaint로 원본 아래를 이어 그림(높이 370–725). 원본 `*-outpaint-original.png` |
 | 마을 지도 | `places/village-map-higgsfield.png` | Claude 제작, 768×1376, 글자 없음 |
 | 파출소 조사실 | `places/station-interview-room.png` | Codex 기본 이미지 생성 도구 제작, 1254×1254. 대화 전용, 바닥 포함, 인물·문자 없음 |
 | 동료 경찰 | `characters/sgt-badger-higgsfield.png` | 1060×1484 |
-| 두더지·여우·너구리·토끼 | `characters/<id>-higgsfield.png` | Claude 제작. 흰 스티커 테두리를 지운 버전(408×620, 439×621, 509×628, 316×661). 이전 `*-sticker.png` |
+| 두더지·여우·너구리·토끼 | `characters/<id>-higgsfield.png` | Claude 제작. 흰 스티커 테두리를 지운 버전(408×620, 439×621, 509×628, 316×661) |
 | 피오나 표정 | `characters/fiona-nervous.png`, `fiona-sad.png` | Claude 제작, 477×641 / 569×624. 원본 `*-original.png` |
 | 오리 아저씨 | `characters/duck-higgsfield.png` | Claude 제작, 447×694, 투명 배경. 원본 `duck-higgsfield-original.png` |
 | 플레이어 탐정 | `characters/detective-higgsfield.png`(기본), `characters/detective-thinking·point·lens·wave.png`(포즈, 각 약 610×700), `places/detective-office-wide.jpg`, `ui/detective-id-card.png`, `ui/icons-v2/detective.png` | Claude 제작. 주황 다람쥐 탐정(체크무늬 모자·트렌치코트·돋보기, 627×700), 참나무 사무소(가로 1843×1376, 세로 원본 768×1376은 보관만), 빈 신분증(1143×747), 얼굴 아이콘(신분증 사진 칸). 3.1.1절 |
-| 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠. 클립은 지움(사용자 요청: 오른쪽 위 UI를 가림, 원본 `casefile-panel-with-clip.webp`) |
+| 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠. 클립은 지움(사용자 요청: 오른쪽 위 UI를 가림) |
 | 메뉴 아이콘 | `ui/nav/*.png` (160×160) | 홈 메뉴 `home-house`·`case-magnifier`·`study-book`·`my-hat`, 사건 안 `map`·`note`. 시트 두 장(`nav-icons-higgsfield-original.png`, `nav-icons-2-higgsfield-original.png`)을 `scripts/cut-nav-icons.py`로 자름(고르지 않은 칸은 버림) |
-| 노트 탭 | `ui/tab-1.png` … `tab-3.png`, `ui/casefile-paper-edge.png` | 아래가 열린 손그림 탭. CSS 마스크 + 곱하기로 색(연 탭 종이 크림, 닫힌 탭 크라프트지)을 입힌다. 종이 테두리 조각은 닫힌 탭의 발 위에 얹는다. `tab-1…3-closed.png`(아래를 닫은 견출지)와 `tab-4…6.png`는 지금 쓰지 않는다 |
+| 노트 탭 | `ui/tab-1.png` … `tab-3.png`, `ui/casefile-paper-edge.png` | 아래가 열린 손그림 탭. CSS 마스크 + 곱하기로 색(연 탭 종이 크림, 닫힌 탭 크라프트지)을 입힌다. 종이 테두리 조각은 닫힌 탭의 발 위에 얹는다. |
 | 손그림 아이콘 | `ui/icons-v2/*.png` (160×160) | Higgsfield 한 장(돋보기·카메라·도토리·여섯 인물 얼굴). 증거 탭 카메라, 힌트 도토리, 작은 얼굴(`miniSVG()` → `FACE_ICONS`: 노트 얼굴 줄·제목·메모 쪽지·지도 핀·지목·복습·단어장). `detective.png`는 신분증 사진·추리 칠판 말풍선 |
 | 심문 게이지 | `ui/magnifier-paper.png`, `ui/buttons/cream-flat.png`, `ui/buttons/honey-flat.png` | 돋보기는 내장 이미지 생성. 크림/갈색 종이 외곽과 꿀색 채움은 기존 버튼 질감 재사용 |
 | 말풍선 | `ui/speech-paper-frame.png`, `ui/speech-paper-tail-pencil.png` | 기본 이미지 생성 도구로 제작. 종이 본문은 종이 외곽으로 잘라(1508×908) 9조각(위·아래 150, 좌우 190 = 모서리 전체)으로 확장해 어떤 크기에서도 모서리가 일그러지지 않는다(`ui/README.md`). 꼬리는 별도 고정 크기로 배치. 엔딩의 주장·반박·자백·마무리에 사용 |
 | 공용 닫기 | `ui/close-button.png` | 지도·증거 서랍·문법·홈에서 연 복습·범인 선택 창, 42px 손그림 버튼 |
-| COMPLETE 도장 | `ui/complete-stamp.png` | Higgsfield, 900×332 투명 PNG. 수평 원본, 회전·찍기 동작은 CSS. 이전 한글 `investigation-complete-stamp.png`는 미사용 |
+| COMPLETE 도장 | `ui/complete-stamp.png` | Higgsfield, 900×332 투명 PNG. 수평 원본, 회전·찍기 동작은 CSS. |
 | 별 | `ui/star.png`, `ui/star-empty.png` | Higgsfield, 160×155. 사건 목록 사진 카드·복습 1단계 |
 
 - 출처·프롬프트·잘라 낸 좌표는 `assets/characters/README.md`, `assets/places/README.md`, `assets/ui/README.md`에 있다.
-- 미사용 보관본: `characters/sgt-badger.png`, `places/library-higgsfield.png`, `ui/notebook-*`(스프링 수첩 시안), 각종 `*-original.png`, `ui/gauge-empty.png`·`gauge-full.png`, `ui/speech-paper-tail.png`·`speech-paper-tail-flat.png`.
+- 게임이 쓰지 않는 그림은 두지 않는다. 남는 것은 게임 그림과 그 제작 원본(`*-original.png`, Higgsfield 시트·확장 전체)뿐이다.
 - **그림을 바꿀 때 함께 볼 것**
   - 장소 배경을 바꾸면 `ART`, `PLACES.spots`, `spots.photo`, 덧그림 위치를 다시 맞춘다. 바닥 확장(`*-floor.jpg`)도 다시 만들어야 이음새가 맞는다.
   - 캐릭터 얼굴이 바뀌면 `SPRITES.face`·`anchor`를 다시 맞추고, `scripts/make-npc-mouths.py`의 입 위치를 고쳐 입 그림을 다시 만든 뒤 출력된 좌표를 `MOUTHS`에 넣는다.
@@ -504,7 +504,7 @@ node server.js            # http://localhost:5173/
 5. **복습 보완**: `학습` > `복습`의 "다시 들을 문장" 목록을 복습 페이지 2단계와 합칠지 검토.
 6. **난이도 3단계**(단어 카드 / 첫 글자 힌트 / 직접 입력).
 7. **음성 사용자 검수**: Mole m3·Rosie q1–q3의 감정 확인.
-8. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다. 미사용 그림(`ui/notebook-*`, `*-sticker.png` 등) 정리 여부를 정한다.
+8. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다.
 9. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 10. **물건 더 늘리기**: 지금은 장소마다 세 개(도서관은 크레용까지 네 개)다(3.5절). 사용자가 원하면 더 추가한다.
 11. **플레이어 탐정 다음 단계**(1단계·홈 A안 적용됨, 3.1·3.1.1절): 홈 책장 → 해결한 사건 기념품(사건마다 그림 하나, 홈 A안 3번째), 노트(수사 수첩) 표지에 탐정 얼굴·이름, 도토리 힌트를 쓸 때 탐정 혼잣말("Crunch… let me think."), 3단계 긴 줄기. 앱 이름은 9번과 함께 정한다.
