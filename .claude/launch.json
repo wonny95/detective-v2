@@ -6,12 +6,6 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["E:/GPT/Pioo/server.js"],
       "port": 5173
-    },
-    {
-      "name": "pioo-review-preview",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["E:/GPT/Pioo/server.js"],
-      "port": 5180
     }
   ]
 }
