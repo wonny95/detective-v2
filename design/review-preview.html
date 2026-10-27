@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>복습 화면 시안 · 숲속 탐정 Pioo</title>
+<style>
+@font-face{font-family:Paperlogy;src:url(../assets/fonts/Paperlogy-4Regular.woff2) format('woff2');font-weight:400}
+@font-face{font-family:'Paperlogy Display';src:url(../assets/fonts/Paperlogy-6SemiBold.woff2) format('woff2');font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--paper-2:#F4EAD4;--line:#E3D5B8;--ink:#4A3628;--ink-soft:#7D6A58;--moss:#8DB48E;--moss-deep:#5E8A63;--honey:#F2CF73;--berry:#C96F86;--sky:#BFD3EE;--ok:#5E8A63;--no:#C25B5B;--f-body:Paperlogy,system-ui,sans-serif;--f-display:'Paperlogy Display',Paperlogy,system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:14px;display:flex;justify-content:center;align-items:center;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px dashed var(--berry);outline-offset:2px}
+img{max-width:100%}
+.preview{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px}
+.preview-switch{display:flex;gap:7px;max-width:430px;width:100%;justify-content:center}
+.preview-switch button{border:0;background:#FBF4E6cc;border-radius:10px;padding:7px 10px;font-family:var(--f-display);font-size:12px}
+.preview-switch button[aria-pressed=true]{background:var(--honey)}
+.app{width:100%;max-width:430px;height:min(820px,calc(100vh - 82px));min-height:620px;background:var(--paper);overflow:hidden;display:flex;flex-direction:column}
+.review{height:100%;display:flex;flex-direction:column;gap:14px;padding:16px 16px 18px}
+.rv-top{display:flex;flex-direction:column;gap:11px;flex:none}
+.rv-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rv-head strong{font-family:var(--f-display);font-weight:400;font-size:19px}
+.rv-head small{font-family:var(--f-display);font-size:12px;color:var(--berry)}
+.rv-steps{display:flex;gap:6px;min-height:7px}
+.rv-steps i{flex:1;height:7px;border-radius:4px;background:var(--line)}
+.rv-steps i.on{background:#E0A526}
+.rv-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:3px 2px 8px;scrollbar-width:none}
+.rv-body.result-body{justify-content:center;padding-bottom:35px}
+.rv-body::-webkit-scrollbar{display:none}
+.rv-foot{flex:none}
+.pill{--btn:url(../assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;background:none;padding:6px 12px;font-family:var(--f-display);font-size:14px;min-height:40px}
+.pill.sm{min-height:32px;padding:3px 10px;font-size:12px}
+.pill.big{--btn:url(../assets/ui/buttons/berry-flat.png);--bw:20px;width:100%;min-height:53px;font-size:15px}
+.pill.hint{--btn:url(../assets/ui/buttons/honey-flat.png)}
+.pill.green{--btn:url(../assets/ui/buttons/sage-flat.png)}
+.pill:active{transform:translateY(1px)}
+.pill:disabled{opacity:.48}
+.play-btn{flex:none;width:32px;height:32px;border:0;padding:0;background:url(../assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(../assets/ui/buttons/round-cream.png) center/100% no-repeat}
+.rv-title{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.35;margin:0}
+.rv-sub{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0}
+.rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:min(88%,310px);min-height:160px;margin:22px 0 14px;padding:20px 22px 22px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg);text-align:center}
+.rv-file:before{content:"";position:absolute;left:50%;top:-31px;width:24px;height:33px;margin-left:-10px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.rv-file small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
+.rv-file b{font-family:var(--f-display);font-weight:400;font-size:20px}
+.rv-file img{position:absolute;right:-7px;bottom:-20px;width:96px;transform:rotate(-11deg)}
+.rv-stars{display:flex;justify-content:center;gap:9px;margin-top:8px}
+.rv-stars img{width:49px;height:auto}
+.rv-score{text-align:center;font-family:var(--f-display);font-size:16px;margin:2px 0 0}
+.rv-todo{display:flex;align-items:center;gap:10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;padding:12px 14px}
+.rv-todo strong{font-family:var(--f-display);font-weight:400;font-size:18px}
+.rv-todo .count{display:grid;place-items:center;flex:none;width:43px;height:43px;background:var(--honey);border-radius:50%;font-family:var(--f-display);font-size:21px}
+.rv-todo p{margin:2px 0 0;font-size:12px;color:var(--ink-soft)}
+.rv-mini-summary{display:flex;gap:8px;justify-content:center;font-size:13px;color:var(--ink-soft)}
+.rv-who{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-size:17px}
+.rv-who .mini{display:grid;place-items:center;width:42px;height:42px;flex:none;border-radius:50%;border:2px solid var(--ink);background:#DDE3EE;overflow:hidden}
+.rv-who .mini img{width:100%;height:100%;object-fit:contain}
+.rv-who small{margin-left:auto;font-size:13px;color:var(--ink-soft)}
+.rv-label{font-size:13px;color:var(--ink-soft)}
+.rv-listen{display:flex;align-items:center;gap:8px}
+.rv-listen .pill{min-height:32px}
+.note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:24px 14px 22px 16px/16px 24px 14px 22px;padding:16px 16px 17px 43px;line-height:1.65}
+.note-page p{margin:0 0 7px;font-size:16px}
+.note-page p:last-child{margin:0}
+.rv-slot{display:inline-grid;place-items:center;min-width:66px;min-height:31px;margin:0 2px;padding:0 5px;border:0;border-radius:8px;background:rgba(125,106,88,.17);font:700 15px var(--f-body);color:#34506E}
+.rv-slot.hit{background:rgba(94,138,99,.18);color:var(--ok)}
+.rv-bank{display:flex;flex-wrap:wrap;gap:8px}
+.word{min-height:36px;border:1.5px solid var(--ink);border-radius:12px 14px 11px 15px;background:#FFFDF7;padding:5px 12px;font-family:var(--f-body);font-weight:700;font-size:15px;box-shadow:1.5px 2px 0 rgba(74,54,40,.18)}
+.rv-first{font-size:12px;color:var(--ink-soft)}
+.rv-first s{color:var(--no);font-weight:700}
+.rv-feedback{font-size:13px;color:var(--ok);margin:0}
+.rv-feedback.no{color:var(--no)}
+.rv-grammar{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(../assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat;margin:-2px -2px -8px;padding:12px 13px 20px;flex:1;display:flex;flex-direction:column;gap:16px}
+.ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 5px 0;padding:13px 10px 16px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg)}
+.ck-card:before{content:"";position:absolute;left:50%;top:-28px;width:24px;height:33px;margin-left:-9px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.ck-card small{font-family:var(--f-display);color:var(--ink-soft);font-size:12px}
+.ck-card h3{font-family:var(--f-display);font-size:36px;line-height:1.12;margin:0;font-weight:400}
+.ck-card p{margin:0;line-height:1.5}
+.ck-note{position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:4px 7px;margin:11px 2px 0;padding:22px 24px 22px 19px;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18));font-size:16px;line-height:1.35}
+.ck-note .note-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0}
+.ck-note>*:not(.note-bg){position:relative;z-index:1}
+.ck-note:before{content:"";position:absolute;left:50%;top:-19px;width:58px;height:18px;margin-left:-29px;background:url(../assets/ui/casekey/tape.webp) center/100% 100% no-repeat;transform:rotate(-3deg)}
+.ck-note .ko{grid-column:1/-1;font-size:12px;font-weight:700;color:var(--berry)}
+.ck-dots{display:flex;justify-content:center;gap:9px;margin:auto 0 0}
+.ck-dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,54,40,.22)}
+.ck-dots i.now{background:#E0A526;transform:scale(1.3)}
+.grammar-arrows{display:flex;justify-content:center;gap:16px}
+.grammar-arrows button{min-width:76px}
+.rv-word{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:9px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
+.rv-word .wword{font-family:var(--f-display);font-size:17px}
+.rv-word .wko{display:block;font-size:12px;color:var(--berry);margin-top:3px}
+.rv-word .keep{min-width:57px}
+.word-list{display:flex;flex-direction:column;gap:8px}
+.word-summary{font-size:13px;color:var(--ink-soft);margin:0}
+@media(min-width:520px){.app{border-radius:38px 42px 36px 44px/44px 36px 42px 38px}}
+@media(max-width:390px){.rv-file{min-height:140px}.rv-file img{width:102px}.ck-card h3{font-size:30px}.review{gap:12px}.rv-body{gap:12px}}
+</style>
+</head>
+<body>
+<div class="preview">
+  <div class="preview-switch" aria-label="시안 화면 바로 보기">
+    <button type="button" data-jump="0">사건 기록</button><button type="button" data-jump="1">다시 듣기</button><button type="button" data-jump="2">표현 정리</button><button type="button" data-jump="3">단어 담기</button>
+  </div>
+  <main class="app"><div class="review" id="review"></div></main>
+</div>
+<script>
+const steps=['사건 기록','다시 듣기','표현 정리','단어 담기'];
+const forms=[
+  {head:'from A to B',name:'시작부터 끝까지',pattern:'from + 시작 시각 + to + 끝 시각',sentence:'I played my guitar on stage from eight to nine thirty.',ko:'나는 8시부터 9시 30분까지 무대에서 기타를 연주했어.'},
+  {head:'at',name:'하나의 시각',pattern:'at + 시각',sentence:'The shop opens at eleven.',ko:'가게는 11시에 문을 열어요.'},
+  {head:'between A and B',name:'두 시각 사이',pattern:'between + 시작 시각 + and + 끝 시각',sentence:'The bus comes between five and six.',ko:'버스는 5시에서 6시 사이에 와요.'}
+];
+const words=[['guitar','기타'],['stage','무대'],['cafe','카페'],['lantern','랜턴, 등불']];
+const state={step:0,form:0,slots:['',''],checked:false,error:false,translate:false,kept:new Set(['guitar'])};
+const asset=p=>`../assets/ui/${p}`;
+function playLine(text,slow=false){if(!('speechSynthesis' in window))return;window.speechSynthesis.cancel();const utter=new SpeechSynthesisUtterance(text);utter.lang='en-US';utter.rate=slow?.72:.9;window.speechSynthesis.speak(utter)}
+function button(label,attrs='',extra=''){return `<button type="button" class="pill ${extra}" ${attrs}>${label}</button>`}
+function render(){
+ document.querySelectorAll('[data-jump]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.jump)===state.step));
+ let content='',foot='';
+ if(state.step===0){
+  content=`<div class="rv-file"><small>Case 01</small><b>도서관 살인사건</b><img src="${asset('complete-stamp.png')}" alt="COMPLETE"></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><p class="rv-score">처음 확인 · 30칸 중 26칸</p><div class="rv-todo"><span class="count">2</span><div><strong>다시 들을 문장</strong><p>헷갈린 표현부터 확인해요</p></div></div><div class="rv-mini-summary"><span>이번 사건의 문법 3개</span><span>·</span><span>새 단어 4개</span></div>`;
+  foot=button('다시 들을 문장으로','data-next','big');
+ }
+ if(state.step===1){
+  content=`<h2 class="rv-title">다시 들을 문장</h2><p class="rv-sub">첫 기록에서 헷갈린 문장을 다시 들어봐요.</p><div class="rv-who"><span class="mini"><img src="${asset('icons-v2/ray.png')}" alt=""></span>너구리 레이<small>1 / 2</small></div><span class="rv-label">Q. Where were you?</span><div class="rv-listen"><button class="play-btn" type="button" data-play="line" aria-label="다시 듣기"></button>${button('천천히','data-play="slow"','sm')}</div><div class="note-page"><p>Ray was at the Lake Cafe.</p><p>He played the guitar from <button class="rv-slot ${state.checked?'hit':''}" type="button" data-slot="0" aria-label="시작 시각">${state.slots[0]||'____'}</button> to <button class="rv-slot ${state.checked?'hit':''}" type="button" data-slot="1" aria-label="끝 시각">${state.slots[1]||'____'}</button>.</p></div>${state.checked?`<p class="rv-feedback">✓ 문장을 완성했어요. 다시 듣고 다음으로 넘길 수 있어요.</p>`:`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div><p class="rv-first">처음 쓴 답 <s>7 PM</s> <s>10 PM</s></p>${state.error?'<p class="rv-feedback no">다시 듣고 고쳐 보세요.</p>':''}`}`;
+  foot=state.checked?button('표현 정리하기','data-next','big'):button('기록 확인','data-check','big');
+ }
+ if(state.step===2){const form=forms[state.form];content=`<div class="rv-grammar"><h2 class="rv-title">이번 사건의 문법</h2><section class="ck-card"><small>이번 사건의 열쇠</small><h3>${form.head}</h3><p>${form.name}</p><p class="rv-sub">${form.pattern}</p></section><div class="ck-note"><img class="note-bg" src="${asset('casekey/note-yellow.webp')}" alt=""><span>${form.sentence}</span><button type="button" class="play-btn" data-play="grammar" aria-label="문장 듣기"></button>${button('해석','data-translate','sm')}${state.translate?`<span class="ko">${form.ko}</span>`:''}</div><div class="ck-dots" aria-label="표현 ${state.form+1} / 3">${forms.map((_,i)=>`<i class="${i===state.form?'now':''}"></i>`).join('')}</div><div class="grammar-arrows">${button('이전','data-form="-1"','sm')}${button('다음 표현','data-form="1"','sm')}</div></div>`;foot=button('단어 담기','data-next','big');}
+ if(state.step===3){content=`<h2 class="rv-title">새 단어 <small style="font-size:14px;color:var(--ink-soft)">${state.kept.size} / ${words.length}</small></h2><p class="rv-sub">기억하고 싶은 단어를 수첩에 담아요.</p><div class="word-list">${words.map(([word,ko])=>`<div class="rv-word ${state.kept.has(word)?'kept':''}"><button type="button" class="play-btn" data-play-word="${word}" aria-label="${word} 발음 듣기"></button><span><span class="wword">${word}</span><span class="wko">${ko}</span></span>${button(state.kept.has(word)?'담음':'담기',`data-keep="${word}"`,'sm '+(state.kept.has(word)?'green':''))}</div>`).join('')}</div><p class="word-summary">${state.kept.size}개를 수첩에 담았어요.</p>`;foot=button('수첩 정리 완료','data-done','big');}
+ document.getElementById('review').innerHTML=`<div class="rv-top"><div class="rv-head"><strong>복습 · ${steps[state.step]}</strong><small>Case 01</small></div><div class="rv-steps" aria-label="복습 ${state.step+1} / 4">${steps.map((_,i)=>`<i class="${i<=state.step?'on':''}"></i>`).join('')}</div></div><div class="rv-body ${state.step===0?'result-body':''}">${content}</div><div class="rv-foot">${foot}</div>`;
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.jump!==undefined){state.step=Number(b.dataset.jump);state.translate=false;render();return;}
+ if(b.hasAttribute('data-next')){state.step=Math.min(3,state.step+1);render();return;}
+ if(b.hasAttribute('data-check')){state.checked=state.slots[0]==='8 PM'&&state.slots[1]==='9:30 PM';state.error=!state.checked;render();return;}
+ if(b.dataset.word){const index=state.slots.findIndex(x=>!x);if(index>=0)state.slots[index]=b.dataset.word;state.error=false;render();return;}
+ if(b.dataset.slot!==undefined&&!state.checked){state.slots[Number(b.dataset.slot)]='';render();return;}
+ if(b.dataset.play){playLine(b.dataset.play==='grammar'?forms[state.form].sentence:'I was at the Lake Cafe. I played my guitar on stage from eight to nine thirty.',b.dataset.play==='slow');return;}
+ if(b.dataset.playWord){playLine(b.dataset.playWord);return;}
+ if(b.hasAttribute('data-translate')){state.translate=!state.translate;render();return;}
+ if(b.dataset.form){state.form=(state.form+Number(b.dataset.form)+forms.length)%forms.length;state.translate=false;render();return;}
+ if(b.dataset.keep){state.kept.has(b.dataset.keep)?state.kept.delete(b.dataset.keep):state.kept.add(b.dataset.keep);render();return;}
+ if(b.hasAttribute('data-done')){state.step=0;render();}
+});
+render();
+</script>
+</body>
+</html>
