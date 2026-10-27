@@ -15,7 +15,8 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - 적용 파일: `library-higgsfield-v2.png` (1376×768)
 - 사용자 제작: Higgsfield / Nano Banana
 - 공유 출처: https://higgsfield.ai/s/s2Ajq1IuOdk (2026-10-15 교체)
-- 원본을 그대로 보관하고, 앱의 SVG 레이어에서 시계 바늘(8:40)과 피해자 윤곽선(`library-chalk-owl.png`)을 얹는다.
+- 2026-10-27 큰 시계에 부딪힌 흔적(사용자 결정): 이 그림을 참조로 Nano Banana 2.1(16:9, 1K, thinking high)로 시계만 고친 4장을 차례로 만들었다(흔적 → 숫자 → 바늘 두 개 → 7·8 숫자, job `8fd70d91-…`·`20f2b7e0-…`·`e6459e33-…`·`5af42d02-…`, 약 6크레딧). 마지막 판(job `5af42d02-7245-4f52-bec3-251e60f26c13`, `library-clock-higgsfield-original.png`)에서 시계·유리 조각 부분(x 964–1172, y 84–572, 가장자리 5px 흐림)만 원래 그림에 붙였다. 바늘은 그림 안에 있어 SVG로 덧그리지 않는다.
+- 앱의 SVG 레이어에서는 피해자 윤곽선(`library-chalk-owl.png`)만 얹는다.
 - `library-chalk-owl.png`: Hoot 교수(부엉이)의 분필 윤곽선. Claude 제작, Higgsfield Nano Banana 2.1(job `418fefc0-4d1f-4393-82b8-8ceec2c1115c`), 원본 `library-chalk-owl-original.png`(1376×768, 검은 배경). 밝기를 투명도로 바꾸고 선을 5px 굵힌 뒤 잘라 2/3로 줄였다(640×450). 위에서 본 모양이라 SVG에서 세로 0.56배·-10도로 바닥에 눕힌다. 프롬프트 요지: 날개를 양옆으로 편 통통한 부엉이가 누운 실루엣, 귀깃·작은 발·짧은 꼬리, 흰 분필 크레용의 거친 한 줄, 그림책 화풍, 순수 검은 배경, 얼굴·채움·피 없음.
 - 도서관 대화 배경·현장 조사·사건 카드에서 공통으로 사용한다.
 - 새 창문 잼·시계판·문 오른쪽 털 위치에 맞춰 핫스팟과 4:3 증거 촬영 범위를 조정했다.
@@ -27,7 +28,7 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - `cafe-higgsfield.png`, `hill-higgsfield.png`: Claude Code 제작, Nano Banana 2.1 · 16:9 · 1K · thinking high. 빵집 그림을 스타일 참고 이미지로 사용했다.
 - 출처와 적용 좌표는 2026-10-15 `CLAUDE_REQUEST.md`의 인계 내용에 따른다.
 - 2026-10-27 언덕 벤치에 즉석카메라 추가(사용자 결정, 증거 `hill-5`): 지금 그림을 참조로 Nano Banana 2.1(16:9, 1K, thinking high, 1장 약 1.5크레딧)로 카메라만 그려 넣게 한 판(job `21f906f2-cb54-48ee-985d-ccaec6058da5`, `hill-camera-higgsfield-original.png`)에서 카메라 부분(x 1016–1150, y 370–502, 가장자리 4px 흐림)만 원래 그림에 옮겨 붙였다. 나머지 화면·바닥 확장은 그대로다.
-- 원본은 그대로 보관하고 빵집 안내판의 `CLOSED / at 7 PM`, 카페 포스터의 공연 정보는 앱의 SVG 레이어로 표시한다.
+- 빵집 안내판 `CLOSED / at 7 PM`은 그림 안의 손글씨다(2026-10-27, 사용자 요청: SVG 글씨가 인위적): 이 그림을 참조로 Nano Banana 2.1 1장(job `cf013a4e-4155-4f34-81c7-889885e3c160`, `bakery-sign-higgsfield-original.png`, 약 1.5크레딧)에서 안내판 부분(x 96–212, y 200–292)만 붙였다. 카페 포스터의 공연 정보는 아직 앱의 SVG 레이어로 표시한다.
 - 새 그림에 맞춘 핫스팟은 비율 좌표, 증거 촬영 영역은 원본 픽셀 좌표(4:3)로 `PLACES`에 지정한다.
 
 # 대화용 바닥 확장 (`<id>-floor.jpg`)

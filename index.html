@@ -4090,10 +4090,6 @@ $('#review').addEventListener('click', e => {
    swap ART[id] for an <image> of the real artwork and adjust PLACES[].spots.
    ===================================================================== */
 const WOB = `filter="url(#wob)" stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
-function clockHand(cx, cy, pos, len, w){
-  const a = pos / 12 * Math.PI * 2 - Math.PI / 2;
-  return `<path d="M${cx} ${cy} L${(cx + Math.cos(a) * len).toFixed(1)} ${(cy + Math.sin(a) * len).toFixed(1)}" stroke-width="${w}"/>`;
-}
 function bookRows(){
   const cols = ['#C96F86','#8DB48E','#BFD3EE','#F2CF73','#F6B89A','#CFC4EA'];
   let s = '';
@@ -4111,17 +4107,12 @@ const ART = {
   interview: () => `<image href="assets/places/station-interview-room.png" width="1536" height="1536"/>`,
   library: () => `
     <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
-    <path d="M1047 197 L1047 175 M1047 197 L1031 210" fill="none" stroke="#FFF8D9" stroke-width="12" stroke-linecap="round"/>
-    <g stroke="#49372F" stroke-linecap="round">${clockHand(1047, 197, 8 + 40 / 60, 20, 3)}${clockHand(1047, 197, 8, 28, 2.5)}</g>
-    <!-- Professor Hoot's chalk outline (assets/places/library-chalk-owl.png): drawn top-down, laid on the floor by the clock -->
-    <g transform="translate(1012 652) scale(1 .56) rotate(-10)"><image href="assets/places/library-chalk-owl.png" x="-185" y="-131" width="370" height="261" opacity=".9"/></g>`,
+    <!-- Professor Hoot's chalk outline (assets/places/library-chalk-owl.png): drawn top-down, laid on the floor at the foot of
+         the clock he hit, head toward it (user request: closer to the clock) -->
+    <g transform="translate(1048 618) scale(.82 .5) rotate(-18)"><image href="assets/places/library-chalk-owl.png" x="-185" y="-131" width="370" height="261" opacity=".9"/></g>`,
 
   bakery: () => `
-    <image href="assets/places/bakery-higgsfield.png" width="1376" height="768"/>
-    <g transform="rotate(-2 145 250)" text-anchor="middle">
-      <text x="145" y="250" font-family="'Paperlogy Display', sans-serif" font-size="17" fill="#C25B5B">CLOSED</text>
-      <text x="145" y="270" font-family="Paperlogy, sans-serif" font-weight="700" font-size="13.6" fill="#4A3628">at 7 PM</text>
-    </g>`,
+    <image href="assets/places/bakery-higgsfield.png" width="1376" height="768"/>`,
 
   cafe: () => `
     <image href="assets/places/cafe-higgsfield.png" width="1376" height="768"/>
