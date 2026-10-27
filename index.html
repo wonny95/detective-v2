@@ -990,21 +990,24 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .home-page > .pill{align-self:flex-start}
 .linkbtn{border:0;background:none;padding:4px;text-decoration:underline;font-size:12px;color:var(--ink-soft);align-self:center}
 /* tutorial: one step per page, picture guide on top */
-.tut{gap:12px}
-.tut-top{display:flex;align-items:center;gap:8px}
-.tut-count{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
-.tut-skip{margin-left:auto;border:0;background:none;font-size:12px;color:var(--ink-soft);text-decoration:underline;padding:4px}
+/* user decision B: no head row; the common close button on the card's top-right corner (outside the card, so a wrapper
+   holds it: the card itself scrolls), the case key's and the review's dots, 〈 for back */
+.tut-wrap{position:relative;width:100%;max-width:370px;max-height:100%;display:flex}
+.tut-wrap > .close-button{position:absolute;z-index:1;top:-14px;right:-10px}
+.tut{gap:12px;padding-top:20px}
 .tut-fig{border:2px solid var(--ink);border-radius:var(--r-wobble-2);background:#F3ECDD;overflow:hidden}
 .tut-fig svg{display:block}
 .tut-fig > svg{width:100%;height:auto;animation:tutin .3s ease-out}
 @keyframes tutin{from{opacity:0;transform:translateY(8px)}}
 .tut h2{font-size:22px}
 .tut p{font-size:14px;line-height:1.65}
-.tut-dots{display:flex;justify-content:center;gap:6px}
-.tut-dots i{width:8px;height:8px;border-radius:5px;background:var(--paper);border:1.5px solid var(--ink);transition:width .2s}
-.tut-dots i.on{width:22px;background:var(--berry)}
+.tut-dots{display:flex;justify-content:center;align-items:center;gap:9px}
+.tut-dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,54,40,.22);transition:background .2s,transform .2s}
+.tut-dots i.now{background:#E0A526;transform:scale(1.3)}
 .tut-nav{display:flex;gap:8px}
 .tut-nav .big{flex:1;width:auto}
+.tut-back{flex:none;box-sizing:border-box;width:48px;padding:0;display:grid;place-items:center}
+.tut-back svg{width:20px;height:20px;display:block}
 .tut-fig .pulse{transform-box:fill-box;transform-origin:center;animation:tpulse 1.4s ease-in-out infinite}
 @keyframes tpulse{0%,100%{transform:scale(.85);opacity:.95}50%{transform:scale(1.2);opacity:.35}}
 .tut-fig .wave{animation:twave 1.2s ease-in-out infinite}
@@ -1302,20 +1305,18 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <!-- How-to-play tutorial: one step at a time with a picture guide. Shown once per device (localStorage). -->
   <div class="modal" id="intro" hidden>
+    <div class="tut-wrap">
+    <button class="close-button" type="button" id="tutSkip" aria-label="플레이 방법 닫기"></button>
     <div class="mcard tut" role="dialog" aria-labelledby="tutTitle">
-      <div class="tut-top">
-        <span class="eyebrow">플레이 방법</span>
-        <span class="tut-count" id="tutCount">1 / 6</span>
-        <button class="tut-skip" type="button" id="tutSkip">건너뛰기</button>
-      </div>
       <div class="tut-fig" id="tutFig"></div>
       <h2 id="tutTitle"></h2>
       <p id="tutText"></p>
       <div class="tut-dots" id="tutDots" aria-hidden="true"></div>
       <div class="tut-nav">
-        <button class="pill" type="button" id="tutPrev">이전</button>
+        <button class="pill tut-back" type="button" id="tutPrev" aria-label="이전"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button class="pill big" type="button" id="tutNext">다음</button>
       </div>
+    </div>
     </div>
   </div>
 
@@ -4425,10 +4426,8 @@ function renderTut(){
   $('#tutFig').innerHTML = t.fig();
   $('#tutTitle').textContent = t.title;
   $('#tutText').innerHTML = t.text;
-  $('#tutCount').textContent = `${tutStep + 1} / ${TUT.length}`;
-  $('#tutDots').innerHTML = TUT.map((_, i) => `<i class="${i === tutStep ? 'on' : ''}"></i>`).join('');
+  $('#tutDots').innerHTML = TUT.map((_, i) => `<i${i === tutStep ? ' class="now"' : ''}></i>`).join('');
   $('#tutPrev').hidden = tutStep === 0;
-  $('#tutSkip').hidden = last;
   $('#tutNext').textContent = !last ? '다음' : tutThenStart ? '브리핑 시작' : '닫기';
 }
 function closeTutorial(){
