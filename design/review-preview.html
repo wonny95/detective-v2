@@ -73,24 +73,16 @@ img{max-width:100%}
 .rv-first s{color:var(--no);font-weight:700}
 .rv-feedback{font-size:13px;color:var(--ok);margin:0}
 .rv-feedback.no{color:var(--no)}
-.rv-grammar{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(../assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat;margin:-2px -2px -8px;padding:12px 13px 20px;flex:1;display:flex;flex-direction:column;gap:16px}
-.ck-note{position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:4px 7px;margin:11px 2px 0;padding:22px 24px 22px 19px;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18));font-size:16px;line-height:1.35}
-.ck-note .note-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0}
-.ck-note>*:not(.note-bg){position:relative;z-index:1}
-.ck-note:before{content:"";position:absolute;left:50%;top:-19px;width:58px;height:18px;margin-left:-29px;background:url(../assets/ui/casekey/tape.webp) center/100% 100% no-repeat;transform:rotate(-3deg)}
-.ck-note .ko{grid-column:1/-1;font-size:12px;font-weight:700;color:var(--berry)}
-/* the case's forms, all on one page (user request): one taped note each, the form above its line from the case */
-.ck-note.gf{margin:14px 2px 0;padding:16px 22px 18px 18px;row-gap:6px}
-.ck-note.gf:nth-child(3n+2){transform:rotate(1deg);margin-right:14px}
-.ck-note.gf:nth-child(3n+3){transform:rotate(-1deg);margin-left:14px}
-.ck-note.gf:nth-child(3n+4){transform:rotate(.6deg);margin-right:6px}
-.ck-note .gh{grid-column:1/-1;display:flex;align-items:baseline;gap:8px;font-family:var(--f-display);font-size:24px;line-height:1.1}
-.ck-note .gh small{font-size:12px;color:var(--ink-soft)}
 .rv-word{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:9px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
 .rv-word .wword{font-family:var(--f-display);font-size:17px}
 .rv-word .wko{display:block;font-size:12px;color:var(--berry);margin-top:3px}
 .rv-word .keep{min-width:57px}
+/* the case's grammar: one word-page row per form (user request: the same clean rows as 새 단어), the form with its short
+   name, the line from the case under it, ▶ plays that line, 해석 opens its Korean in the row */
+.rv-gram{align-items:start}.rv-gram .play-btn,.rv-gram .pill{margin-top:2px}
+.rv-gram .wword small{margin-left:7px;font-family:var(--f-body);font-size:12px;color:var(--ink-soft)}
+.rv-gram .gsent{display:block;margin-top:4px;font-size:14px;line-height:1.45}
 .word-list{display:flex;flex-direction:column;gap:8px}
 .word-summary{font-size:13px;color:var(--ink-soft);margin:0}
 @media(min-width:520px){.app{border-radius:38px 42px 36px 44px/44px 36px 42px 38px}}
@@ -127,7 +119,7 @@ function render(){
   content=`<h2 class="rv-title">다시 들을 문장 <small style="font-size:14px;color:var(--ink-soft)">1 / 2</small></h2><p class="rv-sub">첫 기록에서 헷갈린 문장을 다시 들어봐요.</p><span class="rv-label">Q. Where were you?</span><div class="rv-listen"><button class="play-btn" type="button" data-play="line" aria-label="다시 듣기"></button>${button('천천히','data-play="slow"','sm')}</div><div class="note-page"><p>Ray was at the Lake Cafe.</p><p>He played the guitar from <button class="rv-slot ${state.checked?'hit':''}" type="button" data-slot="0" aria-label="시작 시각">${state.slots[0]||'____'}</button> to <button class="rv-slot ${state.checked?'hit':''}" type="button" data-slot="1" aria-label="끝 시각">${state.slots[1]||'____'}</button>.</p></div>${state.checked?`<p class="rv-feedback">✓ 문장을 완성했어요. 다시 듣고 다음으로 넘길 수 있어요.</p>`:`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div><p class="rv-first">처음 쓴 답 <s>7 PM</s> <s>10 PM</s></p>${state.error?'<p class="rv-feedback no">다시 듣고 고쳐 보세요.</p>':''}`}`;
   foot=state.checked?button('다음','data-next','big'):button('확인','data-check','big');
  }
- if(state.step===2){const notes=['note-yellow','note-blue','note-pink'];content=`<div class="rv-grammar"><h2 class="rv-title">이번 사건의 문법</h2>${forms.map((form,i)=>`<div class="ck-note gf"><img class="note-bg" src="${asset('casekey/'+notes[i]+'.webp')}" alt=""><span class="gh">${form.head}<small>${form.name}</small></span><span>${form.sentence}</span><button type="button" class="play-btn" data-play="form-${i}" aria-label="문장 듣기"></button>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}${state.tr.has(i)?`<span class="ko">${form.ko}</span>`:''}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
+ if(state.step===2){content=`<h2 class="rv-title">이번 사건의 문법</h2><div class="word-list">${forms.map((form,i)=>`<div class="rv-word rv-gram"><button type="button" class="play-btn" data-play="form-${i}" aria-label="예문 듣기"></button><span><span class="wword">${form.head}<small>${form.name}</small></span><span class="gsent">${form.sentence}</span>${state.tr.has(i)?`<span class="wko">${form.ko}</span>`:''}</span>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
  if(state.step===3){content=`<h2 class="rv-title">새 단어 <small style="font-size:14px;color:var(--ink-soft)">${state.kept.size} / ${words.length}</small></h2><p class="rv-sub">기억하고 싶은 단어를 수첩에 담아요.</p><div class="word-list">${words.map(([word,ko])=>`<div class="rv-word ${state.kept.has(word)?'kept':''}"><button type="button" class="play-btn" data-play-word="${word}" aria-label="${word} 발음 듣기"></button><span><span class="wword">${word}</span><span class="wko">${ko}</span></span>${button(state.kept.has(word)?'담음':'담기',`data-keep="${word}"`,'sm '+(state.kept.has(word)?'green':''))}</div>`).join('')}</div><p class="word-summary">${state.kept.size}개를 수첩에 담았어요.</p>`;foot=button('완료','data-done','big');}
  document.getElementById('review').innerHTML=`<div class="rv-body ${state.step===0?'result-body':''}">${content}</div><div class="rv-dots" aria-label="복습 ${state.step+1} / 4">${steps.map((_,i)=>`<i class="${i===state.step?'now':''}"></i>`).join('')}</div><div class="rv-foot">${foot}</div>`;
 }
