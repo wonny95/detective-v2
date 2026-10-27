@@ -373,11 +373,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
    result → lines missed at the first check (refill) → the case's grammar → new words (the player picks what goes
    into the word book). Progress bar on top, one big button at the bottom. */
 #review,#caseKey{padding:0;background:var(--paper);place-items:stretch}
-#review .mcard.review,#caseKey .mcard.review{max-width:none;max-height:none;height:100%;box-sizing:border-box;overflow:hidden;border:0;border-radius:0;box-shadow:none;padding:16px 16px 18px;gap:14px}
-.rv-top{flex:none;display:flex;align-items:center;gap:10px;min-height:30px}
-.rv-steps{flex:1;display:flex;gap:6px}
-.rv-steps i{flex:1;height:7px;border-radius:4px;background:var(--line)}
-.rv-steps i.on{background:#E0A526}
+#review .mcard.review,#caseKey .mcard.review{position:relative;max-width:none;max-height:none;height:100%;box-sizing:border-box;overflow:hidden;border:0;border-radius:0;box-shadow:none;padding:16px 16px 18px;gap:14px}
+/* which step: dots above the button, like the case key's pages (user decision); × (복습 보기 only) in the corner */
+.rv-dots{flex:none;display:flex;justify-content:center;align-items:center;gap:9px;margin-bottom:-4px}
+.rv-dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,54,40,.22);transition:background .2s,transform .2s}
+.rv-dots i.now{background:#E0A526;transform:scale(1.3)}
+.rv-close{position:absolute;top:12px;right:12px;z-index:3}
 .rv-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:2px 2px 8px;scrollbar-width:none}
 .rv-body::-webkit-scrollbar{display:none}
 .rv-body.mid{justify-content:center;padding-bottom:40px}
@@ -385,41 +386,40 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-foot .pill.big{width:100%}
 .rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:8px}
 .rv-title small{font-size:14px;color:var(--ink-soft)}
-.rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:10px;padding:14px 26px 30px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;transform:rotate(-1.5deg)}
+.rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;gap:3px;width:min(80%,270px);box-sizing:border-box;margin:22px 0 4px;padding:12px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg);text-align:center}
+.rv-file::before{content:"";position:absolute;left:50%;top:-31px;width:24px;height:33px;margin-left:-10px;background:url(assets/ui/tack-red.webp) center/100% no-repeat;z-index:2}
 .rv-file small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
-.rv-file b{font-family:var(--f-hand);font-size:22px}
-.rv-file img{position:absolute;right:-34px;bottom:-20px;width:136px;transform:rotate(-12deg);animation:rv-stamp .45s cubic-bezier(.3,1.6,.5,1) .2s both}
-@keyframes rv-stamp{from{opacity:0;transform:rotate(-12deg) scale(1.8)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
-.rv-stars{display:flex;justify-content:center;gap:8px;margin-top:16px}
+.rv-file b{font-family:var(--f-display);font-weight:400;font-size:20px}
+.rv-file .stamp{position:absolute;right:-22px;top:14px;width:104px;z-index:1;transform:rotate(11deg);animation:rv-stamp .45s cubic-bezier(.3,1.6,.5,1) .2s both}
+@keyframes rv-stamp{from{opacity:0;transform:rotate(11deg) scale(1.8)}to{opacity:1;transform:rotate(11deg) scale(1)}}
+/* the case's photo (CASES[].photo): the culprit's mugshot (a height chart, the picture with its body at --cx of its width
+   put in the middle, a name plate), or what was found, cut from its place like an evidence photo */
+.rv-photo{position:relative;align-self:stretch;height:150px;margin-bottom:7px;box-sizing:border-box;border:5px solid #FFFDF8;box-shadow:0 1px 3px rgba(60,40,20,.25);overflow:hidden;background:#fff}
+.rv-photo svg{display:block;width:100%;height:100%}
+.rv-photo.mug{background:repeating-linear-gradient(to bottom,transparent 0 13px,rgba(74,54,40,.28) 13px 14px),linear-gradient(#DCD8CB,#CFCABC)}
+.rv-photo.mug::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0 41px,rgba(74,54,40,.55) 41px 43px)}
+.rv-photo .who{position:absolute;left:50%;bottom:-25%;width:72%;transform:translateX(calc(var(--cx,50) * -1%))}
+.rv-photo .plate{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);padding:3px 8px;background:#2E2A27;color:#F3EBDD;border-radius:3px;font:700 9px/1.25 var(--f-body);letter-spacing:.06em;text-align:center;white-space:nowrap}
+.rv-photo .plate b{display:block;font-family:var(--f-body);font-weight:700;font-size:11px;letter-spacing:.08em}
+.rv-stars{display:flex;justify-content:center;gap:8px}
 .rv-stars img{display:block;width:50px;height:auto;animation:rv-star .4s cubic-bezier(.3,1.7,.5,1) calc(.6s + var(--i) * .22s) both}
 @keyframes rv-star{from{opacity:0;transform:scale(2.2) rotate(-20deg)}to{opacity:1;transform:none}}
-.rv-score{text-align:center;font-family:var(--f-display);font-size:19px}
 .rv-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.rv-tiles div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.3}
-.rv-tiles b{font-family:var(--f-display);font-weight:400;font-size:24px;color:var(--ink)}
+.rv-tiles div{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px 9px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.3}
+.rv-tiles b{font-family:var(--f-display);font-weight:400;font-size:21px;color:var(--ink)}
+.rv-tiles b small{font-size:13px;color:var(--ink-soft)}
+.rv-tiles .hot{border-color:#E6C46A;background:#FFF7DE}
 .rv-tiles .all b{color:var(--ok)}
-.rv-who{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-size:17px}
-.rv-who .mini{width:34px;height:34px}
-.rv-who small{margin-left:auto;font-size:13px;color:var(--ink-soft)}
-.rv-label{font-size:13px;color:var(--ink-soft)}
-.rv-listen{display:flex;gap:8px}
-.rv-quiz{padding:6px 12px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
-.rv-quiz .nline{font-size:17px}
+/* the line to hear again, kept plain (user request): the question on its own line, then one card with the answer's ▶ and
+   천천히 on the right and the note's line(s) with the blanks; no speaker, no first answers, no sentences */
+.rv-q{margin:0;font-family:var(--f-display);font-size:17px}
+.rv-quiz{padding:12px 14px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-play{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:4px}
+.rv-quiz .nline{font-size:17px;line-height:2}
 .rv-slot{display:inline-block;box-sizing:border-box;min-width:4.5em;height:28px;margin:0 2px;padding:0 8px;vertical-align:middle;border:0;border-radius:8px;background:rgba(125,106,88,.17);font:inherit;font-weight:700;line-height:28px;color:#34506E;text-align:center}
 .rv-slot.hit{background:rgba(94,138,99,.18);color:var(--ok)}
 .rv-slot.miss{animation:ink-miss .55s ease-out both}
 .rv-quiz .got{font-weight:700;color:var(--ok)}
-.rv-first{font-size:13px;color:var(--ink-soft)}
-.rv-first s{color:var(--no);font-weight:700}
-.rv-gcard{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
-.rv-gcard header{display:flex;align-items:baseline;gap:8px}
-.rv-gcard header b{font-family:var(--f-display);font-weight:400;font-size:17px}
-.rv-gcard header small{margin-left:auto;font-size:12px;color:var(--ink-soft)}
-.rv-gcard .gpat{font-size:13px;color:var(--ink-soft)}
-.rv-gcard p{margin:0;font-family:var(--f-hand);font-size:16px;line-height:1.4}
-.rv-gcard mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
-.rv-gcard .gko{font-size:13px;line-height:1.5;color:var(--ink-soft)}
-.rv-gbtns{display:flex;gap:6px;align-items:center}
 /* 이번 사건의 열쇠: the case's key grammar on a whole page before the briefing (user request: not a pop-up), one form a
    page; each example's Korean behind its own 해석 (user request: beside its ▶). User decision (mockup B-2): graph paper, the key on a
    card pinned with the red tack, the examples on three taped notes, each with ▶. The paper, notes and tape are
@@ -472,12 +472,19 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* the form's ▶ is pinned to the card's top right corner (user request), clear of the form however it wraps */
 .ck-key .gpattern .replay-q{position:absolute;top:2px;right:2px;width:34px;height:34px;margin:0}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
-.rv-word{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-word{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
 .rv-word .wword{font-family:var(--f-hand);font-weight:700;font-size:17px}
 .rv-word .wsay{display:block;font-size:12px;color:var(--ink-soft)}
 .rv-word .wko{display:block;margin-top:3px;font-size:13px;color:var(--berry)}
 .rv-word .keep[aria-pressed="true"]{--btn:url(assets/ui/buttons/sage-flat.png)}
+/* the case's grammar in the same rows (user request): the form and its short name, a line from the case with the form
+   marked, ▶ (that sentence) and 해석 (its Korean, in the row) on the right beside each other */
+.rv-gram{align-items:start}
+.rv-gram .play-btn,.rv-gram .pill{margin-top:2px}
+.rv-gram .wword small{margin-left:7px;font-family:var(--f-body);font-weight:400;font-size:12px;color:var(--ink-soft)}
+.rv-gram .gsent{display:block;margin-top:4px;font-size:15px;line-height:1.45}
+.rv-gram mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
 .evidence-page{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:stretch}
@@ -3819,77 +3826,94 @@ function caseGrammar(){
 }
 function renderReview(){
   const step = rv.steps[rv.step], st = rv.stat;
-  const bar = `<div class="rv-top"><div class="rv-steps" aria-label="복습 ${rv.step + 1} / ${rv.steps.length}">${rv.steps.map((x, i) => `<i class="${i <= rv.step ? 'on' : ''}"></i>`).join('')}</div>` +
-    (rv.fromHome ? `<button class="close-button" type="button" data-rv-close aria-label="복습 닫기"></button>` : '') + `</div>`;
   let body = '', foot = '';
   if(step === 'result'){
-    const stars = st?.stars || 0, grammar = caseGrammar().length;
-    body = `<div class="rv-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b><img src="assets/ui/complete-stamp.png" alt="COMPLETE"></div>
+    const stars = st?.stars || 0;
+    body = `<div class="rv-file">${reviewPhoto(CASES[0])}<img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b></div>
       <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div>
-      ${st ? `<p class="rv-score">${st.total}칸 중 ${st.ok}칸</p>` : ''}
       <div class="rv-tiles">
-        ${rv.missed.length ? `<div><b>${rv.missed.length}</b>다시 들을<br>문장</div>` : `<div class="all"><b>✓</b>모두<br>맞힘</div>`}
-        <div><b>${Math.min(3, grammar)}</b>핵심<br>문법</div>
+        <div><b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b>받아 적기</div>
+        ${rv.missed.length ? `<div class="hot"><b>${rv.missed.length}</b>다시 들을 문장</div>` : `<div class="all"><b>✓</b>모두 맞힘</div>`}
         <div><b>${rv.words.length}</b>새 단어</div>
       </div>`;
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
   }
   if(step === 'missed'){
     const ref = rv.missed[rv.card], [id, qid] = ref.split(':'), s = spk(id), wrong = rv.wrong[ref] || {};
-    // the blanks to write again: the ones wrong at first (all of the question's when an older save did not keep them)
+    // the blanks to write again: the ones wrong at first (all of the question's when an older save did not keep them);
+    // only the note lines that have one
     const slots = Object.keys(wrong).length ? Object.keys(wrong) : blanksOf(id, [qid]).map(b => b.id);
     const lines = s.notes[qid].map(line => {
-      let html = '', last = 0;
+      let html = '', last = 0, has = false;
       line.replace(BLANK_RE, (m, bid, ans, idx) => {
+        has ||= slots.includes(bid);
         html += esc(line.slice(last, idx)) + (slots.includes(bid)
-          ? `<button class="rv-slot" type="button" data-rv-slot="${bid}">${esc(rv.filled[bid] || '')}</button>`
+          ? `<button class="rv-slot${rv.solved ? ' hit' : ''}" type="button" data-rv-slot="${bid}">${esc(rv.filled[bid] || '')}</button>`
           : `<span class="got">${esc(ans.split('/')[0])}</span>`);
         last = idx + m.length; return m;
       });
-      return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
+      return has ? `<div class="nline">${html}${esc(line.slice(last))}</div>` : '';
     }).join('');
-    const firsts = slots.map(bid => wrong[bid]).filter(v => v !== undefined);
-    body = `<div class="rv-who"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span>${esc(s.name)}<small>${rv.card + 1} / ${rv.missed.length}</small></div>
-      <span class="rv-label">Q. ${esc(qs(s).find(q => q.id === qid).en)}</span>
-      <div class="rv-listen"><button class="pill sm" type="button" data-rv-play>${playIcon}다시 듣기</button><button class="pill sm" type="button" data-rv-slow>천천히</button></div>
-      <div class="rv-quiz">${lines}</div>
-      ${firsts.length ? `<p class="rv-first">처음 쓴 답 ${firsts.map(v => `<s>${esc(v || '…')}</s>`).join(' ')}</p>` : ''}
-      <div class="bank">${(s.bank?.[qid] || []).map(w => `<button class="word" type="button" data-rv-word="${esc(w)}">${esc(w)}</button>`).join('')}</div>`;
-    foot = `<button class="pill big" type="button" data-rv-check>확인</button>`;
+    body = `<h2 class="rv-title">다시 들을 문장 <small>${rv.card + 1} / ${rv.missed.length}</small></h2>
+      <p class="rv-q">${esc(qs(s).find(q => q.id === qid).en)}</p>
+      <div class="rv-quiz"><div class="rv-play"><button class="play-btn" type="button" data-rv-play aria-label="대답 듣기"></button><button class="pill sm" type="button" data-rv-slow>천천히</button></div>${lines}</div>
+      ${rv.solved ? '' : `<div class="bank">${(s.bank?.[qid] || []).map(w => `<button class="word" type="button" data-rv-word="${esc(w)}">${esc(w)}</button>`).join('')}</div>`}`;
+    // right: the blanks turn green and the player goes on (user decision: no automatic turn)
+    foot = rv.solved ? `<button class="pill big" type="button" data-rv-card>다음</button>` : `<button class="pill big" type="button" data-rv-check>확인</button>`;
   }
   if(step === 'grammar'){
-    body = `<h2 class="rv-title">이번 사건의 문법</h2>` + caseGrammar().slice(0, 3).map(([g, uses]) => {
-      // an example the player heard: the first use found in an answer (not in the question they picked)
-      const use = uses.find(u => spk(u.id).answers[u.qid].includes(u.words)) || uses[0];
-      const answer = spk(use.id).answers[use.qid], sents = sentencesOf(answer);
-      const idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
-      const sent = sents[idx], at = sent.indexOf(use.words);
+    body = `<h2 class="rv-title">이번 사건의 문법</h2>` + reviewGrammar().map(({ head, name, use }) => {
+      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span></div>`;
+      const sents = sentencesOf(spk(use.id).answers[use.qid]), idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
+      const sent = sents[idx], at = sent.indexOf(use.words), kos = sentencesOf(ANSWERS_KO[use.id]?.[use.qid] || '');
       const shown = at < 0 ? esc(sent) : esc(sent.slice(0, at)) + `<mark>${esc(use.words)}</mark>` + esc(sent.slice(at + use.words.length));
-      return `<div class="rv-gcard"><header><b>${esc(GRAMMAR[g].name)}</b><small>${uses.length}번</small></header>
-        <span class="gpat">${esc(GRAMMAR[g].pattern)}</span><p>${shown}</p>
-        <p class="gko" hidden>${esc(GRAMMAR[g].ko)}</p>
-        <div class="rv-gbtns"><button class="replay-q" type="button" data-rv-sent="${use.id}:${use.qid}" data-sent="${idx}" aria-label="문장 듣기">${playIcon}</button>
-          <button class="pill sm" type="button" data-rv-gko aria-pressed="false">설명</button>
-          <button class="pill sm" type="button" data-grammar="${g}">문법 노트</button></div></div>`;
+      // the Korean of that sentence when the answer's Korean has as many sentences, else all of it
+      const ko = kos.length === sents.length ? kos[idx] : ANSWERS_KO[use.id]?.[use.qid] || '';
+      return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${shown}</span><span class="wko" hidden>${esc(ko)}</span></span>
+        <button class="play-btn" type="button" data-rv-sent="${use.id}:${use.qid}" data-sent="${idx}" aria-label="문장 듣기"></button>
+        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>`;
     }).join('');
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
   }
   if(step === 'words'){
     const all = rv.words.length && rv.words.every(w => rv.keep.has(w.key));
-    body = `<h2 class="rv-title">새 단어 <small>${rv.keep.size} / ${rv.words.length}</small>
+    body = `<h2 class="rv-title">사건에 나온 단어 <small>${rv.keep.size} / ${rv.words.length}</small>
         <button class="pill sm" type="button" data-rv-all aria-pressed="${all}" style="margin-left:auto">${all ? '모두 빼기' : '모두 담기'}</button></h2>` +
       WORD_GROUPS.map(([g, label]) => {
         const list = rv.words.filter(w => WORDS[w.key][0] === g);
         return !list.length ? '' : `<h3 class="rv-wsec">${label}</h3>` + list.map(w => {
           const [, ko, say] = WORDS[w.key], on = rv.keep.has(w.key);
-          return `<div class="rv-word${on ? ' kept' : ''}"><button class="replay-q" type="button" data-rv-sent="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기">${playIcon}</button>
-            <span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}<span class="wko">${esc(ko)}</span></span>
+          return `<div class="rv-word${on ? ' kept' : ''}"><span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}<span class="wko">${esc(ko)}</span></span>
+            <button class="play-btn" type="button" data-rv-sent="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기"></button>
             <button class="pill sm keep" type="button" data-rv-keep="${w.key}" aria-pressed="${on}">${on ? '담음' : '담기'}</button></div>`;
         }).join('');
       }).join('');
-    foot = `<button class="pill big" type="button" data-rv-done>${rv.fromHome ? '닫기' : '사건 목록으로'}</button>`;
+    foot = `<button class="pill big" type="button" data-rv-done>완료</button>`;
   }
-  $('#reviewCard').innerHTML = `${bar}<div class="rv-body${step === 'result' ? ' mid' : ''}">${body}</div><div class="rv-foot">${foot}</div>`;
+  $('#reviewCard').innerHTML = (rv.fromHome ? `<button class="close-button rv-close" type="button" data-rv-close aria-label="복습 닫기"></button>` : '') +
+    `<div class="rv-body${step === 'result' ? ' mid' : ''}">${body}</div>
+    <div class="rv-dots" aria-label="복습 ${rv.step + 1} / ${rv.steps.length}">${rv.steps.map((x, i) => `<i${i === rv.step ? ' class="now"' : ''}></i>`).join('')}</div>
+    <div class="rv-foot">${foot}</div>`;
+}
+// The case's photo on the review's file (CASES[].photo): { who, img, cx } the culprit's mugshot, { place, clue } a thing found.
+function reviewPhoto(c){
+  const p = c.photo;
+  if(p?.who) return `<div class="rv-photo mug"><img class="who" src="${p.img}" alt="" style="--cx:${p.cx ?? 50}"><span class="plate"><b>${esc(spk(p.who).name.toUpperCase())}</b>ACORN HOLLOW · ${esc(c.no.replace(/\D/g, ''))}</span></div>`;
+  if(p?.place) return `<div class="rv-photo">${evidencePhoto(placeOf(p.place), p.clue)}</div>`;
+  return '';
+}
+// The review's grammar rows: the case's key grammar form by form (CASES[].keys, the case key's pages), each with the first
+// line of the case that uses that form (from GRAMMAR_LINES: an answer's words matching the form, A and B any words);
+// without keys, the case's three most used grammar.
+function reviewGrammar(){
+  const keys = CASES[0].keys?.length ? CASES[0].keys : caseGrammar().slice(0, 3).map(([g]) => g);
+  return keys.flatMap(g => {
+    const uses = grammarUses(g).filter(u => spk(u.id).answers[u.qid].includes(u.words));
+    return (GRAMMAR[g].examples || [{ head:GRAMMAR[g].name, ko:GRAMMAR[g].pattern }]).map(ex => {
+      const form = new RegExp('^' + ex.head.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b[AB]\b/g, '.+') + '\\b', 'i');
+      return { head:ex.head, name:ex.ko, use:GRAMMAR[g].examples ? uses.find(u => form.test(u.words)) : uses[0] };
+    });
+  });
 }
 function reviewNext(){
   stopVoice();
@@ -3911,6 +3935,11 @@ $('#review').addEventListener('click', e => {
   const sent = e.target.closest('[data-rv-sent]');
   if(sent) return replaySentence(sent.dataset.rvSent, +sent.dataset.sent);
   if(e.target.closest('[data-rv-next]')) return reviewNext();
+  if(e.target.closest('[data-rv-card]')){
+    stopVoice(); rv.filled = {}; rv.solved = false;
+    if(rv.card < rv.missed.length - 1){ rv.card++; renderReview(); } else reviewNext();
+    return;
+  }
   if(e.target.closest('[data-rv-close], [data-rv-done]')) return closeReview();
   const ref = rv.steps[rv.step] === 'missed' ? rv.missed[rv.card] : null;
   if(e.target.closest('[data-rv-play]')) return replayLine(ref);
@@ -3922,7 +3951,7 @@ $('#review').addEventListener('click', e => {
     return;
   }
   const slot = e.target.closest('[data-rv-slot]');
-  if(slot){ delete rv.filled[slot.dataset.rvSlot]; slot.textContent = ''; return; }
+  if(slot){ if(rv.solved) return; delete rv.filled[slot.dataset.rvSlot]; slot.textContent = ''; return; }
   if(e.target.closest('[data-rv-check]')){
     const [id, qid] = ref.split(':'), slots = [...document.querySelectorAll('#reviewCard [data-rv-slot]')];
     const answers = Object.fromEntries(blanksOf(id, [qid]).map(b => [b.id, b.ans]));
@@ -3933,17 +3962,11 @@ $('#review').addEventListener('click', e => {
       wrong.forEach(b => { delete rv.filled[b.dataset.rvSlot]; b.textContent = ''; b.classList.remove('miss'); void b.offsetWidth; b.classList.add('miss'); });
       return;
     }
-    slots.forEach(b => b.classList.add('hit'));
-    e.target.closest('[data-rv-check]').disabled = true;
-    setTimeout(() => {
-      if(!rv) return;
-      rv.filled = {};
-      if(rv.card < rv.missed.length - 1){ rv.card++; renderReview(); } else reviewNext();
-    }, 750);
+    rv.solved = true; renderReview();
     return;
   }
   const gko = e.target.closest('[data-rv-gko]');
-  if(gko){ const t = gko.closest('.rv-gcard').querySelector('.gko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
+  if(gko){ const t = gko.closest('.rv-gram').querySelector('.wko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
   const keep = e.target.closest('[data-rv-keep]');
   if(keep){
     const k = keep.dataset.rvKeep, on = !rv.keep.has(k);
@@ -4559,7 +4582,9 @@ function homeKoShift(){
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
    this device; the case in progress lives in memory only until saving is added. */
 const CASES = [
-  { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'] },
+  { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
+    // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
+    photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 } },
   { id:'case02', no:'Case 02' },
   { id:'case03', no:'Case 03' },
   { id:'case04', no:'Case 04' },
