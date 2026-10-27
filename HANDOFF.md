@@ -102,7 +102,7 @@ node server.js            # http://localhost:5173/
   - 제목 줄 오른쪽에 연속 학습 일수(불꽃, `studyStreak()`, 0일이면 숨김).
   - `CASES`는 5개(사용자 요청). Case 01 "도서관 살인사건"만 플레이할 수 있고, Case 02–05는 번호만 있는 잠긴 사진이다.
 - **학습**(`renderStudy()`, 사용자 요청으로 단어장과 복습을 합침): 위에 `단어`·`문법`·`복습` 전환(`studyMode`).
-- **학습 > 단어**: 노트 빈칸 정답 중 **플레이어가 복습 4단계에서 `담기`한 단어만** 보여 준다(사용자 결정: 아는 단어는 넣지 않게, `bookWords()` = `learnedWords()` ∩ `pioo.wordBook`, 사전은 `WORDS`). 처음 고르기 전(`pioo.wordBook` 없음)에는 배운 단어 전부(해결한 사건은 모든 빈칸, 진행 중인 사건은 바르게 확인한 질문의 빈칸). 묶음은 단어 / 숫자·시간 / 이름·장소. 카드: 단어, 숫자·시간은 읽는 법(eight thirty), 그 단어가 들어간 노트 문장(단어 강조), ▶ 그 단어·표현만 발음 듣기(`audio/words/`, `pronounceWord()`), `해석`(단어 뜻). 예문은 재생하지 않는다.
+- **학습 > 단어**: 노트 빈칸 정답 중 **플레이어가 복습 4단계에서 `담기`한 단어만** 보여 준다(사용자 결정: 아는 단어는 넣지 않게, `bookWords()` = `learnedWords()` ∩ `pioo.wordBook`, 사전은 `WORDS`). 처음 고르기 전(`pioo.wordBook` 없음)에는 배운 단어 전부(해결한 사건은 모든 빈칸, 진행 중인 사건은 바르게 확인한 질문의 빈칸). 묶음은 단어 / 숫자·시간 / 장소. 인물 이름은 단어로 다루지 않는다(사용자 결정: 단어장·복습 어디에도 없음, `WORDS`에 넣지 않는다). 카드: 단어, 숫자·시간은 읽는 법(eight thirty), 그 단어가 들어간 노트 문장(단어 강조), ▶ 그 단어·표현만 발음 듣기(`audio/words/`, `pronounceWord()`), `해석`(단어 뜻). 예문은 재생하지 않는다.
 - **학습 > 문법**: 지금까지 확인된 질문에 나온 문법 카드 목록(패턴, 이름, 나온 문장 수). 누르면 문법 카드가 열린다(3.4절 문법 노트).
 - **학습 > 복습**: 해결한 사건 카드(별점·첫 확인 칸 수, `복습 보기` → 복습 화면, `닫기`로 돌아옴)와 **다시 들을 문장**(첫 확인에서 틀린 질문의 대답: ▶, `문장`으로 영어, `해석`으로 한국어).
 - **마이**(옛 `내 기록`): 연속 학습일, 해결한 사건 수, 처음 확인 정확도, 모은 단어 수, 이번 주(월–일) 학습한 날, 설정의 `플레이 방법 다시 보기`·`탐정 이름 바꾸기`.
@@ -321,7 +321,7 @@ node server.js            # http://localhost:5173/
 | `ART`, `ART_FLOOR` | 장소 그림 SVG(1376×768 PNG + 덧그림), 장소별 바닥 확장 그림과 높이 |
 | `CULPRIT`, `CASES`, `TUT` | 범인 `'fiona'`, 사건 목록(`focus` 학습 포인트, `keys` 이번 사건의 열쇠 문법 카드), 튜토리얼 6단계 |
 | `GRAMMAR`, `GRAMMAR_LINES` | 문법 노트 15개(`examples`: 이번 사건의 열쇠 페이지의 형태별 예문, 지금은 `time-prep`만)와 질문별 문법·강조할 말(3.4.1절) |
-| `WORDS`, `WORD_GROUPS` | 단어장 사전: 빈칸 정답(소문자) → [묶음, 한국어 뜻, 읽는 법]. 새 빈칸을 만들면 여기에도 넣어야 단어장에 나온다 |
+| `WORDS`, `WORD_GROUPS` | 단어장 사전: 빈칸 정답(소문자) → [묶음 w 단어·t 숫자·시간·n 장소, 한국어 뜻, 읽는 법]. 새 빈칸을 만들면 여기에도 넣어야 단어장에 나온다. 인물 이름은 넣지 않는다(사용자 결정) |
 
 - **노트 빈칸 문법**: `"Fiona was at the {{a|bakery}} from {{b|7 PM/7/seven}}."` → `{{빈칸id|정답/허용 답}}`. 빈칸 id는 인물 안에서만 고유하면 된다. 채점은 대소문자·구두점·끝의 "PM"을 무시한다.
 - **`unlocks`**: `{ 질문id: { places:[…], people:[…] } }`. 채점에서 그 질문의 칸이 모두 맞았을 때 열린다. 사람이 열리면 그 사람의 장소도 열린다. 단서에도 달 수 있지만(발견 즉시 열림) 범인을 가리키는 단서에는 달지 않는다. 현재 Case 01 단서에는 없다.
@@ -393,7 +393,7 @@ node server.js            # http://localhost:5173/
 
 ## 6. 음성
 
-- **단어장 발음**(사용자 요청): `audio/words/`의 40개 개별 WAV를 재생한다. Microsoft Zira Desktop(en-US), 로컬 Windows SAPI로 합성, 22,050Hz·16bit·모노 PCM, 합계 약 3MB. 단어·여러 단어로 된 표현·이름은 그 항목만, 숫자·시간은 `WORDS`의 영어 읽는 법만 발음한다. 이름 약칭 Sgt./Mrs./Mr.는 Sergeant/Missus/Mister로 풀어 합성. 모바일에서도 브라우저 TTS 없이 파일로 재생한다. `WORDS`를 바꾸면 `scripts/generate-word-audio.ps1`로 재생성(Windows PowerShell 5.1·Node·en-US SAPI 필요). 자세한 출처·설정은 `audio/words/README.md`. 외부 크레딧 없음.
+- **단어장 발음**(사용자 요청): `audio/words/`의 32개 개별 WAV를 재생한다. Microsoft Zira Desktop(en-US), 로컬 Windows SAPI로 합성, 22,050Hz·16bit·모노 PCM, 합계 약 2.4MB. 단어·여러 단어로 된 표현·장소 이름은 그 항목만, 숫자·시간은 `WORDS`의 영어 읽는 법만 발음한다. 모바일에서도 브라우저 TTS 없이 파일로 재생한다. `WORDS`를 바꾸면 `scripts/generate-word-audio.ps1`로 재생성(Windows PowerShell 5.1·Node·en-US SAPI 필요). 자세한 출처·설정은 `audio/words/README.md`. 외부 크레딧 없음.
 - **사건의 열쇠 형태·예문**(사용자 요청: 형태와 예문 옆 ▶): `audio/examples/`의 12개 WAV. 형태 3개(`time-prep-1.wav` … `time-prep-3.wav`, 문법 id-쪽, 형태의 A·B는 글자 이름으로 읽게 ay·bee로 바꿔 합성), 예문 9개(`time-prep-1-1.wav` … `time-prep-3-3.wav`, 문법 id-쪽-줄). 단어장 발음과 같은 Microsoft Zira Desktop·Rate -1·Volume 85·22,050Hz·16bit·모노, 합계 약 1.3MB. 원문은 `GRAMMAR[].examples[].head`와 `.lines`의 영어(`{}`를 뺀 것). 예문을 바꾸거나 더하면 `scripts/generate-example-audio.ps1`로 재생성. 외부 크레딧 없음.
 - **도구**: Higgsfield `text2speech_v2`, `variant: minimax`, 프리셋 목소리. 파일 이름은 `audio/<인물id>-<키>.mp3`(키는 `hello` 또는 질문 id)이고 인물 데이터의 `audio`에 연결한다. 없는 키는 브라우저 TTS로 읽는다.
 - **문장 단위 재생**(사용자 요청): 학습 화면이 한 문장만 보여 줄 때(문법 카드의 예문·복습의 문장 듣기) ▶도 그 문장만 재생한다. 대사 녹음 17개의 문장별 시작·끝 초는 `SENTENCE_TIMES`(문장 사이 쉼을 ffmpeg `silencedetect`로 찾음, ray:q3·duck:d2는 쉼표 쉼을 손으로 바로잡음). 문장 나누기는 `sentencesOf()`(Mrs./Mr./Sgt.에서 끊지 않음). 재생은 `replaySentence(ref, idx)` → `speak(..., range)`: 녹음을 메모리 사본(blob URL, `seekableSrc()`)으로 받아 `#t=시작,끝`으로 재생하고 15ms 감시로 끝에서 바로 멈춘다(개발 서버가 Range 요청을 지원하지 않아 파일 URL로는 건너뛰기가 안 된다). 복습 단어 카드의 문장 재생 범위는 `sentenceFor()`(그 단어를 말한 문장, 여럿이면 노트 줄과 가장 겹치는 문장). **녹음을 바꾸면 `SENTENCE_TIMES`도 다시 잰다.**

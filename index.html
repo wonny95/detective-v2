@@ -1605,11 +1605,10 @@ const PEOPLE = {
 };
 const PEOPLE_ORDER = Object.keys(PEOPLE);
 // Word book entries for the note blanks (key: the first answer, lower case).
-// [group, Korean (shown only with 해석), how a number or time is said]. Groups: w 단어, t 숫자·시간, n 이름·장소.
+// [group, Korean (shown only with 해석), how a number or time is said]. Groups: w 단어, t 숫자·시간, n 장소. Characters'
+// names are not words (user decision): a blank that is a name is not listed in 단어 or the review.
 const WORDS = {
   'library':['n','도서관'], 'bakery':['n','빵집'], 'cafe':['n','카페'], 'lake cafe':['n','호수 카페'], 'moon hill':['n','달 언덕'], 'star club':['n','별 동호회'],
-  'hoot':['n','후트 (교수 이름)'], 'mrs. mole':['n','두더지 부인'], 'sgt. badger':['n','오소리 경사'], 'ray raccoon':['n','너구리 레이'],
-  'rosie rabbit':['n','토끼 로지'], 'fiona fox':['n','여우 피오나'], 'mrs. bear':['n','곰 부인'], 'mr. duck':['n','오리 아저씨'],
   'librarian':['w','사서'], 'clock':['w','시계'], 'music':['w','음악'], 'stars':['w','별들'], 'sweet':['w','달콤한, 단'], 'angry':['w','화가 난'],
   'blueberry pies':['w','블루베리 파이'], 'morning':['w','아침'], 'upset':['w','속상한, 기분이 상한'], 'guitar':['w','기타'], 'lantern':['w','랜턴, 등불'],
   'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
@@ -1617,7 +1616,7 @@ const WORDS = {
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
 };
-const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','이름·장소']];
+const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소']];
 // Grammar notes, opened from the grammar links in a passage. name/pattern/ko: the card (Korean shown as soon as the
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
@@ -3932,7 +3931,8 @@ function reviewNext(){
 function closeReview(){
   stopVoice();
   const kept = keptWords() ?? learnedWords().map(w => w.key), caseKeys = new Set(rv.words.map(w => w.key));
-  keepWords([...kept.filter(k => !caseKeys.has(k)), ...rv.keep]);
+  // a word no longer in WORDS (a name kept before names stopped being words) leaves the book
+  keepWords([...kept.filter(k => WORDS[k] && !caseKeys.has(k)), ...rv.keep]);
   $('#review').hidden = true;
   const home = rv.fromHome; rv = null;
   if(home) renderHome(); else openCaseList();
