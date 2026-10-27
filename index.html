@@ -1496,7 +1496,11 @@ const PEOPLE = {
     // recorded voice (Higgsfield · MiniMax · Fraser)
     audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3',
       closing:'audio/badger-closing.mp3', call1:'audio/badger-call1.mp3',
-      'call2-ray':'audio/badger-call2-ray.mp3', 'call2-rosie':'audio/badger-call2-rosie.mp3', 'call2-fiona':'audio/badger-call2-fiona.mp3' },
+      'call2-ray':'audio/badger-call2-ray.mp3', 'call2-rosie':'audio/badger-call2-rosie.mp3', 'call2-fiona':'audio/badger-call2-fiona.mp3',
+      // a wrong accusation (WRONG): ruling them out, asking again, fetching the next
+      'clear-ray':'audio/badger-clear-ray.mp3', 'clear-rosie':'audio/badger-clear-rosie.mp3', 'again-ray':'audio/badger-again-ray.mp3',
+      'again-rosie':'audio/badger-again-rosie.mp3', 'bring-ray':'audio/badger-bring-ray.mp3', 'bring-rosie':'audio/badger-bring-rosie.mp3',
+      'bring-fiona':'audio/badger-bring-fiona.mp3' },
     questions:[
       { id:'b1', en:'What happened here?', ko:'여기서 무슨 일이 있었나요?' },
       { id:'b2', en:'Who found the victim?', ko:'피해자를 누가 발견했나요?' },
@@ -1571,7 +1575,7 @@ const PEOPLE = {
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
     hello:"Hey, detective. I'm Ray. I didn't do anything, okay?",
-    audio:{ hello:'audio/ray-hello.mp3', q1:'audio/ray-q1.mp3', q2:'audio/ray-q2.mp3', q3:'audio/ray-q3.mp3' },
+    audio:{ hello:'audio/ray-hello.mp3', q1:'audio/ray-q1.mp3', q2:'audio/ray-q2.mp3', q3:'audio/ray-q3.mp3', wrong1:'audio/ray-wrong1.mp3', wrong2:'audio/ray-wrong2.mp3' },
     unlocks:{ q1:{ places:['cafe'] }, q2:{ people:['duck'] } },
     answers:{
       q1:"I was at the Lake Cafe. I played my guitar on stage from eight to nine thirty.",
@@ -1592,7 +1596,7 @@ const PEOPLE = {
   rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
     hello:"H-hello. I'm Rosie. I'm a little scared, detective.",
     // recorded voice (Higgsfield · MiniMax · Evie, fearful)
-    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3' },
+    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3', wrong1:'audio/rosie-wrong1.mp3', wrong2:'audio/rosie-wrong2.mp3' },
     unlocks:{ q1:{ places:['hill'] } },
     answers:{
       q1:"I was on Moon Hill with my telescope, from eight to ten. The sky was so clear tonight.",
@@ -1817,7 +1821,7 @@ const PLACES = [
       { label:'Shooting star', prop:true, en:'A shooting star flies over the hill.', ko:'별똥별이 언덕 위로 지나간다.', audio:'audio/detective-hill-star.mp3' },
       { label:'Flowers', prop:true, en:'Little white flowers in the grass.', ko:'풀밭에 작은 흰 꽃들이 피어 있다.', audio:'audio/detective-hill-flowers.mp3' },
       // a record with a time no one could write by hand (user pick D: the notebook alone was only the rabbit's own word)
-      { label:'Instant camera', en:'An instant camera on the bench. Its last photo is a shooting star, and the camera printed the time: 8:45 PM.', ko:'벤치 위 즉석카메라. 마지막 사진은 별똥별이고, 카메라가 찍힌 시각을 인쇄했다: 오후 8시 45분.' }
+      { label:'Instant camera', en:'An instant camera on the bench. Its last photo is a shooting star, and the camera printed the time: 8:45 PM.', ko:'벤치 위 즉석카메라. 마지막 사진은 별똥별이고, 카메라가 찍힌 시각을 인쇄했다: 오후 8시 45분.', audio:'audio/detective-hill-camera.mp3' }
     ],
     spots:[
       { clue:0, x:81.5, y:59, w:8, h:11, photo:{x:1080,y:440,w:160,h:120} },
