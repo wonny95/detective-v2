@@ -818,14 +818,14 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .deduce-q-row{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:auto;padding-top:6px}
 .deduce .pill:not(.big){color:var(--ink)}
 .deduce-board{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;align-items:center}
-.ded-time{position:relative;z-index:1;margin-top:36px;width:84px;padding:6px 0;text-align:center;font-family:var(--f-display);font-size:20px;background:var(--honey);box-shadow:1px 3px 3px rgba(0,0,0,.3);display:none}
-.ded-time::before{content:"";position:absolute;left:50%;top:-22px;width:20px;height:28px;margin-left:-7px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
-.ded-time.on{display:block}
-/* the first card sits right under the question; the time and the suspects come up under it once the time is known (user
-   request) */
-.ded-sus-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;padding:16px 30px 0}
+/* the cards: every sentence worked out stays pinned, the next one under it (user request: they pile up downward, no
+   separate time card); the list scrolls and follows the newest. The suspects sit under the list, each pinned up when the
+   detective first asks about them */
+.ded-cards{flex:1;min-height:0;width:100%;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:10px;padding:24px 0 12px;box-sizing:border-box}
+.ded-sus-row{flex:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;padding:6px 30px 10px;box-sizing:border-box}
 .ded-sus-row[hidden]{display:none}
 .ded-sus{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--ink)}
+.ded-sus.later{visibility:hidden}
 .ded-pol{width:80px;padding:5px 5px 4px;background:url(assets/ui/polaroid-card.webp) 0 0/100% 100%;filter:drop-shadow(1px 3px 2px rgba(40,25,10,.35));text-align:center;font-family:var(--f-display);font-size:12px;transition:filter .3s,opacity .3s}
 .ded-sus:nth-child(1) .ded-pol{transform:rotate(-3deg)}.ded-sus:nth-child(2) .ded-pol{transform:rotate(2.5deg)}.ded-sus:nth-child(3) .ded-pol{transform:rotate(-1.5deg)}
 .ded-pol i{display:block;width:54px;height:54px;margin:0 auto 1px;border-radius:50%;background:#FFF8E9 center/88% no-repeat}
@@ -840,10 +840,16 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 /* only what has just been worked out pops (the board is redrawn for every question) */
 .deduce .pop{animation:deduce-pin .4s cubic-bezier(.3,1.5,.5,1)}
 @keyframes deduce-pin{from{transform:scale(1.4) rotate(-8deg);opacity:0}}
-.ded-card{position:relative;align-self:stretch;margin:20px 16px 0;padding:8px 12px 10px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;
+.ded-card{position:relative;flex:none;align-self:stretch;margin:0 16px;padding:8px 12px 10px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;
   filter:drop-shadow(2px 5px 4px rgba(50,30,15,.35));transform:rotate(-1deg)}
 .ded-card::before{content:"";position:absolute;left:50%;top:-30px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
 .ded-card p{margin:0;font-size:16.5px;line-height:2}
+/* a sentence already worked out: smaller, no tack, a little askew */
+.ded-card.done{padding:4px 10px 6px;transform:rotate(var(--tilt,.6deg));filter:drop-shadow(1px 3px 2px rgba(50,30,15,.3))}
+.ded-card.done::before{display:none}
+.ded-card.done p{font-size:14px;line-height:1.75}
+.ded-card.done .ko{font-size:12px}
+.ded-card.done .ded-slot{height:24px;min-width:0;vertical-align:-6px}
 .ded-card .ko{font-size:12.5px;font-weight:700;line-height:1.45;color:var(--berry)}
 .ded-card.shake{animation:deduce-shake .4s}
 @keyframes deduce-shake{20%,60%{transform:translateX(-6px) rotate(-1deg)}40%,80%{transform:translateX(6px) rotate(-1deg)}}
@@ -856,7 +862,7 @@ button.ded-slot{cursor:pointer;border-color:#D9A93A;background:color-mix(in srgb
 button.ded-slot[aria-expanded="true"]{animation:none;box-shadow:0 0 0 3px rgba(242,207,115,.9)}
 @keyframes deduce-blink{50%{opacity:.55}}
 .ded-slot.full{border-style:solid;background:color-mix(in srgb,var(--c) 40%,#FFFDF6)}
-.ded-string{position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:visible;pointer-events:none}
+.ded-string{position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:hidden;pointer-events:none}
 .ded-string path{fill:none;stroke:#A4352C;stroke-width:2.6;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:deduce-draw 1s ease-out forwards}
 @keyframes deduce-draw{to{stroke-dashoffset:0}}
 .deduce-go{flex:none;padding:0 16px 14px}
@@ -1244,8 +1250,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="deduce-q" id="deduceQ" role="status"><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-q-txt"><p id="deduceEn"></p><p class="ko" id="deduceKoText" hidden></p>
         <div class="deduce-q-row"><button class="play-btn" type="button" id="deduceReplay" aria-label="다시 듣기"></button><button class="pill sm" type="button" id="deduceKo" aria-pressed="false">해석</button></div></div></div>
       <div class="deduce-board" id="deduceBoard">
-        <div class="ded-card" id="deduceCard"></div>
-        <span class="ded-time" id="deduceTime"></span>
+        <div class="ded-cards" id="deduceCards"></div>
         <div class="ded-sus-row" id="deduceSus" hidden></div>
         <svg class="ded-string" id="deduceString" aria-hidden="true"></svg>
       </div>
@@ -3303,7 +3308,7 @@ function openDeduce(){
   const st = deduceState(); deduceShown = null; deduceWait = false;
   if(deduceEnd()){ st.at = DEDUCE.qs.length - 1; deduceShow({ en:DEDUCE.qs[st.at].right, ko:DEDUCE.qs[st.at].rightKo }, `r${st.at + 1}`, 'read', null, false); renderDeduce(); }
   else { if(st.done.has(st.at)) st.at = deduceNextAt(); deduceAsk(); }
-  $('#deduceGo').hidden = !deduceEnd();
+  $('#deduceGo').hidden = !deduceEnd(); deduceToEnd(false);
 }
 function closeDeduce(){
   clearTimeout(deduceNextT); deduceNextT = null; deduceWait = false;
@@ -3356,34 +3361,48 @@ function renderDeduce(){
   const st = deduceState(), qs = DEDUCE.qs, end = deduceEnd(), q = qs[st.at], step = end ? 5 : q.step, first = !deduceShown;
   const was = deduceShown || {}, now = {};
   $('#deduceSteps').innerHTML = [1, 2, 3, 4].map(n => `<i class="${n < step ? 'done' : n === step ? 'now' : ''}">${n}</i>`).join('');
-  const time = $('#deduceTime'); now.time = st.done.has(0);
-  time.textContent = deduceBlank(qs[0])[2]; time.classList.toggle('on', now.time); time.classList.toggle('pop', now.time && !was.time && !first);
-  $('#deduceSus').hidden = !now.time; $('#deduceSus').classList.toggle('pop', now.time && !was.time && !first);
+  // each suspect's photo is pinned up when the detective first asks about them (user request: one by one, with the
+  // lines), each in its own column so the others do not move
+  const asked = id => end || qs.some((x, i) => x.who === id && (st.done.has(i) || i === st.at));
+  $('#deduceSus').hidden = !DEDUCE.suspects.some(([id]) => asked(id));
   $('#deduceSus').innerHTML = DEDUCE.suspects.map(([id, name]) => {
     const mine = qs.map((x, i) => [x, i]).filter(([x, i]) => x.who === id && st.done.has(i));
     const memo = mine.filter(([x]) => x.memo).pop()?.[0].memo || '', out = mine.some(([x]) => x.out), lie = mine.some(([x]) => x.lie);
-    now[id] = { memo, out, lie }; const old = was[id] || {};
-    const pop = !first && ((out && !old.out) || (lie && !old.lie)), popMemo = !first && memo && memo !== old.memo;
-    const cls = [out && 'out', lie && 'culprit', !end && q.who === id && 'now', pop && 'pop'].filter(Boolean).join(' ');
-    return `<button class="ded-sus ${cls}" type="button" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>` +
-      `<span class="ded-memo${memo ? ' on' : ''}${popMemo ? ' pop' : ''}${lie && memo === 'bakery?' ? ' lie' : ''}">${esc(memo) || '&nbsp;'}</span></button>`;
+    now[id] = { memo, out, lie, shown:asked(id) }; const old = was[id] || {};
+    const pop = !first && ((now[id].shown && !old.shown) || (out && !old.out) || (lie && !old.lie)), popMemo = !first && memo && memo !== old.memo;
+    const cls = [out && 'out', lie && 'culprit', !end && q.who === id && 'now', pop && 'pop', !now[id].shown && 'later'].filter(Boolean).join(' ');
+    return `<div class="ded-sus ${cls}" data-dsus="${id}"${now[id].shown ? '' : ' aria-hidden="true"'}><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>` +
+      `<span class="ded-memo${memo ? ' on' : ''}${popMemo ? ' pop' : ''}${lie && memo === 'bakery?' ? ' lie' : ''}">${esc(memo) || '&nbsp;'}</span></div>`;
   }).join('');
   deduceShown = now;
-  // the card: the question's sentence; at the end the reason why
-  const cq = end ? qs[qs.length - 2] : q, [, kind, answer] = deduceBlank(cq), filled = end || st.done.has(st.at);
-  const slot = filled ? `<span class="ded-slot ${kind} full">${esc(answer)}</span>`
-    : `<button class="ded-slot ${kind}" type="button" data-dslot aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
-  $('#deduceCard').innerHTML = `<p>${esc(cq.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p><p class="ko"${deduceKoOpen ? '' : ' hidden'}>${esc(cq.cardKo)}</p>`;
+  // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
+  const card = (x, filled) => {
+    const [, kind, answer] = deduceBlank(x);
+    const slot = filled ? `<span class="ded-slot ${kind} full">${esc(answer)}</span>`
+      : `<button class="ded-slot ${kind}" type="button" data-dslot aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
+    return `<p>${esc(x.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p><p class="ko"${deduceKoOpen ? '' : ' hidden'}>${esc(x.cardKo)}</p>`;
+  };
+  const list = $('#deduceCards'), before = list.querySelectorAll('.ded-card.done').length;
+  const done = qs.map((x, i) => i).filter(i => st.done.has(i) && i !== st.at);
+  list.innerHTML = done.map((i, n) => `<div class="ded-card done" data-dcard="${i}" style="--tilt:${n % 2 ? -.7 : .6}deg">${card(qs[i], true)}</div>`).join('') +
+    `<div class="ded-card" id="deduceCard" data-dcard="${st.at}">${card(q, st.done.has(st.at))}</div>`;
+  // a new card under the others: the list slides down to it
+  deduceToEnd(done.length > before && !first);
   requestAnimationFrame(drawDeduceString);
 }
-// at the end two red threads run to Fiona: from the time card, and from the card with her reason
+// the card list to its newest card, once the layout (and 심문 시작 under it) has settled
+function deduceToEnd(smooth){
+  const go = () => { const list = $('#deduceCards'); list.scrollTo({ top:list.scrollHeight, behavior:smooth ? 'smooth' : 'auto' }); };
+  go(); requestAnimationFrame(go);
+}
+// at the end two red threads run to Fiona: from the card with her reason and from the last card (she was at the library)
 function drawDeduceString(){
   const svg = $('#deduceString');
   if(!deduceEnd() || $('#deduce').hidden){ svg.innerHTML = ''; return; }
   const B = $('#deduceBoard').getBoundingClientRect(), at = (el, fx, fy) => { const b = el.getBoundingClientRect(); return [b.left - B.left + b.width * fx, b.top - B.top + b.height * fy]; };
-  const fiona = $('[data-dsus="fiona"]'), f = at(fiona.querySelector('.ded-pol'), .5, .06), c = at($('#deduceTime'), 1, .5);
-  const m = at(fiona.querySelector('.ded-pol'), .72, .04), w = at($('#deduceCard'), .8, .96);
-  svg.innerHTML = `<path d="M${c} Q ${f[0] - 8} ${c[1] - 4} ${f}"/><path d="M${w} Q ${m[0] + 16} ${(w[1] + m[1]) / 2} ${m}"/>`;
+  const pol = $('[data-dsus="fiona"] .ded-pol'), f = at(pol, .35, .04), m = at(pol, .72, .04);
+  const why = $(`[data-dcard="${DEDUCE.qs.length - 2}"]`), c = at(why, .97, .55), w = at($('#deduceCard'), .8, .96);
+  svg.innerHTML = `<path d="M${c} Q ${c[0] + 6} ${(c[1] + f[1]) / 2} ${f}"/><path d="M${w} Q ${m[0] + 16} ${(w[1] + m[1]) / 2} ${m}"/>`;
 }
 function openDeduceDrop(slot){
   setNotes(false);
@@ -3422,7 +3441,7 @@ function deducePick(word){
   if(deduceEnd()){
     S.saidAccuse = true;
     deduceShow({ en:q.right, ko:q.rightKo }, `r${i + 1}`, 'read');
-    renderDeduce(); $('#deduceGo').hidden = false; return saveGame();
+    renderDeduce(); $('#deduceGo').hidden = false; deduceToEnd(true); return saveGame();
   }
   // the reply is said, then a moment later the next question (a tap on the bubble goes on at once)
   deduceWait = true;
@@ -3433,7 +3452,8 @@ function deduceNext(){
   if($('#deduce').hidden || deduceEnd()) return;
   deduceState().at = deduceNextAt(); saveGame(); deduceAsk();
 }
-$('#deduceCard').addEventListener('click', e => { const slot = e.target.closest('[data-dslot]'); if(slot && !deduceWait) openDeduceDrop(slot); });
+$('#deduceCards').addEventListener('click', e => { const slot = e.target.closest('[data-dslot]'); if(slot && !deduceWait) openDeduceDrop(slot); });
+$('#deduceCards').addEventListener('scroll', () => { closeDeduceDrop(); drawDeduceString(); }, { passive:true });
 $('#deduceDrop').addEventListener('click', e => { const o = e.target.closest('[data-dword]'); if(o) deducePick(o.dataset.dword); });
 // a tap anywhere else puts the dropdown away
 document.addEventListener('pointerdown', e => { if(!$('#deduceDrop').hidden && !e.target.closest('#deduceDrop, [data-dslot]')) closeDeduceDrop(); });
@@ -3441,16 +3461,8 @@ $('#deduceQ').addEventListener('click', e => { if(deduceWait && !e.target.closes
 $('#deduceReplay').onclick = () => deduceLine && deduceSpeak(deduceLine.key, deduceLine.en);
 $('#deduceKo').onclick = () => {
   deduceKoOpen = !deduceKoOpen; $('#deduceKo').setAttribute('aria-pressed', deduceKoOpen);
-  $('#deduceKoText').hidden = !deduceKoOpen; $('#deduceCard .ko').hidden = !deduceKoOpen; requestAnimationFrame(drawDeduceString);
+  $('#deduceKoText').hidden = !deduceKoOpen; document.querySelectorAll('#deduceCards .ko').forEach(ko => ko.hidden = !deduceKoOpen); requestAnimationFrame(drawDeduceString);
 };
-// ② may start with either suspect (tap their photo), but one begun is finished first
-$('#deduceSus').addEventListener('click', e => {
-  const b = e.target.closest('[data-dsus]'), st = deduceState(), q = DEDUCE.qs[st.at];
-  if(!b || deduceWait || deduceEnd() || q.step !== 2 || b.dataset.dsus === q.who) return;
-  if(DEDUCE.qs.some((x, i) => x.who === q.who && x.step === 2 && st.done.has(i))) return;
-  const first = DEDUCE.qs.findIndex((x, i) => x.who === b.dataset.dsus && x.step === 2 && !st.done.has(i));
-  if(first >= 0){ st.at = first; closeDeduceDrop(); deduceAsk(); }
-});
 addEventListener('resize', () => requestAnimationFrame(drawDeduceString));
 // all worked out: Sgt. Badger asks who it was and the player names them (startCall)
 $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); startCall(); };
