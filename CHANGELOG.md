@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-27 20:40 · Claude · (이 커밋)
+## 2026-10-27 20:50 · Claude · (이 커밋)
+
+- 마무리(사용자 요청 `/wrap-up`): HANDOFF 0절 요약에 오답 지목 흐름을 넣고, 3.7절 보드 설명의 이력 문구를 지금 상태로 고침. 코드 변경 없음.
+- 확인: 시험 탭(127.0.0.1:5174, 미리보기 모드) 닫음, `pioo.*` 저장값 없음. 이 대화의 각 작업은 커밋마다 새 탭에서 확인함(위 항목들).
+- 커밋하지 않고 남은 파일: 손가락 후보(`assets/ui/pointer/`, 원본 시트 5장 `pointer-hands/paws/paws4/paws-thumb/paws-front-higgsfield-original.png`, `scripts/cut-pointer-hands.py`)와 탭 시안(`design/note-tabs.html`, `assets/ui/tabs-cand/`, `assets/ui/tabs-pencil-b-higgsfield-original.png`)은 사용자가 지우기로 했으나 지우기 명령이 승인 대기로 실행되지 않음. 튜토리얼 시안(`design/tutorial-motion.html`, `assets/ui/tutorial-paw.png`, `assets/ui/pointer-paws-back-higgsfield-original.png`, `scripts/cut-tutorial-paw.py`)은 튜토리얼을 고칠 때 쓰려고 남겨 둠(게임에는 아직 안 넣음, 사용자 결정).
+- **다음**: ① 사용자 승인을 받아 위 지울 파일 정리(예전 탭 원본 `assets/ui/tabs-higgsfield-original.png`도 `git rm`). ② 사용자가 정하면 카페 포스터 공연 글씨를 그림 안 글씨로(1장 약 1.5크레딧). ③ 튜토리얼 움직이는 시연 3–6장과 1장 글을 지금 흐름(받아 적는 중 노트 고정, 탐정 말풍선 등)에 맞추기는 사용자가 하자고 할 때
+
+## 2026-10-27 20:40 · Claude · 1edd4b9
 
 - 사용자 요청: 탐정이 말할 때와 NPC가 말할 때 말풍선이 같아 헷갈림 → 사용자 선택 A(꼬리 없이): 범인 지목 장면의 탐정 대사는 화면 아래쪽에 꼬리 없는 꿀색 종이 말풍선 + 왼쪽에 탐정 얼굴(추리 보드와 같은 그림). NPC 말풍선은 그대로(위, NPC를 가리키는 꼬리). 홈·사무소처럼 탐정이 화면에 보이는 곳은 그대로.
 - 확인(새 탭 `?preview=call`): 레이 지목 → 탐정 "Yes. It was Ray Raccoon."이 아래쪽 꿀색 말풍선 → 오소리 대사는 다시 위쪽 말풍선. 구문 검사 통과.
