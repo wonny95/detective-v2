@@ -1122,7 +1122,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .devbtn{border:2px dashed var(--ink);background:var(--paper-2);color:var(--ink);border-radius:12px;font-family:var(--f-display);font-size:14px;padding:8px 14px;opacity:.9}
 @media (min-width:768px){
   .devtools{position:fixed;z-index:200;top:16px;left:16px;display:flex;flex-direction:column;gap:8px}
+  .devtools.devpreview{left:auto;right:16px}
 }
+.devpreview small{font-family:var(--f-display);font-size:13px;color:var(--ink-soft);text-align:center}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -1410,9 +1412,27 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
   <button class="devbtn" type="button" id="devReset">리셋</button>
 </div>
+<div class="devtools devpreview" id="devPreview" aria-label="미리보기"></div>
 
 <script>
 (() => {
+// 미리보기 (test tools): ?preview=<part> runs the page on a copy of this device's records kept in memory, so nothing is
+// written back (the parts and the rest are at the end, under 미리보기)
+const PREVIEW = new URLSearchParams(location.search).get('preview');
+const localStorage = PREVIEW ? previewStorage() : window.localStorage;
+function previewStorage(){
+  const mem = Object.create({
+    getItem(key){ return Object.hasOwn(this, key) ? this[key] : null; },
+    setItem(key, value){ this[key] = String(value); },
+    removeItem(key){ delete this[key]; }
+  });
+  // the records as they are, without the case in progress (a preview starts a fresh case); the tutorial seen and a
+  // detective name, so no part waits behind them
+  try { Object.keys(window.localStorage).filter(key => key.startsWith('pioo.') && key !== 'pioo.save').forEach(key => { mem[key] = window.localStorage.getItem(key); }); } catch(e){}
+  mem['pioo.tutorialSeen'] = '1';
+  mem['pioo.detectiveName'] ||= 'Pioo';
+  return mem;
+}
 const QUESTIONS = [
   { id:'q1', en:'Where were you tonight, between 8 and 10 PM?', ko:'오늘 밤 8시~10시에 어디 있었나요?' },
   { id:'q2', en:'Can anyone prove that?', ko:'그걸 증명해 줄 사람이 있나요?' },
@@ -5109,12 +5129,44 @@ $('#devReset').onclick = () => {
   location.reload();
 };
 
+/* ---------- 미리보기 (user request: buttons to see each part quickly) ----------
+   A button reloads the page as ?preview=<part>: a fresh case on a copy of the records in memory (previewStorage, at the
+   top), taken straight to that part with the test tools above. The real case in progress, records and word book are
+   never written; 미리보기 끝 goes back to them. */
+const previewCase = () => { $('#devDone').click(); $('#devEvidence').click(); };
+const previewDeduced = () => {
+  const st = deduceState();
+  DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1; S.saidAccuse = true;
+};
+const PREVIEW_PARTS = [
+  ['home', '홈', () => {}],
+  ['key', '이번 사건의 열쇠', () => startCase()],
+  ['tutorial', '튜토리얼', () => { localStorage.removeItem(TUT_KEY); startCase(true); }],
+  ['talk', '첫 대화', () => startCase(true)],
+  ['map', '지도', previewCase],
+  ['place', '현장 조사', () => { previewCase(); openSheet(null); }],
+  ['deduce', '추리 보드', () => { previewCase(); openDeduce(); }],
+  ['call', '범인 지목', () => { previewCase(); previewDeduced(); openSheet(null); startCall(); }],
+  ['interview', '심문', () => { previewCase(); previewDeduced(); openSheet(null); accusedId = CULPRIT; startEnding(); }],
+  ['confession', '자백', () => { previewCase(); $('#devInterro').click(); }],
+  ['review', '복습', () => { previewCase(); previewDeduced(); openSheet(null); openReview(); }]
+];
+$('#devPreview').innerHTML = '<small>미리보기</small>' +
+  PREVIEW_PARTS.map(([id, label]) => `<button class="devbtn" type="button" data-preview="${id}" aria-pressed="${id === PREVIEW}">${label}</button>`).join('') +
+  (PREVIEW ? '<button class="devbtn" type="button" data-preview-end>미리보기 끝</button>' : '');
+$('#devPreview').addEventListener('click', e => {
+  const b = e.target.closest('[data-preview],[data-preview-end]'); if(!b) return;
+  location.href = location.pathname + (b.dataset.preview ? `?preview=${b.dataset.preview}` : '');
+});
+
 /* ---------- boot ---------- */
 loadGame();
 renderStage(false); renderDock(); renderPlaces(); renderSceneHead();
 // the app opens on 홈; without a detective name, the first meeting and naming come first (user request)
 openCaseList('home');
 if(!detectiveName()) meetDetective(null);
+// a preview: its part, without the test tools' notes
+if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hidden = true; }
 })();
 </script>
 </body>
