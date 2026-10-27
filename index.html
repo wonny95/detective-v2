@@ -548,9 +548,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .choices .say{font-family:var(--f-display);font-size:14px;display:flex;align-items:center;gap:6px}
 .choices .say .pill{margin-left:auto}
 .choices:not(.show-ko) .ko{display:none}
-.q{width:100%;display:grid;grid-template-columns:28px 1fr;align-items:center;gap:10px;text-align:left;background:#FFFDF7;border:2px solid var(--ink);border-radius:var(--r-wobble);padding:7px 12px 7px 8px;box-shadow:2px 3px 0 rgba(74,54,40,.18)}
+/* a question: the English only, no number (user decision A: the asked ones leave, so numbers skipped) */
+.q{width:100%;display:block;text-align:left;background:#FFFDF7;border:2px solid var(--ink);border-radius:var(--r-wobble);padding:10px 14px;box-shadow:2px 3px 0 rgba(74,54,40,.18)}
 .q:active{transform:translateY(2px);box-shadow:none}
-.q .n{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-size:13px;background:var(--peach)}
 .q .en{display:block;font-family:var(--f-hand);font-weight:700;font-size:16px;line-height:1.1}
 .q .ko{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
 
@@ -2273,9 +2273,9 @@ function renderAsk(){
   if(S.investigate || discoveryPerson){ box.innerHTML = ''; return; }
   let html = '';
   if(p.phase === 'choose'){
-    const all = qs(s), left = availableQuestions(s);
+    const left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
-      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
+      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('');
   } else if(p.phase === 'record'){
     html = `<button class="pill big green" type="button" id="openNote">노트에 기록하기</button>`;
   }

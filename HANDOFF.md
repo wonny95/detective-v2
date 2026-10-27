@@ -358,7 +358,7 @@ node server.js            # http://localhost:5173/
 | `writeState()`, `nowBlanks()` | 받아 적는 동안: 다음 빈칸 표시, 쓴 단어 카드 흐리기, 완료 버튼 흐림(`.wait`), 엔터 키 표시 |
 | `fitKeyboard()`, `stepBlank()`, `vkbType()` | 키보드 위 입력 모드(`.app.typing`, `--kb`, `#typeBar`; 컴퓨터는 `#noteVkb`), 앞뒤 빈칸 이동, 미리보기 키보드 입력 |
 | `renderDock()` | 노트 내용(지금 질문 또는 전체 페이지, 단어 카드, 도장), 노트 높이 클래스 |
-| `renderAsk()`, `renderChip()`, `renderHint()`, `useHint()` | NPC 아래 질문 버튼, 상단 NPC 이름 칩, 노트 머리줄 힌트 버튼과 한 칸 채우기 |
+| `renderAsk()`, `renderChip()`, `renderHint()`, `useHint()` | NPC 아래 질문 버튼(영어 질문만, 번호 없음, 사용자 결정 A), 상단 NPC 이름 칩, 노트 머리줄 힌트 버튼과 한 칸 채우기 |
 | `renderStage()`, `focusCamera(fromRect, glide)`, `animateCamera()` | 공유 장면을 대화 뷰로 옮기고 노트 상태에 맞춘 구도로 카메라 이동 |
 | `unlock(u, quiet)` | 장소·인물 열기. 새로 열린 장소와 인물 ID 목록을 돌려준다 |
 | `revealDiscoveries()`, `presentDiscovery()`, `finishDiscovery(showMap)`, `afterMotion()` | 노트 전환 뒤 같은 현장 인물 초점 또는 지도 통합 안내. 안내 후 목표로 이동, 중단 시 원래 화면 복귀 |
