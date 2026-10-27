@@ -53,12 +53,13 @@ img{max-width:100%}
 .rv-photo .plate b{display:block;font-family:var(--f-body);font-size:11px;letter-spacing:.08em}
 .rv-stars{display:flex;justify-content:center;gap:9px;margin-top:8px}
 .rv-stars img{width:49px;height:auto}
-.rv-score{text-align:center;font-family:var(--f-display);font-size:16px;margin:2px 0 0}
-.rv-todo{display:flex;align-items:center;gap:10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;padding:12px 14px}
-.rv-todo strong{font-family:var(--f-display);font-weight:400;font-size:18px}
-.rv-todo .count{display:grid;place-items:center;flex:none;width:43px;height:43px;background:var(--honey);border-radius:50%;font-family:var(--f-display);font-size:21px}
-.rv-todo p{margin:2px 0 0;font-size:12px;color:var(--ink-soft)}
-.rv-mini-summary{display:flex;gap:8px;justify-content:center;font-size:13px;color:var(--ink-soft)}
+/* under the stars, three tiles of the same size, no sentences (user decision: B): blanks right at the first check, lines to
+   hear again (honey: the next thing to do; ✓ 모두 맞힘 when there are none), new words */
+.rv-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rv-tiles .tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px 9px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;font-size:12px;color:var(--ink-soft);text-align:center}
+.rv-tiles .tile b{font-family:var(--f-display);font-weight:400;font-size:21px;color:var(--ink)}
+.rv-tiles .tile b small{font-size:13px;color:var(--ink-soft)}
+.rv-tiles .tile.hot{border-color:#E6C46A;background:#FFF7DE}
 .rv-label{font-size:13px;color:var(--ink-soft)}
 .rv-listen{display:flex;align-items:center;gap:8px}
 .rv-listen .pill{min-height:32px}
@@ -112,7 +113,7 @@ function render(){
  document.querySelectorAll('[data-jump]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.jump)===state.step));
  let content='',foot='';
  if(state.step===0){
-  content=`<div class="rv-file"><div class="rv-photo mug"><img class="who" src="../assets/characters/fiona-sad.png" alt="피오나 폭스"><span class="plate"><b>FIONA FOX</b>ACORN HOLLOW · 01</span></div><img class="stamp" src="${asset('complete-stamp.png')}" alt="COMPLETE"><small>Case 01</small><b>도서관 살인사건</b></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><p class="rv-score">처음 확인 · 30칸 중 26칸</p><div class="rv-todo"><span class="count">2</span><div><strong>다시 들을 문장</strong><p>헷갈린 표현부터 확인해요</p></div></div><div class="rv-mini-summary"><span>이번 사건의 문법 3개</span><span>·</span><span>새 단어 4개</span></div>`;
+  content=`<div class="rv-file"><div class="rv-photo mug"><img class="who" src="../assets/characters/fiona-sad.png" alt="피오나 폭스"><span class="plate"><b>FIONA FOX</b>ACORN HOLLOW · 01</span></div><img class="stamp" src="${asset('complete-stamp.png')}" alt="COMPLETE"><small>Case 01</small><b>도서관 살인사건</b></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><div class="rv-tiles"><div class="tile"><b>26<small> / 30</small></b>받아 적기</div><div class="tile hot"><b>2</b>다시 들을 문장</div><div class="tile"><b>4</b>새 단어</div></div>`;
   foot=button('다음','data-next','big');
  }
  if(state.step===1){
