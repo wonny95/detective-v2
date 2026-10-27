@@ -457,7 +457,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 #caseKey .replay-q:active,.play-btn:active{transform:translateY(1px)}
 #caseKey .replay-q svg{display:none}
 .play-btn{flex:none;width:32px;height:32px;padding:0}
-.ck-note .pill.sm,.office-foot .pill.sm,.bubble.say .say-foot .pill.sm{min-height:0;padding:3px 8px}
+/* a small pill beside a ▶ (해석, 천천히, 담기) is as tall as the ▶ (user request: 32px) */
+.ck-note .pill.sm,.office-foot .pill.sm,.bubble.say .say-foot .pill.sm,.deduce-q-row .pill.sm,.rv-word .pill.sm,.rv-play .pill.sm{box-sizing:border-box;min-height:32px;height:32px;padding:0 10px}
 .ck-note .pill.sm{grid-row:1;grid-column:3}
 .ck-note:not(.ko-on) .ko{display:none}
 .ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
