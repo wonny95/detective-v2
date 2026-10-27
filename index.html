@@ -384,6 +384,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:2px 2px 8px;scrollbar-width:none}
 .rv-body::-webkit-scrollbar{display:none}
 .rv-body.mid{justify-content:center;padding-bottom:40px}
+/* the words: 10px between rows (user request) */
+.rv-body.words{gap:10px}
 .rv-foot{flex:none}
 .rv-foot .pill.big{width:100%}
 .rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:8px}
@@ -3898,7 +3900,7 @@ function renderReview(){
     foot = `<button class="pill big" type="button" data-rv-done>완료</button>`;
   }
   $('#reviewCard').innerHTML = (rv.fromHome ? `<button class="close-button rv-close" type="button" data-rv-close aria-label="복습 닫기"></button>` : '') +
-    `<div class="rv-body${step === 'result' ? ' mid' : ''}">${body}</div>
+    `<div class="rv-body${step === 'result' ? ' mid' : step === 'words' ? ' words' : ''}">${body}</div>
     <div class="rv-dots" aria-label="복습 ${rv.step + 1} / ${rv.steps.length}">${rv.steps.map((x, i) => `<i${i === rv.step ? ' class="now"' : ''}></i>`).join('')}</div>
     <div class="rv-foot">${foot}</div>`;
 }
