@@ -36,6 +36,9 @@ img{max-width:100%}
 .pill:disabled{opacity:.48}
 .play-btn{flex:none;width:32px;height:32px;border:0;padding:0;background:url(../assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(../assets/ui/buttons/round-cream.png) center/100% no-repeat}
 .rv-title{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.35;margin:0}
+.rv-title:has(.rv-back){display:flex;align-items:center;gap:8px}
+.rv-back{flex-shrink:0;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
+.rv-back svg{width:20px;height:20px;display:block}
 .rv-sub{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0}
 .rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:min(80%,270px);margin:22px 0 8px;padding:12px 12px 12px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg);text-align:center}
 .rv-file:before{content:"";position:absolute;left:50%;top:-31px;width:24px;height:33px;margin-left:-10px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat;z-index:2}
@@ -110,6 +113,7 @@ const state={step:0,form:0,slots:['',''],checked:false,error:false,tr:new Set(),
 const asset=p=>`../assets/ui/${p}`;
 function playLine(text,slow=false){if(!('speechSynthesis' in window))return;window.speechSynthesis.cancel();const utter=new SpeechSynthesisUtterance(text);utter.lang='en-US';utter.rate=slow?.72:.9;window.speechSynthesis.speak(utter)}
 function button(label,attrs='',extra=''){return `<button type="button" class="pill ${extra}" ${attrs}>${label}</button>`}
+const back=`<button type="button" class="pill rv-back" data-back aria-label="뒤로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
 function render(){
  document.querySelectorAll('[data-jump]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.jump)===state.step));
  let content='',foot='';
@@ -122,14 +126,15 @@ function render(){
   content=`<h2 class="rv-title">다시 들을 문장 <small style="font-size:14px;color:var(--ink-soft)">1 / 2</small></h2><p class="rv-q">Where were you?</p><div class="rv-line"><div class="rv-play"><button class="play-btn" type="button" data-play="line" aria-label="대답 듣기"></button>${button('천천히','data-play="slow"','sm')}</div><p>He played the guitar from ${slot(0)} to ${slot(1)}.</p></div>${state.checked?'':`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div>`}`;
   foot=state.checked?button('다음','data-next','big'):button('확인','data-check','big');
  }
- if(state.step===2){content=`<h2 class="rv-title">이번 사건의 문법</h2><div class="word-list" style="gap:12px;margin-top:4px">${forms.map((form,i)=>`<div class="rv-word rv-gram"><span><span class="wword">${form.head}<small>${form.name}</small></span><span class="gsent">${form.sentence}</span>${state.tr.has(i)?`<span class="wko">${form.ko}</span>`:''}</span><button type="button" class="play-btn" data-play="form-${i}" aria-label="예문 듣기"></button>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
- if(state.step===3){content=`<h2 class="rv-title">사건에 나온 단어 <small style="font-size:14px;color:var(--ink-soft)">${state.kept.size} / ${words.length}</small></h2><div class="word-list">${words.map(([word,ko])=>`<div class="rv-word ${state.kept.has(word)?'kept':''}"><span><span class="wword">${word}</span><span class="wko">${ko}</span></span><button type="button" class="play-btn" data-play-word="${word}" aria-label="${word} 발음 듣기"></button>${button(state.kept.has(word)?'담음':'담기',`data-keep="${word}"`,'sm '+(state.kept.has(word)?'green':''))}</div>`).join('')}</div>`;foot=button('완료','data-done','big');}
+ if(state.step===2){content=`<h2 class="rv-title">${back}이번 사건의 문법</h2><div class="word-list" style="gap:12px;margin-top:4px">${forms.map((form,i)=>`<div class="rv-word rv-gram"><span><span class="wword">${form.head}<small>${form.name}</small></span><span class="gsent">${form.sentence}</span>${state.tr.has(i)?`<span class="wko">${form.ko}</span>`:''}</span><button type="button" class="play-btn" data-play="form-${i}" aria-label="예문 듣기"></button>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
+ if(state.step===3){content=`<h2 class="rv-title">${back}사건에 나온 단어 <small style="font-size:14px;color:var(--ink-soft)">${state.kept.size} / ${words.length}</small></h2><div class="word-list">${words.map(([word,ko])=>`<div class="rv-word ${state.kept.has(word)?'kept':''}"><span><span class="wword">${word}</span><span class="wko">${ko}</span></span><button type="button" class="play-btn" data-play-word="${word}" aria-label="${word} 발음 듣기"></button>${button(state.kept.has(word)?'담음':'담기',`data-keep="${word}"`,'sm '+(state.kept.has(word)?'green':''))}</div>`).join('')}</div>`;foot=button('완료','data-done','big');}
  document.getElementById('review').innerHTML=`<div class="rv-body ${state.step===0?'result-body':''}">${content}</div><div class="rv-dots" aria-label="복습 ${state.step+1} / 4">${steps.map((_,i)=>`<i class="${i===state.step?'now':''}"></i>`).join('')}</div><div class="rv-foot">${foot}</div>`;
 }
 document.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b)return;
  if(b.dataset.jump!==undefined){state.step=Number(b.dataset.jump);state.tr.clear();render();return;}
  if(b.hasAttribute('data-next')){state.step=Math.min(3,state.step+1);render();return;}
+ if(b.hasAttribute('data-back')){state.step=Math.max(0,state.step-1);render();return;}
  if(b.hasAttribute('data-check')){state.checked=state.slots[0]==='8 PM'&&state.slots[1]==='9:30 PM';state.error=!state.checked;render();return;}
  if(b.dataset.word){const index=state.slots.findIndex(x=>!x);if(index>=0)state.slots[index]=b.dataset.word;state.error=false;render();return;}
  if(b.dataset.slot!==undefined&&!state.checked){state.slots[Number(b.dataset.slot)]='';render();return;}

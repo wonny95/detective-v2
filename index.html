@@ -390,6 +390,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-foot .pill.big{width:100%}
 .rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:8px}
 .rv-title small{font-size:14px;color:var(--ink-soft)}
+/* 뒤로 on the grammar and word pages (user request): the play screen's back button, before the title */
+.rv-title:has(.rv-back){align-items:center}
+.rv-back{flex-shrink:0;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
+.rv-back svg{width:20px;height:20px;display:block}
+/* the close button (a review opened from 홈) sits at the top right: the title row keeps clear of it */
+.rv-close ~ .rv-body .rv-title{padding-right:40px}
 .rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;gap:3px;width:min(80%,270px);box-sizing:border-box;margin:22px 0 4px;padding:12px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg);text-align:center}
 .rv-file::before{content:"";position:absolute;left:50%;top:-31px;width:24px;height:33px;margin-left:-10px;background:url(assets/ui/tack-red.webp) center/100% no-repeat;z-index:2}
 .rv-file small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
@@ -3874,8 +3880,10 @@ function renderReview(){
     // right: the blanks turn green and the player goes on (user decision: no automatic turn)
     foot = rv.solved ? `<button class="pill big" type="button" data-rv-card>다음</button>` : `<button class="pill big" type="button" data-rv-check>확인</button>`;
   }
+  // 뒤로 on the grammar and word pages (user request), the same as the play screen's
+  const back = `<button class="pill rv-back" type="button" data-rv-back aria-label="뒤로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
   if(step === 'grammar'){
-    body = `<h2 class="rv-title">이번 사건의 문법</h2><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
+    body = `<h2 class="rv-title">${back}이번 사건의 문법</h2><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
       if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span></div>`;
       const sents = sentencesOf(spk(use.id).answers[use.qid]), idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
       const sent = sents[idx], at = sent.indexOf(use.words), kos = sentencesOf(ANSWERS_KO[use.id]?.[use.qid] || '');
@@ -3890,7 +3898,7 @@ function renderReview(){
   }
   if(step === 'words'){
     const all = rv.words.length && rv.words.every(w => rv.keep.has(w.key));
-    body = `<h2 class="rv-title">사건에 나온 단어 <small>${rv.keep.size} / ${rv.words.length}</small>
+    body = `<h2 class="rv-title">${back}사건에 나온 단어 <small>${rv.keep.size} / ${rv.words.length}</small>
         <button class="pill sm" type="button" data-rv-all aria-pressed="${all}" style="margin-left:auto">${all ? '모두 빼기' : '모두 담기'}</button></h2>` +
       WORD_GROUPS.map(([g, label]) => {
         const list = rv.words.filter(w => WORDS[w.key][0] === g);
@@ -3949,6 +3957,12 @@ $('#review').addEventListener('click', e => {
   const sent = e.target.closest('[data-rv-sent]');
   if(sent) return replaySentence(sent.dataset.rvSent, +sent.dataset.sent);
   if(e.target.closest('[data-rv-next]')) return reviewNext();
+  // back a page; back to the sentences to hear again, at the last one
+  if(e.target.closest('[data-rv-back]')){
+    stopVoice(); rv.step--;
+    if(rv.steps[rv.step] === 'missed'){ rv.card = rv.missed.length - 1; rv.filled = {}; rv.solved = false; }
+    return renderReview();
+  }
   if(e.target.closest('[data-rv-card]')){
     stopVoice(); rv.filled = {}; rv.solved = false;
     if(rv.card < rv.missed.length - 1){ rv.card++; renderReview(); } else reviewNext();
