@@ -472,11 +472,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* the form's ▶ is pinned to the card's top right corner (user request), clear of the form however it wraps */
 .ck-key .gpattern .replay-q{position:absolute;top:2px;right:2px;width:34px;height:34px;margin:0}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
-.rv-word{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-word{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
 .rv-word .wword{font-family:var(--f-hand);font-weight:700;font-size:17px}
 .rv-word .wsay{display:block;font-size:12px;color:var(--ink-soft)}
-.rv-word .wko{grid-column:2 / -1;margin:0;font-size:13px;color:var(--berry)}
+.rv-word .wko{display:block;margin-top:3px;font-size:13px;color:var(--berry)}
 .rv-word .keep[aria-pressed="true"]{--btn:url(assets/ui/buttons/sage-flat.png)}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
@@ -3863,10 +3863,8 @@ function renderReview(){
         return !list.length ? '' : `<h3 class="rv-wsec">${label}</h3>` + list.map(w => {
           const [, ko, say] = WORDS[w.key], on = rv.keep.has(w.key);
           return `<div class="rv-word${on ? ' kept' : ''}"><button class="replay-q" type="button" data-rv-sent="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기">${playIcon}</button>
-            <span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}</span>
-            <button class="pill sm" type="button" data-rv-wko aria-pressed="false">해석</button>
-            <button class="pill sm keep" type="button" data-rv-keep="${w.key}" aria-pressed="${on}">${on ? '담음' : '담기'}</button>
-            <p class="wko" hidden>${esc(ko)}</p></div>`;
+            <span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}<span class="wko">${esc(ko)}</span></span>
+            <button class="pill sm keep" type="button" data-rv-keep="${w.key}" aria-pressed="${on}">${on ? '담음' : '담기'}</button></div>`;
         }).join('');
       }).join('');
     foot = `<button class="pill big" type="button" data-rv-done>${rv.fromHome ? '닫기' : '사건 목록으로'}</button>`;
@@ -3926,8 +3924,6 @@ $('#review').addEventListener('click', e => {
   }
   const gko = e.target.closest('[data-rv-gko]');
   if(gko){ const t = gko.closest('.rv-gcard').querySelector('.gko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
-  const wko = e.target.closest('[data-rv-wko]');
-  if(wko){ const t = wko.closest('.rv-word').querySelector('.wko'); t.hidden = !t.hidden; wko.setAttribute('aria-pressed', !t.hidden); return; }
   const keep = e.target.closest('[data-rv-keep]');
   if(keep){
     const k = keep.dataset.rvKeep, on = !rv.keep.has(k);
