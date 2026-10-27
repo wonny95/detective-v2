@@ -60,20 +60,19 @@ img{max-width:100%}
 .rv-tiles .tile b{font-family:var(--f-display);font-weight:400;font-size:21px;color:var(--ink)}
 .rv-tiles .tile b small{font-size:13px;color:var(--ink-soft)}
 .rv-tiles .tile.hot{border-color:#E6C46A;background:#FFF7DE}
-.rv-label{font-size:13px;color:var(--ink-soft)}
-.rv-listen{display:flex;align-items:center;gap:8px}
-.rv-listen .pill{min-height:32px}
-.note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:24px 14px 22px 16px/16px 24px 14px 22px;padding:16px 16px 17px 43px;line-height:1.65}
-.note-page p{margin:0 0 7px;font-size:16px}
-.note-page p:last-child{margin:0}
+/* 다시 듣기, kept plain (user request): the question as a word-page row (▶, the question, 천천히), the note's line with
+   its blanks in a card of the same kind, the first answers small under it; right or wrong shows on the blanks only */
+.rv-q .wword{font-size:16px}
+.rv-line{padding:14px 14px 12px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
+.rv-line p{margin:0;font-size:16px;line-height:2.1}
+.rv-line .rv-first{margin-top:4px;line-height:1.4}
 .rv-slot{display:inline-grid;place-items:center;min-width:66px;min-height:31px;margin:0 2px;padding:0 5px;border:0;border-radius:8px;background:rgba(125,106,88,.17);font:700 15px var(--f-body);color:#34506E}
 .rv-slot.hit{background:rgba(94,138,99,.18);color:var(--ok)}
+.rv-slot.miss{background:rgba(194,91,91,.15);color:var(--no)}
 .rv-bank{display:flex;flex-wrap:wrap;gap:8px}
 .word{min-height:36px;border:1.5px solid var(--ink);border-radius:12px 14px 11px 15px;background:#FFFDF7;padding:5px 12px;font-family:var(--f-body);font-weight:700;font-size:15px;box-shadow:1.5px 2px 0 rgba(74,54,40,.18)}
 .rv-first{font-size:12px;color:var(--ink-soft)}
 .rv-first s{color:var(--no);font-weight:700}
-.rv-feedback{font-size:13px;color:var(--ok);margin:0}
-.rv-feedback.no{color:var(--no)}
 .rv-word{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:9px 10px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-word.kept{border-color:#9FBF9F;background:#F2F7EC}
 .rv-word .wword{font-family:var(--f-display);font-size:17px}
@@ -117,7 +116,8 @@ function render(){
   foot=button('다음','data-next','big');
  }
  if(state.step===1){
-  content=`<h2 class="rv-title">다시 들을 문장 <small style="font-size:14px;color:var(--ink-soft)">1 / 2</small></h2><p class="rv-sub">첫 기록에서 헷갈린 문장을 다시 들어봐요.</p><span class="rv-label">Q. Where were you?</span><div class="rv-listen"><button class="play-btn" type="button" data-play="line" aria-label="다시 듣기"></button>${button('천천히','data-play="slow"','sm')}</div><div class="note-page"><p>Ray was at the Lake Cafe.</p><p>He played the guitar from <button class="rv-slot ${state.checked?'hit':''}" type="button" data-slot="0" aria-label="시작 시각">${state.slots[0]||'____'}</button> to <button class="rv-slot ${state.checked?'hit':''}" type="button" data-slot="1" aria-label="끝 시각">${state.slots[1]||'____'}</button>.</p></div>${state.checked?`<p class="rv-feedback">✓ 문장을 완성했어요. 다시 듣고 다음으로 넘길 수 있어요.</p>`:`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div><p class="rv-first">처음 쓴 답 <s>7 PM</s> <s>10 PM</s></p>${state.error?'<p class="rv-feedback no">다시 듣고 고쳐 보세요.</p>':''}`}`;
+  const ans=['8 PM','9:30 PM'],slot=k=>`<button class="rv-slot ${state.checked?'hit':state.error&&state.slots[k]&&state.slots[k]!==ans[k]?'miss':''}" type="button" data-slot="${k}" aria-label="${k?'끝':'시작'} 시각">${state.slots[k]||''}</button>`;
+  content=`<h2 class="rv-title">다시 들을 문장 <small style="font-size:14px;color:var(--ink-soft)">1 / 2</small></h2><div class="rv-word rv-q"><button class="play-btn" type="button" data-play="line" aria-label="다시 듣기"></button><span class="wword">Where were you?</span>${button('천천히','data-play="slow"','sm')}</div><div class="rv-line"><p>He played the guitar from ${slot(0)} to ${slot(1)}.</p><p class="rv-first">처음 쓴 답 <s>7 PM</s> <s>10 PM</s></p></div>${state.checked?'':`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div>`}`;
   foot=state.checked?button('다음','data-next','big'):button('확인','data-check','big');
  }
  if(state.step===2){content=`<h2 class="rv-title">이번 사건의 문법</h2><div class="word-list">${forms.map((form,i)=>`<div class="rv-word rv-gram"><button type="button" class="play-btn" data-play="form-${i}" aria-label="예문 듣기"></button><span><span class="wword">${form.head}<small>${form.name}</small></span><span class="gsent">${form.sentence}</span>${state.tr.has(i)?`<span class="wko">${form.ko}</span>`:''}</span>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
