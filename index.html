@@ -821,8 +821,8 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 /* the cards: every sentence worked out stays pinned, the next one under it (user request: they pile up downward, no
    separate time card); the list scrolls and follows the newest. A suspect's photo is pinned on the left of their own
    cards, coming up with the first one the detective asks about them (user request) */
-.ded-cards{flex:1;min-height:0;width:100%;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:10px;padding:24px 0 12px;box-sizing:border-box}
-.ded-group{display:grid;grid-template-columns:68px minmax(0,1fr);gap:6px;align-items:start;margin:0 16px 0 8px}
+.ded-cards{flex:1;min-height:0;width:100%;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:10px;padding:24px 22px 12px;box-sizing:border-box}
+.ded-group{display:grid;grid-template-columns:66px minmax(0,1fr);gap:8px;align-items:start}
 .ded-gcards{display:flex;flex-direction:column;gap:10px;min-width:0}
 .ded-group .ded-card{margin:0}
 .ded-group .ded-sus{position:sticky;top:0;padding-top:4px}
@@ -846,7 +846,7 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 /* only what has just been worked out pops (the board is redrawn for every question) */
 .deduce .pop{animation:deduce-pin .4s cubic-bezier(.3,1.5,.5,1)}
 @keyframes deduce-pin{from{transform:scale(1.4) rotate(-8deg);opacity:0}}
-.ded-card{position:relative;flex:none;align-self:stretch;margin:0 16px;padding:8px 12px 10px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;
+.ded-card{position:relative;flex:none;align-self:stretch;margin:0;padding:8px 12px 10px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;
   filter:drop-shadow(2px 5px 4px rgba(50,30,15,.35));transform:rotate(-1deg)}
 .ded-card::before{content:"";position:absolute;left:50%;top:-30px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
 .ded-card p{margin:0;font-size:16.5px;line-height:2}
