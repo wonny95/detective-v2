@@ -551,8 +551,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .q{width:100%;display:grid;grid-template-columns:28px 1fr;align-items:center;gap:10px;text-align:left;background:#FFFDF7;border:2px solid var(--ink);border-radius:var(--r-wobble);padding:7px 12px 7px 8px;box-shadow:2px 3px 0 rgba(74,54,40,.18)}
 .q:active{transform:translateY(2px);box-shadow:none}
 .q .n{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--f-display);font-size:13px;background:var(--peach)}
-/* a question to ask again after a wrong check: blue number */
-.q.again .n{background:var(--sky)}
 .q .en{display:block;font-family:var(--f-hand);font-weight:700;font-size:16px;line-height:1.1}
 .q .ko{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
 
@@ -1992,7 +1990,7 @@ const miniSVG = id => FACE_ICONS.includes(id) ? `<img class="face" src="assets/u
    phase per person: 'wait' (not talked to yet) → 'choose' (question cards) → 'record' (listening + writing) → … → 'done'
    S.investigate = the place view is showing (otherwise the conversation view). */
 // checked: the page got its 확인됨 stamp. first/firstWrong: the result of the first 노트 확인 (for the review).
-const newSpeakerState = () => ({ phase:'wait', order:[], recording:null, notes:{}, marks:{}, checked:false, retry:[], questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
+const newSpeakerState = () => ({ phase:'wait', order:[], recording:null, notes:{}, marks:{}, checked:false, questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
 const S = {
   cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
   hints:3,           // acorn hints left for the whole case (shared by everyone)
@@ -2011,8 +2009,8 @@ const per = id => S.per[id];
 const qs = sp => sp.questions || QUESTIONS;
 const availableQuestions = speaker => {
   const progress = per(speaker.id);
-  if(progress.retry.length) return qs(speaker).filter(question => progress.retry.includes(question.id));
-  return qs(speaker).filter(question => !progress.order.includes(question.id) &&
+  // not asked yet, or (a save from when a wrong check went back to the questions) asked but not written down right
+  return qs(speaker).filter(question => (!progress.order.includes(question.id) || progress.questionChecks[question.id] === 'review') &&
     (!speaker.openingQuestion || progress.order.includes(speaker.openingQuestion) || question.id === speaker.openingQuestion));
 };
 const cur = () => spk(S.cur);
@@ -2277,7 +2275,7 @@ function renderAsk(){
   if(p.phase === 'choose'){
     const all = qs(s), left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
-      left.map(q => `<button class="q${p.retry.includes(q.id) ? ' again' : ''}" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
+      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="n">${all.indexOf(q) + 1}</span><span><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></span></button>`).join('');
   } else if(p.phase === 'record'){
     html = `<button class="pill big green" type="button" id="openNote">노트에 기록하기</button>`;
   }
@@ -2581,7 +2579,6 @@ function finishRecord(){
   hideBubble();
   stopVoice();
   if(!correct){
-    if(!p.retry.includes(qid)) p.retry.push(qid);
     const buzz = $('#retryBuzz');   // a low falling "bonk" and a short buzz on phones
     buzz.currentTime = 0; buzz.play().catch(() => {});
     if(navigator.userActivation?.hasBeenActive) try { navigator.vibrate?.(90); } catch(e){}
@@ -2589,7 +2586,6 @@ function finishRecord(){
     renderDock();
     return;
   }
-  p.retry = p.retry.filter(question => question !== qid);
   const chime = $('#correctChime');   // a short two-note chime for a question written down right
   chime.currentTime = 0; chime.play().catch(() => {});
   stampSound(340);

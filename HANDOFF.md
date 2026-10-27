@@ -334,7 +334,7 @@ node server.js            # http://localhost:5173/
 - `S.per[id]`(접근 함수 `per(id)`)
   - `phase`: `wait` → `choose` → `record` → … → `done`.
   - `order`: 물은 질문. `recording`: 지금 받아 적는 질문. `notes`: 빈칸 값. `marks`: `review` 오답(황토색 테두리) / `ok` 정답 / `hint` 힌트 입력.
-  - `checked`: 전체 확인됨 도장. `retry`: 재확인 중인 질문. `questionChecks`: 질문별 `ok`/`review`. `feedback`: 방금 확인돼 노트에 혼자 펼쳐 둔 질문 ID(노트를 닫으면 지움, `noteMode()`가 `'feedback'` → 머리줄 `닫기`).
+  - `checked`: 전체 확인됨 도장. `questionChecks`: 질문별 `ok`/`review`. `feedback`: 방금 확인돼 노트에 혼자 펼쳐 둔 질문 ID(노트를 닫으면 지움, `noteMode()`가 `'feedback'` → 머리줄 `닫기`).
   - `firstQuestions`: 질문별 첫 제출 결과. `first`/`firstWrong`: 복습용 합계와 최초 오답 입력.
 - 남은 힌트 수 `S.hints`는 사건 전체 공용이며 인물별 상태가 아니다.
 - 노트 표시 상태(모듈 변수): `noteRaised`(직접 열기·정답 확인 후 전체 높이), `freshCheck`/`missCheck`(한 번만 재생하는 확인 반응), `openPassages`/`openPassageKo`(지문·해석 펼침), `evidenceOpen`(증거 상세).
@@ -349,7 +349,7 @@ node server.js            # http://localhost:5173/
 | `evidenceNeed()`, `renderSceneHead()` | 심문 증거 찾은 수 / 필요한 수(`ENDING.confront`), 장소 이름표와 `#evCount` 칩 갱신(오를 때 톡) |
 | `nudgeTick`, `clearNudge()` | 장소 화면에서 `NUDGE_AFTER`(8초) 무입력이면 물어볼 게 남은 인물 위에 말풍선 느낌표, 입력 시 지움 |
 | `enterInterview(id, step)`, `leaveInterview()` | 지목한 인물·경찰관의 공통 조사실 배치·전환·조명, 임시 방문 해제 |
-| `availableQuestions(speaker)` | 물을 수 있는 질문. 다시 묻기 중이면 `retry` 질문만, 아니면 안 물은 질문(동료의 첫 질문 제한 포함) |
+| `availableQuestions(speaker)` | 물을 수 있는 질문: 안 물은 질문(동료의 첫 질문 제한 포함). 오답은 같은 노트에서 고치므로 다시 묻는 질문은 없다(틀린 채 목록으로 돌아간 예전 저장본만 `questionChecks`가 `review`인 질문을 다시 낸다) |
 | `ask(qid)` | 질문 → 음성 재생과 동시에 해당 인물 노트 열기(예약 대기 없음). 다시 묻기면 `order`에 중복으로 넣지 않는다 |
 | `finishRecord()` | 현재 질문 확인. 오답은 기록 상태 유지, 정답은 잠금·해금·지문 표시. 노트를 닫아야 발견 안내 또는 다음 질문으로 진행 |
 | `checkNotes(id)` | 모든 질문 확인 뒤 전체 기록 완료 상태만 저장(자동 펼침·재채점 없음) |
@@ -358,7 +358,7 @@ node server.js            # http://localhost:5173/
 | `writeState()`, `nowBlanks()` | 받아 적는 동안: 다음 빈칸 표시, 쓴 단어 카드 흐리기, 완료 버튼 흐림(`.wait`), 엔터 키 표시 |
 | `fitKeyboard()`, `stepBlank()`, `vkbType()` | 키보드 위 입력 모드(`.app.typing`, `--kb`, `#typeBar`; 컴퓨터는 `#noteVkb`), 앞뒤 빈칸 이동, 미리보기 키보드 입력 |
 | `renderDock()` | 노트 내용(지금 질문 또는 전체 페이지, 단어 카드, 도장), 노트 높이 클래스 |
-| `renderAsk()`, `renderChip()`, `renderHint()`, `useHint()` | NPC 아래 버튼(다시 물을 질문은 파란 번호), 상단 NPC 이름 칩, 노트 머리줄 힌트 버튼과 한 칸 채우기 |
+| `renderAsk()`, `renderChip()`, `renderHint()`, `useHint()` | NPC 아래 질문 버튼, 상단 NPC 이름 칩, 노트 머리줄 힌트 버튼과 한 칸 채우기 |
 | `renderStage()`, `focusCamera(fromRect, glide)`, `animateCamera()` | 공유 장면을 대화 뷰로 옮기고 노트 상태에 맞춘 구도로 카메라 이동 |
 | `unlock(u, quiet)` | 장소·인물 열기. 새로 열린 장소와 인물 ID 목록을 돌려준다 |
 | `revealDiscoveries()`, `presentDiscovery()`, `finishDiscovery(showMap)`, `afterMotion()` | 노트 전환 뒤 같은 현장 인물 초점 또는 지도 통합 안내. 안내 후 목표로 이동, 중단 시 원래 화면 복귀 |
