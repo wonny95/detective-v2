@@ -60,9 +60,10 @@ img{max-width:100%}
 .rv-tiles .tile b{font-family:var(--f-display);font-weight:400;font-size:21px;color:var(--ink)}
 .rv-tiles .tile b small{font-size:13px;color:var(--ink-soft)}
 .rv-tiles .tile.hot{border-color:#E6C46A;background:#FFF7DE}
-/* 다시 듣기, kept plain (user request): the question as a word-page row (▶, the question, 천천히), the note's line with
-   its blanks in a card of the same kind (no first answers: with four cards they would give the answer away); right or wrong shows on the blanks only */
-.rv-q .wword{font-size:16px}
+/* 다시 듣기, kept plain (user request): the question on its own line; under it, in a card like the word rows, the ▶ and
+   천천히 of the answer (user request: not beside the question, which they do not play) and the note's line with its blanks (no first answers: with four cards they would give the answer away); right or wrong shows on the blanks only */
+.rv-q{margin:0;font-family:var(--f-display);font-size:17px}
+.rv-play{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .rv-line{padding:14px 14px 12px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-line p{margin:0;font-size:16px;line-height:2.1}
 .rv-slot{display:inline-grid;place-items:center;min-width:66px;min-height:31px;margin:0 2px;padding:0 5px;border:0;border-radius:8px;background:rgba(125,106,88,.17);font:700 15px var(--f-body);color:#34506E}
@@ -114,7 +115,7 @@ function render(){
  }
  if(state.step===1){
   const ans=['8 PM','9:30 PM'],slot=k=>`<button class="rv-slot ${state.checked?'hit':state.error&&state.slots[k]&&state.slots[k]!==ans[k]?'miss':''}" type="button" data-slot="${k}" aria-label="${k?'끝':'시작'} 시각">${state.slots[k]||''}</button>`;
-  content=`<h2 class="rv-title">다시 들을 문장 <small style="font-size:14px;color:var(--ink-soft)">1 / 2</small></h2><div class="rv-word rv-q"><button class="play-btn" type="button" data-play="line" aria-label="다시 듣기"></button><span class="wword">Where were you?</span>${button('천천히','data-play="slow"','sm')}</div><div class="rv-line"><p>He played the guitar from ${slot(0)} to ${slot(1)}.</p></div>${state.checked?'':`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div>`}`;
+  content=`<h2 class="rv-title">다시 들을 문장 <small style="font-size:14px;color:var(--ink-soft)">1 / 2</small></h2><p class="rv-q">Where were you?</p><div class="rv-line"><div class="rv-play"><button class="play-btn" type="button" data-play="line" aria-label="대답 듣기"></button>${button('천천히','data-play="slow"','sm')}</div><p>He played the guitar from ${slot(0)} to ${slot(1)}.</p></div>${state.checked?'':`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div>`}`;
   foot=state.checked?button('다음','data-next','big'):button('확인','data-check','big');
  }
  if(state.step===2){content=`<h2 class="rv-title">이번 사건의 문법</h2><div class="word-list">${forms.map((form,i)=>`<div class="rv-word rv-gram"><button type="button" class="play-btn" data-play="form-${i}" aria-label="예문 듣기"></button><span><span class="wword">${form.head}<small>${form.name}</small></span><span class="gsent">${form.sentence}</span>${state.tr.has(i)?`<span class="wko">${form.ko}</span>`:''}</span>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
