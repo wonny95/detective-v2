@@ -23,9 +23,10 @@ img{max-width:100%}
 .rv-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .rv-head strong{font-family:var(--f-display);font-weight:400;font-size:19px}
 .rv-head small{font-family:var(--f-display);font-size:12px;color:var(--berry)}
-.rv-steps{display:flex;gap:6px;min-height:7px}
-.rv-steps i{flex:1;height:7px;border-radius:4px;background:var(--line)}
-.rv-steps i.on{background:#E0A526}
+/* which step: dots above the button, like the case key's pages (user decision), the step shown in honey */
+.rv-dots{flex:none;display:flex;justify-content:center;align-items:center;gap:9px;margin-bottom:-4px}
+.rv-dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,54,40,.22)}
+.rv-dots i.now{background:#E0A526;transform:scale(1.3)}
 .rv-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:3px 2px 8px;scrollbar-width:none}
 .rv-body.result-body{justify-content:center;padding-bottom:35px}
 .rv-body::-webkit-scrollbar{display:none}
@@ -139,7 +140,7 @@ function render(){
  }
  if(state.step===2){const form=forms[state.form];content=`<div class="rv-grammar"><h2 class="rv-title">이번 사건의 문법</h2><section class="ck-card"><small>이번 사건의 열쇠</small><h3>${form.head}</h3><p>${form.name}</p><p class="rv-sub">${form.pattern}</p></section><div class="ck-note"><img class="note-bg" src="${asset('casekey/note-yellow.webp')}" alt=""><span>${form.sentence}</span><button type="button" class="play-btn" data-play="grammar" aria-label="문장 듣기"></button>${button('해석','data-translate','sm')}${state.translate?`<span class="ko">${form.ko}</span>`:''}</div><div class="ck-dots" aria-label="표현 ${state.form+1} / 3">${forms.map((_,i)=>`<i class="${i===state.form?'now':''}"></i>`).join('')}</div><div class="grammar-arrows">${button('이전','data-form="-1"','sm')}${button('다음 표현','data-form="1"','sm')}</div></div>`;foot=button('단어 담기','data-next','big');}
  if(state.step===3){content=`<h2 class="rv-title">새 단어 <small style="font-size:14px;color:var(--ink-soft)">${state.kept.size} / ${words.length}</small></h2><p class="rv-sub">기억하고 싶은 단어를 수첩에 담아요.</p><div class="word-list">${words.map(([word,ko])=>`<div class="rv-word ${state.kept.has(word)?'kept':''}"><button type="button" class="play-btn" data-play-word="${word}" aria-label="${word} 발음 듣기"></button><span><span class="wword">${word}</span><span class="wko">${ko}</span></span>${button(state.kept.has(word)?'담음':'담기',`data-keep="${word}"`,'sm '+(state.kept.has(word)?'green':''))}</div>`).join('')}</div><p class="word-summary">${state.kept.size}개를 수첩에 담았어요.</p>`;foot=button('수첩 정리 완료','data-done','big');}
- document.getElementById('review').innerHTML=`<div class="rv-top"><div class="rv-head"><strong>복습 · ${steps[state.step]}</strong><small>Case 01</small></div><div class="rv-steps" aria-label="복습 ${state.step+1} / 4">${steps.map((_,i)=>`<i class="${i<=state.step?'on':''}"></i>`).join('')}</div></div><div class="rv-body ${state.step===0?'result-body':''}">${content}</div><div class="rv-foot">${foot}</div>`;
+ document.getElementById('review').innerHTML=`<div class="rv-top"><div class="rv-head"><strong>복습 · ${steps[state.step]}</strong><small>Case 01</small></div></div><div class="rv-body ${state.step===0?'result-body':''}">${content}</div><div class="rv-dots" aria-label="복습 ${state.step+1} / 4">${steps.map((_,i)=>`<i class="${i===state.step?'now':''}"></i>`).join('')}</div><div class="rv-foot">${foot}</div>`;
 }
 document.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b)return;
