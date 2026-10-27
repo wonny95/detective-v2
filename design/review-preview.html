@@ -55,6 +55,9 @@ img{max-width:100%}
 .rv-stars img{width:49px;height:auto}
 /* under the stars, three tiles of the same size, no sentences (user decision: B): blanks right at the first check, lines to
    hear again (honey: the next thing to do; ✓ 모두 맞힘 when there are none), new words */
+.rv-story{padding:12px 14px 10px;background:#FFFDF7 repeating-linear-gradient(to bottom,transparent 0 23px,rgba(125,106,88,.16) 23px 24px) 0 9px;border:2px solid var(--line);border-radius:12px;font-size:14px;line-height:24px}
+.rv-story h3{margin:0 0 2px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--berry)}
+.rv-story p{margin:0}
 .rv-tiles{display:flex;flex-direction:column;gap:7px}
 .rv-tiles .tile{display:flex;align-items:center;gap:10px;padding:9px 14px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;font-family:var(--f-display);font-size:15px}
 .rv-tiles .tile b{margin-left:auto;font-weight:400;font-size:19px}
@@ -111,7 +114,7 @@ function render(){
  document.querySelectorAll('[data-jump]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.jump)===state.step));
  let content='',foot='';
  if(state.step===0){
-  content=`<div class="rv-file"><div class="rv-photo mug"><img class="who" src="../assets/characters/fiona-sad.png" alt="피오나 폭스"><span class="plate"><b>FIONA FOX</b>ACORN HOLLOW · 01</span></div><img class="stamp" src="${asset('complete-stamp.png')}" alt="COMPLETE"><small>Case 01</small><b>도서관 살인사건</b></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><div class="rv-tiles"><div class="tile">처음에 맞힌 빈칸<b>26<small> / 30</small></b></div><div class="tile hot">다시 들을 문장<b>2</b></div><div class="tile">사건에 나온 단어<b>4</b></div></div>`;
+  content=`<div class="rv-file"><div class="rv-photo mug"><img class="who" src="../assets/characters/fiona-sad.png" alt="피오나 폭스"><span class="plate"><b>FIONA FOX</b>ACORN HOLLOW · 01</span></div><img class="stamp" src="${asset('complete-stamp.png')}" alt="COMPLETE"><small>Case 01</small><b>도서관 살인사건</b></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><div class="rv-story"><h3>사건 요약</h3><p>후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 교수가 자기 파이에 대해 쓴 글 때문에 말다툼하다가, 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.</p></div><div class="rv-tiles"><div class="tile">처음에 맞힌 빈칸<b>26<small> / 30</small></b></div><div class="tile hot">다시 들을 문장<b>2</b></div><div class="tile">사건에 나온 단어<b>4</b></div></div>`;
   foot=button('다음','data-next','big');
  }
  if(state.step===1){
