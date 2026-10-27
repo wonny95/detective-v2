@@ -380,6 +380,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-dots{flex:none;display:flex;justify-content:center;align-items:center;gap:9px;margin-bottom:-4px}
 .rv-dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,54,40,.22);transition:background .2s,transform .2s}
 .rv-dots i.now{background:#E0A526;transform:scale(1.3)}
+/* turning a page (user request, recommended A): the page slides out one way and the next slides in from the other (back:
+   the other way round), the dot pops; the dots and the button stay */
+.rv-enter{animation:rv-enter .28s cubic-bezier(.2,.7,.3,1) .1s both}
+.rv-leave{position:absolute;margin:0;pointer-events:none;animation:rv-leave .16s ease-in both}
+.rv-dots.turn i.now{animation:rv-dot .3s ease-out}
+@keyframes rv-enter{from{opacity:0;transform:translateX(calc(var(--dir) * 48px))}}
+@keyframes rv-leave{to{opacity:0;transform:translateX(calc(var(--dir) * -48px))}}
+@keyframes rv-dot{from{transform:scale(.6)}60%{transform:scale(1.6)}}
+@media(prefers-reduced-motion:reduce){.rv-enter,.rv-dots.turn i.now{animation:none}.rv-leave{display:none}}
 .rv-close{position:absolute;top:12px;right:12px;z-index:3}
 .rv-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:2px 2px 8px;scrollbar-width:none}
 .rv-body::-webkit-scrollbar{display:none}
@@ -3842,7 +3851,8 @@ function openReview(fromHome){
 function caseGrammar(){
   return Object.keys(GRAMMAR).map(g => [g, grammarUses(g)]).filter(([, uses]) => uses.length).sort((a, b) => b[1].length - a[1].length);
 }
-function renderReview(){
+// dir: 1 a page (or a sentence) on, -1 a page back; the page then slides (left on, right back)
+function renderReview(dir){
   const step = rv.steps[rv.step], st = rv.stat;
   let body = '', foot = '';
   if(step === 'result'){
@@ -3911,10 +3921,27 @@ function renderReview(){
       }).join('');
     foot = `<button class="pill big" type="button" data-rv-done>완료</button>`;
   }
-  $('#reviewCard').innerHTML = (rv.fromHome ? `<button class="close-button rv-close" type="button" data-rv-close aria-label="복습 닫기"></button>` : '') +
+  const card = $('#reviewCard'), old = dir && card.querySelector('.rv-body');
+  // the page going: a copy left where it was, sliding out over the new one
+  let leave;
+  if(old){
+    const r = old.getBoundingClientRect(), c = card.getBoundingClientRect(), top = old.scrollTop;
+    leave = old.cloneNode(true); leave.classList.remove('rv-enter'); leave.classList.add('rv-leave');
+    Object.assign(leave.style, { top:`${r.top - c.top}px`, left:`${r.left - c.left}px`, width:`${r.width}px`, height:`${r.height}px` });
+    leave.style.setProperty('--dir', dir);
+    leave.addEventListener('animationend', () => leave.remove());
+    requestAnimationFrame(() => { leave.scrollTop = top; });
+  }
+  card.innerHTML = (rv.fromHome ? `<button class="close-button rv-close" type="button" data-rv-close aria-label="복습 닫기"></button>` : '') +
     `<div class="rv-body${step === 'result' ? ' mid' : step === 'words' ? ' words' : ''}">${body}</div>
-    <div class="rv-dots" aria-label="복습 ${rv.step + 1} / ${rv.steps.length}">${rv.steps.map((x, i) => `<i${i === rv.step ? ' class="now"' : ''}></i>`).join('')}</div>
+    <div class="rv-dots${dir ? ' turn' : ''}" aria-label="복습 ${rv.step + 1} / ${rv.steps.length}">${rv.steps.map((x, i) => `<i${i === rv.step ? ' class="now"' : ''}></i>`).join('')}</div>
     <div class="rv-foot">${foot}</div>`;
+  if(dir){
+    const body = card.querySelector('.rv-body');
+    body.style.setProperty('--dir', dir); body.classList.add('rv-enter');
+    body.addEventListener('animationend', e => { if(e.target === body) body.classList.remove('rv-enter'); });
+    if(leave) card.append(leave);
+  }
 }
 // The case's photo on the review's file (CASES[].photo): { who, img, cx } the culprit's mugshot, { place, clue } a thing found.
 function reviewPhoto(c){
@@ -3938,7 +3965,7 @@ function reviewGrammar(){
 }
 function reviewNext(){
   stopVoice();
-  if(rv.step < rv.steps.length - 1){ rv.step++; renderReview(); }
+  if(rv.step < rv.steps.length - 1){ rv.step++; renderReview(1); }
 }
 // Words the player keeps join the word book; the case's words left out are taken out of it.
 function closeReview(){
@@ -3961,11 +3988,11 @@ $('#review').addEventListener('click', e => {
   if(e.target.closest('[data-rv-back]')){
     stopVoice(); rv.step--;
     if(rv.steps[rv.step] === 'missed'){ rv.card = rv.missed.length - 1; rv.filled = {}; rv.solved = false; }
-    return renderReview();
+    return renderReview(-1);
   }
   if(e.target.closest('[data-rv-card]')){
     stopVoice(); rv.filled = {}; rv.solved = false;
-    if(rv.card < rv.missed.length - 1){ rv.card++; renderReview(); } else reviewNext();
+    if(rv.card < rv.missed.length - 1){ rv.card++; renderReview(1); } else reviewNext();
     return;
   }
   if(e.target.closest('[data-rv-close], [data-rv-done]')) return closeReview();
