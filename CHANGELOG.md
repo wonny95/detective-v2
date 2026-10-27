@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-27 15:15 · Claude · (이 커밋)
+## 2026-10-27 16:10 · Claude · (이 커밋)
+
+- 사용자 요청: 노트 인덱스 탭을 노트 종이와 같은 색·같은 연필선으로 → Higgsfield로 종이 테두리 선을 참조해 탭을 새로 그림(시안 A·B 두 장, 약 3크레딧), 사용자 선택 A. `assets/ui/tab-1…3.png` 교체(`scripts/cut-note-tabs.py`). 탭 그림 안쪽을 흰색으로 만들어, 연 탭이 노트 종이와 같은 `#FCFAED`가 됨(예전에는 크림 그림 위에 크림을 곱해 살짝 노랬음). 닫힌 탭은 지금처럼 크라프트.
+- 사용자 요청: 연 탭의 양옆 선이 노트 종이 안으로 튀어나오지 않게 → 선을 종이 테두리 선 높이에서 끊음(`.dock`에 `container-type:inline-size`, 연 탭 `.face::before` 아래 `2.2cqw` 가림).
+- 확인: 헤드리스 Chrome 390×844 3배로 인물·증거 탭을 열어 선이 종이 테두리에서 끝나는 것, 연 탭과 종이 색이 같은 것 확인. 새 탭 콘솔 오류 없음, 구문 검사 통과.
+- 못 한 것: 고르지 않은 B 원본(`assets/ui/tabs-pencil-b-higgsfield-original.png`), 시안 `design/note-tabs.html`, 후보 `assets/ui/tabs-cand/`, 예전 탭 원본 `assets/ui/tabs-higgsfield-original.png`, 손가락 후보(`assets/ui/pointer/`, 원본 시트 5장, `scripts/cut-pointer-hands.py`) 지우기가 승인 대기로 실행되지 않음(커밋하지 않음).
+- **다음**: 사용자 승인 후 위 파일 지우기. 그 뒤 사용자 지시 대기
+
+## 2026-10-27 15:15 · Claude · 74dc015
 
 - 사용자 결정: 질문을 고르고 받아 적는 동안에는 받아 적기만 → 그 질문을 바르게 확인할 때까지 노트가 열린 채 고정(`recordLocked()`). 노트 뒤 장면·빈 여백·`Note` 버튼으로 닫히지 않고, 노트 위 `인물 · 증거 · 메모` 탭은 숨김. `<`는 노트를 연 채로 대화 중단 창을 띄우고, 중단하면 장소로 나감. 다시 말을 걸면 노트가 그 질문으로 바로 열림. 질문 아래 `노트에 기록하기` 버튼은 지움.
 - 튜토리얼 손가락은 시안(`design/tutorial-motion.html`, 커밋 안 함)에서만 오른손 2(`assets/ui/tutorial-paw.png`)로 정함. 게임에는 아직 안 넣음(사용자 결정). 시안·손가락 그림·원본 시트는 커밋하지 않음.

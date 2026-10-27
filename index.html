@@ -237,7 +237,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
    at the top, paper clip top right) is scaled to the panel width, so the padding and the header height
    are % of the width (padding % always refers to width): sheet top 7.9%, header strip 13.6%, sheet
    from 6.5% to 93.8%. */
-.dock{position:absolute;left:6px;right:6px;bottom:-4px;height:60%;z-index:11;display:flex;flex-direction:column;box-sizing:border-box;padding:7.9% 9% 0 9.5%;transform:translateY(calc(100% + 48px));transition:transform .55s cubic-bezier(.2,.9,.3,1.05),height .5s cubic-bezier(.3,.9,.3,1)}
+.dock{position:absolute;left:6px;right:6px;bottom:-4px;height:60%;z-index:11;container-type:inline-size;display:flex;flex-direction:column;box-sizing:border-box;padding:7.9% 9% 0 9.5%;transform:translateY(calc(100% + 48px));transition:transform .55s cubic-bezier(.2,.9,.3,1.05),height .5s cubic-bezier(.3,.9,.3,1)}
 /* the picture is a ::before layer so the index tabs (z-index -1) can sit behind it and peek over the folder */
 .dock::before{content:"";position:absolute;inset:0;z-index:0;background:url(assets/ui/casefile-panel.webp) top center/100% auto no-repeat;pointer-events:none}
 .dock-head,.dock-body{position:relative;z-index:1}
@@ -286,10 +286,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ncat .stamp{position:relative;display:grid;place-items:center;color:#7A5C47;opacity:.62;filter:url(#inky);mix-blend-mode:multiply;transition:opacity .2s,transform .25s cubic-bezier(.3,1.6,.5,1)}
 .ncat .stamp svg{display:block;width:24px;height:24px}
 .ncat[aria-pressed="true"]{z-index:1;height:52px;filter:none}
-.ncat[aria-pressed="true"] .face{padding-bottom:7px;background:#FDFAEE;
+.ncat[aria-pressed="true"] .face{padding-bottom:7px;background:#FCFAED;
   -webkit-mask:var(--tab) top/100% 112% no-repeat,linear-gradient(#000 calc(100% - 5px),transparent);-webkit-mask-composite:source-in;
   mask:var(--tab) top/100% 112% no-repeat,linear-gradient(#000 calc(100% - 5px),transparent);mask-composite:intersect}
-.ncat[aria-pressed="true"] .face::before{background-position:top;background-size:100% 112%}
+.ncat[aria-pressed="true"] .face::before{background-position:top;background-size:100% 112%;
+  -webkit-mask:linear-gradient(#000 calc(100% - 2.2cqw),transparent 0);mask:linear-gradient(#000 calc(100% - 2.2cqw),transparent 0)}
 .ncat[aria-pressed="true"] .stamp{color:#34506E;opacity:.92;transform:rotate(-6deg)}
 .note-edge{position:absolute;left:0;right:0;top:0;margin-top:5.4945%;aspect-ratio:728 / 44;background:url(assets/ui/casefile-paper-edge.png) 0 0/100% 100% no-repeat;
   filter:drop-shadow(0 -.5px .8px rgba(40,28,18,.22));pointer-events:none}
