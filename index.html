@@ -117,6 +117,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @media(prefers-reduced-motion:reduce){.app.interview-arriving .scene::after{animation:none;opacity:0;pointer-events:none}}
 /* a photo held up to the suspect */
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
+/* a wrong accusation: the person's board photo, crossed out while Badger confirms the alibi; then they leave */
+.clear-card{position:absolute;right:7%;top:38%;z-index:7;pointer-events:none}
+.clear-card .ded-sus{transform:scale(1.25) rotate(6deg);animation:clear-in .45s cubic-bezier(.3,1.5,.5,1) both}
+.clear-card .ded-sus::after{animation:clear-x .35s ease-out .35s both}
+@keyframes clear-in{from{opacity:0;transform:scale(.6) rotate(-6deg)}}
+@keyframes clear-x{from{opacity:0;transform:scale(1.6)}}
+.scene-npc.leaving{transition:opacity .6s ease-in,translate .6s ease-in;opacity:0;translate:18% 0}
+@media(prefers-reduced-motion:reduce){.clear-card .ded-sus,.clear-card .ded-sus::after{animation:none}.scene-npc.leaving{transition:none}}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
 .presented svg{display:block;width:100%;height:100%}
 @keyframes present-in{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}80%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(-12px) rotate(-3deg)}}
@@ -1799,14 +1807,17 @@ const PLACES = [
       { label:'Footprints', en:'Small rabbit footprints are all around the telescope.', ko:'망원경 주변에 작은 토끼 발자국이 가득하다.', audio:'audio/detective-hill-footprints.mp3' },
       { label:'Telescope', prop:true, en:'The telescope points up at the sky.', ko:'망원경이 하늘을 향해 있다.', audio:'audio/detective-hill-telescope.mp3' },
       { label:'Shooting star', prop:true, en:'A shooting star flies over the hill.', ko:'별똥별이 언덕 위로 지나간다.', audio:'audio/detective-hill-star.mp3' },
-      { label:'Flowers', prop:true, en:'Little white flowers in the grass.', ko:'풀밭에 작은 흰 꽃들이 피어 있다.', audio:'audio/detective-hill-flowers.mp3' }
+      { label:'Flowers', prop:true, en:'Little white flowers in the grass.', ko:'풀밭에 작은 흰 꽃들이 피어 있다.', audio:'audio/detective-hill-flowers.mp3' },
+      // a record with a time no one could write by hand (user pick D: the notebook alone was only the rabbit's own word)
+      { label:'Instant camera', en:'An instant camera on the bench. Its last photo is a shooting star, and the camera printed the time: 8:45 PM.', ko:'벤치 위 즉석카메라. 마지막 사진은 별똥별이고, 카메라가 찍힌 시각을 인쇄했다: 오후 8시 45분.' }
     ],
     spots:[
-      { clue:0, x:79.5, y:58, w:10, h:13, photo:{x:1080,y:440,w:160,h:120} },
+      { clue:0, x:81.5, y:59, w:8, h:11, photo:{x:1080,y:440,w:160,h:120} },
       { clue:1, x:19.6, y:60.5, w:21.8, h:19.5, photo:{x:280,y:435,w:280,h:210} },
       { clue:2, x:22, y:30, w:14.5, h:18, photo:{x:290,y:210,w:240,h:180} },
       { clue:3, x:41.5, y:3, w:15, h:21, photo:{x:540,y:40,w:240,h:180} },
-      { clue:4, x:18, y:84, w:7, h:8, photo:{x:220,y:620,w:160,h:120} }
+      { clue:4, x:18, y:84, w:7, h:8, photo:{x:220,y:620,w:160,h:120} },
+      { clue:5, x:74.2, y:49, w:7.2, h:15, photo:{x:982,y:362,w:200,h:150} }
     ]}
 ];
 // A dialogue-only setting: it has no map pin, unlock condition, hotspots or collectible evidence.
@@ -3464,8 +3475,22 @@ const ENDING = {
   ],
   closing:{ who:'badger', key:'closing', en:"Fiona told us everything. Good work, detective. Case closed.", ko:'피오나가 모두 털어놓았어요. 수고했어요, 탐정님. 사건 종결이에요.' }
 };
-// a wrong accusation: that person answers with the alibi they already gave
-const REBUTTAL = { mole:'m1', ray:'q2', rosie:'q2' };
+// A wrong accusation, told as a scene (user pick A): the person protests, Sgt. Badger rules them out by the evidence (the
+// orange fur on the library door, user pick: an alibi of their own word was weak; their photo is crossed out as on the board), they are let go and leave the room, and Badger asks again with the suspects left.
+const WRONG = {
+  ray:[
+    { who:'ray', key:'wrong1', en:"Me? I was on the cafe stage all night!", ko:'저요? 저는 밤새 카페 무대에 있었어요!' },
+    { who:'badger', key:'clear-ray', en:"Look at the fur on the library door. It's orange, but Ray's fur is grey.", ko:'도서관 문에 걸린 털을 보세요. 주황색인데, 레이의 털은 회색이에요.', cross:true },
+    { who:'ray', key:'wrong2', en:"Can I go now? I have a song to finish.", ko:'이제 가도 되죠? 마저 끝내야 할 노래가 있거든요.', leave:true }
+  ],
+  rosie:[
+    { who:'rosie', key:'wrong1', en:"Me? I was on Moon Hill with my telescope!", ko:'저요? 저는 망원경을 들고 달 언덕에 있었어요!' },
+    { who:'badger', key:'clear-rosie', en:"Look at the fur on the library door. It's orange, but Rosie's fur is white.", ko:'도서관 문에 걸린 털을 보세요. 주황색인데, 로지의 털은 하얀색이에요.', cross:true },
+    { who:'rosie', key:'wrong2', en:"Can I go back to the hill? The stars are still out.", ko:'언덕으로 돌아가도 될까요? 아직 별이 떠 있거든요.', leave:true }
+  ],
+  again:id => ({ who:'badger', key:`again-${id}`, en:`So it wasn't ${spk(id).name.split(' ')[0]}. Then who was it, detective?`, ko:`${spk(id).ko}는 아니었네요. 그럼 누구였을까요, 탐정님?` }),
+  bring:id => ({ who:'badger', key:`bring-${id}`, en:`${spk(id).name}? I'll bring ${id === 'ray' ? 'him' : 'her'} in.`, ko:`${spk(id).ko}요? 데려올게요.` })
+};
 const fionaLine = l => ({ who:'fiona', key:l.key, en:l.en ?? spk('fiona').answers[l.key], ko:l.ko ?? ANSWERS_KO.fiona[l.key] });
 // her face: composed for the first two claims, cornered once the bakery story falls apart, sorry when she confesses
 const confrontMood = round => round >= 2 ? 'nervous' : null;
@@ -3602,16 +3627,14 @@ function endingControls(){
   const e = ending;
   if(!e.line || e.step === 'stamp') return '';
   if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>'
-    : `<div class="call-pick">${DEDUCE.suspects.map(([id, name]) => `<button class="pill" type="button" data-end="pick" data-who="${id}"><img src="assets/ui/icons-v2/${id}.png" alt="">${esc(name)}</button>`).join('')}</div>`;
+    : `<div class="call-pick">${DEDUCE.suspects.filter(([id]) => !e.cleared?.includes(id)).map(([id, name]) => `<button class="pill" type="button" data-end="pick" data-who="${id}"><img src="assets/ui/icons-v2/${id}.png" alt="">${esc(name)}</button>`).join('')}</div>`;
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
   if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
-  if(e.step === 'wrong') return tools + `<button class="pill big" type="button" data-end="leave">다시 조사하기</button>`;
   return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
 }
 function endingAction(action, who){
   const e = ending; if(!e) return;
   if(action === 'present'){ stopVoice(); openDrawer(); return; }
-  if(action === 'leave') return leaveEnding();
   if(action === 'next') endingNext();
   if(action === 'pick') callAnswer(who);
   if(action === 'interview') callGo();
@@ -3670,13 +3693,13 @@ function startCall(){
   endingSay(CALL.ask);
 }
 function callAnswer(id){
-  if(ending?.step !== 'call' || ending.i || !DEDUCE.suspects.some(([s]) => s === id)) return;
+  if(ending?.step !== 'call' || ending.i || ending.cleared?.includes(id) || !DEDUCE.suspects.some(([s]) => s === id)) return;
   clearTimeout(endTimer);
   ending.pick = id; ending.line = null; renderAsk();
   const name = detectiveName(), line = CALL.answer(id);
   renderSay({ ...line, name:name ? `Detective ${name}` : 'Detective' });
   // 심문 시작 takes the place of the names: a quick second tap on the same spot must not press it
-  const go = () => { if(ending?.step === 'call'){ ending.i = 1; ending.ready = performance.now() + 600; endingSay(CALL.go(id)); } };
+  const go = () => { if(ending?.step === 'call'){ ending.i = 1; ending.ready = performance.now() + 600; endingSay(ending.cleared ? WRONG.bring(id) : CALL.go(id)); } };
   detectiveSay(line.key, () => { endTimer = setTimeout(go, 500); });
 }
 function callGo(){
@@ -3690,9 +3713,20 @@ function startEnding(){
   endingSay(fionaLine(ENDING.confront[0]), null);
 }
 function wrongAccusation(id){
+  const cleared = ending?.cleared || [];
   enterInterview(id, 'wrong');
-  const key = REBUTTAL[id] || 'q2';
-  endingSay({ who:id, key, en:spk(id).answers[key], ko:ANSWERS_KO[id]?.[key] || '' });
+  Object.assign(ending, { who:id, i:0, cleared });
+  wrongLine(WRONG[id][0]);
+}
+// one line of the scene; with Badger's check the person's photo comes up crossed out, as on the deduction board
+function wrongLine(line){
+  $('.scene .clear-card')?.remove();
+  endingSay(line);
+  if(!line.cross) return;
+  const card = document.createElement('div');
+  card.className = 'clear-card';
+  card.innerHTML = `<span class="ded-sus out"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${ending.who}.png)"></i>${esc(spk(ending.who).name.split(' ')[0])}</span></span>`;
+  $('.scene').appendChild(card);
 }
 function requestLeaveInterrogation(){
   if(ending?.step !== 'confront' || !ending.line || $('.presented')) return;
@@ -3777,6 +3811,23 @@ function present(ref){
 function endingNext(){
   const e = ending;
   clearTimeout(endTimer); stopVoice();
+  if(e.step === 'wrong'){
+    const lines = WRONG[e.who];
+    if(lines[e.i].leave){
+      // let go: they slip out of the room, then Badger turns to the detective with the suspects left
+      $('.scene .clear-card')?.remove();
+      $(`#talkCamera .scene-npc[data-talk="${e.who}"]`)?.classList.add('leaving');
+      renderSay(null); e.line = null; renderAsk();
+      e.cleared.push(e.who);
+      endTimer = setTimeout(() => {
+        delete S.visit[e.who];
+        Object.assign(e, { step:'call', i:0, pick:null });
+        endingSay(WRONG.again(e.who));
+      }, 700);
+      return;
+    }
+    return wrongLine(lines[++e.i]);
+  }
   if(e.step === 'confession'){
     if(++e.i < ENDING.confession.length) return endingSay(fionaLine(ENDING.confession[e.i]));
     e.step = 'closing'; return endingSay(ENDING.closing);

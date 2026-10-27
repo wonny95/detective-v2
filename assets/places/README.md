@@ -26,6 +26,7 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - `bakery-higgsfield.png`: 사용자 제작, Higgsfield / Nano Banana.
 - `cafe-higgsfield.png`, `hill-higgsfield.png`: Claude Code 제작, Nano Banana 2.1 · 16:9 · 1K · thinking high. 빵집 그림을 스타일 참고 이미지로 사용했다.
 - 출처와 적용 좌표는 2026-10-15 `CLAUDE_REQUEST.md`의 인계 내용에 따른다.
+- 2026-10-27 언덕 벤치에 즉석카메라 추가(사용자 결정, 증거 `hill-5`): 지금 그림을 참조로 Nano Banana 2.1(16:9, 1K, thinking high, 1장 약 1.5크레딧)로 카메라만 그려 넣게 한 판(job `21f906f2-cb54-48ee-985d-ccaec6058da5`, `hill-camera-higgsfield-original.png`)에서 카메라 부분(x 1016–1150, y 370–502, 가장자리 4px 흐림)만 원래 그림에 옮겨 붙였다. 나머지 화면·바닥 확장은 그대로다.
 - 원본은 그대로 보관하고 빵집 안내판의 `CLOSED / at 7 PM`, 카페 포스터의 공연 정보는 앱의 SVG 레이어로 표시한다.
 - 새 그림에 맞춘 핫스팟은 비율 좌표, 증거 촬영 영역은 원본 픽셀 좌표(4:3)로 `PLACES`에 지정한다.
 
