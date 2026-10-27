@@ -412,7 +412,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-tiles b{margin-left:auto;font-family:var(--f-display);font-weight:400;font-size:19px;color:var(--ink)}
 .rv-tiles b small{font-size:13px;color:var(--ink-soft)}
 .rv-tiles .hot{border-color:#E6C46A;background:#FFF7DE}
-.rv-tiles .all b{color:var(--ok)}
 /* the line to hear again, kept plain (user request): the question on its own line, then one card with the answer's ▶ and
    천천히 on the right and the note's line(s) with the blanks; no speaker, no first answers, no sentences */
 .rv-q{margin:0;font-family:var(--f-display);font-size:17px}
@@ -482,13 +481,16 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-word .wsay{display:block;font-size:12px;color:var(--ink-soft)}
 .rv-word .wko{display:block;margin-top:3px;font-size:13px;color:var(--berry)}
 .rv-word .keep[aria-pressed="true"]{--btn:url(assets/ui/buttons/sage-flat.png)}
+/* the case's grammar in the same rows (user request), with more room around and inside them (user request) */
+.rv-grams{display:flex;flex-direction:column;gap:12px;margin-top:4px}
 /* the case's grammar in the same rows (user request): the form and its short name, a line from the case with the form
    marked, ▶ (that sentence) and 해석 (its Korean, in the row) on the right beside each other */
-.rv-gram{align-items:start}
+.rv-gram{align-items:start;column-gap:10px;padding:14px 14px 15px 16px}
 .rv-gram .play-btn,.rv-gram .pill{margin-top:2px}
 /* the form's meaning on its own line under the form (user request) */
 .rv-gram .wword small{display:block;margin-top:2px;font-family:var(--f-body);font-weight:400;font-size:13px;color:var(--ink-soft)}
-.rv-gram .gsent{display:block;margin-top:4px;font-size:15px;line-height:1.45}
+.rv-gram .gsent{display:block;margin-top:8px;font-size:15px;line-height:1.5}
+.rv-gram .wko{margin-top:6px}
 .rv-gram mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
@@ -3837,9 +3839,9 @@ function renderReview(){
     body = `<div class="rv-file">${reviewPhoto(CASES[0])}<img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b></div>
       <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div>
       <div class="rv-tiles">
-        <div>받아 적기<b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b></div>
-        ${rv.missed.length ? `<div class="hot">다시 들을 문장<b>${rv.missed.length}</b></div>` : `<div class="all">모두 맞힘<b>✓</b></div>`}
-        <div>새 단어<b>${rv.words.length}</b></div>
+        <div>처음에 맞힌 빈칸<b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b></div>
+        <div${rv.missed.length ? ' class="hot"' : ''}>다시 들을 문장<b>${rv.missed.length || '없음'}</b></div>
+        <div>사건에 나온 단어<b>${rv.words.length}</b></div>
       </div>`;
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
   }
@@ -3867,7 +3869,7 @@ function renderReview(){
     foot = rv.solved ? `<button class="pill big" type="button" data-rv-card>다음</button>` : `<button class="pill big" type="button" data-rv-check>확인</button>`;
   }
   if(step === 'grammar'){
-    body = `<h2 class="rv-title">이번 사건의 문법</h2>` + reviewGrammar().map(({ head, name, use }) => {
+    body = `<h2 class="rv-title">이번 사건의 문법</h2><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
       if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span></div>`;
       const sents = sentencesOf(spk(use.id).answers[use.qid]), idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
       const sent = sents[idx], at = sent.indexOf(use.words), kos = sentencesOf(ANSWERS_KO[use.id]?.[use.qid] || '');
@@ -3877,7 +3879,7 @@ function renderReview(){
       return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${shown}</span><span class="wko" hidden>${esc(ko)}</span></span>
         <button class="play-btn" type="button" data-rv-sent="${use.id}:${use.qid}" data-sent="${idx}" aria-label="문장 듣기"></button>
         <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>`;
-    }).join('');
+    }).join('') + '</div>';
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
   }
   if(step === 'words'){

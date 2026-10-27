@@ -79,9 +79,10 @@ img{max-width:100%}
 /* ▶ sits on the right, beside the row's own button (user request), as on the case key's notes */
 /* the case's grammar: one word-page row per form (user request: the same clean rows as 새 단어), the form with its short
    name, the line from the case under it, ▶ plays that line, 해석 opens its Korean in the row */
-.rv-gram{align-items:start}.rv-gram .play-btn,.rv-gram .pill{margin-top:2px}
+.rv-gram{align-items:start;column-gap:10px;padding:14px 14px 15px 16px}.rv-gram .play-btn,.rv-gram .pill{margin-top:2px}
 .rv-gram .wword small{display:block;margin-top:2px;font-family:var(--f-body);font-size:13px;color:var(--ink-soft)}
-.rv-gram .gsent{display:block;margin-top:4px;font-size:14px;line-height:1.45}
+.rv-gram .gsent{display:block;margin-top:8px;font-size:15px;line-height:1.5}
+.rv-gram .wko{margin-top:6px}
 .word-list{display:flex;flex-direction:column;gap:8px}
 @media(min-width:520px){.app{border-radius:38px 42px 36px 44px/44px 36px 42px 38px}}
 @media(max-width:390px){.rv-photo{height:130px}.review{gap:12px}.rv-body{gap:12px}}
@@ -110,7 +111,7 @@ function render(){
  document.querySelectorAll('[data-jump]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.jump)===state.step));
  let content='',foot='';
  if(state.step===0){
-  content=`<div class="rv-file"><div class="rv-photo mug"><img class="who" src="../assets/characters/fiona-sad.png" alt="피오나 폭스"><span class="plate"><b>FIONA FOX</b>ACORN HOLLOW · 01</span></div><img class="stamp" src="${asset('complete-stamp.png')}" alt="COMPLETE"><small>Case 01</small><b>도서관 살인사건</b></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><div class="rv-tiles"><div class="tile">받아 적기<b>26<small> / 30</small></b></div><div class="tile hot">다시 들을 문장<b>2</b></div><div class="tile">새 단어<b>4</b></div></div>`;
+  content=`<div class="rv-file"><div class="rv-photo mug"><img class="who" src="../assets/characters/fiona-sad.png" alt="피오나 폭스"><span class="plate"><b>FIONA FOX</b>ACORN HOLLOW · 01</span></div><img class="stamp" src="${asset('complete-stamp.png')}" alt="COMPLETE"><small>Case 01</small><b>도서관 살인사건</b></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><div class="rv-tiles"><div class="tile">처음에 맞힌 빈칸<b>26<small> / 30</small></b></div><div class="tile hot">다시 들을 문장<b>2</b></div><div class="tile">사건에 나온 단어<b>4</b></div></div>`;
   foot=button('다음','data-next','big');
  }
  if(state.step===1){
@@ -118,7 +119,7 @@ function render(){
   content=`<h2 class="rv-title">다시 들을 문장 <small style="font-size:14px;color:var(--ink-soft)">1 / 2</small></h2><p class="rv-q">Where were you?</p><div class="rv-line"><div class="rv-play"><button class="play-btn" type="button" data-play="line" aria-label="대답 듣기"></button>${button('천천히','data-play="slow"','sm')}</div><p>He played the guitar from ${slot(0)} to ${slot(1)}.</p></div>${state.checked?'':`<div class="rv-bank">${['8 PM','9:30 PM','7 PM','10 PM'].map(w=>`<button type="button" class="word" data-word="${w}">${w}</button>`).join('')}</div>`}`;
   foot=state.checked?button('다음','data-next','big'):button('확인','data-check','big');
  }
- if(state.step===2){content=`<h2 class="rv-title">이번 사건의 문법</h2><div class="word-list">${forms.map((form,i)=>`<div class="rv-word rv-gram"><span><span class="wword">${form.head}<small>${form.name}</small></span><span class="gsent">${form.sentence}</span>${state.tr.has(i)?`<span class="wko">${form.ko}</span>`:''}</span><button type="button" class="play-btn" data-play="form-${i}" aria-label="예문 듣기"></button>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
+ if(state.step===2){content=`<h2 class="rv-title">이번 사건의 문법</h2><div class="word-list" style="gap:12px;margin-top:4px">${forms.map((form,i)=>`<div class="rv-word rv-gram"><span><span class="wword">${form.head}<small>${form.name}</small></span><span class="gsent">${form.sentence}</span>${state.tr.has(i)?`<span class="wko">${form.ko}</span>`:''}</span><button type="button" class="play-btn" data-play="form-${i}" aria-label="예문 듣기"></button>${button('해석',`data-translate="${i}" aria-pressed="${state.tr.has(i)}"`,'sm')}</div>`).join('')}</div>`;foot=button('다음','data-next','big');}
  if(state.step===3){content=`<h2 class="rv-title">사건에 나온 단어 <small style="font-size:14px;color:var(--ink-soft)">${state.kept.size} / ${words.length}</small></h2><div class="word-list">${words.map(([word,ko])=>`<div class="rv-word ${state.kept.has(word)?'kept':''}"><span><span class="wword">${word}</span><span class="wko">${ko}</span></span><button type="button" class="play-btn" data-play-word="${word}" aria-label="${word} 발음 듣기"></button>${button(state.kept.has(word)?'담음':'담기',`data-keep="${word}"`,'sm '+(state.kept.has(word)?'green':''))}</div>`).join('')}</div>`;foot=button('완료','data-done','big');}
  document.getElementById('review').innerHTML=`<div class="rv-body ${state.step===0?'result-body':''}">${content}</div><div class="rv-dots" aria-label="복습 ${state.step+1} / 4">${steps.map((_,i)=>`<i class="${i===state.step?'now':''}"></i>`).join('')}</div><div class="rv-foot">${foot}</div>`;
 }
