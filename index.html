@@ -3378,7 +3378,8 @@ function renderDeduce(){
     const [, kind, answer] = deduceBlank(x);
     const slot = filled ? `<span class="ded-slot ${kind} full">${esc(answer)}</span>`
       : `<button class="ded-slot ${kind}" type="button" data-dslot aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
-    return `<p>${esc(x.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p><p class="ko"${deduceKoOpen ? '' : ' hidden'}>${esc(x.cardKo)}</p>`;
+    // the Korean only once it is answered: it holds the answer (user request), and the question's own 해석 says what is asked
+    return `<p>${esc(x.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p>` + (filled ? `<p class="ko"${deduceKoOpen ? '' : ' hidden'}>${esc(x.cardKo)}</p>` : '');
   };
   const list = $('#deduceCards'), before = list.querySelectorAll('.ded-card.done').length;
   const done = qs.map((x, i) => i).filter(i => st.done.has(i) && i !== st.at);
