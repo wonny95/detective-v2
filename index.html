@@ -2012,8 +2012,8 @@ const st = () => per(S.cur);
 // players): no map, no tap on the scene to step back into the place; < asks first whether to stop the conversation
 // (askStopTalk), and stopping it goes back to the place. The notebook stays open to them.
 const talkLocked = () => !!S.cur && !S.investigate && !ending && !discoveryPerson && per(S.cur).order.length > 0 && per(S.cur).phase !== 'done';
-// writing an answer down: the notebook stays out on that question until it checks right, no tabs and no putting it away;
-// 〈 (stop the conversation) is the one way out (user decision)
+// writing an answer down: the notebook stays out on that question until it checks right, no tabs and no putting it away
+// (user decision); 〈 still puts it away to ask about stopping the conversation, and staying takes it out again
 const recordLocked = () => talkLocked() && per(S.cur).phase === 'record';
 const suspects = () => S.met.filter(id => !spk(id).partner && !spk(id).witness);
 // the ending in progress; endingRound resets when the player confirms leaving the questioning.
@@ -2877,7 +2877,7 @@ $('#backTab').onclick = () => {
   if(ending?.step === 'call') return leaveEnding();   // before the station nothing is lost
   if(ending) return requestLeaveInterrogation();
   if(discoveryPerson) return finishDiscovery();
-  if(talkLocked()){ if(!recordLocked()) setNotes(false); return askStopTalk(); }
+  if(talkLocked()){ setNotes(false); return askStopTalk(); }
   if(!S.investigate && !ending) return leaveTalk();
   setNotes(false); $('#leaveCase').hidden = false;
 };
@@ -2885,8 +2885,9 @@ $('#backTab').onclick = () => {
 const withJosa = name => name + (/(er|or|ar|x|s|a|o|y|ie|ee|oo|ue|i|u)$/i.test(name) ? '와' : '과');
 function askStopTalk(){ $('#stopTalkText').textContent = `${withJosa(cur().name)}의 대화를 중단할까요?`; $('#stopTalk').hidden = false; }
 $('#stopTalk').addEventListener('click', e => {
-  if(e.target.closest('[data-stop-go]')){ $('#stopTalk').hidden = true; if(talkLocked()){ setNotes(false); leaveTalk(); } return; }
-  if(e.target.closest('[data-stop-stay]') || e.target.id === 'stopTalk') $('#stopTalk').hidden = true;
+  if(e.target.closest('[data-stop-go]')){ $('#stopTalk').hidden = true; if(talkLocked()) leaveTalk(); return; }
+  // staying while writing an answer down takes the notebook out again
+  if(e.target.closest('[data-stop-stay]') || e.target.id === 'stopTalk'){ $('#stopTalk').hidden = true; if(recordLocked()) setNotes(true); }
 });
 $('#leaveCase').addEventListener('click', e => {
   if(e.target.closest('[data-leave-go]')){ $('#leaveCase').hidden = true; saveGame(); openCaseList(); return; }
