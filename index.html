@@ -149,6 +149,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* in the ending every line is also shown in a speech bubble (user decision) — under the gauge while she is questioned,
    its tail pointing down at whoever speaks; it stays up while the evidence drawer is open */
 .app.interrogate .bubble.say{--bubble-top:66px}
+/* the detective's own line: low on the screen with no tail (it comes from the player, off screen), honey paper and their
+   face, as on the deduction board (user pick A, no tail) */
+.bubble.say.det{top:auto;bottom:calc(92px + env(safe-area-inset-bottom, 0px));max-height:calc(100% - 180px);padding-left:76px;--bubble-paper:#FFF0BF;transform-origin:50% 100%}
+.bubble.say.det::after{display:none}
+.bubble.say .say-face{position:absolute;left:24px;top:24px;width:44px;height:44px;border-radius:50%;background:#F3E6CC;box-shadow:0 0 0 2px #fff}
 .bubble.say .say-ko{display:block;margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;line-height:1.45;color:var(--berry)}
 .bubble.say .say-ko[hidden]{display:none}
 .bubble.say .say-foot{display:flex;flex:none;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px;margin-top:12px;padding-top:9px}
@@ -3518,7 +3523,9 @@ function renderSay(line){
   if(!line){ b.hidden = true; return; }
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
   const again = line === ending?.line;
-  b.innerHTML = `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
+  // the detective (the player, never on screen) speaks from below, on honey paper with their face (user pick A)
+  b.classList.toggle('det', !!line.det);
+  b.innerHTML = (line.det ? '<img class="say-face" src="assets/ui/icons-v2/detective.png" alt="">' : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
 }
@@ -3709,7 +3716,7 @@ function callAnswer(id){
   clearTimeout(endTimer);
   ending.pick = id; ending.line = null; renderAsk();
   const name = detectiveName(), line = CALL.answer(id);
-  renderSay({ ...line, name:name ? `Detective ${name}` : 'Detective' });
+  renderSay({ ...line, name:name ? `Detective ${name}` : 'Detective', det:true });
   // 심문 시작 takes the place of the names: a quick second tap on the same spot must not press it
   const go = () => { if(ending?.step === 'call'){ ending.i = 1; ending.ready = performance.now() + 600; endingSay(ending.cleared ? WRONG.bring(id) : CALL.go(id)); } };
   detectiveSay(line.key, () => { endTimer = setTimeout(go, 500); });
