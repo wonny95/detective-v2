@@ -273,7 +273,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
    Layers inside the dock: picture < closed tabs < .note-edge < open tab < head and body. The PNG masks the tab's face and
    is multiplied over its colour, keeping the pencil outline; the button carries the shadow. The foot is at 9.5% of the
    dock's width (margin %): the picture's pencil line runs at 6.7–7.6%, the strip from 5.5% to 11.5%. */
-.note-cats{position:absolute;bottom:100%;margin-bottom:-9.5%;left:7%;display:flex;gap:5px;align-items:flex-end}
+.note-cats{position:absolute;bottom:100%;margin-bottom:-9.5%;left:7%;display:flex;gap:5px;align-items:flex-end;transition:opacity .25s}
+.app.record-lock .note-cats{opacity:0;pointer-events:none}
 .ncat{--tab:url(assets/ui/tab-1.png);position:relative;flex:none;display:block;width:58px;height:44px;padding:0;border:0;background:none;filter:drop-shadow(0 1px 1.2px rgba(30,24,20,.3))}
 .ncat:nth-child(2){--tab:url(assets/ui/tab-2.png)}
 .ncat:nth-child(3){--tab:url(assets/ui/tab-3.png)}
@@ -2010,6 +2011,9 @@ const st = () => per(S.cur);
 // players): no map, no tap on the scene to step back into the place; < asks first whether to stop the conversation
 // (askStopTalk), and stopping it goes back to the place. The notebook stays open to them.
 const talkLocked = () => !!S.cur && !S.investigate && !ending && !discoveryPerson && per(S.cur).order.length > 0 && per(S.cur).phase !== 'done';
+// writing an answer down: the notebook stays out on that question until it checks right, no tabs and no putting it away;
+// 〈 (stop the conversation) is the one way out (user decision)
+const recordLocked = () => talkLocked() && per(S.cur).phase === 'record';
 const suspects = () => S.met.filter(id => !spk(id).partner && !spk(id).witness);
 // the ending in progress; endingRound resets when the player confirms leaving the questioning.
 let ending = null, endingRound = 0, endTimer;
@@ -2197,7 +2201,7 @@ function renderWho(){
   $('#noteCats').innerHTML = NOTE_CATS.map(([k, label, img]) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${noteCat() === k}" aria-label="${label}"><span class="face"><span class="stamp">${img}</span></span>${k === 'memo' && memoNew ? `<span class="badge">${memoNew}</span>` : ''}</button>`).join('');
 }
 $('#noteCats').addEventListener('click', e => {
-  const b = e.target.closest('[data-cat]'); if(!b) return;
+  const b = e.target.closest('[data-cat]'); if(!b || recordLocked()) return;
   const k = b.dataset.cat;
   if(k === 'evidence') evidenceOpen = null;   // the evidence tab always opens on the list
   S.view = k === 'people' ? (S.met.includes(notePerson) ? notePerson : S.cur) : k;
@@ -2253,8 +2257,8 @@ function blockHTML(sIdx, qid, now){
     `<div class="np-actions">${replay}<button class="pill sm" type="button" data-passage-ko="${ref}" aria-pressed="${openPassageKo.has(ref)}">해석</button></div></div>` : ''}</div>`;
 }
 
-// Under the person: question buttons (choose), a button to take the notebook out again (record),
-// or the way back to the place (done). Hidden while the notebook is out.
+// Under the person: question buttons (choose), nothing while recording (the notebook stays out), or the way to the
+// deduction (done). Hidden while the notebook is out.
 function renderAsk(){
   const box = $('#askPanel'), p = st(), s = cur();
   box.classList.remove('show-ko');
@@ -2266,8 +2270,6 @@ function renderAsk(){
     const left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
       left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('');
-  } else if(p.phase === 'record'){
-    html = `<button class="pill big green" type="button" id="openNote">노트에 기록하기</button>`;
   }
   // a finished conversation has no button of its own: the top chip and a tap on the scene lead back to the place
   if(allConversationsDone()) html += `<button class="pill big" type="button" data-accuse>추리하기</button>`;
@@ -2280,7 +2282,6 @@ $('#askPanel').addEventListener('click', e => {
   if(q) return ask(q.dataset.q);
   const ko = e.target.closest('#qKo');
   if(ko){ ko.setAttribute('aria-pressed', $('#askPanel').classList.toggle('show-ko')); return; }
-  if(e.target.closest('#openNote')){ S.view = S.cur; renderDock(); setNotes(true); return; }
   if(e.target.closest('[data-accuse]')) openDeduce();
 });
 // a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
@@ -2331,6 +2332,7 @@ function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint(); updateAccuse();
   const locked = talkLocked();
   $('#app').classList.toggle('talk-locked', locked); $('#mapTab').disabled = locked;
+  $('#app').classList.toggle('record-lock', recordLocked());
   const body = $('#dockBody');
   const mode = noteMode();
   $('#evidenceTitle').hidden = true;
@@ -2503,6 +2505,7 @@ function talkTo(id){
   openSheet(null); setNotes(false);
   if(S.investigate) setInvestigate(false);
   renderStage(fromRect); renderDock();
+  if(recordLocked()) setNotes(true);   // an unfinished recording opens again where it was left
   if(first){
     if(cur().partner) stageCard(CASES[0].title, CASES[0].no);
     greetingTimer = setTimeout(() => {
@@ -2873,7 +2876,7 @@ $('#backTab').onclick = () => {
   if(ending?.step === 'call') return leaveEnding();   // before the station nothing is lost
   if(ending) return requestLeaveInterrogation();
   if(discoveryPerson) return finishDiscovery();
-  if(talkLocked()){ setNotes(false); return askStopTalk(); }
+  if(talkLocked()){ if(!recordLocked()) setNotes(false); return askStopTalk(); }
   if(!S.investigate && !ending) return leaveTalk();
   setNotes(false); $('#leaveCase').hidden = false;
 };
@@ -2881,7 +2884,7 @@ $('#backTab').onclick = () => {
 const withJosa = name => name + (/(er|or|ar|x|s|a|o|y|ie|ee|oo|ue|i|u)$/i.test(name) ? '와' : '과');
 function askStopTalk(){ $('#stopTalkText').textContent = `${withJosa(cur().name)}의 대화를 중단할까요?`; $('#stopTalk').hidden = false; }
 $('#stopTalk').addEventListener('click', e => {
-  if(e.target.closest('[data-stop-go]')){ $('#stopTalk').hidden = true; if(talkLocked()) leaveTalk(); return; }
+  if(e.target.closest('[data-stop-go]')){ $('#stopTalk').hidden = true; if(talkLocked()){ setNotes(false); leaveTalk(); } return; }
   if(e.target.closest('[data-stop-stay]') || e.target.id === 'stopTalk') $('#stopTalk').hidden = true;
 });
 $('#leaveCase').addEventListener('click', e => {
@@ -2896,8 +2899,9 @@ $('#noteTab').onclick = () => {
   setNotes(true);
   noteRaised = true; renderDock();
 };
-// Putting the notebook away by hand; anything a checked question unlocked shows after it.
+// Putting the notebook away by hand; anything a checked question unlocked shows after it. Not while recording.
 function closeNotes(){
+  if(recordLocked()) return;
   setNotes(false);
   renderDock();
   revealDiscoveries();
