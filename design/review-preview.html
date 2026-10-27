@@ -40,11 +40,20 @@ img{max-width:100%}
 .play-btn{flex:none;width:32px;height:32px;border:0;padding:0;background:url(../assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(../assets/ui/buttons/round-cream.png) center/100% no-repeat}
 .rv-title{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.35;margin:0}
 .rv-sub{font-size:13px;color:var(--ink-soft);line-height:1.6;margin:0}
-.rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:min(88%,310px);min-height:160px;margin:22px 0 14px;padding:20px 22px 22px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg);text-align:center}
-.rv-file:before{content:"";position:absolute;left:50%;top:-31px;width:24px;height:33px;margin-left:-10px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.rv-file{position:relative;align-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:min(80%,270px);margin:22px 0 8px;padding:12px 12px 12px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg);text-align:center}
+.rv-file:before{content:"";position:absolute;left:50%;top:-31px;width:24px;height:33px;margin-left:-10px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat;z-index:2}
 .rv-file small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
 .rv-file b{font-family:var(--f-display);font-weight:400;font-size:20px}
-.rv-file img{position:absolute;right:-7px;bottom:-20px;width:96px;transform:rotate(-11deg)}
+.rv-file .stamp{position:absolute;right:-22px;top:14px;width:104px;transform:rotate(11deg);z-index:1}
+/* the case's photo on the file (user decision: B, the stamp on the photo): the culprit's mugshot when someone was caught,
+   the thing itself when something was found (cut from the place art, like an evidence photo) */
+.rv-photo{position:relative;align-self:stretch;height:150px;margin-bottom:7px;border:5px solid #FFFDF8;box-shadow:0 1px 3px rgba(60,40,20,.25);overflow:hidden;background:#fff}
+.rv-photo.mug{background:repeating-linear-gradient(to bottom,transparent 0 13px,rgba(74,54,40,.28) 13px 14px),linear-gradient(#DCD8CB,#CFCABC)}
+.rv-photo.mug:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0 41px,rgba(74,54,40,.55) 41px 43px)}
+/* her head and body sit at 41.7% of the picture's width (the tail takes the right): that point goes to the middle */
+.rv-photo.mug .who{position:absolute;left:50%;bottom:-38%;width:96%;transform:translateX(-41.7%)}
+.rv-photo .plate{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);padding:3px 8px;background:#2E2A27;color:#F3EBDD;border-radius:3px;font:700 9px/1.25 var(--f-body);letter-spacing:.06em;text-align:center;white-space:nowrap}
+.rv-photo .plate b{display:block;font-family:var(--f-body);font-size:11px;letter-spacing:.08em}
 .rv-stars{display:flex;justify-content:center;gap:9px;margin-top:8px}
 .rv-stars img{width:49px;height:auto}
 .rv-score{text-align:center;font-family:var(--f-display);font-size:16px;margin:2px 0 0}
@@ -95,7 +104,7 @@ img{max-width:100%}
 .word-list{display:flex;flex-direction:column;gap:8px}
 .word-summary{font-size:13px;color:var(--ink-soft);margin:0}
 @media(min-width:520px){.app{border-radius:38px 42px 36px 44px/44px 36px 42px 38px}}
-@media(max-width:390px){.rv-file{min-height:140px}.rv-file img{width:102px}.ck-card h3{font-size:30px}.review{gap:12px}.rv-body{gap:12px}}
+@media(max-width:390px){.rv-photo{height:130px}.ck-card h3{font-size:30px}.review{gap:12px}.rv-body{gap:12px}}
 </style>
 </head>
 <body>
@@ -121,7 +130,7 @@ function render(){
  document.querySelectorAll('[data-jump]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.jump)===state.step));
  let content='',foot='';
  if(state.step===0){
-  content=`<div class="rv-file"><small>Case 01</small><b>도서관 살인사건</b><img src="${asset('complete-stamp.png')}" alt="COMPLETE"></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><p class="rv-score">처음 확인 · 30칸 중 26칸</p><div class="rv-todo"><span class="count">2</span><div><strong>다시 들을 문장</strong><p>헷갈린 표현부터 확인해요</p></div></div><div class="rv-mini-summary"><span>이번 사건의 문법 3개</span><span>·</span><span>새 단어 4개</span></div>`;
+  content=`<div class="rv-file"><div class="rv-photo mug"><img class="who" src="../assets/characters/fiona-sad.png" alt="피오나 폭스"><span class="plate"><b>FIONA FOX</b>ACORN HOLLOW · 01</span></div><img class="stamp" src="${asset('complete-stamp.png')}" alt="COMPLETE"><small>Case 01</small><b>도서관 살인사건</b></div><div class="rv-stars" aria-label="별 2개"><img src="${asset('star.png')}" alt=""><img src="${asset('star.png')}" alt=""><img src="${asset('star-empty.png')}" alt=""></div><p class="rv-score">처음 확인 · 30칸 중 26칸</p><div class="rv-todo"><span class="count">2</span><div><strong>다시 들을 문장</strong><p>헷갈린 표현부터 확인해요</p></div></div><div class="rv-mini-summary"><span>이번 사건의 문법 3개</span><span>·</span><span>새 단어 4개</span></div>`;
   foot=button('다시 들을 문장으로','data-next','big');
  }
  if(state.step===1){
