@@ -328,9 +328,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
   filter:drop-shadow(0 -.5px .8px rgba(40,28,18,.22));pointer-events:none}
 .ncat .badge{position:absolute;top:3px;right:4px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--berry);color:#fff;font-size:10px;line-height:16px;text-align:center;animation:ncat-pop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes ncat-pop{from{transform:scale(0)}}
-/* the person page: everyone the player has talked to as a row of faces under the title (user decision), progress in
-   each face's corner (✓ all written down), the page shown on honey paper; many people scroll sideways */
-.nfaces{flex:none;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:0 2px 6px;margin:-4px -2px 0;border-bottom:2px dashed var(--line)}
+/* the person page: known speakers as a sideways row under the title; mouse drag and touch swipe reveal later faces */
+.nfaces{flex:none;display:flex;gap:4px;overflow-x:auto;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:none;padding:0 2px 6px;margin:-4px -2px 0;border-bottom:2px dashed var(--line);cursor:grab;user-select:none;-webkit-user-select:none}
+.nfaces.dragging{cursor:grabbing}
 .nfaces::-webkit-scrollbar{display:none}
 .nface{flex:none;width:60px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px 5px;border:2px solid transparent;border-radius:12px;background:none;font-family:var(--f-display);font-size:10.5px;line-height:1.15;color:var(--ink-soft);text-align:center}
 .nface .pic{position:relative}
@@ -2497,15 +2497,15 @@ function renderDock(){
   $('#listen').hidden = !(live && p.phase === 'record');
   // a person's page is titled "<name>의 진술" (user request), the partner's "사건 브리핑"; while writing an answer down the
   // head holds the listening tools instead
-  $('#personTitle').innerHTML = `${miniSVG(vs.id)}<span>${vs.partner ? '사건 브리핑' : `${esc(vs.name)}의 진술`}</span>`;
+  $('#personTitle').innerHTML = `${miniSVG(vs.id)}<span>${vs.partner ? '사건 브리핑' : `${esc(vs.id === 'betty' ? 'Mrs. Bear' : vs.name)}의 진술`}</span>`;
   $('#personTitle').hidden = !$('#listen').hidden;
   renderSlow();
 
   // Keep the person tabs on finished statement pages, including the completed conversation summary.
   // Hide them only while the current answer is being written or its check result is on screen.
-  if(mode !== 'record' && mode !== 'feedback') html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait').map(id => {
+  if(mode !== 'record' && mode !== 'feedback') html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait' || id === 'betty').map(id => {
     const s = spk(id), all = qs(s).length, done = qs(s).filter(q => per(id).questionChecks[q.id] === 'ok').length;
-    return `<button class="nface" type="button" data-face="${id}" aria-pressed="${id === S.view}"><span class="pic"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span><i class="${done === all ? 'done' : ''}">${done === all ? '✓' : `${done}/${all}`}</i></span>${esc(s.name)}</button>`;
+    return `<button class="nface" type="button" data-face="${id}" aria-pressed="${id === S.view}"><span class="pic"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span><i class="${done === all ? 'done' : ''}">${done === all ? '✓' : `${done}/${all}`}</i></span>${esc(id === 'betty' ? 'Mrs. Bear' : s.name)}</button>`;
   }).join('')}</div>`;
   // while writing down an answer, the page shows only that question; the full page comes back afterwards
   const shown = live && (p.phase === 'record' || p.feedback) ? [p.recording || p.feedback] : vp.order;
@@ -2535,6 +2535,30 @@ function renderDock(){
 
 function bindDock(){
   const body = $('#dockBody');
+  const faces = body.querySelector('.nfaces');
+  if(faces){
+    let drag = null, moved = false;
+    faces.addEventListener('pointerdown', e => {
+      if(e.pointerType !== 'mouse' || e.button !== 0) return;
+      drag = { id:e.pointerId, x:e.clientX, left:faces.scrollLeft };
+      moved = false;
+      faces.setPointerCapture(e.pointerId);
+    });
+    faces.addEventListener('pointermove', e => {
+      if(!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x;
+      if(!moved && Math.abs(dx) > 5){ moved = true; faces.classList.add('dragging'); }
+      if(moved){ faces.scrollLeft = drag.left - dx; e.preventDefault(); }
+    });
+    const endDrag = e => {
+      if(!drag || e.pointerId !== drag.id) return;
+      drag = null; faces.classList.remove('dragging');
+      if(faces.hasPointerCapture(e.pointerId)) faces.releasePointerCapture(e.pointerId);
+    };
+    faces.addEventListener('pointerup', endDrag);
+    faces.addEventListener('pointercancel', e => { endDrag(e); moved = false; });
+    faces.addEventListener('click', e => { if(moved){ e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  }
   body.querySelectorAll('[data-ev-open]').forEach(button => button.addEventListener('click', () => {
     evidenceOpen = button.dataset.evOpen; renderDock(); playEvidence(evidenceOpen);
   }));
@@ -4161,6 +4185,21 @@ const ART = {
   interview: () => `<image href="assets/places/station-interview-room.png" width="1536" height="1536"/>`,
   library: () => `
     <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
+    <!-- The stopped hands must read 8:40 in both the room and the evidence crop. Cover only the old dial. -->
+    <g class="clock-face" pointer-events="none">
+      <path d="M1050 157 C1070 155 1084 172 1085 194 C1087 216 1074 235 1052 237 C1030 239 1017 221 1017 198 C1016 175 1030 158 1050 157Z" fill="#F5E9C7" stroke="#59472C" stroke-width="2.4"/>
+      <path d="M1051 161 C1068 159 1081 174 1082 195 C1083 216 1071 232 1051 233 C1033 234 1021 218 1021 198 C1021 177 1033 162 1051 161Z" fill="none" stroke="#947B4C" stroke-width="1.3"/>
+      <g fill="#3F3526" font-family="Georgia,serif" font-size="9.5" text-anchor="middle" dominant-baseline="central">
+        <text x="1051" y="168">12</text><text x="1064" y="172">1</text><text x="1074" y="182">2</text>
+        <text x="1077" y="197">3</text><text x="1073" y="211">4</text><text x="1063" y="222">5</text>
+        <text x="1051" y="226">6</text><text x="1039" y="222">7</text><text x="1029" y="211">8</text>
+        <text x="1025" y="197">9</text><text x="1029" y="182">10</text><text x="1038" y="172">11</text>
+      </g>
+      <path d="M1051 197 L1043 198 L1038 199" fill="none" stroke="#33291D" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M1051 197 L1041 203 L1029 210" fill="none" stroke="#33291D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="1051" cy="197" r="2.6" fill="#33291D"/>
+      <path d="M1068 165 L1064 176 L1071 182 L1067 189" fill="none" stroke="#82745A" stroke-width=".8" opacity=".75"/>
+    </g>
     <!-- Professor Hoot's chalk outline (assets/places/library-chalk-owl.png): drawn top-down, laid on the floor at the foot of
          the clock he hit, head toward it (user request: closer to the clock) -->
     <g transform="translate(1048 618) scale(.82 .5) rotate(-18)"><image href="assets/places/library-chalk-owl.png" x="-185" y="-131" width="370" height="261" opacity=".9"/></g>`,
@@ -4808,7 +4847,10 @@ function loadGame(){
   S.met = S.met.filter(id => PEOPLE[id]);
   // the bakery's note became its order board (the case's story changed): an older save's bakery photos show the picture
   // as it is now, and once the board was found its customer is there to talk to
-  S.evidence.forEach(item => { if(item.placeId === 'bakery') item.photo = evidencePhoto(placeOf('bakery'), item.clueIndex); });
+  S.evidence.forEach(item => {
+    if(item.placeId === 'bakery' || (item.placeId === 'library' && item.clueIndex === 0))
+      item.photo = evidencePhoto(placeOf(item.placeId), item.clueIndex);
+  });
   if(S.found.bakery?.has(2) && !S.met.includes('betty')){ S.met.push('betty'); S.known.add(spk('betty').place); }
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
