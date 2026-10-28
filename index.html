@@ -835,7 +835,6 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-group .ded-pol i{width:44px;height:44px}
 .ded-group .ded-sus.out::after{top:6px;width:56px;height:56px;margin-left:-28px}
 .ded-group .ded-sus.culprit::after{top:-4px;width:76px;height:84px;margin-left:-38px}
-.ded-group .ded-memo{min-width:0;width:64px;box-sizing:border-box;padding:2px 3px;font-size:10px}
 .ded-sus{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--ink)}
 .ded-pol{width:80px;padding:5px 5px 4px;background:url(assets/ui/polaroid-card.webp) 0 0/100% 100%;filter:drop-shadow(1px 3px 2px rgba(40,25,10,.35));text-align:center;font-family:var(--f-display);font-size:12px;transition:filter .3s,opacity .3s}
 .ded-sus:nth-child(1) .ded-pol{transform:rotate(-3deg)}.ded-sus:nth-child(2) .ded-pol{transform:rotate(2.5deg)}.ded-sus:nth-child(3) .ded-pol{transform:rotate(-1.5deg)}
@@ -844,9 +843,6 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-sus.out::after{content:"";position:absolute;left:50%;top:5px;width:72px;height:72px;margin-left:-36px;pointer-events:none;opacity:.85;
   background:linear-gradient(45deg,transparent 46%,#A4352C 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#A4352C 46% 54%,transparent 54%)}
 .ded-sus.culprit::after{content:"";position:absolute;left:50%;top:-8px;width:92px;height:100px;margin-left:-46px;border:3px solid #A4352C;border-radius:50%;transform:rotate(-8deg);pointer-events:none}
-.ded-memo{min-width:74px;min-height:20px;padding:3px 6px;text-align:center;background:#FAD9BC;box-shadow:1px 2px 2px rgba(0,0,0,.25);font-family:var(--f-display);font-size:11.5px;visibility:hidden}
-.ded-memo.on{visibility:visible}
-.ded-memo.lie{text-decoration:line-through;text-decoration-color:#A4352C;text-decoration-thickness:2px}
 /* only what has just been worked out pops (the board is redrawn for every question) */
 .deduce .pop{animation:deduce-pin .4s cubic-bezier(.3,1.5,.5,1)}
 @keyframes deduce-pin{from{transform:scale(1.4) rotate(-8deg);opacity:0}}
@@ -3262,7 +3258,7 @@ const DEDUCE = {
     { step:2, who:'ray', q:'At 8:40, where was Ray?', qKo:'8시 40분에 레이는 어디 있었을까?',
       card:'At 8:40, Ray was at the {place:Lake Cafe}.', cardKo:'8시 40분에 레이는 호수 카페에 있었다.',
       right:'Right. He played on stage from eight to nine thirty.', rightKo:'맞아. 8시부터 9시 반까지 무대에서 연주했지.',
-      hint:'What did Ray say? Where did he play his guitar?', hintKo:'레이가 뭐라고 했지? 기타를 어디서 쳤다고 했어?', memo:'Lake Cafe' },
+      hint:'What did Ray say? Where did he play his guitar?', hintKo:'레이가 뭐라고 했지? 기타를 어디서 쳤다고 했어?' },
     { step:2, who:'ray', q:'But who saw him there?', qKo:'그런데 거기서 그를 본 사람은 누구지?',
       card:'{person:Mr. Duck} watched him all night.', cardKo:'오리 아저씨가 밤새 그를 지켜봤다.',
       right:"Mr. Duck says Ray never left the stage. So Ray couldn't do it.", rightKo:'오리 아저씨는 레이가 무대를 한 번도 떠나지 않았대. 그러니 레이일 수 없어.',
@@ -3270,7 +3266,7 @@ const DEDUCE = {
     { step:2, who:'rosie', q:'At 8:40, where was Rosie?', qKo:'8시 40분에 로지는 어디 있었을까?',
       card:'At 8:40, Rosie was on {place:Moon Hill}.', cardKo:'8시 40분에 로지는 달 언덕에 있었다.',
       right:'Yes, with her telescope, from eight to ten.', rightKo:'응, 망원경을 들고 8시부터 10시까지.',
-      hint:'Where did Rosie watch the stars?', hintKo:'로지는 어디서 별을 봤다고 했지?', memo:'Moon Hill' },
+      hint:'Where did Rosie watch the stars?', hintKo:'로지는 어디서 별을 봤다고 했지?' },
     // the proof is the camera's printed time, not her own notebook (user decision: what she wrote herself was weak)
     { step:2, who:'rosie', q:'Nobody was with her. So how do we know? What time did the camera on the bench print?', qKo:'아무도 함께 있지 않았어. 그럼 어떻게 알 수 있지? 벤치 위 카메라는 몇 시를 찍어 냈지?',
       card:'The camera on the hill printed {time:8:45} on its shooting star photo.', cardKo:'언덕의 카메라는 별똥별 사진에 8시 45분을 찍어 냈다.',
@@ -3279,7 +3275,7 @@ const DEDUCE = {
     { step:3, who:'fiona', q:'Now Fiona. Where did she say she was?', qKo:'이제 피오나. 그녀는 어디 있었다고 했지?',
       card:'Fiona said she was at her {place:bakery} from seven to ten.', cardKo:'피오나는 7시부터 10시까지 빵집에 있었다고 했다.',
       right:"That's her story. Let's check it.", rightKo:'그게 그녀의 말이야. 확인해 보자.',
-      hint:'What did Fiona say? Where was she baking pies?', hintKo:'피오나가 뭐라고 했지? 어디서 파이를 굽고 있었다고 했어?', memo:'bakery?' },
+      hint:'What did Fiona say? Where was she baking pies?', hintKo:'피오나가 뭐라고 했지? 어디서 파이를 굽고 있었다고 했어?' },
     { step:3, who:'fiona', q:'But when did her bakery close tonight?', qKo:'그런데 오늘 밤 빵집은 언제 문을 닫았지?',
       card:'But her bakery closed at {time:7 PM}.', cardKo:'하지만 빵집은 오후 7시에 문을 닫았다.',
       right:"7 PM! So she wasn't baking there at 8:40.", rightKo:'7시! 그러니 8시 40분에 거기서 빵을 굽고 있지 않았어.',
@@ -3296,7 +3292,7 @@ const DEDUCE = {
       card:'At 8:40, Fiona was at the {place:library}.', cardKo:'8시 40분에 피오나는 도서관에 있었다.',
       right:'So it was Fiona Fox. At 8:40 she was not at her bakery. She was at the library. She was still angry at Professor Hoot about her pies.',
       rightKo:'그러니 범인은 여우 피오나야. 8시 40분에 그녀는 빵집에 없었어. 도서관에 있었지. 그녀는 파이 일로 아직 후트 교수에게 화가 나 있었어.',
-      hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?', memo:'library' }
+      hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?' }
   ]
 };
 // lines recorded as audio/deduce/<key>.mp3 (q1…q10 questions, r1…r10 replies, h1…h10 hints, miss; the detective's
@@ -3379,16 +3375,16 @@ function renderDeduce(){
   const st = deduceState(), qs = DEDUCE.qs, end = deduceEnd(), q = qs[st.at], step = end ? 5 : q.step, first = !deduceShown;
   const was = deduceShown || {}, now = {};
   $('#deduceSteps').innerHTML = [1, 2, 3, 4].map(n => `<i class="${n < step ? 'done' : n === step ? 'now' : ''}">${n}</i>`).join('');
-  // a suspect's photo, pinned beside their cards (it comes up with the first one; marks and memo as worked out)
+  // a suspect's photo, pinned beside their cards (it comes up with the first one; marks as worked out, no place memo under
+  // it: user request)
   const photo = id => {
     const name = DEDUCE.suspects.find(([s]) => s === id)[1];
     const mine = qs.map((x, i) => [x, i]).filter(([x, i]) => x.who === id && st.done.has(i));
-    const memo = mine.filter(([x]) => x.memo).pop()?.[0].memo || '', out = mine.some(([x]) => x.out), lie = mine.some(([x]) => x.lie);
-    now[id] = { memo, out, lie }; const old = was[id];
-    const pop = !first && (!old || (out && !old.out) || (lie && !old.lie)), popMemo = !first && memo && memo !== old?.memo;
+    const out = mine.some(([x]) => x.out), lie = mine.some(([x]) => x.lie);
+    now[id] = { out, lie }; const old = was[id];
+    const pop = !first && (!old || (out && !old.out) || (lie && !old.lie));
     const cls = [out && 'out', lie && 'culprit', pop && 'pop'].filter(Boolean).join(' ');
-    return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>` +
-      `<span class="ded-memo${memo ? ' on' : ''}${popMemo ? ' pop' : ''}${lie && memo === 'bakery?' ? ' lie' : ''}">${esc(memo) || '&nbsp;'}</span></div>`;
+    return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span></div>`;
   };
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
   const card = (i, filled) => {
