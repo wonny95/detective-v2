@@ -1518,7 +1518,7 @@ const PEOPLE = {
     hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
     // recorded voice (Higgsfield · MiniMax · Fraser)
     audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3',
-      closing:'audio/badger-closing.mp3', call1:'audio/badger-call1.mp3',
+      closing:'audio/badger-closing.mp3', call1:'audio/badger-call1.mp3', interviewOpen:'audio/badger-interview-open.mp3',
       'call2-ray':'audio/badger-call2-ray.mp3', 'call2-rosie':'audio/badger-call2-rosie.mp3', 'call2-fiona':'audio/badger-call2-fiona.mp3',
       // a wrong accusation (WRONG): ruling them out, asking again, fetching the next
       'clear-ray':'audio/badger-clear-ray.mp3', 'clear-rosie':'audio/badger-clear-rosie.mp3', 'again-ray':'audio/badger-again-ray.mp3',
@@ -3465,6 +3465,7 @@ $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDedu
    What happened is told only by these lines. 해석 is available inside the speech bubble.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
 const ENDING = {
+  opening:{ who:'badger', key:'interviewOpen', en:'Fiona Fox, tell us where you were tonight.', ko:'피오나 폭스, 오늘 밤 어디에 있었는지 말해 주세요.' },
   // each claim, what breaks it (a photo 'place-clue' or a statement 'person:question'), and the detective's short line
   // once it lands (det, audio/detective-<key>.mp3, user decision)
   confront:[
@@ -3684,7 +3685,7 @@ function endingControls(){
   if(!e.line) return '';
   if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>' : '';
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
-  if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
+  if(e.step === 'confront') return e.line === ENDING.opening ? '' : tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
   return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
 }
 function endingAction(action, who){
@@ -3764,8 +3765,16 @@ function callGo(){
 }
 function startEnding(){
   enterInterview('fiona', 'confront');
-  endingRound = 0;   // the questioning always starts from her first claim
-  endingSay(fionaLine(ENDING.confront[0]), null);
+  endingRound = 0;
+  playInterrogationOpening();
+}
+function playInterrogationOpening(){
+  endingSay(ENDING.opening, null, () => {
+    if(ending?.step !== 'confront' || ending.line !== ENDING.opening) return;
+    endTimer = setTimeout(() => {
+      if(ending?.step === 'confront' && ending.line === ENDING.opening) endingSay(fionaLine(ENDING.confront[0]), null);
+    }, 500);
+  });
 }
 function wrongAccusation(id){
   const cleared = ending?.cleared || [];
@@ -3792,6 +3801,7 @@ function requestLeaveInterrogation(){
 function stayInInterrogation(){
   $('#leaveInterrogation').hidden = true;
   $('#backTab').focus();
+  if(ending?.line === ENDING.opening) playInterrogationOpening();
 }
 $('#leaveInterrogation').addEventListener('click', e => {
   if(e.target.closest('[data-interrogation-leave]')) return leaveEnding();
