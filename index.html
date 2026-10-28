@@ -532,6 +532,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gram .gsent{display:block;margin-top:8px;font-size:15px;line-height:1.5}
 .rv-gram .wko{margin-top:6px}
 .rv-gram mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
+.rv-gram-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.rv-gram-head .keep{flex:none}
+.rv-gram-extra{display:block}
+.rv-gram-extra .gsent{margin-top:10px}
+.rv-gram-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
+.rv-grammar-more{width:100%;justify-content:center;min-height:42px}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
 .evidence-page{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:stretch}
@@ -3942,12 +3948,14 @@ let rv = null;
 function openReview(fromHome){
   const stat = fromHome ? caseStats()[CASES[0].id] : liveStats();
   const missed = stat?.missed || [];
-  const words = learnedWords(), kept = keptWords();
+  const words = learnedWords(), kept = keptWords(), grammar = caseGrammar(), savedGrammar = keptGrammar();
   rv = { fromHome:!!fromHome, stat, missed, wrong:stat?.wrong || {}, card:0, filled:{}, step:0,
     steps:['result', ...(missed.length ? ['missed'] : []), 'grammar', 'words'],
-    words, keep:new Set(kept ? words.filter(w => kept.includes(w.key)).map(w => w.key) : words.map(w => w.key)) };
+    words, keep:new Set(kept ? words.filter(w => kept.includes(w.key)).map(w => w.key) : words.map(w => w.key)),
+    grammar, keepGrammar:new Set(savedGrammar ? grammar.filter(([g]) => savedGrammar.includes(g)).map(([g]) => g) : grammar.map(([g]) => g)), extraGrammarOpen:false };
   // a first review starts with nothing kept: the player picks
   if(!fromHome && !kept) rv.keep.clear();
+  if(!fromHome && !savedGrammar) rv.keepGrammar.clear();
   $('#review').hidden = false;
   renderReview();
   stampSound(340);
@@ -3998,7 +4006,10 @@ function renderReview(dir){
   // 뒤로 on the grammar and word pages (user request), the same as the play screen's
   const back = `<button class="pill rv-back" type="button" data-rv-back aria-label="뒤로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
   if(step === 'grammar'){
-    body = `<h2 class="rv-title">${back}이번 사건의 문법</h2><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
+    const keys = CASES[0].keys?.length ? CASES[0].keys : rv.grammar.slice(0, 3).map(([g]) => g);
+    const extras = rv.grammar.filter(([g]) => !keys.includes(g));
+    body = `<h2 class="rv-title">${back}이번 사건의 문법 <small>${rv.keepGrammar.size} / ${rv.grammar.length}</small></h2>
+      <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
       if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span></div>`;
       const sents = sentencesOf(spk(use.id).answers[use.qid]), idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
       const sent = sents[idx], at = sent.indexOf(use.words), kos = sentencesOf(ANSWERS_KO[use.id]?.[use.qid] || '');
@@ -4008,7 +4019,8 @@ function renderReview(dir){
       return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${shown}</span><span class="wko" hidden>${esc(ko)}</span></span>
         <button class="play-btn" type="button" data-rv-sent="${use.id}:${use.qid}" data-sent="${idx}" aria-label="문장 듣기"></button>
         <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>`;
-    }).join('') + '</div>';
+    }).join('') + `</div>${extras.length ? `<button class="pill rv-grammar-more" type="button" data-rv-extra aria-expanded="${rv.extraGrammarOpen}">${rv.extraGrammarOpen ? '다른 문법 접기' : `다른 문법 ${extras.length}개 보기`}</button>` : ''}` +
+      (rv.extraGrammarOpen ? `<div class="rv-grams">${extras.map(([g]) => reviewExtraGrammar(g)).join('')}</div>` : '');
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
   }
   if(step === 'words'){
@@ -4068,6 +4080,31 @@ function reviewGrammar(){
     });
   });
 }
+function grammarKeepButton(g){
+  const on = rv.keepGrammar.has(g);
+  return `<button class="pill sm keep" type="button" data-rv-gkeep="${g}" aria-pressed="${on}">${on ? '담음' : '담기'}</button>`;
+}
+function reviewExtraGrammar(g){
+  const use = grammarUses(g).find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || grammarUses(g)[0];
+  const line = grammarLine(use.id, use.qid, use.words), s = spk(use.id);
+  const answerKo = ANSWERS_KO[use.id]?.[use.qid] || '';
+  const answerSentences = sentencesOf(s.answers[use.qid]), koreanSentences = sentencesOf(answerKo);
+  const ko = line.inAnswer ? (answerSentences.length === koreanSentences.length ? koreanSentences[line.idx] : answerKo)
+    : qs(s).find(q => q.id === use.qid).ko;
+  const play = line.inAnswer ? `data-rv-sent="${use.id}:${use.qid}" data-sent="${line.idx}"` : `data-rv-question="${use.id}:${use.qid}"`;
+  return `<div class="rv-word rv-gram rv-gram-extra"><div class="rv-gram-head"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>${grammarKeepButton(g)}</div>
+    <span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span>
+    <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div></div>`;
+}
+function replayReviewQuestion(ref){
+  stopVoice();
+  if(!('speechSynthesis' in window)) return toast('이 기기에서 질문을 재생할 수 없어요.');
+  const [id, qid] = ref.split(':'), question = qs(spk(id)).find(q => q.id === qid);
+  const u = new SpeechSynthesisUtterance(question.en);
+  u.lang = 'en-US'; u.rate = S.slow ? .72 : .95;
+  if(voices.length) u.voice = voices[0];
+  speechSynthesis.speak(u);
+}
 function reviewNext(){
   stopVoice();
   if(rv.step < rv.steps.length - 1){ rv.step++; renderReview(1); }
@@ -4078,6 +4115,8 @@ function closeReview(){
   const kept = keptWords() ?? learnedWords().map(w => w.key), caseKeys = new Set(rv.words.map(w => w.key));
   // a word no longer in WORDS (a name kept before names stopped being words) leaves the book
   keepWords([...kept.filter(k => WORDS[k] && !caseKeys.has(k)), ...rv.keep]);
+  const grammar = keptGrammar() ?? learnedGrammar().map(([g]) => g), caseGrammarKeys = new Set(rv.grammar.map(([g]) => g));
+  keepGrammar([...grammar.filter(g => GRAMMAR[g] && !caseGrammarKeys.has(g)), ...rv.keepGrammar]);
   $('#review').hidden = true;
   const home = rv.fromHome; rv = null;
   if(home) renderHome(); else openCaseList();
@@ -4088,6 +4127,8 @@ $('#review').addEventListener('click', e => {
   if(grammar) return openGrammar(grammar.dataset.grammar);
   const sent = e.target.closest('[data-rv-sent]');
   if(sent) return replaySentence(sent.dataset.rvSent, +sent.dataset.sent);
+  const question = e.target.closest('[data-rv-question]');
+  if(question) return replayReviewQuestion(question.dataset.rvQuestion);
   if(e.target.closest('[data-rv-next]')) return reviewNext();
   // back a page; back to the sentences to hear again, at the last one
   if(e.target.closest('[data-rv-back]')){
@@ -4127,6 +4168,18 @@ $('#review').addEventListener('click', e => {
   }
   const gko = e.target.closest('[data-rv-gko]');
   if(gko){ const t = gko.closest('.rv-gram').querySelector('.wko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
+  if(e.target.closest('[data-rv-extra]')){
+    rv.extraGrammarOpen = !rv.extraGrammarOpen;
+    const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
+    return;
+  }
+  const gkeep = e.target.closest('[data-rv-gkeep]');
+  if(gkeep){
+    const g = gkeep.dataset.rvGkeep;
+    if(rv.keepGrammar.has(g)) rv.keepGrammar.delete(g); else rv.keepGrammar.add(g);
+    const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
+    return;
+  }
   const keep = e.target.closest('[data-rv-keep]');
   if(keep){
     const k = keep.dataset.rvKeep, on = !rv.keep.has(k);
@@ -4690,6 +4743,9 @@ const caseStats = () => readJSON(STATS_KEY, {});   // { caseId: { ok, total, sta
 const WORDBOOK_KEY = 'pioo.wordBook';
 const keptWords = () => readJSON(WORDBOOK_KEY, null);
 function keepWords(keys){ try { localStorage.setItem(WORDBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
+const GRAMMARBOOK_KEY = 'pioo.grammarBook';
+const keptGrammar = () => readJSON(GRAMMARBOOK_KEY, null);
+function keepGrammar(keys){ try { localStorage.setItem(GRAMMARBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 let solvedThisRun = false;
 function markSolved(id){
   solvedThisRun = true;
@@ -4885,6 +4941,10 @@ const grammarUses = g => Object.entries(GRAMMAR_LINES).flatMap(([ref, items]) =>
 function learnedGrammar(){
   return Object.keys(GRAMMAR).map(g => [g, grammarUses(g).length]).filter(([, n]) => n);
 }
+function bookGrammar(){
+  const all = learnedGrammar(), kept = keptGrammar();
+  return kept ? all.filter(([g]) => kept.includes(g)) : all;
+}
 function openGrammar(g){
   const gr = GRAMMAR[g], uses = grammarUses(g);
   $('#grammarCard').innerHTML = `<div class="gcard-head"><span class="eyebrow">문법 노트 · ${esc(gr.name)}</span><button class="close-button" type="button" data-gclose aria-label="문법 노트 닫기"></button></div>
@@ -5072,7 +5132,7 @@ function renderStudy(){
     ({ words:studyWords, grammar:studyGrammar, review:studyReview })[studyMode]();
 }
 function studyGrammar(){
-  const list = learnedGrammar();
+  const list = bookGrammar();
   return !list.length
     ? `<p class="home-empty">아직 모은 문법이 없어요.</p>`
     : list.map(([g, n]) => `<button class="wcard" type="button" data-grammar="${g}" style="text-align:left;width:100%">
