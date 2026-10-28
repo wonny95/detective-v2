@@ -75,7 +75,6 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .ask-panel:not(.show-ko) .ko{display:none}
 .ask-panel .q{box-shadow:3px 3px 0 rgba(74,54,40,.25)}
 .app.notes-open .ask-panel{display:none}
-.app.discovering .ask-panel{display:none}
 .app.investigate .scene{display:none}
 .chip[hidden]{display:none}
 .chip{position:absolute;top:12px;display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 192px);box-sizing:border-box;font-family:var(--f-display);font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:4px 10px;z-index:4}
@@ -1089,12 +1088,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .accused .pill.big{align-self:stretch}
 .mcard .leave-sub{margin-top:-8px;font-size:13px;color:var(--ink-soft)}
 
-/* while a check's discoveries are shown (the camera on a new person, the map with new pins), nothing else on the
-   screen takes a tap (user request: a tap used to cut the showing and the conversation short) */
-.reveal-block{position:absolute;inset:0;z-index:70}
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
-.toast.discovery-toast{background:var(--paper);color:var(--ink);border:1.5px solid rgba(74,54,40,.3);box-shadow:0 3px 12px rgba(74,54,40,.12)}
+.toast.discovery-toast{top:auto;bottom:88px;background:var(--paper);color:var(--ink);border:1.5px solid rgba(74,54,40,.3);box-shadow:0 3px 12px rgba(74,54,40,.12);white-space:pre-line;line-height:1.5}
 
 /* The detective's office (the player character, user request): the first meeting and naming on the ID card, a new
    case's first line, renaming from 내 기록. Office picture behind, the detective on the rug, their line in a paper bubble. */
@@ -1488,8 +1484,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <!-- the note blanks' preview keyboard on a computer (the same as 이름 짓기's, see .vkb) -->
   <div class="vkb note-vkb" id="noteVkb" hidden aria-hidden="true"></div>
-  <div class="toast" id="toast" hidden></div>
-  <div class="reveal-block" id="revealBlock" hidden></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 </div>
 
 <!-- test tools, outside the phone frame -->
@@ -2133,7 +2128,7 @@ const st = () => per(S.cur);
 // player goes anywhere else (user request: going off to gather evidence in the middle of the listening confused
 // players): no map, no tap on the scene to step back into the place; < asks first whether to stop the conversation
 // (askStopTalk), and stopping it goes back to the place. The notebook stays open to them.
-const talkLocked = () => !!S.cur && !S.investigate && !ending && !discoveryPerson && per(S.cur).order.length > 0 && per(S.cur).phase !== 'done';
+const talkLocked = () => !!S.cur && !S.investigate && !ending && per(S.cur).order.length > 0 && per(S.cur).phase !== 'done';
 // writing an answer down: the notebook stays out on that question until it checks right, no tabs and no putting it away
 // (user decision); 〈 still puts it away to ask about stopping the conversation, and staying takes it out again
 const recordLocked = () => talkLocked() && per(S.cur).phase === 'record';
@@ -2145,7 +2140,7 @@ let toastT;
 function toast(msg, discovery = false){
   const t = $('#toast'); t.textContent = msg; t.hidden = false;
   t.classList.toggle('discovery-toast', discovery);
-  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400);
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, discovery ? 4200 : 2400);
 }
 
 /* ---------- speech ---------- */
@@ -2240,7 +2235,7 @@ function speak(text, key, who = S.cur, onDone, range){
 }
 
 /* ---------- stage ---------- */
-let cameraMotion, discoveryPerson = null, discoveryTimer, discoveryOrigin = null, discoveryRun = 0;
+let cameraMotion;
 function animateCamera(art, from, to){
   cameraMotion?.cancel();
   art.style.transform = to;
@@ -2253,7 +2248,7 @@ function animateCamera(art, from, to){
 // current framing (the note opened or closed).
 function focusCamera(fromRect, glide = false){
   if(S.investigate) return;
-  const subject = discoveryPerson || S.cur;
+  const subject = S.cur;
   const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(placeIdOf(subject));
   const width = viewport.clientWidth, height = viewport.clientHeight;
   if(!width || !height) return;
@@ -2282,7 +2277,7 @@ function focusCamera(fromRect, glide = false){
 }
 function renderStage(fromRect){
   $('#app').classList.toggle('partner', !!cur().partner);
-  renderScene(placeIdOf(discoveryPerson || S.cur));
+  renderScene(placeIdOf(S.cur));
   const art = $('#art');
   $('#talkCamera').appendChild(art);
   art.inert = true;
@@ -2294,10 +2289,10 @@ new ResizeObserver(() => {
   if(!S.investigate && cameraMotion?.playState !== 'running') focusCamera();
 }).observe($('#talkCamera'));
 // The title is a label; the separate top-left < button is the way back to the place.
-// In conversation the title identifies the NPC; introductions reveal the name in their own card.
+// In conversation the title identifies the current NPC.
 function renderChip(){
   const s = cur(), oc = $('#orderChip');
-  oc.hidden = !!discoveryPerson;
+  oc.hidden = false;
   // no question count: how many questions someone has is not shown
   if(!oc.hidden) oc.innerHTML = `<span class="chip-label">${esc(s.name)}</span>`;
 }
@@ -2387,7 +2382,7 @@ function renderAsk(){
   box.classList.remove('show-ko');
   renderInterrogationGauge();
   if(ending && !S.investigate){ box.innerHTML = endingControls(); return; }
-  if(S.investigate || discoveryPerson){ box.innerHTML = ''; return; }
+  if(S.investigate){ box.innerHTML = ''; return; }
   let html = '';
   if(p.phase === 'choose'){
     const left = availableQuestions(s);
@@ -2615,8 +2610,6 @@ function stageCard(title, sub){
 let greetingTimer;
 const sceneScroll = {};
 function talkTo(id){
-  discoveryRun++;
-  if(discoveryPerson) finishDiscovery(false);
   clearTimeout(greetingTimer);
   const fromRect = S.investigate && S.place === spk(id).place ? $('#art').getBoundingClientRect() : null;
   if(S.investigate && S.place) sceneScroll[S.place] = artWrap.scrollLeft;
@@ -2641,15 +2634,14 @@ function leaveTalk(){ enterPlace(cur().place, true); }
 // Tapping the scene around the person (not the person, not a button) also goes back to the whole place,
 // with the same camera move as the top chip. The picture itself is inert here, so the tap lands on #talkCamera.
 $('#talkCamera').addEventListener('click', e => {
-  if(S.investigate || ending || discoveryPerson || talkLocked() || $('#app').classList.contains('notes-open')) return;
+  if(S.investigate || ending || talkLocked() || $('#app').classList.contains('notes-open')) return;
   const r = $(`#talkCamera .scene-npc[data-talk="${S.cur}"]`)?.getBoundingClientRect();
   if(r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) return;
   leaveTalk();
 });
 function ask(qid){
-  if(discoveryPerson || S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
+  if(S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
   clearTimeout(greetingTimer);
-  discoveryRun++;
   const p = st();
   p.feedback = null;
   p.phase = 'record'; p.recording = qid;
@@ -2707,7 +2699,7 @@ function finishRecord(){
   stampSound(340);
   p.recording = null;
   p.phase = qs(cur()).every(question => p.questionChecks[question.id] === 'ok') ? 'done' : 'choose';
-  const revealed = unlock(cur().unlocks?.[qid], true) || {};
+  const revealed = unlock(cur().unlocks?.[qid]) || {};
   pendingPins.push(...(revealed.places || []));
   pendingPeople.push(...(revealed.people || []));
   if(p.phase === 'done') checkNotes(S.cur);
@@ -2970,8 +2962,6 @@ function cancelCapture(){
 }
 function setNotes(open){
   if(!open) clearWordFlights();
-  if(open) discoveryRun++;
-  if(open && discoveryPerson) finishDiscovery(false);
   cancelCapture();
   const changed = $('#app').classList.contains('notes-open') !== open;
   $('#app').classList.toggle('notes-open', open);
@@ -2980,25 +2970,25 @@ function setNotes(open){
   if(changed) focusCamera(null, true);
 }
 function openSheet(name){
-  clearTimeout(mapAutoTimer);
-  if(name) discoveryRun++;
-  if(name && discoveryPerson) finishDiscovery(false);
-  if(name === 'map' && (pendingPins.length || pendingPeople.length)){ revealPins(); return; }
   if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone();
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
-  if(name === 'map') setMapNew(false);
+  if(name === 'map'){
+    renderPlaces();
+    setMapNew(false);
+    clearTimeout(freshTimer);
+    freshTimer = setTimeout(() => { freshPins.clear(); document.querySelectorAll('.pin.fresh').forEach(pin => pin.classList.remove('fresh')); }, 4200);
+  }
 }
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openSheet(null));
 // opened by hand, the notebook rises as high as it can; while recording it stays low so the NPC is visible
-// The one way back, one level up (user decision): someone just introduced → back to where the player was;
-// a conversation → its place; a place → the case list (progress is saved and resumes).
+// The one way back, one level up (user decision): a conversation → its place;
+// a place → the case list (progress is saved and resumes).
 $('#backTab').onclick = () => {
   if(!$('#deduce').hidden){ setNotes(false); return closeDeduce(); }
   if(ending?.step === 'call') return leaveEnding();   // before the station nothing is lost
   if(ending) return requestLeaveInterrogation();
-  if(discoveryPerson) return finishDiscovery();
   if(talkLocked()){ setNotes(false); return askStopTalk(); }
   if(!S.investigate && !ending) return leaveTalk();
   setNotes(false); $('#leaveCase').hidden = false;
@@ -3047,7 +3037,6 @@ $('#evidenceBack').onclick = () => {
   $('#evidenceVoice').pause(); evidenceOpen = null; renderDock();
 };
 $('#mapTab').onclick = () => { if(!talkLocked()) openSheet($('#sheet-map').classList.contains('open') ? null : 'map'); };
-$('#sheet-map').addEventListener('pointerdown', () => { clearTimeout(mapAutoTimer); discoveryGoal = null; });
 $('#hint').onclick = useHint;
 
 /* ---------- typing a blank on a phone ---------- */
@@ -3122,7 +3111,7 @@ const positionOf = id => S.visit[id] || NPC_POSITIONS[id];
 const peopleAt = placeId => S.met.filter(id => placeIdOf(id) === placeId);
 // Hearing a line or finding a clue can reveal places and people ({ places:[…], people:[…] }).
 // A newly known person brings their place onto the map.
-function unlock(u, quiet){
+function unlock(u){
   if(!u) return;
   let newPerson = false;
   const places = [], people = [];
@@ -3136,130 +3125,22 @@ function unlock(u, quiet){
   if(!newPlace && !newPerson) return {};
   renderPlaces();
   if(newPlace) setMapNew(true);
-  if(!quiet){
-    pendingPins.push(...places);
-    pendingPeople.push(...people);
-    revealDiscoveries();
-  }
   return { newPlace, newPerson, places, people };
 }
-// New places from a check wait until the notebook is put away; then the map opens and their pins pop out.
-let pendingPins = [], pendingPeople = [], freshPins = new Set(), freshTimer, mapAutoTimer;
-// Where the player is taken once a check's discoveries have been shown: the first new person (their conversation),
-// else the first new place (its scene). Set when the notebook is put away; dropped if the player takes over the map.
-// None while the conversation the check came from still has questions (user request): the new person or pins are
-// shown, then the player is back with the same person and their questions, and goes to the new ones by the map.
-let discoveryGoal = null;
-const MAP_AUTO_CLOSE_MS = 3000;   // how long a map that opened for new pins stays before it closes by itself
-function afterMotion(element, callback){
-  const animations = element.getAnimations();
-  if(!animations.length){ callback(); return; }
-  Promise.allSettled(animations.map(animation => animation.finished)).then(callback);
-}
-// the screen takes no taps from the notebook going down until the last discovery has been shown (user request); a
-// clock lets it go in any case, so a showing cut short by the code never leaves the screen stuck
-let revealSafety;
-function setRevealing(on){
-  $('#revealBlock').hidden = !on;
-  clearTimeout(revealSafety);
-  if(on) revealSafety = setTimeout(() => setRevealing(false), 9000);
-}
+// New places and people wait until the notebook closes, then appear in one small notice.
+let pendingPins = [], pendingPeople = [], freshPins = new Set(), freshTimer;
 function revealDiscoveries(){
   if(!pendingPins.length && !pendingPeople.length) return;
-  const questionsLeft = !S.investigate && !ending && per(S.cur).phase === 'choose';
-  discoveryGoal = questionsLeft ? null : pendingPeople.length ? { person:pendingPeople[0] } : { place:pendingPins[0] };
-  const run = ++discoveryRun;
-  setRevealing(true);
-  afterMotion($('.dock'), () => {
-    if(run !== discoveryRun || $('#app').classList.contains('notes-open') || $('#sheet-map').classList.contains('open') || !$('#caseList').hidden) return setRevealing(false);
-    presentDiscovery();
-  });
-}
-function presentDiscovery(){
-  clearTimeout(discoveryTimer);
-  const person = pendingPeople.find(id => spk(id).place === (S.investigate ? S.place : cur().place));
-  if(!person){ revealPins(); return; }
-  pendingPeople = pendingPeople.filter(id => id !== person);
-  const place = spk(person).place;
-  const fromRect = $('#art').dataset.scene?.split(':')[0] === place ? $('#art').getBoundingClientRect() : null;
-  stopVoice();
-  setNotes(false);
-  if(S.investigate){
-    discoveryOrigin = S.place;
-    if(S.place) sceneScroll[S.place] = artWrap.scrollLeft;
-    setInvestigate(false);
-  }
-  discoveryPerson = person;
-  $('#app').classList.add('discovering');
-  $('#app').classList.remove('discovery-ready');
-  renderStage(fromRect);
-  renderDock();
-  const announce = () => {
-    if(discoveryPerson !== person) return;
-    $('#app').classList.add('discovery-ready');
-    toast('새로운 인물을 알게 됐어요.', true);
-    discoveryTimer = setTimeout(finishDiscovery, 2200);
-  };
-  if(cameraMotion?.playState === 'running') cameraMotion.finished.then(announce).catch(() => {});
-  else announce();
-}
-function finishDiscovery(showMap = true){
-  discoveryRun++;
-  clearTimeout(discoveryTimer);
-  if(discoveryPerson){
-    const person = discoveryPerson;
-    const fromRect = spk(person).place === cur().place ? $('#art').getBoundingClientRect() : null;
-    discoveryPerson = null;
-    $('#app').classList.remove('discovering', 'discovery-ready');
-    $('#toast').hidden = true;
-    // introduced right here and nothing else to show: straight into a conversation with them
-    if(showMap && discoveryGoal?.person === person && !pendingPins.length && !pendingPeople.length){
-      discoveryGoal = null; discoveryOrigin = null;
-      talkTo(person); setRevealing(false);
-      return;
-    }
-    if(discoveryOrigin){
-      const place = discoveryOrigin;
-      discoveryOrigin = null;
-      enterPlace(place);
-    } else {
-      renderStage(fromRect);
-      renderDock();
-    }
-  }
-  if(showMap) revealPins(); else setRevealing(false);
-}
-function revealPins(){
-  if(!pendingPins.length && !pendingPeople.length) return setRevealing(false);
-  setRevealing(true);
   const places = [...new Set(pendingPins)], people = [...new Set(pendingPeople)];
-  freshPins = new Set([...places, ...people.map(id => spk(id).place)]);
   pendingPins = []; pendingPeople = [];
-  openSheet('map');
+  freshPins = new Set([...places, ...people.map(id => spk(id).place)]);
   renderPlaces();
-  const run = discoveryRun;
-  afterMotion($('#sheet-map'), () => {
-    if(run !== discoveryRun || !$('#sheet-map').classList.contains('open')) return setRevealing(false);
-    toast(places.length && people.length ? '새로운 장소와 인물을 알게 됐어요.' : people.length ? '새로운 인물을 알게 됐어요.' : '새로운 장소를 알게 됐어요.', true);
-    // the map opened by itself, so it closes by itself too: to the new person or place (discoveryGoal), or back to
-    // where the game was; nothing takes a tap meanwhile (setRevealing)
-    mapAutoTimer = setTimeout(() => {
-      if(run === discoveryRun && $('#sheet-map').classList.contains('open')) goToDiscovery(); else setRevealing(false);
-    }, MAP_AUTO_CLOSE_MS);
-  });
-  clearTimeout(freshTimer);
-  freshTimer = setTimeout(() => { freshPins.clear(); document.querySelectorAll('.pin.fresh').forEach(pin => pin.classList.remove('fresh')); }, 4200);
+  const lines = [
+    people.length && `새로운 인물을 알게 되었어요: ${people.map(id => spk(id).name).join(' · ')}`,
+    places.length && `새로운 장소가 열렸어요: ${places.map(id => placeOf(id).label).join(' · ')}`
+  ].filter(Boolean);
+  toast(lines.join('\n'), true);
 }
-
-function goToDiscovery(){
-  const goal = discoveryGoal;
-  discoveryGoal = null;
-  if(goal?.person) talkTo(goal.person);
-  else if(goal?.place) enterPlace(goal.place);
-  else openSheet(null);
-  setRevealing(false);
-}
-
 /* ---------- accuse ---------- */
 function allConversationsDone(){
   return PEOPLE_ORDER.filter(id => !spk(id).witness || spk(id).required).every(id => per(id).phase === 'done');
@@ -4424,7 +4305,11 @@ function examine(i){
   if(pl.clues[i].prop){ sayProp(pl.clues[i]); return; }
   const fresh = !S.found[pl.id].has(i);
   S.found[pl.id].add(i);
-  if(fresh) unlock(pl.clues[i].unlocks);
+  if(fresh){
+    const revealed = unlock(pl.clues[i].unlocks) || {};
+    pendingPins.push(...(revealed.places || []));
+    pendingPeople.push(...(revealed.people || []));
+  }
   renderSceneHead(); renderPlaces();
   if(!S.evidence.some(item => item.placeId === pl.id && item.clueIndex === i)) captureEvidence(pl, i);
   else {
@@ -4473,7 +4358,7 @@ let lastInput = Date.now();
 function clearNudge(){ document.querySelectorAll('#art .nudge').forEach(n => n.remove()); }
 ['pointerdown', 'keydown', 'wheel'].forEach(type => addEventListener(type, () => { lastInput = Date.now(); clearNudge(); }, { capture:true, passive:true }));
 setInterval(function nudgeTick(){
-  if(Date.now() - lastInput < NUDGE_AFTER || !S.investigate || ending || discoveryPerson || document.hidden || $('#art .nudge')) return;
+  if(Date.now() - lastInput < NUDGE_AFTER || !S.investigate || ending || document.hidden || $('#art .nudge')) return;
   const npc = [...$('#art').querySelectorAll('.scene-npc')].find(b => {
     if(per(b.dataset.talk).phase === 'done') return false;
     const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height * .25;
@@ -4874,7 +4759,7 @@ function drawBoardString(){
 }
 new ResizeObserver(() => { if(homeTab === 'cases' && !$('#caseList').hidden) drawBoardString(); }).observe($('#caseCards'));
 document.fonts?.ready.then(() => drawBoardString());
-function openCaseList(tab = 'cases'){ if(discoveryPerson) finishDiscovery(false); stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false; }
+function openCaseList(tab = 'cases'){ stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false; }
 // Opening a case: the first time on this device the player meets and names the detective, then the tutorial comes
 // first; a new case starts with the detective's line in the office; a case in progress resumes where it was left.
 // keySeen: the case's key grammar cards (CASES[].keys) were shown; a new case shows them first, over the case cards
