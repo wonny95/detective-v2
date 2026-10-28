@@ -2,39 +2,47 @@
 
 전체 흐름과 표는 `design/story-overview.html`(1–8절). 이 문서는 게임에 넣을 때의 작업 목록이다. 적용하면 두 문서 모두 지우고 HANDOFF에 지금 상태로 옮긴다.
 
-## 사용자 결정
+## 사용자 결정 (모두 확정)
 
-- 곰 아주머니 이름은 **Betty Bear(곰 베티)**. 본인은 "I'm Betty Bear", 다른 인물은 "Mrs. Bear"라고 부른다. 새 장소 **곰 베티의 집**에 있는 참고인(`witness`, 대화 선택).
+- 곰 아주머니 이름은 **Betty Bear(곰 베티)**. 본인은 "I'm Betty Bear", 다른 인물은 "Mrs. Bear"라고 부른다. 새 장소 **곰 베티의 집**에 있는 참고인(`witness`).
 - 두더지 부인은 도서관이 8시에 닫고 교수가 늘 늦게까지 남아서, 저녁을 먹으러 집에 갔다가 9시에 문을 잠그러 왔다.
 - 피오나는 **정말로** 축제용 파이를 굽고 있었다. 교수의 리뷰("파이가 너무 달다")는 **그날 마을 신문**에 실렸고, 그걸 보고 화가 나 신문을 쓰레기통에 버리고 파이를 오븐에 둔 채 도서관으로 항의하러 갔다. 파이는 까맣게 탔다. 사고였으니 피오나는 치밀하지 않다.
-- 피오나는 베티 이야기를 하지 않는다. 플레이어는 빵집의 **예약 주문 보드**로 베티를 찾는다.
-- 계산대 쪽지("Sorry, Mrs. Bear! No bread tonight.")는 삭제.
-- 심문에서 진술도 내밀 수 있다(적용됨, 증거 서랍 `진술` 탭).
+- 피오나는 베티 이야기를 하지 않는다. 플레이어는 빵집의 **예약 주문 보드**로 베티를 찾는다. 계산대 쪽지는 삭제.
+- 추리 보드 9장(1–6 그대로, 7 "At 8:30, Mrs. Bear knocked on the bakery door, but she never saw Fiona." → 동그라미, 8 "She was angry at Professor Hoot about the review in today's paper.", 9 "At 8:40, Fiona was at the library.").
+- 심문 5단계: 1 문 안내문, 2 ("오늘만 8시 반까지, 주문 보드를 보라") 베티 진술, 3 ("노크를 못 들었다") 탄 파이, 4 털, 5 잼. **모든 단계에서 모순! 바로 뒤 탐정이 짧게 한마디**(꿀색 말풍선).
+- 심문에서 진술도 내밀 수 있다(적용됨).
 
-## 검토 중 (story-overview 8절 ④)
+## 작업 목록
 
-추리 보드 10장 → 9장, 자백 대사 고침. 심문 5단계(사용자 안): 1 "bakery all evening" → 문 안내문, 2 새 대사 "Only today, I stayed open until eight thirty. Look at my order board. My customer could only come then!" → 베티 진술(b1 "I knocked and knocked, but I never saw Fiona."), 모순! 뒤 탐정 대사 "We asked your customer, Mrs. Bear. She came at eight thirty, but she never saw you."(사용자 요청), 3 새 대사 "I just didn't hear her knock!" → 탄 파이, 4 털, 5 잼. 게이지는 단계 수를 따라가므로 그대로 쓴다. **모든 단계**에서 모순! 바로 뒤 탐정이 짧게 한마디(새 기능, 꿀색 말풍선, 사용자 결정): 1 "Your sign says you closed at seven." 2 위 문장 3 "Your pies burned black. Nobody was in the kitchen." 4 "This orange fur was on the library door." 5 "Blueberry jam on the library window. Just like your pies."
-
-## 바꿀 것
-
-### 대사·노트 (녹음 다시)
-- 두더지 부인 m1, m3 (Delia)
-- 피오나 q2, q3, 심문 새 대사 2줄, end3 문구 확인, 자백 confess1·confess3 (Petra)
-- 곰 베티 hello·b1·b2 (새 목소리 프리셋 하나)
-- 추리 보드 바뀐 카드의 q·r·h, 심문 단계마다 탐정 한마디 5줄 (Grady)
-- 탐정 나레이션: 탄 파이, 주문 보드, 쓰레기통 신문, 베티 집 소품 3개
-
-### 빵집 증거 (`PLACES` bakery)
-- 오븐: "The oven is cold…" → 탄 파이 "The blueberry pies in the oven are burnt black."(증거)
-- 새: 예약 주문 보드(증거, `unlocks:{ people:['betty'] }`), 쓰레기통 속 구겨진 신문(증거, 동기)
-- 문 안내문 CLOSED AT 7 PM: 증거 그대로(심문 1단계). 설명의 "TONIGHT"는 빼서 피오나의 "오늘만 8시 반까지" 반박과 부딪히지 않게
-- 삭제: 계산대 쪽지 → 물건 번호가 당겨지므로 `ENDING.confront[].accept`·`spots`·추리 근거를 함께 고친다
-
-### 그림 (한 번에 한 장, 그릴 때마다 비용 알림, 장당 약 1.5크레딧)
-1. 곰 베티 전신 + 얼굴 아이콘
-2. 곰 베티의 집 배경
+### A. 그림 (한 번에 한 장, 그릴 때마다 비용 알림, 장당 약 1.5크레딧)
+1. 곰 베티 전신(흰 스티커 테두리 없이) → 얼굴 아이콘 `icons-v2/betty.png`, 입 모양 `mouths/betty-open/closed.png`(입 벌린 판 1장 더 필요할 수 있음)
+2. 곰 베티의 집 배경 16:9(밤, 통나무집 부엌·거실, 빈 빵 바구니·꿀단지·뜨개질 바구니)
 3. 곰 베티의 집 바닥 확장(outpaint)
-4. 빵집: 예약 주문 보드(벽), 오븐 속 탄 파이, 쓰레기통 속 신문 — 고칠 부분만 잘라 그려 붙임(최대 3장, 기존 보드·오븐 자리를 쓰면 줄어듦)
+4. 빵집 고칠 부분(잘라 그려 붙임): 벽의 예약 주문 보드 / 오븐 속 탄 파이 / 쓰레기통 속 구겨진 신문 — 최대 3장
 5. 마을 지도: 그리지 않고 빈 숲 자리에 핀
 
-대략 그림 4–6장 약 6–9크레딧 + 녹음 약 20줄 약 3크레딧.
+### B. 녹음 (약 30줄, 줄당 약 0.15크레딧)
+- 두더지 부인 m1, m3 (Delia)
+- 피오나 q2, q3, 심문 새 대사 2줄, end3("Fine, I went out for a while…"), 자백 confess1·confess3 (Petra)
+- 곰 베티 hello·b1·b2 (목소리 고르기)
+- 추리 보드 7·8번 q·r·h 6줄, 9번은 지금 10번 파일을 옮김 (Grady)
+- 심문 탐정 한마디 5줄 (Grady)
+- 탐정 나레이션: 탄 파이, 주문 보드, 신문, 베티 집 소품 3개, 문 안내문("TONIGHT" 빠지면)
+
+### C. 게임 데이터·코드
+- `PEOPLE`: betty 추가(질문 2개·노트 빈칸·단어 카드, `ANSWERS_KO`, 위치 `POS`, `SPRITES`, 입 좌표, 얼굴 아이콘), mole m1·m3, fiona q2·q3 대사·노트·단어 카드·해석. 바뀐 대사의 `GRAMMAR_LINES`(문법 표시)와 `SENTENCE_TIMES`(문장 시간) 다시 잼. 새 단어 `WORDS`(dinner, newspaper, review, order, loaf, knock, burnt 등 노트 빈칸에 들어가는 것만).
+- `PLACES` 빵집: 오븐 → 탄 파이, 주문 보드(`unlocks:{ people:['betty'] }`), 쓰레기통 신문, 쪽지 삭제, 안내문 문구, 핫스팟·사진 영역. 새 장소 곰 베티의 집(`ART`, `ART_FLOOR`, 소품 3개, 지도 좌표).
+- `DEDUCE`: 9장, 근거·힌트, 동그라미 시점 `xAt` 다시 잼.
+- `ENDING`: 5단계와 정답 참조(안내문 사진, `betty:b1`, 탄 파이, 털, 잼), 새 대사 2줄, end3·자백 문구, **모순 뒤 탐정 한마디(새 기능)**.
+- `CASES` 사건 요약(복습 페이지): 신문 리뷰로 고침.
+- 빵집 물건 번호가 바뀌어 진행 중 저장의 증거가 어긋남 → 이전 저장 처리.
+
+### D. 아직 정할 것
+- 베티는 참고인(대화 선택)인데 심문 2단계에 그녀의 진술이 꼭 필요하다 → 필수 대화로 할지, 선택으로 두고 심문 증거 수 칩으로 빠진 걸 알게 할지.
+- 베티 목소리, 지도 핀 위치(그림을 보고).
+
+### E. 마무리
+- 처음부터 끝까지 새 탭에서 확인(수사 → 추리 → 지목 → 심문 → 자백 → 복습).
+- HANDOFF·assets README 갱신, `design/mrs-bear-home.md`·`design/story-overview.html` 삭제.
+
+대략 그림 6–7장 약 9–10.5크레딧 + 녹음 약 30줄 약 4.5크레딧 = **약 14–15크레딧**.
