@@ -408,7 +408,7 @@ node server.js            # http://localhost:5173/
 | 인물 | 목소리 | 상태 |
 |---|---|---|
 | Sgt. Badger (동료) | Fraser | 4줄 완료 |
-| Mrs. Mole (목격자) | Delia, emotion `sad` | 4줄. hello·m1·m2 사용자 제작, m3 Claude 제작(감정·청취 품질 사용자 확인 대기) |
+| Mrs. Mole (목격자) | Delia (m1은 `sad`) | 4줄. hello·m2 사용자 제작, m1 Claude 제작, m3 사용자 제공 녹음 적용 |
 | Fiona Fox | Petra | 4줄 완료 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정·청취 품질 사용자 확인 대기) |
@@ -416,12 +416,13 @@ node server.js            # http://localhost:5173/
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 | Betty Bear (참고인, 필수) | Vera | 3줄(hello·b1·b2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
-- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad)·m3(Delia), 피오나 q2·q3·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`·`confess3`(sad)(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기.
+- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad), 피오나 q2·q3·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`·`confess3`(sad)(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기.
 
 - **엔딩 대사**(사용자 제작, MiniMax). 대사는 `ENDING`, 파일은 각 인물 `audio`의 키로 연결한다.
   - 피오나(Petra): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess2` fearful(`5dcffd54-…`), `confess3` fearful(`4cd66913-…`).
   - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 지목 장면(Claude 제작) `badger-call1`(`10344252-…`), `badger-call2-ray·rosie·fiona`(`31a32a13-…`·`1e502eab-…`·`076e7c65-…`). 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
 - **음성 교체**: 사용자 링크 또는 연결된 생성 목록에서 대사·목소리·테이크를 확인하고 인물의 `audio` 키에 맞춘다. 같은 줄의 여러 테이크는 사용자 지정본을 우선한다. 파일을 받은 뒤 실제 녹음과 설정을 확인하며, 도구의 감정 적용 여부를 추정하지 않는다.
+- **두더지 부인 m3**: `audio/mole-m3.mp3`는 사용자 제공 [Higgsfield 녹음](https://higgsfield.ai/s/bv9sW3KEhSs). 대사는 `PEOPLE.mole.answers.m3`와 일치한다. MiniMax Speech 2.8 HD, Delia, 약 8.14초. `SENTENCE_TIMES['mole:m3']`는 두 문장 `[0, 5.03]`, `[5.77, 7.86]`으로 맞췄다.
 
 - **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(23개)에 있다.
   - 사용자 제작: 도서관 시계·창문·문.
@@ -505,7 +506,7 @@ node server.js            # http://localhost:5173/
 - 브라우저에서 질문 선택과 동시에 노트/음성 시작, 노트 안쪽 여백 터치 시 열린 상태 유지, `Note` 재터치로 닫힘, 새 인물·장소 알림 뒤 현재 화면 유지, 여러 발견 묶기, 주문 보드로 곰 베티·집 해금을 확인했다.
 - 심문 게이지 0/25/100%와 초기화, 나가기 취소 시 진행 유지·확정 시 0으로 재시작과 증거/기록 유지, 증거 서랍의 초기 작은 높이·선택 후 확장·긴 문장·재열기를 확인했다.
 - 6단계 튜토리얼과 단어장 개별 발음 연결도 확인했다. 이 목록은 새 수정 때 회귀 검증을 생략한다는 뜻이 아니다.
-- 추가 확인 대상: 실제 iOS/Android, OS 동작 줄이기·블러 미지원 환경, 인물이 많을 때 얼굴 줄 밀기, 모든 현장의 바닥 이음새. Mole m3·Rosie q1–q3 감정과 40개 단어 녹음 전체의 청취 품질은 별도 검수가 필요하다.
+- 추가 확인 대상: 실제 iOS/Android, OS 동작 줄이기·블러 미지원 환경, 인물이 많을 때 얼굴 줄 밀기, 모든 현장의 바닥 이음새. Rosie q1–q3 감정과 40개 단어 녹음 전체의 청취 품질은 별도 검수가 필요하다.
 
 ### 화면 수정 후 회귀 확인 순서
 
@@ -537,7 +538,7 @@ node server.js            # http://localhost:5173/
 4. **채점 보완**: 재확인 횟수 제한·도토리 소모 또는 직접 입력 철자 관용을 검토한다. 현재 오답은 황토색 테두리로 표시하고 정답은 알려 주지 않는다.
 5. **복습 보완**: `학습` > `복습`의 "다시 들을 문장" 목록을 복습 페이지 2단계와 합칠지 검토한다.
 6. **난이도 3단계**(단어 카드 / 첫 글자 힌트 / 직접 입력).
-7. **음성 사용자 검수**: Mole m3·Rosie q1–q3의 감정 확인.
+7. **음성 사용자 검수**: Rosie q1–q3의 감정 확인.
 8. **정리**: 현장의 `swipeHint`("옆으로 밀어서 둘러보기")는 조작 설명 금지 규칙과 맞지 않아 정리 대상이다.
 9. **앱 이름·브랜딩**: 후보 Hearlock(히어록), 귀록홈즈, Echolock 등.
 10. **물건 더 늘리기**: 지금은 장소마다 세 개(도서관은 크레용까지 네 개)다(3.5절). 사용자가 원하면 더 추가한다.
