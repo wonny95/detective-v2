@@ -1,57 +1,40 @@
-# 곰 부인의 집 — 피오나의 거짓말을 증언으로 깨기 (계획)
+# 곰 베티와 빵집 — 사건 01 이야기 고치기 (계획)
 
-**이름: Betty Bear (곰 베티)**(사용자 결정). 다른 인물은 "Mrs. Bear"라고 부르고, 본인은 "I'm Betty Bear"로 소개한다. 게임 표시 이름은 `Betty Bear`, 한국어 `곰 베티`.
+전체 흐름과 표는 `design/story-overview.html`(1–8절). 이 문서는 게임에 넣을 때의 작업 목록이다. 적용하면 두 문서 모두 지우고 HANDOFF에 지금 상태로 옮긴다.
 
-> 피오나의 두 번째 주장 방향은 다시 검토 중이다(`design/story-overview.html` 8절, 안 1–3). 아래 대사는 앞선 안(켜 둔 부엌 불)이라 방향이 정해지면 다시 쓴다.
+## 사용자 결정
 
-사용자 결정: 계산대 쪽지 대신 곰 부인의 증언으로 피오나의 알리바이를 깬다. 곰 부인은 새 장소 **곰 부인의 집**에 있다. 피오나의 주장은 **절반은 사실**(부엌 불을 켜 두고 나감)이라 곰 부인의 말을 끝까지 들어야 거짓이 드러난다(사용자 선택 A, 곰 부인은 기다리다 지쳐 돌아감). 진술 내밀기(심문 증거 서랍 `진술` 탭)는 적용됨. 적용하면 이 문서는 지운다(HANDOFF에 지금 상태로 옮긴다).
+- 곰 아주머니 이름은 **Betty Bear(곰 베티)**. 본인은 "I'm Betty Bear", 다른 인물은 "Mrs. Bear"라고 부른다. 새 장소 **곰 베티의 집**에 있는 참고인(`witness`, 대화 선택).
+- 두더지 부인은 도서관이 8시에 닫고 교수가 늘 늦게까지 남아서, 저녁을 먹으러 집에 갔다가 9시에 문을 잠그러 왔다.
+- 피오나는 **정말로** 축제용 파이를 굽고 있었다. 교수의 리뷰("파이가 너무 달다")는 **그날 마을 신문**에 실렸고, 그걸 보고 화가 나 신문을 쓰레기통에 버리고 파이를 오븐에 둔 채 도서관으로 항의하러 갔다. 파이는 까맣게 탔다. 사고였으니 피오나는 치밀하지 않다.
+- 피오나는 베티 이야기를 하지 않는다. 플레이어는 빵집의 **예약 주문 보드**로 베티를 찾는다.
+- 계산대 쪽지("Sorry, Mrs. Bear! No bread tonight.")는 삭제.
+- 심문에서 진술도 내밀 수 있다(적용됨, 증거 서랍 `진술` 탭).
 
-## 이야기
+## 검토 중 (story-overview 8절 ④)
 
-피오나는 8시 30분쯤 도서관에 가면서 빵집 부엌 불을 켜 두었다. 지나가던 사람이 보면 안에서 일하는 줄 알게. 곰 부인이 8시 30분에 빵을 사러 와 불빛을 보고 문을 두드렸지만 아무도 나오지 않았고, 기다리다 지쳐 빵 없이 집에 갔다.
+추리 보드 10장 → 9장, 심문 4단계(1 베티 진술, 2 새 대사 "didn't hear her knock" → 탄 파이, 3 털, 4 잼), 자백 대사 고침.
 
-## 바뀌는 대사
+## 바꿀 것
 
-### 피오나 q2 (다시 녹음, Petra)
-- "Of course! Mrs. Bear walked by at eight thirty. She saw the light on in my kitchen. You can ask her."
-- 노트: `{{Mrs. Bear}} walked by at {{8:30}}.` / `She saw the {{light}} on in the kitchen.`
-- 바르게 적으면 지도에 **곰 부인의 집**과 곰 부인이 나타난다(`unlocks.q2`).
+### 대사·노트 (녹음 다시)
+- 두더지 부인 m1, m3 (Delia)
+- 피오나 q2, q3, 심문 새 대사 1줄, end3 문구 확인, 자백 confess1·confess3 (Petra)
+- 곰 베티 hello·b1·b2 (새 목소리 프리셋 하나)
+- 추리 보드 바뀐 카드의 q·r·h (Grady)
+- 탐정 나레이션: 탄 파이, 주문 보드, 쓰레기통 신문, 베티 집 소품 3개
 
-### 곰 부인 (새 인물, 참고인 `witness`, 대화는 필수 아님)
-- hello: "Oh, hello, detective! I'm Betty Bear. Would you like some honey tea?"
-- b1 "Did you go to Fiona's bakery tonight?" (오늘 밤 피오나의 빵집에 갔었나요?)
-  → "Yes, at eight thirty. The kitchen light was on, so I knocked on the door. But nobody came."
-  노트: `She went to the bakery at {{8:30}}.` / `The kitchen {{light}} was on.` / `She knocked, but {{nobody}} came.`
-- b2 "What did you do then?" (그다음엔 어떻게 했나요?)
-  → "I waited and waited, but I got tired. So I went home with no bread."
-  노트: `She {{waited}} for a long time.` / `She went {{home}} with no bread.`
+### 빵집 증거 (`PLACES` bakery)
+- 오븐: "The oven is cold…" → 탄 파이 "The blueberry pies in the oven are burnt black."(증거)
+- 새: 예약 주문 보드(증거, `unlocks:{ people:['betty'] }`), 쓰레기통 속 구겨진 신문(증거, 동기)
+- 문 안내문 CLOSED AT 7 PM: 소품으로 내리거나 그대로(정할 것)
+- 삭제: 계산대 쪽지 → 물건 번호가 당겨지므로 `ENDING.confront[].accept`·`spots`·추리 근거를 함께 고친다
 
-### 추리 보드 q8 (다시 녹음 q8·r8·h8)
-- 질문: "She said Mrs. Bear saw her kitchen light. When did Mrs. Bear knock?"
-- 카드: "Mrs. Bear knocked at {time:8:30}, but nobody came to the door."
-- 정답 대사: "The light was on, but nobody opened the door. Fiona wasn't in her bakery. She lied." (동그라미 시점 `xAt`은 "She lied." 시작 초로 다시 잼)
-- 힌트: "What did Mrs. Bear say? Did anyone open the door?"
+### 그림 (한 번에 한 장, 그릴 때마다 비용 알림, 장당 약 1.5크레딧)
+1. 곰 베티 전신 + 얼굴 아이콘
+2. 곰 베티의 집 배경
+3. 곰 베티의 집 바닥 확장(outpaint)
+4. 빵집: 예약 주문 보드(벽), 오븐 속 탄 파이, 쓰레기통 속 신문 — 고칠 부분만 잘라 그려 붙임(최대 3장, 기존 보드·오븐 자리를 쓰면 줄어듦)
+5. 마을 지도: 그리지 않고 빈 숲 자리에 핀
 
-### 심문 q2
-- 피오나의 주장은 새 q2 녹음 그대로("Mrs. Bear … saw the light on in my kitchen").
-- 정답: 곰 부인의 진술 `bear:b1`(노트 문장 "She knocked, but nobody came.")과 계산대 쪽지 사진 `bakery-2`("Sorry, Mrs. Bear! No bread tonight." — 피오나가 그날 빵을 안 팔 줄 알았다는 뜻).
-
-## 새 장소: 곰 부인의 집
-
-- 배경 16:9, 밤: 통나무집 부엌·거실, 식탁 위 빈 빵 바구니, 꿀단지 선반, 흔들의자와 뜨개질, 창밖 밤 숲. 대화용 바닥 확장(outpaint).
-- 물건(모두 소품, 탐정 나레이션 녹음): 빈 빵 바구니("Mrs. Bear's bread basket is empty."), 꿀단지, 뜨개질 바구니.
-- 지도: 그림은 다시 그리지 않고 빈 숲 자리에 핀(위치는 지도를 보고 정함).
-
-## 그림 (한 번에 한 장)
-
-1. **곰 부인** 전신(다른 인물과 같은 화풍, 흰 스티커 테두리 없이 자름) + 얼굴 아이콘(같은 그림에서). 따뜻한 갈색 곰, 숄이나 꽃무늬 앞치마, 안경 없이(두더지와 겹치지 않게).
-2. **곰 부인의 집** 배경.
-3. 바닥 확장(outpaint).
-
-## 녹음
-
-곰 부인 hello·b1·b2(새 목소리, 프리셋 하나), 피오나 q2, 추리 q8·r8·h8, 집 물건 나레이션 3줄. 약 10줄.
-
-## 대략의 비용
-
-그림 3장 약 4.5크레딧 + 녹음 약 10줄 약 1.5크레딧 = **약 6크레딧**.
+대략 그림 4–6장 약 6–9크레딧 + 녹음 약 20줄 약 3크레딧.
