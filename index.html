@@ -132,9 +132,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
   background:radial-gradient(ellipse 66% 48% at 50% 40%,rgba(255,236,190,.12) 0 30%,rgba(34,20,10,.42) 62%,rgba(24,14,8,.82) 100%)}
 .app.interrogate .spotlight{opacity:1}
-/* in the ending every line is also shown in a speech bubble (user decision) — under the gauge while she is questioned,
-   its tail pointing down at whoever speaks; it stays up while the evidence drawer is open */
-.app.interrogate .bubble.say{--bubble-top:66px}
+/* Keep the speech bubble below the gauge only while she is questioned; confession uses the normal top spacing. */
+.app.questioning .bubble.say{--bubble-top:66px}
 /* the detective's own line: low on the screen with no tail (it comes from the player, off screen), honey paper and their
    face, as on the deduction board (user pick A, no tail) */
 .bubble.say.det{top:auto;bottom:calc(92px + env(safe-area-inset-bottom, 0px));max-height:calc(100% - 180px);padding-left:76px;--bubble-paper:#FFF0BF;transform-origin:50% 100%}
@@ -3539,7 +3538,7 @@ $('#sayBubble').addEventListener('click', e => {
   const copy = ko.closest('.bubble-copy');
   copy.scrollTop = ko.hidden ? 0 : ko.offsetTop - copy.offsetTop;
 });
-// The progress gauge and dimmed room, during questioning and confession.
+// The room stays dim through the confession, but the progress gauge belongs to questioning only.
 function renderInterrogationGauge(){
   const on = !!ending && ['confront', 'confession'].includes(ending.step);
   const questioning = ending?.step === 'confront';
@@ -3548,9 +3547,8 @@ function renderInterrogationGauge(){
   $('#backTab').setAttribute('aria-label', questioning ? '심문 나가기' : '뒤로');
   $('#app').classList.toggle('interrogate', on);
   const box = $('#interrogationGauge');
-  box.hidden = !on;
-  if(!on) return;
-  updateInterrogationGauge(ending.step === 'confession' ? ENDING.confront.length : endingRound);
+  box.hidden = !questioning;
+  if(questioning) updateInterrogationGauge(endingRound);
 }
 // Fill on impact, before the next line starts; keep the same fill element so changes animate.
 function updateInterrogationGauge(round, feedback = ''){
