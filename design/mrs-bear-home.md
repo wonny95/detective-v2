@@ -1,5 +1,9 @@
 # 곰 부인의 집 — 피오나의 거짓말을 증언으로 깨기 (계획)
 
+**이름: Betty Bear (곰 베티)**(사용자 결정). 다른 인물은 "Mrs. Bear"라고 부르고, 본인은 "I'm Betty Bear"로 소개한다. 게임 표시 이름은 `Betty Bear`, 한국어 `곰 베티`.
+
+> 피오나의 두 번째 주장 방향은 다시 검토 중이다(`design/story-overview.html` 8절, 안 1–3). 아래 대사는 앞선 안(켜 둔 부엌 불)이라 방향이 정해지면 다시 쓴다.
+
 사용자 결정: 계산대 쪽지 대신 곰 부인의 증언으로 피오나의 알리바이를 깬다. 곰 부인은 새 장소 **곰 부인의 집**에 있다. 피오나의 주장은 **절반은 사실**(부엌 불을 켜 두고 나감)이라 곰 부인의 말을 끝까지 들어야 거짓이 드러난다(사용자 선택 A, 곰 부인은 기다리다 지쳐 돌아감). 진술 내밀기(심문 증거 서랍 `진술` 탭)는 적용됨. 적용하면 이 문서는 지운다(HANDOFF에 지금 상태로 옮긴다).
 
 ## 이야기
@@ -14,7 +18,7 @@
 - 바르게 적으면 지도에 **곰 부인의 집**과 곰 부인이 나타난다(`unlocks.q2`).
 
 ### 곰 부인 (새 인물, 참고인 `witness`, 대화는 필수 아님)
-- hello: "Oh, hello, detective! I'm Mrs. Bear. Would you like some honey tea?"
+- hello: "Oh, hello, detective! I'm Betty Bear. Would you like some honey tea?"
 - b1 "Did you go to Fiona's bakery tonight?" (오늘 밤 피오나의 빵집에 갔었나요?)
   → "Yes, at eight thirty. The kitchen light was on, so I knocked on the door. But nobody came."
   노트: `She went to the bakery at {{8:30}}.` / `The kitchen {{light}} was on.` / `She knocked, but {{nobody}} came.`
