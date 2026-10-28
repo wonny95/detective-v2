@@ -127,20 +127,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
 .presented svg{display:block;width:100%;height:100%}
 @keyframes present-in{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}80%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(-12px) rotate(-3deg)}}
-/* The case file receives a transparent illustrated completion stamp. */
-.case-closed{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(40,30,24,.45);pointer-events:none;animation:cc-in .26s ease both;transition:opacity .36s}
-.case-closed.out{opacity:0}
-.cc-file{position:relative;width:min(76%,290px);padding:34px 18px 132px;text-align:center;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);box-shadow:5px 6px 0 rgba(40,30,24,.3);transform:rotate(-1.5deg)}
-.cc-file small{display:block;font-size:12px;color:var(--ink-soft)}
-.cc-file b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
-.cc-by{display:block;margin-top:6px;font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink-soft)}
-/* the detective comes up beside the file for the last word */
-.cc-det{position:absolute;right:3%;bottom:0;height:34%;aspect-ratio:var(--ar);animation:cc-det .5s ease-out 1s both}
-@keyframes cc-det{from{opacity:0;transform:translateY(40px)}}
-.cc-stamp{position:absolute;left:50%;bottom:8px;display:block;width:min(86%,240px);height:auto;transform:translateX(-50%) rotate(-10deg);animation:cc-stamp .45s cubic-bezier(.2,1.6,.4,1) .55s both}
-@keyframes cc-stamp{from{opacity:0;transform:translateX(-50%) rotate(-10deg) scale(2.4)}to{opacity:.92;transform:translateX(-50%) rotate(-10deg) scale(1)}}
-@keyframes cc-in{from{opacity:0}}
-@media(prefers-reduced-motion:reduce){.presented figure,.cc-stamp{animation:none}}
+@media(prefers-reduced-motion:reduce){.presented figure{animation:none}}
 /* the questioning (confront, confession): the room dims around her; the gauge fills as her claims are answered */
 .spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
   background:radial-gradient(ellipse 66% 48% at 50% 40%,rgba(255,236,190,.12) 0 30%,rgba(34,20,10,.42) 62%,rgba(24,14,8,.82) 100%)}
@@ -3472,7 +3459,7 @@ $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDedu
    Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
    Right accusation: ① the player answers each of Fiona's claims with a photo from the
    evidence notebook (a wrong photo: she brushes it off and repeats the current claim) → ② she confesses → ③ Sgt. Badger,
-   closes the case (CASE CLOSED stamp) → ④ result → review.
+   closes the case → ④ review, whose first page carries the COMPLETE stamp.
    What happened is told only by these lines. 해석 is available inside the speech bubble.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
 const ENDING = {
@@ -3693,7 +3680,7 @@ $('#drawer').addEventListener('click', e => {
 
 function endingControls(){
   const e = ending;
-  if(!e.line || e.step === 'stamp') return '';
+  if(!e.line) return '';
   if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>' : '';
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
   if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
@@ -3910,27 +3897,7 @@ function endingNext(){
     if(++e.i < ENDING.confession.length) return endingSay(fionaLine(ENDING.confession[e.i]));
     e.step = 'closing'; return endingSay(ENDING.closing);
   }
-  if(e.step === 'closing') return caseClosedStamp();
-}
-// The case file gets the COMPLETE stamp and the detective's name; the detective comes up and has the last word, then the review.
-function caseClosedStamp(){
-  ending.step = 'stamp'; renderAsk(); renderSay(null);
-  const card = document.createElement('div'), name = detectiveName();
-  card.className = 'case-closed';
-  card.innerHTML = `<div class="cc-file"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b>${name ? `<span class="cc-by">Detective ${esc(name)}</span>` : ''}<img class="cc-stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE" decoding="sync"></div>` +
-    `<div class="cc-det det" style="--ar:${DETECTIVE_POSES[0].w}/${DETECTIVE_POSES[0].h}">${detSVG(DETECTIVE_POSES[0])}</div>`;
-  $('.scene').appendChild(card);
-  stampSound(700);
-  const close = () => {
-    clearTimeout(endTimer);
-    if(!card.isConnected) return;
-    card.classList.add('out');
-    endTimer = setTimeout(() => { card.remove(); if(ending) finishEnding(); }, 360);
-  };
-  endTimer = setTimeout(() => {
-    const fallback = setTimeout(close, 8000);
-    detectiveSay('closed', () => { clearTimeout(fallback); endTimer = setTimeout(close, 700); });
-  }, 1100);
+  if(e.step === 'closing') return finishEnding();
 }
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
@@ -3957,7 +3924,7 @@ function liveStats(){
   }));
   return { ok, total, stars, missed, wrong };
 }
-// Opened right after the case-closed stamp (fromHome false: the case just solved, first-check results in memory; no way
+// Opened right after Badger closes the case (fromHome false: the case just solved, first-check results in memory; no way
 // out but the last step) or from the home 복습 page (fromHome: saved totals; 닫기 at the top).
 let rv = null;
 function openReview(fromHome){
@@ -4505,7 +4472,7 @@ document.addEventListener('keydown', e => {
    when the app opens without a name (user request: two lines, then the player writes a name on the ID card and stamps
    it), when a new case starts, and from 마이 to rename. Before the first tap the browser holds sound back: the line is
    on screen, and the first tap says it instead of going on.
-   The name is only ever written (home plate, case-closed file, 내 기록), never spoken: no recording says it, NPCs say
+   The name is only ever written (home plate, 내 기록), never spoken: no recording says it, NPCs say
    "detective" (user decision), so renaming needs no new audio. */
 const NAME_KEY = 'pioo.detectiveName';
 const DETECTIVE = {
@@ -4514,7 +4481,6 @@ const DETECTIVE = {
   askname:{ en:"Every detective needs a name. What's mine?", ko:'탐정에게는 이름이 필요해. 내 이름은 뭘까?' },
   named:{ en:"I like it. Let's get to work!", ko:'마음에 들어. 이제 일하러 가자!' },
   accuse:{ en:"I've heard enough. I know who did it.", ko:'들을 만큼 들었어. 누가 했는지 알겠어.' },
-  closed:{ en:'Another case closed. Acorn Hollow can sleep tonight.', ko:'또 하나의 사건 종결. 오늘 밤 도토리 골짜기는 편히 잘 수 있겠어.' },
   // 홈, one for the moment (homeState())
   'home-going':{ en:"We left a case open. Let's finish it.", ko:'끝내지 못한 사건이 있어. 마무리하자.' },
   'home-new':{ en:"A new request just came in.\nLet's check the case board.", ko:'새로운 의뢰가 들어왔어.\n사건 보드를 살펴보자.' },
