@@ -194,7 +194,7 @@ node server.js            # http://localhost:5173/
 ### 3.5 장소 화면(현장 조사)
 
 - 가로로 긴 일러스트를 밀어서 둘러보고, 수상한 곳을 누르면 단서가 나온다. 상단 띠·구분선은 없고(사용자 결정 A안), 그림이 맨 위까지 차며 왼쪽 위에 장소 이름만 대화 화면 칩과 같은 종이 칩으로 뜬다(`.inv-head h2`, 단서 개수 없음).
-- **심문 증거 개수**(사용자 결정: 시안 A, 전체 증거가 아니라 심문에 내밀어야 하는 증거만): 장소 화면 오른쪽 위, 장소 이름표와 같은 크림 종이 칩에 돋보기 + `n / N`(`#evCount`). N = `ENDING.confront` 단계 수(Case 01은 4), n = 받는 증거(`accept`) 중 하나라도 찾은 단계 수(q1은 오븐·안내문 중 하나면 됨) — `evidenceNeed()`. 증거를 찾을 때(`examine` → `renderSceneHead()`) 숫자가 오르면 칩이 톡 커지고, 다 찾으면 꿀색 종이로 바뀐다. 칩을 누르면 노트의 증거 목록이 열린다. 숫자가 오르는 순간 그 증거가 심문용이라는 것이 드러나는 힌트다(사용자가 정함).
+- **심문 증거 개수**(사용자 결정: 시안 A, 전체 증거가 아니라 심문에 내밀어야 하는 증거만): 장소 화면 오른쪽 위, 장소 이름표와 같은 크림 종이 칩에 돋보기 + `n / N`(`#evCount`). N = `ENDING.confront` 단계 수(Case 01은 5), n = 받는 사진·진술(`accept`) 중 하나라도 찾은 단계 수 — `evidenceNeed()`. 증거를 찾을 때(`examine` → `renderSceneHead()`) 숫자가 오르면 칩이 톡 커지고, 다 찾으면 꿀색 종이로 바뀐다. 칩을 누르면 노트의 증거 목록이 열린다. 숫자가 오르는 순간 그 증거가 심문용이라는 것이 드러나는 힌트다(사용자가 정함).
 - **인물이 부르는 표시**(사용자 결정: 말풍선 속 느낌표): 장소 화면에서 약 8초(`NUDGE_AFTER`) 동안 터치·키·휠 입력이 없으면, 그 장소에서 아직 물어볼 게 남은(`phase`가 `done`이 아닌) 첫 인물의 머리 위에 Higgsfield 손그림 말풍선 느낌표(`assets/ui/nudge-bang.png`, 높이 44px)가 톡 튀어나오고 몇 초마다 살짝 뛰며 흔들린다. 같은 박자에 그 인물도 웅크렸다 폴짝 뛰고 찌그러지며 착지한다(사용자 선택 A, `.scene-npc:has(.nudge) svg`, `npc-hop`). 노트·지도·서랍·팝업·튜토리얼이 그 인물의 머리를 가리면 띄우지 않는다(`elementFromPoint`로 확인). 엔딩·발견 연출 중에도 없다. 아무 입력이 있으면 바로 사라지고 다시 센다. 동작 줄이기에서는 움직임 없이 표시만. `nudgeTick`(1초마다) · `clearNudge()`.
 - 원본 아래에 바닥 확장을 최대 30%까지 붙여 발밑이 화면 끝에 닿지 않게 한다(`--art-share`). 누르는 영역·증거 사진 좌표는 원본 1376×768 기준이다.
 - **도서관**
@@ -250,7 +250,7 @@ node server.js            # http://localhost:5173/
   - 보드(사용자 요청): **카드는 쌓인다**(맞힌 문장이 사라지지 않게, 시각 카드는 따로 없음): 맞힌 문장은 작은 카드(`.ded-card.done`, 압정 없이 살짝 기울게)로 차례대로 남고, 맨 아래에 지금 질문의 압정 꽂은 카드(`#deduceCard`, 깜박이는 빈칸). 목록(`#deduceCards`)은 스크롤되고 새 카드가 생기면 부드럽게 맨 아래로 내려간다(`deduceToEnd()`). **용의자 사진은 그 사람 카드들의 왼쪽**에 붙는다(사용자 요청: 그 문장이 나올 때 그 문장 왼쪽에): 카드를 다루는 사람별로 묶고(`.ded-group`), 탐정이 그 사람을 처음 물을 때(레이 q2·로지 q4·피오나 q6) 첫 카드와 함께 사진이 톡 꽂힌다. 묶음이 길면 사진은 스크롤해도 묶음 위쪽에 붙어 있다(sticky). 순서는 레이 → 로지 → 피오나로 정해져 있다. 사진(지금 묻는 사람에게도 테두리 없음, 사용자 요청): 알리바이가 확인되면 빨간 X — 탐정이 "So Ray couldn't do it."·"Rosie couldn't do it."를 말하는 순간 크레용 X(`ui/crayon-x-1/2.png`)가 한 획씩 그 방향으로 그려진다(사용자 요청, `deduceHold`·`deduceMarkAt()`: 녹음 `r3`·`r5`에서 그 문장이 시작하는 초 `xAt`, 녹음이 없으면 글자 비율로; 말풍선을 눌러 넘기면 바로), 거짓말이 드러나면 빨간 크레용 동그라미(`ui/crayon-o-1/2.png`) — "She lied."를 말하는 순간(`xAt` 6.4초, r7) 아래에서 시작해 시계 반대 방향으로 한 바퀴 그린 뒤 끝이 시작 획 안쪽으로 겹친다(사용자 요청, 원뿔 마스크 `--o1`·`--o2`). 사진 아래 장소 메모는 없다(사용자 요청). 사진은 처음 나올 때 톡 튀어나오고, X·동그라미는 그려진다(`deduceShown`). 빨간 실은 없다(사진이 카드 바로 옆이라). `해석`은 **문장마다 따로**다(사용자 요청: 한 번에 펼치면 원하지 않은 문장 해석도 보임): 말풍선의 `해석`은 지금 대사만 펼치고 다음 대사가 나오면 닫힌다(`deduceShow()`), 맞힌 카드마다 문장 오른쪽에 작은 `해석`(`.ded-ko`, 맞힌 카드 26px·지금 카드 30px)이 있어 그 카드의 한국어만 펼친다(`deduceKoCards`, 보드를 다시 열면 모두 닫힘). 아직 못 푼 카드에는 한국어가 없다(사용자 요청: 카드 해석에 정답이 들어 있고, 묻는 내용은 말풍선 해석이 알려 줌).
   - 빈칸을 누르면 바로 아래(자리가 없으면 카드 위)에 드롭다운(`#deduceDrop`, 사용자 요청: 하단 선택지 줄 대신): 말풍선 종이 + 연필 꼬리. 시각 3열·장소 2열·인물은 얼굴 4열 격자(만난 적 없는 곰 부인·후트 교수는 `?`). 고를 수 있는 건 **플레이어가 알게 된 것만**(`deduceWords()`: 알게 된 인물 + 이름만 들은 둘, 알게 된 장소, 노트의 시각들). 이미 틀린 단어는 흐리게.
   - 맞으면 카드 칸이 채워지고 정답 효과음 + 탐정 맞장구(이유를 짚음, 꿀색 말풍선) → 말이 끝나고 잠시 뒤 다음 질문(말풍선을 누르면 바로). 틀리면 카드가 흔들리고 낮은 효과음, 첫 번째는 "Hmm… that doesn't fit.", 두 번째부터 그 질문의 힌트(노트의 어디를 다시 볼지, 답은 말하지 않음).
-  - 음성: 탐정 목소리(Higgsfield MiniMax Grady, 사용자 요청) `audio/deduce/<키>.mp3` 31줄 — q1–q10 질문, r1–r10 맞장구, h1–h10 힌트, miss(`DEDUCE_RECORDED`). 키가 빠지면 그 줄만 브라우저 음성. 녹음 대본은 시각을 말로(eight forty), "Sgt."는 "Sergeant"로 썼다(화면 글은 그대로).
+  - 음성: 탐정 목소리(Higgsfield MiniMax Grady, 사용자 요청) `audio/deduce/<키>.mp3` 28줄 — q1–q9 질문, r1–r9 맞장구, h1–h9 힌트, miss(`DEDUCE_RECORDED`). 키가 빠지면 그 줄만 브라우저 음성. 녹음 대본은 시각을 말로(eight forty), "Sgt."는 "Sergeant"로 썼다(화면 글은 그대로).
   - 진행은 `S.deduce`(`done` 답한 질문, `misses`, `tried`, `at`)로 저장되고, 닫았다 열면 이어서 묻는다. 예전 쪽 방식 저장은 처음부터.
   - 아래 메뉴는 그대로라 `Note`로 노트를 보며 추리한다. 노트는 다른 화면과 똑같은 노트(전체 높이, 같은 디자인)로 열린다(사용자 요청).
   - 마지막 질문까지 답하면 `경찰에게 알리기`가 뜬다. 누르면 **오소리 경사 장면**(`startCall()`·`CALL`)으로 간다: 경사가 제자리(도서관)에서 "Detective! Did you find out who did it?"(음성) → 음성이 끝난 뒤 탐정이 자동으로 "Yes. It was Fiona Fox."라고 답한다(탐정 음성 `audio/detective-call-fiona.mp3`). 탐정 말풍선은 화면 아래쪽의 꼬리 없는 꿀색 종이와 탐정 얼굴(`.bubble.say.det`)이다 → 경사 "Fiona Fox? Then let's bring her to the station."(`badger-call2-fiona.mp3`) → `심문 시작`을 누르면 피오나 대질(`startEnding()`)로 간다. 이 장면에서는 용의자를 다시 고르지 않는다. 뒤로가기는 지도로 돌아간다. 대화가 남아 있으면 `추리하기` 버튼 자체를 숨긴다. `allConversationsDone()`으로 화면 표시와 추리 진입을 검사하며, 증거 수집 완료는 조건이 아니다.
@@ -370,7 +370,7 @@ node server.js            # http://localhost:5173/
 | `revealDiscoveries()` | 새 인물·장소 이름을 한 작은 알림에 모아 표시. 카메라·지도·대화는 이동하지 않음 |
 | `allConversationsDone()` | 참고인(`required` 참고인은 포함)을 뺀 `PEOPLE_ORDER`의 `phase === 'done'` 검사. 지도 `추리하기` 버튼 표시·추리 진입 조건 |
 | `openReview(fromHome)`, `renderReview()`, `closeReview()`, `caseGrammar()`, `reviewExtraGrammar()`, `replayReviewQuestion()`, `liveStats()`, `replayLine()` | 단계형 복습 페이지, 핵심·추가 문법과 담기, 방금 푼 사건의 첫 확인 합계·별점·틀린 질문·처음 틀린 입력, 노트·복습의 답변 다시 듣기(문장별 재생은 `replaySentence(ref, idx)`) |
-| `renderHome()`, `renderCaseList()`, `renderWords()`, `renderReviewTab()`, `renderMe()` | 홈 4칸 페이지 |
+| `renderHome()`, `renderHomeOffice()`, `renderCaseList()`, `renderStudy()`, `studyWords()`, `studyGrammar()`, `studyReview()`, `renderMe()` | 홈·사건·학습·마이의 4칸 페이지와 학습의 단어·문법·복습 전환 |
 | `learnedWords()`, `bookWords()`, `keptWords()`, `markSolved(id)`, `markStudyDay()`, `studyStreak()` | 단어장 단어, 해결·최고 기록 저장, 학습한 날 기록·연속 일수 |
 | `knownQuestion()`, `passageToggle()`, `openGrammar(g)`, `grammarUses(g)`, `learnedGrammar()`, `bookGrammar()`, `keptGrammar()` | 배운 것으로 치는 질문(확인됨 또는 해결한 사건), 지문 접기/펴기 버튼, 문법 카드·나온 문장·담은 문법(`pioo.grammarBook`) |
 | `speak(text, key, who, onDone, range)` | `spk(who).audio[key]`가 있으면 mp3, 없으면 브라우저 TTS. TTS가 0.7초 안에 시작하지 않으면(앱 미리보기 등) 대사 길이만큼 입만 움직인다. `onDone`은 끝까지 재생됐을 때만. 보통 1 / 천천히 0.75배속 |
@@ -394,9 +394,10 @@ node server.js            # http://localhost:5173/
 - `pioo.save`: 버전 1의 진행 저장(상태 `S`·`endingRound`, Set 직렬화 포함). 실제 저장 객체 구조·복원 제외 사항은 `saveGame()`/`loadGame()`과 3.1절 참조. 조사실 임시 배치·진행 중 음성·방금 채점한 피드백은 복원하지 않는다.
 - `pioo.tutorialSeen`: 튜토리얼을 봤는지
 - `pioo.detectiveName`: 플레이어가 지은 탐정 이름(없으면 다음 사건 카드에서 첫 만남)
-- `pioo.solvedCases`: 해결한 사건 id 배열(수사완료 도장 뒤 복습 페이지가 열릴 때 저장)
+- `pioo.solvedCases`: 해결한 사건 id 배열(경찰 종결 대사 뒤, 복습 페이지를 열기 직전에 저장)
 - `pioo.caseStats`: 사건별 최고 첫 확인 기록 `{ ok, total, stars, missed:['mole:m2', …], wrong:{'mole:m2':{빈칸id:처음 쓴 답}} }`(같은 때 저장, 정확도가 같거나 높을 때만 덮어씀)
 - `pioo.wordBook`: 단어장에 담은 단어 키 배열(복습 4단계에서 고름). 없으면 배운 단어 전부를 보여 준다
+- `pioo.grammarBook`: 복습에서 담은 문법 id 배열(핵심 문법의 여러 형태는 id 하나). 없으면 확인한 문법 전부를 보여 준다
 - `pioo.studyDays`: 학습한 날짜(로컬 YYYY-MM-DD, 최근 120개). 사건을 열거나 노트 `기록 완료`를 누르면 그날이 들어간다
 
 ## 6. 음성
@@ -434,7 +435,7 @@ node server.js            # http://localhost:5173/
 - **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(23개)에 있다.
   - 사용자 제작: 도서관 시계·창문·문.
   - 탐정 자신의 대사 9줄(Claude 제작, 3.1·3.1.1절): `audio/detective-intro1·intro2·askname·named·accuse.mp3`(2.7–4.7초), 홈 한마디 `detective-home-going·new·again·quiet.mp3`(2.7–4.4초). 대본은 `DETECTIVE`, 녹음의 "Sergeant Badger"는 화면에서 `Sgt. Badger`. `audio/detective-closed.mp3`는 미사용으로 보관한다.
-- 추리 보드 31줄(Claude 제작, 3.7절, 줄당 0.15크레딧): `audio/deduce/<키>.mp3`. q5·r5·h5는 로지 근거를 즉석카메라로 바꾸며 다시 녹음(2026-10-27, job q5 `c9f3aac9-…`, r5 `7a77a1e6-…`, h5 `8ad6a50e-…`). job: h1 `bbbe1048-…`, h2 `55f04c0b-…`, h3 `6e423f1a-…`, h4 `b1ee5942-…`, h5 `b8ea9164-…`, h6 `247c0aad-…`, h7 `4f9db832-…`, h8 `dea7ac17-…`, h9 `5c6a52e0-…`, h10 `a22c0acc-…`, miss `cecba4f1-…`, q1 `3dcedafe-…`, q2 `f6a32e80-…`, q3 `87919380-…`, q4 `ce1dc290-…`, q5 `e35c2493-…`, q6 `f086190c-…`, q7 `2ee7e768-…`, q8 `9cbede37-…`, q9 `82deb724-…`, q10 `98094717-…`, r1 `19019809-…`, r2 `23a2a777-…`, r3 `09839f6f-…`, r4 `61160a7c-…`, r5 `999cd7b6-…`, r6 `ca94b5ee-…`, r7 `f0b253e4-…`, r8 `d5664e80-…`, r9 `1cbe8a3b-…`, r10 `805c64d1-…`. 경찰에게 알리는 장면의 탐정 대사 `detective-call-fiona.mp3`(`c88e3b00-…`). `detective-call-ray·rosie.mp3`는 이전 분기의 파일로 현재 재생되지 않는다.
+- 추리 보드 현재 28줄(Claude 제작, 3.7절, 줄당 0.15크레딧): `audio/deduce/<키>.mp3`. job: h1 `bbbe1048-…`, h2 `55f04c0b-…`, h3 `6e423f1a-…`, h4 `b1ee5942-…`, h5 `8ad6a50e-…`, h6 `247c0aad-…`, h7 `4f9db832-…`, h8 `dea7ac17-…`, h9 `5c6a52e0-…`, miss `cecba4f1-…`, q1 `3dcedafe-…`, q2 `f6a32e80-…`, q3 `87919380-…`, q4 `ce1dc290-…`, q5 `c9f3aac9-…`, q6 `f086190c-…`, q7 `2ee7e768-…`, q8 `9cbede37-…`, q9 `82deb724-…`, r1 `19019809-…`, r2 `23a2a777-…`, r3 `09839f6f-…`, r4 `61160a7c-…`, r5 `7a77a1e6-…`, r6 `ca94b5ee-…`, r7 `f0b253e4-…`, r8 `d5664e80-…`, r9 `1cbe8a3b-…`. 경찰에게 알리는 장면의 탐정 대사 `detective-call-fiona.mp3`(`c88e3b00-…`). `detective-call-ray·rosie.mp3`는 이전 분기의 파일로 현재 재생되지 않는다.
   - Claude 제작: 나머지 19줄(빵집 door·oven·note·jam·pin·baskets, 카페 poster·guitar·cups·window, 언덕 notebook·footprints·telescope·star·flowers, 도서관 book·lamp·plant·crayons). 화면 문장과 달리 대문자 문구(CLOSED, LIVE MUSIC)는 보통 글자로, 노트의 따옴표·줄표는 빼고 읽혔다. `hill-notebook`은 "Rosie." 앞의 5초 공백을 잘라 11초다.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
 - **레이 답변 q2·q3**: `audio/ray-q2.mp3`는 `https://higgsfield.ai/s/8SZK9rdsrog` (job `c7e63099-f4fa-4a21-a715-dba3c7674ffd`), “The whole cafe saw me! Ask Mr. Duck. He owns the cafe.”, 약 4.50초. 인사를 포함한 세 번째 대사이며 질문은 `Can anyone prove that?`에 해당한다. `audio/ray-q3.mp3`는 `https://higgsfield.ai/s/WYHdfHigtTw` (job `c543dd0f-9f1e-4af5-ab23-a1141145ddfc`), “He borrowed my lantern last month and never gave it back. But he was a kind old owl.”, 약 6.18초. 두 파일 모두 MiniMax Archie, 제작 speed 1이며 기존 답변·노트 문장과 일치한다.
@@ -524,7 +525,7 @@ node server.js            # http://localhost:5173/
 4. 대화 → 현장 → 지도 → 다른 장소 → NPC 대화 순서로 이동한다. 노트 터치/드래그 입력, 전체 높이의 배경 가림, 노트 여백 터치 시 열린 상태 유지, 카메라·음성 상태도 확인한다.
 5. 증거 촬영은 나레이션 뒤 저장되고 취소 후 재촬영할 수 있어야 한다. 증거 노트 목록/상세 제목과 발견 장소, 노트를 닫은 뒤의 해금 알림을 확인한다.
 6. 대화 미완료 때는 `추리하기` 버튼이 없어야 한다. 추리 보드 끝의 `경찰에게 알리기`에서 용의자 선택 없이 탐정이 피오나를 답하고 `심문 시작`으로 이어져야 한다. `전체 대화 완료` → `증거 모두 수집` → 심문에서 서랍은 선택 전 작고 선택 후 확장돼야 한다. 반박 순서는 ① 빵집 7시 안내문 ② 곰 베티의 진술(`진술` 탭) ③ 탄 파이 ④ 문의 주황색 털 ⑤ 창문의 보라색 잼이고, 맞힐 때마다 탐정의 한마디가 나온다.
-7. 오증거 시 같은 주장과 진행률 유지, 상단 나가기 취소 시 현재 진행 유지, 확정 시 기록은 남기고 재심문은 0부터인지 확인한다. 자백 → 경찰 종결 대사 → 복습 첫 페이지의 COMPLETE 도장을 확인한다. 복습은 최대 4단계이며 2단계는 첫 확인 오답이 있을 때만 나온다.
+7. 오증거 시 같은 주장과 진행률 유지, 상단 나가기 취소 시 현재 진행 유지, 확정 시 기록은 남기고 재심문은 0부터인지 확인한다. 자백 → 경찰 종결 대사 → 복습 첫 페이지의 COMPLETE 도장을 확인한다. 복습은 최대 4단계이며 2단계는 첫 확인 오답이 있을 때만 나온다. 문법 페이지는 핵심 3형태와 추가 14개 펼치기, 개별 `담기`, 완료 뒤 `학습 > 문법`에 담은 항목만 남는지 확인한다.
 
 ## 9. 관련 링크
 
