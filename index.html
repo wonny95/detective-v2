@@ -196,6 +196,25 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .drawer-pick .pill{flex-shrink:0}
 .drawer-pick p{margin:0;font-size:15px;line-height:1.45}
 .drawer .empty-note{padding:0 16px}
+/* photos or statements (user pick A): two tabs beside the title */
+.drawer-tabs{display:flex;gap:6px;margin-left:12px}
+.drawer-tabs .pill.sm{box-sizing:border-box;min-height:30px;height:30px;padding:0 12px;font-size:13px}
+/* a statement: what the player wrote down for a checked question, on a lined slip with the speaker's face */
+.scard{flex:none;width:118px;display:flex;flex-direction:column;gap:4px;padding:8px 8px 9px;text-align:left;scroll-snap-align:start;color:var(--ink);
+  background:#FFFDF2 repeating-linear-gradient(transparent 0 17px,rgba(120,150,190,.35) 17px 18px) 0 34px/100% auto no-repeat;
+  border:2px solid var(--ink);border-radius:3px 8px 4px 6px;box-shadow:2px 3px 0 rgba(74,54,40,.15);transform:rotate(-1.2deg);transition:transform .2s,box-shadow .2s}
+.scard:nth-child(even){transform:rotate(1deg)}
+.scard .who{display:flex;align-items:center;gap:6px;font-family:var(--f-display);font-size:12.5px;line-height:1.1}
+.scard .say{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;font-family:var(--f-hand);font-weight:700;font-size:12.5px;line-height:18px}
+.scard[aria-pressed="true"]{transform:translateY(-6px) rotate(-2deg);box-shadow:0 0 0 3px var(--berry),3px 8px 10px rgba(74,54,40,.25)}
+.say-face{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink);background:#FFF8E9 center/88% no-repeat}
+.drawer-pick .who-says{font-family:var(--f-display)}
+/* a statement held up: the slip instead of a photo */
+.presented figure.say{aspect-ratio:auto;display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px;box-sizing:border-box;border:2px solid var(--ink);border-radius:4px 10px 6px 8px;
+  background:#FFFDF2 repeating-linear-gradient(transparent 0 25px,rgba(120,150,190,.35) 25px 26px) 0 52px/100% auto no-repeat}
+.presented figure.say .who{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-size:16px}
+.presented figure.say .say-face{width:40px;height:40px}
+.presented figure.say p{margin:0;font-family:var(--f-hand);font-weight:700;font-size:17px;line-height:26px;color:var(--ink)}
 /* holding up a photo: the right one gets a red 모순! stamp, the scene jolts and she flinches; a wrong one wobbles and drops */
 .presented .contra{position:absolute;left:50%;top:48%;font-family:var(--f-display);font-size:34px;letter-spacing:2px;color:#B8433F;border:5px solid #B8433F;border-radius:12px;padding:0 14px;background:rgba(255,253,247,.75);white-space:nowrap;animation:contra 1.3s ease forwards}
 @keyframes contra{0%,28%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(2.4)}40%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}82%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
@@ -1251,7 +1270,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
       <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt="" draggable="false"><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
       <section class="drawer" id="drawer" aria-label="증거 서랍">
-        <div class="drawer-head"><h3>증거</h3><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
+        <div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" data-drawer-tab="photo" aria-pressed="true">사진</button><button class="pill sm" type="button" data-drawer-tab="say" aria-pressed="false">진술</button></div><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
         <div class="drawer-strip" id="drawerStrip"></div>
         <div class="drawer-pick" id="drawerPick" hidden></div>
       </section>
@@ -3610,19 +3629,35 @@ function updateInterrogationGauge(round, feedback = ''){
 }
 
 // The evidence drawer: every photo in a strip under her; one picked plays its sentence and can be held up (내밀기).
-let drawerPick = null, drawerSizeAnimation = null, drawerTextAnimation = null;
+// Its 진술 tab holds the statements instead (user pick A): what the player wrote for every checked question.
+let drawerPick = null, drawerTab = 'photo', drawerSizeAnimation = null, drawerTextAnimation = null;
 const evRef = record => `${record.placeId}-${record.clueIndex}`;
+// a statement's ref is 'person:question' (a photo's is 'place-clue')
+const isSayRef = ref => ref.includes(':');
+const sayOk = ref => { const [id, qid] = ref.split(':'); return S.per[id]?.questionChecks[qid] === 'ok'; };
+const statements = () => PEOPLE_ORDER.flatMap(id => S.per[id] ? qs(spk(id)).map(q => `${id}:${q.id}`).filter(sayOk) : []);
+const sayFace = id => `<i class="say-face" style="background-image:url(assets/ui/icons-v2/${id}.png);background-color:${spk(id).bg}"></i>`;
+function drawerStripHTML(){
+  if(drawerTab === 'say'){
+    const all = statements();
+    return all.length ? all.map(ref => { const [id, qid] = ref.split(':');
+      return `<button class="scard" type="button" data-pick="${ref}" aria-pressed="false"><span class="who">${sayFace(id)}<span>${esc(spk(id).name)}</span></span><span class="say">${esc(writtenLines(id, qid).join(' '))}</span></button>`; }).join('')
+      : '<p class="empty-note">아직 확인한 진술이 없어요.</p>';
+  }
+  return S.evidence.length ? [...S.evidence].reverse().map(record => {
+    const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
+    return `<button class="dcard" type="button" data-pick="${evRef(record)}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="dlabel">${esc(clue.label)}</span><span class="dplace">${esc(place.label)}</span></button>`;
+  }).join('') : '<p class="empty-note">아직 수집한 증거가 없어요.</p>';
+}
 function stopDrawerAnimations(){
   drawerSizeAnimation?.cancel(); drawerTextAnimation?.cancel();
   drawerSizeAnimation = drawerTextAnimation = null;
 }
-function openDrawer(){
+function openDrawer(tab = 'photo'){
   stopDrawerAnimations();
-  drawerPick = null;
-  $('#drawerStrip').innerHTML = S.evidence.length ? [...S.evidence].reverse().map(record => {
-    const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
-    return `<button class="dcard" type="button" data-pick="${evRef(record)}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="dlabel">${esc(clue.label)}</span><span class="dplace">${esc(place.label)}</span></button>`;
-  }).join('') : '<p class="empty-note">아직 수집한 증거가 없어요.</p>';
+  drawerPick = null; drawerTab = tab;
+  $('#drawer').querySelectorAll('[data-drawer-tab]').forEach(b => b.setAttribute('aria-pressed', b.dataset.drawerTab === tab));
+  $('#drawerStrip').innerHTML = drawerStripHTML();
   $('#drawerStrip').scrollLeft = 0;
   $('#drawerPick').innerHTML = '';
   $('#drawerPick').hidden = true;
@@ -3641,9 +3676,16 @@ function pickEvidence(ref){
   stopDrawerAnimations();
   drawerPick = ref;
   $('#drawerStrip').querySelectorAll('[data-pick]').forEach(card => card.setAttribute('aria-pressed', card.dataset.pick === ref));
-  const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
-  detail.innerHTML = `<p>${esc(clue.en)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref}" aria-label="다시 듣기">${playIcon}</button>` : ''}</p>
-    <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+  if(isSayRef(ref)){
+    // a statement: who said it and what they said (their own recording again), then 내밀기
+    const [id, qid] = ref.split(':');
+    detail.innerHTML = `<p><b class="who-says">${esc(spk(id).name)}:</b> “${esc(spk(id).answers[qid])}”<button class="replay-q" type="button" data-say-play="${ref}" aria-label="다시 듣기">${playIcon}</button></p>
+      <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+  } else {
+    const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
+    detail.innerHTML = `<p>${esc(clue.en)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref}" aria-label="다시 듣기">${playIcon}</button>` : ''}</p>
+      <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+  }
   detail.hidden = false;
   detail.scrollTop = 0;
   const toHeight = drawer.getBoundingClientRect().height;
@@ -3655,7 +3697,11 @@ function pickEvidence(ref){
     drawerTextAnimation = detail.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],
       {duration:220,delay:90,fill:'backwards',easing:'ease-out'});
   }
-  playEvidence(ref);
+  playPick(ref);
+}
+function playPick(ref){
+  if(!isSayRef(ref)) return playEvidence(ref);
+  const [id, qid] = ref.split(':'); speak(spk(id).answers[qid], qid, id);
 }
 // A mouse can drag the strip sideways and its wheel scrolls it sideways (a finger already swipes it natively);
 // a drag that moved never counts as picking the card it started on.
@@ -3680,6 +3726,10 @@ function pickEvidence(ref){
 })($('#drawerStrip'));
 $('#drawer').addEventListener('click', e => {
   if(e.target.closest('[data-drawer-close]')) return closeDrawer();
+  const tab = e.target.closest('[data-drawer-tab]');
+  if(tab){ if(tab.dataset.drawerTab !== drawerTab){ stopVoice(); $('#evidenceVoice').pause(); openDrawer(tab.dataset.drawerTab); } return; }
+  const say = e.target.closest('[data-say-play]');
+  if(say) return playPick(say.dataset.sayPlay);
   const card = e.target.closest('[data-pick]');
   if(card) return pickEvidence(card.dataset.pick);
   const play = e.target.closest('[data-ev-play]');
@@ -3830,11 +3880,15 @@ function present(ref){
   clearTimeout(endTimer); stopVoice();
   setNotes(false); renderDock();
   renderSay(null);
-  const record = S.evidence.find(r => `${r.placeId}-${r.clueIndex}` === ref);
   const round = ENDING.confront[endingRound], right = round.accept.includes(ref);
   const shot = document.createElement('div');
   shot.className = `presented ${right ? 'hit' : 'miss'}`;
-  shot.innerHTML = `<figure>${record.photo}</figure>${right ? '<span class="contra">모순!</span>' : ''}`;
+  let figure;
+  if(isSayRef(ref)){
+    const [id, qid] = ref.split(':');
+    figure = `<figure class="say"><span class="who">${sayFace(id)}${esc(spk(id).name)}</span><p>${esc(writtenLines(id, qid).join(' '))}</p></figure>`;
+  } else figure = `<figure>${S.evidence.find(r => `${r.placeId}-${r.clueIndex}` === ref).photo}</figure>`;
+  shot.innerHTML = figure + (right ? '<span class="contra">모순!</span>' : '');
   $('.scene').appendChild(shot);
   $('#backTab').disabled = true;   // wait for the photo response before offering to leave
   // the moment it lands: a hit stamps 모순!, jolts the room, makes her flinch and fills the gauge; a miss just bounces off
@@ -4389,7 +4443,7 @@ function enterPlace(id, fromConversation = false){
 }
 // The interrogation's evidence found so far: a step of ENDING.confront counts once any evidence it accepts is found.
 function evidenceNeed(){
-  const found = key => { const at = key.lastIndexOf('-'); return !!S.found[key.slice(0, at)]?.has(+key.slice(at + 1)); };
+  const found = key => { if(isSayRef(key)) return sayOk(key); const at = key.lastIndexOf('-'); return !!S.found[key.slice(0, at)]?.has(+key.slice(at + 1)); };
   return { got:ENDING.confront.filter(step => step.accept.some(found)).length, of:ENDING.confront.length };
 }
 let evShown = null;

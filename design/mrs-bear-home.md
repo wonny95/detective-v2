@@ -13,14 +13,12 @@
      → "No. Nobody was there. So I came home with no bread."
      노트: `She {{didn't}} see Fiona.` / `She came home with no {{bread}}.`
    - hello: "Oh, hello, detective! I'm Mrs. Bear. Would you like some honey tea?"
-3. 집의 물건(현장 촬영, 장소마다 셋 이상):
-   - **빈 빵 바구니**(증거): "Mrs. Bear's bread basket is empty." — 심문에서 피오나의 "곰 부인이 8시 30분에 왔어요"에 내미는 사진.
-   - 꿀단지(소품), 뜨개질 바구니 또는 찻주전자(소품).
-4. 빵집 계산대 쪽지(`bakery-2`)는 없앤다(증언과 겹침). 빵집 물건 번호가 하나씩 당겨진다.
+3. 집의 물건(현장 촬영, 장소마다 셋 이상, 모두 소품): 빈 빵 바구니, 꿀단지, 뜨개질 바구니 또는 찻주전자.
+4. 빵집 계산대 쪽지(`bakery-2`)는 남겨 둔다(심문 q2에서 쪽지 사진도 정답으로 받음).
 5. 추리 보드 q8 카드는 그대로("And Mrs. Bear got no bread tonight."), 탐정 대사·힌트만 바꾼다:
    - right: "Mrs. Bear says the bakery was dark at eight thirty. Nobody saw Fiona there. She lied." (동그라미 시점 `xAt` 다시 잼)
    - hint: "What did Mrs. Bear say? Was the bakery open at eight thirty?"
-6. 심문 q2의 정답 사진: 쪽지 → 빈 빵 바구니.
+6. 심문 q2의 정답: 곰 부인의 진술 `bear:b1`("The bakery was dark. The door was locked.")과 쪽지 사진 `bakery-2`. 진술 내밀기는 적용됨(증거 서랍 `진술` 탭).
 
 ## 그림 (한 번에 한 장)
 
