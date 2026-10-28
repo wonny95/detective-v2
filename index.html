@@ -3557,7 +3557,10 @@ function renderInterrogationGauge(){
 }
 // Fill on impact, before the next line starts; keep the same fill element so changes animate.
 function updateInterrogationGauge(round, feedback = ''){
-  const box = $('#interrogationGauge'), progress = Math.min(100, Math.max(0, round / ENDING.confront.length * 100));
+  // A correct proof fills the gauge before the detective speaks; later renders must not rewind it.
+  const shownRound = Math.max(round, ending?.gaugeProgress || 0);
+  if(ending) ending.gaugeProgress = shownRound;
+  const box = $('#interrogationGauge'), progress = Math.min(100, Math.max(0, shownRound / ENDING.confront.length * 100));
   box.setAttribute('aria-valuenow', progress);
   box.querySelector('.gauge-fill').style.setProperty('--q', progress / 100);
   box.classList.toggle('complete', progress === 100);
