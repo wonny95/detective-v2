@@ -55,7 +55,7 @@ node server.js            # http://localhost:5173/
 | `server.js` | 정적 파일 서버 + 자동 새로고침(약 55줄) |
 | `scripts/prepare-demo.mjs` | 공개 데모 준비 스크립트(보관용, 현재 공유에는 쓰지 않음) |
 | `sites/pioo-demo/` | 갱신 중단한 공개 데모의 독립 Git 체크아웃(부모 Git에서는 제외). `source/`, `build.mjs`, `.openai/hosting.json`, 빌드 결과 `dist/` |
-| `audio/` | 캐릭터 음성·탐정 나레이션·효과음, `words/` 단어 발음, 이전 음성 백업(`linda-old/`) |
+| `audio/` | 캐릭터 음성·탐정 나레이션·효과음, `words/` 단어 발음 |
 | `assets/characters/` | 여섯 인물 투명 PNG, 제작 원본 |
 | `assets/places/` | 네 장소 배경, 대화용 바닥 확장(`*-floor.jpg`), 마을 지도, 출처 README |
 | `assets/ui/` | 종이 버튼·노트·노트 탭·말풍선·아이콘·도장·별, 제작 원본, 출처 README |
@@ -417,7 +417,7 @@ node server.js            # http://localhost:5173/
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 | Betty Bear (참고인, 필수) | Vera | 3줄(hello·b1·b2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
-- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad)·m3(Delia), 피오나 q2·q3·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`·`confess3`(sad)(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기. `audio/detective-bakery-note.mp3`는 쓰지 않는다(지우기는 사용자 확인 뒤).
+- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad)·m3(Delia), 피오나 q2·q3·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`·`confess3`(sad)(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기.
 
 - **엔딩 대사**(사용자 제작, MiniMax). 대사는 `ENDING`, 파일은 각 인물 `audio`의 키로 연결한다.
   - 피오나(Petra): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess2` fearful(`5dcffd54-…`), `confess3` fearful(`4cd66913-…`).
@@ -434,7 +434,7 @@ node server.js            # http://localhost:5173/
 
 - **단어 입력 효과음**: `audio/word-place.wav`, Codex가 직접 합성한 짧은 톡 소리. 22,050Hz·16bit·모노 PCM, 약 95ms·4,234바이트. 감쇠하는 단일 음과 낮춘 잡음의 조합이며 정답 채점 소리와 구분한다. `#wordPlace`로 미리 불러오고 볼륨 .55에서 재생. 외부 생성 서비스·크레딧 미사용.
 - **도장 효과음**: `audio/stamp.mp3`, 사용자 제공 freesound "traditional stamp"(44189). 원본 1.66초 중 앞의 무음 0.49초를 잘라 쿵 소리로 바로 시작하게 하고 0.64초(끝 0.14초 페이드), 모노 96kbps로 줄였다. `#stampThud`로 미리 불러오고 `stampSound(ms)`가 도장 그림이 종이에 닿는 순간에 맞춰 낸다(사용자 요청: 도장이 찍히는 모든 장면): 신분증 도토리 도장 0.13초, 노트 `✓ 확인됨` 0.34초(정답 효과음과 함께), 심문 **모순!** 0.48초(정답 효과음과 함께), 종결 COMPLETE 카드 0.7초, 복습 첫 페이지 COMPLETE 0.34초. 노트 전체 `확인됨` 도장은 마지막 질문의 `✓ 확인됨`과 같은 순간이라 따로 내지 않는다.
-- 효과음 `camera-shutter.mp3`(사용자 제공). `mole-m2-alt.mp3`는 미사용 대체 테이크, `linda-old/`는 이전 두더지 목소리 백업이다.
+- 효과음 `camera-shutter.mp3`(사용자 제공).
 - `천천히`는 다음 재생부터 적용한다. 현장 이동·다른 NPC 대화·기록 완료에서 대사를 멈춘다.
 
 ## 7. 그림 자산
