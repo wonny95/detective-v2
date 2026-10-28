@@ -268,7 +268,7 @@ node server.js            # http://localhost:5173/
      - **틀린 사진이면 같은 주장에 다시 도전한다**(사용자 결정): 피오나가 "That has nothing to do with me."라고 한 뒤 현재 주장을 다시 말한다. 앞서 맞힌 주장과 진행률, 현재 단계의 표정은 유지한다.
      - **심문 나가기 확인**(사용자 요청): 상단 뒤로가기는 `requestLeaveInterrogation()`으로 `#leaveInterrogation` 확인창을 연다. 제목 `심문을 나갈까요?`, 안내 `다시 심문할 때는 처음부터 시작해요. 수집한 증거와 기록은 그대로 남아요.`. `계속 심문하기`·바깥 터치·Escape는 같은 대사와 진행률을 유지하고, `나가서 조사하기`를 확정해야 `leaveEnding()`이 `endingRound = 0`으로 초기화해 원래 현장 + 지도로 돌아간다. 증거·노트는 유지한다. 확인창은 음성을 멈추고 계속 버튼에 초점을 둔다. Tab/Shift+Tab은 창 안 두 버튼을 순환하며 취소 후 뒤로 버튼에 초점을 돌려준다. 사진 반박 연출·다음 대사 준비 중에는 뒤로가기를 잠시 비활성화한다.
      - **피오나 표정**(`S.mood`, `setMood()`): 주장 1·2는 기본, 빵집 거짓말이 들킨 뒤 주장 3–5는 당황(`fiona-nervous.png`), 자백은 고개 숙임(`fiona-sad.png`). 틀린 사진에도 현재 단계의 표정을 유지한다.
-  2. **자백**: 잠깐 침묵 뒤 3줄. 두 번째 줄은 말다툼·시계 충돌 뒤 "And then the professor wasn't moving."(해석: "그리고 교수님이 움직이질 않으셨어요.")으로 끝나며, 시계가 멈춘 시각은 이 대사에서 말하지 않는다. 아래 버튼은 `다음`(듣기·해석은 말풍선 안).
+  2. **자백**: 잠깐 침묵 뒤 3줄. 두 번째 줄은 말다툼·시계 충돌 뒤 "And then the professor wasn't moving."(해석: "그리고 교수님이 움직이질 않으셨어요.")으로 끝난다. 세 번째 줄은 창문으로 도망친 일과 교수에게 사과하는 말만 한다. 아래 버튼은 `다음`(듣기·해석은 말풍선 안).
   3. **마무리**: 같은 조사실에서 오소리 경사가 1줄 말한다. `다음`을 누르면 `finishEnding()`이 해결 기록을 저장(`markSolved`)하고 곧바로 복습 첫 페이지를 연다. 별도의 종결 카드와 탐정 마무리 대사는 없다(사용자 요청: 복습 첫 페이지와 중복). 후일담 장면도 넣지 않는다.
 - **복습 페이지**(`openReview(fromHome)`, `renderReview()`, 상태 `rv`; 사용자 결정): 전체 화면 종이 페이지를 최대 4단계로 넘긴다(첫 확인에서 틀린 질문이 없으면 2단계 생략). 위 머리줄·진행 막대 없이, 아래 큰 버튼 바로 위에 단계 점(`.rv-dots`, 이번 사건의 열쇠와 같은 모양, 단계 수만큼). 버튼 글은 넘김은 `다음`, 채점은 `확인`, 마지막은 `완료`(사용자 결정). 좌우 여백 24px(사용자 요청, 이번 사건의 열쇠는 16px), 위 20px. 화면 안 설명 문장은 없다. 사건 대화 전체 다시 보기는 넣지 않는다(사용자 결정).
   1. **사건 결과**: 압정으로 꽂은 서류(`casekey/card.webp`) 안에 **사건 사진**(`reviewPhoto()`, `CASES[].photo`, 사용자 결정: 범인이면 머그샷, 물건이면 그 물건). Case 01은 `{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 }` → 키 눈금 벽 + 그림(몸이 그림 폭의 `cx`%에 있어 그 점을 가운데로, 머리가 잘리지 않게 폭 72%) + 번호판 `FIONA FOX / ACORN HOLLOW · 01`. 물건이면 `{ place, clue }` → `evidencePhoto()`로 현장 그림에서 잘라 냄. `COMPLETE` 도장은 사진 오른쪽 위 모서리에 겹쳐 찍힘(사용자 결정). 그 아래 사건 번호·제목, 손그림 별 3개(하나씩 찍힘, 아래 여백 `margin-bottom:10px`로 요약과 24px, 사용자 요청), **사건 요약**(`CASES[].summary`, 사용자 결정: 시안 A의 줄 친 메모지 `.rv-story`, 피해자·범인·자백 내용만 아주 짧게, 한국어), 세 줄을 아래로(사용자 요청, 줄마다 왼쪽 이름·오른쪽 숫자, 이름은 늘 같고 값만 바뀜) `처음에 맞힌 빈칸 맞힌 칸 / 전체 칸` · `다시 들을 문장 n`(있으면 꿀색) 또는 `없음` · `사건에 나온 단어 n`.
@@ -407,19 +407,20 @@ node server.js            # http://localhost:5173/
 | Fiona Fox | Petra | 4줄 완료. q3는 단골손님·매일 아침 빵 구매 진술 한 문장 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정·청취 품질 사용자 확인 대기) |
-| 엔딩 | Petra·Fraser | 7줄 음성 적용. 피오나 자백 두 번째 줄은 수정 대사로 교체(아래) |
+| 엔딩 | Petra·Fraser | 7줄 음성 적용. 피오나 자백 두 번째 줄은 새 녹음, 세 번째 줄은 불필요한 중간 문장을 제거한 녹음(아래) |
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 | Betty Bear (참고인, 필수) | Vera | 3줄(hello·b1·b2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
-- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad), 피오나 q2·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`·`confess3`(sad)(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–2·hit4–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기.
+- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad), 피오나 q2·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–2·hit4–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기.
 
 - **엔딩 대사**: 대사는 `ENDING`, 파일은 각 인물 `audio`의 키로 연결한다.
-  - 피오나(Petra, 아래 `confess2` 외 사용자 제작 MiniMax): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess3` fearful(`4cd66913-…`).
+  - 피오나(Petra, 아래 `confess2` 외 사용자 제작 MiniMax): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess3` fearful(`4cd66913-…`, 중간 문장을 잘라 사용).
   - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 경찰에게 알리는 장면(Claude 제작) `badger-call1`(`10344252-…`), `badger-call2-fiona`(`076e7c65-…`). `badger-call2-ray·rosie` 파일은 이전 분기에서 남아 있고 현재 재생되지 않는다. 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
 - **음성 교체**: 사용자 링크 또는 연결된 생성 목록에서 대사·목소리·테이크를 확인하고 인물의 `audio` 키에 맞춘다. 같은 줄의 여러 테이크는 사용자 지정본을 우선한다. 파일을 받은 뒤 실제 녹음과 설정을 확인하며, 도구의 감정 적용 여부를 추정하지 않는다.
 - **두더지 부인 m3**: `audio/mole-m3.mp3`는 사용자 제공 [Higgsfield 녹음](https://higgsfield.ai/s/bv9sW3KEhSs). 대사는 `PEOPLE.mole.answers.m3`와 일치한다. MiniMax Speech 2.8 HD, Delia, 약 8.14초. `SENTENCE_TIMES['mole:m3']`는 두 문장 `[0, 5.03]`, `[5.77, 7.86]`으로 맞췄다.
 - **피오나 q3**: `audio/fiona-q3.mp3`는 단골손님이 매일 아침 피오나의 빵을 사 갔다는 한 문장만 말한다. Petra, Higgsfield text2speech_v2 MiniMax, job `f98cadd0-3267-4b43-9d08-01cdd5f258f7`, 0.3크레딧, 약 3.27초. `SENTENCE_TIMES['fiona:q3']`는 `[0, 3.14]`. 신문 리뷰와 감정은 이 진술에서 다루지 않고 두더지 부인 m3·빵집 신문 단서에서 드러난다. 이전 저장본의 완료된 q3는 새 빈칸을 정답으로 채워 기록을 유지한다.
 - **피오나 자백 2**: `audio/fiona-confess2.mp3`는 `ENDING.confession[1]`의 수정된 대사만 말한다. Petra, Higgsfield text2speech_v2 MiniMax, job `c708ccd4-456b-4155-b697-f45aac70f84f`, 0.3크레딧, 약 6.10초. 별도의 감정 설정 없이 생성되어 청취 품질은 사용자 확인 대상이다.
+- **피오나 자백 3**: `audio/fiona-confess3.mp3`는 창문으로 도망친 일과 교수에게 사과하는 말만 한다. Petra의 사용자 제작 fearful 녹음에서 중간의 파이 문장만 잘라 원래 목소리를 유지한다(약 5.69초).
 - **오븐 증거 반박**: `audio/detective-hit3.mp3`는 `ENDING.confront[2].det.en`의 새 질문만 말한다. Grady, Higgsfield text2speech_v2 MiniMax, job `c9a4483a-2682-4f7e-8277-612a3c4f4096`, 0.3크레딧, 약 5.4초. 한국어 해석은 `ENDING.confront[2].det.ko`에 있다.
 
 - **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(23개)에 있다.
