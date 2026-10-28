@@ -3043,24 +3043,6 @@ function toggleSlow(){ S.slow = !S.slow; renderSlow(); toast(S.slow ? '천천히
 $('#slow').onclick = toggleSlow;
 // tapping the scene behind the open notebook puts it away (word-card drags never land here as a click)
 $('#noteScrim').onclick = closeNotes;
-// Empty paper/header/edge space also dismisses the notebook; content and drag gestures do not.
-let noteSpaceTap = null;
-const noteSpaceTargets = '.dock,.dock-head,.dock-body,.note-page,.evidence-page,.evidence-detail,.note-cats,.memo-page';
-$('#app').addEventListener('pointerdown', e => {
-  noteSpaceTap = null;
-  if(!e.isPrimary || e.button !== 0 || !$('#app').classList.contains('notes-open') || !e.target.matches(noteSpaceTargets)) return;
-  noteSpaceTap = {id:e.pointerId,x:e.clientX,y:e.clientY,target:e.target,typing:$('#app').classList.contains('typing')};
-});
-$('#app').addEventListener('pointermove', e => {
-  if(noteSpaceTap?.id === e.pointerId && Math.hypot(e.clientX-noteSpaceTap.x,e.clientY-noteSpaceTap.y) > 8) noteSpaceTap = null;
-});
-$('#app').addEventListener('pointercancel', () => { noteSpaceTap = null; });
-$('#app').addEventListener('pointerup', e => {
-  const tap = noteSpaceTap; noteSpaceTap = null;
-  if(!tap || tap.id !== e.pointerId || tap.target !== e.target || drag || !$('#app').classList.contains('notes-open')) return;
-  if(tap.typing){ document.activeElement?.blur(); return; }
-  if(Math.hypot(e.clientX-tap.x,e.clientY-tap.y) <= 8) closeNotes();
-});
 $('#evidenceBack').onclick = () => {
   $('#evidenceVoice').pause(); evidenceOpen = null; renderDock();
 };
