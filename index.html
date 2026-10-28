@@ -862,6 +862,11 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-card.done .ko{font-size:12px}
 .ded-card.done .ded-slot{height:24px;min-width:0}
 .ded-card .ko{font-size:12.5px;font-weight:700;line-height:1.45;color:var(--berry)}
+/* every sentence has its own 해석, beside it (user request: one button for all showed lines they did not ask for) */
+.ded-line{display:flex;align-items:flex-start;gap:8px}
+.ded-line p{flex:1;min-width:0}
+.ded-card .pill.sm.ded-ko{flex:none;box-sizing:border-box;height:30px;min-height:30px;margin-top:1px;padding:0 9px}
+.ded-card.done .pill.sm.ded-ko{height:26px;min-height:26px;margin-top:0;padding:0 8px;font-size:11.5px}
 .ded-card.shake{animation:deduce-shake .4s}
 @keyframes deduce-shake{20%,60%{transform:translateX(-6px) rotate(-1deg)}40%,80%{transform:translateX(6px) rotate(-1deg)}}
 .ded-card.solved{animation:deduce-ok .35s ease-out}
@@ -3302,7 +3307,7 @@ const deduceBlank = q => q.card.match(/\{(\w+):([^}]+)\}/);   // [, kind, answer
 // an older save's page board (fill/solved) starts over as questions
 const deduceState = () => S.deduce?.done instanceof Set ? S.deduce : (S.deduce = { done:new Set(), misses:{}, tried:{}, at:0 });
 const deduceEnd = () => deduceState().done.size === DEDUCE.qs.length;
-let deduceKoOpen = false, deduceLine = null, deduceNextT = null, deduceWait = false, deduceShown = null;
+let deduceKoOpen = false, deduceKoCards = new Set(), deduceLine = null, deduceNextT = null, deduceWait = false, deduceShown = null;
 // the words of a kind the player has met so far
 function deduceWords(kind){
   if(kind === 'person') return DEDUCE.people.filter(([, id]) => !id || S.met.includes(id)).map(([word]) => word);
@@ -3318,7 +3323,7 @@ function openDeduce(){
   if(!allConversationsDone()) return;
   openSheet(null); setNotes(false);
   $('#deduce').hidden = false; $('#app').classList.add('deducing');
-  const st = deduceState(); deduceShown = null; deduceWait = false;
+  const st = deduceState(); deduceShown = null; deduceWait = false; deduceKoCards.clear();
   if(deduceEnd()){ st.at = DEDUCE.qs.length - 1; deduceShow({ en:DEDUCE.qs[st.at].right, ko:DEDUCE.qs[st.at].rightKo }, `r${st.at + 1}`, 'read', null, false); renderDeduce(); }
   else { if(st.done.has(st.at)) st.at = deduceNextAt(); deduceAsk(); }
   $('#deduceGo').hidden = !deduceEnd(); deduceToEnd(false);
@@ -3341,7 +3346,7 @@ function deduceAsk(){
 }
 // one of the detective's lines in the bubble, said out loud (onDone once it has been said)
 function deduceShow(line, key, mood = '', onDone, say = true){
-  deduceLine = { ...line, key };
+  deduceLine = { ...line, key }; deduceKoOpen = false; $('#deduceKo').setAttribute('aria-pressed', 'false');
   $('#deduceQ').className = 'deduce-q' + (mood ? ' ' + mood : '');
   $('#deduceEn').textContent = line.en; $('#deduceKoText').textContent = line.ko; $('#deduceKoText').hidden = !deduceKoOpen;
   if(say) deduceSpeak(key, line.en, onDone); else stopVoice();
@@ -3386,17 +3391,18 @@ function renderDeduce(){
       `<span class="ded-memo${memo ? ' on' : ''}${popMemo ? ' pop' : ''}${lie && memo === 'bakery?' ? ' lie' : ''}">${esc(memo) || '&nbsp;'}</span></div>`;
   };
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
-  const card = (x, filled) => {
-    const [, kind, answer] = deduceBlank(x);
+  const card = (i, filled) => {
+    const x = qs[i], [, kind, answer] = deduceBlank(x), ko = deduceKoCards.has(i);
     const slot = filled ? `<span class="ded-slot ${kind} full">${esc(answer)}</span>`
       : `<button class="ded-slot ${kind}" type="button" data-dslot aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
     // the Korean only once it is answered: it holds the answer (user request), and the question's own 해석 says what is asked
-    return `<p>${esc(x.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p>` + (filled ? `<p class="ko"${deduceKoOpen ? '' : ' hidden'}>${esc(x.cardKo)}</p>` : '');
+    return `<div class="ded-line"><p>${esc(x.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p>` +
+      (filled ? `<button class="pill sm ded-ko" type="button" data-dko="${i}" aria-pressed="${ko}">해석</button></div><p class="ko"${ko ? '' : ' hidden'}>${esc(x.cardKo)}</p>` : '</div>');
   };
   const list = $('#deduceCards'), before = list.querySelectorAll('.ded-card.done').length;
   const done = qs.map((x, i) => i).filter(i => st.done.has(i) && i !== st.at);
-  const cards = [...done.map((i, n) => `<div class="ded-card done" data-dcard="${i}" style="--tilt:${n % 2 ? -.7 : .6}deg">${card(qs[i], true)}</div>`),
-    `<div class="ded-card" id="deduceCard" data-dcard="${st.at}">${card(q, st.done.has(st.at))}</div>`];
+  const cards = [...done.map((i, n) => `<div class="ded-card done" data-dcard="${i}" style="--tilt:${n % 2 ? -.7 : .6}deg">${card(i, true)}</div>`),
+    `<div class="ded-card" id="deduceCard" data-dcard="${st.at}">${card(st.at, st.done.has(st.at))}</div>`];
   // the cards in runs by whom they are about; a suspect's run has their photo on its left
   const order = [...done, st.at], runs = [];
   order.forEach((i, n) => { const who = qs[i].who || ''; if(runs.at(-1)?.who === who) runs.at(-1).cards.push(cards[n]); else runs.push({ who, cards:[cards[n]] }); });
@@ -3458,7 +3464,16 @@ function deduceNext(){
   if($('#deduce').hidden || deduceEnd()) return;
   deduceState().at = deduceNextAt(); saveGame(); deduceAsk();
 }
-$('#deduceCards').addEventListener('click', e => { const slot = e.target.closest('[data-dslot]'); if(slot && !deduceWait) openDeduceDrop(slot); });
+$('#deduceCards').addEventListener('click', e => {
+  const ko = e.target.closest('[data-dko]');
+  if(ko){
+    const i = +ko.dataset.dko, open = !deduceKoCards.has(i);
+    if(open) deduceKoCards.add(i); else deduceKoCards.delete(i);
+    ko.setAttribute('aria-pressed', open); ko.closest('.ded-card').querySelector('.ko').hidden = !open;
+    return;
+  }
+  const slot = e.target.closest('[data-dslot]'); if(slot && !deduceWait) openDeduceDrop(slot);
+});
 $('#deduceCards').addEventListener('scroll', closeDeduceDrop, { passive:true });
 $('#deduceDrop').addEventListener('click', e => { const o = e.target.closest('[data-dword]'); if(o) deducePick(o.dataset.dword); });
 // a tap anywhere else puts the dropdown away
@@ -3467,7 +3482,7 @@ $('#deduceQ').addEventListener('click', e => { if(deduceWait && !e.target.closes
 $('#deduceReplay').onclick = () => deduceLine && deduceSpeak(deduceLine.key, deduceLine.en);
 $('#deduceKo').onclick = () => {
   deduceKoOpen = !deduceKoOpen; $('#deduceKo').setAttribute('aria-pressed', deduceKoOpen);
-  $('#deduceKoText').hidden = !deduceKoOpen; document.querySelectorAll('#deduceCards .ko').forEach(ko => ko.hidden = !deduceKoOpen);
+  $('#deduceKoText').hidden = !deduceKoOpen;
 };
 // all worked out: Sgt. Badger asks who it was and the player names them (startCall)
 $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); startCall(); };
