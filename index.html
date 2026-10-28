@@ -805,11 +805,6 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .deduce[hidden]{display:none}
 .app.deducing:not(.note-full) .top-back{z-index:12}
 .deduce-head{position:absolute;top:10px;left:66px;right:14px;z-index:2;display:flex;align-items:center;gap:8px}
-.deduce-steps{display:flex;gap:5px;margin-left:auto}
-.deduce-steps i{width:26px;height:20px;border-radius:2px;display:grid;place-items:center;background:#FBF4E6;box-shadow:0 2px 2px rgba(0,0,0,.25);transform:rotate(-3deg);
-  font-style:normal;font-family:var(--f-display);font-size:11px;transition:transform .2s,background-color .3s}
-.deduce-steps i.done{background:var(--honey)}
-.deduce-steps i.now{transform:translateY(-3px) rotate(2deg);outline:2px solid var(--berry)}
 .deduce-q{position:relative;z-index:4;flex:none;display:flex;gap:10px;margin:0 12px;padding:8px 12px 6px;min-height:110px;border:20px solid transparent;
   border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;background:#FFF8E9;background-clip:padding-box;transition:background-color .3s}
 .deduce-q.read{background-color:#FFF0BF}
@@ -833,7 +828,6 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-group .ded-sus{position:sticky;top:0;padding-top:4px}
 .ded-group .ded-pol{width:62px;padding:4px 4px 3px;font-size:10.5px}
 .ded-group .ded-pol i{width:44px;height:44px}
-.ded-group .ded-sus.culprit::after{top:-4px;width:76px;height:84px;margin-left:-38px}
 .ded-sus{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--ink)}
 .ded-pol{width:80px;padding:5px 5px 4px;background:url(assets/ui/polaroid-card.webp) 0 0/100% 100%;filter:drop-shadow(1px 3px 2px rgba(40,25,10,.35));text-align:center;font-family:var(--f-display);font-size:12px;transition:filter .3s,opacity .3s}
 .ded-sus:nth-child(1) .ded-pol{transform:rotate(-3deg)}.ded-sus:nth-child(2) .ded-pol{transform:rotate(2.5deg)}.ded-sus:nth-child(3) .ded-pol{transform:rotate(-1.5deg)}
@@ -851,7 +845,19 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 @keyframes ded-x-a{to{clip-path:polygon(0 0,200% 0,0 200%)}}
 @keyframes ded-x-b{to{clip-path:polygon(100% 0,-100% 0,100% 200%)}}
 @media(prefers-reduced-motion:reduce){.ded-sus.draw .ded-x i,.ded-sus.draw .ded-x i + i{clip-path:none;animation:none}}
-.ded-sus.culprit::after{content:"";position:absolute;left:50%;top:-8px;width:92px;height:100px;margin-left:-46px;border:3px solid #A4352C;border-radius:50%;transform:rotate(-8deg);pointer-events:none}
+/* the culprit: a red crayon loop (assets/ui/crayon-o-1/2.png, user request) drawn round the photo as the detective says she
+   lied, started at the bottom and run counter-clockwise, then its end over the start; still afterwards. The masks sweep
+   back from the start angle in this box (205deg, the end from 211deg) */
+@property --o1{syntax:'<angle>';inherits:false;initial-value:360deg}
+@property --o2{syntax:'<angle>';inherits:false;initial-value:62deg}
+.ded-o{position:absolute;left:50%;top:-12px;width:80px;height:100px;margin-left:-40px;pointer-events:none;transform:rotate(-5deg)}
+.ded-o i{position:absolute;inset:0;background:url(assets/ui/crayon-o-1.png) 0 0/100% 100% no-repeat}
+.ded-o i + i{background-image:url(assets/ui/crayon-o-2.png)}
+.ded-sus.draw .ded-o i{--o1:0deg;-webkit-mask:conic-gradient(from 205deg,transparent calc(360deg - var(--o1)),#000 0);mask:conic-gradient(from 205deg,transparent calc(360deg - var(--o1)),#000 0);animation:ded-o-a .6s ease-in-out forwards}
+.ded-sus.draw .ded-o i + i{--o2:0deg;-webkit-mask:conic-gradient(from 211deg,transparent calc(360deg - var(--o2)),#000 0);mask:conic-gradient(from 211deg,transparent calc(360deg - var(--o2)),#000 0);animation:ded-o-b .14s linear .6s forwards}
+@keyframes ded-o-a{to{--o1:360deg}}
+@keyframes ded-o-b{to{--o2:62deg}}
+@media(prefers-reduced-motion:reduce){.ded-sus.draw .ded-o i,.ded-sus.draw .ded-o i + i{-webkit-mask:none;mask:none;animation:none}}
 /* only what has just been worked out pops (the board is redrawn for every question) */
 .deduce .pop{animation:deduce-pin .4s cubic-bezier(.3,1.5,.5,1)}
 @keyframes deduce-pin{from{transform:scale(1.4) rotate(-8deg);opacity:0}}
@@ -1266,7 +1272,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
     <!-- Deduction: the cork board where the detective works it out, one question at a time (DEDUCE) -->
     <section class="deduce" id="deduce" aria-label="추리" hidden>
-      <div class="deduce-head"><h2>Deduction</h2><div class="deduce-steps" id="deduceSteps" aria-hidden="true"></div></div>
+      <div class="deduce-head"><h2>Deduction</h2></div>
       <div class="deduce-q" id="deduceQ" role="status"><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-q-txt"><p id="deduceEn"></p><p class="ko" id="deduceKoText" hidden></p>
         <div class="deduce-q-row"><button class="play-btn" type="button" id="deduceReplay" aria-label="다시 듣기"></button><button class="pill sm" type="button" id="deduceKo" aria-pressed="false">해석</button></div></div></div>
       <div class="deduce-board" id="deduceBoard">
@@ -3291,7 +3297,7 @@ const DEDUCE = {
       hint:'Look at the sign on the bakery door.', hintKo:'빵집 문에 붙은 안내문을 봐.' },
     { step:3, who:'fiona', q:'She said someone came to buy bread at 8:30. Who?', qKo:'그녀는 8시 30분에 누가 빵을 사러 왔다고 했지. 누구였지?',
       card:'And {person:Mrs. Bear} got no bread tonight.', cardKo:'그리고 곰 부인은 오늘 밤 빵을 받지 못했다.',
-      right:'The note says "No bread tonight." Nobody saw Fiona at her bakery. She lied.', rightKo:'쪽지에 "오늘 밤은 빵이 없어요"라고 적혀 있어. 빵집에서 피오나를 본 사람은 없어. 그녀는 거짓말을 했어.',
+      right:'The note says "No bread tonight." Nobody saw Fiona at her bakery. She lied.', xAt:6.6, rightKo:'쪽지에 "오늘 밤은 빵이 없어요"라고 적혀 있어. 빵집에서 피오나를 본 사람은 없어. 그녀는 거짓말을 했어.',
       hint:'Read the note on the bakery counter. Who is it for?', hintKo:'빵집 계산대의 쪽지를 읽어 봐. 누구에게 쓴 거지?', lie:true },
     { step:4, who:'fiona', q:'Why would Fiona do it? Who made her angry?', qKo:'피오나가 왜 그랬을까? 누가 그녀를 화나게 했지?',
       card:'She was still angry at {person:Professor Hoot} about her pies.', cardKo:'그녀는 파이 일로 아직 후트 교수에게 화가 나 있었다.',
@@ -3381,19 +3387,18 @@ function deduceSpeak(key, text, onDone){
   talkT = setTimeout(() => { if(!started) done(); }, length);
 }
 function renderDeduce(){
-  const st = deduceState(), qs = DEDUCE.qs, end = deduceEnd(), q = qs[st.at], step = end ? 5 : q.step, first = !deduceShown;
+  const st = deduceState(), qs = DEDUCE.qs, end = deduceEnd(), q = qs[st.at], first = !deduceShown;
   const was = deduceShown || {}, now = {};
-  $('#deduceSteps').innerHTML = [1, 2, 3, 4].map(n => `<i class="${n < step ? 'done' : n === step ? 'now' : ''}">${n}</i>`).join('');
   // a suspect's photo, pinned beside their cards (it comes up with the first one; marks as worked out, no place memo under
   // it: user request)
   const photo = id => {
     const name = DEDUCE.suspects.find(([s]) => s === id)[1];
     const mine = qs.map((x, i) => [x, i]).filter(([x, i]) => x.who === id && st.done.has(i));
-    const out = mine.some(([x]) => x.out) && deduceHold !== id, lie = mine.some(([x]) => x.lie);
+    const out = mine.some(([x]) => x.out) && deduceHold !== id, lie = mine.some(([x]) => x.lie) && deduceHold !== id;
     now[id] = { out, lie }; const old = was[id];
-    const pop = !first && (!old || (lie && !old.lie)), draw = !first && out && old && !old.out;
+    const pop = !first && !old, draw = !first && old && ((out && !old.out) || (lie && !old.lie));
     const cls = [out && 'out', lie && 'culprit', pop && 'pop', draw && 'draw'].filter(Boolean).join(' ');
-    const x = out ? '<span class="ded-x" aria-hidden="true"><i></i><i></i></span>' : '';
+    const x = out ? '<span class="ded-x" aria-hidden="true"><i></i><i></i></span>' : lie ? '<span class="ded-o" aria-hidden="true"><i></i><i></i></span>' : '';
     return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>${x}</div>`;
   };
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
@@ -3452,7 +3457,7 @@ function deducePick(word){
     return saveGame();
   }
   st.done.add(i);
-  if(q.out) deduceHold = q.who;   // their X waits for the reply's last sentence ("So Ray couldn't do it.")
+  if(q.out || q.lie) deduceHold = q.who;   // their X or ring waits for the reply's last sentence ("So Ray couldn't do it.")
   const chime = $('#correctChime'); chime.currentTime = 0; chime.play().catch(() => {});
   renderDeduce();
   const card = $('#deduceCard'); card.classList.remove('solved'); void card.offsetWidth; card.classList.add('solved');
@@ -3468,7 +3473,7 @@ function deducePick(word){
   if(deduceHold) deduceMarkAt(q.right, q.xAt);
 }
 // the held X comes as the last sentence of the reply is heard: at `xAt` seconds into the recording (where that sentence
-// starts in r3/r5.mp3), or that share of the time the line takes without one
+// starts in r3/r5/r8.mp3), or that share of the time the line takes without one
 function deduceMarkAt(text, at){
   const share = (text.lastIndexOf('. ') + 2) / text.length, voice = $('#evidenceVoice'), t0 = Date.now();
   const guess = (text.length * (S.slow ? 95 : 70) + 500) * share;
