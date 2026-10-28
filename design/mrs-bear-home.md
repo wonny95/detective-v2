@@ -13,7 +13,7 @@
 
 ## 검토 중 (story-overview 8절 ④)
 
-추리 보드 10장 → 9장, 자백 대사 고침. 심문 5단계(사용자 안): 1 "bakery all evening" → 문 안내문, 2 새 대사 "Only today, I stayed open until eight thirty. Look at my order board. My customer could only come then!" → 베티 진술, 3 새 대사 "I just didn't hear her knock!" → 탄 파이, 4 털, 5 잼. 게이지는 단계 수를 따라가므로 그대로 쓴다.
+추리 보드 10장 → 9장, 자백 대사 고침. 심문 5단계(사용자 안): 1 "bakery all evening" → 문 안내문, 2 새 대사 "Only today, I stayed open until eight thirty. Look at my order board. My customer could only come then!" → 베티 진술(b1 "I knocked and knocked, but I never saw Fiona."), 모순! 뒤 탐정 대사 "We asked your customer, Mrs. Bear. She came at eight thirty, but she never saw you."(사용자 요청, 새 기능: 맞힌 뒤 탐정 한마디, 꿀색 말풍선), 3 새 대사 "I just didn't hear her knock!" → 탄 파이, 4 털, 5 잼. 게이지는 단계 수를 따라가므로 그대로 쓴다.
 
 ## 바꿀 것
 
@@ -21,7 +21,7 @@
 - 두더지 부인 m1, m3 (Delia)
 - 피오나 q2, q3, 심문 새 대사 2줄, end3 문구 확인, 자백 confess1·confess3 (Petra)
 - 곰 베티 hello·b1·b2 (새 목소리 프리셋 하나)
-- 추리 보드 바뀐 카드의 q·r·h (Grady)
+- 추리 보드 바뀐 카드의 q·r·h, 심문 2단계 뒤 탐정 대사 (Grady)
 - 탐정 나레이션: 탄 파이, 주문 보드, 쓰레기통 신문, 베티 집 소품 3개
 
 ### 빵집 증거 (`PLACES` bakery)
