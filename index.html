@@ -875,7 +875,8 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
   vertical-align:middle;position:relative;top:-2px;border-radius:5px;border:2px dashed var(--c);
   background:rgba(255,255,255,.4);font-family:var(--f-display);font-size:14px;color:var(--ink)}
 .ded-slot.person{--c:#A9D79A}.ded-slot.place{--c:#F2B983}.ded-slot.time{--c:#9CC8F0}
-button.ded-slot{cursor:pointer;border-color:#D9A93A;background:color-mix(in srgb,var(--honey) 45%,#fff);animation:deduce-blink 1.4s ease-in-out infinite}
+/* an empty blank: a filled honey patch, no dashed line (user request) */
+button.ded-slot{cursor:pointer;border-color:transparent;background:color-mix(in srgb,var(--honey) 80%,#fff);animation:deduce-blink 1.4s ease-in-out infinite}
 button.ded-slot[aria-expanded="true"]{animation:none;box-shadow:0 0 0 3px rgba(242,207,115,.9)}
 @keyframes deduce-blink{50%{opacity:.55}}
 .ded-slot.full{border-style:solid;background:color-mix(in srgb,var(--c) 40%,#FFFDF6)}
