@@ -195,6 +195,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .drawer-pick{display:flex;flex-direction:column;gap:8px;min-height:0;overflow-y:auto;padding:0 16px}
 .drawer-pick .pill{flex-shrink:0}
 .drawer-pick p{margin:0;font-size:15px;line-height:1.45}
+.drawer-pick p.ko{font-size:13.5px;font-weight:700;color:var(--berry)}
+/* ▶ and 해석 under the sentence, the same pair as in the speech bubbles (user request) */
+.drawer-row{display:flex;align-items:center;gap:8px}
 .drawer .empty-note{padding:0 16px}
 /* photos or statements (user pick A): two tabs beside the title */
 .drawer-tabs{display:flex;gap:6px;margin-left:12px}
@@ -515,7 +518,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 #caseKey .replay-q svg{display:none}
 .play-btn{flex:none;width:32px;height:32px;padding:0}
 /* a small pill beside a ▶ (해석, 천천히, 담기) is as tall as the ▶ (user request: 32px) */
-.ck-note .pill.sm,.office-foot .pill.sm,.bubble.say .say-foot .pill.sm,.deduce-q-row .pill.sm,.rv-word .pill.sm,.rv-play .pill.sm{box-sizing:border-box;min-height:32px;height:32px;padding:0 10px}
+.ck-note .pill.sm,.office-foot .pill.sm,.bubble.say .say-foot .pill.sm,.deduce-q-row .pill.sm,.drawer-row .pill.sm,.rv-word .pill.sm,.rv-play .pill.sm{box-sizing:border-box;min-height:32px;height:32px;padding:0 10px}
 .ck-note .pill.sm{grid-row:1;grid-column:3}
 .ck-note:not(.ko-on) .ko{display:none}
 .ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
@@ -3680,12 +3683,10 @@ function pickEvidence(ref){
   if(isSayRef(ref)){
     // a statement: who said it and what they said (their own recording again), then 내밀기
     const [id, qid] = ref.split(':');
-    detail.innerHTML = `<p><b class="who-says">${esc(spk(id).name)}:</b> “${esc(spk(id).answers[qid])}”<button class="replay-q" type="button" data-say-play="${ref}" aria-label="다시 듣기">${playIcon}</button></p>
-      <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+    detail.innerHTML = `<p><b class="who-says">${esc(spk(id).name)}:</b> “${esc(spk(id).answers[qid])}”</p>${drawerTools(ref, ANSWERS_KO[id]?.[qid])}`;
   } else {
     const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
-    detail.innerHTML = `<p>${esc(clue.en)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref}" aria-label="다시 듣기">${playIcon}</button>` : ''}</p>
-      <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+    detail.innerHTML = `<p>${esc(clue.en)}</p>${drawerTools(ref, clue.ko, !clue.audio)}`;
   }
   detail.hidden = false;
   detail.scrollTop = 0;
@@ -3699,6 +3700,12 @@ function pickEvidence(ref){
       {duration:220,delay:90,fill:'backwards',easing:'ease-out'});
   }
   playPick(ref);
+}
+// under a picked photo or statement: its Korean (hidden), ▶ and 해석, then 내밀기
+function drawerTools(ref, ko, mute){
+  return `${ko ? `<p class="ko" hidden>${esc(ko)}</p>` : ''}<div class="drawer-row">${mute ? '' : `<button class="play-btn" type="button" data-pick-play="${ref}" aria-label="다시 듣기"></button>`}` +
+    `${ko ? '<button class="pill sm" type="button" data-drawer-ko aria-pressed="false">해석</button>' : ''}</div>
+    <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
 }
 function playPick(ref){
   if(!isSayRef(ref)) return playEvidence(ref);
@@ -3729,12 +3736,12 @@ $('#drawer').addEventListener('click', e => {
   if(e.target.closest('[data-drawer-close]')) return closeDrawer();
   const tab = e.target.closest('[data-drawer-tab]');
   if(tab){ if(tab.dataset.drawerTab !== drawerTab){ stopVoice(); $('#evidenceVoice').pause(); openDrawer(tab.dataset.drawerTab); } return; }
-  const say = e.target.closest('[data-say-play]');
-  if(say) return playPick(say.dataset.sayPlay);
+  const again = e.target.closest('[data-pick-play]');
+  if(again) return playPick(again.dataset.pickPlay);
+  const ko = e.target.closest('[data-drawer-ko]');
+  if(ko){ const text = $('#drawerPick .ko'); text.hidden = !text.hidden; ko.setAttribute('aria-pressed', !text.hidden); return; }
   const card = e.target.closest('[data-pick]');
   if(card) return pickEvidence(card.dataset.pick);
-  const play = e.target.closest('[data-ev-play]');
-  if(play) return playEvidence(play.dataset.evPlay);
   const give = e.target.closest('[data-present]');
   if(give){ closeDrawer(); present(give.dataset.present); }
 });
