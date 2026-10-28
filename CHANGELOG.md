@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-27 20:50 · Claude · (이 커밋)
+## 2026-10-28 · Claude · (이 커밋)
+
+- 사용자 요청: 적용이 끝난 노트 탭 시안과 고르지 않은 후보 정리. 지운 것(휴지통으로 보냄): `design/note-tabs.html`, `assets/ui/tabs-cand/`, `assets/ui/tabs-pencil-b-higgsfield-original.png`, 예전 탭 원본 `assets/ui/tabs-higgsfield-original.png`(커밋에서도 뺌), 손가락 후보 `assets/ui/pointer/`·원본 시트 5장·`scripts/cut-pointer-hands.py`. 코드 변경 없음.
+- 지우기 확인 확장(Blast Radius)은 데스크톱 앱 화면에 승인 버튼을 그리지 못해 `rm`이 10분 뒤 취소됨 → PowerShell로 파일 이름을 하나씩 적어 휴지통으로 보냄(사용자 결정).
+- 확인: 지운 파일을 가리키는 코드·문서 없음. 남은 미커밋 파일은 튜토리얼 시안 네 개(`design/tutorial-motion.html`, `assets/ui/tutorial-paw.png`, `assets/ui/pointer-paws-back-higgsfield-original.png`, `scripts/cut-tutorial-paw.py`)뿐이고, 사용자 결정으로 그대로 둠.
+- **다음**: ① 사용자가 정하면 카페 포스터 공연 글씨를 그림 안 글씨로(1장 약 1.5크레딧). ② 튜토리얼 움직이는 시연 3–6장과 1장 글을 지금 흐름(받아 적는 중 노트 고정, 탐정 말풍선 등)에 맞추기는 사용자가 하자고 할 때
+
+## 2026-10-27 20:50 · Claude · bbd2886
 
 - 마무리(사용자 요청 `/wrap-up`): HANDOFF 0절 요약에 오답 지목 흐름을 넣고, 3.7절 보드 설명의 이력 문구를 지금 상태로 고침. 코드 변경 없음.
 - 확인: 시험 탭(127.0.0.1:5174, 미리보기 모드) 닫음, `pioo.*` 저장값 없음. 이 대화의 각 작업은 커밋마다 새 탭에서 확인함(위 항목들).
