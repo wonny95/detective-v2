@@ -13,13 +13,13 @@
 
 ## 검토 중 (story-overview 8절 ④)
 
-추리 보드 10장 → 9장, 심문 4단계(1 베티 진술, 2 새 대사 "didn't hear her knock" → 탄 파이, 3 털, 4 잼), 자백 대사 고침.
+추리 보드 10장 → 9장, 자백 대사 고침. 심문 5단계(사용자 안): 1 "bakery all evening" → 문 안내문, 2 새 대사 "Only today, I stayed open until eight thirty. Look at my order board. My customer could only come then!" → 베티 진술, 3 새 대사 "I just didn't hear her knock!" → 탄 파이, 4 털, 5 잼. 게이지는 단계 수를 따라가므로 그대로 쓴다.
 
 ## 바꿀 것
 
 ### 대사·노트 (녹음 다시)
 - 두더지 부인 m1, m3 (Delia)
-- 피오나 q2, q3, 심문 새 대사 1줄, end3 문구 확인, 자백 confess1·confess3 (Petra)
+- 피오나 q2, q3, 심문 새 대사 2줄, end3 문구 확인, 자백 confess1·confess3 (Petra)
 - 곰 베티 hello·b1·b2 (새 목소리 프리셋 하나)
 - 추리 보드 바뀐 카드의 q·r·h (Grady)
 - 탐정 나레이션: 탄 파이, 주문 보드, 쓰레기통 신문, 베티 집 소품 3개
@@ -27,7 +27,7 @@
 ### 빵집 증거 (`PLACES` bakery)
 - 오븐: "The oven is cold…" → 탄 파이 "The blueberry pies in the oven are burnt black."(증거)
 - 새: 예약 주문 보드(증거, `unlocks:{ people:['betty'] }`), 쓰레기통 속 구겨진 신문(증거, 동기)
-- 문 안내문 CLOSED AT 7 PM: 소품으로 내리거나 그대로(정할 것)
+- 문 안내문 CLOSED AT 7 PM: 증거 그대로(심문 1단계). 설명의 "TONIGHT"는 빼서 피오나의 "오늘만 8시 반까지" 반박과 부딪히지 않게
 - 삭제: 계산대 쪽지 → 물건 번호가 당겨지므로 `ENDING.confront[].accept`·`spots`·추리 근거를 함께 고친다
 
 ### 그림 (한 번에 한 장, 그릴 때마다 비용 알림, 장당 약 1.5크레딧)
