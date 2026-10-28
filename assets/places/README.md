@@ -58,3 +58,19 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - 그림 기준 위치(%): 깔개 가운데 x 50.2·y 72.3, 코르크 게시판 x 47.8–63.4·y 28.8–44.1, 책장 x 64.8–80·y 52.5–77.
 - 세로 원본(768×1376, 9:16, 파일은 지움. 넓힌 전체는 `detective-office-outpaint-original.png`): Nano Banana 2.1(1K, thinking high, 1.5크레딧), 화풍 참조 카페 편집본(job `354bb7cb-…`). job `0b35855d-efca-4847-8d9c-ad46af85aae4`. 인물 없음, 글자 없음. 아래 3분의 1은 탐정이 설 빈 바닥(가운데 둥근 깔개).
 - 프롬프트 요지: cozy detective office inside the hollow of a big old oak tree, evening; round window to the forest village at dusk, hanging lamp, desk with open notebook, pencil, magnifying glass, jar of acorns, desk lamp; cork board with blank pinned photos and red string; coat hook with scarf, small bookshelf, cup of tea; lower third empty wooden floor with a round woven rug; no characters, no text.
+
+# 곰 베티의 집 (`betty-home-higgsfield.png`, `betty-home-floor.jpg`)
+
+- Claude 제작(2026-10-28, 사용자 결정: 바닥 확장을 따로 하지 않고 처음부터 바닥까지 한 장으로): Nano Banana 2.1 · 3:4 · 2K · thinking high(약 2크레딧), 빵집 그림을 화풍 참조로(업로드 media `39e83b77-…`). job `5a023938-5be9-49d1-86c8-9385ba7c4481`, 원본 `betty-home-higgsfield-original.png`(1792×2400).
+- 원본을 1376×1843으로 줄여 위 768을 장소 그림, 아래 1075를 대화 바닥(`ART_FLOOR.bettyhome`)으로 나눴다. 한 그림이라 이음새가 없다.
+- 물건 핫스팟: 빈 빵 바구니 (213,367)–(360,500), 꿀단지 (1200,253)–(1347,327), 털실 바구니 (927,580)–(1087,707).
+
+# 마을 지도에 곰 베티의 집 (2026-10-28)
+
+- 사용자 요청. 지도 (448,780)–(768,1100)을 3배로 키워 Nano Banana 2.1(1:1, 1K, job `bea993c0-0b10-403f-af25-08958b491590`, 원본 `map-betty-higgsfield-original.png`, 약 1.5크레딧)로 울타리 안 덤불 자리에 작은 통나무집을 그리게 한 뒤, 집과 길 부분(지도 (548,908)–(700,1063), 가장자리 4px 흐림)만 붙였다. 핀은 `PLACES` `bettyhome` x 82, y 78.
+
+# 빵집 고침 (2026-10-28, 사용자 결정: 이야기 고침)
+
+- 계산대: (220,300)–(920,600)을 2배로 키워 Nano Banana 2.1(21:9, 1K, job `39a1956e-6808-4885-8e88-eea4e14adc69`, 원본 `bakery-counter-higgsfield-original.png`)로 쪽지를 지우고 계산대 앞 칠판 "TODAY'S ORDERS / Mrs. Bear - 1 loaf - 8:30 PM / Mr. Duck - 12 muffins - 7 AM"과 왼쪽 쓰레기통 속 구겨진 신문을 그리게 한 뒤 (228,308)–(912,592)만 붙였다(가장자리 5px 흐림).
+- 오븐: (1040,120)–(1376,456)을 3배로 키워 Nano Banana 2.1(1:1, 1K, job `879e3094-9cc4-4135-a8df-b31aee6649d3`, 원본 `bakery-oven-higgsfield-original.png`)로 오븐 안 쟁반 위 까맣게 탄 블루베리 파이 세 개와 연기를 그리게 한 뒤 (1099,150)–(1302,378)만 붙였다.
+- 각 약 1.5크레딧. 핫스팟: 주문 보드 x 43.2 y 54.8, 쓰레기통 x 23.1 y 59.

@@ -83,3 +83,11 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 미소·당황·슬픔·오리 부리(각각 벌림 포함): 스크립트가 시트에서 초록을 빼고 하나씩 잘라 낸 입. 중간 단계라 파일로 남기지 않는다.
 - `<인물>-closed.png`, `<인물>-open.png`(badger, mole, fiona, ray, rosie, fiona-nervous, fiona-sad, duck, detective, detective-thinking·point·lens·wave): 게임에 쓰는 그림. 그려진 입을 찾아 주변 털색으로 덮고(코는 남김) 그 위에 새 입을 얹었다. 닫은 입 선은 각 그림의 원래 선 굵기에 맞춰 굵혔다. 오리는 생성한 부리로 부리 전체를 바꾼다.
 - 만드는 법: `python -I scripts/make-npc-mouths.py`(Pillow만 사용). 출력된 `[x, y, w, h]`를 `index.html`의 `MOUTHS`에 넣는다. 같은 입력이면 같은 파일이 나온다.
+
+## 곰 베티 (Claude 제작, 2026-10-28, 적용 중)
+
+- 사용자 결정: 피오나의 예약 손님 Betty Bear(곰 베티), 필수 대화 참고인. Higgsfield Nano Banana 2.1, 16:9, 1K, thinking high, 참조 오리 아저씨 원본(job `6f92a3f3-dcaa-471e-b35e-edfa9f3af87b`), job `f733a908-6d1c-4c6e-8649-95e6faf98784`(약 1.5크레딧).
+- 배경 제거 Higgsfield `remove_background`(job `fc620315-7242-491d-95e1-47c999ebea91`) 후 알파 경계 + 3% 여백. 원본 `betty-higgsfield-original.png`(1376×768), 적용본 `betty-higgsfield.png`(445×680). `SPRITES.betty`: face `52 -5 340 340`, anchor .5.
+- 프롬프트: 위 공통 프롬프트(기준 캐릭터 duck) + "Betty Bear, a warm, kind, slightly plump middle-aged brown bear lady … chestnut-brown fur with a lighter tan muzzle … cozy knitted cream shawl over a dusty rose dress with tiny white flower dots, small brown slippers … no white sticker outline".
+- 얼굴 아이콘 `assets/ui/icons-v2/betty.png`(160×160): 적용본에서 머리·어깨(22,0)–(422,400)를 잘라 줄였다.
+- 입: `scripts/make-npc-mouths.py`의 `S`에 `betty`(입 상자 224,210,66,16, 미소, 선 2.6px) → `mouths/betty-closed/open.png`, `MOUTHS.betty`.

@@ -1579,19 +1579,19 @@ const PEOPLE = {
     ],
     unlocks:{ m2:{ people:['ray','rosie'] }, m3:{ people:['fiona'] } },
     answers:{
-      m1:"I came back at nine to lock the door. The professor was on the floor, and the big clock was not ticking.",
+      m1:"The library closes at eight. The professor always stays late, so I went home for dinner. When I came back at nine, he was on the floor, and the big clock was not ticking.",
       m2:"Ray Raccoon came at seven thirty to borrow a music book. And Rosie Rabbit came at seven to return a book about stars.",
-      m3:"Last week, he wrote that Fiona Fox's pies were too sweet. Fiona was very angry about it."
+      m3:"Today, he wrote in the newspaper that Fiona Fox's pies were too sweet. Fiona was very angry about it."
     },
     notes:{
-      m1:["She came back at {{a|9 PM/9/nine}} to lock the door.","The big {{b|clock}} was not ticking."],
+      m1:["She went home for {{k|dinner}}.","She came back at {{a|9 PM/9/nine}}.","The big {{b|clock}} was not ticking."],
       m2:["{{c|Ray Raccoon/ray raccoon}} came at 7:30 to borrow a {{d|music}} book.","{{e|Rosie Rabbit/rosie rabbit}} came at {{f|7 PM/7/seven}} to return a book about {{g|stars}}."],
-      m3:["Hoot wrote that {{h|Fiona Fox/fiona fox}}'s pies were too {{i|sweet}}.","Fiona was very {{j|angry}}."]
+      m3:["Hoot wrote in the {{l|newspaper}} that {{h|Fiona Fox/fiona fox}}'s pies were too {{i|sweet}}.","Fiona was very {{j|angry}}."]
     },
     bank:{
-      m1:['8 PM','9 PM','10 PM','clock','door','window'],
+      m1:['8 PM','9 PM','10 PM','dinner','lunch','clock','door','window'],
       m2:['Ray Raccoon','Rosie Rabbit','Mr. Duck','music','cooking','7 PM','8 PM','stars','flowers'],
-      m3:['Fiona Fox','Mrs. Bear','sweet','salty','angry','happy']
+      m3:['Fiona Fox','Mrs. Bear','newspaper','letter','sweet','salty','angry','happy']
     }
   },
   fiona: { id:'fiona', name:'Fiona Fox', ko:'여우 피오나', job:'빵집 주인', place:'bakery', pitch:1.15, voice:0, bg:'#F8D9C6',
@@ -1599,23 +1599,24 @@ const PEOPLE = {
     // recorded voice (Higgsfield · MiniMax · Petra). People without clips fall back to browser TTS.
     audio:{ hello:'audio/fiona-hello.mp3', q1:'audio/fiona-q1.mp3', q2:'audio/fiona-q2.mp3', q3:'audio/fiona-q3.mp3',
       // ending (user-made, Petra with emotion): the confrontation, a wrong photo, the confession
+      endOpen:'audio/fiona-endOpen.mp3', endKnock:'audio/fiona-endKnock.mp3',
       end3:'audio/fiona-end3.mp3', end4:'audio/fiona-end4.mp3', endMiss:'audio/fiona-endMiss.mp3',
       confess1:'audio/fiona-confess1.mp3', confess2:'audio/fiona-confess2.mp3', confess3:'audio/fiona-confess3.mp3' },
     unlocks:{ q1:{ places:['bakery'] } },
     answers:{
       q1:"I was at my bakery all evening, from seven to ten. I was baking blueberry pies for the festival tomorrow.",
-      q2:"Of course! Mrs. Bear came in to buy bread at eight thirty. You can ask her.",
-      q3:"He came to my bakery every morning. But last week, he said my pies were too sweet. I was a little upset, that's all."
+      q2:"No. I was alone in my kitchen. Baking pies takes all evening, you know.",
+      q3:"He came to my bakery every morning. But today, he wrote in the newspaper that my pies were too sweet. I was a little upset, that's all."
     },
     notes:{
       q1:["Fiona was at the {{a|bakery}} from {{b|7 PM/7/seven}} to {{c|10 PM/10/ten}}.","She was baking {{d|blueberry pies/blueberry pie}}."],
-      q2:["{{e|Mrs. Bear/mrs bear}} came to buy bread at {{f|8:30/eight thirty}}."],
-      q3:["Hoot came to her bakery every {{g|morning}}.","He said her pies were too {{h|sweet}}. She was {{i|upset}}."]
+      q2:["She was {{e|alone}} in her kitchen.","Baking pies takes all {{f|evening}}."],
+      q3:["Hoot came to her bakery every {{g|morning}}.","Today he wrote in the {{j|newspaper}} that her pies were too {{h|sweet}}.","She was {{i|upset}}."]
     },
     bank:{
       q1:['bakery','library','7 PM','9 PM','10 PM','blueberry pies','apple cakes'],
-      q2:['Mrs. Bear','Mr. Duck','8:30','8:40','9:30'],
-      q3:['morning','night','sweet','salty','upset','happy']
+      q2:['alone','together','evening','morning','kitchen'],
+      q3:['morning','night','newspaper','letter','sweet','salty','upset','happy']
     }
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
@@ -1679,6 +1680,28 @@ const PEOPLE = {
       d1:['stage','counter','8 PM','9 PM','9:30 PM','10 PM'],
       d2:['never','often','counter','door','twelve','two']
     }
+  },
+  // the customer on Fiona's order board (user decision): a witness, but her word is needed in the interview, so
+  // talking to her is required (`required`, allConversationsDone)
+  betty: { id:'betty', name:'Betty Bear', ko:'곰 베티', job:'이웃', place:'bettyhome', witness:true, required:true, pitch:.9, voice:4, bg:'#F0DCCB',
+    hello:"Oh, hello, detective! I'm Betty Bear. Would you like some honey tea?",
+    audio:{ hello:'audio/betty-hello.mp3', b1:'audio/betty-b1.mp3', b2:'audio/betty-b2.mp3' },
+    questions:[
+      { id:'b1', en:"Did you go to Fiona's bakery tonight?", ko:'오늘 밤 피오나의 빵집에 갔었나요?' },
+      { id:'b2', en:'What did you do then?', ko:'그다음엔 어떻게 했나요?' }
+    ],
+    answers:{
+      b1:"Yes, at eight thirty. I ordered a loaf of bread. I knocked and knocked, but I never saw Fiona.",
+      b2:"I waited and waited, but I got tired. So I went home with no bread."
+    },
+    notes:{
+      b1:["She went to the bakery at {{a|8:30/eight thirty}}.","She ordered a {{b|loaf}} of bread.","She knocked, but she never saw {{c|Fiona/fiona}}."],
+      b2:["She {{d|waited}} for a long time.","She went {{e|home}} with no bread."]
+    },
+    bank:{
+      b1:['8:30','8:40','9 PM','loaf','cake','Fiona','Mr. Duck'],
+      b2:['waited','danced','home','library']
+    }
   }
 };
 const PEOPLE_ORDER = Object.keys(PEOPLE);
@@ -1690,7 +1713,8 @@ const WORDS = {
   'librarian':['w','사서'], 'clock':['w','시계'], 'music':['w','음악'], 'stars':['w','별들'], 'sweet':['w','달콤한, 단'], 'angry':['w','화가 난'],
   'blueberry pies':['w','블루베리 파이'], 'morning':['w','아침'], 'upset':['w','속상한, 기분이 상한'], 'guitar':['w','기타'], 'lantern':['w','랜턴, 등불'],
   'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
-  'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'],
+  'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'], 'dinner':['w','저녁 식사'], 'newspaper':['w','신문'], 'alone':['w','혼자'],
+  'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
 };
@@ -1725,12 +1749,12 @@ const GRAMMAR_LINES = {
   'badger:b1':[['passive','was found'], ['past-prog','was lying'], ['time-prep',"at nine o'clock"]],
   'badger:b2':[['wh-q','Who found'], ['past-irr','found him'], ['time-prep','between eight and nine']],
   'badger:b3':[['wh-q','What should I do'], ['modal','should I do'], ['imperative','Look around']],
-  'mole:m1':  [['wh-q','What did you see'], ['phrasal','came back'], ['to-purpose','to lock'], ['negative','was not ticking']],
+  'mole:m1':  [['wh-q','What did you see'], ['phrasal','came back'], ['time-prep','at nine'], ['negative','was not ticking']],
   'mole:m2':  [['did-q','Did anyone visit'], ['time-prep','at seven thirty'], ['to-purpose','to borrow']],
   'mole:m3':  [['did-q','Did the professor have'], ['past-irr','he wrote'], ['too-adj','too sweet']],
   'fiona:q1': [['be-past','I was at my bakery'], ['time-prep','from seven to ten'], ['past-prog','was baking']],
-  'fiona:q2': [['phrasal','came in'], ['to-purpose','to buy'], ['modal','You can ask']],
-  'fiona:q3': [['wh-q','How did you know'], ['past-irr','he said'], ['too-adj','too sweet']],
+  'fiona:q2': [['modal','Can anyone prove'], ['be-past','I was alone']],
+  'fiona:q3': [['wh-q','How did you know'], ['past-irr','he wrote'], ['too-adj','too sweet']],
   'ray:q1':   [['be-past','I was at the Lake Cafe'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
   'ray:q2':   [['modal','Can anyone prove'], ['past-irr','saw me'], ['imperative','Ask Mr. Duck']],
   'ray:q3':   [['past-reg','borrowed'], ['negative','never gave'], ['phrasal','gave it back']],
@@ -1738,7 +1762,9 @@ const GRAMMAR_LINES = {
   'rosie:q2': [['negative','Nobody was with me'], ['past-irr','I saw'], ['time-prep','at eight forty-five']],
   'rosie:q3': [['past-irr','taught'], ['going-to',"I'm going to miss"]],
   'duck:d1':  [['be-past','Was Ray here'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
-  'duck:d2':  [['did-q','Did he leave'], ['negative','No, never'], ['past-reg','watched']]
+  'duck:d2':  [['did-q','Did he leave'], ['negative','No, never'], ['past-reg','watched']],
+  'betty:b1': [['did-q','Did you go'], ['time-prep','at eight thirty'], ['negative','never saw']],
+  'betty:b2': [['wh-q','What did you do'], ['past-reg','waited'], ['past-irr','went home']]
 };
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
@@ -1747,12 +1773,8 @@ const SENTENCE_TIMES = {
   'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
   'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],
   'badger:b3':[[0,1.6],[1.9,3.83]],
-  'mole:m1':[[0.21,2.85],[3.52,8.34]],
   'mole:m2':[[0.13,4.1],[4.5,8.92]],
-  'mole:m3':[[0,4.08],[4.8,7.05]],
   'fiona:q1':[[0.09,3.3],[3.46,6.75]],
-  'fiona:q2':[[0,1.03],[1.39,3.79],[4.03,5.02]],
-  'fiona:q3':[[0.1,1.81],[2.07,4.76],[5.09,7.39]],
   'ray:q1':[[0.11,1.59],[1.99,5.09]],
   'ray:q2':[[0.08,1.35],[1.4,2.54],[3.08,4.31]],
   'ray:q3':[[0,3.21],[4.17,6.17]],
@@ -1760,7 +1782,13 @@ const SENTENCE_TIMES = {
   'rosie:q2':[[0.14,1.24],[1.46,3.89],[4.31,6.11]],
   'rosie:q3':[[0.09,2.8],[3.05,5.04]],
   'duck:d1':[[0,0.7],[1.14,4.29]],
-  'duck:d2':[[0,1.21],[1.63,4.49],[4.7,6.2]]
+  'duck:d2':[[0,1.21],[1.63,4.49],[4.7,6.2]],
+  'mole:m1':[[0,1.71],[2,4.96],[5.3,9.71]],
+  'mole:m3':[[0,4.99],[5.61,7.57]],
+  'fiona:q2':[[0,0.52],[0.75,1.97],[2.26,3.98]],
+  'fiona:q3':[[0,1.84],[2.21,5.57],[6.11,7.92]],
+  'betty:b1':[[0,1.41],[1.77,3.08],[3.7,6.65]],
+  'betty:b2':[[0.16,3.51],[4.24,6.47]]
 };
 // Sentences of an answer ("Mrs." / "Mr." / "Sgt." do not end one).
 const sentencesOf = text => text.split(/(?<!\b(?:Mrs|Mr|Sgt|Dr)\.)(?<=[.!?])\s+/);
@@ -1772,14 +1800,14 @@ const ANSWERS_KO = {
     b3:'도서관을 꼼꼼히 둘러보세요. 누가 범인인지 알게 되면 저에게 알려 주세요.'
   },
   mole:{
-    m1:'문을 잠그려고 9시에 돌아왔어요. 교수님이 바닥에 쓰러져 계셨고, 큰 시계가 멈춰 있었어요.',
+    m1:'도서관은 8시에 문을 닫아요. 교수님은 늘 늦게까지 계셔서 저는 저녁을 먹으러 집에 갔어요. 9시에 돌아와 보니 교수님이 바닥에 쓰러져 계셨고, 큰 시계가 멈춰 있었어요.',
     m2:'너구리 레이가 7시 30분에 음악책을 빌리러 왔어요. 그리고 토끼 로지가 7시에 별에 관한 책을 반납하러 왔어요.',
-    m3:'지난주에 교수님이 여우 피오나의 파이가 너무 달다고 글을 쓰셨어요. 피오나가 그 일로 몹시 화가 났어요.'
+    m3:'오늘 교수님이 신문에 여우 피오나의 파이가 너무 달다고 쓰셨어요. 피오나가 그 일로 몹시 화가 났어요.'
   },
   fiona:{
     q1:'저녁 내내, 7시부터 10시까지 빵집에 있었어요. 내일 축제에 쓸 블루베리 파이를 굽고 있었어요.',
-    q2:'물론이죠! 곰 아주머니가 8시 30분에 빵을 사러 오셨어요. 그분께 물어보세요.',
-    q3:'그분은 매일 아침 제 빵집에 오셨어요. 그런데 지난주에 제 파이가 너무 달다고 하셨죠. 조금 속상했을 뿐이에요.'
+    q2:'아니요. 부엌에 혼자 있었어요. 파이를 구우면 저녁 내내 걸리거든요.',
+    q3:'그분은 매일 아침 제 빵집에 오셨어요. 그런데 오늘 신문에 제 파이가 너무 달다고 쓰셨죠. 조금 속상했을 뿐이에요.'
   },
   ray:{
     q1:'호수 카페에 있었어요. 8시부터 9시 30분까지 무대에서 기타를 쳤어요.',
@@ -1794,6 +1822,10 @@ const ANSWERS_KO = {
   duck:{
     d1:'그럼요! 레이는 8시부터 9시 30분까지 우리 무대에서 기타를 쳤어요.',
     d2:'아니요, 한 번도요. 나는 밤새 카운터 뒤에 있으면서 레이를 지켜봤어요. 열두 곡이나 불렀다니까요!'
+  },
+  betty:{
+    b1:'네, 8시 30분에요. 빵 한 덩이를 주문해 뒀거든요. 문을 두드리고 또 두드렸지만, 피오나는 끝내 못 봤어요.',
+    b2:'기다리고 또 기다렸지만 지쳐 버렸어요. 그래서 빵 없이 집에 갔어요.'
   }
 };
 
@@ -1830,20 +1862,23 @@ const PLACES = [
     ]},
   { id:'bakery', x:28, y:79, label:"Fiona's Bakery", artWidth:1376, artHeight:768,
     clues:[
-      { label:'Front door', en:'A sign on the door: CLOSED AT 7 PM TONIGHT.', ko:'문에 붙은 안내문: 오늘은 오후 7시에 문 닫음.', audio:'audio/detective-bakery-door.mp3' },
-      { label:'Oven', en:'The oven is cold. No pies were baked tonight.', ko:'오븐이 차갑다. 오늘 밤 구운 파이는 없다.', audio:'audio/detective-bakery-oven.mp3' },
-      { label:'Note', en:"A note on the counter: 'Sorry, Mrs. Bear! No bread tonight.'", ko:"계산대 위 쪽지: '곰 아주머니 죄송해요! 오늘 밤은 빵이 없어요.'", audio:'audio/detective-bakery-note.mp3' },
+      { label:'Front door', en:'A sign on the door: CLOSED AT 7 PM.', ko:'문에 붙은 안내문: 오후 7시에 문 닫음.', audio:'audio/detective-bakery-door.mp3' },
+      { label:'Oven', en:'The blueberry pies in the oven are burnt black.', ko:'오븐 속 블루베리 파이가 까맣게 탔다.', audio:'audio/detective-bakery-oven.mp3' },
+      // the order board points to the customer (user decision: Fiona never names her)
+      { label:'Order board', en:"A chalkboard on the counter: TODAY'S ORDERS. Mrs. Bear, 1 loaf, 8:30 PM. Mr. Duck, 12 muffins, 7 AM.", ko:'계산대의 칠판: 오늘의 주문. 곰 부인, 빵 한 덩이, 오후 8:30. 오리 아저씨, 머핀 12개, 오전 7시.', audio:'audio/detective-bakery-board.mp3', unlocks:{ people:['betty'] } },
       { label:'Jam jars', prop:true, en:'Jars of jam on the shelf. They are orange and red.', ko:'선반 위 잼 병들. 주황색과 빨간색이다.', audio:'audio/detective-bakery-jam.mp3' },
       { label:'Rolling pin', prop:true, en:'A rolling pin is on the shelf.', ko:'선반 위에 밀대가 있다.', audio:'audio/detective-bakery-pin.mp3' },
-      { label:'Bread baskets', prop:true, en:'All the bread baskets are empty.', ko:'빵 바구니가 모두 비어 있다.', audio:'audio/detective-bakery-baskets.mp3' }
+      { label:'Bread baskets', prop:true, en:'All the bread baskets are empty.', ko:'빵 바구니가 모두 비어 있다.', audio:'audio/detective-bakery-baskets.mp3' },
+      { label:'Trash can', en:"A crumpled newspaper in the trash can. Professor Hoot's review: Fiona's pies are too sweet.", ko:'쓰레기통 속 구겨진 신문. 후트 교수의 리뷰: 피오나의 파이는 너무 달다.', audio:'audio/detective-bakery-trash.mp3' }
     ],
     spots:[
       { clue:0, x:4.5, y:5, w:12, h:78, photo:{x:57,y:194,w:176,h:132} },
       { clue:1, x:75.6, y:15.6, w:21.8, h:67.7, photo:{x:1070,y:210,w:240,h:180} },
-      { clue:2, x:33.5, y:41.5, w:9.5, h:12, photo:{x:465,y:315,w:120,h:90} },
+      { clue:2, x:43.2, y:54.8, w:12.9, h:11.8, photo:{x:583,y:400,w:200,h:150} },
       { clue:3, x:52.3, y:9.5, w:9.9, h:7.7, photo:{x:707,y:42,w:160,h:120} },
       { clue:4, x:62.6, y:11, w:9, h:6.5, photo:{x:842,y:52,w:160,h:120} },
-      { clue:5, x:32, y:19, w:17.5, h:21, photo:{x:430,y:120,w:260,h:195} }
+      { clue:5, x:32, y:19, w:17.5, h:21, photo:{x:430,y:120,w:260,h:195} },
+      { clue:6, x:23.1, y:59, w:5.8, h:13.8, photo:{x:287,y:452,w:140,h:105} }
     ]},
   { id:'cafe', x:71, y:58, label:'Lake Cafe', artWidth:1376, artHeight:768,
     clues:[
@@ -1875,6 +1910,18 @@ const PLACES = [
       { clue:3, x:41.5, y:3, w:15, h:21, photo:{x:540,y:40,w:240,h:180} },
       { clue:4, x:18, y:84, w:7, h:8, photo:{x:220,y:620,w:160,h:120} },
       { clue:5, x:74.2, y:49, w:7.2, h:15, photo:{x:982,y:362,w:200,h:150} }
+    ]},
+  // Betty Bear's house (user decision): shown once the bakery's order board is photographed. Only things to look at.
+  { id:'bettyhome', x:82, y:78, label:"Betty's House", artWidth:1376, artHeight:768,
+    clues:[
+      { label:'Bread basket', prop:true, en:'An empty bread basket on the table.', ko:'식탁 위의 빈 빵 바구니.', audio:'audio/detective-bettyhome-basket.mp3' },
+      { label:'Honey jars', prop:true, en:'Jars of golden honey on the shelf.', ko:'선반 위의 황금빛 꿀단지들.', audio:'audio/detective-bettyhome-honey.mp3' },
+      { label:'Knitting basket', prop:true, en:'A basket of yarn by the rocking chair.', ko:'흔들의자 옆의 털실 바구니.', audio:'audio/detective-bettyhome-yarn.mp3' }
+    ],
+    spots:[
+      { clue:0, x:15.5, y:47.8, w:10.7, h:17.3, photo:{x:206,y:350,w:160,h:120} },
+      { clue:1, x:87.2, y:33, w:10.7, h:9.6, photo:{x:1196,y:230,w:160,h:120} },
+      { clue:2, x:67.4, y:75.5, w:11.6, h:16.5, photo:{x:930,y:560,w:180,h:135} }
     ]}
 ];
 // A dialogue-only setting: it has no map pin, unlock condition, hotspots or collectible evidence.
@@ -1883,10 +1930,11 @@ const placeOf = id => id === INTERVIEW_ROOM.id ? INTERVIEW_ROOM : PLACES.find(p 
 const NPC_POSITIONS = {
   badger:{x:50, floor:93, height:44},   // right of the table, so the open book on it stays tappable
   mole:{x:66, floor:93, height:40},
-  fiona:{x:62, floor:93, height:44},
+  fiona:{x:66, floor:93, height:44},   // right of the order board on the counter, so it stays readable
   ray:{x:60, floor:92, height:44},
   rosie:{x:48, floor:93, height:42},
-  duck:{x:38, floor:93, height:42}   // in front of the counter, left of Ray
+  duck:{x:38, floor:93, height:42},   // in front of the counter, left of Ray
+  betty:{x:50, floor:93, height:42}   // in the middle of her room, clear of the table and the rocking chair
 };
 const CULPRIT = 'fiona';
 
@@ -1991,7 +2039,8 @@ const SPRITES = {
   fiona:{src:'assets/characters/fiona-higgsfield.png', w:439, h:621, face:'12 -4 340 340', anchor:182/439},
   ray:{src:'assets/characters/ray-higgsfield.png', w:509, h:628, face:'24 -5 340 340', anchor:194/509},
   rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316},
-  duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5}
+  duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5},
+  betty:{src:'assets/characters/betty-higgsfield.png', w:445, h:680, face:'52 -5 340 340', anchor:.5}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
@@ -2009,6 +2058,7 @@ const MOUTHS = {
   ray:{closed:[158,194,95,26], open:[158,194,95,37]},
   rosie:{closed:[140,333,45,19], open:[140,333,45,19]},
   duck:{closed:[140,160,166,99], open:[140,160,166,117]},
+  betty:{closed:[183,205,82,29], open:[183,205,82,34]},
   'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
   'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]},
   detective:{closed:[229,270,100,34], open:[229,270,100,45]},
@@ -2043,7 +2093,7 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
   ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouth(k)}</g></g></svg>`
   : `<svg viewBox="0 0 200 400" aria-hidden="true">${charSVG(id)}</svg>`; };
 // small faces: hand-drawn head-and-shoulders icons (assets/ui/icons-v2, one Higgsfield sheet)
-const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck'];
+const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty'];
 const miniSVG = id => FACE_ICONS.includes(id) ? `<img class="face" src="assets/ui/icons-v2/${id}.png" alt="" draggable="false">`
   : SPRITES[id]
   ? `<svg viewBox="${SPRITES[id].face}" aria-hidden="true"><image href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/></svg>`
@@ -3230,7 +3280,7 @@ function goToDiscovery(){
 
 /* ---------- accuse ---------- */
 function allConversationsDone(){
-  return PEOPLE_ORDER.filter(id => !spk(id).witness).every(id => per(id).phase === 'done');
+  return PEOPLE_ORDER.filter(id => !spk(id).witness || spk(id).required).every(id => per(id).phase === 'done');
 }
 // The place view's 추리하기 (the conversation's is drawn by renderAsk, the map's in openSheet): all three open the
 // deduction board, and the accusation is made only there (user decision).
@@ -3280,7 +3330,7 @@ $('#accused').addEventListener('click', e => {
    worked out. Progress (S.deduce) is kept with the case. */
 const DEDUCE = {
   people:[['Sgt. Badger', 'badger'], ['Mrs. Mole', 'mole'], ['Ray Raccoon', 'ray'], ['Rosie Rabbit', 'rosie'], ['Fiona Fox', 'fiona'], ['Mr. Duck', 'duck'],
-    ['Mrs. Bear'], ['Professor Hoot']],
+    ['Mrs. Bear', 'betty'], ['Professor Hoot']],
   places:[['library', 'library'], ['bakery', 'bakery'], ['Lake Cafe', 'cafe'], ['Moon Hill', 'hill']],
   times:['7 PM', '7:30', '8 PM', '8:30', '8:40', '8:45', '9 PM', '9:30 PM', '10 PM'],
   // the suspects on the board (user decision: Mrs. Mole is not one)
@@ -3313,18 +3363,16 @@ const DEDUCE = {
       card:'Fiona said she was at her {place:bakery} from seven to ten.', cardKo:'피오나는 7시부터 10시까지 빵집에 있었다고 했다.',
       right:"That's her story. Let's check it.", rightKo:'그게 그녀의 말이야. 확인해 보자.',
       hint:'What did Fiona say? Where was she baking pies?', hintKo:'피오나가 뭐라고 했지? 어디서 파이를 굽고 있었다고 했어?' },
-    { step:3, who:'fiona', q:'But when did her bakery close tonight?', qKo:'그런데 오늘 밤 빵집은 언제 문을 닫았지?',
-      card:'But her bakery closed at {time:7 PM}.', cardKo:'하지만 빵집은 오후 7시에 문을 닫았다.',
-      right:"7 PM! So she wasn't baking there at 8:40.", rightKo:'7시! 그러니 8시 40분에 거기서 빵을 굽고 있지 않았어.',
-      hint:'Look at the sign on the bakery door.', hintKo:'빵집 문에 붙은 안내문을 봐.' },
-    { step:3, who:'fiona', q:'She said someone came to buy bread at 8:30. Who?', qKo:'그녀는 8시 30분에 누가 빵을 사러 왔다고 했지. 누구였지?',
-      card:'And {person:Mrs. Bear} got no bread tonight.', cardKo:'그리고 곰 부인은 오늘 밤 빵을 받지 못했다.',
-      right:'The note says "No bread tonight." Nobody saw Fiona at her bakery. She lied.', xAt:6.6, rightKo:'쪽지에 "오늘 밤은 빵이 없어요"라고 적혀 있어. 빵집에서 피오나를 본 사람은 없어. 그녀는 거짓말을 했어.',
-      hint:'Read the note on the bakery counter. Who is it for?', hintKo:'빵집 계산대의 쪽지를 읽어 봐. 누구에게 쓴 거지?', lie:true },
+    // the customer on the order board knocked at 8:30 and never saw her (user decision: no closing-time card, the
+    // review in today's paper, Betty's word)
+    { step:3, who:'fiona', q:'Her order board says a customer came at 8:30. Who was it?', qKo:'주문 보드에는 8시 30분에 손님이 온다고 적혀 있었어. 누구였지?',
+      card:'At 8:30, {person:Mrs. Bear} knocked on the bakery door, but she never saw Fiona.', cardKo:'8시 30분에 곰 부인이 빵집 문을 두드렸지만, 피오나를 끝내 보지 못했다.',
+      right:"Mrs. Bear knocked and waited, but nobody came to the door. Fiona wasn't in her bakery. She lied.", rightKo:'곰 부인이 문을 두드리고 기다렸지만 아무도 나오지 않았어. 피오나는 빵집에 없었어. 그녀는 거짓말을 했어.',
+      hint:'Look at the order board in the bakery. Then ask that customer.', hintKo:'빵집의 주문 보드를 봐. 그리고 그 손님에게 물어봐.', lie:true, xAt:6.4 },
     { step:4, who:'fiona', q:'Why would Fiona do it? Who made her angry?', qKo:'피오나가 왜 그랬을까? 누가 그녀를 화나게 했지?',
-      card:'She was still angry at {person:Professor Hoot} about her pies.', cardKo:'그녀는 파이 일로 아직 후트 교수에게 화가 나 있었다.',
-      right:'He wrote that her pies were too sweet.', rightKo:'그가 그녀의 파이가 너무 달다고 썼지.',
-      hint:"Mrs. Mole told us about the professor's problems. Who was angry?", hintKo:'두더지 부인이 교수님의 문제를 말해 줬어. 누가 화가 났었지?' },
+      card:"She was angry at {person:Professor Hoot} about the review in today's paper.", cardKo:'그녀는 오늘 신문에 실린 리뷰 때문에 후트 교수에게 화가 나 있었다.',
+      right:'He wrote that her pies were too sweet. The paper was in her trash can.', rightKo:'그가 그녀의 파이가 너무 달다고 썼어. 그 신문이 그녀의 쓰레기통에 있었지.',
+      hint:'Look in the bakery trash can. Who wrote the review?', hintKo:'빵집 쓰레기통을 봐. 리뷰를 쓴 사람은 누구지?' },
     { step:4, who:'fiona', q:'So at 8:40, where was Fiona?', qKo:'그럼 8시 40분에 피오나는 어디 있었을까?',
       card:'At 8:40, Fiona was at the {place:library}.', cardKo:'8시 40분에 피오나는 도서관에 있었다.',
       right:'So it was Fiona Fox. At 8:40 she was not at her bakery. She was at the library. She was still angry at Professor Hoot about her pies.',
@@ -3495,7 +3543,7 @@ function deducePick(word){
   if(deduceHold) deduceMarkAt(q.right, q.xAt);
 }
 // the held X comes as the last sentence of the reply is heard: at `xAt` seconds into the recording (where that sentence
-// starts in r3/r5/r8.mp3), or that share of the time the line takes without one
+// starts in r3/r5/r7.mp3), or that share of the time the line takes without one
 function deduceMarkAt(text, at){
   const share = (text.lastIndexOf('. ') + 2) / text.length, voice = $('#evidenceVoice'), t0 = Date.now();
   const guess = (text.length * (S.slow ? 95 : 70) + 500) * share;
@@ -3546,17 +3594,27 @@ $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDedu
    What happened is told only by these lines. 해석 is available inside the speech bubble.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
 const ENDING = {
+  // each claim, what breaks it (a photo 'place-clue' or a statement 'person:question'), and the detective's short line
+  // once it lands (det, audio/detective-<key>.mp3, user decision)
   confront:[
-    { key:'q1', accept:['bakery-0', 'bakery-1'] },   // "at my bakery all evening" → the 7 PM sign / the cold oven
-    { key:'q2', accept:['bakery-2'] },               // "Mrs. Bear came in at 8:30" → "No bread tonight"
-    { key:'end3', en:"Fine, I closed early. But I was never at the library!", ko:'좋아요, 일찍 닫았어요. 하지만 도서관에는 가지도 않았어요!', accept:['library-2'] },   // → the orange fur
-    { key:'end4', en:"Lots of animals have orange fur!", ko:'주황색 털을 가진 동물은 많잖아요!', accept:['library-1'] }   // → the purple jam
+    { key:'q1', accept:['bakery-0'],   // "at my bakery all evening" → the 7 PM sign
+      det:{ key:'hit1', en:'Your sign says you closed at seven.', ko:'안내문에는 7시에 문을 닫았다고 적혀 있어요.' } },
+    { key:'endOpen', en:"Only today, I stayed open until eight thirty. Look at my order board. My customer could only come then!", ko:'오늘만 8시 반까지 열었어요. 주문 보드를 보세요. 손님이 그때만 된다고 했거든요!',
+      accept:['betty:b1'],   // → Betty Bear: she knocked, but never saw Fiona
+      det:{ key:'hit2', en:'We asked your customer, Mrs. Bear. She came at eight thirty, but she never saw you.', ko:'예약 손님인 곰 부인에게 물어봤어요. 8시 반에 왔지만 당신을 못 봤대요.' } },
+    { key:'endKnock', en:"I was busy in the kitchen. I just didn't hear her knock!", ko:'부엌에서 바빴어요. 노크 소리를 못 들었을 뿐이에요!',
+      accept:['bakery-1'],   // → the burnt pies
+      det:{ key:'hit3', en:'Your pies burned black. Nobody was in the kitchen.', ko:'파이가 까맣게 탔어요. 부엌에는 아무도 없었어요.' } },
+    { key:'end3', en:"Fine, I went out for a while. But I was never at the library!", ko:'좋아요, 잠깐 나갔었어요. 하지만 도서관에는 가지도 않았어요!', accept:['library-2'],   // → the orange fur
+      det:{ key:'hit4', en:'This orange fur was on the library door.', ko:'이 주황색 털이 도서관 문에 걸려 있었어요.' } },
+    { key:'end4', en:"Lots of animals have orange fur!", ko:'주황색 털을 가진 동물은 많잖아요!', accept:['library-1'],   // → the purple jam
+      det:{ key:'hit5', en:'Blueberry jam on the library window. Just like your pies.', ko:'도서관 창문에 블루베리 잼이 묻어 있었어요. 당신 파이처럼요.' } }
   ],
   miss:{ key:'endMiss', en:"That has nothing to do with me.", ko:'그건 저랑 아무 상관 없어요.' },
   confession:[
-    { key:'confess1', en:"All right... I went to the library at eight thirty. I only wanted him to take back what he wrote about my pies.", ko:'알았어요… 8시 30분에 도서관에 갔어요. 제 파이에 대해 쓴 글을 거둬 달라고 하고 싶었을 뿐이에요.' },
+    { key:'confess1', en:"All right... I read his review in today's paper, and I was so angry. I went to the library to ask him to take it back.", ko:'알았어요… 오늘 신문에서 교수님 리뷰를 읽고 너무 화가 났어요. 그 글을 거둬 달라고 하려고 도서관에 갔어요.' },
     { key:'confess2', en:"We argued. He stepped back, slipped, and hit the big clock. It stopped at eight forty.", ko:'우리는 말다툼을 했어요. 교수님이 뒤로 물러서다 미끄러져 큰 시계에 부딪혔어요. 시계는 8시 40분에 멈췄어요.' },
-    { key:'confess3', en:"I was so scared, so I ran out through the window. I'm so sorry, Professor.", ko:'너무 무서워서 창문으로 빠져나갔어요. 정말 죄송해요, 교수님.' }
+    { key:'confess3', en:"I was so scared, so I ran out through the window. I forgot all about my pies. I'm so sorry, Professor.", ko:'너무 무서워서 창문으로 빠져나갔어요. 파이는 까맣게 잊어버렸어요. 정말 죄송해요, 교수님.' }
   ],
   closing:{ who:'badger', key:'closing', en:"Fiona told us everything. Good work, detective. Case closed.", ko:'피오나가 모두 털어놓았어요. 수고했어요, 탐정님. 사건 종결이에요.' }
 };
@@ -3928,12 +3986,22 @@ function present(ref){
       });
       return;
     }
-    endingRound++;
-    if(endingRound < ENDING.confront.length) return endingSay(fionaLine(ENDING.confront[endingRound]), confrontMood(endingRound));
-    // all four answered: a moment of silence, then she gives in
-    ending.step = 'confession'; ending.i = 0; ending.line = null; renderAsk(); renderSay(null);
-    setMood('fiona', 'sad');
-    endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0]), 'sad'), 1400);
+    const next = () => {
+      if(ending?.step !== 'confront') return;
+      endingRound++;
+      if(endingRound < ENDING.confront.length) return endingSay(fionaLine(ENDING.confront[endingRound]), confrontMood(endingRound));
+      // all answered: a moment of silence, then she gives in
+      ending.step = 'confession'; ending.i = 0; ending.line = null; renderAsk(); renderSay(null);
+      setMood('fiona', 'sad');
+      endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0]), 'sad'), 1400);
+    };
+    // the detective says why it does not fit (user decision), in their own bubble, then she tries the next story
+    const det = ENDING.confront[endingRound].det;
+    if(!det) return next();
+    const name = detectiveName();
+    ending.line = null; renderAsk();
+    renderSay({ ...det, name:name ? `Detective ${name}` : 'Detective', det:true });
+    detectiveSay(det.key, () => { endTimer = setTimeout(next, 500); });
   }, 1300);
 }
 function endingNext(){
@@ -4246,7 +4314,10 @@ const ART = {
     <image href="assets/places/cafe-higgsfield.png" width="1376" height="768"/>`,
 
   hill: () => `
-    <image href="assets/places/hill-higgsfield.png" width="1376" height="768"/>`
+    <image href="assets/places/hill-higgsfield.png" width="1376" height="768"/>`,
+
+  bettyhome: () => `
+    <image href="assets/places/betty-home-higgsfield.png" width="1376" height="768"/>`
 };
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
@@ -4254,7 +4325,9 @@ const ART_FLOOR = {
   library:{ src:'assets/places/library-floor.jpg', h:506 },
   bakery: { src:'assets/places/bakery-floor.jpg', h:518 },
   cafe:   { src:'assets/places/cafe-floor.jpg', h:725 },
-  hill:   { src:'assets/places/hill-floor.jpg', h:370 }
+  hill:   { src:'assets/places/hill-floor.jpg', h:370 },
+  // drawn as one tall picture with its floor (user decision), so there is no seam
+  bettyhome:{ src:'assets/places/betty-home-floor.jpg', h:1075 }
 };
 
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
@@ -4722,7 +4795,7 @@ const CASES = [
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
-    summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 교수가 자기 파이에 대해 쓴 글 때문에 말다툼하다가, 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
+    summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   { id:'case02', no:'Case 02' },
   { id:'case03', no:'Case 03' },
   { id:'case04', no:'Case 04' },
@@ -4865,6 +4938,10 @@ function loadGame(){
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
   S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);
   S.met = S.met.filter(id => PEOPLE[id]);
+  // the bakery's note became its order board (the case's story changed): an older save's bakery photos show the picture
+  // as it is now, and once the board was found its customer is there to talk to
+  S.evidence.forEach(item => { if(item.placeId === 'bakery') item.photo = evidencePhoto(placeOf('bakery'), item.clueIndex); });
+  if(S.found.bakery?.has(2) && !S.met.includes('betty')){ S.met.push('betty'); S.known.add(spk('betty').place); }
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
 }
