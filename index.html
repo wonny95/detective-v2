@@ -168,9 +168,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .gauge-meter{position:absolute;left:45px;right:12px;top:10px;bottom:10px;overflow:hidden;border-radius:8px 10px 7px 9px;background:#E8DCC3}
 .gauge-fill{position:absolute;inset:0;background:#F2CF73 url(assets/ui/buttons/honey-flat.png) center/calc(100% + 64px) 400% no-repeat;clip-path:inset(0 calc(100% * (1 - var(--q,0))) 0 0);transition:clip-path .6s cubic-bezier(.2,.8,.3,1)}
 .interrogation-gauge.hit .gauge-track{animation:gauge-hit .65s ease-out}
-.interrogation-gauge.reset .gauge-track{animation:gauge-reset .45s ease-out}
 @keyframes gauge-hit{35%{transform:scale(1.025)}}
-@keyframes gauge-reset{25%,65%{translate:-3px 0}45%,85%{translate:3px 0}}
 /* the evidence drawer: a strip of photos under her; picking one plays its sentence, 내밀기 holds it up */
 .drawer{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;max-height:calc(100% - 70px);overflow:hidden;padding:12px 0 16px;background:var(--paper);
   border-top:3px solid var(--ink);border-radius:24px 26px 0 0/20px 22px 0 0;box-shadow:0 -6px 18px rgba(34,20,10,.35);
@@ -226,7 +224,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes jolt{15%{translate:-7px 3px}35%{translate:6px -3px}55%{translate:-4px 2px}75%{translate:2px -1px}100%{translate:0 0}}
 .scene-npc.flinch svg{animation:flinch .5s ease-out}
 @keyframes flinch{20%{translate:6px 0;scale:.96 1.03}45%{translate:-4px 0}100%{translate:0 0;scale:1}}
-@media(prefers-reduced-motion:reduce){.presented .contra,.presented.miss figure,.scene.jolt #talkCamera,.scene-npc.flinch svg,.interrogation-gauge.hit .gauge-track,.interrogation-gauge.reset .gauge-track{animation:none}.drawer,.gauge-fill{transition:none}}
+@media(prefers-reduced-motion:reduce){.presented .contra,.presented.miss figure,.scene.jolt #talkCamera,.scene-npc.flinch svg,.interrogation-gauge.hit .gauge-track{animation:none}.drawer,.gauge-fill{transition:none}}
 .stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(74,54,40,.38);pointer-events:none;animation:stage-card 1.9s ease forwards}
 .stage-card div{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);padding:12px 22px;text-align:center;box-shadow:4px 5px 0 rgba(74,54,40,.25)}
 .stage-card small{display:block;font-size:12px;color:var(--ink-soft)}
@@ -3449,7 +3447,7 @@ $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDedu
 /* ---------- ending ----------
    Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
    Right accusation: ① the player answers each of Fiona's claims with a photo from the
-   evidence notebook (a wrong photo: she brushes it off and the questioning starts over) → ② she confesses → ③ Sgt. Badger,
+   evidence notebook (a wrong photo: she brushes it off and repeats the current claim) → ② she confesses → ③ Sgt. Badger,
    closes the case (CASE CLOSED stamp) → ④ result → review.
    What happened is told only by these lines. 해석 is available inside the speech bubble.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
@@ -3531,7 +3529,7 @@ $('#sayBubble').addEventListener('click', e => {
   copy.scrollTop = ko.hidden ? 0 : ko.offsetTop - copy.offsetTop;
 });
 // The progress gauge and dimmed room, during questioning and confession.
-function renderInterrogationGauge(reset = false){
+function renderInterrogationGauge(){
   const on = !!ending && ['confront', 'confession'].includes(ending.step);
   const questioning = ending?.step === 'confront';
   $('#app').classList.toggle('questioning', questioning);
@@ -3541,7 +3539,7 @@ function renderInterrogationGauge(reset = false){
   const box = $('#interrogationGauge');
   box.hidden = !on;
   if(!on) return;
-  updateInterrogationGauge(ending.step === 'confession' ? ENDING.confront.length : endingRound, reset ? 'reset' : '');
+  updateInterrogationGauge(ending.step === 'confession' ? ENDING.confront.length : endingRound);
 }
 // Fill on impact, before the next line starts; keep the same fill element so changes animate.
 function updateInterrogationGauge(round, feedback = ''){
@@ -3549,7 +3547,7 @@ function updateInterrogationGauge(round, feedback = ''){
   box.setAttribute('aria-valuenow', progress);
   box.querySelector('.gauge-fill').style.setProperty('--q', progress / 100);
   box.classList.toggle('complete', progress === 100);
-  box.classList.remove('hit', 'reset');
+  box.classList.remove('hit');
   if(feedback){ void box.offsetWidth; box.classList.add(feedback); }
 }
 
@@ -3837,15 +3835,12 @@ function present(ref){
   endTimer = setTimeout(() => {
     if(ending?.step !== 'confront') return;
     if(!right){
-      // a wrong photo: she regains her composure and the questioning starts over from her first claim
-      const broken = endingRound;
-      endingRound = 0;
+      // a wrong photo: keep the completed claims and let the player retry this one
+      const retryRound = endingRound;
       ending.line = null; renderAsk();
-      if(broken) renderInterrogationGauge(true);
-      setMood('fiona', null);
       renderSay({ who:'fiona', en:ENDING.miss.en, ko:ENDING.miss.ko });
       speak(ENDING.miss.en, ENDING.miss.key, 'fiona', () => {
-        endTimer = setTimeout(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[0]), null), 700);
+        endTimer = setTimeout(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[retryRound]), confrontMood(retryRound)), 700);
       });
       return;
     }
@@ -4433,7 +4428,7 @@ const TUT = [
     text:'아래 <b>Note</b>에서 <b>인물 · 증거 · 메모</b>를 봐요. <b>📌</b>를 누르면 진술과 증거가 메모에 붙어요. <b>해석</b>을 누르면 뜻이 보여요.',
     img:'assets/ui/tutorial/tut-5.webp' },
   { title:'추리하고 심문해요',
-    text:'대화를 모두 마치면 <b>추리하기</b>가 열려요. 탐정의 질문에 답하며 범인을 찾아요. 경찰에게 알린 뒤 심문에서는 거짓말에 맞는 <b>증거를 내밀어요</b>. 틀린 증거를 내밀면 처음부터예요.',
+    text:'대화를 모두 마치면 <b>추리하기</b>가 열려요. 탐정의 질문에 답하며 범인을 찾아요. 경찰에게 알린 뒤 심문에서는 거짓말에 맞는 <b>증거를 내밀어요</b>. 틀린 증거를 내밀면 같은 주장에 다시 도전해요.',
     img:'assets/ui/tutorial/tut-6.webp' }
 ];
 let tutStep = 0, tutThenStart = false;
