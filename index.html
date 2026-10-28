@@ -1555,17 +1555,17 @@ const PEOPLE = {
     ],
     unlocks:{ m2:{ people:['ray','rosie'] }, m3:{ people:['fiona'] } },
     answers:{
-      m1:"The library closes at eight. The professor always stays late, so I went home for dinner. When I came back at nine, he was on the floor, and the big clock was not ticking.",
+      m1:"The library closes at eight. I asked the professor to look after the library for a while and went home to get a book for him. When I came back at nine, he was on the floor.",
       m2:"Ray Raccoon came at seven thirty to borrow a music book. And Rosie Rabbit came at seven to return a book about stars.",
       m3:"Today, he wrote in the newspaper that Fiona Fox's pies were too sweet. Fiona was very angry about it."
     },
     notes:{
-      m1:["She went home for {{k|dinner}}.","She came back at {{a|9 PM/9/nine}}.","The big {{b|clock}} was not ticking."],
+      m1:["She asked the professor to look after the {{b|library}} and went home to get a {{k|book}}.","She came back at {{a|9 PM/9/nine}}.","He was on the floor."],
       m2:["{{c|Ray Raccoon/ray raccoon}} came at 7:30 to borrow a {{d|music}} book.","{{e|Rosie Rabbit/rosie rabbit}} came at {{f|7 PM/7/seven}} to return a book about {{g|stars}}."],
       m3:["Hoot wrote in the {{l|newspaper}} that {{h|Fiona Fox/fiona fox}}'s pies were too {{i|sweet}}.","Fiona was very {{j|angry}}."]
     },
     bank:{
-      m1:['8 PM','9 PM','10 PM','dinner','lunch','clock','door','window'],
+      m1:['8 PM','9 PM','10 PM','library','book','dinner','door','window'],
       m2:['Ray Raccoon','Rosie Rabbit','Mr. Duck','music','cooking','7 PM','8 PM','stars','flowers'],
       m3:['Fiona Fox','Mrs. Bear','newspaper','letter','sweet','salty','angry','happy']
     }
@@ -1689,7 +1689,7 @@ const WORDS = {
   'librarian':['w','사서'], 'clock':['w','시계'], 'music':['w','음악'], 'stars':['w','별들'], 'sweet':['w','달콤한, 단'], 'angry':['w','화가 난'],
   'blueberry pies':['w','블루베리 파이'], 'regular customer':['w','단골손님'], 'bread':['w','빵'], 'morning':['w','아침'], 'guitar':['w','기타'], 'lantern':['w','랜턴, 등불'],
   'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
-  'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'], 'dinner':['w','저녁 식사'], 'newspaper':['w','신문'], 'alone':['w','혼자'],
+  'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'], 'book':['w','책'], 'newspaper':['w','신문'], 'alone':['w','혼자'],
   'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
@@ -1725,7 +1725,7 @@ const GRAMMAR_LINES = {
   'badger:b1':[['passive','was found'], ['past-prog','was lying'], ['time-prep',"at nine o'clock"]],
   'badger:b2':[['wh-q','Who found'], ['past-irr','found him'], ['time-prep','between eight and nine']],
   'badger:b3':[['wh-q','What should I do'], ['modal','should I do'], ['imperative','Look around']],
-  'mole:m1':  [['wh-q','What did you see'], ['phrasal','came back'], ['time-prep','at nine'], ['negative','was not ticking']],
+  'mole:m1':  [['wh-q','What did you see'], ['phrasal','came back'], ['time-prep','at nine'], ['to-purpose','to get a book']],
   'mole:m2':  [['did-q','Did anyone visit'], ['time-prep','at seven thirty'], ['to-purpose','to borrow']],
   'mole:m3':  [['did-q','Did the professor have'], ['past-irr','he wrote'], ['too-adj','too sweet']],
   'fiona:q1': [['be-past','I was at my bakery'], ['time-prep','from seven to ten'], ['past-prog','was baking']],
@@ -1759,7 +1759,7 @@ const SENTENCE_TIMES = {
   'rosie:q3':[[0.09,2.8],[3.05,5.04]],
   'duck:d1':[[0,0.7],[1.14,4.29]],
   'duck:d2':[[0,1.21],[1.63,4.49],[4.7,6.2]],
-  'mole:m1':[[0,1.71],[2,4.96],[5.3,9.71]],
+  'mole:m1':[[0,1.7],[2.08,7.04],[7.36,9.98]],
   'mole:m3':[[0,5.03],[5.77,7.86]],
   'fiona:q2':[[0,0.52],[0.75,1.97],[2.26,3.98]],
   'fiona:q3':[[0,3.14]],
@@ -1776,7 +1776,7 @@ const ANSWERS_KO = {
     b3:'도서관을 꼼꼼히 둘러보세요. 누가 범인인지 알게 되면 저에게 알려 주세요.'
   },
   mole:{
-    m1:'도서관은 8시에 문을 닫아요. 교수님은 늘 늦게까지 계셔서 저는 저녁을 먹으러 집에 갔어요. 9시에 돌아와 보니 교수님이 바닥에 쓰러져 계셨고, 큰 시계가 멈춰 있었어요.',
+    m1:'도서관은 8시에 문을 닫아요. 교수님께 잠시 도서관을 맡기고 그분께 드릴 책을 가지러 집에 갔어요. 9시에 돌아와 보니 교수님이 바닥에 쓰러져 계셨어요.',
     m2:'너구리 레이가 7시 30분에 음악책을 빌리러 왔어요. 그리고 토끼 로지가 7시에 별에 관한 책을 반납하러 왔어요.',
     m3:'오늘 교수님이 신문에 여우 피오나의 파이가 너무 달다고 쓰셨어요. 피오나가 그 일로 몹시 화가 났어요.'
   },
@@ -4805,6 +4805,15 @@ function loadGame(){
   if(fiona.questionChecks.q3 === 'ok' && !fiona.notes.k){
     Object.assign(fiona.notes, { k:'regular customer', l:'bread', m:'morning' });
     Object.assign(fiona.marks, { k:'ok', l:'ok', m:'ok' });
+  }
+  // Mrs. Mole's story changed; keep completed records correct and clear unfinished old answers.
+  const mole = S.per.mole;
+  if(mole.questionChecks.m1 === 'ok'){
+    Object.assign(mole.notes, { k:'book', b:'library' });
+    Object.assign(mole.marks, { k:'ok', b:'ok' });
+  } else {
+    if(mole.notes.k?.trim().toLowerCase() === 'dinner'){ delete mole.notes.k; delete mole.marks.k; }
+    if(mole.notes.b?.trim().toLowerCase() === 'clock'){ delete mole.notes.b; delete mole.marks.b; }
   }
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
