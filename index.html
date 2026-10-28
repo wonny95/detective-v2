@@ -860,13 +860,15 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-card.done::before{display:none}
 .ded-card.done p{font-size:14px;line-height:1.75}
 .ded-card.done .ko{font-size:12px}
-.ded-card.done .ded-slot{height:24px;min-width:0;vertical-align:-6px}
+.ded-card.done .ded-slot{height:24px;min-width:0}
 .ded-card .ko{font-size:12.5px;font-weight:700;line-height:1.45;color:var(--berry)}
 .ded-card.shake{animation:deduce-shake .4s}
 @keyframes deduce-shake{20%,60%{transform:translateX(-6px) rotate(-1deg)}40%,80%{transform:translateX(6px) rotate(-1deg)}}
 .ded-card.solved{animation:deduce-ok .35s ease-out}
 @keyframes deduce-ok{50%{transform:scale(1.04) rotate(-1deg)}}
-.ded-slot{--c:#A9D79A;display:inline-flex;align-items:center;justify-content:center;min-width:76px;height:30px;padding:0 8px;vertical-align:-8px;border-radius:5px;border:2px dashed var(--c);
+.ded-slot{--c:#A9D79A;display:inline-flex;align-items:center;justify-content:center;min-width:76px;height:30px;padding:0 8px;
+  /* centred on the sentence's letters, filled or empty (user request): middle sits on the x-height, a little low for this font */
+  vertical-align:middle;position:relative;top:-2px;border-radius:5px;border:2px dashed var(--c);
   background:rgba(255,255,255,.4);font-family:var(--f-display);font-size:14px;color:var(--ink)}
 .ded-slot.person{--c:#A9D79A}.ded-slot.place{--c:#F2B983}.ded-slot.time{--c:#9CC8F0}
 button.ded-slot{cursor:pointer;border-color:#D9A93A;background:color-mix(in srgb,var(--honey) 45%,#fff);animation:deduce-blink 1.4s ease-in-out infinite}
