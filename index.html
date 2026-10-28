@@ -810,10 +810,6 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:0 16px 14px;pointer-events:none}
 .map-foot > *{pointer-events:auto}
 .map-foot:has(#accuseBtn[hidden]){display:none}
-/* the suspects to name when Sgt. Badger asks who did it (user request: the player chooses), a face over each name */
-.call-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.call-pick .pill{flex-direction:column;justify-content:center;gap:2px;min-height:72px;padding:6px 4px;font-size:13px}
-.call-pick img{width:42px;height:42px}
 /* ---------- deduction (user decision: the detective's questions lead the player's thinking; holding up evidence is for the
    questioning) ----------
    The screen above the menu is the case list's cork board. At the top the detective asks one question at a time (voice,
@@ -1296,7 +1292,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="deduce-board" id="deduceBoard">
         <div class="ded-cards" id="deduceCards"></div>
       </div>
-      <div class="deduce-go" id="deduceGo" hidden><button class="pill big" type="button">심문 시작</button></div>
+      <div class="deduce-go" id="deduceGo" hidden><button class="pill big" type="button">경찰에게 알리기</button></div>
       <div class="deduce-drop" id="deduceDrop" role="listbox" hidden></div>
     </section>
 
@@ -3447,7 +3443,7 @@ $('#deduceKo').onclick = () => {
   deduceKoOpen = !deduceKoOpen; $('#deduceKo').setAttribute('aria-pressed', deduceKoOpen);
   $('#deduceKoText').hidden = !deduceKoOpen;
 };
-// all worked out: Sgt. Badger asks who it was and the player names them (startCall)
+// all worked out: report the deduction to Sgt. Badger (startCall)
 $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); startCall(); };
 
 /* ---------- ending ----------
@@ -3521,7 +3517,11 @@ function renderSay(line){
 }
 // 해석 in the bubble: the Korean of the line under the English (user decision: in every part of the ending)
 $('#sayBubble').addEventListener('click', e => {
-  if(e.target.closest('[data-say-again]')) return ending?.line && speak(ending.line.en, ending.line.key, ending.line.who);
+  if(e.target.closest('[data-say-again]')){
+    if(!ending?.line) return;
+    clearTimeout(endTimer);
+    return speak(ending.line.en, ending.line.key, ending.line.who, ending.lineDone);
+  }
   const button = e.target.closest('[data-say-ko]'); if(!button) return;
   const ko = $('#sayBubble .say-ko');
   ko.hidden = !ko.hidden;
@@ -3672,8 +3672,7 @@ $('#drawer').addEventListener('click', e => {
 function endingControls(){
   const e = ending;
   if(!e.line || e.step === 'stamp') return '';
-  if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>'
-    : `<div class="call-pick">${DEDUCE.suspects.filter(([id]) => !e.cleared?.includes(id)).map(([id, name]) => `<button class="pill" type="button" data-end="pick" data-who="${id}"><img src="assets/ui/icons-v2/${id}.png" alt="">${esc(name)}</button>`).join('')}</div>`;
+  if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>' : '';
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
   if(e.step === 'confront') return tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
   return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
@@ -3682,13 +3681,13 @@ function endingAction(action, who){
   const e = ending; if(!e) return;
   if(action === 'present'){ stopVoice(); openDrawer(); return; }
   if(action === 'next') endingNext();
-  if(action === 'pick') callAnswer(who);
   if(action === 'interview') callGo();
 }
 // show someone (camera on them at their place) and play the line
-function endingSay(line, mood){
+function endingSay(line, mood, onDone){
   clearTimeout(endTimer);
   ending.line = line;
+  ending.lineDone = onDone || null;
   renderSay(line);
   if(mood !== undefined){ if(mood) S.mood[line.who] = mood; else delete S.mood[line.who]; }
   if(ending.shown !== line.who || S.investigate){
@@ -3702,7 +3701,7 @@ function endingSay(line, mood){
   }
   else if(mood !== undefined) renderScene(placeIdOf(S.cur));
   renderDock();
-  endTimer = setTimeout(() => { if(ending?.line === line) speak(line.en, line.key, line.who); }, 500);
+  endTimer = setTimeout(() => { if(ending?.line === line) speak(line.en, line.key, line.who, ending.lineDone); }, 500);
 }
 // The same room, arrival and light for every suspect. Positions stay fixed while the camera follows the speaker.
 let interviewTimer;
@@ -3724,10 +3723,8 @@ function leaveInterview(){
   S.visit = {};
   $('#app').classList.remove('in-interview', 'interview-arriving');
 }
-// After the board, before the station (user request: a natural way in): Sgt. Badger, at his own place, asks whether the
-// detective has worked it out; the player names one of the board's suspects (user request: the player chooses), said in
-// the detective's voice (audio/detective-call-<id>.mp3), and Badger takes them to the station with 심문 시작. The wrong
-// one answers with their alibi there, as before (wrongAccusation).
+// After the board, Sgt. Badger asks whether the detective has worked it out. The deduction already named Fiona, so
+// the detective answers aloud without another choice, and Badger takes her to the station.
 const CALL = {
   ask:{ who:'badger', key:'call1', en:'Detective! Did you find out who did it?', ko:'탐정님! 범인을 알아내셨나요?' },
   answer:id => ({ key:`call-${id}`, en:`Yes. It was ${spk(id).name}.`, ko:`응. ${spk(id).ko}야.` }),
@@ -3736,22 +3733,24 @@ const CALL = {
 function startCall(){
   ending = { step:'call', i:0, returnPlace:S.place || cur().place };
   $('#app').classList.add('ending');
-  endingSay(CALL.ask);
+  endingSay(CALL.ask, undefined, () => {
+    endTimer = setTimeout(() => { if(ending?.step === 'call' && !ending.answering) callAnswer(); }, 500);
+  });
 }
-function callAnswer(id){
-  if(ending?.step !== 'call' || ending.i || ending.cleared?.includes(id) || !DEDUCE.suspects.some(([s]) => s === id)) return;
+function callAnswer(){
+  if(ending?.step !== 'call' || ending.answering) return;
   clearTimeout(endTimer);
-  ending.pick = id; ending.line = null; renderAsk();
+  ending.answering = true; ending.line = null; ending.lineDone = null; renderAsk();
+  const id = CULPRIT;
   const name = detectiveName(), line = CALL.answer(id);
   renderSay({ ...line, name:name ? `Detective ${name}` : 'Detective', det:true });
-  // 심문 시작 takes the place of the names: a quick second tap on the same spot must not press it
-  const go = () => { if(ending?.step === 'call'){ ending.i = 1; ending.ready = performance.now() + 600; endingSay(ending.cleared ? WRONG.bring(id) : CALL.go(id)); } };
+  const go = () => { if(ending?.step === 'call'){ ending.i = 1; ending.ready = performance.now() + 600; endingSay(CALL.go(id)); } };
   detectiveSay(line.key, () => { endTimer = setTimeout(go, 500); });
 }
 function callGo(){
   if(ending?.step !== 'call' || !ending.i || performance.now() < ending.ready) return;
-  accusedId = ending.pick;
-  if(accusedId === CULPRIT) startEnding(); else wrongAccusation(accusedId);
+  accusedId = CULPRIT;
+  startEnding();
 }
 function startEnding(){
   enterInterview('fiona', 'confront');
@@ -4434,7 +4433,7 @@ const TUT = [
     text:'아래 <b>Note</b>에서 <b>인물 · 증거 · 메모</b>를 봐요. <b>📌</b>를 누르면 진술과 증거가 메모에 붙어요. <b>해석</b>을 누르면 뜻이 보여요.',
     img:'assets/ui/tutorial/tut-5.webp' },
   { title:'추리하고 심문해요',
-    text:'대화를 모두 마치면 <b>추리하기</b>가 열려요. 탐정의 질문에 답하며 범인을 좁히고 지목해요. 심문에서는 거짓말에 맞는 <b>증거를 내밀어요</b>. 틀린 증거를 내밀면 처음부터예요.',
+    text:'대화를 모두 마치면 <b>추리하기</b>가 열려요. 탐정의 질문에 답하며 범인을 찾아요. 경찰에게 알린 뒤 심문에서는 거짓말에 맞는 <b>증거를 내밀어요</b>. 틀린 증거를 내밀면 처음부터예요.',
     img:'assets/ui/tutorial/tut-6.webp' }
 ];
 let tutStep = 0, tutThenStart = false;
@@ -5254,7 +5253,7 @@ const PREVIEW_PARTS = [
   ['map', '지도', previewCase],
   ['place', '현장 조사', () => { previewCase(); openSheet(null); }],
   ['deduce', '추리 보드', () => { previewCase(); openDeduce(); }],
-  ['call', '범인 지목', () => { previewCase(); previewDeduced(); openSheet(null); startCall(); }],
+  ['call', '경찰에게 알리기', () => { previewCase(); previewDeduced(); openSheet(null); startCall(); }],
   ['interview', '심문', () => { previewCase(); previewDeduced(); openSheet(null); accusedId = CULPRIT; startEnding(); }],
   ['confession', '자백', () => { previewCase(); $('#devInterro').click(); }],
   ['review', '복습', () => { previewCase(); previewDeduced(); openSheet(null); openReview(); }]
