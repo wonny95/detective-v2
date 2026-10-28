@@ -733,8 +733,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper);font-family:var(--f-display);font-size:15px;box-shadow:2px 3px 0 rgba(74,54,40,.22)}
 .tab svg{width:24px;height:24px;flex:none}
 /* in a case: the way out to the case list sits top-left (user decision; the case stays as it was and resumes).
-   Under the notebook's dimming and the map sheet, which have their own ways back. */
+   While recording, it must sit above the notebook scrim so a real tap can open the stop-talk dialog. */
 .top-back{position:absolute;top:10px;left:14px;z-index:9;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
+.app.record-lock .top-back{z-index:12}
 .top-back svg{width:20px;height:20px;display:block}
 .app.ending .top-back{display:none}
 .app.ending.questioning .top-back{display:grid}
