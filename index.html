@@ -1597,17 +1597,17 @@ const PEOPLE = {
     answers:{
       q1:"I was at my bakery all evening, from seven to ten. I was baking blueberry pies for the festival tomorrow.",
       q2:"No. I was alone in my kitchen. Baking pies takes all evening, you know.",
-      q3:"He came to my bakery every morning. But today, he wrote in the newspaper that my pies were too sweet. I was a little upset, that's all."
+      q3:"He was a regular customer who bought bread from me every morning."
     },
     notes:{
       q1:["Fiona was at the {{a|bakery}} from {{b|7 PM/7/seven}} to {{c|10 PM/10/ten}}.","She was baking {{d|blueberry pies/blueberry pie}}."],
       q2:["She was {{e|alone}} in her kitchen.","Baking pies takes all {{f|evening}}."],
-      q3:["Hoot came to her bakery every {{g|morning}}.","Today he wrote in the {{j|newspaper}} that her pies were too {{h|sweet}}.","She was {{i|upset}}."]
+      q3:["Hoot was a {{k|regular customer}} who bought {{l|bread}} from Fiona every {{m|morning}}."]
     },
     bank:{
       q1:['bakery','library','7 PM','9 PM','10 PM','blueberry pies','apple cakes'],
       q2:['alone','together','evening','morning','kitchen'],
-      q3:['morning','night','newspaper','letter','sweet','salty','upset','happy']
+      q3:['regular customer','stranger','bread','pies','morning','evening']
     }
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
@@ -1702,7 +1702,7 @@ const PEOPLE_ORDER = Object.keys(PEOPLE);
 const WORDS = {
   'library':['n','도서관'], 'bakery':['n','빵집'], 'cafe':['n','카페'], 'lake cafe':['n','호수 카페'], 'moon hill':['n','달 언덕'], 'star club':['n','별 동호회'],
   'librarian':['w','사서'], 'clock':['w','시계'], 'music':['w','음악'], 'stars':['w','별들'], 'sweet':['w','달콤한, 단'], 'angry':['w','화가 난'],
-  'blueberry pies':['w','블루베리 파이'], 'morning':['w','아침'], 'upset':['w','속상한, 기분이 상한'], 'guitar':['w','기타'], 'lantern':['w','랜턴, 등불'],
+  'blueberry pies':['w','블루베리 파이'], 'regular customer':['w','단골손님'], 'bread':['w','빵'], 'morning':['w','아침'], 'guitar':['w','기타'], 'lantern':['w','랜턴, 등불'],
   'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
   'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'], 'dinner':['w','저녁 식사'], 'newspaper':['w','신문'], 'alone':['w','혼자'],
   'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'],
@@ -1745,7 +1745,7 @@ const GRAMMAR_LINES = {
   'mole:m3':  [['did-q','Did the professor have'], ['past-irr','he wrote'], ['too-adj','too sweet']],
   'fiona:q1': [['be-past','I was at my bakery'], ['time-prep','from seven to ten'], ['past-prog','was baking']],
   'fiona:q2': [['modal','Can anyone prove'], ['be-past','I was alone']],
-  'fiona:q3': [['wh-q','How did you know'], ['past-irr','he wrote'], ['too-adj','too sweet']],
+  'fiona:q3': [['wh-q','How did you know'], ['be-past','He was'], ['past-irr','bought bread']],
   'ray:q1':   [['be-past','I was at the Lake Cafe'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
   'ray:q2':   [['modal','Can anyone prove'], ['past-irr','saw me'], ['imperative','Ask Mr. Duck']],
   'ray:q3':   [['past-reg','borrowed'], ['negative','never gave'], ['phrasal','gave it back']],
@@ -1777,7 +1777,7 @@ const SENTENCE_TIMES = {
   'mole:m1':[[0,1.71],[2,4.96],[5.3,9.71]],
   'mole:m3':[[0,5.03],[5.77,7.86]],
   'fiona:q2':[[0,0.52],[0.75,1.97],[2.26,3.98]],
-  'fiona:q3':[[0,1.84],[2.21,5.57],[6.11,7.92]],
+  'fiona:q3':[[0,3.14]],
   'betty:b1':[[0,1.41],[1.77,3.08],[3.7,6.65]],
   'betty:b2':[[0.16,3.51],[4.24,6.47]]
 };
@@ -1798,7 +1798,7 @@ const ANSWERS_KO = {
   fiona:{
     q1:'저녁 내내, 7시부터 10시까지 빵집에 있었어요. 내일 축제에 쓸 블루베리 파이를 굽고 있었어요.',
     q2:'아니요. 부엌에 혼자 있었어요. 파이를 구우면 저녁 내내 걸리거든요.',
-    q3:'그분은 매일 아침 제 빵집에 오셨어요. 그런데 오늘 신문에 제 파이가 너무 달다고 쓰셨죠. 조금 속상했을 뿐이에요.'
+    q3:'그분은 매일 아침 제 빵을 사 가시던 단골손님이었어요.'
   },
   ray:{
     q1:'호수 카페에 있었어요. 8시부터 9시 30분까지 무대에서 기타를 쳤어요.',
@@ -4801,6 +4801,12 @@ function loadGame(){
   S.memo = { text:'', pins:[], notes:{}, ...data.S.memo };
   // anyone added to the case since the save starts fresh; a check's open feedback is not kept
   S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
+  // Fiona's shortened third reply has new blanks; preserve already checked notes from older saves.
+  const fiona = S.per.fiona;
+  if(fiona.questionChecks.q3 === 'ok' && !fiona.notes.k){
+    Object.assign(fiona.notes, { k:'regular customer', l:'bread', m:'morning' });
+    Object.assign(fiona.marks, { k:'ok', l:'ok', m:'ok' });
+  }
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
   S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);

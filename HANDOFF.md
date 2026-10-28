@@ -405,20 +405,21 @@ node server.js            # http://localhost:5173/
 |---|---|---|
 | Sgt. Badger (동료) | Fraser | 4줄 완료 |
 | Mrs. Mole (목격자) | Delia (m1은 `sad`) | 4줄. hello·m2 사용자 제작, m1 Claude 제작, m3 사용자 제공 녹음 적용 |
-| Fiona Fox | Petra | 4줄 완료 |
+| Fiona Fox | Petra | 4줄 완료. q3는 단골손님·매일 아침 빵 구매 진술 한 문장 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정·청취 품질 사용자 확인 대기) |
 | 엔딩 | Petra·Fraser | 7줄 모두 사용자 제작본 적용(아래) |
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 | Betty Bear (참고인, 필수) | Vera | 3줄(hello·b1·b2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 
-- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad), 피오나 q2·q3·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`·`confess3`(sad)(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기.
+- **이야기 고침 녹음**(Claude 제작, MiniMax): 두더지 부인 m1(sad), 피오나 q2·`endOpen`(angry)·`endKnock`(fearful)·`end3`(angry)·`confess1`·`confess3`(sad)(Petra), 탐정 추리 q7·r7·h7·r8·h8, 심문 한마디 `detective-hit1–5`, 나레이션 `detective-bakery-door/oven/board/trash`·`detective-bettyhome-basket/honey/yarn`(Grady). 추리 q8·q9·r9·h9는 예전 q9·q10·r10·h10 파일을 옮겼다. 감정·청취 품질은 사용자 확인 대기.
 
 - **엔딩 대사**(사용자 제작, MiniMax). 대사는 `ENDING`, 파일은 각 인물 `audio`의 키로 연결한다.
   - 피오나(Petra): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess2` fearful(`5dcffd54-…`), `confess3` fearful(`4cd66913-…`).
   - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 경찰에게 알리는 장면(Claude 제작) `badger-call1`(`10344252-…`), `badger-call2-fiona`(`076e7c65-…`). `badger-call2-ray·rosie` 파일은 이전 분기에서 남아 있고 현재 재생되지 않는다. 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
 - **음성 교체**: 사용자 링크 또는 연결된 생성 목록에서 대사·목소리·테이크를 확인하고 인물의 `audio` 키에 맞춘다. 같은 줄의 여러 테이크는 사용자 지정본을 우선한다. 파일을 받은 뒤 실제 녹음과 설정을 확인하며, 도구의 감정 적용 여부를 추정하지 않는다.
 - **두더지 부인 m3**: `audio/mole-m3.mp3`는 사용자 제공 [Higgsfield 녹음](https://higgsfield.ai/s/bv9sW3KEhSs). 대사는 `PEOPLE.mole.answers.m3`와 일치한다. MiniMax Speech 2.8 HD, Delia, 약 8.14초. `SENTENCE_TIMES['mole:m3']`는 두 문장 `[0, 5.03]`, `[5.77, 7.86]`으로 맞췄다.
+- **피오나 q3**: `audio/fiona-q3.mp3`는 단골손님이 매일 아침 피오나의 빵을 사 갔다는 한 문장만 말한다. Petra, Higgsfield text2speech_v2 MiniMax, job `f98cadd0-3267-4b43-9d08-01cdd5f258f7`, 0.3크레딧, 약 3.27초. `SENTENCE_TIMES['fiona:q3']`는 `[0, 3.14]`. 신문 리뷰와 감정은 이 진술에서 다루지 않고 두더지 부인 m3·빵집 신문 단서에서 드러난다. 이전 저장본의 완료된 q3는 새 빈칸을 정답으로 채워 기록을 유지한다.
 
 - **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(23개)에 있다.
   - 사용자 제작: 도서관 시계·창문·문.
