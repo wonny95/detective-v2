@@ -2507,8 +2507,9 @@ function renderDock(){
   $('#personTitle').hidden = !$('#listen').hidden;
   renderSlow();
 
-  // the faces of everyone talked to, to turn to their page; not while a page is being written or checked
-  if(!mode) html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait').map(id => {
+  // Keep the person tabs on finished statement pages, including the completed conversation summary.
+  // Hide them only while the current answer is being written or its check result is on screen.
+  if(mode !== 'record' && mode !== 'feedback') html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait').map(id => {
     const s = spk(id), all = qs(s).length, done = qs(s).filter(q => per(id).questionChecks[q.id] === 'ok').length;
     return `<button class="nface" type="button" data-face="${id}" aria-pressed="${id === S.view}"><span class="pic"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span><i class="${done === all ? 'done' : ''}">${done === all ? '✓' : `${done}/${all}`}</i></span>${esc(s.name)}</button>`;
   }).join('')}</div>`;
