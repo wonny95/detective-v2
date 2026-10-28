@@ -88,6 +88,7 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 - 제작: Nano Banana 2.1, 1K, thinking high, 1.5크레딧. 참조: `notebook-v2-nobg.png`(화풍, 지금은 지운 수첩 그림) + 여섯 인물 `characters/<id>-higgsfield.png`(생김새). 마젠타 배경.
 - 자르기: 마젠타 정도로 알파를 매기고 가장자리 색에서 마젠타를 빼낸 뒤, 칸이 아니라 이어진 덩어리(8방향)별로 잘라 정사각형 여백 4px를 두고 160×160으로 줄였다 → `icons-v2/<이름>.png`. 토끼 귀가 윗줄 칸까지 올라가 있어 칸 자르기는 쓰지 않는다.
 - 적용: 증거 탭 카메라(`cameraIcon`, 30px), 힌트 도토리(`acorns()`, 17px), 작은 얼굴 전부(`miniSVG()`의 `FACE_ICONS`; 둥근 `.mini` 틀 안에서는 아래로 8% 내리고 1.06배).
+`icons-v2/hoot.png`(160×160)는 별도 생성 없이 `characters/hoot-higgsfield.png`의 머리·어깨를 잘라 줄인 그림이다. 추리 인물 선택창의 Professor Hoot 얼굴로 쓴다(`DEDUCE.people`, `deducePic()`).
 
 ## COMPLETE 도장·별 (2026-10-20)
 

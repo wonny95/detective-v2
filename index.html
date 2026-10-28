@@ -3201,7 +3201,7 @@ $('#accused').addEventListener('click', e => {
    worked out. Progress (S.deduce) is kept with the case. */
 const DEDUCE = {
   people:[['Sgt. Badger', 'badger'], ['Mrs. Mole', 'mole'], ['Ray Raccoon', 'ray'], ['Rosie Rabbit', 'rosie'], ['Fiona Fox', 'fiona'], ['Mr. Duck', 'duck'],
-    ['Mrs. Bear', 'betty'], ['Professor Hoot']],
+    ['Mrs. Bear', 'betty'], ['Professor Hoot', 'hoot']],
   places:[['library', 'library'], ['bakery', 'bakery'], ['Lake Cafe', 'cafe'], ['Moon Hill', 'hill']],
   times:['7 PM', '7:30', '8 PM', '8:30', '8:40', '8:45', '9 PM', '9:30 PM', '10 PM'],
   // the suspects on the board (user decision: Mrs. Mole is not one)
@@ -3262,7 +3262,8 @@ const deduceEnd = () => deduceState().done.size === DEDUCE.qs.length;
 let deduceKoOpen = false, deduceKoCards = new Set(), deduceHold = null, deduceHoldT = null, deduceLine = null, deduceNextT = null, deduceWait = false, deduceShown = null;
 // the words of a kind the player has met so far
 function deduceWords(kind){
-  if(kind === 'person') return DEDUCE.people.filter(([, id]) => !id || S.met.includes(id)).map(([word]) => word);
+  // The victim is not an NPC in S.met, but his portrait belongs in the person choices.
+  if(kind === 'person') return DEDUCE.people.filter(([, id]) => id === 'hoot' || S.met.includes(id)).map(([word]) => word);
   if(kind === 'place') return DEDUCE.places.filter(([, id]) => id === 'library' || S.known.has(id)).map(([word]) => word);
   return DEDUCE.times;
 }

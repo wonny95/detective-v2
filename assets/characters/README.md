@@ -97,4 +97,4 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 피해자 Professor Hoot의 전신 그림. Higgsfield Nano Banana 2.1, 16:9, 1K, thinking high, 이미지 **한 장만 생성**(job `bc0e43f0-32f3-4e38-bbd3-700e3461c3bd`, 1.5크레딧). 참조: 오리 아저씨 원본(job `6f92a3f3-dcaa-471e-b35e-edfa9f3af87b`)의 화풍·비율만 사용.
 - 프롬프트 요지: 기존 그림책 색연필·과슈 질감, 진갈색 연필 외곽선, 둥근 볼과 눈을 유지한 따뜻한 황갈색 노교수 부엉이. 둥근 안경·이끼색 트위드 조끼·버건디 나비넥타이·갈색 바지, 정면 전신, 팔을 내린 차분한 자세, 크림 단색 바탕, 소품·글자·스티커 테두리 없음.
 - 원본 `hoot-higgsfield-original.png`(1376×768). 배경은 로컬에서 가장자리와 연결된 크림 영역만 투명하게 제거하고 캐릭터 바깥 경계(원본 x480–903, y96–727)에 약 3% 여백을 두어 `hoot-higgsfield.png`(461×669)로 잘랐다. 별도 이미지 생성·배경 제거 크레딧은 쓰지 않았다.
-- 적용: 사건 완료 뒤 복습 첫 페이지의 사건 요약에 피해자 초상으로 표시한다(`CASES[0].victimPhoto`). 현장 분필 윤곽선은 유지한다.
+- 적용: 사건 완료 뒤 복습 첫 페이지의 사건 요약에 피해자 초상으로 표시한다(`CASES[0].victimPhoto`). 추리 인물 선택창에는 같은 적용본의 머리·어깨를 (28,0)–(433,405)로 잘라 160×160으로 줄인 `assets/ui/icons-v2/hoot.png`를 쓴다. 현장 분필 윤곽선은 유지한다.
