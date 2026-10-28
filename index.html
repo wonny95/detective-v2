@@ -447,6 +447,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-story{padding:12px 14px 10px;background:#FFFDF7 repeating-linear-gradient(to bottom,transparent 0 23px,rgba(125,106,88,.16) 23px 24px) 0 9px;border:2px solid var(--line);border-radius:12px;font-size:14px;line-height:24px}
 .rv-story h3{margin:0 0 2px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--berry)}
 .rv-story p{margin:0}
+.rv-story .rv-victim{float:right;width:74px;height:88px;margin:0 0 4px 10px;object-fit:cover;object-position:center top;background:#F7F0DD;border:4px solid #FFFDF7;box-shadow:0 1px 3px rgba(60,40,20,.25);border-radius:3px}
 .rv-tiles{display:flex;flex-direction:column;gap:7px}
 /* one under another (user request), the name on the left and the number on the right */
 .rv-tiles div{display:flex;align-items:center;gap:10px;padding:9px 14px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px;font-family:var(--f-display);font-size:15px;color:var(--ink)}
@@ -3952,7 +3953,7 @@ function renderReview(dir){
     const stars = st?.stars || 0;
     body = `<div class="rv-file">${reviewPhoto(CASES[0])}<img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>${esc(CASES[0].no)}</small><b>${esc(CASES[0].title)}</b></div>
       <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div>
-      ${CASES[0].summary ? `<div class="rv-story"><h3>사건 요약</h3><p>${esc(CASES[0].summary)}</p></div>` : ''}
+      ${CASES[0].summary ? `<div class="rv-story"><h3>사건 요약</h3>${CASES[0].victimPhoto ? `<img class="rv-victim" src="${esc(CASES[0].victimPhoto)}" alt="후트 교수">` : ''}<p>${esc(CASES[0].summary)}</p></div>` : ''}
       <div class="rv-tiles">
         <div>처음에 맞힌 빈칸<b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b></div>
         <div${rv.missed.length ? ' class="hot"' : ''}>다시 들을 문장<b>${rv.missed.length || '없음'}</b></div>
@@ -4661,6 +4662,7 @@ const CASES = [
   { id:'case01', no:'Case 01', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
+    victimPhoto:'assets/characters/hoot-higgsfield.png',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   { id:'case02', no:'Case 02' },
