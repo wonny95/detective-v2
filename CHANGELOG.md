@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-28 · Claude · (이 커밋)
+## 2026-10-28 10:40 · Claude · (이 커밋)
+
+- 사용자 요청: ① 카페 포스터 공연 정보를 그림 안 손글씨로(`LIVE / MUSIC / Ray Raccoon / 8:00 - 9:30 PM`, 기타·음표 낙서). 앱의 SVG 글씨 레이어는 지움. ② 도서관 대화 화면에서 그림과 바닥 확장 사이에 흐린 가로 띠(잘린 줄)가 보임 → 띠만 다시 그려 원본 그림 아래 끝과 `library-floor.jpg` 위 끝을 고침. 자세한 좌표·job은 `assets/places/README.md`.
+- 크레딧: 그림 2장, 약 3.
+- 확인(새 탭, localhost:5173 미리보기 모드): 카페 현장에서 포스터 글씨가 보임, 도서관 두더지 대화 화면에서 바닥 띠가 사라짐, 콘솔 오류 없음, 스크립트 구문 검사 통과.
+- **다음**: 튜토리얼 움직이는 시연 3–6장과 1장 글을 지금 흐름(받아 적는 중 노트 고정, 탐정 말풍선 등)에 맞추기는 사용자가 하자고 할 때. 그 밖에는 사용자 지시 대기
+
+## 2026-10-28 · Claude · 8da5cdb
 
 - 사용자 요청: 적용이 끝난 노트 탭 시안과 고르지 않은 후보 정리. 지운 것(휴지통으로 보냄): `design/note-tabs.html`, `assets/ui/tabs-cand/`, `assets/ui/tabs-pencil-b-higgsfield-original.png`, 예전 탭 원본 `assets/ui/tabs-higgsfield-original.png`(커밋에서도 뺌), 손가락 후보 `assets/ui/pointer/`·원본 시트 5장·`scripts/cut-pointer-hands.py`. 코드 변경 없음.
 - 지우기 확인 확장(Blast Radius)은 데스크톱 앱 화면에 승인 버튼을 그리지 못해 `rm`이 10분 뒤 취소됨 → PowerShell로 파일 이름을 하나씩 적어 휴지통으로 보냄(사용자 결정).

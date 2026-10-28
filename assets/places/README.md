@@ -28,7 +28,8 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - `cafe-higgsfield.png`, `hill-higgsfield.png`: Claude Code 제작, Nano Banana 2.1 · 16:9 · 1K · thinking high. 빵집 그림을 스타일 참고 이미지로 사용했다.
 - 출처와 적용 좌표는 2026-10-15 `CLAUDE_REQUEST.md`의 인계 내용에 따른다.
 - 2026-10-27 언덕 벤치에 즉석카메라 추가(사용자 결정, 증거 `hill-5`): 지금 그림을 참조로 Nano Banana 2.1(16:9, 1K, thinking high, 1장 약 1.5크레딧)로 카메라만 그려 넣게 한 판(job `21f906f2-cb54-48ee-985d-ccaec6058da5`, `hill-camera-higgsfield-original.png`)에서 카메라 부분(x 1016–1150, y 370–502, 가장자리 4px 흐림)만 원래 그림에 옮겨 붙였다. 나머지 화면·바닥 확장은 그대로다.
-- 빵집 안내판 `CLOSED / at 7 PM`은 그림 안의 손글씨다(2026-10-27, 사용자 요청: SVG 글씨가 인위적): 이 그림을 참조로 Nano Banana 2.1 1장(job `cf013a4e-4155-4f34-81c7-889885e3c160`, `bakery-sign-higgsfield-original.png`, 약 1.5크레딧)에서 안내판 부분(x 96–212, y 200–292)만 붙였다. 카페 포스터의 공연 정보는 아직 앱의 SVG 레이어로 표시한다.
+- 빵집 안내판 `CLOSED / at 7 PM`은 그림 안의 손글씨다(2026-10-27, 사용자 요청: SVG 글씨가 인위적): 이 그림을 참조로 Nano Banana 2.1 1장(job `cf013a4e-4155-4f34-81c7-889885e3c160`, `bakery-sign-higgsfield-original.png`, 약 1.5크레딧)에서 안내판 부분(x 96–212, y 200–292)만 붙였다.
+- 카페 포스터 `LIVE / MUSIC / Ray Raccoon / 8:00 - 9:30 PM`(기타·음표 낙서 포함)도 그림 안의 손글씨다(2026-10-28, 사용자 요청): 포스터 주변(x 522–1002, y 90–360)을 3배로 키워 Nano Banana 2.1 1장(job `335f4194-15f0-4e2b-985b-8d86452715d0`, `cafe-poster-higgsfield-original.png`, 약 1.5크레딧)으로 글씨를 그려 넣게 한 뒤 포스터 부분(x 702–832, y 132–296, 가장자리 4px 흐림)만 붙였다. 앱의 SVG 글씨는 없다.
 - 새 그림에 맞춘 핫스팟은 비율 좌표, 증거 촬영 영역은 원본 픽셀 좌표(4:3)로 `PLACES`에 지정한다.
 
 # 대화용 바닥 확장 (`<id>-floor.jpg`)
@@ -37,6 +38,7 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - Claude Code 제작(2026-10-16): Higgsfield `outpaint_image`, 3:4 캔버스로 원본을 확장한 뒤 원본 위치를 찾아 그 아래만 잘라 원본 폭 1376에 맞췄다. 확장 전체 원본은 `<id>-outpaint-original.png`(1792×2400)로 보관한다.
 - 크기: library 1376×506, bakery 1376×518, cafe 1376×725, hill 1376×370.
 - 원본 배경을 교체하면 이 조각도 다시 만들어야 이음새가 맞는다.
+- 도서관 이음새 보정(2026-10-28, 사용자 요청: 대화 화면에서 잘린 줄이 보임): outpaint가 원본 아래 끝에 흐릿한 가로 띠를 남겼다. 그림+바닥을 이은 1376×1274에서 y 400–1174를 Nano Banana 2.1 1장(job `52afa19f-b165-4efc-b08a-218cd6a49301`, `library-seam-higgsfield-original.png`, 약 1.5크레딧)으로 띠만 다시 그리게 하고, 3px 위로 맞춘 결과의 y 700–852(가장자리 5px 흐림)만 붙인 뒤 다시 `library-higgsfield-v2.png`(y 0–768)와 `library-floor.jpg`(y 768–1274)로 나눴다. 핫스팟·크레용 증거 좌표는 그대로다.
 
 # 마을 지도 (`village-map-higgsfield.png`)
 

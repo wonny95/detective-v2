@@ -437,8 +437,8 @@ node server.js            # http://localhost:5173/
 | 도서관 | `places/library-higgsfield-v2.png` | 사용자 제작, 1376×768 |
 | 피해자 분필 윤곽선 | `places/library-chalk-owl.png` | Claude 제작(Nano Banana 2.1, job 418fefc0), 640×450 투명 PNG. 검은 배경 위 흰 분필 선을 밝기로 투명도를 만들고 선을 조금 굵혔다. 원본 `library-chalk-owl-original.png` |
 | 빵집 | `places/bakery-higgsfield.png` | 사용자 제작, 1376×768 |
-| 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768. 카페는 카운터 뒤 오리를 지운 판, 언덕은 벤치에 즉석카메라를 더한 판 |
-| 바닥 확장 | `places/<id>-floor.jpg` | outpaint로 원본 아래를 이어 그림(높이 370–725). 원본 `*-outpaint-original.png` |
+| 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768. 카페는 카운터 뒤 오리를 지우고 공연 포스터 글씨를 그림 안에 그려 넣은 판, 언덕은 벤치에 즉석카메라를 더한 판 |
+| 바닥 확장 | `places/<id>-floor.jpg` | outpaint로 원본 아래를 이어 그림(높이 370–725). 원본 `*-outpaint-original.png`. 도서관은 원본 아래 끝의 흐린 띠를 다시 그려 이음새를 지움(`assets/places/README.md`) |
 | 튜토리얼 그림 | `ui/tutorial/tut-1…6.webp` | Claude 제작, 실제 게임 화면을 잘라 합성(사용자 결정), 900×720. 만드는 법·자르는 기준은 같은 폴더 README |
 | 마을 지도 | `places/village-map-higgsfield.png` | Claude 제작, 768×1376, 글자 없음 |
 | 파출소 조사실 | `places/station-interview-room.png` | Codex 기본 이미지 생성 도구 제작, 1254×1254. 대화 전용, 바닥 포함, 인물·문자 없음 |
@@ -547,7 +547,7 @@ node server.js            # http://localhost:5173/
 ## 11. 알려진 이슈와 주의점
 
 - **미리보기 탭 공유**: Claude Code의 브라우저 패널은 사용자도 같이 쓴다. 시험은 새 탭에서 하고, 사용자 탭을 새로고침하거나 조작하지 않는다.
-- **글꼴**은 모두 페이퍼로지(Paperlogy)다(사용자 결정, `assets/fonts/README.md`). `--f-hand`도 같은 글꼴을 사용한다. 다른 글꼴로 바꾸면 노트 빈칸이 줄바꿈되지 않는지, 빵집 안내문·카페 포스터·튜토리얼 그림 속 글자가 틀 밖으로 나가지 않는지 확인한다.
+- **글꼴**은 모두 페이퍼로지(Paperlogy)다(사용자 결정, `assets/fonts/README.md`). `--f-hand`도 같은 글꼴을 사용한다. 다른 글꼴로 바꾸면 노트 빈칸이 줄바꿈되지 않는지, 튜토리얼 그림 속 글자가 틀 밖으로 나가지 않는지 확인한다.
 - **바닥 확장 이음새**: outpaint 결과에서 원본 위치를 찾아 잘랐다. 배경을 바꾸면 다시 만들어야 한다. 카페 바닥(725px)은 가장 길다.
 - **리듬형 입 모션**은 음량·음소 분석 립싱크가 아니다.
 - **서버 파일 감시**는 `.git`도 감시해 커밋·문서 수정만으로도 미리보기가 새로고침된다.
