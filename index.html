@@ -841,14 +841,16 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-sus.out .ded-pol{filter:grayscale(.7) brightness(.9)}
 .clear-card .ded-sus.out::after{content:"";position:absolute;left:50%;top:5px;width:72px;height:72px;margin-left:-36px;pointer-events:none;opacity:.85;
   background:linear-gradient(45deg,transparent 46%,#A4352C 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#A4352C 46% 54%,transparent 54%)}
-/* a suspect ruled out: a red X drawn over the photo in two pencil strokes as the detective says they couldn't do it
-   (user request), still afterwards */
-.ded-x{position:absolute;left:50%;top:6px;width:56px;height:56px;margin-left:-28px;overflow:visible;pointer-events:none;opacity:.85}
-.ded-x path{fill:none;stroke:#A4352C;stroke-width:9;stroke-linecap:round}
-.ded-sus.draw .ded-x path{stroke-dasharray:1;stroke-dashoffset:1;animation:ded-x-draw .3s ease-in forwards}
-.ded-sus.draw .ded-x path + path{animation-delay:.38s}
-@keyframes ded-x-draw{to{stroke-dashoffset:0}}
-@media(prefers-reduced-motion:reduce){.ded-sus.draw .ded-x path{stroke-dashoffset:0;animation:none}}
+/* a suspect ruled out: a red crayon X (assets/ui/crayon-x-1/2.png, user request) drawn over the photo stroke by stroke as
+   the detective says they couldn't do it, each stroke uncovered along its own direction; still afterwards */
+.ded-x{position:absolute;left:50%;top:3px;width:62px;height:62px;margin-left:-31px;pointer-events:none}
+.ded-x i{position:absolute;inset:0;background:url(assets/ui/crayon-x-1.png) center/100% no-repeat}
+.ded-x i + i{background-image:url(assets/ui/crayon-x-2.png)}
+.ded-sus.draw .ded-x i{clip-path:polygon(0 0,0 0,0 0);animation:ded-x-a .3s ease-in forwards}
+.ded-sus.draw .ded-x i + i{clip-path:polygon(100% 0,100% 0,100% 0);animation:ded-x-b .3s ease-in .38s forwards}
+@keyframes ded-x-a{to{clip-path:polygon(0 0,200% 0,0 200%)}}
+@keyframes ded-x-b{to{clip-path:polygon(100% 0,-100% 0,100% 200%)}}
+@media(prefers-reduced-motion:reduce){.ded-sus.draw .ded-x i,.ded-sus.draw .ded-x i + i{clip-path:none;animation:none}}
 .ded-sus.culprit::after{content:"";position:absolute;left:50%;top:-8px;width:92px;height:100px;margin-left:-46px;border:3px solid #A4352C;border-radius:50%;transform:rotate(-8deg);pointer-events:none}
 /* only what has just been worked out pops (the board is redrawn for every question) */
 .deduce .pop{animation:deduce-pin .4s cubic-bezier(.3,1.5,.5,1)}
@@ -3391,7 +3393,7 @@ function renderDeduce(){
     now[id] = { out, lie }; const old = was[id];
     const pop = !first && (!old || (lie && !old.lie)), draw = !first && out && old && !old.out;
     const cls = [out && 'out', lie && 'culprit', pop && 'pop', draw && 'draw'].filter(Boolean).join(' ');
-    const x = out ? '<svg class="ded-x" viewBox="0 0 100 100" aria-hidden="true"><path pathLength="1" d="M17 19 C38 38 58 60 85 83"/><path pathLength="1" d="M83 17 C62 39 41 61 15 85"/></svg>' : '';
+    const x = out ? '<span class="ded-x" aria-hidden="true"><i></i><i></i></span>' : '';
     return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>${x}</div>`;
   };
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)

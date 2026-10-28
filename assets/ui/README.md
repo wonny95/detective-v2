@@ -152,3 +152,9 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 
 - `nudge-bang.png` (182×200, 투명): 장소에서 오래 가만히 있을 때 물어볼 게 남은 인물 머리 위에 뜨는 크림 말풍선 속 빨간 느낌표(사용자 결정). Claude 제작, Nano Banana 2.1(3:2), 참조: 아이콘 v2 시트(job `782fc121-…`) + 메뉴 아이콘 2 시트(job `cd4840ad-…`).
 - 원본 `nudge-bang-higgsfield-original.png` (job `ad920057-7b41-4812-bcb7-9fece326cb5c`): 3×2 느낌표 6종 중 위 가운데. `scripts/cut-nudge-marks.py`로 마젠타를 지우고 잘라 긴 변 200px. 함께 그린 화살표 6종(job `aeb76a38-…`)과 다른 느낌표는 고르지 않았다. 두 장 크레딧 약 3.
+
+# 추리 보드 크레용 X (`crayon-x-1.png`, `crayon-x-2.png`)
+
+- Claude Code 제작(2026-10-28, 사용자 요청: 크레용으로 그린 듯한 X, 1장만): Nano Banana 2.1 · 1:1 · 1K · thinking high, 흰 종이 위 벽돌색(#A4352C) 크레용 X 두 획(job `09da62d6-a999-49fe-9352-16ba2cc866e2`, 원본 `crayon-x-higgsfield-original.png`, 약 1.5크레딧).
+- `scripts/cut-crayon-x.py`: 흰색에서 먼 정도로 투명도를 만들고(흰 기운을 뺀 색), 픽셀을 가까운 획에 나눈다. 첫 획(왼쪽 위 → 오른쪽 아래)은 교차점을 포함한 띠 전체를 가진다. 두 장을 같은 정사각 영역(원본 (70,66)–(962,958))에서 240×240으로 줄였다.
+- 게임에서는 두 장을 겹쳐 두고 `clip-path` 삼각형을 각 획 방향으로 넓혀 한 획씩 그린다(`.ded-x`).
