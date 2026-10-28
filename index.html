@@ -833,15 +833,22 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-group .ded-sus{position:sticky;top:0;padding-top:4px}
 .ded-group .ded-pol{width:62px;padding:4px 4px 3px;font-size:10.5px}
 .ded-group .ded-pol i{width:44px;height:44px}
-.ded-group .ded-sus.out::after{top:6px;width:56px;height:56px;margin-left:-28px}
 .ded-group .ded-sus.culprit::after{top:-4px;width:76px;height:84px;margin-left:-38px}
 .ded-sus{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--ink)}
 .ded-pol{width:80px;padding:5px 5px 4px;background:url(assets/ui/polaroid-card.webp) 0 0/100% 100%;filter:drop-shadow(1px 3px 2px rgba(40,25,10,.35));text-align:center;font-family:var(--f-display);font-size:12px;transition:filter .3s,opacity .3s}
 .ded-sus:nth-child(1) .ded-pol{transform:rotate(-3deg)}.ded-sus:nth-child(2) .ded-pol{transform:rotate(2.5deg)}.ded-sus:nth-child(3) .ded-pol{transform:rotate(-1.5deg)}
 .ded-pol i{display:block;width:54px;height:54px;margin:0 auto 1px;border-radius:50%;background:#FFF8E9 center/88% no-repeat}
 .ded-sus.out .ded-pol{filter:grayscale(.7) brightness(.9)}
-.ded-sus.out::after{content:"";position:absolute;left:50%;top:5px;width:72px;height:72px;margin-left:-36px;pointer-events:none;opacity:.85;
+.clear-card .ded-sus.out::after{content:"";position:absolute;left:50%;top:5px;width:72px;height:72px;margin-left:-36px;pointer-events:none;opacity:.85;
   background:linear-gradient(45deg,transparent 46%,#A4352C 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#A4352C 46% 54%,transparent 54%)}
+/* a suspect ruled out: a red X drawn over the photo in two pencil strokes as the detective says they couldn't do it
+   (user request), still afterwards */
+.ded-x{position:absolute;left:50%;top:6px;width:56px;height:56px;margin-left:-28px;overflow:visible;pointer-events:none;opacity:.85}
+.ded-x path{fill:none;stroke:#A4352C;stroke-width:9;stroke-linecap:round}
+.ded-sus.draw .ded-x path{stroke-dasharray:1;stroke-dashoffset:1;animation:ded-x-draw .3s ease-in forwards}
+.ded-sus.draw .ded-x path + path{animation-delay:.38s}
+@keyframes ded-x-draw{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.ded-sus.draw .ded-x path{stroke-dashoffset:0;animation:none}}
 .ded-sus.culprit::after{content:"";position:absolute;left:50%;top:-8px;width:92px;height:100px;margin-left:-46px;border:3px solid #A4352C;border-radius:50%;transform:rotate(-8deg);pointer-events:none}
 /* only what has just been worked out pops (the board is redrawn for every question) */
 .deduce .pop{animation:deduce-pin .4s cubic-bezier(.3,1.5,.5,1)}
@@ -3261,7 +3268,7 @@ const DEDUCE = {
       hint:'What did Ray say? Where did he play his guitar?', hintKo:'레이가 뭐라고 했지? 기타를 어디서 쳤다고 했어?' },
     { step:2, who:'ray', q:'But who saw him there?', qKo:'그런데 거기서 그를 본 사람은 누구지?',
       card:'{person:Mr. Duck} watched him all night.', cardKo:'오리 아저씨가 밤새 그를 지켜봤다.',
-      right:"Mr. Duck says Ray never left the stage. So Ray couldn't do it.", rightKo:'오리 아저씨는 레이가 무대를 한 번도 떠나지 않았대. 그러니 레이일 수 없어.',
+      right:"Mr. Duck says Ray never left the stage. So Ray couldn't do it.", xAt:3.2, rightKo:'오리 아저씨는 레이가 무대를 한 번도 떠나지 않았대. 그러니 레이일 수 없어.',
       hint:'Ray said the whole cafe saw him. Who owns the cafe?', hintKo:'레이는 카페 사람들이 다 자기를 봤다고 했지. 카페 주인이 누구였지?', out:true },
     { step:2, who:'rosie', q:'At 8:40, where was Rosie?', qKo:'8시 40분에 로지는 어디 있었을까?',
       card:'At 8:40, Rosie was on {place:Moon Hill}.', cardKo:'8시 40분에 로지는 달 언덕에 있었다.',
@@ -3270,7 +3277,7 @@ const DEDUCE = {
     // the proof is the camera's printed time, not her own notebook (user decision: what she wrote herself was weak)
     { step:2, who:'rosie', q:'Nobody was with her. So how do we know? What time did the camera on the bench print?', qKo:'아무도 함께 있지 않았어. 그럼 어떻게 알 수 있지? 벤치 위 카메라는 몇 시를 찍어 냈지?',
       card:'The camera on the hill printed {time:8:45} on its shooting star photo.', cardKo:'언덕의 카메라는 별똥별 사진에 8시 45분을 찍어 냈다.',
-      right:"A camera can't lie about the time. At 8:45 she was on the hill. She couldn't be in the library five minutes before. Rosie couldn't do it.", rightKo:'카메라는 시간을 속이지 못해. 8시 45분에 그녀는 언덕에 있었어. 5분 전에 도서관에 있었을 리 없지. 로지일 수 없어.',
+      right:"A camera can't lie about the time. At 8:45 she was on the hill. She couldn't be in the library five minutes before. Rosie couldn't do it.", xAt:8.85, rightKo:'카메라는 시간을 속이지 못해. 8시 45분에 그녀는 언덕에 있었어. 5분 전에 도서관에 있었을 리 없지. 로지일 수 없어.',
       hint:'Look at the instant camera on Moon Hill. What time did it print?', hintKo:'달 언덕의 즉석카메라를 봐. 몇 시를 찍어 냈지?', out:true },
     { step:3, who:'fiona', q:'Now Fiona. Where did she say she was?', qKo:'이제 피오나. 그녀는 어디 있었다고 했지?',
       card:'Fiona said she was at her {place:bakery} from seven to ten.', cardKo:'피오나는 7시부터 10시까지 빵집에 있었다고 했다.',
@@ -3303,7 +3310,7 @@ const deduceBlank = q => q.card.match(/\{(\w+):([^}]+)\}/);   // [, kind, answer
 // an older save's page board (fill/solved) starts over as questions
 const deduceState = () => S.deduce?.done instanceof Set ? S.deduce : (S.deduce = { done:new Set(), misses:{}, tried:{}, at:0 });
 const deduceEnd = () => deduceState().done.size === DEDUCE.qs.length;
-let deduceKoOpen = false, deduceKoCards = new Set(), deduceLine = null, deduceNextT = null, deduceWait = false, deduceShown = null;
+let deduceKoOpen = false, deduceKoCards = new Set(), deduceHold = null, deduceHoldT = null, deduceLine = null, deduceNextT = null, deduceWait = false, deduceShown = null;
 // the words of a kind the player has met so far
 function deduceWords(kind){
   if(kind === 'person') return DEDUCE.people.filter(([, id]) => !id || S.met.includes(id)).map(([word]) => word);
@@ -3319,13 +3326,13 @@ function openDeduce(){
   if(!allConversationsDone()) return;
   openSheet(null); setNotes(false);
   $('#deduce').hidden = false; $('#app').classList.add('deducing');
-  const st = deduceState(); deduceShown = null; deduceWait = false; deduceKoCards.clear();
+  const st = deduceState(); deduceShown = null; deduceWait = false; deduceKoCards.clear(); deduceRelease(false);
   if(deduceEnd()){ st.at = DEDUCE.qs.length - 1; deduceShow({ en:DEDUCE.qs[st.at].right, ko:DEDUCE.qs[st.at].rightKo }, `r${st.at + 1}`, 'read', null, false); renderDeduce(); }
   else { if(st.done.has(st.at)) st.at = deduceNextAt(); deduceAsk(); }
   $('#deduceGo').hidden = !deduceEnd(); deduceToEnd(false);
 }
 function closeDeduce(){
-  clearTimeout(deduceNextT); deduceNextT = null; deduceWait = false;
+  clearTimeout(deduceNextT); deduceNextT = null; deduceWait = false; deduceRelease(false);
   closeDeduceDrop(); stopVoice(); $('#deduceQ').classList.remove('talk');
   $('#deduce').hidden = true; $('#app').classList.remove('deducing');
 }
@@ -3380,11 +3387,12 @@ function renderDeduce(){
   const photo = id => {
     const name = DEDUCE.suspects.find(([s]) => s === id)[1];
     const mine = qs.map((x, i) => [x, i]).filter(([x, i]) => x.who === id && st.done.has(i));
-    const out = mine.some(([x]) => x.out), lie = mine.some(([x]) => x.lie);
+    const out = mine.some(([x]) => x.out) && deduceHold !== id, lie = mine.some(([x]) => x.lie);
     now[id] = { out, lie }; const old = was[id];
-    const pop = !first && (!old || (out && !old.out) || (lie && !old.lie));
-    const cls = [out && 'out', lie && 'culprit', pop && 'pop'].filter(Boolean).join(' ');
-    return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span></div>`;
+    const pop = !first && (!old || (lie && !old.lie)), draw = !first && out && old && !old.out;
+    const cls = [out && 'out', lie && 'culprit', pop && 'pop', draw && 'draw'].filter(Boolean).join(' ');
+    const x = out ? '<svg class="ded-x" viewBox="0 0 100 100" aria-hidden="true"><path pathLength="1" d="M17 19 C38 38 58 60 85 83"/><path pathLength="1" d="M83 17 C62 39 41 61 15 85"/></svg>' : '';
+    return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>${x}</div>`;
   };
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
   const card = (i, filled) => {
@@ -3442,6 +3450,7 @@ function deducePick(word){
     return saveGame();
   }
   st.done.add(i);
+  if(q.out) deduceHold = q.who;   // their X waits for the reply's last sentence ("So Ray couldn't do it.")
   const chime = $('#correctChime'); chime.currentTime = 0; chime.play().catch(() => {});
   renderDeduce();
   const card = $('#deduceCard'); card.classList.remove('solved'); void card.offsetWidth; card.classList.add('solved');
@@ -3453,10 +3462,27 @@ function deducePick(word){
   }
   // the reply is said, then a moment later the next question (a tap on the bubble goes on at once)
   deduceWait = true;
-  deduceShow({ en:q.right, ko:q.rightKo }, `r${i + 1}`, 'read', () => { deduceNextT = setTimeout(deduceNext, 700); });
+  deduceShow({ en:q.right, ko:q.rightKo }, `r${i + 1}`, 'read', () => { deduceRelease(); deduceNextT = setTimeout(deduceNext, 700); });
+  if(deduceHold) deduceMarkAt(q.right, q.xAt);
+}
+// the held X comes as the last sentence of the reply is heard: at `xAt` seconds into the recording (where that sentence
+// starts in r3/r5.mp3), or that share of the time the line takes without one
+function deduceMarkAt(text, at){
+  const share = (text.lastIndexOf('. ') + 2) / text.length, voice = $('#evidenceVoice'), t0 = Date.now();
+  const guess = (text.length * (S.slow ? 95 : 70) + 500) * share;
+  clearInterval(deduceHoldT);
+  deduceHoldT = setInterval(() => {
+    const d = voice.duration, heard = voice.src.includes('/deduce/') && !voice.paused && isFinite(d);
+    if(heard ? voice.currentTime >= (at ?? d * share) : Date.now() - t0 >= guess) deduceRelease();
+  }, 50);
+}
+function deduceRelease(draw = true){
+  clearInterval(deduceHoldT); deduceHoldT = null;
+  if(!deduceHold) return;
+  deduceHold = null; if(draw) renderDeduce();
 }
 function deduceNext(){
-  clearTimeout(deduceNextT); deduceNextT = null; deduceWait = false;
+  clearTimeout(deduceNextT); deduceNextT = null; deduceWait = false; deduceRelease();
   if($('#deduce').hidden || deduceEnd()) return;
   deduceState().at = deduceNextAt(); saveGame(); deduceAsk();
 }
