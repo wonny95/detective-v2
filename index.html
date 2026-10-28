@@ -3635,7 +3635,8 @@ const evRef = record => `${record.placeId}-${record.clueIndex}`;
 // a statement's ref is 'person:question' (a photo's is 'place-clue')
 const isSayRef = ref => ref.includes(':');
 const sayOk = ref => { const [id, qid] = ref.split(':'); return S.per[id]?.questionChecks[qid] === 'ok'; };
-const statements = () => PEOPLE_ORDER.flatMap(id => S.per[id] ? qs(spk(id)).map(q => `${id}:${q.id}`).filter(sayOk) : []);
+// not the one being questioned: her own words are what is being tested (user request)
+const statements = () => PEOPLE_ORDER.flatMap(id => S.per[id] && id !== accusedId ? qs(spk(id)).map(q => `${id}:${q.id}`).filter(sayOk) : []);
 const sayFace = id => `<i class="say-face" style="background-image:url(assets/ui/icons-v2/${id}.png);background-color:${spk(id).bg}"></i>`;
 function drawerStripHTML(){
   if(drawerTab === 'say'){
