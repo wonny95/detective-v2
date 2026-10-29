@@ -83,7 +83,7 @@
 | 사건 선택 | 사건 목록 | Case 01 · 바뀐 소풍 가방, 학습 포인트 ‘물건의 주인 찾기’ |
 | 예습 | 이번 사건의 열쇠 | 소유 표현 3쪽 → 사건 시작 |
 | 첫 사용 | 기존 6단계 튜토리얼 | 최초 1회. 범인·심문 관련 문구는 본 사건의 주인 확인 흐름에 맞춤 |
-| 직접 의뢰·첫 탐문 | 로지 인사·질문 4개 | 소풍 탁자에서 로지의 부탁을 듣고 물건 특징 기록 → 오늘 만난 벤과 카페 해금 |
+| 직접 의뢰·첫 탐문 | 로지 인사·질문 4개 | 소풍 탁자에서 로지의 부탁을 듣고 물건 특징 기록 → 로지가 들른 호수 카페 해금 |
 | 조사 확장 | 벤 질문 3개 | 물건 특징 기록 → 미아·올리와 정원 해금 |
 | 비교 탐문 | 미아·올리 각 2개 | 원하는 순서로 만나되 시작한 인물의 대화는 끝까지 |
 | 현장 조사 | 촬영·증거 노트 | 소풍 탁자와 카페에서 각각 두 물건 촬영 |
@@ -97,10 +97,11 @@
 | 완료한 질문 | 새 인물 | 새 장소 | 근거 |
 |---|---|---|---|
 | 사건 시작 | rosie | picnic | 로지의 직접 의뢰로 소풍 탁자에서 시작. 시작 장소·의뢰인으로서 이미 알려진 상태 |
-| rosie:r4 | ben | cafe | 로지가 오늘 벤을 카페에서 봤다는 말을 들음 |
+| rosie:r4 | — | cafe | 로지가 여기 오기 전에 호수 카페에 들렀고, 가방이 그곳에서 바뀌었을지도 모른다고 말함 |
+| ben:b1·b2·b3 중 처음 기록한 질문 | ben | — | 카페에서 처음 만난 친구가 이름을 밝히고, 그의 첫 진술을 바르게 기록함 |
 | ben:b3 | mia, ollie | garden | 두 친구와 정원을 대답에서 들음 |
 
-초기에는 로지의 의뢰 장면과 소풍 탁자만 열린다. 로지와 탐정의 첫 대화에서 도움 요청을 듣고 사건을 시작하며, 소풍 탁자는 기본 시작 장소라 발견 알림을 띄우지 않는다. rosie:r4를 바르게 기록하면 벤과 카페, ben:b3를 바르게 기록하면 미아·올리와 정원을 해금한다. 노트를 닫은 뒤 현재 발견 연출을 보여 주고, 해금 질문을 일찍 골랐다면 남은 질문을 마칠 때까지 원래 인물과의 대화를 유지한다.
+초기에는 로지의 의뢰 장면과 소풍 탁자만 열린다. 로지와 탐정의 첫 대화에서 도움 요청을 듣고 사건을 시작하며, 소풍 탁자는 기본 시작 장소라 발견 알림을 띄우지 않는다. rosie:r4를 바르게 기록하면 카페만 해금한다. 로지는 카페에서 누구를 봤는지 기억하지 못한다. 플레이어가 카페에 직접 가면 그곳의 친구가 인사하며 자신을 벤 비버라고 소개한다. 벤의 질문 중 처음으로 바르게 기록한 진술을 통해 인물 노트에 벤이 추가되고, ben:b3를 바르게 기록하면 미아·올리와 정원을 해금한다. 노트를 닫은 뒤 현재 발견 연출을 보여 주고, 해금 질문을 일찍 골랐다면 남은 질문을 마칠 때까지 원래 인물과의 대화를 유지한다.
 
 사진은 인물을 해금하지 않는다. 정답 색을 사진에서 보았더라도 주인을 자동 연결하지 않는다. 필수 대화는 네 인물의 11개 질문이며 선택 참고인은 두지 않는다.
 
@@ -126,7 +127,7 @@
 | rosie:r1 · 첫 질문 고정 | Did your bags get mixed up? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. |
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. |
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. |
-| rosie:r4 | Who did you see today? / 오늘 누구를 마주쳤어? | I saw Ben Beaver at the cafe. He had a blue bag, too. / 카페에서 벤 비버를 봤어. 벤도 파란 가방을 갖고 있었어. |
+| rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? |
 | ben:b1 | What color is your lunch box? / 네 도시락은 무슨 색이니? | My lunch box is green. / 내 도시락은 초록색이야. |
 | ben:b2 | What color is your bottle? / 네 물병은 무슨 색이니? | My bottle is blue. / 내 물병은 파란색이야. |
 | ben:b3 | Who else has a blue bag? / 또 누가 파란 가방을 가지고 있니? | Mia Mouse and Ollie Otter have blue bags, too. They are in the garden. / 미아 생쥐와 올리 수달도 파란 가방을 가지고 있어. 정원에 있어. |
@@ -146,7 +147,7 @@ my를 his/her로 바꾸어 기록하는 칸은 들은 말의 소유 관계를 �
 | rosie:r1 | [Her] bag is [blue], just like this one. | Her, His, blue, green |
 | rosie:r2 | [Her] bag has a red lunch box and a [yellow] bottle. | Her, His, yellow, blue |
 | rosie:r3 | [She] does not know whose bag this is. | She, He |
-| rosie:r4 | I saw [Ben Beaver] at the [cafe]. He had a [blue] bag. | Ben Beaver, Mia Mouse, cafe, garden, blue, green |
+| rosie:r4 | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. | remember, know, cafe, garden, mixed up, lost |
 | ben:b1 | [His] lunch box is [green]. | His, Her, green, red |
 | ben:b2 | [His] bottle is [blue]. | His, Her, blue, yellow |
 | ben:b3 | [Mia Mouse] and [Ollie Otter] are in the [garden]. | Mia Mouse, Ollie Otter, Rosie Rabbit, garden, cafe |
@@ -155,9 +156,9 @@ my를 his/her로 바꾸어 기록하는 칸은 들은 말의 소유 관계를 �
 | ollie:o1 | [His] lunch box is [red]. | His, Her, red, green |
 | ollie:o2 | [His] bottle is [blue]. | His, Her, blue, yellow |
 
-rosie:r3에서 로지는 가방 주인을 모른다. rosie:r4는 로지가 오늘 카페에서 벤과 파란 가방을 봤다는 목격담이다. 이를 ‘카페 가방의 주인이 벤’이라는 뜻으로 기록하지 않는다. 벤이 가지고 있던 가방과 벤 소유의 가방은 이 사건에서 다르다.
+rosie:r3에서 로지는 가방 주인을 모른다. rosie:r4에서 로지는 오늘 만난 사람도 기억하지 못한다. 카페에 들른 사실과 가방이 그곳에서 바뀌었을지 모른다는 추측만 말한다. 벤의 존재와 가방의 소유 관계는 카페에서 직접 만나 진술·사진을 조사한 뒤 밝혀진다.
 
-이름은 카드 선택으로 기록할 수 있게 한다. 허용 답은 Ben/Ben Beaver, Mia/Mia Mouse, Ollie/Ollie Otter, cafe/café를 개별 등록한다. 해금용 이름·장소와 소유 표현·색의 학습 결과는 분석할 때 구분한다. 합계는 23칸이다.
+이름은 카드 선택으로 기록할 수 있게 한다. 허용 답은 Mia/Mia Mouse, Ollie/Ollie Otter, cafe/café를 개별 등록한다. 해금용 장소와 소유 표현·색의 학습 결과는 분석할 때 구분한다. 합계는 23칸이다.
 
 ## 6. 현장 조사·증거
 
