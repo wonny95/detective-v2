@@ -68,10 +68,10 @@
 | 벤 | Hi! I'm Ben Beaver. Can I help you? | 안녕! 나는 벤 비버야. 무슨 일이야? |
 | 탐정 | Hi, I'm Detective {플레이어 이름}. You were at the Lake Cafe today, right? | 안녕, 난 탐정 {플레이어 이름}입니다. 오늘 호수 카페에 방문하셨었죠? |
 | 벤 | Yes, I stopped there this morning. | 응, 오늘 아침에 들렀어. |
-| 미아 | Hello! I'm Mia Mouse. Nice to meet you. | 안녕! 나는 미아 생쥐야. 만나서 반가워. |
-| 탐정 | Nice to meet you. I'm Detective {플레이어 이름}. May I ask about the bags? | 반가워요. 탐정 {플레이어 이름}입니다. 가방에 관해 물어봐도 될까요? |
-| 올리 | Hi there! I'm Ollie Otter. | 안녕! 나는 올리 수달이야. |
-| 탐정 | Hi, I'm Detective {플레이어 이름}. I have a few questions about the bags. | 안녕하세요, 탐정 {플레이어 이름}입니다. 가방에 관해 몇 가지 물어볼게요. |
+| 미아 | Hi, I'm Mia Mouse. | 안녕, 난 미아 생쥐야. |
+| 탐정 | Hi, Mia. I'm Detective {플레이어 이름}. | 안녕, 미아. 난 탐정 {플레이어 이름}이야. |
+| 올리 | Hi, I'm Ollie Otter. | 안녕, 난 올리 수달이야. |
+| 탐정 | Hi, Ollie. I'm Detective {플레이어 이름}. | 안녕, 올리. 난 탐정 {플레이어 이름}이야. |
 | 노라 | Hello! I'm Nora Hedgehog. I work here. | 안녕! 난 노라 고슴도치야. 여기서 일해. |
 | 탐정 | Hi, I'm Detective {플레이어 이름}. Can I ask about a blue bag? | 안녕, 난 탐정 {플레이어 이름}이야. 파란 가방에 관해 물어봐도 될까? |
 
