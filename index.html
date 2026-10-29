@@ -1208,43 +1208,118 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
-/* ---------- Case 01: 바뀐 소풍 가방 ---------- */
-body.picnic-mode{overflow:hidden;background:#B6BDA5}
+/* ---------- Case 01: reuse the library case's illustrated UI language ---------- */
+body.picnic-mode{overflow:hidden;background:var(--ground)}
 body.picnic-mode .devtools,body.picnic-mode #caseList,body.picnic-mode #office{display:none!important}
 #picnicGame[hidden]{display:none}
-#picnicGame{position:fixed;inset:0;z-index:2000;display:flex;justify-content:center;background:#B6BDA5;color:#4A3628;font-family:var(--f-body),sans-serif}
-.pc-phone{position:relative;width:min(100%,640px);height:100dvh;overflow:hidden;background:#F9F2DF;display:flex;flex-direction:column;box-shadow:0 5px 30px #4A36282a}
-.pc-top{height:58px;flex:none;display:flex;align-items:center;gap:10px;padding:6px 16px;background:#FBF5E8;border-bottom:2px solid #DFCDAF;z-index:2}
-.pc-top h1{font-size:18px;margin:0;line-height:1.2;flex:1}.pc-top small{display:block;font-size:11px;color:#A25E70}
-.pc-top button,.pc-nav button,.pc-actions button,.pc-card button,.pc-choices button,.pc-inputs button,.pc-options button{font:inherit;cursor:pointer}
-.pc-back{border:2px solid #4A3628;border-radius:14px;background:#FFFDF7;color:#4A3628;width:42px;height:42px;font-size:25px;line-height:1}
-.pc-main{min-height:0;flex:1;overflow:auto;position:relative}
-.pc-land{height:35%;min-height:190px;position:relative;overflow:hidden;background:#C8D2BE}
-.pc-land>img{width:100%;height:100%;object-fit:cover;display:block}
-.pc-land .pc-figure{position:absolute;bottom:-4px;left:8%;height:91%;max-width:47%;object-fit:contain;object-position:bottom;filter:drop-shadow(1px 3px 3px #33271b55)}
-.pc-land .pc-figure.duck{left:auto;right:7%}
-.pc-missing{position:absolute;left:12%;bottom:12px;width:130px;height:160px;display:grid;place-items:center;border:2px dashed #9A846E;border-radius:70px 70px 20px 20px;background:#FFF8E7d9;color:#6A5545;font-size:14px;text-align:center;padding:12px}
-.pc-content{padding:16px 18px 28px;display:grid;gap:14px}
-.pc-card{background:#FFFCF4;border:2px solid #4A3628;border-radius:22px;padding:18px;box-shadow:3px 5px 0 #6E573730}
-.pc-card h2{font-size:22px;margin:0 0 12px}.pc-card h3{font-size:18px;margin:0 0 10px}.pc-card p{margin:8px 0;line-height:1.5}
-.pc-speaker{color:#CC6F88;font-weight:800;font-size:14px}.pc-en{font-size:19px;line-height:1.45}.pc-ko{color:#C4627C;font-size:16px;font-weight:700}
-.pc-actions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin-top:14px}
-.pc-btn{border:2px solid #4A3628;border-radius:14px;background:#FFFDF7;color:#4A3628;padding:9px 15px;font-weight:700!important;min-height:42px}
-.pc-btn.primary{background:#9DBC99}.pc-btn.pink{background:#C5778E;color:white}.pc-btn:disabled{opacity:.5;cursor:not-allowed}
-.pc-nav{flex:none;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:7px 12px max(9px,env(safe-area-inset-bottom));border-top:2px solid #D8C7AC;background:#F8EDD7}
-.pc-nav button{border:0;background:transparent;padding:7px 1px;color:#4A3628;font-weight:700;font-size:15px}.pc-nav button[aria-current="page"]{background:#F2D77F;border-radius:16px}
-.pc-choices,.pc-options{display:grid;gap:9px}.pc-choices button,.pc-options button{padding:12px;text-align:left;border:1.5px solid #947B62;border-radius:12px;background:#FFFDF7;color:#4A3628}
-.pc-choices button:disabled{opacity:.55}.pc-choices .done{background:#DFEBDD}.pc-choices .selected,.pc-options .selected{background:#F6D781}
-.pc-question{font-weight:800}.pc-note{background:#FFFDF7;border:2px solid #476584;border-radius:17px;padding:15px}
-.pc-inputs{display:flex;flex-wrap:wrap;gap:5px;align-items:center;line-height:2}.pc-inputs input{width:110px;min-width:70px;padding:6px 4px;border:0;border-bottom:2px solid #466788;background:#F4E9D3;text-align:center;font:700 16px var(--f-body),sans-serif;color:#35577A;border-radius:6px}
-.pc-options{display:flex;flex-wrap:wrap}.pc-options button{padding:6px 10px;font-size:14px}
-.pc-error{color:#A83E50;font-weight:700}.pc-success{color:#3E7659;font-weight:700}
-.pc-map-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pc-map-grid button{text-align:center;min-height:90px}
-.pc-item{display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid #D3BF9E;border-radius:14px;background:#FBF7EA}.pc-item img{width:76px;height:65px;object-fit:cover;border-radius:8px}.pc-item b{display:block}
-.pc-progress{height:7px;background:#E6DABF;border-radius:9px;overflow:hidden}.pc-progress i{display:block;height:100%;background:#97B492}
-.pc-toast{position:absolute;top:65px;left:50%;transform:translateX(-50%);z-index:4;max-width:90%;width:max-content;padding:10px 16px;border:2px solid #4A3628;border-radius:15px;background:#FFF9E7;box-shadow:2px 4px 8px #4A36283a;font-size:14px;font-weight:700;text-align:center;pointer-events:none}
-.pc-photos{display:flex;gap:10px;flex-wrap:wrap}.pc-photo{width:45%;aspect-ratio:4/3;border:3px solid #FFFCF4;box-shadow:1px 2px 5px #4A362855;border-radius:4px;display:grid;place-items:center;background:#B9C8B9;color:#4A3628;font-weight:800}.pc-photo.red{background:#E8A4A4}
-@media(max-width:430px){.pc-content{padding:12px 13px 24px}.pc-card{padding:15px}.pc-land{min-height:160px;height:30%}.pc-en{font-size:17px}}
+#picnicGame{position:fixed;inset:0;z-index:2000;display:flex;justify-content:center;background:var(--ground)}
+.pc-phone{position:relative;width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;overflow:hidden;background:var(--paper)}
+@media(min-width:520px){.pc-phone{height:min(900px,calc(100% - 8px));margin:auto;border-radius:38px 42px 36px 44px/44px 36px 42px 38px}}
+.pc-top{position:absolute;inset:0 0 auto;height:0;z-index:40;pointer-events:none}
+.pc-top>*{pointer-events:auto}
+.pc-top .top-back{top:10px;left:14px}
+.pc-top h1.chip{top:10px;left:66px;display:block;max-width:calc(100% - 82px);margin:0;font-size:18px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-top #pcCount{display:none}
+#picnicGame[data-phase="key"] .pc-top,#picnicGame[data-phase="tutorial"] .pc-top,#picnicGame[data-phase="review"] .pc-top{display:none}
+.pc-main{position:relative;flex:1;min-height:0;overflow:hidden;background:var(--paper)}
+.pc-land{position:absolute;inset:0;overflow:hidden;background:#B7BDA6}
+.pc-land>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.pc-land .pc-figure{position:absolute;left:50%;bottom:10%;height:76%;max-width:95%;object-fit:contain;object-position:bottom;transform:translateX(-50%);filter:drop-shadow(1px 4px 2px rgba(40,25,10,.25))}
+.pc-land .pc-figure.duck{left:50%;right:auto}
+.pc-missing{position:absolute;left:50%;bottom:13%;width:170px;height:54%;box-sizing:border-box;transform:translateX(-50%);display:grid;place-items:center;padding:16px;text-align:center;background:rgba(251,244,230,.9);border:3px dashed var(--ink-soft);border-radius:80px 80px 22px 22px;font-family:var(--f-display);font-size:17px}
+.pc-content{position:relative;z-index:2;padding:16px;display:flex;flex-direction:column;gap:12px}
+.pc-card{background:#FFFDF7;border:2px solid var(--line);border-radius:var(--r-wobble);padding:14px}
+.pc-card h2{margin:0 0 12px;font-family:var(--f-display);font-size:22px;font-weight:400}.pc-card h3{margin:0 0 10px}
+.pc-card p{line-height:1.5}.pc-speaker{color:var(--berry);font-family:var(--f-display)}.pc-en{font-size:18px;line-height:1.45}.pc-ko{font-size:14px;font-weight:700;color:var(--berry)}
+.pc-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:10px}
+.pc-actions .pc-btn{flex:none}
+.pc-btn{--btn:url(assets/ui/buttons/cream-flat.png);--bw:12px;box-sizing:border-box;min-height:36px;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;background:none;border-radius:0;padding:4px 12px;font-family:var(--f-display);font-size:14px;color:var(--ink)}
+.pc-btn.primary{--btn:url(assets/ui/buttons/sage-flat.png)}.pc-btn.pink{--btn:url(assets/ui/buttons/berry-flat.png);color:#FFFDF7}
+.pc-btn:disabled{opacity:.45}
+.pc-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));border:0;background:var(--paper-2)}
+.pc-nav button{border:0;padding:0;background:none;font-family:var(--f-display);font-size:14px;color:var(--ink);flex-direction:column;gap:0;min-height:46px;box-shadow:none}
+.pc-nav .hn-ic{height:40px}.pc-nav .hn-ic img{width:34px;height:34px}
+.pc-nav button[aria-current="page"]{background:none}
+.pc-nav button[aria-current="page"] .hn-ic::before{opacity:.95;transform:none}
+.pc-nav button[aria-current="page"] .hn-ic img{filter:none;opacity:1}
+.pc-bubble.bubble{top:56px;z-index:6;min-height:170px;width:calc(100% - 32px);max-height:calc(100% - 230px);padding:20px 20px 18px;position:absolute}
+.pc-bubble .tag{font-size:14px}.pc-bubble .say-en{font-size:18px}.pc-bubble .say-ko{font-size:14px;font-weight:700;color:var(--berry);margin-top:6px}
+.pc-bubble .say-foot{display:flex;justify-content:flex-end;gap:6px;margin-top:12px}
+.pc-bubble .say-foot .pc-btn{min-height:32px}
+.pc-bubble .play-btn{font-size:0}
+.pc-ask-panel{position:absolute;z-index:4;bottom:0;left:0;right:0;display:flex;flex-direction:column;gap:7px;padding:0 16px 16px}
+.pc-ask-panel .pc-question-ko{align-self:flex-end}
+.pc-ask-panel:not(.show-ko) .pc-q-ko{display:none}
+.pc-ask-panel .q{font-family:var(--f-display);font-size:16px;box-shadow:3px 3px 0 rgba(74,54,40,.25)}
+.pc-ask-panel .q:disabled{display:none}
+.pc-ask-panel .q.done{display:none}
+.pc-ask-panel .q .pc-q-ko{font-family:var(--f-body);font-size:13px;color:var(--berry);margin-top:3px}
+.pc-ask-panel.show-ko .q .pc-q-ko{display:block}
+.pc-stage-actions{position:absolute;bottom:16px;left:16px;right:16px;z-index:5;display:flex;justify-content:center;gap:8px}
+.pc-stage-actions .pc-btn{flex:1;min-height:44px}
+.pc-note-dock.dock{transform:translateY(0);height:60%;z-index:12;left:6px;right:6px;bottom:-4px;padding:7.9% 9% 0 9.5%}
+.pc-note-dock.browse{height:91%}
+.pc-note-dock .dock-head{aspect-ratio:81.5/13.6}
+.pc-note-dock .dock-head h2{font-size:18px}
+.pc-note-dock .dock-body{padding:12px 2px 18px}
+.pc-note-dock .dock-foot{display:block;padding:4px 2px 22px}
+.pc-note-dock .dock-foot .pc-btn{width:100%;min-height:46px;--btn:url(assets/ui/buttons/sage-flat.png);font-size:16px}
+.pc-note-dock .note-cats{margin-bottom:-9.5%}
+ .pc-note-dock .ncat{width:58px}
+.pc-note-dock .listen{display:flex;align-items:center;justify-content:flex-end;gap:8px;grid-column:1/-1}
+.pc-note-dock .listen .pc-btn{min-height:36px}
+.pc-note-dock .nblock{margin:0 0 14px}.pc-note-dock .qlabel{display:block;font-family:var(--f-display);font-size:15px;color:var(--ink-soft)}
+.pc-note-dock .nline{font-size:16px;line-height:38px}
+.pc-note-dock .blank{width:var(--slot,95px);height:30px;min-width:62px;box-sizing:border-box;border:0;border-radius:9px;background:rgba(125,106,88,.16);font:700 16px var(--f-body);color:#34506E;text-align:center;vertical-align:middle}
+.pc-note-dock .blank:focus{background:rgba(242,207,115,.45)}
+.pc-note-dock .bank{margin-top:10px;gap:7px}
+.pc-note-dock .word{padding:5px 9px;font-size:14px}
+.pc-note-dock .pc-success{color:var(--ok)}
+.pc-note-dock .npassage{margin-top:8px;padding:10px 12px;border:1.5px dashed var(--line);border-radius:10px;background:#FFFDF7}
+.pc-note-dock .npassage p{margin:0 0 6px}
+.pc-note-dock .np-actions{display:flex;justify-content:flex-end;gap:6px}
+.pc-note-dock .pc-item{background:#FFFDF7}
+.pc-note-dock .pc-photo{width:44%}
+.pc-note-shade{position:absolute;inset:0;z-index:11;background:linear-gradient(to bottom,transparent 25%,rgba(43,30,20,.45));pointer-events:none}
+ .pc-map-screen{position:absolute;inset:0;background:#7FA06A;overflow:hidden;container-type:size}
+ .pc-map-screen .pc-map-art{position:absolute;left:50%;top:50%;width:max(100cqw,100cqh * 9 / 16);aspect-ratio:9 / 16;transform:translate(-50%,-50%)}
+ .pc-map-screen .pc-map-art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+ .pc-map-screen .pin{z-index:2;max-width:35%;white-space:normal;text-align:center}
+.pc-map-close{position:absolute;right:14px;top:12px;z-index:4}
+.pc-map-screen .pc-card{position:absolute;left:12px;bottom:16px;right:12px}
+.pc-deduce-screen{position:absolute;inset:0;display:flex;flex-direction:column;padding-top:54px;background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/300px 300px repeat}
+.pc-deduce-screen .deduce-q{flex:none}.pc-deduce-screen .ded-cards{flex:1;min-height:0;overflow-y:auto;padding:24px 22px}
+.pc-deduce-screen .ded-card{margin:0}.pc-deduce-screen .ded-card::before{display:block}
+.pc-deduce-screen .pc-choices{display:grid;gap:8px;margin-top:16px}
+.pc-deduce-screen .pc-choices button{--btn:url(assets/ui/buttons/cream-flat.png);text-align:left;min-height:42px}
+.pc-deduce-screen .pc-choices button:hover{--btn:url(assets/ui/buttons/honey-flat.png)}
+.pc-key-screen,.pc-review-screen,.pc-tutorial-screen{position:absolute;inset:0;display:flex;flex-direction:column;padding:16px;background:var(--paper);box-sizing:border-box}
+.pc-key-screen{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat}
+.pc-key-head{position:relative}
+.pc-key-head .pc-key-close{position:absolute;right:0;top:8px;left:auto}
+#picnicGame[data-view="map"] .pc-top,#picnicGame[data-view="map"] .pc-nav{display:none}
+.pc-key-head small{display:block;color:var(--berry);font-family:var(--f-display);font-size:13px}.pc-key-head h2{margin:0;font-family:var(--f-display);font-size:22px;font-weight:400}
+.pc-key-body{flex:1;overflow:auto;padding:0 6px}
+.pc-key-card{position:relative;margin:24px 6px 0;padding:8px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;transform:rotate(-1.5deg);filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2))}
+.pc-key-card::before{content:"";position:absolute;top:-28px;left:50%;margin-left:-9px;width:24px;height:33px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
+.pc-key-card h3{font-family:var(--f-hand);font-size:30px;margin:0 0 4px}.pc-key-card p{margin:6px 0;font-size:14px;line-height:1.5}
+.pc-key-notes{display:flex;flex-direction:column;gap:15px;margin:23px 4px}
+.pc-key-note{--note:url(assets/ui/casekey/note-yellow.webp);position:relative;display:flex;align-items:center;gap:5px;padding:5px 1px 5px 3px;border:11px solid transparent;border-width:11px 26px 11px 11px;border-image:var(--note) 22 54 22 22 fill / 11px 26px 11px 11px stretch;font-size:16px;line-height:1.3;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18))}
+.pc-key-note:nth-child(2){--note:url(assets/ui/casekey/note-blue.webp);margin-left:18px}.pc-key-note:nth-child(3){--note:url(assets/ui/casekey/note-pink.webp);margin-right:8px}
+.pc-key-note::before{content:"";position:absolute;left:50%;top:-19px;width:58px;height:18px;margin-left:-29px;background:url(assets/ui/casekey/tape.webp) center/100% 100% no-repeat}
+.pc-key-note>span{flex:1}.pc-key-note .pc-btn{min-height:32px;padding:2px 7px;font-size:12px}
+.pc-key-note .pc-ko{display:block;width:100%;font-size:12px}
+.pc-key-foot{display:flex;gap:7px;padding-top:10px}.pc-key-foot .pc-btn.primary{flex:1;min-height:50px;--btn:url(assets/ui/buttons/berry-flat.png);color:white;font-size:17px;text-align:center}
+.pc-key-dots,.pc-review-dots{display:flex;justify-content:center;gap:9px;padding:8px}.pc-key-dots i,.pc-review-dots i{width:8px;height:8px;border-radius:50%;background:#CABCA7}.pc-key-dots i.now,.pc-review-dots i.now{background:#E0A526;transform:scale(1.3)}
+.pc-review-screen{background:var(--paper)}.pc-review-body{flex:1;overflow:auto;display:flex;flex-direction:column;gap:13px;padding:4px 8px}.pc-review-body .rv-file{margin-top:20px}
+.pc-review-body .rv-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.pc-review-body .rv-story{margin-top:12px}.pc-review-body .rv-tiles{margin-top:2px}
+.pc-review-foot{display:flex;gap:8px}.pc-review-foot .pc-btn:last-child{flex:1;min-height:50px;--btn:url(assets/ui/buttons/berry-flat.png);background:#C96F83;color:white;font-size:17px;text-align:center}
+.pc-review-screen .pc-item{background:#FFFDF7}.pc-review-screen .pc-card{border:0;background:none}
+.pc-toast{position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:50;max-width:90%;width:max-content;padding:9px 15px;border:2px solid var(--ink);border-radius:var(--r-wobble);background:#FFF9E7;box-shadow:2px 4px 8px #4A36283a;font-size:14px;text-align:center;pointer-events:none}
+.pc-success{color:var(--ok);font-weight:700}.pc-error{color:var(--no);font-weight:700}
+.pc-item{display:flex;align-items:center;gap:10px;padding:10px;border:2px solid var(--line);border-radius:11px}.pc-item img{width:70px;height:60px;object-fit:cover}.pc-item b{display:block}
+.pc-photos{display:flex;gap:10px;flex-wrap:wrap}.pc-photo{width:45%;aspect-ratio:4/3;border:5px solid white;box-shadow:1px 3px 5px #4A362855;display:grid;place-items:center;background:#B9C8B9;font-family:var(--f-display)}.pc-photo.red{background:#E8A4A4}
 </style>
 </head>
 <body>
@@ -5426,9 +5501,9 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
 </script>
 <section id="picnicGame" hidden aria-label="바뀐 소풍 가방">
   <div class="pc-phone">
-    <header class="pc-top"><button class="pc-back" id="pcBack" type="button" aria-label="뒤로가기">‹</button><h1><small>Case 01</small><span id="pcTitle">바뀐 소풍 가방</span></h1><span id="pcCount"></span></header>
+    <header class="pc-top"><button class="pill top-back" id="pcBack" type="button" aria-label="뒤로가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="chip l" id="pcTitle">바뀐 소풍 가방</h1><span id="pcCount" hidden></span></header>
     <main class="pc-main" id="pcMain"></main>
-    <nav class="pc-nav" id="pcNav" aria-label="사건 메뉴"><button type="button" data-pc-nav="map">지도</button><button type="button" data-pc-nav="note">Note</button><button type="button" data-pc-nav="inventory">소지품</button></nav>
+    <nav class="nav pc-nav" id="pcNav" aria-label="사건 메뉴"><button class="tab" type="button" data-pc-nav="map" aria-label="지도"><span class="hn-ic"><img src="assets/ui/nav/map.png" alt="" draggable="false"></span>지도</button><button class="tab" type="button" data-pc-nav="note" aria-label="노트"><span class="hn-ic"><img src="assets/ui/nav/note.png" alt="" draggable="false"></span>Note</button></nav>
     <div class="pc-toast" id="pcToast" hidden role="status"></div>
   </div>
 </section>
@@ -5485,7 +5560,7 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     {ask:'What shows that Nora has the wrong bag?',ko:'노라가 잘못된 가방을 받았다는 근거는?',choices:['It has Rosie\'s red lunch box and yellow bottle.','It has Nora\'s green folder.','Ben opened it.'],correct:0},
     {ask:'Whose bags got mixed up?',ko:'누구와 누구의 가방이 바뀐 걸까?',choices:['Rosie Rabbit\'s and Nora Hedgehog\'s.','Rosie Rabbit\'s and Mia\'s.','Ollie\'s and Ben Beaver\'s.'],correct:0}
   ];
-  const fresh = () => ({phase:'key',page:0,scene:'rosie',view:'story',intro:0,met:{},checked:{},draft:{},active:null,ko:false,photos:[],bag:null,inspected:false,deduce:0,attempts:0,firstOk:0,firstWrong:[],selected:null,review:0});
+  const fresh = () => ({phase:'key',page:0,scene:'rosie',view:'story',intro:0,met:{},checked:{},draft:{},active:null,ko:false,keyKo:{},slow:false,hints:3,memo:'',photos:[],bag:null,inspected:false,deduce:0,deduceOpen:false,attempts:0,firstOk:0,firstWrong:[],selected:null,review:0});
   let state;
   try { state = { ...fresh(), ...JSON.parse(localStorage.getItem('pioo.picnic.save') || 'null') }; } catch { state = fresh(); }
   if(new URLSearchParams(location.search).get('review') === '1' && localStorage.getItem('pioo.solvedCases')?.includes('picnic-bag')) state.phase = 'review';
@@ -5498,17 +5573,19 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
   const phrase = s => String(s).replaceAll('{name}',name);
   let toastTimer;
   function toast(s){ const el = $('#pcToast'); el.textContent = s; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true,2800); }
-  function speak(s){ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(String(s).replaceAll(/\{name\}/g,'').replaceAll(/(?:Ollie|Mia):/g,'')); u.lang='en-US'; u.rate=.88; speechSynthesis.speak(u); }
+  function speak(s){ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(String(s).replaceAll(/\{name\}/g,'').replaceAll(/(?:Ollie|Mia):/g,'')); u.lang='en-US'; u.rate=state.slow ? 0.7 : 0.88; speechSynthesis.speak(u); }
   const button = (label, action, cls='') => `<button class="pc-btn ${cls}" type="button" data-pc="${action}">${esc(label)}</button>`;
-  const lineCard = (who,en,ko,action='nextIntro',label='다음') => `<article class="pc-card"><span class="pc-speaker">${esc(who)}</span><p class="pc-en">${esc(phrase(en))}</p>${state.ko ? `<p class="pc-ko">${esc(phrase(ko))}</p>` : ''}<div class="pc-actions">${button('▶','play')}${button('해석','ko')}${button(label,action,'primary')}</div></article>`;
+  const lineCard = (who,en,ko,action='nextIntro',label='다음') => `<div class="bubble pc-bubble"><div class="bubble-copy"><span class="tag">${esc(who)}</span><span class="say-en">${esc(phrase(en))}</span>${state.ko ? `<span class="say-ko">${esc(phrase(ko))}</span>` : ''}</div><div class="say-foot"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}${button(label,action,'primary')}</div></div>`;
   function land(scene){ const p=places[scene]; return `<div class="pc-land">${p.bg?`<img src="${p.bg}" alt="${esc(p.name)}">`:''}${p.sprite?`<img class="pc-figure ${scene==='duck'?'duck':''}" src="${p.sprite}" alt="${esc(p.person)}">`:`<div class="pc-missing">${esc(p.person)}<br>일러스트 준비 중</div>`}</div>`; }
   function go(scene){ if(!unlocked(scene)) return; state.scene=scene; state.view='story'; state.active=null; state.ko=false; state.intro=state.met[scene]?intro[scene].length:0; if(scene==='nora'&&readyDeduce())state.phase='deduce'; save(); render(); }
   function completed(){ return qs.filter(q=>done(q.id)).length; }
   function render(){
+    root.dataset.phase=state.phase;
+    root.dataset.view=state.view;
     $('#pcTitle').textContent = state.phase==='key'?'이번 사건의 열쇠':state.phase==='tutorial'?'첫 사건 안내':state.phase==='review'?'사건 복습':state.phase==='deduce'?'추리하기':state.phase==='handoff'?'노라에게 가방 전달':state.phase==='return'?'로지에게 돌아가기':places[state.scene].name;
     $('#pcCount').textContent=state.phase==='story'?`${completed()} / ${qs.length}`:'';
-    $('#pcNav').hidden = ['key','tutorial','deduce','handoff','handoffTalk','return','returnTalk','review'].includes(state.phase);
-    $('#pcNav').querySelectorAll('button').forEach(b=>b.setAttribute('aria-current',state.view===b.dataset.pcNav?'page':'false'));
+    $('#pcNav').hidden = ['key','tutorial','handoff','handoffTalk','return','returnTalk','review'].includes(state.phase);
+    $('#pcNav').querySelectorAll('button').forEach(b=>b.setAttribute('aria-current',(b.dataset.pcNav==='note'?['note','evidence','inventory','photos','memo'].includes(state.view):state.view===b.dataset.pcNav)?'page':'false'));
     if(state.phase==='key') return renderKey();
     if(state.phase==='tutorial') return renderTutorial();
     if(state.phase==='deduce') return renderDeduce();
@@ -5521,64 +5598,123 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     if(state.view==='inventory') return renderInventory();
     if(state.view==='note') return renderNote();
     if(state.view==='photos') return renderPhotos();
+    if(state.view==='evidence') return renderEvidence();
+    if(state.view==='memo') return renderMemo();
     return renderStory();
   }
-  function renderKey(){ const k=keyPages[state.page]; main.innerHTML=`<div class="pc-content"><article class="pc-card"><small>이번 사건의 열쇠 · ${state.page+1} / 3</small><h2>${esc(k.title)}</h2><p>${esc(k.ko)}</p>${k.lines.map(([en,ko],i)=>`<div class="pc-item"><div><b>${esc(en)}</b>${state.ko?`<span class="pc-ko">${esc(ko)}</span>`:''}</div><button class="pc-btn" type="button" data-pc="keyPlay" data-i="${i}">▶</button></div>`).join('')}<div class="pc-actions">${button('해석','ko')}${state.page?button('이전','keyPrev'):''}${button(state.page===2?'사건 시작':'다음','keyNext','primary')}</div></article></div>`; }
-  function renderTutorial(){ main.innerHTML=`<div class="pc-content"><article class="pc-card"><small>첫 사건 안내</small><h2>소풍 가방의 주인을 찾아요</h2><p>대답을 듣고 노트 빈칸을 채우세요. 확인한 진술을 바탕으로 다음 장소가 열립니다.</p><p>소지품은 열어 볼 수 있고, 정원에서는 가방 사진을 남길 수 있어요.</p><div class="pc-actions">${button('조사 시작','tutorialNext','primary')}</div></article></div>`; }
+  function renderKey(){
+    const k=keyPages[state.page], ko=state.keyKo||{};
+    main.innerHTML=`<div class="pc-key-screen">
+      <div class="pc-key-head"><small>Case 01 · 바뀐 소풍 가방</small><h2>이번 사건의 열쇠</h2><button class="close-button pc-key-close" type="button" data-pc="home" aria-label="사건 목록으로"></button></div>
+      <div class="pc-key-body"><div class="pc-key-card"><h3>${esc(k.title)}</h3><p>${esc(k.ko)}</p></div>
+        <div class="pc-key-notes">${k.lines.map(([en,tr],i)=>`<div class="pc-key-note"><span>${esc(en)}${ko[`${state.page}-${i}`]?`<span class="pc-ko">${esc(tr)}</span>`:''}</span><button class="play-btn" type="button" data-pc="keyPlay" data-i="${i}" aria-label="예문 듣기"></button><button class="pc-btn" type="button" data-pc="keyKo" data-i="${i}">해석</button></div>`).join('')}</div></div>
+      <div class="pc-key-dots">${keyPages.map((_,i)=>`<i class="${i===state.page?'now':''}"></i>`).join('')}</div>
+      <div class="pc-key-foot">${state.page?button('이전','keyPrev'):''}${button(state.page===2?'사건 시작':'다음','keyNext','primary')}</div>
+    </div>`;
+  }
+  function renderTutorial(){
+    main.innerHTML=`<div class="pc-tutorial-screen"><div class="pc-key-head"><small>Case 01 · 바뀐 소풍 가방</small><h2>첫 사건 안내</h2></div><div class="pc-key-body"><div class="tut-fig"><img src="assets/ui/tutorial/tut-1.webp" alt="탐정 수첩"></div><h2>소풍 가방의 주인을 찾아요</h2><p>대답을 듣고 노트에 기록해요. 알게 된 장소는 지도에 나타나요.</p></div><div class="pc-key-foot">${button('조사 시작','tutorialNext','primary')}</div></div>`;
+  }
   function renderStory(){
     const scene=state.scene, list=intro[scene];
-    if(state.intro<list.length){ const [who,en,ko]=list[state.intro]; main.innerHTML=land(scene)+`<div class="pc-content">${lineCard(who,en,ko)}</div>`; return; }
-    state.met[scene]=true; save();
-    const here=sceneQs(scene), next=here.find(q=>!done(q.id));
-    let extra='';
-    if(scene==='rosie' && sceneDone(scene) && !state.bag) extra=`<article class="pc-card">${lineCard('Rosie','Please take this bag and find mine.','이 가방을 가져가서 내 가방을 찾아줘.','takeBag','가방 받기')}</article>`;
-    if(scene==='rosie' && state.bag==='nora') extra=`<article class="pc-card"><p class="pc-success">로지가 맡긴 파란 가방을 소지품에 넣었어요.</p>${button('가방 열어 보기','inventory','primary')}</article>`;
-    if(scene==='garden' && done('g1') && state.photos.length<2) extra=`<article class="pc-card"><span class="pc-speaker">Detective</span><p class="pc-en">I\'m helping Rosie find her bag. Can I take a picture of your bags?</p>${state.ko?'<p class="pc-ko">로지의 가방을 찾고 있어. 가방 사진을 찍어도 될까?</p>':''}<p>올리와 미아가 허락합니다.</p><div class="pc-actions">${button('▶','play')}${button('해석','ko')}${button('파란 가방 촬영','photoBlue','primary')}${button('빨간 가방 촬영','photoRed','primary')}</div><p class="pc-success">사진 ${state.photos.length} / 2</p></article>`;
-    if(scene==='garden' && sceneDone(scene)) extra=`<article class="pc-card"><span class="pc-speaker">Detective</span><p class="pc-en">Thanks for answering my questions. Enjoy your picnic!</p>${state.ko?'<p class="pc-ko">답변 고마워. 피크닉 재밌게 즐기길 바래.</p>':''}<div class="pc-actions">${button('▶','play')}${button('해석','ko')}</div></article>`;
-    main.innerHTML=land(scene)+`<div class="pc-content"><article class="pc-card"><h2>${esc(places[scene].person)}</h2><p>질문을 고르세요.</p><div class="pc-choices">${here.map((q,i)=>`<button type="button" data-pc="question" data-id="${q.id}" class="${done(q.id)?'done':''}" ${(!done(q.id)&&next!==q || q.id==='g2'&&state.photos.length<2)?'disabled':''}>${done(q.id)?'✓ ':''}${esc(q.ask)}</button>`).join('')}</div>${sceneDone(scene)?'<p class="pc-success">대화를 마쳤어요.</p>':''}</article>${extra}${sceneDone(scene)&&scene!=='nora'?`<div class="pc-actions">${button('지도 보기','map','primary')}</div>`:''}</div>`;
+    if(state.intro<list.length){const [who,en,ko]=list[state.intro];main.innerHTML=land(scene)+lineCard(who,en,ko);return;}
+    state.met[scene]=true;save();
+    if(scene==='rosie'&&sceneDone(scene)&&!state.bag){main.innerHTML=land(scene)+lineCard('Rosie','Please take this bag and find mine.','이 가방을 가져가서 내 가방을 찾아줘.','takeBag','가방 받기');return;}
+    if(scene==='garden'&&done('g1')&&state.photos.length<2){
+      main.innerHTML=land(scene)+`<div class="bubble pc-bubble"><div class="bubble-copy"><span class="tag">Detective</span><span class="say-en">I'm helping Rosie find her bag. Can I take a picture of your bags?</span>${state.ko?'<span class="say-ko">로지의 가방을 찾고 있어. 가방 사진을 찍어도 될까?</span>':''}</div><div class="say-foot"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div><div class="pc-stage-actions">${!state.photos.includes('blue')?button('파란 가방 촬영','photoBlue','primary'):''}${!state.photos.includes('red')?button('빨간 가방 촬영','photoRed','primary'):''}</div>`;return;
+    }
+    if(scene==='garden'&&sceneDone(scene)){main.innerHTML=land(scene)+lineCard('Detective','Thanks for answering my questions. Enjoy your picnic!','답변 고마워. 피크닉 재밌게 즐기길 바래.','map','지도 보기');return;}
+    if(scene==='rosie'&&state.bag==='nora'){main.innerHTML=land(scene)+lineCard('Detective','I will.','그럴게.','inventory','가방 보기');return;}
+    const here=sceneQs(scene).filter(q=>!done(q.id)&&!(q.id==='g2'&&state.photos.length<2));
+    main.innerHTML=land(scene)+`<div class="pc-ask-panel ${state.ko?'show-ko':''}">${here.length?`<div class="ask-top">${button('해석','questionKo')}</div>${here.map(q=>`<button class="q" type="button" data-pc="question" data-id="${q.id}"><span>${esc(q.ask)}</span><span class="pc-q-ko">${esc(q.askKo)}</span></button>`).join('')}`:''}</div>`;
   }
-  function renderMap(){ main.innerHTML=`<div class="pc-content"><article class="pc-card"><h2>지도</h2><div class="pc-map-grid">${order.map(s=>`<button class="pc-btn ${state.scene===s?'primary':''}" type="button" data-pc="go" data-scene="${s}" ${!unlocked(s)?'disabled':''}>${esc(places[s].name)}${sceneDone(s)?' ✓':''}</button>`).join('')}</div></article>${!unlocked('nora')&&done('b2')&&done('g2')&&!state.inspected?'<p>소지품의 가방을 열어 살펴보세요.</p>':''}</div>`; }
-  function noteText(q){ let i=0; return esc(q.note).replace(/\[([^\]]+)\]/g,()=>`<input aria-label="빈칸 ${++i}" data-blank="${i-1}" value="${esc(state.draft[q.id]?.[i-1]||'')}">`); }
+  function renderMap(){
+    const pins={rosie:[52,55],duck:[74,58],ben:[81,75],garden:[26,72],nora:[25,31]};
+    main.innerHTML=`<div class="pc-map-screen"><div class="pc-map-art"><img src="assets/places/village-map-higgsfield.png" alt="마을 지도">${order.filter(unlocked).map(s=>`<button class="pin" style="left:${pins[s][0]}%;top:${pins[s][1]}%" type="button" data-pc="go" data-scene="${s}" aria-label="${esc(places[s].name)}"><span class="pin-label">${esc(places[s].name)}${sceneDone(s)?' ✓':''}</span></button>`).join('')}</div><button class="close-button pc-map-close" type="button" data-pc="mapClose" aria-label="지도 닫기"></button></div>`;
+  }
+  function noteText(q){
+    let i=0;
+    return q.note.split(/(?<=\.)\s+/).map(line=>`<div class="nline">${esc(line).replace(/\[([^\]]+)\]/g,()=>`<input class="blank" aria-label="빈칸 ${++i}" data-blank="${i-1}" value="${esc(state.draft[q.id]?.[i-1]||'')}" ${done(q.id)?'readonly':''}>`)}</div>`).join('');
+  }
+  function noteTabs(){
+    const icons={people:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h10a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H9l-5 4v-4a3 3 0 0 1-2-3V6a3 3 0 0 1 3-3z"/></svg>',evidence:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M4 7h4l2-3h5l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm8 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>',memo:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a5 5 0 0 1 3 9l1 2h2a2 2 0 0 1 0 4h-4v4a2 2 0 0 1-4 0v-4H6a2 2 0 0 1 0-4h2l1-2a5 5 0 0 1 3-9z"/></svg>'};
+    return `<div class="note-cats">${[['people','인물'],['evidence','증거와 소지품'],['memo','메모']].map(([tab,label])=>`<button class="ncat" type="button" data-pc="noteTab" data-tab="${tab}" aria-label="${label}" aria-pressed="${state.view===tab||(tab==='people'&&state.view==='note')||(tab==='evidence'&&['inventory','photos'].includes(state.view))}"><span class="face"><span class="stamp">${icons[tab]}</span></span></button>`).join('')}</div>`;
+  }
+  function noteShell(title,body,foot='',record=false){
+    main.innerHTML=land(state.scene)+`<div class="pc-note-shade"></div><section class="dock pc-note-dock ${record?'':'browse'}" aria-label="노트">${record?'':noteTabs()}<div class="note-edge"></div><div class="dock-head">${record?`<div class="listen">${button('▶ 다시 듣기','play')}${button(state.slow?'0.7×':'1×','slow')}${button(`🌰 ${state.hints}`,'hint')}</div>`:`<h2>${esc(title)}</h2>`}</div><div class="dock-body">${body}</div><div class="dock-foot">${foot}</div></section>`;
+  }
   function renderNote(){
     const q=qs.find(x=>x.id===state.active);
-    if(!q){ main.innerHTML=`<div class="pc-content"><article class="pc-card"><h2>진술 노트</h2><div class="pc-choices">${qs.filter(x=>done(x.id)).map(x=>`<button type="button" data-pc="read" data-id="${x.id}"><b>${esc(places[x.place].person)}</b> · ${esc(x.ask)}<br>${esc(x.note.replaceAll('[','').replaceAll(']',''))}</button>`).join('')||'<p>아직 기록한 진술이 없어요.</p>'}</div></article></div>`; return; }
+    if(!q){
+      const seen=qs.filter(x=>done(x.id));
+      const body=`<div class="nfaces">${order.filter(s=>state.met[s]).map(s=>`<button class="nface" type="button" data-pc="go" data-scene="${s}" aria-pressed="${state.scene===s}"><span class="pic"><span class="mini">${esc(places[s].person.charAt(0))}</span></span>${esc(places[s].person)}</button>`).join('')}</div>${seen.map(x=>`<div class="nblock"><span class="qlabel">Q. ${esc(x.ask)}</span><div class="nline">${esc(x.note.replaceAll('[','').replaceAll(']',''))}</div><button class="pill sm" type="button" data-pc="read" data-id="${x.id}">지문 보기</button></div>`).join('')||'<p class="empty-note">아직 기록한 진술이 없어요.</p>'}`;
+      noteShell('인물의 진술',body);return;
+    }
     const answers=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]);
     const options=[...new Set([...answers,...q.wrong])].sort((a,b)=>a.localeCompare(b));
     const checked=done(q.id);
-    main.innerHTML=`<div class="pc-content"><article class="pc-card"><span class="pc-speaker">Q. ${esc(q.ask)}</span>${state.ko?`<p class="pc-ko">${esc(q.askKo)}</p>`:''}<p class="pc-speaker">${esc(q.who)}</p>${checked?`<p class="pc-en">${esc(q.reply)}</p>${state.ko?`<p class="pc-ko">${esc(q.ko)}</p>`:''}`:''}<div class="pc-actions">${button('▶ 다시 듣기','play')}${button('해석','ko')}</div></article><article class="pc-note"><h3>${esc(places[q.place].person)}의 진술</h3><div class="pc-inputs">${noteText(q)}</div>${checked?'<p class="pc-success">✓ 확인된 진술</p>':`<div class="pc-options">${options.map(o=>`<button type="button" data-pc="chip" data-value="${esc(o)}">${esc(o)}</button>`).join('')}</div><div class="pc-actions">${button('기록 완료','check','primary')}</div><p id="pcFeedback" aria-live="polite"></p>`}</article></div>`;
+    const body=`<div class="nblock"><span class="qlabel">Q. ${esc(q.ask)}</span>${checked?'<span class="question-state ok">✓ 확인됨</span>':''}${noteText(q)}${checked?`<div class="npassage"><p>${esc(q.reply)}</p>${state.ko?`<p class="pc-ko">${esc(q.ko)}</p>`:''}<div class="np-actions"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div>`:`<div class="bank">${options.map(o=>`<button class="word" type="button" data-pc="chip" data-value="${esc(o)}">${esc(o)}</button>`).join('')}</div><p id="pcFeedback" aria-live="polite"></p>`}</div>`;
+    noteShell(`${places[q.place].person}의 진술`,body,checked?button('계속','noteClose','primary'):button('기록 완료','check','primary'),!checked);
   }
   function renderInventory(){
     const bag=state.bag;
-    main.innerHTML=`<div class="pc-content"><article class="pc-card"><h2>소지품</h2>${bag?`<div class="pc-item"><img src="assets/places/picnic-storyboard/picnic-documents.png" alt="파란 가방"><div><b>${bag==='nora'?'로지가 맡긴 파란 가방':'노라가 건넨 파란 가방'}</b><span>안의 물건을 확인할 수 있어요.</span></div></div><div class="pc-actions">${button('가방 열어 보기','inspect','primary')}</div>${state.inspected?`<p class="pc-success">${bag==='nora'?'초록 서류 폴더와 파란 펜이 들어 있어요.':'빨간 도시락과 노란 물병이 들어 있어요.'}</p>`:''}`:'<p>아직 챙긴 물건이 없어요.</p>'}</article></div>`;
+    const body=bag?`<div class="ev-card pc-item"><img src="assets/places/picnic-storyboard/picnic-documents.png" alt="파란 가방"><div><b>${bag==='nora'?'로지가 맡긴 파란 가방':'노라가 건넨 파란 가방'}</b></div></div><div class="pc-actions">${button('가방 열어 보기','inspect','primary')}</div>${state.inspected?`<div class="npassage"><p>${bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.'}</p><p class="pc-ko">${bag==='nora'?'초록 서류 폴더와 파란 펜이 들어 있어요.':'빨간 도시락과 노란 물병이 들어 있어요.'}</p></div>`:''}`:'<p class="empty-note">아직 챙긴 물건이 없어요.</p>';
+    noteShell('소지품',body);
   }
-  function renderPhotos(){ main.innerHTML=`<div class="pc-content"><article class="pc-card"><h2>증거 사진</h2><p>정원에서 허락받아 촬영한 가방입니다.</p><div class="pc-photos">${state.photos.map(c=>`<div class="pc-photo ${c==='red'?'red':''}">${c==='red'?'빨간 가방':'파란 가방'}</div>`).join('')||'<p>아직 촬영한 사진이 없어요.</p>'}</div></article></div>`; }
-  function renderDeduce(){ const q=deduction[state.deduce]; main.innerHTML=`<div class="pc-content"><article class="pc-card"><small>추리 ${state.deduce+1} / 4</small><div class="pc-progress"><i style="width:${state.deduce*25}%"></i></div><h2>${esc(q.ask)}</h2><p>${esc(q.ko)}</p><div class="pc-choices">${q.choices.map((c,i)=>`<button type="button" data-pc="deduceChoose" data-i="${i}">${esc(c)}</button>`).join('')}</div><p id="pcFeedback" aria-live="polite"></p></article></div>`; }
-  function renderHandoff(){ main.innerHTML=`${land('nora')}<div class="pc-content"><article class="pc-card"><h2>노라에게 바뀐 가방에 대해서 설명하자.</h2><p>소지품에서 가방을 골라 건네주세요.</p><div class="pc-choices"><button type="button" data-pc="selectBag" class="${state.selected==='bag'?'selected':''}">소지품 · 로지가 맡긴 파란 가방</button></div><div class="pc-actions">${button('건네주기','give','primary')}</div><p id="pcFeedback"></p></article></div>`; }
-  const handoffLines = [
+  function renderPhotos(){
+    const body=`<div class="pc-photos">${state.photos.map(c=>`<div class="pc-photo ${c==='red'?'red':''}">${c==='red'?'빨간 가방':'파란 가방'}</div>`).join('')||'<p class="empty-note">아직 촬영한 사진이 없어요.</p>'}</div>`;
+    noteShell('증거 사진',body);
+  }
+  function renderEvidence(){
+    const bag=state.bag;
+    const held=bag?`<div class="ev-card pc-item"><img src="assets/places/picnic-storyboard/picnic-documents.png" alt="파란 가방"><div><b>${bag==='nora'?'로지가 맡긴 파란 가방':'노라가 건넨 파란 가방'}</b></div></div><div class="pc-actions">${button('가방 열어 보기','inspect','primary')}</div>${state.inspected?`<div class="npassage"><p>${bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.'}</p>${state.ko?`<p class="pc-ko">${bag==='nora'?'초록 서류 폴더와 파란 펜이 들어 있어요.':'빨간 도시락과 노란 물병이 들어 있어요.'}</p>`:''}<div class="np-actions"><button class="play-btn" type="button" data-pc="playInspect" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div>`:''}`:'<p class="empty-note">아직 챙긴 물건이 없어요.</p>';
+    const photos=state.photos.map(c=>`<div class="pc-photo ${c==='red'?'red':''}">${c==='red'?'빨간 가방':'파란 가방'}</div>`).join('')||'<p class="empty-note">아직 촬영한 사진이 없어요.</p>';
+    noteShell('증거와 소지품',`<h3>소지품</h3>${held}<h3>증거 사진</h3><div class="pc-photos">${photos}</div>`);
+  }
+  function renderMemo(){noteShell('내 메모',`<textarea class="memo-text" id="pcMemo" aria-label="내 메모">${esc(state.memo||'')}</textarea>`);}
+  function renderDeduce(){
+    const q=deduction[state.deduce];
+    main.innerHTML=`<div class="pc-deduce-screen"><div class="deduce-q"><img src="assets/ui/icons-v2/detective.png" alt="탐정"><div class="deduce-q-txt"><p>${esc(q.ask)}</p>${state.ko?`<p class="ko">${esc(q.ko)}</p>`:''}<div class="deduce-q-row"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div></div><div class="ded-cards"><div class="ded-card"><p><button class="ded-slot" type="button" data-pc="deduceOpen">${state.deduceOpen?'선택하기':'?'}</button></p>${state.deduceOpen?`<div class="pc-choices">${q.choices.map((c,i)=>`<button class="pc-btn" type="button" data-pc="deduceChoose" data-i="${i}">${esc(c)}</button>`).join('')}</div>`:''}<p id="pcFeedback" aria-live="polite"></p></div></div></div>`;
+  }
+  function renderHandoff(){
+    main.innerHTML=land('nora')+`<div class="bubble pc-bubble"><div class="bubble-copy"><span class="tag">Detective</span><span class="say-en">노라에게 바뀐 가방에 대해서 설명하자.</span></div></div><div class="pc-ask-panel"><button class="q ${state.selected==='bag'?'selected':''}" type="button" data-pc="selectBag">소지품 · 로지가 맡긴 파란 가방</button>${button('건네주기','give','primary')}<p id="pcFeedback" aria-live="polite"></p></div>`;
+  }
+  const handoffLines=[
     ['Detective','Rosie is looking for her bag. Her lunch box and bottle are in that one.','로지가 자기 가방을 찾고 있어. 저 가방에 로지의 도시락과 물병이 들어 있네.'],
     ['Detective','This bag has your folder and pen.','이 가방에는 네 폴더와 펜이 있어.'],
     ['Detective','Your bags got mixed up. Here you go.','너희 가방이 바뀐 거야. 여기 있어.'],
     ['Nora','My folder and pen are here! Thank you. Here is Rosie\'s bag.','내 폴더와 펜이 있네! 고마워. 여기 로지의 가방이야.']
   ];
-  function renderHandoffTalk(){ const [who,en,ko]=handoffLines[state.page]; main.innerHTML=land('nora')+`<div class="pc-content">${lineCard(who,en,ko,'handoffNext',state.page===3?'소풍 탁자로':'다음')}</div>`; }
-  function renderReturn(){ main.innerHTML=`${land('rosie')}<div class="pc-content"><article class="pc-card"><span class="pc-speaker">Detective</span><p class="pc-en">Rosie, I brought your bag back.</p>${state.ko?'<p class="pc-ko">로지, 네 가방을 가져왔어.</p>':''}<div class="pc-actions">${button('▶','play')}${button('해석','ko')}${button('가방 건네기','returnBag','primary')}</div></article></div>`; }
-  function renderReturnTalk(){ main.innerHTML=land('rosie')+`<div class="pc-content">${lineCard('Rosie','My lunch box and bottle are here! Thank you, Detective!','내 도시락과 물병이 있네! 고마워, 탐정님!','complete','사건 완료')}</div>`; }
-  function renderReview(){ const panels=[
-    `<h2>사건 해결 ✓</h2><p>로지와 노라의 겉모습이 같은 파란 가방이 바뀌었습니다. 탐정은 노라에게 폴더와 펜이 든 가방을 주고, 로지에게 도시락과 물병이 든 가방을 돌려주었습니다.</p><p>처음에 맞힌 빈칸 ${state.firstOk} / ${qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0)}</p>`,
-    `<h2>다시 들을 문장</h2>${state.firstWrong.length?state.firstWrong.map(id=>{const q=qs.find(x=>x.id===id);return `<div class="pc-item"><div><b>${esc(q.reply)}</b><p>${esc(q.ko)}</p></div><button class="pc-btn" data-pc="reviewPlay" data-id="${id}">▶</button></div>`}).join(''):'<p>모든 문장을 처음에 맞혔어요.</p>'}`,
-    `<h2>소유 표현</h2>${keyPages.map(k=>`<div class="pc-item"><div><b>${esc(k.title)}</b>${esc(k.ko)}</div></div>`).join('')}<div class="pc-actions">${button(localStorage.getItem('pioo.grammarBook')?.includes('ownership')?'담았어요 ✓':'문법 담기','keepGrammar','primary')}</div>`,
-    `<h2>이번 사건의 단어</h2>${[['bag','가방'],['folder','서류 폴더'],['pen','펜'],['lunch box','도시락'],['bottle','물병'],['blue','파란색'],['red','빨간색'],['yellow','노란색']].map(([en,ko])=>`<div class="pc-item"><div><b>${en}</b>${ko}</div></div>`).join('')}<div class="pc-actions">${button('단어 담기','keepWords','primary')}</div>`
-  ]; main.innerHTML=`<div class="pc-content"><article class="pc-card"><small>Case 01 · 복습 ${state.review+1} / 4</small>${panels[state.review]}<div class="pc-actions">${state.review?button('이전','reviewPrev'):''}${button(state.review===3?'사건 목록으로':'다음',state.review===3?'home':'reviewNext','pink')}</div></article></div>`; }
+  function renderHandoffTalk(){const [who,en,ko]=handoffLines[state.page];main.innerHTML=land('nora')+lineCard(who,en,ko,'handoffNext',state.page===3?'소풍 탁자로':'다음');}
+  function renderReturn(){main.innerHTML=land('rosie')+lineCard('Detective','Rosie, I brought your bag back.','로지, 네 가방을 가져왔어.','returnBag','가방 건네기');}
+  function renderReturnTalk(){main.innerHTML=land('rosie')+lineCard('Rosie','My lunch box and bottle are here! Thank you, Detective!','내 도시락과 물병이 있네! 고마워, 탐정님!','complete','사건 완료');}
+  function renderReview(){
+    const total=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0);
+    const panels=[
+      `<div class="rv-file"><div class="rv-photo"><img src="assets/places/picnic-storyboard/picnic-documents.png" alt="파란 가방"></div><img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>Case 01</small><b>바뀐 소풍 가방</b></div><div class="rv-stars" aria-label="별 ${state.firstOk/total>.9?3:state.firstOk/total>.7?2:1}개">${[0,1,2].map(i=>`<img src="assets/ui/${i<(state.firstOk/total>.9?3:state.firstOk/total>.7?2:1)?'star':'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div><div class="rv-story"><h3>사건 요약</h3><p>로지와 노라의 파란 가방이 바뀌었어요. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었어요.</p></div><div class="rv-tiles"><div>처음에 맞힌 빈칸 <b>${state.firstOk}<small> / ${total}</small></b></div><div>다시 들을 문장 <b>${state.firstWrong.length||'없음'}</b></div><div>사건에 나온 단어 <b>8</b></div></div>`,
+      `<h2 class="rv-title">다시 들을 문장</h2>${state.firstWrong.length?state.firstWrong.map(id=>{const q=qs.find(x=>x.id===id);return `<div class="rv-quiz"><p class="rv-q">${esc(q.ask)}</p><p>${esc(q.reply)}</p><button class="play-btn" type="button" data-pc="reviewPlay" data-id="${id}" aria-label="다시 듣기"></button></div>`}).join(''):'<p>처음부터 모두 맞혔어요.</p>'}`,
+      `<h2 class="rv-title">이번 사건의 문법</h2><div class="rv-grams">${keyPages.map(k=>`<div class="rv-word rv-gram"><div><span class="wword">${esc(k.title)}</span><small>${esc(k.ko)}</small></div></div>`).join('')}</div><div class="pc-actions">${button(localStorage.getItem('pioo.grammarBook')?.includes('ownership')?'담았어요 ✓':'문법 담기','keepGrammar','primary')}</div>`,
+      `<h2 class="rv-title">이번 사건의 단어</h2>${[['bag','가방'],['folder','서류 폴더'],['pen','펜'],['lunch box','도시락'],['bottle','물병'],['blue','파란색'],['red','빨간색'],['yellow','노란색']].map(([en,ko])=>`<div class="rv-word"><span class="wword">${en}</span><span class="wko">${ko}</span></div>`).join('')}<div class="pc-actions">${button('단어 담기','keepWords','primary')}</div>`
+    ];
+    main.innerHTML=`<div class="pc-review-screen"><div class="pc-review-body">${panels[state.review]}</div><div class="pc-review-dots">${panels.map((_,i)=>`<i class="${i===state.review?'now':''}"></i>`).join('')}</div><div class="pc-review-foot">${state.review?button('이전','reviewPrev'):''}${button(state.review===3?'사건 목록으로':'다음',state.review===3?'home':'reviewNext','pink')}</div></div>`;
+  }
   function finish(){
     const solved=JSON.parse(localStorage.getItem('pioo.solvedCases')||'[]'); if(!solved.includes('picnic-bag')) localStorage.setItem('pioo.solvedCases',JSON.stringify([...solved,'picnic-bag']));
     const stats=JSON.parse(localStorage.getItem('pioo.caseStats')||'{}'),total=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0); stats['picnic-bag']={ok:state.firstOk,total,stars:state.firstOk/total>.9?3:state.firstOk/total>.7?2:1,missed:state.firstWrong}; localStorage.setItem('pioo.caseStats',JSON.stringify(stats));
     state.phase='review'; state.review=0; save(); render();
   }
-  main.addEventListener('input',e=>{ if(!e.target.matches('[data-blank]'))return; const q=qs.find(x=>x.id===state.active); if(!q)return; state.draft[q.id]||=[];state.draft[q.id][+e.target.dataset.blank]=e.target.value;save(); });
+  main.addEventListener('input',e=>{ if(e.target.id==='pcMemo'){state.memo=e.target.value;save();return;} if(!e.target.matches('[data-blank]'))return; const q=qs.find(x=>x.id===state.active); if(!q)return; state.draft[q.id]||=[];state.draft[q.id][+e.target.dataset.blank]=e.target.value;save(); });
   root.addEventListener('click',e=>{
     const el=e.target.closest('[data-pc]'); if(!el)return; const action=el.dataset.pc;
     if(action==='ko'){state.ko=!state.ko;render();return;}
-    if(action==='play'){const q=qs.find(x=>x.id===state.active);const line=intro[state.scene]?.[state.intro];if(state.phase==='return')speak('Rosie, I brought your bag back.');else if(state.phase==='returnTalk')speak('My lunch box and bottle are here! Thank you, Detective!');else if(state.phase==='handoffTalk')speak(handoffLines[state.page][1]);else if(state.phase==='story'&&state.view==='note'&&q)speak(q.reply);else if(state.phase==='story'&&state.view==='story'&&state.intro<intro[state.scene].length)speak(line[1]);else if(state.scene==='garden')speak('Thanks for answering my questions. Enjoy your picnic!');return;}
+    if(action==='questionKo'){state.ko=!state.ko;render();return;}
+    if(action==='keyKo'){const id=`${state.page}-${el.dataset.i}`;state.keyKo[id]=!state.keyKo[id];save();render();return;}
+    if(action==='slow'){state.slow=!state.slow;save();render();return;}
+    if(action==='noteTab'){state.view={people:'note',evidence:'evidence',memo:'memo'}[el.dataset.tab]||'note';state.active=null;save();render();return;}
+    if(action==='playInspect'){speak(state.bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.');return;}
+    if(action==='noteClose'||action==='mapClose'){state.view='story';state.active=null;save();render();return;}
+    if(action==='deduceOpen'){state.deduceOpen=!state.deduceOpen;render();return;}
+    if(action==='play'){const q=qs.find(x=>x.id===state.active);const line=intro[state.scene]?.[state.intro];if(state.phase==='deduce')speak(deduction[state.deduce].ask);else if(state.phase==='return')speak('Rosie, I brought your bag back.');else if(state.phase==='returnTalk')speak('My lunch box and bottle are here! Thank you, Detective!');else if(state.phase==='handoffTalk')speak(handoffLines[state.page][1]);else if(state.phase==='story'&&state.view==='note'&&q)speak(q.reply);else if(state.phase==='story'&&state.view==='story'&&state.intro<intro[state.scene].length)speak(line[1]);else if(state.scene==='garden')speak('Thanks for answering my questions. Enjoy your picnic!');return;}
     if(action==='keyPlay'){speak(keyPages[state.page].lines[+el.dataset.i][0]);return;}
     if(action==='keyPrev'){state.page--;state.ko=false;}
     if(action==='keyNext'){if(state.page<2)state.page++;else state.phase=localStorage.getItem('pioo.tutorialSeen')?'story':'tutorial';state.ko=false;}
@@ -5586,6 +5722,7 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     if(action==='nextIntro'){state.intro++;state.ko=false;}
     if(action==='question'||action==='read'){state.active=el.dataset.id;state.view='note';state.ko=false;const q=qs.find(x=>x.id===state.active);speak(q.reply);}
     if(action==='chip'){const q=qs.find(x=>x.id===state.active);state.draft[q.id]||=[];const i=state.draft[q.id].findIndex(v=>!v);const at=i<0?0:i;state.draft[q.id][at]=el.dataset.value;}
+    if(action==='hint'){const q=qs.find(x=>x.id===state.active);if(q&&state.hints>0){const answers=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]);state.draft[q.id]||=[];const at=answers.findIndex((a,i)=>String(state.draft[q.id][i]||'').toLowerCase()!==a.toLowerCase());if(at>=0){state.draft[q.id][at]=answers[at];state.hints--;}}}
     if(action==='check'){
       const q=qs.find(x=>x.id===state.active),a=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]); const d=state.draft[q.id]||[];
       if(d.length<a.length||d.some(x=>!x)){ $('#pcFeedback').textContent='빈칸을 모두 채워 주세요.';return; }
@@ -5602,9 +5739,9 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     if(action==='takeBag'){state.bag='nora';toast('소지품 [로지가 맡긴 파란 가방]을 받았어요');}
     if(action==='photoBlue'||action==='photoRed'){const color=action==='photoBlue'?'blue':'red';if(!state.photos.includes(color))state.photos.push(color);toast(`${color==='blue'?'파란':'빨간'} 가방을 촬영했어요`);}
     if(action==='inspect'){state.inspected=true;speak(state.bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.');}
-    if(action==='inventory'||action==='map'){state.view=action;state.active=null;state.ko=false;}
+    if(action==='inventory'||action==='map'){state.view=action==='inventory'?'evidence':'map';state.active=null;state.ko=false;}
     if(action==='go'){go(el.dataset.scene);return;}
-    if(action==='deduceChoose'){if(+el.dataset.i!==deduction[state.deduce].correct){$('#pcFeedback').textContent='단서를 다시 생각해 보세요.';return;}state.deduce++;if(state.deduce===4){state.phase='handoff';state.scene='nora';}else toast('맞아요!');}
+    if(action==='deduceChoose'){if(+el.dataset.i!==deduction[state.deduce].correct){$('#pcFeedback').textContent='단서를 다시 생각해 보세요.';return;}state.deduce++;state.deduceOpen=false;if(state.deduce===4){state.phase='handoff';state.scene='nora';}else toast('맞아요!');}
     if(action==='selectBag')state.selected='bag';
     if(action==='give'){if(state.selected!=='bag'){ $('#pcFeedback').textContent='소지품에서 가방을 선택해 주세요.';return;}state.selected=null;state.phase='handoffTalk';state.page=0;state.ko=false;}
     if(action==='handoffNext'){if(state.page<3)state.page++;else{state.bag='rosie';state.phase='return';state.scene='rosie';state.page=0;toast('소지품 [로지의 가방]을 받았어요');}state.ko=false;}
