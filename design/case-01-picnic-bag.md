@@ -106,7 +106,7 @@
 
 ## 5. 탐문 대본·노트·단어 카드
 
-로지와 탐정은 이 사건에서 처음 만난다. 로지의 첫 대화는 짧은 인사 → 탐정의 도움 질문 → 로지의 의뢰 순서다. 이 대화와 다른 인물의 인사는 첫 만남에만 재생한다. 핵심 판단 정보는 채점 가능한 질문에도 있어야 한다. 질문 선택 시 현재처럼 음성 재생과 노트 열기가 함께 시작된다. 대답 원문은 맞힌 뒤 지문으로, 한국어는 `해석` 뒤에 보여 준다.
+로지와 탐정은 이 사건에서 처음 만난다. 로지의 첫 대화는 짧은 인사 → 탐정의 도움 질문 → 로지의 의뢰 순서다. 이어서 탐정이 **다른 사람과 가방이 바뀌었는지** 먼저 묻고, 로지는 아직 모른다며 자기 가방도 파란색이라고 답한다. 이 질문을 기록한 뒤 나머지 세 질문을 자유롭게 고른다. 이 대화와 다른 인물의 인사는 첫 만남에만 재생한다. 핵심 판단 정보는 채점 가능한 질문에도 있어야 한다. 질문 선택 시 현재처럼 음성 재생과 노트 열기가 함께 시작된다. 대답 원문은 맞힌 뒤 지문으로, 한국어는 `해석` 뒤에 보여 준다.
 
 ### 첫 인사
 
@@ -123,7 +123,7 @@
 
 | 참조 | 질문 / 해석 | 대답 / 해석 |
 |---|---|---|
-| rosie:r1 | What color is your lunch box? / 네 도시락은 무슨 색이니? | My lunch box is red. / 내 도시락은 빨간색이야. |
+| rosie:r1 · 첫 질문 고정 | Did your bags get mixed up? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. |
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. |
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 마주쳤어? | I saw Ben Beaver at the cafe. He had a blue bag, too. / 카페에서 벤 비버를 봤어. 벤도 파란 가방을 갖고 있었어. |
@@ -143,7 +143,7 @@ my를 his/her로 바꾸어 기록하는 칸은 들은 말의 소유 관계를 �
 
 | 참조 | 노트 문장 | 단어 카드 |
 |---|---|---|
-| rosie:r1 | [Her] lunch box is [red]. | Her, His, red, green |
+| rosie:r1 | [Her] bag is [blue], just like this one. | Her, His, blue, green |
 | rosie:r2 | [Her] bag has a red lunch box and a [yellow] bottle. | Her, His, yellow, blue |
 | rosie:r3 | [She] does not know whose bag this is. | She, He |
 | rosie:r4 | I saw [Ben Beaver] at the [cafe]. He had a [blue] bag. | Ben Beaver, Mia Mouse, cafe, garden, blue, green |
@@ -204,7 +204,7 @@ rosie:r3에서 로지는 가방 주인을 모른다. rosie:r4는 로지가 오�
 | 5 | Whose things are in this bag? / 이 가방에는 누구의 물건이 들어 있지? | These are [Ben Beaver]'s things. | ben:b1·b2 + picnic-0·1 | His lunch box is green. His bottle is blue. Both match. / 벤의 도시락은 초록색, 물병은 파란색이야. 둘 다 맞아. |
 | 6 | What color is the lunch box at the cafe? / 카페에 있는 도시락은 무슨 색이지? | That lunch box is [red]. | cafe-0 | Yes. The lunch box at the cafe is red. / 맞아. 카페의 도시락은 빨간색이야. |
 | 7 | What color is the bottle at the cafe? / 카페에 있는 물병은 무슨 색이지? | That bottle is [yellow]. | cafe-1 | Yes. The bottle at the cafe is yellow. / 맞아. 카페의 물병은 노란색이야. |
-| 8 | Whose things are at the cafe? / 카페에는 누구의 물건이 있지? | Those are [Rosie Rabbit]'s things. | rosie:r1·r2 + cafe-0·1 | Her lunch box is red. Her bottle is yellow. Both match. / 로지의 도시락은 빨간색, 물병은 노란색이야. 둘 다 맞아. |
+| 8 | Whose things are at the cafe? / 카페에는 누구의 물건이 있지? | Those are [Rosie Rabbit]'s things. | rosie:r2 + cafe-0·1 | Her lunch box is red. Her bottle is yellow. Both match. / 로지의 도시락은 빨간색, 물병은 노란색이야. 둘 다 맞아. |
 
 Q1–5의 “this bag”은 소풍 탁자의 가방을 가리킨다. Q1·3의 카드에 해당 가방의 사진을 함께 놓고, Q6부터는 카페 사진과 이미 해금된 장소명을 사용해 대상이 바뀌었음을 명확히 한다. 사진이나 출처 없이 this/that만으로 구별시키지 않는다.
 
@@ -334,7 +334,7 @@ Q2를 맞히면 올리 얼굴에 X, Q4 뒤에는 미아에 X, Q5 뒤에는 벤�
 
 1. 사건 목록 → 열쇠 → 첫 튜토리얼(공통 조작 안내) → 로지의 직접 의뢰 → 벤 → 정원 순서의 해금.
 2. 질문 오답 시 해금 없음, 정답 후 노트 닫기 전 자동 이동 없음, 남은 질문이 있으면 같은 인물 유지.
-3. 로지·벤의 해금 질문을 먼저 고른 경우와 미아·올리의 방문 순서를 바꾼 경우.
+3. 로지의 첫 질문을 맞혀야 나머지 세 질문이 열리는지, 그 뒤 해금 질문을 먼저 골랐을 때와 미아·올리의 방문 순서를 바꿨을 때.
 4. 촬영 네 장의 내용·획득 장소·중단/재촬영. 일반 물건은 사진 저장 없음.
 5. 사진 없이 추리에 들어갔다가 조사 후 같은 질문 재개. 색·인물 보기와 8문항 정답·힌트.
 6. 추리 완료 → 로지에게 알려주기 → 탐정의 두 주인 자동 보고 → 로지의 확인 제안·시작 질문 → 벤의 첫 말 → 사진 두 장 확인. 틀린 사진은 같은 단계·게이지 유지, 나가기 취소는 그대로·확정은 확인 시작부터.
