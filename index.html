@@ -1213,6 +1213,8 @@ body.picnic-mode{overflow:hidden;background:var(--ground)}
 body.picnic-mode .devtools,body.picnic-mode #caseList,body.picnic-mode #office{display:none!important}
 #picnicGame[hidden]{display:none}
 #picnicGame{position:fixed;inset:0;z-index:2000;display:flex;justify-content:center;background:var(--ground)}
+ .pc-quick{display:none}
+ @media(min-width:768px){.pc-quick{position:fixed;z-index:2002;top:16px;left:16px;display:flex;flex-direction:column;gap:5px;box-sizing:border-box;width:clamp(130px,calc((100vw - 430px)/2 - 32px),190px);max-height:calc(100vh - 32px);overflow-y:auto;padding:10px;border:2px solid var(--ink);border-radius:14px;background:var(--paper);box-shadow:3px 4px 0 rgba(74,54,40,.22)}.pc-quick small{font:700 13px var(--f-display);color:var(--ink);text-align:center}.pc-quick .devbtn{padding:5px 7px;font-size:12px;line-height:1.25}.pc-quick .devbtn:disabled{opacity:.45}.pc-quick hr{width:100%;margin:3px 0;border:0;border-top:1px dashed var(--line)}}
 .pc-phone{position:relative;width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;overflow:hidden;background:var(--paper)}
 @media(min-width:520px){.pc-phone{height:min(900px,calc(100% - 8px));margin:auto;border-radius:38px 42px 36px 44px/44px 36px 42px 38px}}
 .pc-top{position:absolute;inset:0 0 auto;height:0;z-index:40;pointer-events:none}
@@ -5500,6 +5502,22 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
 })();
 </script>
 <section id="picnicGame" hidden aria-label="바뀐 소풍 가방">
+  <aside class="pc-quick" id="pcQuick" aria-label="소풍 가방 테스트 퀵버튼">
+    <small>바뀐 소풍 가방 · 퀵 이동</small>
+    <button class="devbtn" type="button" data-pc-quick="key">사건의 열쇠</button>
+    <button class="devbtn" type="button" data-pc-quick="rosie">로지 · 의뢰</button>
+    <button class="devbtn" type="button" data-pc-quick="duck">호수 카페</button>
+    <button class="devbtn" type="button" data-pc-quick="ben">벤의 집</button>
+    <button class="devbtn" type="button" data-pc-quick="garden">정원</button>
+    <button class="devbtn" type="button" data-pc-quick="nora">회사 로비</button>
+    <button class="devbtn" type="button" data-pc-quick="deduce">추리</button>
+    <button class="devbtn" type="button" data-pc-quick="handoff">노라에게 전달</button>
+    <button class="devbtn" type="button" data-pc-quick="return">로지에게 전달</button>
+    <button class="devbtn" type="button" data-pc-quick="review">복습</button>
+    <hr>
+    <button class="devbtn" type="button" data-pc-quick="fill">현재 노트 자동 채우기</button>
+    <button class="devbtn" type="button" data-pc-quick="restore">원래 진행 복원</button>
+  </aside>
   <div class="pc-phone">
     <header class="pc-top"><button class="pill top-back" id="pcBack" type="button" aria-label="뒤로가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="chip l" id="pcTitle">바뀐 소풍 가방</h1><span id="pcCount" hidden></span></header>
     <main class="pc-main" id="pcMain"></main>
@@ -5564,7 +5582,8 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
   let state;
   try { state = { ...fresh(), ...JSON.parse(localStorage.getItem('pioo.picnic.save') || 'null') }; } catch { state = fresh(); }
   if(new URLSearchParams(location.search).get('review') === '1' && localStorage.getItem('pioo.solvedCases')?.includes('picnic-bag')) state.phase = 'review';
-  const save = () => { try { localStorage.setItem('pioo.picnic.save',JSON.stringify(state)); } catch {} };
+  let quickSnapshot=null,quickPreview=false;
+  const save = () => { if(quickPreview)return;try { localStorage.setItem('pioo.picnic.save',JSON.stringify(state)); } catch {} };
   const done = id => !!state.checked[id];
   const sceneQs = scene => qs.filter(q => q.place === scene);
   const sceneDone = scene => sceneQs(scene).every(q => done(q.id));
@@ -5579,9 +5598,35 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
   function land(scene){ const p=places[scene]; return `<div class="pc-land">${p.bg?`<img src="${p.bg}" alt="${esc(p.name)}">`:''}${p.sprite?`<img class="pc-figure ${scene==='duck'?'duck':''}" src="${p.sprite}" alt="${esc(p.person)}">`:`<div class="pc-missing">${esc(p.person)}<br>일러스트 준비 중</div>`}</div>`; }
   function go(scene){ if(!unlocked(scene)) return; state.scene=scene; state.view='story'; state.active=null; state.ko=false; state.intro=state.met[scene]?intro[scene].length:0; if(scene==='nora'&&readyDeduce())state.phase='deduce'; save(); render(); }
   function completed(){ return qs.filter(q=>done(q.id)).length; }
+  const quickOrder=['rosie','duck','ben','garden','nora'];
+  function quickBackup(){if(quickSnapshot===null)quickSnapshot=JSON.stringify(state);quickPreview=true;}
+  function quickJump(target){
+    quickBackup();
+    const scene=quickOrder.includes(target)?target:['deduce','handoff','review'].includes(target)?'nora':'rosie';
+    const prior=target==='key'?[]:target==='deduce'||['handoff','return','review'].includes(target)?quickOrder:quickOrder.slice(0,quickOrder.indexOf(scene));
+    const ids=qs.filter(q=>prior.includes(q.place));
+    state=fresh();state.phase=quickOrder.includes(target)?'story':target;state.scene=scene;
+    state.checked=Object.fromEntries(ids.map(q=>[q.id,true]));
+    state.draft=Object.fromEntries(ids.map(q=>[q.id,[...q.note.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1])]));
+    state.firstOk=ids.reduce((n,q)=>n+state.draft[q.id].length,0);
+    state.met=Object.fromEntries(prior.map(s=>[s,true]));
+    state.bag=prior.includes('rosie')?'nora':null;
+    state.inspected=prior.includes('ben');
+    state.photos=prior.includes('garden')?['blue','red']:[];
+    if(target==='handoff'||target==='return'||target==='review')state.met.nora=true;
+    if(target==='return')state.bag='rosie';
+    if(target==='review')state.firstOk=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0);
+    save();render();
+  }
+  function renderQuick(){
+    const active=state.phase==='story'?state.scene:['handoffTalk','returnTalk'].includes(state.phase)?state.phase==='handoffTalk'?'handoff':'return':state.phase;
+    $('#pcQuick').querySelectorAll('[data-pc-quick]').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.pcQuick===active?'true':'false');if(b.dataset.pcQuick==='fill')b.disabled=!state.active||done(state.active);if(b.dataset.pcQuick==='restore')b.disabled=quickSnapshot===null;});
+  }
   function render(){
     root.dataset.phase=state.phase;
+    root.dataset.scene=state.scene;
     root.dataset.view=state.view;
+    renderQuick();
     $('#pcTitle').textContent = state.phase==='key'?'이번 사건의 열쇠':state.phase==='tutorial'?'첫 사건 안내':state.phase==='review'?'사건 복습':state.phase==='deduce'?'추리하기':state.phase==='handoff'?'노라에게 가방 전달':state.phase==='return'?'로지에게 돌아가기':places[state.scene].name;
     $('#pcCount').textContent=state.phase==='story'?`${completed()} / ${qs.length}`:'';
     $('#pcNav').hidden = ['key','tutorial','handoff','handoffTalk','return','returnTalk','review'].includes(state.phase);
@@ -5704,8 +5749,10 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     main.innerHTML=`<div class="pc-review-screen"><div class="pc-review-body">${panels[state.review]}</div><div class="pc-review-dots">${panels.map((_,i)=>`<i class="${i===state.review?'now':''}"></i>`).join('')}</div><div class="pc-review-foot">${state.review?button('이전','reviewPrev'):''}${button(state.review===3?'사건 목록으로':'다음',state.review===3?'home':'reviewNext','pink')}</div></div>`;
   }
   function finish(){
-    const solved=JSON.parse(localStorage.getItem('pioo.solvedCases')||'[]'); if(!solved.includes('picnic-bag')) localStorage.setItem('pioo.solvedCases',JSON.stringify([...solved,'picnic-bag']));
-    const stats=JSON.parse(localStorage.getItem('pioo.caseStats')||'{}'),total=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0); stats['picnic-bag']={ok:state.firstOk,total,stars:state.firstOk/total>.9?3:state.firstOk/total>.7?2:1,missed:state.firstWrong}; localStorage.setItem('pioo.caseStats',JSON.stringify(stats));
+    if(!quickPreview){
+      const solved=JSON.parse(localStorage.getItem('pioo.solvedCases')||'[]'); if(!solved.includes('picnic-bag')) localStorage.setItem('pioo.solvedCases',JSON.stringify([...solved,'picnic-bag']));
+      const stats=JSON.parse(localStorage.getItem('pioo.caseStats')||'{}'),total=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0); stats['picnic-bag']={ok:state.firstOk,total,stars:state.firstOk/total>.9?3:state.firstOk/total>.7?2:1,missed:state.firstWrong}; localStorage.setItem('pioo.caseStats',JSON.stringify(stats));
+    }
     state.phase='review'; state.review=0; save(); render();
   }
   let faceDrag=null,faceDragged=false;
@@ -5730,7 +5777,7 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     if(action==='keyPlay'){speak(keyPages[state.page].lines[+el.dataset.i][0]);return;}
     if(action==='keyPrev'){state.page--;state.ko=false;}
     if(action==='keyNext'){if(state.page<2)state.page++;else state.phase=localStorage.getItem('pioo.tutorialSeen')?'story':'tutorial';state.ko=false;}
-    if(action==='tutorialNext'){state.phase='story';localStorage.setItem('pioo.tutorialSeen','1');}
+    if(action==='tutorialNext'){state.phase='story';if(!quickPreview)localStorage.setItem('pioo.tutorialSeen','1');}
     if(action==='nextIntro'){state.intro++;state.ko=false;}
     if(action==='question'||action==='read'){state.active=el.dataset.id;state.view='note';state.ko=false;const q=qs.find(x=>x.id===state.active);state.notePerson=q.place;speak(q.reply);}
     if(action==='chip'){const q=qs.find(x=>x.id===state.active);state.draft[q.id]||=[];const i=state.draft[q.id].findIndex(v=>!v);const at=i<0?0:i;state.draft[q.id][at]=el.dataset.value;}
@@ -5762,13 +5809,25 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     if(action==='reviewPlay'){speak(qs.find(q=>q.id===el.dataset.id).reply);return;}
     if(action==='reviewPrev')state.review--;
     if(action==='reviewNext')state.review++;
-    if(action==='keepGrammar'){const book=JSON.parse(localStorage.getItem('pioo.grammarBook')||'[]');localStorage.setItem('pioo.grammarBook',JSON.stringify([...new Set([...book,'ownership'])]));toast('소유 표현을 담았어요');}
-    if(action==='keepWords'){localStorage.setItem('pioo.picnic.wordBook',JSON.stringify(['bag','folder','pen','lunch box','bottle','blue','red','yellow']));toast('이번 사건의 단어를 담았어요');}
+    if(action==='keepGrammar'){if(!quickPreview){const book=JSON.parse(localStorage.getItem('pioo.grammarBook')||'[]');localStorage.setItem('pioo.grammarBook',JSON.stringify([...new Set([...book,'ownership'])]));}toast(quickPreview?'미리보기 중에는 저장하지 않아요':'소유 표현을 담았어요');}
+    if(action==='keepWords'){if(!quickPreview)localStorage.setItem('pioo.picnic.wordBook',JSON.stringify(['bag','folder','pen','lunch box','bottle','blue','red','yellow']));toast(quickPreview?'미리보기 중에는 저장하지 않아요':'이번 사건의 단어를 담았어요');}
     if(action==='home'){location.href=location.pathname;return;}
     save();render();
   });
   $('#pcNav').addEventListener('click',e=>{const b=e.target.closest('[data-pc-nav]');if(!b)return;if(state.active&&!done(state.active)){if(!confirm('진술 기록을 잠시 중단하고 이동할까요?'))return;}state.view=b.dataset.pcNav;state.active=null;save();render();});
   $('#pcBack').onclick=()=>{if(state.phase==='review'||state.phase==='key'||state.phase==='tutorial'){location.href=location.pathname;return;}if(state.active&&!confirm('진술 기록을 잠시 중단하고 이동할까요?'))return;if(state.phase==='story'&&state.view!=='map'){state.view='map';state.active=null;save();render();return;}if(confirm('사건 목록으로 나갈까요? 지금까지 조사한 내용은 저장돼요.'))location.href=location.pathname;};
+  $('#pcQuick').addEventListener('click',e=>{
+    const action=e.target.closest('[data-pc-quick]')?.dataset.pcQuick;if(!action)return;
+    if(action==='restore'){
+      if(quickSnapshot===null)return;
+      state={...fresh(),...JSON.parse(quickSnapshot)};quickSnapshot=null;quickPreview=false;render();return;
+    }
+    if(action==='fill'){
+      const q=qs.find(x=>x.id===state.active);if(!q||done(q.id))return;
+      quickBackup();state.draft[q.id]=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]);save();render();return;
+    }
+    quickJump(action);
+  });
   render();
 })();
 </script>
