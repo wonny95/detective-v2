@@ -92,7 +92,7 @@
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
 | garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | [His] bag is [red]. [Her] bag is [blue]. |
 | garden:g2 | Mia, have you opened your bag? Are you sure it's yours? / 미아, 가방을 열어 봤어? 네 가방이 맞아? | 미아: Yes, it's my bag. It has things for today's picnic. / 응, 내 가방이 맞아. 오늘 피크닉을 위한 준비물들이 들어 있었지. | She [opened] her [blue] bag. It has [picnic] things, and she says it is [hers]. |
-| nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there. / 응. 거기에 두고 왔어. | Nora left her [blue] bag at [Ben Beaver]'s house. |
+| nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there, but Ben brought it to me. / 응. 거기에 두고 왔어. 하지만 벤이 가져다줬지. | Nora left her [blue] bag at [Ben Beaver]'s house. Ben brought it to her. |
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her folder is [green]. Her pen is [blue]. |
 | nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was busy, so I hadn't checked it. Let me look... There's a red lunch box and a yellow bottle! / 바빠서 아직 못 봤어. 지금 볼게... 빨간 도시락이랑 노란 물병이 있네! | She had [not] checked it. Inside are a [red] lunch box and a [yellow] bottle. |
 
