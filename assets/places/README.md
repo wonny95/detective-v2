@@ -1,6 +1,6 @@
 # 장소 그림
 
-- ‘바뀐 소풍 가방’ 기획안은 소풍 탁자·호수 카페·정원 배경 각 한 장, 총 3장을 재사용한다. 파일·Higgsfield 생성 ID·용도는 [`picnic-storyboard/README.md`](picnic-storyboard/README.md)에 정리했다. 현재 게임에는 아직 연결하지 않았다.
+- ‘바뀐 소풍 가방’ 기획안은 소풍 탁자·정원 그림과 도서관 사건의 기존 카페 배경 `cafe-higgsfield.png`를 재사용한다. 별도로 만든 카페 그림은 가방 소품 참고 시안이다. 파일·Higgsfield 생성 ID·용도는 [`picnic-storyboard/README.md`](picnic-storyboard/README.md)에 정리했다. 현재 게임에는 아직 연결하지 않았다.
 
 ## 파출소 조사실
 
