@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>바뀐 소풍 가방 · Case 01 A 상세 기획</title>
+  <style>
+    :root { --ink:#44362c; --muted:#786b5d; --paper:#fffaf0; --line:#dfd2bc; --honey:#f1ce75; --rose:#b65f79; --sage:#e5ede0; --green:#456f54; --shadow:0 12px 36px rgba(66,49,30,.09); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#e9eddf; color:var(--ink); font:16px/1.6 system-ui,"Malgun Gothic",sans-serif; }
+    a { color:inherit; }
+    .wrap { width:min(1120px,calc(100% - 36px)); margin:auto; }
+    .topbar { position:sticky; top:0; z-index:10; background:rgba(255,250,240,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .top-inner { display:flex; justify-content:space-between; align-items:center; gap:22px; min-height:66px; }
+    .back { flex:none; display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:800; letter-spacing:-.03em; }
+    .back-mark { display:grid; place-items:center; width:32px; height:32px; border:2px solid var(--ink); border-radius:50%; background:var(--honey); line-height:1; }
+    .nav { display:flex; gap:18px; overflow-x:auto; white-space:nowrap; scrollbar-width:none; font-size:13px; font-weight:750; }
+    .nav::-webkit-scrollbar { display:none; }
+    .nav a { padding:13px 0; text-decoration:none; }
+    .nav a:hover,.back:hover,.text-link:hover { color:var(--rose); }
+    main { padding:28px 0 80px; }
+    section { scroll-margin-top:94px; margin-top:58px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(240px,.7fr); gap:20px; margin-top:0; }
+    .hero-copy,.hero-art,.panel,.story-card,.place-card,.person-card,.clue-card,.flow-card,.learning-card,.script-card,.end-card,.status-card { background:var(--paper); border:1.5px solid var(--line); border-radius:26px; box-shadow:var(--shadow); }
+    .hero-copy { padding:40px 42px; background:radial-gradient(circle at 92% 10%,#faeab8 0 12%,transparent 12.5%),var(--paper); }
+    .eyebrow { display:inline-block; color:var(--rose); font-size:12px; font-weight:900; letter-spacing:.1em; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin:14px 0 13px; font-size:clamp(34px,4.5vw,57px); line-height:1.13; letter-spacing:-.075em; }
+    .lead { max-width:670px; color:#605347; font-size:19px; }
+    .hero-art { display:flex; flex-direction:column; justify-content:flex-end; align-items:center; overflow:hidden; margin:0; background:#f4ead2; }
+    .hero-art img { width:min(100%,250px); max-height:290px; object-fit:contain; object-position:bottom; }
+    .hero-art figcaption { width:100%; padding:10px 16px; border-top:1px dashed #d8c5a4; text-align:center; font-size:12px; font-weight:750; color:#725c3d; background:#fff9e9; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:24px; }
+    .chip { padding:7px 11px; border:1px solid #d9c8aa; border-radius:999px; background:#fffdf8; font-size:12px; font-weight:800; }
+    .chip.status { background:#fff0cc; color:#946116; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:18px; }
+    .section-head h2 { margin:0; font-size:clamp(26px,3vw,35px); line-height:1.2; letter-spacing:-.06em; }
+    .section-head p { max-width:540px; margin:0; color:var(--muted); font-size:14px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .story-card,.place-card,.person-card,.clue-card,.learning-card,.end-card,.status-card { min-width:0; padding:23px; }
+    .story-card { border-top:6px solid var(--honey); }
+    .story-card:nth-child(2) { border-top-color:#a9bea3; }
+    .story-card:nth-child(3) { border-top-color:#d8a2b1; }
+    .step-no { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:11px; background:#f8e7ba; color:#76552c; font-size:13px; font-weight:900; }
+    .story-card:nth-child(2) .step-no { background:#e3eddd; color:#4e7356; }
+    .story-card:nth-child(3) .step-no { background:#f3dfe4; color:#9d5368; }
+    h3 { margin:13px 0 7px; font-size:20px; line-height:1.3; letter-spacing:-.04em; }
+    .story-card p,.person-card p,.place-card p,.learning-card p,.end-card p,.status-card p { margin:0; color:#675a4e; font-size:14px; }
+    .keyline { margin-top:14px!important; color:var(--green)!important; font-weight:750; }
+    .callout { margin-top:14px; padding:16px 19px; border:1px dashed #ccbda6; border-radius:16px; background:#fff8e9; color:#695a45; font-size:13px; }
+    .callout strong { color:#9d566c; }
+    .person-card { display:flex; gap:14px; align-items:flex-start; }
+    .avatar { display:grid; place-items:center; flex:none; width:50px; height:50px; border:2px solid #7b6653; border-radius:50%; background:#f8e4b5; font-weight:900; }
+    .person-card:nth-child(2) .avatar { background:#e8eee0; }
+    .person-card:nth-child(3) .avatar { background:#f4e0e4; }
+    .person-card:nth-child(4) .avatar { background:#dce8eb; }
+    .person-card h3,.place-card h3 { margin:0 0 4px; }
+    .role { display:block; margin-bottom:6px; color:var(--rose); font-size:12px; font-weight:850; }
+    .place-tag,.clue-tag { display:inline-block; margin-top:12px; padding:4px 9px; border-radius:8px; background:#f4eddf; color:#7d6443; font-size:11px; font-weight:800; }
+    .place-card { border-left:6px solid #b7caa9; }
+    .place-card:nth-child(2) { border-left-color:var(--honey); }
+    .place-card:nth-child(3) { border-left-color:#e1b0b8; }
+    .evidence-board { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    .clue-card { border-top:6px solid var(--honey); }
+    .clue-card:nth-child(2) { border-top-color:#b6cba8; }
+    .clue-card h3 { margin:0 0 8px; }
+    .items { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+    .item { display:inline-flex; align-items:center; gap:7px; padding:9px 11px; border:1px solid #ddcfb9; border-radius:11px; background:#fffdf8; font-size:13px; font-weight:800; }
+    .swatch { width:15px; height:15px; border:1px solid rgba(0,0,0,.16); border-radius:50%; background:var(--color); }
+    .clue-card p { margin:0; color:#675a4e; font-size:14px; }
+    .deduction { margin-top:15px; padding:17px 20px; border:1.5px solid #b8c9ae; border-radius:17px; background:#f3f8ef; color:#45684d; font-size:14px; }
+    .deduction strong { color:#345d3e; }
+    .matrix { overflow-x:auto; border:1.5px solid var(--line); border-radius:19px; background:var(--paper); box-shadow:var(--shadow); }
+    table { width:100%; border-collapse:collapse; min-width:540px; }
+    th,td { padding:12px 17px; text-align:left; border-bottom:1px solid #e8decc; font-size:13px; }
+    tr:last-child td { border-bottom:0; }
+    th { background:#f5ecd9; color:#715a3d; font-size:12px; }
+    td:first-child { font-weight:850; }
+    tr.winner { background:#edf4e8; }
+    .flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+    .flow-card { min-width:0; padding:18px; }
+    .flow-card b { display:block; margin-bottom:9px; color:var(--rose); font-size:12px; }
+    .flow-card strong { display:block; margin-bottom:5px; font-size:15px; }
+    .flow-card p { margin:0; color:var(--muted); font-size:12px; }
+    .learning-card { background:#f4f8ef; border-color:#bdcfb7; }
+    .learning-card h3 { margin:0 0 8px; }
+    .learning-card code { font-family:inherit; font-weight:800; color:#476b50; }
+    .script { display:grid; gap:10px; }
+    details.script-card { overflow:hidden; box-shadow:none; }
+    details.script-card summary { display:flex; justify-content:space-between; gap:18px; align-items:center; cursor:pointer; list-style:none; font-weight:850; }
+    details.script-card summary::-webkit-details-marker { display:none; }
+    details.script-card summary::after { content:"펼치기 ↓"; flex:none; color:var(--rose); font-size:12px; }
+    details.script-card[open] summary::after { content:"접기 ↑"; }
+    .script-card { padding:16px 20px; }
+    .script-body { display:grid; gap:10px; margin-top:17px; padding-top:16px; border-top:1px dashed #d8c8b0; }
+    .line { padding:11px 13px; border-radius:12px; background:#f8f2e7; }
+    .line b { display:block; margin-bottom:3px; color:#9b536b; font-size:11px; }
+    .line p { margin:0; font-size:13px; }
+    .line .ko { margin-top:3px; color:#786b5d; }
+    .end-card { background:#fff7e7; }
+    .end-card:nth-child(2) { background:#eff5eb; }
+    .end-card:nth-child(3) { background:#f9eef0; }
+    .end-card .quote { margin:12px 0 3px; font-size:15px; font-weight:800; line-height:1.5; }
+    .end-card .ko { color:#796959; font-size:13px; }
+    .status-card { background:#f7f5ef; }
+    .status-card ul { margin:5px 0 0; padding-left:19px; color:#675a4e; font-size:14px; }
+    .text-link { display:inline-block; margin-top:12px; color:#9e526c; font-size:13px; font-weight:800; text-decoration:none; }
+    .fine { margin:18px 0 0; color:var(--muted); font-size:12px; }
+    @media (max-width:900px) { .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:650px) { .wrap { width:min(550px,calc(100% - 24px)); } .top-inner { display:block; padding:10px 0; } .nav { gap:16px; } .hero,.grid-2,.grid-3,.evidence-board { grid-template-columns:minmax(0,1fr); } .hero-copy { padding:29px 25px; } .hero-art { min-height:210px; } .hero-art img { max-height:190px; } .section-head { display:block; } .section-head p { margin-top:7px; } section { margin-top:46px; scroll-margin-top:111px; } }
+    @media (max-width:390px) { .flow { grid-template-columns:minmax(0,1fr); } }
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="wrap top-inner"><a class="back" href="learning-plan.html#middle-one"><span class="back-mark" aria-hidden="true">✦</span> 학습 기획으로 돌아가기</a><nav class="nav" aria-label="이 페이지 목차"><a href="#story">이야기</a><a href="#cast">인물·장소</a><a href="#evidence">단서·추리</a><a href="#flow">진행</a><a href="#learning">학습</a><a href="#script">대본</a><a href="#ending">마무리</a></nav></div></header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="title"><div class="hero-copy"><span class="eyebrow">중1 · 1단원 · 01 A · 상세 기획</span><h1 id="title">바뀐 소풍 가방</h1><p class="lead">로지가 똑같이 생긴 가방을 잘못 가져왔다. <strong>도시락과 물병에 관한 진술</strong>을 듣고 두 가방의 주인을 밝혀 로지에게 알려 주는 첫 소유 표현 사건.</p><div class="chips"><span class="chip status">기획 단계</span><span class="chip">의뢰인 로지</span><span class="chip">인물 4명</span><span class="chip">장소 3곳</span><span class="chip">질문 10개</span><span class="chip">사진 4장</span><span class="chip">추리 8문항</span></div></div><figure class="hero-art"><img src="../assets/characters/rosie-higgsfield.png" alt="의뢰인 로지 토끼의 기존 캐릭터 그림"><figcaption>기존 로지 그림 · 새 인물 그림은 아직 제작 전</figcaption></figure></section>
+
+    <section id="story"><div class="section-head"><h2>사건은 이렇게 흘러간다</h2><p>의뢰인이 직접 부탁하고, 탐정이 근거를 모아, 당사자에게 결과를 돌려준다.</p></div><div class="grid-3"><article class="story-card"><span class="step-no">01</span><h3>로지의 의뢰</h3><p>소풍 탁자에서 로지가 자기 것이 아닌 가방을 발견한다. 탐정에게 이 가방의 주인과 자기 가방의 행방을 찾아 달라고 부탁한다.</p><p class="keyline">첫 장면에서 로지가 직접 말한다.</p></article><article class="story-card"><span class="step-no">02</span><h3>네 친구의 진술</h3><p>로지·벤·미아·올리가 각자 자기 도시락과 물병의 색을 말한다. 소풍 탁자와 호수 카페의 가방 속 물건을 촬영해 진술과 대조한다.</p><p class="keyline">한 물건만 맞는 사람은 정답이 아니다.</p></article><article class="story-card"><span class="step-no">03</span><h3>주인 확인</h3><p>탁자 가방은 벤, 카페 가방은 로지의 것임을 추리한다. 탐정이 로지에게 알려 주고, 로지와 벤이 사진으로 물건을 확인해 가방을 되찾는다.</p><p class="keyline">경찰 보고·심문은 없는 일상 사건이다.</p></article></div><div class="callout"><strong>제작자용 정보</strong> · 이 페이지에는 정답이 보인다. 실제 게임에서는 로지의 말과 촬영한 물건을 통해서만 알 수 있고, 해결 후 복습에서만 사건 요약을 보여 준다.</div></section>
+
+    <section id="cast"><div class="section-head"><h2>누구를, 어디서 만날까?</h2><p>새 친구는 이름과 소유 진술로 구별한다. 외모·옷·가방 이름표에 정답을 숨기지 않는다.</p></div><div class="grid-2"><article class="person-card"><span class="avatar" aria-hidden="true">로</span><div><span class="role">의뢰인 · 소풍 탁자</span><h3>로지 토끼</h3><p>가방이 바뀐 것을 먼저 알아챈다. 자신의 빨간 도시락과 노란 물병을 말하고, 끝에서 벤과 물건을 확인한다.</p></div></article><article class="person-card"><span class="avatar" aria-hidden="true">벤</span><div><span class="role">주인 후보 · 호수 카페 · 신규 인물</span><h3>벤 비버</h3><p>초록 도시락과 파란 물병의 주인. 닮은 가방을 가져가 카페에 내려놓았지만 아직 바뀐 사실을 모른다.</p></div></article><article class="person-card"><span class="avatar" aria-hidden="true">미</span><div><span class="role">주인 후보 · 정원 · 신규 인물</span><h3>미아 생쥐</h3><p>초록 도시락과 노란 물병의 주인. 도시락 색만 탁자 가방과 일치한다.</p></div></article><article class="person-card"><span class="avatar" aria-hidden="true">올</span><div><span class="role">주인 후보 · 정원 · 신규 인물</span><h3>올리 수달</h3><p>빨간 도시락과 파란 물병의 주인. 물병 색만 탁자 가방과 일치한다.</p></div></article></div><div class="grid-3" style="margin-top:14px"><article class="place-card"><h3>소풍 탁자</h3><p>로지가 직접 의뢰하는 시작 장소. 열린 가방 속 초록 도시락과 파란 물병을 각각 촬영한다.</p><span class="place-tag">시작 · 사진 2장</span></article><article class="place-card"><h3>호수 카페</h3><p>벤이 있는 곳. 다른 가방 속 빨간 도시락과 노란 물병을 각각 촬영한다.</p><span class="place-tag">로지 기록 뒤 해금 · 사진 2장</span></article><article class="place-card"><h3>정원</h3><p>미아와 올리의 진술을 듣는다. 추가 사진 단서는 없고 두 사람의 말이 후보를 좁힌다.</p><span class="place-tag">벤 기록 뒤 해금 · 대화</span></article></div></section>
+
+    <section id="evidence"><div class="section-head"><h2>단서를 어떻게 맞출까?</h2><p>같은 모양의 파란 가방 두 개. 사진에는 물건과 가방의 맥락만 담고 주인 이름은 쓰지 않는다.</p></div><div class="evidence-board"><article class="clue-card"><h3>소풍 탁자의 가방</h3><p>로지가 들고 있는 가방. 사진 두 장을 따로 모은다.</p><div class="items"><span class="item"><span class="swatch" style="--color:#70a26b"></span>초록 도시락</span><span class="item"><span class="swatch" style="--color:#5c8ec0"></span>파란 물병</span></div><p>도시락만 보면 벤·미아, 물병만 보면 벤·올리가 남는다. 두 특징이 모두 맞는 사람은 벤.</p><span class="clue-tag">사진 picnic-0 · picnic-1</span></article><article class="clue-card"><h3>호수 카페의 가방</h3><p>벤이 놓고 간 가방. 이 가방에도 사진 두 장이 필요하다.</p><div class="items"><span class="item"><span class="swatch" style="--color:#c96d68"></span>빨간 도시락</span><span class="item"><span class="swatch" style="--color:#e9c854"></span>노란 물병</span></div><p>두 물건의 조합이 로지의 진술과 일치한다. 벤이 가져간 가방은 로지의 것이다.</p><span class="clue-tag">사진 cafe-0 · cafe-1</span></article></div><h3 style="margin:27px 0 12px">후보 진술 비교</h3><div class="matrix"><table><thead><tr><th>친구</th><th>자기 도시락</th><th>자기 물병</th><th>탁자 가방과 비교</th></tr></thead><tbody><tr><td>로지</td><td>빨강</td><td>노랑</td><td>카페 가방과 일치</td></tr><tr class="winner"><td>벤</td><td>초록</td><td>파랑</td><td>두 물건 모두 일치 ✓</td></tr><tr><td>미아</td><td>초록</td><td>노랑</td><td>도시락만 일치</td></tr><tr><td>올리</td><td>빨강</td><td>파랑</td><td>물병만 일치</td></tr></tbody></table></div><div class="deduction"><strong>추리의 결론</strong> · 소풍 탁자 가방 → 벤, 호수 카페 가방 → 로지. 네 친구 중 같은 색 도시락이나 물병을 가진 사람이 있으므로 두 물건을 함께 확인해야 한다.</div></section>
+
+    <section id="flow"><div class="section-head"><h2>플레이 흐름과 해금</h2><p>새 인물·장소는 해당 진술을 노트에 바르게 기록했을 때만 열린다.</p></div><div class="flow"><article class="flow-card"><b>01 · 준비</b><strong>사건의 열쇠</strong><p>my / your → his / her → mine / yours 세 장의 문법 카드를 본다. 첫 플레이면 공통 튜토리얼을 거친다.</p></article><article class="flow-card"><b>02 · 직접 의뢰</b><strong>로지와 소풍 탁자</strong><p>로지가 도움을 청한다. 시작 인물과 시작 장소는 처음부터 알려져 있으며 발견 알림을 띄우지 않는다.</p></article><article class="flow-card"><b>03 · 첫 해금</b><strong>벤과 호수 카페</strong><p>로지의 세 질문을 기록한다. rosie:r3를 맞히면 벤과 카페가 열린다. 자동 이동은 없다.</p></article><article class="flow-card"><b>04 · 다음 해금</b><strong>미아·올리와 정원</strong><p>벤의 세 질문을 기록한다. ben:b3를 맞히면 두 친구와 정원이 함께 열린다.</p></article><article class="flow-card"><b>05 · 비교</b><strong>진술 10개·사진 4장</strong><p>미아·올리의 질문을 각 두 개 듣고, 소풍 탁자·카페에서 가방 속 물건을 촬영한다.</p></article><article class="flow-card"><b>06 · 추리</b><strong>8개 질문</strong><p>올리·미아를 각각 제외하고 벤을 찾는다. 카페 가방은 로지의 진술과 사진으로 확인한다.</p></article><article class="flow-card"><b>07 · 당사자 확인</b><strong>로지에게 알려주기</strong><p>탐정이 자동으로 두 가방의 주인을 말한다. 로지가 벤과 함께 물건을 확인하자고 제안한다.</p></article><article class="flow-card"><b>08 · 복습</b><strong>결과와 배운 표현</strong><p>두 사진 확인 뒤 대화로 마무리한다. COMPLETE는 복습 첫 장에만, 문법·단어는 필요한 것만 담는다.</p></article></div></section>
+
+    <section id="learning"><div class="section-head"><h2>무엇을 배우나?</h2><p>표현을 듣고 소유자·물건·색을 연결해야 사건을 풀 수 있다.</p></div><div class="grid-3"><article class="learning-card"><h3>소유 표현</h3><p><code>my / your / his / her</code>로 말하는 사람과 물건을 잇는다. <code>mine / yours</code>는 의뢰·해결 대사와 다음 B 사건에서 다시 쓴다.</p></article><article class="learning-card"><h3>듣기와 기록</h3><p>로지가 “My lunch box is red”라고 말하면 로지 노트에는 “Her lunch box is red”로 바꾸어 기록한다. 받아쓰기와 의미 이해를 구분한다.</p></article><article class="learning-card"><h3>A → B 연결</h3><p>가방에서 배운 소유 표현을 02 B ‘주인 없는 우산’에 적용한다. 우산에서는 <code>Whose…?</code>와 <code>this / that</code>을 더 쓴다.</p></article></div><div class="callout"><strong>학습 확인</strong> · 도시락 또는 물병 하나만 맞혀서는 주인을 확정하지 않는다. 새 상황에서 두 특징을 함께 듣고 누구의 물건인지 1–2문장으로 설명하게 한다.</div></section>
+
+    <section id="script"><div class="section-head"><h2>인물별 대본 보기</h2><p>먼저 사건 구조를 읽고, 필요한 인물의 질문만 펼쳐 볼 수 있다. 아래 내용은 제작자용이다.</p></div><div class="script"><details class="script-card"><summary>로지 · 직접 의뢰 + 질문 3개</summary><div class="script-body"><div class="line"><b>첫 만남</b><p>Hi, detective. This bag is not mine. Please help me find its owner.</p><p class="ko">안녕, 탐정님. 이 가방은 내 것이 아니야. 주인을 찾게 도와줘.</p></div><div class="line"><b>Q1 · 도시락</b><p>What color is your lunch box? → My lunch box is red.</p><p class="ko">네 도시락은 무슨 색이니? → 내 도시락은 빨간색이야.</p></div><div class="line"><b>Q2 · 물병</b><p>What color is your bottle? → My bottle is yellow.</p><p class="ko">네 물병은 무슨 색이니? → 내 물병은 노란색이야.</p></div><div class="line"><b>Q3 · 새 인물·장소</b><p>Who else has a blue bag? → Ben Beaver has a blue bag, too. He is at the cafe.</p><p class="ko">또 누가 파란 가방을 가지고 있니? → 벤 비버도 파란 가방을 가지고 있어. 카페에 있어.</p></div></div></details><details class="script-card"><summary>벤 · 질문 3개</summary><div class="script-body"><div class="line"><b>첫 만남</b><p>Hi! I'm Ben Beaver.</p><p class="ko">안녕! 나는 벤 비버야.</p></div><div class="line"><b>Q1 · 도시락</b><p>What color is your lunch box? → My lunch box is green.</p><p class="ko">네 도시락은 무슨 색이니? → 내 도시락은 초록색이야.</p></div><div class="line"><b>Q2 · 물병</b><p>What color is your bottle? → My bottle is blue.</p><p class="ko">네 물병은 무슨 색이니? → 내 물병은 파란색이야.</p></div><div class="line"><b>Q3 · 새 인물·장소</b><p>Who else has a blue bag? → Mia Mouse and Ollie Otter have blue bags, too. They are in the garden.</p><p class="ko">또 누가 파란 가방을 가지고 있니? → 미아 생쥐와 올리 수달도 파란 가방을 가지고 있어. 정원에 있어.</p></div></div></details><details class="script-card"><summary>미아 · 질문 2개</summary><div class="script-body"><div class="line"><b>첫 만남</b><p>Hello! I'm Mia Mouse.</p><p class="ko">안녕! 나는 미아 생쥐야.</p></div><div class="line"><b>Q1 · 도시락</b><p>What color is your lunch box? → My lunch box is green.</p><p class="ko">네 도시락은 무슨 색이니? → 내 도시락은 초록색이야.</p></div><div class="line"><b>Q2 · 물병</b><p>What color is your bottle? → My bottle is yellow.</p><p class="ko">네 물병은 무슨 색이니? → 내 물병은 노란색이야.</p></div></div></details><details class="script-card"><summary>올리 · 질문 2개</summary><div class="script-body"><div class="line"><b>첫 만남</b><p>Hi there! I'm Ollie Otter.</p><p class="ko">안녕! 나는 올리 수달이야.</p></div><div class="line"><b>Q1 · 도시락</b><p>What color is your lunch box? → My lunch box is red.</p><p class="ko">네 도시락은 무슨 색이니? → 내 도시락은 빨간색이야.</p></div><div class="line"><b>Q2 · 물병</b><p>What color is your bottle? → My bottle is blue.</p><p class="ko">네 물병은 무슨 색이니? → 내 물병은 파란색이야.</p></div></div></details></div><p class="fine">노트 문장·단어 카드·추리 8문항의 전체 영어 대본은 <a href="case-01-picnic-bag.md">원본 상세 기획</a>에서 확인할 수 있다.</p></section>
+
+    <section id="ending"><div class="section-head"><h2>어떻게 마무리하나?</h2><p>추리에서 이미 찾은 주인을 다시 고르지 않고, 의뢰인과 물건을 확인한다.</p></div><div class="grid-3"><article class="end-card"><span class="step-no">01</span><h3>탐정이 로지에게 보고</h3><p class="quote">“Rosie, the bag here is Ben's. Your bag is at the cafe.”</p><p class="ko">“로지, 여기 가방은 벤의 것이야. 네 가방은 카페에 있어.”</p></article><article class="end-card"><span class="step-no">02</span><h3>로지와 벤이 확인</h3><p class="quote">“Ben, what color is your lunch box?”</p><p class="ko">로지가 묻고, 벤의 답에 맞는 도시락·물병 사진을 차례로 내민다. 틀린 사진이면 그 단계에서 다시 고른다.</p></article><article class="end-card"><span class="step-no">03</span><h3>가방을 돌려준다</h3><p class="quote">“We have the right bags now. Thank you, detective!”</p><p class="ko">벤이 바뀐 사정을 말하고 사과한다. 로지가 감사 인사를 한 뒤 복습 첫 장으로 간다.</p></article></div><div class="grid-2" style="margin-top:15px"><article class="status-card"><h3>준비된 기획</h3><ul><li>4인 대화 10문항·노트 22칸</li><li>장소 3곳·촬영 사진 4장</li><li>추리 8문항·확인 2단계</li><li>소유 표현 열쇠·복습 구성</li></ul></article><article class="status-card"><h3>제작 전에 남은 일</h3><ul><li>현재 앱은 도서관 사건만 플레이 가능</li><li>벤·미아·올리와 새 장소의 그림 제작</li><li>새 사건 대사와 단서 음성 제작</li><li>실제 학생 플레이로 분량·난도 검증</li></ul></article></div><a class="text-link" href="learning-plan.html#middle-one">← 36개 사건 기획으로 돌아가기</a></section>
+  </main>
+</body>
+</html>
