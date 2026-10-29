@@ -106,13 +106,13 @@
 
 ## 5. 탐문 대본·노트·단어 카드
 
-각 인물의 인사는 첫 만남에만 재생한다. 핵심 판단 정보는 채점 가능한 질문에도 있어야 한다. 질문 선택 시 현재처럼 음성 재생과 노트 열기가 함께 시작된다. 대답 원문은 맞힌 뒤 지문으로, 한국어는 `해석` 뒤에 보여 준다.
+로지와 탐정은 이 사건에서 처음 만난다. 각 인물의 인사는 첫 만남에만 재생한다. 핵심 판단 정보는 채점 가능한 질문에도 있어야 한다. 질문 선택 시 현재처럼 음성 재생과 노트 열기가 함께 시작된다. 대답 원문은 맞힌 뒤 지문으로, 한국어는 `해석` 뒤에 보여 준다.
 
 ### 첫 인사
 
 | 인물 | 영어 | 한국어 |
 |---|---|---|
-| 로지 | Hi, detective. This bag is not mine. Please help me find its owner. | 안녕, 탐정님. 이 가방은 내 것이 아니야. 주인을 찾게 도와줘. |
+| 로지 | Excuse me, are you the detective? I'm Rosie. I think I have the wrong bag. Can you help me find out whose it is and where mine is? | 저기, 네가 탐정이야? 난 로지야. 가방을 잘못 가져온 것 같아. 이 가방이 누구 것인지, 내 가방은 어디 있는지 찾아줄래? |
 | 벤 | Hi! I'm Ben Beaver. | 안녕! 나는 벤 비버야. |
 | 미아 | Hello! I'm Mia Mouse. | 안녕! 나는 미아 생쥐야. |
 | 올리 | Hi there! I'm Ollie Otter. | 안녕! 나는 올리 수달이야. |
