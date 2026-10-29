@@ -13,7 +13,7 @@
 
 노라는 받은 가방을 열지 않았으므로 안의 물건을 알지 못한다. 탐정이 현장에서 직접 촬영해 로지의 진술과 비교한다.
 
-미아의 서류 물건은 초록 폴더·노란 펜, 올리의 것은 빨간 폴더·파란 펜이다. 한 특징만으로 노라를 고를 수 없게 한다. 두 사람은 각각 소풍 계획을 적을 물건을 지녔을 뿐, 가방을 바꿔 들지 않았다. 노라는 로지가 가진 가방의 실제 주인이자 벤이 전달한 가방의 수령인이다. 내용물의 소유를 진술과 사진으로 연결한다. 이름표·가방 외형·인물 그림에 정답을 표시하지 않는다.
+미아와 올리는 정원에서 소풍 준비를 시작한다. 올리의 가방은 빨간색이다. 미아의 가방은 파란색이지만 안에 든 초록 폴더·노란 펜을 직접 확인해 자기 것이라고 말한다. 폴더 색 하나만으로 노라의 가방과 혼동하지 않도록 펜까지 비교한다. 두 사람은 가방을 바꿔 들지 않았다. 노라는 로지가 가진 가방의 실제 주인이자 벤이 전달한 가방의 수령인이다. 내용물의 소유를 진술과 사진으로 연결한다. 이름표·가방 외형·인물 그림에 정답을 표시하지 않는다.
 
 ## 학습과 등장인물
 
@@ -44,14 +44,14 @@
 | 02 소풍 탁자 | 로지가 든 가방에서 폴더와 펜 촬영 | 증거 `picnic-0/1` |
 | 03 카페 | 주인이 손님으로 맞고 세 질문에 답함 | v1 뒤 벤·미아·올리·노라 이름, v3 뒤 벤의 집·정원 |
 | 03B 벤의 집 | 노라가 집에 두고 간 가방을 회사에 전한 경로와 내용물을 아는지 질문함 | b1 기록 뒤 노라의 회사 |
-| 04 정원 | 미아·올리의 폴더와 펜을 비교함 | 별도 필수 해금 없음 |
+| 04 정원 | 두 친구와 함께 인사하고 파란 가방 여부·미아 가방 안의 물건을 확인함 | 별도 필수 해금 없음 |
 | 04B 노라의 회사 | 원래 가방의 내용물과 받은 가방을 아직 열지 못한 이유를 듣고 조사함 | 노라 n3 기록 뒤 `office-0/1` 촬영 |
 | 05 추리 | 사진 네 장과 진술로 두 가방 주인 확인 | 8문항 완료 |
 | 06 보고 | 탐정이 로지에게 자동으로 결과 설명 | 함께 확인하기 |
 | 07 확인 | 노라가 회사에서 가져온 가방을 곁에 두고 로지·노라가 사진으로 확인 | 복습 |
 | 08 복습 | 사건 요약, 소유 표현·단어 담기 | 완료 |
 
-발견 알림은 인물·장소 이름만 짧게 표시하고 자동 이동하지 않는다. 대화를 시작한 인물의 질문은 끝까지 기록한다. 필수 질문은 **16개**(로지 4, 오리 3, 벤 2, 미아 2, 올리 2, 노라 3)다. 노라가 카페에 왔다는 사실은 오리의 진술로 알지만, 회사 위치와 가방을 받았다는 사실은 벤에게서만 듣는다.
+발견 알림은 인물·장소 이름만 짧게 표시하고 자동 이동하지 않는다. 대화를 시작한 인물의 질문은 끝까지 기록한다. 필수 질문은 **14개**(로지 4, 오리 3, 벤 2, 정원 공동 2, 노라 3)다. 정원에서는 미아·올리와 함께 한 번 인사한 뒤 두 질문을 이어서 기록한다. 노라가 카페에 왔다는 사실은 오리의 진술로 알지만, 회사 위치와 가방을 받았다는 사실은 벤에게서만 듣는다.
 
 ## 인사와 탐문 대본
 
@@ -68,10 +68,11 @@
 | 벤 | Hi! I'm Ben Beaver. Can I help you? | 안녕! 나는 벤 비버야. 무슨 일이야? |
 | 탐정 | Hi, I'm Detective {플레이어 이름}. You were at the Lake Cafe today, right? | 안녕, 난 탐정 {플레이어 이름}입니다. 오늘 호수 카페에 방문하셨었죠? |
 | 벤 | Yes, I stopped there this morning. | 응, 오늘 아침에 들렀어. |
+| 올리 | Hi, I'm Ollie Otter. We're getting ready for the picnic. | 안녕, 난 올리 수달이야. 소풍 갈 준비 중이야. |
 | 미아 | Hi, I'm Mia Mouse. | 안녕, 난 미아 생쥐야. |
-| 탐정 | Hi, Mia. I'm Detective {플레이어 이름}. | 안녕, 미아. 난 탐정 {플레이어 이름}이야. |
-| 올리 | Hi, I'm Ollie Otter. | 안녕, 난 올리 수달이야. |
-| 탐정 | Hi, Ollie. I'm Detective {플레이어 이름}. | 안녕, 올리. 난 탐정 {플레이어 이름}이야. |
+| 탐정 | Hi, Ollie and Mia! I'm Detective {플레이어 이름}. | 안녕, 올리, 미아! 난 탐정 {플레이어 이름}이야. |
+| 탐정 | You were at the Lake Cafe today, right? | 너희 오늘 호수 카페에 왔었지? |
+| 올리 | Yes. We stopped there before coming here. | 응. 여기 오기 전에 들렀어. |
 | 노라 | Hello! I'm Nora Hedgehog. I work here. | 안녕! 난 노라 고슴도치야. 여기서 일해. |
 | 탐정 | Hi, I'm Detective {플레이어 이름}. Can I ask about a blue bag? | 안녕, 난 탐정 {플레이어 이름}이야. 파란 가방에 관해 물어봐도 될까? |
 
@@ -82,14 +83,12 @@
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | [She] does not know whose bag this is. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
 | duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, Ollie, and Nora came today. / 오늘 로지, 벤, 미아, 올리, 노라 모두 왔어요. | Rosie, [Ben Beaver], Mia, Ollie, and Nora came to the cafe. |
-| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie and Ben had blue bags. Ben took one with him. / 로지와 벤이 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. | Rosie and Ben had [blue] bags. Ben took one with him. |
+| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie, Ben, and Mia had blue bags. Ben took one with him. / 로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. | Rosie, Ben, and Mia had [blue] bags. Ben took one with him. |
 | duck:v3 | Where are they now? / 그들은 지금 어디 있나요? | Ben went home. Mia and Ollie went to the garden. / 벤은 집에 갔어요. 미아와 올리는 정원으로 갔고요. | Ben went [home]. Mia and Ollie went to the [garden]. |
 | ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 그래서 노라의 회사로 가져다줬어. | Nora left her [blue] bag at Ben's [house]. Ben took it to her [office]. |
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
-| mia:m1 | What color is your folder? / 네 폴더는 무슨 색이니? | My folder is green. / 내 폴더는 초록색이야. | [Her] folder is [green]. |
-| mia:m2 | What color is your pen? / 네 펜은 무슨 색이니? | My pen is yellow. / 내 펜은 노란색이야. | [Her] pen is [yellow]. |
-| ollie:o1 | What color is your folder? / 네 폴더는 무슨 색이니? | My folder is red. / 내 폴더는 빨간색이야. | [His] folder is [red]. |
-| ollie:o2 | What color is your pen? / 네 펜은 무슨 색이니? | My pen is blue. / 내 펜은 파란색이야. | [His] pen is [blue]. |
+| garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | [His] bag is [red]. [Her] bag is [blue]. |
+| garden:g2 | Mia, have you opened your bag? Are you sure it's yours? / 미아, 가방을 열어 봤어? 네 가방이 맞아? | 미아: Yes. My green folder and yellow pen are inside. It's mine. / 응. 내 초록 폴더와 노란 펜이 들어 있어. 내 가방이 맞아. | [Her] folder is [green]. [Her] pen is [yellow]. |
 | nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there. / 응. 거기에 두고 왔어. | Nora left her [blue] bag at [Ben Beaver]'s house. |
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her folder is [green]. Her pen is [blue]. |
 | nora:n3 | Did you check inside the bag Ben brought? / 벤이 가져온 가방 안을 확인했니? | Not yet. I was busy at work. / 아직 못 봤어. 회사 일이 바빴거든. | She has [not] checked inside. She was [busy] at work. |
@@ -100,7 +99,7 @@
 
 | ID | 촬영 장소 | 화면에 보이는 것 | 탐정의 짧은 음성 | 사용 |
 |---|---|---|---|---|
-| picnic-0 | 소풍 탁자 | 파란 가방 속 초록 서류 폴더 | This folder is green. | Q1·2·5, 확인 1 |
+| picnic-0 | 소풍 탁자 | 파란 가방 속 초록 서류 폴더 | This folder is green. | Q1·5, 확인 1 |
 | picnic-1 | 소풍 탁자 | 같은 가방 속 파란 펜 | This pen is blue. | Q3·4·5, 확인 2 |
 | office-0 | 회사에서 노라가 받은 가방 안 | 빨간 도시락 | This lunch box is red. | Q6·8 |
 | office-1 | 같은 가방 안 | 노란 물병 | This bottle is yellow. | Q7·8 |
@@ -114,9 +113,9 @@
 | Q | 질문 / 해석 | 정답 카드 | 출처·판단 |
 |---|---|---|---|
 | 1 | What color is the folder in this bag? / 이 가방 속 폴더는 무슨 색이지? | This folder is [green]. | picnic-0 |
-| 2 | What color is Ollie's folder? / 올리의 폴더는 무슨 색이지? | His folder is [red]. | ollie:o1. 초록과 달라 올리 제외 |
+| 2 | What color is Ollie's bag? / 올리의 가방은 무슨 색이지? | His bag is [red]. | garden:g1. 파란 가방과 달라 올리 제외 |
 | 3 | What color is the pen in this bag? / 이 가방 속 펜은 무슨 색이지? | This pen is [blue]. | picnic-1 |
-| 4 | What color is Mia's pen? / 미아의 펜은 무슨 색이지? | Her pen is [yellow]. | mia:m2. 파랑과 달라 미아 제외 |
+| 4 | What color is Mia's pen? / 미아의 펜은 무슨 색이지? | Her pen is [yellow]. | garden:g2. 파랑과 달라 미아 제외 |
 | 5 | Whose documents are in this bag? / 이 가방 속 서류는 누구의 것이지? | These are [Nora Hedgehog]'s documents. | nora:n2 + picnic-0·1 |
 | 6 | Which lunch box is Rosie's? / 어느 도시락이 로지의 것이지? | The [red] lunch box. | rosie:r2 + office-0 |
 | 7 | What color is the bottle in the bag Nora received? / 노라가 받은 가방 속 물병은 무슨 색이지? | That bottle is [yellow]. | office-1 |
