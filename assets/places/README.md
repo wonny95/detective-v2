@@ -1,4 +1,8 @@
-# 파출소 조사실
+# 장소 그림
+
+- ‘바뀐 소풍 가방’ 기획안의 장면 00–08 배경 9장은 [`picnic-storyboard/README.md`](picnic-storyboard/README.md)에 파일·Higgsfield 생성 ID·공통 화풍·용도를 정리했다. 현재 게임에는 아직 연결하지 않았다.
+
+## 파출소 조사실
 
 - 적용 파일: `station-interview-room.png` (1254×1254, 불투명 PNG). Codex가 기본 내장 `image_gen` 도구로 생성했으며 Higgsfield·CLI는 사용하지 않았다. 원본 출력 `exec-775099ed-d51e-4f18-aad7-1536ec5e74d1.png`를 후처리·크롭 없이 복사했다.
 - `library-higgsfield-v2.png`와 `bakery-higgsfield.png`는 화풍 참조다. 크림색 벽·목재 바닥·황토색 램프·청록색 창틀·밤 숲과 달·빈 메모 코르크판·별 배지로 기존 색연필/과슈 그림책 분위기를 맞췄다. 인물·글자·사건 증거는 없다.
