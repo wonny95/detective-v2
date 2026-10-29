@@ -5560,7 +5560,7 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     {ask:'What shows that Nora has the wrong bag?',ko:'노라가 잘못된 가방을 받았다는 근거는?',choices:['It has Rosie\'s red lunch box and yellow bottle.','It has Nora\'s green folder.','Ben opened it.'],correct:0},
     {ask:'Whose bags got mixed up?',ko:'누구와 누구의 가방이 바뀐 걸까?',choices:['Rosie Rabbit\'s and Nora Hedgehog\'s.','Rosie Rabbit\'s and Mia\'s.','Ollie\'s and Ben Beaver\'s.'],correct:0}
   ];
-  const fresh = () => ({phase:'key',page:0,scene:'rosie',view:'story',intro:0,met:{},checked:{},draft:{},active:null,ko:false,keyKo:{},slow:false,hints:3,memo:'',photos:[],bag:null,inspected:false,deduce:0,deduceOpen:false,attempts:0,firstOk:0,firstWrong:[],selected:null,review:0});
+  const fresh = () => ({phase:'key',page:0,scene:'rosie',view:'story',notePerson:'rosie',intro:0,met:{},checked:{},draft:{},active:null,ko:false,keyKo:{},slow:false,hints:3,memo:'',photos:[],bag:null,inspected:false,deduce:0,deduceOpen:false,attempts:0,firstOk:0,firstWrong:[],selected:null,review:0});
   let state;
   try { state = { ...fresh(), ...JSON.parse(localStorage.getItem('pioo.picnic.save') || 'null') }; } catch { state = fresh(); }
   if(new URLSearchParams(location.search).get('review') === '1' && localStorage.getItem('pioo.solvedCases')?.includes('picnic-bag')) state.phase = 'review';
@@ -5643,18 +5643,23 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
   function noteShell(title,body,foot='',record=false){
     main.innerHTML=land(state.scene)+`<div class="pc-note-shade"></div><section class="dock pc-note-dock ${record?'':'browse'}" aria-label="노트">${record?'':noteTabs()}<div class="note-edge"></div><div class="dock-head">${record?`<div class="listen">${button('▶ 다시 듣기','play')}${button(state.slow?'0.7×':'1×','slow')}${button(`🌰 ${state.hints}`,'hint')}</div>`:`<h2>${esc(title)}</h2>`}</div><div class="dock-body">${body}</div><div class="dock-foot">${foot}</div></section>`;
   }
+  function noteFaces(){
+    return `<div class="nfaces">${order.filter(s=>state.met[s]).map(s=>`<button class="nface" type="button" data-pc="notePerson" data-scene="${s}" aria-pressed="${state.notePerson===s}"><span class="pic"><span class="mini">${['rosie','duck'].includes(s)?`<img class="face" src="assets/ui/icons-v2/${s}.png" alt="">`:esc(places[s].person.charAt(0))}</span></span>${esc(places[s].person)}</button>`).join('')}</div>`;
+  }
   function renderNote(){
     const q=qs.find(x=>x.id===state.active);
     if(!q){
-      const seen=qs.filter(x=>done(x.id));
-      const body=`<div class="nfaces">${order.filter(s=>state.met[s]).map(s=>`<button class="nface" type="button" data-pc="go" data-scene="${s}" aria-pressed="${state.scene===s}"><span class="pic"><span class="mini">${esc(places[s].person.charAt(0))}</span></span>${esc(places[s].person)}</button>`).join('')}</div>${seen.map(x=>`<div class="nblock"><span class="qlabel">Q. ${esc(x.ask)}</span><div class="nline">${esc(x.note.replaceAll('[','').replaceAll(']',''))}</div><button class="pill sm" type="button" data-pc="read" data-id="${x.id}">지문 보기</button></div>`).join('')||'<p class="empty-note">아직 기록한 진술이 없어요.</p>'}`;
-      noteShell('인물의 진술',body);return;
+      const available=order.filter(s=>state.met[s]);
+      if(!available.includes(state.notePerson))state.notePerson=available[0]||state.scene;
+      const seen=qs.filter(x=>x.place===state.notePerson&&done(x.id));
+      const body=`${noteFaces()}${seen.map(x=>`<div class="nblock"><span class="qlabel">Q. ${esc(x.ask)}</span><div class="nline">${esc(x.note.replaceAll('[','').replaceAll(']',''))}</div><button class="pill sm" type="button" data-pc="read" data-id="${x.id}">지문 보기</button></div>`).join('')||'<p class="empty-note">아직 기록한 진술이 없어요.</p>'}`;
+      noteShell(`${places[state.notePerson].person}의 진술`,body);return;
     }
     const answers=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]);
     const options=[...new Set([...answers,...q.wrong])].sort((a,b)=>a.localeCompare(b));
     const checked=done(q.id);
-    const body=`<div class="nblock"><span class="qlabel">Q. ${esc(q.ask)}</span>${checked?'<span class="question-state ok">✓ 확인됨</span>':''}${noteText(q)}${checked?`<div class="npassage"><p>${esc(q.reply)}</p>${state.ko?`<p class="pc-ko">${esc(q.ko)}</p>`:''}<div class="np-actions"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div>`:`<div class="bank">${options.map(o=>`<button class="word" type="button" data-pc="chip" data-value="${esc(o)}">${esc(o)}</button>`).join('')}</div><p id="pcFeedback" aria-live="polite"></p>`}</div>`;
-    noteShell(`${places[q.place].person}의 진술`,body,checked?button('계속','noteClose','primary'):button('기록 완료','check','primary'),!checked);
+    const body=`${checked?noteFaces():''}<div class="nblock"><span class="qlabel">Q. ${esc(q.ask)}</span>${checked?'<span class="question-state ok">✓ 확인됨</span>':''}${noteText(q)}${checked?`<div class="npassage"><p>${esc(q.reply)}</p>${state.ko?`<p class="pc-ko">${esc(q.ko)}</p>`:''}<div class="np-actions"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div>`:`<div class="bank">${options.map(o=>`<button class="word" type="button" data-pc="chip" data-value="${esc(o)}">${esc(o)}</button>`).join('')}</div><p id="pcFeedback" aria-live="polite"></p>`}</div>`;
+    noteShell(`${places[q.place].person}의 진술`,body,checked?button('인물 목록','noteBack','primary'):button('기록 완료','check','primary'),!checked);
   }
   function renderInventory(){
     const bag=state.bag;
@@ -5703,14 +5708,21 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     const stats=JSON.parse(localStorage.getItem('pioo.caseStats')||'{}'),total=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0); stats['picnic-bag']={ok:state.firstOk,total,stars:state.firstOk/total>.9?3:state.firstOk/total>.7?2:1,missed:state.firstWrong}; localStorage.setItem('pioo.caseStats',JSON.stringify(stats));
     state.phase='review'; state.review=0; save(); render();
   }
+  let faceDrag=null,faceDragged=false;
+  main.addEventListener('pointerdown',e=>{const row=e.target.closest('.nfaces');if(!row||e.pointerType!=='mouse'||e.button!==0)return;faceDrag={row,id:e.pointerId,x:e.clientX,left:row.scrollLeft};faceDragged=false;});
+  main.addEventListener('pointermove',e=>{if(!faceDrag||e.pointerId!==faceDrag.id)return;const dx=e.clientX-faceDrag.x;if(Math.abs(dx)>5){faceDragged=true;faceDrag.row.classList.add('dragging');faceDrag.row.setPointerCapture(e.pointerId);}if(faceDragged){faceDrag.row.scrollLeft=faceDrag.left-dx;e.preventDefault();}});
+  main.addEventListener('pointerup',()=>{if(faceDrag)faceDrag.row.classList.remove('dragging');faceDrag=null;});
   main.addEventListener('input',e=>{ if(e.target.id==='pcMemo'){state.memo=e.target.value;save();return;} if(!e.target.matches('[data-blank]'))return; const q=qs.find(x=>x.id===state.active); if(!q)return; state.draft[q.id]||=[];state.draft[q.id][+e.target.dataset.blank]=e.target.value;save(); });
   root.addEventListener('click',e=>{
+    if(faceDragged&&e.target.closest('.nfaces')){faceDragged=false;return;}
     const el=e.target.closest('[data-pc]'); if(!el)return; const action=el.dataset.pc;
     if(action==='ko'){state.ko=!state.ko;render();return;}
     if(action==='questionKo'){state.ko=!state.ko;render();return;}
     if(action==='keyKo'){const id=`${state.page}-${el.dataset.i}`;state.keyKo[id]=!state.keyKo[id];save();render();return;}
     if(action==='slow'){state.slow=!state.slow;save();render();return;}
     if(action==='noteTab'){state.view={people:'note',evidence:'evidence',memo:'memo'}[el.dataset.tab]||'note';state.active=null;save();render();return;}
+    if(action==='notePerson'){state.notePerson=el.dataset.scene;state.active=null;state.view='note';save();render();return;}
+    if(action==='noteBack'){state.active=null;state.view='note';save();render();return;}
     if(action==='playInspect'){speak(state.bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.');return;}
     if(action==='noteClose'||action==='mapClose'){state.view='story';state.active=null;save();render();return;}
     if(action==='deduceOpen'){state.deduceOpen=!state.deduceOpen;render();return;}
@@ -5720,7 +5732,7 @@ if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hi
     if(action==='keyNext'){if(state.page<2)state.page++;else state.phase=localStorage.getItem('pioo.tutorialSeen')?'story':'tutorial';state.ko=false;}
     if(action==='tutorialNext'){state.phase='story';localStorage.setItem('pioo.tutorialSeen','1');}
     if(action==='nextIntro'){state.intro++;state.ko=false;}
-    if(action==='question'||action==='read'){state.active=el.dataset.id;state.view='note';state.ko=false;const q=qs.find(x=>x.id===state.active);speak(q.reply);}
+    if(action==='question'||action==='read'){state.active=el.dataset.id;state.view='note';state.ko=false;const q=qs.find(x=>x.id===state.active);state.notePerson=q.place;speak(q.reply);}
     if(action==='chip'){const q=qs.find(x=>x.id===state.active);state.draft[q.id]||=[];const i=state.draft[q.id].findIndex(v=>!v);const at=i<0?0:i;state.draft[q.id][at]=el.dataset.value;}
     if(action==='hint'){const q=qs.find(x=>x.id===state.active);if(q&&state.hints>0){const answers=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]);state.draft[q.id]||=[];const at=answers.findIndex((a,i)=>String(state.draft[q.id][i]||'').toLowerCase()!==a.toLowerCase());if(at>=0){state.draft[q.id][at]=answers[at];state.hints--;}}}
     if(action==='check'){
