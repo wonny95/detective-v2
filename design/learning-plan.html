@@ -133,6 +133,8 @@
     .unit-ending { display: block; margin-top: 7px; padding: 7px 9px; border-left: 3px solid #9caf94; border-radius: 5px; background: #f7f9f2; color: #4c5f48; font-size: 12px; line-height: 1.5; }
     .unit-ending.interview { border-left-color: #b66579; background: #fff1f1; color: #724756; }
     .unit-ending b { color: inherit; font-size: 11px; }
+    .unit-ui-plan { margin: -4px 0 14px; padding: 12px 14px; border: 1px solid #c9b2a1; border-radius: 12px; background: #fff8ed; color: #664f40; font-size: 12px; line-height: 1.6; }
+    .unit-ui-plan b { color: #a25068; }
     .unit-meta { display: block; margin-top: 6px; color: #655a4d; font-size: 11px; line-height: 1.5; }
     .unit-meta b { color: #7d5570; }
     .unit-grammar { display: block; margin-top: 5px; color: #7c6042; font-size: 11px; line-height: 1.45; }
@@ -210,7 +212,7 @@
         <article class="step" data-num="01"><h3>준비</h3><p>브리핑 전에 이번 사건의 열쇠 문법을 본다.</p><span class="status done">적용</span></article>
         <article class="step" data-num="02"><h3>듣기·기록</h3><p>영어 진술을 듣고 노트에 받아 적는다.</p><span class="status done">적용</span></article>
         <article class="step" data-num="03"><h3>추리</h3><p>기록한 표현으로 진술의 관계를 잇는다.</p><span class="status done">적용</span></article>
-        <article class="step" data-num="04"><h3>사건 결말</h3><p>모순 진술은 짧게 확인 심문하고, 분실·착오는 의뢰인에게 보고해 해결한다.</p><span class="status done">도서관 심문 적용</span></article>
+        <article class="step" data-num="04"><h3>사건 결말</h3><p>사건에 따라 단서를 현장에서 내밀어 확인하거나, 의뢰인에게 보고해 해결한다.</p><span class="status done">도서관 심문 적용</span></article>
         <article class="step" data-num="05"><h3>사건 보고서</h3><p>다시 듣고 문법·단어를 수첩에 담는다.</p><span class="status done">적용</span></article>
         <article class="step future" data-num="06"><h3>탐정 훈련</h3><p>사건 사이에 하루 3–5분씩 반복한다.</p><span class="status pending">미구현</span></article>
       </div>
@@ -248,7 +250,7 @@
     <section id="middle-one">
       <details class="level-fold" open>
       <summary class="level-summary"><span class="level-summary-copy"><span class="level-summary-title" role="heading" aria-level="2">중1 수준 · 6단원</span><span class="level-summary-desc">소유 → 위치 → 일과·시간 → 수량 → 현재 행동 → 간단한 과거</span></span><span class="level-summary-action"><span class="when-open">접기 ↑</span><span class="when-closed">펼치기 ↓</span></span></summary>
-      <p class="unit-intro"><b>진행 방식</b> A 사건에서 표현을 익히고 B 사건에서 다른 인물·상황에 적용한다. 12개 사건 중 09·11은 진술과 증거가 어긋나 짧은 확인 심문을 쓴다. 나머지 10개는 심문 없이 의뢰인 확인·물건 반환·기록 정정으로 끝낸다. 아래는 교육 순서 제안이며 현재 앱에는 없다. 1단원 A만 상세 기획이 있다.</p>
+      <p class="unit-intro"><b>진행 방식</b> A 사건에서 표현을 익히고 B 사건에서 다른 인물·상황에 적용한다. 03·04는 심문 화면의 증거 서랍과 내밀기 동작을 현장 확인 대화에 쓴다. 09·11은 짧은 확인 심문을 쓴다. 나머지 8개는 의뢰인 확인·물건 반환·기록 정정으로 끝낸다. 아래는 교육 순서 제안이며 현재 앱에는 없다. 1단원 A만 상세 기획이 있다.</p>
       <div class="unit-grid">
         <article class="unit-card">
           <div class="unit-top"><span class="unit-no">01</span><div><h3>누구의 물건일까?</h3><p>소유와 특징을 듣고 주인 찾기</p></div></div>
@@ -259,7 +261,8 @@
         <article class="unit-card">
           <div class="unit-top"><span class="unit-no">02</span><div><h3>어디에 있을까?</h3><p>위치 설명을 듣고 장소 좁히기</p></div></div>
           <p class="unit-skill"><b>열쇠 표현</b> · there is / are, in / on / under, next to / behind</p>
-          <div class="unit-cases"><div class="unit-case"><b>03 · A</b><span><strong>사라진 축제 창고 열쇠</strong><span class="unit-story"><b>의뢰</b> · 축제 준비 담당자가 사라진 창고 열쇠를 찾아 달라고 의뢰한다.</span><span class="unit-story"><b>단서</b> · 레이가 열쇠를 빨간 상자 위에 두었다고 말하고, 몰은 그 상자를 선반으로 옮겼다고 말한다. 선반 아래 긁힌 자국을 본다.</span><span class="unit-story answer"><b>해결</b> · 상자가 옮겨질 때 열쇠가 선반 아래로 떨어졌다. 도난은 없었다.</span><span class="unit-ending"><b>대신할 결말</b> · 선반 아래에서 열쇠를 찾아 축제 담당자에게 건네고 상자가 옮겨진 순서를 설명한다.</span><small class="unit-grammar">문법 · there is/are, in/on/under</small></span></div><div class="unit-case transfer"><b>04 · B</b><span><strong>잘못 놓인 소포</strong><span class="unit-story"><b>의뢰</b> · 피오나가 도착하지 않은 밀가루 소포를 찾아 달라고 의뢰한다.</span><span class="unit-story"><b>단서</b> · 배달원이 말한 파란 문 옆 우물과 수령지 주소의 위치를 지도에서 겹쳐 본다. 화분 뒤 포장 끈도 확인한다.</span><span class="unit-story answer"><b>해결</b> · 소포는 빵집이 아니라 우물 뒤 파란 문 집의 화분 뒤에 잘못 놓였다.</span><span class="unit-ending"><b>대신할 결말</b> · 화분 뒤 소포의 수령지를 확인하고 피오나에게 찾아 주며 배달 위치를 바로잡는다.</span><small class="unit-grammar">문법 · next to/behind, Is there…?</small></span></div></div>
+          <p class="unit-ui-plan"><b>2단원 공통 장면 · 심문 UI 활용</b> · 현장에서 상대의 말풍선을 듣고 사진·진술 서랍에서 단서를 골라 <b>내밀기</b>로 보여 준다. 맞는 단서는 위치 설명을 한 단계 더 열고 돋보기 진행 표시를 채운다. 다른 단서를 내밀어도 같은 말풍선에서 다시 고를 수 있다. 경찰·조사실·자백은 등장하지 않는다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>03 · A</b><span><strong>사라진 축제 창고 열쇠</strong><span class="unit-story"><b>의뢰</b> · 축제 준비 담당자가 사라진 창고 열쇠를 찾아 달라고 의뢰한다.</span><span class="unit-story"><b>단서</b> · 레이는 열쇠를 빨간 상자 위에 두었다고 말한다. 몰은 그 상자를 선반으로 옮겼지만 열쇠를 못 봤다고 한다. 선반 아래 긁힌 자국을 촬영한다.</span><span class="unit-story answer"><b>해결</b> · 상자가 옮겨질 때 열쇠가 선반 아래로 떨어졌다. 도난은 없었다.</span><span class="unit-ending interview"><b>단서 확인 대화</b> · 몰의 “상자 위엔 열쇠가 없었어요”에 레이의 진술을 내민다 → 몰이 옮긴 순서를 말한다 → 선반 아래 긁힌 자국 사진을 내밀어 함께 살핀다 → 떨어진 열쇠를 찾아 축제 담당자에게 돌려준다.</span><small class="unit-grammar">문법 · there is/are, in/on/under</small></span></div><div class="unit-case transfer"><b>04 · B</b><span><strong>잘못 놓인 소포</strong><span class="unit-story"><b>의뢰</b> · 피오나가 도착하지 않은 밀가루 소포를 찾아 달라고 의뢰한다.</span><span class="unit-story"><b>단서</b> · 배달원은 “파란 문 옆에 두었다”고 말한다. 수령지 주소는 빵집인데 우물 뒤에도 파란 문이 있다. 우물 뒤 집 화분에서 포장 끈을 촬영한다.</span><span class="unit-story answer"><b>해결</b> · 소포는 빵집이 아니라 우물 뒤 파란 문 집의 화분 뒤에 잘못 놓였다.</span><span class="unit-ending interview"><b>단서 확인 대화</b> · 배달원의 “파란 문 옆에 두었어요”에 주소·지도 카드를 내밀어 두 문을 구별한다 → 화분 뒤 포장 끈 사진을 내밀자 배달원이 우물 뒤 집이라고 위치를 고친다 → 탐정이 소포를 찾아 피오나에게 전한다.</span><small class="unit-grammar">문법 · next to/behind, Is there…?</small></span></div></div>
           <p class="unit-outcome"><strong>마무리</strong> · 찾은 위치를 설명하고 확인 질문하기</p>
         </article>
         <article class="unit-card">
@@ -288,7 +291,7 @@
         </article>
       </div>
       <div class="unit-checkpoints"><div class="checkpoint"><b>3단원 뒤 · 짧은 종합 확인</b>새 시간표 안내를 듣고 장소·요일·시각을 찾는다.</div><div class="checkpoint"><b>6단원 뒤 · 단계 마무리</b>새 분실물 대화의 핵심·세부 정보를 듣고 짧은 문의 메시지를 쓴다.</div></div>
-      <p class="curriculum-note">모든 단원에서 사건의 열쇠 카드 → 진술 듣기·기록 → 추리 → 사건 성격에 맞는 결말 → 보고서 순서를 쓴다. 확인 심문은 경찰 조사실이 아니라 단서가 가리키는 인물에게 짧게 다시 묻는 장면이다. B 사건과 종합 확인은 외운 대사나 그림만으로 답할 수 없게 새 맥락을 사용한다.</p>
+      <p class="curriculum-note">모든 단원에서 사건의 열쇠 카드 → 진술 듣기·기록 → 추리 → 사건 성격에 맞는 결말 → 보고서 순서를 쓴다. 03·04의 현장 확인 대화는 심문의 증거 제시 UI를 재사용하고, 09·11의 확인 심문도 경찰 조사실 없이 단서가 가리키는 인물에게 짧게 다시 묻는다. B 사건과 종합 확인은 외운 대사나 그림만으로 답할 수 없게 새 맥락을 사용한다.</p>
       </details>
     </section>
 
