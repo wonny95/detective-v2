@@ -89,6 +89,35 @@
     .curriculum-card h3 { margin: 0 0 6px; font-size: 19px; }
     .curriculum-card p { margin: 0; color: var(--muted); font-size: 13px; }
     .curriculum-note { margin: 15px 0 0; font-size: 13px; color: var(--muted); }
+    .unit-intro { margin: 0 0 17px; padding: 13px 18px; border-radius: 14px; background: #f9edcf; color: #6a5739; font-size: 13px; font-weight: 700; }
+    .unit-intro b { margin-right: 10px; color: #a4586e; white-space: nowrap; }
+    .level-link { display: inline-block; margin-top: 13px; color: #9b566e; font-size: 12px; font-weight: 800; text-decoration: none; }
+    .level-link:hover { text-decoration: underline; }
+    .unit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .unit-card { min-width: 0; padding: 23px; border: 1.5px solid var(--line); border-top: 6px solid var(--honey); border-radius: 23px; background: var(--paper); box-shadow: var(--shadow); }
+    .unit-card:nth-child(3n + 2) { border-top-color: var(--sage); }
+    .unit-card:nth-child(3n) { border-top-color: #d7a4ae; }
+    .unit-top { display: flex; align-items: flex-start; gap: 14px; }
+    .unit-no { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 14px; background: #f7e5b5; color: #71552e; font: 900 15px/1 system-ui, sans-serif; }
+    .unit-card:nth-child(3n + 2) .unit-no { background: #e0ead9; color: #4d7055; }
+    .unit-card:nth-child(3n) .unit-no { background: #f3e1e3; color: #a2586d; }
+    .unit-top h3 { margin: 0; font-size: 21px; letter-spacing: -.05em; }
+    .unit-top p { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
+    .unit-skill { margin: 17px 0; padding: 11px 13px; border-radius: 11px; background: #f6f1e7; font-size: 13px; }
+    .unit-skill b { color: #a25068; }
+    .unit-cases { display: grid; gap: 8px; }
+    .unit-case { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; align-items: start; padding: 10px 12px; border-radius: 12px; background: #fff6df; font-size: 13px; }
+    .unit-case.transfer { background: #eef3e9; }
+    .unit-case b { color: #a26819; white-space: nowrap; font-size: 11px; }
+    .unit-case.transfer b { color: #56765b; }
+    .unit-case strong { display: block; line-height: 1.35; }
+    .unit-grammar { display: block; margin-top: 5px; color: #7c6042; font-size: 11px; line-height: 1.45; }
+    .unit-case.transfer .unit-grammar { color: #54715c; }
+    .unit-outcome { margin: 13px 0 0; padding-top: 12px; border-top: 1px dashed #d9cab5; color: #665a4c; font-size: 12px; }
+    .unit-outcome strong { color: var(--ink); }
+    .unit-checkpoints { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 16px; }
+    .checkpoint { padding: 16px 18px; border: 1px dashed #cba9a5; border-radius: 15px; background: #fff7ef; font-size: 13px; }
+    .checkpoint b { display: block; margin-bottom: 4px; color: #a3546a; }
     .roadmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .roadmap-item { padding: 18px; border: 1px solid var(--line); border-radius: 20px; background: var(--paper); }
     .roadmap-item .num { display: block; margin-bottom: 14px; color: #b5647a; font: 900 29px/1 Georgia, serif; }
@@ -115,12 +144,13 @@
       .section-head { display: block; }
       .section-head p { margin-top: 7px; }
       .journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .unit-grid, .unit-checkpoints { grid-template-columns: minmax(0, 1fr); }
       .step { min-height: 160px; }
       section { margin-top: 48px; scroll-margin-top: 104px; }
     }
     @media (max-width: 420px) { .journey, .roadmap { grid-template-columns: minmax(0, 1fr); } .step { min-height: auto; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-    @media print { .topbar { position: static; } body { background: white; } .hero-main, .hero-note, .panel, .case-card, .step, .curriculum-card, .decision, .source { box-shadow: none; } .decision:not([open]) p { display: block; } section { break-inside: avoid; } }
+    @media print { .topbar { position: static; } body { background: white; } .hero-main, .hero-note, .panel, .case-card, .step, .curriculum-card, .unit-card, .decision, .source { box-shadow: none; } .decision:not([open]) p { display: block; } section { break-inside: avoid; } }
   </style>
 </head>
 <body>
@@ -128,7 +158,7 @@
     <div class="wrap top-inner">
       <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">✦</span> Pioo 학습기획</a>
       <nav class="nav" aria-label="기획안 목차">
-        <a href="#flow">학습 흐름</a><a href="#cases">사건 비교</a><a href="#systems">학습 장치</a><a href="#curriculum">교육 단계</a><a href="#next">다음 작업</a><a href="#decisions">결정할 것</a>
+        <a href="#flow">학습 흐름</a><a href="#cases">사건 비교</a><a href="#systems">학습 장치</a><a href="#curriculum">교육 단계</a><a href="#middle-one">중1 · 01–12</a><a href="#middle-two">중2 · 13–24</a><a href="#middle-three">중3 · 25–36</a><a href="#next">다음 작업</a><a href="#decisions">결정할 것</a>
       </nav>
     </div>
   </header>
@@ -177,13 +207,146 @@
     </section>
 
     <section id="curriculum">
-      <div class="section-head"><h2>교육 단계 제안</h2><p>3단계 · 18단원 · 36개 사건, 아직 검증 전</p></div>
+      <div class="section-head"><h2>36개 사건의 교육 지도</h2><p>3단계 · 18단원 · 단원마다 A/B 두 사건</p></div>
       <div class="curriculum">
-        <article class="curriculum-card"><span class="level">1</span><h3>사실을 찾는 탐정</h3><p>소유·위치·일과 등 기본 정보를 듣고 찾는다.<br>중1 수준 · 6단원 × A/B 사건</p></article>
-        <article class="curriculum-card"><span class="level">2</span><h3>관계를 찾는 탐정</h3><p>계획·비교·시간·이유를 연결한다.<br>중2 수준 · 6단원 × A/B 사건</p></article>
-        <article class="curriculum-card"><span class="level">3</span><h3>근거를 설명하는 탐정</h3><p>출처·확실성·의도를 종합해 판단한다.<br>중3 수준 · 6단원 × A/B 사건</p></article>
+        <article class="curriculum-card"><span class="level">1</span><h3>사실을 찾는 탐정</h3><p>소유·위치·일과 등 기본 정보를 듣고 찾는다.<br>중1 수준 · 6단원 × A/B 사건</p><a class="level-link" href="#middle-one">사건 01–12 보기 ↗</a></article>
+        <article class="curriculum-card"><span class="level">2</span><h3>관계를 찾는 탐정</h3><p>계획·비교·시간·이유를 연결한다.<br>중2 수준 · 6단원 × A/B 사건</p><a class="level-link" href="#middle-two">사건 13–24 보기 ↗</a></article>
+        <article class="curriculum-card"><span class="level">3</span><h3>근거를 설명하는 탐정</h3><p>출처·확실성·의도를 종합해 판단한다.<br>중3 수준 · 6단원 × A/B 사건</p><a class="level-link" href="#middle-three">사건 25–36 보기 ↗</a></article>
       </div>
       <p class="curriculum-note">이 단계는 제작과 검증을 위한 제안이다. 국가 지정 문법 진도나 확정 제작 물량을 뜻하지 않는다.</p>
+    </section>
+
+    <section id="middle-one">
+      <div class="section-head"><h2>중1 수준 · 6단원</h2><p>소유 → 위치 → 일과·시간 → 수량 → 현재 행동 → 간단한 과거</p></div>
+      <p class="unit-intro"><b>진행 방식</b> A 사건에서 표현을 익히고 B 사건에서 다른 인물·상황에 적용한다. 아래 12개 사건은 교육 순서 제안이며 현재 앱에는 없다. 1단원 A만 상세 기획이 있다.</p>
+      <div class="unit-grid">
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">01</span><div><h3>누구의 물건일까?</h3><p>소유와 특징을 듣고 주인 찾기</p></div></div>
+          <p class="unit-skill"><b>열쇠 표현</b> · my / your / his / her, mine / yours, this / that</p>
+          <div class="unit-cases"><div class="unit-case"><b>01 · A</b><span><strong>바뀐 소풍 가방</strong>소지품의 색·특징과 주민의 설명을 맞춰 가방 주인을 찾는다.<small class="unit-grammar">문법 · my/your/his/her, mine/yours, be동사</small></span></div><div class="unit-case transfer"><b>02 · B</b><span><strong>주인 없는 우산</strong>다른 물건과 인물의 말에서 우산 주인을 찾는다.<small class="unit-grammar">문법 · Whose…?, this/that, 소유 표현 재사용</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 누구의 어떤 물건인지 1–2문장으로 설명</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">02</span><div><h3>어디에 있을까?</h3><p>위치 설명을 듣고 장소 좁히기</p></div></div>
+          <p class="unit-skill"><b>열쇠 표현</b> · there is / are, in / on / under, next to / behind</p>
+          <div class="unit-cases"><div class="unit-case"><b>03 · A</b><span><strong>사라진 축제 창고 열쇠</strong>위치 진술과 창고 배치를 연결해 찾을 곳을 좁힌다.<small class="unit-grammar">문법 · there is/are, in/on/under</small></span></div><div class="unit-case transfer"><b>04 · B</b><span><strong>잘못 놓인 소포</strong>새 장소의 설명을 듣고 소포가 놓인 곳을 확인한다.<small class="unit-grammar">문법 · next to/behind, Is there…?</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 찾은 위치를 설명하고 확인 질문하기</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">03</span><div><h3>언제 무엇을 할까?</h3><p>반복되는 일과와 시간표 맞추기</p></div></div>
+          <p class="unit-skill"><b>열쇠 표현</b> · 현재형, do / does, usually, at / on / in</p>
+          <div class="unit-cases"><div class="unit-case"><b>05 · A</b><span><strong>매일 사라지는 우유</strong>배달·개점 시각과 주민의 아침 일과를 대조한다.<small class="unit-grammar">문법 · 현재형, every morning, at + 시각</small></span></div><div class="unit-case transfer"><b>06 · B</b><span><strong>닫힌 동아리방</strong>평소 일정과 오늘의 상황을 비교한다.<small class="unit-grammar">문법 · do/does, usually/often, on/in</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 일과와 시각을 2문장으로 연결; 새 시간표도 듣고 확인</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">04</span><div><h3>몇 개일까?</h3><p>수량·가격을 듣고 기록 맞추기</p></div></div>
+          <p class="unit-skill"><b>열쇠 표현</b> · 단복수, how many / much, some / any, 숫자 듣기</p>
+          <div class="unit-cases"><div class="unit-case"><b>07 · A</b><span><strong>도토리 장터의 수상한 영수증</strong>주문 음성과 포장·영수증의 수량을 대조한다.<small class="unit-grammar">문법 · 단복수, how many, some/any</small></span></div><div class="unit-case transfer"><b>08 · B</b><span><strong>뒤바뀐 가격표</strong>다른 물건의 가격과 수량을 듣고 기록을 확인한다.<small class="unit-grammar">문법 · how much, 가격 표현, 수량 표현 재사용</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 맞는 수량·가격을 묻고 답하기; 계산보다 듣기 구별에 초점</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">05</span><div><h3>지금 무엇을 할까?</h3><p>현재 장면과 목격 설명 대조</p></div></div>
+          <p class="unit-skill"><b>열쇠 표현</b> · is / are + -ing, wearing / carrying / standing</p>
+          <div class="unit-cases"><div class="unit-case"><b>09 · A</b><span><strong>두 명의 축제 마스코트</strong>지금 하는 행동과 옷차림으로 두 인물을 구별한다.<small class="unit-grammar">문법 · is/are + -ing, wearing/carrying</small></span></div><div class="unit-case transfer"><b>10 · B</b><span><strong>잘못 전해진 생중계</strong>새 장면의 설명과 화면을 다시 맞춘다.<small class="unit-grammar">문법 · 현재진행 질문·부정, 동작 묘사</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 현재 장면을 2문장으로 묘사</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">06</span><div><h3>어제 무슨 일이 있었을까?</h3><p>과거 행동과 간단한 순서 복원</p></div></div>
+          <p class="unit-skill"><b>열쇠 표현</b> · was / were, did / didn't, 빈출 과거형, first / then</p>
+          <div class="unit-cases"><div class="unit-case"><b>11 · A</b><span><strong>사라진 전시품</strong>어제 한 일과 현장 기록을 듣고 순서를 맞춘다.<small class="unit-grammar">문법 · was/were, 과거형, first/then</small></span></div><div class="unit-case transfer"><b>12 · B</b><span><strong>서로 다른 하루 기록</strong>새 인물의 기록에서 했던 일과 하지 않은 일을 구별한다.<small class="unit-grammar">문법 · did/didn't, 규칙·빈출 불규칙 과거</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 있었던 일과 없었던 일을 전하고, 새 분실물 대화로 확인</p>
+        </article>
+      </div>
+      <div class="unit-checkpoints"><div class="checkpoint"><b>3단원 뒤 · 짧은 종합 확인</b>새 시간표 안내를 듣고 장소·요일·시각을 찾는다.</div><div class="checkpoint"><b>6단원 뒤 · 단계 마무리</b>새 분실물 대화의 핵심·세부 정보를 듣고 짧은 문의 메시지를 쓴다.</div></div>
+      <p class="curriculum-note">모든 단원에서 사건의 열쇠 카드 → 진술 듣기·기록 → 추리 → 보고서 순서를 쓴다. B 사건과 종합 확인은 외운 대사나 그림만으로 답할 수 없게 새 맥락을 사용한다.</p>
+    </section>
+
+    <section id="middle-two">
+      <div class="section-head"><h2>중2 수준 · 6단원</h2><p>계획 → 비교 → 시간 관계 → 이유 → 조건 → 경험</p></div>
+      <p class="unit-intro"><b>진행 방식</b> 한 사람의 계획·행동을 이해한 뒤 다른 진술과 연결한다. 아래 A/B의 문법 분배와 사건 내용은 교육 기획안이며, 18번 도서관 사건만 현재 앱에서 플레이할 수 있다.</p>
+      <div class="unit-grid">
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">01</span><div><h3>계획이 왜 바뀌었을까?</h3><p>하려던 일과 실제 행동 구별</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 원래 계획과 바뀐 계획을 설명한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>13 · A</b><span><strong>바뀐 만남 장소</strong>서로 다른 약속 내용을 듣고 처음 계획과 새 장소를 구별한다.<small class="unit-grammar">문법 · be going to / will, 미래 계획</small></span></div><div class="unit-case transfer"><b>14 · B</b><span><strong>취소된 여행</strong>하려던 일과 실제로 한 일을 대조해 왜 일정이 바뀌었는지 찾는다.<small class="unit-grammar">문법 · want/plan to, 과거형과 미래 표현 비교</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 계획과 실제 결과를 구분해 2–3문장으로 설명</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">02</span><div><h3>무엇이 다를까?</h3><p>비슷한 대상의 차이와 기준 찾기</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 공통점·차이를 듣고 선택 이유를 말한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>15 · A</b><span><strong>서로 닮은 자전거</strong>크기·색·특징 비교를 듣고 어느 자전거인지 찾는다.<small class="unit-grammar">문법 · 비교급 + than</small></span></div><div class="unit-case transfer"><b>16 · B</b><span><strong>다른 길로 온 배달</strong>거리·속도 설명을 비교해 배달 경로를 구별한다.<small class="unit-grammar">문법 · as…as, 최상급, 비교 기준</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 어떤 기준으로 비교했는지 밝히기</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">03</span><div><h3>그 시간에 어디 있었을까?</h3><p>시점·구간·동시에 일어난 일 구별</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 두 인물의 시간 관계를 연결해 알리바이를 판단한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>17 · A</b><span><strong>겹친 사용 기록</strong>시설 이용 시각과 사용 구간을 듣고 겹치는 부분을 찾는다.<small class="unit-grammar">문법 · at, from…to, between…and</small></span></div><div class="unit-case transfer"><b>18 · B</b><span><strong>도서관 살인사건</strong>시간 진술과 행동·증거를 종합해 알리바이를 검토한다.<small class="unit-grammar">문법 · 시간 표현 재사용, 과거진행, when/while</small><small class="unit-grammar">현재 앱에서는 Case 01로 플레이 가능</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 한 시각과 지속 구간을 구별해 설명</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">04</span><div><h3>왜 그랬을까?</h3><p>이유·결과·목적을 연결</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 행동의 이유와 목적을 구별한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>19 · A</b><span><strong>옮겨진 화분</strong>화분이 옮겨진 까닭과 그 뒤 생긴 일을 진술에서 잇는다.<small class="unit-grammar">문법 · because / so</small></span></div><div class="unit-case transfer"><b>20 · B</b><span><strong>숨겨 둔 축제 물품</strong>물품을 다른 곳에 둔 목적과 실제 결과를 구분한다.<small class="unit-grammar">문법 · 목적의 to부정사, 이유 표현 재사용</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 이유와 목적을 포함해 짧게 설명</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">05</span><div><h3>어떤 조건이 필요할까?</h3><p>규칙·허가·조건에 맞는 행동 찾기</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 상황에 맞는 해결 방법을 제시한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>21 · A</b><span><strong>잠긴 연습실</strong>출입 규칙과 허가 내용을 듣고 가능한 행동을 고른다.<small class="unit-grammar">문법 · must / have to / should / can</small></span></div><div class="unit-case transfer"><b>22 · B</b><span><strong>비 오는 날의 행사</strong>날씨 조건에 따라 필요한 준비와 선택을 판단한다.<small class="unit-grammar">문법 · if 조건절, 조동사 재사용</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 조건이 달라지면 해결안도 어떻게 바뀌는지 설명</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">06</span><div><h3>전에도 있었을까?</h3><p>경험·지속·완료를 특정 과거와 구별</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 언제부터, 경험이 있는지 정확히 듣는다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>23 · A</b><span><strong>처음이라는 방문객</strong>방문 경험에 관한 서로 다른 말을 확인한다.<small class="unit-grammar">문법 · 현재완료, ever / never</small></span></div><div class="unit-case transfer"><b>24 · B</b><span><strong>오래된 수리 기록</strong>수리가 시작된 때와 완료 여부를 기록·진술로 확인한다.<small class="unit-grammar">문법 · 현재완료, for / since, already / yet</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 경험·지속 기간과 특정 과거 시점 구별</p>
+        </article>
+      </div>
+      <div class="unit-checkpoints"><div class="checkpoint"><b>3단원 뒤 · 시간 관계 확인</b>처음 듣는 약속·시설 이용 안내에서 겹치는 시간 구간을 찾는다.</div><div class="checkpoint"><b>6단원 뒤 · 단계 마무리</b>서로 다른 두 자료를 듣고 행사 문제의 해결안을 제안한다.</div></div>
+    </section>
+
+    <section id="middle-three">
+      <div class="section-head"><h2>중3 수준 · 6단원</h2><p>변화 → 대상 특정 → 출처 → 확실성 → 의도 → 근거 종합</p></div>
+      <p class="unit-intro"><b>진행 방식</b> 들은 말을 사실·전언·추측으로 나누고 근거를 밝힌다. 아래 12개 사건의 소재와 문법 분배는 모두 기획 단계이며, 마지막 단원은 새 문법 없이 앞서 배운 내용을 종합한다.</p>
+      <div class="unit-grid">
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">01</span><div><h3>무엇이 어떻게 바뀌었을까?</h3><p>행동한 사람과 영향을 받은 대상 구별</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 변화가 일어난 과정과 대상을 요약한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>25 · A</b><span><strong>바뀐 전시 안내</strong>전시 정보가 어떻게 바뀌었는지 안내와 진술을 연결한다.<small class="unit-grammar">문법 · 현재 수동태, be + 과거분사</small></span></div><div class="unit-case transfer"><b>26 · B</b><span><strong>다른 곳으로 보내진 상자</strong>배송 기록에서 누가 무엇을 옮겼는지 확인한다.<small class="unit-grammar">문법 · 과거 수동태, by</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 변화의 순서와 영향을 받은 대상을 설명</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">02</span><div><h3>정확히 누구를 말할까?</h3><p>긴 설명 속 대상 특정</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 핵심 명사와 뒤따르는 설명의 범위를 듣는다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>27 · A</b><span><strong>같은 옷을 입은 방문객</strong>옷차림이 비슷한 사람들 중 진술이 가리키는 대상을 찾는다.<small class="unit-grammar">문법 · who / which / that 관계절</small></span></div><div class="unit-case transfer"><b>28 · B</b><span><strong>이름이 같은 작품</strong>같은 이름의 작품을 추가 설명으로 구별한다.<small class="unit-grammar">문법 · 목적격 관계절, 수식 범위</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 대상을 특정할 수 있게 짧게 묘사</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">03</span><div><h3>누가 직접 확인했을까?</h3><p>직접 본 말과 전해 들은 말 구별</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 발언의 출처를 추적하고 확인 질문을 한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>29 · A</b><span><strong>달라진 전달 메모</strong>메모가 옮겨지는 동안 무엇이 달라졌는지 출처를 따라간다.<small class="unit-grammar">문법 · said that…, 전언 표현</small></span></div><div class="unit-case transfer"><b>30 · B</b><span><strong>출처 없는 소문</strong>누가 직접 봤는지 묻고 사실과 전언을 나눈다.<small class="unit-grammar">문법 · 간접의문문, 확인 질문</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 정보의 출처를 밝힌 요약과 문의</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">04</span><div><h3>얼마나 확실할까?</h3><p>가능성과 강한 추론 구분</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 확인된 사실과 가능한 설명을 나눈다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>31 · A</b><span><strong>불이 켜진 빈집</strong>불빛의 이유를 여러 가능성으로 열어 둔다.<small class="unit-grammar">문법 · may / might / could</small></span></div><div class="unit-case transfer"><b>32 · B</b><span><strong>두 가지 원인이 있는 고장</strong>증거로 가능한 원인과 불가능한 원인을 가른다.<small class="unit-grammar">문법 · must / can't의 추론 용법</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 확실한 사실과 아직 가능한 설명을 구분</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">05</span><div><h3>어떤 뜻으로 말했을까?</h3><p>요청·거절의 의도와 맥락 이해</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 억양만이 아니라 앞뒤 말로 의도를 판단한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>33 · A</b><span><strong>어긋난 초대</strong>초대와 답변의 뜻을 대화 맥락에서 다시 읽는다.<small class="unit-grammar">문법 · could / would 요청, 간접 표현</small></span></div><div class="unit-case transfer"><b>34 · B</b><span><strong>오해가 된 부탁</strong>서로 다르게 이해한 부탁을 대조하고 배려하는 답을 만든다.<small class="unit-grammar">문법 · although / but, 간접 거절</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 해석의 근거를 말하고 배려하는 답 쓰기</p>
+        </article>
+        <article class="unit-card">
+          <div class="unit-top"><span class="unit-no">06</span><div><h3>어떤 설명이 타당할까?</h3><p>여러 근거를 종합하고 판단 수정</p></div></div>
+          <p class="unit-skill"><b>단원 목표</b> · 결론·근거·불확실성을 함께 보고한다.</p>
+          <div class="unit-cases"><div class="unit-case"><b>35 · A</b><span><strong>축제 운영 기록의 모순</strong>시간·출처·현장 자료를 대조해 설명을 만든다.<small class="unit-grammar">문법 · 시제·관계절·추론 표현 통합 (새 문법 없음)</small></span></div><div class="unit-case transfer"><b>36 · B</b><span><strong>잘못 퍼진 마을 소식</strong>새 반대 근거를 듣고 기존 판단을 고친다.<small class="unit-grammar">문법 · 근거·반증을 포함한 종합 표현 (새 문법 없음)</small></span></div></div>
+          <p class="unit-outcome"><strong>마무리</strong> · 3–5문장 보고와 반대 근거에 대한 답</p>
+        </article>
+      </div>
+      <div class="unit-checkpoints"><div class="checkpoint"><b>3단원 뒤 · 출처 확인</b>새 학교 공지와 전달 메시지를 비교하고 확인 질문을 쓴다.</div><div class="checkpoint"><b>6단원 뒤 · 전체 마무리</b>처음 접하는 생활 문제에 사실·근거·불확실성·제안을 담아 보고한다.</div></div>
     </section>
 
     <section id="next">
