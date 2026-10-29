@@ -1,6 +1,6 @@
 # 장소 그림
 
-- ‘바뀐 소풍 가방’ 기획안은 사용자 제공 넓은 소풍 대화 배경 `picnic-storyboard/picnic-wide.png`, 서류 증거 확대 `picnic-documents.png`, 낮 카페 `cafe-day.png`, 기존 정원 `garden.webp`를 사용한다. 게임에는 아직 연결하지 않았다. 출처·용도는 [소풍 배경 README](picnic-storyboard/README.md).
+- ‘바뀐 소풍 가방’ 기획안은 사용자 제공 넓은 소풍 대화 배경 `picnic-storyboard/picnic-wide.png`, 서류 증거 확대 `picnic-documents.png`, 낮 카페 `cafe-day.png`, 벤의 집 `ben-home.png`, 기존 정원 `garden.webp`를 사용한다. 게임에는 아직 연결하지 않았다. 출처·용도는 [소풍 배경 README](picnic-storyboard/README.md).
 
 ## 파출소 조사실
 
