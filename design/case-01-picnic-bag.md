@@ -13,7 +13,7 @@
 
 노라는 받은 가방을 열지 않았으므로 안의 물건을 알지 못한다. 탐정이 현장에서 직접 촬영해 로지의 진술과 비교한다.
 
-미아와 올리는 정원에서 소풍 준비를 시작한다. 올리의 가방은 빨간색이다. 미아의 가방은 파란색이지만 안에 든 초록 폴더·노란 펜을 직접 확인해 자기 것이라고 말한다. 폴더 색 하나만으로 노라의 가방과 혼동하지 않도록 펜까지 비교한다. 두 사람은 가방을 바꿔 들지 않았다. 노라는 로지가 가진 가방의 실제 주인이자 벤이 전달한 가방의 수령인이다. 내용물의 소유를 진술과 사진으로 연결한다. 이름표·가방 외형·인물 그림에 정답을 표시하지 않는다.
+미아와 올리는 정원에서 소풍 준비를 시작한다. 올리의 가방은 빨간색이다. 미아는 파란 가방을 열어 보고 자기 소풍 준비물이 들어 있는 자기 가방이라고 확인한다. 두 사람은 가방을 바꿔 들지 않았다. 노라는 로지가 가진 가방의 실제 주인이자 벤이 전달한 가방의 수령인이다. 내용물의 소유를 진술과 사진으로 연결한다. 이름표·가방 외형·인물 그림에 정답을 표시하지 않는다.
 
 ## 학습과 등장인물
 
@@ -44,7 +44,7 @@
 | 02 소풍 탁자 | 로지가 든 가방에서 폴더와 펜 촬영 | 증거 `picnic-0/1` |
 | 03 카페 | 주인이 손님으로 맞고 세 질문에 답함 | v1 뒤 벤·미아·올리·노라 이름, v3 뒤 벤의 집·정원 |
 | 03B 벤의 집 | 노라가 집에 두고 간 가방을 회사에 전한 경로와 내용물을 아는지 질문함 | b1 기록 뒤 노라의 회사 |
-| 04 정원 | 두 친구와 함께 인사하고 파란 가방 여부·미아 가방 안의 물건을 확인함 | 별도 필수 해금 없음 |
+| 04 정원 | 두 친구와 인사하고 파란 가방 여부·미아가 자기 가방을 확인했는지 묻고 감사 인사로 마무리함 | 별도 필수 해금 없음 |
 | 04B 노라의 회사 | 원래 가방의 내용물과 받은 가방을 아직 열지 못한 이유를 듣고 조사함 | 노라 n3 기록 뒤 `office-0/1` 촬영 |
 | 05 추리 | 사진 네 장과 진술로 두 가방 주인 확인 | 8문항 완료 |
 | 06 보고 | 탐정이 로지에게 자동으로 결과 설명 | 함께 확인하기 |
@@ -68,11 +68,12 @@
 | 벤 | Hi! I'm Ben Beaver. Can I help you? | 안녕! 나는 벤 비버야. 무슨 일이야? |
 | 탐정 | Hi, I'm Detective {플레이어 이름}. You were at the Lake Cafe today, right? | 안녕, 난 탐정 {플레이어 이름}입니다. 오늘 호수 카페에 방문하셨었죠? |
 | 벤 | Yes, I stopped there this morning. | 응, 오늘 아침에 들렀어. |
-| 올리 | Hi, I'm Ollie Otter. We're getting ready for the picnic. | 안녕, 난 올리 수달이야. 소풍 갈 준비 중이야. |
-| 미아 | Hi, I'm Mia Mouse. | 안녕, 난 미아 생쥐야. |
-| 탐정 | Hi, Ollie and Mia! I'm Detective {플레이어 이름}. | 안녕, 올리, 미아! 난 탐정 {플레이어 이름}이야. |
+| 올리 | Oh, hi! I'm Ollie. Nice to meet you. | 오, 안녕! 난 올리야. 만나서 반가워. |
+| 미아 | I'm Mia. Want to join our picnic? | 난 미아야. 같이 피크닉 할래? |
+| 탐정 | Nice to meet you, Ollie and Mia! I'm Detective {플레이어 이름}. | 만나서 반가워, 올리, 미아! 난 탐정인 {플레이어 이름}이야. |
+| 올리 | A detective? That's cool! | 탐정이라고? 멋진걸! |
 | 탐정 | You were at the Lake Cafe today, right? | 너희 오늘 호수 카페에 왔었지? |
-| 올리 | Yes. We stopped there before coming here. | 응. 여기 오기 전에 들렀어. |
+| 미아 | Yes. We stopped there before coming here. | 응, 여기 오기 전에 들렀어. |
 | 노라 | Hello! I'm Nora Hedgehog. I work here. | 안녕! 난 노라 고슴도치야. 여기서 일해. |
 | 탐정 | Hi, I'm Detective {플레이어 이름}. Can I ask about a blue bag? | 안녕, 난 탐정 {플레이어 이름}이야. 파란 가방에 관해 물어봐도 될까? |
 
@@ -88,19 +89,19 @@
 | ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 그래서 노라의 회사로 가져다줬어. | Nora left her [blue] bag at Ben's [house]. Ben took it to her [office]. |
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
 | garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | [His] bag is [red]. [Her] bag is [blue]. |
-| garden:g2 | Mia, have you opened your bag? Are you sure it's yours? / 미아, 가방을 열어 봤어? 네 가방이 맞아? | 미아: Yes. My green folder and yellow pen are inside. It's mine. / 응. 내 초록 폴더와 노란 펜이 들어 있어. 내 가방이 맞아. | [Her] folder is [green]. [Her] pen is [yellow]. |
+| garden:g2 | Mia, have you opened your bag? Are you sure it's yours? / 미아, 가방을 열어 봤어? 네 가방이 맞아? | 미아: Yes, it's my bag. It has things for today's picnic. / 응, 내 가방이 맞아. 오늘 피크닉을 위한 준비물들이 들어 있었지. | She [opened] her [blue] bag. It has [picnic] things, and she says it is [hers]. |
 | nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there. / 응. 거기에 두고 왔어. | Nora left her [blue] bag at [Ben Beaver]'s house. |
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her folder is [green]. Her pen is [blue]. |
 | nora:n3 | Did you check inside the bag Ben brought? / 벤이 가져온 가방 안을 확인했니? | Not yet. I was busy at work. / 아직 못 봤어. 회사 일이 바빴거든. | She has [not] checked inside. She was [busy] at work. |
 
-대괄호 31칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
+정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 대괄호 31칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
 
 ## 사진·음성 전용 물건
 
 | ID | 촬영 장소 | 화면에 보이는 것 | 탐정의 짧은 음성 | 사용 |
 |---|---|---|---|---|
 | picnic-0 | 소풍 탁자 | 파란 가방 속 초록 서류 폴더 | This folder is green. | Q1·5, 확인 1 |
-| picnic-1 | 소풍 탁자 | 같은 가방 속 파란 펜 | This pen is blue. | Q3·4·5, 확인 2 |
+| picnic-1 | 소풍 탁자 | 같은 가방 속 파란 펜 | This pen is blue. | Q3·5, 확인 2 |
 | office-0 | 회사에서 노라가 받은 가방 안 | 빨간 도시락 | This lunch box is red. | Q6·8 |
 | office-1 | 같은 가방 안 | 노란 물병 | This bottle is yellow. | Q7·8 |
 
@@ -115,13 +116,13 @@
 | 1 | What color is the folder in this bag? / 이 가방 속 폴더는 무슨 색이지? | This folder is [green]. | picnic-0 |
 | 2 | What color is Ollie's bag? / 올리의 가방은 무슨 색이지? | His bag is [red]. | garden:g1. 파란 가방과 달라 올리 제외 |
 | 3 | What color is the pen in this bag? / 이 가방 속 펜은 무슨 색이지? | This pen is [blue]. | picnic-1 |
-| 4 | What color is Mia's pen? / 미아의 펜은 무슨 색이지? | Her pen is [yellow]. | garden:g2. 파랑과 달라 미아 제외 |
+| 4 | Did Mia confirm that the blue bag is hers? / 미아는 파란 가방이 자기 것이라고 확인했나? | Yes. That bag is [hers]. | garden:g1·g2. 미아는 자기 가방을 갖고 있어 제외 |
 | 5 | Whose documents are in this bag? / 이 가방 속 서류는 누구의 것이지? | These are [Nora Hedgehog]'s documents. | nora:n2 + picnic-0·1 |
 | 6 | Which lunch box is Rosie's? / 어느 도시락이 로지의 것이지? | The [red] lunch box. | rosie:r2 + office-0 |
 | 7 | What color is the bottle in the bag Nora received? / 노라가 받은 가방 속 물병은 무슨 색이지? | That bottle is [yellow]. | office-1 |
 | 8 | Whose picnic things are in that bag? / 그 가방 속 소풍 물건은 누구 것이지? | Those are [Rosie Rabbit]'s things. | rosie:r2 + office-0·1 |
 
-Q2 뒤 올리, Q4 뒤 미아를 제외하고 Q5 뒤 노라를 주인으로 표시한다. Q6에서는 회사의 빨간 도시락 사진과 로지의 진술을 비교하고, Q7–8에는 회사에서 촬영한 가방 속 사진을 붙인다. 사진이 없으면 오답으로 처리하지 않고 해당 장소에서 조사하도록 한다. 틀린 선택은 같은 문항에서 다시 풀며 진척을 보존한다.
+Q2 뒤 올리, Q4 뒤 미아를 제외하고 Q5 뒤 노라를 주인으로 표시한다. 미아가 가진 가방은 로지 앞에 놓인 가방이 아니므로, 가방 안에 없는 물건의 색을 추측하게 하지 않는다. Q6에서는 회사의 빨간 도시락 사진과 로지의 진술을 비교하고, Q7–8에는 회사에서 촬영한 가방 속 사진을 붙인다. 사진이 없으면 오답으로 처리하지 않고 해당 장소에서 조사하도록 한다. 틀린 선택은 같은 문항에서 다시 풀며 진척을 보존한다.
 
 ## 보고·확인·복습
 
