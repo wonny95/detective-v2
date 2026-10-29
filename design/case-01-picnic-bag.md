@@ -53,6 +53,8 @@
 
 발견 알림은 인물·장소 이름만 짧게 표시하고 자동 이동하지 않는다. 대화를 시작한 인물의 질문은 끝까지 기록한다. 필수 질문은 **14개**(로지 4, 오리 3, 벤 2, 정원 공동 2, 노라 3)다. 정원에서는 미아·올리와 함께 한 번 인사한 뒤 두 질문을 이어서 기록한다. 노라가 카페에 왔다는 사실은 오리의 진술로 알지만, 회사 위치와 가방을 받았다는 사실은 벤에게서만 듣는다.
 
+회사 로비에 도착하면 탐정이 안내 직원에게 노라를 불러 달라고 부탁하는 짧은 연출을 넣는다. 노라는 전달받은 가방을 들고 내려온다. 그래서 첫인사의 “날 찾았다고 들었어”와 가방을 즉시 열어 보는 행동이 이어진다.
+
 ## 인사와 탐문 대본
 
 탐정 이름은 저장된 `pioo.detectiveName`을 화면에만 넣고 음성에는 넣지 않는다. 한국어 해석은 실제 게임에서는 버튼을 누른 뒤 보인다.
@@ -84,17 +86,17 @@
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | [She] does not know whose bag this is. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
 | duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, Ollie, and Nora came today. / 오늘 로지, 벤, 미아, 올리, 노라 모두 왔어요. | Rosie, [Ben Beaver], Mia, Ollie, and Nora came to the cafe. |
-| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie, Ben, and Mia had blue bags. Ben took one with him. / 로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. | Rosie, Ben, and Mia had [blue] bags. Ben took one with him. |
-| duck:v3 | Where are they now? / 그들은 지금 어디 있나요? | Ben went home. Mia and Ollie went to the garden. / 벤은 집에 갔어요. 미아와 올리는 정원으로 갔고요. | Ben went [home]. Mia and Ollie went to the [garden]. |
-| ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 그래서 노라의 회사로 가져다줬어. | Nora left her [blue] bag at Ben's [house]. Ben took it to her [office]. |
+| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie, Ben, and Mia had blue bags. Ben took one with him. Nora had no bag. / 로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. 노라는 가방이 없었어요. | Rosie, Ben, and Mia had [blue] bags. Ben took one with him. |
+| duck:v3 | Where are they now? / 그들은 지금 어디 있나요? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요. | Ben went [home]. Mia and Ollie went to the [garden]. |
+| ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. | Nora left her [blue] bag at Ben's [house]. Ben took it to her [office]. |
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
 | garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | [His] bag is [red]. [Her] bag is [blue]. |
-| garden:g2 | Mia, is this your blue bag? Have you checked inside? / 미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어? | 미아: Yes, it's my bag. It has things for today's picnic. / 응, 내 가방이 맞아. 오늘 피크닉을 위한 준비물들이 들어 있었지. | She [opened] her [blue] bag. It has [picnic] things, and she says it is [hers]. |
+| garden:g2 | Mia, is this your blue bag? Have you checked inside? / 미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어? | 미아: Yes, it's mine. I opened it. My picnic things are inside. / 응, 내 가방이야. 열어 봤어. 내 소풍 준비물이 들어 있어. | She [opened] her [blue] bag. It has [picnic] things, and she says it is [hers]. |
 | nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there, but Ben brought it to me. / 응. 거기에 두고 왔어. 하지만 벤이 가져다줬지. | Nora left her [blue] bag at [Ben Beaver]'s house. Ben brought it to her. |
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her folder is [green]. Her pen is [blue]. |
-| nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was busy, so I hadn't checked it. Let me look... There's a red lunch box and a yellow bottle! / 바빠서 아직 못 봤어. 지금 볼게... 빨간 도시락이랑 노란 물병이 있네! | She had [not] checked it. Inside are a [red] lunch box and a [yellow] bottle. |
+| nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was busy, so I didn't open it. Let me look... A red lunch box and a yellow bottle! These aren't mine. / 바빠서 열어 보지 못했어. 지금 볼게... 빨간 도시락이랑 노란 물병이 있네! 이건 내 것이 아니야. | She did [not] open it. Inside are a [red] lunch box and a [yellow] bottle. |
 
-정원에서 g1을 기록한 뒤 두 친구에게 사진 촬영을 부탁해 가방 두 개를 찍는다. 두 가방은 건드리지 않고 주인 곁에 둔다. g2에서는 파란 가방 사진을 미아에게 보여 주며 자기 가방인지 묻는다. 정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 노라의 세 질문을 모두 기록하면 로비에서 바로 추리 단계로 넘어간다. 대괄호 32칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
+정원에서 g1을 기록한 뒤 두 친구에게 조사 이유를 말하고 사진 촬영을 부탁해 가방 두 개를 찍는다. 이 촬영은 같은 대화 안의 짧은 연출로 진행하며 지도·자유 조사는 열지 않는다. 두 가방은 건드리지 않고 주인 곁에 둔다. g2에서는 파란 가방 사진을 미아에게 보여 주며 자기 가방인지 묻는다. 정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 로지가 맡긴 가방의 내부 확인, 카페·벤·정원의 기록, 정원 사진 2장까지 마친 뒤 노라의 세 질문을 모두 기록하면 로비에서 바로 추리 단계로 넘어간다. 회사가 먼저 해금되어도 조사 순서의 마지막 방문지로 둔다. 대괄호 32칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
 
 ## 소지품 조사·음성 전용 물건
 
@@ -104,7 +106,7 @@
 
 소지품 제목에는 가방을 맡긴 사람과 색만 표시한다. 실제 주인 이름은 표시하지 않는다. 가방을 열어 보았을 때 폴더와 펜의 색을 탐정 음성으로 알려 준다. 회사 로비에서는 물건 촬영·증거 카드를 만들지 않고, 노라의 `n3` 음성 진술에서 빨간 도시락과 노란 물병을 듣는다. 카페에도 가방 소품은 없다.
 
-정원 사진은 **소지품이 아닌 증거 노트**에 저장한다. 촬영 전에 탐정이 “Can I take a picture of your bags?” / “가방 사진을 찍어도 될까?”라고 묻고, 올리와 미아가 허락한다. 사진은 외형과 색만 보여 주고 주인의 이름을 제목에 적지 않는다.
+정원 사진은 **소지품이 아닌 증거 노트**에 저장한다. 촬영 전에 탐정이 “I'm helping Rosie find her bag. Can I take a picture of your bags?” / “로지의 가방을 찾고 있어. 가방 사진을 찍어도 될까?”라고 묻고, 올리와 미아가 허락한다. 사진은 외형과 색만 보여 주고 주인의 이름을 제목에 적지 않는다.
 
 | 사진 ID | 촬영 장소 | 제목 | 보이는 것 | 쓰임 |
 |---|---|---|---|---|
@@ -126,13 +128,15 @@
 
 ## 가방 전달·복습
 
-로지의 대화가 끝나면 소풍 탁자에서 파란 가방을 탐정에게 맡긴다. `로지가 맡긴 파란 가방`이 소지품에 들어가고, 열어 보면 초록 폴더·파란 펜을 확인한다. 노라와의 대화가 끝나면 **회사 1층 로비에서 바로 추리**한다. 추리 직후 **“노라에게 바뀐 가방에 대해서 설명하자.”**가 뜬다. 이 단계는 심문 UI의 대사·제출 흐름을 사용하되 서랍 제목은 `소지품`, 선택 항목은 파란 가방, 제출 버튼은 `건네주기`다. 증거 선택·내밀기·압박 게이지는 없다. 소지품에서 가방을 건네면 탐정의 설명 대사가 나오고 노라가 폴더·펜을 확인한 뒤 로지의 가방을 준다. 소지품은 로지의 가방으로 교체된다. 전달 경로는 **소풍 탁자(가방 수령) → 회사 1층 로비(노라에게 전달) → 소풍 탁자(로지에게 전달하며 종료)**다. 두 가방은 같은 외형이므로 대사와 내용물로 구별한다.
+로지의 대화가 끝나면 소풍 탁자에서 파란 가방을 탐정에게 맡긴다. `로지가 맡긴 파란 가방`이 소지품에 들어가고, 열어 보면 초록 폴더·파란 펜을 확인한다. 노라와의 대화가 끝나면 **회사 1층 로비에서 바로 추리**한다. 추리 직후 **“노라에게 바뀐 가방에 대해서 설명하자.”**가 뜬다. 이 단계는 심문 UI의 대사·제출 흐름을 사용하되 서랍 제목은 `소지품`, 선택 항목은 파란 가방, 제출 버튼은 `건네주기`다. 증거 선택·내밀기·압박 게이지는 없다. 소지품에서 건네주기를 누르면 탐정의 설명 뒤 가방을 전달하고 노라가 폴더·펜을 확인한 뒤 로지의 가방을 준다. 소지품은 로지의 가방으로 교체된다. 전달 경로는 **소풍 탁자(가방 수령) → 회사 1층 로비(노라에게 전달) → 소풍 탁자(로지에게 전달하며 종료)**다. 두 가방은 같은 외형이므로 대사와 내용물로 구별한다.
 
 | 장소 | 인물 | 대사 / 해석 | 행동 |
 |---|---|---|---|
 | 소풍 탁자 | 로지 | Please take this bag and find mine. / 이 가방을 가져가서 내 가방을 찾아줘. | 탐정에게 가방을 맡김 |
 | 소풍 탁자 | 탐정 | I will. / 그럴게. | `로지가 맡긴 파란 가방`을 소지품에 넣음 |
-| 회사 1층 로비 | 탐정 | The bag Rosie had is yours. Your bags got mixed up. Here it is. / 로지가 가진 가방이 네 거야. 너희 가방이 바뀌었어. 여기 있어. | 소지품에서 가방을 골라 건네면 자동 대사 |
+| 회사 1층 로비 | 탐정 | Rosie is looking for her bag. Her lunch box and bottle are in that one. / 로지가 자기 가방을 찾고 있어. 저 가방에 로지의 도시락과 물병이 들어 있네. | 소지품에서 가방을 선택해 건네주기를 누르면 설명 시작 |
+| 회사 1층 로비 | 탐정 | This bag has your folder and pen. / 이 가방에는 네 폴더와 펜이 있어. | 챙겨 온 가방을 보여 줌 |
+| 회사 1층 로비 | 탐정 | Your bags got mixed up. Here you go. / 너희 가방이 바뀐 거야. 여기 있어. | 가방 전달 연출 뒤 노라가 확인 |
 | 회사 1층 로비 | 노라 | My folder and pen are here! Thank you. Here is Rosie's bag. / 내 폴더와 펜이 있네! 고마워. 여기 로지의 가방이야. | 로지의 가방을 탐정에게 건넴 |
 | 소풍 탁자 | 탐정 | Rosie, I brought your bag back. / 로지, 네 가방을 가져왔어. | 로지의 가방을 전달 |
 | 소풍 탁자 | 로지 | My lunch box and bottle are here! Thank you, Detective! / 내 도시락과 물병이 있네! 고마워, 탐정님! | 로지의 감사 인사로 사건 종료 |
