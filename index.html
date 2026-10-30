@@ -454,7 +454,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-q{margin:0;font-family:var(--f-display);font-size:17px}
 .rv-quiz{padding:12px 14px;background:#FFFDF7;border:2px solid var(--line);border-radius:12px}
 .rv-play{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:4px}
-.rv-quiz .nline{font-size:17px;line-height:2}
+.rv-quiz .nline{font-size:17px;line-height:34px;background-size:100% 34px}
 .rv-slot{display:inline-block;box-sizing:border-box;min-width:4.5em;height:28px;margin:0 2px;padding:0 8px;vertical-align:middle;border:0;border-radius:8px;background:rgba(125,106,88,.17);font:inherit;font-weight:700;line-height:28px;color:#34506E;text-align:center}
 .rv-slot.hit{background:rgba(94,138,99,.18);color:var(--ok)}
 .rv-slot.miss{animation:ink-miss .55s ease-out both}
@@ -616,7 +616,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .gline mark{background:#F8EAC4;color:var(--ink);border-radius:3px;padding:0 2px}
 .wb-switch{display:flex;gap:8px}
 .blank.review{background-color:rgba(188,152,84,.2);box-shadow:inset 0 0 0 1.5px #BC9854}
-.nline{font-family:var(--f-hand);font-size:17px;line-height:38px;min-height:38px;background-image:linear-gradient(to top,var(--line) 0 2px,transparent 2px)}
+/* ruled like a notebook: a line under every 38px text line, also where a sentence wraps (user request) */
+.nline{font-family:var(--f-hand);font-size:17px;line-height:38px;min-height:38px;background:linear-gradient(to top,var(--line) 0 2px,transparent 2px) 0 0/100% 38px}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
 /* written answers are in neutral pen ink. A blank is a faint rounded slot (user decision: no dashed underline) */
 .blank{font:inherit;font-weight:700;color:#34506E;border:0;background-color:rgba(125,106,88,.17);min-width:3.5em;padding:0 6px;margin:0 2px;text-align:center;border-radius:7px}
