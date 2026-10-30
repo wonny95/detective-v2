@@ -1204,124 +1204,16 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   .devtools.devpreview{left:auto;right:16px}
 }
 .devpreview small{font-family:var(--f-display);font-size:13px;color:var(--ink-soft);text-align:center}
+/* 미리보기: the case switch on top, then that case's parts only (user request: not too many buttons at once) */
+.devpreview{gap:6px}
+.devpreview .devbtn{font-size:13px;padding:6px 12px}
+.dev-cases{display:flex;gap:4px;padding-bottom:6px;margin-bottom:2px;border-bottom:2px dashed rgba(74,54,40,.35)}
+.dev-cases .devbtn{flex:1;padding:6px 8px;font-size:12px;white-space:nowrap}
+.ev-count[hidden]{display:none}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
-/* ---------- Case 01: reuse the library case's illustrated UI language ---------- */
-body.picnic-mode{overflow:hidden;background:var(--ground)}
-body.picnic-mode .devtools,body.picnic-mode #caseList,body.picnic-mode #office{display:none!important}
-#picnicGame[hidden]{display:none}
-#picnicGame{position:fixed;inset:0;z-index:2000;display:flex;justify-content:center;background:var(--ground)}
- .pc-quick{display:none}
- @media(min-width:768px){.pc-quick{position:fixed;z-index:2002;top:16px;left:16px;display:flex;flex-direction:column;gap:5px;box-sizing:border-box;width:clamp(130px,calc((100vw - 430px)/2 - 32px),190px);max-height:calc(100vh - 32px);overflow-y:auto;padding:10px;border:2px solid var(--ink);border-radius:14px;background:var(--paper);box-shadow:3px 4px 0 rgba(74,54,40,.22)}.pc-quick small{font:700 13px var(--f-display);color:var(--ink);text-align:center}.pc-quick .devbtn{padding:5px 7px;font-size:12px;line-height:1.25}.pc-quick .devbtn:disabled{opacity:.45}.pc-quick hr{width:100%;margin:3px 0;border:0;border-top:1px dashed var(--line)}}
-.pc-phone{position:relative;width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;overflow:hidden;background:var(--paper)}
-@media(min-width:520px){.pc-phone{height:min(900px,calc(100% - 8px));margin:auto;border-radius:38px 42px 36px 44px/44px 36px 42px 38px}}
-.pc-top{position:absolute;inset:0 0 auto;height:0;z-index:40;pointer-events:none}
-.pc-top>*{pointer-events:auto}
-.pc-top .top-back{top:10px;left:14px}
-.pc-top h1.chip{top:10px;left:66px;display:block;max-width:calc(100% - 82px);margin:0;font-size:18px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pc-top #pcCount{display:none}
-#picnicGame[data-phase="key"] .pc-top,#picnicGame[data-phase="tutorial"] .pc-top,#picnicGame[data-phase="review"] .pc-top{display:none}
-.pc-main{position:relative;flex:1;min-height:0;overflow:hidden;background:var(--paper)}
-.pc-land{position:absolute;inset:0;overflow:hidden;background:#B7BDA6}
-.pc-land>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
-.pc-land .pc-figure{position:absolute;left:50%;bottom:10%;height:76%;max-width:95%;object-fit:contain;object-position:bottom;transform:translateX(-50%);filter:drop-shadow(1px 4px 2px rgba(40,25,10,.25))}
-.pc-land .pc-figure.duck{left:50%;right:auto}
-.pc-missing{position:absolute;left:50%;bottom:13%;width:170px;height:54%;box-sizing:border-box;transform:translateX(-50%);display:grid;place-items:center;padding:16px;text-align:center;background:rgba(251,244,230,.9);border:3px dashed var(--ink-soft);border-radius:80px 80px 22px 22px;font-family:var(--f-display);font-size:17px}
-.pc-content{position:relative;z-index:2;padding:16px;display:flex;flex-direction:column;gap:12px}
-.pc-card{background:#FFFDF7;border:2px solid var(--line);border-radius:var(--r-wobble);padding:14px}
-.pc-card h2{margin:0 0 12px;font-family:var(--f-display);font-size:22px;font-weight:400}.pc-card h3{margin:0 0 10px}
-.pc-card p{line-height:1.5}.pc-speaker{color:var(--berry);font-family:var(--f-display)}.pc-en{font-size:18px;line-height:1.45}.pc-ko{font-size:14px;font-weight:700;color:var(--berry)}
-.pc-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:10px}
-.pc-actions .pc-btn{flex:none}
-.pc-btn{--btn:url(assets/ui/buttons/cream-flat.png);--bw:12px;box-sizing:border-box;min-height:36px;border:2px solid transparent;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;background:none;border-radius:0;padding:4px 12px;font-family:var(--f-display);font-size:14px;color:var(--ink)}
-.pc-btn.primary{--btn:url(assets/ui/buttons/sage-flat.png)}.pc-btn.pink{--btn:url(assets/ui/buttons/berry-flat.png);color:#FFFDF7}
-.pc-btn:disabled{opacity:.45}
-.pc-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));border:0;background:var(--paper-2)}
-.pc-nav button{border:0;padding:0;background:none;font-family:var(--f-display);font-size:14px;color:var(--ink);flex-direction:column;gap:0;min-height:46px;box-shadow:none}
-.pc-nav .hn-ic{height:40px}.pc-nav .hn-ic img{width:34px;height:34px}
-.pc-nav button[aria-current="page"]{background:none}
-.pc-nav button[aria-current="page"] .hn-ic::before{opacity:.95;transform:none}
-.pc-nav button[aria-current="page"] .hn-ic img{filter:none;opacity:1}
-.pc-bubble.bubble{top:56px;z-index:6;min-height:170px;width:calc(100% - 32px);max-height:calc(100% - 230px);padding:20px 20px 18px;position:absolute}
-.pc-bubble .tag{font-size:14px}.pc-bubble .say-en{font-size:18px}.pc-bubble .say-ko{font-size:14px;font-weight:700;color:var(--berry);margin-top:6px}
-.pc-bubble .say-foot{display:flex;justify-content:flex-end;gap:6px;margin-top:12px}
-.pc-bubble .say-foot .pc-btn{min-height:32px}
-.pc-bubble .play-btn{font-size:0}
-.pc-ask-panel{position:absolute;z-index:4;bottom:0;left:0;right:0;display:flex;flex-direction:column;gap:7px;padding:0 16px 16px}
-.pc-ask-panel .pc-question-ko{align-self:flex-end}
-.pc-ask-panel:not(.show-ko) .pc-q-ko{display:none}
-.pc-ask-panel .q{font-family:var(--f-display);font-size:16px;box-shadow:3px 3px 0 rgba(74,54,40,.25)}
-.pc-ask-panel .q:disabled{display:none}
-.pc-ask-panel .q.done{display:none}
-.pc-ask-panel .q .pc-q-ko{font-family:var(--f-body);font-size:13px;color:var(--berry);margin-top:3px}
-.pc-ask-panel.show-ko .q .pc-q-ko{display:block}
-.pc-stage-actions{position:absolute;bottom:16px;left:16px;right:16px;z-index:5;display:flex;justify-content:center;gap:8px}
-.pc-stage-actions .pc-btn{flex:1;min-height:44px}
-.pc-note-dock.dock{transform:translateY(0);height:60%;z-index:12;left:6px;right:6px;bottom:-4px;padding:7.9% 9% 0 9.5%}
-.pc-note-dock.browse{height:91%}
-.pc-note-dock .dock-head{aspect-ratio:81.5/13.6}
-.pc-note-dock .dock-head h2{font-size:18px}
-.pc-note-dock .dock-body{padding:12px 2px 18px}
-.pc-note-dock .dock-foot{display:block;padding:4px 2px 22px}
-.pc-note-dock .dock-foot .pc-btn{width:100%;min-height:46px;--btn:url(assets/ui/buttons/sage-flat.png);font-size:16px}
-.pc-note-dock .note-cats{margin-bottom:-9.5%}
- .pc-note-dock .ncat{width:58px}
-.pc-note-dock .listen{display:flex;align-items:center;justify-content:flex-end;gap:8px;grid-column:1/-1}
-.pc-note-dock .listen .pc-btn{min-height:36px}
-.pc-note-dock .nblock{margin:0 0 14px}.pc-note-dock .qlabel{display:block;font-family:var(--f-display);font-size:15px;color:var(--ink-soft)}
-.pc-note-dock .nline{font-size:16px;line-height:38px}
-.pc-note-dock .blank{width:var(--slot,95px);height:30px;min-width:62px;box-sizing:border-box;border:0;border-radius:9px;background:rgba(125,106,88,.16);font:700 16px var(--f-body);color:#34506E;text-align:center;vertical-align:middle}
-.pc-note-dock .blank:focus{background:rgba(242,207,115,.45)}
-.pc-note-dock .bank{margin-top:10px;gap:7px}
-.pc-note-dock .word{padding:5px 9px;font-size:14px}
-.pc-note-dock .pc-success{color:var(--ok)}
-.pc-note-dock .npassage{margin-top:8px;padding:10px 12px;border:1.5px dashed var(--line);border-radius:10px;background:#FFFDF7}
-.pc-note-dock .npassage p{margin:0 0 6px}
-.pc-note-dock .np-actions{display:flex;justify-content:flex-end;gap:6px}
-.pc-note-dock .pc-item{background:#FFFDF7}
-.pc-note-dock .pc-photo{width:44%}
-.pc-note-shade{position:absolute;inset:0;z-index:11;background:linear-gradient(to bottom,transparent 25%,rgba(43,30,20,.45));pointer-events:none}
- .pc-map-screen{position:absolute;inset:0;background:#7FA06A;overflow:hidden;container-type:size}
- .pc-map-screen .pc-map-art{position:absolute;left:50%;top:50%;width:max(100cqw,100cqh * 9 / 16);aspect-ratio:9 / 16;transform:translate(-50%,-50%)}
- .pc-map-screen .pc-map-art>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
- .pc-map-screen .pin{z-index:2;max-width:35%;white-space:normal;text-align:center}
-.pc-map-close{position:absolute;right:14px;top:12px;z-index:4}
-.pc-map-screen .pc-card{position:absolute;left:12px;bottom:16px;right:12px}
-.pc-deduce-screen{position:absolute;inset:0;display:flex;flex-direction:column;padding-top:54px;background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/300px 300px repeat}
-.pc-deduce-screen .deduce-q{flex:none}.pc-deduce-screen .ded-cards{flex:1;min-height:0;overflow-y:auto;padding:24px 22px}
-.pc-deduce-screen .ded-card{margin:0}.pc-deduce-screen .ded-card::before{display:block}
-.pc-deduce-screen .pc-choices{display:grid;gap:8px;margin-top:16px}
-.pc-deduce-screen .pc-choices button{--btn:url(assets/ui/buttons/cream-flat.png);text-align:left;min-height:42px}
-.pc-deduce-screen .pc-choices button:hover{--btn:url(assets/ui/buttons/honey-flat.png)}
-.pc-key-screen,.pc-review-screen,.pc-tutorial-screen{position:absolute;inset:0;display:flex;flex-direction:column;padding:16px;background:var(--paper);box-sizing:border-box}
-.pc-key-screen{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat}
-.pc-key-head{position:relative}
-.pc-key-head .pc-key-close{position:absolute;right:0;top:8px;left:auto}
-#picnicGame[data-view="map"] .pc-top,#picnicGame[data-view="map"] .pc-nav{display:none}
-.pc-key-head small{display:block;color:var(--berry);font-family:var(--f-display);font-size:13px}.pc-key-head h2{margin:0;font-family:var(--f-display);font-size:22px;font-weight:400}
-.pc-key-body{flex:1;overflow:auto;padding:0 6px}
-.pc-key-card{position:relative;margin:24px 6px 0;padding:8px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;transform:rotate(-1.5deg);filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2))}
-.pc-key-card::before{content:"";position:absolute;top:-28px;left:50%;margin-left:-9px;width:24px;height:33px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
-.pc-key-card h3{font-family:var(--f-hand);font-size:30px;margin:0 0 4px}.pc-key-card p{margin:6px 0;font-size:14px;line-height:1.5}
-.pc-key-notes{display:flex;flex-direction:column;gap:15px;margin:23px 4px}
-.pc-key-note{--note:url(assets/ui/casekey/note-yellow.webp);position:relative;display:flex;align-items:center;gap:5px;padding:5px 1px 5px 3px;border:11px solid transparent;border-width:11px 26px 11px 11px;border-image:var(--note) 22 54 22 22 fill / 11px 26px 11px 11px stretch;font-size:16px;line-height:1.3;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18))}
-.pc-key-note:nth-child(2){--note:url(assets/ui/casekey/note-blue.webp);margin-left:18px}.pc-key-note:nth-child(3){--note:url(assets/ui/casekey/note-pink.webp);margin-right:8px}
-.pc-key-note::before{content:"";position:absolute;left:50%;top:-19px;width:58px;height:18px;margin-left:-29px;background:url(assets/ui/casekey/tape.webp) center/100% 100% no-repeat}
-.pc-key-note>span{flex:1}.pc-key-note .pc-btn{min-height:32px;padding:2px 7px;font-size:12px}
-.pc-key-note .pc-ko{display:block;width:100%;font-size:12px}
-.pc-key-foot{display:flex;gap:7px;padding-top:10px}.pc-key-foot .pc-btn.primary{flex:1;min-height:50px;--btn:url(assets/ui/buttons/berry-flat.png);color:white;font-size:17px;text-align:center}
-.pc-key-dots,.pc-review-dots{display:flex;justify-content:center;gap:9px;padding:8px}.pc-key-dots i,.pc-review-dots i{width:8px;height:8px;border-radius:50%;background:#CABCA7}.pc-key-dots i.now,.pc-review-dots i.now{background:#E0A526;transform:scale(1.3)}
-.pc-review-screen{background:var(--paper)}.pc-review-body{flex:1;overflow:auto;display:flex;flex-direction:column;gap:13px;padding:4px 8px}.pc-review-body .rv-file{margin-top:20px}
-.pc-review-body .rv-photo img{display:block;width:100%;height:100%;object-fit:cover}
-.pc-review-body .rv-story{margin-top:12px}.pc-review-body .rv-tiles{margin-top:2px}
-.pc-review-foot{display:flex;gap:8px}.pc-review-foot .pc-btn:last-child{flex:1;min-height:50px;--btn:url(assets/ui/buttons/berry-flat.png);background:#C96F83;color:white;font-size:17px;text-align:center}
-.pc-review-screen .pc-item{background:#FFFDF7}.pc-review-screen .pc-card{border:0;background:none}
-.pc-toast{position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:50;max-width:90%;width:max-content;padding:9px 15px;border:2px solid var(--ink);border-radius:var(--r-wobble);background:#FFF9E7;box-shadow:2px 4px 8px #4A36283a;font-size:14px;text-align:center;pointer-events:none}
-.pc-success{color:var(--ok);font-weight:700}.pc-error{color:var(--no);font-weight:700}
-.pc-item{display:flex;align-items:center;gap:10px;padding:10px;border:2px solid var(--line);border-radius:11px}.pc-item img{width:70px;height:60px;object-fit:cover}.pc-item b{display:block}
-.pc-photos{display:flex;gap:10px;flex-wrap:wrap}.pc-photo{width:45%;aspect-ratio:4/3;border:5px solid white;box-shadow:1px 3px 5px #4A362855;display:grid;place-items:center;background:#B9C8B9;font-family:var(--f-display)}.pc-photo.red{background:#E8A4A4}
 </style>
 </head>
 <body>
@@ -1371,7 +1263,7 @@ body.picnic-mode .devtools,body.picnic-mode #caseList,body.picnic-mode #office{d
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
       <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt="" draggable="false"><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
       <section class="drawer" id="drawer" aria-label="증거 서랍">
-        <div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" data-drawer-tab="photo" aria-pressed="true">사진</button><button class="pill sm" type="button" data-drawer-tab="say" aria-pressed="false">진술</button></div><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
+        <div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" data-drawer-tab="photo" aria-pressed="true">사진</button><button class="pill sm" type="button" data-drawer-tab="say" aria-pressed="false">진술</button><button class="pill sm" type="button" data-drawer-tab="item" aria-pressed="false" hidden>소지품</button></div><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
         <div class="drawer-strip" id="drawerStrip"></div>
         <div class="drawer-pick" id="drawerPick" hidden></div>
       </section>
@@ -1606,6 +1498,10 @@ body.picnic-mode .devtools,body.picnic-mode #caseList,body.picnic-mode #office{d
 // 미리보기 (test tools): ?preview=<part> runs the page on a copy of this device's records kept in memory, so nothing is
 // written back (the parts and the rest are at the end, under 미리보기)
 const PREVIEW = new URLSearchParams(location.search).get('preview');
+// the case this page plays (user decision: one engine, each case its own data): ?case=picnic is Case 01 바뀐 소풍 가방,
+// without it the library case. Each case keeps its own save; going back to the case cards opens the main page.
+const CASE_ID = new URLSearchParams(location.search).get('case') === 'picnic' ? 'picnic-bag' : 'case01';
+const PICNIC = CASE_ID === 'picnic-bag';
 const localStorage = PREVIEW ? previewStorage() : window.localStorage;
 function previewStorage(){
   const mem = Object.create({
@@ -1615,7 +1511,7 @@ function previewStorage(){
   });
   // the records as they are, without the case in progress (a preview starts a fresh case); the tutorial seen and a
   // detective name, so no part waits behind them
-  try { Object.keys(window.localStorage).filter(key => key.startsWith('pioo.') && key !== 'pioo.save').forEach(key => { mem[key] = window.localStorage.getItem(key); }); } catch(e){}
+  try { Object.keys(window.localStorage).filter(key => key.startsWith('pioo.') && !key.startsWith('pioo.save')).forEach(key => { mem[key] = window.localStorage.getItem(key); }); } catch(e){}
   mem['pioo.tutorialSeen'] = '1';
   mem['pioo.detectiveName'] ||= 'Pioo';
   return mem;
@@ -1626,11 +1522,217 @@ const QUESTIONS = [
   { id:'q3', en:'How did you know Professor Hoot?', ko:'후트 교수와는 어떤 사이였나요?' },
 ];
 
+/* Case 01 바뀐 소풍 가방 (?case=picnic): the same screens as the library case with this case's own data (user decision:
+   one engine; design/case-01-picnic-bag.md). Everyone here is someone to ask, nobody a suspect (`witness`), and every
+   conversation is needed (`required`). No recordings yet: lines play with the browser's voice. `after`: a person's own
+   beat once a question (or, `done`, the whole conversation) is written down right — the detective's line and the photos
+   it takes, or a line and a thing handed over (`give`, into 소지품). `needs`: evidence a question waits for. */
+const PICNIC_CASE = {
+  start:'rosie',
+  people:{
+    rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3',
+      hello:"Hi, I'm Rosie. Are you the detective? This isn't my bag. Can you help me find mine?",
+      questions:[
+        { id:'r1', en:'Did your bags get mixed up?', ko:'다른 사람과 가방이 바뀐 거야?' },
+        { id:'r2', en:'What is in your bag?', ko:'네 가방 안에는 뭐가 들어 있니?' },
+        { id:'r3', en:'Do you know whose bag this is?', ko:'이 가방이 누구 것인지 알아?' },
+        { id:'r4', en:'Who did you see today?', ko:'오늘 누구를 봤어?' }
+      ],
+      unlocks:{ r4:{ people:['duck'] } },
+      after:{ done:{ say:{ key:'give', en:'Please take this bag and find mine.', ko:'이 가방을 가져가서 내 가방을 찾아 줘.' }, give:'bag-nora' } },
+      answers:{
+        r1:"I'm not sure. My bag is blue, just like this one.",
+        r2:'My bag has a red lunch box and a yellow bottle.',
+        r3:"I don't know. Please find out for me.",
+        r4:"I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there."
+      },
+      notes:{
+        r1:['{{a|Her/her}} bag is {{b|blue}}, just like this one.'],
+        r2:['{{c|Her/her}} bag has a red lunch box and a {{d|yellow}} bottle.'],
+        r3:['{{e|She/she}} does not know whose bag this is.'],
+        r4:["She can't {{f|remember}} who she saw.", 'She went to the {{g|cafe}}.', 'Maybe the bags got {{h|mixed up}} there.']
+      },
+      bank:{ r1:['Her','His','blue','red'], r2:['Her','His','yellow','blue'], r3:['She','He'], r4:['remember','forget','cafe','garden','mixed up','lost'] }
+    },
+    duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9',
+      hello:'Hello! Welcome to the Lake Cafe. What would you like?',
+      questions:[
+        { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔나요?' },
+        { id:'v2', en:'Who had blue bags?', ko:'누가 파란 가방을 들고 왔나요?' },
+        { id:'v3', en:'Where are they now?', ko:'그들은 지금 어디 있나요?' }
+      ],
+      unlocks:{ v3:{ people:['ben', 'mia'] } },
+      answers:{
+        v1:'Rosie, Ben, Mia, Ollie, and Nora came today.',
+        v2:'Rosie, Ben, and Mia had blue bags. Ben took one with him. Nora had no bag.',
+        v3:'They told me their plans. Ben went home. Mia and Ollie went to the garden.'
+      },
+      notes:{
+        v1:['Rosie, {{a|Ben/ben beaver}}, Mia, Ollie, and Nora came to the cafe.'],
+        v2:['Rosie, Ben, and Mia had {{b|blue}} bags.', 'Ben took {{c|one}} with him.', 'Nora had {{d|no}} bag.'],
+        v3:['Ben went {{e|home}}.', 'Mia and Ollie went to the {{f|garden}}.']
+      },
+      bank:{ v1:['Ben','Ray'], v2:['blue','red','one','two','no','a'], v3:['home','office','garden','cafe'] }
+    },
+    ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6',
+      hello:"Hi! I'm Ben Beaver. Can I help you?",
+      questions:[
+        { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있나요?' },
+        { id:'b2', en:'What was in the bag?', ko:'가방에는 뭐가 들어 있었어?' }
+      ],
+      unlocks:{ b1:{ people:['nora'] } },
+      answers:{
+        b1:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office.',
+        b2:"I don't know. I didn't open it."
+      },
+      notes:{
+        b1:["Nora left {{a|her}} blue bag at Ben's {{b|house}}.", 'Ben took it to her {{c|office}}.'],
+        b2:['{{d|He/he}} does not {{e|know}} what was inside.', 'He did not {{f|open}} it.']
+      },
+      bank:{ b1:['her','his','house','cafe','office','garden'], b2:['He','She','know','remember','open','carry'] }
+    },
+    // Mia and Ollie, asked together in the garden (two questions for the pair)
+    mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
+      hello:"Oh, hi! I'm Ollie. And I'm Mia. Want to join our picnic?",
+      questions:[
+        { id:'g1', en:'Do either of you have a blue bag?', ko:'혹시 너희 중에 파란 가방을 가진 사람이 있니?' },
+        { id:'g2', en:'Mia, is this your blue bag? Have you checked inside?', ko:'미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어?' }
+      ],
+      // the photos are taken in the conversation (user decision: no free search of the garden)
+      after:{ g1:{ det:{ key:'garden-photo', en:"I'm helping Rosie find her bag. Can I take a picture of your bags?", ko:'로지의 가방을 찾고 있어. 너희 가방 사진을 찍어도 될까?' }, snap:['garden-0', 'garden-1'] } },
+      needs:{ g2:['garden-0', 'garden-1'] },
+      answers:{
+        g1:'Ollie: No. Mine is red. Mia: Mine is blue. Why?',
+        g2:"Yes, it's mine. I opened it. My picnic things are inside."
+      },
+      notes:{
+        g1:['{{a|His/his}} bag is {{b|red}}.', '{{c|Her/her}} bag is {{d|blue}}.'],
+        g2:['She {{e|opened}} her blue bag.', 'It has her {{f|picnic}} things.', 'She says it is {{g|hers}}.']
+      },
+      bank:{ g1:['His','Her','red','blue'], g2:['opened','closed','picnic','office','hers','his'] }
+    },
+    nora: { id:'nora', name:'Nora Hedgehog', ko:'고슴도치 노라', job:'회사원', place:'lobby', witness:true, required:true, pitch:1.1, voice:0, bg:'#F3E1D3',
+      hello:"Hi, I heard you were looking for me. What's going on?",
+      questions:[
+        { id:'n1', en:"Did you leave a blue bag at Ben's house?", ko:'벤의 집에 파란 가방을 두고 왔니?' },
+        { id:'n2', en:'What was in your bag?', ko:'네 가방에는 무엇이 들어 있었니?' },
+        { id:'n3', en:'Could you check the bag Ben brought?', ko:'벤이 가져온 가방을 확인해 줄래?' }
+      ],
+      answers:{
+        n1:'Yes. I left it there, but Ben brought it to me.',
+        n2:'My green folder and blue pen.',
+        n3:"I was busy, so I didn't open it. Let me look... A red lunch box and a yellow bottle! These aren't mine."
+      },
+      notes:{
+        n1:["Nora left her {{a|blue}} bag at {{b|Ben/ben beaver}}'s house.", 'Ben {{c|brought}} it to her.'],
+        n2:['{{d|Her/her}} folder is {{e|green}}.', 'Her pen is {{f|blue}}.'],
+        n3:['She did {{g|not}} open it.', 'Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.', 'They are not {{j|hers}}.']
+      },
+      bank:{ n1:['blue','red','Ben','Mr. Duck','brought','opened'], n2:['Her','His','green','red','blue','yellow'], n3:['not','already','red','green','yellow','blue','hers','his'] }
+    }
+  },
+  grammarLines:{
+    'rosie:r1':[['ownership','My bag']],
+    'rosie:r2':[['wh-q','What is in your bag'], ['ownership','My bag']],
+    'rosie:r3':[['negative',"I don't know"], ['imperative','Please find out']],
+    'rosie:r4':[['wh-q','Who did you see'], ['modal',"can't remember"], ['past-irr','I went']],
+    'duck:v1':[['wh-q','Who came'], ['past-irr','came today']],
+    'duck:v2':[['past-irr','had blue bags'], ['past-irr','took one']],
+    'duck:v3':[['wh-q','Where are they'], ['past-irr','Ben went home']],
+    'ben:b1':[['ownership','her blue bag'], ['past-irr','Nora left']],
+    'ben:b2':[['wh-q','What was in the bag'], ['negative',"I didn't open it"]],
+    'mia:g1':[['ownership','Mine is red']],
+    'mia:g2':[['ownership',"it's mine"], ['past-reg','I opened it']],
+    'nora:n1':[['did-q','Did you leave'], ['past-irr','Ben brought it']],
+    'nora:n2':[['wh-q','What was in your bag'], ['ownership','My green folder']],
+    'nora:n3':[['negative',"I didn't open it"], ['ownership',"These aren't mine"]]
+  },
+  answersKo:{
+    rosie:{ r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
+      r4:'누구를 봤는지 기억이 안 나. 그런데 여기 오기 전에 호숫가 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
+    duck:{ v1:'오늘 로지, 벤, 미아, 올리, 노라가 왔어요.', v2:'로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤은 가방 하나를 들고 나갔고요. 노라는 가방이 없었어요.',
+      v3:'다들 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요.' },
+    ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어.', b2:'몰라. 가방을 열어 보지 않았어.' },
+    mia:{ g1:'올리: 아니, 내 건 빨간색이야. 미아: 내 건 파란색이야. 왜?', g2:'응, 내 거야. 열어 봤어. 내 소풍 준비물이 들어 있어.' },
+    nora:{ n1:'응. 거기 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'바빠서 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병이네! 이건 내 것이 아니야.' }
+  },
+  places:[
+    { id:'picnic', x:46, y:63, label:'Picnic Table', artWidth:1280, artHeight:714, clues:[], spots:[] },
+    { id:'daycafe', x:74, y:46, label:'Lake Cafe', artWidth:1679, artHeight:937, clues:[], spots:[] },
+    { id:'benhome', x:84, y:74, label:"Ben's House", artWidth:1672, artHeight:941, clues:[], spots:[] },
+    // the two bags are photographed in the conversation (`talk`: no tap spot in the place view)
+    { id:'garden', x:22, y:60, label:'Garden', artWidth:1376, artHeight:768,
+      clues:[
+        { label:'Blue bag', en:'A blue bag on the garden bench.', ko:'정원 벤치 위의 파란 가방.' },
+        { label:'Red bag', en:'A red bag on the garden bench.', ko:'정원 벤치 위의 빨간 가방.' }
+      ],
+      spots:[
+        { clue:0, talk:true, x:71, y:43, w:8.5, h:13.5, photo:{x:930,y:290,w:200,h:150} },
+        { clue:1, talk:true, x:80.5, y:43, w:8.5, h:13.5, photo:{x:1060,y:290,w:200,h:150} }
+      ]},
+    { id:'lobby', x:30, y:38, label:'Office Lobby', artWidth:1376, artHeight:768, clues:[], spots:[] }
+  ],
+  positions:{
+    rosie:{x:28, floor:94, height:46},   // on the grass left of the table, so the bag on it stays in view
+    duck:{x:42, floor:93, height:44},
+    ben:{x:45, floor:93, height:44},
+    mia:{x:40, floor:93, height:44},
+    nora:{x:50, floor:93, height:44}
+  },
+  // things in the detective's bag (소지품): handed over at the end; img + crop is its picture
+  items:{
+    'bag-nora':{ label:'Blue bag', en:'The blue bag Rosie gave me. Inside, there is a green folder and a blue pen.', ko:'로지가 맡긴 파란 가방. 안에 초록 서류 폴더와 파란 펜이 들어 있다.',
+      img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420] },
+    'bag-rosie':{ label:'Blue bag', en:'The blue bag Nora gave me. Inside, there is a red lunch box and a yellow bottle.', ko:'노라가 건넨 파란 가방. 안에 빨간 도시락과 노란 물병이 들어 있다.',
+      img:'assets/places/picnic-storyboard/picnic-wide.png', w:1280, h:714, crop:[930, 290, 200, 150] }
+  },
+  deduce:{
+    people:[['Rosie Rabbit', 'rosie'], ['Mr. Duck', 'duck'], ['Ben Beaver', 'ben'], ['Mia', 'mia'], ['Ollie', 'mia'], ['Nora Hedgehog', 'nora']],
+    places:[['Picnic Table', 'picnic'], ['Lake Cafe', 'daycafe'], ["Ben's House", 'benhome'], ['Garden', 'garden'], ['Office Lobby', 'lobby']],
+    things:['her bag', 'a book', 'a red lunch box', 'a yellow bottle', 'a green folder', 'a blue pen', 'picnic things'],
+    times:[],
+    suspects:[['rosie', 'Rosie'], ['nora', 'Nora']],
+    go:'노라에게 가기',
+    miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' },
+    qs:[
+      { step:1, who:'rosie', q:'What did Rosie ask me to do?', qKo:'로지가 나에게 부탁한 일은 뭐지?',
+        card:'Rosie asked me to find {thing:her bag}.', cardKo:'로지는 나에게 자기 가방을 찾아 달라고 했다.',
+        right:'Yes. Her bag got mixed up with another blue bag.', rightKo:'맞아. 로지의 가방이 다른 파란 가방과 바뀌었어.',
+        hint:'What did Rosie say first? What is she looking for?', hintKo:'로지가 처음에 뭐라고 했지? 무엇을 찾고 있었어?' },
+      { step:2, who:'rosie', q:'What is in her bag?', qKo:'로지의 가방에는 뭐가 들어 있지?',
+        card:'Her bag has {thing:a red lunch box} and a yellow bottle.', cardKo:'로지의 가방에는 빨간 도시락과 노란 물병이 들어 있다.',
+        right:'Right. A red lunch box and a yellow bottle.', rightKo:'맞아. 빨간 도시락과 노란 물병이야.',
+        hint:'Look at what Rosie said about her bag.', hintKo:'로지가 자기 가방에 대해 한 말을 봐.' },
+      { step:3, who:'nora', q:'Nora opened the bag Ben brought. Whose things were inside?', qKo:'노라는 벤이 가져온 가방을 열었어. 안에 든 건 누구의 물건이었지?',
+        card:"The red lunch box and the yellow bottle are {person:Rosie Rabbit}'s.", cardKo:'빨간 도시락과 노란 물병은 로지의 것이다.',
+        right:"So the bag Nora got is Rosie's bag.", rightKo:'그러니까 노라가 받은 가방은 로지의 가방이야.',
+        hint:'What did Nora find in the bag? Who has a red lunch box and a yellow bottle?', hintKo:'노라가 가방에서 무엇을 찾았지? 빨간 도시락과 노란 물병을 가진 사람은 누구야?' },
+      { step:4, who:'nora', q:'And the bag Rosie gave me? Whose folder and pen are in it?', qKo:'그럼 로지가 나에게 맡긴 가방은? 안의 폴더와 펜은 누구의 것이지?',
+        card:"The green folder and the blue pen are {person:Nora Hedgehog}'s.", cardKo:'초록 폴더와 파란 펜은 노라의 것이다.',
+        right:"So Rosie and Nora have each other's bags. Let's give them back.", rightKo:'그러니까 로지와 노라의 가방이 서로 바뀐 거야. 돌려주자.',
+        hint:'What did Nora say was in her bag?', hintKo:'노라는 자기 가방에 무엇이 있었다고 했지?' }
+    ]
+  },
+  // no questioning (user decision): the bag in 소지품 is handed over with the drawer (건네주기), round by round. open: the
+  // line before it (the first one the detective's thought, user decision), lines: what follows, take: what comes back
+  ending:{ handoff:[
+    { to:'nora', open:{ think:true, en:'노라에게 바뀐 가방에 대해서 설명하자.' }, give:'bag-nora', take:'bag-rosie',
+      lines:[
+        { det:true, key:'handoff1', en:'Rosie is looking for her bag. Her lunch box and bottle are in that one.', ko:'로지가 자기 가방을 찾고 있어. 그 가방에 로지의 도시락과 물병이 들어 있어.' },
+        { det:true, key:'handoff2', en:'This bag has your folder and pen.', ko:'이 가방에는 네 폴더와 펜이 있어.' },
+        { det:true, key:'handoff3', en:'Your bags got mixed up. Here you go.', ko:'너희 가방이 바뀐 거야. 여기 있어.' },
+        { key:'thanks', en:"My folder and pen are here! Thank you. Here is Rosie's bag.", ko:'내 폴더와 펜이 있네! 고마워. 여기 로지의 가방이야.' }
+      ] },
+    { to:'rosie', open:{ det:true, key:'handback', en:'Rosie, I brought your bag back.', ko:'로지, 네 가방을 가져왔어.' }, give:'bag-rosie',
+      lines:[ { key:'thanks', en:'My lunch box and bottle are here! Thank you, Detective!', ko:'내 도시락과 물병이 있네! 고마워, 탐정님!' } ] }
+  ] }
+};
+
 /* People. Nobody is rounded up in advance: each person stays at their `place`, and appears
    (at their place and on the map) only after someone names them or a clue points to them.
    `unlocks` = what hearing an answer reveals: { places:[…], people:[…] } (a person brings their place along).
    Each answer has its own note lines and word cards. {{id|answer/alt}} marks a blank. */
-const PEOPLE = {
+const PEOPLE = PICNIC ? PICNIC_CASE.people : {
   // the partner — met first, at the crime scene
   badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'동료 경찰', place:'library', partner:true,
     pitch:.9, voice:3, bg:'#DCE3F0', openingQuestion:'b1',
@@ -1812,14 +1914,28 @@ const WORDS = {
   'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
   'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'], 'book':['w','책'], 'newspaper':['w','신문'], 'alone':['w','혼자'],
   'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'],
+  'blue':['w','파란색'], 'red':['w','빨간색'], 'yellow':['w','노란색'], 'green':['w','초록색'], 'remember':['w','기억하다'], 'mixed up':['w','뒤바뀐'],
+  'garden':['n','정원'], 'house':['w','집'], 'office':['n','사무실, 회사'], 'know':['w','알다'], 'open':['w','열다'], 'opened':['w','열었다'],
+  'picnic':['w','소풍'], 'hers':['w','그녀의 것'], 'brought':['w','가져왔다'], 'one':['w','하나'], 'no':['w','하나도 없는'], 'not':['w','~않다'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
 };
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소']];
+// the picnic case's words (its note blanks that are in WORDS), for 학습 on the main page
+const PICNIC_WORDS = [...new Set(Object.values(PICNIC_CASE.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))))].filter(k => WORDS[k]);
 // Grammar notes, opened from the grammar links in a passage. name/pattern/ko: the card (Korean shown as soon as the
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
-  ownership: { name:'소유 표현', pattern:'my / your / his / her / mine / yours', ko:'my·your·his·her는 물건 이름 앞에 붙여 누구의 것인지 말해요. mine·yours는 물건 이름 없이 내 것·네 것이라고 말해요.' },
+  ownership: { name:'소유 표현', pattern:'my / your / his / her / mine / yours', ko:'my·your·his·her는 물건 이름 앞에 붙여 누구의 것인지 말해요. mine·yours는 물건 이름 없이 내 것·네 것이라고 말해요.',
+    // match: how the review finds the case's line for a form
+    examples:[
+      { head:'my / your', ko:'내 것 / 네 것', why:'물건 이름 앞에 붙여 누구의 것인지 말해요. my는 말하는 사람의 것, your는 듣는 사람의 것이에요.', match:'\\b(my|your)\\b',
+        lines:[['{My book} is big.', '내 책은 커요.'], ['{Your pen} is black.', '네 펜은 검은색이에요.'], ['Is this {your hat}?', '이건 네 모자니?']] },
+      { head:'his / her', ko:'그 남자의 것 / 그 여자의 것', why:'his는 그 남자의 것, her는 그 여자의 것이에요. 이것도 물건 이름 앞에 붙여요.', match:'\\b(his|her)\\b',
+        lines:[['{His cup} is white.', '그의 컵은 흰색이에요.'], ['{Her notebook} is small.', '그녀의 공책은 작아요.'], ['{His hat} is black.', '그의 모자는 검은색이에요.']] },
+      { head:'mine / yours', ko:'내 것 / 네 것', why:'물건 이름 없이 혼자 써요. mine은 내 것, yours는 네 것이에요.', match:'\\b(mine|yours|hers)\\b',
+        lines:[['This pencil is {mine}.', '이 연필은 내 것이에요.'], ['Is this ruler {yours}?', '이 자는 네 것이니?'], ['This book is not {mine}.', '이 책은 내 것이 아니에요.']] }
+    ] },
   'be-past':   { name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.' },
   'past-prog': { name:'과거진행', pattern:'was / were + -ing', ko:'지난 어느 때에 "하고 있던 중"이던 일을 말해요. I was reading = 책을 읽고 있었어요.' },
   'past-reg':  { name:'규칙 과거형', pattern:'동사 + -ed', ko:'동사 끝에 -ed를 붙여 지난 일을 말해요. play → played, borrow → borrowed, watch → watched. 끝의 -ed는 /d/·/t/로 아주 약하게 들려요.' },
@@ -1843,7 +1959,7 @@ const GRAMMAR = {
 };
 // Where each grammar shows up: [grammar id, the words to highlight] per answer. The words are looked up in the
 // answer first, then in the player's question.
-const GRAMMAR_LINES = {
+const GRAMMAR_LINES = PICNIC ? PICNIC_CASE.grammarLines : {
   'badger:b1':[['passive','was found'], ['past-prog','was lying'], ['time-prep',"at nine o'clock"]],
   'badger:b2':[['wh-q','Who found'], ['past-irr','found him'], ['time-prep','between eight and nine']],
   'badger:b3':[['wh-q','What should I do'], ['modal','should I do'], ['imperative','Look around']],
@@ -1867,7 +1983,7 @@ const GRAMMAR_LINES = {
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = {
+const SENTENCE_TIMES = PICNIC ? {} : {
   'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
   'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],
   'badger:b3':[[0,1.6],[1.9,3.83]],
@@ -1891,7 +2007,7 @@ const SENTENCE_TIMES = {
 // Sentences of an answer ("Mrs." / "Mr." / "Sgt." do not end one).
 const sentencesOf = text => text.split(/(?<!\b(?:Mrs|Mr|Sgt|Dr)\.)(?<=[.!?])\s+/);
 // Korean for each answer. Shown only on the review screen after the case is solved.
-const ANSWERS_KO = {
+const ANSWERS_KO = PICNIC ? PICNIC_CASE.answersKo : {
   badger:{
     b1:'여기는 옛 도서관이에요. 후트 교수님이 오늘 밤 9시에 여기서 발견됐어요. 바닥에 쓰러져 계셨어요.',
     b2:'사서인 두더지 부인이 발견했어요. 8시에서 9시 사이에 일어난 일 같아요. 아직 안에 계시니 이야기해 보세요.',
@@ -1933,7 +2049,7 @@ const ANSWERS_KO = {
    A clue can point to a person (`unlocks`), who then appears at their place.
    `prop:true` = an ordinary object, not a clue: tapping it only plays the detective's sentence, with no photo and
    nothing kept in the evidence notebook (user request: only what matters is photographed). Some look suspicious on purpose. */
-const PLACES = [
+const PLACES = PICNIC ? PICNIC_CASE.places : [
   { id:'library', crime:true, x:27, y:47, label:'Old Library', artWidth:1376, artHeight:768,
     clues:[
       { label:'Big clock', en:'The big clock stopped at 8:40 PM.', ko:'큰 시계가 오후 8시 40분에 멈춰 있다.', audio:'audio/detective-library-clock.mp3' },
@@ -2025,7 +2141,7 @@ const PLACES = [
 // A dialogue-only setting: it has no map pin, unlock condition, hotspots or collectible evidence.
 const INTERVIEW_ROOM = { id:'interview', label:'조사실', artWidth:1536, artHeight:1536, spots:[], clues:[] };
 const placeOf = id => id === INTERVIEW_ROOM.id ? INTERVIEW_ROOM : PLACES.find(p => p.id === id);
-const NPC_POSITIONS = {
+const NPC_POSITIONS = PICNIC ? PICNIC_CASE.positions : {
   badger:{x:50, floor:93, height:44},   // right of the table, so the open book on it stays tappable
   mole:{x:66, floor:93, height:40},
   fiona:{x:66, floor:93, height:44},   // right of the order board on the counter, so it stays readable
@@ -2034,7 +2150,10 @@ const NPC_POSITIONS = {
   duck:{x:38, floor:93, height:42},   // in front of the counter, left of Ray
   betty:{x:50, floor:93, height:42}   // in the middle of her room, clear of the table and the rocking chair
 };
-const CULPRIT = 'fiona';
+const CULPRIT = PICNIC ? null : 'fiona';
+// the person a case starts with, and what the detective carries (소지품, picnic case)
+const START = PICNIC ? PICNIC_CASE.start : 'badger';
+const ITEMS = PICNIC ? PICNIC_CASE.items : {};
 
 /* ---------- characters ---------- */
 const INK = '#4A3628';
@@ -2187,12 +2306,17 @@ function setDetPose(box, i){
   box.dataset.pose = i; box.style.setProperty('--ar', `${p.w}/${p.h}`); box.style.setProperty('--ax', p.ax);
   box.innerHTML = detSVG(p);
 }
+// someone whose picture is not made yet (picnic case: Ben, Mia & Ollie, Nora): a plain cut-out, so no other animal stands in
+const DRAWN = ['fiona', 'ray', 'badger', 'mole', 'rosie'];
+const pendingSVG = `<g class="body pending" stroke="${INK}" stroke-width="3" stroke-dasharray="9 7" fill="#EFE4D2"><circle cx="100" cy="96" r="54"/><path d="M38 300 C34 214 60 160 100 160 C140 160 166 214 162 300 L162 380 L38 380Z"/></g>`;
 const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
   ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouth(k)}</g></g></svg>`
-  : `<svg viewBox="0 0 200 400" aria-hidden="true">${charSVG(id)}</svg>`; };
+  : `<svg viewBox="0 0 200 400" aria-hidden="true">${DRAWN.includes(id) ? charSVG(id) : pendingSVG}</svg>`; };
 // small faces: hand-drawn head-and-shoulders icons (assets/ui/icons-v2, one Higgsfield sheet)
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty'];
-const miniSVG = id => FACE_ICONS.includes(id) ? `<img class="face" src="assets/ui/icons-v2/${id}.png" alt="" draggable="false">`
+// a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
+const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.png`;
+const miniSVG = id => FACE_ICONS.includes(id) || !SPRITES[id] && !DRAWN.includes(id) ? `<img class="face" src="${faceSrc(id)}" alt="" draggable="false">`
   : SPRITES[id]
   ? `<svg viewBox="${SPRITES[id].face}" aria-hidden="true"><image href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/></svg>`
   : `<svg viewBox="40 22 120 120" aria-hidden="true">${charSVG(id)}</svg>`;
@@ -2204,11 +2328,13 @@ const miniSVG = id => FACE_ICONS.includes(id) ? `<img class="face" src="assets/u
 // checked: the page got its 확인됨 stamp. first/firstWrong: the result of the first 노트 확인 (for the review).
 const newSpeakerState = () => ({ phase:'wait', order:[], recording:null, notes:{}, marks:{}, checked:false, questionChecks:{}, feedback:null, firstQuestions:{}, first:null, firstWrong:{} });
 const S = {
-  cur:'badger', view:'badger', slow:false, sel:null, investigate:false,
+  cur:START, view:START, slow:false, sel:null, investigate:false,
   hints:3,           // acorn hints left for the whole case (shared by everyone)
   place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
-  known:new Set(),   // places someone has mentioned — only these appear on the map
-  met:['badger'],    // people the player knows about
+  known:new Set(PICNIC ? [PICNIC_CASE.people[START].place] : []),   // places someone has mentioned — only these appear on the map
+  met:[START],       // people the player knows about
+  items:[],          // 소지품: ITEMS the detective carries (picnic case)
+  handoffRound:0,    // how many bags are back with their owner (picnic case)
   mood:{},           // a person shown with another expression (ending)
   visit:{},          // a person standing somewhere else for a scene: { id:{ place, x, floor, height } } (ending)
   memo:{ text:'', pins:[], notes:{} },   // the notebook's memo: the player's own lines, 📌 keys ('say:<person>:<question>', 'ev:<place>-<clue>'), and a thought per pin (notes[key])
@@ -2223,7 +2349,8 @@ const availableQuestions = speaker => {
   const progress = per(speaker.id);
   // not asked yet, or (a save from when a wrong check went back to the questions) asked but not written down right
   return qs(speaker).filter(question => (!progress.order.includes(question.id) || progress.questionChecks[question.id] === 'review') &&
-    (!speaker.openingQuestion || progress.order.includes(speaker.openingQuestion) || question.id === speaker.openingQuestion));
+    (!speaker.openingQuestion || progress.order.includes(speaker.openingQuestion) || question.id === speaker.openingQuestion) &&
+    (speaker.needs?.[question.id] || []).every(ref => S.evidence.some(item => evRef(item) === ref)));
 };
 const cur = () => spk(S.cur);
 const st = () => per(S.cur);
@@ -2320,7 +2447,7 @@ function speak(text, key, who = S.cur, onDone, range){
   };
   if(!('speechSynthesis' in window)){ mime(); return; }
   const s = spk(who);
-  const u = new SpeechSynthesisUtterance(text);
+  const u = new SpeechSynthesisUtterance(text.replace(/(^|\s)[A-Z][a-z]+:\s/g, '$1'));
   u.lang = 'en-US'; u.rate = S.slow ? .72 : .95; u.pitch = s.pitch;
   if(voices.length) u.voice = voices[s.voice % voices.length];
   let started = false;
@@ -2512,9 +2639,10 @@ let noteRaised = false;
 let evidenceOpen = null;   // 'place-clueIndex' of the evidence shown on its own in the evidence notebook, else its list
 // The detective's recorded sentence for a piece of evidence.
 function playEvidence(ref){
-  const record = S.evidence.find(item => `${item.placeId}-${item.clueIndex}` === ref);
-  const clue = record && placeOf(record.placeId).clues[record.clueIndex];
-  if(!clue?.audio) return;
+  const entry = evidenceEntry(ref);
+  if(!entry) return;
+  if(!entry.audio) return readOut(entry.en);
+  const clue = entry;
   stopVoice();
   const voice = $('#evidenceVoice');
   voice.onended = voice.onerror = null;
@@ -2526,10 +2654,12 @@ function playEvidence(ref){
 // One of the detective's own lines (DETECTIVE, audio/detective-<key>.mp3), in the same voice as the evidence sentences.
 // onDone runs once it has been said, or at once if it cannot play (not when stopVoice cuts it off); onBlocked instead,
 // when given, if the browser holds the sound back until the first tap.
-function detectiveSay(key, onDone, onBlocked){
+// text: read by the browser's voice when there is no recording yet (picnic case)
+function detectiveSay(key, onDone, onBlocked, text){
   stopVoice();
   const voice = $('#evidenceVoice'), done = () => { voice.onended = voice.onerror = null; onDone?.(); };
   voice.onended = voice.onerror = null;
+  if(text && !DETECTIVE_RECORDED){ readOut(text, onDone); return; }
   voice.src = `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
@@ -2537,6 +2667,23 @@ function detectiveSay(key, onDone, onBlocked){
     if(err?.name !== 'NotAllowedError' || !onBlocked) return done();
     voice.onended = voice.onerror = null; onBlocked();
   });
+}
+// the case's detective lines are recorded (the library case); the picnic case has none yet
+const DETECTIVE_RECORDED = !PICNIC;
+// a line in the detective's voice with no recording: the browser's voice (the time it would take, without one)
+function readOut(text, onDone){
+  stopVoice();
+  const turn = speechTurn, done = () => { if(turn === speechTurn) onDone?.(); };
+  const length = text.length * (S.slow ? 95 : 70) + 500;
+  if(!('speechSynthesis' in window)){ talkT = setTimeout(done, length); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = S.slow ? .72 : .95;
+  if(voices.length) u.voice = voices[0];
+  let started = false;
+  u.onstart = () => { started = true; };
+  u.onend = u.onerror = done;
+  speechSynthesis.speak(u);
+  talkT = setTimeout(() => { if(!started) done(); }, length);
 }
 // the detective's mouth moves while one of their own lines plays (the same player also reads the evidence sentences)
 function setDetTalking(on){
@@ -2565,25 +2712,23 @@ function renderDock(){
   $('#app').classList.toggle('note-full', noteRaised);
   $('#finish').textContent = mode === 'summary' ? '계속' : mode === 'feedback' ? '닫기' : mode && per(S.view).questionChecks[per(S.view).recording] === 'review' ? '다시 확인' : '기록 완료';
   if(S.view === 'evidence'){
-    const ref = record => `${record.placeId}-${record.clueIndex}`;
-    const open = S.evidence.find(record => ref(record) === evidenceOpen);
+    const open = evidenceEntry(evidenceOpen);
     $('#listen').hidden = true;
     $('#evidenceTitle').hidden = !!open;
     $('#evidenceBack').hidden = !open;
     if(open){
-      const place = placeOf(open.placeId), clue = place.clues[open.clueIndex];
-      body.innerHTML = `<div class="evidence-page"><div class="evidence-detail" data-evidence="${ref(open)}">
-        <figure class="evidence-photo" aria-label="${esc(clue.label)} 현장 사진">${open.photo}</figure>
-        <span class="place">${esc(place.label)}</span>
-        <h4>${esc(clue.label)}${clue.audio ? `<button class="replay-q" type="button" data-ev-play="${ref(open)}" aria-label="다시 듣기">${playIcon}</button>` : ''}</h4>
-        <p>${esc(clue.en)}</p><p class="ko" hidden>${esc(clue.ko)}</p>
-        <span class="ev-btns">${pinBtn(`ev:${ref(open)}`)}<button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${ref(open)}">내밀기</button>` : ''}</span></div></div>`;
+      body.innerHTML = `<div class="evidence-page"><div class="evidence-detail" data-evidence="${open.ref}">
+        <figure class="evidence-photo" aria-label="${esc(open.label)} ${open.item ? '소지품' : '현장 사진'}">${open.photo}</figure>
+        <span class="place">${esc(open.place)}</span>
+        <h4>${esc(open.label)}<button class="replay-q" type="button" data-ev-play="${open.ref}" aria-label="다시 듣기">${playIcon}</button></h4>
+        <p>${esc(open.en)}</p><p class="ko" hidden>${esc(open.ko)}</p>
+        <span class="ev-btns">${open.item ? '' : pinBtn(`ev:${open.ref}`)}<button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${open.ref}">내밀기</button>` : ''}</span></div></div>`;
     } else {
       evidenceOpen = null;
-      body.innerHTML = `<div class="evidence-page">${S.evidence.length ? [...S.evidence].reverse().map(record => {
-        const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
-        return `<div class="ev-cell"><button class="ev-card" type="button" data-ev-open="${ref(record)}" data-evidence="${ref(record)}"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="ev-title">${esc(clue.label)}</span><span class="place">${esc(place.label)}</span></button>${pinBtn(`ev:${ref(record)}`)}</div>`;
-      }).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
+      const all = evidenceEntries();
+      body.innerHTML = `<div class="evidence-page">${all.length ? all.map(entry =>
+        `<div class="ev-cell"><button class="ev-card" type="button" data-ev-open="${entry.ref}" data-evidence="${entry.ref}"><span class="evidence-photo" aria-hidden="true">${entry.photo}</span><span class="ev-title">${esc(entry.label)}</span><span class="place">${esc(entry.place)}</span></button>${entry.item ? '' : pinBtn(`ev:${entry.ref}`)}</div>`
+      ).join('') : '<div class="empty-note">아직 수집한 증거가 없어요.</div>'}</div>`;
     }
     body.scrollTop = 0;
     bindDock();
@@ -2743,17 +2888,23 @@ function talkTo(id){
   stopVoice();
   const first = per(id).phase === 'wait';
   S.cur = id; S.view = id; S.sel = null;
+  if(!ending) renderSay(null);
   if(!S.met.includes(id)) S.met.push(id);
   if(first) per(id).phase = 'choose';
   openSheet(null); setNotes(false);
   if(S.investigate) setInvestigate(false);
   renderStage(fromRect); renderDock();
   if(recordLocked()) setNotes(true);   // an unfinished recording opens again where it was left
+  else if(!first) Object.entries(cur().after || {}).forEach(([qid, beat]) => {
+    const heard = qid === 'done' ? per(id).phase === 'done' : per(id).questionChecks[qid] === 'ok';
+    const missing = (beat.snap || []).some(ref => !S.evidence.some(item => evRef(item) === ref)) || beat.give && !S.items.includes(beat.give) && !S.handoffRound;
+    if(heard && missing && !beats.some(b => b.id === id)){ beats.push({ id, ...beat }); greetingTimer = setTimeout(playBeats, 700); }
+  });
   if(first){
-    if(cur().partner) stageCard(LIBRARY_CASE.title, LIBRARY_CASE.no);
+    if(id === START) stageCard(CASE.title, CASE.no);
     greetingTimer = setTimeout(() => {
       if(!S.investigate && S.cur === id && per(id).phase === 'choose') speak(spk(id).hello, 'hello');
-    }, cur().partner ? 1200 : 600);
+    }, id === START ? 1200 : 600);
   }
 }
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
@@ -2826,6 +2977,8 @@ function finishRecord(){
   stampSound(340);
   p.recording = null;
   p.phase = qs(cur()).every(question => p.questionChecks[question.id] === 'ok') ? 'done' : 'choose';
+  const beat = cur().after?.[qid] || (p.phase === 'done' && cur().after?.done);
+  if(beat) beats.push({ id:S.cur, ...beat });
   const revealed = unlock(cur().unlocks?.[qid]) || {};
   pendingPins.push(...(revealed.places || []));
   pendingPeople.push(...(revealed.people || []));
@@ -2912,6 +3065,7 @@ function setInvestigate(on){
   cancelCapture();
   S.investigate = on;
   stopVoice(); hideBubble(); clearSel();
+  if(!ending) renderSay(null);
   $('#app').classList.remove('expanded', 'notes-open');
   $('#app').classList.toggle('investigate', on);
   $('#noteTab').setAttribute('aria-expanded', 'false');
@@ -3114,7 +3268,7 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openShe
 // a place → the case list (progress is saved and resumes).
 $('#backTab').onclick = () => {
   if(!$('#deduce').hidden){ setNotes(false); return closeDeduce(); }
-  if(ending?.step === 'call') return leaveEnding();   // before the station nothing is lost
+  if(ending?.step === 'call' || ending?.step?.startsWith('handoff')) return leaveEnding();   // before the station nothing is lost; a bag handed over stays handed over
   if(ending) return requestLeaveInterrogation();
   if(talkLocked()){ setNotes(false); return askStopTalk(); }
   if(!S.investigate && !ending) return leaveTalk();
@@ -3146,6 +3300,44 @@ function closeNotes(){
   setNotes(false);
   renderDock();
   revealDiscoveries();
+  playBeats();
+}
+// PEOPLE[].after, once the notebook with the checked question is put away: someone's line and a thing handed to the
+// detective (소지품), or the detective's line and the photos it asks for (taken right there, user decision)
+let beats = [];
+function playBeats(){
+  const beat = beats.shift(); if(!beat) return;
+  const give = () => {
+    if(!beat.give || S.items.includes(beat.give) || S.handoffRound) return;
+    S.items.push(beat.give); saveGame();
+    setTimeout(() => toast('소지품을 노트에 넣었어요.'), 300);
+  };
+  // away from that person by now: what it gives still comes, without the lines
+  if(S.investigate || S.cur !== beat.id){ give(); snap(beat.snap || []); return; }
+  if(beat.say){ speak(beat.say.en, beat.say.key, beat.id, give); setTimeout(give, beat.say.en.length * 70 + 1500); return; }
+  if(beat.det){
+    // the photos are taken once the line is said, or as soon as it is cut off (the player went on)
+    let over = false;
+    const end = () => { if(over) return; over = true; clearTimeout(cut); if(!ending) renderSay(null); snap(beat.snap || []); give(); };
+    const cut = setTimeout(end, beat.det.en.length * (S.slow ? 95 : 70) + 2500);
+    renderSay(detLine(beat.det));
+    detectiveSay(beat.det.key, () => setTimeout(end, 400), null, beat.det.en);
+  }
+}
+// photos taken in a conversation: the shutter and a flash over the scene, then the notebook has them
+function snap(refs){
+  const fresh = refs.filter(ref => !S.evidence.some(item => evRef(item) === ref));
+  if(!fresh.length) return;
+  fresh.forEach((ref, n) => setTimeout(() => {
+    playShutter();
+    const flash = document.createElement('div');
+    flash.className = 'capture-flash'; flash.setAttribute('aria-hidden', 'true');
+    $('.scene').appendChild(flash); setTimeout(() => flash.remove(), 400);
+    const at = ref.lastIndexOf('-'), place = placeOf(ref.slice(0, at)), clueIndex = +ref.slice(at + 1);
+    S.found[place.id].add(clueIndex);
+    S.evidence.push({ placeId:place.id, clueIndex, photo:evidencePhoto(place, clueIndex) });
+    if(n === fresh.length - 1){ saveGame(); renderDock(); toast('증거를 노트에 기록했어요.'); }
+  }, n * 700));
 }
 $('#finish').onclick = () => {
   if(noteMode() === 'record'){ finishRecord(); return; }
@@ -3318,7 +3510,8 @@ $('#accused').addEventListener('click', e => {
    them out) → who lied → why. A wrong pick shakes the card; the first time the detective only says it doesn't fit,
    after that he points to the part of the notes to look at again (never the answer). The board keeps what has been
    worked out. Progress (S.deduce) is kept with the case. */
-const DEDUCE = {
+const DEDUCE = PICNIC ? PICNIC_CASE.deduce : {
+  always:['hoot', 'library'],   // on the board from the start: the victim and the crime scene
   people:[['Sgt. Badger', 'badger'], ['Mrs. Mole', 'mole'], ['Ray Raccoon', 'ray'], ['Rosie Rabbit', 'rosie'], ['Fiona Fox', 'fiona'], ['Mr. Duck', 'duck'],
     ['Mrs. Bear', 'betty'], ['Professor Hoot', 'hoot']],
   places:[['library', 'library'], ['bakery', 'bakery'], ['Lake Cafe', 'cafe'], ['Moon Hill', 'hill']],
@@ -3372,8 +3565,8 @@ const DEDUCE = {
 };
 // lines recorded as audio/deduce/<key>.mp3 (q1…q10 questions, r1…r10 replies, h1…h10 hints, miss; the detective's
 // voice, Higgsfield MiniMax Grady); a line missing here is read by the browser's voice
-const DEDUCE_RECORDED = new Set([...DEDUCE.qs.flatMap((q, i) => [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const KIND_KO = { person:'인물', place:'장소', time:'시각' };
+const DEDUCE_RECORDED = PICNIC ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
+const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건' };
 const deduceBlank = q => q.card.match(/\{(\w+):([^}]+)\}/);   // [, kind, answer]
 // an older save's page board (fill/solved) starts over as questions
 const deduceState = () => S.deduce?.done instanceof Set ? S.deduce : (S.deduce = { done:new Set(), misses:{}, tried:{}, at:0 });
@@ -3382,14 +3575,16 @@ let deduceKoOpen = false, deduceKoCards = new Set(), deduceHold = null, deduceHo
 // the words of a kind the player has met so far
 function deduceWords(kind){
   // The victim is not an NPC in S.met, but his portrait belongs in the person choices.
-  if(kind === 'person') return DEDUCE.people.filter(([, id]) => id === 'hoot' || S.met.includes(id)).map(([word]) => word);
-  if(kind === 'place') return DEDUCE.places.filter(([, id]) => id === 'library' || S.known.has(id)).map(([word]) => word);
+  const always = id => DEDUCE.always?.includes(id);
+  if(kind === 'person') return DEDUCE.people.filter(([, id]) => always(id) || S.met.includes(id)).map(([word]) => word);
+  if(kind === 'place') return DEDUCE.places.filter(([, id]) => always(id) || S.known.has(id)).map(([word]) => word);
+  if(kind === 'thing') return DEDUCE.things;
   return DEDUCE.times;
 }
 function deducePic(kind, word){
   if(kind !== 'person') return '<i class="dot"></i>';
   const id = DEDUCE.people.find(([w]) => w === word)?.[1];
-  return id ? `<i class="fc" style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>` : '<i class="fc unknown">?</i>';
+  return id ? `<i class="fc" style="background-image:url(${faceSrc(id)})"></i>` : '<i class="fc unknown">?</i>';
 }
 function openDeduce(){
   if(!allConversationsDone()) return;
@@ -3460,7 +3655,7 @@ function renderDeduce(){
     const pop = !first && !old, draw = !first && old && ((out && !old.out) || (lie && !old.lie));
     const cls = [out && 'out', lie && 'culprit', pop && 'pop', draw && 'draw'].filter(Boolean).join(' ');
     const x = out ? '<span class="ded-x" aria-hidden="true"><i></i><i></i></span>' : lie ? '<span class="ded-o" aria-hidden="true"><i></i><i></i></span>' : '';
-    return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${id}.png)"></i>${name}</span>${x}</div>`;
+    return `<div class="ded-sus ${cls}" data-dsus="${id}"><span class="ded-pol"><i style="background-image:url(${faceSrc(id)})"></i>${name}</span>${x}</div>`;
   };
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
   const card = (i, filled) => {
@@ -3575,7 +3770,8 @@ $('#deduceKo').onclick = () => {
   $('#deduceKoText').hidden = !deduceKoOpen;
 };
 // all worked out: report the deduction to Sgt. Badger (startCall)
-$('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); startCall(); };
+$('#deduceGo button').textContent = DEDUCE.go || '경찰에게 알리기';
+$('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); (ENDING.handoff ? startHandoff : startCall)(); };
 
 /* ---------- ending ----------
    Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
@@ -3584,7 +3780,7 @@ $('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDedu
    closes the case → ④ review, whose first page carries the COMPLETE stamp.
    What happened is told only by these lines. 해석 is available inside the speech bubble.
    Lines without an mp3 in PEOPLE[].audio play with browser TTS. */
-const ENDING = {
+const ENDING = PICNIC ? PICNIC_CASE.ending : {
   opening:{ who:'badger', key:'interviewOpen', en:'Fiona Fox, tell us where you were tonight.', ko:'피오나 폭스, 오늘 밤 어디에 있었는지 말해 주세요.' },
   // each claim, what breaks it (a photo 'place-clue' or a statement 'person:question'), and the detective's short line
   // once it lands (det, audio/detective-<key>.mp3, user decision)
@@ -3640,7 +3836,7 @@ function renderSay(line){
   const b = $('#sayBubble');
   if(!line){ b.hidden = true; return; }
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
-  const again = line === ending?.line;
+  const again = line === ending?.line && !line.think;   // the detective's thought is not said
   // the detective (the player, never on screen) speaks from below, on honey paper with their face (user pick A)
   b.classList.toggle('det', !!line.det);
   b.innerHTML = (line.det ? '<img class="say-face" src="assets/ui/icons-v2/detective.png" alt="">' : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
@@ -3652,6 +3848,7 @@ $('#sayBubble').addEventListener('click', e => {
   if(e.target.closest('[data-say-again]')){
     if(!ending?.line) return;
     clearTimeout(endTimer);
+    if(ending.line.det) return detectiveSay(ending.line.key, ending.lineDone, null, ending.line.en);
     return speak(ending.line.en, ending.line.key, ending.line.who, ending.lineDone);
   }
   const button = e.target.closest('[data-say-ko]'); if(!button) return;
@@ -3687,6 +3884,24 @@ function updateInterrogationGauge(round, feedback = ''){
   if(feedback){ void box.offsetWidth; box.classList.add(feedback); }
 }
 
+// One shape for a photo ('place-clue') and a thing in 소지품 ('@item'): what the notebook and the drawer show of it.
+const isItemRef = ref => ref?.startsWith('@');
+function itemPhoto(id){
+  const it = ITEMS[id], [x, y, w, h] = it.crop;
+  return `<svg viewBox="${x} ${y} ${w} ${h}" aria-hidden="true"><image href="${it.img}" width="${it.w}" height="${it.h}"/></svg>`;
+}
+function evidenceEntry(ref){
+  if(!ref) return null;
+  if(isItemRef(ref)){
+    const id = ref.slice(1), it = ITEMS[id];
+    return S.items.includes(id) ? { ref, item:true, label:it.label, place:'소지품', en:it.en, ko:it.ko, photo:itemPhoto(id) } : null;
+  }
+  const record = S.evidence.find(item => evRef(item) === ref);
+  if(!record) return null;
+  const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
+  return { ref, label:clue.label, place:place.label, en:clue.en, ko:clue.ko, audio:clue.audio, photo:record.photo };
+}
+const evidenceEntries = () => [...S.items.map(id => evidenceEntry(`@${id}`)), ...[...S.evidence].reverse().map(record => evidenceEntry(evRef(record)))];
 // The evidence drawer: every photo in a strip under her; one picked plays its sentence and can be held up (내밀기).
 // Its 진술 tab holds the statements instead (user pick A): what the player wrote for every checked question.
 let drawerPick = null, drawerTab = 'photo', drawerSizeAnimation = null, drawerTextAnimation = null;
@@ -3697,8 +3912,12 @@ const sayOk = ref => { const [id, qid] = ref.split(':'); return S.per[id]?.quest
 // not the one being questioned (her own words are what is being tested) nor Sgt. Badger (his are the case briefing), user
 // request
 const statements = () => PEOPLE_ORDER.flatMap(id => S.per[id] && id !== accusedId && !spk(id).partner ? qs(spk(id)).map(q => `${id}:${q.id}`).filter(sayOk) : []);
-const sayFace = id => `<i class="say-face" style="background-image:url(assets/ui/icons-v2/${id}.png);background-color:${spk(id).bg}"></i>`;
+const sayFace = id => `<i class="say-face" style="background-image:url(${faceSrc(id)});background-color:${spk(id).bg}"></i>`;
 function drawerStripHTML(){
+  if(drawerTab === 'item'){
+    return S.items.length ? S.items.map(id => `<button class="dcard" type="button" data-pick="@${id}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${itemPhoto(id)}</span><span class="dlabel">${esc(ITEMS[id].label)}</span><span class="dplace">소지품</span></button>`).join('')
+      : '<p class="empty-note">가진 물건이 없어요.</p>';
+  }
   if(drawerTab === 'say'){
     const all = statements();
     return all.length ? all.map(ref => { const [id, qid] = ref.split(':');
@@ -3717,7 +3936,13 @@ function stopDrawerAnimations(){
 function openDrawer(tab = 'photo'){
   stopDrawerAnimations();
   drawerPick = null; drawerTab = tab;
-  $('#drawer').querySelectorAll('[data-drawer-tab]').forEach(b => b.setAttribute('aria-pressed', b.dataset.drawerTab === tab));
+  // handing a bag over shows 소지품 alone; the questioning has no 소지품
+  const handing = ending?.step === 'handoff';
+  $('#drawer').querySelectorAll('[data-drawer-tab]').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.drawerTab === tab);
+    b.hidden = handing ? b.dataset.drawerTab !== 'item' : b.dataset.drawerTab === 'item';
+  });
+  $('#drawer h3').textContent = handing ? '소지품' : '증거';
   $('#drawerStrip').innerHTML = drawerStripHTML();
   $('#drawerStrip').scrollLeft = 0;
   $('#drawerPick').innerHTML = '';
@@ -3741,6 +3966,9 @@ function pickEvidence(ref){
     // a statement: who said it and what they said (their own recording again), then 내밀기
     const [id, qid] = ref.split(':');
     detail.innerHTML = `<p><b class="who-says">${esc(spk(id).name)}:</b> “${esc(spk(id).answers[qid])}”</p>${drawerTools(ref, ANSWERS_KO[id]?.[qid])}`;
+  } else if(isItemRef(ref)){
+    const entry = evidenceEntry(ref);
+    detail.innerHTML = `<p>${esc(entry.en)}</p>${drawerTools(ref, entry.ko)}`;
   } else {
     const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
     detail.innerHTML = `<p>${esc(clue.en)}</p>${drawerTools(ref, clue.ko, !clue.audio)}`;
@@ -3762,10 +3990,10 @@ function pickEvidence(ref){
 function drawerTools(ref, ko, mute){
   return `${ko ? `<p class="ko" hidden>${esc(ko)}</p>` : ''}<div class="drawer-row">${mute ? '' : `<button class="play-btn" type="button" data-pick-play="${ref}" aria-label="다시 듣기"></button>`}` +
     `${ko ? '<button class="pill sm" type="button" data-drawer-ko aria-pressed="false">해석</button>' : ''}</div>
-    <button class="pill big" type="button" data-present="${ref}">내밀기</button>`;
+    <button class="pill big" type="button" data-present="${ref}">${ending?.step === 'handoff' ? '건네주기' : '내밀기'}</button>`;
 }
 function playPick(ref){
-  if(!isSayRef(ref)) return playEvidence(ref);
+  if(isItemRef(ref) || !isSayRef(ref)) return playEvidence(ref);
   const [id, qid] = ref.split(':'); speak(spk(id).answers[qid], qid, id);
 }
 // A mouse can drag the strip sideways and its wheel scrolls it sideways (a finger already swipes it natively);
@@ -3809,13 +4037,27 @@ function endingControls(){
   if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>' : '';
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
   if(e.step === 'confront') return e.line === ENDING.opening ? '' : tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
+  if(e.step === 'handoff') return `<button class="pill big green" type="button" data-end="give">가방 건네주기</button>`;
   return tools + `<button class="pill big" type="button" data-end="next">다음</button>`;
 }
 function endingAction(action, who){
   const e = ending; if(!e) return;
   if(action === 'present'){ stopVoice(); openDrawer(); return; }
+  if(action === 'give'){ stopVoice(); openDrawer('item'); return; }
   if(action === 'next') endingNext();
   if(action === 'interview') callGo();
+}
+// the camera on someone at their place (true when it moved)
+function endingFocus(who){
+  if(ending.shown === who && !S.investigate) return false;
+  const samePlace = ending.shown && !S.investigate && placeIdOf(ending.shown) === placeIdOf(who);
+  ending.shown = who;
+  stopVoice(); S.cur = who; S.view = who; S.sel = null;
+  openSheet(null); setNotes(false);
+  if(S.investigate) setInvestigate(false);
+  if(samePlace){ $('#app').classList.toggle('partner', !!cur().partner); focusCamera(null, true); }
+  else renderStage();
+  return true;
 }
 // show someone (camera on them at their place) and play the line
 function endingSay(line, mood, onDone){
@@ -3824,16 +4066,7 @@ function endingSay(line, mood, onDone){
   ending.lineDone = onDone || null;
   renderSay(line);
   if(mood !== undefined){ if(mood) S.mood[line.who] = mood; else delete S.mood[line.who]; }
-  if(ending.shown !== line.who || S.investigate){
-    const samePlace = ending.shown && !S.investigate && placeIdOf(ending.shown) === placeIdOf(line.who);
-    ending.shown = line.who;
-    stopVoice(); S.cur = line.who; S.view = line.who; S.sel = null;
-    openSheet(null); setNotes(false);
-    if(S.investigate) setInvestigate(false);
-    if(samePlace){ $('#app').classList.toggle('partner', !!cur().partner); focusCamera(null, true); }
-    else renderStage();
-  }
-  else if(mood !== undefined) renderScene(placeIdOf(S.cur));
+  if(!endingFocus(line.who) && mood !== undefined) renderScene(placeIdOf(S.cur));
   renderDock();
   endTimer = setTimeout(() => { if(ending?.line === line) speak(line.en, line.key, line.who, ending.lineDone); }, 500);
 }
@@ -3944,11 +4177,12 @@ function leaveEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
   ending = null; endingRound = 0; $('#app').classList.remove('ending'); renderInterrogationGauge();
   leaveInterview();
-  setMood('fiona', null);
+  if(CULPRIT) setMood(CULPRIT, null);
   enterPlace(returnPlace, true);
   openSheet('map');
 }
 function present(ref){
+  if(ending?.step === 'handoff') return handOver(ref);
   if(ending?.step !== 'confront') return;
   clearTimeout(endTimer); stopVoice();
   setNotes(false); renderDock();
@@ -4032,13 +4266,68 @@ function endingNext(){
     e.step = 'closing'; return endingSay(ENDING.closing);
   }
   if(e.step === 'closing') return finishEnding();
+  if(e.step === 'handoffTalk'){
+    const round = ENDING.handoff[e.round];
+    if(++e.i < round.lines.length) return handoffLine();
+    // this bag is back with its owner: the next one comes out of 소지품 next
+    S.items = S.items.filter(id => id !== round.give);
+    if(round.take){ S.items.push(round.take); toast('소지품을 노트에 넣었어요.'); }
+    S.handoffRound = ++e.round; saveGame();
+    if(e.round < ENDING.handoff.length) return handoffOpen();
+    return finishEnding();
+  }
+}
+/* ---------- handing over (picnic case) ----------
+   No questioning (user decision): after the board the detective goes to whoever has the other bag. The line on screen
+   says what to do, the bag in 소지품 is handed over from the drawer (건네주기), the detective explains and they thank
+   them; then the next bag, until each is back with its owner. */
+const detLine = line => { const name = detectiveName(); return { ...line, name:name ? `Detective ${name}` : 'Detective', det:true }; };
+function startHandoff(){
+  ending = { step:'handoff', round:S.handoffRound || 0, returnPlace:S.place || cur().place };
+  $('#app').classList.add('ending');
+  handoffOpen();
+}
+// the person with the bag, and the line before it is handed over (said once the camera is on them)
+function handoffOpen(){
+  clearTimeout(endTimer);
+  const round = ENDING.handoff[ending.round];
+  Object.assign(ending, { step:'handoff', i:0 });
+  endingFocus(round.to);
+  ending.line = detLine(round.open); ending.lineDone = null;
+  renderSay(ending.line); renderDock();
+  if(!round.open.think) endTimer = setTimeout(() => detectiveSay(round.open.key, null, null, round.open.en), 500);
+}
+function handOver(ref){
+  const round = ENDING.handoff[ending.round], right = ref === `@${round.give}`;
+  clearTimeout(endTimer); stopVoice(); closeDrawer();
+  renderSay(null); ending.line = null; renderAsk();
+  const shot = document.createElement('div');
+  shot.className = `presented given${right ? '' : ' miss'}`;
+  shot.innerHTML = `<figure>${evidenceEntry(ref)?.photo || ''}</figure>`;
+  $('.scene').appendChild(shot);
+  setTimeout(() => { const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {}); }, 480);
+  setTimeout(() => shot.remove(), 1300);
+  endTimer = setTimeout(() => {
+    if(ending?.step !== 'handoff') return;
+    if(!right) return handoffOpen();
+    ending.step = 'handoffTalk'; ending.i = 0;
+    handoffLine();
+  }, 1300);
+}
+function handoffLine(){
+  const round = ENDING.handoff[ending.round], line = round.lines[ending.i];
+  if(!line.det) return endingSay({ who:round.to, ...line });
+  clearTimeout(endTimer);
+  ending.line = detLine(line); ending.lineDone = null;
+  renderSay(ending.line); renderDock();
+  endTimer = setTimeout(() => detectiveSay(line.key, null, null, line.en), 500);
 }
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
   S.mood = {};
   // solved is saved before the review opens, so leaving the app during the review keeps the case solved
-  markSolved(LIBRARY_CASE.id);
+  markSolved(CASE.id);
   leaveInterview(); renderPlaces(); renderStage(); renderDock();
   openReview();
 }
@@ -4062,7 +4351,7 @@ function liveStats(){
 // out but the last step) or from the home 복습 page (fromHome: saved totals; 닫기 at the top).
 let rv = null;
 function openReview(fromHome){
-  const stat = fromHome ? caseStats()[LIBRARY_CASE.id] : liveStats();
+  const stat = fromHome ? caseStats()[CASE.id] : liveStats();
   const missed = stat?.missed || [];
   const words = learnedWords(), kept = keptWords(), grammar = caseGrammar(), savedGrammar = keptGrammar();
   rv = { fromHome:!!fromHome, stat, missed, wrong:stat?.wrong || {}, card:0, filled:{}, step:0,
@@ -4086,9 +4375,9 @@ function renderReview(dir){
   let body = '', foot = '';
   if(step === 'result'){
     const stars = st?.stars || 0;
-    body = `<div class="rv-file">${reviewPhoto(LIBRARY_CASE)}<img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>${esc(LIBRARY_CASE.no)}</small><b>${esc(LIBRARY_CASE.title)}</b></div>
+    body = `<div class="rv-file">${reviewPhoto(CASE)}<img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>${esc(CASE.no)}</small><b>${esc(CASE.title)}</b></div>
       <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div>
-      ${LIBRARY_CASE.summary ? `<div class="rv-story"><h3>사건 요약</h3>${LIBRARY_CASE.victimPhoto ? `<img class="rv-victim" src="${esc(LIBRARY_CASE.victimPhoto)}" alt="후트 교수">` : ''}<p>${esc(LIBRARY_CASE.summary)}</p></div>` : ''}
+      ${CASE.summary ? `<div class="rv-story"><h3>사건 요약</h3>${CASE.victimPhoto ? `<img class="rv-victim" src="${esc(CASE.victimPhoto)}" alt="후트 교수">` : ''}<p>${esc(CASE.summary)}</p></div>` : ''}
       <div class="rv-tiles">
         <div>처음에 맞힌 빈칸<b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b></div>
         <div${rv.missed.length ? ' class="hot"' : ''}>다시 들을 문장<b>${rv.missed.length || '없음'}</b></div>
@@ -4122,7 +4411,7 @@ function renderReview(dir){
   // 뒤로 on the grammar and word pages (user request), the same as the play screen's
   const back = `<button class="pill rv-back" type="button" data-rv-back aria-label="뒤로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
   if(step === 'grammar'){
-    const keys = LIBRARY_CASE.keys?.length ? LIBRARY_CASE.keys : rv.grammar.slice(0, 3).map(([g]) => g);
+    const keys = CASE.keys?.length ? CASE.keys : rv.grammar.slice(0, 3).map(([g]) => g);
     const extras = rv.grammar.filter(([g]) => !keys.includes(g));
     body = `<h2 class="rv-title">${back}이번 사건의 문법 <small>${rv.keepGrammar.size} / ${rv.grammar.length}</small></h2>
       <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
@@ -4181,17 +4470,18 @@ function reviewPhoto(c){
   const p = c.photo;
   if(p?.who) return `<div class="rv-photo mug"><img class="who" src="${p.img}" alt="" style="--cx:${p.cx ?? 50}"><span class="plate"><b>${esc(spk(p.who).name.toUpperCase())}</b>ACORN HOLLOW · ${esc(c.no.replace(/\D/g, ''))}</span></div>`;
   if(p?.place) return `<div class="rv-photo">${evidencePhoto(placeOf(p.place), p.clue)}</div>`;
+  if(p?.img) return `<div class="rv-photo"><img src="${p.img}" alt=""></div>`;
   return '';
 }
 // The review's grammar rows: the case's key grammar form by form (CASES[].keys, the case key's pages), each with the first
 // line of the case that uses that form (from GRAMMAR_LINES: an answer's words matching the form, A and B any words);
 // without keys, the case's three most used grammar.
 function reviewGrammar(){
-  const keys = LIBRARY_CASE.keys?.length ? LIBRARY_CASE.keys : caseGrammar().slice(0, 3).map(([g]) => g);
+  const keys = CASE.keys?.length ? CASE.keys : caseGrammar().slice(0, 3).map(([g]) => g);
   return keys.flatMap(g => {
     const uses = grammarUses(g).filter(u => spk(u.id).answers[u.qid].includes(u.words));
     return (GRAMMAR[g].examples || [{ head:GRAMMAR[g].name, ko:GRAMMAR[g].pattern }]).map(ex => {
-      const form = new RegExp('^' + ex.head.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b[AB]\b/g, '.+') + '\\b', 'i');
+      const form = ex.match ? new RegExp(ex.match, 'i') : new RegExp('^' + ex.head.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b[AB]\b/g, '.+') + '\\b', 'i');
       return { head:ex.head, name:ex.ko, use:GRAMMAR[g].examples ? uses.find(u => form.test(u.words)) : uses[0] };
     });
   });
@@ -4362,8 +4652,21 @@ const ART = {
     <image href="assets/places/hill-higgsfield.png" width="1376" height="768"/>`,
 
   bettyhome: () => `
-    <image href="assets/places/betty-home-higgsfield.png" width="1376" height="768"/>`
+    <image href="assets/places/betty-home-higgsfield.png" width="1376" height="768"/>`,
+
+  // the picnic case (assets/places/picnic-storyboard/)
+  picnic: () => `<image href="assets/places/picnic-storyboard/picnic-wide.png" width="1280" height="714"/>`,
+  daycafe: () => `<image href="assets/places/picnic-storyboard/cafe-day.png" width="1679" height="937"/>`,
+  benhome: () => `<image href="assets/places/picnic-storyboard/ben-home.png" width="1672" height="941"/>`,
+  // the two bags on the bench are drawn here until the garden picture has them
+  garden: () => `<image href="assets/places/picnic-storyboard/garden.webp" width="1376" height="768"/>${pendingBag(985, 330, '#6F9BC9', '#55789F')}${pendingBag(1115, 330, '#D9645A', '#B04B44')}`,
+  // no picture yet: a plain room
+  lobby: () => `<rect width="1376" height="768" fill="#EFE3CC"/><rect y="540" width="1376" height="228" fill="#C9A47A"/>
+    <g ${WOB}><path d="M0 540 H1376" fill="none"/><rect x="150" y="130" width="250" height="290" rx="12" fill="#CFE3EA"/><path d="M275 130 V420 M150 275 H400" fill="none"/>
+    <rect x="880" y="400" width="360" height="150" rx="10" fill="#B98A5C"/><rect x="860" y="380" width="400" height="30" rx="8" fill="#D9B88E"/></g>`
 };
+// a backpack (the garden's, until it is drawn): x, y its top left, 80×92
+const pendingBag = (x, y, c, d) => `<g ${WOB} transform="translate(${x} ${y})"><path d="M30 4 Q40 -12 50 4" fill="none"/><path d="M8 20 Q8 2 40 2 Q72 2 72 20 L76 84 Q76 92 68 92 L12 92 Q4 92 4 84Z" fill="${c}"/><path d="M8 22 Q40 36 72 22 L72 44 Q40 56 8 44Z" fill="${d}"/><rect x="24" y="60" width="32" height="22" rx="5" fill="${d}"/></g>`;
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
 const ART_FLOOR = {
@@ -4401,7 +4704,7 @@ function renderScene(placeId = S.place){
   art.style.setProperty('--art-share', artHeight / (artHeight + (floor ? Math.min(floor.h, artHeight * .3) : 0)));
   art.innerHTML = `<svg viewBox="0 0 ${pl.artWidth || 900} ${pl.artHeight || 600}" aria-hidden="true">${ART[pl.id]()}</svg>` +
     (floor ? `<img class="art-floor" src="${floor.src}" alt="">` : '') +
-    pl.spots.map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
+    pl.spots.filter(s => !s.talk).map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
     people.map(id => {
       const position = positionOf(id), sprite = SPRITES[spriteKey(id)], { width, height } = npcBox(id, pl);
@@ -4574,6 +4877,7 @@ function enterPlace(id, fromConversation = false){
 }
 // The interrogation's evidence found so far: a step of ENDING.confront counts once any evidence it accepts is found.
 function evidenceNeed(){
+  if(!ENDING.confront) return { got:0, of:0 };
   const found = key => { if(isSayRef(key)) return sayOk(key); const at = key.lastIndexOf('-'); return !!S.found[key.slice(0, at)]?.has(+key.slice(at + 1)); };
   return { got:ENDING.confront.filter(step => step.accept.some(found)).length, of:ENDING.confront.length };
 }
@@ -4584,6 +4888,7 @@ function renderSceneHead(){
   chip.innerHTML = `<img src="assets/ui/icons/magnifier.png" alt="">${got} <small>/ ${of}</small>`;
   chip.setAttribute('aria-label', `심문 증거 ${of}개 중 ${got}개`);
   chip.classList.toggle('all', got === of);
+  chip.hidden = !of;
   if(evShown !== null && got > evShown){ chip.classList.remove('bump'); void chip.offsetWidth; chip.classList.add('bump'); }
   evShown = got;
 }
@@ -4636,7 +4941,7 @@ function renderTut(){
 function closeTutorial(){
   markTutSeen();
   $('#intro').hidden = true;
-  if(tutThenStart) talkTo('badger');
+  if(tutThenStart) talkTo(START);
 }
 $('#tutNext').onclick = () => { if(tutStep < TUT.length - 1){ tutStep++; renderTut(); } else closeTutorial(); };
 $('#tutPrev').onclick = () => { if(tutStep > 0){ tutStep--; renderTut(); } };
@@ -4839,7 +5144,9 @@ function homeKoShift(){
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
    this device; the case in progress lives in memory only until saving is added. */
 const CASES = [
-  { id:'picnic-bag', no:'Case 01', title:'바뀐 소풍 가방', art:'picnic', playable:true, focus:'소유 표현 듣기', keys:['ownership'] },
+  { id:'picnic-bag', no:'Case 01', title:'바뀐 소풍 가방', art:'picnic', playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+    photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
+    summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   { id:'case01', no:'Case 02', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
@@ -4850,7 +5157,8 @@ const CASES = [
   { id:'case04', no:'Case 04' },
   { id:'case05', no:'Case 05' }
 ];
-const LIBRARY_CASE = CASES[1];
+// the case this page plays (CASE_ID)
+const CASE = CASES.find(c => c.id === CASE_ID);
 const SOLVED_KEY = 'pioo.solvedCases', STATS_KEY = 'pioo.caseStats', DAYS_KEY = 'pioo.studyDays';
 const readJSON = (key, empty) => { try { return JSON.parse(localStorage.getItem(key)) || empty; } catch(e){ return empty; } };
 const solvedCases = () => readJSON(SOLVED_KEY, []);
@@ -4903,7 +5211,7 @@ function renderCaseList(){
       <span class="pol-photo">?</span>
       <span class="pol-cap"><span class="case-no">${c.no}</span>
         <span class="case-lock">${LOCK_ICON}${open ? '준비 중이에요' : `${CASES[i - 1].no}${'2459'.includes(CASES[i - 1].no.slice(-1)) ? '를' : '을'} 해결하면 열려요`}</span></span></div>`;
-    const inProgress = c.id === 'picnic-bag' ? !!localStorage.getItem('pioo.picnic.save') : caseStarted;
+    const inProgress = c.id === CASE_ID ? caseStarted : !!localStorage.getItem(c.id === 'picnic-bag' ? 'pioo.save.picnic' : 'pioo.save');
     const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : inProgress ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
     const stars = solved.includes(c.id) && caseStats()[c.id]?.stars;
     return `<button class="polaroid${solved.includes(c.id) ? '' : ' current'} ${look}" type="button" data-case="${c.id}">
@@ -4946,25 +5254,28 @@ function drawBoardString(){
 }
 new ResizeObserver(() => { if(homeTab === 'cases' && !$('#caseList').hidden) drawBoardString(); }).observe($('#caseCards'));
 document.fonts?.ready.then(() => drawBoardString());
-function openCaseList(tab = 'cases'){ stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false; }
+function openCaseList(tab = 'cases'){
+  if(PICNIC){ saveGame(); saveOff = true; location.href = location.pathname + (tab === 'cases' ? '#cases' : ''); return; }
+  stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false;
+}
 // Opening a case: the first time on this device the player meets and names the detective, then the tutorial comes
 // first; a new case starts with the detective's line in the office; a case in progress resumes where it was left.
 // keySeen: the case's key grammar cards (CASES[].keys) were shown; a new case shows them first, over the case cards
-function startCase(keySeen = false, caseId = 'picnic-bag'){
-  if(caseId === 'picnic-bag') {
+function startCase(keySeen = false, caseId = CASE_ID){
+  if(caseId !== CASE_ID){
     if(!detectiveName()) return meetDetective(() => startCase(keySeen, caseId));
-    location.href = '?case=picnic'; return;
+    location.href = caseId === 'picnic-bag' ? '?case=picnic' : location.pathname; return;
   }
   stopVoice();
   if(!detectiveName()) return meetDetective(() => startCase(keySeen, caseId));
-  if(!keySeen && !resumePending && !caseStarted && LIBRARY_CASE.keys?.length) return openCaseKey(LIBRARY_CASE.keys, () => startCase(true, caseId));
+  if(!keySeen && !resumePending && !caseStarted && CASE.keys?.length) return openCaseKey(CASE.keys, () => startCase(true, caseId));
   $('#caseList').hidden = true;
   markStudyDay();
   if(resumePending){ resumePending = false; resumeCase(); return; }
   if(caseStarted) return;
   caseStarted = true;
-  // straight to Sgt. Badger (or the tutorial first), no stop in the office (user request)
-  tutSeen() ? talkTo('badger') : openTutorial(true);
+  // straight to the case's first person (or the tutorial first), no stop in the office (user request)
+  tutSeen() ? talkTo(START) : openTutorial(true);
 }
 $('#caseCards').addEventListener('click', e => { const card = e.target.closest('[data-case]'); if(card) startCase(false, card.dataset.case); });
 
@@ -4973,7 +5284,7 @@ $('#caseCards').addEventListener('click', e => { const card = e.target.closest('
    the ending got. Saved when the page is hidden or closed, on the way out (<), and every few seconds while a case is
    open. On the next visit the case resumes where it was: in the conversation or the place the player had open. Not kept:
    an ending scene in progress (the accusation is made again), a note check's open feedback, a line that was playing. */
-const SAVE_KEY = 'pioo.save';
+const SAVE_KEY = PICNIC ? 'pioo.save.picnic' : 'pioo.save';
 let resumePending = false, saveOff = false;
 function saveGame(){
   if(!caseStarted || saveOff) return;
@@ -4992,6 +5303,17 @@ function loadGame(){
   S.memo = { text:'', pins:[], notes:{}, ...data.S.memo };
   // anyone added to the case since the save starts fresh; a check's open feedback is not kept
   S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
+  S.items ||= [];
+  if(!PICNIC) libraryMigrations();
+  PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
+  // ordinary objects are no longer photographed: an older save's photos of them are dropped
+  S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);
+  S.met = S.met.filter(id => PEOPLE[id]);
+  endingRound = data.endingRound || 0;
+  caseStarted = resumePending = true;
+}
+// older saves of the library case: notes and photos as the story is now
+function libraryMigrations(){
   // Fiona's shortened third reply has new blanks; preserve already checked notes from older saves.
   const fiona = S.per.fiona;
   if(fiona.questionChecks.q3 === 'ok' && !fiona.notes.k){
@@ -5007,10 +5329,6 @@ function loadGame(){
     if(mole.notes.k?.trim().toLowerCase() === 'dinner'){ delete mole.notes.k; delete mole.marks.k; }
     if(mole.notes.b?.trim().toLowerCase() === 'clock'){ delete mole.notes.b; delete mole.marks.b; }
   }
-  PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
-  // ordinary objects are no longer photographed: an older save's photos of them are dropped
-  S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);
-  S.met = S.met.filter(id => PEOPLE[id]);
   // the bakery's note became its order board (the case's story changed): an older save's bakery photos show the picture
   // as it is now, and once the board was found its customer is there to talk to
   S.evidence.forEach(item => {
@@ -5018,8 +5336,6 @@ function loadGame(){
       item.photo = evidencePhoto(placeOf(item.placeId), item.clueIndex);
   });
   if(S.found.bakery?.has(2) && !S.met.includes('betty')){ S.met.push('betty'); S.known.add(spk('betty').place); }
-  endingRound = data.endingRound || 0;
-  caseStarted = resumePending = true;
 }
 // The saved case on screen again: the place the player had open, else the conversation.
 function resumeCase(){
@@ -5104,7 +5420,7 @@ function openCaseKey(list, then){
 function renderCaseKey(turn){
   const mark = t => esc(t).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
   const { g, ex } = caseKeyPages[caseKeyAt], last = caseKeyAt === caseKeyPages.length - 1;
-  $('#caseKeyCard').innerHTML = `<div class="ck-top"><div class="ck-head"><small>${esc(LIBRARY_CASE.no)} · ${esc(LIBRARY_CASE.title)}</small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
+  $('#caseKeyCard').innerHTML = `<div class="ck-top"><div class="ck-head"><small>${esc(CASE.no)} · ${esc(CASE.title)}</small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card">
       <div class="ck-key"><h3 class="gpattern">${esc(ex.head)}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3><span class="ck-name">${esc(GRAMMAR[g].name)}</span><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
       ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${mark(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div>` : ''}</div>
@@ -5116,7 +5432,7 @@ $('#caseKey').addEventListener('click', e => {
   if(play) return playExample(play.dataset.ckPlay);
   const ko = e.target.closest('[data-ck-ko]');
   if(ko){ ko.setAttribute('aria-pressed', ko.closest('.ck-note').classList.toggle('ko-on')); return; }
-  if(e.target.closest('[data-ck-close]')){ stopVoice(); $('#caseKey').hidden = true; caseKeyThen = null; return; }
+  if(e.target.closest('[data-ck-close]')){ stopVoice(); $('#caseKey').hidden = true; caseKeyThen = null; if(PICNIC) openCaseList('cases'); return; }
   if(e.target.closest('[data-ck-prev]')){ stopVoice(); caseKeyAt--; return renderCaseKey(true); }
   if(!e.target.closest('[data-ck-next]')) return;
   stopVoice();
@@ -5132,7 +5448,7 @@ $('#caseKey').addEventListener('click', e => {
    마이: streak, totals, the how-to and the detective's name. All of it reads only what this device saved or the case in memory. */
 let homeTab = 'home', studyMode = 'words';
 // A question whose words and grammar count as learned: checked right in the case in memory, or any once the case is solved.
-const knownQuestion = (id, qid) => solvedCases().includes(LIBRARY_CASE.id) || per(id).questionChecks[qid] === 'ok';
+const knownQuestion = (id, qid) => solvedCases().includes(CASE.id) || per(id).questionChecks[qid] === 'ok';
 function learnedWords(){
   const seen = new Map();
   PEOPLE_ORDER.forEach(id => {
@@ -5182,7 +5498,7 @@ function bookWords(){
 function homeState(){
   const solved = solvedCases(), c = CASES.find((x, i) => x.playable && !solved.includes(x.id) && (i === 0 || solved.includes(CASES[i - 1].id)));
   const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
-  if(c) return (caseStarted && c.id === LIBRARY_CASE.id) || (c.id === 'picnic-bag' && localStorage.getItem('pioo.picnic.save')) ? { key:'home-going', button:'이어서 수사', go:'case' } : { key:'home-new', button:'사건 시작', go:'case' };
+  if(c) return (caseStarted && c.id === CASE.id) || (c.id === 'picnic-bag' && localStorage.getItem('pioo.save.picnic')) ? { key:'home-going', button:'이어서 수사', go:'case' } : { key:'home-new', button:'사건 시작', go:'case' };
   if(again) return { key:'home-again', button:'복습하기', go:'again' };
   return { key:'home-quiet' };
 }
@@ -5264,8 +5580,9 @@ function studyGrammar(){
 }
 function studyWords(){
   const words = bookWords();
-  const picnicWords = readJSON('pioo.picnic.wordBook', []);
-  const picnic = picnicWords.length ? `<h2 class="home-sec">바뀐 소풍 가방 <small>${picnicWords.length}</small></h2>` + picnicWords.map(w => `<div class="wcard"><span class="wword">${esc(w)}</span><span class="wsay">${esc(({bag:'가방',folder:'서류 폴더',pen:'펜','lunch box':'도시락',bottle:'물병',blue:'파란색',red:'빨간색',yellow:'노란색'})[w] || '')}</span></div>`).join('') : '';
+  // the picnic case's words kept in its review (its notes are not on this page): word and meaning
+  const picnicWords = solvedCases().includes('picnic-bag') ? (keptWords() || []).filter(k => PICNIC_WORDS.includes(k) && !words.some(w => w.key === k)) : [];
+  const picnic = picnicWords.length ? `<h2 class="home-sec">바뀐 소풍 가방 <small>${picnicWords.length}</small></h2>` + picnicWords.map(k => `<div class="wcard"><div class="wtop"><span class="wword">${esc(k)}</span><button class="replay-q" type="button" data-word-play="${esc(k)}" aria-label="${esc(k)} 발음 듣기">${playIcon}</button></div>${koToggle(WORDS[k][1])}</div>`).join('') : '';
   return !words.length && !picnic
     ? `<p class="home-empty">아직 모은 단어가 없어요.</p>`
     : picnic + WORD_GROUPS.map(([g, label]) => {
@@ -5280,7 +5597,7 @@ function studyWords(){
 }
 function studyReview(){
   const stats = caseStats(), solved = CASES.filter(c => solvedCases().includes(c.id));
-  const missed = solved.filter(c => c.id === LIBRARY_CASE.id).flatMap(c => stats[c.id]?.missed || []);
+  const missed = solved.filter(c => c.id === CASE.id).flatMap(c => stats[c.id]?.missed || []);
   const picnicMissed = solved.some(c => c.id === 'picnic-bag') ? stats['picnic-bag']?.missed?.length || 0 : 0;
   return (!solved.length
     ? `<p class="home-empty">아직 해결한 사건이 없어요.</p>`
@@ -5358,7 +5675,7 @@ $('#caseList').addEventListener('click', e => {
     box.hidden = !box.hidden; toggle.setAttribute('aria-pressed', !box.hidden); return;
   }
   if(e.target.closest('[data-open-review]')) {
-    if(e.target.closest('[data-open-review]').dataset.openReview === 'picnic-bag') { location.href = '?case=picnic&review=1'; return; }
+    if(e.target.closest('[data-open-review]').dataset.openReview !== CASE_ID) { location.href = '?case=picnic&review=1'; return; }
     return openReview(true);
   }
   if(e.target.closest('[data-howto]')) openTutorial(false);
@@ -5399,6 +5716,7 @@ $('#devDone').onclick = () => {
   });
   S.met = [...PEOPLE_ORDER];
   PLACES.forEach(pl => S.known.add(pl.id));
+  PEOPLE_ORDER.forEach(id => Object.values(spk(id).after || {}).forEach(beat => { if(beat.give && !S.items.includes(beat.give) && !S.handoffRound) S.items.push(beat.give); }));
   renderPlaces();
   if(S.investigate && S.place) renderDock(); else enterPlace(cur().place, true);
   openSheet('map');
@@ -5409,7 +5727,7 @@ $('#devDone').onclick = () => {
 $('#devEvidence').onclick = () => {
   let n = 0;
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
-    if(clue.prop) return;
+    if(clue.prop || !place.spots.some(spot => spot.clue === clueIndex)) return;
     S.found[place.id].add(clueIndex);
     if(S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)) return;
     S.evidence.push({ placeId:place.id, clueIndex, photo:evidencePhoto(place, clueIndex) }); n++;
@@ -5428,6 +5746,7 @@ $('#devDeduce').onclick = () => {
   const st = deduceState();
   DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1;
   S.saidAccuse = true; saveGame();
+  closeDrawer(); setNotes(false);
   openDeduce();
   toast('추리 질문에 모두 답했어요.');
 };
@@ -5435,6 +5754,15 @@ $('#devDeduce').onclick = () => {
 // 심문 완료: skip the questioning — from anywhere in the case (every conversation and clue done first) straight to the
 // silence before Fiona gives in, so the confession, the COMPLETE stamp and the review can be checked.
 $('#devInterro').onclick = () => {
+  // the picnic case: straight to the last bag's thanks (the case's end, then the review)
+  if(ENDING.handoff){
+    if(ending) leaveEnding();
+    if(!allConversationsDone()) $('#devDone').click();
+    S.handoffRound = ENDING.handoff.length - 1;
+    S.items = [ENDING.handoff.at(-1).give];
+    startHandoff(); ending.step = 'handoffTalk'; ending.i = 0; handoffLine();
+    return;
+  }
   if(ending?.step !== 'confront'){
     if(ending) leaveEnding();
     if(!allConversationsDone()) $('#devDone').click();
@@ -5470,11 +5798,22 @@ const previewDeduced = () => {
   const st = deduceState();
   DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1; S.saidAccuse = true;
 };
-const PREVIEW_PARTS = [
+// [id, label, what it does]; a part of the other case opens that case's page
+const PREVIEW_PARTS = PICNIC ? [
+  ['key', '이번 사건의 열쇠', () => startCase(false)],
+  ['tutorial', '튜토리얼', () => { localStorage.removeItem(TUT_KEY); startCase(true); }],
+  ['talk', '첫 대화', () => startCase(true)],
+  ['map', '지도', previewCase],
+  ['place', '현장 조사', () => { previewCase(); openSheet(null); }],
+  ['deduce', '추리 보드', () => { previewCase(); openDeduce(); }],
+  ['handoff', '노라에게 전달', () => { previewCase(); previewDeduced(); openSheet(null); startHandoff(); }],
+  ['handback', '로지에게 전달', () => { previewCase(); previewDeduced(); openSheet(null); S.handoffRound = 1; S.items = ['bag-rosie']; startHandoff(); }],
+  ['review', '복습', () => { previewCase(); previewDeduced(); openSheet(null); openReview(); }]
+] : [
   ['home', '홈', () => {}],
-  ['key', '이번 사건의 열쇠', () => startCase(false, LIBRARY_CASE.id)],
-  ['tutorial', '튜토리얼', () => { localStorage.removeItem(TUT_KEY); startCase(true, LIBRARY_CASE.id); }],
-  ['talk', '첫 대화', () => startCase(true, LIBRARY_CASE.id)],
+  ['key', '이번 사건의 열쇠', () => startCase(false)],
+  ['tutorial', '튜토리얼', () => { localStorage.removeItem(TUT_KEY); startCase(true); }],
+  ['talk', '첫 대화', () => startCase(true)],
   ['map', '지도', previewCase],
   ['place', '현장 조사', () => { previewCase(); openSheet(null); }],
   ['deduce', '추리 보드', () => { previewCase(); openDeduce(); }],
@@ -5483,352 +5822,46 @@ const PREVIEW_PARTS = [
   ['confession', '자백', () => { previewCase(); $('#devInterro').click(); }],
   ['review', '복습', () => { previewCase(); previewDeduced(); openSheet(null); openReview(); }]
 ];
-$('#devPreview').innerHTML = '<small>미리보기</small>' +
-  PREVIEW_PARTS.map(([id, label]) => `<button class="devbtn" type="button" data-preview="${id}" aria-pressed="${id === PREVIEW}">${label}</button>`).join('') +
-  (PREVIEW ? '<button class="devbtn" type="button" data-preview-end>미리보기 끝</button>' : '');
+// the other case's parts (only their ids and labels: they run on that case's page)
+const PREVIEW_OTHER = PICNIC
+  ? [['home', '홈'], ['key', '이번 사건의 열쇠'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'], ['call', '경찰에게 알리기'], ['interview', '심문'], ['confession', '자백'], ['review', '복습']]
+  : [['key', '이번 사건의 열쇠'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'], ['handoff', '노라에게 전달'], ['handback', '로지에게 전달'], ['review', '복습']];
+let previewCaseShown = CASE_ID;
+function renderPreviewTools(){
+  const here = previewCaseShown === CASE_ID, parts = here ? PREVIEW_PARTS : PREVIEW_OTHER;
+  $('#devPreview').innerHTML = '<small>미리보기</small><div class="dev-cases">' +
+    [['picnic-bag', 'Case 01 소풍'], ['case01', 'Case 02 도서관']].map(([id, label]) => `<button class="devbtn" type="button" data-preview-case="${id}" aria-pressed="${previewCaseShown === id}">${label}</button>`).join('') + '</div>' +
+    parts.map(([id, label]) => `<button class="devbtn" type="button" data-preview="${id}" aria-pressed="${here && id === PREVIEW}">${label}</button>`).join('') +
+    (PREVIEW ? '<button class="devbtn" type="button" data-preview-end>미리보기 끝</button>' : '');
+}
+renderPreviewTools();
 $('#devPreview').addEventListener('click', e => {
+  const pick = e.target.closest('[data-preview-case]');
+  if(pick){ previewCaseShown = pick.dataset.previewCase; return renderPreviewTools(); }
   const b = e.target.closest('[data-preview],[data-preview-end]'); if(!b) return;
-  location.href = location.pathname + (b.dataset.preview ? `?preview=${b.dataset.preview}` : '');
+  const picnic = (b.dataset.preview ? previewCaseShown : CASE_ID) === 'picnic-bag';
+  const query = [picnic && 'case=picnic', b.dataset.preview && `preview=${b.dataset.preview}`].filter(Boolean).join('&');
+  location.href = location.pathname + (query ? `?${query}` : '');
 });
+// the questioning's test button is the handing over's in the picnic case
+if(ENDING.handoff) $('#devInterro').textContent = '전달 완료';
 
 /* ---------- boot ---------- */
 loadGame();
 renderStage(false); renderDock(); renderPlaces(); renderSceneHead();
-// the app opens on 홈; without a detective name, the first meeting and naming come first (user request)
-openCaseList('home');
-if(!detectiveName()) meetDetective(null);
+if(PICNIC){
+  // another case's page: its review from 학습, else the case (a new one with its key); never the case cards
+  $('#caseList').hidden = true;
+  if(new URLSearchParams(location.search).get('review') === '1' && solvedCases().includes(CASE_ID)) openReview(true);
+  else if(!PREVIEW) startCase(false);
+} else {
+  // the app opens on 홈 (on the case cards when coming back from another case); without a detective name, the first
+  // meeting and naming come first (user request)
+  openCaseList(location.hash === '#cases' ? 'cases' : 'home');
+  if(!detectiveName()) meetDetective(null);
+}
 // a preview: its part, without the test tools' notes
 if(PREVIEW){ PREVIEW_PARTS.find(([id]) => id === PREVIEW)?.[2](); $('#toast').hidden = true; }
-})();
-</script>
-<section id="picnicGame" hidden aria-label="바뀐 소풍 가방">
-  <aside class="pc-quick" id="pcQuick" aria-label="소풍 가방 테스트 퀵버튼">
-    <small>바뀐 소풍 가방 · 퀵 이동</small>
-    <button class="devbtn" type="button" data-pc-quick="key">사건의 열쇠</button>
-    <button class="devbtn" type="button" data-pc-quick="rosie">로지 · 의뢰</button>
-    <button class="devbtn" type="button" data-pc-quick="duck">호수 카페</button>
-    <button class="devbtn" type="button" data-pc-quick="ben">벤의 집</button>
-    <button class="devbtn" type="button" data-pc-quick="garden">정원</button>
-    <button class="devbtn" type="button" data-pc-quick="nora">회사 로비</button>
-    <button class="devbtn" type="button" data-pc-quick="deduce">추리</button>
-    <button class="devbtn" type="button" data-pc-quick="handoff">노라에게 전달</button>
-    <button class="devbtn" type="button" data-pc-quick="return">로지에게 전달</button>
-    <button class="devbtn" type="button" data-pc-quick="review">복습</button>
-    <hr>
-    <button class="devbtn" type="button" data-pc-quick="fill">현재 노트 자동 채우기</button>
-    <button class="devbtn" type="button" data-pc-quick="restore">원래 진행 복원</button>
-  </aside>
-  <div class="pc-phone">
-    <header class="pc-top"><button class="pill top-back" id="pcBack" type="button" aria-label="뒤로가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="chip l" id="pcTitle">바뀐 소풍 가방</h1><span id="pcCount" hidden></span></header>
-    <main class="pc-main" id="pcMain"></main>
-    <nav class="nav pc-nav" id="pcNav" aria-label="사건 메뉴"><button class="tab" type="button" data-pc-nav="map" aria-label="지도"><span class="hn-ic"><img src="assets/ui/nav/map.png" alt="" draggable="false"></span>지도</button><button class="tab" type="button" data-pc-nav="note" aria-label="노트"><span class="hn-ic"><img src="assets/ui/nav/note.png" alt="" draggable="false"></span>Note</button></nav>
-    <div class="pc-toast" id="pcToast" hidden role="status"></div>
-  </div>
-</section>
-<script>
-/* Case 01 is deliberately isolated from the library case's old save (`pioo.save`). */
-(() => {
-  if(new URLSearchParams(location.search).get('case') !== 'picnic') return;
-  if(!localStorage.getItem('pioo.detectiveName')) { location.href = location.pathname; return; }
-  document.body.classList.add('picnic-mode');
-  const root = document.getElementById('picnicGame'), main = document.getElementById('pcMain');
-  root.hidden = false;
-  const $ = q => root.querySelector(q);
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const name = localStorage.getItem('pioo.detectiveName') || 'Pioo';
-  const places = {
-    rosie:{name:'소풍 탁자',bg:'assets/places/picnic-storyboard/picnic-wide.png',person:'Rosie Rabbit',sprite:'assets/characters/rosie-higgsfield.png'},
-    duck:{name:'호수 카페',bg:'assets/places/picnic-storyboard/cafe-day.png',person:'Mr. Duck',sprite:'assets/characters/duck-higgsfield.png'},
-    ben:{name:'벤의 집',bg:'assets/places/picnic-storyboard/ben-home.png',person:'Ben Beaver'},
-    garden:{name:'정원',bg:'assets/places/picnic-storyboard/garden.webp',person:'Mia & Ollie'},
-    nora:{name:'회사 1층 로비',bg:null,person:'Nora Hedgehog'}
-  };
-  const order = Object.keys(places);
-  const intro = {
-    rosie:[['Rosie','Hi, I\'m Rosie. Are you the detective?','안녕, 난 로지야. 혹시 네가 탐정이야?'],['Detective','Yes. How can I help you?','응. 어떻게 도와줄까?'],['Rosie','This isn\'t my bag. Can you help me find mine?','이건 내 가방이 아니야. 내 가방을 찾아줄래?']],
-    duck:[['Mr. Duck','Hello! Welcome to the Lake Cafe. What would you like?','안녕! 호수 카페에 온 걸 환영해. 뭘 주문할래?'],['Detective','Hello! I\'m Detective {name}. I\'m looking for a blue bag.','안녕! 나는 탐정 {name}이야. 파란 가방을 찾고 있어.'],['Mr. Duck','Oh! I see. How can I help?','아, 그렇구나! 어떻게 도와줄까?']],
-    ben:[['Ben','Hi! I\'m Ben Beaver. Can I help you?','안녕! 나는 벤 비버야. 무슨 일이야?'],['Detective','Hi, I\'m Detective {name}. You were at the Lake Cafe today, right?','안녕, 난 탐정 {name}이야. 오늘 호수 카페에 방문했지?'],['Ben','Yes, I stopped there this morning.','응, 오늘 아침에 들렀어.']],
-    garden:[['Ollie','Oh, hi! I\'m Ollie. Nice to meet you.','오, 안녕! 난 올리야. 만나서 반가워.'],['Mia','I\'m Mia. Want to join our picnic?','난 미아야. 같이 피크닉 할래?'],['Detective','Nice to meet you, Ollie and Mia! I\'m Detective {name}.','만나서 반가워, 올리, 미아! 난 탐정 {name}이야.'],['Ollie','A detective? That\'s cool!','탐정이라고? 멋진걸!'],['Detective','You were at the Lake Cafe today, right?','너희 오늘 호수 카페에 왔었지?'],['Mia','Yes. We stopped there before coming here.','응, 여기 오기 전에 들렀어.']],
-    nora:[['Detective','Could you please ask Nora to come down?','노라를 아래로 불러 주시겠어요?'],['Nora','Hi, I heard you were looking for me. What\'s going on?','안녕, 날 찾았다고 들었어. 무슨 일이야?'],['Detective','Hi, I\'m Detective {name}. Can I ask about a blue bag?','안녕, 난 탐정 {name}이야. 파란 가방에 관해 물어봐도 될까?']]
-  };
-  const qs = [
-    {id:'r1',place:'rosie',ask:'Did your bags get mixed up?',askKo:'그럼 다른 사람과 가방이 바뀐 거야?',who:'Rosie',reply:'I\'m not sure. My bag is blue, just like this one.',ko:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.',note:'[Her] bag is [blue], just like this one.',wrong:['His','red']},
-    {id:'r2',place:'rosie',ask:'What is in your bag?',askKo:'네 가방 안에는 뭐가 들어 있니?',who:'Rosie',reply:'My bag has a red lunch box and a yellow bottle.',ko:'내 가방에는 빨간 도시락과 노란 물병이 있어.',note:'[Her] bag has a red lunch box and a [yellow] bottle.',wrong:['His','blue']},
-    {id:'r3',place:'rosie',ask:'Do you know whose bag this is?',askKo:'이 가방이 누구 것인지 알아?',who:'Rosie',reply:'I don\'t know. Please find out for me.',ko:'모르겠어. 네가 조사해 줬으면 좋겠어.',note:'[She] does not know whose bag this is.',wrong:['He']},
-    {id:'r4',place:'rosie',ask:'Who did you see today?',askKo:'오늘 누구를 봤어?',who:'Rosie',reply:'I can\'t remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there.',ko:'누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?',note:'She can\'t [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there.',wrong:['forget','garden','lost']},
-    {id:'v1',place:'duck',ask:'Who came to the cafe today?',askKo:'오늘 카페에 누가 왔나요?',who:'Mr. Duck',reply:'Rosie, Ben, Mia, Ollie, and Nora came today.',ko:'오늘 로지, 벤, 미아, 올리, 노라 모두 왔어요.',note:'Rosie, [Ben Beaver], Mia, Ollie, and Nora came to the cafe.',wrong:['Ray Raccoon']},
-    {id:'v2',place:'duck',ask:'Who had blue bags?',askKo:'누가 파란 가방을 들고 왔나요?',who:'Mr. Duck',reply:'Rosie, Ben, and Mia had blue bags. Ben took one with him. Nora had no bag.',ko:'로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. 노라는 가방이 없었어요.',note:'Rosie, Ben, and Mia had [blue] bags. Ben took one with him.',wrong:['red']},
-    {id:'v3',place:'duck',ask:'Where are they now?',askKo:'그들은 지금 어디 있나요?',who:'Mr. Duck',reply:'They told me their plans. Ben went home. Mia and Ollie went to the garden.',ko:'어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요.',note:'Ben went [home]. Mia and Ollie went to the [garden].',wrong:['office','cafe']},
-    {id:'b1',place:'ben',ask:'Do you have a blue bag?',askKo:'혹시 파란 가방을 가지고 있나요?',who:'Ben',reply:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office.',ko:'노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어.',note:'Nora left her [blue] bag at Ben\'s [house]. Ben took it to her [office].',wrong:['red','cafe','garden']},
-    {id:'b2',place:'ben',ask:'What was in the bag?',askKo:'가방에는 뭐가 들어 있었어?',who:'Ben',reply:'I don\'t know. I didn\'t open it.',ko:'몰라. 가방을 열어 보지 않았어.',note:'He does not [know] what was inside. He did not [open] it.',wrong:['remember','carry']},
-    {id:'g1',place:'garden',ask:'Do either of you have a blue bag?',askKo:'혹시 너희 중에 파란 가방을 가진 사람이 있니?',who:'Ollie & Mia',reply:'Ollie: No. Mine is red. Mia: Mine is blue. Why?',ko:'올리: 아니, 내 가방은 빨간색이야. 미아: 내 가방은 파란색이야. 왜 그래?',note:'[His] bag is [red]. [Her] bag is [blue].',wrong:['Her','blue','His','red']},
-    {id:'g2',place:'garden',ask:'Mia, is this your blue bag? Have you checked inside?',askKo:'미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어?',who:'Mia',reply:'Yes, it\'s mine. I opened it. My picnic things are inside.',ko:'응, 내 가방이야. 열어 봤어. 내 소풍 준비물이 들어 있어.',note:'She [opened] her [blue] bag. It has [picnic] things, and she says it is [hers].',wrong:['closed','red','office','his']},
-    {id:'n1',place:'nora',ask:'Did you leave a blue bag at Ben\'s house?',askKo:'벤의 집에 파란 가방을 두고 왔니?',who:'Nora',reply:'Yes. I left it there, but Ben brought it to me.',ko:'응. 거기에 두고 왔어. 하지만 벤이 가져다줬지.',note:'Nora left her [blue] bag at [Ben Beaver]\'s house. Ben brought it to her.',wrong:['red','Mr. Duck']},
-    {id:'n2',place:'nora',ask:'What was in your bag?',askKo:'네 가방에는 무엇이 들어 있었니?',who:'Nora',reply:'My green folder and blue pen.',ko:'내 초록 폴더와 파란 펜이 들어 있었어.',note:'Her folder is [green]. Her pen is [blue].',wrong:['red','yellow']},
-    {id:'n3',place:'nora',ask:'Could you check the bag Ben brought?',askKo:'벤이 가져온 가방을 확인해 줄래?',who:'Nora',reply:'I was busy, so I didn\'t open it. Let me look... A red lunch box and a yellow bottle! These aren\'t mine.',ko:'바빠서 열어 보지 못했어. 지금 볼게... 빨간 도시락이랑 노란 물병이 있네! 이건 내 것이 아니야.',note:'She did [not] open it. Inside are a [red] lunch box and a [yellow] bottle.',wrong:['already','blue','green']}
-  ];
-  const keyPages = [
-    {title:'my / your + 물건',ko:'말하는 사람의 것 / 듣는 사람의 것',lines:[['My book is big.','내 책은 커요.'],['Your pen is black.','네 펜은 검은색이에요.'],['Is this your hat?','이건 네 모자니?']]},
-    {title:'his / her + 물건',ko:'그 남자의 것 / 그 여자의 것',lines:[['His cup is white.','그의 컵은 흰색이에요.'],['Her notebook is small.','그녀의 공책은 작아요.'],['His hat is black.','그의 모자는 검은색이에요.']]},
-    {title:'mine / yours',ko:'물건 이름 없이 내 것 / 네 것',lines:[['This pencil is mine.','이 연필은 내 것이에요.'],['Is this ruler yours?','이 자는 네 것이니?'],['This book is not mine.','이 책은 내 것이 아니에요.']]}
-  ];
-  const deduction = [
-    {ask:'What did Rosie ask me to do?',ko:'로지가 나에게 부탁한 일은?',choices:['Find her bag.','Find Ben.','Find a book.'],correct:0},
-    {ask:'What is her bag like?',ko:'그녀의 가방의 특징은?',choices:['Blue, with a red lunch box and a yellow bottle.','Red, with a folder and pen.','Blue, with picnic toys.'],correct:0},
-    {ask:'What shows that Nora has the wrong bag?',ko:'노라가 잘못된 가방을 받았다는 근거는?',choices:['It has Rosie\'s red lunch box and yellow bottle.','It has Nora\'s green folder.','Ben opened it.'],correct:0},
-    {ask:'Whose bags got mixed up?',ko:'누구와 누구의 가방이 바뀐 걸까?',choices:['Rosie Rabbit\'s and Nora Hedgehog\'s.','Rosie Rabbit\'s and Mia\'s.','Ollie\'s and Ben Beaver\'s.'],correct:0}
-  ];
-  const fresh = () => ({phase:'key',page:0,scene:'rosie',view:'story',notePerson:'rosie',intro:0,met:{},checked:{},draft:{},active:null,ko:false,keyKo:{},slow:false,hints:3,memo:'',photos:[],bag:null,inspected:false,deduce:0,deduceOpen:false,attempts:0,firstOk:0,firstWrong:[],selected:null,review:0});
-  let state;
-  try { state = { ...fresh(), ...JSON.parse(localStorage.getItem('pioo.picnic.save') || 'null') }; } catch { state = fresh(); }
-  if(new URLSearchParams(location.search).get('review') === '1' && localStorage.getItem('pioo.solvedCases')?.includes('picnic-bag')) state.phase = 'review';
-  let quickSnapshot=null,quickPreview=false;
-  const save = () => { if(quickPreview)return;try { localStorage.setItem('pioo.picnic.save',JSON.stringify(state)); } catch {} };
-  const done = id => !!state.checked[id];
-  const sceneQs = scene => qs.filter(q => q.place === scene);
-  const sceneDone = scene => sceneQs(scene).every(q => done(q.id));
-  const unlocked = scene => scene === 'rosie' || scene === 'duck' && done('r4') || ['ben','garden'].includes(scene) && done('v3') || scene === 'nora' && done('b1');
-  const readyDeduce = () => done('n3') && done('b2') && done('g2') && state.photos.length === 2 && state.inspected;
-  const phrase = s => String(s).replaceAll('{name}',name);
-  let toastTimer;
-  function toast(s){ const el = $('#pcToast'); el.textContent = s; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true,2800); }
-  function speak(s){ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(String(s).replaceAll(/\{name\}/g,'').replaceAll(/(?:Ollie|Mia):/g,'')); u.lang='en-US'; u.rate=state.slow ? 0.7 : 0.88; speechSynthesis.speak(u); }
-  const button = (label, action, cls='') => `<button class="pc-btn ${cls}" type="button" data-pc="${action}">${esc(label)}</button>`;
-  const lineCard = (who,en,ko,action='nextIntro',label='다음') => `<div class="bubble pc-bubble"><div class="bubble-copy"><span class="tag">${esc(who)}</span><span class="say-en">${esc(phrase(en))}</span>${state.ko ? `<span class="say-ko">${esc(phrase(ko))}</span>` : ''}</div><div class="say-foot"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}${button(label,action,'primary')}</div></div>`;
-  function land(scene){ const p=places[scene]; return `<div class="pc-land">${p.bg?`<img src="${p.bg}" alt="${esc(p.name)}">`:''}${p.sprite?`<img class="pc-figure ${scene==='duck'?'duck':''}" src="${p.sprite}" alt="${esc(p.person)}">`:`<div class="pc-missing">${esc(p.person)}<br>일러스트 준비 중</div>`}</div>`; }
-  function go(scene){ if(!unlocked(scene)) return; state.scene=scene; state.view='story'; state.active=null; state.ko=false; state.intro=state.met[scene]?intro[scene].length:0; if(scene==='nora'&&readyDeduce())state.phase='deduce'; save(); render(); }
-  function completed(){ return qs.filter(q=>done(q.id)).length; }
-  const quickOrder=['rosie','duck','ben','garden','nora'];
-  function quickBackup(){if(quickSnapshot===null)quickSnapshot=JSON.stringify(state);quickPreview=true;}
-  function quickJump(target){
-    quickBackup();
-    const scene=quickOrder.includes(target)?target:['deduce','handoff','review'].includes(target)?'nora':'rosie';
-    const prior=target==='key'?[]:target==='deduce'||['handoff','return','review'].includes(target)?quickOrder:quickOrder.slice(0,quickOrder.indexOf(scene));
-    const ids=qs.filter(q=>prior.includes(q.place));
-    state=fresh();state.phase=quickOrder.includes(target)?'story':target;state.scene=scene;
-    state.checked=Object.fromEntries(ids.map(q=>[q.id,true]));
-    state.draft=Object.fromEntries(ids.map(q=>[q.id,[...q.note.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1])]));
-    state.firstOk=ids.reduce((n,q)=>n+state.draft[q.id].length,0);
-    state.met=Object.fromEntries(prior.map(s=>[s,true]));
-    state.bag=prior.includes('rosie')?'nora':null;
-    state.inspected=prior.includes('ben');
-    state.photos=prior.includes('garden')?['blue','red']:[];
-    if(target==='handoff'||target==='return'||target==='review')state.met.nora=true;
-    if(target==='return')state.bag='rosie';
-    if(target==='review')state.firstOk=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0);
-    save();render();
-  }
-  function renderQuick(){
-    const active=state.phase==='story'?state.scene:['handoffTalk','returnTalk'].includes(state.phase)?state.phase==='handoffTalk'?'handoff':'return':state.phase;
-    $('#pcQuick').querySelectorAll('[data-pc-quick]').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.pcQuick===active?'true':'false');if(b.dataset.pcQuick==='fill')b.disabled=!state.active||done(state.active);if(b.dataset.pcQuick==='restore')b.disabled=quickSnapshot===null;});
-  }
-  function render(){
-    root.dataset.phase=state.phase;
-    root.dataset.scene=state.scene;
-    root.dataset.view=state.view;
-    renderQuick();
-    $('#pcTitle').textContent = state.phase==='key'?'이번 사건의 열쇠':state.phase==='tutorial'?'첫 사건 안내':state.phase==='review'?'사건 복습':state.phase==='deduce'?'추리하기':state.phase==='handoff'?'노라에게 가방 전달':state.phase==='return'?'로지에게 돌아가기':places[state.scene].name;
-    $('#pcCount').textContent=state.phase==='story'?`${completed()} / ${qs.length}`:'';
-    $('#pcNav').hidden = ['key','tutorial','handoff','handoffTalk','return','returnTalk','review'].includes(state.phase);
-    $('#pcNav').querySelectorAll('button').forEach(b=>b.setAttribute('aria-current',(b.dataset.pcNav==='note'?['note','evidence','inventory','photos','memo'].includes(state.view):state.view===b.dataset.pcNav)?'page':'false'));
-    if(state.phase==='key') return renderKey();
-    if(state.phase==='tutorial') return renderTutorial();
-    if(state.phase==='deduce') return renderDeduce();
-    if(state.phase==='handoff') return renderHandoff();
-    if(state.phase==='handoffTalk') return renderHandoffTalk();
-    if(state.phase==='return') return renderReturn();
-    if(state.phase==='returnTalk') return renderReturnTalk();
-    if(state.phase==='review') return renderReview();
-    if(state.view==='map') return renderMap();
-    if(state.view==='inventory') return renderInventory();
-    if(state.view==='note') return renderNote();
-    if(state.view==='photos') return renderPhotos();
-    if(state.view==='evidence') return renderEvidence();
-    if(state.view==='memo') return renderMemo();
-    return renderStory();
-  }
-  function renderKey(){
-    const k=keyPages[state.page], ko=state.keyKo||{};
-    main.innerHTML=`<div class="pc-key-screen">
-      <div class="pc-key-head"><small>Case 01 · 바뀐 소풍 가방</small><h2>이번 사건의 열쇠</h2><button class="close-button pc-key-close" type="button" data-pc="home" aria-label="사건 목록으로"></button></div>
-      <div class="pc-key-body"><div class="pc-key-card"><h3>${esc(k.title)}</h3><p>${esc(k.ko)}</p></div>
-        <div class="pc-key-notes">${k.lines.map(([en,tr],i)=>`<div class="pc-key-note"><span>${esc(en)}${ko[`${state.page}-${i}`]?`<span class="pc-ko">${esc(tr)}</span>`:''}</span><button class="play-btn" type="button" data-pc="keyPlay" data-i="${i}" aria-label="예문 듣기"></button><button class="pc-btn" type="button" data-pc="keyKo" data-i="${i}">해석</button></div>`).join('')}</div></div>
-      <div class="pc-key-dots">${keyPages.map((_,i)=>`<i class="${i===state.page?'now':''}"></i>`).join('')}</div>
-      <div class="pc-key-foot">${state.page?button('이전','keyPrev'):''}${button(state.page===2?'사건 시작':'다음','keyNext','primary')}</div>
-    </div>`;
-  }
-  function renderTutorial(){
-    main.innerHTML=`<div class="pc-tutorial-screen"><div class="pc-key-head"><small>Case 01 · 바뀐 소풍 가방</small><h2>첫 사건 안내</h2></div><div class="pc-key-body"><div class="tut-fig"><img src="assets/ui/tutorial/tut-1.webp" alt="탐정 수첩"></div><h2>소풍 가방의 주인을 찾아요</h2><p>대답을 듣고 노트에 기록해요. 알게 된 장소는 지도에 나타나요.</p></div><div class="pc-key-foot">${button('조사 시작','tutorialNext','primary')}</div></div>`;
-  }
-  function renderStory(){
-    const scene=state.scene, list=intro[scene];
-    if(state.intro<list.length){const [who,en,ko]=list[state.intro];main.innerHTML=land(scene)+lineCard(who,en,ko);return;}
-    state.met[scene]=true;save();
-    if(scene==='rosie'&&sceneDone(scene)&&!state.bag){main.innerHTML=land(scene)+lineCard('Rosie','Please take this bag and find mine.','이 가방을 가져가서 내 가방을 찾아줘.','takeBag','가방 받기');return;}
-    if(scene==='garden'&&done('g1')&&state.photos.length<2){
-      main.innerHTML=land(scene)+`<div class="bubble pc-bubble"><div class="bubble-copy"><span class="tag">Detective</span><span class="say-en">I'm helping Rosie find her bag. Can I take a picture of your bags?</span>${state.ko?'<span class="say-ko">로지의 가방을 찾고 있어. 가방 사진을 찍어도 될까?</span>':''}</div><div class="say-foot"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div><div class="pc-stage-actions">${!state.photos.includes('blue')?button('파란 가방 촬영','photoBlue','primary'):''}${!state.photos.includes('red')?button('빨간 가방 촬영','photoRed','primary'):''}</div>`;return;
-    }
-    if(scene==='garden'&&sceneDone(scene)){main.innerHTML=land(scene)+lineCard('Detective','Thanks for answering my questions. Enjoy your picnic!','답변 고마워. 피크닉 재밌게 즐기길 바래.','map','지도 보기');return;}
-    if(scene==='rosie'&&state.bag==='nora'){main.innerHTML=land(scene)+lineCard('Detective','I will.','그럴게.','inventory','가방 보기');return;}
-    const here=sceneQs(scene).filter(q=>!done(q.id)&&!(q.id==='g2'&&state.photos.length<2));
-    main.innerHTML=land(scene)+`<div class="pc-ask-panel ${state.ko?'show-ko':''}">${here.length?`<div class="ask-top">${button('해석','questionKo')}</div>${here.map(q=>`<button class="q" type="button" data-pc="question" data-id="${q.id}"><span>${esc(q.ask)}</span><span class="pc-q-ko">${esc(q.askKo)}</span></button>`).join('')}`:''}</div>`;
-  }
-  function renderMap(){
-    const pins={rosie:[52,55],duck:[74,58],ben:[81,75],garden:[26,72],nora:[25,31]};
-    main.innerHTML=`<div class="pc-map-screen"><div class="pc-map-art"><img src="assets/places/village-map-higgsfield.png" alt="마을 지도">${order.filter(unlocked).map(s=>`<button class="pin" style="left:${pins[s][0]}%;top:${pins[s][1]}%" type="button" data-pc="go" data-scene="${s}" aria-label="${esc(places[s].name)}"><span class="pin-label">${esc(places[s].name)}${sceneDone(s)?' ✓':''}</span></button>`).join('')}</div><button class="close-button pc-map-close" type="button" data-pc="mapClose" aria-label="지도 닫기"></button></div>`;
-  }
-  function noteText(q){
-    let i=0;
-    return q.note.split(/(?<=\.)\s+/).map(line=>`<div class="nline">${esc(line).replace(/\[([^\]]+)\]/g,()=>`<input class="blank" aria-label="빈칸 ${++i}" data-blank="${i-1}" value="${esc(state.draft[q.id]?.[i-1]||'')}" ${done(q.id)?'readonly':''}>`)}</div>`).join('');
-  }
-  function noteTabs(){
-    const icons={people:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h10a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H9l-5 4v-4a3 3 0 0 1-2-3V6a3 3 0 0 1 3-3z"/></svg>',evidence:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M4 7h4l2-3h5l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm8 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>',memo:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a5 5 0 0 1 3 9l1 2h2a2 2 0 0 1 0 4h-4v4a2 2 0 0 1-4 0v-4H6a2 2 0 0 1 0-4h2l1-2a5 5 0 0 1 3-9z"/></svg>'};
-    return `<div class="note-cats">${[['people','인물'],['evidence','증거와 소지품'],['memo','메모']].map(([tab,label])=>`<button class="ncat" type="button" data-pc="noteTab" data-tab="${tab}" aria-label="${label}" aria-pressed="${state.view===tab||(tab==='people'&&state.view==='note')||(tab==='evidence'&&['inventory','photos'].includes(state.view))}"><span class="face"><span class="stamp">${icons[tab]}</span></span></button>`).join('')}</div>`;
-  }
-  function noteShell(title,body,foot='',record=false){
-    main.innerHTML=land(state.scene)+`<div class="pc-note-shade"></div><section class="dock pc-note-dock ${record?'':'browse'}" aria-label="노트">${record?'':noteTabs()}<div class="note-edge"></div><div class="dock-head">${record?`<div class="listen">${button('▶ 다시 듣기','play')}${button(state.slow?'0.7×':'1×','slow')}${button(`🌰 ${state.hints}`,'hint')}</div>`:`<h2>${esc(title)}</h2>`}</div><div class="dock-body">${body}</div><div class="dock-foot">${foot}</div></section>`;
-  }
-  function noteFaces(){
-    return `<div class="nfaces">${order.filter(s=>state.met[s]).map(s=>`<button class="nface" type="button" data-pc="notePerson" data-scene="${s}" aria-pressed="${state.notePerson===s}"><span class="pic"><span class="mini">${['rosie','duck'].includes(s)?`<img class="face" src="assets/ui/icons-v2/${s}.png" alt="">`:esc(places[s].person.charAt(0))}</span></span>${esc(places[s].person)}</button>`).join('')}</div>`;
-  }
-  function renderNote(){
-    const q=qs.find(x=>x.id===state.active);
-    if(!q){
-      const available=order.filter(s=>state.met[s]);
-      if(!available.includes(state.notePerson))state.notePerson=available[0]||state.scene;
-      const seen=qs.filter(x=>x.place===state.notePerson&&done(x.id));
-      const body=`${noteFaces()}${seen.map(x=>`<div class="nblock"><span class="qlabel">Q. ${esc(x.ask)}</span><div class="nline">${esc(x.note.replaceAll('[','').replaceAll(']',''))}</div><button class="pill sm" type="button" data-pc="read" data-id="${x.id}">지문 보기</button></div>`).join('')||'<p class="empty-note">아직 기록한 진술이 없어요.</p>'}`;
-      noteShell(`${places[state.notePerson].person}의 진술`,body);return;
-    }
-    const answers=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]);
-    const options=[...new Set([...answers,...q.wrong])].sort((a,b)=>a.localeCompare(b));
-    const checked=done(q.id);
-    const body=`${checked?noteFaces():''}<div class="nblock"><span class="qlabel">Q. ${esc(q.ask)}</span>${checked?'<span class="question-state ok">✓ 확인됨</span>':''}${noteText(q)}${checked?`<div class="npassage"><p>${esc(q.reply)}</p>${state.ko?`<p class="pc-ko">${esc(q.ko)}</p>`:''}<div class="np-actions"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div>`:`<div class="bank">${options.map(o=>`<button class="word" type="button" data-pc="chip" data-value="${esc(o)}">${esc(o)}</button>`).join('')}</div><p id="pcFeedback" aria-live="polite"></p>`}</div>`;
-    noteShell(`${places[q.place].person}의 진술`,body,checked?button('인물 목록','noteBack','primary'):button('기록 완료','check','primary'),!checked);
-  }
-  function renderInventory(){
-    const bag=state.bag;
-    const body=bag?`<div class="ev-card pc-item"><img src="assets/places/picnic-storyboard/picnic-documents.png" alt="파란 가방"><div><b>${bag==='nora'?'로지가 맡긴 파란 가방':'노라가 건넨 파란 가방'}</b></div></div><div class="pc-actions">${button('가방 열어 보기','inspect','primary')}</div>${state.inspected?`<div class="npassage"><p>${bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.'}</p><p class="pc-ko">${bag==='nora'?'초록 서류 폴더와 파란 펜이 들어 있어요.':'빨간 도시락과 노란 물병이 들어 있어요.'}</p></div>`:''}`:'<p class="empty-note">아직 챙긴 물건이 없어요.</p>';
-    noteShell('소지품',body);
-  }
-  function renderPhotos(){
-    const body=`<div class="pc-photos">${state.photos.map(c=>`<div class="pc-photo ${c==='red'?'red':''}">${c==='red'?'빨간 가방':'파란 가방'}</div>`).join('')||'<p class="empty-note">아직 촬영한 사진이 없어요.</p>'}</div>`;
-    noteShell('증거 사진',body);
-  }
-  function renderEvidence(){
-    const bag=state.bag;
-    const held=bag?`<div class="ev-card pc-item"><img src="assets/places/picnic-storyboard/picnic-documents.png" alt="파란 가방"><div><b>${bag==='nora'?'로지가 맡긴 파란 가방':'노라가 건넨 파란 가방'}</b></div></div><div class="pc-actions">${button('가방 열어 보기','inspect','primary')}</div>${state.inspected?`<div class="npassage"><p>${bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.'}</p>${state.ko?`<p class="pc-ko">${bag==='nora'?'초록 서류 폴더와 파란 펜이 들어 있어요.':'빨간 도시락과 노란 물병이 들어 있어요.'}</p>`:''}<div class="np-actions"><button class="play-btn" type="button" data-pc="playInspect" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div>`:''}`:'<p class="empty-note">아직 챙긴 물건이 없어요.</p>';
-    const photos=state.photos.map(c=>`<div class="pc-photo ${c==='red'?'red':''}">${c==='red'?'빨간 가방':'파란 가방'}</div>`).join('')||'<p class="empty-note">아직 촬영한 사진이 없어요.</p>';
-    noteShell('증거와 소지품',`<h3>소지품</h3>${held}<h3>증거 사진</h3><div class="pc-photos">${photos}</div>`);
-  }
-  function renderMemo(){noteShell('내 메모',`<textarea class="memo-text" id="pcMemo" aria-label="내 메모">${esc(state.memo||'')}</textarea>`);}
-  function renderDeduce(){
-    const q=deduction[state.deduce];
-    main.innerHTML=`<div class="pc-deduce-screen"><div class="deduce-q"><img src="assets/ui/icons-v2/detective.png" alt="탐정"><div class="deduce-q-txt"><p>${esc(q.ask)}</p>${state.ko?`<p class="ko">${esc(q.ko)}</p>`:''}<div class="deduce-q-row"><button class="play-btn" type="button" data-pc="play" aria-label="다시 듣기"></button>${button('해석','ko')}</div></div></div><div class="ded-cards"><div class="ded-card"><p><button class="ded-slot" type="button" data-pc="deduceOpen">${state.deduceOpen?'선택하기':'?'}</button></p>${state.deduceOpen?`<div class="pc-choices">${q.choices.map((c,i)=>`<button class="pc-btn" type="button" data-pc="deduceChoose" data-i="${i}">${esc(c)}</button>`).join('')}</div>`:''}<p id="pcFeedback" aria-live="polite"></p></div></div></div>`;
-  }
-  function renderHandoff(){
-    main.innerHTML=land('nora')+`<div class="bubble pc-bubble"><div class="bubble-copy"><span class="tag">Detective</span><span class="say-en">노라에게 바뀐 가방에 대해서 설명하자.</span></div></div><div class="pc-ask-panel"><button class="q ${state.selected==='bag'?'selected':''}" type="button" data-pc="selectBag">소지품 · 로지가 맡긴 파란 가방</button>${button('건네주기','give','primary')}<p id="pcFeedback" aria-live="polite"></p></div>`;
-  }
-  const handoffLines=[
-    ['Detective','Rosie is looking for her bag. Her lunch box and bottle are in that one.','로지가 자기 가방을 찾고 있어. 저 가방에 로지의 도시락과 물병이 들어 있네.'],
-    ['Detective','This bag has your folder and pen.','이 가방에는 네 폴더와 펜이 있어.'],
-    ['Detective','Your bags got mixed up. Here you go.','너희 가방이 바뀐 거야. 여기 있어.'],
-    ['Nora','My folder and pen are here! Thank you. Here is Rosie\'s bag.','내 폴더와 펜이 있네! 고마워. 여기 로지의 가방이야.']
-  ];
-  function renderHandoffTalk(){const [who,en,ko]=handoffLines[state.page];main.innerHTML=land('nora')+lineCard(who,en,ko,'handoffNext',state.page===3?'소풍 탁자로':'다음');}
-  function renderReturn(){main.innerHTML=land('rosie')+lineCard('Detective','Rosie, I brought your bag back.','로지, 네 가방을 가져왔어.','returnBag','가방 건네기');}
-  function renderReturnTalk(){main.innerHTML=land('rosie')+lineCard('Rosie','My lunch box and bottle are here! Thank you, Detective!','내 도시락과 물병이 있네! 고마워, 탐정님!','complete','사건 완료');}
-  function renderReview(){
-    const total=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0);
-    const panels=[
-      `<div class="rv-file"><div class="rv-photo"><img src="assets/places/picnic-storyboard/picnic-documents.png" alt="파란 가방"></div><img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>Case 01</small><b>바뀐 소풍 가방</b></div><div class="rv-stars" aria-label="별 ${state.firstOk/total>.9?3:state.firstOk/total>.7?2:1}개">${[0,1,2].map(i=>`<img src="assets/ui/${i<(state.firstOk/total>.9?3:state.firstOk/total>.7?2:1)?'star':'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div><div class="rv-story"><h3>사건 요약</h3><p>로지와 노라의 파란 가방이 바뀌었어요. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었어요.</p></div><div class="rv-tiles"><div>처음에 맞힌 빈칸 <b>${state.firstOk}<small> / ${total}</small></b></div><div>다시 들을 문장 <b>${state.firstWrong.length||'없음'}</b></div><div>사건에 나온 단어 <b>8</b></div></div>`,
-      `<h2 class="rv-title">다시 들을 문장</h2>${state.firstWrong.length?state.firstWrong.map(id=>{const q=qs.find(x=>x.id===id);return `<div class="rv-quiz"><p class="rv-q">${esc(q.ask)}</p><p>${esc(q.reply)}</p><button class="play-btn" type="button" data-pc="reviewPlay" data-id="${id}" aria-label="다시 듣기"></button></div>`}).join(''):'<p>처음부터 모두 맞혔어요.</p>'}`,
-      `<h2 class="rv-title">이번 사건의 문법</h2><div class="rv-grams">${keyPages.map(k=>`<div class="rv-word rv-gram"><div><span class="wword">${esc(k.title)}</span><small>${esc(k.ko)}</small></div></div>`).join('')}</div><div class="pc-actions">${button(localStorage.getItem('pioo.grammarBook')?.includes('ownership')?'담았어요 ✓':'문법 담기','keepGrammar','primary')}</div>`,
-      `<h2 class="rv-title">이번 사건의 단어</h2>${[['bag','가방'],['folder','서류 폴더'],['pen','펜'],['lunch box','도시락'],['bottle','물병'],['blue','파란색'],['red','빨간색'],['yellow','노란색']].map(([en,ko])=>`<div class="rv-word"><span class="wword">${en}</span><span class="wko">${ko}</span></div>`).join('')}<div class="pc-actions">${button('단어 담기','keepWords','primary')}</div>`
-    ];
-    main.innerHTML=`<div class="pc-review-screen"><div class="pc-review-body">${panels[state.review]}</div><div class="pc-review-dots">${panels.map((_,i)=>`<i class="${i===state.review?'now':''}"></i>`).join('')}</div><div class="pc-review-foot">${state.review?button('이전','reviewPrev'):''}${button(state.review===3?'사건 목록으로':'다음',state.review===3?'home':'reviewNext','pink')}</div></div>`;
-  }
-  function finish(){
-    if(!quickPreview){
-      const solved=JSON.parse(localStorage.getItem('pioo.solvedCases')||'[]'); if(!solved.includes('picnic-bag')) localStorage.setItem('pioo.solvedCases',JSON.stringify([...solved,'picnic-bag']));
-      const stats=JSON.parse(localStorage.getItem('pioo.caseStats')||'{}'),total=qs.reduce((n,q)=>n+[...q.note.matchAll(/\[([^\]]+)\]/g)].length,0); stats['picnic-bag']={ok:state.firstOk,total,stars:state.firstOk/total>.9?3:state.firstOk/total>.7?2:1,missed:state.firstWrong}; localStorage.setItem('pioo.caseStats',JSON.stringify(stats));
-    }
-    state.phase='review'; state.review=0; save(); render();
-  }
-  let faceDrag=null,faceDragged=false;
-  main.addEventListener('pointerdown',e=>{const row=e.target.closest('.nfaces');if(!row||e.pointerType!=='mouse'||e.button!==0)return;faceDrag={row,id:e.pointerId,x:e.clientX,left:row.scrollLeft};faceDragged=false;});
-  main.addEventListener('pointermove',e=>{if(!faceDrag||e.pointerId!==faceDrag.id)return;const dx=e.clientX-faceDrag.x;if(Math.abs(dx)>5){faceDragged=true;faceDrag.row.classList.add('dragging');faceDrag.row.setPointerCapture(e.pointerId);}if(faceDragged){faceDrag.row.scrollLeft=faceDrag.left-dx;e.preventDefault();}});
-  main.addEventListener('pointerup',()=>{if(faceDrag)faceDrag.row.classList.remove('dragging');faceDrag=null;});
-  main.addEventListener('input',e=>{ if(e.target.id==='pcMemo'){state.memo=e.target.value;save();return;} if(!e.target.matches('[data-blank]'))return; const q=qs.find(x=>x.id===state.active); if(!q)return; state.draft[q.id]||=[];state.draft[q.id][+e.target.dataset.blank]=e.target.value;save(); });
-  root.addEventListener('click',e=>{
-    if(faceDragged&&e.target.closest('.nfaces')){faceDragged=false;return;}
-    const el=e.target.closest('[data-pc]'); if(!el)return; const action=el.dataset.pc;
-    if(action==='ko'){state.ko=!state.ko;render();return;}
-    if(action==='questionKo'){state.ko=!state.ko;render();return;}
-    if(action==='keyKo'){const id=`${state.page}-${el.dataset.i}`;state.keyKo[id]=!state.keyKo[id];save();render();return;}
-    if(action==='slow'){state.slow=!state.slow;save();render();return;}
-    if(action==='noteTab'){state.view={people:'note',evidence:'evidence',memo:'memo'}[el.dataset.tab]||'note';state.active=null;save();render();return;}
-    if(action==='notePerson'){state.notePerson=el.dataset.scene;state.active=null;state.view='note';save();render();return;}
-    if(action==='noteBack'){state.active=null;state.view='note';save();render();return;}
-    if(action==='playInspect'){speak(state.bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.');return;}
-    if(action==='noteClose'||action==='mapClose'){state.view='story';state.active=null;save();render();return;}
-    if(action==='deduceOpen'){state.deduceOpen=!state.deduceOpen;render();return;}
-    if(action==='play'){const q=qs.find(x=>x.id===state.active);const line=intro[state.scene]?.[state.intro];if(state.phase==='deduce')speak(deduction[state.deduce].ask);else if(state.phase==='return')speak('Rosie, I brought your bag back.');else if(state.phase==='returnTalk')speak('My lunch box and bottle are here! Thank you, Detective!');else if(state.phase==='handoffTalk')speak(handoffLines[state.page][1]);else if(state.phase==='story'&&state.view==='note'&&q)speak(q.reply);else if(state.phase==='story'&&state.view==='story'&&state.intro<intro[state.scene].length)speak(line[1]);else if(state.scene==='garden')speak('Thanks for answering my questions. Enjoy your picnic!');return;}
-    if(action==='keyPlay'){speak(keyPages[state.page].lines[+el.dataset.i][0]);return;}
-    if(action==='keyPrev'){state.page--;state.ko=false;}
-    if(action==='keyNext'){if(state.page<2)state.page++;else state.phase=localStorage.getItem('pioo.tutorialSeen')?'story':'tutorial';state.ko=false;}
-    if(action==='tutorialNext'){state.phase='story';if(!quickPreview)localStorage.setItem('pioo.tutorialSeen','1');}
-    if(action==='nextIntro'){state.intro++;state.ko=false;}
-    if(action==='question'||action==='read'){state.active=el.dataset.id;state.view='note';state.ko=false;const q=qs.find(x=>x.id===state.active);state.notePerson=q.place;speak(q.reply);}
-    if(action==='chip'){const q=qs.find(x=>x.id===state.active);state.draft[q.id]||=[];const i=state.draft[q.id].findIndex(v=>!v);const at=i<0?0:i;state.draft[q.id][at]=el.dataset.value;}
-    if(action==='hint'){const q=qs.find(x=>x.id===state.active);if(q&&state.hints>0){const answers=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]);state.draft[q.id]||=[];const at=answers.findIndex((a,i)=>String(state.draft[q.id][i]||'').toLowerCase()!==a.toLowerCase());if(at>=0){state.draft[q.id][at]=answers[at];state.hints--;}}}
-    if(action==='check'){
-      const q=qs.find(x=>x.id===state.active),a=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(x=>x[1]); const d=state.draft[q.id]||[];
-      if(d.length<a.length||d.some(x=>!x)){ $('#pcFeedback').textContent='빈칸을 모두 채워 주세요.';return; }
-      const good=a.every((x,i)=>x.toLowerCase().trim()===String(d[i]).toLowerCase().trim());
-      if(!good){state.attempts++;if(!state.firstWrong.includes(q.id))state.firstWrong.push(q.id);$('#pcFeedback').textContent='다시 듣고 고쳐 보세요.';save();return;}
-      if(!state.firstWrong.includes(q.id))state.firstOk+=a.length;
-      state.checked[q.id]=true;state.active=null;state.view='story';state.ko=false;
-      if(q.id==='r4')toast('새로운 장소 [호수 카페]가 열렸어요');
-      if(q.id==='v1')toast('새로운 인물 [벤·미아·올리·노라]을 알게 되었어요');
-      if(q.id==='v3')toast('새로운 장소 [벤의 집·정원]이 열렸어요');
-      if(q.id==='b1')toast('새로운 장소 [회사 1층 로비]가 열렸어요');
-      if(q.id==='n3'){if(readyDeduce()){state.phase='deduce';state.deduce=0;}else toast('다른 장소의 조사도 마쳐 보세요');}
-    }
-    if(action==='takeBag'){state.bag='nora';toast('소지품 [로지가 맡긴 파란 가방]을 받았어요');}
-    if(action==='photoBlue'||action==='photoRed'){const color=action==='photoBlue'?'blue':'red';if(!state.photos.includes(color))state.photos.push(color);toast(`${color==='blue'?'파란':'빨간'} 가방을 촬영했어요`);}
-    if(action==='inspect'){state.inspected=true;speak(state.bag==='nora'?'There is a green folder and a blue pen inside.':'There is a red lunch box and a yellow bottle inside.');}
-    if(action==='inventory'||action==='map'){state.view=action==='inventory'?'evidence':'map';state.active=null;state.ko=false;}
-    if(action==='go'){go(el.dataset.scene);return;}
-    if(action==='deduceChoose'){if(+el.dataset.i!==deduction[state.deduce].correct){$('#pcFeedback').textContent='단서를 다시 생각해 보세요.';return;}state.deduce++;state.deduceOpen=false;if(state.deduce===4){state.phase='handoff';state.scene='nora';}else toast('맞아요!');}
-    if(action==='selectBag')state.selected='bag';
-    if(action==='give'){if(state.selected!=='bag'){ $('#pcFeedback').textContent='소지품에서 가방을 선택해 주세요.';return;}state.selected=null;state.phase='handoffTalk';state.page=0;state.ko=false;}
-    if(action==='handoffNext'){if(state.page<3)state.page++;else{state.bag='rosie';state.phase='return';state.scene='rosie';state.page=0;toast('소지품 [로지의 가방]을 받았어요');}state.ko=false;}
-    if(action==='returnBag'){state.bag=null;state.phase='returnTalk';state.ko=false;}
-    if(action==='complete'){finish();return;}
-    if(action==='reviewPlay'){speak(qs.find(q=>q.id===el.dataset.id).reply);return;}
-    if(action==='reviewPrev')state.review--;
-    if(action==='reviewNext')state.review++;
-    if(action==='keepGrammar'){if(!quickPreview){const book=JSON.parse(localStorage.getItem('pioo.grammarBook')||'[]');localStorage.setItem('pioo.grammarBook',JSON.stringify([...new Set([...book,'ownership'])]));}toast(quickPreview?'미리보기 중에는 저장하지 않아요':'소유 표현을 담았어요');}
-    if(action==='keepWords'){if(!quickPreview)localStorage.setItem('pioo.picnic.wordBook',JSON.stringify(['bag','folder','pen','lunch box','bottle','blue','red','yellow']));toast(quickPreview?'미리보기 중에는 저장하지 않아요':'이번 사건의 단어를 담았어요');}
-    if(action==='home'){location.href=location.pathname;return;}
-    save();render();
-  });
-  $('#pcNav').addEventListener('click',e=>{const b=e.target.closest('[data-pc-nav]');if(!b)return;if(state.active&&!done(state.active)){if(!confirm('진술 기록을 잠시 중단하고 이동할까요?'))return;}state.view=b.dataset.pcNav;state.active=null;save();render();});
-  $('#pcBack').onclick=()=>{if(state.phase==='review'||state.phase==='key'||state.phase==='tutorial'){location.href=location.pathname;return;}if(state.active&&!confirm('진술 기록을 잠시 중단하고 이동할까요?'))return;if(state.phase==='story'&&state.view!=='map'){state.view='map';state.active=null;save();render();return;}if(confirm('사건 목록으로 나갈까요? 지금까지 조사한 내용은 저장돼요.'))location.href=location.pathname;};
-  $('#pcQuick').addEventListener('click',e=>{
-    const action=e.target.closest('[data-pc-quick]')?.dataset.pcQuick;if(!action)return;
-    if(action==='restore'){
-      if(quickSnapshot===null)return;
-      state={...fresh(),...JSON.parse(quickSnapshot)};quickSnapshot=null;quickPreview=false;render();return;
-    }
-    if(action==='fill'){
-      const q=qs.find(x=>x.id===state.active);if(!q||done(q.id))return;
-      quickBackup();state.draft[q.id]=[...q.note.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]);save();render();return;
-    }
-    quickJump(action);
-  });
-  render();
 })();
 </script>
 </body>

@@ -90,6 +90,8 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 - 적용: 증거 탭 카메라(`cameraIcon`, 30px), 힌트 도토리(`acorns()`, 17px), 작은 얼굴 전부(`miniSVG()`의 `FACE_ICONS`; 둥근 `.mini` 틀 안에서는 아래로 8% 내리고 1.06배).
 `icons-v2/hoot.png`(160×160)는 별도 생성 없이 `characters/hoot-higgsfield.png`의 머리·어깨를 잘라 줄인 그림이다. 추리 인물 선택창의 Professor Hoot 얼굴로 쓴다(`DEDUCE.people`, `deducePic()`).
 
+`icons-v2/pending.png`(160×160)은 아직 그림이 없는 인물(소풍 사건의 벤·미아와 올리·노라)의 임시 얼굴이다. Claude가 PIL로 그린 크림색 머리·어깨 점선 실루엣이며 크레딧을 쓰지 않았다. 그 인물의 Higgsfield 아이콘이 생기면 `FACE_ICONS`에 id를 넣고 이 그림은 쓰이지 않는다(`faceSrc()`).
+
 ## COMPLETE 도장·별 (2026-10-20)
 
 - `complete-stamp.png` (900×332, 투명): 사용자 요청으로 `수사완료` 한글 도장을 영문 `COMPLETE` 도장으로 교체. Nano Banana 2.1(1K, thinking high, 16:9), 참조: 이전 한글 도장 `investigation-complete-stamp.png`(모양, 지금은 지움) + `notebook-v2-nobg.png`(화풍, 지금은 지운 수첩 그림). job `f656df82-84d3-447a-a9f1-29b1bfe258de`, 원본 `complete-stamp-higgsfield-original.png`. 마젠타 배경을 지우고(테두리 중앙값을 배경색으로 잡아 알파·색 분리) 잉크 영역으로 잘라 가로 900px로 줄였다. 복습 1단계 서류(`.rv-file img`)에 쓴다. 이전 `investigation-complete-stamp.png`는 미사용 보관.
