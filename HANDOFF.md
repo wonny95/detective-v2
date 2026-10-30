@@ -79,7 +79,7 @@ node server.js            # http://localhost:5173/
 | `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
 | `.claude/skills/take-over/SKILL.md` | 개발 쪽 작업 이어받기(폴더·브랜치 확인 → `story` merge → STORY_LOG 개발 요청·CHANGELOG 맨 위·HANDOFF 0·4절 읽기 → `pioo-dev` 미리보기 → 한국어 요약 보고). Claude Code는 `/take-over`. 코드는 고치지 않는다 |
 | `design/STORY_LOG.md` | 스토리 기획(Codex) 쪽 작업 기록. 맨 위 항목의 **개발 요청**을 개발이 반영하고 CHANGELOG에 "기획 반영"으로 적는다 |
-| `E:\GPT\Pioo-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
+| `E:\GPT\Pioo-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 연결은 상대 경로(`worktree.useRelativePaths`)라 두 폴더를 같은 상위 폴더에 함께 두면 어디로 옮겨도 된다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
 
 ## 3. 현재 앱 흐름
 

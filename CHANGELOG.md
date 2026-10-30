@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-30 02:20 · Claude · (이 커밋)
+## 2026-10-30 10:50 · Claude · (이 커밋)
+
+- 사용자 요청: 두 폴더를 `E:\GPT\Detective` 아래로 옮길 준비. worktree 연결을 상대 경로로 바꿈(`worktree.useRelativePaths=true`, `git worktree repair --relative-paths`, git 2.54). 이제 `Pioo`와 `Pioo-story`를 **같은 상위 폴더에 함께** 옮기면 연결이 유지된다. `.claude/launch.json`의 서버 경로를 `server.js`(상대)로 바꿈. Claude 메모리를 새 경로 키(`E--GPT-Detective-Pioo`)에 복사하고 경로를 고쳐 둠(원본은 그대로).
+- 확인: 버리는 저장소에서 상대 경로 worktree 두 폴더를 새 상위 폴더로 옮긴 뒤 status·worktree list·merge 정상. 지금 폴더에서 양쪽 status 정상, 미리보기 서버를 새 설정으로 다시 띄워 5173 정상.
+- **다음**: 사용자가 Claude Code·Codex를 닫고 두 폴더를 `E:\GPT\Detective`로 옮긴 뒤 `E:\GPT\Detective\Pioo`에서 Claude Code를 연다. 그러면 `git worktree list`·양쪽 `git status`로 연결을 확인하고, 문서의 폴더 경로(`E:\GPT\Pioo` → `E:\GPT\Detective\Pioo`, `Pioo-story`도)를 AGENTS.md, HANDOFF.md, `.claude/skills/`(wrap-up·take-over·push-github)에서 고쳐 커밋한다. `design/STORY_LOG.md`의 경로는 기획 파일이라 기획 요청으로 남긴다. 아직 옮기지 않았으면 사용자 지시 대기
+
+## 2026-10-30 02:20 · Claude · 42e64a9
 
 - 사용자 결정: **개발은 Claude Code, 스토리 기획은 Codex**가 동시에 맡는다. 폴더·브랜치를 나눔: 개발 `E:\GPT\Pioo`·`main`, 기획 `E:\GPT\Pioo-story`(git worktree)·`story`. 기획 파일(`design/STORY_LOG.md`, `design/case-*`, `design/learning-plan.html`, `LEARNING_PLAN.md`, `CURRICULUM.md`, `CASE_THEMES.md`)은 Codex만, 나머지는 Claude만 고친다. 주고받기는 `merge`만(시작할 때 상대 브랜치를 받음), 충돌이 나면 되돌리고 사용자에게 알림. 기획 → 개발은 STORY_LOG의 **개발 요청**, 개발 → 기획은 CHANGELOG의 **기획 요청**. 기획 쪽 미리보기는 5174 포트.
 - 고친 문서: `AGENTS.md`(분업 표, 브랜치 주고받기, 역할별 시작·마무리 절차, `CLAUDE_REQUEST.md` 절차는 없앰), `.claude/skills/wrap-up`·`take-over`·`push-github`, HANDOFF 0·1·2·12절. 새 파일 `design/STORY_LOG.md`(기획 기록, 형식 포함).

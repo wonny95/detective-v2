@@ -4,7 +4,7 @@
     {
       "name": "pioo-dev",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["E:/GPT/Pioo/server.js"],
+      "runtimeArgs": ["server.js"],
       "port": 5173
     }
   ]
