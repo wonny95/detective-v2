@@ -130,6 +130,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
    face, as on the deduction board (user pick A, no tail) */
 .bubble.say.det{top:auto;bottom:calc(92px + env(safe-area-inset-bottom, 0px));max-height:calc(100% - 180px);padding-left:76px;--bubble-paper:#FFF0BF;transform-origin:50% 100%}
 .bubble.say.det::after{display:none}
+/* the greeting: no question buttons under it, so the detective's bubble sits just above the bottom tabs */
+.app.greeting .bubble.say.det{bottom:calc(var(--greet-bottom, 20px) + env(safe-area-inset-bottom, 0px))}
 .bubble.say .say-face{position:absolute;left:24px;top:24px;width:44px;height:44px;border-radius:50%;background:#F3E6CC;box-shadow:0 0 0 2px #fff}
 .bubble.say .say-ko{display:block;margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;line-height:1.45;color:var(--berry)}
 .bubble.say .say-ko[hidden]{display:none}
@@ -1502,7 +1504,7 @@ const QUESTIONS = [
 const PICNIC_CASE = {
   start:'rosie',
   people:{
-    rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3',
+    rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3', openingQuestion:'r1',
       // recorded voice (Higgsfield · MiniMax · Evie, as in the library case; thanks: happy). The library case has its own rosie-*.mp3
       audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'r4', 'give', 'thanks'].map(key => [key, `audio/picnic/rosie-${key}.mp3`])),
       // the greeting as the case design has it: theirs and the detective's in turn (design/case-01-picnic-bag.md 인사와 탐문 대본)
@@ -2633,7 +2635,7 @@ function renderAsk(){
   if(ending && !S.investigate){ box.innerHTML = endingControls(); return; }
   if(S.investigate){ box.innerHTML = ''; return; }
   let html = '';
-  if(p.phase === 'choose'){
+  if(p.phase === 'choose' && greetingId !== s.id){
     const left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
       left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('');
@@ -2899,6 +2901,14 @@ function stageCard(title, sub){
 }
 // Start or resume a conversation. The first meeting plays the greeting.
 let greetingTimer;
+// whom the first-meeting greeting is playing for: their questions wait until it is over (user request), and the
+// detective's bubble sits lower meanwhile (.app.greeting)
+let greetingId = null, greetingCut;
+function setGreeting(id){
+  clearTimeout(greetingCut);
+  greetingId = id;
+  $('#app').classList.toggle('greeting', !!id);
+}
 const sceneScroll = {};
 function talkTo(id){
   clearTimeout(greetingTimer);
@@ -2906,6 +2916,7 @@ function talkTo(id){
   if(S.investigate && S.place) sceneScroll[S.place] = artWrap.scrollLeft;
   stopVoice();
   const first = per(id).phase === 'wait';
+  setGreeting(first ? id : null);
   S.cur = id; S.view = id; S.sel = null;
   if(!ending) renderSay(null);
   if(!S.met.includes(id)) S.met.push(id);
@@ -2925,7 +2936,13 @@ function talkTo(id){
   }
 }
 // The first meeting's greeting: `hello` is one line of theirs, or the lines in turn as the case design writes them.
-function playGreeting(id){ if(per(id).phase === 'choose') playLines(id, [].concat(spk(id).hello)); }
+function playGreeting(id){
+  if(per(id).phase !== 'choose') return setGreeting(null);
+  const lines = [].concat(spk(id).hello), done = () => { if(greetingId === id){ setGreeting(null); renderAsk(); } };
+  playLines(id, lines, done);
+  // the questions come anyway if a line never reports its end (no voice at all)
+  greetingCut = setTimeout(done, lines.reduce((t, l) => t + (l.en || l).length * 95 + 2500, 1000));
+}
 // Lines said in turn in a conversation: theirs by them (key: their audio, as: another voice), the detective's (det) in
 // the detective's bubble. {name} is the player's detective name on screen; the voice says "the detective" (design).
 // Asking a question (it clears greetingTimer) or leaving the conversation cuts them off; onDone once all are said.
@@ -3095,7 +3112,7 @@ function replaySentence(ref, idx){
 // Switch between the conversation view and the place view. Either can be left and resumed;
 // an unfinished recording waits in the notebook until the player comes back.
 function setInvestigate(on){
-  clearTimeout(greetingTimer);
+  clearTimeout(greetingTimer); setGreeting(null);
   cancelCapture();
   S.investigate = on;
   stopVoice(); hideBubble(); clearSel();
