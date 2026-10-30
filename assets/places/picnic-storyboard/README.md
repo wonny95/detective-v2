@@ -23,3 +23,11 @@
 | `backpack-blue.png`, `backpack-red.png` | 정원 벤치의 미아(파랑)·올리(빨강) 가방. `picnic-wide.png`의 배낭을 오려 색을 입힘(`scripts/cut-picnic-backpack.py`, 크레딧 없음). 정원 그림(`garden.webp`) 위에 겹쳐 그린다. |
 
 마을 지도는 `../village-map-day-higgsfield.webp`(두 사건 공용, 아래 HANDOFF 참고).
+
+## 2026-10-30 대화 바닥 (Claude, 사용자 결정: 노트가 열리면 로지 얼굴이 가려짐)
+
+- 다섯 장소 그림을 Higgsfield `outpaint_image` 3:4(1792×2400, 장당 2크레딧, 합계 10)로 넓혀 `<id>-outpaint-original.jpg`로 보관하고, `scripts/cut-picnic-floors.py`가 원본 위치를 찾아 그 아래만 잘라 원본 폭으로 줄인 `<id>-floor.jpg`를 만든다(이음새 위 260px는 원본 아래 색에 맞춰 물들임).
+- job: picnic `7ac5bc59-52f8-4fa5-aac1-feb4c2ce023e`, daycafe `9f68fb08-e9ed-4896-9522-26e8481b6cf1`, benhome `7ef736a7-ef3d-4ff2-aeea-47d386066f34`, garden `9d9acc9c-d7a5-4b29-a14d-3f2272318ec1`, lobby `832e5bf3-3a01-4592-8dc1-e8fba40c2b1a`.
+- 로비는 outpaint가 판자를 세로 원근으로 다시 그려 이음새에 선이 생겼다. 그래서 바닥을 원본 아래 110px 위에서 시작해 알파로 서서히 나타나게 한 `lobby-floor.webp`를 쓰고, 게임은 `ART_FLOOR.lobby.overlap`만큼 올려 붙인다.
+- 장소 그림을 바꾸면 바닥도 다시 만들어야 이음새가 맞는다.
+

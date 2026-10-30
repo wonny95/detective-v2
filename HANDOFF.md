@@ -98,7 +98,7 @@ node server.js            # http://localhost:5173/
 - **소지품**(`ITEMS`, `S.items`): 노트 `증거` 장 맨 앞에 사진과 같은 카드로 나오고(장소 칸에 `소지품`), 누르면 설명을 탐정 목소리(지금은 브라우저 음성)로 읽는다. 제목은 맡긴 사람과 색만(`Blue bag from Rosie`, 주인은 쓰지 않음), 설명은 설계서 문장 "There is a green folder and a blue pen inside." 메모 📌는 없다.
 - **추리**(`PICNIC_CASE.deduce`): 설계서의 4문항·카드·대답·힌트. 빈칸 종류에 `thing`(물건 `things`)·`color`(색 `colors`)가 더해졌고, 카드 하나에 빈칸이 여러 개일 수 있다(`deduceBlanks()`; 맞힌 빈칸은 채워진 채 남고 `S.deduce.part`에 저장, 모두 채우면 대답). `any:true`면 같은 종류의 빈칸을 어느 순서로 채워도 된다(Q2–Q4). 로지·노라 사진이 카드 왼쪽에 붙고 X·동그라미 표시는 없다. 끝 버튼은 `노라에게 가기`.
 - **가방 전달**(`ENDING.handoff`, 사용자 결정: 심문 대신 소지품을 건네는 대화): 노라 앞에서 탐정의 생각 "노라에게 바뀐 가방에 대해서 설명하자."(꿀색 말풍선, 재생 없음) → `가방 건네주기` → 증거 서랍이 `소지품` 탭만으로 열림 → 가방 선택 → `건네주기` → 탐정의 설명 3줄·노라의 감사(`다음`) → 소지품이 로지의 가방으로 바뀜 → 소풍 탁자의 로지 앞에서 "Rosie, I brought your bag back." → 같은 방법으로 건네주기 → 로지의 감사 → 복습. 게이지·모순 도장은 없다. `<`로 나가면 건넨 가방은 건넨 대로 두고(`S.handoffRound`) 다음에 그 다음 가방부터 한다.
-- **아직 없는 것(임시 표시)**: 녹음은 로지 8줄(`audio/picnic/rosie-*.mp3`, 도서관 사건의 `audio/rosie-*.mp3`와 따로)과 탐정의 질문 14줄(`audio/picnic/detective-*.mp3`)만 있다. 나머지 인물 대사와 탐정의 인사·맺음말은 브라우저 음성이다. 벤·노라·미아와 올리는 그림이 있다(`SPRITES`, 두 명씩 한 장에서 자름). 말하는 입(`MOUTHS`)은 아직 없다. 회사 로비(`lobby-higgsfield.webp`), 정원 벤치의 두 가방(`backpack-blue/red.png`, 오려 색 입힘), 로지의 가방 소지품 사진(`picnic-rosie-bag.webp`, 빨간 도시락·노란 물병)은 있다. 다섯 장소 모두 대화 바닥(`ART_FLOOR`)이 없어 인물이 크게 잡힌다(보류). 장소에 누를 물건(나레이션)도 없다. 만들 목록은 10절 맨 위.
+- **아직 없는 것(임시 표시)**: 녹음은 로지 8줄(`audio/picnic/rosie-*.mp3`, 도서관 사건의 `audio/rosie-*.mp3`와 따로)과 탐정의 질문 14줄(`audio/picnic/detective-*.mp3`)만 있다. 나머지 인물 대사와 탐정의 인사·맺음말은 브라우저 음성이다. 벤·노라·미아와 올리는 그림이 있다(`SPRITES`, 두 명씩 한 장에서 자름). 말하는 입(`MOUTHS`)은 아직 없다. 회사 로비(`lobby-higgsfield.webp`), 정원 벤치의 두 가방(`backpack-blue/red.png`, 오려 색 입힘), 로지의 가방 소지품 사진(`picnic-rosie-bag.webp`, 빨간 도시락·노란 물병)은 있다. 다섯 장소 모두 대화 바닥(`ART_FLOOR`, `<id>-floor.jpg`·로비는 `.webp`)이 있어 노트가 열리면 얼굴이 노트 위로 올라간다(사용자 결정: 노트가 로지 얼굴을 가림). 장소에 누를 물건(나레이션)도 없다. 만들 목록은 10절 맨 위.
 
 ### 3.1 홈(사건 밖 화면)·튜토리얼
 
@@ -486,13 +486,13 @@ node server.js            # http://localhost:5173/
 | 용도 | 적용 파일 (`assets/` 아래) | 비고 |
 |---|---|---|
 | 도서관 | `places/library-higgsfield-v2.png` | 사용자 제작, 1376×768 |
-| 소풍 가방 장소 그림 | `places/picnic-storyboard/picnic-wide.png`(소풍 탁자), `cafe-day.png`(낮의 호수 카페), `ben-home.png`(벤의 집), `garden.webp`(정원), `picnic-documents.png`(로지가 맡긴 가방 소지품 사진) | 사용자 제공·Codex 편집·기존 Higgsfield 그림(출처는 같은 폴더 README). 정원의 두 가방은 `ART.garden`의 SVG 임시 가방, 회사 로비는 `ART.lobby`의 단색 방, 로지의 가방 소지품은 `picnic-wide.png`의 닫힌 가방을 잘라 쓴다. 대화 바닥 확장은 없다. 도서관 사건의 밤 카페는 그대로 둔다 |
+| 소풍 가방 장소 그림 | `places/picnic-storyboard/picnic-wide.png`(소풍 탁자), `cafe-day.png`(낮의 호수 카페), `ben-home.png`(벤의 집), `garden.webp`(정원), `picnic-documents.png`(로지가 맡긴 가방 소지품 사진) | 사용자 제공·Codex 편집·기존 Higgsfield 그림(출처는 같은 폴더 README). 정원의 두 가방은 오려 색 입힌 `backpack-blue/red.png`, 회사 로비는 `lobby-higgsfield.webp`, 로지의 가방 소지품은 `picnic-rosie-bag.webp`. 대화 바닥 확장은 다섯 장소 모두 `<id>-floor.jpg`(로비는 `lobby-floor.webp`). 도서관 사건의 밤 카페는 그대로 둔다 |
 | 아직 그림이 없는 인물 | `ui/icons-v2/pending.png`, `pendingSVG` | 벤·미아와 올리·노라의 임시 점선 실루엣(Claude가 PIL·SVG로 그림, 크레딧 없음) |
 | 피해자 분필 윤곽선 | `places/library-chalk-owl.png` | Claude 제작(Nano Banana 2.1, job 418fefc0), 640×450 투명 PNG. 검은 배경 위 흰 분필 선을 밝기로 투명도를 만들고 선을 조금 굵혔다. 원본 `library-chalk-owl-original.png` |
 | 빵집 | `places/bakery-higgsfield.png` | 사용자 제작, 1376×768. 계산대 쪽지를 지우고 예약 주문 칠판·쓰레기통 신문, 오븐 속 탄 파이를 그려 넣은 판(Claude, `assets/places/README.md`) |
 | 곰 베티의 집 | `places/betty-home-higgsfield.png`, `places/betty-home-floor.jpg` | Claude 제작. 3:4 2K 한 장(원본 `betty-home-higgsfield-original.png`)을 1376 폭으로 줄여 위 768을 장소 그림, 아래 1075를 바닥으로 나눔 |
 | 카페·언덕 | `places/cafe-higgsfield.png`, `places/hill-higgsfield.png` | Claude 제작, 1376×768. 카페는 카운터 뒤 오리를 지우고 공연 포스터 글씨를 그림 안에 그려 넣은 판, 언덕은 벤치에 즉석카메라를 더한 판 |
-| 바닥 확장 | `places/<id>-floor.jpg` | outpaint로 원본 아래를 이어 그림(높이 370–725). 원본 `*-outpaint-original.png`. 도서관은 원본 아래 끝의 흐린 띠를 다시 그려 이음새를 지움(`assets/places/README.md`) |
+| 바닥 확장 | `places/<id>-floor.jpg`, 소풍은 `places/picnic-storyboard/<id>-floor.jpg` | outpaint로 원본 아래를 이어 그림(높이 370–725). 원본 `*-outpaint-original.png`(소풍은 `.jpg`). 도서관은 원본 아래 끝의 흐린 띠를 다시 그려 이음새를 지움(`assets/places/README.md`). 소풍 다섯 장(2026-10-30, 장당 2크레딧)은 `scripts/cut-picnic-floors.py`로 잘라 이음새 색을 맞췄고, outpaint가 판자 방향을 다르게 그린 로비는 바닥이 그림 아래 110px에 겹쳐 서서히 나타난다(`ART_FLOOR.lobby.overlap`, 알파 있는 `lobby-floor.webp`) |
 | 튜토리얼 그림 | `ui/tutorial/tut-1…6.webp` | Claude 제작, 실제 게임 화면을 잘라 합성(사용자 결정), 900×720. 만드는 법·자르는 기준은 같은 폴더 README |
 | 마을 지도 | `places/village-map-day-higgsfield.webp` | Claude 제작(2026-10-30, 사용자 요청: 밤 지도도 임시였다), Nano Banana 2.1 1K 9:16(1.5크레딧), 이전 밤 지도(`village-map-higgsfield.png`, 지금 안 씀)와 `picnic-wide.png` 참조, job `627775f2-b934-4904-a81b-ade241a15708`. 768×1376, 글자 없음. 두 사건의 장소를 모두 그렸고 핀(`PLACES[].x/y`)은 건물 위 |
 | 파출소 조사실 | `places/station-interview-room.png` | Codex 기본 이미지 생성 도구 제작, 1254×1254. 대화 전용, 바닥 포함, 인물·문자 없음 |
@@ -588,8 +588,8 @@ node server.js            # http://localhost:5173/
   3. **낮 마을 지도 새로 한 장**(사용자 결정: 지금 밤 지도도 임시였다): 지금 지도의 장소(도서관·빵집·호수 카페·곰 베티의 오두막·달 언덕)에 소풍 장소(소풍 탁자·벤의 집·정원·회사)를 더한 낮 그림, 글자 없음. 지금 지도를 참조로. 약 1.5–2. 두 사건이 함께 쓰고 핀 위치(`PLACES[].x/y`)를 다시 맞춘다.
   4. 노라에게 받은 로지의 가방 사진(`bag-rosie`): `picnic.webp`의 초록 도시락·파란 물병을 빨강·노랑으로 **직접 색 편집**(0). 지금은 닫힌 가방 사진으로 대신함.
   5. 정원 벤치의 두 가방: 소풍 탁자 그림의 파란 배낭을 오려 벤치에 놓고 하나는 빨강으로 **직접 합성**(0). 깔끔하지 않으면 정원 그림 편집(약 1.5)으로.
-  6. 보류: 대화 바닥 확장 4장(약 6) — 지금 화면에서 큰 문제 없어 미룸. 장소마다 누를 물건 — 대본 미정.
-  - 남은 것: 새 인물 세 그림의 말하는 입(0크레딧, 입 자리 잡기), 대화 바닥 확장(보류), 녹음(아래 7).
+  6. 대화 바닥 확장 5장 — 만듦(2026-10-30, 10크레딧, 사용자 결정: 노트가 얼굴을 가림). 장소마다 누를 물건 — 대본 미정.
+  - 남은 것: 새 인물 세 그림의 말하는 입(0크레딧, 입 자리 잡기), 녹음(아래 7).
   7. 녹음(로지 8줄은 완료): 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, take-bag, garden-photo·garden-thanks·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음(대본 먼저).
 

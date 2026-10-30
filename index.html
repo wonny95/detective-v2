@@ -4714,7 +4714,15 @@ const ART_FLOOR = {
   cafe:   { src:'assets/places/cafe-floor.jpg', h:725 },
   hill:   { src:'assets/places/hill-floor.jpg', h:370 },
   // drawn as one tall picture with its floor (user decision), so there is no seam
-  bettyhome:{ src:'assets/places/betty-home-floor.jpg', h:1075 }
+  bettyhome:{ src:'assets/places/betty-home-floor.jpg', h:1075 },
+  // the picnic case (user decision: the note covered the speaker's face without a floor to lift the camera onto)
+  picnic:  { src:'assets/places/picnic-storyboard/picnic-floor.jpg', h:499 },
+  daycafe: { src:'assets/places/picnic-storyboard/daycafe-floor.jpg', h:655 },
+  benhome: { src:'assets/places/picnic-storyboard/benhome-floor.jpg', h:495 },
+  garden:  { src:'assets/places/picnic-storyboard/garden-floor.jpg', h:537 },
+  // overlap: the floor starts this many picture px higher and fades in over the picture's bottom (its outpaint
+  // drew the planks the other way); h counts only the part below the picture
+  lobby:   { src:'assets/places/picnic-storyboard/lobby-floor.webp', h:531, overlap:110 }
 };
 
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
@@ -4742,7 +4750,7 @@ function renderScene(placeId = S.place){
   // the place view shows up to 30% of the floor extension under the picture, so the feet are not on the edge
   art.style.setProperty('--art-share', artHeight / (artHeight + (floor ? Math.min(floor.h, artHeight * .3) : 0)));
   art.innerHTML = `<svg viewBox="0 0 ${pl.artWidth || 900} ${pl.artHeight || 600}" aria-hidden="true">${ART[pl.id]()}</svg>` +
-    (floor ? `<img class="art-floor" src="${floor.src}" alt="">` : '') +
+    (floor ? `<img class="art-floor" src="${floor.src}" alt=""${floor.overlap ? ` style="top:${100 - floor.overlap / artHeight * 100}%"` : ''}>` : '') +
     pl.spots.filter(s => !s.talk).map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
     people.map(id => {
