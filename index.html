@@ -1071,7 +1071,19 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
-.toast.discovery-toast{top:auto;bottom:88px;background:var(--paper);color:var(--ink);border:1.5px solid rgba(74,54,40,.3);box-shadow:0 3px 12px rgba(74,54,40,.12);white-space:pre-line;line-height:1.5}
+/* new people and places: one cream ribbon each under the title chip (user pick B2 of design/discovery-notice-mockup.html):
+   face or map icon, a berry NEW tag and the name; they pop in one after another and lift away after 4 s */
+.discovery{position:absolute;left:0;right:0;top:58px;z-index:60;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.discovery .dv{display:flex;align-items:center;gap:8px;max-width:86%;box-sizing:border-box;background:var(--paper);border-radius:999px;padding:4px 14px 4px 4px;
+  box-shadow:0 3px 0 rgba(74,54,40,.25);font-family:var(--f-display);font-size:14px;white-space:nowrap;animation:dv-in .4s calc(var(--i) * .18s) both}
+.discovery .dv img{flex:none;width:28px;height:28px;border-radius:50%;background:#fff;object-fit:cover}
+.discovery .dv img.map{padding:3px;box-sizing:border-box;object-fit:contain}
+.discovery .dv .new{flex:none;font-size:10px;letter-spacing:.06em;background:var(--berry);color:#fff;border-radius:6px;padding:1px 5px}
+.discovery .dv b{font-weight:400;overflow:hidden;text-overflow:ellipsis}
+.discovery.out .dv{animation:dv-out .3s both}
+@keyframes dv-in{0%{opacity:0;transform:scale(.6)}65%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes dv-out{to{opacity:0;transform:translateY(-10px)}}
+@media(prefers-reduced-motion:reduce){.discovery .dv,.discovery.out .dv{animation:none}}
 
 /* The detective's office (the player character, user request): the first meeting and naming on the ID card, a new
    case's first line, renaming from 내 기록. Office picture behind, the detective on the rug, their line in a paper bubble. */
@@ -1467,6 +1479,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <!-- the note blanks' preview keyboard on a computer (the same as 이름 짓기's, see .vkb) -->
   <div class="vkb note-vkb" id="noteVkb" hidden aria-hidden="true"></div>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="discovery" id="discovery" role="status" aria-live="polite" hidden></div>
 </div>
 
 <!-- test tools, outside the phone frame -->
@@ -2409,10 +2422,18 @@ const recordLocked = () => talkLocked() && per(S.cur).phase === 'record';
 let ending = null, endingRound = 0, endTimer;
 
 let toastT;
-function toast(msg, discovery = false){
+function toast(msg){
   const t = $('#toast'); t.textContent = msg; t.hidden = false;
-  t.classList.toggle('discovery-toast', discovery);
-  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, discovery ? 4200 : 2400);
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400);
+}
+// new people and places, one ribbon each: [{ img, map, name }]
+let discoveryT;
+function showDiscovery(items){
+  const box = $('#discovery');
+  box.innerHTML = items.map((it, i) => `<div class="dv" style="--i:${i}"><img${it.map ? ' class="map"' : ''} src="${it.img}" alt=""><span class="new">NEW</span><b>${esc(it.name)}</b></div>`).join('');
+  box.classList.remove('out'); box.hidden = false;
+  clearTimeout(discoveryT);
+  discoveryT = setTimeout(() => { box.classList.add('out'); discoveryT = setTimeout(() => box.hidden = true, 300); }, 4200);
 }
 
 /* ---------- speech ---------- */
@@ -3562,11 +3583,10 @@ function revealDiscoveries(){
   pendingPins = []; pendingPeople = [];
   freshPins = new Set([...places, ...people.map(id => spk(id).place)]);
   renderPlaces();
-  const lines = [
-    people.length && `새로운 인물을 알게 되었어요: ${people.map(id => spk(id).name).join(' · ')}`,
-    places.length && `새로운 장소가 열렸어요: ${places.map(id => placeOf(id).label).join(' · ')}`
-  ].filter(Boolean);
-  toast(lines.join('\n'), true);
+  showDiscovery([
+    ...people.map(id => ({ img:faceSrc(id), name:spk(id).name })),
+    ...places.map(id => ({ img:'assets/ui/nav/map.png', map:true, name:placeOf(id).label }))
+  ]);
 }
 /* ---------- accuse ---------- */
 function allConversationsDone(){
