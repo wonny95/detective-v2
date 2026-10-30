@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-30 01:50 · Claude · (이 커밋)
+## 2026-10-30 02:20 · Claude · (이 커밋)
+
+- 사용자 결정: **개발은 Claude Code, 스토리 기획은 Codex**가 동시에 맡는다. 폴더·브랜치를 나눔: 개발 `E:\GPT\Pioo`·`main`, 기획 `E:\GPT\Pioo-story`(git worktree)·`story`. 기획 파일(`design/STORY_LOG.md`, `design/case-*`, `design/learning-plan.html`, `LEARNING_PLAN.md`, `CURRICULUM.md`, `CASE_THEMES.md`)은 Codex만, 나머지는 Claude만 고친다. 주고받기는 `merge`만(시작할 때 상대 브랜치를 받음), 충돌이 나면 되돌리고 사용자에게 알림. 기획 → 개발은 STORY_LOG의 **개발 요청**, 개발 → 기획은 CHANGELOG의 **기획 요청**. 기획 쪽 미리보기는 5174 포트.
+- 고친 문서: `AGENTS.md`(분업 표, 브랜치 주고받기, 역할별 시작·마무리 절차, `CLAUDE_REQUEST.md` 절차는 없앰), `.claude/skills/wrap-up`·`take-over`·`push-github`, HANDOFF 0·1·2·12절. 새 파일 `design/STORY_LOG.md`(기획 기록, 형식 포함).
+- 확인: 아래 커밋 뒤 `story` worktree를 만들고 양쪽 브랜치·폴더와 merge가 충돌 없이 되는지 확인(결과는 사용자 보고에).
+- **기획 요청**(Codex가 반영): ① `design/case-01-picnic-bag.md`를 지금 게임과 맞추기 — 인사는 인물의 첫 대사 한 줄(탐정 인사 줄 없음), 오리 아저씨 v3에서 벤·미아와 올리, 벤 b1에서 노라를 알게 됨(설계서는 v1에서 이름), 미아·올리는 한 대화 상대 `Mia & Ollie`, 결말 대사는 `index.html`의 `PICNIC_CASE.ending`. 노트 빈칸 표는 이미 게임과 같다. ② 미아·올리의 동물 종 정하기(Higgsfield 그림 전에 필요).
+- **다음**: 사용자 지시 대기(개발). 기획 쪽은 Codex를 `E:\GPT\Pioo-story`에서 열어 위 기획 요청부터. 개발 후보: HANDOFF 10절 Higgsfield 목록(사용자 선택·비용 안내 뒤)
+
+## 2026-10-30 01:50 · Claude · f549990
 
 - 사용자 요청: 노트 빈칸을 듣기 공부에 도움이 되는 곳으로 옮김. 기준(사용자 결정, AGENTS·HANDOFF 4절): 대답 대사에 실제로 나오는 말 가운데 단서·공부할 말만. 소풍 사건은 Codex 판의 대명사 바꾸기 빈칸(로지는 "My bag"이라고 말하는데 [Her] bag 등 11칸)을 빼고 빨간 도시락·노란 물병·초록 폴더·파란 펜·카페에 들렀다·took/left/brought·find out·busy·inside 등으로 바꿈(37 → 40칸). 도서관 사건은 오소리 경사 b3의 "I tell [Sgt. Badger]"(대사는 "come and tell me")를 "I come and [tell] him"으로(옛 저장은 자동으로 고침). 설계서 `design/case-01-picnic-bag.md`의 노트 칸도 맞춤.
 - 새 단어 11개의 단어장 발음을 로컬 Windows 음성으로 추가(크레딧 없음). 소풍 사건의 인물 대사 녹음은 아직 없다(브라우저 음성).
