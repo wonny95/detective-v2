@@ -8,7 +8,7 @@ description: Detective 프로젝트의 작업 마무리 절차. 작업 하나를
 **개발(Claude Code, `E:\GPT\Detective\Detective-dev`, `main`)의 마무리**다. 스토리 기획(Codex, `E:\GPT\Detective\Detective-story`, `story`)은 `AGENTS.md`의 "스토리 기획" 마무리를 따른다. 이 마무리가 다음 작업자에게 넘겨주는 신호이므로 단계를 건너뛰지 않는다. 기준 규칙은 `AGENTS.md`의 "마무리 절차"이고, 이 문서는 그 체크리스트다.
 
 - 먼저 `git branch --show-current`가 `main`인지 본다. 아니면 멈추고 사용자에게 알린다.
-- 기획 파일(`design/STORY_LOG.md`, `design/case-*`, `design/learning-plan.html`, `LEARNING_PLAN.md`, `CURRICULUM.md`, `CASE_THEMES.md`)은 커밋하지 않는다. 바뀌어 있으면 기획 쪽에서 받아 온 merge의 것인지 확인하고, 직접 고친 것이면 되돌리고 기획 요청으로 옮긴다.
+- 기획 파일(`design/STORY_LOG.md`, 아직 인계하지 않은 `design/case-*`, `design/learning-plan.html`, `LEARNING_PLAN.md`, `CURRICULUM.md`, `CASE_THEMES.md`)은 커밋하지 않는다. 바뀌어 있으면 기획 쪽에서 받아 온 merge의 것인지 확인하고, 직접 고친 것이면 되돌리고 기획 요청으로 옮긴다. **인계된 사건의 설계서**(AGENTS.md "사건 진행 순서")는 개발 파일이라 사용자와 합의해 고친 것이면 커밋한다.
 
 ## 1. 바뀐 것 파악
 
@@ -61,9 +61,10 @@ git diff --stat
 
 - 사용자 요청: 무엇을 바꿨는지(사용자가 정한 것은 "사용자 결정"이라고 적는다)
 - 기획 반영: STORY_LOG <날짜>(그 개발 요청을 반영했을 때만)
+- 설계서 수정: 사용자와 합의해 인계된 설계서를 고쳤으면 무엇을 왜 바꿨는지(있을 때만)
 - 쓴 크레딧이 있으면 대략의 양
 - 확인(새 탭): 무엇을 확인했는지 / 못 한 것
-- **기획 요청**: 설계서와 다르게 만든 것, 기획이 정해 줘야 할 것(있을 때만. Codex가 다음 시작 때 읽는다)
+- **기획 요청**: 아직 인계하지 않은 기획 파일에서 Codex가 정하거나 고쳐 줘야 할 것(있을 때만. Codex가 다음 시작 때 읽는다). 인계된 사건은 기획 요청으로 넘기지 않는다
 - **다음**: 이어받는 쪽이 바로 할 일. 없으면 "사용자 지시 대기"(사용자 확인이 필요한 질문이 남았으면 그것을 적는다)
 ```
 
