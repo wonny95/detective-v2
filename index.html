@@ -1503,7 +1503,12 @@ const PICNIC_CASE = {
   start:'rosie',
   people:{
     rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3',
-      hello:"Hi, I'm Rosie. Are you the detective? This isn't my bag. Can you help me find mine?",
+      // the greeting as the case design has it: theirs and the detective's in turn (design/case-01-picnic-bag.md 인사와 탐문 대본)
+      hello:[
+        { key:'hello', en:"Hi, I'm Rosie. Are you the detective?", ko:'안녕, 난 로지야. 혹시 네가 탐정이야?' },
+        { det:true, key:'hello-rosie', en:'Yes. How can I help you?', ko:'응. 어떻게 도와줄까?' },
+        { key:'hello2', en:"This isn't my bag. Can you help me find mine?", ko:'이건 내 가방이 아니야. 내 가방을 찾아줄래?' }
+      ],
       questions:[
         { id:'r1', en:'Did your bags get mixed up?', ko:'다른 사람과 가방이 바뀐 거야?' },
         { id:'r2', en:'What is in your bag?', ko:'네 가방 안에는 뭐가 들어 있니?' },
@@ -1529,7 +1534,11 @@ const PICNIC_CASE = {
         r4:['remember','forget','cafe','garden','mixed up','lost'] }
     },
     duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9',
-      hello:'Hello! Welcome to the Lake Cafe. What would you like?',
+      hello:[
+        { key:'hello', en:'Hello! Welcome to the Lake Cafe. What would you like?', ko:'안녕! 호수 카페에 온 걸 환영해. 뭘 주문할래?' },
+        { det:true, key:'hello-duck', en:"Hello! I'm Detective {name}. I'm looking for a blue bag.", ko:'안녕! 나는 탐정 {name}이야. 파란 가방을 찾고 있어.' },
+        { key:'hello2', en:'Oh! I see. How can I help?', ko:'아, 그렇구나! 어떻게 도와줄까?' }
+      ],
       questions:[
         { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔나요?' },
         { id:'v2', en:'Who had blue bags?', ko:'누가 파란 가방을 들고 왔나요?' },
@@ -1549,7 +1558,11 @@ const PICNIC_CASE = {
       bank:{ v1:['Ben','Ray','Nora','Betty'], v2:['Mia','Nora','blue','red','took','made','no','a'], v3:['home','office','garden','cafe'] }
     },
     ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6',
-      hello:"Hi! I'm Ben Beaver. Can I help you?",
+      hello:[
+        { key:'hello', en:"Hi! I'm Ben Beaver. Can I help you?", ko:'안녕! 나는 벤 비버야. 무슨 일이야?' },
+        { det:true, key:'hello-ben', en:"Hi, I'm Detective {name}. You were at the Lake Cafe today, right?", ko:'안녕, 난 탐정 {name}입니다. 오늘 호수 카페에 방문하셨었죠?' },
+        { key:'hello2', en:'Yes, I stopped there this morning.', ko:'응, 오늘 아침에 들렀어.' }
+      ],
       questions:[
         { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있나요?' },
         { id:'b2', en:'What was in the bag?', ko:'가방에는 뭐가 들어 있었어?' }
@@ -1567,7 +1580,15 @@ const PICNIC_CASE = {
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
-      hello:"Oh, hi! I'm Ollie. And I'm Mia. Want to join our picnic?",
+      // Ollie and Mia speak in turn; Ollie in his own voice (as)
+      hello:[
+        { key:'hello-ollie', as:{ pitch:.95, voice:1 }, en:"Oh, hi! I'm Ollie. Nice to meet you.", ko:'오, 안녕! 난 올리야. 만나서 반가워.' },
+        { key:'hello', en:"I'm Mia. Want to join our picnic?", ko:'난 미아야. 같이 피크닉 할래?' },
+        { det:true, key:'hello-garden1', en:"Nice to meet you, Ollie and Mia! I'm Detective {name}.", ko:'만나서 반가워, 올리, 미아! 난 탐정인 {name}이야.' },
+        { key:'hello-ollie2', as:{ pitch:.95, voice:1 }, en:"A detective? That's cool!", ko:'탐정이라고? 멋진걸!' },
+        { det:true, key:'hello-garden2', en:'You were at the Lake Cafe today, right?', ko:'너희 오늘 호수 카페에 왔었지?' },
+        { key:'hello2', en:'Yes. We stopped there before coming here.', ko:'응, 여기 오기 전에 들렀어.' }
+      ],
       questions:[
         { id:'g1', en:'Do either of you have a blue bag?', ko:'혹시 너희 중에 파란 가방을 가진 사람이 있니?' },
         { id:'g2', en:'Mia, is this your blue bag? Have you checked inside?', ko:'미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어?' }
@@ -1586,7 +1607,10 @@ const PICNIC_CASE = {
       bank:{ g1:['red','blue','yellow'], g2:['opened','closed','picnic','office','inside','outside'] }
     },
     nora: { id:'nora', name:'Nora Hedgehog', ko:'고슴도치 노라', job:'회사원', place:'lobby', witness:true, required:true, pitch:1.1, voice:0, bg:'#F3E1D3',
-      hello:"Hi, I heard you were looking for me. What's going on?",
+      hello:[
+        { key:'hello', en:"Hi, I heard you were looking for me. What's going on?", ko:'안녕, 날 찾았다고 들었어. 무슨 일이야?' },
+        { det:true, key:'hello-nora', en:"Hi, I'm Detective {name}. Can I ask about a blue bag?", ko:'안녕, 난 탐정 {name}이야. 파란 가방에 관해 물어봐도 될까?' }
+      ],
       questions:[
         { id:'n1', en:"Did you leave a blue bag at Ben's house?", ko:'벤의 집에 파란 가방을 두고 왔니?' },
         { id:'n2', en:'What was in your bag?', ko:'네 가방에는 무엇이 들어 있었니?' },
@@ -2379,7 +2403,8 @@ const blobSrc = {};
 const seekableSrc = src => blobSrc[src] ||= fetch(src).then(r => r.ok ? r.blob() : Promise.reject()).then(b => URL.createObjectURL(b)).catch(() => src);
 // onDone runs once the line has finished (not when it is cut off by another line or stopVoice).
 // range: [start, end] seconds of the recording to play (one sentence); it never calls onDone.
-function speak(text, key, who = S.cur, onDone, range){
+// as: { pitch, voice } for the browser voice of this line only (Ollie, who shares the figure with Mia)
+function speak(text, key, who = S.cur, onDone, range, as){
   stopVoice();
   const turn = speechTurn;
   talker = who;
@@ -2417,7 +2442,7 @@ function speak(text, key, who = S.cur, onDone, range){
     talkT = setTimeout(() => { if(turn === speechTurn){ setTalking(false); done(); } }, length);
   };
   if(!('speechSynthesis' in window)){ mime(); return; }
-  const s = spk(who);
+  const s = { ...spk(who), ...as };
   const u = new SpeechSynthesisUtterance(text.replace(/(^|\s)[A-Z][a-z]+:\s/g, '$1'));
   u.lang = 'en-US'; u.rate = S.slow ? .72 : .95; u.pitch = s.pitch;
   if(voices.length) u.voice = voices[s.voice % voices.length];
@@ -2873,10 +2898,21 @@ function talkTo(id){
   });
   if(first){
     if(id === START) stageCard(CASE.title, CASE.no);
-    greetingTimer = setTimeout(() => {
-      if(!S.investigate && S.cur === id && per(id).phase === 'choose') speak(spk(id).hello, 'hello');
-    }, id === START ? 1200 : 600);
+    greetingTimer = setTimeout(() => playGreeting(id), id === START ? 1200 : 600);
   }
+}
+// The first meeting's greeting: `hello` is one line of theirs, or the lines in turn as the case design writes them —
+// theirs said by them (key: their audio, as: another voice), the detective's (det) in the detective's bubble. {name} is
+// the player's detective name, on screen only (not said). Asking a question or leaving cuts it off.
+function playGreeting(id, i = 0){
+  const line = [].concat(spk(id).hello)[i];
+  if(!line || S.investigate || S.cur !== id || per(id).phase !== 'choose') return;
+  const next = () => { greetingTimer = setTimeout(() => playGreeting(id, i + 1), 400); };
+  if(typeof line === 'string') return speak(line, 'hello', id, next);
+  if(!line.det) return speak(line.en, line.key, id, next, null, line.as);
+  const name = detectiveName(), named = text => text.replace(' {name}', name ? ` ${name}` : '');
+  renderSay(detLine({ ...line, en:named(line.en), ko:named(line.ko) }));
+  detectiveSay(line.key, () => { if(!ending) renderSay(null); next(); }, null, line.en.replace(' {name}', ''));
 }
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
 function leaveTalk(){ enterPlace(cur().place, true); }
@@ -2891,6 +2927,7 @@ $('#talkCamera').addEventListener('click', e => {
 function ask(qid){
   if(S.investigate || st().phase !== 'choose' || !availableQuestions(cur()).some(question => question.id === qid)) return;
   clearTimeout(greetingTimer);
+  if(!ending) renderSay(null);   // a greeting line of the detective's is cut off
   const p = st();
   p.feedback = null;
   p.phase = 'record'; p.recording = qid;
