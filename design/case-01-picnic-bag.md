@@ -1,6 +1,6 @@
 # Case 01 A — 바뀐 소풍 가방
 
-교육용 L1-01 A의 **제작자용** 기획. 실제 게임에는 아직 구현하지 않았다. 장면별 화면은 [스토리보드](case-01-picnic-bag.html)를 본다. 플레이 중에는 소유 관계를 진술과 가방 안의 물건을 살펴보며 알아낸다.
+교육용 L1-01 A의 **제작자용** 기획. 게임에 구현되어 있다(`index.html`의 `PICNIC_CASE`, `?case=picnic`). 2026-10-30 개발 인계 뒤 점검·수정은 개발(Claude)이 사용자와 한다(`AGENTS.md` 사건 진행 순서). 장면별 화면은 [스토리보드](case-01-picnic-bag.html)를 본다. 플레이 중에는 소유 관계를 진술과 가방 안의 물건을 살펴보며 알아낸다.
 
 ## 사건의 진실
 
@@ -19,7 +19,7 @@
 
 - 목표: `my/your/his/her`, `mine/yours`를 듣고 사람과 물건을 연결한다. 단서 두 가지를 함께 대조한다.
 - 핵심 낱말: bag, folder, pen, lunch box, bottle와 색 표현. `'s`는 추리·엔딩의 고정 문장 틀로 제공한다.
-- 인물: 로지(의뢰인, 소풍 탁자), 오리 아저씨(카페 주인), 벤(노라 가방 전달인, 집), 미아·올리(물건 비교 참고인, 정원), 노라 고슴도치(벤이 건넨 가방의 수령인, 회사 1층 로비). 모두 탐정과 초면이다. 로지·오리의 기존 첫인사는 유지한다.
+- 인물: 로지(의뢰인, 소풍 탁자), 오리 아저씨(카페 주인), 벤(노라 가방 전달인, 집), 생쥐 미아·수달 올리(Mia Mouse·Ollie Otter, 물건 비교 참고인, 정원), 노라 고슴도치(벤이 건넨 가방의 수령인, 회사 1층 로비). 모두 탐정과 초면이다. 로지·오리의 기존 첫인사는 유지한다.
 - 로지의 인물 카드와 노트에는 `she/her`를 표시한다. 귀의 작은 보라색 리본은 시각적 일관성을 돕지만 옷차림으로 성별을 채점하지 않는다.
 - 장소: 소풍 탁자, **낮의 호수 카페**, 벤의 집, 정원, **노라의 회사 1층 로비**. 오소리 경사와 심문 단계는 등장하지 않는다.
 
@@ -42,8 +42,8 @@
 | 00 준비 | 소유 표현 예습, 최초 플레이 튜토리얼 | 소풍 탁자 시작 |
 | 01 로지 | 직접 의뢰, 질문 r1–r4 | r4 기록 뒤 호수 카페 |
 | 02 소풍 탁자 | 로지가 가방을 탐정에게 맡김. 소지품으로 챙겨 열어 보면 초록 폴더·파란 펜 확인 | 소지품 `로지가 맡긴 파란 가방` |
-| 03 카페 | 주인이 손님으로 맞고 세 질문에 답함 | v1 뒤 벤·미아·올리·노라 이름, v3 뒤 벤의 집·정원 |
-| 03B 벤의 집 | 노라가 집에 두고 간 가방을 회사에 전한 경로와 내용물을 아는지 질문함 | b1 기록 뒤 노라의 회사 |
+| 03 카페 | 주인이 손님으로 맞고 세 질문에 답함 | v1 뒤 벤·미아·올리 이름, v3 뒤 벤의 집·정원 |
+| 03B 벤의 집 | 노라가 집에 두고 간 가방을 회사에 전한 경로와 내용물을 아는지 질문함 | b1 기록 뒤 노라와 노라의 회사 |
 | 04 정원 | 두 친구와 인사하고 파란 가방 여부를 묻는다. 미아의 파란 가방과 올리의 빨간 가방을 촬영한 뒤 사진을 보여 주며 미아의 가방인지 확인하고 감사 인사로 마무리함 | 사진 2장, 별도 필수 해금 없음 |
 | 04B 회사 1층 로비 | 노라가 받은 가방을 처음 열고 내용물을 말함 | 노라 n3까지 기록하면 바로 추리 |
 | 05 추리 | Q1에서 로지의 의뢰, Q2에서 로지가 말한 가방의 색·내용물, Q3에서 노라가 받은 가방과의 일치를 확인 | 마지막 Q4에서 바뀐 두 사람 특정 |
@@ -51,13 +51,13 @@
 | 07 로지에게 전달 | 소풍 탁자에서 로지의 가방과 도시락·물병을 돌려줌. 로지의 감사 인사로 사건 종료 | 복습 |
 | 08 복습 | 사건 요약, 소유 표현·단어 담기 | 완료 |
 
-발견 알림은 인물·장소 이름만 짧게 표시하고 자동 이동하지 않는다. 대화를 시작한 인물의 질문은 끝까지 기록한다. 필수 질문은 **14개**(로지 4, 오리 3, 벤 2, 정원 공동 2, 노라 3)다. 정원에서는 미아·올리와 함께 한 번 인사한 뒤 두 질문을 이어서 기록한다. 노라가 카페에 왔다는 사실은 오리의 진술로 알지만, 회사 위치와 가방을 받았다는 사실은 벤에게서만 듣는다.
+발견 알림은 인물·장소 이름만 짧게 표시하고 자동 이동하지 않는다. 대화를 시작한 인물의 질문은 끝까지 기록한다. 필수 질문은 **14개**(로지 4, 오리 3, 벤 2, 정원 공동 2, 노라 3)다. 정원에서는 미아·올리와 함께 한 번 인사한 뒤 두 질문을 이어서 기록한다. 오리 아저씨는 벤·미아·올리만 말하고 노라는 언급하지 않는다. 노라의 이름·회사 위치·가방을 받았다는 사실은 벤에게서 처음 듣는다. 이름을 들은 인물은 노트 인물 목록에 먼저 나오고, 지도에는 장소가 열릴 때 나타난다.
 
-회사 로비에 도착하면 탐정이 안내 직원에게 노라를 불러 달라고 부탁하는 짧은 연출을 넣는다. 노라는 전달받은 가방을 들고 내려온다. 그래서 첫인사의 “날 찾았다고 들었어”와 가방을 즉시 열어 보는 행동이 이어진다.
+회사 로비에 가면 바로 노라와 대화한다. 노라가 탐정이 자기를 찾는다는 것을 어떻게 알았는지는 스토리에서 생략한다. 노라는 벤이 전달한 가방을 들고 있어서 첫인사의 “날 찾았다고 들었어”와 가방을 즉시 열어 보는 행동이 이어진다.
 
 ## 인사와 탐문 대본
 
-탐정 이름은 저장된 `pioo.detectiveName`을 화면에만 넣고 음성에는 넣지 않는다. 한국어 해석은 실제 게임에서는 버튼을 누른 뒤 보인다.
+탐정 이름은 저장된 `detective.detectiveName`을 화면에만 넣는다. 탐정 대사의 “Detective {플레이어 이름}”은 음성(녹음)에서 “the detective”로 읽는다(예: 화면 “I'm Detective Kim.” / 음성 “I'm the detective.”). 한국어 해석은 실제 게임에서는 버튼을 누른 뒤 보인다.
 
 | 첫 만남 | 영어 | 한국어 |
 |---|---|---|
@@ -68,7 +68,7 @@
 | 탐정 | Hello! I'm Detective {플레이어 이름}. I'm looking for a blue bag. | 안녕! 나는 탐정 {플레이어 이름}이야. 파란 가방을 찾고 있어. |
 | 오리 | Oh! I see. How can I help? | 아, 그렇구나! 어떻게 도와줄까? |
 | 벤 | Hi! I'm Ben Beaver. Can I help you? | 안녕! 나는 벤 비버야. 무슨 일이야? |
-| 탐정 | Hi, I'm Detective {플레이어 이름}. You were at the Lake Cafe today, right? | 안녕, 난 탐정 {플레이어 이름}입니다. 오늘 호수 카페에 방문하셨었죠? |
+| 탐정 | Hi, I'm Detective {플레이어 이름}. You were at the Lake Cafe today, right? | 안녕하세요, 저는 탐정 {플레이어 이름}이에요. 오늘 호수 카페에 오셨었죠? |
 | 벤 | Yes, I stopped there this morning. | 응, 오늘 아침에 들렀어. |
 | 올리 | Oh, hi! I'm Ollie. Nice to meet you. | 오, 안녕! 난 올리야. 만나서 반가워. |
 | 미아 | I'm Mia. Want to join our picnic? | 난 미아야. 같이 피크닉 할래? |
@@ -85,8 +85,8 @@
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | Her bag has a [red] [lunch box] and a [yellow] [bottle]. |
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | She does not [know] whose bag this is. She wants me to [find out]. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
-| duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, Ollie, and Nora came today. / 오늘 로지, 벤, 미아, 올리, 노라 모두 왔어요. | Rosie, [Ben], Mia, Ollie, and [Nora] came to the cafe. |
-| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie, Ben, and Mia had blue bags. Ben took one with him. Nora had no bag. / 로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. 노라는 가방이 없었어요. | Rosie, Ben, and [Mia] had [blue] bags. Ben [took] one with him. Nora had [no] bag. |
+| duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, and Ollie came today. / 오늘 로지, 벤, 미아, 올리가 왔어요. | Rosie, [Ben], Mia, and Ollie came to the cafe. |
+| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie, Ben, and Mia had blue bags. Ben took one with him. / 로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. | Rosie, Ben, and [Mia] had [blue] bags. Ben [took] one with him. |
 | duck:v3 | Where are they now? / 그들은 지금 어디 있나요? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요. | Ben went [home]. Mia and Ollie went to the [garden]. |
 | ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. | Nora left [her] blue bag at Ben's [house]. Ben stopped at the [cafe]. Then he [took] it to her [office]. |
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
@@ -96,7 +96,7 @@
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her bag had a [green] [folder] and a [blue] [pen]. |
 | nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was busy, so I didn't open it. Let me look... A red lunch box and a yellow bottle! These aren't mine. / 바빠서 열어 보지 못했어. 지금 볼게... 빨간 도시락이랑 노란 물병이 있네! 이건 내 것이 아니야. | She was [busy], so she did not open it. Inside are a [red] lunch box and a [yellow] bottle. They are not hers. |
 
-정원에서 g1을 기록한 뒤 두 친구에게 조사 이유를 말하고 사진 촬영을 부탁해 가방 두 개를 찍는다. 이 촬영은 같은 대화 안의 짧은 연출로 진행하며 지도·자유 조사는 열지 않는다. 두 가방은 건드리지 않고 주인 곁에 둔다. g2에서는 파란 가방 사진을 미아에게 보여 주며 자기 가방인지 묻는다. 정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 로지가 맡긴 가방의 내부 확인, 카페·벤·정원의 기록, 정원 사진 2장까지 마친 뒤 노라의 세 질문을 모두 기록하면 로비에서 바로 추리 단계로 넘어간다. 회사가 먼저 해금되어도 조사 순서의 마지막 방문지로 둔다. 대괄호 32칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
+정원에서 g1을 기록한 뒤 두 친구에게 조사 이유를 말하고 사진 촬영을 부탁해 가방 두 개를 찍는다. 이 촬영은 같은 대화 안의 짧은 연출로 진행하며 지도·자유 조사는 열지 않는다. 두 가방은 건드리지 않고 주인 곁에 둔다. g2에서는 파란 가방 사진을 미아에게 보여 주며 자기 가방인지 묻는다. 정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 로지가 맡긴 가방의 내부 확인, 카페·벤·정원의 기록, 정원 사진 2장까지 마친 뒤 노라의 세 질문을 모두 기록하면 로비에서 바로 추리 단계로 넘어간다. 회사가 먼저 해금되어도 조사 순서의 마지막 방문지로 둔다. 대괄호 38칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
 
 ## 소지품 조사·음성 전용 물건
 
@@ -126,6 +126,15 @@
 
 정원에서 찍은 파란·빨간 가방 사진은 처음에는 가방 후보를 늘린다. 올리의 빨간 가방과 미아가 사진을 보고 자기 것이라고 확인한 파란 가방은 탐문에서 제외된다. 추리에서는 이를 다시 묻지 않는다. Q1은 로지가 자기 가방을 찾아 달라고 한 의뢰를 확인한다. Q2는 로지의 진술에서 자기 가방의 파란색 외형과 빨간 도시락·노란 물병을 정리한다. Q3에서 그 물건이 노라가 받은 가방에도 있음을 대조한다. 마지막 Q4에서 소지품으로 챙긴 가방 안의 폴더·펜과 노라의 진술까지 연결해 탐정이 “누구와 누구의 가방이 바뀐 걸까?”라고 생각하며 로지·노라를 특정한다. 틀린 선택은 같은 문항에서 다시 풀며 진척을 보존한다.
 
+정답을 고르면 탐정이 대답을 말하고 다음 문항으로 간다. 처음 틀리면 “Hmm… that doesn't fit.” / “음… 그건 맞지 않아.”, 두 번째부터는 문항별 힌트로 다시 볼 곳만 가리키고 정답은 말하지 않는다(2026-10-30 사용자 확정).
+
+| Q | 탐정의 대답 (정답 뒤) | 힌트 (두 번째 오답부터) |
+|---|---|---|
+| 1 | Right. Rosie wants me to find her bag. / 맞아. 로지는 내가 자기 가방을 찾아 주길 바라. | What did Rosie say when we first met? / 처음 만났을 때 로지가 뭐라고 했지? |
+| 2 | Yes. A blue bag with a red lunch box and a yellow bottle. / 맞아. 빨간 도시락과 노란 물병이 든 파란 가방이야. | Look at what Rosie said about her bag. / 로지가 자기 가방에 대해 한 말을 봐. |
+| 3 | So the bag Ben brought to Nora is Rosie's bag. / 그러니까 벤이 노라에게 가져다준 가방은 로지의 가방이야. | What did Nora find in the bag Ben brought? / 노라가 벤이 가져온 가방에서 무엇을 찾았지? |
+| 4 | The bag Rosie gave me has Nora's folder and pen. Their bags got mixed up. Let's give them back. / 로지가 맡긴 가방에는 노라의 폴더와 펜이 있어. 둘의 가방이 바뀐 거야. 돌려주자. | Look inside the bag Rosie gave me. What did Nora say was in her bag? / 로지가 맡긴 가방 안을 봐. 노라는 자기 가방에 뭐가 있었다고 했지? |
+
 ## 가방 전달·복습
 
 로지의 대화가 끝나면 소풍 탁자에서 파란 가방을 탐정에게 맡긴다. `로지가 맡긴 파란 가방`이 소지품에 들어가고, 열어 보면 초록 폴더·파란 펜을 확인한다. 노라와의 대화가 끝나면 **회사 1층 로비에서 바로 추리**한다. 추리 직후 **“노라에게 바뀐 가방에 대해서 설명하자.”**가 뜬다. 이 단계는 심문 UI의 대사·제출 흐름을 사용하되 서랍 제목은 `소지품`, 선택 항목은 파란 가방, 제출 버튼은 `건네주기`다. 증거 선택·내밀기·압박 게이지는 없다. 소지품에서 건네주기를 누르면 탐정의 설명 뒤 가방을 전달하고 노라가 폴더·펜을 확인한 뒤 로지의 가방을 준다. 소지품은 로지의 가방으로 교체된다. 전달 경로는 **소풍 탁자(가방 수령) → 회사 1층 로비(노라에게 전달) → 소풍 탁자(로지에게 전달하며 종료)**다. 두 가방은 같은 외형이므로 대사와 내용물로 구별한다.
@@ -152,6 +161,6 @@
 - 카페 낮 배경: `assets/places/picnic-storyboard/cafe-day.png`. 밤 포스터와 낙서가 없는 낮 장면이다. 도서관 사건의 밤 카페 그림은 건드리지 않는다.
 - 정원: 기존 `garden.webp` 재사용. 미아·올리의 대화 배경이다. 사진 촬영용 파란·빨간 가방 소품 2개는 주인 곁에 배치해야 한다.
 - 노라의 회사 1층 로비: 신규 장소 배경과 노라 전신·얼굴 그림이 필요하다. 벤이 가져온 파란 가방은 대화 소품이고, 로비 촬영 프레임·단서는 만들지 않는다.
-- 벤의 집: `assets/places/picnic-storyboard/ben-home.png`. 크림색 벽과 둥근 강가 창, 오른쪽 작은 탁자·의자가 있는 집 내부. 캐릭터가 설 중앙을 비웠다. 새 친구 전신·얼굴·입 그림, 대사 및 단서 음성, 실제 게임 데이터는 아직 제작하지 않았다.
-- 소지품 UI: 로지에게 초반에 받은 가방을 보관·열어 보고, 노라 앞에서 선택·건네주기 후 로지의 가방으로 교체하는 실제 게임 상태와 화면은 아직 제작하지 않았다.
+- 벤의 집: `assets/places/picnic-storyboard/ben-home.png`. 크림색 벽과 둥근 강가 창, 오른쪽 작은 탁자·의자가 있는 집 내부. 캐릭터가 설 중앙을 비웠다. 새 친구 전신·얼굴·입 그림, 대사 및 단서 음성은 아직 제작하지 않았다.
+- 소지품 UI: 로지에게 받은 가방을 보관·열어 보고, 노라 앞에서 선택·건네주기 후 로지의 가방으로 교체하는 흐름은 게임에 있다(엔진 공용).
 - 사건 ID 제안 `picnic-bag`. 현 도서관 사건의 `case01` 저장 데이터를 재사용하지 않는다.
