@@ -77,6 +77,7 @@ node server.js            # http://localhost:5173/
 | `.claude/skills/publish-artifact/` | 아티팩트 배포 스킬(`SKILL.md`)과 배포본 빌드 스크립트(`build.py`). 제목 `영어듣기 추리 게임 앱_YYMMDD`, 같은 날짜는 덮어쓰기 |
 | `.claude/skills/push-github/SKILL.md` | GitHub 비공개 저장소에 `main` 푸시(요청할 때만). 먼저 받고, 강제 푸시 금지 |
 | `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
+| `.claude/skills/take-over/SKILL.md` | 작업 이어받기(상태 확인 → CHANGELOG 맨 위·HANDOFF 0·4절 읽기 → `pioo-dev` 미리보기 → 한국어 요약 보고). Claude Code는 `/take-over`. 코드는 고치지 않는다 |
 
 ## 3. 현재 앱 흐름
 
