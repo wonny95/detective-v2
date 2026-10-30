@@ -98,7 +98,7 @@ node server.js            # http://localhost:5173/
 - **소지품**(`ITEMS`, `S.items`): 노트 `증거` 장 맨 앞에 사진과 같은 카드로 나오고(장소 칸에 `소지품`), 누르면 설명을 탐정 목소리(지금은 브라우저 음성)로 읽는다. 제목은 맡긴 사람과 색만(`Blue bag from Rosie`, 주인은 쓰지 않음), 설명은 설계서 문장 "There is a green folder and a blue pen inside." 메모 📌는 없다.
 - **추리**(`PICNIC_CASE.deduce`): 설계서의 4문항·카드·대답·힌트. 빈칸 종류에 `thing`(물건 `things`)·`color`(색 `colors`)가 더해졌고, 카드 하나에 빈칸이 여러 개일 수 있다(`deduceBlanks()`; 맞힌 빈칸은 채워진 채 남고 `S.deduce.part`에 저장, 모두 채우면 대답). `any:true`면 같은 종류의 빈칸을 어느 순서로 채워도 된다(Q2–Q4). 로지·노라 사진이 카드 왼쪽에 붙고 X·동그라미 표시는 없다. 끝 버튼은 `노라에게 가기`.
 - **가방 전달**(`ENDING.handoff`, 사용자 결정: 심문 대신 소지품을 건네는 대화): 노라 앞에서 탐정의 생각 "노라에게 바뀐 가방에 대해서 설명하자."(꿀색 말풍선, 재생 없음) → `가방 건네주기` → 증거 서랍이 `소지품` 탭만으로 열림 → 가방 선택 → `건네주기` → 탐정의 설명 3줄·노라의 감사(`다음`) → 소지품이 로지의 가방으로 바뀜 → 소풍 탁자의 로지 앞에서 "Rosie, I brought your bag back." → 같은 방법으로 건네주기 → 로지의 감사 → 복습. 게이지·모순 도장은 없다. `<`로 나가면 건넨 가방은 건넨 대로 두고(`S.handoffRound`) 다음에 그 다음 가방부터 한다.
-- **아직 없는 것(임시 표시)**: 녹음이 없어 인물·탐정 대사는 브라우저 음성이다. 벤·미아와 올리·노라 그림이 없어 점선 실루엣(`pendingSVG`, 얼굴 `assets/ui/icons-v2/pending.png`)으로 선다. 회사 로비는 단색 방 그림, 정원의 두 가방은 SVG로 덧그린 임시 가방, 로지의 가방 소지품 사진은 닫힌 가방(안의 도시락·물병이 안 보임)이다. 다섯 장소 모두 대화 바닥(`ART_FLOOR`)이 없어 인물이 크게 잡히고, 지도는 도서관 사건의 밤 마을 지도에 핀만 놓았다. 장소에 누를 물건(나레이션)도 없다. 만들 목록은 10절 맨 위.
+- **아직 없는 것(임시 표시)**: 녹음은 로지 8줄만 있다(`audio/picnic/rosie-*.mp3`, 도서관 사건의 `audio/rosie-*.mp3`와 따로). 나머지 인물·탐정 대사는 브라우저 음성이다. 벤·미아와 올리·노라 그림이 없어 점선 실루엣(`pendingSVG`, 얼굴 `assets/ui/icons-v2/pending.png`)으로 선다. 회사 로비는 단색 방 그림, 정원의 두 가방은 SVG로 덧그린 임시 가방, 로지의 가방 소지품 사진은 닫힌 가방(안의 도시락·물병이 안 보임)이다. 다섯 장소 모두 대화 바닥(`ART_FLOOR`)이 없어 인물이 크게 잡히고, 지도는 도서관 사건의 밤 마을 지도에 핀만 놓았다. 장소에 누를 물건(나레이션)도 없다. 만들 목록은 10절 맨 위.
 
 ### 3.1 홈(사건 밖 화면)·튜토리얼
 
@@ -448,6 +448,7 @@ node server.js            # http://localhost:5173/
 | Fiona Fox | Petra | 4줄 완료. q3는 단골손님·매일 아침 빵 구매 진술 한 문장 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정·청취 품질 사용자 확인 대기) |
+| Rosie Rabbit (소풍) | Evie(감정 없음, thanks만 `happy`) | 8줄 Claude 제작 `audio/picnic/rosie-<키>.mp3`: hello·hello2·r1–r4·give·thanks. job hello `7163c313`, hello2 `e1c3aac8`, r1 `b8564781`, r2 `3006c14e`, r3 `d139d026`, r4 `85ddc48d`, give `7ee0b18c`, thanks `e87226fb`. 약 2.25크레딧. r1·r3·r4 문장 구간은 `SENTENCE_TIMES`(소풍) |
 | 엔딩 | Petra·Fraser | 심문 첫 질문·피오나 대질·자백·경찰 마무리 음성 적용. 피오나 자백 두 번째 줄은 새 녹음, 세 번째 줄은 불필요한 중간 문장을 제거한 녹음(아래) |
 | Mr. Duck (참고인) | Barrett | 3줄(hello·d1·d2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
 | Betty Bear (참고인, 필수) | Vera | 3줄(hello·b1·b2) Claude 제작. 목소리는 Claude가 골랐으니 사용자가 바꿀 수 있다 |
@@ -577,14 +578,14 @@ node server.js            # http://localhost:5173/
 
 ## 10. 다음 할 일 (미구현 후보, 별도 요청 후 진행)
 
-- **소풍 사건 Higgsfield 작업 목록**(사용자 요청: 바로 만들지 말고 목록부터, 만들 때 비용을 먼저 알린다). 대략 그림 1.5–2크레딧/장, 녹음 약 0.15크레딧/줄.
+- **소풍 사건 Higgsfield 작업 목록**(사용자 요청: 바로 만들지 말고 목록부터, 만들 때 비용을 먼저 알린다. **일러스트는 크레딧을 아끼도록 장면별로 꼭 필요한 것·재사용할 것을 먼저 계획해 사용자와 정한 뒤 만든다**, 사용자 지시). 대략 그림 1.5–2크레딧/장, 녹음 약 0.15크레딧/줄.
   1. 인물 전신(투명 배경, 기존 인물 화풍) + 얼굴 아이콘 + 말하는 입: 벤 비버, 생쥐 미아·수달 올리(Mia Mouse·Ollie Otter, 사용자 결정; 둘이 함께 선 한 장), 노라 고슴도치. 3장, 약 4.5.
   2. 회사 1층 로비 배경: 곰 베티의 집처럼 처음부터 바닥까지 한 장(위 16:9 장소, 아래 대화 바닥). 약 2.
   3. 정원 그림 편집: 벤치에 파란 가방·빨간 가방을 그려 넣기(지금은 SVG 임시 가방). 약 1.5.
   4. 로지의 가방 소지품 사진: 열린 파란 가방 속 빨간 도시락·노란 물병(`picnic.webp`의 초록 도시락·파란 물병을 바꾸는 편집). 약 1.5.
   5. 대화 바닥 확장 4장: 소풍 탁자·낮 카페·벤의 집·정원(도서관 사건처럼 아래로 늘린 바닥). 약 6.
   6. 낮의 마을 지도(소풍 탁자·카페·벤의 집·정원·회사가 보이는 한 장, 글자 없음) — 지금은 밤 마을 지도에 핀만. 약 2.
-  7. 녹음: 로지(hello·hello2·r1–r4·give·thanks), 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, take-bag, garden-photo·garden-thanks·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
+  7. 녹음(로지 8줄은 완료): 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, take-bag, garden-photo·garden-thanks·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음.
 
 

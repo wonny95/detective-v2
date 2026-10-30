@@ -1503,6 +1503,8 @@ const PICNIC_CASE = {
   start:'rosie',
   people:{
     rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3',
+      // recorded voice (Higgsfield · MiniMax · Evie, as in the library case; thanks: happy). The library case has its own rosie-*.mp3
+      audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'r4', 'give', 'thanks'].map(key => [key, `audio/picnic/rosie-${key}.mp3`])),
       // the greeting as the case design has it: theirs and the detective's in turn (design/case-01-picnic-bag.md 인사와 탐문 대본)
       hello:[
         { key:'hello', en:"Hi, I'm Rosie. Are you the detective?", ko:'안녕, 난 로지야. 혹시 네가 탐정이야?' },
@@ -1991,7 +1993,11 @@ const GRAMMAR_LINES = PICNIC ? PICNIC_CASE.grammarLines : {
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = PICNIC ? {} : {
+const SENTENCE_TIMES = PICNIC ? {
+  'rosie:r1':[[0,0.94],[1.44,3.76]],
+  'rosie:r3':[[0,0.81],[1.04,2.43]],
+  'rosie:r4':[[0,1.76],[2.43,5.01],[5.76,7.6]]
+} : {
   'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
   'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],
   'badger:b3':[[0,1.6],[1.9,3.83]],
