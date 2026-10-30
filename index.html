@@ -784,13 +784,16 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .sheet.full .map-head,.sheet.full .map-foot{opacity:0;transition:opacity .12s}
 .sheet.full.open .map-head,.sheet.full.open .map-foot{opacity:1;transition:opacity .3s .32s}
 @media(prefers-reduced-motion:reduce){.sheet.full,.sheet.full .map-head,.sheet.full .map-foot{transition:none!important}}
-/* the map picture (9:16) covers the whole screen; the title and the footer float over it */
+/* the map picture (9:16) is drawn wider than the screen and pans both ways like a place picture (user request: roomy, not
+   squeezed into the phone); the title and the footer float over it */
 /* nothing but the hand-drawn close button over the top of the map (user decision: no title, no white fade) */
 .map-head{position:absolute;top:10px;right:12px;z-index:1}
 .close-button{display:block;flex:none;box-sizing:border-box;width:42px;height:42px;padding:0;border:0;background:url(assets/ui/close-button.png) center/contain no-repeat;filter:drop-shadow(0 3px 0 rgba(74,54,40,.3))}
 .close-button:active{transform:translateY(1px)}
-.map-stage{position:absolute;inset:0;overflow:hidden;container-type:size;background:#7FA06A}
-.map{position:absolute;left:50%;top:50%;width:max(100cqw, 100cqh * 9 / 16);aspect-ratio:9 / 16;transform:translate(-50%,-50%)}
+.map-stage{position:absolute;inset:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;container-type:size;background:#7FA06A}
+.map-stage::-webkit-scrollbar{display:none}
+.map-stage:has(.pin){cursor:grab}
+.map{position:relative;width:max(160cqw, 100cqh * 9 / 16);aspect-ratio:9 / 16}
 .map-art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 .map-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;background:rgba(251,244,230,.92);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 14px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
 .map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:0 16px 14px;pointer-events:none}
@@ -1539,10 +1542,13 @@ const PICNIC_CASE = {
         r3:['She does not {{g|know}} whose bag this is.', 'She wants me to {{h|find out}}.'],
         r4:["She can't {{i|remember}} who she saw.", 'She went to the {{j|cafe/lakeside cafe}}.', 'Maybe the bags got {{k|mixed up}} there.']
       },
-      bank:{ r1:['sure','sorry','blue','red'], r2:['red','yellow','green','lunch box','bottle','book'], r3:['know','see','find out','look out'],
-        r4:['remember','forget','cafe','garden','mixed up','lost'] }
+      // word banks: about three wrong cards per blank, answers not first in their group (user request: two choices were too easy)
+      bank:{ r1:['sorry','happy','sure','sad','red','green','blue','yellow'],
+        r2:['green','red','blue','yellow','book','lunch box','cup','bottle','sandwich'],
+        r3:['see','know','hear','look out','give up','find out','pick up'],
+        r4:['forget','see','remember','garden','library','cafe','bakery','lost','mixed up','picked up'] }
     },
-    duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9',
+    duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:'v1',
       hello:[
         { key:'hello', en:'Hello! Welcome to the Lake Cafe. What would you like?', ko:'안녕! 호수 카페에 온 걸 환영해. 뭘 주문할래?' },
         { det:true, key:'hello-duck', en:"Hello! I'm Detective {name}. I'm looking for a blue bag.", ko:'안녕! 나는 탐정 {name}이야. 파란 가방을 찾고 있어.' },
@@ -1564,7 +1570,8 @@ const PICNIC_CASE = {
         v2:['Rosie, Ben, and {{c|Mia}} had {{d|blue}} bags.', 'Ben {{e|took}} one with him.'],
         v3:['Ben went {{g|home}}.', 'Mia and Ollie went to the {{h|garden}}.']
       },
-      bank:{ v1:['Ben','Ray','Betty'], v2:['Mia','Ollie','blue','red','took','made'], v3:['home','office','garden','cafe'] }
+      bank:{ v1:['Ray','Betty','Ben','Fiona','Hoot'], v2:['Ollie','Betty','Mia','Ray','red','blue','green','made','left','took'],
+        v3:['office','home','cafe','library','garden','bakery'] }
     },
     ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6',
       hello:[
@@ -1585,7 +1592,8 @@ const PICNIC_CASE = {
         b1:["Nora left {{a|her}} blue bag at Ben's {{b|house}}.", 'Ben stopped at the {{c|cafe}}.', 'Then he {{d|took}} it to her {{e|office}}.'],
         b2:['He does not {{f|know}} what was inside.', 'He did not {{g|open}} it.']
       },
-      bank:{ b1:['her','his','house','cafe','garden','took','made','office'], b2:['know','remember','open','carry'] }
+      bank:{ b1:['his','my','her','garden','house','library','cafe','made','took','brought','bakery','office'],
+        b2:['remember','know','find','carry','close','open'] }
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
@@ -1619,7 +1627,7 @@ const PICNIC_CASE = {
         g1:["Ollie's bag is {{a|red}}.", "Mia's bag is {{b|blue}}."],
         g2:["The blue bag is Mia's.", 'She {{c|opened}} it.', 'Her {{d|picnic}} things are {{e|inside}}.']
       },
-      bank:{ g1:['red','blue','yellow'], g2:['opened','closed','picnic','office','inside','outside'] }
+      bank:{ g1:['yellow','red','green','blue','pink'], g2:['closed','lost','opened','office','picnic','school','outside','under','inside'] }
     },
     nora: { id:'nora', name:'Nora Hedgehog', ko:'고슴도치 노라', job:'회사원', place:'lobby', witness:true, required:true, pitch:1.1, voice:0, bg:'#F3E1D3',
       hello:[
@@ -1641,7 +1649,8 @@ const PICNIC_CASE = {
         n2:['Her bag had a {{c|green}} {{d|folder}} and a {{e|blue}} {{f|pen}}.'],
         n3:['She was {{g|busy}}, so she did not open it.', 'Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.', 'They are not hers.']
       },
-      bank:{ n1:['left','lost','brought','bought'], n2:['green','red','blue','yellow','folder','book','pen','pencil'], n3:['busy','tired','red','green','yellow','blue'] }
+      bank:{ n1:['lost','left','found','bought','took','brought'], n2:['red','green','yellow','blue','book','folder','bag','pencil','pen','cup'],
+        n3:['tired','happy','busy','green','red','blue','yellow','pink'] }
     }
   },
   grammarLines:{
@@ -3310,6 +3319,7 @@ function openSheet(name){
   if(name) setNotes(false);
   if(name === 'map'){
     renderPlaces();
+    centerMap();
     setMapNew(false);
     clearTimeout(freshTimer);
     freshTimer = setTimeout(() => { freshPins.clear(); document.querySelectorAll('.pin.fresh').forEach(pin => pin.classList.remove('fresh')); }, 4200);
@@ -3477,6 +3487,28 @@ function renderPlaces(){
     map.appendChild(b);
   });
 }
+// the map opens on the newest pins, else on the place the detective is at, else on the middle of the known places
+function centerMap(){
+  const stage = $('.map-stage'), map = $('#map'), known = PLACES.filter(pl => S.known.has(pl.id));
+  const fresh = known.filter(pl => freshPins.has(pl.id)), here = known.filter(pl => pl.id === S.place);
+  const look = fresh.length ? fresh : here.length ? here : known;
+  const mid = k => look.length ? look.reduce((t, pl) => t + pl[k], 0) / look.length : 50;
+  stage.scrollLeft = map.offsetWidth * mid('x') / 100 - stage.clientWidth / 2;
+  stage.scrollTop = map.offsetHeight * mid('y') / 100 - stage.clientHeight / 2;
+}
+// mouse drag pans the map (touch uses native scrolling); a drag never opens a place
+let mapDrag = null;
+$('.map-stage').addEventListener('pointerdown', e => {
+  if(e.pointerType === 'mouse' && e.button === 0) mapDrag = { x:e.clientX, y:e.clientY, l:$('.map-stage').scrollLeft, t:$('.map-stage').scrollTop, moved:false };
+});
+window.addEventListener('pointermove', e => {
+  if(!mapDrag) return;
+  const dx = e.clientX - mapDrag.x, dy = e.clientY - mapDrag.y;
+  if(Math.hypot(dx, dy) > 5) mapDrag.moved = true;
+  if(mapDrag.moved){ $('.map-stage').scrollLeft = mapDrag.l - dx; $('.map-stage').scrollTop = mapDrag.t - dy; }
+});
+window.addEventListener('pointerup', () => { if(mapDrag) setTimeout(() => { mapDrag = null; }); });
+$('.map-stage').addEventListener('click', e => { if(mapDrag?.moved){ e.stopPropagation(); e.preventDefault(); } }, true);
 const placeIdOf = id => S.visit[id]?.place || spk(id).place;
 const positionOf = id => S.visit[id] || NPC_POSITIONS[id];
 const peopleAt = placeId => S.met.filter(id => placeIdOf(id) === placeId);
