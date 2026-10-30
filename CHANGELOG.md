@@ -15,6 +15,11 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-10-30 · Claude · (이 커밋)
 
+- **기획 요청 취소**(사용자 지적): 01:23·이후 항목의 기획 요청 ① "`design/case-01-picnic-bag.md`를 지금 게임과 맞추기"(인사 한 줄, 해금 시점, 미아·올리 한 대화 상대 등)는 **취소한다. Codex는 설계서를 고치지 않는다.** 사용자의 불만은 Codex가 따로 만든 화면이었지 최종 설계서가 아니었다. 개발이 엔진에 옮기며 대본을 줄인 것이 잘못이고, 게임을 설계서대로 고친다(다음 개발 작업). ② 미아·올리의 동물 종 정하기는 그대로 유효.
+- **다음**: 소풍 사건 게임을 설계서대로 되돌리기 — 주고받는 첫인사, 해금 시점(v1 인물·v3 장소·b1 회사), 로지 "I will.", 정원 감사 인사, 소지품 가방 음성 문장, 추리 4문항 문장·빈칸. 엔진이 못 하는 것은 같은 화면 모양으로 엔진을 넓힌다.
+
+## 2026-10-30 · Claude · 9c725e0
+
 - 사용자 요청(HANDOFF 10절 0번): 열리는 길이 없던 옛 범인 지목 창과 오답 지목 분기를 지움. 추리하기 → 추리 보드 → 경찰에게 알리기 → 피오나 심문 흐름은 그대로.
   - `index.html`: `#accuse`·`#accused` 창과 `openAccuse()`·`showAccused()`·`ACCUSE_JOSA`·`suspects()`, 오답 장면 `WRONG`·`wrongAccusation()`·`wrongLine()`·`endingNext()`의 `wrong` 단계, 관련 CSS(`.pick`, `.clear-card`, `.scene-npc.leaving`, `.accuse-head`, `.accused .mini`), 탐정 `accuse` 대사, 아무도 읽지 않던 `S.saidAccuse`, 테스트 버튼 `심문 완료`의 옛 창 닫기 줄. `.accused` 카드 모양은 다른 확인 창(사건 나가기·대화 그만두기·심문 나가기)이 쓰므로 남김. `accusedId`는 증거 서랍의 진술 목록에서 심문받는 사람을 빼는 데 쓰여 남김.
   - 음성 16개를 휴지통으로: `badger-again/clear-ray·rosie`, `badger-bring-ray·rosie·fiona`, `badger-call2-ray·rosie`, `detective-accuse`, `detective-call-ray·rosie`, `ray-wrong1·2`, `rosie-wrong1·2`.
