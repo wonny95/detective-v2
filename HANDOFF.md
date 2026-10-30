@@ -591,7 +591,7 @@ node server.js            # http://localhost:5173/
   5. 정원 벤치의 두 가방: 소풍 탁자 그림의 파란 배낭을 오려 벤치에 놓고 하나는 빨강으로 **직접 합성**(0). 깔끔하지 않으면 정원 그림 편집(약 1.5)으로.
   6. 대화 바닥 확장 5장 — 만듦(2026-10-30, 10크레딧, 사용자 결정: 노트가 얼굴을 가림). 장소마다 누를 물건 — 대본 미정.
   - 남은 것: 새 인물 세 그림의 말하는 입(0크레딧, 입 자리 잡기), 녹음(아래 7).
-  7. 녹음(로지 8줄은 완료): 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, take-bag, garden-photo·garden-thanks·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
+  7. 녹음(로지 8줄은 완료): 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, take-bag, garden-photo·garden-thanks·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 동물 22줄 + 탐정 28줄 = 50줄, 약 7.5. 동물 다섯의 목소리는 아직 정하지 않았다. g1은 올리·미아 두 녹음을 한 파일로 붙인다. 탐정 첫인사 hello-duck·ben·garden1·nora는 화면 글에 `Detective {name}`이 있어 녹음 전에 대본을 사용자와 정한다(녹음에는 이름을 넣지 않는 규칙, 3.1절). 녹음을 넣을 때 `DETECTIVE_RECORDED`·`DEDUCE_RECORDED`(지금 소풍은 끔)와 인물 `audio`, 소지품 설명 재생을 함께 고친다.
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음(대본 먼저).
 
 
