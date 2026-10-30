@@ -23,7 +23,8 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
   - 그대로 둔 것: 예전 CHANGELOG 항목, `assets/characters/README.md`에 기록된 실제 생성 프롬프트, 갱신 중단한 데모 주소(chatgpt.site), 저장소 내부의 worktree 관리 이름.
 - 확인(새 탭 127.0.0.1): 예전 키를 넣고 새로고침 → `detective.*`로 옮겨지고 예전 키 삭제, 이미 있던 새 키는 유지(시험 값은 지움). 소풍 사건 미리보기 정상, 콘솔 오류 없음, 구문 검사 통과. 사용자 탭(localhost)의 저장도 새 키로 옮겨진 것을 읽기만으로 확인. 미리보기를 `detective-dev`로 다시 띄움.
 - **기획 요청**: 기획 파일의 Pioo 이름을 바꿔 주기(`CURRICULUM.md`, `LEARNING_PLAN.md`, `design/learning-plan.html`, `design/case-01-picnic-bag.md`·`.html`, `design/STORY_LOG.md`의 폴더 경로).
-- **다음**: ① 사용자가 GitHub에서 저장소 이름을 `pioo` → `detective`로 바꾸면 `git remote set-url origin https://github.com/wonny95/detective.git`(지금 원격은 예전 주소 그대로). ② 사용자가 두 폴더를 `E:\GPT\Detective\Detective-dev`·`Detective-story`로 옮기면 바로 아래 11:10 항목의 "다음"(worktree repair, 연결·미리보기 확인). 둘 다 아직이면 사용자 지시 대기
+- GitHub: 사용자가 저장소 이름을 `pioo` → `detective`로 바꿈(잘못 만든 빈 `Detective` 저장소는 사용자가 삭제). `origin`을 `https://github.com/wonny95/detective.git`로 고치고 fetch 확인. GitHub에 아직 올리지 않은 커밋 52개(푸시는 사용자 요청 때).
+- **다음**: 사용자가 두 폴더를 `E:\GPT\Detective\Detective-dev`·`Detective-story`로 옮기면 바로 아래 11:10 항목의 "다음"(worktree repair, 연결·미리보기 확인). 아직이면 사용자 지시 대기
 
 ## 2026-10-30 11:10 · Claude · 413b498
 
