@@ -2703,7 +2703,7 @@ function detectiveSay(key, onDone, onBlocked, text){
   const voice = $('#evidenceVoice'), done = () => { voice.onended = voice.onerror = null; onDone?.(); };
   voice.onended = voice.onerror = null;
   if(text && !DETECTIVE_RECORDED){ readOut(text, onDone); return; }
-  voice.src = `audio/detective-${key}.mp3`;
+  voice.src = key.includes('/') ? key : `audio/detective-${key}.mp3`;   // a key may be a whole path (askAudio)
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
@@ -3003,7 +3003,19 @@ function ask(qid){
   noteRaised = false;
   renderDock();
   setNotes(true);
-  speak(cur().answers[qid], qid, S.cur);
+  // the detective asks the question aloud first, then the answer (user request: an answer right after the tap felt
+  // abrupt). 다시 듣기 during the question goes straight to the answer; leaving the talk drops it.
+  const who = S.cur;
+  const turn = speechTurn + 1;   // detectiveSay starts a new turn; 다시 듣기 or leaving starts another
+  detectiveSay(askAudio(who, qid), () => setTimeout(() => {
+    if(turn === speechTurn && S.cur === who && !S.investigate && per(who).recording === qid) speak(cur().answers[qid], qid, who);
+  }, 300));
+}
+// the detective's recorded question: the picnic case keeps its lines in audio/picnic/; the library's three shared
+// questions (QUESTIONS) have one file each
+function askAudio(id, qid){
+  if(PICNIC) return `audio/picnic/detective-${id}-${qid}.mp3`;
+  return spk(id).questions ? `audio/detective-ask-${id}-${qid}.mp3` : `audio/detective-ask-${qid}.mp3`;
 }
 // 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
 function useHint(){
