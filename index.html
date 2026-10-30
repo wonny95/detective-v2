@@ -1191,7 +1191,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
 .devtools{display:none}
 .devbtn[aria-pressed="true"]{background:var(--honey)}
-.devbtn{border:2px dashed var(--ink);background:var(--paper-2);color:var(--ink);border-radius:12px;font-family:var(--f-display);font-size:14px;padding:8px 14px;opacity:.9}
+/* no edge line, only a short drop shadow (user request: no dashed or dark edge) */
+.devbtn{border:0;background:var(--paper-2);color:var(--ink);border-radius:12px;font-family:var(--f-display);font-size:14px;padding:10px 16px;
+  box-shadow:0 3px 0 rgba(74,54,40,.3),0 4px 10px rgba(74,54,40,.12);transition:transform .1s}
+.devbtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(74,54,40,.3)}
 @media (min-width:768px){
   .devtools{position:fixed;z-index:200;top:16px;left:16px;display:flex;flex-direction:column;gap:8px}
   .devtools.devpreview{left:auto;right:16px}
@@ -1199,10 +1202,17 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .devpreview small{font-family:var(--f-display);font-size:13px;color:var(--ink-soft);text-align:center}
 /* 미리보기: the case switch on top, then that case's parts only (user request: not too many buttons at once) */
 .devpreview{gap:6px}
-.devpreview .devbtn{font-size:13px;padding:6px 12px}
-/* the case switch is a dropdown of every playable case (user request: more cases will come) */
-.dev-cases{display:block;width:100%;box-sizing:border-box;margin-bottom:8px;border:2px dashed var(--ink);border-radius:12px;background:var(--honey);color:var(--ink);
-  font-family:var(--f-display);font-size:13px;padding:6px 8px;cursor:pointer}
+.devpreview .devbtn{font-size:13px;padding:8px 14px}
+/* the case switch is a dropdown of every playable case (user request: more cases will come), drawn like the buttons:
+   the current case on a honey button, its list a rounded paper card of the same buttons */
+.dev-cases{position:relative;margin-bottom:6px}
+.dev-cases > .devbtn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--honey)}
+.dev-cases > .devbtn::after{content:"";width:7px;height:7px;margin-top:-4px;border:solid var(--ink);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .15s}
+.dev-cases > .devbtn[aria-expanded="true"]::after{margin-top:3px;transform:rotate(-135deg)}
+.dev-case-list{position:absolute;z-index:1;top:calc(100% + 6px);right:0;min-width:100%;width:max-content;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;padding:8px;
+  background:var(--paper);border-radius:16px;box-shadow:0 4px 0 rgba(74,54,40,.25),0 8px 18px rgba(74,54,40,.18)}
+.dev-case-list[hidden]{display:none}
+.dev-case-list .devbtn{text-align:left;white-space:nowrap}
 .ev-count[hidden]{display:none}
 
 @media (prefers-reduced-motion:reduce){
@@ -5848,16 +5858,20 @@ const PREVIEW_OTHER = PICNIC
 let previewCaseShown = CASE_ID;
 function renderPreviewTools(){
   const here = previewCaseShown === CASE_ID, parts = here ? PREVIEW_PARTS : PREVIEW_OTHER;
-  $('#devPreview').innerHTML = '<small>미리보기</small><select class="dev-cases" id="previewCase" aria-label="미리 볼 사건">' +
-    CASES.filter(c => c.playable).map(c => `<option value="${c.id}"${previewCaseShown === c.id ? ' selected' : ''}>${esc(`${c.no} ${c.title}`)}</option>`).join('') + '</select>' +
+  const cases = CASES.filter(c => c.playable), name = c => esc(`${c.no} ${c.title}`);
+  $('#devPreview').innerHTML = '<small>미리보기</small><div class="dev-cases">' +
+    `<button class="devbtn" type="button" id="previewCase" aria-haspopup="true" aria-expanded="false" aria-label="미리 볼 사건">${name(cases.find(c => c.id === previewCaseShown))}</button>` +
+    `<div class="dev-case-list" id="previewCaseList" hidden>${cases.map(c => `<button class="devbtn" type="button" data-preview-case="${c.id}" aria-pressed="${previewCaseShown === c.id}">${name(c)}</button>`).join('')}</div></div>` +
     parts.map(([id, label]) => `<button class="devbtn" type="button" data-preview="${id}" aria-pressed="${here && id === PREVIEW}">${label}</button>`).join('') +
     (PREVIEW ? '<button class="devbtn" type="button" data-preview-end>미리보기 끝</button>' : '');
 }
 renderPreviewTools();
-$('#devPreview').addEventListener('change', e => {
-  if(e.target.id === 'previewCase'){ previewCaseShown = e.target.value; renderPreviewTools(); }
-});
+function openPreviewCases(open){ $('#previewCaseList').hidden = !open; $('#previewCase').setAttribute('aria-expanded', open); }
+document.addEventListener('click', e => { if(!e.target.closest('.dev-cases') && $('#previewCaseList')) openPreviewCases(false); });
 $('#devPreview').addEventListener('click', e => {
+  if(e.target.closest('#previewCase')) return openPreviewCases($('#previewCaseList').hidden);
+  const pick = e.target.closest('[data-preview-case]');
+  if(pick){ previewCaseShown = pick.dataset.previewCase; return renderPreviewTools(); }
   const b = e.target.closest('[data-preview],[data-preview-end]'); if(!b) return;
   const picnic = (b.dataset.preview ? previewCaseShown : CASE_ID) === 'picnic-bag';
   const query = [picnic && 'case=picnic', b.dataset.preview && `preview=${b.dataset.preview}`].filter(Boolean).join('&');
