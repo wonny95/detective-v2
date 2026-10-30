@@ -1080,6 +1080,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .discovery .dv img.map{padding:3px;box-sizing:border-box;object-fit:contain}
 .discovery .dv .new{flex:none;font-size:10px;letter-spacing:.06em;background:var(--berry);color:#fff;border-radius:6px;padding:1px 5px}
 .discovery .dv b{font-weight:400;overflow:hidden;text-overflow:ellipsis}
+.discovery .dv .rest{flex:none;margin-left:-8px;font-family:var(--f-body);font-size:13px}
 .discovery.out .dv{animation:dv-out .3s both}
 @keyframes dv-in{0%{opacity:0;transform:scale(.6)}65%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
 @keyframes dv-out{to{opacity:0;transform:translateY(-10px)}}
@@ -2426,11 +2427,11 @@ function toast(msg){
   const t = $('#toast'); t.textContent = msg; t.hidden = false;
   clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400);
 }
-// new people and places, one ribbon each: [{ img, map, name }]
+// new people and places, one ribbon each: [{ img, map, name, rest }] (rest: the Korean that follows the name)
 let discoveryT;
 function showDiscovery(items){
   const box = $('#discovery');
-  box.innerHTML = items.map((it, i) => `<div class="dv" style="--i:${i}"><img${it.map ? ' class="map"' : ''} src="${it.img}" alt=""><span class="new">NEW</span><b>${esc(it.name)}</b></div>`).join('');
+  box.innerHTML = items.map((it, i) => `<div class="dv" style="--i:${i}"><img${it.map ? ' class="map"' : ''} src="${it.img}" alt=""><span class="new">NEW</span><b>${esc(it.name)}</b><span class="rest">${esc(it.rest)}</span></div>`).join('');
   box.classList.remove('out'); box.hidden = false;
   clearTimeout(discoveryT);
   discoveryT = setTimeout(() => { box.classList.add('out'); discoveryT = setTimeout(() => box.hidden = true, 300); }, 4200);
@@ -3583,10 +3584,17 @@ function revealDiscoveries(){
   pendingPins = []; pendingPeople = [];
   freshPins = new Set([...places, ...people.map(id => spk(id).place)]);
   renderPlaces();
+  // user request: say what the name is ("Mr. Duck을 알게 됐어요", "Lake Cafe에 갈 수 있어요")
   showDiscovery([
-    ...people.map(id => ({ img:faceSrc(id), name:spk(id).name })),
-    ...places.map(id => ({ img:'assets/ui/nav/map.png', map:true, name:placeOf(id).label }))
+    ...people.map(id => ({ img:faceSrc(id), name:spk(id).name, rest:`${objectJosa(spk(id).name)} 알게 됐어요` })),
+    ...places.map(id => ({ img:'assets/ui/nav/map.png', map:true, name:placeOf(id).label, rest:'에 갈 수 있어요' }))
   ]);
+}
+// 을/를 after an English name, by how its last word sounds in Korean: Duck(덕)·Rabbit(래빗)·Mole(몰) take 을,
+// Beaver(비버)·Fox(폭스)·Ollie(올리) take 를
+function objectJosa(name){
+  const last = name.trim().split(/\s+/).pop().toLowerCase();
+  return /le$/.test(last) || /[bcdfghjklmnpqtvwz]$/.test(last) ? '을' : '를';
 }
 /* ---------- accuse ---------- */
 function allConversationsDone(){
