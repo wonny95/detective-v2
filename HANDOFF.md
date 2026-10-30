@@ -89,7 +89,8 @@ node server.js            # http://localhost:5173/
 
 - **한 엔진, 사건별 데이터**(사용자 결정: Codex가 따로 만든 소풍 전용 화면을 버리고 도서관 사건의 화면을 그대로 쓴다): 주소에 `?case=picnic`이 있으면 `CASE_ID = 'picnic-bag'`이고, `PEOPLE`·`PLACES`·`NPC_POSITIONS`·`GRAMMAR_LINES`·`ANSWERS_KO`·`DEDUCE`·`ENDING`이 `PICNIC_CASE`의 것을 쓴다. 없으면 도서관 사건(`case01`). `WORDS`·`GRAMMAR`·`ART`·`SPRITES`는 두 사건이 함께 쓴다. 사건 목록·홈은 기본 주소에만 있다: 소풍 카드 → `?case=picnic`으로 다시 열림, 소풍 사건에서 사건 목록으로 나가면 `/#cases`(사건 탭)로 돌아온다. 소풍 사건을 해결하면 Case 02가 열린다.
 - **흐름**: 이번 사건의 열쇠(소유 표현 3쪽, `GRAMMAR.ownership.examples`, 예문 음성 `audio/examples/ownership-*.wav`) → (처음 한 번) 튜토리얼 → 로지(`START`). 대화 화면·노트 받아쓰기·채점·발견 알림·현장·지도·코르크판 추리·복습은 도서관 사건과 같다. 모든 인물은 `witness:true, required:true`(용의자 없음, 모두 필수 대화).
-  - 로지 r1–r4 → r4로 오리 아저씨(낮의 호수 카페). 로지와의 대화를 다 적고 노트를 닫으면 로지가 "Please take this bag…"라고 말하고 **소지품**에 가방이 들어온다(`after.done.give`).
+  - **첫인사는 설계서(`design/case-01-picnic-bag.md` 인사와 탐문 대본) 그대로 주고받는다**: 인물 줄은 그 인물의 음성(대사 글자는 화면에 없음), 탐정 줄은 꿀색 탐정 말풍선(`해석` 있음)과 탐정 목소리. `{name}`은 플레이어가 정한 탐정 이름으로 화면에만 쓰고 음성에서는 뺀다. 정원은 올리·미아가 한 사람(`mia`)이지만 올리 줄은 다른 목소리(`as`)로 읽는다. 질문을 누르거나 대화를 떠나면 인사가 끊긴다.
+   - 로지 r1–r4 → r4로 오리 아저씨(낮의 호수 카페). 로지와의 대화를 다 적고 노트를 닫으면 로지가 "Please take this bag…"라고 말하고 **소지품**에 가방이 들어온다(`after.done.give`).
   - 오리 아저씨 v1–v3 → v3로 벤(벤의 집)과 미아·올리(정원).
   - 벤 b1–b2 → b1로 노라(회사 로비).
   - 미아·올리(한 사람 `mia`, 이름 `Mia & Ollie`) g1을 적고 노트를 닫으면 탐정이 "Can I take a picture of your bags?"라고 말하고(꿀색 탐정 말풍선) 그 자리에서 파란·빨간 가방 사진 2장이 찍힌다(사용자 결정: 정원은 자유 조사 없이 대화 속 촬영, `after.g1.snap`, 정원 현장에는 누를 곳이 없다). 사진이 있어야 g2가 나온다(`needs`). 말이 끊겨도 사진은 찍힌다.
@@ -352,7 +353,7 @@ node server.js            # http://localhost:5173/
 | `PICNIC_CASE` | 소풍 사건의 데이터 묶음: `people`·`grammarLines`·`answersKo`·`places`·`positions`·`items`·`deduce`·`ending.handoff`. 사건별 표가 `PICNIC ? PICNIC_CASE.… : {도서관}`으로 고른다 |
 | `ITEMS` | 소지품: id → `label`, `en`/`ko`(설명), 그림 `img`·`w`·`h`·`crop`(사진처럼 잘라 보임) |
 | `QUESTIONS` | 용의자 공통 질문 3개(q1 어디 있었나 / q2 증명해 줄 사람 / q3 피해자와의 관계) |
-| `PEOPLE` | 인물별: `place`, `hello`, `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 용의자 아님·대화 선택), `required`(참고인이지만 대화 필수), `after`(질문 id 또는 `done`을 바르게 적은 뒤의 장면: `say` 인물 대사·`det` 탐정 대사·`snap` 찍을 증거·`give` 받을 소지품), `needs`(질문이 기다리는 증거) |
+| `PEOPLE` | 인물별: `place`, `hello`(첫인사: 문자열 한 줄, 또는 줄 목록 `{ key, en, ko }`·탐정 줄 `{ det:true, key, en, ko }`·다른 목소리 `as:{ pitch, voice }`), `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 용의자 아님·대화 선택), `required`(참고인이지만 대화 필수), `after`(질문 id 또는 `done`을 바르게 적은 뒤의 장면: `say` 인물 대사·`det` 탐정 대사·`snap` 찍을 증거·`give` 받을 소지품), `needs`(질문이 기다리는 증거) |
 | `ANSWERS_KO` | 대답 17줄의 한국어. 확인된 노트 지문·복습·엔딩 반박의 해석에 사용 |
 | `SPRITES` | 여섯 인물 PNG(+ `'fiona:nervous'`, `'fiona:sad'` 표정. `height`는 기본 그림 대비 키, `spriteKey()`로 고른다) 경로·크기·얼굴 아이콘 viewBox·가로 중심 `anchor`·입 좌표 `mouth` |
 | `NPC_POSITIONS` | 배경 기준 가로 위치·발 위치·전신 높이(%). 대화와 현장에서 같은 좌표. 장면용 임시 위치는 `S.visit`(`placeIdOf()`, `positionOf()`로 읽는다) |
@@ -382,7 +383,7 @@ node server.js            # http://localhost:5173/
 
 | 함수 | 역할 |
 |---|---|
-| `talkTo(id)` | 대화 시작·재개. 첫 만남이면 인사 음성 |
+| `talkTo(id)`, `playGreeting(id)` | 대화 시작·재개. 첫 만남이면 `hello`(한 줄, 또는 인물·탐정이 주고받는 줄 목록)를 차례로 |
 | `evidenceNeed()`, `renderSceneHead()` | 심문 증거 찾은 수 / 필요한 수(`ENDING.confront`), 장소 이름표와 `#evCount` 칩 갱신(오를 때 톡) |
 | `nudgeTick`, `clearNudge()` | 장소 화면에서 `NUDGE_AFTER`(8초) 무입력이면 물어볼 게 남은 인물 위에 말풍선 느낌표, 입력 시 지움 |
 | `enterInterview(id, step)`, `leaveInterview()` | 피오나·경찰관의 조사실 배치·전환·조명, 임시 방문 해제 |
@@ -583,7 +584,7 @@ node server.js            # http://localhost:5173/
   4. 로지의 가방 소지품 사진: 열린 파란 가방 속 빨간 도시락·노란 물병(`picnic.webp`의 초록 도시락·파란 물병을 바꾸는 편집). 약 1.5.
   5. 대화 바닥 확장 4장: 소풍 탁자·낮 카페·벤의 집·정원(도서관 사건처럼 아래로 늘린 바닥). 약 6.
   6. 낮의 마을 지도(소풍 탁자·카페·벤의 집·정원·회사가 보이는 한 장, 글자 없음) — 지금은 밤 마을 지도에 핀만. 약 2.
-  7. 녹음: 로지(hello·r1–r4·give·thanks), 오리 아저씨(hello·v1–v3), 벤(hello·b1–b2), 미아·올리(hello·g1을 두 목소리로 나눠 녹음하거나 합침·g2), 노라(hello·n1–n3·thanks), 탐정(garden-photo·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
+  7. 녹음: 로지(hello·hello2·r1–r4·give·thanks), 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, garden-photo·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음.
 
 
