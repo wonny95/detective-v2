@@ -15,6 +15,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-10-30 · Claude · (이 커밋)
 
+- `story` 병합(abb1cf1). 사용자 결정: 소풍 설계서는 지금 개발판(주고받는 인사 등)이 좋으니 **Codex의 4a310b7 소풍 수정(인사 한 줄로 맞춘 것 등)은 무시** — 충돌한 `design/case-01-picnic-bag.md`·`.html`은 main 판 그대로 두고 나머지(우산 1차 초안 `design/case-02-unclaimed-umbrella.*`, CASE_THEMES·CURRICULUM·LEARNING_PLAN·learning-plan·STORY_LOG)는 받음. 기획 반영: STORY_LOG 13:48·12:36(개발 요청 없음).
+- 우산 초안의 사용자 결정(새 인물: 의뢰인 사슴 엘라 등)에 맞춰 개발 문서의 옛 설명을 고침: AGENTS.md 지켜야 할 규칙, HANDOFF 4절·10.1절("우산은 미세스 몰이 의뢰" → 사슴 엘라, 아직 인계 전).
+- 사용자 결정: 밤 마을 지도 파일(`assets/places/village-map-higgsfield.png`)은 일단 둔다.
+- **기획 요청**(Codex): 소풍 설계서는 개발 쪽 파일이 되었다(AGENTS.md 사건 진행 순서). 4a310b7의 소풍 변경은 사용자 결정으로 반영하지 않았으니 다시 고치지 않는다. story가 main을 받으면 소풍 두 파일은 main 판이 된다.
+- **다음**: 사용자 지시 대기. 후보: 새 인물 말하는 입(0크레딧) / 다른 인물 녹음(비용 안내) / 우산 초안이 확정·인계되면 점검.
+
+## 2026-10-30 · Claude · de17ff7
+
 - 사용자 요청("이어서 진행해줘"): 확정한 그림 계획대로 만듦. Higgsfield 약 8.4크레딧(346.8 → 338.35).
   - 새로 만든 것(Nano Banana 2.1): 인물 두 명씩 한 장 2K 두 장(벤+노라, 올리+미아, 각 2) + 배경 제거 두 번, 회사 1층 로비 1K(1.5), **낮 마을 지도** 1K(1.5, 도서관 사건 장소 + 소풍 장소 4곳, 두 사건 공용). 출처·job은 `assets/characters/README.md`, `assets/places/picnic-storyboard/README.md`, HANDOFF 7절 표.
   - 직접 편집(0크레딧): 로지의 가방 사진(초록 도시락·파란 물병 → 빨강·노랑, `scripts/recolor-picnic-bag.py`), 정원 벤치의 두 가방(소풍 탁자 배낭을 오려 파랑·빨강, `scripts/cut-picnic-backpack.py`, SVG 임시 가방 코드 삭제), 인물 자르기·얼굴 아이콘(`scripts/cut-picnic-characters.py`).
