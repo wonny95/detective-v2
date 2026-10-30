@@ -98,3 +98,13 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 프롬프트 요지: 기존 그림책 색연필·과슈 질감, 진갈색 연필 외곽선, 둥근 볼과 눈을 유지한 따뜻한 황갈색 노교수 부엉이. 둥근 안경·이끼색 트위드 조끼·버건디 나비넥타이·갈색 바지, 정면 전신, 팔을 내린 차분한 자세, 크림 단색 바탕, 소품·글자·스티커 테두리 없음.
 - 원본 `hoot-higgsfield-original.png`(1376×768). 배경은 로컬에서 가장자리와 연결된 크림 영역만 투명하게 제거하고 캐릭터 바깥 경계(원본 x480–903, y96–727)에 약 3% 여백을 두어 `hoot-higgsfield.png`(461×669)로 잘랐다. 별도 이미지 생성·배경 제거 크레딧은 쓰지 않았다.
 - 적용: 사건 완료 뒤 복습 첫 페이지의 사건 요약에 피해자 초상으로 표시한다(`CASES[0].victimPhoto`). 추리 인물 선택창에는 같은 적용본의 머리·어깨를 (28,0)–(433,405)로 잘라 160×160으로 줄인 `assets/ui/icons-v2/hoot.png`를 쓴다. 현장 분필 윤곽선은 유지한다.
+
+## 적용 중: 소풍 사건 벤·노라·미아와 올리 (Claude 제작, 2026-10-30)
+
+- 사용자 결정: 크레딧을 아끼려 **두 명씩 한 장**. Higgsfield Nano Banana 2.1, 16:9, **2K**, thinking high, 참조 `duck-higgsfield-original.png`·`rosie-higgsfield-original.png`. 장당 2크레딧.
+  - 벤 비버 + 노라 고슴도치: job `0af39333-877b-4d1a-911f-52702b371c10` → `ben-nora-higgsfield-original.jpg`(2752×1536, 보관용 JPEG)
+  - 수달 올리 + 생쥐 미아: job `54654c8f-bfc1-49a1-8a30-4845ad024a73` → `mia-ollie-higgsfield-original.jpg`
+- 배경 제거: Higgsfield `remove_background`(벤·노라 `22f50dfb-…`, 미아·올리 `00e22088-…`) → `ben-nora-cutout.webp`, `mia-ollie-cutout.webp`.
+- `scripts/cut-picnic-characters.py`: 벤(왼쪽)·노라(오른쪽)는 반으로 나누고, 미아와 올리는 게임에서 한 사람(`mia`, `Mia & Ollie`)이라 함께 자른다. 알파 경계 + 3% 여백, 높이 700px. 얼굴 아이콘(`assets/ui/icons-v2/ben·nora·mia.png`, 160px, 흰 테두리)도 같은 스크립트가 자른다(미아·올리는 두 얼굴을 겹쳐 한 장).
+- 적용본: `ben-higgsfield.png` 542×700, `nora-higgsfield.png` 475×700, `mia-higgsfield.png` 909×700. 말하는 입(`MOUTHS`)은 아직 없다(벤의 앞니 때문에 입 자리를 따로 잡아야 함).
+- 프롬프트 요지: 참조 그림과 같은 크레용·색연필 화풍·비율로 두 인물을 나란히, 크림 종이 배경, 빈손. 벤 — 갈색 털, 옅은 주둥이, 앞니 두 개, 납작한 꼬리, 겨자색 니트 조끼·흰 셔츠·갈색 바지. 노라 — 갈색 가시, 크림 얼굴, 청록 재킷·흰 블라우스·남색 치마. 올리 — 갈색 털·크림 얼굴·긴 꼬리, 초록 티셔츠·황갈색 반바지. 미아 — 회색 생쥐, 분홍 귀·꼬리, 흰 점 하늘색 원피스, 노란 머리띠, 올리보다 머리 하나 작음.

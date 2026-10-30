@@ -1311,7 +1311,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <section class="sheet full" id="sheet-map" aria-label="마을 지도">
       <div class="map-stage">
         <div class="map" id="map">
-          <img class="map-art" src="assets/places/village-map-higgsfield.png" alt="">
+          <img class="map-art" src="assets/places/village-map-day-higgsfield.webp" alt="">
           <p class="map-empty" id="mapEmpty">아직 알게 된 장소가 없어요.</p>
         </div>
       </div>
@@ -1666,20 +1666,20 @@ const PICNIC_CASE = {
     nora:{ n1:'응. 거기 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'바빠서 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병이네! 이건 내 것이 아니야.' }
   },
   places:[
-    { id:'picnic', x:46, y:63, label:'Picnic Table', artWidth:1280, artHeight:714, clues:[], spots:[] },
-    { id:'daycafe', x:74, y:46, label:'Lake Cafe', artWidth:1679, artHeight:937, clues:[], spots:[] },
-    { id:'benhome', x:84, y:74, label:"Ben's House", artWidth:1672, artHeight:941, clues:[], spots:[] },
+    { id:'picnic', x:16, y:51, label:'Picnic Table', artWidth:1280, artHeight:714, clues:[], spots:[] },
+    { id:'daycafe', x:71, y:58, label:'Lake Cafe', artWidth:1679, artHeight:937, clues:[], spots:[] },
+    { id:'benhome', x:85, y:84, label:"Ben's House", artWidth:1672, artHeight:941, clues:[], spots:[] },
     // the two bags are photographed in the conversation (`talk`: no tap spot in the place view)
-    { id:'garden', x:22, y:60, label:'Garden', artWidth:1376, artHeight:768,
+    { id:'garden', x:56, y:83, label:'Garden', artWidth:1376, artHeight:768,
       clues:[
         { label:'Blue bag', en:'A blue bag on the garden bench.', ko:'정원 벤치 위의 파란 가방.' },
         { label:'Red bag', en:'A red bag on the garden bench.', ko:'정원 벤치 위의 빨간 가방.' }
       ],
       spots:[
-        { clue:0, talk:true, x:71, y:43, w:8.5, h:13.5, photo:{x:930,y:290,w:200,h:150} },
-        { clue:1, talk:true, x:80.5, y:43, w:8.5, h:13.5, photo:{x:1060,y:290,w:200,h:150} }
+        { clue:0, talk:true, x:71.5, y:36, w:8, h:13, photo:{x:938,y:250,w:200,h:150} },
+        { clue:1, talk:true, x:80.8, y:36, w:8, h:13, photo:{x:1065,y:250,w:200,h:150} }
       ]},
-    { id:'lobby', x:30, y:38, label:'Office Lobby', artWidth:1376, artHeight:768, clues:[], spots:[] }
+    { id:'lobby', x:28, y:85, label:'Office Lobby', artWidth:1376, artHeight:768, clues:[], spots:[] }
   ],
   positions:{
     rosie:{x:28, floor:94, height:46},   // on the grass left of the table, so the bag on it stays in view
@@ -1694,7 +1694,7 @@ const PICNIC_CASE = {
     'bag-nora':{ label:'Blue bag from Rosie', en:'There is a green folder and a blue pen inside.', ko:'안에 초록 폴더와 파란 펜이 들어 있어.',
       img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420] },
     'bag-rosie':{ label:'Blue bag', en:'The blue bag Nora gave me. Inside, there is a red lunch box and a yellow bottle.', ko:'노라가 건넨 파란 가방. 안에 빨간 도시락과 노란 물병이 들어 있다.',
-      img:'assets/places/picnic-storyboard/picnic-wide.png', w:1280, h:714, crop:[930, 290, 200, 150] }
+      img:'assets/places/picnic-storyboard/picnic-rosie-bag.webp', w:1376, h:768, crop:[800, 300, 400, 300] }
   },
   deduce:{
     people:[['Rosie Rabbit', 'rosie'], ['Mr. Duck', 'duck'], ['Ben Beaver', 'ben'], ['Mia', 'mia'], ['Ollie', 'mia'], ['Nora Hedgehog', 'nora']],
@@ -2271,7 +2271,11 @@ const SPRITES = {
   ray:{src:'assets/characters/ray-higgsfield.png', w:509, h:628, face:'24 -5 340 340', anchor:194/509},
   rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316},
   duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5},
-  betty:{src:'assets/characters/betty-higgsfield.png', w:445, h:680, face:'52 -5 340 340', anchor:.5}
+  betty:{src:'assets/characters/betty-higgsfield.png', w:445, h:680, face:'52 -5 340 340', anchor:.5},
+  // the picnic case: two per Higgsfield sheet (scripts/cut-picnic-characters.py); Mia & Ollie are one figure
+  ben:{src:'assets/characters/ben-higgsfield.png', w:542, h:700, face:'134 0 350 350', anchor:.57},
+  nora:{src:'assets/characters/nora-higgsfield.png', w:475, h:700, face:'38 0 399 399', anchor:.5},
+  mia:{src:'assets/characters/mia-higgsfield.png', w:909, h:700, face:'146 -7 308 308', anchor:.5}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
@@ -2327,7 +2331,7 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
   ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouth(k)}</g></g></svg>`
   : `<svg viewBox="0 0 200 400" aria-hidden="true">${DRAWN.includes(id) ? charSVG(id) : pendingSVG}</svg>`; };
 // small faces: hand-drawn head-and-shoulders icons (assets/ui/icons-v2, one Higgsfield sheet)
-const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty'];
+const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia'];   // the last three cut from their sprites
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
 const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.png`;
 const miniSVG = id => FACE_ICONS.includes(id) || !SPRITES[id] && !DRAWN.includes(id) ? `<img class="face" src="${faceSrc(id)}" alt="" draggable="false">`
@@ -4622,15 +4626,12 @@ const ART = {
   picnic: () => `<image href="assets/places/picnic-storyboard/picnic-wide.png" width="1280" height="714"/>`,
   daycafe: () => `<image href="assets/places/picnic-storyboard/cafe-day.png" width="1679" height="937"/>`,
   benhome: () => `<image href="assets/places/picnic-storyboard/ben-home.png" width="1672" height="941"/>`,
-  // the two bags on the bench are drawn here until the garden picture has them
-  garden: () => `<image href="assets/places/picnic-storyboard/garden.webp" width="1376" height="768"/>${pendingBag(985, 330, '#6F9BC9', '#55789F')}${pendingBag(1115, 330, '#D9645A', '#B04B44')}`,
-  // no picture yet: a plain room
-  lobby: () => `<rect width="1376" height="768" fill="#EFE3CC"/><rect y="540" width="1376" height="228" fill="#C9A47A"/>
-    <g ${WOB}><path d="M0 540 H1376" fill="none"/><rect x="150" y="130" width="250" height="290" rx="12" fill="#CFE3EA"/><path d="M275 130 V420 M150 275 H400" fill="none"/>
-    <rect x="880" y="400" width="360" height="150" rx="10" fill="#B98A5C"/><rect x="860" y="380" width="400" height="30" rx="8" fill="#D9B88E"/></g>`
+  // the two bags on the bench: the picnic table's backpack cut out and tinted (scripts/cut-picnic-backpack.py)
+  garden: () => `<image href="assets/places/picnic-storyboard/garden.webp" width="1376" height="768"/>
+    <image href="assets/places/picnic-storyboard/backpack-blue.png" x="985" y="276" width="107" height="98"/>
+    <image href="assets/places/picnic-storyboard/backpack-red.png" x="1112" y="276" width="107" height="98"/>`,
+  lobby: () => `<image href="assets/places/picnic-storyboard/lobby-higgsfield.webp" width="1376" height="768"/>`
 };
-// a backpack (the garden's, until it is drawn): x, y its top left, 80×92
-const pendingBag = (x, y, c, d) => `<g ${WOB} transform="translate(${x} ${y})"><path d="M30 4 Q40 -12 50 4" fill="none"/><path d="M8 20 Q8 2 40 2 Q72 2 72 20 L76 84 Q76 92 68 92 L12 92 Q4 92 4 84Z" fill="${c}"/><path d="M8 22 Q40 36 72 22 L72 44 Q40 56 8 44Z" fill="${d}"/><rect x="24" y="60" width="32" height="22" rx="5" fill="${d}"/></g>`;
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
 const ART_FLOOR = {
