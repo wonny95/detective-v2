@@ -1,6 +1,6 @@
 # 바뀐 소풍 가방 · 기획 화면 그림
 
-현재 이 사건은 `design/case-01-picnic-bag.html`의 스토리보드에서만 보이며 실제 게임에는 연결되지 않았다.
+게임(`?case=picnic`)과 스토리보드(`design/case-01-picnic-bag.html`)가 함께 쓴다.
 
 | 파일 | 용도·출처 |
 |---|---|
@@ -13,3 +13,13 @@
 | `cafe.webp` | 이전 카페 가방 소품 참고 그림. 현재 줄거리에는 카페에 남은 가방이 없어 사용하지 않음. 원본 job `b33d63ae-7e89-4da1-8c44-678173424197`. |
 
 로지와 벤의 **두 파란 가방은 겉모습이 동일**하다. 소풍 탁자에서는 닫힌 가방을 넓은 화면으로 보고, 촬영할 때만 서류 가방 확대를 보여 준다. 미아가 받은 로지의 소풍 가방은 정원에 별도 소품으로 제작해야 한다. 이번 이미지 생성에는 Higgsfield 크레딧을 쓰지 않았다.
+
+## 2026-10-30 추가 (Claude, 사용자와 정한 그림 계획)
+
+| 파일 | 용도·출처 |
+|---|---|
+| `lobby-higgsfield.webp` | 노라의 회사 1층 로비. Nano Banana 2.1 1K 16:9(1.5크레딧), 참조 `ben-home.png`·`picnic-wide.png`, job `8239acb2-96ce-4612-8358-41de6d5806d1`. 가운데 바닥을 비움. |
+| `picnic-rosie-bag.webp` | 노라에게서 돌려받은 로지의 가방(소지품 `bag-rosie`). `picnic.webp`의 초록 도시락·파란 물병을 빨강·노랑으로 직접 색 편집(`scripts/recolor-picnic-bag.py`, 크레딧 없음). |
+| `backpack-blue.png`, `backpack-red.png` | 정원 벤치의 미아(파랑)·올리(빨강) 가방. `picnic-wide.png`의 배낭을 오려 색을 입힘(`scripts/cut-picnic-backpack.py`, 크레딧 없음). 정원 그림(`garden.webp`) 위에 겹쳐 그린다. |
+
+마을 지도는 `../village-map-day-higgsfield.webp`(두 사건 공용, 아래 HANDOFF 참고).
