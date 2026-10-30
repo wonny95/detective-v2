@@ -4,21 +4,30 @@
 
 ## 1. 사건의 뼈대와 진실 — 제작자용
 
-- **의뢰인**: 오늘 마을회관에서 분실물을 맡은 엘라. 이번 사건에서 처음 만나는 사슴 친구다. 오늘 회관을 돕는다는 사실은 첫인사로만 알린다.
-- **의문**: 회관 우산꽂이에 남은 우산 한 자루는 누구 것인가? 루비·핀·테스가 각자 자기 것이라고 생각해 주인을 바로 정할 수 없다.
-- **단서**: 실제 우산의 파란 손잡이·노란 별무늬를 따로 촬영하고, 후보 세 명의 자기 우산 설명을 듣고 기록한다. 두 사진은 같은 우산의 부분 사진이다.
-- **해결**: 루비만 손잡이와 별무늬가 모두 맞는다. 핀은 파란 손잡이만, 테스는 노란 별무늬만 맞는다. 추리 뒤 엘라에게 설명하고 우산을 받아 루비에게 돌려준 뒤 엘라에게 보고한다.
+- **의뢰인**: 마을회관 일을 돕는 사슴 엘라. 일주일째 아무도 찾아가지 않는 비싼 우산을 보관하다가 주인을 찾아 달라고 부탁한다. 엘라는 행사와 우산의 연결·행사 때 날씨·후보 이름·행선지를 알려 주지 않는다(사용자 결정).
+- **의문**: 일주일째 회관에 남아 있는 비싼 우산 한 자루는 누구 것인가? 현장의 행사 기록으로 참가자를 찾은 뒤 각자의 설명을 대조한다.
+- **단서**: 회관의 행사 기록 사진 2장으로 행사·날씨·참가자를 찾는다. 엘라에게 잠시 건네받은 우산을 접고 펴며 손잡이·겉무늬·안감 사진 3장을 촬영한다. 남색 겉감·파란 손잡이·금빛 별무늬만으로는 루비와 테스를 구별할 수 없고, 펼쳤을 때 금빛 안감을 확인해야 한다.
+- **해결**: 루비·테스의 겉모습은 같다. 루비는 안쪽도 금빛이라고, 테스는 안쪽이 남색이라고 설명한다. 실물의 금빛 안감과 일치하는 루비가 주인이다. 핀은 별무늬가 없어 먼저 제외한다. 추리 뒤 엘라에게 보관된 우산을 받아 루비에게 반환하고 의뢰인에게 보고한다.
 
-모두 검은 천의 우산을 말한다. 천 색은 추가 결정 단서가 아니다. 핀·테스는 비슷한 특징 때문에 자기 우산일 것이라 짐작했으며, 도둑이나 거짓말쟁이가 아니다. 둘의 실제 우산 소재지는 이번 의뢰의 의문으로 추가하지 않는다. 세 사람이 자기 것이라고 했다는 사실은 엘라 e2에서 듣고, 각자의 설명은 당사자 탐문으로 검증한다. 탐문 중 사진이나 정답 특징을 먼저 보여 주어 따라 말하게 하지 않는다.
+모두 남색 겉감과 파란 손잡이를 말한다. 루비와 테스는 금빛 별무늬까지 같고 안쪽 색만 다르다. 별무늬는 접힌 상태에서도 보이며, 안감 색은 우산을 펼쳐야 확인한다. 누구도 탐정을 만나기 전에 남은 우산을 자기 것이라고 주장하지 않는다. 탐문 중 정답 사진을 먼저 보여 주어 따라 말하게 하지 않는다. 조사할 때 잠시 건네받지만 소지품에는 등록하지 않고, 후보를 찾아갈 때는 엘라가 보관한다.
 
-| 대상 | 손잡이 | 천·무늬 | 판단 |
-|---|---|---|---|
-| 회관의 실제 우산 | 파란색 | 검은 천·노란 별무늬 | 사진으로만 관찰 |
-| 루비의 설명 | 파란색 | 검은 천·노란 별무늬 | 두 특징 일치 |
-| 핀의 설명 | 파란색 | 검은 천·무늬 없음 | 무늬 불일치 |
-| 테스의 설명 | 빨간색 | 검은 천·노란 별무늬 | 손잡이 불일치 |
+### 행사와 일주일의 시간 관계
 
-손잡이만 보면 루비·핀, 별무늬만 보면 루비·테스가 남는다. 따라서 어느 사진 한 장과 같은 특징만으로는 정답이 하나로 좁혀지지 않는다. 두 종류의 특징과 서로 독립적인 세 진술을 모두 대조해야 한다. 물건의 이름표·서명·몸짓·목소리로 주인을 알려 주지 않는다.
+- **사용자 결정**: 행사 뒤 우산을 일주일 내내 찾아가지 않아 엘라가 의뢰했다. 우산은 비싼 물건이다. 구체적인 가격·브랜드는 정하지 않는다.
+- **행사 종류 초안**: 일주일 전 열린 ‘마을 나눔 행사’에 장난감 교환회와 바람개비 만들기 활동이 있었다. 행사 종류는 앞서 제안한 구성으로 검토 중이며, 참가 기록과 연락 안내가 회관에 남아 있다.
+- 장난감 교환회 기록에는 루비·테스와 연락 장소 Toy Shop이, 바람개비 활동 기록에는 핀과 연락 장소 Windmill Hill이 적혀 있다. 일주일 전 ‘이곳으로 갔다’는 기록을 오늘의 위치로 오해하게 하지 않고, 지금 찾아갈 수 있는 연락 장소로 명시한다.
+- **발견 위치 — 사용자 결정: 화분 옆.** 행사 전·중·종료 사진에서 같은 화분 옆을 비교한다. 첫 사진에는 우산이 없고 마지막 사진에는 남색·파란 손잡이·금빛 별무늬 우산이 화분 옆에 남아 있다. 엘라는 발견 위치만 답하며 행사와의 연결은 사진을 보고 추리한다. 행사 사진에 안감이나 주인 표식을 넣지 않는다.
+- 날씨는 질문으로 듣지 않는다. 행사 사진 속 펼친 우산·빗방울과 오늘 창문으로 들어오는 햇빛을 비교하고 추리 Q2에서 행사 때 비가 왔다고 판단한다(사용자 결정). 오늘의 물웅덩이를 일주일 전 비의 흔적으로 사용하지 않는다. 행사 이후 일주일 내내 어떤 날씨였는지는 추가로 확정하지 않는다.
+- 우산이 비싼 물건이라는 설정은 제작자용 배경으로만 두고, 엘라가 가격이나 가치에 관해 말하는 대사는 넣지 않는다. 비싼 물건이라는 이유로 특정 후보를 의심하거나 사진에 가격·주인 표식을 넣지 않는다.
+
+| 대상 | 겉감·손잡이 | 겉무늬 | 안쪽 | 판단 |
+|---|---|---|---|---|
+| 실제 우산 | 남색·파란색 | 금빛 별 | 금빛 | 펼쳐서 안감 확인 |
+| 루비의 설명 | 남색·파란색 | 금빛 별 | 금빛 | 모든 특징 일치 |
+| 테스의 설명 | 남색·파란색 | 금빛 별 | 남색 | 겉은 같고 안쪽이 다름 |
+| 핀의 설명 | 남색·파란색 | 무늬 없음 | 미확인 | 별무늬 불일치 |
+
+**닫힌 우산의 정보만으로는 루비·테스 두 명이 남는다. 펼쳐서 얻는 금빛 안감 사진과 두 사람의 inside 진술을 함께 사용해야 주인이 한 명으로 좁혀진다.** 금빛은 색 표현이며 실제 금 소재나 브랜드로 정답을 알려 주지 않는다.
 
 ## 2. 학습 목표와 이번 사건의 열쇠
 
@@ -40,20 +49,20 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 
 | 인물 | 장소 | 제작자용 역할 |
 |---|---|---|
-| Ella Deer / 사슴 엘라 | 마을회관 | 의뢰인 · 오늘 회관 분실물을 맡은 사슴 |
-| Finn Frog / 개구리 핀 | 풍차 언덕 | 개구리 · 손잡이만 일치하는 후보 |
-| Tess Tortoise / 거북 테스 | 장난감가게 | 거북 · 별무늬만 일치하는 후보 |
-| Ruby Cat / 고양이 루비 | 장난감가게 | 고양이 · 두 특징이 모두 일치하는 후보 |
+| Ella Deer / 사슴 엘라 | 마을회관 | 의뢰인 · 일주일째 남은 비싼 우산을 보관한 사슴 |
+| Finn Frog / 개구리 핀 | 풍차 언덕 | 개구리 · 겉무늬가 다른 후보 |
+| Tess Tortoise / 거북 테스 | 장난감가게 | 거북 · 겉은 같고 안감이 다른 후보 |
+| Ruby Cat / 고양이 루비 | 장난감가게 | 고양이 · 겉과 안쪽이 모두 일치하는 후보 |
 
 엘라는 차분하고 친절한 회관 도우미, 루비는 산책을 좋아하는 고양이, 핀은 짧고 명랑하게 말하는 개구리, 테스는 차분하게 자기 물건을 설명하는 거북으로 잡는다. 이 성격은 대사를 읽는 느낌을 위한 참고이며 정답·거짓말의 단서가 아니다. 동물의 외형·색·성격을 우산 특징과 연결하지 않는다.
 
 | 장소 | 조사 내용 | 필요한 자산 |
 |---|---|---|
-| 마을회관 | 엘라 탐문·우산 부분 사진·추리 뒤 우산 수령·최종 보고 | 회관 입구 또는 실내 한 장면. 우산꽂이와 검은 천·파란 손잡이·노란 별무늬의 우산 한 자루 |
+| 마을회관 | 엘라 의뢰·우산 확대 조사·행사 기록·창문 날씨·최종 보고 | 엘라가 보관한 접힌 우산. 별도 손 그래픽 없이 우산만 크게 보여 줌. 발견 당시 위치는 화분 옆. 현재 우산은 엘라가 보관 |
 | 장난감가게 | 루비·테스를 각각 탐문. 결말에서 루비에게 반환 | 장난감 진열대·계산대가 있는 새 가게 배경. 서로 별개의 대화 상대 |
 | 풍차 언덕 | 핀 탐문 | 언덕과 풍차가 보이는 새 장소 그림. 다른 우산·소유자 표식은 배치하지 않음 |
 
-첫 방문에는 회관과 엘라만 안다. 엘라 e2는 후보 이름을 기록하는 질문이고, e3 채점 통과 때 후보 세 명과 장난감가게·풍차 언덕을 함께 방문 가능하게 한다. e3 답변에는 세 이름과 장소가 모두 실제로 들린다. 증거 사진은 인물·장소를 열지 않는다. 발견 알림에는 이름만 표시하며 현재 장면에 머문다. 장난감가게와 풍차 언덕은 어느 순서로 방문해도 되고, 한 인물과 시작한 질문은 모두 기록하고 이동한다. 소풍 사건의 진행·해결 여부를 전제로 하지 않는다.
+첫 방문에는 회관과 엘라만 안다. 엘라의 두 질문은 후보·장소를 해금하지 않는다. 회관에서 장난감 교환회 기록을 촬영하면 루비·테스와 장난감가게를, 바람개비 활동 기록을 촬영하면 핀과 풍차 언덕을 발견한다. 우산의 손잡이·겉무늬·안감 사진은 인물·장소를 열지 않는다. 발견 알림에는 이름만 표시하고 현재 회관 장면에 머문다. 행사 기록은 참가자·연락 장소와 비교할 수 있는 사진을 제공하지만 우산의 주인은 알려 주지 않는다. 후보 방문 순서는 자유다. 한 인물과 시작한 질문은 모두 기록하고 이동한다.
 
 ## 4. 첫인사와 의뢰 대사
 
@@ -63,7 +72,7 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 
 | 화자 | 영어 | 한국어 |
 |---|---|---|
-| 엘라 | Hello. I'm Ella. I'm helping at the village hall today. | 안녕하세요. 저는 엘라예요. 오늘은 마을회관 일을 돕고 있어요. |
+| 엘라 | Hello. I'm Ella. I help at the village hall. | 안녕하세요. 저는 엘라예요. 마을회관 일을 돕고 있어요. |
 | 탐정 | Hello. How can I help? | 안녕하세요. 무슨 일이 있나요? |
 | 엘라 | Someone left an umbrella here. Can you help me find its owner? | 누군가 여기 우산을 두고 갔어요. 주인을 찾는 걸 도와줄래요? |
 
@@ -71,70 +80,96 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 
 | 화자 | 영어 | 한국어 |
 |---|---|---|
-| 핀 | Hi, I'm Finn. Are you looking for the owner of that umbrella? | 안녕, 난 핀이야. 그 우산 주인을 찾고 있어? |
-| 탐정 | Yes. Please tell me about your umbrella. | 응. 네 우산에 대해 말해 줘. |
+| 핀 | Hi! I'm Finn. Can I help you? | 안녕! 난 핀이야. 무슨 일이야? |
+| 탐정 | I'm looking for the owner of an umbrella at the village hall. | 회관에 남겨진 우산의 주인을 찾고 있어. |
+| 핀 | I brought an umbrella to the event. | 나도 행사에 우산을 가져갔어. |
 
 ### 테스 · 장난감가게
 
 | 화자 | 영어 | 한국어 |
 |---|---|---|
-| 테스 | Hello, I'm Tess. Ella told me about an umbrella. | 안녕, 난 테스야. 엘라에게 우산 이야기를 들었어. |
-| 탐정 | Can you describe your umbrella? | 네 우산이 어떻게 생겼는지 말해 줄래? |
+| 테스 | Hello, I'm Tess. What can I do for you? | 안녕, 난 테스야. 무엇을 도와줄까? |
+| 탐정 | I'm looking for the owner of an umbrella at the village hall. | 회관에 남겨진 우산의 주인을 찾고 있어. |
+| 테스 | I brought an umbrella to the event. | 나도 행사에 우산을 가져갔어. |
 
 ### 루비 · 장난감가게
 
 | 화자 | 영어 | 한국어 |
 |---|---|---|
-| 루비 | Hi, I'm Ruby. Are you here about the umbrella? | 안녕, 난 루비야. 우산 때문에 온 거야? |
-| 탐정 | Yes. I'd like to hear about yours. | 응. 네 우산에 대해 듣고 싶어. |
+| 루비 | Hi, I'm Ruby. Nice to meet you. | 안녕, 난 루비야. 만나서 반가워. |
+| 탐정 | I'm looking for the owner of an umbrella at the village hall. | 회관에 남겨진 우산의 주인을 찾고 있어. |
+| 루비 | I brought an umbrella to the event. | 나도 행사에 우산을 가져갔어. |
+
+### 엘라 대화 뒤 · 우산 조사로 전환
+
+| 화자 | 영어 | 한국어 |
+|---|---|---|
+| 탐정 | Can I take a closer look at the umbrella? | 우산을 좀 자세히 살펴봐도 될까요? |
+| 엘라 | Of course. Here you go. | 물론이죠. 여기 있어요. |
+
+조사 허락은 받아쓰기 문항이 아닌 전환 대화다. 엘라가 보관하던 우산을 탐정에게 잠시 건네면 우산만 화면 가운데 크게 나타난다. 손이나 손에 든 인물 그래픽은 필요 없다. 접기·펴기를 자유롭게 바꾸며 부분 촬영한다. 이때 소지품에는 등록하지 않는다. 조사를 마치면 사진은 증거 노트에 남고 우산은 엘라가 계속 보관한다.
+
+**우산 일러스트 — 사용자 확정 (2026-10-30)**
+
+![접힌 우산과 펼친 우산 한 장: 남색 겉감·금빛 별·파란 손잡이·금빛 안감](https://d8j0ntlcm91z4.cloudfront.net/user_3GQcP8akZKK6UYHE3DZOw7Yns30/hf_20261030_075043_0e9a6716-5dcf-4000-b20d-dcbdab288f26.png)
+
+- [기획 화면의 우산 조사 장면](case-02-unclaimed-umbrella.html#scene-1a)에 원본 한 장을 내장했다. 접힌 모습과 펼친 모습을 따로 생성하지 않았다.
+- 제작: Higgsfield Nano Banana 2.1 · 16:9 · 1K · thinking high · 한 장. 생성 전 안내 비용 1.5크레딧. 작업 ID: `0e9a6716-5dcf-4000-b20d-dcbdab288f26`.
+- 화풍 참조: 기존 후트 교수 원본의 그림책 크레용·색연필 질감과 부드러운 윤곽선만 사용했다. 남색 겉감·금빛 별·파란 손잡이·전체 금빛 안감의 기준 그림이다. 게임 도입과 상태별 분리는 개발 인계 때 요청한다.
 
 ## 5. 전체 탐문 대본·노트·단어 카드
 
-필수 질문은 **9개**, 노트 빈칸은 **22칸**이다. 아래 수치는 제작용이며 게임 화면에서 질문·증거 개수를 알려 주지 않는다. 이름과 장소 철자는 고정한다. Windmill Hill는 한 어구 카드다. 노트에 인용 부호로 표시한 문장은 모두 해당 NPC의 말이다.
+질문은 **10개**, 노트 빈칸은 **24칸**이다. 발견 위치 질문 e3의 답변은 “Next to the flowerpot.”으로 정한다. 아래 수치는 제작용이며 게임 화면에서 질문·증거 개수를 알려 주지 않는다. 이름과 장소 철자는 고정한다. 노트에 인용 부호로 표시한 문장은 모두 해당 NPC의 말이다. 참가자·연락 장소는 행사 기록 사진에서 얻으며 엘라의 받아쓰기 정답으로 열리지 않는다.
 
-### 엘라 — 질문 3개
+### 엘라 — 질문 2개 · 빈칸 4칸
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| ella:e1 | Whose umbrella is this? / 이 우산은 누구 것인가요? | I don't know. It isn't mine. Please find its owner. / 모르겠어요. 제 것은 아니에요. 주인을 찾아 주세요. | “I don't [know]. It isn't [mine]. Please find its [owner].” | know · remember · mine · yours · owner · handle | 없음 |
-| ella:e2 | Who can I ask? / 누구에게 물어보면 될까요? | Please ask Ruby, Finn, and Tess. They each say, "It's mine." / 루비, 핀, 테스에게 물어봐 주세요. 셋 다 “내 거예요”라고 해요. | “Ask [Ruby], Finn, and Tess. They each say, "It's [mine]."” | Ruby · Finn · Tess · Ella · mine · yours | 후보 이름을 진술에 기록. 아직 방문 가능 인물·장소를 열지 않음 |
-| ella:e3 | Where can I find them? / 그들은 어디에 있나요? | Ruby and Tess are at the toy shop. Finn is on Windmill Hill. / 루비와 테스는 장난감가게에 있어요. 핀은 풍차 언덕에 있어요. | “Ruby and Tess are at the [toy shop]. Finn is on [Windmill Hill].” | toy shop · Windmill Hill · bookshop · village hall | 루비·테스·핀, 장난감가게·풍차 언덕. 이름만 한 발견 알림에 모음 |
+| ella:e2 | How long has this umbrella been here? / 이 우산은 언제부터 이곳에 있었나요? | It's been here for a week. No one came back for it. / 일주일째 여기 있어요. 아무도 찾으러 돌아오지 않았어요. | “It's been here for a [week]. No one came [back] for it.” | week · day · back · inside | 없음 |
+| ella:e3 | Where did you find the umbrella? / 우산은 어디에서 발견했나요? | Next to the flowerpot. / 화분 옆에서요. | “[Next to] the [flowerpot].” | Next to · under · flowerpot · chair | 없음 |
+
+발견 위치는 “화분 옆”으로 간단하게 설명한다. 이 답변은 발견 당시 위치이며, 현재 우산은 엘라가 보관하고 있다. 행사 뒤 남겨졌다는 사실은 회관의 사진을 비교해 알아낸다.
 
 ### 핀 — 질문 2개
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| finn:f1 | What is your umbrella like? / 네 우산은 어떻게 생겼니? | Mine is black. It has a blue handle. / 내 건 검은색이야. 파란 손잡이가 있어. | “Mine is [black]. It has a [blue] [handle].” | black · white · blue · red · handle · star | 없음 |
+| finn:f1 | What is your umbrella like? / 네 우산은 어떻게 생겼니? | Mine is dark blue. It has a blue handle. / 내 우산은 남색이야. 파란 손잡이가 있어. | “Mine is [dark blue]. It has a [blue] [handle].” | dark blue · white · blue · red · handle · star | 없음 |
 | finn:f2 | Does your umbrella have stars on it? / 네 우산에는 별무늬가 있니? | No. There are no stars on mine. It's plain. / 아니. 내 우산에는 별무늬가 없어. 무늬가 없는 우산이야. | “There are [no] [stars] on mine. It's [plain].” | no · yellow · stars · stripes · plain · small | 없음 |
 
-### 테스 — 질문 2개
+### 테스 — 질문 3개
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| tess:t1 | What is your umbrella like? / 네 우산은 어떻게 생겼니? | Mine has a red handle. / 내 우산에는 빨간 손잡이가 있어. | “Mine has a [red] [handle].” | red · blue · handle · bottle | 없음 |
-| tess:t2 | Does your umbrella have a pattern? / 네 우산에는 무늬가 있니? | Yes. Mine has yellow stars on black fabric. / 응. 내 우산에는 검은 천에 노란 별무늬가 있어. | “Mine has [yellow] [stars] on [black] fabric.” | yellow · white · stars · stripes · black · blue | 없음 |
+| tess:t1 | What is your umbrella like? / 네 우산은 어떻게 생겼니? | Mine is dark blue. It has a blue handle. / 내 우산은 남색이야. 파란 손잡이가 있어. | “Mine is [dark blue]. It has a [blue] [handle].” | dark blue · black · blue · red · handle · bottle | 없음 |
+| tess:t2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있니? | Mine has gold stars. / 내 우산에는 금빛 별무늬가 있어. | “Mine has [gold] [stars].” | gold · silver · stars · stripes | 없음 |
+| tess:t3 | What color is your umbrella inside? / 네 우산 안쪽은 무슨 색이니? | Mine is dark blue inside. / 내 우산은 안쪽이 남색이야. | “Mine is [dark blue] [inside].” | dark blue · gold · inside · outside | 없음 |
 
-### 루비 — 질문 2개
+### 루비 — 질문 3개
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| ruby:r1 | What is your umbrella like? / 네 우산은 어떻게 생겼니? | Mine has a blue handle. / 내 우산에는 파란 손잡이가 있어. | “[Mine] has a [blue] handle.” | Mine · Yours · blue · red | 없음 |
-| ruby:r2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있니? | Mine has yellow stars on black fabric. / 내 우산에는 검은 천에 노란 별무늬가 있어. | “Mine has [yellow] [stars] on black fabric.” | yellow · white · stars · stripes | 없음 |
+| ruby:r1 | What is your umbrella like? / 네 우산은 어떻게 생겼니? | Mine is dark blue. It has a blue handle. / 내 우산은 남색이야. 파란 손잡이가 있어. | “Mine is [dark blue]. It has a [blue] [handle].” | dark blue · black · blue · red · handle · star | 없음 |
+| ruby:r2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있니? | Mine has gold stars. / 내 우산에는 금빛 별무늬가 있어. | “Mine has [gold] [stars].” | gold · silver · stars · stripes | 없음 |
+| ruby:r3 | What color is your umbrella inside? / 네 우산 안쪽은 무슨 색이니? | Mine is gold inside. / 내 우산은 안쪽이 금빛이야. | “Mine is [gold] [inside].” | gold · dark blue · inside · outside | 없음 |
 
 ## 6. 현장 사진·소지품·주변 물건
 
-엘라의 세 질문을 마친 뒤 회관 현장을 자유롭게 조사한다. 우산을 아직 가져가지 않고 꽂힌 상태에서 두 부분을 촬영한다. 사진은 증거 노트에 들어가며 조사 중 우산은 계속 회관에 남아 있다. 후보의 손에 다른 우산을 그려 두지 않는다. 루비·핀·테스에게 사진을 내미는 별도 중간 기능을 요구하지 않는다.
+엘라의 확정 질문 뒤 조사 허락 대화로 넘어간다. 우산을 잠시 건네받아 크게 살펴보되 소지품에는 넣지 않는다. 접힌 상태에서 파란 손잡이·남색 겉감·금빛 별무늬를 관찰할 수 있다. 펼치면 금빛 안감이 드러난다. 사진 3장은 각각 직접 부분 촬영하며, 촬영 전에는 단서 제목이나 정답 설명을 미리 표시하지 않는다. 조사 종료 뒤 우산은 엘라가 보관한다. 회관의 행사 기록 2장을 더해 필수 사진은 총 5장이다.
 
 | 사진 ID | 제목 | 사진 속 사실 | 탐정 나레이션 / 해석 | 비교 |
 |---|---|---|---|---|
-| umbrella-handle | 우산 손잡이 | 파란 손잡이와 검은 우산 천의 연결 부분. 이름·이니셜·주인 표식 없음 | A blue handle on the umbrella in the hall. / 회관에 남겨진 우산의 파란 손잡이. | 테스의 빨간 손잡이 진술과 불일치. 루비·핀은 아직 후보 |
-| umbrella-pattern | 우산 무늬 | 같은 우산의 검은 천과 노란 별무늬. 손잡이 사진과 다른 우산으로 보이면 안 됨 | Yellow stars on the black fabric of the umbrella. / 우산의 검은 천 위에 있는 노란 별무늬. | 핀의 무늬 없음 진술과 불일치. 루비·테스는 아직 후보 |
+| umbrella-handle | 우산 손잡이 | 접힌 우산의 파란 손잡이. 주인 표식 없음 | A blue handle. / 파란 손잡이야. | 세 후보 모두 같은 손잡이. 단독으로 주인 특정 불가 |
+| umbrella-pattern | 우산 겉무늬 | 접힌 상태에서도 보이는 남색 겉감·금빛 별무늬 | Gold stars on dark blue fabric. / 남색 천 위의 금빛 별무늬야. | 무늬 없는 핀 제외. 루비·테스는 겉이 같음 |
+| umbrella-inside | 우산 안쪽 | 펼친 상태에서만 촬영할 수 있는 전체 금빛 안감. 안쪽에는 별무늬 없음 | The inside is gold. / 안쪽은 금빛이야. | 루비의 gold inside와 테스의 dark blue inside를 구별하는 결정 단서 |
+| toy-swap-record | 장난감 교환회 기록 | 일주일 전 날짜, 도우미 Ruby Cat·Tess Tortoise, 연락 장소 Toy Shop. 행사 전·중·종료 사진: 우산이 없는 화분 옆 → 창밖의 펼친 우산과 빗방울 → 같은 화분 옆에 남은 남색·파란 손잡이·금빛 별 우산. 안감과 주인은 표시하지 않음 | Ruby and Tess helped with the toy swap. You can find them at the toy shop. There is no umbrella next to the flowerpot in the first photo. There is one next to it in the last photo. Open umbrellas outside the window in the middle photo. / 루비와 테스가 장난감 교환회를 도왔어. 장난감가게에서 만날 수 있겠어. 첫 사진에는 화분 옆에 우산이 없어. 마지막 사진에는 그 옆에 우산 하나가 있어. 가운데 사진의 창밖에는 펼친 우산들이 보여. | 루비·테스와 장난감가게 발견. 행사·날씨를 추리하되 안감은 실물을 펼쳐 확인해야 함 |
+| pinwheel-record | 바람개비 활동 기록 | 제목 Pinwheel Workshop, 활동 도우미 Finn Frog, 연락 장소 Windmill Hill. 우산에 관한 소유 정보 없음 | Finn helped with the pinwheel workshop. You can find him on Windmill Hill. / 핀이 바람개비 만들기를 도왔어. 풍차 언덕에서 만날 수 있겠어. | 촬영 뒤 핀과 풍차 언덕 발견. 핀의 우산은 아직 모름 |
 
 ### 소지품
 
-- **회관에서 받은 우산**: 추리를 마치고 엘라에게 주인을 설명한 뒤에만 받는다. 제목에는 루비의 이름을 미리 붙이지 않는다. 엘라가 준 실제 물건이며 증거 사진과 구분한다.
+- **반환용 소지품 우산**: 초반 확대 조사는 잠시 살피는 연출이며 소지품이 아니다. 추리 뒤 주인에게 반환하러 갈 때에만 엘라에게 우산을 받아 소지품으로 챙긴다. 제목에는 루비의 이름을 미리 붙이지 않는다. 엘라가 준 실제 물건이며 증거 사진과 구분한다.
 - 소지품 짧은 설명: The umbrella Ella gave me. / 엘라가 맡긴 우산. 주인 정답은 소지품 문구로 새로 알려 주지 않는다.
-- 이 우산은 장난감가게의 루비에게 건네면 소지품에서 빠진다. 사진 두 장은 수사 기록에 남는다. 반환 전에는 최종 보고·사건 완료로 넘어갈 수 없다.
+- 이 우산은 장난감가게의 루비에게 건네면 소지품에서 빠진다. 조사 사진은 수사 기록에 남는다. 반환 전에는 최종 보고·사건 완료로 넘어갈 수 없다.
 
 ### 단서가 아닌 주변 물건
 
@@ -142,38 +177,42 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 |---|---|---|
 | 회관 | 벽의 시계 | A clock on the wall. / 벽에 걸린 시계다. |
 | 회관 | 빈 의자 | An empty chair. / 빈 의자다. |
+| 회관 | 창문 | Sunlight through the window. / 창문으로 햇빛이 들어온다. |
 | 장난감가게 | 장난감 선반 | Toys on the shelf. / 선반 위의 장난감들이다. |
 | 장난감가게 | 곰 인형 | A teddy bear on the counter. / 계산대 위의 곰 인형이다. |
 | 풍차 언덕 | 풍차 | A windmill on the hill. / 언덕 위의 풍차다. |
 | 풍차 언덕 | 바람개비 | A small pinwheel. / 작은 바람개비다. |
 
-주변 물건은 사진·해금·추리 정답이 되지 않는다. 시계의 시각이나 행사 일정은 새 단서로 만들지 않는다. 한국어는 해석을 눌렀을 때만 보여 준다.
+창문의 햇빛은 오늘 날씨를 관찰하는 배경 정보다. 날씨 질문·별도 받아쓰기는 없으며, 과거 날씨의 정답 근거는 행사 기록의 사진이다. 나머지 주변 물건은 사진·해금·추리 정답이 되지 않는다. 물웅덩이로 지난주 날씨를 추정하게 하지 않는다. 한국어는 해석을 눌렀을 때만 보여 준다.
 
 ## 7. 장면·진행 조건
 
 | 순서 | 일어나는 일 | 다음 조건 |
 |---|---|---|
-| 00 | 공통 열쇠 예습 → 첫 플레이 공통 튜토리얼 → 회관의 엘라 의뢰 | 엘라 첫인사 후 e1–e3 |
-| 01 | 엘라 3문항을 듣고 노트 기록 | e3 채점 통과로 세 후보·장난감가게·풍차 언덕 발견 |
-| 02 | 회관 우산 손잡이·무늬 사진 2장을 수집 | 우산은 회관에 남음. 조사 순서는 후보 탐문 전후 자유 |
-| 03 | 장난감가게 루비 2문항·테스 2문항, 풍차 언덕 핀 2문항 | 후보 방문 순서 자유. 모든 질문 9개와 사진 2장 수집 필요 |
-| 04 | 추리 4문항 | 마지막 노트 채점 뒤에도 현재 장면 유지. 공통 추리 진입으로 시작 |
+| 00 | 공통 열쇠 예습 → 첫 플레이 공통 튜토리얼 → 회관의 엘라 의뢰 | 엘라 첫인사 후 e2, 이어서 조사 허락 대화 |
+| 01 | 엘라 e2에서 보관 기간을 기록 | 행사·날씨·후보 정보 없음. 회관 현장 조사로 이어짐 |
+| 01A | 조사 허락 → 엘라에게 잠시 건네받아 접기·펴기·사진 3장 | 소지품 등록 없음. 조사 뒤 엘라 보관. 손 그래픽 생략 |
+| 02 | 잠시 건네받은 우산을 접고 펴 사진 3장 촬영, 회관 행사 기록 2장 조사 | 행사 기록에 따라 후보·연락 장소 발견. 확대 조사 뒤 엘라가 보관 |
+| 03 | 장난감가게 루비 3문항·테스 3문항, 풍차 언덕 핀 2문항 | 후보 방문 순서 자유. 확정 질문 9개와 사진 5장 수집 필요 |
+| 04 | 추리 6문항: 행사와 우산 연결 → 당시 날씨 → 특징 대조 → 주인 | 마지막 노트 채점 뒤에도 현재 장면 유지. 공통 추리 진입으로 시작 |
 | 05 | 회관 엘라에게 주인을 설명하고 우산을 받음 | 소지품 우산 획득. 조사 때의 해금 알림으로 자동 이동하지 않음 |
 | 06 | 장난감가게 루비에게 실물 확인 후 우산을 건넴 | 우산 소지품 제거·반환 완료 |
 | 07 | 회관 엘라에게 보고하고 감사 인사를 들음 | 이때 사건 완료·복습 |
 
 엘라의 부탁을 받기 전에는 사건의 진상·후보·의뢰인 직업을 팝업이나 이름표로 설명하지 않는다. 결말 장소를 찾아가는 단계는 플레이어가 진행하며 자동 카메라 이동을 발견 연출에 섞지 않는다. 새 사건 전용 화면을 만들지 않고 기존 공통 화면에서 이 사건의 이야기가 일어나야 한다. 구현 방식은 개발 점검에서 정한다.
 
-## 8. 추리 4문항
+## 8. 추리 6문항
 
 | Q | 질문 / 해석 | 완성 문장 | 보기 | 출처·판단 |
 |---|---|---|---|---|
-| 1 | What color is the handle of the umbrella in the hall? / 회관 우산의 손잡이는 무슨 색이지? | The handle is [blue]. | blue / red / yellow | umbrella-handle — 실물 손잡이는 파란색이다. 이 특징만으로는 루비와 핀을 구별할 수 없다. |
-| 2 | Does the pattern match Finn's umbrella? / 이 무늬는 핀의 우산과 맞을까? | Finn's umbrella has [no stars]. This one has yellow stars. | no stars / yellow stars | finn:f2 + umbrella-pattern — 별무늬가 없는 핀의 우산과 다르다. 파란 손잡이 하나만 맞는 핀을 제외한다. |
-| 3 | Does the handle match Tess's umbrella? / 이 손잡이는 테스의 우산과 맞을까? | Tess's umbrella has a [red] handle. This one has a blue handle. | red / blue / yellow | tess:t1 + umbrella-handle — 테스의 손잡이는 빨간색이다. 별무늬만 맞는 테스를 제외한다. |
-| 4 | Whose umbrella is this? / 그럼 이 우산은 누구 것일까? | This umbrella is [Ruby Cat]'s. Her umbrella has a blue handle and yellow stars. | Ruby Cat / Finn Frog / Tess Tortoise | ruby:r1·r2 + 사진 2장 + Q2·Q3 — 루비만 두 특징을 모두 말했다. 이름 뒤 소유격과 마지막 설명은 문장 틀로 제공한다. |
+| 1 | What do the first and last photos show? / 첫 사진과 마지막 사진을 비교하면 무엇을 알 수 있지? | The umbrella was still here [after the event]. | before the event / after the event | toy-swap-record — 행사 전에는 우산이 없던 화분 옆과 행사 종료 뒤 같은 화분 옆에 남은 우산을 비교한다. 엘라가 행사와 연결해 말하지 않는다. |
+| 2 | What was the weather like during the event? / 행사 때 날씨는 어땠을까? | It was [rainy]. | rainy / sunny / snowy | toy-swap-record — 행사 사진의 창밖에 펼친 우산들과 창유리에 맺힌 빗방울을 함께 보고 판단한다. 오늘 햇빛은 당시 날씨의 근거가 아니다. |
+| 3 | What color is the handle of the umbrella in the hall? / 회관 우산의 손잡이는 무슨 색이지? | The handle is [blue]. | blue / red / yellow | umbrella-handle — 실물 손잡이는 파란색이다. 세 후보 모두 파란 손잡이이므로 이 정보만으로 구별할 수 없다. |
+| 4 | Does the pattern match Finn's umbrella? / 이 무늬는 핀의 우산과 맞을까? | Finn's umbrella has [no stars]. This one has gold stars. | no stars / gold stars | finn:f2 + umbrella-pattern — 핀은 무늬가 없어 제외. 루비·테스는 계속 후보 |
+| 5 | Does the inside match Tess's umbrella? / 안쪽은 테스의 우산과 같을까? | Tess's umbrella is [dark blue] inside. This one is gold inside. | dark blue / gold | tess:t3 + umbrella-inside — 겉모습은 같지만 펼쳐 본 안감 색이 다르다. 테스 제외 |
+| 6 | Whose umbrella is this? / 그럼 이 우산은 누구 것일까? | This umbrella is [Ruby Cat]'s. It has a blue handle and gold stars, and it is gold inside. | Ruby Cat / Finn Frog / Tess Tortoise | ruby:r1·r2·r3 + 우산 사진 3장 + Q4·Q5 — 겉이 같은 두 후보를 안감 색으로 구별한다. 이름 뒤 소유격과 마지막 설명은 문장 틀로 제공한다. |
 
-Q2와 Q3의 부정·불일치 판단은 서로 다른 후보를 제외한다. 마지막에 그냥 “제 거예요”라는 확인만 듣고 정답을 얻게 하지 않는다. 확정 근거는 추리 전에 들은 독립적인 설명과 사진 두 장이다. 오답은 같은 문항에서 다시 선택하며 앞서 맞힌 진척을 유지한다. 인물 이름의 보기 순서가 정답을 암시하지 않게 한다.
+Q1·Q2에서 행사와 우산의 연결 및 당시 날씨를 플레이어가 판단한다. Q4·Q5에서 서로 다른 후보를 제외한다. 주인 확정 근거는 각자의 독립적인 설명과 우산 사진 3장이다. 겉무늬 사진만으로 루비를 확정하지 않는다. 오답은 같은 문항에서 다시 선택하며 앞서 맞힌 진척을 유지한다.
 
 ## 9. 반환·의뢰인 보고 대본
 
@@ -181,27 +220,27 @@ Q2와 Q3의 부정·불일치 판단은 서로 다른 후보를 제외한다. �
 
 | 장소·시점 | 화자 | 영어 | 한국어 | 행동 |
 |---|---|---|---|---|
-| 회관 · 추리 뒤 보고 | 탐정 | This umbrella is Ruby's. Hers has a blue handle and yellow stars. | 이 우산은 루비의 것이에요. 루비 우산에는 파란 손잡이와 노란 별무늬가 있어요. | 우산은 아직 우산꽂이에 있음 |
+| 회관 · 추리 뒤 보고 | 탐정 | This umbrella is Ruby's. Hers has gold stars and is gold inside. | 이 우산은 루비의 것이에요. 루비 우산에는 금빛 별무늬가 있고 안쪽도 금빛이에요. | 엘라가 접힌 우산을 보관 중 |
 | 회관 | 엘라 | Then please take it to her. | 그럼 루비에게 가져다주세요. | 엘라가 우산을 건넴. 이때 처음 소지품으로 받음 |
 | 회관 | 탐정 | I will. | 그럴게요. | 탐정이 우산을 받아 듦 |
 | 장난감가게 · 루비 앞 | 탐정 | Is this umbrella yours? | 이 우산이 네 것이니? | 소지품 우산을 보여 줌. 아직 건네지 않음 |
-| 장난감가게 | 루비 | Yes, it's mine! The handle is blue, and the stars are yellow. | 응, 내 거야! 손잡이는 파란색이고 별무늬는 노란색이야. | 앞서 말한 두 특징을 실물로 확인 |
+| 장난감가게 | 루비 | Yes, it's mine! Gold stars, and it's gold inside too. | 응, 내 거야! 금빛 별무늬에 안쪽도 금빛이야. | 겉무늬와 안감이 모두 자기 우산과 같음을 확인 |
 | 장난감가게 | 탐정 | Here you go. | 여기 있어. | 우산을 소지품에서 골라 건네기 |
-| 장난감가게 | 루비 | Thank you, Detective! I left it in the stand. | 고마워, 탐정님! 우산꽂이에 두고 왔었어. | 반환 완료. 아직 의뢰인 보고는 남음 |
+| 장난감가게 | 루비 | Thank you, Detective! I'm glad it's back. | 고마워, 탐정님! 우산을 되찾아서 기뻐. | 반환 완료. 아직 의뢰인 보고는 남음 |
 | 회관 · 의뢰인 보고 | 탐정 | The umbrella is back with Ruby now. | 이제 우산은 루비에게 돌아갔어요. | 반환 완료 뒤에만 말할 수 있음 |
 | 회관 | 엘라 | Thank you. You found its owner! | 고마워요. 주인을 찾았군요! | 이 대사 뒤 사건 완료·복습 |
 
-반환 직전의 “this umbrella”는 탐정이 가져온 실물을, 핀 첫인사의 “that umbrella”는 두 사람이 이야기하는 회관의 우산을 가리킨다. 가까움·멀어짐에 대한 독립적인 듣기 정답을 요구하지 않는다. NPC는 각자의 장소에 두며 세 후보를 회관에 모으지 않는다. 핀·테스를 범인으로 지목하거나 사과시키는 결말은 넣지 않는다.
+반환 직전의 “this umbrella”는 추리 뒤 탐정이 받아 온 실물을 가리킨다. 탐문 인사에서는 우산을 들고 있거나 후보가 조사 사실을 이미 안다고 가정하지 않는다. NPC는 각자의 장소에 두며 세 후보를 회관에 모으지 않는다. 핀·테스를 범인으로 지목하거나 사과시키는 결말은 넣지 않는다.
 
 ## 10. 복습과 제작 점검
 
-- 해결 뒤 요약: 회관에 남겨진 우산의 파란 손잡이·노란 별무늬가 루비의 설명과 모두 맞았다. 핀은 손잡이만, 테스는 별무늬만 같았다. 엘라에게 우산을 받아 루비에게 돌려주고 의뢰를 마쳤다. 범인·피해자·자백을 새로 만들지 않는다.
-- 다시 들을 문장: 틀린 질문의 실제 대답. 9개 중 사용자의 기록에 따라 고른다.
+- 해결 뒤 요약: 일주일째 남은 우산을 돌려주려 엘라가 의뢰했다. 기록으로 행사·참가자·날씨를 조사했다. 겉모습이 같은 루비·테스 중 펼쳐 확인한 금빛 안감과 일치하는 루비에게 우산을 반환하고 엘라에게 보고했다.
+- 다시 들을 문장: 틀린 질문의 실제 대답. 10개 중 사용자의 기록에 따라 고른다.
 - 핵심 문법: Whose…?, this/that, 소유 표현. 추가 문법에는 has, no + 복수명사 등 실제 대사에서 쓴 표현만 둔다.
-- 단어: umbrella 우산, owner 주인, handle 손잡이, pattern 무늬, fabric 천, star 별(stars), plain 무늬가 없는, mine 내 것, yours 네 것, toy shop 장난감가게, Windmill Hill 풍차 언덕. blue·red·yellow·black도 복습·담기 가능. 실제 대사의 단어만 쓴다.
-- 준비할 그림: 마을회관·장난감가게·풍차 언덕 배경, 회관 우산과 촬영할 두 부분. 신규 인물 엘라·루비·핀·테스의 그림이 모두 필요하다. 마을회관·장난감가게·풍차 언덕 배경을 모두 새로 준비한다. 소풍의 장소 그림을 재사용하지 않는다. 인물의 의상·소지품으로 정답을 노출하지 않는다.
+- 단어: umbrella 우산, owner 주인, week 일주일, handle 손잡이, pattern 무늬, fabric 천, star 별(stars), plain 무늬가 없는, mine 내 것, yours 네 것, sunlight 햇빛, dark blue 남색, gold 금빛, inside 안쪽. rainy 등 추리에서 사용한 표현도 복습한다.
+- 확정된 그림: 접힌 우산·펼친 우산 한 장(4절). 준비할 그림: 신규 장소 3곳, 우산의 촬영 부위 3곳, 행사 기록 2종과 오늘 맑은 하늘이 보이는 창문. 인물 4명도 새로 준비한다. 비싼 우산이라는 이유로 주인 표식을 넣지 않는다.
 - 준비할 음성: 위 첫인사·질문·대답·단서 나레이션·주변 물건·결말. 녹음은 아직 하지 않았으며 생성·크레딧 사용을 이번 기획에 포함하지 않는다.
-- 확인 필요: 실제 음성으로 mine/내 물건의 지시 대상과 no stars를 구별하는지, 9문항·22칸의 부담, 두 가지 특징을 모두 듣는지. 소요 시간·학생 난도·학습 효과는 아직 미검증이다.
+- 확인 필요: 실제 음성으로 mine의 지시 대상과 no stars를 구별하는지, 10문항·24칸·사진 5장의 부담, 두 가지 특징을 모두 듣는지. 소요 시간·학생 난도·학습 효과는 아직 미검증이다.
 - 개발 점검 시 함께 볼 이야기 동작: 한 장소의 별개 두 인물 탐문, 사진은 남기고 물건은 추리 뒤 받기, 반환 뒤 원래 의뢰인에게 보고하기. 사용자와 합의하지 않은 대본 축약·해금 변경은 하지 않는다.
 
 이 문서는 사용자와 검토할 1차 초안이다. 아직 개발 인계가 아니며, 확정해 인계하면 이후 설계서·대본 수정은 Claude Code와 사용자가 진행한다. 소풍 사건의 설계서는 이 기획에서 수정하지 않는다.
