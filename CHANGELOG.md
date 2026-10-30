@@ -13,12 +13,24 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-30 11:10 · Claude · (이 커밋)
+## 2026-10-30 11:30 · Claude · (이 커밋)
+
+- 사용자 결정: 이름 Pioo를 없애고 detective로 바꿈.
+  - 브라우저 저장 키 `pioo.*` → `detective.*`. 페이지를 열 때 예전 키가 있으면 같은 이름의 새 키로 옮기고(새 키가 이미 있으면 그대로) 예전 키를 지운다. 진행·해결 기록·단어장은 그대로 이어진다.
+  - 페이지 제목 "숲속 탐정 Pioo" → "숲속 탐정"(앱 이름은 아직 미정). 미리보기 모드에서 탐정 이름이 없을 때 쓰는 임시 이름 `Pioo` → `Tester`.
+  - 미리보기 설정 `pioo-dev` → `detective-dev`, 서버 로그, 갱신 중단한 데모 폴더 `sites/pioo-demo` → `sites/detective-demo`(.gitignore·`scripts/prepare-demo.mjs`도).
+  - 문서·스킬의 프로젝트 이름과 GitHub 주소(`wonny95/detective`). Claude 메모리(새 폴더 키)도 맞춤.
+  - 그대로 둔 것: 예전 CHANGELOG 항목, `assets/characters/README.md`에 기록된 실제 생성 프롬프트, 갱신 중단한 데모 주소(chatgpt.site), 저장소 내부의 worktree 관리 이름.
+- 확인(새 탭 127.0.0.1): 예전 키를 넣고 새로고침 → `detective.*`로 옮겨지고 예전 키 삭제, 이미 있던 새 키는 유지(시험 값은 지움). 소풍 사건 미리보기 정상, 콘솔 오류 없음, 구문 검사 통과. 사용자 탭(localhost)의 저장도 새 키로 옮겨진 것을 읽기만으로 확인. 미리보기를 `detective-dev`로 다시 띄움.
+- **기획 요청**: 기획 파일의 Pioo 이름을 바꿔 주기(`CURRICULUM.md`, `LEARNING_PLAN.md`, `design/learning-plan.html`, `design/case-01-picnic-bag.md`·`.html`, `design/STORY_LOG.md`의 폴더 경로).
+- **다음**: ① 사용자가 GitHub에서 저장소 이름을 `pioo` → `detective`로 바꾸면 `git remote set-url origin https://github.com/wonny95/detective.git`(지금 원격은 예전 주소 그대로). ② 사용자가 두 폴더를 `E:\GPT\Detective\Detective-dev`·`Detective-story`로 옮기면 바로 아래 11:10 항목의 "다음"(worktree repair, 연결·미리보기 확인). 둘 다 아직이면 사용자 지시 대기
+
+## 2026-10-30 11:10 · Claude · 413b498
 
 - 사용자 결정: 폴더 이름에서 Pioo를 없앤다. 개발 `E:\GPT\Detective\Detective-dev`, 기획 `E:\GPT\Detective\Detective-story`. AGENTS.md(분업 표·시작 절차 0단계), HANDOFF.md, `.claude/skills/`(wrap-up·take-over·push-github)의 폴더 경로를 새 이름으로 바꿈. Claude 메모리를 새 경로 키(`E--GPT-Detective-Detective-dev`)에 맞춰 둠. 기획 브랜치 `story`를 이 커밋까지 fast-forward해 Codex가 새 폴더에서 읽는 AGENTS.md도 새 경로가 되게 함(기획 쪽 새 커밋이 없을 때 한 번만).
 - 확인: 버리는 저장소에서 두 폴더를 새 상위 폴더로 옮기며 이름을 바꾼 뒤 `git worktree repair ../Detective-story` 한 번으로 양쪽 status·merge 정상.
 - **기획 요청**: `design/STORY_LOG.md` 첫 항목의 폴더 경로(`E:\GPT\Pioo-story`)를 새 경로로(기록이라 그대로 두어도 된다).
-- **다음**: 사용자가 Claude Code·Codex를 닫고 `E:\GPT\Pioo` → `E:\GPT\Detective\Detective-dev`, `E:\GPT\Pioo-story` → `E:\GPT\Detective\Detective-story`로 옮긴 뒤 Claude Code를 `Detective-dev`에서 연다. 그러면 `git worktree repair ../Detective-story` → `git worktree list`·양쪽 `git status`로 연결 확인 → 미리보기(`pioo-dev`) 확인. 아직 옮기지 않았으면 사용자 지시 대기
+- **다음**: 사용자가 Claude Code·Codex를 닫고 `E:\GPT\Pioo` → `E:\GPT\Detective\Detective-dev`, `E:\GPT\Pioo-story` → `E:\GPT\Detective\Detective-story`로 옮긴 뒤 Claude Code를 `Detective-dev`에서 연다. 그러면 `git worktree repair ../Detective-story` → `git worktree list`·양쪽 `git status`로 연결 확인 → 미리보기(`detective-dev`) 확인. 아직 옮기지 않았으면 사용자 지시 대기
 
 ## 2026-10-30 10:50 · Claude · fa42c04
 

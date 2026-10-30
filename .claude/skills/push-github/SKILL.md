@@ -1,11 +1,11 @@
 ---
 name: push-github
-description: Pioo 저장소의 main을 GitHub 비공개 저장소(https://github.com/wonny95/pioo)에 올린다. 사용자가 "깃허브에 푸시해줘", "깃허브에 올려줘"라고 요청할 때만 쓴다. 마무리나 배포 때 자동으로 하지 않는다.
+description: Detective 저장소의 main을 GitHub 비공개 저장소(https://github.com/wonny95/detective)에 올린다. 사용자가 "깃허브에 푸시해줘", "깃허브에 올려줘"라고 요청할 때만 쓴다. 마무리나 배포 때 자동으로 하지 않는다.
 ---
 
-# GitHub에 푸시 (Pioo)
+# GitHub에 푸시 (Detective)
 
-- 저장소: `https://github.com/wonny95/pioo.git`. **비공개**이고, 사용자가 만들었다. 원격 이름은 `origin`이다.
+- 저장소: `https://github.com/wonny95/detective.git`. **비공개**이고, 사용자가 만들었다. 원격 이름은 `origin`이다.
 - **사용자가 요청할 때만** 푸시한다(사용자 결정). `/wrap-up`이나 `/publish-artifact`에 넣지 않는다.
 - 강제 푸시(`--force`, `--force-with-lease`)는 하지 않는다. 올리는 브랜치는 `main` 하나다. 스토리 기획 브랜치 `story`(`E:\GPT\Detective\Detective-story` worktree)는 로컬에만 둔다. 기획까지 올리려면 먼저 `main`에 `story`를 merge한다(`AGENTS.md` 브랜치 주고받기).
 
@@ -18,10 +18,11 @@ description: Pioo 저장소의 main을 GitHub 비공개 저장소(https://github
 
 ```bash
 git branch --show-current          # main이어야 한다
-git remote get-url origin          # https://github.com/wonny95/pioo.git
+git remote get-url origin          # https://github.com/wonny95/detective.git
 ```
 
-- `origin`이 없으면 `git remote add origin https://github.com/wonny95/pioo.git`로 추가한다.
+- `origin`이 없으면 `git remote add origin https://github.com/wonny95/detective.git`로 추가한다.
+- `origin`이 예전 주소(`wonny95/pioo`)면, 사용자가 GitHub에서 저장소 이름을 `detective`로 바꿨는지 묻고 바꿨을 때만 `git remote set-url origin https://github.com/wonny95/detective.git`로 고친다(바꾸기 전에는 예전 주소 그대로 푸시한다).
 - 올리면 안 되는 것이 섞이지 않았는지 본다. 결과가 나오면 멈추고 사용자에게 보여 준다.
 
   ```bash
@@ -30,7 +31,7 @@ git remote get-url origin          # https://github.com/wonny95/pioo.git
   git ls-files -z | xargs -0 du -k | sort -rn | head -3   # 파일당 100MB 제한(50MB부터 경고)
   ```
 
-- `sites/pioo-demo/`는 `.gitignore`로 빠져 있어야 한다. 별도 Git 체크아웃이라 올리지 않는다.
+- `sites/detective-demo/`는 `.gitignore`로 빠져 있어야 한다. 별도 Git 체크아웃이라 올리지 않는다.
 
 ## 2. GitHub 쪽 변경 먼저 받기
 
@@ -60,5 +61,5 @@ git status -sb             # "## main...origin/main"이고 ahead/behind가 없�
 git log --oneline -1 origin/main
 ```
 
-- 사용자에게 한국어로 보고한다: 올라간 커밋 범위(이전 `origin/main` → 지금), 커밋 수, 저장소 링크(https://github.com/wonny95/pioo), 받아 온 GitHub 쪽 커밋이 있었는지.
+- 사용자에게 한국어로 보고한다: 올라간 커밋 범위(이전 `origin/main` → 지금), 커밋 수, 저장소 링크(https://github.com/wonny95/detective), 받아 온 GitHub 쪽 커밋이 있었는지.
 - 푸시할 때마다 문서에 기록하지는 않는다. 기록하면 그것이 새 커밋이 되어, 항상 올라가지 않은 커밋이 하나 남는다. GitHub 커밋 목록이 기록이다.

@@ -1,9 +1,9 @@
 ---
 name: take-over
-description: 개발(Claude Code) 쪽에서 Pioo 작업을 이어받는다. 기획 브랜치(story)를 받아 오고 인수인계 문서를 읽어 요약하고 최신 미리보기를 띄운다. 사용자가 "코덱스에서 넘어왔어", "인수인계 읽어줘", "최신 미리보기 띄워줘", "어디까지 했는지 봐줘"라고 할 때 쓴다. 코드를 고치지 않는다.
+description: 개발(Claude Code) 쪽에서 Detective 작업을 이어받는다. 기획 브랜치(story)를 받아 오고 인수인계 문서를 읽어 요약하고 최신 미리보기를 띄운다. 사용자가 "코덱스에서 넘어왔어", "인수인계 읽어줘", "최신 미리보기 띄워줘", "어디까지 했는지 봐줘"라고 할 때 쓴다. 코드를 고치지 않는다.
 ---
 
-# 작업 이어받기 (Pioo)
+# 작업 이어받기 (Detective)
 
 개발은 Claude Code(`E:\GPT\Detective\Detective-dev`, `main`), 스토리 기획은 Codex(`E:\GPT\Detective\Detective-story`, `story`)가 동시에 맡는다(`AGENTS.md` 분업). 이 스킬은 `AGENTS.md`의 "시작 절차"를 따라 상태를 파악하고, 사용자에게 요약과 미리보기를 보여 주는 데서 멈춘다. **작업은 시작하지 않는다.** 사용자가 이어서 무엇을 할지 말하거나 CHANGELOG의 "다음"을 하라고 할 때 진행한다.
 
@@ -32,7 +32,7 @@ git log --oneline main..story                              # 기획 쪽 새 커�
 
 ## 3. 최신 미리보기 띄우기
 
-- `preview_start`로 `.claude/launch.json`의 `pioo-dev`를 띄운다(`http://localhost:5173/`, 이미 떠 있으면 재사용).
+- `preview_start`로 `.claude/launch.json`의 `detective-dev`를 띄운다(`http://localhost:5173/`, 이미 떠 있으면 재사용).
 - 이 탭은 **사용자가 볼 화면**이다. 스크립트를 돌리거나 테스트 버튼을 누르지 않는다. 사용자의 `localStorage` 진행을 바꾸지 않는다.
 - 최근 작업이 특정 사건·파트에 있으면 들어가는 주소를 보고에 적는다(예: 소풍 사건 `?case=picnic`, 파트 `?preview=map|place|deduce|interview`). 사용자가 보여 달라고 하면 그때 이동한다.
 - 스크린샷을 한 장 찍어 화면이 뜬 것을 확인한다. 콘솔 오류가 있으면 `read_console_messages`(onlyErrors)로 보고 알린다.

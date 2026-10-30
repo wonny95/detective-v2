@@ -54,7 +54,7 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - `fiona-sad.png`(569×624, job `390cc566-…`): 귀가 처지고 앞치마를 쥔 고개 숙인 표정. mouth `{x:236,y:215,w:36,h:16}`, anchor .415.
 - 기본 그림과 같은 화면 배율이라고 보고 `height`를 스프라이트 높이 비(641/621, 624/621)로 둔다.
 
-## 플레이어 탐정 다람쥐 Pioo (Claude 제작, 2026-10-22, 적용 중)
+## 플레이어 탐정 다람쥐 (Claude 제작, 2026-10-22, 적용 중)
 
 - 사용자 요청: 플레이어인 탐정의 비주얼을 다람쥐로. 후보 3장 중 **A안**(사용자 선택, 털은 주황색 그대로).
 - 적용본 `detective-higgsfield.png`(627×700, 투명): Higgsfield `remove_background`(job `93e2ad30-681e-4015-af3a-7d1be40dd9e6`) 후 알파 경계로 자르고 3% 여백. 원본 `detective-higgsfield-original.png`(= 후보 A).

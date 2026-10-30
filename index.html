@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>숲속 탐정 Pioo</title>
+<title>숲속 탐정</title>
 <link rel="preload" href="assets/fonts/Paperlogy-4Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/ui/complete-stamp.png" as="image">
 <style>
@@ -1502,6 +1502,8 @@ const PREVIEW = new URLSearchParams(location.search).get('preview');
 // without it the library case. Each case keeps its own save; going back to the case cards opens the main page.
 const CASE_ID = new URLSearchParams(location.search).get('case') === 'picnic' ? 'picnic-bag' : 'case01';
 const PICNIC = CASE_ID === 'picnic-bag';
+// saves from before the rename (pioo.*) move to detective.* once
+try { const ls = window.localStorage; Object.keys(ls).filter(key => key.startsWith('pioo.')).forEach(key => { const to = 'detective.' + key.slice(5); if(ls.getItem(to) === null) ls.setItem(to, ls.getItem(key)); ls.removeItem(key); }); } catch(e){}
 const localStorage = PREVIEW ? previewStorage() : window.localStorage;
 function previewStorage(){
   const mem = Object.create({
@@ -1511,9 +1513,9 @@ function previewStorage(){
   });
   // the records as they are, without the case in progress (a preview starts a fresh case); the tutorial seen and a
   // detective name, so no part waits behind them
-  try { Object.keys(window.localStorage).filter(key => key.startsWith('pioo.') && !key.startsWith('pioo.save')).forEach(key => { mem[key] = window.localStorage.getItem(key); }); } catch(e){}
-  mem['pioo.tutorialSeen'] = '1';
-  mem['pioo.detectiveName'] ||= 'Pioo';
+  try { Object.keys(window.localStorage).filter(key => key.startsWith('detective.') && !key.startsWith('detective.save')).forEach(key => { mem[key] = window.localStorage.getItem(key); }); } catch(e){}
+  mem['detective.tutorialSeen'] = '1';
+  mem['detective.detectiveName'] ||= 'Tester';
   return mem;
 }
 const QUESTIONS = [
@@ -4902,7 +4904,7 @@ $('#evCount').addEventListener('click', () => { S.view = 'evidence'; evidenceOpe
    Six steps, one at a time, each with a picture guide. Shown automatically only the first
    time on this device; later cases start from the case card. Pictures are crops of the real game
    screens (user decision) but never show an answer, the culprit or a key clue. */
-const TUT_KEY = 'pioo.tutorialSeen';
+const TUT_KEY = 'detective.tutorialSeen';
 const tutSeen = () => { try { return localStorage.getItem(TUT_KEY) === '1'; } catch(e){ return false; } };
 const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e){} };
 // Each page's picture: crops of the real game screens (user decision), cut before any answer, the culprit or a key clue
@@ -4964,7 +4966,7 @@ document.addEventListener('keydown', e => {
    on screen, and the first tap says it instead of going on.
    The name is only ever written (home plate, 내 기록), never spoken: no recording says it, NPCs say
    "detective" (user decision), so renaming needs no new audio. */
-const NAME_KEY = 'pioo.detectiveName';
+const NAME_KEY = 'detective.detectiveName';
 const DETECTIVE = {
   intro1:{ en:"Welcome to my office. I'm the detective of Acorn Hollow.", ko:'내 사무소에 온 걸 환영해. 나는 도토리 골짜기의 탐정이야.' },
   intro2:{ en:'My ears are small, but they catch every word.', ko:'내 귀는 작지만, 어떤 말도 놓치지 않지.' },
@@ -5163,16 +5165,16 @@ const CASES = [
 ];
 // the case this page plays (CASE_ID)
 const CASE = CASES.find(c => c.id === CASE_ID);
-const SOLVED_KEY = 'pioo.solvedCases', STATS_KEY = 'pioo.caseStats', DAYS_KEY = 'pioo.studyDays';
+const SOLVED_KEY = 'detective.solvedCases', STATS_KEY = 'detective.caseStats', DAYS_KEY = 'detective.studyDays';
 const readJSON = (key, empty) => { try { return JSON.parse(localStorage.getItem(key)) || empty; } catch(e){ return empty; } };
 const solvedCases = () => readJSON(SOLVED_KEY, []);
 const caseStats = () => readJSON(STATS_KEY, {});   // { caseId: { ok, total, stars, missed:['mole:m2', …], wrong:{ref:{blank:value}} } }, the best first-check result
 // The word book holds only the words the player chose to keep in a review (user decision: known words stay out).
 // Before the first choice (key missing) it shows every learned word, as before.
-const WORDBOOK_KEY = 'pioo.wordBook';
+const WORDBOOK_KEY = 'detective.wordBook';
 const keptWords = () => readJSON(WORDBOOK_KEY, null);
 function keepWords(keys){ try { localStorage.setItem(WORDBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
-const GRAMMARBOOK_KEY = 'pioo.grammarBook';
+const GRAMMARBOOK_KEY = 'detective.grammarBook';
 const keptGrammar = () => readJSON(GRAMMARBOOK_KEY, null);
 function keepGrammar(keys){ try { localStorage.setItem(GRAMMARBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 let solvedThisRun = false;
@@ -5215,7 +5217,7 @@ function renderCaseList(){
       <span class="pol-photo">?</span>
       <span class="pol-cap"><span class="case-no">${c.no}</span>
         <span class="case-lock">${LOCK_ICON}${open ? '준비 중이에요' : `${CASES[i - 1].no}${'2459'.includes(CASES[i - 1].no.slice(-1)) ? '를' : '을'} 해결하면 열려요`}</span></span></div>`;
-    const inProgress = c.id === CASE_ID ? caseStarted : !!localStorage.getItem(c.id === 'picnic-bag' ? 'pioo.save.picnic' : 'pioo.save');
+    const inProgress = c.id === CASE_ID ? caseStarted : !!localStorage.getItem(c.id === 'picnic-bag' ? 'detective.save.picnic' : 'detective.save');
     const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : inProgress ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
     const stars = solved.includes(c.id) && caseStats()[c.id]?.stars;
     return `<button class="polaroid${solved.includes(c.id) ? '' : ' current'} ${look}" type="button" data-case="${c.id}">
@@ -5288,7 +5290,7 @@ $('#caseCards').addEventListener('click', e => { const card = e.target.closest('
    the ending got. Saved when the page is hidden or closed, on the way out (<), and every few seconds while a case is
    open. On the next visit the case resumes where it was: in the conversation or the place the player had open. Not kept:
    an ending scene in progress (the accusation is made again), a note check's open feedback, a line that was playing. */
-const SAVE_KEY = PICNIC ? 'pioo.save.picnic' : 'pioo.save';
+const SAVE_KEY = PICNIC ? 'detective.save.picnic' : 'detective.save';
 let resumePending = false, saveOff = false;
 function saveGame(){
   if(!caseStarted || saveOff) return;
@@ -5505,7 +5507,7 @@ function bookWords(){
 function homeState(){
   const solved = solvedCases(), c = CASES.find((x, i) => x.playable && !solved.includes(x.id) && (i === 0 || solved.includes(CASES[i - 1].id)));
   const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
-  if(c) return (caseStarted && c.id === CASE.id) || (c.id === 'picnic-bag' && localStorage.getItem('pioo.save.picnic')) ? { key:'home-going', button:'이어서 수사', go:'case' } : { key:'home-new', button:'사건 시작', go:'case' };
+  if(c) return (caseStarted && c.id === CASE.id) || (c.id === 'picnic-bag' && localStorage.getItem('detective.save.picnic')) ? { key:'home-going', button:'이어서 수사', go:'case' } : { key:'home-new', button:'사건 시작', go:'case' };
   if(again) return { key:'home-again', button:'복습하기', go:'again' };
   return { key:'home-quiet' };
 }
@@ -5792,7 +5794,7 @@ $('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); localStor
 // forgotten and the app starts over.
 $('#devReset').onclick = () => {
   saveOff = true;
-  try { Object.keys(localStorage).filter(key => key.startsWith('pioo.')).forEach(key => localStorage.removeItem(key)); } catch(e){}
+  try { Object.keys(localStorage).filter(key => key.startsWith('detective.')).forEach(key => localStorage.removeItem(key)); } catch(e){}
   location.reload();
 };
 

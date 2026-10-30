@@ -1,9 +1,9 @@
 ---
 name: wrap-up
-description: Pioo 프로젝트의 작업 마무리 절차. 작업 하나를 끝냈을 때, 또는 사용자가 "마무리해줘", "정리하고 커밋해줘", "인수인계 정리해줘"라고 할 때 쓴다. 확인 → HANDOFF 갱신 → CHANGELOG 항목 → main 커밋 → 보고 순서로 진행한다.
+description: Detective 프로젝트의 작업 마무리 절차. 작업 하나를 끝냈을 때, 또는 사용자가 "마무리해줘", "정리하고 커밋해줘", "인수인계 정리해줘"라고 할 때 쓴다. 확인 → HANDOFF 갱신 → CHANGELOG 항목 → main 커밋 → 보고 순서로 진행한다.
 ---
 
-# 작업 마무리 (Pioo)
+# 작업 마무리 (Detective)
 
 **개발(Claude Code, `E:\GPT\Detective\Detective-dev`, `main`)의 마무리**다. 스토리 기획(Codex, `E:\GPT\Detective\Detective-story`, `story`)은 `AGENTS.md`의 "스토리 기획" 마무리를 따른다. 이 마무리가 다음 작업자에게 넘겨주는 신호이므로 단계를 건너뛰지 않는다. 기준 규칙은 `AGENTS.md`의 "마무리 절차"이고, 이 문서는 그 체크리스트다.
 
@@ -30,7 +30,7 @@ git diff --stat
 - 화면에 영향이 있으면 브라우저 **새 탭**에서 확인한다(`tabs_create` → `navigate http://localhost:5173/`). 사용자가 보고 있는 미리보기 탭은 건드리지 않는다.
   - 테스트 버튼(폰 프레임 밖)을 쓰면 빠르다: 노트 자동 채우기, 전체 대화 완료, 증거 모두 수집, 추리 완성, 튜토리얼 초기화.
   - 콘솔 오류를 본다(`read_console_messages`, onlyErrors).
-  - **localStorage는 탭끼리 공유된다.** 시험 중 생긴 `pioo.solvedCases`(해결 기록) 같은 값은 지우고, 지웠다고 보고한다.
+  - **localStorage는 탭끼리 공유된다.** 시험 중 생긴 `detective.solvedCases`(해결 기록) 같은 값은 지우고, 지웠다고 보고한다.
   - 확인이 끝나면 그 탭을 닫는다.
 - 확인하지 못한 것은 숨기지 않고 적어 둔다(CHANGELOG와 보고에 쓴다).
 

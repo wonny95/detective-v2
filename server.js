@@ -1,4 +1,4 @@
-// Local dev server for 숲속 탐정 Pioo — no dependencies.
+// Local dev server for 숲속 탐정 — no dependencies.
 // Serves this folder and reloads the browser whenever a file in it changes.
 //   node server.js            → http://localhost:5173
 //   PORT=8080 node server.js  → another port
@@ -41,7 +41,7 @@ http.createServer((req, res) => {
     }
     res.writeHead(200, headers).end(data);
   });
-}).listen(PORT, () => console.log(`Pioo dev server: http://localhost:${PORT}`));
+}).listen(PORT, () => console.log(`Detective dev server: http://localhost:${PORT}`));
 
 // Debounced reload on any change in this folder (editors often write a file in several steps).
 let timer;
