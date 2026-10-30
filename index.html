@@ -1546,13 +1546,15 @@ const PICNIC_CASE = {
         r3:"I don't know. Please find out for me.",
         r4:"I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there."
       },
+      // blanks: only words said in the answer, the ones that are clues or worth learning (user request)
       notes:{
-        r1:['{{a|Her/her}} bag is {{b|blue}}, just like this one.'],
-        r2:['{{c|Her/her}} bag has a red lunch box and a {{d|yellow}} bottle.'],
-        r3:['{{e|She/she}} does not know whose bag this is.'],
-        r4:["She can't {{f|remember}} who she saw.", 'She went to the {{g|cafe}}.', 'Maybe the bags got {{h|mixed up}} there.']
+        r1:['She is not {{a|sure}}.', 'Her bag is {{b|blue}}, just like this one.'],
+        r2:['Her bag has a {{c|red}} {{d|lunch box}} and a {{e|yellow}} {{f|bottle}}.'],
+        r3:['She does not {{g|know}} whose bag this is.', 'She wants me to {{h|find out}}.'],
+        r4:["She can't {{i|remember}} who she saw.", 'She went to the {{j|cafe/lakeside cafe}}.', 'Maybe the bags got {{k|mixed up}} there.']
       },
-      bank:{ r1:['Her','His','blue','red'], r2:['Her','His','yellow','blue'], r3:['She','He'], r4:['remember','forget','cafe','garden','mixed up','lost'] }
+      bank:{ r1:['sure','sorry','blue','red'], r2:['red','yellow','green','lunch box','bottle','book'], r3:['know','see','find out','look out'],
+        r4:['remember','forget','cafe','garden','mixed up','lost'] }
     },
     duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9',
       hello:'Hello! Welcome to the Lake Cafe. What would you like?',
@@ -1568,11 +1570,11 @@ const PICNIC_CASE = {
         v3:'They told me their plans. Ben went home. Mia and Ollie went to the garden.'
       },
       notes:{
-        v1:['Rosie, {{a|Ben/ben beaver}}, Mia, Ollie, and Nora came to the cafe.'],
-        v2:['Rosie, Ben, and Mia had {{b|blue}} bags.', 'Ben took {{c|one}} with him.', 'Nora had {{d|no}} bag.'],
-        v3:['Ben went {{e|home}}.', 'Mia and Ollie went to the {{f|garden}}.']
+        v1:['Rosie, {{a|Ben/ben beaver}}, Mia, Ollie, and {{b|Nora}} came to the cafe.'],
+        v2:['Rosie, Ben, and {{c|Mia}} had {{d|blue}} bags.', 'Ben {{e|took}} one with him.', 'Nora had {{f|no}} bag.'],
+        v3:['Ben went {{g|home}}.', 'Mia and Ollie went to the {{h|garden}}.']
       },
-      bank:{ v1:['Ben','Ray'], v2:['blue','red','one','two','no','a'], v3:['home','office','garden','cafe'] }
+      bank:{ v1:['Ben','Ray','Nora','Betty'], v2:['Mia','Nora','blue','red','took','made','no','a'], v3:['home','office','garden','cafe'] }
     },
     ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6',
       hello:"Hi! I'm Ben Beaver. Can I help you?",
@@ -1586,10 +1588,10 @@ const PICNIC_CASE = {
         b2:"I don't know. I didn't open it."
       },
       notes:{
-        b1:["Nora left {{a|her}} blue bag at Ben's {{b|house}}.", 'Ben took it to her {{c|office}}.'],
-        b2:['{{d|He/he}} does not {{e|know}} what was inside.', 'He did not {{f|open}} it.']
+        b1:["Nora left {{a|her}} blue bag at Ben's {{b|house}}.", 'Ben stopped at the {{c|cafe}}.', 'Then he {{d|took}} it to her {{e|office}}.'],
+        b2:['He does not {{f|know}} what was inside.', 'He did not {{g|open}} it.']
       },
-      bank:{ b1:['her','his','house','cafe','office','garden'], b2:['He','She','know','remember','open','carry'] }
+      bank:{ b1:['her','his','house','cafe','garden','took','made','office'], b2:['know','remember','open','carry'] }
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
@@ -1606,10 +1608,10 @@ const PICNIC_CASE = {
         g2:"Yes, it's mine. I opened it. My picnic things are inside."
       },
       notes:{
-        g1:['{{a|His/his}} bag is {{b|red}}.', '{{c|Her/her}} bag is {{d|blue}}.'],
-        g2:['She {{e|opened}} her blue bag.', 'It has her {{f|picnic}} things.', 'She says it is {{g|hers}}.']
+        g1:["Ollie's bag is {{a|red}}.", "Mia's bag is {{b|blue}}."],
+        g2:["The blue bag is Mia's.", 'She {{c|opened}} it.', 'Her {{d|picnic}} things are {{e|inside}}.']
       },
-      bank:{ g1:['His','Her','red','blue'], g2:['opened','closed','picnic','office','hers','his'] }
+      bank:{ g1:['red','blue','yellow'], g2:['opened','closed','picnic','office','inside','outside'] }
     },
     nora: { id:'nora', name:'Nora Hedgehog', ko:'고슴도치 노라', job:'회사원', place:'lobby', witness:true, required:true, pitch:1.1, voice:0, bg:'#F3E1D3',
       hello:"Hi, I heard you were looking for me. What's going on?",
@@ -1624,11 +1626,11 @@ const PICNIC_CASE = {
         n3:"I was busy, so I didn't open it. Let me look... A red lunch box and a yellow bottle! These aren't mine."
       },
       notes:{
-        n1:["Nora left her {{a|blue}} bag at {{b|Ben/ben beaver}}'s house.", 'Ben {{c|brought}} it to her.'],
-        n2:['{{d|Her/her}} folder is {{e|green}}.', 'Her pen is {{f|blue}}.'],
-        n3:['She did {{g|not}} open it.', 'Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.', 'They are not {{j|hers}}.']
+        n1:["Nora {{a|left}} her bag at Ben's house.", 'Ben {{b|brought}} it to her.'],
+        n2:['Her bag had a {{c|green}} {{d|folder}} and a {{e|blue}} {{f|pen}}.'],
+        n3:['She was {{g|busy}}, so she did not open it.', 'Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.', 'They are not hers.']
       },
-      bank:{ n1:['blue','red','Ben','Mr. Duck','brought','opened'], n2:['Her','His','green','red','blue','yellow'], n3:['not','already','red','green','yellow','blue','hers','his'] }
+      bank:{ n1:['left','lost','brought','bought'], n2:['green','red','blue','yellow','folder','book','pen','pencil'], n3:['busy','tired','red','green','yellow','blue'] }
     }
   },
   grammarLines:{
@@ -1759,12 +1761,12 @@ const PEOPLE = PICNIC ? PICNIC_CASE.people : {
     notes:{
       b1:["Victim: Professor {{a|Hoot}}.","Place: the Old {{b|Library}}.","He was found at {{c|9 PM/9/nine}}."],
       b2:["{{d|Mrs. Mole/mrs mole}} found him. She is the {{e|librarian}}.","It happened between {{f|8 PM/8/eight}} and {{g|9 PM/9/nine}}."],
-      b3:["Look around the {{h|library}} carefully.","When I know who did it, I tell {{i|Sgt. Badger/sgt badger/badger}}."]
+      b3:["Look around the {{h|library}} carefully.","When I know who did it, I come and {{i|tell}} him."]
     },
     bank:{
       b1:['Hoot','Mole','Library','Bakery','8 PM','9 PM','10 PM'],
       b2:['Mrs. Mole','Mrs. Bear','librarian','baker','7 PM','8 PM','9 PM'],
-      b3:['library','bakery','Sgt. Badger','Mrs. Mole']
+      b3:['library','bakery','tell','ask']
     }
   },
   // the witness who found the victim — her answers name the people to look for
@@ -1916,6 +1918,8 @@ const WORDS = {
   'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'],
   'blue':['w','파란색'], 'red':['w','빨간색'], 'yellow':['w','노란색'], 'green':['w','초록색'], 'remember':['w','기억하다'], 'mixed up':['w','뒤바뀐'],
   'garden':['n','정원'], 'house':['w','집'], 'office':['n','사무실, 회사'], 'know':['w','알다'], 'open':['w','열다'], 'opened':['w','열었다'],
+  'sure':['w','확신하는'], 'lunch box':['w','도시락'], 'bottle':['w','물병'], 'find out':['w','알아내다'], 'took':['w','가져갔다 (take의 과거)'],
+  'left':['w','두고 왔다 (leave의 과거)'], 'folder':['w','서류철, 폴더'], 'pen':['w','펜'], 'busy':['w','바쁜'], 'inside':['w','안에'], 'tell':['w','말하다, 알리다'],
   'picnic':['w','소풍'], 'hers':['w','그녀의 것'], 'brought':['w','가져왔다'], 'one':['w','하나'], 'no':['w','하나도 없는'], 'not':['w','~않다'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
@@ -5314,6 +5318,9 @@ function loadGame(){
 }
 // older saves of the library case: notes and photos as the story is now
 function libraryMigrations(){
+  // Sgt. Badger's last line: its blank is the verb he says ("tell"), no longer his name
+  const badger = S.per.badger;
+  if(/badger/i.test(badger.notes.i || '')){ badger.notes.i = 'tell'; if(badger.questionChecks.b3 === 'ok') badger.marks.i = 'ok'; else delete badger.marks.i; }
   // Fiona's shortened third reply has new blanks; preserve already checked notes from older saves.
   const fiona = S.per.fiona;
   if(fiona.questionChecks.q3 === 'ok' && !fiona.notes.k){

@@ -33,7 +33,7 @@
 | 2 | `his / her + 물건`: 그 남자의 것 / 그 여자의 것 | His cup is white. / 그의 컵은 흰색이에요.<br>Her notebook is small. / 그녀의 공책은 작아요.<br>His hat is black. / 그의 모자는 검은색이에요. |
 | 3 | `mine / yours`: 물건 이름 없이 내 것 / 네 것 | This pencil is mine. / 이 연필은 내 것이에요.<br>Is this ruler yours? / 이 자는 네 것이니?<br>This book is not mine. / 이 책은 내 것이 아니에요. |
 
-이 예습 뒤 첫 플레이에만 공통 튜토리얼을 거쳐 로지의 의뢰로 간다. 이름 뒤의 소유격 `'s`는 추리·엔딩의 고정 문장 틀로 제공한다. 노트에서 평가하는 소유 표현은 `his/her`이며 `mine/yours`는 의뢰·엔딩을 이해하고 다음 사건에 적용할 준비로 둔다.
+이 예습 뒤 첫 플레이에만 공통 튜토리얼을 거쳐 로지의 의뢰로 간다. 이름 뒤의 소유격 `'s`는 추리·엔딩의 고정 문장 틀로 제공한다. 노트 빈칸은 **대답에서 실제로 들리는 말** 가운데 단서가 되거나 공부할 만한 말(색·물건·장소·과거형 동사·표현)만 둔다(사용자 결정: 들리지 않는 대명사 바꾸기 빈칸 her/his/she/hers는 쓰지 않는다). 소유 표현은 이번 사건의 열쇠, 지문의 문법 표시, 복습의 문법 단계에서 익힌다.
 
 ## 장면과 해금
 
@@ -81,20 +81,20 @@
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 |
 |---|---|---|---|
-| rosie:r1 · 첫 질문 | Did your bags get mixed up? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. | [Her] bag is [blue], just like this one. |
-| rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | [Her] bag has a red lunch box and a [yellow] bottle. |
-| rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | [She] does not know whose bag this is. |
+| rosie:r1 · 첫 질문 | Did your bags get mixed up? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. | She is not [sure]. Her bag is [blue], just like this one. |
+| rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | Her bag has a [red] [lunch box] and a [yellow] [bottle]. |
+| rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | She does not [know] whose bag this is. She wants me to [find out]. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
-| duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, Ollie, and Nora came today. / 오늘 로지, 벤, 미아, 올리, 노라 모두 왔어요. | Rosie, [Ben Beaver], Mia, Ollie, and Nora came to the cafe. |
-| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie, Ben, and Mia had blue bags. Ben took one with him. Nora had no bag. / 로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. 노라는 가방이 없었어요. | Rosie, Ben, and Mia had [blue] bags. Ben took one with him. |
+| duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, Ollie, and Nora came today. / 오늘 로지, 벤, 미아, 올리, 노라 모두 왔어요. | Rosie, [Ben], Mia, Ollie, and [Nora] came to the cafe. |
+| duck:v2 | Who had blue bags? / 누가 파란 가방을 들고 왔나요? | Rosie, Ben, and Mia had blue bags. Ben took one with him. Nora had no bag. / 로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤도 가방 하나를 들고 나갔고요. 노라는 가방이 없었어요. | Rosie, Ben, and [Mia] had [blue] bags. Ben [took] one with him. Nora had [no] bag. |
 | duck:v3 | Where are they now? / 그들은 지금 어디 있나요? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요. | Ben went [home]. Mia and Ollie went to the [garden]. |
-| ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. | Nora left her [blue] bag at Ben's [house]. Ben took it to her [office]. |
+| ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. | Nora left [her] blue bag at Ben's [house]. Ben stopped at the [cafe]. Then he [took] it to her [office]. |
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
-| garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | [His] bag is [red]. [Her] bag is [blue]. |
-| garden:g2 | Mia, is this your blue bag? Have you checked inside? / 미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어? | 미아: Yes, it's mine. I opened it. My picnic things are inside. / 응, 내 가방이야. 열어 봤어. 내 소풍 준비물이 들어 있어. | She [opened] her [blue] bag. It has [picnic] things, and she says it is [hers]. |
-| nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there, but Ben brought it to me. / 응. 거기에 두고 왔어. 하지만 벤이 가져다줬지. | Nora left her [blue] bag at [Ben Beaver]'s house. Ben brought it to her. |
-| nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her folder is [green]. Her pen is [blue]. |
-| nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was busy, so I didn't open it. Let me look... A red lunch box and a yellow bottle! These aren't mine. / 바빠서 열어 보지 못했어. 지금 볼게... 빨간 도시락이랑 노란 물병이 있네! 이건 내 것이 아니야. | She did [not] open it. Inside are a [red] lunch box and a [yellow] bottle. |
+| garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | Ollie's bag is [red]. Mia's bag is [blue]. |
+| garden:g2 | Mia, is this your blue bag? Have you checked inside? / 미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어? | 미아: Yes, it's mine. I opened it. My picnic things are inside. / 응, 내 가방이야. 열어 봤어. 내 소풍 준비물이 들어 있어. | The blue bag is Mia's. She [opened] it. Her [picnic] things are [inside]. |
+| nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there, but Ben brought it to me. / 응. 거기에 두고 왔어. 하지만 벤이 가져다줬지. | Nora [left] her bag at Ben's house. Ben [brought] it to her. |
+| nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her bag had a [green] [folder] and a [blue] [pen]. |
+| nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was busy, so I didn't open it. Let me look... A red lunch box and a yellow bottle! These aren't mine. / 바빠서 열어 보지 못했어. 지금 볼게... 빨간 도시락이랑 노란 물병이 있네! 이건 내 것이 아니야. | She was [busy], so she did not open it. Inside are a [red] lunch box and a [yellow] bottle. They are not hers. |
 
 정원에서 g1을 기록한 뒤 두 친구에게 조사 이유를 말하고 사진 촬영을 부탁해 가방 두 개를 찍는다. 이 촬영은 같은 대화 안의 짧은 연출로 진행하며 지도·자유 조사는 열지 않는다. 두 가방은 건드리지 않고 주인 곁에 둔다. g2에서는 파란 가방 사진을 미아에게 보여 주며 자기 가방인지 묻는다. 정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 로지가 맡긴 가방의 내부 확인, 카페·벤·정원의 기록, 정원 사진 2장까지 마친 뒤 노라의 세 질문을 모두 기록하면 로비에서 바로 추리 단계로 넘어간다. 회사가 먼저 해금되어도 조사 순서의 마지막 방문지로 둔다. 대괄호 32칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
 
