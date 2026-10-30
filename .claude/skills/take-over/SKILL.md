@@ -5,12 +5,12 @@ description: 개발(Claude Code) 쪽에서 Pioo 작업을 이어받는다. 기�
 
 # 작업 이어받기 (Pioo)
 
-개발은 Claude Code(`E:\GPT\Pioo`, `main`), 스토리 기획은 Codex(`E:\GPT\Pioo-story`, `story`)가 동시에 맡는다(`AGENTS.md` 분업). 이 스킬은 `AGENTS.md`의 "시작 절차"를 따라 상태를 파악하고, 사용자에게 요약과 미리보기를 보여 주는 데서 멈춘다. **작업은 시작하지 않는다.** 사용자가 이어서 무엇을 할지 말하거나 CHANGELOG의 "다음"을 하라고 할 때 진행한다.
+개발은 Claude Code(`E:\GPT\Detective\Detective-dev`, `main`), 스토리 기획은 Codex(`E:\GPT\Detective\Detective-story`, `story`)가 동시에 맡는다(`AGENTS.md` 분업). 이 스킬은 `AGENTS.md`의 "시작 절차"를 따라 상태를 파악하고, 사용자에게 요약과 미리보기를 보여 주는 데서 멈춘다. **작업은 시작하지 않는다.** 사용자가 이어서 무엇을 할지 말하거나 CHANGELOG의 "다음"을 하라고 할 때 진행한다.
 
 ## 1. 상태 보기와 기획 받아 오기
 
 ```bash
-git rev-parse --show-toplevel; git branch --show-current   # E:/GPT/Pioo · main 이어야 한다
+git rev-parse --show-toplevel; git branch --show-current   # E:/GPT/Detective/Detective-dev · main 이어야 한다
 git status --short
 git log -8 --format='%h %an %ad %s' --date=format:'%m-%d %H:%M'
 git log --oneline main..story                              # 기획 쪽 새 커밋

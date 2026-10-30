@@ -1,6 +1,6 @@
 # 인수인계 — 영어 듣기 추리 게임 프로토타입
 
-작업 폴더: `E:\GPT\Pioo` · 소스 기준: `index.html` · 작업 브랜치: `main`
+작업 폴더: `E:\GPT\Detective\Detective-dev` · 소스 기준: `index.html` · 작업 브랜치: `main`
 
 > 이 문서는 **지금 상태**만 설명한다. 무엇이 언제 바뀌었는지와 이어서 할 일은 `CHANGELOG.md` 맨 위 항목에 있다. 작업 시작·마무리 절차는 `AGENTS.md`를 따른다.
 
@@ -10,7 +10,7 @@
 
 ## 0. 다음 작업자를 위한 요약
 
-- 시작·마무리는 `AGENTS.md`를 따른다. **분업**(사용자 결정): 개발은 Claude Code(`E:\GPT\Pioo`, `main`), 스토리 기획은 Codex(`E:\GPT\Pioo-story` worktree, `story`)가 동시에 맡고 서로의 파일을 고치지 않는다. 개발은 시작할 때 `story`를 merge해 기획을 받고 `design/STORY_LOG.md`의 개발 요청을 본 뒤 `CHANGELOG.md` 맨 위 항목의 "다음"을 따른다. 사용자 지시가 우선이며, 다음이 `사용자 지시 대기`이면 10절 후보를 임의로 구현하지 않는다.
+- 시작·마무리는 `AGENTS.md`를 따른다. **분업**(사용자 결정): 개발은 Claude Code(`E:\GPT\Detective\Detective-dev`, `main`), 스토리 기획은 Codex(`E:\GPT\Detective\Detective-story` worktree, `story`)가 동시에 맡고 서로의 파일을 고치지 않는다. 개발은 시작할 때 `story`를 merge해 기획을 받고 `design/STORY_LOG.md`의 개발 요청을 본 뒤 `CHANGELOG.md` 맨 위 항목의 "다음"을 따른다. 사용자 지시가 우선이며, 다음이 `사용자 지시 대기`이면 10절 후보를 임의로 구현하지 않는다.
 - **플레이 범위**: Case 01 바뀐 소풍 가방과 Case 02 도서관 살인사건을 플레이할 수 있다. **두 사건은 같은 엔진·같은 화면**이다(사용자 결정: 도서관 사건의 UI를 그대로 쓰고 사건 데이터만 갈아 끼움, 3.0절). 소풍 사건은 로지의 의뢰에서 시작해 질문 14개·빈칸 40칸·소지품 가방·정원 사진 2장·추리 4문항·가방 전달 2번·복습으로 끝난다. 도서관 사건은 경찰 심문·자백까지 이어진다.
 - **노트**: 질문 선택 즉시 아래 60% 높이로 열리고 음성을 함께 재생한다. 단어 터치·드래그·직접 입력이 가능하고 도토리 힌트는 사건 전체 3개다. 오답은 같은 질문에서 고치며, 정답 정보는 즉시 해금한다. 노트를 닫으면 새 인물·장소 이름을 작은 발견 알림으로 모아 보여 주고 현재 대화·현장에 머문다. `Note`로 직접 열거나 정답 확인 결과를 볼 때는 전체 높이로 올라오고 뒤 장면은 어둡고 흐려진다. 배경·`Note` 재터치로 닫는다(3.3–3.4절). **받아 적는 중에는 노트가 고정된다**: 그 질문을 바르게 확인할 때까지 닫을 수 없고 노트 위 탭도 숨으며, 나가는 길은 `<`(대화 중단 창, 남으면 노트가 다시 올라옴)뿐이다(3.3절). 노트 위 탭은 `인물 · 증거 · 메모` 세 개로 고정(노트 종이 뒤에 끼운 칸막이 종이), 인물 장은 제목 아래 얼굴 줄로 인물을 바꾼다. 미세스 베어를 발견하면 그녀의 진술 메뉴가 표시된다. 완료된 인물의 진술 페이지에서도 얼굴 줄을 유지하며, 손가락 밀기·마우스 드래그로 얼굴 줄을 옆으로 넘길 수 있다. 📌로 진술·증거를 메모에 붙이고 쪽지마다 `내 생각`을 적으며 메모에는 직접 쓴다(사건마다 저장). 질문을 시작한 대화는 끝날 때까지 지도가 잠기고, `<`는 `<이름>와/과의 대화를 중단할까요?`를 묻는다(3.3절).
 - **화면**: 대화 제목은 NPC명, 현장 제목은 장소명이다. 둘 다 18px·줄 높이 1.4·칩 높이 36px이며 NPC 라벨 위아래 1px 여백을 둔다. 휴대폰 미리보기 외곽 테두리·그림자는 없고 바깥 배경은 세이지색 `#B6BDA5`다. 아래 메뉴(홈 `홈·사건·학습·마이`, 사건 안 `지도·Note`)는 칸 상자 없이 손그림 아이콘(`assets/ui/nav/`)과 이름만 놓인 물결선 종이 띠이고, 보고 있는 칸에 꿀색 손칠이 들어간다(3.1절).
@@ -28,9 +28,9 @@
 ## 1. 실행
 
 ```powershell
-Set-Location E:\GPT\Pioo
+Set-Location E:\GPT\Detective\Detective-dev
 node server.js            # http://localhost:5173/
-# 기획 폴더(E:\GPT\Pioo-story)에서 볼 때: $env:PORT = '5174'; node server.js  (같은 포트를 함께 쓰지 않는다)
+# 기획 폴더(E:\GPT\Detective\Detective-story)에서 볼 때: $env:PORT = '5174'; node server.js  (같은 포트를 함께 쓰지 않는다)
 ```
 
 - 의존성 설치·빌드 과정 없음(Node 22에서 확인). `PORT` 환경 변수가 없으면 5173이다.
@@ -38,7 +38,7 @@ node server.js            # http://localhost:5173/
 - 미리보기를 계속 열어 둘 때는 짧은 명령 실행 세션에 서버를 묶지 않고 숨겨진 백그라운드 프로세스로 실행한다. 포트에 리스너가 없고 접속되지 않으면 서버부터 복구한다. PowerShell 예:
   ```powershell
   $env:PORT = '5173'
-  Start-Process node -ArgumentList 'E:\GPT\Pioo\server.js' -WorkingDirectory 'E:\GPT\Pioo' -WindowStyle Hidden
+  Start-Process node -ArgumentList 'E:\GPT\Detective\Detective-dev\server.js' -WorkingDirectory 'E:\GPT\Detective\Detective-dev' -WindowStyle Hidden
   ```
 - `server.js`는 폴더 안 파일이 바뀌면 브라우저를 자동 새로고침한다(문서 수정·커밋에도 반응한다). 새로고침 스니펫은 서빙할 때만 HTML에 끼워 넣는다.
 - 사건의 진행(질문·노트·증거·소지품·추리)은 도서관 `pioo.save`, 소풍 `pioo.save.picnic`에 주기적으로, 페이지를 숨기거나 닫을 때도 저장한다. 다시 열면 사건 목록에서 진행 중인 사건을 이어갈 수 있다(경찰 대화·심문·가방 전달 장면은 그 장면 처음부터). 튜토리얼 확인 여부·해결한 사건·학습 기록도 `localStorage`에 저장한다.
@@ -79,7 +79,7 @@ node server.js            # http://localhost:5173/
 | `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
 | `.claude/skills/take-over/SKILL.md` | 개발 쪽 작업 이어받기(폴더·브랜치 확인 → `story` merge → STORY_LOG 개발 요청·CHANGELOG 맨 위·HANDOFF 0·4절 읽기 → `pioo-dev` 미리보기 → 한국어 요약 보고). Claude Code는 `/take-over`. 코드는 고치지 않는다 |
 | `design/STORY_LOG.md` | 스토리 기획(Codex) 쪽 작업 기록. 맨 위 항목의 **개발 요청**을 개발이 반영하고 CHANGELOG에 "기획 반영"으로 적는다 |
-| `E:\GPT\Pioo-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 연결은 상대 경로(`worktree.useRelativePaths`)라 두 폴더를 같은 상위 폴더에 함께 두면 어디로 옮겨도 된다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
+| `E:\GPT\Detective\Detective-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 연결은 상대 경로(`worktree.useRelativePaths`)라 두 폴더를 같은 상위 폴더에 함께 두면 어디로 옮겨도 된다. 폴더 이름을 바꿨으면 개발 폴더에서 `git worktree repair ../<기획 폴더 이름>`을 한 번 실행한다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
 
 ## 3. 현재 앱 흐름
 
@@ -623,7 +623,7 @@ node server.js            # http://localhost:5173/
 ## 12. 작업 방식 (사용자 선호)
 
 - 응답은 한국어로 한다.
-- 개발(Claude Code)은 `E:\GPT\Pioo`·`main`, 기획(Codex)은 `E:\GPT\Pioo-story`·`story`에서 동시에 작업하고 마무리 때 각자 로컬 커밋한다(사용자 결정). GitHub 푸시는 사용자 요청이 있을 때만 `main`을, 원격을 먼저 받고 fast-forward만 허용한다. 갈라졌으면 사용자에게 묻는다.
+- 개발(Claude Code)은 `E:\GPT\Detective\Detective-dev`·`main`, 기획(Codex)은 `E:\GPT\Detective\Detective-story`·`story`에서 동시에 작업하고 마무리 때 각자 로컬 커밋한다(사용자 결정). GitHub 푸시는 사용자 요청이 있을 때만 `main`을, 원격을 먼저 받고 fast-forward만 허용한다. 갈라졌으면 사용자에게 묻는다.
 - 로컬 서버에서 수정하고 브라우저(새 탭)로 확인한다. **아티팩트 업로드는 요청할 때만** 한다.
 - 사용자가 "이어서 해줘"라고 하면 `AGENTS.md`의 시작 절차를 따른다.
 - Higgsfield 크레딧을 쓰는 생성은 쓰기 전에 대략의 비용을 알리고, 여러 개가 필요하면 한 장에 모아 만드는 등 아끼는 방법을 쓴다.

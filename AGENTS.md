@@ -6,7 +6,7 @@
 
 | | 개발 (Claude Code) | 스토리 기획 (Codex) |
 |---|---|---|
-| 폴더 | `E:\GPT\Pioo` | `E:\GPT\Pioo-story` (같은 저장소의 worktree) |
+| 폴더 | `E:\GPT\Detective\Detective-dev` | `E:\GPT\Detective\Detective-story` (같은 저장소의 worktree) |
 | 브랜치 | `main` | `story` |
 | 고치는 파일 | 아래 기획 파일을 **뺀 나머지 전부**: `index.html`, `assets/`, `audio/`, `scripts/`, `server.js`, `design/`의 UI 시안, `HANDOFF.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `.claude/` | **기획 파일만**: `design/STORY_LOG.md`, `design/case-*.md`, `design/case-*.html`, `design/learning-plan.html`, `LEARNING_PLAN.md`, `CURRICULUM.md`, `CASE_THEMES.md` |
 | 작업 기록 | `CHANGELOG.md`, `HANDOFF.md` | `design/STORY_LOG.md` |
@@ -22,14 +22,14 @@
 
 - 각자 **자기 폴더의 자기 브랜치에만** 커밋한다. 상대 브랜치로 `checkout`·`switch`하지 않는다. `rebase`, 강제 푸시, `git worktree remove`, 브랜치 삭제를 하지 않는다.
 - 받아 오기는 `merge`만 쓴다. 두 쪽이 고치는 파일이 겹치지 않으므로 충돌이 나지 않아야 한다.
-  - 개발: 시작할 때 `E:\GPT\Pioo`에서 `git merge --no-edit story`.
-  - 기획: 시작할 때 `E:\GPT\Pioo-story`에서 `git merge --no-edit main`.
+  - 개발: 시작할 때 `E:\GPT\Detective\Detective-dev`에서 `git merge --no-edit story`.
+  - 기획: 시작할 때 `E:\GPT\Detective\Detective-story`에서 `git merge --no-edit main`.
 - 충돌이 나면 고치지 말고 `git merge --abort`로 되돌린 뒤 사용자에게 알린다(어느 쪽이 분업을 어겼는지 파일 이름과 함께).
 - GitHub에는 사용자가 요청할 때 `main`만 올린다(아래 규칙). `story`는 로컬 브랜치다.
 
 ## 시작 절차 ("이어서 해줘"를 받았을 때)
 
-0. **폴더와 브랜치가 내 역할과 맞는지 본다**: `git rev-parse --show-toplevel`, `git branch --show-current`. 개발은 `E:/GPT/Pioo`·`main`, 기획은 `E:/GPT/Pioo-story`·`story`. 다르면 작업하지 말고 사용자에게 알린다(Codex를 `E:\GPT\Pioo-story` 폴더에서 열어야 한다).
+0. **폴더와 브랜치가 내 역할과 맞는지 본다**: `git rev-parse --show-toplevel`, `git branch --show-current`. 개발은 `E:/GPT/Detective/Detective-dev`·`main`, 기획은 `E:/GPT/Detective/Detective-story`·`story`. 다르면 작업하지 말고 사용자에게 알린다(Codex를 `E:\GPT\Detective\Detective-story` 폴더에서 열어야 한다).
 1. `git status`와 `git log --oneline -5`로 내 폴더의 마지막 작업과 커밋되지 않은 변경을 본다. 내 폴더에는 나만 쓰므로, 모르는 미커밋 변경은 사용자가 둔 것이다(지우지 말고 알린다).
 2. 상대 브랜치를 받아 온다(위 "브랜치 주고받기").
 3. 내 기록의 **맨 위 항목 하나**를 읽는다. 그 항목의 **"다음"**이 "이어서 해줘"의 뜻이다.

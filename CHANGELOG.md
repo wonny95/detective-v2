@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-30 10:50 · Claude · (이 커밋)
+## 2026-10-30 11:10 · Claude · (이 커밋)
+
+- 사용자 결정: 폴더 이름에서 Pioo를 없앤다. 개발 `E:\GPT\Detective\Detective-dev`, 기획 `E:\GPT\Detective\Detective-story`. AGENTS.md(분업 표·시작 절차 0단계), HANDOFF.md, `.claude/skills/`(wrap-up·take-over·push-github)의 폴더 경로를 새 이름으로 바꿈. Claude 메모리를 새 경로 키(`E--GPT-Detective-Detective-dev`)에 맞춰 둠. 기획 브랜치 `story`를 이 커밋까지 fast-forward해 Codex가 새 폴더에서 읽는 AGENTS.md도 새 경로가 되게 함(기획 쪽 새 커밋이 없을 때 한 번만).
+- 확인: 버리는 저장소에서 두 폴더를 새 상위 폴더로 옮기며 이름을 바꾼 뒤 `git worktree repair ../Detective-story` 한 번으로 양쪽 status·merge 정상.
+- **기획 요청**: `design/STORY_LOG.md` 첫 항목의 폴더 경로(`E:\GPT\Pioo-story`)를 새 경로로(기록이라 그대로 두어도 된다).
+- **다음**: 사용자가 Claude Code·Codex를 닫고 `E:\GPT\Pioo` → `E:\GPT\Detective\Detective-dev`, `E:\GPT\Pioo-story` → `E:\GPT\Detective\Detective-story`로 옮긴 뒤 Claude Code를 `Detective-dev`에서 연다. 그러면 `git worktree repair ../Detective-story` → `git worktree list`·양쪽 `git status`로 연결 확인 → 미리보기(`pioo-dev`) 확인. 아직 옮기지 않았으면 사용자 지시 대기
+
+## 2026-10-30 10:50 · Claude · fa42c04
 
 - 사용자 요청: 두 폴더를 `E:\GPT\Detective` 아래로 옮길 준비. worktree 연결을 상대 경로로 바꿈(`worktree.useRelativePaths=true`, `git worktree repair --relative-paths`, git 2.54). 이제 `Pioo`와 `Pioo-story`를 **같은 상위 폴더에 함께** 옮기면 연결이 유지된다. `.claude/launch.json`의 서버 경로를 `server.js`(상대)로 바꿈. Claude 메모리를 새 경로 키(`E--GPT-Detective-Pioo`)에 복사하고 경로를 고쳐 둠(원본은 그대로).
 - 확인: 버리는 저장소에서 상대 경로 worktree 두 폴더를 새 상위 폴더로 옮긴 뒤 status·worktree list·merge 정상. 지금 폴더에서 양쪽 status 정상, 미리보기 서버를 새 설정으로 다시 띄워 5173 정상.

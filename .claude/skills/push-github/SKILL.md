@@ -7,7 +7,7 @@ description: Pioo 저장소의 main을 GitHub 비공개 저장소(https://github
 
 - 저장소: `https://github.com/wonny95/pioo.git`. **비공개**이고, 사용자가 만들었다. 원격 이름은 `origin`이다.
 - **사용자가 요청할 때만** 푸시한다(사용자 결정). `/wrap-up`이나 `/publish-artifact`에 넣지 않는다.
-- 강제 푸시(`--force`, `--force-with-lease`)는 하지 않는다. 올리는 브랜치는 `main` 하나다. 스토리 기획 브랜치 `story`(`E:\GPT\Pioo-story` worktree)는 로컬에만 둔다. 기획까지 올리려면 먼저 `main`에 `story`를 merge한다(`AGENTS.md` 브랜치 주고받기).
+- 강제 푸시(`--force`, `--force-with-lease`)는 하지 않는다. 올리는 브랜치는 `main` 하나다. 스토리 기획 브랜치 `story`(`E:\GPT\Detective\Detective-story` worktree)는 로컬에만 둔다. 기획까지 올리려면 먼저 `main`에 `story`를 merge한다(`AGENTS.md` 브랜치 주고받기).
 
 ## 0. 먼저 작업 마무리
 
