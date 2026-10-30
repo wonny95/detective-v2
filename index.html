@@ -882,7 +882,7 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
   /* centred on the sentence's letters, filled or empty (user request): middle sits on the x-height, a little low for this font */
   vertical-align:middle;position:relative;top:-2px;border-radius:5px;border:2px dashed var(--c);
   background:rgba(255,255,255,.4);font-family:var(--f-display);font-size:14px;color:var(--ink)}
-.ded-slot.person{--c:#A9D79A}.ded-slot.place{--c:#F2B983}.ded-slot.time{--c:#9CC8F0}
+.ded-slot.person{--c:#A9D79A}.ded-slot.place{--c:#F2B983}.ded-slot.time{--c:#9CC8F0}.ded-slot.color{--c:#F3A9B8}
 /* an empty blank: a filled honey patch, no dashed line (user request) */
 button.ded-slot{cursor:pointer;border-color:transparent;background:color-mix(in srgb,var(--honey) 80%,#fff);animation:deduce-blink 1.4s ease-in-out infinite}
 button.ded-slot[aria-expanded="true"]{animation:none;box-shadow:0 0 0 3px rgba(242,207,115,.9)}
@@ -904,7 +904,7 @@ button.ded-slot[aria-expanded="true"]{animation:none;box-shadow:0 0 0 3px rgba(2
 .dz-opt:hover,.dz-opt:focus-visible{outline:none;background:rgba(242,207,115,.3)}
 .dz-opt.tried{opacity:.42}
 .dz-opt .dot{flex:none;width:10px;height:10px;border-radius:50%}
-.deduce-drop.place .dot{background:#F2B983}.deduce-drop.time .dot{background:#9CC8F0}
+.deduce-drop.place .dot{background:#F2B983}.deduce-drop.time .dot{background:#9CC8F0}.deduce-drop.color .dot{background:#F3A9B8}
 .dz-opt .fc{flex:none;width:28px;height:28px;border-radius:50%;background:#FFF8E9 center/90% no-repeat;border:2px solid var(--ink)}
 .dz-opt .fc.unknown{display:grid;place-items:center;background:#EDE3CF;color:var(--ink-soft);font-size:13px;font-style:normal}
 .dz-opt.face{flex-direction:column;justify-content:flex-start;gap:4px;min-height:0;padding:6px 2px 5px;font-size:11px;line-height:1.15;text-align:center;white-space:normal}
@@ -1516,7 +1516,10 @@ const PICNIC_CASE = {
         { id:'r4', en:'Who did you see today?', ko:'오늘 누구를 봤어?' }
       ],
       unlocks:{ r4:{ people:['duck'] } },
-      after:{ done:{ say:{ key:'give', en:'Please take this bag and find mine.', ko:'이 가방을 가져가서 내 가방을 찾아 줘.' }, give:'bag-nora' } },
+      after:{ done:{ lines:[
+        { key:'give', en:'Please take this bag and find mine.', ko:'이 가방을 가져가서 내 가방을 찾아줘.' },
+        { det:true, key:'take-bag', en:'I will.', ko:'그럴게.' }
+      ], give:'bag-nora' } },
       answers:{
         r1:"I'm not sure. My bag is blue, just like this one.",
         r2:'My bag has a red lunch box and a yellow bottle.',
@@ -1544,23 +1547,23 @@ const PICNIC_CASE = {
         { id:'v2', en:'Who had blue bags?', ko:'누가 파란 가방을 들고 왔나요?' },
         { id:'v3', en:'Where are they now?', ko:'그들은 지금 어디 있나요?' }
       ],
-      unlocks:{ v3:{ people:['ben', 'mia'] } },
+      unlocks:{ v1:{ names:['ben', 'mia'] }, v3:{ places:['benhome', 'garden'] } },
       answers:{
-        v1:'Rosie, Ben, Mia, Ollie, and Nora came today.',
-        v2:'Rosie, Ben, and Mia had blue bags. Ben took one with him. Nora had no bag.',
+        v1:'Rosie, Ben, Mia, and Ollie came today.',
+        v2:'Rosie, Ben, and Mia had blue bags. Ben took one with him.',
         v3:'They told me their plans. Ben went home. Mia and Ollie went to the garden.'
       },
       notes:{
-        v1:['Rosie, {{a|Ben/ben beaver}}, Mia, Ollie, and {{b|Nora}} came to the cafe.'],
-        v2:['Rosie, Ben, and {{c|Mia}} had {{d|blue}} bags.', 'Ben {{e|took}} one with him.', 'Nora had {{f|no}} bag.'],
+        v1:['Rosie, {{a|Ben/ben beaver}}, Mia, and Ollie came to the cafe.'],
+        v2:['Rosie, Ben, and {{c|Mia}} had {{d|blue}} bags.', 'Ben {{e|took}} one with him.'],
         v3:['Ben went {{g|home}}.', 'Mia and Ollie went to the {{h|garden}}.']
       },
-      bank:{ v1:['Ben','Ray','Nora','Betty'], v2:['Mia','Nora','blue','red','took','made','no','a'], v3:['home','office','garden','cafe'] }
+      bank:{ v1:['Ben','Ray','Betty'], v2:['Mia','Ollie','blue','red','took','made'], v3:['home','office','garden','cafe'] }
     },
     ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6',
       hello:[
         { key:'hello', en:"Hi! I'm Ben Beaver. Can I help you?", ko:'안녕! 나는 벤 비버야. 무슨 일이야?' },
-        { det:true, key:'hello-ben', en:"Hi, I'm Detective {name}. You were at the Lake Cafe today, right?", ko:'안녕, 난 탐정 {name}입니다. 오늘 호수 카페에 방문하셨었죠?' },
+        { det:true, key:'hello-ben', en:"Hi, I'm Detective {name}. You were at the Lake Cafe today, right?", ko:'안녕하세요, 저는 탐정 {name}이에요. 오늘 호수 카페에 오셨었죠?' },
         { key:'hello2', en:'Yes, I stopped there this morning.', ko:'응, 오늘 아침에 들렀어.' }
       ],
       questions:[
@@ -1594,7 +1597,13 @@ const PICNIC_CASE = {
         { id:'g2', en:'Mia, is this your blue bag? Have you checked inside?', ko:'미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어?' }
       ],
       // the photos are taken in the conversation (user decision: no free search of the garden)
-      after:{ g1:{ det:{ key:'garden-photo', en:"I'm helping Rosie find her bag. Can I take a picture of your bags?", ko:'로지의 가방을 찾고 있어. 너희 가방 사진을 찍어도 될까?' }, snap:['garden-0', 'garden-1'] } },
+      after:{
+        g1:{ lines:[
+          { det:true, key:'garden-photo', en:"I'm helping Rosie find her bag. Can I take a picture of your bags?", ko:'로지의 가방을 찾고 있어. 가방 사진을 찍어도 될까?' },
+          { key:'sure', en:'Sure!', ko:'응!' }
+        ], snap:['garden-0', 'garden-1'] },
+        done:{ lines:[ { det:true, key:'garden-thanks', en:'Thanks for answering my questions. Enjoy your picnic!', ko:'답변 고마워. 피크닉 재밌게 즐기길 바래.' } ] }
+      },
       needs:{ g2:['garden-0', 'garden-1'] },
       answers:{
         g1:'Ollie: No. Mine is red. Mia: Mine is blue. Why?',
@@ -1648,7 +1657,7 @@ const PICNIC_CASE = {
   answersKo:{
     rosie:{ r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
       r4:'누구를 봤는지 기억이 안 나. 그런데 여기 오기 전에 호숫가 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
-    duck:{ v1:'오늘 로지, 벤, 미아, 올리, 노라가 왔어요.', v2:'로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤은 가방 하나를 들고 나갔고요. 노라는 가방이 없었어요.',
+    duck:{ v1:'오늘 로지, 벤, 미아, 올리가 왔어요.', v2:'로지, 벤, 미아가 파란 가방을 들고 왔어요. 벤은 가방 하나를 들고 나갔고요.',
       v3:'다들 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요.' },
     ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어.', b2:'몰라. 가방을 열어 보지 않았어.' },
     mia:{ g1:'올리: 아니, 내 건 빨간색이야. 미아: 내 건 파란색이야. 왜?', g2:'응, 내 거야. 열어 봤어. 내 소풍 준비물이 들어 있어.' },
@@ -1679,7 +1688,8 @@ const PICNIC_CASE = {
   },
   // things in the detective's bag (소지품): handed over at the end; img + crop is its picture
   items:{
-    'bag-nora':{ label:'Blue bag', en:'The blue bag Rosie gave me. Inside, there is a green folder and a blue pen.', ko:'로지가 맡긴 파란 가방. 안에 초록 서류 폴더와 파란 펜이 들어 있다.',
+    // the title says who gave it and its colour, never whose it is (design)
+    'bag-nora':{ label:'Blue bag from Rosie', en:'There is a green folder and a blue pen inside.', ko:'안에 초록 폴더와 파란 펜이 들어 있어.',
       img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420] },
     'bag-rosie':{ label:'Blue bag', en:'The blue bag Nora gave me. Inside, there is a red lunch box and a yellow bottle.', ko:'노라가 건넨 파란 가방. 안에 빨간 도시락과 노란 물병이 들어 있다.',
       img:'assets/places/picnic-storyboard/picnic-wide.png', w:1280, h:714, crop:[930, 290, 200, 150] }
@@ -1687,28 +1697,30 @@ const PICNIC_CASE = {
   deduce:{
     people:[['Rosie Rabbit', 'rosie'], ['Mr. Duck', 'duck'], ['Ben Beaver', 'ben'], ['Mia', 'mia'], ['Ollie', 'mia'], ['Nora Hedgehog', 'nora']],
     places:[['Picnic Table', 'picnic'], ['Lake Cafe', 'daycafe'], ["Ben's House", 'benhome'], ['Garden', 'garden'], ['Office Lobby', 'lobby']],
-    things:['her bag', 'a book', 'a red lunch box', 'a yellow bottle', 'a green folder', 'a blue pen', 'picnic things'],
+    things:['her bag', 'red lunch box', 'yellow bottle', 'green folder', 'blue pen', 'picnic things', 'red bag'],
+    colors:['blue', 'red', 'green', 'yellow'],
     times:[],
     suspects:[['rosie', 'Rosie'], ['nora', 'Nora']],
     go:'노라에게 가기',
     miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' },
+    // any: the card's blanks of one kind can be filled in either order
     qs:[
-      { step:1, who:'rosie', q:'What did Rosie ask me to do?', qKo:'로지가 나에게 부탁한 일은 뭐지?',
-        card:'Rosie asked me to find {thing:her bag}.', cardKo:'로지는 나에게 자기 가방을 찾아 달라고 했다.',
-        right:'Yes. Her bag got mixed up with another blue bag.', rightKo:'맞아. 로지의 가방이 다른 파란 가방과 바뀌었어.',
-        hint:'What did Rosie say first? What is she looking for?', hintKo:'로지가 처음에 뭐라고 했지? 무엇을 찾고 있었어?' },
-      { step:2, who:'rosie', q:'What is in her bag?', qKo:'로지의 가방에는 뭐가 들어 있지?',
-        card:'Her bag has {thing:a red lunch box} and a yellow bottle.', cardKo:'로지의 가방에는 빨간 도시락과 노란 물병이 들어 있다.',
-        right:'Right. A red lunch box and a yellow bottle.', rightKo:'맞아. 빨간 도시락과 노란 물병이야.',
+      { step:1, who:'rosie', q:'What did Rosie ask me to do?', qKo:'로지가 나에게 부탁한 일은?',
+        card:'Find {thing:her bag}.', cardKo:'로지의 가방을 찾는다.',
+        right:'Right. Rosie wants me to find her bag.', rightKo:'맞아. 로지는 내가 자기 가방을 찾아 주길 바라.',
+        hint:'What did Rosie say when we first met?', hintKo:'처음 만났을 때 로지가 뭐라고 했지?' },
+      { step:2, who:'rosie', q:'What is her bag like?', qKo:'그녀의 가방의 특징은?',
+        card:'Her bag is {color:blue}. It has a {thing:red lunch box} and a {thing:yellow bottle}.', cardKo:'로지의 가방은 파란색이다. 빨간 도시락과 노란 물병이 들어 있다.', any:true,
+        right:'Yes. A blue bag with a red lunch box and a yellow bottle.', rightKo:'맞아. 빨간 도시락과 노란 물병이 든 파란 가방이야.',
         hint:'Look at what Rosie said about her bag.', hintKo:'로지가 자기 가방에 대해 한 말을 봐.' },
-      { step:3, who:'nora', q:'Nora opened the bag Ben brought. Whose things were inside?', qKo:'노라는 벤이 가져온 가방을 열었어. 안에 든 건 누구의 물건이었지?',
-        card:"The red lunch box and the yellow bottle are {person:Rosie Rabbit}'s.", cardKo:'빨간 도시락과 노란 물병은 로지의 것이다.',
-        right:"So the bag Nora got is Rosie's bag.", rightKo:'그러니까 노라가 받은 가방은 로지의 가방이야.',
-        hint:'What did Nora find in the bag? Who has a red lunch box and a yellow bottle?', hintKo:'노라가 가방에서 무엇을 찾았지? 빨간 도시락과 노란 물병을 가진 사람은 누구야?' },
-      { step:4, who:'nora', q:'And the bag Rosie gave me? Whose folder and pen are in it?', qKo:'그럼 로지가 나에게 맡긴 가방은? 안의 폴더와 펜은 누구의 것이지?',
-        card:"The green folder and the blue pen are {person:Nora Hedgehog}'s.", cardKo:'초록 폴더와 파란 펜은 노라의 것이다.',
-        right:"So Rosie and Nora have each other's bags. Let's give them back.", rightKo:'그러니까 로지와 노라의 가방이 서로 바뀐 거야. 돌려주자.',
-        hint:'What did Nora say was in her bag?', hintKo:'노라는 자기 가방에 무엇이 있었다고 했지?' }
+      { step:3, who:'nora', q:'What shows that Nora has the wrong bag?', qKo:'노라가 잘못된 가방을 받았다는 근거는?',
+        card:"The {thing:red lunch box} and {thing:yellow bottle} are Rosie's.", cardKo:'빨간 도시락과 노란 물병은 로지의 것이다.', any:true,
+        right:"So the bag Ben brought to Nora is Rosie's bag.", rightKo:'그러니까 벤이 노라에게 가져다준 가방은 로지의 가방이야.',
+        hint:'What did Nora find in the bag Ben brought?', hintKo:'노라가 벤이 가져온 가방에서 무엇을 찾았지?' },
+      { step:4, who:'nora', q:'Whose bags got mixed up?', qKo:'누구와 누구의 가방이 바뀐 걸까?',
+        card:"{person:Rosie Rabbit}'s and {person:Nora Hedgehog}'s bags.", cardKo:'로지와 노라의 가방.', any:true,
+        right:"The bag Rosie gave me has Nora's folder and pen. Their bags got mixed up. Let's give them back.", rightKo:'로지가 맡긴 가방에는 노라의 폴더와 펜이 있어. 둘의 가방이 바뀐 거야. 돌려주자.',
+        hint:'Look inside the bag Rosie gave me. What did Nora say was in her bag?', hintKo:'로지가 맡긴 가방 안을 봐. 노라는 자기 가방에 뭐가 있었다고 했지?' }
     ]
   },
   // no questioning (user decision): the bag in 소지품 is handed over with the drawer (건네주기), round by round. open: the
@@ -2329,6 +2341,7 @@ const S = {
   place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
   known:new Set(PICNIC ? [PICNIC_CASE.people[START].place] : []),   // places someone has mentioned — only these appear on the map
   met:[START],       // people the player knows about
+  named:new Set(),   // of those, the ones only heard of by name (unlocks.names): in the notebook before their place opens
   items:[],          // 소지품: ITEMS the detective carries (picnic case)
   handoffRound:0,    // how many bags are back with their owner (picnic case)
   mood:{},           // a person shown with another expression (ending)
@@ -2753,7 +2766,7 @@ function renderDock(){
 
   // Keep the person tabs on finished statement pages, including the completed conversation summary.
   // Hide them only while the current answer is being written or its check result is on screen.
-  if(mode !== 'record' && mode !== 'feedback') html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait' || id === 'betty').map(id => {
+  if(mode !== 'record' && mode !== 'feedback') html += `<div class="nfaces">${S.met.filter(id => per(id).phase !== 'wait' || id === 'betty' || S.named.has(id)).map(id => {
     const s = spk(id), all = qs(s).length, done = qs(s).filter(q => per(id).questionChecks[q.id] === 'ok').length;
     return `<button class="nface" type="button" data-face="${id}" aria-pressed="${id === S.view}"><span class="pic"><span class="mini" style="background:${s.bg}">${miniSVG(id)}</span><i class="${done === all ? 'done' : ''}">${done === all ? '✓' : `${done}/${all}`}</i></span>${esc(id === 'betty' ? 'Mrs. Bear' : s.name)}</button>`;
   }).join('')}</div>`;
@@ -2901,18 +2914,21 @@ function talkTo(id){
     greetingTimer = setTimeout(() => playGreeting(id), id === START ? 1200 : 600);
   }
 }
-// The first meeting's greeting: `hello` is one line of theirs, or the lines in turn as the case design writes them —
-// theirs said by them (key: their audio, as: another voice), the detective's (det) in the detective's bubble. {name} is
-// the player's detective name, on screen only (not said). Asking a question or leaving cuts it off.
-function playGreeting(id, i = 0){
-  const line = [].concat(spk(id).hello)[i];
-  if(!line || S.investigate || S.cur !== id || per(id).phase !== 'choose') return;
-  const next = () => { greetingTimer = setTimeout(() => playGreeting(id, i + 1), 400); };
+// The first meeting's greeting: `hello` is one line of theirs, or the lines in turn as the case design writes them.
+function playGreeting(id){ if(per(id).phase === 'choose') playLines(id, [].concat(spk(id).hello)); }
+// Lines said in turn in a conversation: theirs by them (key: their audio, as: another voice), the detective's (det) in
+// the detective's bubble. {name} is the player's detective name on screen; the voice says "the detective" (design).
+// Asking a question (it clears greetingTimer) or leaving the conversation cuts them off; onDone once all are said.
+function playLines(id, lines, onDone, i = 0){
+  const line = lines[i];
+  if(S.investigate || S.cur !== id) return;
+  if(!line) return onDone?.();
+  const next = () => { greetingTimer = setTimeout(() => playLines(id, lines, onDone, i + 1), 400); };
   if(typeof line === 'string') return speak(line, 'hello', id, next);
-  if(!line.det) return speak(line.en, line.key, id, next, null, line.as);
+  if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, next, null, line.as); }
   const name = detectiveName(), named = text => text.replace(' {name}', name ? ` ${name}` : '');
   renderSay(detLine({ ...line, en:named(line.en), ko:named(line.ko) }));
-  detectiveSay(line.key, () => { if(!ending) renderSay(null); next(); }, null, line.en.replace(' {name}', ''));
+  detectiveSay(line.key, () => { if(!ending) renderSay(null); next(); }, null, line.en.replace('Detective {name}', 'the detective'));
 }
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
 function leaveTalk(){ enterPlace(cur().place, true); }
@@ -3310,27 +3326,26 @@ function closeNotes(){
   revealDiscoveries();
   playBeats();
 }
-// PEOPLE[].after, once the notebook with the checked question is put away: someone's line and a thing handed to the
-// detective (소지품), or the detective's line and the photos it asks for (taken right there, user decision)
+// PEOPLE[].after, once the notebook with the checked question is put away: lines in turn (playLines), then a thing handed
+// to the detective (give: 소지품) or the photos the detective asked for (snap: taken right there, user decision)
 let beats = [];
 function playBeats(){
   const beat = beats.shift(); if(!beat) return;
-  const give = () => {
-    if(!beat.give || S.items.includes(beat.give) || S.handoffRound) return;
-    S.items.push(beat.give); saveGame();
-    setTimeout(() => toast('소지품을 노트에 넣었어요.'), 300);
+  let over = false, cut;
+  // what it gives comes once the lines are said, or when they are cut off (the player went on); away from that person
+  // by now, it still comes, without the lines
+  const end = () => {
+    if(over) return; over = true; clearTimeout(cut);
+    if(!ending) renderSay(null);
+    snap(beat.snap || []);
+    if(beat.give && !S.items.includes(beat.give) && !S.handoffRound){
+      S.items.push(beat.give); saveGame();
+      setTimeout(() => toast('소지품을 노트에 넣었어요.'), 300);
+    }
   };
-  // away from that person by now: what it gives still comes, without the lines
-  if(S.investigate || S.cur !== beat.id){ give(); snap(beat.snap || []); return; }
-  if(beat.say){ speak(beat.say.en, beat.say.key, beat.id, give); setTimeout(give, beat.say.en.length * 70 + 1500); return; }
-  if(beat.det){
-    // the photos are taken once the line is said, or as soon as it is cut off (the player went on)
-    let over = false;
-    const end = () => { if(over) return; over = true; clearTimeout(cut); if(!ending) renderSay(null); snap(beat.snap || []); give(); };
-    const cut = setTimeout(end, beat.det.en.length * (S.slow ? 95 : 70) + 2500);
-    renderSay(detLine(beat.det));
-    detectiveSay(beat.det.key, () => setTimeout(end, 400), null, beat.det.en);
-  }
+  if(S.investigate || S.cur !== beat.id) return end();
+  cut = setTimeout(end, beat.lines.reduce((t, line) => t + line.en.length * 95 + 2500, 0));
+  playLines(beat.id, beat.lines, () => setTimeout(end, 400));
 }
 // photos taken in a conversation: the shutter and a flash over the scene, then the notebook has them
 function snap(refs){
@@ -3436,13 +3451,14 @@ function renderPlaces(){
 const placeIdOf = id => S.visit[id]?.place || spk(id).place;
 const positionOf = id => S.visit[id] || NPC_POSITIONS[id];
 const peopleAt = placeId => S.met.filter(id => placeIdOf(id) === placeId);
-// Hearing a line or finding a clue can reveal places and people ({ places:[…], people:[…] }).
-// A newly known person brings their place onto the map.
+// Hearing a line or finding a clue can reveal places and people ({ places:[…], people:[…], names:[…] }).
+// A newly known person brings their place onto the map; one only named (names) waits for their place to open.
 function unlock(u){
   if(!u) return;
   let newPerson = false;
   const places = [], people = [];
   (u.places || []).forEach(id => { if(!S.known.has(id)){ S.known.add(id); places.push(id); } });
+  (u.names || []).forEach(id => { if(!S.met.includes(id)){ S.met.push(id); S.named.add(id); people.push(id); newPerson = true; } });
   (u.people || []).forEach(id => {
     if(S.met.includes(id)) return;
     S.met.push(id); people.push(id); newPerson = true;
@@ -3543,10 +3559,11 @@ const DEDUCE = PICNIC ? PICNIC_CASE.deduce : {
 // lines recorded as audio/deduce/<key>.mp3 (q1…q10 questions, r1…r10 replies, h1…h10 hints, miss; the detective's
 // voice, Higgsfield MiniMax Grady); a line missing here is read by the browser's voice
 const DEDUCE_RECORDED = PICNIC ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건' };
-const deduceBlank = q => q.card.match(/\{(\w+):([^}]+)\}/);   // [, kind, answer]
-// an older save's page board (fill/solved) starts over as questions
-const deduceState = () => S.deduce?.done instanceof Set ? S.deduce : (S.deduce = { done:new Set(), misses:{}, tried:{}, at:0 });
+const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색' };
+const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
+// an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
+const deduceState = () => { const st = S.deduce?.done instanceof Set ? S.deduce : (S.deduce = { done:new Set(), misses:{}, tried:{}, at:0 }); st.part ||= {}; return st; };
+let deduceSlot = 0;   // which blank of the card the open dropdown is for
 const deduceEnd = () => deduceState().done.size === DEDUCE.qs.length;
 let deduceKoOpen = false, deduceKoCards = new Set(), deduceHold = null, deduceHoldT = null, deduceLine = null, deduceNextT = null, deduceWait = false, deduceShown = null;
 // the words of a kind the player has met so far
@@ -3556,6 +3573,7 @@ function deduceWords(kind){
   if(kind === 'person') return DEDUCE.people.filter(([, id]) => always(id) || S.met.includes(id)).map(([word]) => word);
   if(kind === 'place') return DEDUCE.places.filter(([, id]) => always(id) || S.known.has(id)).map(([word]) => word);
   if(kind === 'thing') return DEDUCE.things;
+  if(kind === 'color') return DEDUCE.colors;
   return DEDUCE.times;
 }
 function deducePic(kind, word){
@@ -3636,11 +3654,12 @@ function renderDeduce(){
   };
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
   const card = (i, filled) => {
-    const x = qs[i], [, kind, answer] = deduceBlank(x), ko = deduceKoCards.has(i);
-    const slot = filled ? `<span class="ded-slot ${kind} full">${esc(answer)}</span>`
-      : `<button class="ded-slot ${kind}" type="button" data-dslot aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
+    const x = qs[i], blanks = deduceBlanks(x), part = st.part[i] || {}, ko = deduceKoCards.has(i);
+    const slot = ({ kind, answer }, k) => filled || part[k] ? `<span class="ded-slot ${kind} full">${esc(filled ? part[k] || answer : part[k])}</span>`
+      : `<button class="ded-slot ${kind}" type="button" data-dslot="${k}" aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
+    let k = 0;
     // the Korean only once it is answered: it holds the answer (user request), and the question's own 해석 says what is asked
-    return `<div class="ded-line"><p>${esc(x.card.replace(/\{\w+:[^}]+\}/, '\u0000')).replace('\u0000', slot)}</p>` +
+    return `<div class="ded-line"><p>${esc(x.card.replace(/\{\w+:[^}]+\}/g, '\u0000')).replace(/\u0000/g, () => slot(blanks[k], k++))}</p>` +
       (filled ? `<button class="pill sm ded-ko" type="button" data-dko="${i}" aria-pressed="${ko}">해석</button></div><p class="ko"${ko ? '' : ' hidden'}>${esc(x.cardKo)}</p>` : '</div>');
   };
   const list = $('#deduceCards'), before = list.querySelectorAll('.ded-card.done').length;
@@ -3662,7 +3681,8 @@ function deduceToEnd(smooth){
 }
 function openDeduceDrop(slot){
   setNotes(false);
-  const st = deduceState(), [, kind] = deduceBlank(DEDUCE.qs[st.at]), tried = st.tried[st.at] || new Set(), drop = $('#deduceDrop');
+  deduceSlot = +slot.dataset.dslot || 0;
+  const st = deduceState(), { kind } = deduceBlanks(DEDUCE.qs[st.at])[deduceSlot], tried = st.tried[st.at] || new Set(), drop = $('#deduceDrop');
   const faces = kind === 'person', words = deduceWords(kind);
   drop.className = `deduce-drop ${kind}${kind === 'place' ? '' : ' wide'}`;
   drop.innerHTML = `<div class="dz-list" style="--cols:${faces ? 4 : kind === 'time' ? 3 : 2}">` + words.map(word =>
@@ -3677,17 +3697,28 @@ function openDeduceDrop(slot){
   drop.style.setProperty('--ox', `${Math.min(Math.max(b.left - board.left - left + b.width / 2, 34), w - 34)}px`);
   drop.classList.toggle('up', up);
 }
-function closeDeduceDrop(){ $('#deduceDrop').hidden = true; $('#deduceCard [data-dslot]')?.setAttribute('aria-expanded', 'false'); }
+function closeDeduceDrop(){ $('#deduceDrop').hidden = true; document.querySelectorAll('#deduceCard [data-dslot]').forEach(b => b.setAttribute('aria-expanded', 'false')); }
 function deducePick(word){
-  const st = deduceState(), i = st.at, q = DEDUCE.qs[i], [, , right] = deduceBlank(q);
+  const st = deduceState(), i = st.at, q = DEDUCE.qs[i], blanks = deduceBlanks(q), k = deduceSlot, part = st.part[i] ||= {};
+  // right: this blank's answer, or (any) one of its kind's answers not picked yet
+  const open = blanks.map((b, n) => n).filter(n => !(n in part)), same = n => blanks[n].kind === blanks[k].kind;
+  const left = blanks.filter((b, n) => same(n)).map(b => b.answer);
+  Object.entries(part).forEach(([n, w]) => { if(same(+n)) left.splice(left.indexOf(w), 1); });
+  const right = q.any ? left.includes(word) : word === blanks[k].answer;
   closeDeduceDrop();
-  if(word !== right){
+  if(!right){
     (st.tried[i] ||= new Set()).add(word);
     const n = st.misses[i] = (st.misses[i] || 0) + 1;
     const buzz = $('#retryBuzz'); buzz.currentTime = 0; buzz.play().catch(() => {});
     const card = $('#deduceCard'); card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
     if(n === 1) deduceShow(DEDUCE.miss, 'miss', 'wrong'); else deduceShow({ en:q.hint, ko:q.hintKo }, `h${i + 1}`, 'wrong');
     return saveGame();
+  }
+  part[k] = word;
+  if(open.length > 1){
+    // one blank of several: it stays filled and the card waits for the rest
+    const chime = $('#correctChime'); chime.currentTime = 0; chime.play().catch(() => {});
+    renderDeduce(); return saveGame();
   }
   st.done.add(i);
   if(q.out || q.lie) deduceHold = q.who;   // their X or ring waits for the reply's last sentence ("So Ray couldn't do it.")
@@ -5230,6 +5261,7 @@ function loadGame(){
   // anyone added to the case since the save starts fresh; a check's open feedback is not kept
   S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
   S.items ||= [];
+  if(!(S.named instanceof Set)) S.named = new Set();
   if(!PICNIC) libraryMigrations();
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
