@@ -10,7 +10,7 @@
 
 ## 0. 다음 작업자를 위한 요약
 
-- 시작·마무리는 `AGENTS.md`를 따른다. **분업**(사용자 결정): 개발은 Claude Code(`E:\GPT\Detective\Detective-dev`, `main`), 스토리 기획은 Codex(`E:\GPT\Detective\Detective-story` worktree, `story`)가 동시에 맡고 서로의 파일을 고치지 않는다. 개발은 시작할 때 `story`를 merge해 기획을 받고 `design/STORY_LOG.md`의 개발 요청을 본 뒤 `CHANGELOG.md` 맨 위 항목의 "다음"을 따른다. 사용자 지시가 우선이며, 다음이 `사용자 지시 대기`이면 10절 후보를 임의로 구현하지 않는다.
+- 시작·마무리는 `AGENTS.md`를 따른다. **분업**(사용자 결정): 사건의 1차 스토리 기획은 Codex(`E:\GPT\Detective\Detective-story` worktree, `story`), 점검·2차 수정·개발·이후 수정은 Claude Code(`E:\GPT\Detective\Detective-dev`, `main`)가 사용자와 함께 맡는다(AGENTS.md "사건 진행 순서": 설계서를 넘겨받으면 그대로 개발할 때의 문제를 사용자에게 먼저 보여 주고, 합의한 대로 설계서를 고친 뒤 개발한다. 혼자 대본을 줄이거나 바꾸지 않는다). 인계된 사건의 설계서는 개발 쪽 파일이다(지금은 Case 01 A 소풍 가방). 서로의 파일은 고치지 않는다. 개발은 시작할 때 `story`를 merge해 기획을 받고 `design/STORY_LOG.md`의 개발 요청(개발 인계 포함)을 본 뒤 `CHANGELOG.md` 맨 위 항목의 "다음"을 따른다. 사용자 지시가 우선이며, 다음이 `사용자 지시 대기`이면 10절 후보를 임의로 구현하지 않는다.
 - **플레이 범위**: Case 01 바뀐 소풍 가방과 Case 02 도서관 살인사건을 플레이할 수 있다. **두 사건은 같은 엔진·같은 화면**이다(사용자 결정: 도서관 사건의 UI를 그대로 쓰고 사건 데이터만 갈아 끼움, 3.0절). 소풍 사건은 로지의 의뢰에서 시작해 질문 14개·빈칸 40칸·소지품 가방·정원 사진 2장·추리 4문항·가방 전달 2번·복습으로 끝난다. 도서관 사건은 경찰 심문·자백까지 이어진다.
 - **노트**: 질문 선택 즉시 아래 60% 높이로 열리고 음성을 함께 재생한다. 단어 터치·드래그·직접 입력이 가능하고 도토리 힌트는 사건 전체 3개다. 오답은 같은 질문에서 고치며, 정답 정보는 즉시 해금한다. 노트를 닫으면 새 인물·장소 이름을 작은 발견 알림으로 모아 보여 주고 현재 대화·현장에 머문다. `Note`로 직접 열거나 정답 확인 결과를 볼 때는 전체 높이로 올라오고 뒤 장면은 어둡고 흐려진다. 배경·`Note` 재터치로 닫는다(3.3–3.4절). **받아 적는 중에는 노트가 고정된다**: 그 질문을 바르게 확인할 때까지 닫을 수 없고 노트 위 탭도 숨으며, 나가는 길은 `<`(대화 중단 창, 남으면 노트가 다시 올라옴)뿐이다(3.3절). 노트 위 탭은 `인물 · 증거 · 메모` 세 개로 고정(노트 종이 뒤에 끼운 칸막이 종이), 인물 장은 제목 아래 얼굴 줄로 인물을 바꾼다. 미세스 베어를 발견하면 그녀의 진술 메뉴가 표시된다. 완료된 인물의 진술 페이지에서도 얼굴 줄을 유지하며, 손가락 밀기·마우스 드래그로 얼굴 줄을 옆으로 넘길 수 있다. 📌로 진술·증거를 메모에 붙이고 쪽지마다 `내 생각`을 적으며 메모에는 직접 쓴다(사건마다 저장). 질문을 시작한 대화는 끝날 때까지 지도가 잠기고, `<`는 `<이름>와/과의 대화를 중단할까요?`를 묻는다(3.3절).
 - **화면**: 대화 제목은 NPC명, 현장 제목은 장소명이다. 둘 다 18px·줄 높이 1.4·칩 높이 36px이며 NPC 라벨 위아래 1px 여백을 둔다. 휴대폰 미리보기 외곽 테두리·그림자는 없고 바깥 배경은 세이지색 `#B6BDA5`다. 아래 메뉴(홈 `홈·사건·학습·마이`, 사건 안 `지도·Note`)는 칸 상자 없이 손그림 아이콘(`assets/ui/nav/`)과 이름만 놓인 물결선 종이 띠이고, 보고 있는 칸에 꿀색 손칠이 들어간다(3.1절).
@@ -19,7 +19,7 @@
 - **복습**: 사건 사진(범인 머그샷)이 든 서류·별·피해자 후트 교수 초상이 있는 사건 요약·타일 3개 → 다시 들을 문장(있을 때) → 이번 사건의 문법(핵심 시간 표현 3가지 + 펼쳐 보는 다른 문법 14가지, 문법별 담기) → 사건에 나온 단어(뜻 기본 표시, 담기). 담은 문법과 단어는 학습 탭에 남는다. 단계는 아래 점, 버튼은 `다음`·`확인`·`완료`(3.7절).
 - **미리보기**: `node server.js`, `http://localhost:5173/`(Claude Code의 `detective-dev`와 공용). 확인은 사용자 탭을 건드리지 않고 사용하지 않은 호스트·포트의 새 탭에서 한다. `localhost`와 `127.0.0.1`은 저장소가 다르지만 같은 호스트·포트의 탭끼리는 공유한다(8절).
 - **테스트·미리보기 버튼**: 두 사건 모두 왼쪽 테스트 도구 7개와 오른쪽 미리보기가 나온다. 미리보기 맨 위의 `Case 01 소풍`·`Case 02 도서관` 전환으로 그 사건의 파트만 보여 준다(사용자 요청: 버튼이 많아도 한눈에, 8절).
-- **협업·공유**: 개발과 기획은 폴더·브랜치를 나눠 동시에 작업하고 merge로 주고받는다(AGENTS.md 분업 표: 기획 파일은 `design/STORY_LOG.md`·`design/case-*`·`design/learning-plan.html`·`LEARNING_PLAN.md`·`CURRICULUM.md`·`CASE_THEMES.md`, 나머지는 개발). 개발은 확인 → HANDOFF → CHANGELOG → `main` 로컬 커밋, 기획은 STORY_LOG → `story` 커밋까지 마무리한다. GitHub 푸시(`main`만)와 claude.ai 아티팩트 업로드는 사용자 요청이 있을 때만 한다. 공개 데모는 갱신하지 않는다(1.1·9절).
+- **협업·공유**: 개발과 기획은 폴더·브랜치를 나눠 동시에 작업하고 merge로 주고받는다(AGENTS.md 분업 표: 기획 파일은 `design/STORY_LOG.md`·아직 인계하지 않은 `design/case-*`·`design/learning-plan.html`·`LEARNING_PLAN.md`·`CURRICULUM.md`·`CASE_THEMES.md`, 나머지와 인계된 사건 설계서는 개발). 개발은 확인 → HANDOFF → CHANGELOG → `main` 로컬 커밋, 기획은 STORY_LOG → `story` 커밋까지 마무리한다. GitHub 푸시(`main`만)와 claude.ai 아티팩트 업로드는 사용자 요청이 있을 때만 한다. 공개 데모는 갱신하지 않는다(1.1·9절).
 - **교육 기획**: `design/learning-plan.html`은 학습 흐름과 중1·중2·중3 권장 난도 **18단원·36개 사건의 제목·의뢰·단서·해결·A/B별 문법 초점**을 카드로 보여 준다. 세 학년 묶음은 각각 접고 펼칠 수 있으며 링크로 이동한 묶음은 열린다. L1-01 A/B에는 인물과 장소도 표시하고, A 카드의 제목·버튼은 읽기 쉬운 별도 상세 화면 `design/case-01-picnic-bag.html`로 연결된다. 제작자용 결말은 기획 화면에만 적고 실제 게임에서는 대화·증거로 발견하게 한다. 교육 기준은 2026년 현재 고시 상태로 표시한다(영어과 제2024-3호, 총론·중학교 제2026-1호; 2026학년도 중1·중2 적용, 중3은 2027학년도부터). 자세한 학습 경험과 사건 제작 틀은 `LEARNING_PLAN.md`, 교육 목표·단원 기준은 `CURRICULUM.md`, 대표 사건의 초기 주제안과 L1-01 B의 인물·장소는 `CASE_THEMES.md`다. 기본 시각은 교육 순서 Case 05–06, 시간 구간은 Case 17, 현재 도서관은 Case 18(L2-03 B) 배치안이다. 앱에서는 소풍 가방을 Case 01, 도서관을 Case 02로 플레이한다. 36개 사건의 줄거리·문법 분배와 학생 난도·효과는 미검증 기획안이다.
 - **중1 사건 결말 기획**: `design/learning-plan.html#middle-one`의 12개 사건 카드에 결말 장면을 적었다. 03 ‘사라진 축제 창고 열쇠’와 04 ‘잘못 놓인 소포’는 기존 심문 UI의 주장 말풍선·사진/진술 서랍·내밀기·돋보기 진행 표시를 현장 확인 대화에 재사용한다. 잘못 내민 단서는 같은 주장부터 다시 고른다. 09 ‘두 명의 축제 마스코트’와 11 ‘사라진 전시품’은 진술·사진 또는 기록의 모순을 당사자에게 짧게 묻는 확인 심문이다. 03·04·09·11 모두 경찰 조사실은 쓰지 않는다. 01–02·05–08·10·12는 의뢰인 확인·물건 반환·기록 정정으로 마친다. 이 12개 사건은 현재 앱에 구현되지 않은 기획이다. `LEARNING_PLAN.md`의 공통 학습 흐름도 심문을 사건별 선택 단계로 정리했다.
 - **소풍 가방 상세안과 구현**: 제작 대본·정답 논리는 `design/case-01-picnic-bag.md`, 시각 스토리보드는 `design/case-01-picnic-bag.html`이 기준이다. 게임 데이터는 `index.html`의 `PICNIC_CASE`다. 로지가 맡긴 가방에 노라의 서류와 펜이 있고, 벤이 노라에게 전한 가방에 로지의 도시락과 물병이 있다. 카페·벤·정원·노라의 진술과 정원 사진을 대조해 두 가방을 각각의 주인에게 돌려준다. 경찰 심문은 없다. 아직 없는 그림·녹음(Higgsfield 작업 목록)은 3.0절을 본다.
@@ -78,7 +78,7 @@ node server.js            # http://localhost:5173/
 | `.claude/skills/push-github/SKILL.md` | GitHub 비공개 저장소에 `main` 푸시(요청할 때만). 먼저 받고, 강제 푸시 금지 |
 | `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
 | `.claude/skills/take-over/SKILL.md` | 개발 쪽 작업 이어받기(폴더·브랜치 확인 → `story` merge → STORY_LOG 개발 요청·CHANGELOG 맨 위·HANDOFF 0·4절 읽기 → `detective-dev` 미리보기 → 한국어 요약 보고). Claude Code는 `/take-over`. 코드는 고치지 않는다 |
-| `design/STORY_LOG.md` | 스토리 기획(Codex) 쪽 작업 기록. 맨 위 항목의 **개발 요청**을 개발이 반영하고 CHANGELOG에 "기획 반영"으로 적는다 |
+| `design/STORY_LOG.md` | 스토리 기획(Codex) 쪽 작업 기록. 맨 위 항목의 **개발 요청**을 개발이 반영하고 CHANGELOG에 "기획 반영"으로 적는다. "개발 인계"면 그 설계서를 점검해 사용자에게 먼저 보여 준다 |
 | `E:\GPT\Detective\Detective-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 연결은 상대 경로(`worktree.useRelativePaths`)라 두 폴더를 같은 상위 폴더에 함께 두면 어디로 옮겨도 된다. 폴더 이름을 바꿨으면 개발 폴더에서 `git worktree repair ../<기획 폴더 이름>`을 한 번 실행한다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
 
 ## 3. 현재 앱 흐름
@@ -89,6 +89,7 @@ node server.js            # http://localhost:5173/
 
 - **한 엔진, 사건별 데이터**(사용자 결정: Codex가 따로 만든 소풍 전용 화면을 버리고 도서관 사건의 화면을 그대로 쓴다): 주소에 `?case=picnic`이 있으면 `CASE_ID = 'picnic-bag'`이고, `PEOPLE`·`PLACES`·`NPC_POSITIONS`·`GRAMMAR_LINES`·`ANSWERS_KO`·`DEDUCE`·`ENDING`이 `PICNIC_CASE`의 것을 쓴다. 없으면 도서관 사건(`case01`). `WORDS`·`GRAMMAR`·`ART`·`SPRITES`는 두 사건이 함께 쓴다. 사건 목록·홈은 기본 주소에만 있다: 소풍 카드 → `?case=picnic`으로 다시 열림, 소풍 사건에서 사건 목록으로 나가면 `/#cases`(사건 탭)로 돌아온다. 소풍 사건을 해결하면 Case 02가 열린다.
 - **흐름**: 이번 사건의 열쇠(소유 표현 3쪽, `GRAMMAR.ownership.examples`, 예문 음성 `audio/examples/ownership-*.wav`) → (처음 한 번) 튜토리얼 → 로지(`START`). 대화 화면·노트 받아쓰기·채점·발견 알림·현장·지도·코르크판 추리·복습은 도서관 사건과 같다. 모든 인물은 `witness:true, required:true`(용의자 없음, 모두 필수 대화).
+  - **첫인사는 설계서(`design/case-01-picnic-bag.md` 인사와 탐문 대본) 그대로 주고받는다**: 인물 줄은 그 인물의 음성(대사 글자는 화면에 없음), 탐정 줄은 꿀색 탐정 말풍선(`해석` 있음)과 탐정 목소리. `{name}`은 플레이어가 정한 탐정 이름으로 화면에만 쓰고 음성에서는 뺀다. 정원은 올리·미아가 한 사람(`mia`)이지만 올리 줄은 다른 목소리(`as`)로 읽는다. 질문을 누르거나 대화를 떠나면 인사가 끊긴다.
   - 로지 r1–r4 → r4로 오리 아저씨(낮의 호수 카페). 로지와의 대화를 다 적고 노트를 닫으면 로지가 "Please take this bag…"라고 말하고 **소지품**에 가방이 들어온다(`after.done.give`).
   - 오리 아저씨 v1–v3 → v3로 벤(벤의 집)과 미아·올리(정원).
   - 벤 b1–b2 → b1로 노라(회사 로비).
@@ -352,7 +353,7 @@ node server.js            # http://localhost:5173/
 | `PICNIC_CASE` | 소풍 사건의 데이터 묶음: `people`·`grammarLines`·`answersKo`·`places`·`positions`·`items`·`deduce`·`ending.handoff`. 사건별 표가 `PICNIC ? PICNIC_CASE.… : {도서관}`으로 고른다 |
 | `ITEMS` | 소지품: id → `label`, `en`/`ko`(설명), 그림 `img`·`w`·`h`·`crop`(사진처럼 잘라 보임) |
 | `QUESTIONS` | 용의자 공통 질문 3개(q1 어디 있었나 / q2 증명해 줄 사람 / q3 피해자와의 관계) |
-| `PEOPLE` | 인물별: `place`, `hello`, `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 용의자 아님·대화 선택), `required`(참고인이지만 대화 필수), `after`(질문 id 또는 `done`을 바르게 적은 뒤의 장면: `say` 인물 대사·`det` 탐정 대사·`snap` 찍을 증거·`give` 받을 소지품), `needs`(질문이 기다리는 증거) |
+| `PEOPLE` | 인물별: `place`, `hello`(첫인사: 문자열 한 줄, 또는 줄 목록 `{ key, en, ko }`·탐정 줄 `{ det:true, key, en, ko }`·다른 목소리 `as:{ pitch, voice }`), `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 용의자 아님·대화 선택), `required`(참고인이지만 대화 필수), `after`(질문 id 또는 `done`을 바르게 적은 뒤의 장면: `say` 인물 대사·`det` 탐정 대사·`snap` 찍을 증거·`give` 받을 소지품), `needs`(질문이 기다리는 증거) |
 | `ANSWERS_KO` | 대답 17줄의 한국어. 확인된 노트 지문·복습·엔딩 반박의 해석에 사용 |
 | `SPRITES` | 여섯 인물 PNG(+ `'fiona:nervous'`, `'fiona:sad'` 표정. `height`는 기본 그림 대비 키, `spriteKey()`로 고른다) 경로·크기·얼굴 아이콘 viewBox·가로 중심 `anchor`·입 좌표 `mouth` |
 | `NPC_POSITIONS` | 배경 기준 가로 위치·발 위치·전신 높이(%). 대화와 현장에서 같은 좌표. 장면용 임시 위치는 `S.visit`(`placeIdOf()`, `positionOf()`로 읽는다) |
@@ -382,7 +383,7 @@ node server.js            # http://localhost:5173/
 
 | 함수 | 역할 |
 |---|---|
-| `talkTo(id)` | 대화 시작·재개. 첫 만남이면 인사 음성 |
+| `talkTo(id)`, `playGreeting(id)` | 대화 시작·재개. 첫 만남이면 `hello`(한 줄, 또는 인물·탐정이 주고받는 줄 목록)를 차례로 |
 | `evidenceNeed()`, `renderSceneHead()` | 심문 증거 찾은 수 / 필요한 수(`ENDING.confront`), 장소 이름표와 `#evCount` 칩 갱신(오를 때 톡) |
 | `nudgeTick`, `clearNudge()` | 장소 화면에서 `NUDGE_AFTER`(8초) 무입력이면 물어볼 게 남은 인물 위에 말풍선 느낌표, 입력 시 지움 |
 | `enterInterview(id, step)`, `leaveInterview()` | 피오나·경찰관의 조사실 배치·전환·조명, 임시 방문 해제 |
@@ -583,7 +584,7 @@ node server.js            # http://localhost:5173/
   4. 로지의 가방 소지품 사진: 열린 파란 가방 속 빨간 도시락·노란 물병(`picnic.webp`의 초록 도시락·파란 물병을 바꾸는 편집). 약 1.5.
   5. 대화 바닥 확장 4장: 소풍 탁자·낮 카페·벤의 집·정원(도서관 사건처럼 아래로 늘린 바닥). 약 6.
   6. 낮의 마을 지도(소풍 탁자·카페·벤의 집·정원·회사가 보이는 한 장, 글자 없음) — 지금은 밤 마을 지도에 핀만. 약 2.
-  7. 녹음: 로지(hello·r1–r4·give·thanks), 오리 아저씨(hello·v1–v3), 벤(hello·b1–b2), 미아·올리(hello·g1을 두 목소리로 나눠 녹음하거나 합침·g2), 노라(hello·n1–n3·thanks), 탐정(garden-photo·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
+  7. 녹음: 로지(hello·hello2·r1–r4·give·thanks), 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, garden-photo·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 약 45줄, 약 7.
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음.
 
 
