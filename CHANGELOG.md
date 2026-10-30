@@ -15,6 +15,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-10-30 · Claude · (이 커밋)
 
+- 사용자 요청(HANDOFF 10절 0번): 열리는 길이 없던 옛 범인 지목 창과 오답 지목 분기를 지움. 추리하기 → 추리 보드 → 경찰에게 알리기 → 피오나 심문 흐름은 그대로.
+  - `index.html`: `#accuse`·`#accused` 창과 `openAccuse()`·`showAccused()`·`ACCUSE_JOSA`·`suspects()`, 오답 장면 `WRONG`·`wrongAccusation()`·`wrongLine()`·`endingNext()`의 `wrong` 단계, 관련 CSS(`.pick`, `.clear-card`, `.scene-npc.leaving`, `.accuse-head`, `.accused .mini`), 탐정 `accuse` 대사, 아무도 읽지 않던 `S.saidAccuse`, 테스트 버튼 `심문 완료`의 옛 창 닫기 줄. `.accused` 카드 모양은 다른 확인 창(사건 나가기·대화 그만두기·심문 나가기)이 쓰므로 남김. `accusedId`는 증거 서랍의 진술 목록에서 심문받는 사람을 빼는 데 쓰여 남김.
+  - 음성 16개를 휴지통으로: `badger-again/clear-ray·rosie`, `badger-bring-ray·rosie·fiona`, `badger-call2-ray·rosie`, `detective-accuse`, `detective-call-ray·rosie`, `ray-wrong1·2`, `rosie-wrong1·2`.
+  - HANDOFF: 10절 0번 삭제, 음성 목록·추리 완성 설명에서 지운 것 정리.
+- 확인(새 탭 127.0.0.1): 구문 검사 통과. 도서관 사건 추리 완성 → 경찰에게 알리기(경사 질문 → 탐정 답 → 경사 "데려가요") → 심문 시작 → 피오나 첫 주장 → 테스트 `심문 완료`로 자백까지, 콘솔 오류 없음, 재생된 음성 모두 200. 소풍 사건 로드 정상.
+- **다음**: 사용자 지시 대기. 후보(HANDOFF 10절): 사건 도중 증거를 인물에게 내밀기(1번) / 소풍 사건 Higgsfield 그림·녹음(비용 먼저 알림)
+
+## 2026-10-30 · Claude · 81f2531
+
 - 사용자가 두 폴더를 `E:\GPT\Detective\Detective-dev`·`Detective-story`로 옮긴 뒤 이어받음(11:10 항목의 "다음"). `git worktree repair ../Detective-story`로 연결을 고침(기획 폴더의 `.git`이 옛 `../Pioo/...`를 가리키고 있었음). 내부 worktree 관리 이름 `Pioo-story`는 그대로.
 - 확인: `git worktree list`에 두 폴더가 새 경로로 나옴, 양쪽 `git status` 정상(story에서 `main` merge 시험 → 이미 최신). `story` merge는 새 커밋 없음. 미리보기 `detective-dev`(5173) 새 탭에서 소풍 사건 정상, 콘솔 오류 없음. 코드·HANDOFF 변경 없음(HANDOFF 2절에 이미 repair 방법이 있음).
 - 남은 기획 요청(Codex 쪽): 11:30 항목의 Pioo 이름 바꾸기, 11:10 항목의 STORY_LOG 폴더 경로, 그 전 항목들의 소풍 설계서 맞추기·미아·올리 동물 종.

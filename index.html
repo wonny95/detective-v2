@@ -116,14 +116,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @media(prefers-reduced-motion:reduce){.app.interview-arriving .scene::after{animation:none;opacity:0;pointer-events:none}}
 /* a photo held up to the suspect */
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
-/* a wrong accusation: the person's board photo, crossed out while Badger confirms the alibi; then they leave */
-.clear-card{position:absolute;right:7%;top:38%;z-index:7;pointer-events:none}
-.clear-card .ded-sus{transform:scale(1.25) rotate(6deg);animation:clear-in .45s cubic-bezier(.3,1.5,.5,1) both}
-.clear-card .ded-sus::after{animation:clear-x .35s ease-out .35s both}
-@keyframes clear-in{from{opacity:0;transform:scale(.6) rotate(-6deg)}}
-@keyframes clear-x{from{opacity:0;transform:scale(1.6)}}
-.scene-npc.leaving{transition:opacity .6s ease-in,translate .6s ease-in;opacity:0;translate:18% 0}
-@media(prefers-reduced-motion:reduce){.clear-card .ded-sus,.clear-card .ded-sus::after{animation:none}.scene-npc.leaving{transition:none}}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
 .presented svg{display:block;width:100%;height:100%}
 @keyframes present-in{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}80%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(-12px) rotate(-3deg)}}
@@ -609,7 +601,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .np-actions .replay-q{margin:0}
 .gmark{display:inline;margin:0;padding:0 1px;border:0;border-bottom:1.5px solid #C9952E;border-radius:0;background:linear-gradient(transparent 58%,rgba(242,207,115,.55) 58%) no-repeat 0 0/100% 100%;font:inherit;color:inherit}
 .gcard .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
-.gcard-head,.accuse-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gcard-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .gcard .gko{margin:0;font-size:14px;line-height:1.6}
 .gex{display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:2px dashed var(--line)}
 .gex h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
@@ -840,8 +832,6 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-sus:nth-child(1) .ded-pol{transform:rotate(-3deg)}.ded-sus:nth-child(2) .ded-pol{transform:rotate(2.5deg)}.ded-sus:nth-child(3) .ded-pol{transform:rotate(-1.5deg)}
 .ded-pol i{display:block;width:54px;height:54px;margin:0 auto 1px;border-radius:50%;background:#FFF8E9 center/88% no-repeat}
 .ded-sus.out .ded-pol{filter:grayscale(.7) brightness(.9)}
-.clear-card .ded-sus.out::after{content:"";position:absolute;left:50%;top:5px;width:72px;height:72px;margin-left:-36px;pointer-events:none;opacity:.85;
-  background:linear-gradient(45deg,transparent 46%,#A4352C 46% 54%,transparent 54%),linear-gradient(-45deg,transparent 46%,#A4352C 46% 54%,transparent 54%)}
 /* a suspect ruled out: a red crayon X (assets/ui/crayon-x-1/2.png, user request) drawn over the photo stroke by stroke as
    the detective says they couldn't do it, each stroke uncovered along its own direction; still afterwards */
 .ded-x{position:absolute;left:50%;top:3px;width:62px;height:62px;margin-left:-31px;pointer-events:none}
@@ -1066,12 +1056,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .tut-back svg{width:20px;height:20px;display:block}
 @media(prefers-reduced-motion:reduce){.tut-fig img{animation:none}}
 
-.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pick button{border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:#FFFDF7;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--f-hand);font-weight:700;font-size:14px}
-.pick .mini{width:58px;height:58px}
-/* the accusation notice: whom the player just named, before the questioning (or their rebuttal) starts */
+/* a small confirm card (leaving the case, stopping a conversation, leaving the questioning) */
 .accused{align-items:center;text-align:center;gap:14px;max-width:300px}
-.accused .mini{width:84px;height:84px;border-width:2.5px}
 .mcard .accused-text{font-family:var(--f-display);font-size:18px;line-height:1.5;text-wrap:balance}
 .accused .pill.big{align-self:stretch}
 .mcard .leave-sub{margin-top:-8px;font-size:13px;color:var(--ink-soft)}
@@ -1396,22 +1382,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <button class="tab" type="button" data-home="me"><span class="hn-ic"><img src="assets/ui/nav/my-hat.png" alt="" draggable="false"></span>마이</button>
     </nav>
   </section>
-
-  <div class="modal" id="accuse" hidden>
-    <div class="mcard">
-      <div class="accuse-head"><h2>범인은 누구일까요?</h2><button class="close-button" type="button" data-dismiss aria-label="범인 지목 닫기"></button></div>
-      <div class="pick" id="pick"></div>
-    </div>
-  </div>
-
-  <div class="modal" id="accused" hidden>
-    <div class="mcard accused" role="alertdialog" aria-labelledby="accusedText">
-      <span class="mini" id="accusedFace"></span>
-      <p class="accused-text" id="accusedText"></p>
-      <button class="pill big" type="button" data-accused-go>심문 시작</button>
-      <button class="pill sm" type="button" data-accused-back>다시 고를래요</button>
-    </div>
-  </div>
 
   <!-- leaving the case for the case list from a place asks once (user decision); the case is saved either way -->
   <div class="modal" id="leaveCase" hidden>
@@ -1744,11 +1714,7 @@ const PEOPLE = PICNIC ? PICNIC_CASE.people : {
     // recorded voice (Higgsfield · MiniMax · Fraser)
     audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3',
       closing:'audio/badger-closing.mp3', call1:'audio/badger-call1.mp3', interviewOpen:'audio/badger-interview-open.mp3',
-      'call2-ray':'audio/badger-call2-ray.mp3', 'call2-rosie':'audio/badger-call2-rosie.mp3', 'call2-fiona':'audio/badger-call2-fiona.mp3',
-      // a wrong accusation (WRONG): ruling them out, asking again, fetching the next
-      'clear-ray':'audio/badger-clear-ray.mp3', 'clear-rosie':'audio/badger-clear-rosie.mp3', 'again-ray':'audio/badger-again-ray.mp3',
-      'again-rosie':'audio/badger-again-rosie.mp3', 'bring-ray':'audio/badger-bring-ray.mp3', 'bring-rosie':'audio/badger-bring-rosie.mp3',
-      'bring-fiona':'audio/badger-bring-fiona.mp3' },
+      'call2-fiona':'audio/badger-call2-fiona.mp3' },
     questions:[
       { id:'b1', en:'What happened here?', ko:'여기서 무슨 일이 있었나요?' },
       { id:'b2', en:'Who found the victim?', ko:'피해자를 누가 발견했나요?' },
@@ -1824,7 +1790,7 @@ const PEOPLE = PICNIC ? PICNIC_CASE.people : {
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
     hello:"Hey, detective. I'm Ray. I didn't do anything, okay?",
-    audio:{ hello:'audio/ray-hello.mp3', q1:'audio/ray-q1.mp3', q2:'audio/ray-q2.mp3', q3:'audio/ray-q3.mp3', wrong1:'audio/ray-wrong1.mp3', wrong2:'audio/ray-wrong2.mp3' },
+    audio:{ hello:'audio/ray-hello.mp3', q1:'audio/ray-q1.mp3', q2:'audio/ray-q2.mp3', q3:'audio/ray-q3.mp3' },
     unlocks:{ q1:{ places:['cafe'] }, q2:{ people:['duck'] } },
     answers:{
       q1:"I was at the Lake Cafe. I played my guitar on stage from eight to nine thirty.",
@@ -1845,7 +1811,7 @@ const PEOPLE = PICNIC ? PICNIC_CASE.people : {
   rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
     hello:"H-hello. I'm Rosie. I'm a little scared, detective.",
     // recorded voice (Higgsfield · MiniMax · Evie, fearful)
-    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3', wrong1:'audio/rosie-wrong1.mp3', wrong2:'audio/rosie-wrong2.mp3' },
+    audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3' },
     unlocks:{ q1:{ places:['hill'] } },
     answers:{
       q1:"I was on Moon Hill with my telescope, from eight to ten. The sky was so clear tonight.",
@@ -2368,7 +2334,6 @@ const talkLocked = () => !!S.cur && !S.investigate && !ending && per(S.cur).orde
 // writing an answer down: the notebook stays out on that question until it checks right, no tabs and no putting it away
 // (user decision); 〈 still puts it away to ask about stopping the conversation, and staying takes it out again
 const recordLocked = () => talkLocked() && per(S.cur).phase === 'record';
-const suspects = () => S.met.filter(id => !spk(id).partner && !spk(id).witness);
 // the ending in progress; endingRound resets when the player confirms leaving the questioning.
 let ending = null, endingRound = 0, endTimer;
 
@@ -3475,39 +3440,8 @@ function allConversationsDone(){
 function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!ending; }
 $('#accuseFoot').onclick = e => { if(e.target.closest('[data-accuse]')) openDeduce(); };
 $('#accuseBtn').onclick = () => openDeduce();
-function openAccuse(){
-  if(!allConversationsDone()) return;
-  setNotes(false);
-  if(!suspects().length) return toast('아직 지목할 인물이 없어요.');
-  $('#pick').innerHTML = suspects().map(id => { const s = spk(id); return `<button type="button" data-i="${id}"><span class="mini" style="background:${s.bg}">${miniSVG(s.id)}</span>${esc(s.name)}</button>`; }).join('');
-  $('#accuse').hidden = false;
-  // the first time in a case the detective says it out loud
-  if(!S.saidAccuse){ S.saidAccuse = true; detectiveSay('accuse'); }
-}
-$('#accuse').addEventListener('click', e => {
-  if(e.target.closest('[data-dismiss]') || e.target.id === 'accuse'){ $('#accuse').hidden = true; return; }
-  if(!allConversationsDone()) return;
-  const b = e.target.closest('[data-i]'); if(!b) return;
-  $('#accuse').hidden = true;
-  showAccused(b.dataset.i);
-});
-// "○○을/를 범인으로 지목했어요." — the same notice whether the pick is right or wrong; 심문 시작 goes on.
-const ACCUSE_JOSA = { fiona:'를', ray:'을', mole:'을', rosie:'을' };   // by how the English name ends when read aloud
+// who is being questioned (the culprit): their own statements stay out of the evidence drawer
 let accusedId = null;
-function showAccused(id){
-  const s = spk(id);
-  accusedId = id;
-  $('#accusedFace').style.background = s.bg;
-  $('#accusedFace').innerHTML = miniSVG(id);
-  $('#accusedText').innerHTML = `<b>${esc(s.name)}</b>${ACCUSE_JOSA[id] || '을(를)'} 범인으로 지목했어요.`;
-  $('#accused').hidden = false;
-}
-$('#accused').addEventListener('click', e => {
-  if(e.target.closest('[data-accused-back]')){ $('#accused').hidden = true; $('#accuse').hidden = false; return; }
-  if(!e.target.closest('[data-accused-go]')) return;
-  $('#accused').hidden = true;
-  if(accusedId === CULPRIT) startEnding(); else wrongAccusation(accusedId);
-});
 
 /* ---------- deduction ----------
    The detective thinks it through out loud, one question at a time (user decision: this page leads the player's thinking;
@@ -3725,7 +3659,6 @@ function deducePick(word){
   const card = $('#deduceCard'); card.classList.remove('solved'); void card.offsetWidth; card.classList.add('solved');
   saveGame();
   if(deduceEnd()){
-    S.saidAccuse = true;
     deduceShow({ en:q.right, ko:q.rightKo }, `r${i + 1}`, 'read');
     renderDeduce(); $('#deduceGo').hidden = false; deduceToEnd(true); return saveGame();
   }
@@ -3811,22 +3744,6 @@ const ENDING = PICNIC ? PICNIC_CASE.ending : {
     { key:'confess3', en:"I was so scared, so I ran out through the window. I'm so sorry, Professor.", ko:'너무 무서워서 창문으로 빠져나갔어요. 정말 죄송해요, 교수님.' }
   ],
   closing:{ who:'badger', key:'closing', en:"Fiona told us everything. Good work, detective. Case closed.", ko:'피오나가 모두 털어놓았어요. 수고했어요, 탐정님. 사건 종결이에요.' }
-};
-// A wrong accusation, told as a scene (user pick A): the person protests, Sgt. Badger rules them out by the evidence (the
-// orange fur on the library door, user pick: an alibi of their own word was weak; their photo is crossed out as on the board), they are let go and leave the room, and Badger asks again with the suspects left.
-const WRONG = {
-  ray:[
-    { who:'ray', key:'wrong1', en:"Me? I was on the cafe stage all night!", ko:'저요? 저는 밤새 카페 무대에 있었어요!' },
-    { who:'badger', key:'clear-ray', en:"Look at the fur on the library door. It's orange, but Ray's fur is grey.", ko:'도서관 문에 걸린 털을 보세요. 주황색인데, 레이의 털은 회색이에요.', cross:true },
-    { who:'ray', key:'wrong2', en:"Can I go now? I have a song to finish.", ko:'이제 가도 되죠? 마저 끝내야 할 노래가 있거든요.', leave:true }
-  ],
-  rosie:[
-    { who:'rosie', key:'wrong1', en:"Me? I was on Moon Hill with my telescope!", ko:'저요? 저는 망원경을 들고 달 언덕에 있었어요!' },
-    { who:'badger', key:'clear-rosie', en:"Look at the fur on the library door. It's orange, but Rosie's fur is white.", ko:'도서관 문에 걸린 털을 보세요. 주황색인데, 로지의 털은 하얀색이에요.', cross:true },
-    { who:'rosie', key:'wrong2', en:"Can I go back to the hill? The stars are still out.", ko:'언덕으로 돌아가도 될까요? 아직 별이 떠 있거든요.', leave:true }
-  ],
-  again:id => ({ who:'badger', key:`again-${id}`, en:`So it wasn't ${spk(id).name.split(' ')[0]}. Then who was it, detective?`, ko:`${spk(id).ko}는 아니었네요. 그럼 누구였을까요, 탐정님?` }),
-  bring:id => ({ who:'badger', key:`bring-${id}`, en:`${spk(id).name}? I'll bring ${id === 'ray' ? 'him' : 'her'} in.`, ko:`${spk(id).ko}요? 데려올게요.` })
 };
 const fionaLine = l => ({ who:'fiona', key:l.key, en:l.en ?? spk('fiona').answers[l.key], ko:l.ko ?? ANSWERS_KO.fiona[l.key] });
 // her face: composed for the first two claims, cornered once the bakery story falls apart, sorry when she confesses
@@ -4138,22 +4055,6 @@ function playInterrogationOpening(){
     }, 500);
   });
 }
-function wrongAccusation(id){
-  const cleared = ending?.cleared || [];
-  enterInterview(id, 'wrong');
-  Object.assign(ending, { who:id, i:0, cleared });
-  wrongLine(WRONG[id][0]);
-}
-// one line of the scene; with Badger's check the person's photo comes up crossed out, as on the deduction board
-function wrongLine(line){
-  $('.scene .clear-card')?.remove();
-  endingSay(line);
-  if(!line.cross) return;
-  const card = document.createElement('div');
-  card.className = 'clear-card';
-  card.innerHTML = `<span class="ded-sus out"><span class="ded-pol"><i style="background-image:url(assets/ui/icons-v2/${ending.who}.png)"></i>${esc(spk(ending.who).name.split(' ')[0])}</span></span>`;
-  $('.scene').appendChild(card);
-}
 function requestLeaveInterrogation(){
   if(ending?.step !== 'confront' || !ending.line || $('.presented')) return;
   clearTimeout(endTimer); stopVoice();
@@ -4250,23 +4151,6 @@ function present(ref){
 function endingNext(){
   const e = ending;
   clearTimeout(endTimer); stopVoice();
-  if(e.step === 'wrong'){
-    const lines = WRONG[e.who];
-    if(lines[e.i].leave){
-      // let go: they slip out of the room, then Badger turns to the detective with the suspects left
-      $('.scene .clear-card')?.remove();
-      $(`#talkCamera .scene-npc[data-talk="${e.who}"]`)?.classList.add('leaving');
-      renderSay(null); e.line = null; renderAsk();
-      e.cleared.push(e.who);
-      endTimer = setTimeout(() => {
-        delete S.visit[e.who];
-        Object.assign(e, { step:'call', i:0, pick:null });
-        endingSay(WRONG.again(e.who));
-      }, 700);
-      return;
-    }
-    return wrongLine(lines[++e.i]);
-  }
   if(e.step === 'confession'){
     if(++e.i < ENDING.confession.length) return endingSay(fionaLine(ENDING.confession[e.i]));
     e.step = 'closing'; return endingSay(ENDING.closing);
@@ -4972,7 +4856,6 @@ const DETECTIVE = {
   intro2:{ en:'My ears are small, but they catch every word.', ko:'내 귀는 작지만, 어떤 말도 놓치지 않지.' },
   askname:{ en:"Every detective needs a name. What's mine?", ko:'탐정에게는 이름이 필요해. 내 이름은 뭘까?' },
   named:{ en:"I like it. Let's get to work!", ko:'마음에 들어. 이제 일하러 가자!' },
-  accuse:{ en:"I've heard enough. I know who did it.", ko:'들을 만큼 들었어. 누가 했는지 알겠어.' },
   // 홈, one for the moment (homeState())
   'home-going':{ en:"We left a case open. Let's finish it.", ko:'끝내지 못한 사건이 있어. 마무리하자.' },
   'home-new':{ en:"A new request just came in.\nLet's check the case board.", ko:'새로운 의뢰가 들어왔어.\n사건 보드를 살펴보자.' },
@@ -5754,7 +5637,7 @@ $('#devDeduce').onclick = () => {
   $('#devDone').click(); $('#devEvidence').click();
   const st = deduceState();
   DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1;
-  S.saidAccuse = true; saveGame();
+  saveGame();
   closeDrawer(); setNotes(false);
   openDeduce();
   toast('추리 질문에 모두 답했어요.');
@@ -5776,7 +5659,6 @@ $('#devInterro').onclick = () => {
     if(ending) leaveEnding();
     if(!allConversationsDone()) $('#devDone').click();
     $('#devEvidence').click();
-    $('#accuse').hidden = true; $('#accused').hidden = true;
     startEnding();
   }
   clearTimeout(endTimer); stopVoice(); closeDrawer();
@@ -5805,7 +5687,7 @@ $('#devReset').onclick = () => {
 const previewCase = () => { $('#devDone').click(); $('#devEvidence').click(); };
 const previewDeduced = () => {
   const st = deduceState();
-  DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1; S.saidAccuse = true;
+  DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1;
 };
 // [id, label, what it does]; a part of the other case opens that case's page
 const PREVIEW_PARTS = PICNIC ? [

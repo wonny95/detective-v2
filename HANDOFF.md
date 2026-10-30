@@ -147,7 +147,7 @@ node server.js            # http://localhost:5173/
   - **이름 바꾸기**: `마이` > 설정 `탐정 이름 바꾸기` → 신분증부터(현재 이름이 채워짐), 오른쪽 위 공용 닫기로 바꾸지 않고 나갈 수 있다. 도장 뒤 버튼은 `닫기`.
 - **이름은 글자로만** 쓴다: 홈 사무소 문패(`Detective <이름>`), 내 기록. 녹음에는 이름이 없고 NPC는 "detective"라고 부른다(사용자 결정) → 이름을 바꿔도 음성을 다시 만들 필요가 없다. 저장 `detective.detectiveName`.
 - **홈**: `홈` 칸 전체가 사무소 그림이고 탐정과 이름 문패가 있다(3.1절). 코르크 단서판(`사건` 칸)은 그대로.
-- **추리 완성**: 추리 보드의 마지막 질문까지 답하면 탐정이 결론 문장을 읽어 주고 `경찰에게 알리기`가 뜬다(`S.saidAccuse`).
+- **추리 완성**: 추리 보드의 마지막 질문까지 답하면 탐정이 결론 문장을 읽어 주고 `경찰에게 알리기`가 뜬다.
 - **종결**: 오소리 경사의 마지막 대사 뒤 `다음`을 누르면 복습 첫 페이지로 바로 간다. `COMPLETE` 도장은 그 페이지의 사건 서류에 찍힌다(3.7절).
 
 ### 3.2 브리핑
@@ -352,7 +352,7 @@ node server.js            # http://localhost:5173/
 | `PICNIC_CASE` | 소풍 사건의 데이터 묶음: `people`·`grammarLines`·`answersKo`·`places`·`positions`·`items`·`deduce`·`ending.handoff`. 사건별 표가 `PICNIC ? PICNIC_CASE.… : {도서관}`으로 고른다 |
 | `ITEMS` | 소지품: id → `label`, `en`/`ko`(설명), 그림 `img`·`w`·`h`·`crop`(사진처럼 잘라 보임) |
 | `QUESTIONS` | 용의자 공통 질문 3개(q1 어디 있었나 / q2 증명해 줄 사람 / q3 피해자와의 관계) |
-| `PEOPLE` | 인물별: `place`, `hello`, `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 지목 대상 아님·대화 선택), `required`(참고인이지만 대화 필수), `after`(질문 id 또는 `done`을 바르게 적은 뒤의 장면: `say` 인물 대사·`det` 탐정 대사·`snap` 찍을 증거·`give` 받을 소지품), `needs`(질문이 기다리는 증거) |
+| `PEOPLE` | 인물별: `place`, `hello`, `questions`(없으면 QUESTIONS), `openingQuestion`, `answers`, `notes`, `bank`, `unlocks`, `audio`, `partner`(동료), `witness`(참고인: 용의자 아님·대화 선택), `required`(참고인이지만 대화 필수), `after`(질문 id 또는 `done`을 바르게 적은 뒤의 장면: `say` 인물 대사·`det` 탐정 대사·`snap` 찍을 증거·`give` 받을 소지품), `needs`(질문이 기다리는 증거) |
 | `ANSWERS_KO` | 대답 17줄의 한국어. 확인된 노트 지문·복습·엔딩 반박의 해석에 사용 |
 | `SPRITES` | 여섯 인물 PNG(+ `'fiona:nervous'`, `'fiona:sad'` 표정. `height`는 기본 그림 대비 키, `spriteKey()`로 고른다) 경로·크기·얼굴 아이콘 viewBox·가로 중심 `anchor`·입 좌표 `mouth` |
 | `NPC_POSITIONS` | 배경 기준 가로 위치·발 위치·전신 높이(%). 대화와 현장에서 같은 좌표. 장면용 임시 위치는 `S.visit`(`placeIdOf()`, `positionOf()`로 읽는다) |
@@ -457,7 +457,7 @@ node server.js            # http://localhost:5173/
 
 - **엔딩 대사**: 대사는 `ENDING`, 파일은 각 인물 `audio`의 키로 연결한다.
   - 피오나(Petra, 아래 `confess2` 외 사용자 제작 MiniMax): `end3` angry(job `c2cef7bb-…`, 같은 줄의 이전 테이크 `ad0f9941-…`), `end4` angry(`49cb610e-…`), `endMiss` disgusted(`4e9039bb-…`), `confess1` fearful(`b9f4f6d6-…`, 다른 테이크 sad 11초 `3364d35a-…`), `confess3` fearful(`4cd66913-…`, 중간 문장을 잘라 사용).
-  - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 심문 첫 질문 `audio/badger-interview-open.mp3`(Codex 제작, Higgsfield MiniMax job `ba57b513-60b2-4235-aec8-51e2fa34b05f`, 0.15크레딧, 약 2.68초). 경찰에게 알리는 장면(Claude 제작) `badger-call1`(`10344252-…`), `badger-call2-fiona`(`076e7c65-…`). `badger-call2-ray·rosie` 파일은 이전 분기에서 남아 있고 현재 재생되지 않는다. 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
+  - 오소리 경사(Fraser) `closing`(`e596cbfc-…`). 심문 첫 질문 `audio/badger-interview-open.mp3`(Codex 제작, Higgsfield MiniMax job `ba57b513-60b2-4235-aec8-51e2fa34b05f`, 0.15크레딧, 약 2.68초). 경찰에게 알리는 장면(Claude 제작) `badger-call1`(`10344252-…`), `badger-call2-fiona`(`076e7c65-…`). 로지 후일담 줄(`675f1ad5-…`)은 장면을 없애 쓰지 않는다.
 - **음성 교체**: 사용자 링크 또는 연결된 생성 목록에서 대사·목소리·테이크를 확인하고 인물의 `audio` 키에 맞춘다. 같은 줄의 여러 테이크는 사용자 지정본을 우선한다. 파일을 받은 뒤 실제 녹음과 설정을 확인하며, 도구의 감정 적용 여부를 추정하지 않는다.
 - **두더지 부인 m3**: `audio/mole-m3.mp3`는 사용자 제공 [Higgsfield 녹음](https://higgsfield.ai/s/bv9sW3KEhSs). 대사는 `PEOPLE.mole.answers.m3`와 일치한다. MiniMax Speech 2.8 HD, Delia, 약 8.14초. `SENTENCE_TIMES['mole:m3']`는 두 문장 `[0, 5.03]`, `[5.77, 7.86]`으로 맞췄다.
 - **피오나 q3**: `audio/fiona-q3.mp3`는 단골손님이 매일 아침 피오나의 빵을 사 갔다는 한 문장만 말한다. Petra, Higgsfield text2speech_v2 MiniMax, job `f98cadd0-3267-4b43-9d08-01cdd5f258f7`, 0.3크레딧, 약 3.27초. `SENTENCE_TIMES['fiona:q3']`는 `[0, 3.14]`. 신문 리뷰와 감정은 이 진술에서 다루지 않고 두더지 부인 m3·빵집 신문 단서에서 드러난다. 이전 저장본의 완료된 q3는 새 빈칸을 정답으로 채워 기록을 유지한다.
@@ -467,7 +467,7 @@ node server.js            # http://localhost:5173/
 
 - **증거 나레이션**: 탐정 목소리는 MiniMax **Grady**(프리셋 `e2a2d2e6-9ed2-59cd-82af-feaa27f8a678`)다. 파일은 `audio/detective-<장소>-<물건>.mp3`이고 `PLACES.clues[].audio`로 연결한다. 모든 단서와 물건(23개)에 있다.
   - 사용자 제작: 도서관 시계·창문·문.
-  - 탐정 자신의 대사 9줄(Claude 제작, 3.1·3.1.1절): `audio/detective-intro1·intro2·askname·named·accuse.mp3`(2.7–4.7초), 홈 한마디 `detective-home-going·new·again·quiet.mp3`(2.7–4.4초). 대본은 `DETECTIVE`, 녹음의 "Sergeant Badger"는 화면에서 `Sgt. Badger`. `audio/detective-closed.mp3`는 미사용으로 보관한다.
+  - 탐정 자신의 대사 8줄(Claude 제작, 3.1·3.1.1절): `audio/detective-intro1·intro2·askname·named.mp3`(2.7–4.7초), 홈 한마디 `detective-home-going·new·again·quiet.mp3`(2.7–4.4초). 대본은 `DETECTIVE`, 녹음의 "Sergeant Badger"는 화면에서 `Sgt. Badger`. `audio/detective-closed.mp3`는 미사용으로 보관한다.
 - 추리 보드 현재 28줄(Claude 제작, 3.7절, 줄당 0.15크레딧): `audio/deduce/<키>.mp3`. job: h1 `bbbe1048-…`, h2 `55f04c0b-…`, h3 `6e423f1a-…`, h4 `b1ee5942-…`, h5 `8ad6a50e-…`, h6 `247c0aad-…`, h7 `4f9db832-…`, h8 `dea7ac17-…`, h9 `5c6a52e0-…`, miss `cecba4f1-…`, q1 `3dcedafe-…`, q2 `f6a32e80-…`, q3 `87919380-…`, q4 `ce1dc290-…`, q5 `c9f3aac9-…`, q6 `f086190c-…`, q7 `2ee7e768-…`, q8 `9cbede37-…`, q9 `82deb724-…`, r1 `19019809-…`, r2 `23a2a777-…`, r3 `09839f6f-…`, r4 `61160a7c-…`, r5 `7a77a1e6-…`, r6 `ca94b5ee-…`, r7 `f0b253e4-…`, r8 `d5664e80-…`, r9 `1cbe8a3b-…`. 경찰에게 알리는 장면의 탐정 대사 `detective-call-fiona.mp3`(`c88e3b00-…`). `detective-call-ray·rosie.mp3`는 이전 분기의 파일로 현재 재생되지 않는다.
   - Claude 제작: 나머지 19줄(빵집 door·oven·note·jam·pin·baskets, 카페 poster·guitar·cups·window, 언덕 notebook·footprints·telescope·star·flowers, 도서관 book·lamp·plant·crayons). 화면 문장과 달리 대문자 문구(CLOSED, LIVE MUSIC)는 보통 글자로, 노트의 따옴표·줄표는 빼고 읽혔다. `hill-notebook`은 "Rosie." 앞의 5초 공백을 잘라 11초다.
 - **레이 첫 인사**: `audio/ray-hello.mp3`, 사용자 제공 `https://higgsfield.ai/s/5HDlKXb_pFk` (job `0518de60-1188-4a1c-900b-55f8c4e7b00d`). 대사 “Hey, detective. I'm Ray. I didn't do anything, okay?”, MiniMax Archie, 제작 speed 0.8, 약 4.32초. 첫 만남의 `hello`에 연결하며 기존 q1 파일은 유지한다.
@@ -503,7 +503,7 @@ node server.js            # http://localhost:5173/
 | 노트 배경 | `ui/casefile-panel.webp` | 남색 서류철 + 크림색 서류, 위 머리 띠. 클립은 지움(사용자 요청: 오른쪽 위 UI를 가림) |
 | 메뉴 아이콘 | `ui/nav/*.png` (160×160) | 홈 메뉴 `home-house`·`case-magnifier`·`study-book`·`my-hat`, 사건 안 `map`·`note`. 시트 두 장(`nav-icons-higgsfield-original.png`, `nav-icons-2-higgsfield-original.png`)을 `scripts/cut-nav-icons.py`로 자름(고르지 않은 칸은 버림) |
 | 노트 탭 | `ui/tab-1.png` … `tab-3.png`, `ui/casefile-paper-edge.png` | 아래가 열린 손그림 탭(노트 종이와 같은 연필선, 안쪽 흰색). CSS 마스크 + 곱하기로 색(연 탭 종이색 `#FCFAED`, 닫힌 탭 크라프트지)을 입힌다. 종이 테두리 조각은 닫힌 탭의 발 위에 얹는다. |
-| 손그림 아이콘 | `ui/icons-v2/*.png` (160×160) | Higgsfield 한 장(돋보기·카메라·도토리·여섯 인물 얼굴). 증거 탭 카메라, 힌트 도토리, 작은 얼굴(`miniSVG()` → `FACE_ICONS`: 노트 얼굴 줄·제목·메모 쪽지·지도 핀·지목·복습·단어장). `detective.png`는 신분증 사진·추리 칠판 말풍선 |
+| 손그림 아이콘 | `ui/icons-v2/*.png` (160×160) | Higgsfield 한 장(돋보기·카메라·도토리·여섯 인물 얼굴). 증거 탭 카메라, 힌트 도토리, 작은 얼굴(`miniSVG()` → `FACE_ICONS`: 노트 얼굴 줄·제목·메모 쪽지·지도 핀·복습·단어장). `detective.png`는 신분증 사진·추리 칠판 말풍선 |
 | 심문 게이지 | `ui/magnifier-paper.png`, `ui/buttons/cream-flat.png`, `ui/buttons/honey-flat.png` | 돋보기는 내장 이미지 생성. 크림/갈색 종이 외곽과 꿀색 채움은 기존 버튼 질감 재사용 |
 | 말풍선 | `ui/speech-paper-frame.png`, `ui/speech-paper-tail-pencil.png` | 기본 이미지 생성 도구로 제작. 종이 본문은 종이 외곽으로 잘라(1508×908) 9조각(위·아래 150, 좌우 190 = 모서리 전체)으로 확장해 어떤 크기에서도 모서리가 일그러지지 않는다(`ui/README.md`). 꼬리는 별도 고정 크기로 배치. 엔딩의 주장·반박·자백·마무리에 사용 |
 | 공용 닫기 | `ui/close-button.png` | 지도·증거 서랍·문법·홈에서 연 복습·범인 선택 창, 42px 손그림 버튼 |
@@ -587,7 +587,6 @@ node server.js            # http://localhost:5173/
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음.
 
 
-0. **추리 보드 다듬기**(게임 적용됨, 3.7절): 열리는 길이 없는 옛 지목 창(`#accuse`·`#accused`)과 오답 지목 분기(`WRONG`) 코드·음성 정리.
 1. **사건 도중 증거를 인물에게 내밀기**(지금은 엔딩 대질에만 있다): 게임이 증거와 인물을 자동으로 잇지 않는다. 플레이어가 고른 인물에게 증거를 보여 주면 반응한다(예: 주황색 털을 피오나에게). 누구에게 보여 줄지가 추리다.
 2. **모순 지목**: 범인만 고르는 대신 노트 문장 + 증거를 짝지어 제시한다. 틀리면 동료가 대화로 힌트를 준다. 틀린 노트 문장이면 동료가 "정말 그렇게 말했어요?"라고 되묻는다.
 3. **엔딩 보완**: 엔딩 음악(도장 소리는 있다).
