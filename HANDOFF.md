@@ -90,7 +90,7 @@ node server.js            # http://localhost:5173/
 - **한 엔진, 사건별 데이터**(사용자 결정: Codex가 따로 만든 소풍 전용 화면을 버리고 도서관 사건의 화면을 그대로 쓴다): 주소에 `?case=picnic`이 있으면 `CASE_ID = 'picnic-bag'`이고, `PEOPLE`·`PLACES`·`NPC_POSITIONS`·`GRAMMAR_LINES`·`ANSWERS_KO`·`DEDUCE`·`ENDING`이 `PICNIC_CASE`의 것을 쓴다. 없으면 도서관 사건(`case01`). `WORDS`·`GRAMMAR`·`ART`·`SPRITES`는 두 사건이 함께 쓴다. 사건 목록·홈은 기본 주소에만 있다: 소풍 카드 → `?case=picnic`으로 다시 열림, 소풍 사건에서 사건 목록으로 나가면 `/#cases`(사건 탭)로 돌아온다. 소풍 사건을 해결하면 Case 02가 열린다.
 - **흐름**: 이번 사건의 열쇠(소유 표현 3쪽, `GRAMMAR.ownership.examples`, 예문 음성 `audio/examples/ownership-*.wav`) → (처음 한 번) 튜토리얼 → 로지(`START`). 대화 화면·노트 받아쓰기·채점·발견 알림·현장·지도·코르크판 추리·복습은 도서관 사건과 같다. 모든 인물은 `witness:true, required:true`(용의자 없음, 모두 필수 대화).
   - **첫인사는 설계서(`design/case-01-picnic-bag.md` 인사와 탐문 대본) 그대로 주고받는다**: 인물 줄은 그 인물의 음성(대사 글자는 화면에 없음), 탐정 줄은 꿀색 탐정 말풍선(`해석` 있음)과 탐정 목소리. `{name}`은 플레이어가 정한 탐정 이름으로 화면에만 쓰고 음성에서는 뺀다. 정원은 올리·미아가 한 사람(`mia`)이지만 올리 줄은 다른 목소리(`as`)로 읽는다. 질문을 누르거나 대화를 떠나면 인사가 끊긴다.
-   - 로지 r1–r4 → r4로 오리 아저씨(낮의 호수 카페). 로지와의 대화를 다 적고 노트를 닫으면 로지가 "Please take this bag…"라고 말하고 **소지품**에 가방이 들어온다(`after.done.give`).
+  - 로지 r1–r4 → r4로 오리 아저씨(낮의 호수 카페). 로지와의 대화를 다 적고 노트를 닫으면 로지가 "Please take this bag…"라고 말하고 **소지품**에 가방이 들어온다(`after.done.give`).
   - 오리 아저씨 v1–v3 → v3로 벤(벤의 집)과 미아·올리(정원).
   - 벤 b1–b2 → b1로 노라(회사 로비).
   - 미아·올리(한 사람 `mia`, 이름 `Mia & Ollie`) g1을 적고 노트를 닫으면 탐정이 "Can I take a picture of your bags?"라고 말하고(꿀색 탐정 말풍선) 그 자리에서 파란·빨간 가방 사진 2장이 찍힌다(사용자 결정: 정원은 자유 조사 없이 대화 속 촬영, `after.g1.snap`, 정원 현장에는 누를 곳이 없다). 사진이 있어야 g2가 나온다(`needs`). 말이 끊겨도 사진은 찍힌다.
