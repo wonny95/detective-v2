@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-10-30 11:30 · Claude · (이 커밋)
+## 2026-10-30 · Claude · (이 커밋)
+
+- 사용자가 두 폴더를 `E:\GPT\Detective\Detective-dev`·`Detective-story`로 옮긴 뒤 이어받음(11:10 항목의 "다음"). `git worktree repair ../Detective-story`로 연결을 고침(기획 폴더의 `.git`이 옛 `../Pioo/...`를 가리키고 있었음). 내부 worktree 관리 이름 `Pioo-story`는 그대로.
+- 확인: `git worktree list`에 두 폴더가 새 경로로 나옴, 양쪽 `git status` 정상(story에서 `main` merge 시험 → 이미 최신). `story` merge는 새 커밋 없음. 미리보기 `detective-dev`(5173) 새 탭에서 소풍 사건 정상, 콘솔 오류 없음. 코드·HANDOFF 변경 없음(HANDOFF 2절에 이미 repair 방법이 있음).
+- 남은 기획 요청(Codex 쪽): 11:30 항목의 Pioo 이름 바꾸기, 11:10 항목의 STORY_LOG 폴더 경로, 그 전 항목들의 소풍 설계서 맞추기·미아·올리 동물 종.
+- **다음**: 사용자 지시 대기. 후보(HANDOFF 10절): 소풍 사건 Higgsfield 그림·녹음(비용 먼저 알림) / 추리 보드 옛 지목 창 코드 정리(10절 0번) / 사건 도중 증거를 인물에게 내밀기(10절 1번)
+
+## 2026-10-30 11:30 · Claude · fc9c7a2
 
 - 사용자 결정: 이름 Pioo를 없애고 detective로 바꿈.
   - 브라우저 저장 키 `pioo.*` → `detective.*`. 페이지를 열 때 예전 키가 있으면 같은 이름의 새 키로 옮기고(새 키가 이미 있으면 그대로) 예전 키를 지운다. 진행·해결 기록·단어장은 그대로 이어진다.
