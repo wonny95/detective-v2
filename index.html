@@ -1200,8 +1200,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* 미리보기: the case switch on top, then that case's parts only (user request: not too many buttons at once) */
 .devpreview{gap:6px}
 .devpreview .devbtn{font-size:13px;padding:6px 12px}
-.dev-cases{display:flex;gap:4px;padding-bottom:6px;margin-bottom:2px;border-bottom:2px dashed rgba(74,54,40,.35)}
-.dev-cases .devbtn{flex:1;padding:6px 8px;font-size:12px;white-space:nowrap}
+/* the case switch is a dropdown of every playable case (user request: more cases will come) */
+.dev-cases{display:block;width:100%;box-sizing:border-box;margin-bottom:8px;border:2px dashed var(--ink);border-radius:12px;background:var(--honey);color:var(--ink);
+  font-family:var(--f-display);font-size:13px;padding:6px 8px;cursor:pointer}
 .ev-count[hidden]{display:none}
 
 @media (prefers-reduced-motion:reduce){
@@ -5847,15 +5848,16 @@ const PREVIEW_OTHER = PICNIC
 let previewCaseShown = CASE_ID;
 function renderPreviewTools(){
   const here = previewCaseShown === CASE_ID, parts = here ? PREVIEW_PARTS : PREVIEW_OTHER;
-  $('#devPreview').innerHTML = '<small>미리보기</small><div class="dev-cases">' +
-    [['picnic-bag', 'Case 01 소풍'], ['case01', 'Case 02 도서관']].map(([id, label]) => `<button class="devbtn" type="button" data-preview-case="${id}" aria-pressed="${previewCaseShown === id}">${label}</button>`).join('') + '</div>' +
+  $('#devPreview').innerHTML = '<small>미리보기</small><select class="dev-cases" id="previewCase" aria-label="미리 볼 사건">' +
+    CASES.filter(c => c.playable).map(c => `<option value="${c.id}"${previewCaseShown === c.id ? ' selected' : ''}>${esc(`${c.no} ${c.title}`)}</option>`).join('') + '</select>' +
     parts.map(([id, label]) => `<button class="devbtn" type="button" data-preview="${id}" aria-pressed="${here && id === PREVIEW}">${label}</button>`).join('') +
     (PREVIEW ? '<button class="devbtn" type="button" data-preview-end>미리보기 끝</button>' : '');
 }
 renderPreviewTools();
+$('#devPreview').addEventListener('change', e => {
+  if(e.target.id === 'previewCase'){ previewCaseShown = e.target.value; renderPreviewTools(); }
+});
 $('#devPreview').addEventListener('click', e => {
-  const pick = e.target.closest('[data-preview-case]');
-  if(pick){ previewCaseShown = pick.dataset.previewCase; return renderPreviewTools(); }
   const b = e.target.closest('[data-preview],[data-preview-end]'); if(!b) return;
   const picnic = (b.dataset.preview ? previewCaseShown : CASE_ID) === 'picnic-bag';
   const query = [picnic && 'case=picnic', b.dataset.preview && `preview=${b.dataset.preview}`].filter(Boolean).join('&');
