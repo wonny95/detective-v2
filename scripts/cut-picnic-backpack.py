@@ -1,11 +1,12 @@
 """The picnic table's blue backpack (picnic-wide.png) cut out with no credits, for the garden bench: the drawing's dark
 outline closes the bag, so everything reachable from the crop's edge without crossing it is background; the green
 showing through the handle loop is cleared too. -> assets/places/picnic-storyboard/backpack-blue.png and
-backpack-red.png (the same bag with its blue turned red, Ollie's)."""
+backpack-red.png (the same bag with its blue turned red, Ollie's). The crop and the traced silhouette reach below the
+bag's bottom outline (y 424), or the bag is cut flat (user report)."""
 import colorsys
 from collections import deque
 from PIL import Image, ImageDraw, ImageFilter
-SRC, BOX = 'assets/places/picnic-storyboard/picnic-wide.png', (975, 310, 1100, 421)
+SRC, BOX = 'assets/places/picnic-storyboard/picnic-wide.png', (975, 310, 1100, 430)
 im = Image.open(SRC).convert('RGB').crop(BOX)
 W, H = im.size; px = im.load()
 hsv = [[colorsys.rgb_to_hsv(*(c / 255 for c in px[x, y])) for x in range(W)] for y in range(H)]
@@ -22,15 +23,17 @@ while q:
     bg[y][x] = True; q.extend(((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)))
 # the bag's rough silhouette, traced by hand: the trunk and table lines touching its outline stay outside
 outline = Image.new('L', (W, H)); ImageDraw.Draw(outline).polygon([(p[0] / 4, p[1] / 4) for p in
-    [(200, 38), (300, 38), (302, 96), (348, 104), (384, 170), (424, 262), (462, 330), (466, 400), (420, 426), (58, 426),
-     (40, 330), (66, 200), (88, 110), (150, 94), (202, 84)]], fill=255)
+    [(200, 38), (300, 38), (302, 96), (348, 104), (384, 170), (424, 262), (462, 330), (468, 400), (456, 420), (400, 440),
+     (372, 458), (100, 458), (76, 444), (44, 410), (40, 330), (66, 200), (88, 110), (150, 94), (202, 84)]], fill=255)
 op = outline.load()
 alpha = Image.new('L', (W, H)); ap = alpha.load()
 for y in range(H):
     for x in range(W):
         h, s, v = hsv[y][x]
         green = 60 / 360 <= h <= 170 / 360 and s > .2 and v > .3
-        ap[x, y] = 0 if bg[y][x] or green or not op[x, y] else 255
+        # the table showing through the shoulder strap's loop (bright orange; the strap itself is a darker brown)
+        table = 95 <= x <= 112 and 83 <= y <= 103 and 15 / 360 <= h <= 45 / 360 and v > .7
+        ap[x, y] = 0 if bg[y][x] or green or table or not op[x, y] else 255
 # only the bag itself: the largest piece (stray bits of trunk or table edge enclosed by other lines go)
 seen = [[False] * W for _ in range(H)]; best = []
 for sy in range(H):

@@ -490,7 +490,7 @@ node server.js            # http://localhost:5173/
 | 용도 | 적용 파일 (`assets/` 아래) | 비고 |
 |---|---|---|
 | 도서관 | `places/library-higgsfield-v2.png` | 사용자 제작, 1376×768 |
-| 소풍 가방 장소 그림 | `places/picnic-storyboard/picnic-wide.png`(소풍 탁자), `cafe-day.png`(낮의 호수 카페), `ben-home.png`(벤의 집), `garden.webp`(정원), `picnic-documents.png`(로지가 맡긴 가방 소지품 사진) | 사용자 제공·Codex 편집·기존 Higgsfield 그림(출처는 같은 폴더 README). 정원의 두 가방은 오려 색 입힌 `backpack-blue/red.png`, 회사 로비는 `lobby-higgsfield.webp`, 로지의 가방 소지품은 `picnic-rosie-bag.webp`. 대화 바닥 확장은 다섯 장소 모두 `<id>-floor.jpg`(로비는 `lobby-floor.webp`). 도서관 사건의 밤 카페는 그대로 둔다 |
+| 소풍 가방 장소 그림 | `places/picnic-storyboard/picnic-wide.png`(소풍 탁자), `cafe-day.png`(낮의 호수 카페), `ben-home.png`(벤의 집), `garden.webp`(정원), `picnic-documents.png`(로지가 맡긴 가방 소지품 사진) | 사용자 제공·Codex 편집·기존 Higgsfield 그림(출처는 같은 폴더 README). 정원의 두 가방은 소풍 탁자 그림의 가방을 오려 색 입힌 `backpack-blue/red.png`(`scripts/cut-picnic-backpack.py`, 107×106, 오릴 범위와 손으로 그린 윤곽이 가방 바닥선 아래까지 와야 바닥이 일자로 잘리지 않는다), 회사 로비는 `lobby-higgsfield.webp`, 로지의 가방 소지품은 `picnic-rosie-bag.webp`. 대화 바닥 확장은 다섯 장소 모두 `<id>-floor.jpg`(로비는 `lobby-floor.webp`). 도서관 사건의 밤 카페는 그대로 둔다 |
 | 아직 그림이 없는 인물 | `ui/icons-v2/pending.png`, `pendingSVG` | 벤·미아와 올리·노라의 임시 점선 실루엣(Claude가 PIL·SVG로 그림, 크레딧 없음) |
 | 피해자 분필 윤곽선 | `places/library-chalk-owl.png` | Claude 제작(Nano Banana 2.1, job 418fefc0), 640×450 투명 PNG. 검은 배경 위 흰 분필 선을 밝기로 투명도를 만들고 선을 조금 굵혔다. 원본 `library-chalk-owl-original.png` |
 | 빵집 | `places/bakery-higgsfield.png` | 사용자 제작, 1376×768. 계산대 쪽지를 지우고 예약 주문 칠판·쓰레기통 신문, 오븐 속 탄 파이를 그려 넣은 판(Claude, `assets/places/README.md`) |
