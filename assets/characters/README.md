@@ -106,6 +106,6 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
   - 벤 비버 + 노라 고슴도치: job `0af39333-877b-4d1a-911f-52702b371c10` → `ben-nora-higgsfield-original.jpg`(2752×1536, 보관용 JPEG)
   - 수달 올리 + 생쥐 미아: job `54654c8f-bfc1-49a1-8a30-4845ad024a73` → `mia-ollie-higgsfield-original.jpg`
 - 배경 제거: Higgsfield `remove_background`(벤·노라 `22f50dfb-…`, 미아·올리 `00e22088-…`) → `ben-nora-cutout.webp`, `mia-ollie-cutout.webp`.
-- `scripts/cut-picnic-characters.py`: 벤(왼쪽)·노라(오른쪽)는 반으로 나누고, 미아와 올리는 게임에서 한 사람(`mia`, `Mia & Ollie`)이라 함께 자른다. 알파 경계 + 3% 여백, 높이 700px. 얼굴 아이콘(`assets/ui/icons-v2/ben·nora·mia.png`, 160px, 흰 테두리)도 같은 스크립트가 자른다(미아·올리는 두 얼굴을 겹쳐 한 장).
+- `scripts/cut-picnic-characters.py`: 벤(왼쪽)·노라(오른쪽)는 반으로 나누고, 미아와 올리는 게임에서 한 사람(`mia`, `Mia & Ollie`)이라 함께 자른다. 알파 경계 + 3% 여백, 높이 700px. 얼굴 아이콘(`assets/ui/icons-v2/ben·nora·mia.png`, 160px, 흰 테두리)도 같은 스크립트가 자른다(미아·올리는 두 얼굴을 겹쳐 한 장). 지도 핀용으로 한 얼굴씩 `mia-solo.png`·`ollie.png`도 자른다(`save(..., sprite=False)`).
 - 적용본: `ben-higgsfield.png` 542×700, `nora-higgsfield.png` 475×700, `mia-higgsfield.png` 909×700. 말하는 입은 `mouths/`의 `ben`·`nora`·`mia`·`mia-ollie`(위 NPC 입 절).
 - 프롬프트 요지: 참조 그림과 같은 크레용·색연필 화풍·비율로 두 인물을 나란히, 크림 종이 배경, 빈손. 벤 — 갈색 털, 옅은 주둥이, 앞니 두 개, 납작한 꼬리, 겨자색 니트 조끼·흰 셔츠·갈색 바지. 노라 — 갈색 가시, 크림 얼굴, 청록 재킷·흰 블라우스·남색 치마. 올리 — 갈색 털·크림 얼굴·긴 꼬리, 초록 티셔츠·황갈색 반바지. 미아 — 회색 생쥐, 분홍 귀·꼬리, 흰 점 하늘색 원피스, 노란 머리띠, 올리보다 머리 하나 작음.
