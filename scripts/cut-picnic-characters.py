@@ -12,10 +12,12 @@ def trim(im):
 def square(im, cx, y0, side):
     face = Image.new('RGBA', (side, side)); face.paste(im.crop((round(cx - side / 2), y0, round(cx + side / 2), y0 + side)), (0, 0))
     return face
-def save(id, im, heads):
-    """heads: [(centre x, top, side)] as shares of the sprite's width/height; one head fills the icon, two overlap"""
+def save(id, im, heads, sprite=True):
+    """heads: [(centre x, top, side)] as shares of the sprite's width/height; one head fills the icon, two overlap.
+    sprite=False makes only the face icon"""
     im = trim(im); s = 700 / im.height
-    im = im.resize((round(im.width * s), 700), Image.LANCZOS); im.save(D + f'{id}-higgsfield.png', optimize=True)
+    im = im.resize((round(im.width * s), 700), Image.LANCZOS)
+    if sprite: im.save(D + f'{id}-higgsfield.png', optimize=True)
     W, H = im.size; boxes = [(round(x * W), round(y * H), round(z * H)) for x, y, z in heads]
     cx, y0, side = boxes[0]
     print(id, im.size, f"face:'{round(cx - side / 2)} {y0} {side} {side}'")
@@ -31,4 +33,8 @@ def save(id, im, heads):
 sheet = Image.open(D + 'ben-nora-cutout.webp').convert('RGBA')
 save('ben', sheet.crop((0, 0, sheet.width // 2, sheet.height)), [(.57, .0, .5)])
 save('nora', sheet.crop((sheet.width // 2, 0, sheet.width, sheet.height)), [(.5, .0, .57)])
-save('mia', Image.open(D + 'mia-ollie-cutout.webp').convert('RGBA'), [(.33, -.01, .44), (.71, .05, .47)])
+mia = Image.open(D + 'mia-ollie-cutout.webp').convert('RGBA')
+save('mia', mia, [(.33, -.01, .44), (.71, .05, .47)])
+# the map pin shows the two friends as two faces (user request, PEOPLE.mia.faces): one icon each
+save('mia-solo', mia, [(.71, .05, .47)], sprite=False)
+save('ollie', mia, [(.33, -.01, .44)], sprite=False)

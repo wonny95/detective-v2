@@ -1635,6 +1635,8 @@ const PICNIC_CASE = {
       audio:Object.fromEntries(['hello', 'hello2', 'sure', 'g1-mia', 'g2'].map(key => [key, `audio/picnic/mia-${key}.mp3`])),
       // Ollie's voice and mouth for his part of an answer ("Ollie: …")
       parts:{ ollie:{ pitch:.95, voice:1, mouth:'ollie' } },
+      // the map pin shows the two friends as two faces (user request); everywhere else they are one
+      faces:['mia-solo', 'ollie'],
       // Ollie and Mia speak in turn; Ollie in his own voice and with his own mouth (as)
       hello:[
         { key:'hello-ollie', as:{ pitch:.95, voice:1, mouth:'ollie' }, en:"Oh, hi! I'm Ollie. Nice to meet you.", ko:'오, 안녕! 난 올리야. 만나서 반가워.' },
@@ -2396,7 +2398,8 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
   ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouths(k)}</g></g></svg>`
   : `<svg viewBox="0 0 200 400" aria-hidden="true">${DRAWN.includes(id) ? charSVG(id) : pendingSVG}</svg>`; };
 // small faces: hand-drawn head-and-shoulders icons (assets/ui/icons-v2, one Higgsfield sheet)
-const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia'];   // the last three cut from their sprites
+// the last ones cut from their sprites (scripts/cut-picnic-characters.py); mia-solo and ollie are PEOPLE.mia.faces
+const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia', 'mia-solo', 'ollie'];
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
 const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.png`;
 const miniSVG = id => FACE_ICONS.includes(id) || !SPRITES[id] && !DRAWN.includes(id) ? `<img class="face" src="${faceSrc(id)}" alt="" draggable="false">`
@@ -3582,7 +3585,8 @@ function renderPlaces(){
     b.className = 'pin' + (pl.crime ? ' crime' : '') + (freshPins.has(pl.id) ? ' fresh' : '');
     b.style.left = pl.x + '%'; b.style.top = pl.y + '%';
     b.innerHTML = `<span class="pin-label">${esc(pl.label)}</span>` +
-      (people.length ? `<span class="pin-people">${people.map(id => `<span class="mini" style="background:${spk(id).bg}">${miniSVG(id)}</span>`).join('')}</span>` : '');
+      (people.length ? `<span class="pin-people">${people.flatMap(id => (spk(id).faces || [id]).map(face =>
+        `<span class="mini" style="background:${spk(id).bg}">${miniSVG(face)}</span>`)).join('')}</span>` : '');
     b.setAttribute('aria-label', [pl.label, ...people.map(id => spk(id).name)].filter(Boolean).join(', '));
     b.onclick = () => enterPlace(pl.id);
     map.appendChild(b);
