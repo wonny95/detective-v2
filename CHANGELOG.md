@@ -15,6 +15,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 추리 가운데를 "로지가 가방이 바뀌기 전 호수 카페에 갔다 → 카페에 누가 왔다"로 이음. 7문항: Q3 `Where did Rosie go before the picnic?` → `Rosie went to the [Lake Cafe]. Maybe the bags got mixed up there.`(로지 사진), Q4 `Who came to the Lake Cafe today?` → `Rosie, [Ben Beaver], [Mia], and [Ollie] came to the cafe.`(오리 아저씨 사진, 순서 무관), Q5 벤(이전 Q4), Q6·Q7 노라(이전 Q5·Q6). 이전 Q3 `Where did the bags get mixed up?`은 뺌.
+- 사용자 결정: 녹음은 대본이 모두 정해진 뒤 한꺼번에. 새 Q3·Q4는 `unrecorded:true`로 브라우저 음성. 맞지 않게 된 이전 q3·r3·h3 녹음은 휴지통으로, q4–q6 녹음은 q5–q7로 이름만 바꿈.
+- 버그 수정(사용자 화면: 카페 카드에 `yellow bottle`이 채워짐): 추리 진행이 문항 번호로 저장되어 예전 Q3의 답이 새 카드에 들어갔음. 진행에 카드 문장 묶음(`DEDUCE_CARDS`)을 함께 저장하고 다르면 처음부터 다시 풀게 함. 이 때문에 기존 저장 기록의 추리 진행은 두 사건 모두 한 번 초기화됨.
+- 사용자와 고친 설계서: md(장면 표 05, 소지품 표, `추리 7문항` 표·설명·대답/힌트 표), html(장면 5 설명, Q3·Q4 카드, Q5–Q7 번호).
+- 확인(새 탭 127.0.0.1, 추리 보드 미리보기): 일곱 문항을 풀어 카드·사진(로지·오리 아저씨·벤·노라)이 맞음, Q4에서 첫 오답 `Hmm… that doesn't fit.`, 두 번째 오답 힌트, 세 칸을 다른 순서로 채워도 정답. 녹음은 q1·q2·q5–q7·r 같은 번호·miss만 요청되고 Q3·Q4는 브라우저 음성. 구문 검사 통과. 예전 저장 기록이 초기화되는 것은 화면에서 직접 보지 않음.
+- **다음**: 사용자 확인. 대본이 모두 정해지면 추리 Q3·Q4 녹음 6줄(약 0.9크레딧). 남은 일은 `HANDOFF.md` 10절.
+
+## 2026-11-02 · Claude · 1218cae
+
 - 사용자 요청: 소풍 추리에 로지와 노라만 나와 빈약함 → 추천안대로 6문항. 새 Q3 `Where did the bags get mixed up?` → `At the [Lake Cafe].`(오리 아저씨 사진, 근거 rosie:r4·ben:b1·duck:v2), 새 Q4 `Who took a blue bag from the cafe to Nora?` → `[Ben Beaver] took it to Nora's office.`(벤 사진, 근거 ben:b1·nora:n1, 미아는 오답 후보). 예전 Q3·Q4는 Q5·Q6. `deduce.suspects`에 오리 아저씨·벤을 더함. 엔진은 그대로.
 - 녹음: 새 질문·대답·힌트 6줄 Higgsfield MiniMax Grady(`audio/picnic/deduce/q3·r3·h3·q4·r4·h4.mp3`, 약 1크레딧, 2줄은 요청 한도로 한 번 실패해 다시 제출). 예전 q3·r3·h3·q4·r4·h4는 5·6번으로 이름만 바꿈.
 - 사용자와 고친 설계서: `design/case-01-picnic-bag.md`(장면 표 05, 소지품 표, `추리 6문항` 표·설명·대답/힌트 표), `.html`(장면 5 설명, Q3·Q4 카드 추가, Q5·Q6로 번호 바꿈).
