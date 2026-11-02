@@ -15,6 +15,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 사용자가 만든 벤 첫 대사(Higgsfield MiniMax Benji, happy, "Hi there! What can I do for you?", job `ce53f669`)의 목소리로 벤 대사를 모두 녹음해 넣기 → hello2(happy)·b1·b2를 같은 목소리로 제작(약 0.6크레딧), `audio/picnic/ben-hello·hello2·b1·b2.mp3`, `PEOPLE.ben.audio`. b1·b2 문장 구간(`SENTENCE_TIMES`, silencedetect).
+- 설계서 수정(사용자 녹음에 맞춤): 벤 첫인사에서 "I'm Ben Beaver."를 뺌 → "Hi there! What can I do for you?" / "안녕! 무슨 일이야?" (`index.html`, `design/case-01-picnic-bag.md`·`.html`). 녹음과 화면 글을 같게 하려고.
+- 확인(새 탭 127.0.0.1): 노트 다시 듣기로 `ben-b1.mp3` 재생, 벤 입 움직임, 콘솔 오류 없음, 구문 검사 통과. 첫인사 흐름은 처음부터 다시 하지 않아 화면에서 듣지 않음(파일·연결만 확인).
+- **다음**: 사용자 확인. 남은 동물 녹음 18줄(오리 아저씨·미아·올리·노라, 목소리 선택 필요).
+
+## 2026-11-02 · Claude · 12e09aa
+
 - 설계서 수정(사용자 결정): 벤의 첫인사 "Hi! I'm Ben Beaver. Can I help you?" → "Hi there! I'm Ben Beaver. What can I do for you?" — 자기 집에 온 손님을 더 친근하게 맞고, 오리 아저씨의 "How can I help?"와 겹치지 않게. 해석은 그대로("안녕! 나는 벤 비버야. 무슨 일이야?"). `index.html`·`design/case-01-picnic-bag.md`·`.html` 함께.
 - 확인: 구문 검사 통과. 벤 인사는 아직 녹음이 없어 브라우저 음성으로 바뀐 문장을 읽는다.
 - **다음**: 사용자 지시 대기. 남은 소풍 녹음은 동물 22줄(목소리 선택 필요).
