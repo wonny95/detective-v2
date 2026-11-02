@@ -374,17 +374,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* checking a finished conversation: the notebook rises to the top (tabs stay visible above it) */
 .app.note-full .dock{height:calc(100% - 50px)}
 /* typing a blank on a phone (.typing, only when the keyboard really covers the screen): the notebook sits on the
-   keyboard (--kb = how much of the scene it hides, from visualViewport), the word cards and the head's tools give
-   their room to the sentence, the tool strip rides on the keyboard, and the person's face stays in view above */
-.type-bar{position:absolute;left:0;right:0;bottom:var(--kb,0px);z-index:13;height:46px;display:none;align-items:center;gap:6px;padding:0 8px;box-sizing:border-box;background:var(--paper-2);border-top:1.5px solid #D8C7A6}
-.app.typing .type-bar{display:flex}
-.type-bar .pill{min-height:32px;padding:0 10px 0 5px;font-size:13px;line-height:1}
-.type-bar .done{padding:0 14px}
-.type-arrows{display:flex;gap:2px;margin-left:auto}
-.type-arrows button{width:34px;height:34px;padding:0;border:0;border-radius:50%;background:none;font-size:22px;line-height:1;color:var(--ink)}
-.type-arrows button:disabled{color:#C6B79C}
-.app.typing .dock{bottom:calc(var(--kb,0px) + 42px);height:min(60%,calc(100% - var(--kb,0px) - 46px - 235px));transition:bottom .25s,height .25s}
-.app.typing .dock-head .listen,.app.typing .bank,.app.typing .dock-foot{display:none}
+   keyboard (--kb = how much of the scene it hides, from visualViewport), the word cards and 기록 완료 give their room
+   to the sentence, and the person's face stays in view above. 다시 듣기 and the speed stay in the notebook's head
+   (no strip on the keyboard, user decision: its buttons sat right above the keys); return moves on and finishes */
+.app.typing .dock{bottom:var(--kb,0px);height:min(60%,calc(100% - var(--kb,0px) - 235px));transition:bottom .25s,height .25s}
+.app.typing .bank,.app.typing .dock-foot{display:none}
 .app.notes-open.note-full .note-scrim{background:rgba(43,30,20,.68);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
 .app.note-full .chip,.app.note-full .bubble{visibility:hidden}
 .note-page.checked::after{animation:stamp-in .35s cubic-bezier(.3,1.6,.5,1)}
@@ -772,7 +766,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .pill.sm{--bw:12px}
 .pill.big,.tab{--bw:20px}
 .pill.big{--btn:url(assets/ui/buttons/berry-flat.png)}
-.pill.green,.dock-foot .finish,.type-bar .done{--btn:url(assets/ui/buttons/sage-flat.png)}
+.pill.green,.dock-foot .finish{--btn:url(assets/ui/buttons/sage-flat.png)}
 .pill.hint,.tab[aria-expanded="true"]{--btn:url(assets/ui/buttons/honey-flat.png)}
 .pill[aria-pressed="true"],.pill.blue{--btn:url(assets/ui/buttons/sky-flat.png)}
 .pill:active,.tab:active{transform:translateY(1px);filter:brightness(.94)}
@@ -1353,13 +1347,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="dock-body" id="dockBody"></div>
       <div class="dock-foot"><button class="pill finish" type="button" id="finish" hidden>기록 완료</button></div>
     </section>
-    <!-- typing a blank on a phone: a slim strip riding on the keyboard (listen, speed, the blank before / after, done) -->
-    <div class="type-bar" id="typeBar" aria-label="입력 도구">
-      <button class="pill" type="button" data-type="replay">다시 듣기</button>
-      <button class="spd" type="button" data-type="slow" aria-pressed="false" aria-label="천천히">1×</button>
-      <span class="type-arrows"><button type="button" data-type="prev" aria-label="앞 빈칸">‹</button><button type="button" data-type="next" aria-label="다음 빈칸">›</button></span>
-      <button class="pill done" type="button" data-type="done">완료</button>
-    </div>
 
     <!-- the village map: fills the screen above the bottom menu (it lives in .main, so the menu stays). Only places someone has mentioned get a pin. -->
     <section class="sheet full" id="sheet-map" aria-label="마을 지도">
@@ -3387,8 +3374,6 @@ function writeState(){
   document.querySelectorAll('#bank .word').forEach(word => word.classList.toggle('used', on.has(key(word.dataset.w))));
   $('#finish').classList.toggle('wait', noteMode() === 'record' && empty.length > 0);
   const at = blanks.indexOf(document.activeElement);
-  $('[data-type="prev"]').disabled = at <= 0;
-  $('[data-type="next"]').disabled = at < 0 || at >= blanks.length - 1;
   $('#noteVkb [data-k="done"]').textContent = at >= 0 && at < blanks.length - 1 ? '다음' : '완료';
 }
 function fillNextBlank(word, source){
@@ -3646,16 +3631,13 @@ $('#hint').onclick = useHint;
 
 /* ---------- typing a blank on a phone ---------- */
 // The keyboard covers the bottom of the screen without moving the app, so while a note blank has the focus the
-// notebook is lifted by how much of the scene the keyboard hides (visualViewport) and the tool strip rides on it.
-// Only when that is a real keyboard (> 120px). On a computer the preview keyboard (#noteVkb) opens instead and the
-// notebook rides on it the same way.
-const typeBar = $('#typeBar');
-typeBar.querySelector('[data-type="replay"]').insertAdjacentHTML('afterbegin', playIco);
+// notebook is lifted by how much of the scene the keyboard hides (visualViewport). Only when that is a real keyboard
+// (> 120px). On a computer the preview keyboard (#noteVkb) opens instead and the notebook rides on it the same way.
 function fitKeyboard(){
   const vv = window.visualViewport, field = document.activeElement;
   const typing = field?.matches?.('#dockBody .nblock.now .blank:not([readonly])'), kb = $('#noteVkb');
   kb.hidden = ownKeyboard || !typing;
-  const bottom = typeBar.parentElement.getBoundingClientRect().bottom;
+  const bottom = $('.dock').parentElement.getBoundingClientRect().bottom;
   const hidden = !typing ? 0 : !kb.hidden ? Math.round(bottom - kb.getBoundingClientRect().top) : vv ? Math.round(bottom - (vv.offsetTop + vv.height)) : 0;
   $('#app').classList.toggle('typing', hidden > 120);
   $('#app').style.setProperty('--kb', `${Math.max(0, hidden)}px`);
@@ -3677,15 +3659,8 @@ $('#dockBody').addEventListener('keydown', e => {
   if(blanks.indexOf(e.target) < blanks.length - 1) return stepBlank(1);
   e.target.blur(); finishRecord();
 });
-// the strip's buttons keep the focus (and so the keyboard) where it is
-typeBar.addEventListener('pointerdown', e => { if(e.target.closest('button')) e.preventDefault(); });
-typeBar.addEventListener('click', e => {
-  const k = e.target.closest('[data-type]')?.dataset.type; if(!k) return;
-  if(k === 'replay') $('#replay').click();
-  else if(k === 'slow') toggleSlow();
-  else if(k === 'prev' || k === 'next') stepBlank(k === 'prev' ? -1 : 1);
-  else if(k === 'done'){ document.activeElement?.blur(); finishRecord(); }
-});
+// 다시 듣기 and the speed keep the focus (and so the keyboard) where it is
+$('#listen').addEventListener('pointerdown', e => { if(e.target.closest('button')) e.preventDefault(); });
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
 
