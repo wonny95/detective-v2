@@ -15,6 +15,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 사건에 들어갈 때 이번 사건의 열쇠 페이지가 아무 움직임 없이 뜨지 않게, 자연스럽게. 세 안(책상 위에 붙이기·공책 넘기기·잔잔하게) 중 사용자가 "잔잔하게 나타나기"를 고름. 열 때 페이지가 살짝 커지며 페이드인, 카드·쪽지·점·버튼이 차례로 떠오름(`.ck-in`). `사건 시작`·×는 페이지가 사건 화면(또는 사건 목록) 위로 페이드아웃(`.ck-out`, `closeCaseKey()`). 쪽 넘김은 그대로.
+- 확인(새 탭 127.0.0.1, `?case=picnic&preview=key`): 열 때 ck-page·ck-rise 6개가 돌고 1초 뒤 모두 제자리, `다음`에는 ck-turn만, `사건 시작` 직후 `ck-out`이고 0.35초 뒤 숨겨지며 로지 장면과 사건 제목 카드가 나옴. 콘솔 오류 없음, 구문 검사 통과. 도서관 사건 쪽(3쪽, 쪽지 3장)은 같은 코드라 따로 보지 않음.
+- **다음**: 사용자 확인(움직임의 빠르기). 남은 동물 녹음: 오리 아저씨 5·올리 3(목소리 선택 필요).
+
+## 2026-11-02 · Claude · cb80afc
+
 - 설계서 수정(사용자 결정): 노라 n3. ① 가방을 안 연 이유를 "바빠서"에서 "아침 내내 회의"로(회사에서 업무용 폴더가 든 가방을 안 연 까닭이 서게). ② 노라가 "These aren't mine."이라고 결론을 말하지 않고 "That's strange."에서 멈춤(누구의 물건인지는 추리 Q3·Q4에서 플레이어가 잇게). 새 대사 "I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange." / 노트 "She was in a [meeting], so she did not open it. Inside are a [red] lunch box and a [yellow] bottle. She thinks that is strange." 보기 단어 meeting·class·party, `WORDS.meeting`, 문법 줄에서 "These aren't mine"(소유) 뺌. `index.html`·`design/case-01-picnic-bag.md`·`.html`.
 - 녹음: n3 Maeve로 다시(`58afbfb2`, 약 0.3크레딧), 문장 구간 다시. 단어장 발음 `audio/words/meeting.wav`(Zira, 0).
 - 확인(새 탭 127.0.0.1, 회사 로비 → 노라 → 노트): n3 노트 세 줄과 지문이 새 문장, 다시 듣기로 `nora-n3.mp3` 200, 콘솔 오류 없음, 구문 검사 통과.

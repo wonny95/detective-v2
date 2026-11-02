@@ -504,7 +504,21 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
 .ck-turn{animation:ck-turn .35s ease-out}
 @keyframes ck-turn{from{opacity:0;transform:translateX(16px)}}
-@media(prefers-reduced-motion:reduce){.ck-turn{animation:none}}
+/* coming in and going (user request: not a bare cut; the calm choice of three): the page fades in growing a little, the
+   card and the notes rise one after another; 사건 시작 and × fade it out over what comes next (openCaseKey, closeCaseKey).
+   The rise moves `translate`, so the card's and notes' own tilt (transform) stays */
+#caseKey.ck-in{animation:ck-page .4s ease-out both}
+#caseKey.ck-in :is(.ck-card,.ck-note,.ck-dots,.ck-foot){animation:ck-rise .45s ease-out both}
+#caseKey.ck-in .ck-card{animation-delay:.15s}
+#caseKey.ck-in .ck-note:nth-child(1){animation-delay:.3s}
+#caseKey.ck-in .ck-note:nth-child(2){animation-delay:.4s}
+#caseKey.ck-in .ck-note:nth-child(3){animation-delay:.5s}
+#caseKey.ck-in :is(.ck-dots,.ck-foot){animation-delay:.6s}
+#caseKey.ck-out{animation:ck-leave .35s ease-in both;pointer-events:none}
+@keyframes ck-page{from{opacity:0;transform:scale(.97)}}
+@keyframes ck-rise{from{opacity:0;translate:0 10px}}
+@keyframes ck-leave{to{opacity:0;transform:scale(1.02)}}
+@media(prefers-reduced-motion:reduce){.ck-turn,#caseKey.ck-in,#caseKey.ck-in *,#caseKey.ck-out{animation:none}}
 .ck-foot{display:flex;gap:8px}
 .ck-foot .pill:not(.big){flex:none;min-height:50px;padding:0 18px}
 .ck-foot .pill.big{flex:1;width:auto}
@@ -5557,13 +5571,26 @@ $('#grammar').addEventListener('click', e => {
 // back to the case cards.
 // One form a page (user request: at / from A to B / between A and B each on its own page), the steps on top like the
 // review's; a grammar without examples is one page of its card.
-let caseKeyThen = null, caseKeyPages = [], caseKeyAt = 0;
+let caseKeyThen = null, caseKeyPages = [], caseKeyAt = 0, caseKeyFade;
 function openCaseKey(list, then){
   caseKeyThen = then; caseKeyAt = 0;
   caseKeyPages = list.flatMap(g => (GRAMMAR[g].examples || [{ head:GRAMMAR[g].pattern, why:GRAMMAR[g].ko, lines:[] }]).map(ex => ({ g, ex })));
-  renderCaseKey(); $('#caseKey').hidden = false;
+  renderCaseKey();
+  const page = $('#caseKey');
+  clearTimeout(caseKeyFade);
+  page.classList.remove('ck-in', 'ck-out'); page.hidden = false;
+  void page.offsetWidth; page.classList.add('ck-in');   // restart the coming-in each time
+}
+// the page fades out over what comes next, which is already there underneath
+function closeCaseKey(){
+  const page = $('#caseKey');
+  clearTimeout(caseKeyFade);
+  page.classList.remove('ck-in'); page.classList.add('ck-out');
+  caseKeyFade = setTimeout(() => { page.hidden = true; page.classList.remove('ck-out'); },
+    matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 350);
 }
 function renderCaseKey(turn){
+  if(turn) $('#caseKey').classList.remove('ck-in');   // a page turn slides (ck-turn), the rise is only for coming in
   const mark = t => esc(t).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
   const { g, ex } = caseKeyPages[caseKeyAt], last = caseKeyAt === caseKeyPages.length - 1;
   $('#caseKeyCard').innerHTML = `<div class="ck-top"><div class="ck-head"><small>${esc(CASE.no)} · ${esc(CASE.title)}</small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
@@ -5578,12 +5605,12 @@ $('#caseKey').addEventListener('click', e => {
   if(play) return playExample(play.dataset.ckPlay);
   const ko = e.target.closest('[data-ck-ko]');
   if(ko){ ko.setAttribute('aria-pressed', ko.closest('.ck-note').classList.toggle('ko-on')); return; }
-  if(e.target.closest('[data-ck-close]')){ stopVoice(); $('#caseKey').hidden = true; caseKeyThen = null; if(PICNIC) openCaseList('cases'); return; }
+  if(e.target.closest('[data-ck-close]')){ stopVoice(); closeCaseKey(); caseKeyThen = null; if(PICNIC) openCaseList('cases'); return; }
   if(e.target.closest('[data-ck-prev]')){ stopVoice(); caseKeyAt--; return renderCaseKey(true); }
   if(!e.target.closest('[data-ck-next]')) return;
   stopVoice();
   if(caseKeyAt < caseKeyPages.length - 1){ caseKeyAt++; return renderCaseKey(true); }
-  $('#caseKey').hidden = true; const then = caseKeyThen; caseKeyThen = null; then?.();
+  closeCaseKey(); const then = caseKeyThen; caseKeyThen = null; then?.();
 });
 
 /* ---------- home pages ----------
