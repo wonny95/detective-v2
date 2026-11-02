@@ -15,6 +15,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 오리 아저씨 v2("Who had blue bags? / Rosie, Ben, and Mia had blue bags. Ben took one with him.")가 흐름상 어색함. 카페 주인이 손님의 가방 색을 정확히 기억하는 것도, 벤만 집어 가방을 들고 나갔다고 하는 것도 이상해 사용자와 상의해 **분실물 질문**으로 바꿈: "Did anyone leave a blue bag here? / No. Nobody left a bag here today." 노트 `[Nobody] [left] a bag at the cafe.`(빈칸 3 → 2, 전체 38 → 37칸), 보기 Nobody·Everyone·Ben·left·took·brought, 문법 표시 negative `Nobody left`·past-irr `left a bag`. 주인은 누구의 가방인지 모르고, 가방이 카페에 남지 않았다는 것만 알려 준다(누군가 들고 갔다는 단서).
+- 사용자와 고친 설계서: `design/case-01-picnic-bag.md`·`.html`의 duck:v2 행, 대괄호 37칸, 카페 주인이 아는 것 설명.
+- 녹음: 오리 아저씨 대답 `audio/picnic/duck-v2.mp3`(Alden, job `2eaf5c86`)와 탐정 질문 `detective-duck-v2.mp3`(Grady, job `74e33af1`) 다시 제작(약 0.3크레딧). 문장 구간 `duck:v2` 다시.
+- 확인(새 탭 127.0.0.1, 현장 조사 미리보기 → 카페 → 노트): 새 질문·빈칸·지문(문법 밑줄) 표시, `duck-v2.mp3` 200, 콘솔 오류 없음, 구문 검사 통과. 대화 중 질문을 골라 처음 듣고 받아 적는 흐름은 해 보지 않음.
+- **다음**: 사용자 확인. 남은 일은 `HANDOFF.md` 10절.
+
+## 2026-11-02 · Claude · 7c29af1
+
 - 사용자 요청: 사용자가 만든 올리 첫 대사로 올리 대사에 목소리 넣기. 같은 문장 테이크가 셋(Reid·Cody·Emmett)이라 최신 Emmett(`fcac3c6c`)을 `mia-hello-ollie.mp3`로, hello-ollie2·g1-ollie를 Emmett으로 제작(약 0.3크레딧). `PEOPLE.mia.audio`에 세 키. 이것으로 소풍 사건 인물 녹음이 모두 끝남.
 - 확인(새 탭 127.0.0.1, 정원 → 노트 g1 다시 듣기): `mia-g1-ollie.mp3` 동안 올리 입만, 0.3초 뒤 `mia-g1-mia.mp3` 동안 미아 입만 움직임. 인사 두 파일 200, 콘솔 오류 없음, 구문 검사 통과. 정원 첫 인사는 화면에서 처음부터 듣지 않음.
 - **다음**: 사용자 확인. 녹음 다음 남은 일은 `HANDOFF.md` 10절.
