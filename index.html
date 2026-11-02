@@ -1729,12 +1729,14 @@ const PICNIC_CASE = {
     mia:{x:40, floor:93, height:44},
     nora:{x:50, floor:93, height:44}
   },
-  // things in the detective's bag (소지품): handed over at the end; img + crop is its picture
+  // things in the detective's bag (소지품): handed over at the end; img + crop is its picture, audio its sentence in the
+  // detective's voice
   items:{
     // the title says who gave it and its colour, never whose it is (design)
     'bag-nora':{ label:'Blue bag from Rosie', en:'There is a green folder and a blue pen inside.', ko:'안에 초록 폴더와 파란 펜이 들어 있어.',
-      img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420] },
+      audio:'audio/picnic/detective-item-bag-nora.mp3', img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420] },
     'bag-rosie':{ label:'Blue bag', en:'The blue bag Nora gave me. Inside, there is a red lunch box and a yellow bottle.', ko:'노라가 건넨 파란 가방. 안에 빨간 도시락과 노란 물병이 들어 있다.',
+      audio:'audio/picnic/detective-item-bag-rosie.mp3',
       img:'assets/places/picnic-storyboard/picnic-rosie-bag.webp', w:1376, h:768, crop:[800, 300, 400, 300] }
   },
   deduce:{
@@ -2741,13 +2743,14 @@ function playEvidence(ref){
 // One of the detective's own lines (DETECTIVE, audio/detective-<key>.mp3), in the same voice as the evidence sentences.
 // onDone runs once it has been said, or at once if it cannot play (not when stopVoice cuts it off); onBlocked instead,
 // when given, if the browser holds the sound back until the first tap.
-// text: read by the browser's voice when there is no recording yet (picnic case)
+// text: read by the browser's voice when the line has no recording
 function detectiveSay(key, onDone, onBlocked, text){
   stopVoice();
   const voice = $('#evidenceVoice'), done = () => { voice.onended = voice.onerror = null; onDone?.(); };
   voice.onended = voice.onerror = null;
-  if(text && !DETECTIVE_RECORDED){ readOut(text, onDone); return; }
-  voice.src = key.includes('/') ? key : `audio/detective-${key}.mp3`;   // a key may be a whole path (askAudio)
+  if(text && !key){ readOut(text, onDone); return; }
+  // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/
+  voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
@@ -2755,8 +2758,12 @@ function detectiveSay(key, onDone, onBlocked, text){
     voice.onended = voice.onerror = null; onBlocked();
   });
 }
-// the case's detective lines are recorded (the library case); the picnic case has none yet
-const DETECTIVE_RECORDED = !PICNIC;
+// the picnic case's detective lines (greetings, after-talk lines, handing the bags over), recorded as
+// audio/picnic/detective-<key>.mp3 (Higgsfield MiniMax Grady, like the library case's)
+const DETECTIVE_PICNIC = new Set(PICNIC ? [
+  ...Object.values(PICNIC_CASE.people).flatMap(p => [...(p.hello || []), ...Object.values(p.after || {}).flatMap(a => a.lines)]),
+  ...PICNIC_CASE.ending.handoff.flatMap(r => [r.open, ...r.lines])
+].filter(line => line.det).map(line => line.key) : []);
 // a line in the detective's voice with no recording: the browser's voice (the time it would take, without one)
 function readOut(text, onDone){
   stopVoice();
@@ -3690,9 +3697,11 @@ const DEDUCE = PICNIC ? PICNIC_CASE.deduce : {
       hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?' }
   ]
 };
-// lines recorded as audio/deduce/<key>.mp3 (q1…q10 questions, r1…r10 replies, h1…h10 hints, miss; the detective's
-// voice, Higgsfield MiniMax Grady); a line missing here is read by the browser's voice
-const DEDUCE_RECORDED = PICNIC ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
+// lines recorded as audio/deduce/<key>.mp3, the picnic case's as audio/picnic/deduce/<key>.mp3 (q1… questions, r1…
+// replies, h1… hints, miss; the detective's voice, Higgsfield MiniMax Grady); a line missing here is read by the
+// browser's voice
+const DEDUCE_RECORDED = new Set([...DEDUCE.qs.flatMap((q, i) => [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
+const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : 'audio/deduce/';
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
@@ -3755,7 +3764,7 @@ function deduceSpeak(key, text, onDone){
   if(DEDUCE_RECORDED.has(key)){
     const voice = $('#evidenceVoice');
     voice.onended = voice.onerror = null;
-    voice.src = `audio/deduce/${key}.mp3`; voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
+    voice.src = `${DEDUCE_DIR}${key}.mp3`; voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
     voice.onended = voice.onerror = done;
     voice.play().catch(done);
     return;
@@ -4019,7 +4028,7 @@ function evidenceEntry(ref){
   if(!ref) return null;
   if(isItemRef(ref)){
     const id = ref.slice(1), it = ITEMS[id];
-    return S.items.includes(id) ? { ref, item:true, label:it.label, place:'소지품', en:it.en, ko:it.ko, photo:itemPhoto(id) } : null;
+    return S.items.includes(id) ? { ref, item:true, label:it.label, place:'소지품', en:it.en, ko:it.ko, audio:it.audio, photo:itemPhoto(id) } : null;
   }
   const record = S.evidence.find(item => evRef(item) === ref);
   if(!record) return null;
