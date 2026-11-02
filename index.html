@@ -1593,6 +1593,8 @@ const PICNIC_CASE = {
         r4:['forget','see','remember','garden','library','cafe','bakery','lost','mixed up','picked up'] }
     },
     duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:'v1',
+      // Mr. Duck's recorded voice: Higgsfield · MiniMax · Barrett, the voice of the same cafe owner in the library case
+      audio:Object.fromEntries(['hello', 'hello2', 'v1', 'v2', 'v3'].map(key => [key, `audio/picnic/duck-${key}.mp3`])),
       hello:[
         { key:'hello', en:'Hello! Welcome to the Lake Cafe. What would you like?', ko:'안녕! 호수 카페에 온 걸 환영해. 뭘 주문할래?' },
         { det:true, key:'hello-duck', en:"Hello! I'm Detective {name}. I'm looking for a blue bag.", ko:'안녕! 나는 탐정 {name}이야. 파란 가방을 찾고 있어.' },
@@ -2075,6 +2077,8 @@ const SENTENCE_TIMES = PICNIC ? {
   'ben:b1':[[0,2.13],[2.44,5.29]],
   'ben:b2':[[0,0.87],[0.98,1.92]],
   'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]],
+  'duck:v2':[[0,2.78],[2.98,4.4]],
+  'duck:v3':[[0,1.65],[2.25,3.5],[3.95,6.1]],
   'nora:n1':[[0,0.75],[1.03,4.3]],
   'nora:n3':[[0,2.45],[3.5,4.4],[4.7,7.55],[8.5,9.65]]
 } : {
