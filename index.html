@@ -1670,6 +1670,8 @@ const PICNIC_CASE = {
       bank:{ g1:['yellow','red','green','blue','pink'], g2:['closed','lost','opened','office','picnic','school','outside','under','inside'] }
     },
     nora: { id:'nora', name:'Nora Hedgehog', ko:'고슴도치 노라', job:'회사원', place:'lobby', witness:true, required:true, pitch:1.1, voice:0, bg:'#F3E1D3',
+      // Nora's recorded voice (Higgsfield · MiniMax · Maeve; hello made by the user). thanks: her line in the hand-over
+      audio:Object.fromEntries(['hello', 'n1', 'n2', 'n3', 'thanks'].map(key => [key, `audio/picnic/nora-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi, I heard you were looking for me. What's going on?", ko:'안녕, 날 찾았다고 들었어. 무슨 일이야?' },
         { det:true, key:'hello-nora', en:"Hi, I'm Detective {name}. Can I ask about a blue bag?", ko:'안녕, 난 탐정 {name}이야. 파란 가방에 관해 물어봐도 될까?' }
@@ -2054,7 +2056,9 @@ const SENTENCE_TIMES = PICNIC ? {
   'rosie:r4':[[0,1.76],[2.43,5.01],[5.76,7.6]],
   'ben:b1':[[0,2.13],[2.44,5.29]],
   'ben:b2':[[0,0.87],[0.98,1.92]],
-  'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]]
+  'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]],
+  'nora:n1':[[0,0.75],[1.03,4.3]],
+  'nora:n3':[[0,2.6],[2.66,3.72],[3.8,7.72],[8.05,9.25]]
 } : {
   'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
   'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],
