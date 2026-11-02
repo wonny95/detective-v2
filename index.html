@@ -5134,11 +5134,14 @@ function enterPlace(id, fromConversation = false){
     }
   });
 }
-// The interrogation's evidence found so far: a step of ENDING.confront counts once any evidence it accepts is found.
+// The interrogation's evidence found so far: a step of ENDING.confront counts once any photo it accepts is found.
+// Only steps a photo answers (user decision: a statement comes anyway, every talk has to be finished): the library's
+// Mrs. Bear step is left out, 4. The picnic case has no interrogation, so no chip.
 function evidenceNeed(){
   if(!ENDING.confront) return { got:0, of:0 };
-  const found = key => { if(isSayRef(key)) return sayOk(key); const at = key.lastIndexOf('-'); return !!S.found[key.slice(0, at)]?.has(+key.slice(at + 1)); };
-  return { got:ENDING.confront.filter(step => step.accept.some(found)).length, of:ENDING.confront.length };
+  const steps = ENDING.confront.filter(step => step.accept.some(key => !isSayRef(key)));
+  const found = key => { if(isSayRef(key)) return false; const at = key.lastIndexOf('-'); return !!S.found[key.slice(0, at)]?.has(+key.slice(at + 1)); };
+  return { got:steps.filter(step => step.accept.some(found)).length, of:steps.length };
 }
 let evShown = null;
 function renderSceneHead(){
