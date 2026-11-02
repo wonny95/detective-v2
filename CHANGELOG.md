@@ -15,6 +15,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 오리 아저씨에게 처음 고르는 질문을 두 개로. 1번 "Did anyone leave a blue bag here?"(v2), 2번 "Who came to the cafe today?"(v1). 엔진의 `openingQuestion`이 목록을 받도록 넓힘(목록의 질문이 처음에 함께 나오고, 모두 물으면 나머지가 열림; 한 개짜리는 그대로). 오리 아저씨 `openingQuestion:['v2', 'v1']`, 질문 순서 v2 → v1 → v3. v3("Where are they now?")는 두 질문 뒤에 나옴.
+- 사용자와 고친 설계서: md 대본 표에서 v2를 맨 위로 옮기고 v2·v1 모두 "첫 질문", 장면 표 03 카페에 처음 두 질문과 v3 순서. 스토리보드 html도 같은 순서와 설명.
+- 확인(새 탭 127.0.0.1, 첫 대화 미리보기 → 로지 4질문 → 카페): 처음 목록이 분실물 질문, 손님 질문 순서로 두 개. v2 기록 뒤에는 v1만, v1 기록 뒤 v3가 나오고 벤·미아와 올리 발견 알림. 탐정 질문·오리 대답 음성 200, 콘솔 오류 없음, 구문 검사 통과.
+- **다음**: 사용자 확인. 남은 일은 `HANDOFF.md` 10절.
+
+## 2026-11-02 · Claude · bdd3767
+
 - 사용자 요청: 오리 아저씨 v2("Who had blue bags? / Rosie, Ben, and Mia had blue bags. Ben took one with him.")가 흐름상 어색함. 카페 주인이 손님의 가방 색을 정확히 기억하는 것도, 벤만 집어 가방을 들고 나갔다고 하는 것도 이상해 사용자와 상의해 **분실물 질문**으로 바꿈: "Did anyone leave a blue bag here? / No. Nobody left a bag here today." 노트 `[Nobody] [left] a bag at the cafe.`(빈칸 3 → 2, 전체 38 → 37칸), 보기 Nobody·Everyone·Ben·left·took·brought, 문법 표시 negative `Nobody left`·past-irr `left a bag`. 주인은 누구의 가방인지 모르고, 가방이 카페에 남지 않았다는 것만 알려 준다(누군가 들고 갔다는 단서).
 - 사용자와 고친 설계서: `design/case-01-picnic-bag.md`·`.html`의 duck:v2 행, 대괄호 37칸, 카페 주인이 아는 것 설명.
 - 녹음: 오리 아저씨 대답 `audio/picnic/duck-v2.mp3`(Alden, job `2eaf5c86`)와 탐정 질문 `detective-duck-v2.mp3`(Grady, job `74e33af1`) 다시 제작(약 0.3크레딧). 문장 구간 `duck:v2` 다시.

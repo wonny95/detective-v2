@@ -1592,7 +1592,7 @@ const PICNIC_CASE = {
         r3:['see','know','hear','look out','give up','find out','pick up'],
         r4:['forget','see','remember','garden','library','cafe','bakery','lost','mixed up','picked up'] }
     },
-    duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:'v1',
+    duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:['v2', 'v1'],
       // Mr. Duck's recorded voice: Higgsfield · MiniMax · Alden (hello made by the user), as in the library case
       audio:Object.fromEntries(['hello', 'hello2', 'v1', 'v2', 'v3'].map(key => [key, `audio/picnic/duck-${key}.mp3`])),
       hello:[
@@ -1601,9 +1601,9 @@ const PICNIC_CASE = {
         { key:'hello2', en:'Oh! I see. How can I help?', ko:'아, 그렇구나! 어떻게 도와줄까?' }
       ],
       questions:[
-        { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔나요?' },
         // lost and found: nothing was left, so someone took Rosie's bag (user decision; the owner does not know whose bag is whose)
         { id:'v2', en:'Did anyone leave a blue bag here?', ko:'여기 파란 가방을 두고 간 사람이 있나요?' },
+        { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔나요?' },
         { id:'v3', en:'Where are they now?', ko:'그들은 지금 어디 있나요?' }
       ],
       unlocks:{ v1:{ names:['ben', 'mia'] }, v3:{ places:['benhome', 'garden'] } },
@@ -2462,9 +2462,11 @@ const per = id => S.per[id];
 const qs = sp => sp.questions || QUESTIONS;
 const availableQuestions = speaker => {
   const progress = per(speaker.id);
+  // openingQuestion: one id, or several offered together first (Mr. Duck, user request); the rest come once they are all asked
+  const opening = [].concat(speaker.openingQuestion || []);
   // not asked yet, or (a save from when a wrong check went back to the questions) asked but not written down right
   return qs(speaker).filter(question => (!progress.order.includes(question.id) || progress.questionChecks[question.id] === 'review') &&
-    (!speaker.openingQuestion || progress.order.includes(speaker.openingQuestion) || question.id === speaker.openingQuestion) &&
+    (!opening.length || opening.every(id => progress.order.includes(id)) || opening.includes(question.id)) &&
     (speaker.needs?.[question.id] || []).every(ref => S.evidence.some(item => evRef(item) === ref)));
 };
 const cur = () => spk(S.cur);

@@ -42,7 +42,7 @@
 | 00 준비 | 소유 표현 예습, 최초 플레이 튜토리얼 | 소풍 탁자 시작 |
 | 01 로지 | 직접 의뢰, 질문 r1–r4 | r4 기록 뒤 호수 카페 |
 | 02 소풍 탁자 | 로지가 가방을 탐정에게 맡김. 소지품으로 챙겨 열어 보면 초록 폴더·파란 펜 확인 | 소지품 `로지가 맡긴 파란 가방` |
-| 03 카페 | 주인이 손님으로 맞고 세 질문에 답함 | v1 뒤 벤·미아·올리 이름, v3 뒤 벤의 집·정원 |
+| 03 카페 | 주인이 손님으로 맞고 세 질문에 답함. 처음에는 v2(분실물)·v1(손님) 두 질문만 고르고, 둘 다 기록하면 v3 | v1 뒤 벤·미아·올리 이름, v3 뒤 벤의 집·정원 |
 | 03B 벤의 집 | 노라가 집에 두고 간 가방을 회사에 전한 경로와 내용물을 아는지 질문함 | b1 기록 뒤 노라와 노라의 회사 |
 | 04 정원 | 두 친구와 인사하고 파란 가방 여부를 묻는다. 미아의 파란 가방과 올리의 빨간 가방을 촬영한 뒤 사진을 보여 주며 미아의 가방인지 확인하고 감사 인사로 마무리함 | 사진 2장, 별도 필수 해금 없음 |
 | 04B 회사 1층 로비 | 노라가 받은 가방을 처음 열고 내용물을 말함 | 노라 n3까지 기록하면 바로 추리 |
@@ -87,8 +87,8 @@
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | Her bag has a [red] [lunch box] and a [yellow] [bottle]. |
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | She does not [know] whose bag this is. She wants me to [find out]. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
+| duck:v2 · 첫 질문 | Did anyone leave a blue bag here? / 여기 파란 가방을 두고 간 사람이 있나요? | No. Nobody left a bag here today. / 아니요. 오늘 가방을 두고 간 손님은 없어요. | [Nobody] [left] a bag at the cafe. |
 | duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, and Ollie came today. / 오늘 로지, 벤, 미아, 올리가 왔어요. | Rosie, [Ben], Mia, and Ollie came to the cafe. |
-| duck:v2 | Did anyone leave a blue bag here? / 여기 파란 가방을 두고 간 사람이 있나요? | No. Nobody left a bag here today. / 아니요. 오늘 가방을 두고 간 손님은 없어요. | [Nobody] [left] a bag at the cafe. |
 | duck:v3 | Where are they now? / 그들은 지금 어디 있나요? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요. | Ben went [home]. Mia and Ollie went to the [garden]. |
 | ben:b1 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. | Nora left [her] blue bag at Ben's [house]. Ben stopped at the [cafe]. Then he [took] it to her [office]. |
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
