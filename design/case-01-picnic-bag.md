@@ -143,7 +143,7 @@
 | 2 | What is her bag like? / 그녀의 가방의 특징은? | Her bag is [blue]. It has a [red lunch box] and a [yellow bottle]. | rosie:r1·r2. 로지가 말한 자기 가방의 색과 내용물 |
 | 3 | Where did Rosie go before the picnic? / 로지는 소풍 전에 어디에 갔을까? | Rosie went to the [Lake Cafe]. Maybe the bags got mixed up there. | rosie:r4. 로지가 소풍 전에 들렀고 거기서 바뀌었을지 모른다고 함 |
 | 4 | Who came to the Lake Cafe today? / 오늘 호수 카페에 온 사람은? | Rosie, [Ben Beaver], [Mia], and [Ollie] came to the cafe. | duck:v1(+ v2: 카페에 두고 간 가방은 없음). 세 칸은 어느 순서로 채워도 됨 |
-| 5 | Did Mia or Ollie take the wrong bag? / 미아나 올리가 가방을 잘못 가져갔을까? | No. Mia's blue bag has her [picnic things], and Ollie's bag is [red]. | garden:g1·g2 + 정원 사진 2장. 미아의 파란 가방은 미아 것, 올리 가방은 빨간색 |
+| 5 | Did Mia or Ollie take the wrong bag? / 미아나 올리가 가방을 잘못 가져갔을까? | Mia's bag has her [picnic things] in it. Ollie's bag is [red]. | garden:g1·g2 + 정원 사진 2장. 미아의 파란 가방은 미아 것, 올리 가방은 빨간색 |
 | 6 | Who took a blue bag from the cafe to Nora? / 카페에서 노라에게 파란 가방을 가져간 사람은? | [Ben Beaver] took it to Nora's office. | ben:b1 + nora:n1. 미아의 파란 가방은 정원 사진·g2로 미아 것임을 확인해 제외 |
 | 7 | What shows that Nora has the wrong bag? / 노라가 잘못된 가방을 받았다는 근거는? | The [red lunch box] and [yellow bottle] are Rosie's. | Q2 + nora:n3. 로지가 말한 물건이 노라가 받은 가방에 있음 |
 | 8 | Whose bags got mixed up? / 누구와 누구의 가방이 바뀐 걸까? | [Rosie Rabbit]'s and [Nora Hedgehog]'s bags. | Q7 + 소지품 속 폴더·펜 + nora:n2. 두 가방의 내용물과 각자의 진술을 연결 |

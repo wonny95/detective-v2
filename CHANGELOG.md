@@ -15,6 +15,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 추리 Q5 카드 문장이 부자연스러움 → 사용자가 고른 A안 `Mia's bag has her [picnic things] in it. Ollie's bag is [red].` / `미아의 가방에는 미아의 소풍 준비물이 들어 있다. 올리의 가방은 빨간색이다.`(앞의 "No."를 빼고 두 문장으로). 대답·힌트는 그대로. 설계서 md·html의 Q5 카드도 같이 고침.
+- 확인(새 탭 127.0.0.1, 추리 보드 미리보기): Q1–Q5를 풀어 새 카드가 채워지고 해석이 맞게 보임, 카드가 바뀌어 저장된 추리 진행은 처음부터 시작됨. 구문 검사 통과.
+- **다음**: 사용자 확인. 대본이 모두 정해지면 추리 Q3·Q4·Q5 녹음 9줄(약 1.4크레딧). 남은 일은 `HANDOFF.md` 10절.
+
+## 2026-11-02 · Claude · 5367d73
+
 - 사용자 요청: 벤 문항 앞에 "미아와 올리는 자기 가방을 가졌다"는 단계. 새 Q5 `Did Mia or Ollie take the wrong bag?` → `No. Mia's blue bag has her [picnic things], and Ollie's bag is [red].`(미아와 올리 사진, 근거 garden:g1·g2와 정원 사진 2장), 맞히면 `Right. Mia and Ollie have their own bags.` 벤은 Q6, 노라는 Q7·Q8. 추리 8문항. `deduce.suspects`에 `Mia & Ollie`.
 - 녹음은 사용자 결정대로 나중에: Q5도 `unrecorded:true`(브라우저 음성). 기존 q5–q7 녹음은 q6–q8로 이름만 바꿈.
 - 사용자와 고친 설계서: md(장면 표 05, 소지품 표, `추리 8문항` 표·설명·대답/힌트 표), html(장면 5 설명, Q5 카드, Q6–Q8 번호).
