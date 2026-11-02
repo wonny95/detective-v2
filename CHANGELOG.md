@@ -15,6 +15,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 설계서 수정(사용자 결정): 벤의 첫인사 "Hi! I'm Ben Beaver. Can I help you?" → "Hi there! I'm Ben Beaver. What can I do for you?" — 자기 집에 온 손님을 더 친근하게 맞고, 오리 아저씨의 "How can I help?"와 겹치지 않게. 해석은 그대로("안녕! 나는 벤 비버야. 무슨 일이야?"). `index.html`·`design/case-01-picnic-bag.md`·`.html` 함께.
+- 확인: 구문 검사 통과. 벤 인사는 아직 녹음이 없어 브라우저 음성으로 바뀐 문장을 읽는다.
+- **다음**: 사용자 지시 대기. 남은 소풍 녹음은 동물 22줄(목소리 선택 필요).
+
+## 2026-11-02 · Claude · 46cdc24
+
 - 사용자 요청: 소풍 사건의 비어 있는 탐정 목소리 제작. Higgsfield MiniMax Grady 28줄 — 인사·맺음말·가방 전달 13줄(`audio/picnic/detective-<키>.mp3`), 소지품 설명 2줄(`detective-item-bag-nora·bag-rosie.mp3`), 추리 보드 13줄(`audio/picnic/deduce/`). 대본은 화면 글 그대로, "Detective {name}"만 설계서대로 "the detective". 코드: `DETECTIVE_RECORDED`(소풍 끔) 대신 `DETECTIVE_PICNIC`(소풍 데이터의 탐정 줄 키), `DEDUCE_DIR`, `ITEMS[].audio`. 이제 소풍 사건에서 브라우저 음성은 동물 다섯의 대사뿐.
 - 크레딧: 5.7(미리 말한 약 4.2보다 많음 — 긴 줄은 0.3). 잔액 316.95.
 - 확인(새 탭 127.0.0.1): 첫 대화의 hello-rosie, 추리 보드 q1, 노라에게 전달의 소지품 설명·handoff1이 녹음으로 재생(모두 200, 콘솔 오류 없음). 소풍 데이터의 탐정 줄 키 13개가 모두 파일과 맞음. 구문 검사 통과. 28줄을 하나하나 들어 보지는 않음(청취 품질은 사용자 확인).
