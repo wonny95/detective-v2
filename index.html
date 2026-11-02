@@ -1630,9 +1630,11 @@ const PICNIC_CASE = {
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
-      // Mia's recorded voice (Higgsfield · MiniMax · Giselle; hello made by the user). Ollie's lines and g1 (both of them)
-      // have none yet: the browser reads them. Mia's half of g1 is ready in audio/picnic/mia-g1-mia.mp3
-      audio:Object.fromEntries(['hello', 'hello2', 'sure', 'g2'].map(key => [key, `audio/picnic/mia-${key}.mp3`])),
+      // Mia's recorded voice (Higgsfield · MiniMax · Giselle; hello made by the user). g1-mia is her half of g1 (they
+      // answer in turn, speak). Ollie has no recording yet (hello-ollie, hello-ollie2, g1-ollie): the browser reads him
+      audio:Object.fromEntries(['hello', 'hello2', 'sure', 'g1-mia', 'g2'].map(key => [key, `audio/picnic/mia-${key}.mp3`])),
+      // Ollie's voice and mouth for his part of an answer ("Ollie: …")
+      parts:{ ollie:{ pitch:.95, voice:1, mouth:'ollie' } },
       // Ollie and Mia speak in turn; Ollie in his own voice and with his own mouth (as)
       hello:[
         { key:'hello-ollie', as:{ pitch:.95, voice:1, mouth:'ollie' }, en:"Oh, hi! I'm Ollie. Nice to meet you.", ko:'오, 안녕! 난 올리야. 만나서 반가워.' },
@@ -2480,14 +2482,17 @@ function setTalking(on){
     npc.querySelectorAll('.npc-mouth[data-part]').forEach(m => m.classList.toggle('quiet', talkPart !== 'all' && m.dataset.part !== talkPart));
   });
 }
-// whose mouth says this line: the line's own (as.mouth), else the speakers named in it ("Ollie: No. … Mia: Mine is
-// blue." = both), else the picture's own person
+// whose mouth says this line: the line's own (as.mouth), else the speaker named in it ("Mia: Mine is blue." = Mia's),
+// else the picture's own person. A line naming two speakers is split by speakerTurns before it gets here.
 function mouthPart(text, who, as){
   if(as?.mouth) return as.mouth;
   const parts = SPRITES[spriteKey(who)]?.parts || {};
   const said = [...text.matchAll(/(?:^|\s)([A-Z][a-z]+):\s/g)].map(m => m[1].toLowerCase());
   return said.length > 1 ? 'all' : parts[said[0]] ? said[0] : 'main';
 }
+// "Ollie: No. Mine is red. Mia: Mine is blue. Why?" → [{ name:'ollie', text:'No. Mine is red.' }, { name:'mia', … }]
+const speakerTurns = text => [...text.matchAll(/(?:^|\s)([A-Z][a-z]+):\s(.*?)(?=\s[A-Z][a-z]+:\s|$)/g)]
+  .map(m => ({ name:m[1].toLowerCase(), text:m[2] }));
 const clip = new Audio();
 clip.preload = 'auto';
 clip.onplaying = () => setTalking(true);
@@ -2509,6 +2514,17 @@ const seekableSrc = src => blobSrc[src] ||= fetch(src).then(r => r.ok ? r.blob()
 // range: [start, end] seconds of the recording to play (one sentence); it never calls onDone.
 // as: { pitch, voice } for the browser voice of this line only (Ollie, who shares the figure with Mia)
 function speak(text, key, who = S.cur, onDone, range, as){
+  // two in one picture answering one question (user request: never at the same time, so each can be heard): they
+  // speak in turn, each with their own recording (<key>-<name>, e.g. g1-mia) or browser voice and their own mouth
+  const turns = range ? [] : speakerTurns(text);
+  if(turns.length > 1){
+    const say = i => speak(turns[i].text, `${key}-${turns[i].name}`, who, () => {
+      if(i + 1 === turns.length) return onDone?.();
+      const turn = speechTurn;
+      setTimeout(() => { if(turn === speechTurn) say(i + 1); }, 300);
+    }, undefined, spk(who).parts?.[turns[i].name] || { mouth:'main' });
+    return say(0);
+  }
   stopVoice();
   const turn = speechTurn;
   talker = who; talkPart = mouthPart(text, who, as);

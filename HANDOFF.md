@@ -40,7 +40,7 @@ node server.js            # http://localhost:5173/
   $env:PORT = '5173'
   Start-Process node -ArgumentList 'E:\GPT\Detective\Detective-dev\server.js' -WorkingDirectory 'E:\GPT\Detective\Detective-dev' -WindowStyle Hidden
   ```
-- `server.js`는 폴더 안 파일이 바뀌면 브라우저를 자동 새로고침한다(문서 수정·커밋에도 반응한다). 새로고침 스니펫은 서빙할 때만 HTML에 끼워 넣는다.
+- `server.js`는 폴더 안 파일이 바뀌면 브라우저를 자동 새로고침한다(문서 수정에도 반응한다). `.git`·`.claude`·`node_modules`는 보지 않는다: 같은 저장소의 기획 worktree(Codex)가 커밋하거나 상태를 볼 때마다 `.git`이 바뀌어 미리보기가 계속 처음으로 돌아갔다. 새로고침 스니펫은 서빙할 때만 HTML에 끼워 넣는다.
 - 사건의 진행(질문·노트·증거·소지품·추리)은 도서관 `detective.save`, 소풍 `detective.save.picnic`에 주기적으로, 페이지를 숨기거나 닫을 때도 저장한다. 다시 열면 사건 목록에서 진행 중인 사건을 이어갈 수 있다(경찰 대화·심문·가방 전달 장면은 그 장면 처음부터). 튜토리얼 확인 여부·해결한 사건·학습 기록도 `localStorage`에 저장한다.
 
 ### 1.1 공개 데모 사이트 (갱신 중단)
@@ -170,7 +170,7 @@ node server.js            # http://localhost:5173/
   - **노트가 열리면** 46%(머리 7%)로 줄여 얼굴이 노트 위에 오게 한다. 여닫을 때 카메라가 부드럽게 옮겨 가고(`focusCamera(null, true)`), NPC의 세계 좌표는 그대로다.
 - **캐릭터 애니메이션**
   - 발밑 기준 약 1% 숨쉬기, 말할 때만 0.35도 이내 기울기.
-  - **입**(사용자 요청): 그림에 그려진 입은 주변 털색으로 덮고, 그 위에 닫은 입·벌린 입 그림을 얹는다(`MOUTHS`, `spriteMouth()`, `assets/characters/mouths/<인물>-closed·open.png`). 말하지 않을 때는 닫은 입, 대사 재생 중에는 둘이 불규칙 리듬으로 번갈아 나온다(`npc-mouth-open`·`npc-mouth-closed`, `--talk-cycle`). 피오나는 표정마다(기본 미소, 당황 `nervous`, 슬픔 `sad`) 입 모양이 다르고, 오리는 부리 전체를 바꾼다. 탐정도 포즈마다 같은 입 시트의 미소 입을 쓴다(`detective`, `detective:<포즈>`). 벤은 앞니 때문에 닫은 입은 그림 그대로이고, 벌린 입만 미소선 아래로 열고 앞니를 위에 다시 얹는다. 미아와 올리는 한 그림에 입이 둘이다(`SPRITES.mia.parts`, `mia:ollie`): 올리 줄(`as.mouth:'ollie'`)은 올리 입만, 다른 줄은 미아 입만, "Ollie: … Mia: …"처럼 두 사람이 이어 말하는 대답(g1)은 둘 다 움직인다(`mouthPart()`, 안 움직이는 입은 `.quiet`). 노트의 다시 듣기로 다른 인물 대사를 틀면 그 인물의 입이 움직인다(`talker`).
+  - **입**(사용자 요청): 그림에 그려진 입은 주변 털색으로 덮고, 그 위에 닫은 입·벌린 입 그림을 얹는다(`MOUTHS`, `spriteMouth()`, `assets/characters/mouths/<인물>-closed·open.png`). 말하지 않을 때는 닫은 입, 대사 재생 중에는 둘이 불규칙 리듬으로 번갈아 나온다(`npc-mouth-open`·`npc-mouth-closed`, `--talk-cycle`). 피오나는 표정마다(기본 미소, 당황 `nervous`, 슬픔 `sad`) 입 모양이 다르고, 오리는 부리 전체를 바꾼다. 탐정도 포즈마다 같은 입 시트의 미소 입을 쓴다(`detective`, `detective:<포즈>`). 벤은 앞니 때문에 닫은 입은 그림 그대로이고, 벌린 입만 미소선 아래로 열고 앞니를 위에 다시 얹는다. 미아와 올리는 한 그림에 입이 둘이다(`SPRITES.mia.parts`, `mia:ollie`): 올리 줄(`as.mouth:'ollie'`)은 올리 입만, 다른 줄은 미아 입만, "Ollie: … Mia: …"처럼 두 사람이 답하는 대답(g1)은 동시에 말하지 않고 **차례대로** 말한다(사용자 요청: 겹치면 들을 수 없다). `speak()`가 이름 앞머리로 대답을 나눠(`speakerTurns()`) 한 사람씩 0.3초 쉬고 잇는다. 각자 자기 녹음 `<키>-<이름>`(예 `g1-mia`, 없으면 브라우저 음성)과 자기 목소리(`PEOPLE.mia.parts.ollie`)·자기 입으로 말한다(`mouthPart()`, 안 움직이는 입은 `.quiet`). 노트의 문장별 다시 듣기는 이 대답에 문장 구간이 없어 대답 전체를 차례대로 다시 튼다. 노트의 다시 듣기로 다른 인물 대사를 틀면 그 인물의 입이 움직인다(`talker`).
   - OS 모션 줄이기 설정에서는 끈다.
 - **질문 → 듣기 → 받아 적기**
   - 질문을 고르면 **해당 인물 노트가 즉시 아래에서 올라오고**, 먼저 **탐정이 그 질문을 소리 내어 묻고**(Grady 녹음, 사용자 요청: 누르자마자 대답이 나와 당황스러움, `askAudio()` → `detectiveSay()`) 0.3초 뒤 영어 답변 음성이 이어진다(사용자 요청). 질문 중 `다시 듣기`를 누르면 바로 대답으로 넘어가고, 대화를 떠나면 대답은 나오지 않는다(`speechTurn`). 질문 녹음: 도서관 `audio/detective-ask-<인물>-<질문>.mp3`(공통 질문 q1–q3는 `detective-ask-q1–3.mp3`), 소풍 `audio/picnic/detective-<인물>-<질문>.mp3`. 파일이 없으면 바로 대답한다. `ask()`에서 해당 페이지를 렌더링한 뒤 `setNotes(true)`를 호출한다. 노트는 화면 아래 60% 높이로 열려 들으면서 빈칸에 단어를 누르거나 직접 입력할 수 있다. 음성 종료를 기다리는 예약 콜백은 없다. 받아 적는 동안 노트는 닫히지 않는다(3.3절 `recordLocked()`). 기존 슬라이드·카메라 전환은 유지한다.
@@ -420,7 +420,7 @@ node server.js            # http://localhost:5173/
 | `requestLeaveInterrogation()`, `stayInInterrogation()`, `leaveEnding()` | 심문 나가기 확인·진행 유지·확정 후 초기화/현장 복귀 |
 | `renderInterrogationGauge()`, `updateInterrogationGauge()` | 진행률·채움·정답 반응 |
 | `setNotes(open)`, `setInvestigate(on)` | 노트 꺼내기·넣기(카메라 구도 전환 포함), 대화 ↔ 장소 전환 |
-| `fullSVG()`, `miniSVG()`, `spriteMouth()`, `spriteMouths()`, `mouthPart()` | 전신 PNG·얼굴 아이콘·입 그림 두 장(`MOUTHS`), 한 그림에 둘이면 입마다(`parts`)와 지금 말하는 입 |
+| `fullSVG()`, `miniSVG()`, `spriteMouth()`, `spriteMouths()`, `mouthPart()`, `speakerTurns()` | 전신 PNG·얼굴 아이콘·입 그림 두 장(`MOUTHS`), 한 그림에 둘이면 입마다(`parts`)와 지금 말하는 입, 둘이 답하는 대답을 한 사람씩 나누기 |
 
 ### localStorage
 
@@ -449,7 +449,7 @@ node server.js            # http://localhost:5173/
 | Fiona Fox | Petra | 4줄 완료. q3는 단골손님·매일 아침 빵 구매 진술 한 문장 |
 | Ray Raccoon | Archie | 4줄 완료. hello·q1·q2·q3 모두 사용자 제작본 적용 |
 | Rosie Rabbit | Evie, emotion `fearful` | 4줄. hello 사용자 제작, q1–q3 Claude 제작(감정·청취 품질 사용자 확인 대기) |
-| Mia (소풍) | Giselle(감정 없음) | 4줄 `audio/picnic/mia-<키>.mp3`: hello "I'm Mia. Want to join our picnic?"는 사용자 제작(같은 문장 두 테이크 중 최신 `0397a25b`, 감정 없음; 앞 테이크 `deb1cc97`은 happy), hello2·sure·g2는 같은 목소리로 Claude 제작(job hello2 `738a2835`, sure `18799b78`, g2 `4dc61a6e`). g1의 미아 부분 "Mine is blue. Why?"는 `mia-g1-mia.mp3`(job `fab6c282`)로 만들어 두었고 올리 녹음과 붙일 때까지 연결하지 않는다. 약 0.75크레딧. g2 문장 구간은 `SENTENCE_TIMES`(소풍) |
+| Mia (소풍) | Giselle(감정 없음) | 5줄 `audio/picnic/mia-<키>.mp3`: hello "I'm Mia. Want to join our picnic?"는 사용자 제작(같은 문장 두 테이크 중 최신 `0397a25b`, 감정 없음; 앞 테이크 `deb1cc97`은 happy), hello2·sure·g2는 같은 목소리로 Claude 제작(job hello2 `738a2835`, sure `18799b78`, g2 `4dc61a6e`). g1의 미아 차례 "Mine is blue. Why?"는 `mia-g1-mia.mp3`(키 `g1-mia`, job `fab6c282`)이고 올리 차례 뒤에 따로 재생된다. 약 0.75크레딧. g2 문장 구간은 `SENTENCE_TIMES`(소풍) |
 | Ben Beaver (소풍) | Benji(hello·hello-me·hello2 `happy`, b1·b2 감정 없음) | 5줄 `audio/picnic/ben-<키>.mp3`. hello "Hi there! What can I do for you?"는 사용자 제작(job `ce53f669`, 사용자 결정: 벤 첫인사 문장, 화면 글도 녹음에 맞춤), hello-me "Yes, that's me!"·hello2·b1·b2는 같은 목소리로 Claude 제작(job hello-me `cb61a248`, hello2 `d510d43a`, b1 `494ecece`, b2 `3de21b3d`, 약 0.75크레딧). 인사는 벤 → 탐정 "Hi, I'm Detective ○○. Are you Ben?"(`hello-ben`, Grady `c492dfdc`) → 벤 "Yes, that's me!" → 탐정 "You were at the Lake Cafe today, right?"(`hello-ben2`, 정원 `hello-garden2`와 같은 문장이라 그 녹음을 복사) → 벤 hello2 (사용자 결정: 벤은 이름을 말하지 않고 탐정이 확인). b1·b2 문장 구간은 `SENTENCE_TIMES`(소풍) |
 | Rosie Rabbit (소풍) | Evie(감정 없음, thanks만 `happy`) | 8줄 Claude 제작 `audio/picnic/rosie-<키>.mp3`: hello·hello2·r1–r4·give·thanks. job hello `7163c313`, hello2 `e1c3aac8`, r1 `b8564781`, r2 `3006c14e`, r3 `d139d026`, r4 `85ddc48d`, give `7ee0b18c`, thanks `e87226fb`. 약 2.25크레딧. r1·r3·r4 문장 구간은 `SENTENCE_TIMES`(소풍) |
 | 탐정 (소풍) | Grady | 28줄 Claude 제작(2026-11-02, 사용자 요청, 5.7크레딧: 짧은 줄 0.15, 긴 줄 0.3): 인사·맺음말·가방 전달 13줄 `audio/picnic/detective-<키>.mp3`(`DETECTIVE_PICNIC`: 소풍 사건 데이터의 `det:true` 줄 키를 모음, `detectiveSay()`가 이 키는 `audio/picnic/`에서 찾음), 소지품 설명 `detective-item-bag-nora·bag-rosie.mp3`, 추리 보드 `audio/picnic/deduce/q1–4·r1–4·h1–4·miss.mp3`. 대본은 화면 글 그대로, "Detective {name}"만 "the detective"(설계서), miss는 "Hmm... that doesn't fit." job: hello-rosie `c104fb27`, take-bag `e915d468`, hello-duck `b115592d`, hello-ben `1d6e27cf`, hello-garden1 `36010856`, hello-garden2 `3b28eff1`, garden-photo `c82c66dd`, garden-thanks `41732b81`, hello-nora `148b5536`, handoff1 `b167b2d8`, handoff2 `17884255`, handoff3 `30b4d871`, handback `3fb57421`, item-bag-nora `b18c5dd3`, item-bag-rosie `a63fea56`, q1 `510055eb`, q2 `7ad7a33f`, q3 `145b2f8c`, q4 `829dc417`, r1 `f7ea7226`, r2 `ce6e97d1`, r3 `d8665c79`, r4 `3867e2ee`, h1 `38c55577`, h2 `be31535c`, h3 `0c664d8f`, h4 `81021b76`, miss `04e09eca` |
@@ -594,7 +594,7 @@ node server.js            # http://localhost:5173/
   5. 정원 벤치의 두 가방: 소풍 탁자 그림의 파란 배낭을 오려 벤치에 놓고 하나는 빨강으로 **직접 합성**(0). 깔끔하지 않으면 정원 그림 편집(약 1.5)으로.
   6. 대화 바닥 확장 5장 — 만듦(2026-10-30, 10크레딧, 사용자 결정: 노트가 얼굴을 가림). 장소마다 누를 물건 — 대본 미정.
   - 남은 것: 녹음(아래 7). 새 인물 세 그림의 말하는 입은 만듦(0크레딧).
-  7. 녹음(로지 8줄·벤 5줄·미아 4줄은 완료): 오리 아저씨(hello·hello2·v1–v3), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 남은 줄: 오리 아저씨 5, 노라 5, 올리 3(g1 앞부분 포함), 약 2–3크레딧(줄 길이에 따라 0.15–0.3). 탐정 28줄은 만듦(6절). 오리 아저씨·올리·노라의 목소리는 아직 정하지 않았다. g1은 올리 "No. Mine is red."와 미아 "Mine is blue. Why?"(이미 `audio/picnic/mia-g1-mia.mp3`) 두 녹음을 한 파일 `mia-g1.mp3`로 붙이고 `PEOPLE.mia.audio`에 g1을 더한다(입은 지금 둘 다 움직임, 녹음 뒤 문장 구간으로 나눌 수 있음). 녹음을 넣을 때 인물 `audio`를 연결한다.
+  7. 녹음(로지 8줄·벤 5줄·미아 5줄은 완료): 오리 아저씨(hello·hello2·v1–v3), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 남은 줄: 오리 아저씨 5, 노라 5, 올리 3(g1 앞부분 포함), 약 2–3크레딧(줄 길이에 따라 0.15–0.3). 탐정 28줄은 만듦(6절). 오리 아저씨·올리·노라의 목소리는 아직 정하지 않았다. g1의 올리 차례 "No. Mine is red."는 `audio/picnic/mia-g1-ollie.mp3`로 만들어 `PEOPLE.mia.audio`에 키 `g1-ollie`로 더하면 된다(붙이지 않는다: 차례대로 따로 재생). 올리 인사 두 줄은 `mia-hello-ollie.mp3`·`mia-hello-ollie2.mp3`. 녹음을 넣을 때 인물 `audio`를 연결한다.
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음(대본 먼저).
 
 

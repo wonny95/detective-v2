@@ -46,7 +46,8 @@ http.createServer((req, res) => {
 // Debounced reload on any change in this folder (editors often write a file in several steps).
 let timer;
 fs.watch(ROOT, { recursive: true }, (_event, name) => {
-  if (!name || name.startsWith('.claude') || name.startsWith('node_modules')) return;
+  // .git changes whenever the story worktree (Codex) commits or checks its status: not a change to the game
+  if (!name || name.startsWith('.git') || name.startsWith('.claude') || name.startsWith('node_modules')) return;
   clearTimeout(timer);
   timer = setTimeout(() => {
     console.log('changed:', name, '→ reload');
