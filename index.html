@@ -132,6 +132,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
    face, as on the deduction board (user pick A, no tail) */
 .bubble.say.det{top:auto;bottom:calc(92px + env(safe-area-inset-bottom, 0px));max-height:calc(100% - 180px);padding-left:76px;--bubble-paper:#FFF0BF;transform-origin:50% 100%}
 .bubble.say.det::after{display:none}
+/* a detective line in a conversation waits for a tap on the screen (tapWait): a small blinking mark under the face */
+.bubble.say.det.wait-tap::after{display:block;left:40px;bottom:24px;width:0;height:0;transform:none;background:none;border:7px solid transparent;border-bottom:0;border-top:9px solid #A0703A;animation:tap-cue 1s ease-in-out infinite}
+@keyframes tap-cue{0%,100%{opacity:.35;translate:0 0}50%{opacity:1;translate:0 3px}}
+@media (prefers-reduced-motion:reduce){.bubble.say.det.wait-tap::after{animation:none}}
 /* the greeting: no question buttons under it, so the detective's bubble sits just above the bottom tabs */
 .app.greeting .bubble.say.det{bottom:calc(var(--greet-bottom, 20px) + env(safe-area-inset-bottom, 0px))}
 .bubble.say .say-face{position:absolute;left:24px;top:24px;width:44px;height:44px;border-radius:50%;background:#F3E6CC;box-shadow:0 0 0 2px #fff}
@@ -1592,7 +1596,7 @@ const PICNIC_CASE = {
         r3:['see','know','hear','look out','give up','find out','pick up'],
         r4:['forget','see','remember','garden','library','cafe','bakery','lost','mixed up','picked up'] }
     },
-    duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:'v1',
+    duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:['v2', 'v1'],
       // Mr. Duck's recorded voice: Higgsfield · MiniMax · Alden (hello made by the user), as in the library case
       audio:Object.fromEntries(['hello', 'hello2', 'v1', 'v2', 'v3'].map(key => [key, `audio/picnic/duck-${key}.mp3`])),
       hello:[
@@ -1601,9 +1605,9 @@ const PICNIC_CASE = {
         { key:'hello2', en:'Oh! I see. How can I help?', ko:'아, 그렇구나! 어떻게 도와줄까?' }
       ],
       questions:[
-        { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔나요?' },
         // lost and found: nothing was left, so someone took Rosie's bag (user decision; the owner does not know whose bag is whose)
         { id:'v2', en:'Did anyone leave a blue bag here?', ko:'여기 파란 가방을 두고 간 사람이 있나요?' },
+        { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔나요?' },
         { id:'v3', en:'Where are they now?', ko:'그들은 지금 어디 있나요?' }
       ],
       unlocks:{ v1:{ names:['ben', 'mia'] }, v3:{ places:['benhome', 'garden'] } },
@@ -2462,9 +2466,11 @@ const per = id => S.per[id];
 const qs = sp => sp.questions || QUESTIONS;
 const availableQuestions = speaker => {
   const progress = per(speaker.id);
+  // openingQuestion: one id, or several offered together first (Mr. Duck, user request); the rest come once they are all asked
+  const opening = [].concat(speaker.openingQuestion || []);
   // not asked yet, or (a save from when a wrong check went back to the questions) asked but not written down right
   return qs(speaker).filter(question => (!progress.order.includes(question.id) || progress.questionChecks[question.id] === 'review') &&
-    (!speaker.openingQuestion || progress.order.includes(speaker.openingQuestion) || question.id === speaker.openingQuestion) &&
+    (!opening.length || opening.every(id => progress.order.includes(id)) || opening.includes(question.id)) &&
     (speaker.needs?.[question.id] || []).every(ref => S.evidence.some(item => evRef(item) === ref)));
 };
 const cur = () => spk(S.cur);
@@ -3035,8 +3041,32 @@ let greetingTimer;
 // whom the first-meeting greeting is playing for: their questions wait until it is over (user request), and the
 // detective's bubble sits lower meanwhile (.app.greeting)
 let greetingId = null, greetingCut;
+// A detective line said in turn in a conversation stays on screen until the player taps the screen (user request: it went
+// on by itself). tapWait: what goes on, once that line has been said; tapWaited: the time spent waiting so far (ms)
+let tapWait = null, tapSince = 0, tapWaited = 0;
+function waitTap(go){ tapWait = go; tapSince = Date.now(); $('#sayBubble').classList.add('wait-tap'); }
+function tapGo(){
+  const go = tapWait; if(!go) return false;
+  dropTap(); go(); return true;
+}
+function dropTap(){
+  if(tapWait) tapWaited += Date.now() - tapSince;
+  tapWait = null; $('#sayBubble').classList.remove('wait-tap');
+}
+// the fallback for lines said in turn that never report their end: fn after ms, not counting the time spent waiting
+// for the player's tap; { stop() } cancels it
+function linesCut(ms, fn){
+  let seen = tapWaited, t;
+  const arm = wait => { t = setTimeout(() => {
+    if(tapWait) return arm(1000);
+    const extra = tapWaited - seen; seen = tapWaited;
+    extra > 0 ? arm(extra) : fn();
+  }, wait); };
+  arm(ms);
+  return { stop:() => clearTimeout(t) };
+}
 function setGreeting(id){
-  clearTimeout(greetingCut);
+  greetingCut?.stop();
   greetingId = id;
   $('#app').classList.toggle('greeting', !!id);
 }
@@ -3075,7 +3105,7 @@ function playGreeting(id){
   const lines = [].concat(spk(id).hello), done = () => { if(greetingId === id){ delete per(id).helloCut; setGreeting(null); renderAsk(); } };
   playLines(id, lines, done);
   // the questions come anyway if a line never reports its end (no voice at all)
-  greetingCut = setTimeout(done, lines.reduce((t, l) => t + (l.en || l).length * 95 + 2500, 1000));
+  greetingCut = linesCut(lines.reduce((t, l) => t + (l.en || l).length * 95 + 2500, 1000), done);
 }
 // Lines said in turn in a conversation: theirs by them (key: their audio, as: another voice), the detective's (det) in
 // the detective's bubble. {name} is the player's detective name on screen; the voice says "the detective" (design).
@@ -3089,7 +3119,12 @@ function playLines(id, lines, onDone, i = 0){
   if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, next, null, line.as); }
   const name = detectiveName(), named = text => text.replace(' {name}', name ? ` ${name}` : '');
   renderSay(detLine({ ...line, en:named(line.en), ko:named(line.ko) }));
-  detectiveSay(line.key, () => { if(!ending) renderSay(null); next(); }, null, line.en.replace('Detective {name}', 'the detective'));
+  // the next line waits for a tap on the screen once this one has been said
+  detectiveSay(line.key, () => waitTap(() => {
+    if(S.investigate || S.cur !== id) return;
+    if(!ending) renderSay(null);
+    next();
+  }), null, line.en.replace('Detective {name}', 'the detective'));
 }
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
 function leaveTalk(){ enterPlace(cur().place, true); }
@@ -3100,6 +3135,7 @@ function leaveTalk(){ enterPlace(cur().place, true); }
 const linesPlaying = () => !!greetingId || beatOn === S.cur || !clip.paused || !$('#evidenceVoice').paused ||
   ('speechSynthesis' in window && speechSynthesis.speaking);
 $('#talkCamera').addEventListener('click', e => {
+  if(!S.investigate && tapGo()) return;   // a tap on the screen goes on from a detective line, the person too
   if(S.investigate || ending || talkLocked() || linesPlaying() || $('#app').classList.contains('notes-open')) return;
   const r = $(`#talkCamera .scene-npc[data-talk="${S.cur}"]`)?.getBoundingClientRect();
   if(r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) return;
@@ -3513,7 +3549,7 @@ function playBeats(){
   // what it gives comes once the lines are said, or when they are cut off (the player went on); away from that person
   // by now, it still comes, without the lines
   const end = () => {
-    if(over) return; over = true; clearTimeout(cut); beatOn = null;
+    if(over) return; over = true; cut?.stop(); beatOn = null;
     if(!ending) renderSay(null);
     snap(beat.snap || []);
     if(beat.give && !S.items.includes(beat.give) && !S.handoffRound){
@@ -3522,7 +3558,7 @@ function playBeats(){
     }
   };
   if(S.investigate || S.cur !== beat.id) return end();
-  cut = setTimeout(end, beat.lines.reduce((t, line) => t + line.en.length * 95 + 2500, 0));
+  cut = linesCut(beat.lines.reduce((t, line) => t + line.en.length * 95 + 2500, 0), end);
   beatOn = beat.id;
   playLines(beat.id, beat.lines, () => setTimeout(end, 400));
 }
@@ -4035,6 +4071,7 @@ function setMood(id, mood){
 // The line being spoken in the ending, as a speech bubble (null hides it).
 function renderSay(line){
   const b = $('#sayBubble');
+  dropTap();   // a line that was waiting for a tap is gone (another line, or the conversation went on)
   if(!line){ b.hidden = true; return; }
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
   const again = line === ending?.line && !line.think;   // the detective's thought is not said
@@ -4046,6 +4083,7 @@ function renderSay(line){
 }
 // 해석 in the bubble: the Korean of the line under the English (user decision: in every part of the ending)
 $('#sayBubble').addEventListener('click', e => {
+  if(!e.target.closest('button') && tapGo()) return;   // the bubble is part of the screen (해석 stays a button)
   if(e.target.closest('[data-say-again]')){
     if(!ending?.line) return;
     clearTimeout(endTimer);
