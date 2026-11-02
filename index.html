@@ -1630,6 +1630,9 @@ const PICNIC_CASE = {
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
+      // Mia's recorded voice (Higgsfield · MiniMax · Giselle; hello made by the user). Ollie's lines and g1 (both of them)
+      // have none yet: the browser reads them. Mia's half of g1 is ready in audio/picnic/mia-g1-mia.mp3
+      audio:Object.fromEntries(['hello', 'hello2', 'sure', 'g2'].map(key => [key, `audio/picnic/mia-${key}.mp3`])),
       // Ollie and Mia speak in turn; Ollie in his own voice and with his own mouth (as)
       hello:[
         { key:'hello-ollie', as:{ pitch:.95, voice:1, mouth:'ollie' }, en:"Oh, hi! I'm Ollie. Nice to meet you.", ko:'오, 안녕! 난 올리야. 만나서 반가워.' },
@@ -2046,7 +2049,8 @@ const SENTENCE_TIMES = PICNIC ? {
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,1.76],[2.43,5.01],[5.76,7.6]],
   'ben:b1':[[0,2.13],[2.44,5.29]],
-  'ben:b2':[[0,0.87],[0.98,1.92]]
+  'ben:b2':[[0,0.87],[0.98,1.92]],
+  'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]]
 } : {
   'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
   'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],

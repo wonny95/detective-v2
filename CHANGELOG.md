@@ -15,6 +15,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 사용자가 만든 미아 첫 대사(Higgsfield MiniMax Giselle, "I'm Mia. Want to join our picnic?")로 미아 목소리를 모두 만들어 넣기. 같은 문장 테이크가 둘이라 최신(`0397a25b`, 감정 없음)을 씀. hello2·sure·g2를 같은 설정으로 제작, `PEOPLE.mia.audio`(hello·hello2·sure·g2), g2 문장 구간. g1의 미아 부분 "Mine is blue. Why?"(`mia-g1-mia.mp3`)도 만들어 두었으나 g1은 올리와 한 대답이라 올리 녹음이 생기면 붙여서 연결. 약 0.75크레딧.
+- 확인(새 탭 127.0.0.1): 노트 다시 듣기로 `mia-g2.mp3` 재생, 미아 입만 움직이고 올리 입은 멈춤. 미아 파일 5개 모두 200, 콘솔 오류 없음, 구문 검사 통과. 정원 첫 인사는 처음부터 재생하지 못함(미리보기는 진행 저장 안 함).
+- **다음**: 사용자 확인. 남은 동물 녹음: 오리 아저씨 5·노라 5·올리 3(목소리 선택 필요), 그 뒤 g1 합치기.
+
+## 2026-11-02 · Claude · 144a232
+
 - 설계서 수정(사용자 결정): 벤의 집 첫인사에 이름 확인을 넣음 — 벤 "Hi there! What can I do for you?" → 탐정 "Hi, I'm Detective {name}. Are you Ben?" → 벤 "Yes, that's me!"(사용자와 고름: 원어민이 가장 많이 쓰는 대답) → 탐정 "You were at the Lake Cafe today, right?" → 벤 "Yes, I stopped there this morning." `index.html`·`design/case-01-picnic-bag.md`·`.html`.
 - 녹음: 탐정 `detective-hello-ben`(새 문장으로 다시, Grady), 벤 `ben-hello-me`(Benji, happy), 약 0.3크레딧. `detective-hello-ben2`는 정원의 같은 문장 녹음을 복사(0).
 - 확인(새 탭 127.0.0.1): 인사 5줄의 파일이 모두 200으로 열림(1.2–2.8초), 콘솔 오류 없음, 구문 검사 통과. 미리보기 모드는 진행을 저장하지 않아 벤을 처음 만나는 장면을 처음부터 재생하지는 못함.
