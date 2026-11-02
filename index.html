@@ -1747,20 +1747,68 @@ const PICNIC_CASE = {
     nora:{ n1:'응. 거기 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병? 이상하네.' }
   },
   places:[
-    { id:'picnic', x:16, y:51, label:'Picnic Table', artWidth:1280, artHeight:714, clues:[], spots:[] },
-    { id:'daycafe', x:71, y:58, label:'Lake Cafe', artWidth:1679, artHeight:937, clues:[], spots:[] },
-    { id:'benhome', x:85, y:84, label:"Ben's House", artWidth:1672, artHeight:941, clues:[], spots:[] },
+    // ordinary objects in every place (prop: only the detective's sentence, design: 음성만 나오는 주변 물건), never the
+    // case's bags; the spots keep clear of whoever stands there
+    { id:'picnic', x:16, y:51, label:'Picnic Table', artWidth:1280, artHeight:714,
+      clues:[
+        { label:'Picnic basket', prop:true, en:'A brown picnic basket sits on the table.', ko:'탁자 위에 갈색 소풍 바구니가 놓여 있다.', audio:'audio/picnic/detective-picnic-basket.mp3' },
+        { label:'Tablecloth', prop:true, en:'A red and white cloth covers the table.', ko:'빨간색과 흰색 천이 탁자를 덮고 있다.', audio:'audio/picnic/detective-picnic-cloth.mp3' },
+        { label:'Lake', prop:true, en:'The lake is quiet and blue.', ko:'호수가 조용하고 파랗다.', audio:'audio/picnic/detective-picnic-lake.mp3' }
+      ],
+      spots:[
+        { clue:0, x:64.8, y:41, w:10, h:13.5 },
+        { clue:1, x:65, y:56, w:13, h:9.5 },
+        { clue:2, x:35, y:43, w:28, h:12 }
+      ]},
+    { id:'daycafe', x:71, y:58, label:'Lake Cafe', artWidth:1679, artHeight:937,
+      clues:[
+        { label:'Cups', prop:true, en:'Blue, red, and gray cups are on the shelf.', ko:'선반 위에 파란색, 빨간색, 회색 컵이 있다.', audio:'audio/picnic/detective-daycafe-cups.mp3' },
+        { label:'Guitar', prop:true, en:'A guitar leans on the stage. Nobody is playing it now.', ko:'기타 한 대가 무대에 기대어 있다. 지금은 아무도 연주하지 않는다.', audio:'audio/picnic/detective-daycafe-guitar.mp3' },
+        { label:'Window', prop:true, en:'Through the window, the lake is bright and blue.', ko:'창밖으로 밝고 파란 호수가 보인다.', audio:'audio/picnic/detective-daycafe-window.mp3' }
+      ],
+      spots:[
+        { clue:0, x:32, y:12, w:14.5, h:10 },
+        { clue:1, x:85.5, y:44, w:8, h:29.5 },
+        { clue:2, x:2, y:6, w:24, h:46 }
+      ]},
+    { id:'benhome', x:85, y:84, label:"Ben's House", artWidth:1672, artHeight:941,
+      clues:[
+        { label:'Shelf', prop:true, en:'Books, plates, and cups are on the shelf.', ko:'선반 위에 책, 접시, 컵이 있다.', audio:'audio/picnic/detective-benhome-shelf.mp3' },
+        { label:'Logs', prop:true, en:'A pile of logs. A little wooden horse sits on top.', ko:'통나무 더미. 위에 작은 나무 말이 앉아 있다.', audio:'audio/picnic/detective-benhome-logs.mp3' },
+        { label:'Rug', prop:true, en:'A round rug in the middle of the room.', ko:'방 한가운데에 둥근 러그가 있다.', audio:'audio/picnic/detective-benhome-rug.mp3' }
+      ],
+      spots:[
+        { clue:0, x:17.8, y:25, w:16, h:14.6 },
+        { clue:1, x:53.5, y:51, w:11, h:15.5 },
+        { clue:2, x:54, y:70, w:12.5, h:15.5 }
+      ]},
     // the two bags are photographed in the conversation (`talk`: no tap spot in the place view)
     { id:'garden', x:56, y:83, label:'Garden', artWidth:1376, artHeight:768,
       clues:[
         { label:'Blue bag', en:'A blue bag on the garden bench.', ko:'정원 벤치 위의 파란 가방.' },
-        { label:'Red bag', en:'A red bag on the garden bench.', ko:'정원 벤치 위의 빨간 가방.' }
+        { label:'Red bag', en:'A red bag on the garden bench.', ko:'정원 벤치 위의 빨간 가방.' },
+        { label:'Flowers', prop:true, en:'Red, yellow, and blue flowers grow everywhere.', ko:'빨간 꽃, 노란 꽃, 파란 꽃이 여기저기 피어 있다.', audio:'audio/picnic/detective-garden-flowers.mp3' },
+        { label:'Stone path', prop:true, en:'A stone path goes to the gate.', ko:'돌길이 대문까지 이어진다.', audio:'audio/picnic/detective-garden-path.mp3' },
+        { label:'Fence', prop:true, en:'A white wooden fence goes around the garden.', ko:'하얀 나무 울타리가 정원을 둘러싸고 있다.', audio:'audio/picnic/detective-garden-fence.mp3' }
       ],
       spots:[
         { clue:0, talk:true, x:71.5, y:36, w:8, h:13, photo:{x:938,y:250,w:200,h:150} },
-        { clue:1, talk:true, x:80.8, y:36, w:8, h:13, photo:{x:1065,y:250,w:200,h:150} }
+        { clue:1, talk:true, x:80.8, y:36, w:8, h:13, photo:{x:1065,y:250,w:200,h:150} },
+        { clue:2, x:0, y:50, w:17, h:45 },
+        { clue:3, x:40, y:101, w:28, h:26 },   // the path goes on in the floor under the picture
+        { clue:4, x:8, y:27, w:22, h:20 }
       ]},
-    { id:'lobby', x:28, y:85, label:'Office Lobby', artWidth:1376, artHeight:768, clues:[], spots:[] }
+    { id:'lobby', x:28, y:85, label:'Office Lobby', artWidth:1376, artHeight:768,
+      clues:[
+        { label:'Notice board', prop:true, en:'A board with notes for the workers.', ko:'직원들을 위한 쪽지가 붙은 게시판.', audio:'audio/picnic/detective-lobby-board.mp3' },
+        { label:'Stairs', prop:true, en:'The stairs go up to the offices.', ko:'계단이 위층 사무실로 이어진다.', audio:'audio/picnic/detective-lobby-stairs.mp3' },
+        { label:'Plant', prop:true, en:'A tall green plant by the window.', ko:'창가에 키 큰 초록 식물이 있다.', audio:'audio/picnic/detective-lobby-plant.mp3' }
+      ],
+      spots:[
+        { clue:0, x:60, y:23.5, w:17.5, h:21 },
+        { clue:1, x:27, y:30, w:14, h:36 },
+        { clue:2, x:0.5, y:52.5, w:13.5, h:41.5 }
+      ]}
   ],
   positions:{
     rosie:{x:28, floor:94, height:46},   // on the grass left of the table, so the bag on it stays in view

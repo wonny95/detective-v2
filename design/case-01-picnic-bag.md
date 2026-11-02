@@ -115,7 +115,25 @@
 | garden-blue-bag | 정원 | 파란 가방 | 미아 곁의 파란 가방 | g2에서 미아에게 보여 주고 주인 확인. 추리에서 혼동 후보 |
 | garden-red-bag | 정원 | 빨간 가방 | 올리 곁의 빨간 가방 | g1 진술과 대조해 제외하는 혼동 후보 |
 
-음성만 나오는 주변 물건: 소풍 탁자(소풍보·바구니·나무 탁자·호수), 카페(찻잔·커피포트·기타·마이크), 벤의 집(둥근 창·작은 탁자·화분·문: 실제 음성 대본은 후속 설계), 정원(꽃·벤치·돌길·나무 울타리). 회사 로비에는 사건 물건 조사가 없다. 주변 물건은 소지품·해금에 쓰지 않는다. `해석`은 버튼을 눌렀을 때만 보인다.
+음성만 나오는 주변 물건(2026-11-02 사용자와 확정): 장소 화면에서 누르면 탐정이 한 줄을 말한다. 소지품·증거·해금에 쓰지 않고, 정답이나 가방 주인을 알려 주지 않는다. 사건 물건(소풍 탁자의 파란 가방, 정원 벤치의 두 가방)은 주변 물건으로 만들지 않는다. 회사 로비에는 사건 물건 조사가 없고 주변 물건만 있다. `해석`은 버튼을 눌렀을 때만 보인다.
+
+| 장소 | 물건 | 탐정 음성 | 해석 |
+|---|---|---|---|
+| 소풍 탁자 | 바구니 | A brown picnic basket sits on the table. | 탁자 위에 갈색 소풍 바구니가 놓여 있다. |
+| 소풍 탁자 | 식탁보 | A red and white cloth covers the table. | 빨간색과 흰색 천이 탁자를 덮고 있다. |
+| 소풍 탁자 | 호수 | The lake is quiet and blue. | 호수가 조용하고 파랗다. |
+| 카페 | 선반의 컵 | Blue, red, and gray cups are on the shelf. | 선반 위에 파란색, 빨간색, 회색 컵이 있다. |
+| 카페 | 기타 | A guitar leans on the stage. Nobody is playing it now. | 기타 한 대가 무대에 기대어 있다. 지금은 아무도 연주하지 않는다. |
+| 카페 | 창밖 | Through the window, the lake is bright and blue. | 창밖으로 밝고 파란 호수가 보인다. |
+| 벤의 집 | 선반 | Books, plates, and cups are on the shelf. | 선반 위에 책, 접시, 컵이 있다. |
+| 벤의 집 | 통나무 | A pile of logs. A little wooden horse sits on top. | 통나무 더미. 위에 작은 나무 말이 앉아 있다. |
+| 벤의 집 | 러그 | A round rug in the middle of the room. | 방 한가운데에 둥근 러그가 있다. |
+| 정원 | 꽃 | Red, yellow, and blue flowers grow everywhere. | 빨간 꽃, 노란 꽃, 파란 꽃이 여기저기 피어 있다. |
+| 정원 | 돌길 | A stone path goes to the gate. | 돌길이 대문까지 이어진다. |
+| 정원 | 울타리 | A white wooden fence goes around the garden. | 하얀 나무 울타리가 정원을 둘러싸고 있다. |
+| 회사 로비 | 게시판 | A board with notes for the workers. | 직원들을 위한 쪽지가 붙은 게시판. |
+| 회사 로비 | 계단 | The stairs go up to the offices. | 계단이 위층 사무실로 이어진다. |
+| 회사 로비 | 화분 | A tall green plant by the window. | 창가에 키 큰 초록 식물이 있다. |
 
 ## 추리 4문항
 
