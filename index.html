@@ -1684,15 +1684,17 @@ const PICNIC_CASE = {
       answers:{
         n1:'Yes. I left it there, but Ben brought it to me.',
         n2:'My green folder and blue pen.',
-        n3:"I was busy, so I didn't open it. Let me look... A red lunch box and a yellow bottle! These aren't mine."
+        // she has not opened it because of a meeting (her folder is for work), and she stops at "strange": whose things
+        // they are is the player's to work out (user decision)
+        n3:"I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange."
       },
       notes:{
         n1:["Nora {{a|left}} her bag at Ben's house.", 'Ben {{b|brought}} it to her.'],
         n2:['Her bag had a {{c|green}} {{d|folder}} and a {{e|blue}} {{f|pen}}.'],
-        n3:['She was {{g|busy}}, so she did not open it.', 'Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.', 'They are not hers.']
+        n3:['She was in a {{g|meeting}}, so she did not open it.', 'Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.', 'She thinks that is strange.']
       },
       bank:{ n1:['lost','left','found','bought','took','brought'], n2:['red','green','yellow','blue','book','folder','bag','pencil','pen','cup'],
-        n3:['tired','happy','busy','green','red','blue','yellow','pink'] }
+        n3:['meeting','class','party','green','red','blue','yellow','pink'] }
     }
   },
   grammarLines:{
@@ -1709,7 +1711,7 @@ const PICNIC_CASE = {
     'mia:g2':[['ownership',"it's mine"], ['past-reg','I opened it']],
     'nora:n1':[['did-q','Did you leave'], ['past-irr','Ben brought it']],
     'nora:n2':[['wh-q','What was in your bag'], ['ownership','My green folder']],
-    'nora:n3':[['negative',"I didn't open it"], ['ownership',"These aren't mine"]]
+    'nora:n3':[['negative',"I didn't open it"]]
   },
   answersKo:{
     rosie:{ r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
@@ -1718,7 +1720,7 @@ const PICNIC_CASE = {
       v3:'다들 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요.' },
     ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어.', b2:'몰라. 가방을 열어 보지 않았어.' },
     mia:{ g1:'올리: 아니, 내 건 빨간색이야. 미아: 내 건 파란색이야. 왜?', g2:'응, 내 거야. 열어 봤어. 내 소풍 준비물이 들어 있어.' },
-    nora:{ n1:'응. 거기 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'바빠서 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병이네! 이건 내 것이 아니야.' }
+    nora:{ n1:'응. 거기 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병? 이상하네.' }
   },
   places:[
     { id:'picnic', x:16, y:51, label:'Picnic Table', artWidth:1280, artHeight:714, clues:[], spots:[] },
@@ -1982,7 +1984,7 @@ const WORDS = {
   'blue':['w','파란색'], 'red':['w','빨간색'], 'yellow':['w','노란색'], 'green':['w','초록색'], 'remember':['w','기억하다'], 'mixed up':['w','뒤바뀐'],
   'garden':['n','정원'], 'house':['w','집'], 'office':['n','사무실, 회사'], 'know':['w','알다'], 'open':['w','열다'], 'opened':['w','열었다'],
   'sure':['w','확신하는'], 'lunch box':['w','도시락'], 'bottle':['w','물병'], 'find out':['w','알아내다'], 'took':['w','가져갔다 (take의 과거)'],
-  'left':['w','두고 왔다 (leave의 과거)'], 'folder':['w','서류철, 폴더'], 'pen':['w','펜'], 'busy':['w','바쁜'], 'inside':['w','안에'], 'tell':['w','말하다, 알리다'],
+  'left':['w','두고 왔다 (leave의 과거)'], 'folder':['w','서류철, 폴더'], 'pen':['w','펜'], 'busy':['w','바쁜'], 'meeting':['n','회의'], 'inside':['w','안에'], 'tell':['w','말하다, 알리다'],
   'picnic':['w','소풍'], 'hers':['w','그녀의 것'], 'brought':['w','가져왔다'], 'one':['w','하나'], 'no':['w','하나도 없는'], 'not':['w','~않다'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
@@ -2058,7 +2060,7 @@ const SENTENCE_TIMES = PICNIC ? {
   'ben:b2':[[0,0.87],[0.98,1.92]],
   'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]],
   'nora:n1':[[0,0.75],[1.03,4.3]],
-  'nora:n3':[[0,2.6],[2.66,3.72],[3.8,7.72],[8.05,9.25]]
+  'nora:n3':[[0,2.45],[3.5,4.4],[4.7,7.55],[8.5,9.65]]
 } : {
   'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
   'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],

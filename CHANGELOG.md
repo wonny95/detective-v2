@@ -15,6 +15,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 설계서 수정(사용자 결정): 노라 n3. ① 가방을 안 연 이유를 "바빠서"에서 "아침 내내 회의"로(회사에서 업무용 폴더가 든 가방을 안 연 까닭이 서게). ② 노라가 "These aren't mine."이라고 결론을 말하지 않고 "That's strange."에서 멈춤(누구의 물건인지는 추리 Q3·Q4에서 플레이어가 잇게). 새 대사 "I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange." / 노트 "She was in a [meeting], so she did not open it. Inside are a [red] lunch box and a [yellow] bottle. She thinks that is strange." 보기 단어 meeting·class·party, `WORDS.meeting`, 문법 줄에서 "These aren't mine"(소유) 뺌. `index.html`·`design/case-01-picnic-bag.md`·`.html`.
+- 녹음: n3 Maeve로 다시(`58afbfb2`, 약 0.3크레딧), 문장 구간 다시. 단어장 발음 `audio/words/meeting.wav`(Zira, 0).
+- 확인(새 탭 127.0.0.1, 회사 로비 → 노라 → 노트): n3 노트 세 줄과 지문이 새 문장, 다시 듣기로 `nora-n3.mp3` 200, 콘솔 오류 없음, 구문 검사 통과.
+- **다음**: 사용자 확인. 남은 동물 녹음: 오리 아저씨 5·올리 3(목소리 선택 필요).
+
+## 2026-11-02 · Claude · a0f5d89
+
 - 사용자 요청: 사용자가 만든 노라 첫 대사로 노라의 다른 대사에 목소리 넣기. 같은 문장 테이크가 둘(Nadine `475ac9e2`, Maeve `3c4bc869`)이라 최신 Maeve를 씀. n1·n2·n3·thanks(노라에게 가방을 건넬 때의 인사)를 같은 목소리로 제작(약 0.75크레딧), `PEOPLE.nora.audio`(hello·n1·n2·n3·thanks), n1·n3 문장 구간.
 - 확인(새 탭 127.0.0.1, 지도 미리보기 → 회사 로비 → 노라 → 노트 n1 다시 듣기): `nora-n1.mp3` 200으로 재생, 콘솔 오류 없음, 구문 검사 통과. 못 한 것: 첫 인사와 가방 전달 장면의 thanks는 화면에서 재생해 보지 않음(같은 연결 방식), n3 문장 구간은 소리를 듣지 못해 쉼 길이로만 나눔(문장별 다시 듣기가 어긋나면 숫자 조정).
 - **다음**: 사용자 확인. 남은 동물 녹음: 오리 아저씨 5·올리 3(목소리 선택 필요).
