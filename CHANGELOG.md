@@ -15,6 +15,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 소풍 추리에 로지와 노라만 나와 빈약함 → 추천안대로 6문항. 새 Q3 `Where did the bags get mixed up?` → `At the [Lake Cafe].`(오리 아저씨 사진, 근거 rosie:r4·ben:b1·duck:v2), 새 Q4 `Who took a blue bag from the cafe to Nora?` → `[Ben Beaver] took it to Nora's office.`(벤 사진, 근거 ben:b1·nora:n1, 미아는 오답 후보). 예전 Q3·Q4는 Q5·Q6. `deduce.suspects`에 오리 아저씨·벤을 더함. 엔진은 그대로.
+- 녹음: 새 질문·대답·힌트 6줄 Higgsfield MiniMax Grady(`audio/picnic/deduce/q3·r3·h3·q4·r4·h4.mp3`, 약 1크레딧, 2줄은 요청 한도로 한 번 실패해 다시 제출). 예전 q3·r3·h3·q4·r4·h4는 5·6번으로 이름만 바꿈.
+- 사용자와 고친 설계서: `design/case-01-picnic-bag.md`(장면 표 05, 소지품 표, `추리 6문항` 표·설명·대답/힌트 표), `.html`(장면 5 설명, Q3·Q4 카드 추가, Q5·Q6로 번호 바꿈).
+- 확인(새 탭 127.0.0.1, 추리 보드 미리보기): 여섯 문항을 차례로 풀어 카드가 맞게 채워지고 사진이 로지·오리 아저씨·벤·노라 순서로 붙음, q1–q6·r1–r6 녹음이 모두 200으로 재생, 끝에 `노라에게 가기`. 구문 검사 통과. 오답·힌트(h3·h4)는 눌러 보지 않았고, 새 녹음을 귀로 듣는 확인은 못 함. 예전 4문항 때 추리를 하던 저장 기록은 번호가 밀려 Q3·Q4가 푼 것으로 보일 수 있음(리셋하면 정상).
+- **다음**: 사용자 확인. 남은 일은 `HANDOFF.md` 10절.
+
+## 2026-11-02 · Claude · c3f0c48
+
 - 사용자 요청: 벤 비버의 말하는 입이 어색함(시트의 벌린 입 위에 앞니를 얹어 앞니가 떠 보였음) → Higgsfield 한 장으로 다시 만듦. 벤 얼굴을 잘라 Nano Banana 2.1(1k, 1.5크레딧, job `524c832a-…`)로 입만 벌리게 고치고, `scripts/make-npc-mouths.py`의 `ben_mouth()`가 색을 맞춰 바뀐 곳(입과 조금 내려간 턱)만 번지게 잘라 `mouths/ben-open.png`를 만듦. `MOUTHS.ben.open` = 272,249 92×70. 원본은 `mouths/ben-open-higgsfield-original.png`로 보관. 닫은 입은 그대로.
 - 확인: 스프라이트에 닫은 입·벌린 입을 얹은 그림을 나란히 보고 이음새 없음. 새 탭 127.0.0.1 지도 미리보기에서 벤의 집에 가서 벌린 입 그림이 제자리(272,249)에 뜨는 것을 확인. 구문 검사 통과. 실제 말하는 움직임을 눈으로 오래 보지는 못함.
 - **다음**: 사용자 확인. 남은 일은 `HANDOFF.md` 10절.
