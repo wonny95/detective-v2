@@ -5921,11 +5921,13 @@ $('#devInterro').onclick = () => {
 $('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); localStorage.removeItem(NAME_KEY); } catch(e){} location.reload(); };
 
 // 리셋: everything this game keeps on the device (case in progress, solved cases, records, study days, tutorial) is
-// forgotten and the app starts over.
+// forgotten and the app starts over. In a 미리보기 it is the device's records too (not the preview's copy in memory),
+// and the page leaves the preview like 미리보기 끝: reloading would only open the same preview again, all done.
 $('#devReset').onclick = () => {
   saveOff = true;
-  try { Object.keys(localStorage).filter(key => key.startsWith('detective.')).forEach(key => localStorage.removeItem(key)); } catch(e){}
-  location.reload();
+  try { const ls = window.localStorage; Object.keys(ls).filter(key => key.startsWith('detective.')).forEach(key => ls.removeItem(key)); } catch(e){}
+  if(PREVIEW) location.href = location.pathname + (PICNIC ? '?case=picnic' : '');
+  else location.reload();
 };
 
 /* ---------- 미리보기 (user request: buttons to see each part quickly) ----------
