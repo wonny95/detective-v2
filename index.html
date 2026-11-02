@@ -1568,7 +1568,7 @@ const PICNIC_CASE = {
         { key:'hello2', en:"This isn't my bag. Can you help me find mine?", ko:'이건 내 가방이 아니야. 내 가방을 찾아줄래?' }
       ],
       questions:[
-        { id:'r1', en:'Did your bags get mixed up?', ko:'다른 사람과 가방이 바뀐 거야?' },
+        { id:'r1', en:"Did your bag get mixed up with someone else's?", ko:'다른 사람과 가방이 바뀐 거야?' },
         { id:'r2', en:'What is in your bag?', ko:'네 가방 안에는 뭐가 들어 있니?' },
         { id:'r3', en:'Do you know whose bag this is?', ko:'이 가방이 누구 것인지 알아?' },
         { id:'r4', en:'Who did you see today?', ko:'오늘 누구를 봤어?' }
@@ -1625,7 +1625,8 @@ const PICNIC_CASE = {
       bank:{ v1:['Ray','Betty','Ben','Fiona','Hoot'], v2:['Nobody','Everyone','Ben','left','took','brought'],
         v3:['office','home','cafe','library','garden','bakery'] }
     },
-    ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6',
+    // b1 first: "What was in the bag?" only once he has said he had one (user request)
+    ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6', openingQuestion:'b1',
       // recorded voice (Higgsfield · MiniMax · Benji; hello made by the user, happy; hello-me and hello2 happy)
       audio:Object.fromEntries(['hello', 'hello-me', 'hello2', 'b1', 'b2'].map(key => [key, `audio/picnic/ben-${key}.mp3`])),
       // he does not say his name: the detective, who heard it from Mr. Duck, asks (user decision)
@@ -1884,13 +1885,16 @@ const PICNIC_CASE = {
     ]
   },
   // no questioning (user decision): the bag in 소지품 is handed over with the drawer (건네주기), round by round. open: the
-  // line before it (the first one the detective's thought, user decision), lines: what follows, take: what comes back
+  // line before it (the first one the detective's thought, user decision), before: the detective's explanation, said
+  // while still holding the bag (user request: explain first, then hand it over), lines: what follows, take: what comes back
   ending:{ handoff:[
     { to:'nora', open:{ think:true, en:'노라에게 바뀐 가방에 대해서 설명하자.' }, give:'bag-nora', take:'bag-rosie',
-      lines:[
-        { det:true, key:'handoff1', en:'Rosie is looking for her bag. Her lunch box and bottle are in that one.', ko:'로지가 자기 가방을 찾고 있어. 그 가방에 로지의 도시락과 물병이 들어 있어.' },
+      before:[
+        { det:true, key:'handoff1', en:'Rosie is looking for her bag. Her lunch box and bottle are in the bag Ben brought you.', ko:'로지가 자기 가방을 찾고 있어. 벤이 가져다준 가방에 로지의 도시락과 물병이 들어 있어.' },
         { det:true, key:'handoff2', en:'This bag has your folder and pen.', ko:'이 가방에는 네 폴더와 펜이 있어.' },
-        { det:true, key:'handoff3', en:'Your bags got mixed up. Here you go.', ko:'너희 가방이 바뀐 거야. 여기 있어.' },
+        { det:true, key:'handoff3', en:'Your bags got mixed up. Here you go.', ko:'너희 가방이 바뀐 거야. 여기 있어.' }
+      ],
+      lines:[
         { key:'thanks', en:"My folder and pen are here! Thank you. Here is Rosie's bag.", ko:'내 폴더와 펜이 있네! 고마워. 여기 로지의 가방이야.' }
       ] },
     { to:'rosie', open:{ det:true, key:'handback', en:'Rosie, I brought your bag back.', ko:'로지, 네 가방을 가져왔어.' }, give:'bag-rosie',
@@ -2905,7 +2909,7 @@ function detectiveSay(key, onDone, onBlocked, text){
 // audio/picnic/detective-<key>.mp3 (Higgsfield MiniMax Grady, like the library case's)
 const DETECTIVE_PICNIC = new Set(PICNIC ? [
   ...Object.values(PICNIC_CASE.people).flatMap(p => [...(p.hello || []), ...Object.values(p.after || {}).flatMap(a => a.lines)]),
-  ...PICNIC_CASE.ending.handoff.flatMap(r => [r.open, ...r.lines])
+  ...PICNIC_CASE.ending.handoff.flatMap(r => [r.open, ...(r.before || []), ...r.lines])
 ].filter(line => line.det).map(line => line.key) : []);
 // a line in the detective's voice with no recording: the browser's voice (the time it would take, without one)
 function readOut(text, onDone){
@@ -4550,6 +4554,12 @@ function endingNext(){
     e.step = 'closing'; return endingSay(ENDING.closing);
   }
   if(e.step === 'closing') return finishEnding();
+  // the explanation before the bag goes over: the give button comes with its last line
+  if(e.step === 'handoffPre'){
+    const before = ENDING.handoff[e.round].before;
+    if(++e.pre >= before.length - 1) e.step = 'handoff';
+    return sayHandoff(before[e.pre]);
+  }
   if(e.step === 'handoffTalk'){
     const round = ENDING.handoff[e.round];
     if(++e.i < round.lines.length) return handoffLine();
@@ -4576,15 +4586,21 @@ function startHandoff(){
   $('#app').classList.add('ending');
   handoffOpen();
 }
-// the person with the bag, and the line before it is handed over (said once the camera is on them)
-function handoffOpen(){
+// the person with the bag, and the line before it is handed over (said once the camera is on them); then the
+// explanation (before), if the round has one. again: after a wrong pick, back to the last line before the give
+function handoffOpen(again){
   clearTimeout(endTimer);
-  const round = ENDING.handoff[ending.round];
-  Object.assign(ending, { step:'handoff', i:0 });
+  const round = ENDING.handoff[ending.round], before = round.before || [];
+  if(again && before.length){ Object.assign(ending, { step:'handoff', i:0, pre:before.length - 1 }); return sayHandoff(before.at(-1)); }
+  Object.assign(ending, { step:before.length ? 'handoffPre' : 'handoff', i:0, pre:-1 });
   endingFocus(round.to);
-  ending.line = detLine(round.open); ending.lineDone = null;
+  sayHandoff(round.open);
+}
+function sayHandoff(line){
+  clearTimeout(endTimer);
+  ending.line = detLine(line); ending.lineDone = null;
   renderSay(ending.line); renderDock();
-  if(!round.open.think) endTimer = setTimeout(() => detectiveSay(round.open.key, null, null, round.open.en), 500);
+  if(!line.think) endTimer = setTimeout(() => detectiveSay(line.key, null, null, line.en), 500);
 }
 function handOver(ref){
   const round = ENDING.handoff[ending.round], right = ref === `@${round.give}`;
@@ -4602,7 +4618,7 @@ function handOver(ref){
   setTimeout(() => { const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {}); }, 480);
   endTimer = setTimeout(() => {
     if(ending?.step !== 'handoff') return;
-    if(!right) return handoffOpen();
+    if(!right) return handoffOpen(true);
     ending.step = 'handoffTalk'; ending.i = 0;
     handoffLine();
   }, 1300);
@@ -4610,10 +4626,7 @@ function handOver(ref){
 function handoffLine(){
   const round = ENDING.handoff[ending.round], line = round.lines[ending.i];
   if(!line.det) return endingSay({ who:round.to, ...line });
-  clearTimeout(endTimer);
-  ending.line = detLine(line); ending.lineDone = null;
-  renderSay(ending.line); renderDock();
-  endTimer = setTimeout(() => detectiveSay(line.key, null, null, line.en), 500);
+  sayHandoff(line);
 }
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
