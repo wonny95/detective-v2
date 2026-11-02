@@ -21,6 +21,7 @@
 | `lobby-higgsfield.webp` | 노라의 회사 1층 로비. Nano Banana 2.1 1K 16:9(1.5크레딧), 참조 `ben-home.png`·`picnic-wide.png`, job `8239acb2-96ce-4612-8358-41de6d5806d1`. 가운데 바닥을 비움. |
 | `picnic-rosie-bag.webp` | 노라에게서 돌려받은 로지의 가방(소지품 `bag-rosie`). `picnic.webp`의 초록 도시락·파란 물병을 빨강·노랑으로 직접 색 편집(`scripts/recolor-picnic-bag.py`, 크레딧 없음). |
 | `backpack-blue.png`, `backpack-red.png` | 정원 벤치의 미아(파랑)·올리(빨강) 가방. `picnic-wide.png`의 배낭을 오려 색을 입힘(`scripts/cut-picnic-backpack.py`, 크레딧 없음). 정원 그림(`garden.webp`) 위에 겹쳐 그린다. |
+| `bag-blue.png` (427×420) | 결말에서 노라·로지에게 건네는 파란 가방(두 가방 겉모습이 같아 한 장). Higgsfield Nano Banana 2.1 1k 한 장(사용자 요청, 2026-11-02, 1.5크레딧, job `4514fe11-d4ea-4c01-9e46-395525df8c15`, 소풍 탁자 배낭을 참조로 초록 단색 배경) → 원본 `bag-blue-higgsfield-original.png`. `scripts/cut-picnic-bag.py`가 초록을 빼고 가장자리 초록 번짐을 지운 뒤, 회녹색으로 나온 천을 소풍 탁자 배낭의 파랑 쪽으로 옮기고(끈·외곽선은 그대로) 높이 420px로 줄인다. |
 
 마을 지도는 `../village-map-day-higgsfield.webp`(두 사건 공용, 아래 HANDOFF 참고).
 

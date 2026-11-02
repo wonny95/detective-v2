@@ -120,8 +120,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
 .presented svg{display:block;width:100%;height:100%}
+/* handing a bag over (picnic case): the bag itself, not a photo of it (user request), from below (the detective's hands)
+   up to the person and smaller, a little wobble as they take it; one handed back comes down from them and grows */
+.handed{position:absolute;left:50%;bottom:32%;z-index:7;width:44%;max-width:210px;pointer-events:none;filter:drop-shadow(0 8px 8px rgba(40,30,24,.35))}
+.handed.give{animation:bag-give 1.3s cubic-bezier(.25,.7,.3,1) forwards}
+.handed.take{animation:bag-take 1.3s ease-in forwards}
+@keyframes bag-give{0%{opacity:0;transform:translate(-50%,120%) scale(1.25) rotate(-8deg)}20%{opacity:1}62%{transform:translate(-50%,0) scale(.8) rotate(4deg)}74%{transform:translate(-50%,0) scale(.8) rotate(-3deg)}84%{opacity:1;transform:translate(-50%,0) scale(.8) rotate(0)}100%{opacity:0;transform:translate(-50%,4%) scale(.72)}}
+@keyframes bag-take{0%{opacity:0;transform:translate(-50%,0) scale(.72)}16%{opacity:1;transform:translate(-50%,-4%) scale(.8) rotate(-3deg)}34%{transform:translate(-50%,-4%) scale(.8) rotate(2deg)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,140%) scale(1.25) rotate(6deg)}}
+.dcard .evidence-photo.bag-pic{border:0;background:none}
+.evidence-photo.bag-pic img{display:block;width:100%;height:100%;object-fit:contain}
 @keyframes present-in{0%{opacity:0;transform:translateY(70px) rotate(-3deg) scale(.8)}22%{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}80%{opacity:1;transform:rotate(-3deg)}100%{opacity:0;transform:translateY(-12px) rotate(-3deg)}}
-@media(prefers-reduced-motion:reduce){.presented figure{animation:none}}
+@media(prefers-reduced-motion:reduce){.presented figure{animation:none}.handed{display:none}}
 /* the questioning (confront, confession): the room dims around her; the gauge fills as her claims are answered */
 .spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
   background:radial-gradient(ellipse 66% 48% at 50% 40%,rgba(255,236,190,.12) 0 30%,rgba(34,20,10,.42) 62%,rgba(24,14,8,.82) 100%)}
@@ -1812,10 +1821,12 @@ const PICNIC_CASE = {
   items:{
     // the title says who gave it and its colour, never whose it is (design)
     'bag-nora':{ label:'Blue bag from Rosie', en:'There is a green folder and a blue pen inside.', ko:'안에 초록 폴더와 파란 펜이 들어 있어.',
-      audio:'audio/picnic/detective-item-bag-nora.mp3', img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420] },
+      audio:'audio/picnic/detective-item-bag-nora.mp3', img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420],
+      bag:'assets/places/picnic-storyboard/bag-blue.png' },
     'bag-rosie':{ label:'Blue bag', en:'The blue bag Nora gave me. Inside, there is a red lunch box and a yellow bottle.', ko:'노라가 건넨 파란 가방. 안에 빨간 도시락과 노란 물병이 들어 있다.',
       audio:'audio/picnic/detective-item-bag-rosie.mp3',
-      img:'assets/places/picnic-storyboard/picnic-rosie-bag.webp', w:1376, h:768, crop:[800, 300, 400, 300] }
+      img:'assets/places/picnic-storyboard/picnic-rosie-bag.webp', w:1376, h:768, crop:[800, 300, 400, 300],
+      bag:'assets/places/picnic-storyboard/bag-blue.png' }
   },
   deduce:{
     people:[['Rosie Rabbit', 'rosie'], ['Mr. Duck', 'duck'], ['Ben Beaver', 'ben'], ['Mia', 'mia'], ['Ollie', 'mia'], ['Nora Hedgehog', 'nora']],
@@ -4182,6 +4193,14 @@ function itemPhoto(id){
   const it = ITEMS[id], [x, y, w, h] = it.crop;
   return `<svg viewBox="${x} ${y} ${w} ${h}" aria-hidden="true"><image href="${it.img}" width="${it.w}" height="${it.h}"/></svg>`;
 }
+// the drawer's card for a thing to hand over: the thing itself when it has a picture of its own (bag), else its photo
+const itemCardPic = id => ITEMS[id].bag ? `<img src="${ITEMS[id].bag}" alt="">` : itemPhoto(id);
+// a bag going from the detective's hands up to the person ('give'), or from them down to the detective ('take')
+function handBag(id, way){
+  const bag = document.createElement('img');
+  bag.className = `handed ${way}`; bag.src = ITEMS[id].bag; bag.alt = '';
+  $('.scene').appendChild(bag); setTimeout(() => bag.remove(), 1300);
+}
 function evidenceEntry(ref){
   if(!ref) return null;
   if(isItemRef(ref)){
@@ -4207,7 +4226,7 @@ const statements = () => PEOPLE_ORDER.flatMap(id => S.per[id] && id !== accusedI
 const sayFace = id => `<i class="say-face" style="background-image:url(${faceSrc(id)});background-color:${spk(id).bg}"></i>`;
 function drawerStripHTML(){
   if(drawerTab === 'item'){
-    return S.items.length ? S.items.map(id => `<button class="dcard" type="button" data-pick="@${id}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${itemPhoto(id)}</span><span class="dlabel">${esc(ITEMS[id].label)}</span><span class="dplace">소지품</span></button>`).join('')
+    return S.items.length ? S.items.map(id => `<button class="dcard" type="button" data-pick="@${id}" aria-pressed="false"><span class="evidence-photo${ITEMS[id].bag ? ' bag-pic' : ''}" aria-hidden="true">${itemCardPic(id)}</span><span class="dlabel">${esc(ITEMS[id].label)}</span><span class="dplace">소지품</span></button>`).join('')
       : '<p class="empty-note">가진 물건이 없어요.</p>';
   }
   if(drawerTab === 'say'){
@@ -4530,10 +4549,14 @@ function endingNext(){
     if(++e.i < round.lines.length) return handoffLine();
     // this bag is back with its owner: the next one comes out of 소지품 next
     S.items = S.items.filter(id => id !== round.give);
-    if(round.take){ S.items.push(round.take); toast('소지품을 노트에 넣었어요.'); }
+    if(round.take) S.items.push(round.take);
     S.handoffRound = ++e.round; saveGame();
-    if(e.round < ENDING.handoff.length) return handoffOpen();
-    return finishEnding();
+    const next = () => e.round < ENDING.handoff.length ? handoffOpen() : finishEnding();
+    if(!round.take) return next();
+    // the bag they hand back comes down to the detective before the camera goes on
+    e.step = 'taking'; e.line = null; renderSay(null); renderAsk();
+    if(ITEMS[round.take]?.bag) handBag(round.take, 'take');
+    endTimer = setTimeout(() => { toast('소지품을 노트에 넣었어요.'); next(); }, ITEMS[round.take]?.bag ? 1300 : 0);
   }
 }
 /* ---------- handing over (picnic case) ----------
@@ -4560,12 +4583,16 @@ function handOver(ref){
   const round = ENDING.handoff[ending.round], right = ref === `@${round.give}`;
   clearTimeout(endTimer); stopVoice(); closeDrawer();
   renderSay(null); ending.line = null; renderAsk();
-  const shot = document.createElement('div');
-  shot.className = `presented given${right ? '' : ' miss'}`;
-  shot.innerHTML = `<figure>${evidenceEntry(ref)?.photo || ''}</figure>`;
-  $('.scene').appendChild(shot);
+  // the bag itself goes over (user request: not a photo of it); a wrong pick is held up and drops as a photo
+  if(right && ITEMS[round.give]?.bag) handBag(round.give, 'give');
+  else {
+    const shot = document.createElement('div');
+    shot.className = `presented given${right ? '' : ' miss'}`;
+    shot.innerHTML = `<figure>${evidenceEntry(ref)?.photo || ''}</figure>`;
+    $('.scene').appendChild(shot);
+    setTimeout(() => shot.remove(), 1300);
+  }
   setTimeout(() => { const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {}); }, 480);
-  setTimeout(() => shot.remove(), 1300);
   endTimer = setTimeout(() => {
     if(ending?.step !== 'handoff') return;
     if(!right) return handoffOpen();

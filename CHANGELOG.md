@@ -15,6 +15,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 결말에서 가방을 사진이 아니라 가방 그림으로 진짜 건네는 것처럼. 사용자와 정한 계획대로: Higgsfield Nano Banana 2.1 1k 한 장(1.5크레딧, job `4514fe11-…`, 소풍 탁자 배낭 참조, 초록 배경) → `scripts/cut-picnic-bag.py`로 오려 `assets/places/picnic-storyboard/bag-blue.png`(천 색을 탁자 배낭의 파랑으로 맞춤). `ITEMS.bag-nora/bag-rosie.bag`. 서랍 카드는 가방 그림, 건네주기는 가방이 아래에서 상대 손으로 날아가 사라짐(`handBag(id,'give')`), 노라가 로지 가방을 돌려줄 때는 노라 손에서 아래로 내려옴(`'take'`, 그 뒤 알림과 로지에게 이동). 틀린 물건(소풍에는 없음)은 예전 사진 연출 그대로. 노트의 소지품 자세히 보기(속 사진)는 그대로.
+- 확인(새 탭 127.0.0.1, 노라에게 전달 미리보기): 서랍 카드에 가방 그림, 건네주기 때 가방이 노라 허리 높이로 날아감, 노라 대사 4줄 뒤 가방이 노라 손에서 내려옴, `소지품을 노트에 넣었어요.` 뒤 로지 장면, 로지에게 건네기도 같은 움직임(애니메이션을 멈춰 중간 장면을 캡처). 새 콘솔 오류 없음, 구문 검사 통과. 실제 속도로 끝까지 눈으로 본 것은 아님.
+- **다음**: 사용자 요청(작업 중 받음) — 로지가 가방을 맡긴 뒤 소풍 탁자 그림에 그려진 배낭도 사라져야 함. 그림에서 배낭을 지운 조각이 필요해 Higgsfield 편집 한 장(약 1.5크레딧)을 사용자에게 확인받고 진행. 대본이 모두 정해지면 추리 Q3·Q4·Q5·Q7 녹음 12줄.
+
+## 2026-11-02 · Claude · c71b90d
+
 - 사용자 요청: 노라 부분을 "노라가 말한 자기 가방 → 열어 보니 든 것 → 바뀐 두 사람" 세 단계로. 새 Q7 `What did Nora say was in her bag?` → `Nora's bag had a [green folder] and a [blue pen].`, 맞히면 `Right. Her folder and pen are in the bag Rosie gave me.` Q8 카드는 `Nora opened the blue bag Ben brought. It had a [red lunch box] and a [yellow bottle] in it.`(질문·대답·힌트 그대로), Q9 바뀐 두 사람(그대로). 추리 9문항.
 - 녹음은 사용자 결정대로 나중에: Q7 `unrecorded:true`. 기존 q7·q8 녹음은 q8·q9로 이름만 바꿈.
 - 사용자와 고친 설계서: md(장면 표 05, 소지품 표, `추리 9문항` 표·설명·대답/힌트 표), html(장면 5 설명, Q7·Q8 카드, Q9 번호, 소지품 쓰임).
