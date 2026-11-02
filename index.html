@@ -1648,9 +1648,10 @@ const PICNIC_CASE = {
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
-      // Mia's recorded voice (Higgsfield · MiniMax · Giselle; hello made by the user). g1-mia is her half of g1 (they
-      // answer in turn, speak). Ollie has no recording yet (hello-ollie, hello-ollie2, g1-ollie): the browser reads him
-      audio:Object.fromEntries(['hello', 'hello2', 'sure', 'g1-mia', 'g2'].map(key => [key, `audio/picnic/mia-${key}.mp3`])),
+      // Mia (Higgsfield · MiniMax · Giselle) and Ollie (Emmett: hello-ollie, hello-ollie2, g1-ollie), each greeting
+      // made by the user. g1-mia and g1-ollie are their turns in g1 (they answer one after the other, speak)
+      audio:Object.fromEntries(['hello', 'hello2', 'sure', 'g1-mia', 'g2', 'hello-ollie', 'hello-ollie2', 'g1-ollie']
+        .map(key => [key, `audio/picnic/mia-${key}.mp3`])),
       // Ollie's voice and mouth for his part of an answer ("Ollie: …")
       parts:{ ollie:{ pitch:.95, voice:1, mouth:'ollie' } },
       // the map pin shows the two friends as two faces (user request); everywhere else they are one
