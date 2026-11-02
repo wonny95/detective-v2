@@ -1850,17 +1850,17 @@ const PICNIC_CASE = {
         right:'Yes. A blue bag with a red lunch box and a yellow bottle.', rightKo:'맞아. 빨간 도시락과 노란 물병이 든 파란 가방이야.',
         hint:'Look at what Rosie said about her bag.', hintKo:'로지가 자기 가방에 대해 한 말을 봐.' },
       // the middle of the case (user request: only Rosie and Nora was too thin): Rosie went to the cafe, who else came there,
-      // who carried a blue bag from it. unrecorded: the browser's voice until all the lines are recorded together (user decision)
-      { step:3, who:'rosie', unrecorded:true, q:'Where did Rosie go before the picnic?', qKo:'로지는 소풍 전에 어디에 갔을까?',
+      // who carried a blue bag from it
+      { step:3, who:'rosie', q:'Where did Rosie go before the picnic?', qKo:'로지는 소풍 전에 어디에 갔을까?',
         card:'Rosie went to the {place:Lake Cafe}. Maybe the bags got mixed up there.', cardKo:'로지는 호수 카페에 갔다. 거기서 가방이 바뀌었을지도 모른다.',
         right:'Right. Rosie stopped at the Lake Cafe before the picnic.', rightKo:'맞아. 로지는 소풍 전에 호수 카페에 들렀어.',
         hint:'Look at what Rosie said about where she went.', hintKo:'로지가 어디에 갔다고 했는지 봐.' },
-      { step:4, who:'duck', unrecorded:true, q:'Who came to the Lake Cafe today?', qKo:'오늘 호수 카페에 온 사람은?',
+      { step:4, who:'duck', q:'Who came to the Lake Cafe today?', qKo:'오늘 호수 카페에 온 사람은?',
         card:'Rosie, {person:Ben Beaver}, {person:Mia}, and {person:Ollie} came to the cafe.', cardKo:'로지, 벤, 미아, 올리가 카페에 왔다.', any:true,
         right:'Yes. They all came, and nobody left a bag there.', rightKo:'맞아. 모두 카페에 왔고, 거기 두고 간 가방은 없었어.',
         hint:'What did Mr. Duck say about his guests today?', hintKo:'오리 아저씨가 오늘 손님에 대해 뭐라고 했지?' },
       // Mia and Ollie have their own bags, before Ben (user request)
-      { step:5, who:'mia', unrecorded:true, q:'Did Mia or Ollie take the wrong bag?', qKo:'미아나 올리가 가방을 잘못 가져갔을까?',
+      { step:5, who:'mia', q:'Did Mia or Ollie take the wrong bag?', qKo:'미아나 올리가 가방을 잘못 가져갔을까?',
         card:"Mia's bag has her {thing:picnic things} in it. Ollie's bag is {color:red}.", cardKo:'미아의 가방에는 미아의 소풍 준비물이 들어 있다. 올리의 가방은 빨간색이다.',
         right:'Right. Mia and Ollie have their own bags.', rightKo:'맞아. 미아와 올리는 자기 가방을 가지고 있어.',
         hint:'Look at the photos from the garden. What did Mia and Ollie say?', hintKo:'정원에서 찍은 사진을 봐. 미아와 올리는 뭐라고 했지?' },
@@ -1869,7 +1869,7 @@ const PICNIC_CASE = {
         right:'Yes. Ben stopped at the cafe, then took a blue bag to Nora.', rightKo:'맞아. 벤은 카페에 들렀다가 노라에게 파란 가방을 가져다줬어.',
         hint:"Who stopped at the cafe on the way to Nora's office?", hintKo:'노라의 회사로 가는 길에 카페에 들른 사람은 누구지?' },
       // Nora in three steps (user request): what she said was in her bag, what the bag Ben brought had in it, whose bags
-      { step:7, who:'nora', unrecorded:true, q:'What did Nora say was in her bag?', qKo:'노라는 자기 가방에 뭐가 들어 있었다고 했지?',
+      { step:7, who:'nora', q:'What did Nora say was in her bag?', qKo:'노라는 자기 가방에 뭐가 들어 있었다고 했지?',
         card:"Nora's bag had a {thing:green folder} and a {thing:blue pen}.", cardKo:'노라의 가방에는 초록 폴더와 파란 펜이 있었다.', any:true,
         right:'Right. Her folder and pen are in the bag Rosie gave me.', rightKo:'맞아. 노라의 폴더와 펜은 로지가 맡긴 가방에 들어 있어.',
         hint:'What did Nora say about her own bag?', hintKo:'노라가 자기 가방에 대해 뭐라고 했지?' },
