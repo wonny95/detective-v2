@@ -9,7 +9,9 @@
 3. The printed meta ([x, y, w, h] in sprite px) goes into MOUTHS in index.html.
 
    Ben's two front teeth hang under his smile, so his drawn mouth stays: closed = the picture as drawn, open =
-   the open mouth under his smile with the smile line and the teeth laid back on top (ben_mouth()).
+   cut from a Higgsfield edit of his face with the mouth open (mouths/ben-open-higgsfield-original.png: the sprite's
+   face 196..436 x 110..350 scaled to 1024, edited; the chin drops a little with it), its colours matched to the
+   sprite and only where it differs from the drawing, edges blended (ben_mouth()).
    Mia and Ollie share one picture (mia): Ollie's mouth is mia-ollie.
 
 Run: python -I scripts/make-npc-mouths.py [keys]   (Pillow only; no keys = all)
@@ -165,17 +167,19 @@ for key,(f,x,y,w,h,kind,line,top) in S.items():
 def ben_mouth():
     im=Image.open(D+'ben-higgsfield.png').convert('RGBA'); box=(236,222,396,292)   # smile 260..373 x 240..255, teeth 293..340 x 247..279
     reg=im.crop(box); reg.save(M+'ben-closed.png',optimize=True)
-    lr=L(reg)
-    # the smile line and the teeth (white + their outline), from the picture
-    line=lr.point(lambda v:255 if v<110 else 0); ImageDraw.Draw(line).rectangle((0,256-box[1],reg.size[0],reg.size[1]),fill=0)
-    teeth=lr.point(lambda v:255 if v>235 else 0); ImageDraw.Draw(teeth).rectangle((0,0,reg.size[0],249-box[1]),fill=0)
-    ImageDraw.Draw(teeth).rectangle((0,0,295-box[0],reg.size[1]),fill=0); ImageDraw.Draw(teeth).rectangle((339-box[0],0,reg.size[0],reg.size[1]),fill=0)
-    teeth=teeth.filter(ImageFilter.MaxFilter(7))
-    top=reg.copy(); top.putalpha(ImageChops.multiply(ImageChops.lighter(line,teeth).filter(ImageFilter.GaussianBlur(.6)),reg.getchannel('A')))
-    art=open_art('smile-open',94); layer=reg.copy()
-    layer.alpha_composite(art,(316-art.size[0]//2-box[0],244-box[1])); layer.alpha_composite(top)
-    layer.save(M+'ben-open.png',optimize=True)
-    r=[box[0],box[1],box[2]-box[0],box[3]-box[1]]; meta['ben']={'closed':r,'open':r}; print('ben',meta['ben'])
+    face=(196,110,436,350)   # the square the edit was made from
+    src=im.crop(face).convert('RGB'); ed=Image.open(M+'ben-open-higgsfield-original.png').convert('RGB').resize(src.size,Image.LANCZOS)
+    # colours: the edit is a little more orange; match it to the drawing on the untouched upper face
+    up=(20,10,220,120); ms=[sum(c)/len(c) for c in zip(*src.crop(up).getdata())]; me=[sum(c)/len(c) for c in zip(*ed.crop(up).getdata())]
+    ed=Image.merge('RGB',[ch.point(lambda v,g=ms[i]/me[i]:min(255,round(v*g))) for i,ch in enumerate(ed.split())])
+    # only where the edit differs (mouth and the lower chin), grown and softened so it fades into the drawing
+    hit=ImageChops.difference(src,ed).convert('L').point(lambda v:255 if v>28 else 0)
+    keep=Image.new('L',src.size,0); ImageDraw.Draw(keep).rectangle((70,135,175,215),fill=255); hit=ImageChops.multiply(hit,keep)
+    mask=hit.filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(2.5))
+    layer=ed.convert('RGBA'); layer.putalpha(ImageChops.multiply(mask,im.crop(face).getchannel('A')))
+    tb=layer.getchannel('A').point(lambda v:255 if v>2 else 0).getbbox()
+    layer.crop(tb).save(M+'ben-open.png',optimize=True)
+    meta['ben']={'closed':[box[0],box[1],box[2]-box[0],box[3]-box[1]],'open':[face[0]+tb[0],face[1]+tb[1],tb[2]-tb[0],tb[3]-tb[1]]}; print('ben',meta['ben'])
 if not sys.argv[1:] or 'ben' in sys.argv[1:]: ben_mouth()
 # duck: the generated beaks replace the drawn one (147..300 x 167..248)
 for state,name in [('closed','beak'),('open','beak-open')] if not sys.argv[1:] or 'duck' in sys.argv[1:] else []:
