@@ -120,6 +120,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
 .presented svg{display:block;width:100%;height:100%}
+.nobag{opacity:0;transition:opacity .8s ease}
+.app.bag-away .nobag{opacity:1}
 /* handing a bag over (picnic case): the bag itself, not a photo of it (user request), from below (the detective's hands)
    up to the person and smaller, a little wobble as they take it; one handed back comes down from them and grows */
 .handed{position:absolute;left:50%;bottom:32%;z-index:7;width:44%;max-width:210px;pointer-events:none;filter:drop-shadow(0 8px 8px rgba(40,30,24,.35))}
@@ -2731,7 +2733,11 @@ function focusCamera(fromRect, glide = false){
     : glide ? getComputedStyle(art).transform : null;
   animateCamera(art, from, `translate(${left}px, ${top}px) scale(${scale})`);
 }
+// the backpack on the picnic table is gone while the detective carries a bag (from Rosie handing it over until she has
+// hers back; user request)
+const syncBagAway = () => $('#app').classList.toggle('bag-away', PICNIC && S.items.length > 0);
 function renderStage(fromRect){
+  syncBagAway();
   $('#app').classList.toggle('partner', !!cur().partner);
   renderScene(placeIdOf(S.cur));
   const art = $('#art');
@@ -3624,7 +3630,7 @@ function playBeats(){
     if(!ending) renderSay(null);
     snap(beat.snap || []);
     if(beat.give && !S.items.includes(beat.give) && !S.handoffRound){
-      S.items.push(beat.give); saveGame();
+      S.items.push(beat.give); syncBagAway(); saveGame();
       setTimeout(() => toast('소지품을 노트에 넣었어요.'), 300);
     }
   };
@@ -4550,6 +4556,7 @@ function endingNext(){
     // this bag is back with its owner: the next one comes out of 소지품 next
     S.items = S.items.filter(id => id !== round.give);
     if(round.take) S.items.push(round.take);
+    syncBagAway();
     S.handoffRound = ++e.round; saveGame();
     const next = () => e.round < ENDING.handoff.length ? handoffOpen() : finishEnding();
     if(!round.take) return next();
@@ -4941,7 +4948,10 @@ const ART = {
     <image href="assets/places/betty-home-higgsfield.png" width="1376" height="768"/>`,
 
   // the picnic case (assets/places/picnic-storyboard/)
-  picnic: () => `<image href="assets/places/picnic-storyboard/picnic-wide.png" width="1280" height="714"/>`,
+  // the table without Rosie's backpack fades in while the bag is with the detective (.bag-away, syncBagAway();
+  // scripts/cut-picnic-nobag.py)
+  picnic: () => `<image href="assets/places/picnic-storyboard/picnic-wide.png" width="1280" height="714"/>
+    <image class="nobag" href="assets/places/picnic-storyboard/picnic-nobag.png" x="939" y="272" width="198" height="188"/>`,
   daycafe: () => `<image href="assets/places/picnic-storyboard/cafe-day.png" width="1679" height="937"/>`,
   benhome: () => `<image href="assets/places/picnic-storyboard/ben-home.png" width="1672" height="941"/>`,
   // the two bags on the bench: the picnic table's backpack cut out and tinted (scripts/cut-picnic-backpack.py)
@@ -5605,6 +5615,7 @@ function loadGame(){
   S.met = S.met.filter(id => PEOPLE[id]);
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
+  syncBagAway();
 }
 // older saves of the library case: notes and photos as the story is now
 function libraryMigrations(){
