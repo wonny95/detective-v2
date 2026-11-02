@@ -15,6 +15,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 노라 부분을 "노라가 말한 자기 가방 → 열어 보니 든 것 → 바뀐 두 사람" 세 단계로. 새 Q7 `What did Nora say was in her bag?` → `Nora's bag had a [green folder] and a [blue pen].`, 맞히면 `Right. Her folder and pen are in the bag Rosie gave me.` Q8 카드는 `Nora opened the blue bag Ben brought. It had a [red lunch box] and a [yellow bottle] in it.`(질문·대답·힌트 그대로), Q9 바뀐 두 사람(그대로). 추리 9문항.
+- 녹음은 사용자 결정대로 나중에: Q7 `unrecorded:true`. 기존 q7·q8 녹음은 q8·q9로 이름만 바꿈.
+- 사용자와 고친 설계서: md(장면 표 05, 소지품 표, `추리 9문항` 표·설명·대답/힌트 표), html(장면 5 설명, Q7·Q8 카드, Q9 번호, 소지품 쓰임).
+- 확인(새 탭 127.0.0.1, 추리 보드 미리보기): 아홉 문항을 끝까지 풀어 노라 사진 옆에 카드 세 장, Q7은 폴더·펜을 반대 순서로 넣어도 정답, 끝에 `노라에게 가기`. 구문 검사 통과.
+- **다음**: 사용자 확인. 대본이 모두 정해지면 추리 Q3·Q4·Q5·Q7 녹음 12줄(약 1.8크레딧). 남은 일은 `HANDOFF.md` 10절.
+
+## 2026-11-02 · Claude · 8eaa300
+
 - 사용자 요청: 추리 Q6(벤) 카드를 "벤이 가진 가방은 노라의 것, 노라에게 가져다줬다"는 뜻으로. 둘째 문장이 사실(벤은 바뀐 줄 모르고 로지의 가방을 줬다)과 어긋나 두 안을 제안했고, 사용자가 B안 선택: `[Ben Beaver] had Nora's bag. He thought he took her bag to her.` / `벤은 노라의 가방을 가지고 있었다. 그는 노라에게 그녀의 가방을 가져다줬다고 생각했다.` 질문·대답·힌트·녹음은 그대로. 설계서 md·html의 Q6 카드도 같이 고침.
 - 확인(새 탭 127.0.0.1, 추리 보드 미리보기): Q1–Q6을 풀어 새 카드의 빈칸(Ben Beaver)이 채워지고 해석이 맞게 보임. 구문 검사 통과.
 - **다음**: 사용자 확인. 대본이 모두 정해지면 추리 Q3·Q4·Q5 녹음 9줄(약 1.4크레딧). 남은 일은 `HANDOFF.md` 10절.

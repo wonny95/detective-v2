@@ -46,7 +46,7 @@
 | 03B 벤의 집 | 노라가 집에 두고 간 가방을 회사에 전한 경로와 내용물을 아는지 질문함 | b1 기록 뒤 노라와 노라의 회사 |
 | 04 정원 | 두 친구와 인사하고 파란 가방 여부를 묻는다. 미아의 파란 가방과 올리의 빨간 가방을 촬영한 뒤 사진을 보여 주며 미아의 가방인지 확인하고 감사 인사로 마무리함 | 사진 2장, 별도 필수 해금 없음 |
 | 04B 회사 1층 로비 | 노라가 받은 가방을 처음 열고 내용물을 말함 | 노라 n3까지 기록하면 바로 추리 |
-| 05 추리 | Q1 로지의 의뢰, Q2 로지가 말한 가방의 색·내용물, Q3 로지가 들른 곳(호수 카페), Q4 카페에 온 사람들(벤·미아·올리), Q5 미아·올리는 자기 가방을 가짐, Q6 카페에서 노라에게 가방을 가져간 사람(벤), Q7 노라가 받은 가방과의 일치 | 마지막 Q8에서 바뀐 두 사람 특정 |
+| 05 추리 | Q1 로지의 의뢰, Q2 로지가 말한 가방의 색·내용물, Q3 로지가 들른 곳(호수 카페), Q4 카페에 온 사람들(벤·미아·올리), Q5 미아·올리는 자기 가방을 가짐, Q6 카페에서 노라에게 가방을 가져간 사람(벤), Q7 노라가 말한 자기 가방의 내용물, Q8 노라가 받은 가방을 열어 본 내용물 | 마지막 Q9에서 바뀐 두 사람 특정 |
 | 06 노라에게 설명·전달 | 추리 직후 `노라에게 바뀐 가방에 대해서 설명하자.`가 나온 뒤 소지품의 가방을 골라 `건네주기`. 탐정의 설명과 노라의 확인 대사가 이어짐 | 로지의 가방을 소지품에 받기 |
 | 07 로지에게 전달 | 소풍 탁자에서 로지의 가방과 도시락·물병을 돌려줌. 로지의 감사 인사로 사건 종료 | 복습 |
 | 08 복습 | 사건 요약, 소유 표현·단어 담기 | 완료 |
@@ -104,7 +104,7 @@
 
 | 소지품 | 얻는 곳 | 열어 본 내용 | 탐정의 짧은 음성 | 사용 |
 |---|---|---|---|---|
-| 로지가 맡긴 파란 가방 | 소풍 탁자 | 초록 서류 폴더, 파란 펜 | There is a green folder and a blue pen inside. | 추리 Q8 근거, 노라에게 건네기 |
+| 로지가 맡긴 파란 가방 | 소풍 탁자 | 초록 서류 폴더, 파란 펜 | There is a green folder and a blue pen inside. | 추리 Q7·Q9 근거, 노라에게 건네기 |
 
 소지품 제목에는 가방을 맡긴 사람과 색만 표시한다. 실제 주인 이름은 표시하지 않는다. 가방을 열어 보았을 때 폴더와 펜의 색을 탐정 음성으로 알려 준다. 회사 로비에서는 물건 촬영·증거 카드를 만들지 않고, 노라의 `n3` 음성 진술에서 빨간 도시락과 노란 물병을 듣는다. 카페에도 가방 소품은 없다.
 
@@ -135,7 +135,7 @@
 | 회사 로비 | 계단 | The stairs go up to the offices. | 계단이 위층 사무실로 이어진다. |
 | 회사 로비 | 화분 | A tall green plant by the window. | 창가에 키 큰 초록 식물이 있다. |
 
-## 추리 8문항
+## 추리 9문항
 
 | Q | 질문 / 해석 | 정답 카드 | 출처·판단 |
 |---|---|---|---|
@@ -145,10 +145,11 @@
 | 4 | Who came to the Lake Cafe today? / 오늘 호수 카페에 온 사람은? | Rosie, [Ben Beaver], [Mia], and [Ollie] came to the cafe. | duck:v1(+ v2: 카페에 두고 간 가방은 없음). 세 칸은 어느 순서로 채워도 됨 |
 | 5 | Did Mia or Ollie take the wrong bag? / 미아나 올리가 가방을 잘못 가져갔을까? | Mia's bag has her [picnic things] in it. Ollie's bag is [red]. | garden:g1·g2 + 정원 사진 2장. 미아의 파란 가방은 미아 것, 올리 가방은 빨간색 |
 | 6 | Who took a blue bag from the cafe to Nora? / 카페에서 노라에게 파란 가방을 가져간 사람은? | [Ben Beaver] had Nora's bag. He thought he took her bag to her. | ben:b1 + nora:n1. 미아의 파란 가방은 정원 사진·g2로 미아 것임을 확인해 제외 |
-| 7 | What shows that Nora has the wrong bag? / 노라가 잘못된 가방을 받았다는 근거는? | The [red lunch box] and [yellow bottle] are Rosie's. | Q2 + nora:n3. 로지가 말한 물건이 노라가 받은 가방에 있음 |
-| 8 | Whose bags got mixed up? / 누구와 누구의 가방이 바뀐 걸까? | [Rosie Rabbit]'s and [Nora Hedgehog]'s bags. | Q7 + 소지품 속 폴더·펜 + nora:n2. 두 가방의 내용물과 각자의 진술을 연결 |
+| 7 | What did Nora say was in her bag? / 노라는 자기 가방에 뭐가 들어 있었다고 했지? | Nora's bag had a [green folder] and a [blue pen]. | nora:n2. 로지가 맡긴 가방(소지품) 속 물건과 같음 |
+| 8 | What shows that Nora has the wrong bag? / 노라가 잘못된 가방을 받았다는 근거는? | Nora opened the blue bag Ben brought. It had a [red lunch box] and a [yellow bottle] in it. | Q2 + nora:n3. 로지가 말한 물건이 노라가 받은 가방에 있음 |
+| 9 | Whose bags got mixed up? / 누구와 누구의 가방이 바뀐 걸까? | [Rosie Rabbit]'s and [Nora Hedgehog]'s bags. | Q7 + Q8 + 소지품 속 폴더·펜. 두 가방의 내용물과 각자의 진술을 연결 |
 
-정원에서 찍은 파란·빨간 가방 사진은 처음에는 가방 후보를 늘린다. 올리의 빨간 가방과 미아가 사진을 보고 자기 것이라고 확인한 파란 가방은 탐문에서 제외된다. Q5에서 미아·올리가 자기 가방을 가졌음을 정리하고(사용자 요청: 벤이 나오기 전에), Q6에서 카페에서 파란 가방을 가져간 사람을 고를 때 미아는 오답 후보가 된다. Q1은 로지가 자기 가방을 찾아 달라고 한 의뢰를 확인한다. Q2는 로지의 진술에서 자기 가방의 파란색 외형과 빨간 도시락·노란 물병을 정리한다. Q3은 로지가 소풍 전에 호수 카페에 들렀다는 말을, Q4는 그 카페에 누가 왔는지(오리 아저씨의 진술)를 정리하고, Q5는 미아·올리를 제외하고, Q6은 남은 벤이 카페에서 노라의 회사로 가방을 가져갔음을 고른다(사용자 결정 2026-11-02: 로지와 노라만 나오는 추리는 빈약해 사건의 가운데를 더함, 로지가 카페에 갔다 → 카페에 누가 왔다로 이어지게 함, 추리 화면에 오리 아저씨·벤 사진도 나옴). Q7에서 로지의 물건이 노라가 받은 가방에도 있음을 대조한다. 마지막 Q8에서 소지품으로 챙긴 가방 안의 폴더·펜과 노라의 진술까지 연결해 탐정이 “누구와 누구의 가방이 바뀐 걸까?”라고 생각하며 로지·노라를 특정한다. 틀린 선택은 같은 문항에서 다시 풀며 진척을 보존한다.
+정원에서 찍은 파란·빨간 가방 사진은 처음에는 가방 후보를 늘린다. 올리의 빨간 가방과 미아가 사진을 보고 자기 것이라고 확인한 파란 가방은 탐문에서 제외된다. Q5에서 미아·올리가 자기 가방을 가졌음을 정리하고(사용자 요청: 벤이 나오기 전에), Q6에서 카페에서 파란 가방을 가져간 사람을 고를 때 미아는 오답 후보가 된다. Q1은 로지가 자기 가방을 찾아 달라고 한 의뢰를 확인한다. Q2는 로지의 진술에서 자기 가방의 파란색 외형과 빨간 도시락·노란 물병을 정리한다. Q3은 로지가 소풍 전에 호수 카페에 들렀다는 말을, Q4는 그 카페에 누가 왔는지(오리 아저씨의 진술)를 정리하고, Q5는 미아·올리를 제외하고, Q6은 남은 벤이 카페에서 노라의 회사로 가방을 가져갔음을 고른다(사용자 결정 2026-11-02: 로지와 노라만 나오는 추리는 빈약해 사건의 가운데를 더함, 로지가 카페에 갔다 → 카페에 누가 왔다로 이어지게 함, 추리 화면에 오리 아저씨·벤 사진도 나옴). 노라 부분은 세 단계다(사용자 결정 2026-11-02): Q7에서 노라가 말한 자기 가방의 폴더·펜(로지가 맡긴 가방 속 물건과 같음)을, Q8에서 노라가 벤이 가져온 가방을 열어 보니 로지의 도시락·물병이 있었음을 정리한다. 마지막 Q9에서 소지품으로 챙긴 가방 안의 폴더·펜과 노라의 진술까지 연결해 탐정이 “누구와 누구의 가방이 바뀐 걸까?”라고 생각하며 로지·노라를 특정한다. 틀린 선택은 같은 문항에서 다시 풀며 진척을 보존한다.
 
 정답을 고르면 탐정이 대답을 말하고 다음 문항으로 간다. 처음 틀리면 “Hmm… that doesn't fit.” / “음… 그건 맞지 않아.”, 두 번째부터는 문항별 힌트로 다시 볼 곳만 가리키고 정답은 말하지 않는다(2026-10-30 사용자 확정).
 
@@ -160,8 +161,9 @@
 | 4 | Yes. They all came, and nobody left a bag there. / 맞아. 모두 카페에 왔고, 거기 두고 간 가방은 없었어. | What did Mr. Duck say about his guests today? / 오리 아저씨가 오늘 손님에 대해 뭐라고 했지? |
 | 5 | Right. Mia and Ollie have their own bags. / 맞아. 미아와 올리는 자기 가방을 가지고 있어. | Look at the photos from the garden. What did Mia and Ollie say? / 정원에서 찍은 사진을 봐. 미아와 올리는 뭐라고 했지? |
 | 6 | Yes. Ben stopped at the cafe, then took a blue bag to Nora. / 맞아. 벤은 카페에 들렀다가 노라에게 파란 가방을 가져다줬어. | Who stopped at the cafe on the way to Nora's office? / 노라의 회사로 가는 길에 카페에 들른 사람은 누구지? |
-| 7 | So the bag Ben brought to Nora is Rosie's bag. / 그러니까 벤이 노라에게 가져다준 가방은 로지의 가방이야. | What did Nora find in the bag Ben brought? / 노라가 벤이 가져온 가방에서 무엇을 찾았지? |
-| 8 | The bag Rosie gave me has Nora's folder and pen. Their bags got mixed up. Let's give them back. / 로지가 맡긴 가방에는 노라의 폴더와 펜이 있어. 둘의 가방이 바뀐 거야. 돌려주자. | Look inside the bag Rosie gave me. What did Nora say was in her bag? / 로지가 맡긴 가방 안을 봐. 노라는 자기 가방에 뭐가 있었다고 했지? |
+| 7 | Right. Her folder and pen are in the bag Rosie gave me. / 맞아. 노라의 폴더와 펜은 로지가 맡긴 가방에 들어 있어. | What did Nora say about her own bag? / 노라가 자기 가방에 대해 뭐라고 했지? |
+| 8 | So the bag Ben brought to Nora is Rosie's bag. / 그러니까 벤이 노라에게 가져다준 가방은 로지의 가방이야. | What did Nora find in the bag Ben brought? / 노라가 벤이 가져온 가방에서 무엇을 찾았지? |
+| 9 | The bag Rosie gave me has Nora's folder and pen. Their bags got mixed up. Let's give them back. / 로지가 맡긴 가방에는 노라의 폴더와 펜이 있어. 둘의 가방이 바뀐 거야. 돌려주자. | Look inside the bag Rosie gave me. What did Nora say was in her bag? / 로지가 맡긴 가방 안을 봐. 노라는 자기 가방에 뭐가 있었다고 했지? |
 
 ## 가방 전달·복습
 
