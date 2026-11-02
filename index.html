@@ -747,7 +747,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .person .mini{width:32px;height:32px}
 
 /* ---------- bottom navigation ---------- */
-.nav{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:10px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));background:var(--paper-2);position:relative;z-index:20}
+/* above the map (.sheet.full, 30): the menu's wavy top line (.nav::before) reaches 6px above it and was cut by the map
+   (user report); the map rises from behind the menu. Under the note keyboard (.note-vkb) and the case cards (.cases) */
+.nav{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:10px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));background:var(--paper-2);position:relative;z-index:31}
 .tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper);font-family:var(--f-display);font-size:15px;box-shadow:2px 3px 0 rgba(74,54,40,.22)}
 .tab svg{width:24px;height:24px;flex:none}
 /* in a case: the way out to the case list sits top-left (user decision; the case stays as it was and resumes).
@@ -1158,7 +1160,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
    (#noteVkb, user request: like 이름 짓기), so the typing layout (.app.typing) shows on a computer too. */
 .vkb{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-direction:column;height:336px;box-sizing:border-box;background:#D1D4DA;font-family:-apple-system,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;color:#000;user-select:none;-webkit-user-select:none;animation:vkb-in .25s ease-out}
 .vkb[hidden]{display:none}
-.note-vkb{z-index:30}
+.note-vkb{z-index:32}
 @keyframes vkb-in{from{transform:translateY(100%)}}
 .vkb-suggest{flex:0 0 45px;display:grid;grid-template-columns:repeat(3,1fr);align-items:center}
 .vkb-suggest span{height:22px;border-left:1px solid rgba(60,60,67,.29)}
