@@ -106,7 +106,7 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 |---|---|---|
 | 루비 | Hi, I'm Ruby. Nice to meet you. | 안녕, 난 루비야. 만나서 반가워. |
 | 탐정 | I'm looking for the owner of an umbrella at the village hall. | 회관에 남겨진 우산의 주인을 찾고 있어. |
-| 루비 | My umbrella? I think it's at home. | 내 우산? 아마 집에 있을 거야. |
+| 루비 | An umbrella? Mine is probably at home. | 우산? 내 건 아마 집에 있을 거야. |
 
 ### 엘라 대화 뒤 · 우산 조사로 전환
 
