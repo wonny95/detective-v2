@@ -15,6 +15,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 사용자 요청: 벤 문항 앞에 "미아와 올리는 자기 가방을 가졌다"는 단계. 새 Q5 `Did Mia or Ollie take the wrong bag?` → `No. Mia's blue bag has her [picnic things], and Ollie's bag is [red].`(미아와 올리 사진, 근거 garden:g1·g2와 정원 사진 2장), 맞히면 `Right. Mia and Ollie have their own bags.` 벤은 Q6, 노라는 Q7·Q8. 추리 8문항. `deduce.suspects`에 `Mia & Ollie`.
+- 녹음은 사용자 결정대로 나중에: Q5도 `unrecorded:true`(브라우저 음성). 기존 q5–q7 녹음은 q6–q8로 이름만 바꿈.
+- 사용자와 고친 설계서: md(장면 표 05, 소지품 표, `추리 8문항` 표·설명·대답/힌트 표), html(장면 5 설명, Q5 카드, Q6–Q8 번호).
+- 확인(새 탭 127.0.0.1, 추리 보드 미리보기): 여덟 문항을 풀어 끝까지 감, 사진 순서 로지·오리 아저씨·미아와 올리·벤·노라, Q5 카드의 물건·색 빈칸이 맞게 채워짐, 끝에 `노라에게 가기`. 구문 검사 통과.
+- **다음**: 사용자 확인. 대본이 모두 정해지면 추리 Q3·Q4·Q5 녹음 9줄(약 1.4크레딧). 남은 일은 `HANDOFF.md` 10절.
+
+## 2026-11-02 · Claude · fcd1983
+
 - 사용자 요청: 추리 가운데를 "로지가 가방이 바뀌기 전 호수 카페에 갔다 → 카페에 누가 왔다"로 이음. 7문항: Q3 `Where did Rosie go before the picnic?` → `Rosie went to the [Lake Cafe]. Maybe the bags got mixed up there.`(로지 사진), Q4 `Who came to the Lake Cafe today?` → `Rosie, [Ben Beaver], [Mia], and [Ollie] came to the cafe.`(오리 아저씨 사진, 순서 무관), Q5 벤(이전 Q4), Q6·Q7 노라(이전 Q5·Q6). 이전 Q3 `Where did the bags get mixed up?`은 뺌.
 - 사용자 결정: 녹음은 대본이 모두 정해진 뒤 한꺼번에. 새 Q3·Q4는 `unrecorded:true`로 브라우저 음성. 맞지 않게 된 이전 q3·r3·h3 녹음은 휴지통으로, q4–q6 녹음은 q5–q7로 이름만 바꿈.
 - 버그 수정(사용자 화면: 카페 카드에 `yellow bottle`이 채워짐): 추리 진행이 문항 번호로 저장되어 예전 Q3의 답이 새 카드에 들어갔음. 진행에 카드 문장 묶음(`DEDUCE_CARDS`)을 함께 저장하고 다르면 처음부터 다시 풀게 함. 이 때문에 기존 저장 기록의 추리 진행은 두 사건 모두 한 번 초기화됨.
