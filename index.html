@@ -3040,14 +3040,17 @@ function talkTo(id){
   const fromRect = S.investigate && S.place === spk(id).place ? $('#art').getBoundingClientRect() : null;
   if(S.investigate && S.place) sceneScroll[S.place] = artWrap.scrollLeft;
   stopVoice();
-  const first = per(id).phase === 'wait';
-  setGreeting(first ? id : null);
+  // the first meeting, or one whose greeting was cut off (user request: leaving in the middle must not lose it, e.g.
+  // Rosie's request): helloCut stays until the greeting has been said to the end
+  const met = per(id).phase !== 'wait', first = !met || !!per(id).helloCut;
   S.cur = id; S.view = id; S.sel = null;
   if(!ending) renderSay(null);
   if(!S.met.includes(id)) S.met.push(id);
-  if(first) per(id).phase = 'choose';
+  if(first){ per(id).phase = 'choose'; per(id).helloCut = true; }
   openSheet(null); setNotes(false);
   if(S.investigate) setInvestigate(false);
+  // after leaving the place view, which clears any greeting (a greeting begun there would otherwise never count as said)
+  setGreeting(first ? id : null);
   renderStage(fromRect); renderDock();
   if(recordLocked()) setNotes(true);   // an unfinished recording opens again where it was left
   else if(!first) Object.entries(cur().after || {}).forEach(([qid, beat]) => {
@@ -3056,14 +3059,14 @@ function talkTo(id){
     if(heard && missing && !beats.some(b => b.id === id)){ beats.push({ id, ...beat }); greetingTimer = setTimeout(playBeats, 700); }
   });
   if(first){
-    if(id === START) stageCard(CASE.title, CASE.no);
+    if(id === START && !met) stageCard(CASE.title, CASE.no);
     greetingTimer = setTimeout(() => playGreeting(id), id === START ? 1200 : 600);
   }
 }
 // The first meeting's greeting: `hello` is one line of theirs, or the lines in turn as the case design writes them.
 function playGreeting(id){
   if(per(id).phase !== 'choose') return setGreeting(null);
-  const lines = [].concat(spk(id).hello), done = () => { if(greetingId === id){ setGreeting(null); renderAsk(); } };
+  const lines = [].concat(spk(id).hello), done = () => { if(greetingId === id){ delete per(id).helloCut; setGreeting(null); renderAsk(); } };
   playLines(id, lines, done);
   // the questions come anyway if a line never reports its end (no voice at all)
   greetingCut = setTimeout(done, lines.reduce((t, l) => t + (l.en || l).length * 95 + 2500, 1000));
@@ -3086,8 +3089,12 @@ function playLines(id, lines, onDone, i = 0){
 function leaveTalk(){ enterPlace(cur().place, true); }
 // Tapping the scene around the person (not the person, not a button) also goes back to the whole place,
 // with the same camera move as the top chip. The picture itself is inert here, so the tap lands on #talkCamera.
+// Not while someone is saying their lines (user request: a slip of the finger cut Rosie's greeting off): the greeting,
+// an `after` beat, any voice playing. The top chip still leaves.
+const linesPlaying = () => !!greetingId || beatOn === S.cur || !clip.paused || !$('#evidenceVoice').paused ||
+  ('speechSynthesis' in window && speechSynthesis.speaking);
 $('#talkCamera').addEventListener('click', e => {
-  if(S.investigate || ending || talkLocked() || $('#app').classList.contains('notes-open')) return;
+  if(S.investigate || ending || talkLocked() || linesPlaying() || $('#app').classList.contains('notes-open')) return;
   const r = $(`#talkCamera .scene-npc[data-talk="${S.cur}"]`)?.getBoundingClientRect();
   if(r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) return;
   leaveTalk();
@@ -3493,14 +3500,14 @@ function closeNotes(){
 }
 // PEOPLE[].after, once the notebook with the checked question is put away: lines in turn (playLines), then a thing handed
 // to the detective (give: 소지품) or the photos the detective asked for (snap: taken right there, user decision)
-let beats = [];
+let beats = [], beatOn = null;   // beatOn: whose beat is being said
 function playBeats(){
   const beat = beats.shift(); if(!beat) return;
   let over = false, cut;
   // what it gives comes once the lines are said, or when they are cut off (the player went on); away from that person
   // by now, it still comes, without the lines
   const end = () => {
-    if(over) return; over = true; clearTimeout(cut);
+    if(over) return; over = true; clearTimeout(cut); beatOn = null;
     if(!ending) renderSay(null);
     snap(beat.snap || []);
     if(beat.give && !S.items.includes(beat.give) && !S.handoffRound){
@@ -3510,6 +3517,7 @@ function playBeats(){
   };
   if(S.investigate || S.cur !== beat.id) return end();
   cut = setTimeout(end, beat.lines.reduce((t, line) => t + line.en.length * 95 + 2500, 0));
+  beatOn = beat.id;
   playLines(beat.id, beat.lines, () => setTimeout(end, 400));
 }
 // photos taken in a conversation: the shutter and a flash over the scene, then the notebook has them
