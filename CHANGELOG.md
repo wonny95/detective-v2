@@ -15,6 +15,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-02 · Claude · (이 커밋)
 
+- 설계서 수정(사용자 결정): 벤의 집 첫인사에 이름 확인을 넣음 — 벤 "Hi there! What can I do for you?" → 탐정 "Hi, I'm Detective {name}. Are you Ben?" → 벤 "Yes, that's me!"(사용자와 고름: 원어민이 가장 많이 쓰는 대답) → 탐정 "You were at the Lake Cafe today, right?" → 벤 "Yes, I stopped there this morning." `index.html`·`design/case-01-picnic-bag.md`·`.html`.
+- 녹음: 탐정 `detective-hello-ben`(새 문장으로 다시, Grady), 벤 `ben-hello-me`(Benji, happy), 약 0.3크레딧. `detective-hello-ben2`는 정원의 같은 문장 녹음을 복사(0).
+- 확인(새 탭 127.0.0.1): 인사 5줄의 파일이 모두 200으로 열림(1.2–2.8초), 콘솔 오류 없음, 구문 검사 통과. 미리보기 모드는 진행을 저장하지 않아 벤을 처음 만나는 장면을 처음부터 재생하지는 못함.
+- **다음**: 사용자 확인(벤의 집 첫 방문 인사 듣기). 남은 동물 녹음 18줄(오리 아저씨·미아·올리·노라).
+
+## 2026-11-02 · Claude · 2da4551
+
 - 사용자 요청: 사용자가 만든 벤 첫 대사(Higgsfield MiniMax Benji, happy, "Hi there! What can I do for you?", job `ce53f669`)의 목소리로 벤 대사를 모두 녹음해 넣기 → hello2(happy)·b1·b2를 같은 목소리로 제작(약 0.6크레딧), `audio/picnic/ben-hello·hello2·b1·b2.mp3`, `PEOPLE.ben.audio`. b1·b2 문장 구간(`SENTENCE_TIMES`, silencedetect).
 - 설계서 수정(사용자 녹음에 맞춤): 벤 첫인사에서 "I'm Ben Beaver."를 뺌 → "Hi there! What can I do for you?" / "안녕! 무슨 일이야?" (`index.html`, `design/case-01-picnic-bag.md`·`.html`). 녹음과 화면 글을 같게 하려고.
 - 확인(새 탭 127.0.0.1): 노트 다시 듣기로 `ben-b1.mp3` 재생, 벤 입 움직임, 콘솔 오류 없음, 구문 검사 통과. 첫인사 흐름은 처음부터 다시 하지 않아 화면에서 듣지 않음(파일·연결만 확인).

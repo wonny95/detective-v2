@@ -1602,11 +1602,14 @@ const PICNIC_CASE = {
         v3:['office','home','cafe','library','garden','bakery'] }
     },
     ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6',
-      // recorded voice (Higgsfield · MiniMax · Benji; hello made by the user, happy; hello2 happy)
-      audio:Object.fromEntries(['hello', 'hello2', 'b1', 'b2'].map(key => [key, `audio/picnic/ben-${key}.mp3`])),
+      // recorded voice (Higgsfield · MiniMax · Benji; hello made by the user, happy; hello-me and hello2 happy)
+      audio:Object.fromEntries(['hello', 'hello-me', 'hello2', 'b1', 'b2'].map(key => [key, `audio/picnic/ben-${key}.mp3`])),
+      // he does not say his name: the detective, who heard it from Mr. Duck, asks (user decision)
       hello:[
         { key:'hello', en:'Hi there! What can I do for you?', ko:'안녕! 무슨 일이야?' },
-        { det:true, key:'hello-ben', en:"Hi, I'm Detective {name}. You were at the Lake Cafe today, right?", ko:'안녕하세요, 저는 탐정 {name}이에요. 오늘 호수 카페에 오셨었죠?' },
+        { det:true, key:'hello-ben', en:"Hi, I'm Detective {name}. Are you Ben?", ko:'안녕하세요, 저는 탐정 {name}이에요. 혹시 벤인가요?' },
+        { key:'hello-me', en:"Yes, that's me!", ko:'응, 맞아!' },
+        { det:true, key:'hello-ben2', en:'You were at the Lake Cafe today, right?', ko:'오늘 호수 카페에 오셨었죠?' },
         { key:'hello2', en:'Yes, I stopped there this morning.', ko:'응, 오늘 아침에 들렀어.' }
       ],
       questions:[

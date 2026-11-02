@@ -68,7 +68,9 @@
 | 탐정 | Hello! I'm Detective {플레이어 이름}. I'm looking for a blue bag. | 안녕! 나는 탐정 {플레이어 이름}이야. 파란 가방을 찾고 있어. |
 | 오리 | Oh! I see. How can I help? | 아, 그렇구나! 어떻게 도와줄까? |
 | 벤 | Hi there! What can I do for you? | 안녕! 무슨 일이야? |
-| 탐정 | Hi, I'm Detective {플레이어 이름}. You were at the Lake Cafe today, right? | 안녕하세요, 저는 탐정 {플레이어 이름}이에요. 오늘 호수 카페에 오셨었죠? |
+| 탐정 | Hi, I'm Detective {플레이어 이름}. Are you Ben? | 안녕하세요, 저는 탐정 {플레이어 이름}이에요. 혹시 벤인가요? |
+| 벤 | Yes, that's me! | 응, 맞아! |
+| 탐정 | You were at the Lake Cafe today, right? | 오늘 호수 카페에 오셨었죠? |
 | 벤 | Yes, I stopped there this morning. | 응, 오늘 아침에 들렀어. |
 | 올리 | Oh, hi! I'm Ollie. Nice to meet you. | 오, 안녕! 난 올리야. 만나서 반가워. |
 | 미아 | I'm Mia. Want to join our picnic? | 난 미아야. 같이 피크닉 할래? |
