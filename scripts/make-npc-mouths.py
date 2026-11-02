@@ -8,7 +8,11 @@
    The duck's beak is replaced whole by the generated beaks.
 3. The printed meta ([x, y, w, h] in sprite px) goes into MOUTHS in index.html.
 
-Run: python -I scripts/make-npc-mouths.py   (Pillow only)
+   Ben's two front teeth hang under his smile, so his drawn mouth stays: closed = the picture as drawn, open =
+   the open mouth under his smile with the smile line and the teeth laid back on top (ben_mouth()).
+   Mia and Ollie share one picture (mia): Ollie's mouth is mia-ollie.
+
+Run: python -I scripts/make-npc-mouths.py [keys]   (Pillow only; no keys = all)
 """
 import os, json
 from collections import deque
@@ -29,9 +33,21 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'detective-thinking':('detective-thinking.png',268,282,60,18,'smile',3.3,268),
    'detective-point':('detective-point.png',267,280,62,18,'smile',3.3,268),
    'detective-lens':('detective-lens.png',186,299,40,14,'smile',2.6,290),
-   'detective-wave':('detective-wave.png',272,278,62,18,'smile',3.3,268)}
+   'detective-wave':('detective-wave.png',272,278,62,18,'smile',3.3,268),
+   'nora':('nora-higgsfield.png',225,284,62,13,'smile',3,281),
+   'mia':('mia-higgsfield.png',638,328,72,22,'smile',3.5,318),
+   'mia-ollie':('mia-higgsfield.png',322,205,143,45,'smile',4.5,204)}
+import sys
+if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
+NEAR=('mia-ollie',)   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
+# only cover within the recorded box (a few px around): on these pictures the crayon texture links the mouth to the
+# cheeks and whiskers
+LIMIT=('nora','mia','mia-ollie')
+DARK={'mia':50}   # how much darker than the fur around a mark must be (default 22); Mia's white muzzle has crayon grain
 KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinking':(248,252,288,276),
-      'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276)}   # areas never covered (sprite px): the badger's nose sits right above the curled mouth ends
+      'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276),
+      'mia-ollie':(290,150,356,205),'mia':(629,318,637,341)}
+# areas never covered (sprite px): the badger's nose sits right above the curled mouth ends; Ollie's nose, Mia's line from the nose
 SRC_LINE=6   # line weight of the closed mouths in the sheet (px)
 L=lambda im: im.convert('L')
 
@@ -112,7 +128,7 @@ for key,(f,x,y,w,h,kind,line,top) in S.items():
     med=reg
     for _ in range(3): med=med.filter(ImageFilter.MedianFilter(k))
     lr,lm=L(reg),L(med)
-    dark=ImageChops.subtract(lm,lr).point(lambda v:255 if v>22 else 0)
+    dark=ImageChops.subtract(lm,lr).point(lambda v,t=DARK.get(key,22):255 if v>t else 0)
     bright=ImageChops.subtract(lr,lm).point(lambda v:255 if v>22 else 0) if kind=='nervous' else Image.new('L',reg.size,0)
     hit=ImageChops.lighter(dark,bright)
     if key in KEEP:   # the nose stays as drawn
@@ -121,8 +137,12 @@ for key,(f,x,y,w,h,kind,line,top) in S.items():
     comp=components(hit,seed)
     bb=comp.getbbox()
     # bits of the same mouth that break off (the curled ends): every mark inside its box, a few px around
-    near=Image.new('L',reg.size,0); ImageDraw.Draw(near).rectangle((bb[0]-14,bb[1]-7,bb[2]+14,bb[3]+5),fill=255)
-    comp=ImageChops.lighter(comp,ImageChops.multiply(hit,near)); bb=comp.getbbox()
+    if key in LIMIT:
+        lim=Image.new('L',reg.size,0); ImageDraw.Draw(lim).rectangle((x-w/2-8-x0,0,x+w/2+8-x0,y+h+8-y0),fill=255)
+        comp=ImageChops.multiply(comp,lim); hit=ImageChops.multiply(hit,lim); bb=comp.getbbox()
+    if key in NEAR:
+        near=Image.new('L',reg.size,0); ImageDraw.Draw(near).rectangle((bb[0]-14,bb[1]-7,bb[2]+14,bb[3]+5),fill=255)
+        comp=ImageChops.lighter(comp,ImageChops.multiply(hit,near)); bb=comp.getbbox()
     hole=comp.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
     if kind=='nervous':   # the white teeth inside the grin: cover the whole grin
         e=Image.new('L',reg.size,0); ImageDraw.Draw(e).ellipse((bb[0]-2,bb[1]-2,bb[2]+2,bb[3]+2),fill=255); hole=ImageChops.lighter(hole,e)
@@ -142,8 +162,23 @@ for key,(f,x,y,w,h,kind,line,top) in S.items():
         layer.crop(tb).save(M+f'{key}-{state}.png',optimize=True)
         meta.setdefault(key,{})[state]=[x0+tb[0],y0+tb[1],tb[2]-tb[0],tb[3]-tb[1]]
     print(key,'drawn mouth',[x0+bb[0],y0+bb[1],cw,bb[3]-bb[1]],meta[key])
+def ben_mouth():
+    im=Image.open(D+'ben-higgsfield.png').convert('RGBA'); box=(236,222,396,292)   # smile 260..373 x 240..255, teeth 293..340 x 247..279
+    reg=im.crop(box); reg.save(M+'ben-closed.png',optimize=True)
+    lr=L(reg)
+    # the smile line and the teeth (white + their outline), from the picture
+    line=lr.point(lambda v:255 if v<110 else 0); ImageDraw.Draw(line).rectangle((0,256-box[1],reg.size[0],reg.size[1]),fill=0)
+    teeth=lr.point(lambda v:255 if v>235 else 0); ImageDraw.Draw(teeth).rectangle((0,0,reg.size[0],249-box[1]),fill=0)
+    ImageDraw.Draw(teeth).rectangle((0,0,295-box[0],reg.size[1]),fill=0); ImageDraw.Draw(teeth).rectangle((339-box[0],0,reg.size[0],reg.size[1]),fill=0)
+    teeth=teeth.filter(ImageFilter.MaxFilter(7))
+    top=reg.copy(); top.putalpha(ImageChops.multiply(ImageChops.lighter(line,teeth).filter(ImageFilter.GaussianBlur(.6)),reg.getchannel('A')))
+    art=open_art('smile-open',94); layer=reg.copy()
+    layer.alpha_composite(art,(316-art.size[0]//2-box[0],244-box[1])); layer.alpha_composite(top)
+    layer.save(M+'ben-open.png',optimize=True)
+    r=[box[0],box[1],box[2]-box[0],box[3]-box[1]]; meta['ben']={'closed':r,'open':r}; print('ben',meta['ben'])
+if not sys.argv[1:] or 'ben' in sys.argv[1:]: ben_mouth()
 # duck: the generated beaks replace the drawn one (147..300 x 167..248)
-for state,name in [('closed','beak'),('open','beak-open')]:
+for state,name in [('closed','beak'),('open','beak-open')] if not sys.argv[1:] or 'duck' in sys.argv[1:] else []:
     m=CUT[name]; BW=166; th=int(m.size[1]*BW/m.size[0]*0.9)
     m=m.resize((BW,th),Image.LANCZOS); m.save(M+f'duck-{state}.png',optimize=True)
     meta.setdefault('duck',{})[state]=[223-83,160,BW,th]
@@ -156,9 +191,12 @@ def prev(key,f,state):
     cx=mt[0]+mt[2]//2; cy=mt[1]+mt[3]//2; pad=int(max(mt[2],40)*.9)
     c=im.crop((cx-pad,cy-pad,cx+pad,cy+pad)).resize((200,200),Image.LANCZOS); bg=Image.new('RGBA',c.size,(150,150,150,255)); bg.alpha_composite(c); return bg
 tiles=[]
+if 'ben' in meta:
+    for st in ['orig','closed','open']: tiles.append(prev('ben','ben-higgsfield.png',st))
 for key,v in S.items():
     for st in ['orig','closed','open']: tiles.append(prev(key,v[0],st))
-for st in ['orig','closed','open']: tiles.append(prev('duck','duck-higgsfield.png',st))
+if 'duck' in meta:
+    for st in ['orig','closed','open']: tiles.append(prev('duck','duck-higgsfield.png',st))
 sheet=Image.new('RGB',(600,200*len(tiles)//3),'white')
 for i,t in enumerate(tiles): sheet.paste(t.convert('RGB'),((i%3)*200,(i//3)*200))
 sheet.save(os.path.join(os.environ.get("TEMP","."),"mouth-preview.png"))   # orig | closed | open, row per sprite

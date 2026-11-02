@@ -82,7 +82,8 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - `sheet-original.png`: Claude 제작, Higgsfield Nano Banana 2.1(job `bdd5aa63-00f7-4aa2-af64-3525b7a306bb`, 1.5크레딧), 1376×768. 순수 초록 배경 위 4×2: 미소 / 미소 벌림 / 당황(물결) / 당황 벌림(이) / 슬픔 / 슬픔 벌림 / 오리 부리 / 오리 부리 벌림. 프롬프트 요지: 그림책 동물 캐릭터의 말하기용 입 스프라이트, 진갈색 색연필 외곽선과 과슈 색, 칸마다 하나씩 같은 크기, 얼굴·코·글자 없음.
 - 미소·당황·슬픔·오리 부리(각각 벌림 포함): 스크립트가 시트에서 초록을 빼고 하나씩 잘라 낸 입. 중간 단계라 파일로 남기지 않는다.
 - `<인물>-closed.png`, `<인물>-open.png`(badger, mole, fiona, ray, rosie, fiona-nervous, fiona-sad, duck, detective, detective-thinking·point·lens·wave): 게임에 쓰는 그림. 그려진 입을 찾아 주변 털색으로 덮고(코는 남김) 그 위에 새 입을 얹었다. 닫은 입 선은 각 그림의 원래 선 굵기에 맞춰 굵혔다. 오리는 생성한 부리로 부리 전체를 바꾼다.
-- 만드는 법: `python -I scripts/make-npc-mouths.py`(Pillow만 사용). 출력된 `[x, y, w, h]`를 `index.html`의 `MOUTHS`에 넣는다. 같은 입력이면 같은 파일이 나온다.
+- 소풍 사건(Claude 제작, 2026-11-02, 크레딧 없음, 같은 시트): `nora`(입 상자 225,284,62,13), `mia`(638,328,72,22, 코에서 내려온 선은 남김), `mia-ollie`(322,205,143,45, 올리 코는 남김). 이 셋은 덮는 범위를 입 상자 둘레로 제한한다(`LIMIT`: 크레용 결이 입을 볼터치·수염과 이어 버림). 미아 흰 주둥이는 결이 짙어 어두운 선 기준을 50으로 올렸다(`DARK`). `ben`은 앞니가 미소선에 붙어 있어 닫은 입은 그림 그대로(236,222 160×70을 잘라 냄), 벌린 입은 미소선 아래로 연 뒤 원래 미소선과 앞니를 위에 다시 얹는다(`ben_mouth()`).
+- 만드는 법: `python -I scripts/make-npc-mouths.py [키…]`(Pillow만 사용, 키를 주면 그 입만). 출력된 `[x, y, w, h]`를 `index.html`의 `MOUTHS`에 넣는다(`mia-ollie` → `'mia:ollie'`). 같은 입력이면 같은 파일이 나온다.
 
 ## 곰 베티 (Claude 제작, 2026-10-28, 적용 중)
 
@@ -106,5 +107,5 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
   - 수달 올리 + 생쥐 미아: job `54654c8f-bfc1-49a1-8a30-4845ad024a73` → `mia-ollie-higgsfield-original.jpg`
 - 배경 제거: Higgsfield `remove_background`(벤·노라 `22f50dfb-…`, 미아·올리 `00e22088-…`) → `ben-nora-cutout.webp`, `mia-ollie-cutout.webp`.
 - `scripts/cut-picnic-characters.py`: 벤(왼쪽)·노라(오른쪽)는 반으로 나누고, 미아와 올리는 게임에서 한 사람(`mia`, `Mia & Ollie`)이라 함께 자른다. 알파 경계 + 3% 여백, 높이 700px. 얼굴 아이콘(`assets/ui/icons-v2/ben·nora·mia.png`, 160px, 흰 테두리)도 같은 스크립트가 자른다(미아·올리는 두 얼굴을 겹쳐 한 장).
-- 적용본: `ben-higgsfield.png` 542×700, `nora-higgsfield.png` 475×700, `mia-higgsfield.png` 909×700. 말하는 입(`MOUTHS`)은 아직 없다(벤의 앞니 때문에 입 자리를 따로 잡아야 함).
+- 적용본: `ben-higgsfield.png` 542×700, `nora-higgsfield.png` 475×700, `mia-higgsfield.png` 909×700. 말하는 입은 `mouths/`의 `ben`·`nora`·`mia`·`mia-ollie`(위 NPC 입 절).
 - 프롬프트 요지: 참조 그림과 같은 크레용·색연필 화풍·비율로 두 인물을 나란히, 크림 종이 배경, 빈손. 벤 — 갈색 털, 옅은 주둥이, 앞니 두 개, 납작한 꼬리, 겨자색 니트 조끼·흰 셔츠·갈색 바지. 노라 — 갈색 가시, 크림 얼굴, 청록 재킷·흰 블라우스·남색 치마. 올리 — 갈색 털·크림 얼굴·긴 꼬리, 초록 티셔츠·황갈색 반바지. 미아 — 회색 생쥐, 분홍 귀·꼬리, 흰 점 하늘색 원피스, 노란 머리띠, 올리보다 머리 하나 작음.

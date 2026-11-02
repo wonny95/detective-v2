@@ -98,7 +98,7 @@ node server.js            # http://localhost:5173/
 - **소지품**(`ITEMS`, `S.items`): 노트 `증거` 장 맨 앞에 사진과 같은 카드로 나오고(장소 칸에 `소지품`), 누르면 설명을 탐정 목소리(지금은 브라우저 음성)로 읽는다. 제목은 맡긴 사람과 색만(`Blue bag from Rosie`, 주인은 쓰지 않음), 설명은 설계서 문장 "There is a green folder and a blue pen inside." 메모 📌는 없다.
 - **추리**(`PICNIC_CASE.deduce`): 설계서의 4문항·카드·대답·힌트. 빈칸 종류에 `thing`(물건 `things`)·`color`(색 `colors`)가 더해졌고, 카드 하나에 빈칸이 여러 개일 수 있다(`deduceBlanks()`; 맞힌 빈칸은 채워진 채 남고 `S.deduce.part`에 저장, 모두 채우면 대답). `any:true`면 같은 종류의 빈칸을 어느 순서로 채워도 된다(Q2–Q4). 로지·노라 사진이 카드 왼쪽에 붙고 X·동그라미 표시는 없다. 끝 버튼은 `노라에게 가기`.
 - **가방 전달**(`ENDING.handoff`, 사용자 결정: 심문 대신 소지품을 건네는 대화): 노라 앞에서 탐정의 생각 "노라에게 바뀐 가방에 대해서 설명하자."(꿀색 말풍선, 재생 없음) → `가방 건네주기` → 증거 서랍이 `소지품` 탭만으로 열림 → 가방 선택 → `건네주기` → 탐정의 설명 3줄·노라의 감사(`다음`) → 소지품이 로지의 가방으로 바뀜 → 소풍 탁자의 로지 앞에서 "Rosie, I brought your bag back." → 같은 방법으로 건네주기 → 로지의 감사 → 복습. 게이지·모순 도장은 없다. `<`로 나가면 건넨 가방은 건넨 대로 두고(`S.handoffRound`) 다음에 그 다음 가방부터 한다.
-- **아직 없는 것(임시 표시)**: 녹음은 로지 8줄(`audio/picnic/rosie-*.mp3`, 도서관 사건의 `audio/rosie-*.mp3`와 따로)과 탐정의 질문 14줄(`audio/picnic/detective-*.mp3`)만 있다. 나머지 인물 대사와 탐정의 인사·맺음말은 브라우저 음성이다. 벤·노라·미아와 올리는 그림이 있다(`SPRITES`, 두 명씩 한 장에서 자름). 말하는 입(`MOUTHS`)은 아직 없다. 회사 로비(`lobby-higgsfield.webp`), 정원 벤치의 두 가방(`backpack-blue/red.png`, 오려 색 입힘), 로지의 가방 소지품 사진(`picnic-rosie-bag.webp`, 빨간 도시락·노란 물병)은 있다. 다섯 장소 모두 대화 바닥(`ART_FLOOR`, `<id>-floor.jpg`·로비는 `.webp`)이 있어 노트가 열리면 얼굴이 노트 위로 올라간다(사용자 결정: 노트가 로지 얼굴을 가림). 장소에 누를 물건(나레이션)도 없다. 만들 목록은 10절 맨 위.
+- **아직 없는 것(임시 표시)**: 녹음은 로지 8줄(`audio/picnic/rosie-*.mp3`, 도서관 사건의 `audio/rosie-*.mp3`와 따로)과 탐정의 질문 14줄(`audio/picnic/detective-*.mp3`)만 있다. 나머지 인물 대사와 탐정의 인사·맺음말은 브라우저 음성이다. 벤·노라·미아와 올리는 그림과 말하는 입이 있다(`SPRITES`, 두 명씩 한 장에서 자름, `MOUTHS`). 회사 로비(`lobby-higgsfield.webp`), 정원 벤치의 두 가방(`backpack-blue/red.png`, 오려 색 입힘), 로지의 가방 소지품 사진(`picnic-rosie-bag.webp`, 빨간 도시락·노란 물병)은 있다. 다섯 장소 모두 대화 바닥(`ART_FLOOR`, `<id>-floor.jpg`·로비는 `.webp`)이 있어 노트가 열리면 얼굴이 노트 위로 올라간다(사용자 결정: 노트가 로지 얼굴을 가림). 장소에 누를 물건(나레이션)도 없다. 만들 목록은 10절 맨 위.
 
 ### 3.1 홈(사건 밖 화면)·튜토리얼
 
@@ -170,7 +170,7 @@ node server.js            # http://localhost:5173/
   - **노트가 열리면** 46%(머리 7%)로 줄여 얼굴이 노트 위에 오게 한다. 여닫을 때 카메라가 부드럽게 옮겨 가고(`focusCamera(null, true)`), NPC의 세계 좌표는 그대로다.
 - **캐릭터 애니메이션**
   - 발밑 기준 약 1% 숨쉬기, 말할 때만 0.35도 이내 기울기.
-  - **입**(사용자 요청): 그림에 그려진 입은 주변 털색으로 덮고, 그 위에 닫은 입·벌린 입 그림을 얹는다(`MOUTHS`, `spriteMouth()`, `assets/characters/mouths/<인물>-closed·open.png`). 말하지 않을 때는 닫은 입, 대사 재생 중에는 둘이 불규칙 리듬으로 번갈아 나온다(`npc-mouth-open`·`npc-mouth-closed`, `--talk-cycle`). 피오나는 표정마다(기본 미소, 당황 `nervous`, 슬픔 `sad`) 입 모양이 다르고, 오리는 부리 전체를 바꾼다. 탐정도 포즈마다 같은 입 시트의 미소 입을 쓴다(`detective`, `detective:<포즈>`). 노트의 다시 듣기로 다른 인물 대사를 틀면 그 인물의 입이 움직인다(`talker`).
+  - **입**(사용자 요청): 그림에 그려진 입은 주변 털색으로 덮고, 그 위에 닫은 입·벌린 입 그림을 얹는다(`MOUTHS`, `spriteMouth()`, `assets/characters/mouths/<인물>-closed·open.png`). 말하지 않을 때는 닫은 입, 대사 재생 중에는 둘이 불규칙 리듬으로 번갈아 나온다(`npc-mouth-open`·`npc-mouth-closed`, `--talk-cycle`). 피오나는 표정마다(기본 미소, 당황 `nervous`, 슬픔 `sad`) 입 모양이 다르고, 오리는 부리 전체를 바꾼다. 탐정도 포즈마다 같은 입 시트의 미소 입을 쓴다(`detective`, `detective:<포즈>`). 벤은 앞니 때문에 닫은 입은 그림 그대로이고, 벌린 입만 미소선 아래로 열고 앞니를 위에 다시 얹는다. 미아와 올리는 한 그림에 입이 둘이다(`SPRITES.mia.parts`, `mia:ollie`): 올리 줄(`as.mouth:'ollie'`)은 올리 입만, 다른 줄은 미아 입만, "Ollie: … Mia: …"처럼 두 사람이 이어 말하는 대답(g1)은 둘 다 움직인다(`mouthPart()`, 안 움직이는 입은 `.quiet`). 노트의 다시 듣기로 다른 인물 대사를 틀면 그 인물의 입이 움직인다(`talker`).
   - OS 모션 줄이기 설정에서는 끈다.
 - **질문 → 듣기 → 받아 적기**
   - 질문을 고르면 **해당 인물 노트가 즉시 아래에서 올라오고**, 먼저 **탐정이 그 질문을 소리 내어 묻고**(Grady 녹음, 사용자 요청: 누르자마자 대답이 나와 당황스러움, `askAudio()` → `detectiveSay()`) 0.3초 뒤 영어 답변 음성이 이어진다(사용자 요청). 질문 중 `다시 듣기`를 누르면 바로 대답으로 넘어가고, 대화를 떠나면 대답은 나오지 않는다(`speechTurn`). 질문 녹음: 도서관 `audio/detective-ask-<인물>-<질문>.mp3`(공통 질문 q1–q3는 `detective-ask-q1–3.mp3`), 소풍 `audio/picnic/detective-<인물>-<질문>.mp3`. 파일이 없으면 바로 대답한다. `ask()`에서 해당 페이지를 렌더링한 뒤 `setNotes(true)`를 호출한다. 노트는 화면 아래 60% 높이로 열려 들으면서 빈칸에 단어를 누르거나 직접 입력할 수 있다. 음성 종료를 기다리는 예약 콜백은 없다. 받아 적는 동안 노트는 닫히지 않는다(3.3절 `recordLocked()`). 기존 슬라이드·카메라 전환은 유지한다.
@@ -420,7 +420,7 @@ node server.js            # http://localhost:5173/
 | `requestLeaveInterrogation()`, `stayInInterrogation()`, `leaveEnding()` | 심문 나가기 확인·진행 유지·확정 후 초기화/현장 복귀 |
 | `renderInterrogationGauge()`, `updateInterrogationGauge()` | 진행률·채움·정답 반응 |
 | `setNotes(open)`, `setInvestigate(on)` | 노트 꺼내기·넣기(카메라 구도 전환 포함), 대화 ↔ 장소 전환 |
-| `fullSVG()`, `miniSVG()`, `spriteMouth()` | 전신 PNG·얼굴 아이콘·입 그림 두 장(`MOUTHS`) |
+| `fullSVG()`, `miniSVG()`, `spriteMouth()`, `spriteMouths()`, `mouthPart()` | 전신 PNG·얼굴 아이콘·입 그림 두 장(`MOUTHS`), 한 그림에 둘이면 입마다(`parts`)와 지금 말하는 입 |
 
 ### localStorage
 
@@ -590,7 +590,7 @@ node server.js            # http://localhost:5173/
   4. 노라에게 받은 로지의 가방 사진(`bag-rosie`): `picnic.webp`의 초록 도시락·파란 물병을 빨강·노랑으로 **직접 색 편집**(0). 지금은 닫힌 가방 사진으로 대신함.
   5. 정원 벤치의 두 가방: 소풍 탁자 그림의 파란 배낭을 오려 벤치에 놓고 하나는 빨강으로 **직접 합성**(0). 깔끔하지 않으면 정원 그림 편집(약 1.5)으로.
   6. 대화 바닥 확장 5장 — 만듦(2026-10-30, 10크레딧, 사용자 결정: 노트가 얼굴을 가림). 장소마다 누를 물건 — 대본 미정.
-  - 남은 것: 새 인물 세 그림의 말하는 입(0크레딧, 입 자리 잡기), 녹음(아래 7).
+  - 남은 것: 녹음(아래 7). 새 인물 세 그림의 말하는 입은 만듦(0크레딧).
   7. 녹음(로지 8줄은 완료): 오리 아저씨(hello·hello2·v1–v3), 벤(hello·hello2·b1–b2), 미아(hello·hello2·g1 일부·g2·sure)·올리(hello-ollie·hello-ollie2·g1 일부), 노라(hello·n1–n3·thanks), 탐정(첫인사 hello-rosie·duck·ben·garden1·garden2·nora, take-bag, garden-photo·garden-thanks·handoff1–3·handback·소지품 설명 2줄·추리 q/r/h 1–4·miss). 동물 22줄 + 탐정 28줄 = 50줄, 약 7.5. 동물 다섯의 목소리는 아직 정하지 않았다. g1은 올리·미아 두 녹음을 한 파일로 붙인다. 탐정 첫인사 hello-duck·ben·garden1·nora의 "Detective {name}"은 설계서대로 녹음에서 "the detective"로 읽는다(화면 "I'm Detective Kim." / 음성 "I'm the detective."). 녹음을 넣을 때 `DETECTIVE_RECORDED`·`DEDUCE_RECORDED`(지금 소풍은 끔)와 인물 `audio`, 소지품 설명 재생을 함께 고친다.
   8. (선택) 장소마다 누를 물건 2–3개와 탐정 나레이션 녹음(대본 먼저).
 

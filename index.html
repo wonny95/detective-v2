@@ -100,6 +100,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .npc-mouth.open{opacity:0}
 .scene-npc.talking .npc-mouth.open,.det.talking .npc-mouth.open{animation:npc-mouth-open var(--talk-cycle,.74s) steps(1,end) infinite}
 .scene-npc.talking .npc-mouth.closed,.det.talking .npc-mouth.closed{animation:npc-mouth-closed var(--talk-cycle,.74s) steps(1,end) infinite}
+/* two people in one picture (Mia & Ollie): only the one speaking moves their mouth (setTalking) */
+.scene-npc.talking .npc-mouth.quiet.open,.scene-npc.talking .npc-mouth.quiet.closed{animation:none}
 @keyframes npc-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.008,1.012)}}
 @keyframes npc-speak{0%,100%{transform:rotate(0)}28%{transform:rotate(-.35deg)}65%{transform:rotate(.3deg)}}
 @keyframes npc-mouth-open{0%,43%,85%,100%{opacity:0}12%,57%{opacity:1}}
@@ -1623,12 +1625,12 @@ const PICNIC_CASE = {
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
-      // Ollie and Mia speak in turn; Ollie in his own voice (as)
+      // Ollie and Mia speak in turn; Ollie in his own voice and with his own mouth (as)
       hello:[
-        { key:'hello-ollie', as:{ pitch:.95, voice:1 }, en:"Oh, hi! I'm Ollie. Nice to meet you.", ko:'오, 안녕! 난 올리야. 만나서 반가워.' },
+        { key:'hello-ollie', as:{ pitch:.95, voice:1, mouth:'ollie' }, en:"Oh, hi! I'm Ollie. Nice to meet you.", ko:'오, 안녕! 난 올리야. 만나서 반가워.' },
         { key:'hello', en:"I'm Mia. Want to join our picnic?", ko:'난 미아야. 같이 피크닉 할래?' },
         { det:true, key:'hello-garden1', en:"Nice to meet you, Ollie and Mia! I'm Detective {name}.", ko:'만나서 반가워, 올리, 미아! 난 탐정인 {name}이야.' },
-        { key:'hello-ollie2', as:{ pitch:.95, voice:1 }, en:"A detective? That's cool!", ko:'탐정이라고? 멋진걸!' },
+        { key:'hello-ollie2', as:{ pitch:.95, voice:1, mouth:'ollie' }, en:"A detective? That's cool!", ko:'탐정이라고? 멋진걸!' },
         { det:true, key:'hello-garden2', en:'You were at the Lake Cafe today, right?', ko:'너희 오늘 호수 카페에 왔었지?' },
         { key:'hello2', en:'Yes. We stopped there before coming here.', ko:'응, 여기 오기 전에 들렀어.' }
       ],
@@ -2314,7 +2316,8 @@ const SPRITES = {
   // the picnic case: two per Higgsfield sheet (scripts/cut-picnic-characters.py); Mia & Ollie are one figure
   ben:{src:'assets/characters/ben-higgsfield.png', w:542, h:700, face:'134 0 350 350', anchor:.57},
   nora:{src:'assets/characters/nora-higgsfield.png', w:475, h:700, face:'38 0 399 399', anchor:.5},
-  mia:{src:'assets/characters/mia-higgsfield.png', w:909, h:700, face:'146 -7 308 308', anchor:.5}
+  // parts: the others in the picture who speak with their own mouth (a line's `as.mouth`, or "Ollie: …" in it)
+  mia:{src:'assets/characters/mia-higgsfield.png', w:909, h:700, face:'146 -7 308 308', anchor:.5, parts:{ ollie:'mia:ollie' }}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
@@ -2333,6 +2336,11 @@ const MOUTHS = {
   rosie:{closed:[140,333,45,19], open:[140,333,45,19]},
   duck:{closed:[140,160,166,99], open:[140,160,166,117]},
   betty:{closed:[183,205,82,29], open:[183,205,82,34]},
+  // Ben's mouth stays as drawn (his front teeth); the open one opens under his smile
+  ben:{closed:[236,222,160,70], open:[236,222,160,70]},
+  nora:{closed:[189,281,73,22], open:[189,281,73,28]},
+  mia:{closed:[596,323,83,33], open:[596,323,83,39]},
+  'mia:ollie':{closed:[237,204,164,53], open:[237,204,164,72]},
   'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
   'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]},
   detective:{closed:[229,270,100,34], open:[229,270,100,45]},
@@ -2341,12 +2349,15 @@ const MOUTHS = {
   'detective:lens':{closed:[152,291,68,31], open:[152,291,68,33]},
   'detective:wave':{closed:[224,268,98,36], open:[224,268,98,46]}
 };
-function spriteMouth(id){
+// part: whose mouth it is in a picture of two (data-part, 'main' for the picture's own person)
+function spriteMouth(id, part){
   const m = MOUTHS[id]; if(!m) return '';
   const file = id.replace(':', '-');
   return ['closed', 'open'].map(state => { const [x, y, w, h] = m[state];
-    return `<image class="npc-mouth ${state}" href="assets/characters/mouths/${file}-${state}.png" x="${x}" y="${y}" width="${w}" height="${h}"/>`; }).join('');
+    return `<image class="npc-mouth ${state}"${part ? ` data-part="${part}"` : ''} href="assets/characters/mouths/${file}-${state}.png" x="${x}" y="${y}" width="${w}" height="${h}"/>`; }).join('');
 }
+const spriteMouths = k => { const parts = SPRITES[k]?.parts;
+  return parts ? spriteMouth(k, 'main') + Object.entries(parts).map(([part, id]) => spriteMouth(id, part)).join('') : spriteMouth(k); };
 // The detective's poses (user request: a new one on every tap at 홈), each with the NPCs' talking mouth; ax: where the
 // body's middle is across the picture, kept on the same spot whichever pose it is
 const DETECTIVE_POSES = [
@@ -2367,7 +2378,7 @@ function setDetPose(box, i){
 const DRAWN = ['fiona', 'ray', 'badger', 'mole', 'rosie'];
 const pendingSVG = `<g class="body pending" stroke="${INK}" stroke-width="3" stroke-dasharray="9 7" fill="#EFE4D2"><circle cx="100" cy="96" r="54"/><path d="M38 300 C34 214 60 160 100 160 C140 160 166 214 162 300 L162 380 L38 380Z"/></g>`;
 const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
-  ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouth(k)}</g></g></svg>`
+  ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouths(k)}</g></g></svg>`
   : `<svg viewBox="0 0 200 400" aria-hidden="true">${DRAWN.includes(id) ? charSVG(id) : pendingSVG}</svg>`; };
 // small faces: hand-drawn head-and-shoulders icons (assets/ui/icons-v2, one Higgsfield sheet)
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia'];   // the last three cut from their sprites
@@ -2448,11 +2459,21 @@ function loadVoices(){
 if('speechSynthesis' in window){ loadVoices(); speechSynthesis.addEventListener?.('voiceschanged', loadVoices); }
 let talkT, speechTurn = 0;
 let talker = null;   // whose line is playing (a replay from the notebook can be someone else's)
+let talkPart = 'main';   // in a picture of two, whose mouth moves: 'main', a part ('ollie') or 'all'
 function setTalking(on){
   document.querySelectorAll('.scene-npc').forEach(npc => {
     npc.style.setProperty('--talk-cycle', S.slow ? '.99s' : '.74s');
     npc.classList.toggle('talking', on && npc.dataset.talk === (talker || S.cur));
+    npc.querySelectorAll('.npc-mouth[data-part]').forEach(m => m.classList.toggle('quiet', talkPart !== 'all' && m.dataset.part !== talkPart));
   });
+}
+// whose mouth says this line: the line's own (as.mouth), else the speakers named in it ("Ollie: No. … Mia: Mine is
+// blue." = both), else the picture's own person
+function mouthPart(text, who, as){
+  if(as?.mouth) return as.mouth;
+  const parts = SPRITES[spriteKey(who)]?.parts || {};
+  const said = [...text.matchAll(/(?:^|\s)([A-Z][a-z]+):\s/g)].map(m => m[1].toLowerCase());
+  return said.length > 1 ? 'all' : parts[said[0]] ? said[0] : 'main';
 }
 const clip = new Audio();
 clip.preload = 'auto';
@@ -2477,7 +2498,7 @@ const seekableSrc = src => blobSrc[src] ||= fetch(src).then(r => r.ok ? r.blob()
 function speak(text, key, who = S.cur, onDone, range, as){
   stopVoice();
   const turn = speechTurn;
-  talker = who;
+  talker = who; talkPart = mouthPart(text, who, as);
   const done = () => { if(turn === speechTurn) onDone?.(); };
   const length = text.length * (S.slow ? 95 : 70) + 500;
   const src = spk(who).audio?.[key];
