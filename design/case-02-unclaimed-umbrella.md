@@ -68,7 +68,7 @@ this/that 대비와 his/her는 예습·이전 사건의 보충 범위다. 현재
 ### 세 친구와 우산의 사연 — 인사 대화 초안
 
 - **핀 — 사용자 결정**: 핀도 자기 우산을 잃어버려 회관 게시판 곁에 분실 쪽지를 붙였다. 탐정은 쪽지의 연락 장소인 풍차 언덕으로 찾아간다. 핀은 자신의 우산일 수도 있다고 생각해 특징을 설명한다. 분실 날짜·장소는 미정이며 바람개비 행사 담당자·진행자로 설정하지 않는다.
-- **테스 — 사용자 결정**: 바자회 담당자. 비 때문에 실내로 옮긴 바자회 안내와 현수막의 가게 명칭을 연결해 찾아온 탐정에게 자기 우산을 친구들에게 자주 빌려준다고 말한다. 다른 우산을 가져온 참석자를 묻는 질문에는 루비를 기억하고 토이 네스트에서 만날 수 있다고 알려 준다. 루비의 우산 색·무늬·안감이나 회관 우산의 주인은 말하지 않는다.
+- **테스 — 사용자 결정**: 바자회 담당자. 인사와 자기소개 뒤 탐정의 방문 목적을 듣고 행사에 도움을 주었다고 답한다. 탐정이 “혹시 네 우산일까?”라고 물으면 확신하지 못하며 친구들에게 자주 빌려준다고 말한다. 다른 우산을 가져온 참석자를 묻는 질문에는 루비를 기억하고 같은 가게 안에 있는 루비를 가리킨다. 루비의 우산 색·무늬·안감이나 회관 우산의 주인은 말하지 않는다.
 - **루비 — 사용자 결정**: 바자회에 우산을 가져온 참석자. 테스의 진술을 기록한 뒤 만난다. 자기 우산이 집에 있다고 생각해 분실을 모르고 “우산? 내 건 아마 집에 있을 거야”라고 반응한다. 특징은 기억대로 답하며 반환 때 실물을 보고 분실을 알아차린다.
 - 세 사연은 첫인사에서 탐정이 조사 목적을 설명한 뒤 자연스럽게 나온다. 같은 “행사에 우산을 가져갔어”를 반복하지 않는다. 각자의 분실 경험·사용 습관·기억을 말하되, 행사 날의 날씨·현재 우산 위치·발견 우산의 주인을 확정하지 않는다. 테스의 첫인사는 추측이며 친구에게 빌려줬다는 확인 진술이 아니다. 루비의 “집에 있을 것 같다”도 본인의 생각이며 실제 소재가 확인된 진술이 아니다.
 - 색·손잡이·별무늬·안감은 질문에서 따로 듣고 기록한다. 핀은 자기 우산을 잃어버렸다고 말한다. 첫인사에 정답 특징·발견 우산의 소유 확정·귀가 때 우산을 가지고 있었다는 확정 진술은 넣지 않는다. 우산 특징을 묻는 기존 노트는 유지하고, 테스 t4를 추가해 루비를 발견한다.
@@ -108,9 +108,13 @@ this/that 대비와 his/her는 예습·이전 사건의 보충 범위다. 현재
 | 화자 | 영어 | 한국어 |
 |---|---|---|
 | 탐정 | Hello. | 안녕. |
-| 테스 | Hello, I'm Tess. I helped with the toy bazaar. | 안녕, 난 테스야. 장난감 바자회를 도왔어. |
-| 탐정 | I saw the shop's name on the banner. I'm looking for the owner of an umbrella at the village hall. | 현수막에서 가게 이름을 봤어. 회관에 남겨진 우산의 주인을 찾고 있어. |
-| 테스 | I often lend mine to friends. Maybe one of them has it. | 난 친구들에게 우산을 자주 빌려줘. 지금도 친구 중 누가 가지고 있을지 몰라. |
+| 테스 | Hello, I'm Tess. How can I help? | 안녕, 난 테스야. 무엇을 도와줄까? |
+| 탐정 | I saw Toy Nest on the bazaar banner. I'm looking for the owner of an umbrella at the village hall. | 바자회 현수막에서 토이 네스트 이름을 봤어. 회관에 남겨진 우산의 주인을 찾고 있어. |
+| 테스 | I helped with the bazaar. I'll try to help. | 내가 바자회를 도왔어. 같이 알아보자. |
+| 탐정 | Could it be yours? | 혹시 네 우산일까? |
+| 테스 | I'm not sure. I often lend mine to friends. | 잘 모르겠어. 친구들에게 우산을 자주 빌려주거든. |
+
+방문 목적을 먼저 듣고 자기 우산에 관한 질문에 답하는 첫 대화다. 위 “Could it be yours?”는 첫 대화 안의 고정 대사이며 별도 선택지·받아쓰기를 추가하지 않는다. 이후 질문 선택지에서 우산 특징과 다른 참석자를 확인한다.
 
 ### 루비 · 토이 네스트
 
@@ -164,7 +168,9 @@ this/that 대비와 his/her는 예습·이전 사건의 보충 범위다. 현재
 | tess:t1 | What is your umbrella like? / 네 우산은 어떻게 생겼니? | Mine is dark blue. It has a blue handle. / 내 우산은 남색이야. 파란 손잡이가 있어. | “Mine is [dark blue]. It has a [blue] [handle].” | dark blue · black · blue · red · handle · bottle | 없음 |
 | tess:t2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있니? | Mine has gold stars. / 내 우산에는 금빛 별무늬가 있어. | “Mine has [gold] [stars].” | gold · silver · stars · stripes | 없음 |
 | tess:t3 | What color is your umbrella inside? / 네 우산 안쪽은 무슨 색이니? | Mine is dark blue inside. / 내 우산은 안쪽이 남색이야. | “Mine is [dark blue] [inside].” | dark blue · gold · inside · outside | 없음 |
-| tess:t4 | Did you see anyone with an umbrella at the bazaar? / 바자회에서 우산을 가진 친구를 봤니? | Ruby brought an umbrella that day. You can find her at Toy Nest. / 그날 루비가 우산을 가져왔어. 토이 네스트에서 만날 수 있어. | “[Ruby] brought an [umbrella] that day. You can find her at [Toy Nest].” | Ruby · Finn · umbrella · bag · Toy Nest · village hall | 루비 발견 · 토이 네스트의 새 대화 상대 |
+| tess:t4 | Did you see anyone with an umbrella at the bazaar? / 바자회에서 우산을 가진 친구를 봤니? | Ruby brought an umbrella that day. She's over there. / 그날 루비가 우산을 가져왔어. 저기 있어. | “[Ruby] brought an [umbrella] that day. She's over [there].” | Ruby · Finn · umbrella · bag · there · here | 루비 발견 · 토이 네스트의 새 대화 상대 |
+
+t4의 “over there”는 같은 가게 안에 있는 루비를 가리킨다. 다른 장소로 찾아가라는 안내가 아니다. 진술을 바르게 기록한 뒤 루비의 이름·대화 대상을 발견하며, 현재 테스와의 대화 화면에 머문다. 루비가 우산을 가져왔다는 사실만 소개하고 분실 여부나 발견 우산의 주인을 단정하지 않는다.
 
 ### 루비 — 질문 3개
 
