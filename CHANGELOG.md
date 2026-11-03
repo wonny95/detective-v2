@@ -15,6 +15,22 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ## 2026-11-03 · Claude · (이 커밋)
 
+- 사용자 요청: 사건 1 점검 9–18번 중 10번(대화 맺음말, 사용자 결정: 넣지 않음)만 빼고 모두 고치기. 설계서 `design/case-01-picnic-bag.md`·`.html`도 같이 고침.
+  - 9 추리 7번 대답을 "Right. A green folder and a blue pen."으로(전에는 로지가 맡긴 가방에 노라의 물건이 있다고 9번 결론을 먼저 말함).
+  - 11 로지가 가방을 맡기는 장면이 끝나고 소지품 알림이 사라진 뒤 발견 알림(오리 아저씨·Lake Cafe)이 뜸(`closeNotes()`·`playBeats()`).
+  - 12 로지의 배낭을 탁자에서 로지 옆 풀밭으로 옮김(`ART.picnic`의 `.rosiebag`, 탁자는 늘 `picnic-nobag` 조각으로 덮음). 대화 화면에서 가방이 보이고, 맡기면 사라지고, 결말에서 돌려받으면 다시 놓임.
+  - 13 미아·올리처럼 넓은 그림은 화면 폭 94% 안에 들어오게 카메라를 조금 멀리 하고 발 높이는 그대로(`focusCamera()`).
+  - 14 노라에게서 로지의 가방을 받은 뒤 탐정의 생각 "로지에게 가방을 돌려주자."와 `로지에게 가기` 버튼(`handoff[].go`·`goLabel`, `handoffGo()`).
+  - 15 지도의 Lake Cafe 핀을 호수 한가운데(71,58)에서 카페 건물(82,47)로.
+  - 16 서랍 카드 이름을 두 줄까지("Blue bag from Rosie"가 다 보임).
+  - 17 Hedgehog처럼 -og·-ug로 끝나는 이름은 "를"(`objectJosa()`).
+  - 18 로지 r4 "lakeside cafe" → "Lake Cafe"(노트 빈칸 정답 cafe/lake cafe, 해석 호수 카페), 미아 질문 해석의 "사진 속" 뺌, 복습 요약 "노라가 벤의 집에 두고 간".
+  - 녹음 2줄 다시 만듦(약 0.45크레딧): 추리 r7(Grady `fcdefb14`), 로지 r4(Evie `4f8b97cd`, `SENTENCE_TIMES` 다시 잼).
+- 확인(새 탭 127.0.0.1): 첫 대화에서 로지 옆 가방이 보이고, 맡기면 0.8초 뒤 사라짐 → 1.2초 소지품 알림 → 3.7초 발견 알림(겹치지 않음). 정원에서 미아·올리가 둘 다 화면 안. 지도 핀이 카페 위. 노라 결말: 서랍 카드 이름 두 줄, 노라의 감사 뒤 생각+`로지에게 가기` → 로지 → 건네면 로지 옆에 가방이 다시 나타남. 구문 검사 통과. 새 녹음은 귀로 듣지 못함. 추리 7번·로지 r4는 화면에서 불러 보지 않음(파일은 있음). Hedgehog를 알림은 화면에서 보지 않음.
+- **다음**: 사용자 확인. 사건 1 점검은 튜토리얼(4번, 시안 단계라 보류)만 남음.
+
+## 2026-11-03 · Claude · c992441
+
 - 사용자 결정(사건 1 점검 2·6·8번, 추천안): 설계서 `design/case-01-picnic-bag.md`·`.html`도 같이 고침.
   - 2번: 오리 아저씨의 "Ben went home."과 맞도록 벤 b1 끝에 "After that, I came home."을 더함(노트에도 빈칸 없는 줄 "After that, he came home."). 사용자 처음 안(벤이 가방을 건넨 뒤 카페에 감)은 카페에서 가방이 바뀐다는 사실과 부딪혀 쓰지 않음.
   - 6번: 열쇠 표현 his·yours가 대사에서 들리게 함. 노라 n1 "Yes. I left it at his house, but Ben brought it to me.", 미아에게 하는 질문 g2 "Mia, is this blue bag yours? Have you checked inside?", 결말 handoff2 "This bag is yours. It has your folder and pen." 문법 표시(`grammarLines`)에 his house·is this blue bag yours를 더함.
