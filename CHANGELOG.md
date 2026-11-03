@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 16:55 · Claude · (이 커밋)
+## 2026-11-03 17:05 · Claude · (이 커밋)
+
+- 사용자 결정: 테스 목소리는 사용자가 만든 hello(job `feba3a25`, MiniMax **Callan**, 감정 **행복**). 나머지 8줄을 Claude in Chrome으로 `higgsfield.ai/audio`에서 같은 목소리·감정으로 생성(사용자 hello 포함 1.8크레딧, 남은 265.25), 생성 기록에서 9줄 모두 `emotion: happy` 확인.
+  - hello2 `d86a8b63`, t0 `b966c4fc`, t1 `97e6e074`, t2 `b423e4b6`, t3 `b0ba764d`, t4 `be5a1a33`, t5 `73d9531a`, end1 `854edf05` → `audio/umbrella/tess-<키>.mp3`, `people.tess.audio`에 이음.
+  - `SENTENCE_TIMES`: tess:t0·t1·t4·t5(무음 구간으로 잼).
+- 확인(새 탭 127.0.0.1): 테스 9개 파일 요청 모두 200. 구문 검사 통과. 소리는 사용자 확인 필요. 작업한 Chrome 탭은 닫음.
+- **다음**: 사용자가 핀 목소리 정하기(사용자가 첫 줄을 만들면 같은 설정으로 나머지 3줄). 그 뒤 탐정 52문장(Grady).
+
+## 2026-11-03 16:55 · Claude · 50992f5
 
 - 사용자 결정: 감정 녹음은 Chrome에서 Higgsfield 웹으로. Claude in Chrome으로 `higgsfield.ai/audio`(MiniMax Speech 2.8 HD, 고급 설정 감정 **행복**)에서 13줄 생성(약 2.7크레딧, 남은 267.05), 생성 기록에서 모두 `emotion: happy` 확인 뒤 받아 넣음.
   - 엘라(Petra) 7줄을 다시: hello `f7fa5986`, e1 `53663999`, e2 `52d294d0`, inspect `e894c730`, end1 `d7e1655e`, end2 `64309df5`, end3 `a4bf8cd3`(앞의 감정 없는 7줄을 덮어씀).

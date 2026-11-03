@@ -1955,6 +1955,8 @@ const UMBRELLA_CASE = {
     },
     // nameless until she says who she is (design: no name on her tag, map or notes before "I'm Tess")
     tess: { id:'tess', name:'Tess Tortoise', unnamed:'Tortoise', ko:'거북 테스', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:.95, voice:0, bg:'#DDE8D5', openingQuestion:'t0',
+      // MiniMax Callan, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site)
+      audio:Object.fromEntries(['hello', 'hello2', 't0', 't1', 't2', 't3', 't4', 't5', 'end1'].map(key => [key, `audio/umbrella/tess-${key}.mp3`])),
       hello:[
         { det:true, key:'hello-tess', en:'Hello.', ko:'안녕.' },
         { key:'hello', intro:true, en:"Hi! Welcome to Toy Nest. I'm Tess.", ko:'안녕! 토이 네스트에 온 걸 환영해. 난 테스야.' },
@@ -2455,7 +2457,9 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]] } : PICNIC ? {
+const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
+  'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
+  'tess:t5':[[0, 1.65], [1.91, 3.7]] } : PICNIC ? {
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,1.65],[2.04,4.44],[4.98,6.69]],
