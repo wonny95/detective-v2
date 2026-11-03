@@ -2054,7 +2054,7 @@ const UMBRELLA_CASE = {
   },
   // the banner's and the notice's words are drawn over the hall's picture (ART.hall)
   places:[
-    { id:'hall', x:20, y:62, label:'Village Hall', artWidth:1376, artHeight:768,
+    { id:'hall', x:84, y:28, label:'Village Hall', artWidth:1376, artHeight:768,
       clues:[
         { label:'Toy bazaar banner', en:'A toy bazaar banner. October 24. Hosted by Toy Nest.', ko:'장난감 바자회 현수막이야. 10월 24일. 토이 네스트에서 열었네.' },
         { label:'Venue change notice', en:'A venue change notice. "The toy bazaar is indoors because of rain."', ko:'장소 변경 안내문이야. "비가 와서 장난감 바자회를 실내에서 진행합니다."' },
@@ -2071,7 +2071,7 @@ const UMBRELLA_CASE = {
         { clue:4, x:86, y:53, w:13, h:43 },
         { clue:5, x:66, y:8.5, w:21, h:42 }
       ]},
-    { id:'toynest', x:62, y:67, label:'Toy Nest', artWidth:1376, artHeight:768,
+    { id:'toynest', x:91, y:65, label:'Toy Nest', artWidth:1376, artHeight:768,
       clues:[
         { label:'Toy shelf', prop:true, en:'Toys on the shelf.', ko:'선반 위의 장난감들이야.' },
         { label:'Teddy bear', prop:true, en:'A teddy bear on the counter.', ko:'계산대 위의 곰 인형이야.' }
@@ -2080,7 +2080,7 @@ const UMBRELLA_CASE = {
         { clue:0, x:0, y:16, w:35, h:64 },
         { clue:1, x:73, y:47, w:7, h:16 }
       ]},
-    { id:'windmill', x:86, y:27, label:'Windmill Hill', artWidth:1376, artHeight:768,
+    { id:'windmill', x:38, y:17, label:'Windmill Hill', artWidth:1376, artHeight:768,
       clues:[
         { label:'Windmill', prop:true, en:'A windmill on the hill.', ko:'언덕 위의 풍차야.' },
         { label:'Pinwheel', prop:true, en:'A small pinwheel.', ko:'작은 바람개비야.' }
@@ -2120,7 +2120,8 @@ const UMBRELLA_CASE = {
   items:{
     // the title says who gave it, never whose it is (design)
     umbrella:{ label:'Umbrella from Ella', en:'The umbrella Ella gave me.', ko:'엘라가 맡긴 우산.',
-      img:'assets/places/umbrella/umbrella-sheet-original.png', w:1376, h:768, crop:[150, 150, 420, 315],
+      // the whole folded umbrella cut out, no paper behind it (user request)
+      img:'assets/places/umbrella/umbrella-folded.png', w:260, h:675, crop:[-20, -16, 300, 707],
       bag:'assets/places/umbrella/umbrella-folded.png' }
   },
   previewHandback:['umbrella'],
@@ -5332,8 +5333,10 @@ const ART = {
   toynest: () => `<image href="assets/places/umbrella/toynest.webp" width="1376" height="768"/>
     <text x="1013" y="234" text-anchor="middle" font-size="40" font-weight="700" fill="#FFF8E6" stroke="#5E4630" stroke-width="1.5" paint-order="stroke" font-family="Georgia,serif" transform="rotate(1 1013 220)">Toy Nest</text>`,
   windmill: () => `<image href="assets/places/umbrella/windmill.webp" width="1376" height="768"/>`,
-  // the close look: the confirmed umbrella picture (assets/places/umbrella/), folded or open (S.unfolded)
-  umbrella: () => `<rect width="1376" height="768" fill="#F6EED9"/>` + (S.unfolded
+  // the close look: the confirmed umbrella picture (assets/places/umbrella/), folded or open (S.unfolded), the cut-out
+  // alone over the hall it was taken from, softly blurred and dimmed (user request: no paper behind the umbrella)
+  umbrella: () => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+    <image href="assets/places/umbrella/hall.webp" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>` + (S.unfolded
     ? `<image href="assets/places/umbrella/umbrella-open.png" x="368" y="82" width="640" height="605"/>`
     : `<image href="assets/places/umbrella/umbrella-folded.png" x="558" y="46" width="260" height="675"/>`),
   interview: () => `<image href="assets/places/station-interview-room.png" width="1536" height="1536"/>`,
