@@ -13,7 +13,19 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 11:20 · Claude · (이 커밋)
+## 2026-11-03 11:44 · Claude · (이 커밋)
+
+- 사용자 요청: 우산 사건 대사 다듬기. `design/case-02-unclaimed-umbrella.md`·`.html`에 반영.
+  - 테스 인사말: "Hi! Welcome to Toy Nest. I'm Tess." → (탐정이 온 이유) → "Oh, the toy bazaar! I worked there that day."로 짧게 끝냄. 인사말의 "Is that umbrella yours?"(사용자 지적: 눈앞에 없는 우산에 that, 앞 대사와도 이어지지 않음)와 "I'm not sure. I often lend mine to friends."를 뺌.
+  - 테스 첫 질문 t0 새로 넣음(사용자 결정: 조사 정보는 인사말이 아니라 질문으로): "It rained that day. Did you bring an umbrella?" / "Yes. But I often lend mine to friends. I'm not sure where it is now." 노트 [lend]·[where]. 처음에는 t0만 보이고 적으면 t1–t5(소풍 벤 b1과 같은 방식). 받아쓰기 13개·31칸.
+  - 핀에게: "There's an umbrella at the village hall. Is it yours?"(that 뺌).
+  - 루비에게: "Tess said you were at the bazaar with her." 루비: "I can't find my umbrella. I don't know where I left it. Could it be mine?"(결말 "So I left it at the bazaar!"로 이어짐).
+  - 추리 Q2: "Can the handle tell us the owner?" → "All three umbrellas have [blue] handles."
+  - 설계서 2절: that은 우산이 실제로 보이는 장면에서만(엘라 의뢰·e1·조사 질문, 결말의 엘라·탐정·테스). 회관 소품(현수막이 바닥에 있음)은 그대로.
+- 확인: 새 탭에서 설계 HTML 장면 3(테스 인사·t0) 화면. MD와 HTML의 영어 문장이 모두 같고 질문 14개(받아쓰기 13+조사 1)·빈칸 31칸. 게임(`index.html`)은 고치지 않음.
+- **다음**: 사용자 지시 대기. 후보: 우산 사건 개발 계획(엔진 작업·그림·녹음·앱의 사건 번호와 주소)을 사용자와 정하기(설계서 10절).
+
+## 2026-11-03 11:20 · Claude · 751454c
 
 - 개발 인계 반영: STORY_LOG 2026-11-02 16:05(우산 사건 개발 인계). 시작할 때 `story`를 merge(741ec43). AGENTS.md 인계된 사건 목록에 우산 설계서를 더함.
 - 사용자 요청: 우산 사건(L1-01 B) 설계서를 처음부터 끝까지 점검. 이야기 6개·학습 3개·대사 4개·엔진 작업 7개를 보고했고, 사용자와 정한 대로 `design/case-02-unclaimed-umbrella.md`를 다시 쓰고 `.html`의 장면·단서 배치도·맨 아래 MD 사본을 맞춤.
