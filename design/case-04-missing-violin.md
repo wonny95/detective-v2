@@ -61,7 +61,7 @@
 
 | ID | 화자 | 영어 / 한국어 |
 |---|---|---|
-| tara:g1 | 타라 | **Hello, Detective. I'm Tara. My violin case is missing. Can you find it before the concert?** / 안녕하세요, 탐정님. 저는 타라예요. 바이올린 케이스가 없어졌어요. 공연 전에 찾아줄 수 있나요? |
+| tara:g1 | 타라 | **Hello, Detective. I'm Tara. My violin is missing. Can you find it before the concert?** / 안녕하세요, 탐정님. 저는 타라예요. 바이올린이 없어졌어요. 공연 전에 찾아줄 수 있나요? |
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
