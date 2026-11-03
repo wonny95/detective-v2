@@ -13,7 +13,49 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 15:10 · Claude · (이 커밋)
+## 2026-11-03 16:40 · Claude · (이 커밋)
+
+- 사용자 결정: 루비 목소리는 사용자가 만든 "Hi, I'm Ruby. Nice to meet you."(공유 링크 `https://higgsfield.ai/s/EC2CkZVYfY0`, job `cd864388-9745-4f54-bfe7-dee1407db794`, MiniMax **Gracie**, 감정 **행복**, 2.73초) → `audio/umbrella/ruby-hello.mp3`, `people.ruby.audio`.
+- 발견: 바로 앞에서 만든 엘라 7줄(`8324659`)에 감정 행복이 **적용되지 않음**. Higgsfield MCP의 `text2speech_v2`가 `emotion`을 버림(생성 기록 params에 emotion이 없고 사용자 제작분에는 있음; 시험 한 줄 `286b5ea5`도 speed·pitch·volume만 남음, 0.15크레딧, 쓰지 않음). 앞 항목의 "Petra·happy"는 사실 Petra·감정 없음.
+- **다음**: 감정을 어떻게 넣을지 사용자 결정 대기(사용자가 웹에서 만들기 / Chrome에서 Higgsfield 웹 화면으로 만들기 / 감정 없이). 그 뒤 엘라 7줄 다시, 루비 6줄, 테스·핀.
+
+## 2026-11-03 16:30 · Claude · 8324659
+
+- 사용자 요청: 감정도 사용자 녹음과 같게(행복) 엘라 목소리 뽑기. 엘라 나머지 7줄을 MiniMax Petra·emotion happy로 만들어 `audio/umbrella/ella-<키>.mp3`에 넣고 연결(1.05크레딧, 남은 269.75): hello `d3ca14d4`, e1 `cadf3721`, e2 `04d7ae3c`, inspect `007d5a5f`, end1 `5bc75a1e`, end2 `42d74953`, end3 `a8efd4f1`. e1 두 문장 구간 `SENTENCE_TIMES['ella:e1']` [0–0.66], [1.07–2.22](무음 구간으로 잼). 앞서 Higgsfield가 "세션 만료"를 돌려준 것은 일시 오류였고 다시 부르니 정상.
+- 확인(새 탭 127.0.0.1, 미리보기): 첫 대화에서 `ella-hello.mp3`, 엘라에게 알리기에서 `ella-end1.mp3` 요청 200. 구문 검사 통과. 소리 자체(감정·발음)는 듣지 못함 — 사용자 확인 필요.
+- **다음**: 사용자가 엘라 목소리 확인. 그다음 테스·루비·핀 목소리 정하기(후보 샘플은 이미 만듦) → 녹음.
+
+## 2026-11-03 16:15 · Claude · edb1b32
+
+- 사용자 요청: 목소리 후보 듣기 → 인물마다 다른 사건에서 안 쓴 MiniMax 목소리 3개씩 첫인사 샘플 12개(1.8크레딧): 엘라 Faye·Helena·Isla, 테스 Talia·Opal·Nadine, 루비 Juno·Daisy·Gracie, 핀 Cody·Reid·Dylan.
+- 사용자 결정: 엘라 `ella-hello2.mp3`는 사용자가 만든 녹음(공유 링크 `https://higgsfield.ai/s/bLknuHnxaLk`, job `a033ae23-d500-485f-a377-ddd51b41bd67`, MiniMax Speech 2.8 HD **Petra**, 감정 **행복**, 약 3.88초)으로. `audio/umbrella/ella-hello2.mp3`에 받아 `UMBRELLA_CASE.people.ella.audio`로 연결(녹음이 있는 줄만 파일, 나머지는 브라우저 음성 그대로). Petra는 도서관 사건 피오나와 같은 목소리다.
+- 확인(새 탭 127.0.0.1, 미리보기 첫 대화): 엘라 인사 셋째 줄에서 `audio/umbrella/ella-hello2.mp3` 요청 200. 구문 검사 통과.
+- 못 한 것: 사용자 요청 "감정도 이걸로 적용해서 엘라 목소리들 뽑아줘"(엘라 나머지 7줄, Petra·happy, 약 1.4크레딧)는 Higgsfield 커넥터 로그인이 만료되어 아직 못 만듦.
+- **다음**: 사용자가 Higgsfield 커넥터를 다시 연결하면 엘라 7줄(hello·e1·e2·inspect·end1·end2·end3)을 Petra·happy로 만들어 `audio`에 잇기. 그다음 테스·루비·핀 목소리 정하기.
+
+## 2026-11-03 15:55 · Claude · 142d851
+
+- 사용자 요청: 녹음 전에 대본부터. `design/case-02-unclaimed-umbrella-recording.md`(화자별 표: 저장할 파일 이름·장면·영어·해석). `scripts/umbrella-recording-script.js`가 `UMBRELLA_CASE`에서 뽑음(인사·질문·대답·행동·현수막 생각·사진·소지품·추리 q/r/h·오답·결말 3차례). 85줄, 같은 화자의 같은 문장(탐정의 t1/r1/f1 등)을 한 번만 녹음하면 80문장: 엘라 8·테스 9·루비 7·핀 4·탐정 52. 날짜(October 24)는 읽기용 문장을 따로 적음. 크레딧 없음.
+- 확인: 생성된 표의 줄 수와 내용을 게임 데이터와 대조(스크립트가 직접 읽음).
+- **다음**: 사용자가 대본 확인. 그다음 인물 4명 목소리 고르기(후보 들려주기)와 비용 알린 뒤 녹음.
+
+## 2026-11-03 15:40 · Claude · 8e6727a
+
+- 사용자 결정(답 보기가 너무 적음 → 제안한 안대로): 우산 사건 추리 보드 답 빈칸 보기를 문항마다 6개로. Q1 rain/wind/snow/fog/thunder/sun, Q2 blue/red/yellow/green/white/black, Q3 plain/striped/spotted/red/white/green(문장이 되지 않는 gold stars와, 핀의 우산에도 맞는 dark blue는 뺌), Q4 dark blue/gold/red/white/green/silver. `UMBRELLA_CASE.deduce.qs[].opts`와 설계서 8절 표(MD·HTML).
+- 확인(새 탭 127.0.0.1, 미리보기 추리 보드): Q1 빈칸을 누르면 보기 6개가 두 줄로 나옴. 구문 검사 통과.
+- **다음**: 사용자 확인. 그다음 3단계 녹음(새 목소리 4명, 약 80줄, 약 15크레딧). 추리 맞장구·힌트 초안 확인 요청.
+
+## 2026-11-03 15:30 · Claude · a113c74
+
+- 사용자 요청 세 가지(우산 조사).
+  - 엘라에게 "Can I take a closer look at that umbrella?"를 고르면 질문 목록이 바로 다시 뜨던 것: 행동의 두 줄(탐정 질문·엘라 대답)이 나오는 동안 인사처럼 `greetingId`를 세워 아래를 비움. 대화를 다 마친 뒤(`done`)에도 행동 버튼과 `추리하기`가 다시 보이던 것도 같이 막음(`renderAsk`가 말하는 동안에는 아무것도 그리지 않음).
+  - 우산이 화면에 꽉 참: 접힌 우산을 85%로.
+  - 펼쳤을 때 양옆이 잘림: 휴대폰에 보이는 폭이 그림 약 400px라 펼친 우산을 50%(320px)로 줄이고 조금 위로. 촬영 자리(`spots`·`photo`)를 같은 비율로 옮김.
+- 확인(새 탭 127.0.0.1, 미리보기): 엘라 대화에서 조사 질문 → 탐정 줄(아래 비어 있음) → 엘라 대답(아래 비어 있음) → 우산 조사 화면. 접힌 우산·펼친 우산 모두 화면 안에 다 보임. 구문 검사 통과.
+- 못 한 것: 새 촬영 자리를 눌러 증거 사진이 우산 부분을 제대로 담는지는 보지 않음.
+- **다음**: 사용자 결정 대기 — 추리 보드 답 보기를 6개로 늘리는 안(Q1–Q4). 그다음 3단계 녹음.
+
+## 2026-11-03 15:10 · Claude · 997f9cd
 
 - 사용자 요청: 우산 조사 화면에서도 배경 없이 우산만. 크림색 면 바탕을 없애고 회관 그림을 흐리고 어둡게 깐 위에 우산만 놓음(`ART.umbrella`). 접힌·펼친 우산 그림 가장자리에 남아 있던 크림색 종이 테두리를 지움(회관 우산꽂이·소지품 카드에도 같은 그림이 쓰임). 크레딧 없음.
 - 확인(새 탭 127.0.0.1, 미리보기 우산 조사): 접힌 우산·펼친 우산 모두 테두리 없이 흐린 회관 위에 보임. 구문 검사 통과.
