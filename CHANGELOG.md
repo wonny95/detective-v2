@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 15:40 · Claude · (이 커밋)
+## 2026-11-03 15:55 · Claude · (이 커밋)
+
+- 사용자 요청: 녹음 전에 대본부터. `design/case-02-unclaimed-umbrella-recording.md`(화자별 표: 저장할 파일 이름·장면·영어·해석). `scripts/umbrella-recording-script.js`가 `UMBRELLA_CASE`에서 뽑음(인사·질문·대답·행동·현수막 생각·사진·소지품·추리 q/r/h·오답·결말 3차례). 85줄, 같은 화자의 같은 문장(탐정의 t1/r1/f1 등)을 한 번만 녹음하면 80문장: 엘라 8·테스 9·루비 7·핀 4·탐정 52. 날짜(October 24)는 읽기용 문장을 따로 적음. 크레딧 없음.
+- 확인: 생성된 표의 줄 수와 내용을 게임 데이터와 대조(스크립트가 직접 읽음).
+- **다음**: 사용자가 대본 확인. 그다음 인물 4명 목소리 고르기(후보 들려주기)와 비용 알린 뒤 녹음.
+
+## 2026-11-03 15:40 · Claude · 8e6727a
 
 - 사용자 결정(답 보기가 너무 적음 → 제안한 안대로): 우산 사건 추리 보드 답 빈칸 보기를 문항마다 6개로. Q1 rain/wind/snow/fog/thunder/sun, Q2 blue/red/yellow/green/white/black, Q3 plain/striped/spotted/red/white/green(문장이 되지 않는 gold stars와, 핀의 우산에도 맞는 dark blue는 뺌), Q4 dark blue/gold/red/white/green/silver. `UMBRELLA_CASE.deduce.qs[].opts`와 설계서 8절 표(MD·HTML).
 - 확인(새 탭 127.0.0.1, 미리보기 추리 보드): Q1 빈칸을 누르면 보기 6개가 두 줄로 나옴. 구문 검사 통과.
