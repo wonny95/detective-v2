@@ -68,9 +68,9 @@
 | 탐정 | Hello! I'm Detective {플레이어 이름}. I'm looking for a blue bag. | 안녕! 나는 탐정 {플레이어 이름}이야. 파란 가방을 찾고 있어. |
 | 오리 | Oh! I see. How can I help? | 아, 그렇구나! 어떻게 도와줄까? |
 | 벤 | Hi there! What can I do for you? | 안녕! 무슨 일이야? |
-| 탐정 | Hi, I'm Detective {플레이어 이름}. Are you Ben? | 안녕하세요, 저는 탐정 {플레이어 이름}이에요. 혹시 벤인가요? |
+| 탐정 | Hi, I'm Detective {플레이어 이름}. Are you Ben? | 안녕, 난 탐정 {플레이어 이름}이야. 혹시 네가 벤이야? |
 | 벤 | Yes, that's me! | 응, 맞아! |
-| 탐정 | You were at the Lake Cafe today, right? | 오늘 호수 카페에 오셨었죠? |
+| 탐정 | You were at the Lake Cafe today, right? | 오늘 호수 카페에 왔었지? |
 | 벤 | Yes, I stopped there this morning. | 응, 오늘 아침에 들렀어. |
 | 올리 | Oh, hi! I'm Ollie. Nice to meet you. | 오, 안녕! 난 올리야. 만나서 반가워. |
 | 미아 | I'm Mia. Want to join our picnic? | 난 미아야. 같이 피크닉 할래? |
@@ -87,14 +87,14 @@
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | Her bag has a [red] [lunch box] and a [yellow] [bottle]. |
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | She does not [know] whose bag this is. She wants me to [find out]. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the lakeside cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
-| duck:v2 · 첫 질문 | Did anyone leave a blue bag here? / 여기 파란 가방을 두고 간 사람이 있나요? | No. Nobody left a bag here today. / 아니요. 오늘 가방을 두고 간 손님은 없어요. | [Nobody] [left] a bag at the cafe. |
-| duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔나요? | Rosie, Ben, Mia, and Ollie came today. / 오늘 로지, 벤, 미아, 올리가 왔어요. | Rosie, [Ben], Mia, and Ollie came to the cafe. |
-| duck:v3 | Where are they now? / 그들은 지금 어디 있나요? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요. | Ben went [home]. Mia and Ollie went to the [garden]. |
-| ben:b1 · 첫 질문 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있나요? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. | Nora left [her] blue bag at Ben's [house]. Ben stopped at the [cafe]. Then he [took] it to her [office]. |
+| duck:v2 · 첫 질문 | Did anyone leave a blue bag here? / 여기 파란 가방을 두고 간 사람이 있어? | No. Nobody left a bag here today. / 아니. 오늘 가방을 두고 간 손님은 없어. | [Nobody] [left] a bag at the cafe. |
+| duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔어? | Rosie, Ben, Mia, and Ollie came today. / 오늘 로지, 벤, 미아, 올리가 왔어. | Rosie, [Ben], Mia, and Ollie came to the cafe. |
+| duck:v3 | Where are they now? / 다들 지금 어디 있어? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어. | Ben went [home]. Mia and Ollie went to the [garden]. |
+| ben:b1 · 첫 질문 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있어? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. After that, I came home. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어. | Nora left [her] blue bag at Ben's [house]. Ben stopped at the [cafe]. Then he [took] it to her [office]. After that, he came home. |
 | ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | He does not [know] what was inside. He did not [open] it. |
 | garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | Ollie's bag is [red]. Mia's bag is [blue]. |
-| garden:g2 | Mia, is this your blue bag? Have you checked inside? / 미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어? | 미아: Yes, it's mine. I opened it. My picnic things are inside. / 응, 내 가방이야. 열어 봤어. 내 소풍 준비물이 들어 있어. | The blue bag is Mia's. She [opened] it. Her [picnic] things are [inside]. |
-| nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it there, but Ben brought it to me. / 응. 거기에 두고 왔어. 하지만 벤이 가져다줬지. | Nora [left] her bag at Ben's house. Ben [brought] it to her. |
+| garden:g2 | Mia, is this blue bag yours? Have you checked inside? / 미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어? | 미아: Yes, it's mine. I opened it. My picnic things are inside. / 응, 내 가방이야. 열어 봤어. 내 소풍 준비물이 들어 있어. | The blue bag is Mia's. She [opened] it. Her [picnic] things are [inside]. |
+| nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it at his house, but Ben brought it to me. / 응. 그 집에 두고 왔어. 하지만 벤이 가져다줬지. | Nora [left] her bag at Ben's house. Ben [brought] it to her. |
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her bag had a [green] [folder] and a [blue] [pen]. |
 | nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange. / 아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자... 빨간 도시락이랑 노란 물병? 이상하네. | She was in a [meeting], so she did not open it. Inside are a [red] lunch box and a [yellow] bottle. She thinks that is strange. |
 
@@ -174,7 +174,7 @@
 | 소풍 탁자 | 로지 | Please take this bag and find mine. / 이 가방을 가져가서 내 가방을 찾아줘. | 탐정에게 가방을 맡김 |
 | 소풍 탁자 | 탐정 | I will. / 그럴게. | `로지가 맡긴 파란 가방`을 소지품에 넣음 |
 | 회사 1층 로비 | 탐정 | Rosie is looking for her bag. Her lunch box and bottle are in the bag Ben brought you. / 로지가 자기 가방을 찾고 있어. 벤이 가져다준 가방에 로지의 도시락과 물병이 들어 있어. | 가방을 아직 든 채로 설명 시작 |
-| 회사 1층 로비 | 탐정 | This bag has your folder and pen. / 이 가방에는 네 폴더와 펜이 있어. | 챙겨 온 가방을 보여 줌 |
+| 회사 1층 로비 | 탐정 | This bag is yours. It has your folder and pen. / 이 가방은 네 거야. 네 폴더와 펜이 들어 있어. | 챙겨 온 가방을 보여 줌 |
 | 회사 1층 로비 | 탐정 | Your bags got mixed up. Here you go. / 너희 가방이 바뀐 거야. 여기 있어. | 이 말 뒤에 소지품에서 가방을 골라 건네주기 → 가방 전달 연출 |
 | 회사 1층 로비 | 노라 | My folder and pen are here! Thank you. Here is Rosie's bag. / 내 폴더와 펜이 있네! 고마워. 여기 로지의 가방이야. | 로지의 가방을 탐정에게 건넴 |
 | 소풍 탁자 | 탐정 | Rosie, I brought your bag back. / 로지, 네 가방을 가져왔어. | 로지의 가방을 전달 |

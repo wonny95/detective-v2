@@ -1607,9 +1607,9 @@ const PICNIC_CASE = {
       ],
       questions:[
         // lost and found: nothing was left, so someone took Rosie's bag (user decision; the owner does not know whose bag is whose)
-        { id:'v2', en:'Did anyone leave a blue bag here?', ko:'여기 파란 가방을 두고 간 사람이 있나요?' },
-        { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔나요?' },
-        { id:'v3', en:'Where are they now?', ko:'그들은 지금 어디 있나요?' }
+        { id:'v2', en:'Did anyone leave a blue bag here?', ko:'여기 파란 가방을 두고 간 사람이 있어?' },
+        { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔어?' },
+        { id:'v3', en:'Where are they now?', ko:'다들 지금 어디 있어?' }
       ],
       unlocks:{ v1:{ names:['ben', 'mia'] }, v3:{ places:['benhome', 'garden'] } },
       answers:{
@@ -1632,22 +1632,22 @@ const PICNIC_CASE = {
       // he does not say his name: the detective, who heard it from Mr. Duck, asks (user decision)
       hello:[
         { key:'hello', en:'Hi there! What can I do for you?', ko:'안녕! 무슨 일이야?' },
-        { det:true, key:'hello-ben', en:"Hi, I'm Detective {name}. Are you Ben?", ko:'안녕하세요, 저는 탐정 {name}이에요. 혹시 벤인가요?' },
+        { det:true, key:'hello-ben', en:"Hi, I'm Detective {name}. Are you Ben?", ko:'안녕, 난 탐정 {name}이야. 혹시 네가 벤이야?' },
         { key:'hello-me', en:"Yes, that's me!", ko:'응, 맞아!' },
-        { det:true, key:'hello-ben2', en:'You were at the Lake Cafe today, right?', ko:'오늘 호수 카페에 오셨었죠?' },
+        { det:true, key:'hello-ben2', en:'You were at the Lake Cafe today, right?', ko:'오늘 호수 카페에 왔었지?' },
         { key:'hello2', en:'Yes, I stopped there this morning.', ko:'응, 오늘 아침에 들렀어.' }
       ],
       questions:[
-        { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있나요?' },
+        { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있어?' },
         { id:'b2', en:'What was in the bag?', ko:'가방에는 뭐가 들어 있었어?' }
       ],
       unlocks:{ b1:{ people:['nora'] } },
       answers:{
-        b1:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office.',
+        b1:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. After that, I came home.',
         b2:"I don't know. I didn't open it."
       },
       notes:{
-        b1:["Nora left {{a|her}} blue bag at Ben's {{b|house}}.", 'Ben stopped at the {{c|cafe}}.', 'Then he {{d|took}} it to her {{e|office}}.'],
+        b1:["Nora left {{a|her}} blue bag at Ben's {{b|house}}.", 'Ben stopped at the {{c|cafe}}.', 'Then he {{d|took}} it to her {{e|office}}.', 'After that, he came home.'],
         b2:['He does not {{f|know}} what was inside.', 'He did not {{g|open}} it.']
       },
       bank:{ b1:['his','my','her','garden','house','library','cafe','made','took','brought','bakery','office'],
@@ -1674,7 +1674,7 @@ const PICNIC_CASE = {
       ],
       questions:[
         { id:'g1', en:'Do either of you have a blue bag?', ko:'혹시 너희 중에 파란 가방을 가진 사람이 있니?' },
-        { id:'g2', en:'Mia, is this your blue bag? Have you checked inside?', ko:'미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어?' }
+        { id:'g2', en:'Mia, is this blue bag yours? Have you checked inside?', ko:'미아, 사진 속 이 파란 가방이 네 거야? 안을 확인했어?' }
       ],
       // the photos are taken in the conversation (user decision: no free search of the garden)
       after:{
@@ -1708,7 +1708,7 @@ const PICNIC_CASE = {
         { id:'n3', en:'Could you check the bag Ben brought?', ko:'벤이 가져온 가방을 확인해 줄래?' }
       ],
       answers:{
-        n1:'Yes. I left it there, but Ben brought it to me.',
+        n1:'Yes. I left it at his house, but Ben brought it to me.',
         n2:'My green folder and blue pen.',
         // she has not opened it because of a meeting (her folder is for work), and she stops at "strange": whose things
         // they are is the player's to work out (user decision)
@@ -1734,19 +1734,19 @@ const PICNIC_CASE = {
     'ben:b1':[['ownership','her blue bag'], ['past-irr','Nora left']],
     'ben:b2':[['wh-q','What was in the bag'], ['negative',"I didn't open it"]],
     'mia:g1':[['ownership','Mine is red']],
-    'mia:g2':[['ownership',"it's mine"], ['past-reg','I opened it']],
-    'nora:n1':[['did-q','Did you leave'], ['past-irr','Ben brought it']],
+    'mia:g2':[['ownership','is this blue bag yours'], ['ownership',"it's mine"], ['past-reg','I opened it']],
+    'nora:n1':[['did-q','Did you leave'], ['ownership','his house'], ['past-irr','Ben brought it']],
     'nora:n2':[['wh-q','What was in your bag'], ['ownership','My green folder']],
     'nora:n3':[['negative',"I didn't open it"]]
   },
   answersKo:{
     rosie:{ r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
       r4:'누구를 봤는지 기억이 안 나. 그런데 여기 오기 전에 호숫가 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
-    duck:{ v1:'오늘 로지, 벤, 미아, 올리가 왔어요.', v2:'아니요. 오늘 가방을 두고 간 손님은 없어요.',
-      v3:'다들 어디로 갈지 말해 줬어요. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어요.' },
-    ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어.', b2:'몰라. 가방을 열어 보지 않았어.' },
+    duck:{ v1:'오늘 로지, 벤, 미아, 올리가 왔어.', v2:'아니. 오늘 가방을 두고 간 손님은 없어.',
+      v3:'다들 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어.' },
+    ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어.', b2:'몰라. 가방을 열어 보지 않았어.' },
     mia:{ g1:'올리: 아니, 내 건 빨간색이야. 미아: 내 건 파란색이야. 왜?', g2:'응, 내 거야. 열어 봤어. 내 소풍 준비물이 들어 있어.' },
-    nora:{ n1:'응. 거기 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병? 이상하네.' }
+    nora:{ n1:'응. 그 집에 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병? 이상하네.' }
   },
   places:[
     // ordinary objects in every place (prop: only the detective's sentence, design: 음성만 나오는 주변 물건), never the
@@ -1891,7 +1891,7 @@ const PICNIC_CASE = {
     { to:'nora', open:{ think:true, en:'노라에게 바뀐 가방에 대해서 설명하자.' }, give:'bag-nora', take:'bag-rosie',
       before:[
         { det:true, key:'handoff1', en:'Rosie is looking for her bag. Her lunch box and bottle are in the bag Ben brought you.', ko:'로지가 자기 가방을 찾고 있어. 벤이 가져다준 가방에 로지의 도시락과 물병이 들어 있어.' },
-        { det:true, key:'handoff2', en:'This bag has your folder and pen.', ko:'이 가방에는 네 폴더와 펜이 있어.' },
+        { det:true, key:'handoff2', en:'This bag is yours. It has your folder and pen.', ko:'이 가방은 네 거야. 네 폴더와 펜이 들어 있어.' },
         { det:true, key:'handoff3', en:'Your bags got mixed up. Here you go.', ko:'너희 가방이 바뀐 거야. 여기 있어.' }
       ],
       lines:[
@@ -2159,12 +2159,12 @@ const SENTENCE_TIMES = PICNIC ? {
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,1.76],[2.43,5.01],[5.76,7.6]],
-  'ben:b1':[[0,2.13],[2.44,5.29]],
+  'ben:b1':[[0,2.08],[2.4,4.9],[5.46,7.18]],
   'ben:b2':[[0,0.87],[0.98,1.92]],
   'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]],
   'duck:v2':[[0,0.45],[0.6,2.2]],
   'duck:v3':[[0,1.48],[1.58,2.6],[2.7,4.52]],
-  'nora:n1':[[0,0.75],[1.03,4.3]],
+  'nora:n1':[[0,0.62],[1.68,5.96]],
   'nora:n3':[[0,2.45],[3.5,4.4],[4.7,7.55],[8.5,9.65]]
 } : {
   'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
