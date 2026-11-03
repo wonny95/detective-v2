@@ -2097,9 +2097,9 @@ const UMBRELLA_CASE = {
         { label:'Inside of the umbrella', en:'This umbrella is gold inside.', ko:'이 우산은 안쪽이 금빛이야.' }
       ],
       spots:[
-        { clue:0, folded:true, x:44, y:72, w:8, h:20, photo:{x:575,y:540,w:180,h:135} },
-        { clue:1, folded:true, x:42, y:28, w:17, h:37, photo:{x:560,y:230,w:270,h:203} },
-        { clue:2, open:true, x:31, y:22, w:35, h:40, photo:{x:440,y:150,w:440,h:330} }
+        { clue:0, folded:true, x:44.9, y:68.7, w:6.8, h:17.0, photo:{x:592,y:517,w:153,h:115} },
+        { clue:1, folded:true, x:43.2, y:31.3, w:14.4, h:31.4, photo:{x:579,y:253,w:230,h:173} },
+        { clue:2, open:true, x:40.5, y:34.1, w:17.5, h:20.0, photo:{x:564,y:252,w:220,h:165} }
       ]}
   ],
   // the toy bazaar's banner and its notice found: the rain at the bazaar, and the shop that held it (design 6절 날씨에서
@@ -3159,11 +3159,12 @@ function renderAsk(){
   box.classList.remove('show-ko');
   renderInterrogationGauge();
   if(ending && !S.investigate){ box.innerHTML = endingControls(); return; }
-  if(S.investigate){ box.innerHTML = ''; return; }
+  // nothing under the person while their greeting or an action's lines are said (choose or done alike)
+  if(S.investigate || greetingId === s.id){ box.innerHTML = ''; return; }
   let html = '';
   // actions: asked as often as the player likes and never written down (the umbrella case's close look), also once done
   const acts = (s.actions || []).map(a => `<button class="q" type="button" data-act="${a.id}"><span class="en">${esc(a.en)}</span><span class="ko">${esc(a.ko)}</span></button>`).join('');
-  if(p.phase === 'choose' && greetingId !== s.id){
+  if(p.phase === 'choose'){
     const left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
       left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('') + acts;
@@ -3570,9 +3571,18 @@ function doAction(aid){
   const s = cur(), a = s.actions?.find(x => x.id === aid), who = s.id;
   if(!a || S.investigate || greetingId === who || recordLocked()) return;
   clearTimeout(greetingTimer); hideBubble();
-  playLines(who, [{ det:true, key:`act-${aid}`, en:a.en, ko:a.ko }, { key:aid, en:a.answer, ko:a.answerKo }], () => {
+  // the questions stay away while the action is said and answered, as in a greeting (user request: they came back at
+  // once under the detective's line)
+  const lines = [{ det:true, key:`act-${aid}`, en:a.en, ko:a.ko }, { key:aid, en:a.answer, ko:a.answerKo }];
+  const done = () => {
+    if(greetingId !== who) return;
+    setGreeting(null);
     if(a.inspect && S.cur === who && !S.investigate) openInspect(a.inspect);
-  });
+    else renderAsk();
+  };
+  setGreeting(who); renderAsk();
+  playLines(who, lines, done);
+  greetingCut = linesCut(lines.reduce((t, l) => t + l.en.length * 95 + 2500, 1000), done);
 }
 // the close look (a place with inspect: never on the map): folded first; 〈 goes back to the person who handed it over
 function openInspect(id = PLACES.find(p => p.inspect)?.id){
@@ -5337,8 +5347,8 @@ const ART = {
   // alone over the hall it was taken from, softly blurred and dimmed (user request: no paper behind the umbrella)
   umbrella: () => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
     <image href="assets/places/umbrella/hall.webp" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>` + (S.unfolded
-    ? `<image href="assets/places/umbrella/umbrella-open.png" x="368" y="82" width="640" height="605"/>`
-    : `<image href="assets/places/umbrella/umbrella-folded.png" x="558" y="46" width="260" height="675"/>`),
+    ? `<image href="assets/places/umbrella/umbrella-open.png" x="528" y="218" width="320" height="302"/>`
+    : `<image href="assets/places/umbrella/umbrella-folded.png" x="577" y="97" width="221" height="574"/>`),
   interview: () => `<image href="assets/places/station-interview-room.png" width="1536" height="1536"/>`,
   library: () => `
     <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
