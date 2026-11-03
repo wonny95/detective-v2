@@ -2120,7 +2120,8 @@ const UMBRELLA_CASE = {
   items:{
     // the title says who gave it, never whose it is (design)
     umbrella:{ label:'Umbrella from Ella', en:'The umbrella Ella gave me.', ko:'엘라가 맡긴 우산.',
-      img:'assets/places/umbrella/umbrella-sheet-original.png', w:1376, h:768, crop:[150, 150, 420, 315],
+      // the whole folded umbrella cut out, no paper behind it (user request)
+      img:'assets/places/umbrella/umbrella-folded.png', w:260, h:675, crop:[-20, -16, 300, 707],
       bag:'assets/places/umbrella/umbrella-folded.png' }
   },
   previewHandback:['umbrella'],
