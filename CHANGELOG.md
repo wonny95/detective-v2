@@ -13,7 +13,16 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 16:40 · Claude · (이 커밋)
+## 2026-11-03 16:55 · Claude · (이 커밋)
+
+- 사용자 결정: 감정 녹음은 Chrome에서 Higgsfield 웹으로. Claude in Chrome으로 `higgsfield.ai/audio`(MiniMax Speech 2.8 HD, 고급 설정 감정 **행복**)에서 13줄 생성(약 2.7크레딧, 남은 267.05), 생성 기록에서 모두 `emotion: happy` 확인 뒤 받아 넣음.
+  - 엘라(Petra) 7줄을 다시: hello `f7fa5986`, e1 `53663999`, e2 `52d294d0`, inspect `e894c730`, end1 `d7e1655e`, end2 `64309df5`, end3 `a4bf8cd3`(앞의 감정 없는 7줄을 덮어씀).
+  - 루비(Gracie) 6줄: hello2 `cad24d37`, r1 `e147eb00`, r2 `ad436e39`, r3 `7e21a8f1`, end1 `4fc0ef1a`, end2 `9e46e480`. `people.ruby.audio`에 이음.
+  - `SENTENCE_TIMES`: ella:e1 [0–0.84], [0.98–2.32], ruby:r1 [0–1.03], [1.42–2.38].
+- 확인(새 탭 127.0.0.1, 미리보기 루비에게 전달): `ruby-end1.mp3` 요청 200. 구문 검사 통과. 소리(감정·발음)는 사용자 확인 필요. 작업한 Chrome 탭은 닫음.
+- **다음**: 사용자가 엘라·루비 목소리 확인. 그다음 테스·핀 목소리 정하기 → 웹에서 녹음. 탐정 52문장(Grady, 감정 없음이면 MCP로 가능).
+
+## 2026-11-03 16:40 · Claude · e737235
 
 - 사용자 결정: 루비 목소리는 사용자가 만든 "Hi, I'm Ruby. Nice to meet you."(공유 링크 `https://higgsfield.ai/s/EC2CkZVYfY0`, job `cd864388-9745-4f54-bfe7-dee1407db794`, MiniMax **Gracie**, 감정 **행복**, 2.73초) → `audio/umbrella/ruby-hello.mp3`, `people.ruby.audio`.
 - 발견: 바로 앞에서 만든 엘라 7줄(`8324659`)에 감정 행복이 **적용되지 않음**. Higgsfield MCP의 `text2speech_v2`가 `emotion`을 버림(생성 기록 params에 emotion이 없고 사용자 제작분에는 있음; 시험 한 줄 `286b5ea5`도 speed·pitch·volume만 남음, 0.15크레딧, 쓰지 않음). 앞 항목의 "Petra·happy"는 사실 Petra·감정 없음.

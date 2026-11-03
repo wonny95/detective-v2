@@ -1926,7 +1926,8 @@ const UMBRELLA_CASE = {
   silent:true,
   people:{
     ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'hall', witness:true, required:true, pitch:1.2, voice:2, bg:'#F1E4D2',
-      // MiniMax Petra, emotion happy (the user's recording of hello2 set the voice)
+      // MiniMax Petra, emotion happy (the user's recording of hello2 set the voice; the rest made on the Higgsfield site,
+      // since its MCP tool drops the emotion)
       audio:Object.fromEntries(['hello', 'hello2', 'e1', 'e2', 'inspect', 'end1', 'end2', 'end3'].map(key => [key, `audio/umbrella/ella-${key}.mp3`])),
       // she points at the umbrella stand by the door: far off, so "that" (design 2절)
       hello:[
@@ -1990,8 +1991,8 @@ const UMBRELLA_CASE = {
         t5:['Ruby','Finn','bag','umbrella','Toy Nest','Windmill Hill'] }
     },
     ruby: { id:'ruby', name:'Ruby Cat', ko:'고양이 루비', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:1.35, voice:2, bg:'#F3DDE2',
-      // MiniMax Gracie, emotion happy (the user's recording of hello set the voice)
-      audio:Object.fromEntries(['hello'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
+      // MiniMax Gracie, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site)
+      audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'end1', 'end2'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi, I'm Ruby. Nice to meet you.", ko:'안녕, 난 루비야. 만나서 반가워.' },
         { det:true, key:'hello-ruby', en:"Tess said you were at the bazaar with her. I'm looking for the owner of an umbrella at the village hall.", ko:'테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어.' },
@@ -2454,7 +2455,7 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .66], [1.07, 2.22]] } : PICNIC ? {
+const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]] } : PICNIC ? {
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,1.65],[2.04,4.44],[4.98,6.69]],
