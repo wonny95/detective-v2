@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 16:15 · Claude · (이 커밋)
+## 2026-11-03 16:30 · Claude · (이 커밋)
+
+- 사용자 요청: 감정도 사용자 녹음과 같게(행복) 엘라 목소리 뽑기. 엘라 나머지 7줄을 MiniMax Petra·emotion happy로 만들어 `audio/umbrella/ella-<키>.mp3`에 넣고 연결(1.05크레딧, 남은 269.75): hello `d3ca14d4`, e1 `cadf3721`, e2 `04d7ae3c`, inspect `007d5a5f`, end1 `5bc75a1e`, end2 `42d74953`, end3 `a8efd4f1`. e1 두 문장 구간 `SENTENCE_TIMES['ella:e1']` [0–0.66], [1.07–2.22](무음 구간으로 잼). 앞서 Higgsfield가 "세션 만료"를 돌려준 것은 일시 오류였고 다시 부르니 정상.
+- 확인(새 탭 127.0.0.1, 미리보기): 첫 대화에서 `ella-hello.mp3`, 엘라에게 알리기에서 `ella-end1.mp3` 요청 200. 구문 검사 통과. 소리 자체(감정·발음)는 듣지 못함 — 사용자 확인 필요.
+- **다음**: 사용자가 엘라 목소리 확인. 그다음 테스·루비·핀 목소리 정하기(후보 샘플은 이미 만듦) → 녹음.
+
+## 2026-11-03 16:15 · Claude · edb1b32
 
 - 사용자 요청: 목소리 후보 듣기 → 인물마다 다른 사건에서 안 쓴 MiniMax 목소리 3개씩 첫인사 샘플 12개(1.8크레딧): 엘라 Faye·Helena·Isla, 테스 Talia·Opal·Nadine, 루비 Juno·Daisy·Gracie, 핀 Cody·Reid·Dylan.
 - 사용자 결정: 엘라 `ella-hello2.mp3`는 사용자가 만든 녹음(공유 링크 `https://higgsfield.ai/s/bLknuHnxaLk`, job `a033ae23-d500-485f-a377-ddd51b41bd67`, MiniMax Speech 2.8 HD **Petra**, 감정 **행복**, 약 3.88초)으로. `audio/umbrella/ella-hello2.mp3`에 받아 `UMBRELLA_CASE.people.ella.audio`로 연결(녹음이 있는 줄만 파일, 나머지는 브라우저 음성 그대로). Petra는 도서관 사건 피오나와 같은 목소리다.
