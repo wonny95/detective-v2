@@ -1918,13 +1918,16 @@ const PICNIC_CASE = {
 /* Case 02 주인 없는 우산 (?case=umbrella): design/case-02-unclaimed-umbrella.md, on the same screens. Ella asks who owns the
    umbrella left at the village hall a week ago; the toy bazaar's banner and its rain notice lead to Toy Nest, where Tess
    (nameless until she says who she is: nameAfter) sends the detective on to Ruby and Finn. Their own words about their
-   umbrellas and the photos of the real one (folded and open, `inspect`) show it is Ruby's. No recordings yet (`silent`):
-   every line plays with the browser's voice. `actions`: something asked that is not written down (the close look). */
+   umbrellas and the photos of the real one (folded and open, `inspect`) show it is Ruby's. Recordings are coming in one
+   by one (`people[].audio`, audio/umbrella/, script: design/case-02-unclaimed-umbrella-recording.md); a line without one
+   plays with the browser's voice (`silent`: the detective's lines too). `actions`: something asked that is not written down (the close look). */
 const UMBRELLA_CASE = {
   start:'ella',
   silent:true,
   people:{
     ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'hall', witness:true, required:true, pitch:1.2, voice:2, bg:'#F1E4D2',
+      // MiniMax Petra, emotion happy (user's recording of hello2)
+      audio:Object.fromEntries(['hello2'].map(key => [key, `audio/umbrella/ella-${key}.mp3`])),
       // she points at the umbrella stand by the door: far off, so "that" (design 2절)
       hello:[
         { key:'hello', en:"Hello. I'm Ella. I help at the village hall.", ko:'안녕. 난 엘라야. 마을회관 일을 돕고 있어.' },

@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 15:55 · Claude · (이 커밋)
+## 2026-11-03 16:15 · Claude · (이 커밋)
+
+- 사용자 요청: 목소리 후보 듣기 → 인물마다 다른 사건에서 안 쓴 MiniMax 목소리 3개씩 첫인사 샘플 12개(1.8크레딧): 엘라 Faye·Helena·Isla, 테스 Talia·Opal·Nadine, 루비 Juno·Daisy·Gracie, 핀 Cody·Reid·Dylan.
+- 사용자 결정: 엘라 `ella-hello2.mp3`는 사용자가 만든 녹음(공유 링크 `https://higgsfield.ai/s/bLknuHnxaLk`, job `a033ae23-d500-485f-a377-ddd51b41bd67`, MiniMax Speech 2.8 HD **Petra**, 감정 **행복**, 약 3.88초)으로. `audio/umbrella/ella-hello2.mp3`에 받아 `UMBRELLA_CASE.people.ella.audio`로 연결(녹음이 있는 줄만 파일, 나머지는 브라우저 음성 그대로). Petra는 도서관 사건 피오나와 같은 목소리다.
+- 확인(새 탭 127.0.0.1, 미리보기 첫 대화): 엘라 인사 셋째 줄에서 `audio/umbrella/ella-hello2.mp3` 요청 200. 구문 검사 통과.
+- 못 한 것: 사용자 요청 "감정도 이걸로 적용해서 엘라 목소리들 뽑아줘"(엘라 나머지 7줄, Petra·happy, 약 1.4크레딧)는 Higgsfield 커넥터 로그인이 만료되어 아직 못 만듦.
+- **다음**: 사용자가 Higgsfield 커넥터를 다시 연결하면 엘라 7줄(hello·e1·e2·inspect·end1·end2·end3)을 Petra·happy로 만들어 `audio`에 잇기. 그다음 테스·루비·핀 목소리 정하기.
+
+## 2026-11-03 15:55 · Claude · 142d851
 
 - 사용자 요청: 녹음 전에 대본부터. `design/case-02-unclaimed-umbrella-recording.md`(화자별 표: 저장할 파일 이름·장면·영어·해석). `scripts/umbrella-recording-script.js`가 `UMBRELLA_CASE`에서 뽑음(인사·질문·대답·행동·현수막 생각·사진·소지품·추리 q/r/h·오답·결말 3차례). 85줄, 같은 화자의 같은 문장(탐정의 t1/r1/f1 등)을 한 번만 녹음하면 80문장: 엘라 8·테스 9·루비 7·핀 4·탐정 52. 날짜(October 24)는 읽기용 문장을 따로 적음. 크레딧 없음.
 - 확인: 생성된 표의 줄 수와 내용을 게임 데이터와 대조(스크립트가 직접 읽음).
