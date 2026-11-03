@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 16:30 · Claude · (이 커밋)
+## 2026-11-03 16:40 · Claude · (이 커밋)
+
+- 사용자 결정: 루비 목소리는 사용자가 만든 "Hi, I'm Ruby. Nice to meet you."(공유 링크 `https://higgsfield.ai/s/EC2CkZVYfY0`, job `cd864388-9745-4f54-bfe7-dee1407db794`, MiniMax **Gracie**, 감정 **행복**, 2.73초) → `audio/umbrella/ruby-hello.mp3`, `people.ruby.audio`.
+- 발견: 바로 앞에서 만든 엘라 7줄(`8324659`)에 감정 행복이 **적용되지 않음**. Higgsfield MCP의 `text2speech_v2`가 `emotion`을 버림(생성 기록 params에 emotion이 없고 사용자 제작분에는 있음; 시험 한 줄 `286b5ea5`도 speed·pitch·volume만 남음, 0.15크레딧, 쓰지 않음). 앞 항목의 "Petra·happy"는 사실 Petra·감정 없음.
+- **다음**: 감정을 어떻게 넣을지 사용자 결정 대기(사용자가 웹에서 만들기 / Chrome에서 Higgsfield 웹 화면으로 만들기 / 감정 없이). 그 뒤 엘라 7줄 다시, 루비 6줄, 테스·핀.
+
+## 2026-11-03 16:30 · Claude · 8324659
 
 - 사용자 요청: 감정도 사용자 녹음과 같게(행복) 엘라 목소리 뽑기. 엘라 나머지 7줄을 MiniMax Petra·emotion happy로 만들어 `audio/umbrella/ella-<키>.mp3`에 넣고 연결(1.05크레딧, 남은 269.75): hello `d3ca14d4`, e1 `cadf3721`, e2 `04d7ae3c`, inspect `007d5a5f`, end1 `5bc75a1e`, end2 `42d74953`, end3 `a8efd4f1`. e1 두 문장 구간 `SENTENCE_TIMES['ella:e1']` [0–0.66], [1.07–2.22](무음 구간으로 잼). 앞서 Higgsfield가 "세션 만료"를 돌려준 것은 일시 오류였고 다시 부르니 정상.
 - 확인(새 탭 127.0.0.1, 미리보기): 첫 대화에서 `ella-hello.mp3`, 엘라에게 알리기에서 `ella-end1.mp3` 요청 200. 구문 검사 통과. 소리 자체(감정·발음)는 듣지 못함 — 사용자 확인 필요.

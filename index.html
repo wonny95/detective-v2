@@ -1990,6 +1990,8 @@ const UMBRELLA_CASE = {
         t5:['Ruby','Finn','bag','umbrella','Toy Nest','Windmill Hill'] }
     },
     ruby: { id:'ruby', name:'Ruby Cat', ko:'고양이 루비', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:1.35, voice:2, bg:'#F3DDE2',
+      // MiniMax Gracie, emotion happy (the user's recording of hello set the voice)
+      audio:Object.fromEntries(['hello'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi, I'm Ruby. Nice to meet you.", ko:'안녕, 난 루비야. 만나서 반가워.' },
         { det:true, key:'hello-ruby', en:"Tess said you were at the bazaar with her. I'm looking for the owner of an umbrella at the village hall.", ko:'테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어.' },
