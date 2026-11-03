@@ -13,7 +13,85 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 16:40 · Claude · (이 커밋)
+## 2026-11-03 19:05 · Claude · (이 커밋)
+
+- 사용자 요청: 도서관 사건 열쇠 문법(시간 전치사)에도 자세한 설명. `GRAMMAR['time-prep'].examples[].more`:
+  - at: 시각·정오·자정, What time …? — At nine., 요일·날짜 on / 달·아침 in과 구별, o'clock은 정각에만.
+  - from A to B: 그 시간 내내(was ~ing·stayed와 어울림), until도 씀, from만·until만, 요일에도.
+  - between A and B: 꼭 and, 동사에 따라 한 때(arrive) / 내내(be closed)(CURRICULUM 11절의 주의: between을 늘 한순간으로 설명하지 않음), from A to B와 구별.
+- 확인(새 탭, 127.0.0.2): 도서관 복습 문법 화면에 세 형태의 설명이 보임, 콘솔 오류 없음. 구문 검사 통과.
+- **다음**: 사용자 지시 대기(도서관의 다른 문법 8개 — 과거진행·규칙 과거·to부정사·too·수동태·미래·조동사·구동사 — 는 아직 한 줄 설명).
+
+## 2026-11-03 18:55 · Claude · 7963219
+
+- 사용자 요청: 복습의 "이번 사건의 문법" 설명이 약함. 우산 사건에서는 열쇠 세 형태에 짧은 뜻만 나오고, 사건 문장도 없었다(대답에서만 찾았는데 Whose…는 탐정 질문에 있음).
+  - 각 줄 아래 점선 밑에 설명을 더함(`.gexplain`, `grammarExplain()`): 열쇠 형태는 `examples[].why` + 새 `more`, 다른 문법은 `GRAMMAR[].ko` + 새 `more`. 화면 모양(줄 카드, ▶·해석 위치)은 그대로.
+  - 새 설명(`more`): Whose … is this/that?(어순, these/those, 대답하는 법, Who's와 구별), Is this … yours?(your와 yours, Yes, it is., his·hers·이름's, it으로 받기), my … / mine(mine이 대신하는 것, 짝, Mine has, 이름's), 소유 표현, be동사 과거, 불규칙 과거, 부정, 명령문, 과거 의문문, 의문사 의문문. 예문은 사건 밖 내용(Sam, cup 등).
+  - 사건 문장 찾기: 열쇠 문법 태그 → 다른 문법 태그에서 형태가 맞는 것, 대답 먼저·없으면 질문(`reviewGrammar()`, `grammarLineParts()`). 우산: Whose umbrella is that?(엘라에게 한 탐정 질문), But I often lend mine to friends.(테스). Is this … yours?는 질문·대답 중 쓰인 곳이 없어 설명만.
+  - 질문 문장의 ▶는 소풍·우산 사건이면 탐정 녹음으로(`replayReviewQuestion`, 전에는 브라우저 음성). 도서관은 그대로.
+- 확인(새 탭, 127.0.0.2): 우산 복습 문법 화면에 세 형태의 설명과 Whose 줄의 사건 문장, 다른 문법 7개의 설명이 보임. Whose 줄 ▶가 `detective-ella-e1.mp3`를 재생. 소풍 복습 문법 화면도 정상(설명 한 줄씩), 콘솔 오류 없음. 구문 검사 통과.
+- **다음**: 사용자가 설명 내용 확인. 도서관 시간 표현과 다른 문법에도 `more`를 쓸지 사용자 지시 대기.
+
+## 2026-11-03 18:35 · Claude · 76b363a
+
+- 사용자와 고친 설계서(8절 추리 Q2): 카드 "All three umbrellas have [blue] handles."가 누구의 세 우산인지 없어 뜬금없다는 의견. 사용자 의도("우산을 잃어버린 3명 모두의 우산은 손잡이가 파란색")대로 **"Finn, Tess, and Ruby all lost umbrellas with [blue] handles."** / "핀, 테스, 루비가 잃어버린 우산은 모두 손잡이가 파란색이다."로 고침. 질문·맞장구·힌트와 녹음은 그대로(카드 글은 읽지 않음). 설계서 md·html, 녹음 대본 다시 뽑음.
+- 확인(새 탭, 127.0.0.2): 추리 미리보기에서 Q1을 맞힌 뒤 Q2 카드에 새 문장이 두 줄로 보임. 구문 검사 통과.
+- **다음**: 사용자 지시 대기(엘라 추가 질문은 나중에).
+
+## 2026-11-03 18:20 · Claude · 85d00f3
+
+- 사용자 의견: 회관 게시판의 바자회 사진 액자가 일러스트 분위기와 동떨어짐(또렷한 흰 테두리, 큰 빨간 압정, 인쇄체 글씨). 게시판의 다른 종이처럼 고침(`ART.hall`, 크레딧 없음): 따뜻한 종이색 `#F6EEDC`, 흔들리는 연필 선(`#hallPencil`, feTurbulence 변위), 부드러운 그림자(`#hallShade`), 작은 회색 압정, 사진 채도 낮춤(`#hallPrint`)과 옅은 크림색, 글씨는 게임 글꼴 Paperlogy 연갈색.
+- 확인(새 탭, 127.0.0.2): 회관 화면과 증거 사진(바자회 사진)에서 새 액자가 보임. 구문 검사 통과. 분위기가 맞는지는 사용자 확인 필요.
+- **다음**: 사용자가 액자 확인. 엘라 추가 질문(단서를 모으면 열리는 질문) 기획을 사용자와 정하기.
+
+## 2026-11-03 18:10 · Claude · 64edbc1
+
+- 사용자 요청: 우산 손잡이 증거 사진의 초점을 아래로. 손잡이(손잡이 몸통 y 약 555–669)가 잘리던 crop `{x:592,y:517,w:153,h:115}` → `{x:566,y:548,w:176,h:132}`, 누르는 자리 높이 17 → 18.5%.
+- 저장에 이미 찍어 둔 사진은 사진 SVG를 그대로 저장하므로 예전 구도였다. `loadGame`에서 crop이 있는 사진은 viewBox만 지금 crop으로 바꾼다(그림 안의 접힘·펼침 상태는 찍었을 때 그대로).
+- 확인(새 탭, 127.0.0.2): 우산 조사에서 손잡이 사진에 J 손잡이 전체가 담김. 저장의 손잡이 사진을 예전 viewBox로 바꿔 다시 열었더니 새 viewBox로 바뀌어 저장됨. 구문 검사 통과.
+- **다음**: 사용자 지시 대기(회관 게시판 사진 액자 모양).
+
+## 2026-11-03 18:00 · Claude · 271bee7
+
+- 사용자 보고: 탐정 이름을 정하면 가끔 바로 사건으로 들어감. 원인: 소풍·우산 사건 페이지(`?case=`)에서 `튜토리얼 초기화`·`리셋`(또는 이름 없는 기기에서 `미리보기 끝`)으로 이름이 지워진 채 다시 열리면, 부트의 `startCase`가 이름 짓기 뒤 그 사건을 이어서 열었다(도서관은 첫 주소라 홈으로 갔음). 고침: 사건 페이지가 이름 없이 열리면 `location.replace(location.pathname)`으로 첫 주소로 옮겨 홈 위에서 첫 만남을 한다.
+- 확인(새 탭, 저장 기록이 따로인 127.0.0.2): 이름 없이 `?case=umbrella` → 첫 주소의 사무소 첫 만남 → 이름 도장 → `시작하기` → 홈. 이름이 있으면 `?case=umbrella`는 그대로 사건이 열림. 구문 검사 통과.
+- **다음**: 사용자 지시 대기.
+
+## 2026-11-03 17:45 · Claude · fcb845f
+
+- 사용자 결정: 테스트 단계이므로 사건 목록의 플레이 가능한 사건을 모두 연다. `ALL_CASES_OPEN = true`(사건 목록 `renderCaseList`의 잠금만 무시; 홈의 "다음 사건" 안내는 순서 그대로). 출시 전 `false`로 되돌리면 앞 사건을 해결해야 열린다.
+- 사용자 질문 답변(코드 변경 없음): 엘라가 대답하지 않는 것처럼 보인 것은 첫 인사에서 탐정 줄 다음 화면 누르기를 기다린 것(사용자 결정 규칙, `waitTap`). 질문 e1·e2와 행동은 녹음이 정상 재생됨을 새 탭에서 확인.
+- 확인(새 탭 127.0.0.1): 사건 목록에서 Case 01·02·03 모두 열림(나머지 세 장은 아직 없는 사건이라 "준비 중"). 구문 검사 통과.
+- **다음**: 사용자 지시 대기(탐정 줄 다음 누르기 규칙을 바꿀지, 도서관 사건 배치).
+
+## 2026-11-03 17:25 · Claude · e854987
+
+- 사용자 요청: 핀은 **Dylan**, 감정 행복(다른 인물과 같게). Claude in Chrome으로 `higgsfield.ai/audio`에서 4줄(hello `56808a35`, hello2 `7fe250aa`, f1 `157d0a1b`, f2 `ebc73e36`), 생성 기록에서 모두 `emotion: happy` 확인 → `people.finn.audio`. `SENTENCE_TIMES` finn:f1·f2.
+- 사용자 요청: 탐정 목소리도 넣기, 감정 **중립**. Grady로 52문장(같은 질문 5줄은 파일 복사로 57줄). 첫 줄 `de9a2e4c`를 웹에서 중립으로 만들어 보니 감정 값 없이 저장되어 MCP와 같으므로, 나머지 51문장은 MCP 일괄 생성(동시 3개). 파일 이름은 녹음 대본 그대로(`audio/umbrella/detective-*.mp3` 41개, `audio/umbrella/deduce/*.mp3` 16개).
+- 엔진: 우산 사건의 `silent`를 뺌. `detectiveSay`는 우산 사건이면 `audio/umbrella/detective-<키>.mp3`, `askAudio`는 `audio/umbrella/detective-<인물>-<질문>.mp3`, `DEDUCE_DIR`은 `audio/umbrella/deduce/`. 행동 줄 키를 `<인물>-act-<id>`로(대본 파일 이름과 맞춤). 현수막 생각은 `together[].line.key`('together1')로 녹음을 재생(키 없으면 브라우저 음성). 사진·물건의 `clue.audio`는 팩 뒤 한 줄로 붙이고, 소지품 우산에 `audio`.
+- 녹음 대본·설계서(md·html 10절, 상태 줄)를 "모두 녹음"으로 고침.
+- 크레딧: 10.95 사용(핀 0.6, 탐정 10.35), 남은 254.3.
+- 확인(새 탭 127.0.0.1): 추리 미리보기 `deduce/q1.mp3`, 첫 대화 `detective-hello-ella.mp3`·`ella-hello.mp3`, 우산 조사에서 손잡이 촬영 `detective-umbrella-0.mp3` 모두 200, 콘솔 오류 없음. 구문 검사 통과. 엔진이 만드는 탐정 파일 이름이 대본의 57개와 모두 같고 파일이 다 있음. 소리(발음·감정)와 처음부터 끝까지 한 판은 사용자 확인 필요.
+- **다음**: 사용자가 우산 사건을 처음부터 끝까지 들으며 확인(특히 테스 Callan은 남성 목소리로 분류됨). 사용자 지시 대기.
+
+## 2026-11-03 17:05 · Claude · f73b309
+
+- 사용자 결정: 테스 목소리는 사용자가 만든 hello(job `feba3a25`, MiniMax **Callan**, 감정 **행복**). 나머지 8줄을 Claude in Chrome으로 `higgsfield.ai/audio`에서 같은 목소리·감정으로 생성(사용자 hello 포함 1.8크레딧, 남은 265.25), 생성 기록에서 9줄 모두 `emotion: happy` 확인.
+  - hello2 `d86a8b63`, t0 `b966c4fc`, t1 `97e6e074`, t2 `b423e4b6`, t3 `b0ba764d`, t4 `be5a1a33`, t5 `73d9531a`, end1 `854edf05` → `audio/umbrella/tess-<키>.mp3`, `people.tess.audio`에 이음.
+  - `SENTENCE_TIMES`: tess:t0·t1·t4·t5(무음 구간으로 잼).
+- 확인(새 탭 127.0.0.1): 테스 9개 파일 요청 모두 200. 구문 검사 통과. 소리는 사용자 확인 필요. 작업한 Chrome 탭은 닫음.
+- **다음**: 사용자가 핀 목소리 정하기(사용자가 첫 줄을 만들면 같은 설정으로 나머지 3줄). 그 뒤 탐정 52문장(Grady).
+
+## 2026-11-03 16:55 · Claude · 50992f5
+
+- 사용자 결정: 감정 녹음은 Chrome에서 Higgsfield 웹으로. Claude in Chrome으로 `higgsfield.ai/audio`(MiniMax Speech 2.8 HD, 고급 설정 감정 **행복**)에서 13줄 생성(약 2.7크레딧, 남은 267.05), 생성 기록에서 모두 `emotion: happy` 확인 뒤 받아 넣음.
+  - 엘라(Petra) 7줄을 다시: hello `f7fa5986`, e1 `53663999`, e2 `52d294d0`, inspect `e894c730`, end1 `d7e1655e`, end2 `64309df5`, end3 `a4bf8cd3`(앞의 감정 없는 7줄을 덮어씀).
+  - 루비(Gracie) 6줄: hello2 `cad24d37`, r1 `e147eb00`, r2 `ad436e39`, r3 `7e21a8f1`, end1 `4fc0ef1a`, end2 `9e46e480`. `people.ruby.audio`에 이음.
+  - `SENTENCE_TIMES`: ella:e1 [0–0.84], [0.98–2.32], ruby:r1 [0–1.03], [1.42–2.38].
+- 확인(새 탭 127.0.0.1, 미리보기 루비에게 전달): `ruby-end1.mp3` 요청 200. 구문 검사 통과. 소리(감정·발음)는 사용자 확인 필요. 작업한 Chrome 탭은 닫음.
+- **다음**: 사용자가 엘라·루비 목소리 확인. 그다음 테스·핀 목소리 정하기 → 웹에서 녹음. 탐정 52문장(Grady, 감정 없음이면 MCP로 가능).
+
+## 2026-11-03 16:40 · Claude · e737235
 
 - 사용자 결정: 루비 목소리는 사용자가 만든 "Hi, I'm Ruby. Nice to meet you."(공유 링크 `https://higgsfield.ai/s/EC2CkZVYfY0`, job `cd864388-9745-4f54-bfe7-dee1407db794`, MiniMax **Gracie**, 감정 **행복**, 2.73초) → `audio/umbrella/ruby-hello.mp3`, `people.ruby.audio`.
 - 발견: 바로 앞에서 만든 엘라 7줄(`8324659`)에 감정 행복이 **적용되지 않음**. Higgsfield MCP의 `text2speech_v2`가 `emotion`을 버림(생성 기록 params에 emotion이 없고 사용자 제작분에는 있음; 시험 한 줄 `286b5ea5`도 speed·pitch·volume만 남음, 0.15크레딧, 쓰지 않음). 앞 항목의 "Petra·happy"는 사실 Petra·감정 없음.

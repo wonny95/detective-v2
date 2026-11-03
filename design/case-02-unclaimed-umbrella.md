@@ -292,7 +292,7 @@ t5는 우산을 찾는 핀에게 문의할 이유와 만날 장소를 알려 준
 | Q | 질문 / 해석 | 완성 문장 | 보기 | 출처·판단 |
 |---|---|---|---|---|
 | 1 | Why did the toy bazaar move indoors? / 장난감 바자회는 왜 실내로 옮겼지? | The toy bazaar moved indoors because of [rain]. | rain / wind / snow / fog / thunder / sun | venue-change-notice의 because of rain과 toy-bazaar-record의 같은 날짜·주관 가게 명칭을 연결. 토이 네스트를 찾아간 이유를 복습한다. 우산 소유 확정 근거는 아님 |
-| 2 | Can the handle tell us the owner? / 손잡이로 주인을 알 수 있을까? | All three umbrellas have [blue] handles. | blue / red / yellow / green / white / black | umbrella-handle + finn:f1·tess:t1·ruby:r1 — 실물과 세 후보 모두 파란 손잡이다. 손잡이 하나만으로는 주인을 구별할 수 없음을 확인한다. |
+| 2 | Can the handle tell us the owner? / 손잡이로 주인을 알 수 있을까? | Finn, Tess, and Ruby all lost umbrellas with [blue] handles. | blue / red / yellow / green / white / black | umbrella-handle + finn:f1·tess:t1·ruby:r1 — 실물과 세 후보 모두 파란 손잡이다. 손잡이 하나만으로는 주인을 구별할 수 없음을 확인한다. |
 | 3 | Is this umbrella Finn's? / 이 우산은 핀의 것일까? | Finn's umbrella is [plain]. This one has gold stars. | plain / striped / spotted / red / white / green | finn:f2 + umbrella-pattern — 핀은 무늬가 없어 제외. 루비·테스는 계속 후보 |
 | 4 | Is this umbrella Tess's? / 이 우산은 테스의 것일까? | Tess's umbrella is [dark blue] inside. This one is gold inside. | dark blue / gold / red / white / green / silver | tess:t3 + umbrella-inside — 겉모습은 같지만 펼쳐 본 안감 색이 다르다. 테스 제외 |
 | 5 | Whose umbrella is this? / 그럼 이 우산은 누구 것일까? | This umbrella is [Ruby Cat]'s. It has a blue handle and gold stars, and it is gold inside. | Ruby Cat / Finn Frog / Tess Tortoise | ruby:r1·r2·r3 + 우산 사진 3장 + Q3·Q4 — 겉이 같은 두 후보를 안감 색으로 구별한다. 이름 뒤 소유격과 마지막 설명은 문장 틀로 제공한다. |
@@ -340,9 +340,9 @@ Q1은 비 때문에 실내로 옮긴 바자회를 확인해 토이 네스트를 
 - 핵심 문법: Whose…?, this/that, 소유 표현. 추가 문법에는 has, no + 명사 등 실제 대사에서 쓴 표현만 둔다.
 - 단어: umbrella 우산, owner 주인, week 일주일, handle 손잡이, pattern 무늬, plain 무늬가 없는, fabric 천, star 별(stars), mine 내 것, yours 네 것, sunlight 햇빛, indoors 실내에서, venue 장소, rain 비, dark blue 남색, gold 금빛, inside 안쪽. know 알다, lend 빌려주다, here 여기, together 함께 등 실제 대사에서 사용한 표현도 복습한다.
 - 확정된 그림: 접힌 우산·펼친 우산 한 장(4절). 준비할 그림: 신규 장소 3곳(회관은 입구 우산꽂이 포함), 인물 4명, 우산 접힘·펼침 분리, 우산 촬영 부위 3곳, 회관 기록 3종(10월 24일 현수막·게시판의 실내 바자회 사진·10월 24일 장소 변경 안내문), 게시판의 실루엣 위주 배경 사진 여러 장, 오늘 맑은 하늘이 보이는 창문.
-- 준비할 음성: 위 첫인사·질문·대답·단서 나레이션·주변 물건·결말·추리. 녹음은 아직 하지 않았다.
+- 음성: 위 첫인사·질문·대답·단서 나레이션·주변 물건·결말·추리. 모두 녹음했다(대본 `design/case-02-unclaimed-umbrella-recording.md`).
 - 확인 필요: 실제 음성으로 mine의 지시 대상과 no pattern을 구별하는지, 13문항·31칸·필수 사진 5장의 부담, 두 가지 특징을 모두 듣는지. 소요 시간·학생 난도·학습 효과는 아직 미검증이다.
-- **개발 1단계(2026-11-03)**: 게임에 넣었다(`index.html`의 `UMBRELLA_CASE`, `?case=umbrella`, 사건 목록 Case 02). 녹음 없이 브라우저 음성으로 재생한다. **개발 2단계 그림(2026-11-03)**: 인물 4명(두 명씩 한 장, 루비 옷은 사용자 요청으로 다시 그림)·장소 3곳(바닥까지 한 장)·게시판의 실내 바자회 사진을 Higgsfield로 만들어 넣었고, 접힌 우산 아랫단의 금빛 안감을 남색으로 고쳤다. 지도에 회관·토이 네스트·풍차를 더하고 핀을 옮겼다.
+- **개발 1단계(2026-11-03)**: 게임에 넣었다(`index.html`의 `UMBRELLA_CASE`, `?case=umbrella`, 사건 목록 Case 02). 녹음 없이 브라우저 음성으로 재생한다. **개발 2단계 그림(2026-11-03)**: 인물 4명(두 명씩 한 장, 루비 옷은 사용자 요청으로 다시 그림)·장소 3곳(바닥까지 한 장)·게시판의 실내 바자회 사진을 Higgsfield로 만들어 넣었고, 접힌 우산 아랫단의 금빛 안감을 남색으로 고쳤다. 지도에 회관·토이 네스트·풍차를 더하고 핀을 옮겼다. **개발 3단계 녹음(2026-11-03)**: 85줄을 모두 녹음해 넣었다. 목소리는 사용자가 골랐다: 엘라 Petra, 테스 Callan, 루비 Gracie, 핀 Dylan(모두 감정 행복), 탐정 Grady(중립).
 - 개발 점검에서 나온 엔진 작업(1단계에서 모두 넣음): 우산 확대 조사(접기·펴기·부분 촬영), 증거 두 장으로 장소 해금과 탐정 독백, 자기소개 전 이름 없는 인물, 추리 진입 조건에 필수 사진, 추리 빈칸의 새 종류(이유·무늬), 결말의 받기만 하는 차례·보고만 하는 차례·펼치기 연출·같은 장소의 두 인물 대사. 기존 화면 모양 그대로 엔진에 더한다.
 
 이 문서는 2026-11-02 사용자 결정으로 Claude Code에 인계한 1차 기획을 2026-11-03 개발 점검 뒤 사용자와 함께 고친 2차 수정본이다. 이후 설계서·대본의 수정·개발은 Claude Code와 사용자가 진행하며 Codex는 이 사건 설계서를 수정하지 않는다. 인계 기록은 design/STORY_LOG.md의 2026-11-02 16:05 항목을 따른다.

@@ -563,6 +563,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gram-extra{display:block}
 .rv-gram-extra .gsent{margin-top:10px}
 .rv-gram-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
+/* how the form works (user request: the grammar page explained too little): under the row's line, across the row */
+.gexplain{grid-column:1 / -1;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line)}
+.gexplain .gwhy{margin:0;font-size:14px;line-height:1.6}
+.gexplain ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.gexplain li + li{margin-top:4px}
 .rv-grammar-more{width:100%;justify-content:center;min-height:42px}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
@@ -1918,15 +1923,16 @@ const PICNIC_CASE = {
 /* Case 02 주인 없는 우산 (?case=umbrella): design/case-02-unclaimed-umbrella.md, on the same screens. Ella asks who owns the
    umbrella left at the village hall a week ago; the toy bazaar's banner and its rain notice lead to Toy Nest, where Tess
    (nameless until she says who she is: nameAfter) sends the detective on to Ruby and Finn. Their own words about their
-   umbrellas and the photos of the real one (folded and open, `inspect`) show it is Ruby's. Recordings are coming in one
-   by one (`people[].audio`, audio/umbrella/, script: design/case-02-unclaimed-umbrella-recording.md); a line without one
-   plays with the browser's voice (`silent`: the detective's lines too). `actions`: something asked that is not written down (the close look). */
+   umbrellas and the photos of the real one (folded and open, `inspect`) show it is Ruby's. Every line is recorded in
+   audio/umbrella/ (script: design/case-02-unclaimed-umbrella-recording.md): the people's in `people[].audio`, the
+   detective's (MiniMax Grady, no emotion) as detective-<key>.mp3, deduce/<key>.mp3 and each clue's `audio`.
+   `actions`: something asked that is not written down (the close look). */
 const UMBRELLA_CASE = {
   start:'ella',
-  silent:true,
   people:{
     ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'hall', witness:true, required:true, pitch:1.2, voice:2, bg:'#F1E4D2',
-      // MiniMax Petra, emotion happy (the user's recording of hello2 set the voice)
+      // MiniMax Petra, emotion happy (the user's recording of hello2 set the voice; the rest made on the Higgsfield site,
+      // since its MCP tool drops the emotion)
       audio:Object.fromEntries(['hello', 'hello2', 'e1', 'e2', 'inspect', 'end1', 'end2', 'end3'].map(key => [key, `audio/umbrella/ella-${key}.mp3`])),
       // she points at the umbrella stand by the door: far off, so "that" (design 2절)
       hello:[
@@ -1954,6 +1960,8 @@ const UMBRELLA_CASE = {
     },
     // nameless until she says who she is (design: no name on her tag, map or notes before "I'm Tess")
     tess: { id:'tess', name:'Tess Tortoise', unnamed:'Tortoise', ko:'거북 테스', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:.95, voice:0, bg:'#DDE8D5', openingQuestion:'t0',
+      // MiniMax Callan, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site)
+      audio:Object.fromEntries(['hello', 'hello2', 't0', 't1', 't2', 't3', 't4', 't5', 'end1'].map(key => [key, `audio/umbrella/tess-${key}.mp3`])),
       hello:[
         { det:true, key:'hello-tess', en:'Hello.', ko:'안녕.' },
         { key:'hello', intro:true, en:"Hi! Welcome to Toy Nest. I'm Tess.", ko:'안녕! 토이 네스트에 온 걸 환영해. 난 테스야.' },
@@ -1990,8 +1998,8 @@ const UMBRELLA_CASE = {
         t5:['Ruby','Finn','bag','umbrella','Toy Nest','Windmill Hill'] }
     },
     ruby: { id:'ruby', name:'Ruby Cat', ko:'고양이 루비', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:1.35, voice:2, bg:'#F3DDE2',
-      // MiniMax Gracie, emotion happy (the user's recording of hello set the voice)
-      audio:Object.fromEntries(['hello'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
+      // MiniMax Gracie, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site)
+      audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'end1', 'end2'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi, I'm Ruby. Nice to meet you.", ko:'안녕, 난 루비야. 만나서 반가워.' },
         { det:true, key:'hello-ruby', en:"Tess said you were at the bazaar with her. I'm looking for the owner of an umbrella at the village hall.", ko:'테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어.' },
@@ -2015,6 +2023,8 @@ const UMBRELLA_CASE = {
       bank:{ r1:['black','dark blue','red','blue','star','handle'], r2:['silver','gold','stripes','stars'], r3:['dark blue','gold','outside','inside'] }
     },
     finn: { id:'finn', name:'Finn Frog', ko:'개구리 핀', job:'우산을 잃어버린 친구', place:'windmill', witness:true, required:true, pitch:1.1, voice:1, bg:'#DDEBD3',
+      // MiniMax Dylan, emotion happy (the user's pick; made on the Higgsfield site)
+      audio:Object.fromEntries(['hello', 'hello2', 'f1', 'f2'].map(key => [key, `audio/umbrella/finn-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi! I'm Finn. Can I help you?", ko:'안녕! 난 핀이야. 무슨 일이야?' },
         { det:true, key:'hello-finn', en:'Tess said you were looking for your umbrella.', ko:'테스가 네가 우산을 찾고 있다고 했어.' },
@@ -2102,7 +2112,7 @@ const UMBRELLA_CASE = {
         { label:'Inside of the umbrella', en:'This umbrella is gold inside.', ko:'이 우산은 안쪽이 금빛이야.' }
       ],
       spots:[
-        { clue:0, folded:true, x:44.9, y:68.7, w:6.8, h:17.0, photo:{x:592,y:517,w:153,h:115} },
+        { clue:0, folded:true, x:44.9, y:68.7, w:6.8, h:18.5, photo:{x:566,y:548,w:176,h:132} },
         { clue:1, folded:true, x:43.2, y:31.3, w:14.4, h:31.4, photo:{x:579,y:253,w:230,h:173} },
         { clue:2, open:true, x:40.5, y:34.1, w:17.5, h:20.0, photo:{x:564,y:252,w:220,h:165} }
       ]}
@@ -2110,7 +2120,7 @@ const UMBRELLA_CASE = {
   // the toy bazaar's banner and its notice found: the rain at the bazaar, and the shop that held it (design 6절 날씨에서
   // 탐문으로): the detective's thought once the notebook is put away, then Toy Nest on the map (Tess there, still nameless)
   together:[
-    { refs:['hall-0', 'hall-1'], line:{ en:"It rained at the toy bazaar. Maybe someone brought an umbrella. Let's ask at Toy Nest.",
+    { refs:['hall-0', 'hall-1'], line:{ key:'together1', en:"It rained at the toy bazaar. Maybe someone brought an umbrella. Let's ask at Toy Nest.",
       ko:'장난감 바자회 날 비가 왔어. 우산을 가져온 사람이 있을지도 몰라. 토이 네스트에 가서 물어보자.' },
       unlocks:{ places:['toynest'], quiet:['tess'] } }
   ],
@@ -2124,7 +2134,7 @@ const UMBRELLA_CASE = {
   },
   items:{
     // the title says who gave it, never whose it is (design)
-    umbrella:{ label:'Umbrella from Ella', en:'The umbrella Ella gave me.', ko:'엘라가 맡긴 우산.',
+    umbrella:{ label:'Umbrella from Ella', en:'The umbrella Ella gave me.', ko:'엘라가 맡긴 우산.', audio:'audio/umbrella/detective-item-umbrella.mp3',
       // the whole folded umbrella cut out, no paper behind it (user request)
       img:'assets/places/umbrella/umbrella-folded.png', w:260, h:675, crop:[-20, -16, 300, 707],
       bag:'assets/places/umbrella/umbrella-folded.png' }
@@ -2143,7 +2153,7 @@ const UMBRELLA_CASE = {
         right:"Right. It rained that day. That's why we asked at Toy Nest.", rightKo:'맞아. 그날 비가 왔어. 그래서 토이 네스트에 물어보러 갔지.',
         hint:'Look at the notice in the village hall.', hintKo:'회관의 안내문을 봐.' },
       { step:2, q:'Can the handle tell us the owner?', qKo:'손잡이로 주인을 알 수 있을까?',
-        card:'All three umbrellas have {opt:blue} handles.', cardKo:'세 우산 모두 손잡이가 파란색이다.', opts:['blue', 'red', 'yellow', 'green', 'white', 'black'],
+        card:'Finn, Tess, and Ruby all lost umbrellas with {opt:blue} handles.', cardKo:'핀, 테스, 루비가 잃어버린 우산은 모두 손잡이가 파란색이다.', opts:['blue', 'red', 'yellow', 'green', 'white', 'black'],
         right:"Yes. All three are the same. The handle isn't enough.", rightKo:'맞아. 셋 다 똑같아. 손잡이만으로는 알 수 없어.',
         hint:'Look at the handle photo. What did Finn, Tess, and Ruby say?', hintKo:'손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지?' },
       { step:3, who:'finn', q:"Is this umbrella Finn's?", qKo:'이 우산은 핀의 것일까?',
@@ -2191,6 +2201,8 @@ const UMBRELLA_CASE = {
    (at their place and on the map) only after someone names them or a clue points to them.
    `unlocks` = what hearing an answer reveals: { places:[…], people:[…] } (a person brings their place along).
    Each answer has its own note lines and word cards. {{id|answer/alt}} marks a blank. */
+// the detective's sentence for each photo and object: audio/umbrella/detective-<place>-<n>.mp3
+UMBRELLA_CASE.places.forEach(pl => pl.clues.forEach((c, i) => c.audio = `audio/umbrella/detective-${pl.id}-${i}.mp3`));
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : null;
 const PEOPLE = PACK ? PACK.people : {
   // the partner — met first, at the crime scene
@@ -2385,6 +2397,9 @@ const PICNIC_WORDS = [...new Set(Object.values(PICNIC_CASE.people).flatMap(s => 
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
   ownership: { name:'소유 표현', pattern:'my / your / his / her / mine / yours', ko:'my·your·his·her는 물건 이름 앞에 붙여 누구의 것인지 말해요. mine·yours는 물건 이름 없이 내 것·네 것이라고 말해요.',
+    more:['물건 이름 앞: my · your · his · her · our · their. 예: her cup, our class.',
+      '혼자 쓸 때: mine · yours · his · hers · ours · theirs. 예: The cup is hers.',
+      "이름 뒤에 's를 붙이면 그 사람의 것이에요. Sam's cup = 샘의 컵."],
     // match: how the review finds the case's line for a form
     examples:[
       { head:'my / your', ko:'내 것 / 네 것', why:'물건 이름 앞에 붙여 누구의 것인지 말해요. my는 말하는 사람의 것, your는 듣는 사람의 것이에요.', match:'\\b(my|your)\\b',
@@ -2397,31 +2412,78 @@ const GRAMMAR = {
   whose: { name:'누구의 것인지 묻기', pattern:'Whose … is this/that? / Is this … yours? / mine', ko:'Whose로 누구의 물건인지 묻고, Is this … yours?로 듣는 사람의 것인지 확인해요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
     examples:[
       { head:'Whose … is this / that?', ko:'누구 거야?', why:'누구의 물건인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
+        more:['물건 이름은 Whose 바로 뒤에 붙여 한 덩어리로 맨 앞에 둬요. Whose bag is this?',
+          '여러 개면 this·that 대신 these·those, is 대신 are를 써요. Whose shoes are these?',
+          "대답은 '이름 + \'s'나 mine·yours·his·hers로 해요. It\'s Sam\'s. / It\'s mine.",
+          "소리가 같은 Who\'s(= Who is)와 헷갈리지 마세요. Who\'s that?은 '저 사람은 누구야?'예요."],
         lines:[['{Whose book} is this?', '이 책은 누구 거야?'], ['{Whose hat} is that?', '저 모자는 누구 거야?'], ['{Whose pencil} is this?', '이 연필은 누구 거야?']] },
       { head:'Is this / that … yours?', ko:'네 거야?', why:'물건을 가리키며 듣는 사람의 것인지 확인해요.', match:'\\byours\\b',
+        more:['Is this cup yours?와 Is this your cup?은 같은 뜻이에요. your 뒤에는 물건 이름이 오고, yours는 혼자 써요.',
+          "대답은 짧게 Yes, it is. / No, it isn\'t.로 해요. Yes, it\'s mine.이라고 해도 돼요.",
+          "다른 사람의 것인지 물을 때는 yours 자리에 his·hers나 '이름 + \'s'를 넣어요. Is this hers? / Is this Sam\'s?",
+          "물건을 앞에서 이미 말했으면 it으로 받아요. There\'s a cup here. Is it yours?"],
         lines:[['Is this ruler {yours}?', '이 자 네 거야?'], ['Is that coat {yours}?', '저 외투 네 거야?'], ['Is this cup {yours}?', '이 컵 네 거야?']] },
       { head:'my … / mine', ko:'내 … / 내 거', why:'my는 물건 이름 앞에 붙이고, mine은 물건 이름 없이 혼자 써요.', match:'\\b(my|mine)\\b',
+        more:['mine은 "my + 물건 이름"을 한 단어로 대신해요. My bag is blue. = Mine is blue.',
+          '짝을 함께 외워요. my → mine, your → yours, her → hers, his → his(모양이 같아요).',
+          'Mine이 문장 맨 앞에 오면 물건 하나를 가리키므로 is·has를 써요. Mine has a red handle.',
+          "이름 뒤에 \'s를 붙여도 누구의 것인지 말할 수 있어요. Sam\'s bag = Sam\'s(샘의 것)."],
         lines:[['{My notebook} is green.', '내 공책은 초록색이야.'], ['This toy is {mine}.', '이 장난감은 내 거야.'], ['That scarf is not {mine}.', '저 목도리는 내 거 아니야.']] }
     ] },
-  'be-past':   { name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.' },
+  'be-past':   { name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.',
+    more:['I · he · she · it → was, you · we · they → were.',
+      "부정은 뒤에 not: wasn't / weren't. 의문은 앞으로: Were you there?",
+      '뒤에 장소가 오면 "~에 있었다"예요. We were at the park. = 우리는 공원에 있었어.'] },
   'past-prog': { name:'과거진행', pattern:'was / were + -ing', ko:'지난 어느 때에 "하고 있던 중"이던 일을 말해요. I was reading = 책을 읽고 있었어요.' },
   'past-reg':  { name:'규칙 과거형', pattern:'동사 + -ed', ko:'동사 끝에 -ed를 붙여 지난 일을 말해요. play → played, borrow → borrowed, watch → watched. 끝의 -ed는 /d/·/t/로 아주 약하게 들려요.' },
-  'past-irr':  { name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.' },
+  'past-irr':  { name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.',
+    more:['자주 나오는 것: go → went, leave → left, bring → brought, lose → lost, buy → bought.',
+      '규칙이 없으니 하나씩 외워요. 대신 소리가 현재형과 많이 달라서 들으면 지난 일인지 바로 알 수 있어요.',
+      'come back(돌아오다)처럼 붙어 다니는 말은 앞의 동사만 바꿔요: came back.'] },
   'time-prep': { name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.',
     examples:[
-      { head:'at', ko:'딱 한 시각', why:'시각 하나를 콕 집어 말할 때 써요. "몇 시에"예요. at six = 6시에.', lines:[['The shop opens {at eleven}.', '가게는 11시에 문을 열어요.'], ["Let's meet {at noon}.", '정오에 만나요.'], ['The train leaves {at six fifteen}.', '기차는 6시 15분에 떠나요.']] },
-      { head:'from A to B', ko:'시작부터 끝까지', why:'A에 시작해서 B까지 내내 이어질 때 써요. "A부터 B까지"예요.', lines:[['I swim {from two to four}.', '나는 2시부터 4시까지 수영해요.'], ['The market is open {from six to noon}.', '시장은 6시부터 정오까지 열어요.'], ['We studied {from one to five}.', '우리는 1시부터 5시까지 공부했어요.']] },
-      { head:'between A and B', ko:'두 시각 사이의 어느 때', why:'A와 B 사이 어느 때인지는 콕 집지 않을 때 써요. "A에서 B 사이에"예요.', lines:[['Call me {between one and three}.', '1시에서 3시 사이에 전화해 줘요.'], ['The bus comes {between five and six}.', '버스는 5시에서 6시 사이에 와요.'], ['Come home {between eleven and twelve}.', '11시에서 12시 사이에 집에 오세요.']] }
+      { head:'at', ko:'딱 한 시각', why:'시각 하나를 콕 집어 말할 때 써요. "몇 시에"예요. at six = 6시에.',
+        more:['시각이나 정오·자정 같은 한 때 앞에 써요. at 7:30, at noon, at midnight.',
+          '"몇 시에?"는 What time …?으로 묻고 at으로 답해요. What time did you leave? — At nine.',
+          '시각만 at이에요. 요일·날짜는 on(on Monday), 달·아침·저녁은 in(in May, in the evening).',
+          "o'clock은 정각에만 붙여요. at nine o'clock (9시 정각), at nine thirty (9시 30분)."],
+        lines:[['The shop opens {at eleven}.', '가게는 11시에 문을 열어요.'], ["Let's meet {at noon}.", '정오에 만나요.'], ['The train leaves {at six fifteen}.', '기차는 6시 15분에 떠나요.']] },
+      { head:'from A to B', ko:'시작부터 끝까지', why:'A에 시작해서 B까지 내내 이어질 때 써요. "A부터 B까지"예요.',
+        more:['시작과 끝이 다 있으니 그 시간 내내 이어진 일이에요. was ~ing, stayed, worked처럼 계속되는 말과 잘 어울려요. I was reading from eight to nine.',
+          'to 대신 until도 써요. from nine until five = 9시부터 5시까지.',
+          '시작만 말하면 from(~부터), 끝만 말하면 until(~까지)이에요. from seven / until ten.',
+          '시각뿐 아니라 요일에도 써요. from Monday to Friday = 월요일부터 금요일까지.'],
+        lines:[['I swim {from two to four}.', '나는 2시부터 4시까지 수영해요.'], ['The market is open {from six to noon}.', '시장은 6시부터 정오까지 열어요.'], ['We studied {from one to five}.', '우리는 1시부터 5시까지 공부했어요.']] },
+      { head:'between A and B', ko:'두 시각 사이의 어느 때', why:'A와 B 사이 어느 때인지는 콕 집지 않을 때 써요. "A에서 B 사이에"예요.',
+        more:['between 뒤는 꼭 A and B예요. between eight to nine은 틀려요.',
+          '동사를 함께 봐요. arrive·call처럼 한 번 일어나는 일이면 그 사이의 어느 한 때예요. I arrived between eight and nine. = 8시에서 9시 사이 어느 때 도착했어.',
+          'be closed·stay처럼 계속되는 일이면 그 시간 내내예요. The shop is closed between one and two. = 1시부터 2시까지 닫혀 있어.',
+          'from A to B는 시작과 끝을 콕 집고, between A and B는 그 범위만 말해요. 알리바이를 들을 때는 둘을 구별해서 들어요.'],
+        lines:[['Call me {between one and three}.', '1시에서 3시 사이에 전화해 줘요.'], ['The bus comes {between five and six}.', '버스는 5시에서 6시 사이에 와요.'], ['Come home {between eleven and twelve}.', '11시에서 12시 사이에 집에 오세요.']] }
     ] },
   'to-purpose':{ name:'목적의 to부정사', pattern:'to + 동사원형', ko:'"~하려고, ~하러"라는 목적을 말해요. went to see a friend = 친구를 만나러 갔다.' },
   'too-adj':   { name:'too + 형용사', pattern:'too + 형용사', ko:'"너무 ~한"이라는 뜻이에요. 보통 지나쳐서 좋지 않다는 느낌이 들어 있어요. too hot = 너무 뜨겁다.' },
   'passive':   { name:'수동태', pattern:'was / were + 과거분사', ko:'누가 했는지보다 "~되었다"는 일에 초점을 둘 때 써요. was found = 발견되었다.' },
-  'negative':  { name:'부정 표현', pattern:'not / never / nobody', ko:'not은 "~않다", never는 "한 번도 ~않다", nobody는 "아무도 ~않다"예요. never·nobody가 있으면 not을 또 쓰지 않아요.' },
+  'negative':  { name:'부정 표현', pattern:'not / never / nobody', ko:'not은 "~않다", never는 "한 번도 ~않다", nobody는 "아무도 ~않다"예요. never·nobody가 있으면 not을 또 쓰지 않아요.',
+    more:["be동사 뒤에 not: It isn't mine. 일반동사 앞에 don't · doesn't · didn't: I don't know.",
+      'no + 명사는 "하나도 없는"이에요. no pattern = 무늬가 없는, no one = 아무도 없는.',
+      "nobody · no one이 주어면 동사는 긍정 모양 그대로예요. Nobody came. (Nobody didn't come은 틀려요)"] },
   'going-to':  { name:'미래 표현', pattern:'be going to + 동사원형', ko:'"~할 거예요"라는 앞으로의 일을 말해요. I\'m going to call her = 그녀에게 전화할 거예요.' },
   'modal':     { name:'조동사', pattern:'can / should + 동사원형', ko:'can은 "~할 수 있다", should는 "~해야 한다, ~하는 게 좋다"예요. 뒤에는 늘 동사원형이 와요.' },
-  'imperative':{ name:'명령문', pattern:'동사원형으로 시작', ko:'주어 없이 동사원형으로 시작하면 "~하세요"라는 지시·부탁이에요. Open the door = 문을 여세요.' },
-  'did-q':     { name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)' },
-  'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.' },
+  'imperative':{ name:'명령문', pattern:'동사원형으로 시작', ko:'주어 없이 동사원형으로 시작하면 "~하세요"라는 지시·부탁이에요. Open the door = 문을 여세요.',
+    more:['부드럽게 부탁할 때는 please를 앞이나 뒤에 붙여요. Please sit down.',
+      "하지 말라고 할 때는 Don't + 동사원형: Don't run.",
+      "같이 하자고 할 때는 Let's + 동사원형: Let's go.",
+      'too가 끝에 붙으면 "~도"예요. Ask Sam, too. = 샘에게도 물어봐.'] },
+  'did-q':     { name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)',
+    more:['Did가 "과거"를 혼자 맡으니 동사는 원형 그대로예요. Did you bring it? (brought가 아니에요)',
+      "대답은 Yes, I did. / No, I didn't.로 짧게 해요.",
+      '지금의 일을 물을 때는 Do · Does를 써요. Do you have a pen?'] },
+  'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.',
+    more:['Who 누구 · What 무엇 · Where 어디 · When 언제 · Why 왜 · How 어떻게.',
+      'What 뒤에 명사를 붙이면 더 좁혀 물어요. What color …? 무슨 색, What pattern …? 어떤 무늬.',
+      'What is it like?는 "그건 어떻게 생겼어?"예요. 여기서 like는 "좋아하다"가 아니라 "~와 같은"이에요.',
+      'Who else …?는 "또 누가 …?"예요. else가 "그 밖에"를 더해요.'] },
   'phrasal':   { name:'구동사', pattern:'come back · come in · give back', ko:'동사에 back·in 같은 작은 말이 붙어 새 뜻이 돼요. come back = 돌아오다, come in = 들어오다, give it back = 돌려주다(it이 가운데 들어가요).' }
 };
 // Where each grammar shows up: [grammar id, the words to highlight] per answer. The words are looked up in the
@@ -2454,7 +2516,9 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .66], [1.07, 2.22]] } : PICNIC ? {
+const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
+  'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
+  'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,1.65],[2.04,4.44],[4.98,6.69]],
@@ -3217,8 +3281,10 @@ function detectiveSay(key, onDone, onBlocked, text){
   const voice = $('#evidenceVoice'), done = () => { voice.onended = voice.onerror = null; onDone?.(); };
   voice.onended = voice.onerror = null;
   if(text && (!key || PACK?.silent)){ readOut(text, onDone); return; }
-  // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/
-  voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
+  // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/, the umbrella case's all in
+  // audio/umbrella/
+  voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3`
+    : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
@@ -3578,7 +3644,7 @@ function doAction(aid){
   clearTimeout(greetingTimer); hideBubble();
   // the questions stay away while the action is said and answered, as in a greeting (user request: they came back at
   // once under the detective's line)
-  const lines = [{ det:true, key:`act-${aid}`, en:a.en, ko:a.ko }, { key:aid, en:a.answer, ko:a.answerKo }];
+  const lines = [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }, { key:aid, en:a.answer, ko:a.answerKo }];
   const done = () => {
     if(greetingId !== who) return;
     setGreeting(null);
@@ -3599,6 +3665,7 @@ function openInspect(id = PLACES.find(p => p.inspect)?.id){
 // questions (QUESTIONS) have one file each
 function askAudio(id, qid){
   if(PICNIC) return `audio/picnic/detective-${id}-${qid}.mp3`;
+  if(UMBRELLA) return `audio/umbrella/detective-${id}-${qid}.mp3`;
   return spk(id).questions ? `audio/detective-ask-${id}-${qid}.mp3` : `audio/detective-ask-${qid}.mp3`;
 }
 // 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
@@ -3991,7 +4058,7 @@ function playThought(){
     if(ko){ const text = think.querySelector('.say-ko'); text.hidden = !text.hidden; ko.setAttribute('aria-pressed', !text.hidden); return; }
     if(!e.target.closest('button') && think.classList.contains('wait-tap')){ think.remove(); revealDiscoveries(); }
   });
-  readOut(t.line.en, () => { if(think.isConnected) think.classList.add('wait-tap'); });
+  detectiveSay(t.line.key, () => { if(think.isConnected) think.classList.add('wait-tap'); }, null, t.line.en);
 }
 // PEOPLE[].after, once the notebook with the checked question is put away: lines in turn (playLines), then a thing handed
 // to the detective (give: 소지품) or the photos the detective asked for (snap: taken right there, user decision)
@@ -4251,11 +4318,12 @@ const DEDUCE = PACK ? PACK.deduce : {
       hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?' }
   ]
 };
-// lines recorded as audio/deduce/<key>.mp3, the picnic case's as audio/picnic/deduce/<key>.mp3 (q1… questions, r1…
+// lines recorded as audio/deduce/<key>.mp3, the picnic case's as audio/picnic/deduce/<key>.mp3, the umbrella case's as
+// audio/umbrella/deduce/<key>.mp3 (q1… questions, r1…
 // replies, h1… hints, miss; the detective's voice, Higgsfield MiniMax Grady); a line missing here is read by the
 // browser's voice (a question marked unrecorded, all three of its lines)
 const DEDUCE_RECORDED = PACK?.silent ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => q.unrecorded ? [] : [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : 'audio/deduce/';
+const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : 'audio/deduce/';
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
@@ -5121,16 +5189,12 @@ function renderReview(dir){
     const keys = CASE.keys?.length ? CASE.keys : rv.grammar.slice(0, 3).map(([g]) => g);
     const extras = rv.grammar.filter(([g]) => !keys.includes(g));
     body = `<h2 class="rv-title">${back}이번 사건의 문법 <small>${rv.keepGrammar.size} / ${rv.grammar.length}</small></h2>
-      <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
-      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span></div>`;
-      const sents = sentencesOf(spk(use.id).answers[use.qid]), idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
-      const sent = sents[idx], at = sent.indexOf(use.words), kos = sentencesOf(ANSWERS_KO[use.id]?.[use.qid] || '');
-      const shown = at < 0 ? esc(sent) : esc(sent.slice(0, at)) + `<mark>${esc(use.words)}</mark>` + esc(sent.slice(at + use.words.length));
-      // the Korean of that sentence when the answer's Korean has as many sentences, else all of it
-      const ko = kos.length === sents.length ? kos[idx] : ANSWERS_KO[use.id]?.[use.qid] || '';
-      return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${shown}</span><span class="wko" hidden>${esc(ko)}</span></span>
-        <button class="play-btn" type="button" data-rv-sent="${use.id}:${use.qid}" data-sent="${idx}" aria-label="문장 듣기"></button>
-        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>`;
+      <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use }) => {
+      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span>${grammarExplain(why, more)}</div>`;
+      const { line, ko, play } = grammarLineParts(use);
+      return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span></span>
+        <button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button>
+        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button>${grammarExplain(why, more)}</div>`;
     }).join('') + `</div>${extras.length ? `<button class="pill rv-grammar-more" type="button" data-rv-extra aria-expanded="${rv.extraGrammarOpen}">${rv.extraGrammarOpen ? '다른 문법 접기' : `다른 문법 ${extras.length}개 보기`}</button>` : ''}` +
       (rv.extraGrammarOpen ? `<div class="rv-grams">${extras.map(([g]) => reviewExtraGrammar(g)).join('')}</div>` : '');
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
@@ -5183,15 +5247,32 @@ function reviewPhoto(c){
 // The review's grammar rows: the case's key grammar form by form (CASES[].keys, the case key's pages), each with the first
 // line of the case that uses that form (from GRAMMAR_LINES: an answer's words matching the form, A and B any words);
 // without keys, the case's three most used grammar.
+// A form's line may be any of the case's tagged words that match it (the key grammar's own first), an answer's before a
+// question's (the umbrella case's Whose… is the detective's question). why/more: how the form works (user request).
 function reviewGrammar(){
   const keys = CASE.keys?.length ? CASE.keys : caseGrammar().slice(0, 3).map(([g]) => g);
+  const pick = uses => uses.find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || uses[0];
   return keys.flatMap(g => {
-    const uses = grammarUses(g).filter(u => spk(u.id).answers[u.qid].includes(u.words));
-    return (GRAMMAR[g].examples || [{ head:GRAMMAR[g].name, ko:GRAMMAR[g].pattern }]).map(ex => {
+    const own = grammarUses(g), others = Object.keys(GRAMMAR).filter(x => x !== g).flatMap(grammarUses);
+    if(!GRAMMAR[g].examples) return [{ head:GRAMMAR[g].name, name:GRAMMAR[g].pattern, why:GRAMMAR[g].ko, more:GRAMMAR[g].more, use:pick(own) }];
+    return GRAMMAR[g].examples.map(ex => {
       const form = ex.match ? new RegExp(ex.match, 'i') : new RegExp('^' + ex.head.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b[AB]\b/g, '.+') + '\\b', 'i');
-      return { head:ex.head, name:ex.ko, use:GRAMMAR[g].examples ? uses.find(u => form.test(u.words)) : uses[0] };
+      const fits = u => form.test(u.words);
+      return { head:ex.head, name:ex.ko, why:ex.why, more:ex.more, use:pick(own.filter(fits)) || pick(others.filter(fits)) };
     });
   });
+}
+const grammarExplain = (why, more) => !why && !more?.length ? '' :
+  `<div class="gexplain">${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}</div>`;
+// a tagged line's Korean (that sentence when the answer's Korean has as many sentences) and what ▶ plays
+function grammarLineParts(use){
+  const line = grammarLine(use.id, use.qid, use.words), s = spk(use.id);
+  const answerKo = ANSWERS_KO[use.id]?.[use.qid] || '';
+  const answerSentences = sentencesOf(s.answers[use.qid]), koreanSentences = sentencesOf(answerKo);
+  const ko = line.inAnswer ? (answerSentences.length === koreanSentences.length ? koreanSentences[line.idx] : answerKo)
+    : qs(s).find(q => q.id === use.qid).ko;
+  const play = line.inAnswer ? `data-rv-sent="${use.id}:${use.qid}" data-sent="${line.idx}"` : `data-rv-question="${use.id}:${use.qid}"`;
+  return { line, ko, play };
 }
 function grammarKeepButton(g){
   const on = rv.keepGrammar.has(g);
@@ -5199,20 +5280,17 @@ function grammarKeepButton(g){
 }
 function reviewExtraGrammar(g){
   const use = grammarUses(g).find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || grammarUses(g)[0];
-  const line = grammarLine(use.id, use.qid, use.words), s = spk(use.id);
-  const answerKo = ANSWERS_KO[use.id]?.[use.qid] || '';
-  const answerSentences = sentencesOf(s.answers[use.qid]), koreanSentences = sentencesOf(answerKo);
-  const ko = line.inAnswer ? (answerSentences.length === koreanSentences.length ? koreanSentences[line.idx] : answerKo)
-    : qs(s).find(q => q.id === use.qid).ko;
-  const play = line.inAnswer ? `data-rv-sent="${use.id}:${use.qid}" data-sent="${line.idx}"` : `data-rv-question="${use.id}:${use.qid}"`;
+  const { line, ko, play } = grammarLineParts(use);
   return `<div class="rv-word rv-gram rv-gram-extra"><div class="rv-gram-head"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>${grammarKeepButton(g)}</div>
     <span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span>
-    <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div></div>`;
+    <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>
+    ${grammarExplain(GRAMMAR[g].ko, GRAMMAR[g].more)}</div>`;
 }
 function replayReviewQuestion(ref){
   stopVoice();
   if(!('speechSynthesis' in window)) return toast('이 기기에서 질문을 재생할 수 없어요.');
   const [id, qid] = ref.split(':'), question = qs(spk(id)).find(q => q.id === qid);
+  if(PACK) return detectiveSay(askAudio(id, qid), null, null, question.en);   // the picnic and umbrella cases record every question
   const u = new SpeechSynthesisUtterance(question.en);
   u.lang = 'en-US'; u.rate = S.slow ? .72 : .95;
   if(voices.length) u.voice = voices[0];
@@ -5335,10 +5413,20 @@ const ART = {
     (S.items.includes('umbrella') || S.handoffRound ? '' : `
     <g transform="rotate(4 256 675)"><image href="assets/places/umbrella/umbrella-folded.png" x="192" y="345" width="127" height="330" transform="matrix(1 0 0 -1 0 1020)"/></g>
     <image href="assets/places/umbrella/stand-front.png" x="204" y="517" width="100" height="173"/>`) + `
-    <g transform="rotate(-2 394 255)"><rect x="324" y="196" width="140" height="118" fill="#FFFDF6" stroke="#BDAE93" stroke-width="1.5"/>
-      <image href="assets/places/umbrella/bazaar-photo.webp" x="330" y="202" width="128" height="96" preserveAspectRatio="xMidYMid slice"/>
-      <text x="394" y="309" text-anchor="middle" font-size="9" fill="#6E5C44" font-family="Georgia,serif">October 24 · Toy Bazaar</text>
-      <circle cx="394" cy="199" r="5" fill="#D9604F" stroke="#7A3A30" stroke-width="1.2"/></g>
+    <defs><filter id="hallPencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="4"/>
+        <feDisplacementMap in="SourceGraphic" scale="1.8"/></filter>
+      <filter id="hallShade" x="-10%" y="-10%" width="125%" height="130%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#5A3B22" flood-opacity=".28"/></filter>
+      <filter id="hallPrint"><feColorMatrix type="saturate" values=".72"/></filter></defs>
+    <!-- the bazaar photo pinned like the board's own papers (user request: a crisp frame, a big red pin and a print
+         typeface stood apart from the drawing): warm paper, a pencil line, a small grey pin, the colours softened -->
+    <g transform="rotate(-2 394 255)"><rect x="324" y="196" width="140" height="118" fill="#F6EEDC" filter="url(#hallShade)"/>
+      <image href="assets/places/umbrella/bazaar-photo.webp" x="330" y="202" width="128" height="96" preserveAspectRatio="xMidYMid slice" filter="url(#hallPrint)"/>
+      <rect x="330" y="202" width="128" height="96" fill="#F3DFB8" opacity=".14"/>
+      <g fill="none" stroke="#6E5A44" filter="url(#hallPencil)"><rect x="324" y="196" width="140" height="118" stroke-width="1.3"/>
+        <rect x="330" y="202" width="128" height="96" stroke-width=".8" opacity=".55"/></g>
+      <text x="394" y="309" text-anchor="middle" font-size="8.6" fill="#6B5843" font-family="Paperlogy,sans-serif">October 24 · Toy Bazaar</text>
+      <circle cx="395" cy="201" r="3.6" fill="#5A3B22" opacity=".22"/><circle cx="394" cy="199.5" r="3.4" fill="#9C948A" stroke="#5E554B" stroke-width=".9"/>
+      <circle cx="393" cy="198.5" r="1" fill="#EEE9E1"/></g>
     <g font-family="sans-serif" fill="#4D4030" text-anchor="middle"><text x="787" y="240" font-size="10.5" font-weight="700">TOY BAZAAR</text>
       <text x="787" y="254" font-size="9.5" font-weight="700">VENUE CHANGE</text><text x="787" y="278" font-size="13" font-family="Georgia,serif">October 24</text>
       <text x="787" y="303" font-size="10.5">Courtyard</text><text x="787" y="318" font-size="11">↓</text><text x="787" y="334" font-size="10.5" font-weight="700">Village Hall</text>
@@ -5905,6 +5993,8 @@ function homeKoShift(){
 /* ---------- case select ----------
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
    this device; the case in progress lives in memory only until saving is added. */
+// testing stage (user decision): every playable case is open in the list; false brings the order back
+const ALL_CASES_OPEN = true;
 const CASES = [
   { id:'picnic-bag', no:'Case 01', title:'바뀐 소풍 가방', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
@@ -5972,7 +6062,7 @@ function renderCaseList(){
   $('#caseStreak').hidden = !streak;
   $('#caseStreak').innerHTML = `${FLAME_ICON}${streak}일`;
   $('#caseCards').innerHTML = CASES.map((c, i) => {
-    const open = i === 0 || solved.includes(CASES[i - 1].id);
+    const open = ALL_CASES_OPEN || i === 0 || solved.includes(CASES[i - 1].id);
     const look = `${i % 2 ? 'r' : 'l'}" style="--tilt:${TILTS[i % TILTS.length]}deg;--i:${i}`;
     if(!open || !c.playable) return `<div class="polaroid locked ${look}" aria-label="${c.no} 잠김">
       <span class="pol-photo">?</span>
@@ -6076,6 +6166,12 @@ function loadGame(){
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
   S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);
+  // a photo with its own crop is framed as the crop is now (user request: the umbrella handle's moved down); only the
+  // frame changes, the picture inside stays as it was taken (the umbrella folded or open)
+  S.evidence.forEach(item => {
+    const crop = placeOf(item.placeId)?.spots.find(spot => spot.clue === item.clueIndex)?.photo;
+    if(crop && typeof item.photo === 'string') item.photo = item.photo.replace(/viewBox="[^"]*"/, `viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}"`);
+  });
   S.met = S.met.filter(id => PEOPLE[id]);
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
@@ -6644,6 +6740,9 @@ if(PACK){
   // another case's page: its review from 학습, else the case (a new one with its key); never the case cards
   $('#caseList').hidden = true;
   if(new URLSearchParams(location.search).get('review') === '1' && solvedCases().includes(CASE_ID)) openReview(true);
+  // without a detective name (튜토리얼 초기화 or 리셋 on this page) the first meeting is on 홈, as when the app opens,
+  // not straight into this case after the name (user request: it went into the case at once)
+  else if(!PREVIEW && !detectiveName()) location.replace(location.pathname);
   else if(!PREVIEW) startCase(false);
 } else {
   // the app opens on 홈 (on the case cards when coming back from another case); without a detective name, the first
