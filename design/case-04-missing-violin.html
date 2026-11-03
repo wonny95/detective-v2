@@ -1,28 +1,345 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>사라진 음악 대회 바이올린 · 인물과 장소 기획</title>
-<style>
-:root{color-scheme:light;--ink:#3e332c;--muted:#756a5e;--paper:#fffaf0;--line:#ded3bd;--rose:#a65c6c;--green:#6f876b;--gold:#bd9755}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#e8ebdd;color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Malgun Gothic",sans-serif}a{color:#805644}header{background:#f8f5eb;border-bottom:1px solid var(--line)}.wrap{max-width:1150px;margin:auto;padding:0 24px}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;min-height:65px;font-size:13px;font-weight:700}.top nav{display:flex;gap:18px;flex-wrap:wrap}main{padding-bottom:70px}.hero{padding:44px 0 34px}.eyebrow{font-size:12px;letter-spacing:.1em;color:var(--rose);font-weight:800}h1{font-size:clamp(30px,5vw,52px);line-height:1.2;margin:8px 0 14px}h2{font-size:26px;line-height:1.3;margin:0 0 8px}h3{font-size:19px;line-height:1.4;margin:0 0 7px}p{margin:0}.lead{font-size:18px;max-width:760px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:23px}.chips span{border-radius:100px;background:#fffaf0;border:1px solid var(--line);padding:6px 12px;font-size:12px;font-weight:700}.note{font-size:13px;color:var(--muted);margin-top:14px}.section{margin-top:22px;padding:29px;border:1px solid var(--line);border-radius:23px;background:var(--paper);box-shadow:0 10px 24px #574a3210}.section-intro{color:var(--muted);font-size:14px;margin-bottom:19px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.card{background:#fffdf8;border:1px solid #e8ddc9;border-radius:16px;padding:18px}.card small{display:block;font-size:12px;font-weight:800;color:var(--rose)}.card p{font-size:14px;color:#594e44}.card .quote{margin-top:10px;padding:10px 12px;border-left:4px solid #b8c6a9;background:#eef2e8;color:#3f5241}.role{font-size:12px;color:var(--muted);margin-bottom:10px}.client{border-color:#d6bac0}.candidate{border-color:#e2d4b7}.witness{border-color:#b7c8bc}.map{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}.place{padding:18px;border-radius:17px;border:1px solid #d6c6ac;background:#f7efe0}.place strong{display:block;font-size:18px}.place p{font-size:13px;margin-top:7px}.arrow{align-self:center;color:#a48a66;font-size:25px;font-weight:800}.place .objects{display:flex;flex-wrap:wrap;gap:5px;margin-top:13px}.objects span{font-size:11px;padding:3px 7px;border-radius:30px;background:#fffaf0;border:1px solid #dfd1b7}.evidence{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.evidence div{padding:15px 16px;border:1px solid #e2d6c3;border-radius:14px;background:#fffdf8}.evidence b{display:block;color:#64523f}.evidence p{font-size:14px}.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.flow div{padding:14px;border-radius:12px;background:#edf0e8;font-size:13px}.flow b{display:block;color:var(--green)}.answer{margin-top:18px;padding:16px 18px;border-radius:14px;background:#f8eeda;border:1px solid #d9c094}.answer b{color:#815f32}.footer-link{display:inline-block;margin-top:18px;font-weight:700}@media(max-width:840px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.map{display:block}.place{margin:9px 0}.arrow{display:block;text-align:center;transform:rotate(90deg)}}@media(max-width:570px){.cards,.evidence,.flow{grid-template-columns:1fr}.top{align-items:flex-start;padding:13px 0;display:block}.top nav{margin-top:5px}.section{padding:22px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>사라진 음악 대회 바이올린 · Case 04 B 상세 기획</title>
+  <style>
+    :root { --ink:#44362c; --muted:#786b5d; --paper:#fffaf0; --line:#dfd2bc; --honey:#f1ce75; --rose:#b65f79; --sage:#e5ede0; --green:#456f54; --shadow:0 12px 36px rgba(66,49,30,.09); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#e9eddf; color:var(--ink); font:16px/1.6 system-ui,"Malgun Gothic",sans-serif; }
+    a { color:inherit; }
+    .wrap { width:min(1120px,calc(100% - 36px)); margin:auto; }
+    .topbar { position:sticky; top:0; z-index:10; background:rgba(255,250,240,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .top-inner { display:flex; justify-content:space-between; align-items:center; gap:22px; min-height:66px; }
+    .back { flex:none; display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:800; letter-spacing:-.03em; }
+    .back-mark { display:grid; place-items:center; width:32px; height:32px; border:2px solid var(--ink); border-radius:50%; background:var(--honey); line-height:1; }
+    .nav { display:flex; gap:18px; overflow-x:auto; white-space:nowrap; scrollbar-width:none; font-size:13px; font-weight:750; }
+    .nav::-webkit-scrollbar { display:none; }
+    .nav a { padding:13px 0; text-decoration:none; }
+    .nav a:hover,.back:hover,.text-link:hover { color:var(--rose); }
+    main { padding:28px 0 80px; }
+    section { scroll-margin-top:94px; margin-top:58px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(240px,.7fr); gap:20px; margin-top:0; }
+    .hero-copy,.hero-art,.panel,.story-card,.place-card,.person-card,.clue-card,.flow-card,.learning-card,.script-card,.end-card,.status-card { background:var(--paper); border:1.5px solid var(--line); border-radius:26px; box-shadow:var(--shadow); }
+    .hero-copy { padding:40px 42px; background:radial-gradient(circle at 92% 10%,#faeab8 0 12%,transparent 12.5%),var(--paper); }
+    .eyebrow { display:inline-block; color:var(--rose); font-size:12px; font-weight:900; letter-spacing:.1em; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin:14px 0 13px; font-size:clamp(34px,4.5vw,57px); line-height:1.13; letter-spacing:-.075em; }
+    .lead { max-width:670px; color:#605347; font-size:19px; }
+    .hero-art { display:flex; flex-direction:column; justify-content:flex-end; align-items:center; overflow:hidden; margin:0; background:#f4ead2; }
+    .hero-art img { width:min(100%,250px); max-height:290px; object-fit:contain; object-position:bottom; }
+    .hero-art figcaption { width:100%; padding:10px 16px; border-top:1px dashed #d8c5a4; text-align:center; font-size:12px; font-weight:750; color:#725c3d; background:#fff9e9; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:24px; }
+    .chip { padding:7px 11px; border:1px solid #d9c8aa; border-radius:999px; background:#fffdf8; font-size:12px; font-weight:800; }
+    .chip.status { background:#fff0cc; color:#946116; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:18px; }
+    .section-head h2 { margin:0; font-size:clamp(26px,3vw,35px); line-height:1.2; letter-spacing:-.06em; }
+    .section-head p { max-width:540px; margin:0; color:var(--muted); font-size:14px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .story-card,.place-card,.person-card,.clue-card,.learning-card,.end-card,.status-card { min-width:0; padding:23px; }
+    .story-card { border-top:6px solid var(--honey); }
+    .story-card:nth-child(2) { border-top-color:#a9bea3; }
+    .story-card:nth-child(3) { border-top-color:#d8a2b1; }
+    .step-no { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:11px; background:#f8e7ba; color:#76552c; font-size:13px; font-weight:900; }
+    .story-card:nth-child(2) .step-no { background:#e3eddd; color:#4e7356; }
+    .story-card:nth-child(3) .step-no { background:#f3dfe4; color:#9d5368; }
+    h3 { margin:13px 0 7px; font-size:20px; line-height:1.3; letter-spacing:-.04em; }
+    .story-card p,.person-card p,.place-card p,.learning-card p,.end-card p,.status-card p { margin:0; color:#675a4e; font-size:14px; }
+    .keyline { margin-top:14px!important; color:var(--green)!important; font-weight:750; }
+    .callout { margin-top:14px; padding:16px 19px; border:1px dashed #ccbda6; border-radius:16px; background:#fff8e9; color:#695a45; font-size:13px; }
+    .callout strong { color:#9d566c; }
+    .person-card { display:flex; gap:14px; align-items:flex-start; }
+    .avatar { display:grid; place-items:center; flex:none; width:50px; height:50px; border:2px solid #7b6653; border-radius:50%; background:#f8e4b5; font-weight:900; }
+    .person-card:nth-child(2) .avatar { background:#e8eee0; }
+    .person-card:nth-child(3) .avatar { background:#f4e0e4; }
+    .person-card:nth-child(4) .avatar { background:#dce8eb; }
+    .person-card h3,.place-card h3 { margin:0 0 4px; }
+    .role { display:block; margin-bottom:6px; color:var(--rose); font-size:12px; font-weight:850; }
+    .place-tag,.clue-tag { display:inline-block; margin-top:12px; padding:4px 9px; border-radius:8px; background:#f4eddf; color:#7d6443; font-size:11px; font-weight:800; }
+    .place-card { border-left:6px solid #b7caa9; }
+    .place-card:nth-child(2) { border-left-color:var(--honey); }
+    .place-card:nth-child(3) { border-left-color:#e1b0b8; }
+    .evidence-board { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    .clue-card { border-top:6px solid var(--honey); }
+    .clue-card:nth-child(2) { border-top-color:#b6cba8; }
+    .clue-card h3 { margin:0 0 8px; }
+    .items { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+    .item { display:inline-flex; align-items:center; gap:7px; padding:9px 11px; border:1px solid #ddcfb9; border-radius:11px; background:#fffdf8; font-size:13px; font-weight:800; }
+    .swatch { width:15px; height:15px; border:1px solid rgba(0,0,0,.16); border-radius:50%; background:var(--color); }
+    .clue-card p { margin:0; color:#675a4e; font-size:14px; }
+    .deduction { margin-top:15px; padding:17px 20px; border:1.5px solid #b8c9ae; border-radius:17px; background:#f3f8ef; color:#45684d; font-size:14px; }
+    .deduction strong { color:#345d3e; }
+    .matrix { overflow-x:auto; border:1.5px solid var(--line); border-radius:19px; background:var(--paper); box-shadow:var(--shadow); }
+    table { width:100%; border-collapse:collapse; min-width:540px; }
+    th,td { padding:12px 17px; text-align:left; border-bottom:1px solid #e8decc; font-size:13px; }
+    tr:last-child td { border-bottom:0; }
+    th { background:#f5ecd9; color:#715a3d; font-size:12px; }
+    td:first-child { font-weight:850; }
+    tr.winner { background:#edf4e8; }
+    .flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+    .flow-card { min-width:0; padding:18px; }
+    .flow-card b { display:block; margin-bottom:9px; color:var(--rose); font-size:12px; }
+    .flow-card strong { display:block; margin-bottom:5px; font-size:15px; }
+    .flow-card p { margin:0; color:var(--muted); font-size:12px; }
+    .learning-card { background:#f4f8ef; border-color:#bdcfb7; }
+    .learning-card h3 { margin:0 0 8px; }
+    .learning-card code { font-family:inherit; font-weight:800; color:#476b50; }
+    .end-card { background:#fff7e7; }
+    .end-card:nth-child(2) { background:#eff5eb; }
+    .end-card:nth-child(3) { background:#f9eef0; }
+    .end-card .quote { margin:12px 0 3px; font-size:15px; font-weight:800; line-height:1.5; }
+    .end-card .ko { color:#796959; font-size:13px; }
+    .status-card { background:#f7f5ef; }
+    .status-card ul { margin:5px 0 0; padding-left:19px; color:#675a4e; font-size:14px; }
+    .text-link { display:inline-block; margin-top:12px; color:#9e526c; font-size:13px; font-weight:800; text-decoration:none; }
+    .fine { margin:18px 0 0; color:var(--muted); font-size:12px; }
+    .storyboard { display:grid; gap:18px; }
+    .scene { overflow:hidden; scroll-margin-top:110px; border:1.5px solid var(--line); border-radius:25px; background:var(--paper); box-shadow:var(--shadow); }
+    .scene-index { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+    .scene-index a { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border:1px solid #cfbda4; border-radius:999px; background:#fffaf0; color:#735c42; font-size:12px; font-weight:800; text-decoration:none; }
+    .scene-index a:hover { background:#f8e8bd; }
+    .scene-head { padding:23px 27px; background:#f4ebd8; border-bottom:1px dashed #d1bea3; }
+    .scene:nth-child(even) .scene-head { background:#eaf0e5; }
+    .scene-kicker { display:block; color:#9d566c; font-size:12px; font-weight:900; letter-spacing:.06em; }
+    .scene-head h3 { margin:7px 0 4px; font-size:24px; }
+    .scene-head p { margin:0; color:#67594a; font-size:13px; }
+    .scene-art { margin:0; border-bottom:1px solid #dfd1b9; background:#e9e4d4; }
+    .scene-art img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .scene-art.cafe-reuse { position:relative; }
+    .scene-art.cafe-reuse .scene-character { position:absolute; left:25%; bottom:1%; width:17%; height:70%; aspect-ratio:auto; object-fit:contain; object-position:center bottom; }
+    .scene-body { display:grid; gap:15px; padding:23px 27px 26px; }
+    .scene-note { margin:0; color:#66594c; font-size:13px; }
+    .scene-note strong { color:#9c536b; }
+    .handoff-panel { padding:17px 19px; border:1.5px solid #c4d4b7; border-radius:17px; background:#f3f8ee; }
+    .handoff-panel h4 { margin:0 0 10px; color:#4f7354; font-size:15px; }
+    .handoff-panel .handoff-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+    .handoff-panel .handoff-item { padding:10px 13px; border:1px solid #b6c9aa; border-radius:11px; background:#fffdf6; font-size:13px; font-weight:800; }
+    .handoff-panel .handoff-button { padding:10px 16px; border-radius:11px; background:#91b493; color:#253b2d; font-size:13px; font-weight:900; }
+    .handoff-panel p { margin:10px 0 0; color:#5b705b; font-size:12px; }
+    .key-plan { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .key-card { margin-top:0; padding:18px; border:1px solid #dec9a5; border-radius:18px; background:#fff9eb; }
+    .key-card:nth-child(2) { background:#f1f5ed; border-color:#c8d5bb; }
+    .key-card:nth-child(3) { background:#f9eef1; border-color:#e0c3cb; }
+    .key-card .key-page { color:#a4576d; font-size:11px; font-weight:900; }
+    .key-card h4 { margin:7px 0 5px; color:#4c3a2d; font-size:20px; }
+    .key-card .key-why { min-height:38px; margin:0 0 12px; color:#695949; font-size:12px; }
+    .key-example { padding:9px 0; border-top:1px dashed #ddcdb7; }
+    .key-example summary { display:flex; justify-content:space-between; align-items:baseline; gap:8px; cursor:pointer; color:#493b30; font-size:13px; font-weight:750; list-style:none; }
+    .key-example summary::-webkit-details-marker { display:none; }
+    .key-example summary span { flex:none; color:#9a536c; font-size:11px; font-weight:800; }
+    .key-example p { margin:5px 0 0; color:#796a58; font-size:12px; }
+    .turn { padding:13px 16px; border:1px solid #e4d6be; border-radius:16px; background:#fffdf7; }
+    .turn.det { background:#f2f6ec; border-color:#c7d9bc; }
+    .turn .who { display:block; margin-bottom:4px; color:#a5576e; font-size:11px; font-weight:900; }
+    .turn.det .who { color:#4d7856; }
+    .turn .en { margin:0; font-size:14px; font-weight:750; }
+    .turn .ko { margin:4px 0 0; color:#74675a; font-size:12px; }
+    .choice-group { display:grid; gap:11px; }
+    .choice-heading { margin:4px 0 0; font-size:15px; }
+    .question-choice { padding:16px; border:1px solid #dbcab1; border-radius:17px; background:#fbf6eb; }
+    .question-choice .choice-no { display:inline-block; margin-bottom:5px; color:#9d5369; font-size:11px; font-weight:900; }
+    .question-choice .ask { margin:0 0 9px; font-weight:850; font-size:14px; }
+    .question-choice .translation { margin:-6px 0 10px; color:var(--muted); font-size:12px; }
+    .question-choice .reply { margin:0; padding:11px 12px; border-left:4px solid #b2c7a9; border-radius:0 9px 9px 0; background:#f0f5ea; font-size:13px; }
+    .question-choice .reply em { display:block; margin-top:3px; color:#718064; font-size:12px; font-style:normal; }
+    .note-task { margin-top:10px; padding:10px 12px; border:1px dashed #c9a8a6; border-radius:10px; background:#fffaf5; font-size:12px; }
+    .note-task b { color:#a55870; }
+    .bank { display:block; margin-top:5px; color:#786550; }
+    .result-tag { display:inline-block; margin-top:10px; padding:4px 8px; border-radius:8px; background:#e5eee0; color:#496f52; font-size:11px; font-weight:850; }
+    .scene-next { padding:11px 14px; border-radius:12px; background:#e7efe0; color:#456b4d; font-size:12px; font-weight:800; }
+    .scene-next strong { color:#35583f; }
+    .object-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .object-card { padding:12px 14px; border:1px solid #dfd2bc; border-radius:13px; background:#fffdf6; }
+    .object-card strong { display:block; font-size:13px; }
+    .object-card p { margin:3px 0 0; color:#675b4d; font-size:12px; }
+    .object-card small { color:#a55970; font-size:11px; font-weight:850; }
+    .field-label { margin:27px 0 12px; color:#755b3f; font-size:17px; }
+    .evidence-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .evidence-card { padding:15px; border:1px solid #ddcfb7; border-radius:18px; background:#fffdf7; }
+    .evidence-card small { color:#a2546b; font-size:11px; font-weight:850; }
+    .evidence-card h4 { margin:4px 0 8px; font-size:17px; }
+    .evidence-card p { margin:6px 0 0; color:#64584b; font-size:12px; }
+    .evidence-preview { height:165px; margin-bottom:10px; border:1px solid #decdb1; border-radius:11px; background-color:#e9e3d3; background-repeat:no-repeat; background-size:380% auto; }
+    .evidence-preview.picnic { background-image:url('../assets/places/picnic-storyboard/picnic.webp'); }
+    .evidence-preview.cafe { background-image:url('../assets/places/picnic-storyboard/cafe.webp'); }
+    .evidence-preview.picnic.lunch { background-position:67% 58%; }
+    .evidence-preview.picnic.bottle { background-position:76% 58%; }
+    .evidence-preview.cafe.lunch { background-position:84% 76%; }
+    .evidence-preview.cafe.bottle { background-position:91% 82%; }
+    .sound-zone { padding:18px; border:1px solid #ddcfb7; border-radius:18px; background:#fffaf0; }
+    .sound-zone h4 { margin:0 0 9px; font-size:16px; }
+    .sound-zone ul { margin:0; padding:0; list-style:none; }
+    .sound-zone li { padding:9px 0; border-top:1px dashed #dccdb8; font-size:12px; }
+    .sound-zone li:first-child { border-top:0; }
+    .sound-zone b { display:block; margin-bottom:3px; }
+    .sound-zone span { color:#776959; }
+    .ded-question { padding:15px 17px; border:1px solid #dcd0ba; border-radius:16px; background:#fffbf2; }
+    .ded-question b { display:block; color:#a2546b; font-size:12px; }
+    .ded-question .prompt { margin:5px 0 0; font-size:14px; font-weight:800; }
+    .ded-question .prompt-ko { margin:2px 0 8px; color:var(--muted); font-size:12px; }
+    .ded-question .answer-line { margin:0; padding:8px 10px; border-radius:9px; background:#edf3e7; font-size:13px; }
+    .ded-question .options { margin:6px 0 0; color:#665847; font-size:12px; }
+    .ded-question .reaction { margin:7px 0 0; color:#4e7153; font-size:12px; }
+    .ded-question .source { margin:5px 0 0; color:#8a7763; font-size:11px; }
+    .subhead { margin:5px 0 0; color:#755b3f; font-size:15px; }
+    .choice-guide { margin:0; padding-left:19px; color:#66594c; font-size:12px; }
+    .choice-guide li+li { margin-top:5px; }
+    .story-jump { display:inline-flex; margin-top:17px; padding:10px 14px; border-radius:12px; background:#f6e5b8; color:#674b27; text-decoration:none; font-size:13px; font-weight:850; }
+    @media (max-width:900px) { .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); } .key-plan { grid-template-columns:minmax(0,1fr); } .key-card .key-why { min-height:0; } }
+    @media (max-width:650px) { .wrap { width:min(550px,calc(100% - 24px)); } .top-inner { display:block; padding:10px 0; } .nav { gap:16px; } .hero,.grid-2,.grid-3,.evidence-board,.evidence-grid,.object-grid { grid-template-columns:minmax(0,1fr); } .hero-copy { padding:29px 25px; } .hero-art { min-height:210px; } .hero-art img { max-height:190px; } .section-head { display:block; } .section-head p { margin-top:7px; } .scene-head,.scene-body { padding-left:19px; padding-right:19px; } section { margin-top:46px; scroll-margin-top:111px; } }
+    @media (max-width:390px) { .flow { grid-template-columns:minmax(0,1fr); } }
+    .hero-art img { display:block; width:100%; max-height:none; aspect-ratio:16/9; object-fit:cover; }
+    .scene-art.dialogue-art { position:relative; overflow:hidden; }
+    .scene-art.cafe-reuse { position:relative; overflow:hidden; }
+    .scene-art.dialogue-art .scene-character { position:absolute; left:8%; bottom:0; width:19%; height:84%; aspect-ratio:auto; object-fit:contain; object-position:center bottom; filter:drop-shadow(0 4px 3px rgba(71,54,29,.22)); }
+  </style>
+  <style>
+    .hero-art { min-height:310px; position:relative; justify-content:center; background:radial-gradient(circle at 50% 25%,#fff9dd,#e4e8d7 73%); }
+    .hero-art .case-drawing { position:relative; width:94px; height:215px; border:7px solid #415b70; border-radius:52px 52px 37px 37px; background:linear-gradient(100deg,#7890a1,#4e6d82 60%,#3b586d); transform:rotate(-18deg); box-shadow:19px 18px 0 #bbc9b2,22px 24px 22px #493a2b33; }
+    .hero-art .case-drawing:before { content:""; position:absolute; width:34px; height:10px; border:5px solid #385167; border-bottom:0; border-radius:14px 14px 0 0; top:-23px; left:21px; }
+    .hero-art .case-drawing:after { content:"☾"; position:absolute; top:68px; left:25px; color:#f4d67c; font-size:36px; font-weight:900; transform:rotate(18deg); }
+    .hero-art figcaption { position:absolute; bottom:0; left:0; }
+    .storyboard { gap:18px; }
+    .scene-index { position:relative; }
+    .scene-head .scene-kicker { text-transform:none; }
+    .scene-body .choice-group + .choice-heading { margin-top:6px; }
+    .scene-body .choice-group + .scene-next { margin-top:3px; }
+    .scene-sketch { margin:0; padding:20px; min-height:210px; border-bottom:1px solid var(--line); background:linear-gradient(125deg,#e9ece0,#f7efda); }
+    .scene-sketch figcaption { margin-top:12px; color:#766653; font-size:12px; }
+    .room-sketch { display:grid; grid-template-columns:1fr 1fr 1fr; gap:11px; max-width:730px; margin:auto; }
+    .sketch-cell { min-height:108px; display:flex; flex-direction:column; justify-content:center; align-items:center; border:2px dashed #c6b897; border-radius:16px; background:#fffaf0; text-align:center; font-size:13px; font-weight:800; }
+    .sketch-cell strong { font-size:23px; line-height:1.3; }
+    .sketch-cell small { color:#776858; font-size:11px; }
+    .sketch-cell.missing { border-color:#dcaab5; background:#fff3f3; }
+    .sketch-cell.photo { border-color:#b8caa9; background:#f1f7ee; }
+    .sketch-cell.piano { background:#e7e8e1; }
+    .mini-route { display:flex; align-items:stretch; gap:9px; flex-wrap:wrap; }
+    .mini-route span { flex:1 1 130px; padding:12px; border:1px solid #d9c9ac; border-radius:12px; background:#fffaf0; color:#705c43; font-size:12px; font-weight:800; text-align:center; }
+    .mini-route .arrow { flex:0 0 auto; display:grid; place-items:center; border:0; background:none; }
+    .evidence-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .evidence-card { min-width:0; }
+    .evidence-card .evidence-preview { display:grid; place-items:center; height:128px; background:#eee7d7; color:#756455; font-size:38px; font-weight:900; }
+    .evidence-card p { line-height:1.55; }
+    .expression-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .expression-card { padding:17px; border:1px solid #cbd9c3; border-radius:16px; background:#f6faf2; }
+    .expression-card h3 { margin:0 0 6px; font-size:18px; }
+    .expression-card p { margin:0; color:#5f705d; font-size:12px; }
+    .expression-card b { display:inline-block; margin-top:8px; color:#3b6847; font-size:12px; }
+    .interrogation { padding:17px; border:1.5px solid #d6b7bd; border-radius:17px; background:#fff8f8; }
+    .interrogation h4 { margin:0 0 10px; color:#945368; }
+    .interrogation .turn + .turn { margin-top:9px; }
+    .producer-only { padding:18px 20px; border:1px dashed #c7b18c; border-radius:16px; background:#fff5df; color:#725a39; font-size:13px; }
+    .producer-only strong { color:#9c526a; }
+    @media(max-width:900px) { .evidence-grid,.expression-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:650px) { .hero-art { min-height:245px; } .hero-art .case-drawing { transform:rotate(-14deg) scale(.75); } .room-sketch,.evidence-grid,.expression-grid { grid-template-columns:minmax(0,1fr); } .scene-sketch { padding:16px; } }
+  </style>
 </head>
 <body>
-<header><div class="wrap top"><a href="learning-plan.html#middle-one">← 학습기획으로 돌아가기</a><nav><a href="#people">인물</a><a href="#places">장소</a><a href="#clues">단서</a><a href="#flow">심문 흐름</a></nav></div></header>
-<main class="wrap">
-<div class="hero"><span class="eyebrow">교육 순서 CASE 04 · L1-02 B · 1차 기획 초안</span><h1>사라진 음악 대회 바이올린</h1><p class="lead">공연 직전 타라의 바이올린이 사라졌다. 대기실과 무대 뒤를 오간 세 친구 중 누가 케이스를 옮겼을까? 어디에 숨겼을까?</p><div class="chips"><span>직접 의뢰 1명</span><span>조사 대상 3명</span><span>얼굴을 못 본 목격자 1명</span><span>심문에 합류하는 경사 1명</span><span>새 장소 3곳</span><span>위치 진술 → 범인 찾기 → 경찰 동석 심문</span></div><p class="note">제작자와 사용자가 검토하는 화면입니다. 정답과 인물 역할은 게임에서 미리 공개하지 않습니다. 이름·종·세부 단서는 제안 단계입니다.</p></div>
-<section class="section" id="people"><h2>등장인물 6명</h2><p class="section-intro">새 친구 5명과 기존 오소리 경사 1명입니다. 경사는 물건이 숨겨진 정황을 확인한 뒤 합류하며, 범인을 먼저 알려 주지 않습니다.</p><div class="cards">
-<article class="card client"><small>의뢰인 · 출연자</small><h3>타라 · 족제비</h3><p class="role">Tara Ferret / 음악회관 로비</p><p>의자 옆에 두었던 노란 달 스티커 케이스가 사라져 탐정에게 직접 부탁한다. 누가 가져갔는지는 모른다.</p><p class="quote">“의자 옆에 두었는데 없어졌어요.”</p></article>
-<article class="card candidate"><small>조사 대상 1 · 출연자</small><h3>오웬 · 여우</h3><p class="role">Owen Fox / 대기실·무대 뒤 접근 가능</p><p>리허설 사진에서 초록 목도리를 했다. 현재 목도리 술 하나가 뜯겨 있다. 실제로는 경쟁심에 케이스를 숨겼다.</p><p class="quote">“나는 문 옆에 있었어. 피아노 뒤에는 가지 않았어.”</p></article>
-<article class="card candidate"><small>조사 대상 2 · 출연자</small><h3>이보 · 염소</h3><p class="role">Ivo Goat / 대기실·무대 접근 가능</p><p>케이스가 사라진 무렵 악보대 곁에서 연습했다. 사진 속 위치와 진술이 맞는다. 케이스를 옮기지 않았다.</p><p class="quote">“나는 무대 위, 악보대 옆에서 연습했어.”</p></article>
-<article class="card candidate"><small>조사 대상 3 · 무대 정리</small><h3>모모 · 두더지</h3><p class="role">Momo Mole / 대기실·무대 뒤 접근 가능</p><p>두 장소를 오갈 수 있어 초기 조사 대상이다. 커튼 옆 조명을 정리했고 케이스는 옮기지 않았다.</p><p class="quote">“나는 커튼 옆에서 조명을 정리했어.”</p></article>
-<article class="card witness"><small>목격자 · 자원봉사자</small><h3>핍 · 참새</h3><p class="role">Pip Sparrow / 무대 옆 통로</p><p>얼굴은 큰 케이스에 가려져 못 봤다. 목도리 색, 케이스 표식, 이동 방향을 이야기한다. 이름은 말하지 않는다.</p><p class="quote">“초록 목도리의 누군가가 달 스티커 케이스를 피아노 뒤로 옮겼어.”</p></article>
-<article class="card witness"><small>경찰 · 기존 인물</small><h3>오소리 경사</h3><p class="role">탐정의 연락 후 출연자 대기실에 합류</p><p>물건이 숨겨진 정황을 듣고 심문에 동석한다. 탐정이 증거를 내밀면 오웬에게 설명을 요구하고, 마지막에 반환을 확인한다.</p><p class="quote">“누구의 말이 단서와 다른지 살펴보죠.”</p></article>
-</div></section>
-<section class="section" id="places"><h2>새 장소 3곳</h2><p class="section-intro">탐정이 위치 표현을 듣고 직접 이동하며 조사합니다. 통로와 피아노 뒤는 하나의 무대 뒤 장소입니다.</p><div class="map"><div class="place"><strong>1 · 음악회관 로비</strong><p>타라의 의뢰를 듣고 결말에서 바이올린을 반환한다.</p><div class="objects"><span>안내판</span><span>입구</span><span>대기 벤치</span></div></div><span class="arrow">→</span><div class="place"><strong>2 · 출연자 대기실</strong><p>의자 옆의 빈 자리, 케이스 사진, 세 조사 대상의 위치 진술을 확인한다. 경사가 합류하면 이곳에서 오웬을 심문한다.</p><div class="objects"><span>의자 옆</span><span>케이스 자리</span><span>무대 문</span></div></div><span class="arrow">→</span><div class="place"><strong>3 · 무대 뒤</strong><p>핍의 목격담을 듣고 피아노 뒤에서 물건과 초록 실을 찾는다. 경사에게 알린 뒤 대기실로 돌아간다.</p><div class="objects"><span>악보대 옆</span><span>커튼 옆</span><span>피아노 뒤</span></div></div></div></section>
-<section class="section" id="clues"><h2>범인과 물건을 따로 확인하는 단서</h2><p class="section-intro">스티커는 케이스의 주인을, 목도리와 위치 진술은 옮긴 사람을 찾는 데 씁니다.</p><div class="evidence"><div><b>달 스티커</b><p>타라의 예전 케이스 사진과 피아노 뒤에서 찾은 케이스가 같은 물건인지 확인한다.</p></div><div><b>리허설 직후 현장 사진</b><p>무대 옆에서 대기실 문과 무대를 함께 찍었다. 오웬의 초록 목도리, 이보의 악보대, 모모의 커튼 옆 장비가 보인다. 사진에는 이름표가 없다.</p></div><div><b>핍의 진술</b><p>초록 목도리의 누군가가 달 스티커 케이스를 피아노 뒤로 옮겼다. 얼굴은 보지 못했다.</p></div><div><b>피아노 뒤 실</b><p>현장의 초록 실과 오웬 목도리의 뜯긴 술을 비교한다. 흔적 하나만으로 범인을 확정하지 않는다.</p></div></div></section>
-<section class="section" id="flow"><h2>추리와 심문 순서</h2><div class="flow"><div><b>01 · 물건</b>타라의 케이스 표식과 마지막 위치를 듣는다.</div><div><b>02 · 세 후보</b>오웬·이보·모모의 위치 진술을 기록한다.</div><div><b>03 · 누구</b>이름 없는 목격담과 사진으로 옮긴 사람을 좁힌다.</div><div><b>04 · 어디</b>피아노 뒤에서 케이스·바이올린·초록 실을 확인하고 경사에게 알린다.</div><div><b>05 · 왜</b>대기실로 돌아가 경사가 동석한 심문에서 탐정이 증거를 내밀고, 이유를 들은 뒤 반환한다.</div></div><p class="answer"><b>제작자용 결말</b> · 오웬이 타라의 연주를 막으려고 바이올린을 숨겼다. 경사가 자백을 확인하고 탐정이 타라에게 돌려준다.</p><a class="footer-link" href="case-04-missing-violin.md">전체 상세 초안 읽기 ↗</a></section>
-</main>
+  <header class="topbar"><div class="wrap top-inner"><a class="back" href="learning-plan.html#middle-one"><span class="back-mark" aria-hidden="true">✦</span> 학습 기획으로 돌아가기</a><nav class="nav" aria-label="이 페이지 목차"><a href="#storyboard">장면별 스토리</a><a href="#story">한눈에</a><a href="#cast">인물·장소</a><a href="#evidence">단서</a><a href="#learning">학습</a></nav></div></header>
+  <main class="wrap">
+    <section class="hero"><div class="hero-copy"><span class="eyebrow">L1-02 B · 제작자용 1차 상세 기획</span><h1>사라진 음악 대회 바이올린</h1><p class="lead">타라의 바이올린 케이스가 공연 전에 사라졌다. 세 친구의 위치 진술과 목격담을 대조해 숨긴 장소와 사람을 찾는다.</p><div class="chips"><span class="chip">질문 12개</span><span class="chip">장소 3곳</span><span class="chip">조사 대상 3명</span><span class="chip">핵심 사진 5종</span><span class="chip">추리 4문항</span><span class="chip status">사용자 검토 중 · 미인계</span></div></div><figure class="hero-art"><div class="case-drawing" aria-label="노란 달 표식이 있는 바이올린 케이스 구도 스케치"></div><figcaption>케이스 구도 스케치 · 실제 게임 원화는 아직 제작하지 않음</figcaption></figure></section>
+
+    <section id="storyboard"><div class="section-head"><h2>장면별 스토리보드</h2><p>Case 01·02와 같은 기획 화면 구성입니다. 대사·노트·증거·추리·심문을 순서대로 검토합니다. 정답과 한국어는 제작자용으로 보이며 실제 게임에서는 공개 규칙을 따릅니다.</p></div>
+      <nav class="scene-index" aria-label="스토리 장면 이동"><a href="#scene-0">00 열쇠</a><a href="#scene-1">01 의뢰</a><a href="#scene-2">02 대기실</a><a href="#scene-3">03 세 친구</a><a href="#scene-4">04 목격자</a><a href="#scene-5">05 무대 뒤</a><a href="#scene-6">06 추리</a><a href="#scene-7">07 심문</a><a href="#scene-8">08 반환</a></nav>
+      <div class="storyboard">
+        <article class="scene" id="scene-0"><div class="scene-head"><span class="scene-kicker">장면 0 · 예습</span><h3>이번 사건의 열쇠</h3><p>사건 밖 물건으로 위치 표현을 익힌다. 실제 대사에서 각각 세 번 이상 다시 듣는다.</p></div><div class="scene-body"><div class="key-plan">
+          <section class="key-card"><span class="key-page">01 / 06</span><h4>there is</h4><p class="key-why">하나가 어디에 있다</p><details class="key-example"><summary>There is a cup on the table.<span>해석</span></summary><p>탁자 위에 컵 하나가 있어요.</p></details><details class="key-example"><summary>There is a box in the room.<span>해석</span></summary><p>방 안에 상자 하나가 있어요.</p></details><details class="key-example"><summary>There is a ball under the desk.<span>해석</span></summary><p>책상 아래에 공 하나가 있어요.</p></details></section>
+          <section class="key-card"><span class="key-page">02 / 06</span><h4>there are</h4><p class="key-why">여럿이 어디에 있다</p><details class="key-example"><summary>There are two books on the desk.<span>해석</span></summary><p>책상 위에 책 두 권이 있어요.</p></details><details class="key-example"><summary>There are three cups in the box.<span>해석</span></summary><p>상자 안에 컵 세 개가 있어요.</p></details><details class="key-example"><summary>There are shoes under the bed.<span>해석</span></summary><p>침대 아래에 신발이 있어요.</p></details></section>
+          <section class="key-card"><span class="key-page">03 / 06</span><h4>in / on</h4><p class="key-why">안 / 표면 위</p><details class="key-example"><summary>The pencil is in the bag.<span>해석</span></summary><p>연필은 가방 안에 있어요.</p></details><details class="key-example"><summary>The pencil is on the bag.<span>해석</span></summary><p>연필은 가방 위에 있어요.</p></details><details class="key-example"><summary>A book is on the shelf.<span>해석</span></summary><p>책이 선반 위에 있어요.</p></details></section>
+          <section class="key-card"><span class="key-page">04 / 06</span><h4>under</h4><p class="key-why">바로 아래</p><details class="key-example"><summary>The ball is under the chair.<span>해석</span></summary><p>공은 의자 아래에 있어요.</p></details><details class="key-example"><summary>My shoes are under the bed.<span>해석</span></summary><p>신발은 침대 아래에 있어요.</p></details><details class="key-example"><summary>A box is under the table.<span>해석</span></summary><p>상자는 탁자 아래에 있어요.</p></details></section>
+          <section class="key-card"><span class="key-page">05 / 06</span><h4>next to</h4><p class="key-why">바로 옆</p><details class="key-example"><summary>The lamp is next to the bed.<span>해석</span></summary><p>램프는 침대 옆에 있어요.</p></details><details class="key-example"><summary>My bag is next to the chair.<span>해석</span></summary><p>가방은 의자 옆에 있어요.</p></details><details class="key-example"><summary>The cup is next to the plate.<span>해석</span></summary><p>컵은 접시 옆에 있어요.</p></details></section>
+          <section class="key-card"><span class="key-page">06 / 06</span><h4>behind</h4><p class="key-why">뒤쪽</p><details class="key-example"><summary>The cat is behind the door.<span>해석</span></summary><p>고양이는 문 뒤에 있어요.</p></details><details class="key-example"><summary>A box is behind the sofa.<span>해석</span></summary><p>상자는 소파 뒤에 있어요.</p></details><details class="key-example"><summary>The tree is behind the house.<span>해석</span></summary><p>나무는 집 뒤에 있어요.</p></details></section>
+        </div><p class="scene-note"><strong>학습 기준</strong> · 예습 예문은 실제 사건 대사 반복 횟수에 넣지 않는다. 해석은 누른 예문에만 열린다.</p><div class="scene-next"><strong>다음</strong> · 음악회관 로비에서 타라의 의뢰를 듣는다.</div></div></article>
+
+        <article class="scene" id="scene-1"><div class="scene-head"><span class="scene-kicker">장면 1 · 음악회관 로비</span><h3>타라의 의뢰</h3><p>타라는 분실한 물건과 마지막 위치를 말한다. 누구를 의심하는지는 모른다.</p></div><div class="scene-body"><div class="turn"><span class="who">타라 · 첫인사</span><p class="en">Hello, Detective. I'm Tara. My violin case is missing. Can you find it before the concert?</p><p class="ko">안녕하세요, 탐정님. 저는 타라예요. 바이올린 케이스가 없어졌어요. 공연 전에 찾아줄 수 있나요?</p></div><h4 class="choice-heading">질문 선택지 · 타라</h4><div class="choice-group">
+          <div class="question-choice" data-ref="tara:t1"><span class="choice-no">tara:t1 · 장소 발견</span><p class="ask">Where did you leave it?</p><p class="translation">어디에 두었나요?</p><p class="reply">I left it in the waiting room, next to the left chair.<em>출연자 대기실 왼쪽 의자 옆에 두었어요.</em></p><div class="note-task"><b>노트</b> · I left it [in] the [waiting room], [next to] the [left chair].</div><span class="result-tag">정답 기록 → 출연자 대기실 발견</span></div>
+          <div class="question-choice" data-ref="tara:t2"><span class="choice-no">tara:t2 · 케이스 표식</span><p class="ask">What does your case look like?</p><p class="translation">케이스는 어떻게 생겼나요?</p><p class="reply">There is a yellow moon sticker on the case. My violin is in it.<em>케이스에는 노란 달 스티커가 있어요. 바이올린은 그 안에 있어요.</em></p><div class="note-task"><b>노트</b> · There is a [yellow moon] sticker [on] the case. My violin is [in] it.</div><span class="result-tag">정답 기록 → 오래된 케이스 사진 살피기</span></div>
+          <div class="question-choice" data-ref="tara:t3"><span class="choice-no">tara:t3 · 이미 찾아본 곳</span><p class="ask">Where did you look?</p><p class="translation">어디를 찾아봤나요?</p><p class="reply">There are two chairs next to the door. I looked under both chairs. The case wasn't there.<em>문 옆 의자가 두 개예요. 두 의자 아래를 봤지만 케이스가 없었어요.</em></p><div class="note-task"><b>노트</b> · There are [two chairs] [next to] the door. I looked [under] both chairs. The case wasn't [there].</div></div>
+          <div class="question-choice" data-ref="tara:t4"><span class="choice-no">tara:t4 · 분실 시점</span><p class="ask">When did you notice it was gone?</p><p class="translation">없어진 건 언제 알았나요?</p><p class="reply">I went to the lobby after the morning rehearsal. It was gone when I came back.<em>오전 리허설 뒤 로비에 갔다가 돌아오니 없어졌어요.</em></p><div class="note-task"><b>노트</b> · I went to the [lobby] after the morning rehearsal. It was [gone] when I came back.</div></div>
+        </div><div class="evidence-card"><small>현장 사진 · 타라가 보여 준 오래된 사진</small><h4>케이스의 노란 달</h4><p>탐정 음성 · <strong>There is a yellow moon sticker on this case.</strong> / 이 케이스에는 노란 달 스티커가 있네.</p><p>이 사진은 타라의 물건을 알아보는 기준이다. 누가 가져갔는지는 말해 주지 않는다.</p></div><div class="scene-next"><strong>다음</strong> · 대기실의 빈 자리와 오전 리허설 사진을 살핀다.</div></div></article>
+
+        <article class="scene" id="scene-2"><div class="scene-head"><span class="scene-kicker">장면 2 · 출연자 대기실</span><h3>빈 자리와 오전 사진</h3><p>사진은 복장과 대략적 위치를 보여 준다. 케이스가 사라진 순간을 찍은 것은 아니다.</p></div><figure class="scene-sketch"><div class="room-sketch"><div class="sketch-cell missing"><strong>□ □</strong><small>문 옆 의자 두 개 · 왼쪽 빈 자리</small></div><div class="sketch-cell photo"><strong>▣</strong><small>오전 리허설 사진 게시판</small></div><div class="sketch-cell"><strong>⇢</strong><small>무대 옆 통로로 이어지는 문</small></div></div><figcaption>배치 스케치 · 그림 원화가 아니라 조사 위치를 보는 기획용 도식</figcaption></figure><div class="scene-body"><div class="choice-group">
+          <div class="turn det"><span class="who">탐정 · 게시판</span><p class="en">There are morning rehearsal photos on the board.</p><p class="ko">게시판에 오전 리허설 사진이 있네.</p></div>
+          <div class="turn det"><span class="who">탐정 · 현장 사진</span><p class="en">In this photo, a fox is next to the door. A goat is on the stage. A mole is next to the curtain.</p><p class="ko">이 사진에서 여우는 문 옆, 염소는 무대 위, 두더지는 커튼 옆에 있네.</p></div>
+          <div class="turn det"><span class="who">탐정 · 복장</span><p class="en">There is a green scarf around the fox's neck.</p><p class="ko">사진 속 여우가 초록 목도리를 하고 있네.</p></div>
+          <div class="turn det"><span class="who">탐정 · 빈 자리</span><p class="en">The left chair is empty. There is no case under it.</p><p class="ko">왼쪽 의자는 비어 있고 아래에도 케이스가 없네.</p></div>
+        </div><p class="scene-note"><strong>사진 시점</strong> · 오전 리허설 때 무대 옆에서 대기실 문과 무대를 한 화면에 담아 찍고, 오후 공연 전에 게시했다. 사진에는 이름표가 없다. 인물 이름은 직접 인사한 뒤에만 안다.</p><div class="scene-next"><strong>다음</strong> · 대기실의 세 친구에게 따로 질문한다.</div></div></article>
+
+        <article class="scene" id="scene-3"><div class="scene-head"><span class="scene-kicker">장면 3 · 출연자 대기실</span><h3>오웬·이보·모모의 위치 진술</h3><p>세 사람 모두 대기실과 무대 주변에 접근할 수 있다. 오전 사진만으로 누구도 제외하지 않는다.</p></div><div class="scene-body"><h4 class="choice-heading">오웬 · 출연자</h4><div class="turn"><span class="who">오웬 · 첫인사</span><p class="en">I'm Owen. I'm in the contest too.</p><p class="ko">난 오웬이야. 나도 대회에 나가.</p></div><div class="choice-group">
+          <div class="question-choice" data-ref="owen:o1"><span class="choice-no">owen:o1 · 뒤에서 반박할 말</span><p class="ask">Where were you after rehearsal?</p><p class="translation">리허설 뒤 어디에 있었니?</p><p class="reply">I was next to the door. I didn't go behind the piano.<em>문 옆에 있었어. 피아노 뒤에는 가지 않았어.</em></p><div class="note-task"><b>노트</b> · I was [next to] the [door]. I didn't go [behind] the [piano].</div></div>
+          <div class="question-choice" data-ref="owen:o2"><span class="choice-no">owen:o2 · 마지막 목격</span><p class="ask">When did you last see Tara's case?</p><p class="translation">타라의 케이스를 마지막으로 언제 봤니?</p><p class="reply">I saw Tara's case next to the chair before she left. I didn't touch it.<em>타라가 나가기 전 의자 옆에서 봤어. 건드리지 않았어.</em></p><div class="note-task"><b>노트</b> · I saw Tara's case [next to] the [chair] before she left. I didn't [touch] it.</div></div>
+        </div><h4 class="choice-heading">이보 · 출연자</h4><div class="turn"><span class="who">이보 · 첫인사</span><p class="en">Hello, I'm Ivo. I was reading my music.</p><p class="ko">안녕, 난 이보야. 악보를 보고 있었어.</p></div><div class="choice-group">
+          <div class="question-choice" data-ref="ivo:i1"><span class="choice-no">ivo:i1 · 무대 위치</span><p class="ask">Where were you?</p><p class="translation">어디에 있었니?</p><p class="reply">I was next to the music stand on the stage.<em>무대 위 악보대 옆에 있었어.</em></p><div class="note-task"><b>노트</b> · I was [next to] the [music stand] [on] the [stage].</div></div>
+          <div class="question-choice" data-ref="ivo:i2"><span class="choice-no">ivo:i2 · 자기 물건</span><p class="ask">What kept you there?</p><p class="translation">거기서 뭘 하고 있었니?</p><p class="reply">My bow was under the stand. My sheet music was on it.<em>활이 악보대 아래에 있었어. 악보는 그 위에 있었고.</em></p><div class="note-task"><b>노트</b> · My [bow] was [under] the stand. My sheet music was [on] it.</div></div>
+        </div><h4 class="choice-heading">모모 · 무대 조명 정리</h4><div class="turn"><span class="who">모모 · 첫인사</span><p class="en">Hi, I'm Momo. I help with the stage lights.</p><p class="ko">안녕, 난 모모야. 무대 조명을 돕고 있어.</p></div><div class="choice-group">
+          <div class="question-choice" data-ref="momo:m1"><span class="choice-no">momo:m1 · 작업 이유</span><p class="ask">What were you doing?</p><p class="translation">뭘 하고 있었니?</p><p class="reply">There are spare bulbs in a box under the shelf. I was working next to the curtain.<em>선반 아래 상자에 예비 전구가 있어. 커튼 옆에서 일하고 있었어.</em></p><div class="note-task"><b>노트</b> · There are spare bulbs [in] a box [under] the shelf. I was working [next to] the [curtain].</div></div>
+          <div class="question-choice" data-ref="momo:m2"><span class="choice-no">momo:m2 · 커튼과 피아노 구별</span><p class="ask">Did you go near the piano?</p><p class="translation">피아노 근처에 갔니?</p><p class="reply">I went behind the curtain to fix a light. I didn't go behind the piano.<em>조명을 고치려고 커튼 뒤에는 갔지만 피아노 뒤에는 안 갔어.</em></p><div class="note-task"><b>노트</b> · I went [behind] the [curtain] to fix a light. I didn't go [behind] the [piano].</div></div>
+        </div><div class="scene-next"><strong>다음</strong> · 무대 옆 통로에서 핍을 만나 이동 방향을 묻는다.</div></div></article>
+
+        <article class="scene" id="scene-4"><div class="scene-head"><span class="scene-kicker">장면 4 · 무대 옆 통로</span><h3>핍이 본 케이스</h3><p>큰 케이스가 얼굴을 가렸다. 핍은 이름을 모른 채 보이는 특징과 방향만 말한다.</p></div><div class="scene-body"><div class="turn"><span class="who">핍 · 첫인사</span><p class="en">Hello. I'm Pip. I was in the side passage.</p><p class="ko">안녕. 난 핍이야. 무대 옆 통로에 있었어.</p></div><h4 class="choice-heading">질문 선택지 · 핍</h4><div class="choice-group">
+          <div class="question-choice" data-ref="pip:p1"><span class="choice-no">pip:p1 · 케이스의 이동</span><p class="ask">What did you see?</p><p class="translation">무엇을 봤니?</p><p class="reply">Someone carried a case with a yellow moon on it behind the piano.<em>누군가 노란 달이 붙은 케이스를 피아노 뒤로 가져갔어.</em></p><div class="note-task"><b>노트</b> · Someone carried a case with a [yellow moon] [on] it [behind] the [piano].</div><span class="result-tag">정답 기록 → 피아노 뒤 조사 위치 표시</span></div>
+          <div class="question-choice" data-ref="pip:p2"><span class="choice-no">pip:p2 · 보이는 복장</span><p class="ask">Could you see who it was?</p><p class="translation">누군지 봤니?</p><p class="reply">No. The case covered their face. The end of a green scarf was under one arm.<em>아니. 케이스에 얼굴이 가렸어. 초록 목도리 끝이 한쪽 팔 아래로 보였어.</em></p><div class="note-task"><b>노트</b> · The case covered their [face]. The end of a [green scarf] was [under] one arm.</div></div>
+        </div><div class="scene-next"><strong>다음</strong> · 핍이 가리킨 피아노 뒤를 살핀다.</div></div></article>
+
+        <article class="scene" id="scene-5"><div class="scene-head"><span class="scene-kicker">장면 5 · 무대 뒤</span><h3>피아노 뒤의 물건과 실</h3><p>달 스티커로 케이스를 확인한다. 피아노 다리의 실과 오웬 목도리의 뜯긴 끝은 따로 수집한다.</p></div><figure class="scene-sketch"><div class="room-sketch"><div class="sketch-cell"><strong>♫</strong><small>무대 악보대 · 이보의 활</small></div><div class="sketch-cell"><strong>◫</strong><small>커튼·조명 선반 · 모모의 일</small></div><div class="sketch-cell piano"><strong>♬</strong><small>피아노 뒤 · 달 표식 케이스·초록 실</small></div></div><figcaption>공간 구별 스케치 · 악보대 아래, 커튼 뒤, 피아노 뒤는 서로 다른 자리</figcaption></figure><div class="scene-body"><div class="choice-group">
+          <div class="turn det"><span class="who">탐정 · 케이스 위치</span><p class="en">There is a case behind the piano.</p><p class="ko">피아노 뒤에 케이스가 있어.</p></div>
+          <div class="turn det"><span class="who">탐정 · 표식·안의 물건</span><p class="en">The yellow moon is on the case. The violin is in it.</p><p class="ko">케이스에 노란 달이 있고 바이올린은 안에 있어.</p></div>
+          <div class="turn det"><span class="who">탐정 · 현장 흔적</span><p class="en">There is a green thread on the piano leg.</p><p class="ko">피아노 다리에 초록 실이 걸려 있어.</p></div>
+        </div><p class="scene-note"><strong>수집</strong> · 타라의 사진·오전 사진·피아노 뒤 케이스·초록 실·오웬 목도리 끝을 증거 노트에서 각각 구별한다. 실과 옷을 한 장의 정답 사진으로 합치지 않는다.</p><div class="scene-next"><strong>다음</strong> · 대기실에서 오웬 목도리 끝을 확인하고, 후보를 비교한다.</div></div></article>
+
+        <article class="scene" id="scene-6"><div class="scene-head"><span class="scene-kicker">장면 6 · 추리</span><h3>누가 어디에 숨겼을까?</h3><p>질문 12개와 핵심 사진 5종을 기록한 뒤 진행한다. 잘못 고른 후보를 정답 팝업으로 알려 주지 않는다.</p></div><div class="scene-body"><div class="grid-2">
+          <div class="ded-question"><b>Q1 · 물건</b><p class="prompt">Is the case behind the piano Tara's?</p><p class="prompt-ko">피아노 뒤 케이스가 타라의 것일까?</p><p class="answer-line">The yellow moon sticker [matches Tara's photo].</p><p class="options">근거 · 타라의 오래된 사진 + 현장 케이스</p></div>
+          <div class="ded-question"><b>Q2 · 복장</b><p class="prompt">Who wore the green scarf?</p><p class="prompt-ko">초록 목도리를 한 조사 대상은 누구일까?</p><p class="answer-line">[Owen] wore the green scarf.</p><p class="options">근거 · 오전 사진과 현재 복장. 사진 한 장만으로 범행을 확정하지 않음</p></div>
+          <div class="ded-question"><b>Q3 · 모순</b><p class="prompt">Whose words do the clues challenge?</p><p class="prompt-ko">누구의 위치 진술이 단서와 어긋날까?</p><p class="answer-line">[Owen] said he did not go behind the piano.</p><p class="options">근거 · 핍 진술 + 피아노 초록 실 + 오웬 목도리 끝</p></div>
+          <div class="ded-question"><b>Q4 · 위치</b><p class="prompt">Where was the case hidden?</p><p class="prompt-ko">케이스는 어디에 숨겨졌을까?</p><p class="answer-line">The case was [behind the piano].</p><p class="options">근거 · 핍의 진술 + 현장 사진</p></div>
+        </div><div class="scene-next"><strong>다음</strong> · 케이스를 찾은 정황을 경사에게 알리고 대기실에서 오웬에게 증거를 내민다.</div></div></article>
+
+        <article class="scene" id="scene-7"><div class="scene-head"><span class="scene-kicker">장면 7 · 출연자 대기실</span><h3>오소리 경사가 동석한 심문</h3><p>경사는 탐정의 결과를 듣고 합류한다. 탐정이 증거를 내밀며 오웬의 말을 확인한다.</p></div><div class="scene-body"><div class="interrogation"><h4>심문 대본 · 증거 제시 순서</h4>
+          <div class="turn"><span class="who">경사 · 시작</span><p class="en">You found the case behind the piano. Tell me what else you saw.</p><p class="ko">피아노 뒤에서 케이스를 찾았군요. 또 무엇을 봤는지 말해 주세요.</p></div>
+          <div class="turn"><span class="who">오웬 · 이전 주장 반복</span><p class="en">I was next to the door. I never went behind the piano.</p><p class="ko">난 문 옆에 있었어. 피아노 뒤에는 절대 안 갔어.</p></div>
+          <div class="turn det"><span class="who">탐정 · 핍 진술과 오전 사진</span><p class="en">Pip saw the end of a green scarf under one arm. Look at the photo.</p><p class="ko">핍은 한쪽 팔 아래로 초록 목도리 끝을 봤어. 이 사진을 봐.</p></div>
+          <div class="turn det"><span class="who">탐정 · 목도리 끝과 피아노 실</span><p class="en">Owen, there is a loose end on your scarf. There was a green thread on the piano leg.</p><p class="ko">오웬, 네 목도리 끝이 뜯겨 있어. 피아노 다리에도 초록 실이 있었어.</p></div>
+          <div class="turn"><span class="who">경사 · 설명 요청</span><p class="en">Why did you move it?</p><p class="ko">왜 옮겼니?</p></div>
+          <div class="turn"><span class="who">오웬 · 자백</span><p class="en">I hid the case behind the piano. I wanted Tara to miss her turn.</p><p class="ko">내가 케이스를 피아노 뒤에 숨겼어. 타라가 자기 차례에 연주하지 못하길 바랐어.</p></div>
+          <div class="turn"><span class="who">경사 · 반환</span><p class="en">The violin is in the case, and it isn't damaged. Take it back to Tara.</p><p class="ko">바이올린은 케이스 안에 있고 망가지지 않았어요. 타라에게 돌려주세요.</p></div>
+        </div><p class="scene-note"><strong>증거 선택</strong> · 핍 진술 → 오전 사진 → 현장 실과 오웬 목도리 끝. 경사가 정답 인물·동기를 먼저 말하지 않는다. 경찰서나 조사실로 이동하지 않는다.</p><div class="scene-next"><strong>다음</strong> · 케이스를 들고 로비의 타라에게 돌아간다.</div></div></article>
+
+        <article class="scene" id="scene-8"><div class="scene-head"><span class="scene-kicker">장면 8 · 로비와 복습</span><h3>타라에게 바이올린을 돌려준다</h3><p>고백을 들은 뒤 실물을 전한다. 타라가 스티커와 악기를 직접 확인하고 끝낸다.</p></div><div class="scene-body"><div class="choice-group"><div class="turn det"><span class="who">탐정 · 반환</span><p class="en">Your case was behind the piano. Your violin is in it.</p><p class="ko">케이스는 피아노 뒤에 있었고 바이올린은 안에 있어요.</p></div><div class="turn"><span class="who">타라 · 확인</span><p class="en">I can see my moon sticker on it. Thank you for bringing it back.</p><p class="ko">내 달 스티커가 보이네요. 찾아줘서 고마워요.</p></div></div><div class="scene-next"><strong>완료</strong> · 복습에서는 숨긴 사람·장소·자백·단서 순서를 공개한다.</div></div></article>
+      </div>
+    </section>
+
+    <section id="story"><div class="section-head"><h2>사건 한눈에</h2><p>의뢰인이 모르는 사실을 플레이어도 증거 전에는 알 수 없다. 아래 결말은 제작자용이다.</p></div><div class="grid-3"><div class="story-card"><span class="step-no">01</span><h3>의뢰</h3><p>타라가 공연 전 사라진 바이올린을 찾아 달라고 한다. 케이스에는 노란 달 스티커가 있다.</p></div><div class="story-card"><span class="step-no">02</span><h3>추적</h3><p>대기실의 빈 자리와 오전 사진, 세 후보의 위치 진술, 핍의 목격담을 연결한다.</p></div><div class="story-card"><span class="step-no">03</span><h3>심문·반환</h3><p>피아노 뒤 케이스와 초록 실을 확인한다. 경사가 합류한 뒤 탐정이 오웬의 진술을 반박하고 타라에게 반환한다.</p></div></div><div class="callout"><strong>제작자용 진실</strong> · 오웬이 경쟁심에 타라의 케이스를 피아노 뒤에 숨겼다. 케이스는 온전하다.</div></section>
+
+    <section id="cast"><div class="section-head"><h2>인물과 장소</h2><p>새 친구 다섯 명, 기존 경사 한 명. 소풍·우산 사건의 인물과 장소는 재사용하지 않는다.</p></div><div class="grid-3">
+      <div class="person-card"><span class="avatar">타</span><div><span class="role">의뢰인 · 출연자</span><h3>타라 · 족제비</h3><p>로비에서 케이스를 찾아 달라고 부탁한다. 범인은 모른다.</p></div></div>
+      <div class="person-card"><span class="avatar">오</span><div><span class="role">조사 대상 · 출연자</span><h3>오웬 · 여우</h3><p>문 옆에 있었다고 말한다. 초록 목도리 끝이 뜯겨 있다.</p></div></div>
+      <div class="person-card"><span class="avatar">이</span><div><span class="role">조사 대상 · 출연자</span><h3>이보 · 염소</h3><p>무대 악보대 옆에서 자기 활을 찾았다.</p></div></div>
+      <div class="person-card"><span class="avatar">모</span><div><span class="role">조사 대상 · 무대 정리</span><h3>모모 · 두더지</h3><p>커튼과 조명 선반 주변에서 일했다.</p></div></div>
+      <div class="person-card"><span class="avatar">핍</span><div><span class="role">목격자 · 자원봉사자</span><h3>핍 · 참새</h3><p>운반자의 얼굴은 못 보고 케이스·목도리·방향을 봤다.</p></div></div>
+      <div class="person-card"><span class="avatar">경</span><div><span class="role">기존 인물 · 경찰</span><h3>오소리 경사</h3><p>케이스 발견 후 대기실에 합류해 심문을 지켜본다.</p></div></div>
+    </div><h3 class="field-label">방문 장소 3곳</h3><div class="grid-3"><div class="place-card"><h3>음악회관 로비</h3><p>타라의 의뢰·오래된 사진·마지막 반환.</p><span class="place-tag">사건 시작</span></div><div class="place-card"><h3>출연자 대기실</h3><p>빈 자리, 사진 게시판, 후보 진술, 경사 동석 심문.</p><span class="place-tag">타라 t1 기록 뒤</span></div><div class="place-card"><h3>무대 옆 통로·무대 뒤</h3><p>핍 목격담, 피아노 뒤 케이스와 초록 실.</p><span class="place-tag">대기실 무대 문 확인 뒤</span></div></div></section>
+
+    <section id="evidence"><div class="section-head"><h2>단서 비교</h2><p>노란 달은 어느 물건인지, 초록 목도리와 실은 누가 옮겼는지 확인한다. 한 장만으로 범인을 확정하지 않는다.</p></div><div class="evidence-grid">
+      <div class="evidence-card"><div class="evidence-preview" aria-hidden="true">☾</div><small>로비 · 타라가 보여 준 사진</small><h4>오래된 케이스 사진</h4><p>노란 달 스티커로 물건을 식별한다.</p></div>
+      <div class="evidence-card"><div class="evidence-preview" aria-hidden="true">▣</div><small>대기실 · 오전 게시판</small><h4>리허설 현장 사진</h4><p>초록 목도리를 한 친구와 세 위치를 구별한다. 분실 순간의 사진은 아니다.</p></div>
+      <div class="evidence-card"><div class="evidence-preview" aria-hidden="true">♫</div><small>무대 뒤 · 피아노</small><h4>케이스와 바이올린</h4><p>피아노 뒤 실물의 달 스티커·안의 악기를 확인한다.</p></div>
+      <div class="evidence-card"><div class="evidence-preview" aria-hidden="true">⌁</div><small>무대 뒤 · 피아노 다리</small><h4>초록 실</h4><p>피아노 다리에 걸린 흔적. 누구 것인지 단독으로 알려 주지 않는다.</p></div>
+      <div class="evidence-card"><div class="evidence-preview" aria-hidden="true">▥</div><small>대기실 · 오웬</small><h4>뜯긴 목도리 끝</h4><p>현장 실과 색·질감을 비교해 위치 진술을 검증한다.</p></div>
+    </div><div class="deduction"><strong>판단 순서</strong> · 달 스티커로 타라 케이스 확인 → 핍의 초록 목도리 목격담과 오전 사진 대조 → 피아노 실과 목도리 끝 비교 → 오웬의 “피아노 뒤에 가지 않았다” 반박.</div></section>
+
+    <section id="learning"><div class="section-head"><h2>학습과 제작 점검</h2><p>아래 횟수는 질문·예습·노트·번역을 뺀 실제 영어 음성 대사에서만 센다.</p></div><div class="expression-grid">
+      <div class="expression-card"><h3>there is</h3><p>케이스 표식·빈 자리·피아노 실을 말한다.</p><b>7회 이상</b></div>
+      <div class="expression-card"><h3>there are</h3><p>의자 두 개·게시판 사진·예비 전구를 말한다.</p><b>3회</b></div>
+      <div class="expression-card"><h3>in</h3><p>대기실·상자·바이올린 케이스 안을 말한다.</p><b>3회 이상</b></div>
+      <div class="expression-card"><h3>on</h3><p>스티커·무대·악보·실이 있는 곳을 말한다.</p><b>3회 이상</b></div>
+      <div class="expression-card"><h3>under</h3><p>찾아본 의자 아래·활·전구 상자·목도리 끝을 말한다.</p><b>3회 이상</b></div>
+      <div class="expression-card"><h3>next to</h3><p>케이스의 마지막 자리와 후보들의 위치를 말한다.</p><b>3회 이상</b></div>
+      <div class="expression-card"><h3>behind</h3><p>커튼 뒤와 피아노 뒤를 구별하고 거짓말을 반박한다.</p><b>3회 이상</b></div>
+    </div><p class="fine">실제 발화별 위치와 노트 빈칸은 <a href="case-04-missing-violin.md">전체 설계서 4–9절</a>에 있다. 그림·음성은 아직 제작하지 않았다. 실제 게임 화면과 녹음 난도는 개발 점검에서 확인한다.</p><div class="producer-only"><strong>상태</strong> · Case 04 B는 사용자와 검토 중인 1차 기획이다. 개발 인계 후에는 Claude Code가 사용자와 점검·수정·개발한다.</div></section>
+  </main>
 </body>
 </html>
