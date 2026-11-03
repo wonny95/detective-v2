@@ -6659,6 +6659,9 @@ if(PACK){
   // another case's page: its review from 학습, else the case (a new one with its key); never the case cards
   $('#caseList').hidden = true;
   if(new URLSearchParams(location.search).get('review') === '1' && solvedCases().includes(CASE_ID)) openReview(true);
+  // without a detective name (튜토리얼 초기화 or 리셋 on this page) the first meeting is on 홈, as when the app opens,
+  // not straight into this case after the name (user request: it went into the case at once)
+  else if(!PREVIEW && !detectiveName()) location.replace(location.pathname);
   else if(!PREVIEW) startCase(false);
 } else {
   // the app opens on 홈 (on the case cards when coming back from another case); without a detective name, the first
