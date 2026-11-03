@@ -5918,6 +5918,8 @@ function homeKoShift(){
 /* ---------- case select ----------
    Cases open in order (a case unlocks when the one before it is solved). Solved cases are kept on
    this device; the case in progress lives in memory only until saving is added. */
+// testing stage (user decision): every playable case is open in the list; false brings the order back
+const ALL_CASES_OPEN = true;
 const CASES = [
   { id:'picnic-bag', no:'Case 01', title:'바뀐 소풍 가방', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
@@ -5985,7 +5987,7 @@ function renderCaseList(){
   $('#caseStreak').hidden = !streak;
   $('#caseStreak').innerHTML = `${FLAME_ICON}${streak}일`;
   $('#caseCards').innerHTML = CASES.map((c, i) => {
-    const open = i === 0 || solved.includes(CASES[i - 1].id);
+    const open = ALL_CASES_OPEN || i === 0 || solved.includes(CASES[i - 1].id);
     const look = `${i % 2 ? 'r' : 'l'}" style="--tilt:${TILTS[i % TILTS.length]}deg;--i:${i}`;
     if(!open || !c.playable) return `<div class="polaroid locked ${look}" aria-label="${c.no} 잠김">
       <span class="pol-photo">?</span>
