@@ -297,6 +297,16 @@ t5는 우산을 찾는 핀에게 문의할 이유와 만날 장소를 알려 준
 | 4 | Is this umbrella Tess's? / 이 우산은 테스의 것일까? | Tess's umbrella is [dark blue] inside. This one is gold inside. | dark blue / gold | tess:t3 + umbrella-inside — 겉모습은 같지만 펼쳐 본 안감 색이 다르다. 테스 제외 |
 | 5 | Whose umbrella is this? / 그럼 이 우산은 누구 것일까? | This umbrella is [Ruby Cat]'s. It has a blue handle and gold stars, and it is gold inside. | Ruby Cat / Finn Frog / Tess Tortoise | ruby:r1·r2·r3 + 우산 사진 3장 + Q3·Q4 — 겉이 같은 두 후보를 안감 색으로 구별한다. 이름 뒤 소유격과 마지막 설명은 문장 틀로 제공한다. |
 
+**맞장구·힌트 — 개발 초안(2026-11-03, 사용자 확인 필요):** 추리 보드는 문항마다 맞혔을 때의 맞장구와 두 번째 오답부터의 힌트가 필요해 개발에서 써 넣었다. 첫 오답은 공통 "Hmm… that doesn't fit."이다.
+
+| Q | 맞장구 / 해석 | 힌트 / 해석 |
+|---|---|---|
+| 1 | Right. It rained that day. That's why we asked at Toy Nest. / 맞아. 그날 비가 왔어. 그래서 토이 네스트에 물어보러 갔지. | Look at the notice in the village hall. / 회관의 안내문을 봐. |
+| 2 | Yes. All three are the same. The handle isn't enough. / 맞아. 셋 다 똑같아. 손잡이만으로는 알 수 없어. | Look at the handle photo. What did Finn, Tess, and Ruby say? / 손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지? |
+| 3 | Right. Finn's umbrella has no pattern. So it isn't Finn's. / 맞아. 핀의 우산에는 무늬가 없어. 그러니 핀의 우산이 아니야. | What did Finn say about the pattern? / 핀이 무늬에 대해 뭐라고 했지? |
+| 4 | Yes. The outside is the same, but the inside is not. So it isn't Tess's. / 맞아. 겉은 같지만 안쪽이 달라. 그러니 테스의 우산이 아니야. | Look at the photo of the inside. What did Tess say about hers? / 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
+| 5 | It's Ruby's umbrella. Let's tell Ella. / 루비의 우산이야. 엘라에게 알려 주자. | Whose umbrella is gold inside? / 안쪽이 금빛인 우산은 누구 거지? |
+
 Q1은 비 때문에 실내로 옮긴 바자회를 확인해 토이 네스트를 찾아간 근거를 복습한다. Q3·Q4는 “Is this umbrella …'s?”로 묻고 Q5는 “Whose umbrella is this?”로 묻는다. Q3·Q4에서 서로 다른 후보를 제외한다. 주인 확정 근거는 각자의 독립적인 설명과 우산 사진 3장이다. 겉무늬 사진만으로 루비를 확정하지 않는다. 오답은 같은 문항에서 다시 선택하며 앞서 맞힌 진척을 유지한다.
 
 ## 9. 반환·의뢰인 보고 대본
@@ -332,6 +342,7 @@ Q1은 비 때문에 실내로 옮긴 바자회를 확인해 토이 네스트를 
 - 확정된 그림: 접힌 우산·펼친 우산 한 장(4절). 준비할 그림: 신규 장소 3곳(회관은 입구 우산꽂이 포함), 인물 4명, 우산 접힘·펼침 분리, 우산 촬영 부위 3곳, 회관 기록 3종(10월 24일 현수막·게시판의 실내 바자회 사진·10월 24일 장소 변경 안내문), 게시판의 실루엣 위주 배경 사진 여러 장, 오늘 맑은 하늘이 보이는 창문.
 - 준비할 음성: 위 첫인사·질문·대답·단서 나레이션·주변 물건·결말·추리. 녹음은 아직 하지 않았다.
 - 확인 필요: 실제 음성으로 mine의 지시 대상과 no pattern을 구별하는지, 13문항·31칸·필수 사진 5장의 부담, 두 가지 특징을 모두 듣는지. 소요 시간·학생 난도·학습 효과는 아직 미검증이다.
-- 개발 점검에서 나온 엔진 작업(사용자와 합의 뒤 진행): 우산 확대 조사(접기·펴기·부분 촬영), 증거 두 장으로 장소 해금과 탐정 독백, 자기소개 전 이름 없는 인물, 추리 진입 조건에 필수 사진, 추리 빈칸의 새 종류(이유·무늬), 결말의 받기만 하는 차례·보고만 하는 차례·펼치기 연출·같은 장소의 두 인물 대사. 기존 화면 모양 그대로 엔진에 더한다.
+- **개발 1단계(2026-11-03)**: 게임에 넣었다(`index.html`의 `UMBRELLA_CASE`, `?case=umbrella`, 사건 목록 Case 02). 지도 핀은 임시 위치다. 녹음 없이 브라우저 음성으로 재생한다. **개발 2단계 그림(2026-11-03)**: 인물 4명(두 명씩 한 장, 루비 옷은 사용자 요청으로 다시 그림)·장소 3곳(바닥까지 한 장)·게시판의 실내 바자회 사진을 Higgsfield로 만들어 넣었고, 접힌 우산 아랫단의 금빛 안감을 남색으로 고쳤다. 남은 것은 지도 편집과 핀 위치.
+- 개발 점검에서 나온 엔진 작업(1단계에서 모두 넣음): 우산 확대 조사(접기·펴기·부분 촬영), 증거 두 장으로 장소 해금과 탐정 독백, 자기소개 전 이름 없는 인물, 추리 진입 조건에 필수 사진, 추리 빈칸의 새 종류(이유·무늬), 결말의 받기만 하는 차례·보고만 하는 차례·펼치기 연출·같은 장소의 두 인물 대사. 기존 화면 모양 그대로 엔진에 더한다.
 
 이 문서는 2026-11-02 사용자 결정으로 Claude Code에 인계한 1차 기획을 2026-11-03 개발 점검 뒤 사용자와 함께 고친 2차 수정본이다. 이후 설계서·대본의 수정·개발은 Claude Code와 사용자가 진행하며 Codex는 이 사건 설계서를 수정하지 않는다. 인계 기록은 design/STORY_LOG.md의 2026-11-02 16:05 항목을 따른다.

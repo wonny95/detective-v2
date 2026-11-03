@@ -109,3 +109,13 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - `scripts/cut-picnic-characters.py`: 벤(왼쪽)·노라(오른쪽)는 반으로 나누고, 미아와 올리는 게임에서 한 사람(`mia`, `Mia & Ollie`)이라 함께 자른다. 알파 경계 + 3% 여백, 높이 700px. 얼굴 아이콘(`assets/ui/icons-v2/ben·nora·mia.png`, 160px, 흰 테두리)도 같은 스크립트가 자른다(미아·올리는 두 얼굴을 겹쳐 한 장). 지도 핀용으로 한 얼굴씩 `mia-solo.png`·`ollie.png`도 자른다(`save(..., sprite=False)`).
 - 적용본: `ben-higgsfield.png` 542×700, `nora-higgsfield.png` 475×700, `mia-higgsfield.png` 909×700. 말하는 입은 `mouths/`의 `ben`·`nora`·`mia`·`mia-ollie`(위 NPC 입 절).
 - 프롬프트 요지: 참조 그림과 같은 크레용·색연필 화풍·비율로 두 인물을 나란히, 크림 종이 배경, 빈손. 벤 — 갈색 털, 옅은 주둥이, 앞니 두 개, 납작한 꼬리, 겨자색 니트 조끼·흰 셔츠·갈색 바지. 노라 — 갈색 가시, 크림 얼굴, 청록 재킷·흰 블라우스·남색 치마. 올리 — 갈색 털·크림 얼굴·긴 꼬리, 초록 티셔츠·황갈색 반바지. 미아 — 회색 생쥐, 분홍 귀·꼬리, 흰 점 하늘색 원피스, 노란 머리띠, 올리보다 머리 하나 작음.
+
+## 적용 중: 우산 사건 엘라·핀·테스·루비 (Claude 제작, 2026-11-03)
+
+- 소풍 사건처럼 **두 명씩 한 장**(한 화면에 함께 서는 테스와 루비를 한 장에). Higgsfield Nano Banana 2.1, 16:9, 2K, thinking high, 참조 벤·노라 시트(job `0af39333-…`)와 오리 아저씨 원본(job `6f92a3f3-…`). 장당 2크레딧.
+  - 거북 테스 + 고양이 루비: job `a429340b-ad97-40d1-be9f-e20badd92fce`. 루비 옷은 사용자 요청("좀 세련된 옷으로")으로 같은 그림을 편집해 다시 그림(job `07d90f37-e824-4854-957f-d389a3ddfdb7`, 2크레딧, 테스는 그대로) → `tess-ruby-higgsfield-original.jpg`
+  - 사슴 엘라 + 개구리 핀: job `af3a0080-e3d5-48bb-8e22-48589d3a5393` → `ella-finn-higgsfield-original.jpg`
+- 배경 제거: Higgsfield `remove_background`(테스·루비 `d5fc2a32-…`, 엘라·핀 `d62816f2-…`) → `tess-ruby-cutout.webp`, `ella-finn-cutout.webp`. 배경 제거가 크림 종이와 비슷한 밝은 부분(테스의 소매, 루비의 스타킹, 엘라의 주둥이, 핀의 밑창)을 비우거나 반투명하게 만들어, `scripts/cut-umbrella-characters.py`가 윤곽 안쪽을 원본 시트 색으로 다시 채운다.
+- 같은 스크립트가 반으로 나눠 알파 경계 + 3% 여백, 높이 700px로 맞추고 얼굴 아이콘(`assets/ui/icons-v2/<id>.png`, 160px, 흰 테두리)을 자른다. 적용본: `tess-higgsfield.png` 459×700, `ruby-higgsfield.png` 517×700, `ella-higgsfield.png` 472×700, `finn-higgsfield.png` 420×700. 화면 높이(`positions`)는 시트 안의 키 비율로(엘라·루비 46, 테스 43, 핀 37).
+- 입: `scripts/make-npc-mouths.py`의 `tess`·`ruby`·`ella`·`finn`. 닫은 입은 그림 그대로(`AS_DRAWN`: 고양이·사슴의 코 밑 입 모양을 살림), 벌린 입만 시트의 미소 벌림.
+- 프롬프트 요지: 참조와 같은 크레용·색연필 화풍·비율로 두 인물을 나란히, 크림 종이 배경, 빈손, 우산 없음, **남색·금색 없음**(우산 특징과 겹치지 않게, 설계서 3절). 테스 — 올리브색 피부, 갈색 등딱지, 크림 셔츠에 민트색 가게 앞치마. 루비 — 회색 줄무늬 고양이, 흰 둥근 깃의 루비색 원피스·검정 벨트·크림 스타킹·검정 메리제인. 엘라 — 황갈색 사슴(뿔 없음), 테라코타 니트 가디건·흰 블라우스·베이지 치마. 핀 — 연두색 개구리, 주황 줄무늬 티셔츠·황갈색 반바지·빨간 운동화.
