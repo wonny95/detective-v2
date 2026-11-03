@@ -5333,8 +5333,10 @@ const ART = {
   toynest: () => `<image href="assets/places/umbrella/toynest.webp" width="1376" height="768"/>
     <text x="1013" y="234" text-anchor="middle" font-size="40" font-weight="700" fill="#FFF8E6" stroke="#5E4630" stroke-width="1.5" paint-order="stroke" font-family="Georgia,serif" transform="rotate(1 1013 220)">Toy Nest</text>`,
   windmill: () => `<image href="assets/places/umbrella/windmill.webp" width="1376" height="768"/>`,
-  // the close look: the confirmed umbrella picture (assets/places/umbrella/), folded or open (S.unfolded)
-  umbrella: () => `<rect width="1376" height="768" fill="#F6EED9"/>` + (S.unfolded
+  // the close look: the confirmed umbrella picture (assets/places/umbrella/), folded or open (S.unfolded), the cut-out
+  // alone over the hall it was taken from, softly blurred and dimmed (user request: no paper behind the umbrella)
+  umbrella: () => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+    <image href="assets/places/umbrella/hall.webp" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>` + (S.unfolded
     ? `<image href="assets/places/umbrella/umbrella-open.png" x="368" y="82" width="640" height="605"/>`
     : `<image href="assets/places/umbrella/umbrella-folded.png" x="558" y="46" width="260" height="675"/>`),
   interview: () => `<image href="assets/places/station-interview-room.png" width="1536" height="1536"/>`,
