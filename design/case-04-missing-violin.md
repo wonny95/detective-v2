@@ -93,8 +93,8 @@
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
-| pip:g1 | 핍: **Hello. I'm Pip. I was in the side passage.** / 안녕. 난 핍이야. 무대 옆 통로에 있었어. | 인사. 노트 없음 |
-| pip:p1 | **What did you see?** / 무엇을 봤니?<br>핍: **Someone carried a case with a yellow moon on it behind the piano.** / 누군가 노란 달이 붙은 케이스를 피아노 뒤로 가져갔어. | “Someone carried a case with a [yellow moon] [on] it [behind] the [piano].” → 피아노 뒤 조사 지점 |
+| pip:g1 | 핍: **Hello. I'm Pip.** / 안녕. 난 핍이야. | 인사. 노트 없음 |
+| pip:p1 | **What did you see?** / 무엇을 봤니?<br>핍: **I was in the side passage. Someone carried a case with a yellow moon on it behind the piano.** / 무대 옆 통로에 있었어. 누군가 노란 달이 붙은 케이스를 피아노 뒤로 가져갔어. | “Someone carried a case with a [yellow moon] [on] it [behind] the [piano].” → 피아노 뒤 조사 지점 |
 | pip:p2 | **Could you see who it was?** / 누군지 봤니?<br>핍: **No. The case covered their face. The end of a green scarf was under one arm.** / 아니. 케이스에 얼굴이 가렸어. 초록 목도리 끝이 한쪽 팔 아래로 보였어. | “The case covered their [face]. The end of a [green scarf] was [under] one arm.” → 신원 미확인, 복장 단서 |
 
 | ID | 피아노 주변에서 실제로 들리는 탐정 발화 / 한국어 | 증거 노트 |
