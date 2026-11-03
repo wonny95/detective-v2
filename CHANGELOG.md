@@ -13,7 +13,17 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 17:05 · Claude · (이 커밋)
+## 2026-11-03 17:25 · Claude · (이 커밋)
+
+- 사용자 요청: 핀은 **Dylan**, 감정 행복(다른 인물과 같게). Claude in Chrome으로 `higgsfield.ai/audio`에서 4줄(hello `56808a35`, hello2 `7fe250aa`, f1 `157d0a1b`, f2 `ebc73e36`), 생성 기록에서 모두 `emotion: happy` 확인 → `people.finn.audio`. `SENTENCE_TIMES` finn:f1·f2.
+- 사용자 요청: 탐정 목소리도 넣기, 감정 **중립**. Grady로 52문장(같은 질문 5줄은 파일 복사로 57줄). 첫 줄 `de9a2e4c`를 웹에서 중립으로 만들어 보니 감정 값 없이 저장되어 MCP와 같으므로, 나머지 51문장은 MCP 일괄 생성(동시 3개). 파일 이름은 녹음 대본 그대로(`audio/umbrella/detective-*.mp3` 41개, `audio/umbrella/deduce/*.mp3` 16개).
+- 엔진: 우산 사건의 `silent`를 뺌. `detectiveSay`는 우산 사건이면 `audio/umbrella/detective-<키>.mp3`, `askAudio`는 `audio/umbrella/detective-<인물>-<질문>.mp3`, `DEDUCE_DIR`은 `audio/umbrella/deduce/`. 행동 줄 키를 `<인물>-act-<id>`로(대본 파일 이름과 맞춤). 현수막 생각은 `together[].line.key`('together1')로 녹음을 재생(키 없으면 브라우저 음성). 사진·물건의 `clue.audio`는 팩 뒤 한 줄로 붙이고, 소지품 우산에 `audio`.
+- 녹음 대본·설계서(md·html 10절, 상태 줄)를 "모두 녹음"으로 고침.
+- 크레딧: 10.95 사용(핀 0.6, 탐정 10.35), 남은 254.3.
+- 확인(새 탭 127.0.0.1): 추리 미리보기 `deduce/q1.mp3`, 첫 대화 `detective-hello-ella.mp3`·`ella-hello.mp3`, 우산 조사에서 손잡이 촬영 `detective-umbrella-0.mp3` 모두 200, 콘솔 오류 없음. 구문 검사 통과. 엔진이 만드는 탐정 파일 이름이 대본의 57개와 모두 같고 파일이 다 있음. 소리(발음·감정)와 처음부터 끝까지 한 판은 사용자 확인 필요.
+- **다음**: 사용자가 우산 사건을 처음부터 끝까지 들으며 확인(특히 테스 Callan은 남성 목소리로 분류됨). 사용자 지시 대기.
+
+## 2026-11-03 17:05 · Claude · f73b309
 
 - 사용자 결정: 테스 목소리는 사용자가 만든 hello(job `feba3a25`, MiniMax **Callan**, 감정 **행복**). 나머지 8줄을 Claude in Chrome으로 `higgsfield.ai/audio`에서 같은 목소리·감정으로 생성(사용자 hello 포함 1.8크레딧, 남은 265.25), 생성 기록에서 9줄 모두 `emotion: happy` 확인.
   - hello2 `d86a8b63`, t0 `b966c4fc`, t1 `97e6e074`, t2 `b423e4b6`, t3 `b0ba764d`, t4 `be5a1a33`, t5 `73d9531a`, end1 `854edf05` → `audio/umbrella/tess-<키>.mp3`, `people.tess.audio`에 이음.

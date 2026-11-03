@@ -1918,12 +1918,12 @@ const PICNIC_CASE = {
 /* Case 02 주인 없는 우산 (?case=umbrella): design/case-02-unclaimed-umbrella.md, on the same screens. Ella asks who owns the
    umbrella left at the village hall a week ago; the toy bazaar's banner and its rain notice lead to Toy Nest, where Tess
    (nameless until she says who she is: nameAfter) sends the detective on to Ruby and Finn. Their own words about their
-   umbrellas and the photos of the real one (folded and open, `inspect`) show it is Ruby's. Recordings are coming in one
-   by one (`people[].audio`, audio/umbrella/, script: design/case-02-unclaimed-umbrella-recording.md); a line without one
-   plays with the browser's voice (`silent`: the detective's lines too). `actions`: something asked that is not written down (the close look). */
+   umbrellas and the photos of the real one (folded and open, `inspect`) show it is Ruby's. Every line is recorded in
+   audio/umbrella/ (script: design/case-02-unclaimed-umbrella-recording.md): the people's in `people[].audio`, the
+   detective's (MiniMax Grady, no emotion) as detective-<key>.mp3, deduce/<key>.mp3 and each clue's `audio`.
+   `actions`: something asked that is not written down (the close look). */
 const UMBRELLA_CASE = {
   start:'ella',
-  silent:true,
   people:{
     ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'hall', witness:true, required:true, pitch:1.2, voice:2, bg:'#F1E4D2',
       // MiniMax Petra, emotion happy (the user's recording of hello2 set the voice; the rest made on the Higgsfield site,
@@ -2018,6 +2018,8 @@ const UMBRELLA_CASE = {
       bank:{ r1:['black','dark blue','red','blue','star','handle'], r2:['silver','gold','stripes','stars'], r3:['dark blue','gold','outside','inside'] }
     },
     finn: { id:'finn', name:'Finn Frog', ko:'개구리 핀', job:'우산을 잃어버린 친구', place:'windmill', witness:true, required:true, pitch:1.1, voice:1, bg:'#DDEBD3',
+      // MiniMax Dylan, emotion happy (the user's pick; made on the Higgsfield site)
+      audio:Object.fromEntries(['hello', 'hello2', 'f1', 'f2'].map(key => [key, `audio/umbrella/finn-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi! I'm Finn. Can I help you?", ko:'안녕! 난 핀이야. 무슨 일이야?' },
         { det:true, key:'hello-finn', en:'Tess said you were looking for your umbrella.', ko:'테스가 네가 우산을 찾고 있다고 했어.' },
@@ -2113,7 +2115,7 @@ const UMBRELLA_CASE = {
   // the toy bazaar's banner and its notice found: the rain at the bazaar, and the shop that held it (design 6절 날씨에서
   // 탐문으로): the detective's thought once the notebook is put away, then Toy Nest on the map (Tess there, still nameless)
   together:[
-    { refs:['hall-0', 'hall-1'], line:{ en:"It rained at the toy bazaar. Maybe someone brought an umbrella. Let's ask at Toy Nest.",
+    { refs:['hall-0', 'hall-1'], line:{ key:'together1', en:"It rained at the toy bazaar. Maybe someone brought an umbrella. Let's ask at Toy Nest.",
       ko:'장난감 바자회 날 비가 왔어. 우산을 가져온 사람이 있을지도 몰라. 토이 네스트에 가서 물어보자.' },
       unlocks:{ places:['toynest'], quiet:['tess'] } }
   ],
@@ -2127,7 +2129,7 @@ const UMBRELLA_CASE = {
   },
   items:{
     // the title says who gave it, never whose it is (design)
-    umbrella:{ label:'Umbrella from Ella', en:'The umbrella Ella gave me.', ko:'엘라가 맡긴 우산.',
+    umbrella:{ label:'Umbrella from Ella', en:'The umbrella Ella gave me.', ko:'엘라가 맡긴 우산.', audio:'audio/umbrella/detective-item-umbrella.mp3',
       // the whole folded umbrella cut out, no paper behind it (user request)
       img:'assets/places/umbrella/umbrella-folded.png', w:260, h:675, crop:[-20, -16, 300, 707],
       bag:'assets/places/umbrella/umbrella-folded.png' }
@@ -2194,6 +2196,8 @@ const UMBRELLA_CASE = {
    (at their place and on the map) only after someone names them or a clue points to them.
    `unlocks` = what hearing an answer reveals: { places:[…], people:[…] } (a person brings their place along).
    Each answer has its own note lines and word cards. {{id|answer/alt}} marks a blank. */
+// the detective's sentence for each photo and object: audio/umbrella/detective-<place>-<n>.mp3
+UMBRELLA_CASE.places.forEach(pl => pl.clues.forEach((c, i) => c.audio = `audio/umbrella/detective-${pl.id}-${i}.mp3`));
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : null;
 const PEOPLE = PACK ? PACK.people : {
   // the partner — met first, at the crime scene
@@ -2459,7 +2463,7 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
 const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
-  'tess:t5':[[0, 1.65], [1.91, 3.7]] } : PICNIC ? {
+  'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,1.65],[2.04,4.44],[4.98,6.69]],
@@ -3222,8 +3226,10 @@ function detectiveSay(key, onDone, onBlocked, text){
   const voice = $('#evidenceVoice'), done = () => { voice.onended = voice.onerror = null; onDone?.(); };
   voice.onended = voice.onerror = null;
   if(text && (!key || PACK?.silent)){ readOut(text, onDone); return; }
-  // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/
-  voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
+  // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/, the umbrella case's all in
+  // audio/umbrella/
+  voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3`
+    : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
@@ -3583,7 +3589,7 @@ function doAction(aid){
   clearTimeout(greetingTimer); hideBubble();
   // the questions stay away while the action is said and answered, as in a greeting (user request: they came back at
   // once under the detective's line)
-  const lines = [{ det:true, key:`act-${aid}`, en:a.en, ko:a.ko }, { key:aid, en:a.answer, ko:a.answerKo }];
+  const lines = [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }, { key:aid, en:a.answer, ko:a.answerKo }];
   const done = () => {
     if(greetingId !== who) return;
     setGreeting(null);
@@ -3604,6 +3610,7 @@ function openInspect(id = PLACES.find(p => p.inspect)?.id){
 // questions (QUESTIONS) have one file each
 function askAudio(id, qid){
   if(PICNIC) return `audio/picnic/detective-${id}-${qid}.mp3`;
+  if(UMBRELLA) return `audio/umbrella/detective-${id}-${qid}.mp3`;
   return spk(id).questions ? `audio/detective-ask-${id}-${qid}.mp3` : `audio/detective-ask-${qid}.mp3`;
 }
 // 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
@@ -3996,7 +4003,7 @@ function playThought(){
     if(ko){ const text = think.querySelector('.say-ko'); text.hidden = !text.hidden; ko.setAttribute('aria-pressed', !text.hidden); return; }
     if(!e.target.closest('button') && think.classList.contains('wait-tap')){ think.remove(); revealDiscoveries(); }
   });
-  readOut(t.line.en, () => { if(think.isConnected) think.classList.add('wait-tap'); });
+  detectiveSay(t.line.key, () => { if(think.isConnected) think.classList.add('wait-tap'); }, null, t.line.en);
 }
 // PEOPLE[].after, once the notebook with the checked question is put away: lines in turn (playLines), then a thing handed
 // to the detective (give: 소지품) or the photos the detective asked for (snap: taken right there, user decision)
@@ -4256,11 +4263,12 @@ const DEDUCE = PACK ? PACK.deduce : {
       hint:'Where did it happen?', hintKo:'그 일이 어디서 일어났지?' }
   ]
 };
-// lines recorded as audio/deduce/<key>.mp3, the picnic case's as audio/picnic/deduce/<key>.mp3 (q1… questions, r1…
+// lines recorded as audio/deduce/<key>.mp3, the picnic case's as audio/picnic/deduce/<key>.mp3, the umbrella case's as
+// audio/umbrella/deduce/<key>.mp3 (q1… questions, r1…
 // replies, h1… hints, miss; the detective's voice, Higgsfield MiniMax Grady); a line missing here is read by the
 // browser's voice (a question marked unrecorded, all three of its lines)
 const DEDUCE_RECORDED = PACK?.silent ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => q.unrecorded ? [] : [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : 'audio/deduce/';
+const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : 'audio/deduce/';
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
