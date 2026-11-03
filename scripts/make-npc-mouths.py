@@ -38,18 +38,25 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'detective-wave':('detective-wave.png',272,278,62,18,'smile',3.3,268),
    'nora':('nora-higgsfield.png',225,284,62,13,'smile',3,281),
    'mia':('mia-higgsfield.png',638,328,72,22,'smile',3.5,318),
-   'mia-ollie':('mia-higgsfield.png',322,205,143,45,'smile',4.5,204)}
+   'mia-ollie':('mia-higgsfield.png',322,205,143,45,'smile',4.5,204),
+   'tess':('tess-higgsfield.png',266,212,100,20,'smile',4,203),
+   'ruby':('ruby-higgsfield.png',202,230,78,20,'smile',3,226),
+   'ella':('ella-higgsfield.png',238,248,58,14,'smile',3,244),
+   'finn':('finn-higgsfield.png',209,155,175,35,'smile',4.5,145)}
 import sys
 if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
-NEAR=('mia-ollie',)   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
+NEAR=('mia-ollie','finn')   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
 # only cover within the recorded box (a few px around): on these pictures the crayon texture links the mouth to the
 # cheeks and whiskers
-LIMIT=('nora','mia','mia-ollie')
+LIMIT=('nora','mia','mia-ollie','tess','ruby','ella','finn')
 DARK={'mia':50}   # how much darker than the fur around a mark must be (default 22); Mia's white muzzle has crayon grain
 KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinking':(248,252,288,276),
       'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276),
-      'mia-ollie':(290,150,356,205),'mia':(629,318,637,341)}
+      'mia-ollie':(290,150,356,205),'mia':(629,318,637,341),'ruby':(185,200,220,226),'ella':(212,212,262,244)}
 # areas never covered (sprite px): the badger's nose sits right above the curled mouth ends; Ollie's nose, Mia's line from the nose
+# the umbrella case: the closed mouth stays as drawn (the cat's and the deer's mouth under the nose, Tess's and Finn's
+# smile), only the open one is new
+AS_DRAWN=('tess','ruby','ella','finn')
 SRC_LINE=6   # line weight of the closed mouths in the sheet (px)
 L=lambda im: im.convert('L')
 
@@ -163,6 +170,8 @@ for key,(f,x,y,w,h,kind,line,top) in S.items():
         tb=layer.getchannel('A').getbbox()
         layer.crop(tb).save(M+f'{key}-{state}.png',optimize=True)
         meta.setdefault(key,{})[state]=[x0+tb[0],y0+tb[1],tb[2]-tb[0],tb[3]-tb[1]]
+    if key in AS_DRAWN:   # the closed mouth is the picture as drawn, over the same box
+        r=meta[key]['closed']; im.crop((r[0],r[1],r[0]+r[2],r[1]+r[3])).save(M+f'{key}-closed.png',optimize=True)
     print(key,'drawn mouth',[x0+bb[0],y0+bb[1],cw,bb[3]-bb[1]],meta[key])
 def ben_mouth():
     im=Image.open(D+'ben-higgsfield.png').convert('RGBA'); box=(236,222,396,292)   # smile 260..373 x 240..255, teeth 293..340 x 247..279
