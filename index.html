@@ -2107,7 +2107,7 @@ const UMBRELLA_CASE = {
         { label:'Inside of the umbrella', en:'This umbrella is gold inside.', ko:'이 우산은 안쪽이 금빛이야.' }
       ],
       spots:[
-        { clue:0, folded:true, x:44.9, y:68.7, w:6.8, h:17.0, photo:{x:592,y:517,w:153,h:115} },
+        { clue:0, folded:true, x:44.9, y:68.7, w:6.8, h:18.5, photo:{x:566,y:548,w:176,h:132} },
         { clue:1, folded:true, x:43.2, y:31.3, w:14.4, h:31.4, photo:{x:579,y:253,w:230,h:173} },
         { clue:2, open:true, x:40.5, y:34.1, w:17.5, h:20.0, photo:{x:564,y:252,w:220,h:165} }
       ]}
@@ -6091,6 +6091,12 @@ function loadGame(){
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
   S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);
+  // a photo with its own crop is framed as the crop is now (user request: the umbrella handle's moved down); only the
+  // frame changes, the picture inside stays as it was taken (the umbrella folded or open)
+  S.evidence.forEach(item => {
+    const crop = placeOf(item.placeId)?.spots.find(spot => spot.clue === item.clueIndex)?.photo;
+    if(crop && typeof item.photo === 'string') item.photo = item.photo.replace(/viewBox="[^"]*"/, `viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}"`);
+  });
   S.met = S.met.filter(id => PEOPLE[id]);
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
