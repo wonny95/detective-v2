@@ -13,7 +13,34 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 · Claude · (이 커밋)
+## 2026-11-03 11:44 · Claude · (이 커밋)
+
+- 사용자 요청: 우산 사건 대사 다듬기. `design/case-02-unclaimed-umbrella.md`·`.html`에 반영.
+  - 테스 인사말: "Hi! Welcome to Toy Nest. I'm Tess." → (탐정이 온 이유) → "Oh, the toy bazaar! I worked there that day."로 짧게 끝냄. 인사말의 "Is that umbrella yours?"(사용자 지적: 눈앞에 없는 우산에 that, 앞 대사와도 이어지지 않음)와 "I'm not sure. I often lend mine to friends."를 뺌.
+  - 테스 첫 질문 t0 새로 넣음(사용자 결정: 조사 정보는 인사말이 아니라 질문으로): "It rained that day. Did you bring an umbrella?" / "Yes. But I often lend mine to friends. I'm not sure where it is now." 노트 [lend]·[where]. 처음에는 t0만 보이고 적으면 t1–t5(소풍 벤 b1과 같은 방식). 받아쓰기 13개·31칸.
+  - 핀에게: "There's an umbrella at the village hall. Is it yours?"(that 뺌).
+  - 루비에게: "Tess said you were at the bazaar with her." 루비: "I can't find my umbrella. I don't know where I left it. Could it be mine?"(결말 "So I left it at the bazaar!"로 이어짐).
+  - 추리 Q2: "Can the handle tell us the owner?" → "All three umbrellas have [blue] handles."
+  - 설계서 2절: that은 우산이 실제로 보이는 장면에서만(엘라 의뢰·e1·조사 질문, 결말의 엘라·탐정·테스). 회관 소품(현수막이 바닥에 있음)은 그대로.
+- 확인: 새 탭에서 설계 HTML 장면 3(테스 인사·t0) 화면. MD와 HTML의 영어 문장이 모두 같고 질문 14개(받아쓰기 13+조사 1)·빈칸 31칸. 게임(`index.html`)은 고치지 않음.
+- **다음**: 사용자 지시 대기. 후보: 우산 사건 개발 계획(엔진 작업·그림·녹음·앱의 사건 번호와 주소)을 사용자와 정하기(설계서 10절).
+
+## 2026-11-03 11:20 · Claude · 751454c
+
+- 개발 인계 반영: STORY_LOG 2026-11-02 16:05(우산 사건 개발 인계). 시작할 때 `story`를 merge(741ec43). AGENTS.md 인계된 사건 목록에 우산 설계서를 더함.
+- 사용자 요청: 우산 사건(L1-01 B) 설계서를 처음부터 끝까지 점검. 이야기 6개·학습 3개·대사 4개·엔진 작업 7개를 보고했고, 사용자와 정한 대로 `design/case-02-unclaimed-umbrella.md`를 다시 쓰고 `.html`의 장면·단서 배치도·맨 아래 MD 사본을 맞춤.
+  - 바람개비 만들기 행사(재료 바구니·설명서·기념사진, 추리 Q1 "같은 날?")를 뺌(사용자 결정: 헷갈리게 하는 역할은 겉모습이 비슷한 세 후보가 맡음). 필수 사진 6→5장, 선택 2→1장, 추리 6→5문항(Q1은 "Why did the toy bazaar move indoors?" → rain).
+  - 엘라가 루비에게 묻지 않은 이유(바자회 참석자가 많음)는 제작자용 배경으로만 적음(사용자 결정).
+  - 우산을 회관 입구 우산꽂이에 둠. 엘라 e1 "Whose umbrella is that?" / "I don't know. No one came back for it." 추가, e2는 "How long has it been here?" / "It's been here for a week."(받아쓰기 12개·빈칸 29칸).
+  - 열쇠 표현 늘림(사용자 요청: my/mine은 많으니 Whose·Is this/that … yours?·that을): 테스·핀 첫인사 "Is that umbrella yours?"(의뢰인이 아니라 후보에게 묻기, 사용자 지적), 조사 나레이션 "This handle is blue." 등, 추리 Q3·Q4 "Is this umbrella Finn's/Tess's?", 결말의 엘라·테스 "Whose umbrella is that?". 2절에 열쇠 표현이 들리는 대사 표.
+  - 핀 f2를 테스·루비와 같은 "What pattern is on your umbrella?"로, 대답 "Mine has no pattern. It's plain."
+  - 결말: 엘라가 주인을 묻고 → 우산을 받고 → 토이 네스트에서 테스가 묻고 탐정이 안감으로 답한 뒤 루비에게 반환("So I left it at the bazaar!") → 엘라에게 보고("Wonderful! Thank you for your help, Detective."). 장소를 옮길 때 탐정의 생각과 이동 버튼.
+  - 해석은 모두 반말(사용자 결정, HANDOFF 4절 규칙을 소풍·우산으로).
+  - 3번(두 우산이 닮은 이유)·4번(테스·핀의 남은 실마리)은 그대로, 대사 다듬기(테스 "I helped… I'll try to help." 등)는 나중에(사용자 결정).
+- 확인: 새 탭(127.0.0.1)에서 설계 HTML의 회관 배치도·게시판·결말 장면 화면, 질문 13개·추리 5개·증거 카드 9개, MD 사본 10절 모두 생성. MD와 HTML의 영어 문장이 모두 같고 노트 빈칸 29칸. 게임(`index.html`)은 고치지 않음.
+- **다음**: 사용자 지시 대기. 후보: 대사 다듬기 → 엔진 작업(우산 확대 조사, 증거 두 장 해금, 이름 없는 인물, 필수 사진, 결말 받기·보고 차례)과 그림·녹음 계획을 사용자와 정하기(설계서 10절). 앱의 사건 번호·주소(`?case=umbrella` 등)도 정해야 함.
+
+## 2026-11-03 · Claude · 9af2fdb
 
 - 사용자 요청: 사건 1 점검 9–18번 중 10번(대화 맺음말, 사용자 결정: 넣지 않음)만 빼고 모두 고치기. 설계서 `design/case-01-picnic-bag.md`·`.html`도 같이 고침.
   - 9 추리 7번 대답을 "Right. A green folder and a blue pen."으로(전에는 로지가 맡긴 가방에 노라의 물건이 있다고 9번 결론을 먼저 말함).

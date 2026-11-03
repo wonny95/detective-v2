@@ -11,7 +11,7 @@
 5. **이후 수정 — Claude Code + 사용자**: 그 사건의 대본·설계서 수정은 모두 Claude Code가 사용자와 한다.
 
 - **인계된 사건의 설계서는 개발 쪽 파일이 된다.** 인계 뒤에는 Codex가 그 파일을 고치지 않는다(같은 파일을 두 브랜치에서 고치면 merge가 충돌한다). Codex는 다음 사건의 1차 기획과 커리큘럼·학습 기획을 맡는다.
-- **인계된 사건**: Case 01 A 바뀐 소풍 가방(`design/case-01-picnic-bag.md`, `design/case-01-picnic-bag.html`).
+- **인계된 사건**: Case 01 A 바뀐 소풍 가방(`design/case-01-picnic-bag.md`, `design/case-01-picnic-bag.html`), L1-01 B 주인 없는 우산(`design/case-02-unclaimed-umbrella.md`, `design/case-02-unclaimed-umbrella.html`).
 
 ## 분업 (사용자 결정)
 
