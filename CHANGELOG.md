@@ -13,7 +13,17 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 18:35 · Claude · (이 커밋)
+## 2026-11-03 18:55 · Claude · (이 커밋)
+
+- 사용자 요청: 복습의 "이번 사건의 문법" 설명이 약함. 우산 사건에서는 열쇠 세 형태에 짧은 뜻만 나오고, 사건 문장도 없었다(대답에서만 찾았는데 Whose…는 탐정 질문에 있음).
+  - 각 줄 아래 점선 밑에 설명을 더함(`.gexplain`, `grammarExplain()`): 열쇠 형태는 `examples[].why` + 새 `more`, 다른 문법은 `GRAMMAR[].ko` + 새 `more`. 화면 모양(줄 카드, ▶·해석 위치)은 그대로.
+  - 새 설명(`more`): Whose … is this/that?(어순, these/those, 대답하는 법, Who's와 구별), Is this … yours?(your와 yours, Yes, it is., his·hers·이름's, it으로 받기), my … / mine(mine이 대신하는 것, 짝, Mine has, 이름's), 소유 표현, be동사 과거, 불규칙 과거, 부정, 명령문, 과거 의문문, 의문사 의문문. 예문은 사건 밖 내용(Sam, cup 등).
+  - 사건 문장 찾기: 열쇠 문법 태그 → 다른 문법 태그에서 형태가 맞는 것, 대답 먼저·없으면 질문(`reviewGrammar()`, `grammarLineParts()`). 우산: Whose umbrella is that?(엘라에게 한 탐정 질문), But I often lend mine to friends.(테스). Is this … yours?는 질문·대답 중 쓰인 곳이 없어 설명만.
+  - 질문 문장의 ▶는 소풍·우산 사건이면 탐정 녹음으로(`replayReviewQuestion`, 전에는 브라우저 음성). 도서관은 그대로.
+- 확인(새 탭, 127.0.0.2): 우산 복습 문법 화면에 세 형태의 설명과 Whose 줄의 사건 문장, 다른 문법 7개의 설명이 보임. Whose 줄 ▶가 `detective-ella-e1.mp3`를 재생. 소풍 복습 문법 화면도 정상(설명 한 줄씩), 콘솔 오류 없음. 구문 검사 통과.
+- **다음**: 사용자가 설명 내용 확인. 도서관 시간 표현과 다른 문법에도 `more`를 쓸지 사용자 지시 대기.
+
+## 2026-11-03 18:35 · Claude · 76b363a
 
 - 사용자와 고친 설계서(8절 추리 Q2): 카드 "All three umbrellas have [blue] handles."가 누구의 세 우산인지 없어 뜬금없다는 의견. 사용자 의도("우산을 잃어버린 3명 모두의 우산은 손잡이가 파란색")대로 **"Finn, Tess, and Ruby all lost umbrellas with [blue] handles."** / "핀, 테스, 루비가 잃어버린 우산은 모두 손잡이가 파란색이다."로 고침. 질문·맞장구·힌트와 녹음은 그대로(카드 글은 읽지 않음). 설계서 md·html, 녹음 대본 다시 뽑음.
 - 확인(새 탭, 127.0.0.2): 추리 미리보기에서 Q1을 맞힌 뒤 Q2 카드에 새 문장이 두 줄로 보임. 구문 검사 통과.

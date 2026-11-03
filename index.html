@@ -563,6 +563,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gram-extra{display:block}
 .rv-gram-extra .gsent{margin-top:10px}
 .rv-gram-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
+/* how the form works (user request: the grammar page explained too little): under the row's line, across the row */
+.gexplain{grid-column:1 / -1;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line)}
+.gexplain .gwhy{margin:0;font-size:14px;line-height:1.6}
+.gexplain ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.gexplain li + li{margin-top:4px}
 .rv-grammar-more{width:100%;justify-content:center;min-height:42px}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
@@ -2392,6 +2397,9 @@ const PICNIC_WORDS = [...new Set(Object.values(PICNIC_CASE.people).flatMap(s => 
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
   ownership: { name:'소유 표현', pattern:'my / your / his / her / mine / yours', ko:'my·your·his·her는 물건 이름 앞에 붙여 누구의 것인지 말해요. mine·yours는 물건 이름 없이 내 것·네 것이라고 말해요.',
+    more:['물건 이름 앞: my · your · his · her · our · their. 예: her cup, our class.',
+      '혼자 쓸 때: mine · yours · his · hers · ours · theirs. 예: The cup is hers.',
+      "이름 뒤에 's를 붙이면 그 사람의 것이에요. Sam's cup = 샘의 컵."],
     // match: how the review finds the case's line for a form
     examples:[
       { head:'my / your', ko:'내 것 / 네 것', why:'물건 이름 앞에 붙여 누구의 것인지 말해요. my는 말하는 사람의 것, your는 듣는 사람의 것이에요.', match:'\\b(my|your)\\b',
@@ -2404,16 +2412,34 @@ const GRAMMAR = {
   whose: { name:'누구의 것인지 묻기', pattern:'Whose … is this/that? / Is this … yours? / mine', ko:'Whose로 누구의 물건인지 묻고, Is this … yours?로 듣는 사람의 것인지 확인해요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
     examples:[
       { head:'Whose … is this / that?', ko:'누구 거야?', why:'누구의 물건인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
+        more:['물건 이름은 Whose 바로 뒤에 붙여 한 덩어리로 맨 앞에 둬요. Whose bag is this?',
+          '여러 개면 this·that 대신 these·those, is 대신 are를 써요. Whose shoes are these?',
+          "대답은 '이름 + \'s'나 mine·yours·his·hers로 해요. It\'s Sam\'s. / It\'s mine.",
+          "소리가 같은 Who\'s(= Who is)와 헷갈리지 마세요. Who\'s that?은 '저 사람은 누구야?'예요."],
         lines:[['{Whose book} is this?', '이 책은 누구 거야?'], ['{Whose hat} is that?', '저 모자는 누구 거야?'], ['{Whose pencil} is this?', '이 연필은 누구 거야?']] },
       { head:'Is this / that … yours?', ko:'네 거야?', why:'물건을 가리키며 듣는 사람의 것인지 확인해요.', match:'\\byours\\b',
+        more:['Is this cup yours?와 Is this your cup?은 같은 뜻이에요. your 뒤에는 물건 이름이 오고, yours는 혼자 써요.',
+          "대답은 짧게 Yes, it is. / No, it isn\'t.로 해요. Yes, it\'s mine.이라고 해도 돼요.",
+          "다른 사람의 것인지 물을 때는 yours 자리에 his·hers나 '이름 + \'s'를 넣어요. Is this hers? / Is this Sam\'s?",
+          "물건을 앞에서 이미 말했으면 it으로 받아요. There\'s a cup here. Is it yours?"],
         lines:[['Is this ruler {yours}?', '이 자 네 거야?'], ['Is that coat {yours}?', '저 외투 네 거야?'], ['Is this cup {yours}?', '이 컵 네 거야?']] },
       { head:'my … / mine', ko:'내 … / 내 거', why:'my는 물건 이름 앞에 붙이고, mine은 물건 이름 없이 혼자 써요.', match:'\\b(my|mine)\\b',
+        more:['mine은 "my + 물건 이름"을 한 단어로 대신해요. My bag is blue. = Mine is blue.',
+          '짝을 함께 외워요. my → mine, your → yours, her → hers, his → his(모양이 같아요).',
+          'Mine이 문장 맨 앞에 오면 물건 하나를 가리키므로 is·has를 써요. Mine has a red handle.',
+          "이름 뒤에 \'s를 붙여도 누구의 것인지 말할 수 있어요. Sam\'s bag = Sam\'s(샘의 것)."],
         lines:[['{My notebook} is green.', '내 공책은 초록색이야.'], ['This toy is {mine}.', '이 장난감은 내 거야.'], ['That scarf is not {mine}.', '저 목도리는 내 거 아니야.']] }
     ] },
-  'be-past':   { name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.' },
+  'be-past':   { name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.',
+    more:['I · he · she · it → was, you · we · they → were.',
+      "부정은 뒤에 not: wasn't / weren't. 의문은 앞으로: Were you there?",
+      '뒤에 장소가 오면 "~에 있었다"예요. We were at the park. = 우리는 공원에 있었어.'] },
   'past-prog': { name:'과거진행', pattern:'was / were + -ing', ko:'지난 어느 때에 "하고 있던 중"이던 일을 말해요. I was reading = 책을 읽고 있었어요.' },
   'past-reg':  { name:'규칙 과거형', pattern:'동사 + -ed', ko:'동사 끝에 -ed를 붙여 지난 일을 말해요. play → played, borrow → borrowed, watch → watched. 끝의 -ed는 /d/·/t/로 아주 약하게 들려요.' },
-  'past-irr':  { name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.' },
+  'past-irr':  { name:'불규칙 과거형', pattern:'come → came', ko:'-ed를 붙이지 않고 모양이 바뀌는 과거형이에요. find → found, come → came, see → saw, say → said, write → wrote, teach → taught, give → gave.',
+    more:['자주 나오는 것: go → went, leave → left, bring → brought, lose → lost, buy → bought.',
+      '규칙이 없으니 하나씩 외워요. 대신 소리가 현재형과 많이 달라서 들으면 지난 일인지 바로 알 수 있어요.',
+      'come back(돌아오다)처럼 붙어 다니는 말은 앞의 동사만 바꿔요: came back.'] },
   'time-prep': { name:'시간 전치사', pattern:'at / from A to B / between A and B', ko:'at은 딱 한 시각(at six), from A to B는 시작부터 끝까지(from one to three), between A and B는 두 시각 사이의 어느 때예요.',
     examples:[
       { head:'at', ko:'딱 한 시각', why:'시각 하나를 콕 집어 말할 때 써요. "몇 시에"예요. at six = 6시에.', lines:[['The shop opens {at eleven}.', '가게는 11시에 문을 열어요.'], ["Let's meet {at noon}.", '정오에 만나요.'], ['The train leaves {at six fifteen}.', '기차는 6시 15분에 떠나요.']] },
@@ -2423,12 +2449,26 @@ const GRAMMAR = {
   'to-purpose':{ name:'목적의 to부정사', pattern:'to + 동사원형', ko:'"~하려고, ~하러"라는 목적을 말해요. went to see a friend = 친구를 만나러 갔다.' },
   'too-adj':   { name:'too + 형용사', pattern:'too + 형용사', ko:'"너무 ~한"이라는 뜻이에요. 보통 지나쳐서 좋지 않다는 느낌이 들어 있어요. too hot = 너무 뜨겁다.' },
   'passive':   { name:'수동태', pattern:'was / were + 과거분사', ko:'누가 했는지보다 "~되었다"는 일에 초점을 둘 때 써요. was found = 발견되었다.' },
-  'negative':  { name:'부정 표현', pattern:'not / never / nobody', ko:'not은 "~않다", never는 "한 번도 ~않다", nobody는 "아무도 ~않다"예요. never·nobody가 있으면 not을 또 쓰지 않아요.' },
+  'negative':  { name:'부정 표현', pattern:'not / never / nobody', ko:'not은 "~않다", never는 "한 번도 ~않다", nobody는 "아무도 ~않다"예요. never·nobody가 있으면 not을 또 쓰지 않아요.',
+    more:["be동사 뒤에 not: It isn't mine. 일반동사 앞에 don't · doesn't · didn't: I don't know.",
+      'no + 명사는 "하나도 없는"이에요. no pattern = 무늬가 없는, no one = 아무도 없는.',
+      "nobody · no one이 주어면 동사는 긍정 모양 그대로예요. Nobody came. (Nobody didn't come은 틀려요)"] },
   'going-to':  { name:'미래 표현', pattern:'be going to + 동사원형', ko:'"~할 거예요"라는 앞으로의 일을 말해요. I\'m going to call her = 그녀에게 전화할 거예요.' },
   'modal':     { name:'조동사', pattern:'can / should + 동사원형', ko:'can은 "~할 수 있다", should는 "~해야 한다, ~하는 게 좋다"예요. 뒤에는 늘 동사원형이 와요.' },
-  'imperative':{ name:'명령문', pattern:'동사원형으로 시작', ko:'주어 없이 동사원형으로 시작하면 "~하세요"라는 지시·부탁이에요. Open the door = 문을 여세요.' },
-  'did-q':     { name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)' },
-  'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.' },
+  'imperative':{ name:'명령문', pattern:'동사원형으로 시작', ko:'주어 없이 동사원형으로 시작하면 "~하세요"라는 지시·부탁이에요. Open the door = 문을 여세요.',
+    more:['부드럽게 부탁할 때는 please를 앞이나 뒤에 붙여요. Please sit down.',
+      "하지 말라고 할 때는 Don't + 동사원형: Don't run.",
+      "같이 하자고 할 때는 Let's + 동사원형: Let's go.",
+      'too가 끝에 붙으면 "~도"예요. Ask Sam, too. = 샘에게도 물어봐.'] },
+  'did-q':     { name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)',
+    more:['Did가 "과거"를 혼자 맡으니 동사는 원형 그대로예요. Did you bring it? (brought가 아니에요)',
+      "대답은 Yes, I did. / No, I didn't.로 짧게 해요.",
+      '지금의 일을 물을 때는 Do · Does를 써요. Do you have a pen?'] },
+  'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.',
+    more:['Who 누구 · What 무엇 · Where 어디 · When 언제 · Why 왜 · How 어떻게.',
+      'What 뒤에 명사를 붙이면 더 좁혀 물어요. What color …? 무슨 색, What pattern …? 어떤 무늬.',
+      'What is it like?는 "그건 어떻게 생겼어?"예요. 여기서 like는 "좋아하다"가 아니라 "~와 같은"이에요.',
+      'Who else …?는 "또 누가 …?"예요. else가 "그 밖에"를 더해요.'] },
   'phrasal':   { name:'구동사', pattern:'come back · come in · give back', ko:'동사에 back·in 같은 작은 말이 붙어 새 뜻이 돼요. come back = 돌아오다, come in = 들어오다, give it back = 돌려주다(it이 가운데 들어가요).' }
 };
 // Where each grammar shows up: [grammar id, the words to highlight] per answer. The words are looked up in the
@@ -5134,16 +5174,12 @@ function renderReview(dir){
     const keys = CASE.keys?.length ? CASE.keys : rv.grammar.slice(0, 3).map(([g]) => g);
     const extras = rv.grammar.filter(([g]) => !keys.includes(g));
     body = `<h2 class="rv-title">${back}이번 사건의 문법 <small>${rv.keepGrammar.size} / ${rv.grammar.length}</small></h2>
-      <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, use }) => {
-      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span></div>`;
-      const sents = sentencesOf(spk(use.id).answers[use.qid]), idx = Math.max(0, sents.findIndex(x => x.includes(use.words)));
-      const sent = sents[idx], at = sent.indexOf(use.words), kos = sentencesOf(ANSWERS_KO[use.id]?.[use.qid] || '');
-      const shown = at < 0 ? esc(sent) : esc(sent.slice(0, at)) + `<mark>${esc(use.words)}</mark>` + esc(sent.slice(at + use.words.length));
-      // the Korean of that sentence when the answer's Korean has as many sentences, else all of it
-      const ko = kos.length === sents.length ? kos[idx] : ANSWERS_KO[use.id]?.[use.qid] || '';
-      return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${shown}</span><span class="wko" hidden>${esc(ko)}</span></span>
-        <button class="play-btn" type="button" data-rv-sent="${use.id}:${use.qid}" data-sent="${idx}" aria-label="문장 듣기"></button>
-        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>`;
+      <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use }) => {
+      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span>${grammarExplain(why, more)}</div>`;
+      const { line, ko, play } = grammarLineParts(use);
+      return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span></span>
+        <button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button>
+        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button>${grammarExplain(why, more)}</div>`;
     }).join('') + `</div>${extras.length ? `<button class="pill rv-grammar-more" type="button" data-rv-extra aria-expanded="${rv.extraGrammarOpen}">${rv.extraGrammarOpen ? '다른 문법 접기' : `다른 문법 ${extras.length}개 보기`}</button>` : ''}` +
       (rv.extraGrammarOpen ? `<div class="rv-grams">${extras.map(([g]) => reviewExtraGrammar(g)).join('')}</div>` : '');
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
@@ -5196,15 +5232,32 @@ function reviewPhoto(c){
 // The review's grammar rows: the case's key grammar form by form (CASES[].keys, the case key's pages), each with the first
 // line of the case that uses that form (from GRAMMAR_LINES: an answer's words matching the form, A and B any words);
 // without keys, the case's three most used grammar.
+// A form's line may be any of the case's tagged words that match it (the key grammar's own first), an answer's before a
+// question's (the umbrella case's Whose… is the detective's question). why/more: how the form works (user request).
 function reviewGrammar(){
   const keys = CASE.keys?.length ? CASE.keys : caseGrammar().slice(0, 3).map(([g]) => g);
+  const pick = uses => uses.find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || uses[0];
   return keys.flatMap(g => {
-    const uses = grammarUses(g).filter(u => spk(u.id).answers[u.qid].includes(u.words));
-    return (GRAMMAR[g].examples || [{ head:GRAMMAR[g].name, ko:GRAMMAR[g].pattern }]).map(ex => {
+    const own = grammarUses(g), others = Object.keys(GRAMMAR).filter(x => x !== g).flatMap(grammarUses);
+    if(!GRAMMAR[g].examples) return [{ head:GRAMMAR[g].name, name:GRAMMAR[g].pattern, why:GRAMMAR[g].ko, more:GRAMMAR[g].more, use:pick(own) }];
+    return GRAMMAR[g].examples.map(ex => {
       const form = ex.match ? new RegExp(ex.match, 'i') : new RegExp('^' + ex.head.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b[AB]\b/g, '.+') + '\\b', 'i');
-      return { head:ex.head, name:ex.ko, use:GRAMMAR[g].examples ? uses.find(u => form.test(u.words)) : uses[0] };
+      const fits = u => form.test(u.words);
+      return { head:ex.head, name:ex.ko, why:ex.why, more:ex.more, use:pick(own.filter(fits)) || pick(others.filter(fits)) };
     });
   });
+}
+const grammarExplain = (why, more) => !why && !more?.length ? '' :
+  `<div class="gexplain">${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}</div>`;
+// a tagged line's Korean (that sentence when the answer's Korean has as many sentences) and what ▶ plays
+function grammarLineParts(use){
+  const line = grammarLine(use.id, use.qid, use.words), s = spk(use.id);
+  const answerKo = ANSWERS_KO[use.id]?.[use.qid] || '';
+  const answerSentences = sentencesOf(s.answers[use.qid]), koreanSentences = sentencesOf(answerKo);
+  const ko = line.inAnswer ? (answerSentences.length === koreanSentences.length ? koreanSentences[line.idx] : answerKo)
+    : qs(s).find(q => q.id === use.qid).ko;
+  const play = line.inAnswer ? `data-rv-sent="${use.id}:${use.qid}" data-sent="${line.idx}"` : `data-rv-question="${use.id}:${use.qid}"`;
+  return { line, ko, play };
 }
 function grammarKeepButton(g){
   const on = rv.keepGrammar.has(g);
@@ -5212,20 +5265,17 @@ function grammarKeepButton(g){
 }
 function reviewExtraGrammar(g){
   const use = grammarUses(g).find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || grammarUses(g)[0];
-  const line = grammarLine(use.id, use.qid, use.words), s = spk(use.id);
-  const answerKo = ANSWERS_KO[use.id]?.[use.qid] || '';
-  const answerSentences = sentencesOf(s.answers[use.qid]), koreanSentences = sentencesOf(answerKo);
-  const ko = line.inAnswer ? (answerSentences.length === koreanSentences.length ? koreanSentences[line.idx] : answerKo)
-    : qs(s).find(q => q.id === use.qid).ko;
-  const play = line.inAnswer ? `data-rv-sent="${use.id}:${use.qid}" data-sent="${line.idx}"` : `data-rv-question="${use.id}:${use.qid}"`;
+  const { line, ko, play } = grammarLineParts(use);
   return `<div class="rv-word rv-gram rv-gram-extra"><div class="rv-gram-head"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>${grammarKeepButton(g)}</div>
     <span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span>
-    <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div></div>`;
+    <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>
+    ${grammarExplain(GRAMMAR[g].ko, GRAMMAR[g].more)}</div>`;
 }
 function replayReviewQuestion(ref){
   stopVoice();
   if(!('speechSynthesis' in window)) return toast('이 기기에서 질문을 재생할 수 없어요.');
   const [id, qid] = ref.split(':'), question = qs(spk(id)).find(q => q.id === qid);
+  if(PACK) return detectiveSay(askAudio(id, qid), null, null, question.en);   // the picnic and umbrella cases record every question
   const u = new SpeechSynthesisUtterance(question.en);
   u.lang = 'en-US'; u.rate = S.slow ? .72 : .95;
   if(voices.length) u.voice = voices[0];
