@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-03 15:30 · Claude · (이 커밋)
+## 2026-11-03 15:40 · Claude · (이 커밋)
+
+- 사용자 결정(답 보기가 너무 적음 → 제안한 안대로): 우산 사건 추리 보드 답 빈칸 보기를 문항마다 6개로. Q1 rain/wind/snow/fog/thunder/sun, Q2 blue/red/yellow/green/white/black, Q3 plain/striped/spotted/red/white/green(문장이 되지 않는 gold stars와, 핀의 우산에도 맞는 dark blue는 뺌), Q4 dark blue/gold/red/white/green/silver. `UMBRELLA_CASE.deduce.qs[].opts`와 설계서 8절 표(MD·HTML).
+- 확인(새 탭 127.0.0.1, 미리보기 추리 보드): Q1 빈칸을 누르면 보기 6개가 두 줄로 나옴. 구문 검사 통과.
+- **다음**: 사용자 확인. 그다음 3단계 녹음(새 목소리 4명, 약 80줄, 약 15크레딧). 추리 맞장구·힌트 초안 확인 요청.
+
+## 2026-11-03 15:30 · Claude · a113c74
 
 - 사용자 요청 세 가지(우산 조사).
   - 엘라에게 "Can I take a closer look at that umbrella?"를 고르면 질문 목록이 바로 다시 뜨던 것: 행동의 두 줄(탐정 질문·엘라 대답)이 나오는 동안 인사처럼 `greetingId`를 세워 아래를 비움. 대화를 다 마친 뒤(`done`)에도 행동 버튼과 `추리하기`가 다시 보이던 것도 같이 막음(`renderAsk`가 말하는 동안에는 아무것도 그리지 않음).
