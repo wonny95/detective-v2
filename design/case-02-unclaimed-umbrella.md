@@ -292,7 +292,7 @@ t5는 우산을 찾는 핀에게 문의할 이유와 만날 장소를 알려 준
 | Q | 질문 / 해석 | 완성 문장 | 보기 | 출처·판단 |
 |---|---|---|---|---|
 | 1 | Why did the toy bazaar move indoors? / 장난감 바자회는 왜 실내로 옮겼지? | The toy bazaar moved indoors because of [rain]. | rain / wind / snow / fog / thunder / sun | venue-change-notice의 because of rain과 toy-bazaar-record의 같은 날짜·주관 가게 명칭을 연결. 토이 네스트를 찾아간 이유를 복습한다. 우산 소유 확정 근거는 아님 |
-| 2 | Can the handle tell us the owner? / 손잡이로 주인을 알 수 있을까? | All three umbrellas have [blue] handles. | blue / red / yellow / green / white / black | umbrella-handle + finn:f1·tess:t1·ruby:r1 — 실물과 세 후보 모두 파란 손잡이다. 손잡이 하나만으로는 주인을 구별할 수 없음을 확인한다. |
+| 2 | Can the handle tell us the owner? / 손잡이로 주인을 알 수 있을까? | Finn, Tess, and Ruby all lost umbrellas with [blue] handles. | blue / red / yellow / green / white / black | umbrella-handle + finn:f1·tess:t1·ruby:r1 — 실물과 세 후보 모두 파란 손잡이다. 손잡이 하나만으로는 주인을 구별할 수 없음을 확인한다. |
 | 3 | Is this umbrella Finn's? / 이 우산은 핀의 것일까? | Finn's umbrella is [plain]. This one has gold stars. | plain / striped / spotted / red / white / green | finn:f2 + umbrella-pattern — 핀은 무늬가 없어 제외. 루비·테스는 계속 후보 |
 | 4 | Is this umbrella Tess's? / 이 우산은 테스의 것일까? | Tess's umbrella is [dark blue] inside. This one is gold inside. | dark blue / gold / red / white / green / silver | tess:t3 + umbrella-inside — 겉모습은 같지만 펼쳐 본 안감 색이 다르다. 테스 제외 |
 | 5 | Whose umbrella is this? / 그럼 이 우산은 누구 것일까? | This umbrella is [Ruby Cat]'s. It has a blue handle and gold stars, and it is gold inside. | Ruby Cat / Finn Frog / Tess Tortoise | ruby:r1·r2·r3 + 우산 사진 3장 + Q3·Q4 — 겉이 같은 두 후보를 안감 색으로 구별한다. 이름 뒤 소유격과 마지막 설명은 문장 틀로 제공한다. |

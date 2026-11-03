@@ -106,7 +106,7 @@
 | 37 | `deduce/r1.mp3` | 추리 Q1 맞았을 때 (완성 문장: The toy bazaar moved indoors because of rain.) | Right. It rained that day. That's why we asked at Toy Nest. | 맞아. 그날 비가 왔어. 그래서 토이 네스트에 물어보러 갔지. |
 | 38 | `deduce/h1.mp3` | 추리 Q1 힌트 | Look at the notice in the village hall. | 회관의 안내문을 봐. |
 | 39 | `deduce/q2.mp3` | 추리 Q2 질문 | Can the handle tell us the owner? | 손잡이로 주인을 알 수 있을까? |
-| 40 | `deduce/r2.mp3` | 추리 Q2 맞았을 때 (완성 문장: All three umbrellas have blue handles.) | Yes. All three are the same. The handle isn't enough. | 맞아. 셋 다 똑같아. 손잡이만으로는 알 수 없어. |
+| 40 | `deduce/r2.mp3` | 추리 Q2 맞았을 때 (완성 문장: Finn, Tess, and Ruby all lost umbrellas with blue handles.) | Yes. All three are the same. The handle isn't enough. | 맞아. 셋 다 똑같아. 손잡이만으로는 알 수 없어. |
 | 41 | `deduce/h2.mp3` | 추리 Q2 힌트 | Look at the handle photo. What did Finn, Tess, and Ruby say? | 손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지? |
 | 42 | `deduce/q3.mp3` | 추리 Q3 질문 | Is this umbrella Finn's? | 이 우산은 핀의 것일까? |
 | 43 | `deduce/r3.mp3` | 추리 Q3 맞았을 때 (완성 문장: Finn's umbrella is plain. This one has gold stars.) | Right. Finn's umbrella has no pattern. So it isn't Finn's. | 맞아. 핀의 우산에는 무늬가 없어. 그러니 핀의 우산이 아니야. |
