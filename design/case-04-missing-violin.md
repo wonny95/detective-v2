@@ -53,7 +53,7 @@
 
 타라 t1 채점으로 출연자 대기실을 발견한다. 모모 m2 채점으로 옆 통로·준비실과 핍을 발견한다. 핍 p1 채점으로 커튼 뒤 조사 지점과 이보 i2 질문을 해금한다. 이보 i2는 핍이 본 시점을 확인하러 다시 묻는 질문이다. 커튼 뒤의 케이스와 단추를 촬영한 뒤 타라에게 바로 반환할 수 있다. 현장 단추 촬영으로 의복 비교 조사가 열리고, 대기실에 돌아와 오웬의 현재 소매를 촬영한다. 처음 만날 때는 전신 모습으로 대화하고, 단추를 찾은 뒤에 소매를 자세히 살핀다. 인물·장소·질문 발견 뒤 자동 이동하지 않는다.
 
-이보 i2의 질문은 핍 p1 채점 전에 보이지 않는다. 나머지 질문과 증거 수집은 가능한 순서로 진행한다. 인물은 각 장소의 제자리에 고정되고, 사건 정보는 대화·현장 증거로 발견한다.
+오웬·이보·모모는 각각 조사 질문 4개를 갖는다. 타라 4개와 핍 2개를 합쳐 총 18개다. 이보 i2의 질문은 핍 p1 채점 전에 보이지 않는다. 나머지 질문과 증거 수집은 가능한 순서로 진행한다. 인물은 각 장소의 제자리에 고정되고, 사건 정보는 대화·현장 증거로 발견한다.
 
 ## 4. 장면 1 — 타라의 의뢰와 케이스 표식
 
@@ -84,42 +84,60 @@
 |---|---|---|
 | hall:f1 | 탐정 | **There are three animals in the waiting room.** / 출연자 대기실에 동물 세 명이 있네. |
 
-### 오웬
+### 오웬 — 조사 질문 4개
+
+탐정이 타라의 바이올린에 관해 묻겠다고 말한 뒤 조사를 시작한다. 위치 → 기다린 이유 → 케이스를 마지막으로 본 때 → 무대 뒤로 간 다른 사람 순서로 묻는다. 오웬은 모모의 공구함 운반을 가리키지만, 줄곧 문 옆에 있었다는 자기 진술은 유지한다.
 
 | ID | 화자 | 영어 / 한국어 |
 |---|---|---|
-| owen:g1 | 오웬 | **I'm Owen. I'm in the contest too.** / 난 오웬이야. 나도 대회에 나가. |
+| owen:g1 | 오웬 | **Hi, I'm Owen.** / 안녕, 난 오웬이야. |
+| detective:owen-open | 탐정 | **I'd like to ask about Tara's violin.** / 타라의 바이올린에 관해 물어보고 싶어. |
+| owen:g2 | 오웬 | **I'll tell you what I can.** / 내가 아는 건 말해 줄게. |
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
 | owen:o1 | **Where were you after rehearsal?** / 리허설 뒤 어디에 있었니?<br>오웬: **I stayed next to the door the whole time.** / 난 줄곧 문 옆에 있었어. | “I stayed [next to] the [door] the [whole time].” → 줄곧 문 옆에 있었다는 진술 |
-| owen:o2 | **When did you last see Tara's case?** / 타라의 케이스를 마지막으로 언제 봤니?<br>오웬: **I saw Tara's case next to the chair before she left. I didn't touch it.** / 타라가 나가기 전 의자 옆에서 봤어. 건드리지 않았어. | “I saw Tara's case [next to] the [chair] before she left. I didn't [touch] it.” → 케이스를 건드리지 않았다는 진술 |
+| owen:o8 | **Why were you waiting by the door?** / 왜 문 옆에서 기다리고 있었니?<br>오웬: **I was waiting for my turn. I didn't want to miss it.** / 내 차례를 기다리고 있었어. 차례를 놓치고 싶지 않았거든. | “I was [waiting] for my [turn]. I didn't want to [miss] it.” → 기다린 이유와 연주 차례에 대한 신경 |
+| owen:o2 | **When did you last see Tara's case?** / 타라의 케이스를 마지막으로 언제 봤니?<br>오웬: **I saw it next to the chair before she went to the lobby.** / 타라가 로비로 가기 전 의자 옆에서 봤어. | “I saw it [next to] the [chair] before she went to the [lobby].” → 타라가 자리를 비우기 전 케이스 위치 |
+| owen:o9 | **Did you see anyone go backstage?** / 누가 무대 뒤로 가는 걸 봤니?<br>오웬: **I saw the stage helper carry a black toolbox behind the curtain.** / 무대 일을 돕는 친구가 검은 공구함을 들고 커튼 뒤로 가는 걸 봤어. | “I saw the stage helper carry a [black toolbox] [behind] the [curtain].” → 모모의 작업을 가리키며 의심을 다른 쪽으로 돌림 |
 
-### 이보
+### 이보 — 조사 질문 4개
+
+위치 → 무대에 남은 이유 → 그곳에서 보인 범위를 먼저 묻는다. 문 너머 사다리와 조명이 보였다는 진술로 목격의 시야를 확인한다. 핍 p1을 기록한 뒤 돌아와 이보 i2로 같은 순간을 묻는다. 이보는 처음 방문에 질문 세 개, 다시 방문에 질문 한 개를 갖는다.
 
 | ID | 화자 | 영어 / 한국어 |
 |---|---|---|
-| ivo:g1 | 이보 | **Hi, I'm Ivo. I'm playing in the concert too.** / 안녕, 난 이보야. 나도 오늘 공연에서 연주해. |
+| ivo:g1 | 이보 | **Hello, I'm Ivo.** / 안녕, 난 이보야. |
+| detective:ivo-open | 탐정 | **I'm checking what happened after rehearsal.** / 리허설 뒤에 무슨 일이 있었는지 알아보고 있어. |
+| ivo:g2 | 이보 | **Of course. What would you like to know?** / 물론이야. 무엇이 궁금하니? |
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
-| ivo:i1 | **Where were you?** / 어디에 있었니?<br>이보: **I was next to the music stand on the stage.** / 무대 위 악보대 옆에 있었어. | “I was [next to] the [music stand] [on] the [stage].” → 무대 위에서 연습한 위치 |
+| ivo:i1 | **Where were you after rehearsal?** / 리허설 뒤 어디에 있었니?<br>이보: **I was next to the music stand on the stage.** / 무대 위 악보대 옆에 있었어. | “I was [next to] the [music stand] [on] the [stage].” → 무대 위에서 연습한 위치 |
+| ivo:i3 | **Why did you stay on stage?** / 왜 무대에 남아 있었니?<br>이보: **I wanted to practice the last part once more before the concert.** / 공연 전에 마지막 부분을 한 번 더 연습하고 싶었어. | “I wanted to [practice] the [last part] once more before the concert.” → 리허설 뒤에도 무대에 남은 이유 |
+| ivo:i4 | **What could you see from the stage?** / 무대에서 무엇이 보였니?<br>이보: **The door was open. I could see the ladder next to the light.** / 문이 열려 있었어. 조명 옆 사다리가 보였어. | “The [door] was [open]. I could see the [ladder] [next to] the light.” → 모모를 볼 수 있었던 시야 확인 |
 | ivo:i2 | **What did you see when the light came back on?** / 조명이 다시 켜졌을 때 무엇을 봤니?<br>이보: **Momo was on the ladder, next to the light. I was still on the stage.** / 모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고. | “Momo was [on] the [ladder], [next to] the light. I was still [on] the [stage].” → 핍 p1 채점 뒤 질문 해금 · 같은 시점의 모모 위치 확인 |
 
-이보 i2는 핍 p1을 듣고 같은 시점의 목격을 확인하러 돌아와 묻는다. 활의 분실 이야기는 사용하지 않는다.
+### 모모 — 조사 질문 4개
 
-### 모모
+하던 작업 → 커튼 뒤에 간 이유 → 들고 있던 물건과 지금의 위치 → 주변에 있던 사람 순서로 묻는다. 조명 수리와 전구·공구함 이야기가 각 질문에 답하면서 드러난다. 모모 m2를 기록하면 핍과 옆 통로를 발견한다.
 
 | ID | 화자 | 영어 / 한국어 |
 |---|---|---|
-| momo:g1 | 모모 | **Hi, I'm Momo. I help with the stage lights.** / 안녕, 난 모모야. 무대 조명을 돕고 있어. |
+| momo:g1 | 모모 | **Hi, I'm Momo.** / 안녕, 난 모모야. |
+| detective:momo-open | 탐정 | **I'd like to ask about the work backstage.** / 무대 뒤에서 하던 일에 관해 물어보고 싶어. |
+| momo:g2 | 모모 | **Sure. I help with the stage lights.** / 그래. 나는 무대 조명을 돕고 있어. |
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
-| momo:m1 | **What were you doing after rehearsal?** / 리허설 뒤에 뭘 하고 있었니?<br>모모: **I went behind the curtain with my black toolbox. I needed a spare bulb. The box is under the shelf now.** / 검은 공구함을 들고 커튼 뒤에 갔어. 예비 전구가 필요했거든. 공구함은 지금 선반 아래에 있어. | “I went [behind] the [curtain] with my [black toolbox]. I needed a spare bulb. The box is [under] the [shelf] now.” → 커튼 뒤 출입과 검은 공구함 · 모모를 의심할 근거 |
-| momo:m2 | **Who could see the passage from there?** / 거기서 누가 통로를 볼 수 있었니?<br>모모: **There are two doors backstage. Pip was by the one that opens onto the side passage.** / 무대 뒤에는 문이 두 개야. 핍이 옆 통로로 통하는 문가에 있었어. | “There are [two doors] backstage. [Pip] was by the one that opens onto the [side passage].” → 정답 기록 → 옆 통로와 핍 발견 |
+| momo:m1 | **What were you doing after rehearsal?** / 리허설 뒤에 뭘 하고 있었니?<br>모모: **I was fixing the light next to the curtain. It went out after rehearsal.** / 커튼 옆 조명을 고치고 있었어. 리허설 뒤에 꺼졌거든. | “I was [fixing] the light [next to] the [curtain]. It went [out] after rehearsal.” → 조명이 꺼진 뒤 하던 작업 |
+| momo:m3 | **Did you go behind the curtain?** / 커튼 뒤에도 갔니?<br>모모: **Yes. There are spare bulbs on the shelf behind the curtain. I went to get one.** / 응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 가지러 갔어. | “There are spare [bulbs] [on] the [shelf] [behind] the [curtain]. I went to get one.” → 커튼 뒤로 들어간 이유 |
+| momo:m4 | **What were you carrying?** / 무엇을 들고 있었니?<br>모모: **My black toolbox. I put it under the shelf when I finished.** / 내 검은 공구함이야. 일을 마친 뒤 선반 아래에 두었어. | “My [black toolbox]. I put it [under] the [shelf] when I finished.” → 검은 물건의 정체와 지금 확인할 위치 |
+| momo:m2 | **Who else was nearby?** / 근처에 또 누가 있었니?<br>모모: **Pip was by the door to the side passage. There are two doors backstage.** / 핍이 옆 통로로 통하는 문가에 있었어. 무대 뒤에는 문이 두 개야. | “[Pip] was by the door to the [side passage]. There are [two doors] backstage.” → 정답 기록 → 옆 통로와 핍 발견 |
 
-모모는 커튼 뒤에 갔던 일을 숨기지 않는다. 검은 공구함은 현장 선반 아래에서 확인할 수 있고, 추가 필수 사진으로 늘리지 않는다. 처음에는 핍의 검은 케이스 목격과 혼동할 수 있지만 모모를 범인으로 표시하지 않는다.
+각 인물에게 인사한 뒤 탐정이 조사 주제를 짧게 말하고 질문 선택지로 넘어간다. 대화 도입부는 받아쓰기 문항으로 세지 않는다. 이보 i2는 핍 p1 채점 뒤 해금된다. 나머지 질문은 위 순서로 읽으면 자연스럽게 이어지도록 구성한다.
+
+모모는 커튼 뒤에 갔던 일을 숨기지 않는다. 검은 공구함은 모모 m4 진술과 선반 아래 현장 소품으로 확인한다. 처음에는 핍이 본 검은 케이스와 혼동할 수 있다.
 
 ## 6. 장면 3 — 핍의 목격담과 준비실 조사
 
@@ -161,13 +179,13 @@
 |---|---|---|
 | hall:f4 | 탐정 | **There is a button on the left sleeve. The button on the right sleeve is missing.** / 왼쪽 소매에는 단추가 있어. 오른쪽 소매의 단추가 없어졌네. |
 
-질문 12개·사진 4종을 기록하고 타라에게 반환한 뒤 추리를 진행한다. 핍 p1을 듣고 이보 i2를 확인하러 돌아오는 흐름이 포함된다.
+질문 18개·사진 4종을 기록하고 타라에게 반환한 뒤 추리를 진행한다. 핍 p1을 듣고 이보 i2를 확인하러 돌아오는 흐름이 포함된다.
 
 | 순서 | 판단할 질문 | 근거와 답 |
 |---|---|---|
 | 1 | 케이스는 어디에 숨겨졌을까? | 핍 p1과 현장의 케이스 사진 → The case was [behind the curtain]. |
 | 2 | 타라의 케이스인지 어떻게 알았을까? | 타라 t2와 타라가 제공한 사진·현장 케이스 사진 → The [yellow moon sticker] matches Tara’s photo. |
-| 3 | 모모를 의심할 만한 이유는 무엇일까? | 모모 m1과 핍이 본 검은 케이스. 물건 색과 장소만으로 범인을 정하지 않는다. → Momo went [behind the curtain] with a [black toolbox]. |
+| 3 | 모모를 의심할 만한 이유는 무엇일까? | 모모 m3·m4와 핍이 본 검은 케이스. 물건 색과 장소만으로 범인을 정하지 않는다. → Momo went [behind the curtain] with a [black toolbox]. |
 | 4 | 케이스가 옮겨질 때 모모는 어디에 있었을까? | 핍 p1의 조명 시점과 이보 i2의 독립 목격. 동시에 케이스를 옮길 수 없다. → Momo was [on the ladder]. |
 | 5 | 발견한 단추는 누구의 재킷과 맞을까? | 금색·음표 무늬·현재 소매의 빠진 단추 자리 → The button matches [Owen’s jacket]. |
 
@@ -213,7 +231,7 @@
 | button-photo | 준비실 커튼 아래 | 음표 무늬 금색 단추 | 숨긴 자리에서 발견한다. 증거 이름에는 소유자 이름을 넣지 않는다. |
 | sleeve-photo | 출연자 대기실 | 현재 소매 | 오웬의 오른쪽 소매 단추가 없고 왼쪽에는 같은 무늬의 단추가 남아 있다. |
 
-필수 사진은 4종, 질문은 12개, 추리는 5문항, 심문 대질은 2단계다. 모모 공구함은 진술과 현장 소품으로 확인한다. 증거 이름과 발견 알림은 범인을 먼저 알려 주지 않는다.
+필수 사진은 4종, 질문은 18개, 추리는 5문항, 심문 대질은 2단계다. 모모 공구함은 m4 진술과 현장 소품으로 확인한다. 증거 이름과 발견 알림은 범인을 먼저 알려 주지 않는다.
 
 필요한 자료는 장소 배경 3곳, 새 인물 5명과 기존 경사 그림, 연주복과 작업복, 타라가 제공한 케이스 사진과 나중에 살펴보는 현재 소매 사진, 케이스·단추·공구함·사다리·작업등 조사 그림, 첫인사·질문·답·탐정 관찰·심문·반환 음성이다. 그림과 음성은 아직 제작하지 않았다.
 
@@ -224,11 +242,11 @@
 | 표현 | 위치 표현으로 듣는 횟수 | 대사 속 쓰임 |
 |---|---|---|
 | there is | 6회 | 케이스 표식·커튼 뒤 케이스·현장 단추·현재 소매 |
-| there are | 3회 | 문 옆 의자 두 개·대기실의 세 동물·무대 뒤 문 두 개 |
+| there are | 4회 | 문 옆 의자·대기실의 세 동물·예비 전구들·무대 뒤 문 |
 | in | 5회 | 대기실·케이스 안 |
-| on | 13회 | 달 스티커·단추 무늬·소매·무대·사다리 |
-| under | 3회 | 이미 찾아본 의자 아래·선반 아래 공구함·커튼 아래 단추 |
-| next to | 7회 | 케이스의 마지막 자리·조사 대상과 조명의 위치 |
-| behind | 7회 | 모모의 출입·핍의 목격·케이스 발견과 반환·추궁과 자백 |
+| on | 14회 | 달 스티커·단추 무늬·소매·무대·사다리·전구 선반 |
+| under | 3회 | 이미 찾아본 의자 아래·공구함을 둔 선반 아래·커튼 아래 단추 |
+| next to | 9회 | 케이스의 마지막 자리·오웬의 주장·이보의 시야와 모모의 작업 위치 |
+| behind | 8회 | 오웬이 본 공구함 운반·모모의 전구 보관 장소·핍의 목격·발견과 추궁 |
 
-**다음 검토**는 준비실 시야와 두 목격의 동시성, 현장 단추와 현재 소매의 식별성, 질문 12개·추리 5문항·대질 2단계의 부담, 질문별 단어 카드와 오답 보기다. 설계서에 적은 사건 내용과 다른 개발 축약은 하지 않는다.
+**다음 검토**는 준비실 시야와 두 목격의 동시성, 현장 단추와 현재 소매의 식별성, 질문 18개·추리 5문항·대질 2단계의 부담, 질문별 단어 카드와 오답 보기다. 설계서에 적은 사건 내용과 다른 개발 축약은 하지 않는다.
