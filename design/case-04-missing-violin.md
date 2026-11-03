@@ -148,7 +148,7 @@
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
-| pip:p1 | **What did you see?** / 무엇을 봤니?<br>핍: **When the light came back on, someone carried a black case behind the curtain.** / 조명이 다시 켜졌을 때, 누군가 검은 케이스를 커튼 뒤로 가져갔어. | “When the light came back [on], someone carried a [black case] [behind] the [curtain].” → 정답 기록 → 커튼 뒤 조사 지점·이보 i2 질문 해금 |
+| pip:p1 | **Did you see a violin?** / 바이올린을 봤니?<br>핍: **I didn't see a violin. But I saw someone carry a black case behind the curtain when the light came back on.** / 바이올린은 못 봤어. 그런데 조명이 다시 켜졌을 때, 누군가 검은 케이스를 커튼 뒤로 가져가는 건 봤어. | “But I saw someone carry a [black case] [behind] the [curtain] when the light came back [on].” → 정답 기록 → 커튼 뒤 조사 지점·이보 i2 질문 해금 |
 | pip:p2 | **Could you see who it was?** / 누군지 봤니?<br>핍: **No. The case covered their face. I couldn't see a sticker.** / 아니. 케이스에 얼굴이 가렸어. 스티커도 보지 못했어. | “The case covered their [face]. I couldn't see a [sticker].” → 운반자·물건 소유자 미확인 |
 
 한 번 꺼졌다가 다시 켜진 준비실 작업등 하나를 두 사람이 같은 기준으로 말한다. 이보는 사다리 위 모모를, 핍은 그와 동시에 이동하는 검은 케이스를 봤다. 핍은 달 스티커와 얼굴을 보지 못했으므로 모모나 오웬을 지목하지 않는다.
