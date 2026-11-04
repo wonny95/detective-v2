@@ -1586,16 +1586,14 @@ const PICNIC_CASE = {
   start:'rosie',
   previewHandback:['bag-rosie'],
   people:{
-    rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3', openingQuestion:'r1',
+    rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3', openingQuestion:'r0',
       // recorded voice (Higgsfield · MiniMax · Evie, as in the library case; thanks: happy). The library case has its own rosie-*.mp3
-      audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'r4', 'give', 'thanks'].map(key => [key, `audio/picnic/rosie-${key}.mp3`])),
-      // the greeting as the case design has it: theirs and the detective's in turn (design/case-01-picnic-bag.md 인사와 탐문 대본)
+      audio:Object.fromEntries(['hello', 'r0', 'r1', 'r2', 'r3', 'r4', 'give', 'thanks'].map(key => [key, `audio/picnic/rosie-${key}.mp3`])),
       hello:[
-        { key:'hello', en:"Hi, I'm Rosie. Are you the detective?", ko:'안녕, 난 로지야. 혹시 네가 탐정이야?' },
-        { det:true, key:'hello-rosie', en:'Yes. How can I help you?', ko:'응. 어떻게 도와줄까?' },
-        { key:'hello2', en:"This isn't my bag. Can you help me find mine?", ko:'이건 내 가방이 아니야. 내 가방을 찾아줄래?' }
+        { key:'hello', en:"Hi, I'm Rosie. Are you the detective?", ko:'안녕, 난 로지야. 혹시 네가 탐정이야?' }
       ],
       questions:[
+        { id:'r0', en:'Yes. How can I help you?', ko:'응. 어떻게 도와줄까?' },
         { id:'r1', en:"Did your bag get mixed up with someone else's?", ko:'다른 사람과 가방이 바뀐 거야?' },
         { id:'r2', en:'What is in your bag?', ko:'네 가방 안에는 뭐가 들어 있니?' },
         { id:'r3', en:'Do you know whose bag this is?', ko:'이 가방이 누구 것인지 알아?' },
@@ -1607,6 +1605,7 @@ const PICNIC_CASE = {
         { det:true, key:'take-bag', en:'I will.', ko:'그럴게.' }
       ], give:'bag-nora' } },
       answers:{
+        r0:"This isn't my bag. Can you help me find mine?",
         r1:"I'm not sure. My bag is blue, just like this one.",
         r2:'My bag has a red lunch box and a yellow bottle.',
         r3:"I don't know. Please find out for me.",
@@ -1614,13 +1613,14 @@ const PICNIC_CASE = {
       },
       // blanks: only words said in the answer, the ones that are clues or worth learning (user request)
       notes:{
+        r0:['“This isn\'t {{l|my}} bag. Can you help me find {{m|mine}}?”'],
         r1:['She is not {{a|sure}}.', 'Her bag is {{b|blue}}, just like this one.'],
         r2:['Her bag has a {{c|red}} {{d|lunch box}} and a {{e|yellow}} {{f|bottle}}.'],
         r3:['She does not {{g|know}} whose bag this is.', 'She wants me to {{h|find out}}.'],
         r4:["She can't {{i|remember}} who she saw.", 'She went to the {{j|cafe/lake cafe}}.', 'Maybe the bags got {{k|mixed up}} there.']
       },
       // word banks: about three wrong cards per blank, answers not first in their group (user request: two choices were too easy)
-      bank:{ r1:['sorry','happy','sure','sad','red','green','blue','yellow'],
+      bank:{ r0:['your','my','yours','mine'], r1:['sorry','happy','sure','sad','red','green','blue','yellow'],
         r2:['green','red','blue','yellow','book','lunch box','cup','bottle','sandwich'],
         r3:['see','know','hear','look out','give up','find out','pick up'],
         r4:['forget','see','remember','garden','library','cafe','bakery','lost','mixed up','picked up'] }
@@ -1758,6 +1758,7 @@ const PICNIC_CASE = {
     ['let me look.','nora:n3','Let me look'], ["that's strange.",'nora:n3',"That's strange"]
   ],
   grammarLines:{
+    'rosie:r0':[['ownership','my bag'], ['ownership','mine']],
     'rosie:r1':[['ownership','My bag']],
     'rosie:r2':[['wh-q','What is in your bag'], ['ownership','My bag']],
     'rosie:r3':[['negative',"I don't know"], ['imperative','Please find out']],
@@ -1774,7 +1775,7 @@ const PICNIC_CASE = {
     'nora:n3':[['negative',"I didn't open it"]]
   },
   answersKo:{
-    rosie:{ r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
+    rosie:{ r0:'이건 내 가방이 아니야. 내 가방을 찾아줄래?', r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
       r4:'누구를 봤는지 기억이 안 나. 그런데 여기 오기 전에 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
     duck:{ v1:'오늘 로지, 벤, 미아, 올리가 왔어.', v2:'아니. 오늘 가방을 두고 간 손님은 없어.',
       v3:'다들 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어.' },
@@ -2561,6 +2562,7 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 const SENTENCE_TIMES = UMBRELLA ? { 'ella:e0':[[0, 1.8], [2.24, 3.56]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
   'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
+  'rosie:r0':[[0,1.18],[1.47,2.72]],
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,1.65],[2.04,4.44],[4.98,6.69]],
