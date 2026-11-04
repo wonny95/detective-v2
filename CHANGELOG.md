@@ -13,7 +13,23 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-04 11:02 · Claude · (이 커밋)
+## 2026-11-04 11:50 · Claude · (이 커밋)
+
+- 사용자 결정(설계서 함께 수정): 소풍 로지도 우산 엘라와 같게. 탐정의 `Yes. How can I help you?`를 **인사 뒤 혼자 나오는 첫 질문 r0**으로, 로지의 의뢰(`This isn't my bag. Can you help me find mine?`)를 그 대답으로 노트에 받아 적음: `“This isn't [my] bag. Can you help me find [mine]?”`, 보기 my·your·mine·yours. 빈칸과 보기는 개발 제안(사건의 열쇠 표현이 첫 받아쓰기에 나오게). 소풍은 질문 15개·빈칸 39칸.
+- 달라진 것: 전에는 인사 뒤 r1만 나오고 r2–r4가 이어졌는데, 이제 r0 뒤에 r1–r4가 함께 나옴(엔진의 `openingQuestion`은 한 묶음만 지원). 복습 열쇠 카드 문장도 `my / your`는 `This isn't my bag.`, `mine / yours`는 `Can you help me find mine?`로 바뀜(r0 태그가 먼저라서).
+- 음성: 크레딧 없음. 이름만 바꿈(`rosie-hello2.mp3` → `rosie-r0.mp3`, `detective-hello-rosie.mp3` → `detective-rosie-r0.mp3`), `SENTENCE_TIMES`에 rosie:r0(silencedetect).
+- 설계서: `design/case-01-picnic-bag.md`·`.html`(대본, 질문표, 수치). 설계서 101행 근처의 "`my`를 `his/her`로 바꾸어 기록하는 칸" 문장은 이번 작업과 무관한 옛 설명이라 그대로 둠.
+- 확인(새 탭 127.0.0.2, `?case=picnic&preview=tutorial`): 튜토리얼 끝 → 로지 인사 → `Yes. How can I help you?` 하나만 → `detective-rosie-r0`·`rosie-r0` 재생 → 빈칸 2칸·보기 4개 → 오답을 넣으면 그 칸만 `다시 확인` 표시, 정답은 안 보임 → 고치면 통과, 지문에 my bag·mine 강조 → 닫으면 r1–r4. 복습 열쇠 카드 문장과 ▶ 구간(r0의 0번·1번 문장). 콘솔 오류 없음, 구문 검사 통과. 못 한 것: 로지 대화를 끝까지 해서 가방을 맡는 장면까지 보지는 않음(그 코드는 고치지 않음), 소리는 듣지 못함, 전에 진행하던 저장은 코드만 읽음.
+- **다음**: 사용자 지시 대기. 후보: 우산 설계서의 복습 단어(fabric·sunlight·indoors·mine·yours)를 정하기.
+
+## 2026-11-04 11:44 · Claude · e255e8a
+
+- 사용자 요청: 새 사건을 만들 때 Codex에 넣을 프롬프트를 파일로. `design/STORY_PROMPT.md`(단계별 승인, 이야기·정보 공개·듣기·대사·추리·결말 규칙, 분량 균형표). 소풍·우산의 실제 분량을 게임 데이터에서 세어 비교해 기준을 정함(추리 9/5문항, 대답 평균 12.9/8.4단어, 테스 빈칸 45% 등). 분량 기준은 제안값이고 학생 검증 전. 채팅에 보여 준 문장에서 맞춤법 등 두 군데만 고침.
+- 확인: 프롬프트로 실제 사건을 뽑아 보지는 않음. 게임 파일은 고치지 않아 화면 확인 없음.
+- **기획 요청**(Codex): 새 사건 1차 기획은 `design/STORY_PROMPT.md`를 따른다.
+- **다음**: 사용자 지시 대기. 후보: 진행 중인 바이올린 초안에 이 프롬프트의 3단계 점검만 먼저 돌리기(Codex 쪽 작업).
+
+## 2026-11-04 11:02 · Claude · 1659eac
 
 - 사용자 요청: 이미 저장한 단어가 다른 사건에 또 나오면 북마크된 채로. 단어는 이미 그렇게 동작하고 있었음(소풍에서 저장한 blue·know·I don't know.가 우산 복습에서 채워짐, 확인함). 그 확인 중 찾은 빈틈 둘을 고침.
   - 단어 저장을 `완료`/닫기 때에서 **누를 때마다**로(`saveReviewWords()`). 전에는 복습을 끝내지 않고 나가면 저장이 사라져 다음 사건에서 비어 있었음.

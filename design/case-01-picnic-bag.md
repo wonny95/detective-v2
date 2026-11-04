@@ -51,7 +51,7 @@
 | 07 로지에게 전달 | 소풍 탁자에서 로지의 가방과 도시락·물병을 돌려줌. 로지의 감사 인사로 사건 종료 | 복습 |
 | 08 복습 | 사건 요약, 소유 표현·단어 담기 | 완료 |
 
-발견 알림은 인물·장소 이름만 짧게 표시하고 자동 이동하지 않는다. 대화를 시작한 인물의 질문은 끝까지 기록한다. 필수 질문은 **14개**(로지 4, 오리 3, 벤 2, 정원 공동 2, 노라 3)다. 정원에서는 미아·올리와 함께 한 번 인사한 뒤 두 질문을 이어서 기록한다. 오리 아저씨는 벤·미아·올리만 말하고 노라는 언급하지 않는다. 노라의 이름·회사 위치·가방을 받았다는 사실은 벤에게서 처음 듣는다. 이름을 들은 인물은 노트 인물 목록에 먼저 나오고, 지도에는 장소가 열릴 때 나타난다.
+발견 알림은 인물·장소 이름만 짧게 표시하고 자동 이동하지 않는다. 대화를 시작한 인물의 질문은 끝까지 기록한다. 필수 질문은 **15개**(로지 5, 오리 3, 벤 2, 정원 공동 2, 노라 3)다. 정원에서는 미아·올리와 함께 한 번 인사한 뒤 두 질문을 이어서 기록한다. 오리 아저씨는 벤·미아·올리만 말하고 노라는 언급하지 않는다. 노라의 이름·회사 위치·가방을 받았다는 사실은 벤에게서 처음 듣는다. 이름을 들은 인물은 노트 인물 목록에 먼저 나오고, 지도에는 장소가 열릴 때 나타난다.
 
 회사 로비에 가면 바로 노라와 대화한다. 노라가 탐정이 자기를 찾는다는 것을 어떻게 알았는지는 스토리에서 생략한다. 노라는 벤이 전달한 가방을 들고 있어서 첫인사의 “날 찾았다고 들었어”와 가방을 즉시 열어 보는 행동이 이어진다.
 
@@ -62,8 +62,6 @@
 | 첫 만남 | 영어 | 한국어 |
 |---|---|---|
 | 로지 | Hi, I'm Rosie. Are you the detective? | 안녕, 난 로지야. 혹시 네가 탐정이야? |
-| 탐정 | Yes. How can I help you? | 응. 어떻게 도와줄까? |
-| 로지 | This isn't my bag. Can you help me find mine? | 이건 내 가방이 아니야. 내 가방을 찾아줄래? |
 | 오리 | Hello! Welcome to the Lake Cafe. What would you like? | 안녕! 호수 카페에 온 걸 환영해. 뭘 주문할래? |
 | 탐정 | Hello! I'm Detective {플레이어 이름}. I'm looking for a blue bag. | 안녕! 나는 탐정 {플레이어 이름}이야. 파란 가방을 찾고 있어. |
 | 오리 | Oh! I see. How can I help? | 아, 그렇구나! 어떻게 도와줄까? |
@@ -83,7 +81,8 @@
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 |
 |---|---|---|---|
-| rosie:r1 · 첫 질문 | Did your bag get mixed up with someone else's? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. | She is not [sure]. Her bag is [blue], just like this one. |
+| rosie:r0 · 첫 질문 | Yes. How can I help you? / 응. 어떻게 도와줄까? | This isn't my bag. Can you help me find mine? / 이건 내 가방이 아니야. 내 가방을 찾아줄래? | “This isn't [my] bag. Can you help me find [mine]?” |
+| rosie:r1 | Did your bag get mixed up with someone else's? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. | She is not [sure]. Her bag is [blue], just like this one. |
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | Her bag has a [red] [lunch box] and a [yellow] [bottle]. |
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | She does not [know] whose bag this is. She wants me to [find out]. |
 | rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the Lake Cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
@@ -98,7 +97,7 @@
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | Her bag had a [green] [folder] and a [blue] [pen]. |
 | nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange. / 아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자... 빨간 도시락이랑 노란 물병? 이상하네. | She was in a [meeting], so she did not open it. Inside are a [red] lunch box and a [yellow] bottle. She thinks that is strange. |
 
-정원에서 g1을 기록한 뒤 두 친구에게 조사 이유를 말하고 사진 촬영을 부탁해 가방 두 개를 찍는다. 이 촬영은 같은 대화 안의 짧은 연출로 진행하며 지도·자유 조사는 열지 않는다. 두 가방은 건드리지 않고 주인 곁에 둔다. g2에서는 파란 가방 사진을 미아에게 보여 주며 자기 가방인지 묻는다. 정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 로지가 맡긴 가방의 내부 확인, 카페·벤·정원의 기록, 정원 사진 2장까지 마친 뒤 노라의 세 질문을 모두 기록하면 로비에서 바로 추리 단계로 넘어간다. 회사가 먼저 해금되어도 조사 순서의 마지막 방문지로 둔다. 대괄호 37칸. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 분실물로 남은 가방이 없다는 것만 알고 누구의 가방이 무엇인지는 모른다(사용자 결정: 손님의 가방 색을 기억하는 대사는 어색해 분실물 질문으로 바꿈). 가방이 카페에 남지 않았으니 누군가 들고 갔다는 단서가 된다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
+정원에서 g1을 기록한 뒤 두 친구에게 조사 이유를 말하고 사진 촬영을 부탁해 가방 두 개를 찍는다. 이 촬영은 같은 대화 안의 짧은 연출로 진행하며 지도·자유 조사는 열지 않는다. 두 가방은 건드리지 않고 주인 곁에 둔다. g2에서는 파란 가방 사진을 미아에게 보여 주며 자기 가방인지 묻는다. 정원의 두 질문을 모두 기록한 뒤 탐정이 “Thanks for answering my questions. Enjoy your picnic!” / “답변 고마워. 피크닉 재밌게 즐기길 바래.”라고 말한다. 로지가 맡긴 가방의 내부 확인, 카페·벤·정원의 기록, 정원 사진 2장까지 마친 뒤 노라의 세 질문을 모두 기록하면 로비에서 바로 추리 단계로 넘어간다. 회사가 먼저 해금되어도 조사 순서의 마지막 방문지로 둔다. 대괄호 39칸. 인사 뒤에는 선택지가 하나만 나온다(사용자 결정, 우산 사건 엘라와 같음): 탐정의 “Yes. How can I help you?”(rosie:r0). 로지의 의뢰가 그 대답이고 노트에 받아 적는다. r0을 적으면 r1–r4가 함께 나온다. `my`를 `his/her`로 바꾸어 기록하는 칸은 소유 관계 이해 과제이며 받아쓰기 정확도와 구분한다. 이름·장소·색 보기에는 오답 카드를 섞되 정답을 미리 알려 주지 않는다. 카페 주인은 분실물로 남은 가방이 없다는 것만 알고 누구의 가방이 무엇인지는 모른다(사용자 결정: 손님의 가방 색을 기억하는 대사는 어색해 분실물 질문으로 바꿈). 가방이 카페에 남지 않았으니 누군가 들고 갔다는 단서가 된다. 카페 주인은 노라에게 전달한 사실을 모르며, 벤은 노라가 집에 두고 간 가방과 카페에서 가져온 가방 모두 열어 보지 않아 내용물을 모르고, 바뀐 사실도 모른다.
 
 ## 소지품 조사·음성 전용 물건
 
