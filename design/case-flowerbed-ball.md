@@ -12,7 +12,7 @@
 - **피아의 작업**: 꽃을 심고 작은 삽을 화단 옆에 두었다. 올리의 사진에서는 심기가 끝난 뒤에도 모든 꽃이 멀쩡하다. 피아와 올리는 그 뒤 함께 가게에 갔다가 함께 돌아와 훼손을 발견한다. 흙 묻은 도구와 심기 흔적만으로 피아를 범인이라고 하지 않는다.
 - **루카의 행동**: 코알라 루카가 혼자 꽃 사진을 찍으러 정원에 들어갔다. 화단으로 들어가지 않고 정원 안쪽 길에 머물렀다. 사진에 집중하다 꽃을 밟았을 가능성 때문에 조사하지만, 자기 주장만으로 제외하지 않는다. 렌은 루카가 길을 걷고 멈춰 찍다가 벤치로 돌아오는 전 구간과 그때도 멀쩡했던 꽃을 보았다. 거스와 공놀이하거나 함께 정원에 들어간 적은 없다. 현재 벤치 건너편에서 카메라를 정리한다. 꽃 훼손을 아직 보지 못했고 요청받으면 직접 아는 일을 설명한다.
 - **렌의 시야**: 벤치에 앉아 두 친구의 출발, 울타리 위로 날아간 공, 공을 들고 정원 안쪽 길에서 돌아오는 거스를 보았다. 낮은 울타리와 꽃줄기에 바닥 시야가 가려져 공이 떨어진 위치·발로 밟는 순간은 보지 못했다. 목격하지 않은 훼손을 진술하지 않는다.
-- **해결**: 피아는 작업 순서를 설명하는 참고인이다. 거스와 루카가 각각 정원에 들어갔을 가능성을 조사한다. 루카는 렌의 전 구간 목격으로 길에 머물렀음을 확인한다. 거스가 말한 마당 쪽 바깥길과 렌이 본 정원 안쪽 길의 차이를 짚고, 거스가 인정한 정원 출입과 눌린 꽃 사이 발자국을 함께 짚어 훼손 경위를 묻는다. 사진만으로 발자국 주인이나 공에 묻은 흙의 출처를 확정하지 않는다. 공놀이한 인물이 혼자라는 사실만으로 범인이라고 하지 않는다. 현장에 선명한 공 자국을 새로 만들지 않으며, 공만으로 루카를 제외하지 않는다.
+- **해결**: 피아는 작업 순서를 설명하는 참고인이다. 거스와 루카가 각각 정원에 들어갔을 가능성을 조사한다. 루카는 렌의 전 구간 목격으로 길에 머물렀음을 확인한다. 거스가 말한 마당 쪽 바깥길과 렌이 본 정원 안쪽 길의 차이를 짚고, 거스가 인정한 정원 출입과 좁은 구간을 따라 눌린 꽃과 흐트러진 흙을 함께 짚어 훼손 경위를 묻는다. 사진은 누군가 꽃 사이를 지나갔을 가능성만 보여 주며 사람이나 동물 종을 특정하지 않는다. 공에 묻은 흙의 출처도 단정하지 않는다. 공놀이한 인물이 혼자라는 사실만으로 범인이라고 하지 않는다. 현장에 선명한 공 자국을 새로 만들지 않으며, 공만으로 루카를 제외하지 않는다.
 
 ### 사건 순서
 
@@ -45,12 +45,12 @@
 
 | 배경 | 고정 인물·배치 | 사진/관찰할 부분 | 다른 장소와 연결 |
 |---|---|---|---|
-| 마을 화단 | 올리는 입구 옆, 일지는 벤치 위 | 눌린 꽃·작은 삽·화단 안 발자국. 정원 안쪽 길이 꽃 옆을 지남 | 낮은 울타리 밖 마당 쪽 길과 안쪽 길이 함께 보임 |
+| 마을 화단 | 올리는 입구 옆, 일지는 벤치 위 | 좁은 구간을 따라 눌린 꽃·그 사이 흐트러진 흙·작은 삽. 정원 안쪽 길이 꽃 옆을 지남 | 낮은 울타리 밖 마당 쪽 길과 안쪽 길이 함께 보임 |
 | 모종 작업실 | 피아는 작업대 옆 | 모종판·장갑. 꽃 심기와 외출을 질문 | Plant Shop은 일지 사진 아래 모종 구입처 상호로 발견 |
 | 공놀이 마당 | 거스는 골대 옆, 공은 발치 | 공 표면의 작은 흙 얼룩, 마당 쪽 바깥길 | 낮은 울타리 너머 정원과 안쪽 길이 보임 |
 | 공원 벤치 | 렌은 벤치 옆, 루카는 건너편에 고정·각자 대화 | 정원 입구·길 위 루카의 이동 전 구간, 꽃머리와 공의 공중 이동 | 꽃머리는 보이나 화단 내부 바닥과 발은 가려짐. 루카가 길을 벗어났는지는 볼 수 있음 |
 
-**yard path**는 울타리 바깥의 마당 쪽 길, **garden path**는 울타리 안의 정원 길이다. 같은 길을 다른 이름으로 부르지 않는다. 배경 구도가 이 구별을 보여 줘야 한다. 화단은 정원 안쪽 길에 붙어 있는 흙 구역이며, 정원에 들어간 사실과 꽃을 밟은 행동은 별도로 확인한다. 발자국에 발굽·발톱·종별 발 모양·몸집 정보는 넣지 않고 누구의 것인지 사진에서 고르지 않는다.
+**yard path**는 울타리 바깥의 마당 쪽 길, **garden path**는 울타리 안의 정원 길이다. 같은 길을 다른 이름으로 부르지 않는다. 배경 구도가 이 구별을 보여 줘야 한다. 화단은 정원 안쪽 길에 붙어 있는 흙 구역이며, 정원에 들어간 사실과 꽃을 밟은 행동은 별도로 확인한다. 꽃들이 좁은 구간을 따라 연속해서 눌리고 그 사이 흙이 흐트러진 모습만 그린다. 발·발굽·발톱·신발의 윤곽이나 일정한 보행 간격은 그리지 않는다. 흔적으로 동물 종·몸집·개인을 알아낼 수 없으며, 누군가 지나갔다는 판단도 추측으로 말한다.
 
 ## 3. 발견·해금·진행 조건
 
@@ -58,7 +58,7 @@
 |---|---|---|---|
 | 최초 의뢰 | 올리 자기소개 | n0 하나만 | 다른 질문·다른 장소 |
 | 정상 상태 기록 | n0 채점 | n1 | 피아 이름·거스 이름 |
-| 현장 촬영 | n1 채점 뒤 최초 대화 완료 | bed-photo·garden-photo·fence-photo 조사 | 누가 밟았는지·발자국 주인 |
+| 현장 촬영 | n1 채점 뒤 최초 대화 완료 | bed-photo·garden-photo·fence-photo 조사 | 누가 밟았는지·동물 종류 |
 | 모종 작업실 | garden-photo 기록 및 실제 Plant Shop 상호 확인 | 장소, 도착 뒤 피아 자기소개 | 사진으로 피아 역할·알리바이 선공개 |
 | 공놀이 마당 | fence-photo 기록 및 울타리 너머 실제 골대·마당 관찰 | 장소, 도착 뒤 거스 자기소개 | 공이 넘어왔다는 추측·거스 범인 지정 |
 | 피아 후속 질문 | p1 → p3 → p4 | 정상 심기·외출·벤치의 두 친구 | 피아를 작업자라는 이유로 용의자 취급 |
@@ -94,10 +94,10 @@
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
-| obs:f1 | 탐정 · observation | **Some flowers are damaged. There are footprints between them.** / 꽃 몇 송이가 망가져 있어. 꽃 사이에 발자국이 있어. | n0·n1 뒤 · bed-photo 촬영 |
+| obs:f1 | 탐정 · observation | **Some flowers are damaged. There are marks in the soil.** / 꽃 몇 송이가 망가져 있어. 흙에 흔적이 있어. | n0·n1 뒤 · bed-photo 촬영 |
 | obs:f2 | 탐정 · observation | **The flowers look fine in this photo.** / 이 사진에서는 꽃들이 멀쩡해 보여. | n1 뒤 펼친 작업일지 · garden-photo 촬영 |
 | obs:shop-name | 탐정 · observation | **The name below the photo is Plant Shop.** / 사진 아래 이름은 Plant Shop이네. | 사진 아래 모종 구입처 상호 · 작업실 장소만 발견 |
-| obs:f3 | 탐정 · observation | **Marks on the fence. Footprints lead from the garden path into the flower bed.** / 울타리에 자국이 있어. 발자국이 정원 안쪽 길에서 화단으로 이어져. | n0·n1 뒤 · fence-photo 촬영 |
+| obs:f3 | 탐정 · observation | **Marks on the fence. There are more marks near the garden path.** / 울타리에 자국이 있어. 정원 안쪽 길 근처에도 흔적이 있어. | n0·n1 뒤 · fence-photo 촬영 |
 | obs:yard-view | 탐정 · observation | **There is a play yard beyond the fence.** / 울타리 너머에 공놀이 마당이 있어. | fence-photo의 울타리 너머 골대·마당 전경 · 장소만 발견 |
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
@@ -189,7 +189,7 @@ w1·w2만 열린 첫 방문은 그 둘을 마치고 끝낼 수 있다. w3는 거
 |---|---|---|---|
 | think:luca-check | 탐정 · thought | **Luca went into the garden. I should ask Wren what he saw.** / 루카가 정원에 들어갔대. 렌이 무엇을 봤는지 물어봐야겠어. | l2 뒤 렌을 이미 만났을 때만 · 같은 장소에 머묾 |
 
-루카가 정원에 들어가 사진을 찍은 것은 인정하지만 그 말만으로 꽃을 밟았거나 밟지 않았다고 확정하지 않는다. 렌 w4를 받아 적은 뒤, 화단 사진의 꽃 사이 발자국과 길 위에 머문 루카의 행동을 구별한다. 렌은 루카의 촬영부터 벤치로 돌아올 때까지 봤으며 잠깐 본 장면으로 전 구간을 추측하지 않는다. 카메라 사진을 새 증거로 받거나 렌의 말을 사진으로 만들지 않는다. 벤치의 두 인물은 각자 대화하며 동시에 한 대화에 등장하지 않는다. w4를 마치기 전에는 루카를 제외하지 않는다.
+루카가 정원에 들어가 사진을 찍은 것은 인정하지만 그 말만으로 꽃을 밟았거나 밟지 않았다고 확정하지 않는다. 렌 w4를 받아 적은 뒤, 화단 사진의 눌린 꽃·흐트러진 흙과 길 위에 머문 루카의 행동을 구별한다. 렌은 루카의 촬영부터 벤치로 돌아올 때까지 봤으며 잠깐 본 장면으로 전 구간을 추측하지 않는다. 카메라 사진을 새 증거로 받거나 렌의 말을 사진으로 만들지 않는다. 벤치의 두 인물은 각자 대화하며 동시에 한 대화에 등장하지 않는다. w4를 마치기 전에는 루카를 제외하지 않는다.
 
 ## 5. 사진·배경·선택 관찰
 
@@ -197,9 +197,9 @@ w1·w2만 열린 첫 방문은 그 둘을 마치고 끝낼 수 있다. w3는 거
 
 | 사진 ID | 중립 제목 | 촬영 지점·조건 | 함께 보여야 할 사실 | 쓰임과 한계 |
 |---|---|---|---|---|
-| bed-photo | 화단 | 올리 n1 뒤 화단 흙과 꽃 | 누운 꽃·꽃 사이를 가로지르는 일반 신발 자국·가장자리의 작은 삽과 심기 구멍 | 정상 작업과 이후 훼손을 구별. 사람의 종·신원은 알 수 없음 |
+| bed-photo | 화단 | 올리 n1 뒤 화단 흙과 꽃 | 좁은 구간을 따라 눌린 꽃·그 사이 흐트러진 흙·가장자리의 작은 삽과 심기 구멍. 개별 발 모양 없음 | 정상 작업과 이후 훼손을 구별. 사람의 종·신원은 알 수 없음 |
 | garden-photo | 화단 사진 | n1 뒤 올리가 펼친 작업일지 페이지 촬영 | 심은 꽃이 모두 멀쩡함. 사진 아래 모종 구입처 Plant Shop 상호 | 촬영 순서는 올리 진술로만 확인. 상호는 작업실 발견에 사용 |
-| fence-photo | 울타리 | 올리 n1 뒤 낮은 울타리와 바닥 | 울타리의 넘은 자국·안쪽 길에서 화단으로 이어진 발자국·밖의 마당 쪽 길·울타리 너머 골대·공놀이 마당 전경 | 두 길과 이동 범위를 구별. 이름·소유자·CCTV 인물은 없음 |
+| fence-photo | 울타리 | 올리 n1 뒤 낮은 울타리와 바닥 | 울타리의 넘은 자국·안쪽 길 가까이부터 이어지는 눌린 꽃과 흐트러진 흙·밖의 마당 쪽 길·울타리 너머 골대·공놀이 마당 전경 | 두 길과 이동 범위를 구별. 이름·소유자·CCTV 인물은 없음 |
 | ball-photo | 흙 묻은 공 | 거스 g4 허락·열린 질문 완료 뒤 | 공 전체와 표면의 작고 옅은 흙 얼룩. 공 대부분은 깨끗하게 보임 | 살펴본 공의 외형·상태를 기록. 흙만으로 특정 장소 방문·꽃 훼손·범인을 판정하지 않음 |
 
 사진 하나가 자동으로 거스의 인물을 해금하거나 지목하지 않는다. 개인 소유나 진실은 이미 들은 말과 추리로 잇는다. 화단의 생생한 훼손 사진이 곧 범인의 행동을 재현하는 장면이 되지 않게 한다.
@@ -227,7 +227,7 @@ w1·w2만 열린 첫 방문은 그 둘을 마치고 끝낼 수 있다. w3는 거
 |---|---|---|---|---|---|
 | q1 | **What did Pia do in the flower bed?** / 피아는 화단에서 무엇을 했을까?<br>Pia [planted] the flowers. | planted · picked · watered · carried · sold · painted | **Right. Pia planted the flowers.** / 맞아. 피아는 꽃을 심었어. | 피아의 첫 번째 작업 기록을 다시 들어 봐. | pia:p1 |
 | q2 | **When did Ollie take the photo?** / 올리는 언제 사진을 찍었을까?<br>Ollie took the photo [after planting]. | after planting · before planting · after coming back from the shop · after getting the ball · after taking the ball photo · after questioning Gus | **Yes. The flowers were fine after planting.** / 맞아. 꽃을 심은 뒤에도 꽃들이 멀쩡했어. | 올리가 작업일지 사진에 관해 한 말과 사진을 함께 확인해 봐. | ollie:n1 · garden-photo |
-| q3 | **Where did Luca stay while taking photos?** / 루카는 사진을 찍는 동안 어디에 머물렀을까?<br>Luca stayed [on the path]. | on the path · between the flowers · beside the ball · inside the shop · behind the bench · over the fence | **Luca stayed on the path. The footprints cross the flower bed.** / 루카는 길 위에 머물렀어. 발자국은 화단을 가로질러 있어. | 루카의 위치 답변과 렌의 후속 목격을 화단 사진과 대조해 봐. | luca:l2 · wren:w4 · bed-photo. 렌이 촬영 전 구간을 목격했으므로 루카 제외 |
+| q3 | **Where did Luca stay while taking photos?** / 루카는 사진을 찍는 동안 어디에 머물렀을까?<br>Luca stayed [on the path]. | on the path · between the flowers · beside the ball · inside the shop · behind the bench · over the fence | **Luca stayed on the path. The damaged flowers are inside the bed.** / 루카는 길 위에 머물렀어. 망가진 꽃들은 화단 안에 있어. | 루카의 위치 답변과 렌의 후속 목격을 화단 사진과 대조해 봐. | luca:l2 · wren:w4 · bed-photo. 렌이 촬영 전 구간을 목격했으므로 루카 제외 |
 | q4 | **What did Wren see Gus carrying?** / 렌은 거스가 무엇을 들고 오는 걸 봤을까?<br>Wren saw Gus with [a ball]. | a ball · a shovel · a tray · a flowerpot · a notebook · a bottle | **Yes. Gus came back with a ball.** / 맞아. 거스가 공을 들고 돌아왔어. | 렌의 마지막 목격 기록에서 들고 있던 물건을 확인해 봐. | wren:w3 |
 | q5 | **Where did Wren see Gus come from?** / 렌이 봤을 때 거스는 어디에서 돌아왔을까?<br>Wren saw Gus come from [the garden path]. | the garden path · the yard path · the Plant Shop · the park bench · the shop door · the workshop table | **That differs from the path Gus named.** / 거스가 말한 길과는 달라. | 거스의 회수 위치와 렌의 목격 위치를 나란히 봐. | gus:g3 · wren:w3 · fence-photo |
 | q6 | **Whose account needs checking?** / 누구의 설명을 더 확인해야 할까?<br>[Gus]'s account does not fit all the evidence. | Gus · Luca | **We should ask about the path and the ball.** / 길과 공에 관해 더 물어봐야겠어. | 두 용의자의 말을 각각 목격 기록과 대조해 봐. | luca:l2 · wren:w4 · gus:g1–g3 · wren:w3 · bed-photo · fence-photo · ball-photo. 아직 훼손 범행 단정 아님 |
@@ -241,9 +241,9 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | 차례 | 주장 | 플레이어가 제시할 것 | 함께 확인하는 이미 얻은 자료 | 넘어가는 때 |
 |---|---|---|---|---|
 | 확인 1 | 마당 바깥길에서 공을 찾았고 정원에는 안 들어감 | wren:w3 진술 | gus:g3·fence-photo의 두 길 구도 | det:r1 뒤 cq1 선택 → 거스가 정원 출입 인정 |
-| 확인 2 | 정원에는 갔지만 꽃은 안 밟음 | bed-photo 사진 | gus:a1 정원 출입 인정·정상 작업 사진·bed-photo의 꽃 사이 발자국 | det:r2 뒤 cq2 선택 → 거스가 훼손 인정 |
+| 확인 2 | 정원에는 갔지만 꽃은 안 밟음 | bed-photo 사진 | gus:a1 정원 출입 인정·정상 작업 사진·bed-photo의 눌린 꽃·흐트러진 흙 | det:r2 뒤 cq2 선택 → 거스가 훼손 인정 |
 
-두 번째는 사진 여러 장을 한 번에 고르는 새 조작을 요구하지 않는다. 플레이어가 bed-photo를 내밀면 탐정이 이미 들은 정원 출입 인정과 꽃 사이 발자국을 함께 짚는다. 공의 흙은 훼손이나 특정 장소 방문을 입증하는 근거로 쓰지 않는다. 틀린 증거를 내밀면 같은 주장을 유지하고 이전에 맞힌 차례는 보존한다.
+두 번째는 사진 여러 장을 한 번에 고르는 새 조작을 요구하지 않는다. 플레이어가 bed-photo를 내밀면 탐정이 이미 들은 정원 출입 인정과 눌린 꽃·흐트러진 흙을 함께 짚는다. 흔적은 개인을 특정하지 않으므로 꽃 사이를 지나간 것 같다는 추측 뒤에 직접 질문한다. 공의 흙은 훼손이나 특정 장소 방문을 입증하는 근거로 쓰지 않는다. 틀린 증거를 내밀면 같은 주장을 유지하고 이전에 맞힌 차례는 보존한다.
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
@@ -254,7 +254,7 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | det:cq1 | 탐정 · choice | **Did you go into the garden to get your ball?** / 공을 가져오려고 정원 안에 들어갔니? | r1 뒤 질문 선택 · 받아쓰기 없음 |
 | gus:a1 | 거스 · turn | **Yes, I went in for my ball.** / 응, 공을 가지러 들어갔어. | 정원 출입만 인정 |
 | gus:c2 | 거스 · turn | **But I didn't step on the flowers.** / 하지만 꽃은 밟지 않았어. | 확인 2 주장 · bed-photo 제시 |
-| det:r2 | 탐정 · turn | **You went in for your ball. The footprints cross the flowers.** / 공을 가지러 정원에 들어갔다고 했지. 발자국이 꽃 위를 지나가. | bed-photo 뒤 · gus:a1의 출입 인정도 함께 참조. 발자국 주인 단정 금지 |
+| det:r2 | 탐정 · turn | **You went in for your ball. It looks like someone walked between the flowers.** / 공을 가지러 정원에 들어갔다고 했지. 누군가 꽃 사이로 걸어간 것 같아. | bed-photo 뒤 · gus:a1의 출입 인정도 함께 참조. 흔적의 행위자 단정 금지 |
 | det:cq2 | 탐정 · choice | **Did you step on them to get your ball?** / 공을 가져오려고 꽃을 밟았니? | r2 뒤 질문 선택 · 받아쓰기 없음 |
 | gus:a2 | 거스 · turn | **Yes, I stepped on them by accident.** / 응, 실수로 꽃을 밟았어. | 훼손 인정 · 실제 행위자 확정 |
 | det:why | 탐정 · choice | **Why didn't you tell Ollie?** / 올리에게 왜 말하지 않았니? | 훼손 인정 뒤 · 받아쓰기 없음 |
@@ -337,10 +337,11 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | step on | 밟다 | det:cq2 · Did you step on them to get your ball? |
 | come back | 돌아오다 | wren:w3 · Gus came back with a ball from the garden path |
 | by accident | 실수로 | gus:a2 · I stepped on them by accident. |
-| footprints | 발자국들 | obs:f1 · There are footprints between them. |
+| marks | 흔적들·자국들 | obs:f1 · There are marks in the soil. |
+| soil | 흙 | obs:f1 · There are marks in the soil. |
 | mud | 흙·진흙 | obs:f4 · There is a little mud on the ball. |
 
-come back·step on·by accident는 표현으로 다룬다. didn't·went는 열쇠 문법에 두고 사람 이름은 단어 카드로 만들지 않는다. 추가 footprints/mud 어휘는 현장 관찰에 실제 들린다는 출처를 남긴다.
+come back·step on·by accident는 표현으로 다룬다. didn't·went는 열쇠 문법에 두고 사람 이름은 단어 카드로 만들지 않는다. 추가 marks/soil/mud 어휘는 현장 관찰에 실제 들린다는 출처를 남긴다.
 
 ### 들은 정보와 판단의 연결
 
@@ -349,7 +350,7 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 | pia:p1 planted / flowers | 정상 작업 사진·올리 n1 | 꽃을 심은 행동을 훼손과 구별 |
 | pia:p3 went / plants | 렌 w1 출발 목격·정상 사진 | 작업과 이후 훼손의 순서를 확인. 피아를 용의자로 삼지 않음 |
 | gus:g1 played / didn't go | 공 조사·w3 | 한 행동은 인정하면서 다른 행동은 부인한다는 점 확인 |
-| luca:l2 didn't / between · wren:w4 stayed / path | bed-photo | 루카는 길 위, 훼손 발자국은 꽃 사이. 독립 목격과 대조해 제외 |
+| luca:l2 didn't / between · wren:w4 stayed / path | bed-photo | 루카는 길 위, 눌린 꽃·흐트러진 흙은 화단 안. 전 구간 목격과 대조해 제외 |
 | gus:g2 went over / got it back | fence-photo·ball-photo | 공의 이동과 회수 사실 확인 |
 | gus:g3 outside / wren:w3 garden path | 두 길의 실제 배경 | 주장한 회수 위치가 목격 위치와 다름 |
 | 확인 대화의 didn't / went / stepped | 두 차례 제시 자료 | 출입 인정과 훼손 인정을 단계적으로 구별 |
