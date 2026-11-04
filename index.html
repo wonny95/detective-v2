@@ -1737,6 +1737,12 @@ const PICNIC_CASE = {
         n3:['meeting','class','party','green','red','blue','yellow','pink'] }
     }
   },
+  // [WORDS key, where it is heard, the words to highlight in that sentence]
+  phrases:[
+    ["i'm not sure.",'rosie:r1',"I'm not sure"], ['just like','rosie:r1','just like'], ["i don't know.",'rosie:r3',"I don't know"], ["i can't remember",'rosie:r4',"I can't remember"],
+    ['stop at','ben:b1','stopped at'], ['go home','duck:v3','went home'], ['after that','ben:b1','After that'], ['all morning','nora:n3','all morning'],
+    ['let me look.','nora:n3','Let me look'], ["that's strange.",'nora:n3',"That's strange"]
+  ],
   grammarLines:{
     'rosie:r1':[['ownership','My bag']],
     'rosie:r2':[['wh-q','What is in your bag'], ['ownership','My bag']],
@@ -2046,18 +2052,22 @@ const UMBRELLA_CASE = {
       bank:{ f1:['white','dark blue','red','blue','star','handle'], f2:['gold','no','stars','pattern','small','plain'] }
     }
   },
+  phrases:[
+    ["i don't know.",'ella:e1',"I don't know"], ['come back for','ella:e1','came back for'], ['for a week','ella:e2','for a week'], ["i'm not sure where",'tess:t0',"I'm not sure where"],
+    ['look for','tess:t5','looking for'], ['what is it like?','tess:t1','What is your umbrella like'], ['who else','tess:t4','Who else']
+  ],
   grammarLines:{
     'ella:e1':[['whose','Whose umbrella is that'], ['negative',"I don't know"], ['past-irr','came back']],
     'tess:t0':[['did-q','Did you bring'], ['ownership','lend mine']],
-    'tess:t1':[['wh-q','What is your umbrella like'], ['ownership','Mine is dark blue']],
+    'tess:t1':[['ownership','Mine is dark blue']],
     'tess:t2':[['wh-q','What pattern'], ['ownership','Mine has gold stars']],
     'tess:t3':[['wh-q','What color'], ['ownership','Mine is dark blue inside']],
-    'tess:t4':[['wh-q','Who else was'], ['imperative','Ask Ruby'], ['be-past','We were at the bazaar']],
+    'tess:t4':[['imperative','Ask Ruby'], ['be-past','We were at the bazaar']],
     'tess:t5':[['ownership','his umbrella']],
-    'ruby:r1':[['wh-q','What is your umbrella like'], ['ownership','Mine is dark blue']],
+    'ruby:r1':[['ownership','Mine is dark blue']],
     'ruby:r2':[['wh-q','What pattern'], ['ownership','Mine has gold stars']],
     'ruby:r3':[['wh-q','What color'], ['ownership','Mine is gold inside']],
-    'finn:f1':[['wh-q','What is your umbrella like'], ['ownership','Mine is dark blue']],
+    'finn:f1':[['ownership','Mine is dark blue']],
     'finn:f2':[['wh-q','What pattern'], ['ownership','Mine has no pattern']]
   },
   answersKo:{
@@ -2388,11 +2398,22 @@ const WORDS = {
   'left':['w','두고 왔다 (leave의 과거)'], 'folder':['w','서류철, 폴더'], 'pen':['w','펜'], 'busy':['w','바쁜'], 'meeting':['n','회의'], 'inside':['w','안에'], 'tell':['w','말하다, 알리다'],
   'picnic':['w','소풍'], 'hers':['w','그녀의 것'], 'brought':['w','가져왔다'], 'one':['w','하나'], 'no':['w','하나도 없는'], 'not':['w','~않다'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
-  '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
+  '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve'],
+  // 표현 (user decision: fixed expressions and idioms are not grammar). Not note blanks: each case's phrases say where it is heard.
+  // The key is what the word audio reads; the fourth value is how it is written when that differs.
+  "i'm not sure.":['x','잘 모르겠어',null,"I'm not sure."], 'just like':['x','꼭 ~처럼',null,'just like ~'], "i don't know.":['x','몰라',null,"I don't know."],
+  "i can't remember":['x','~가 기억이 안 나',null,"I can't remember ~"], 'stop at':['x','~에 잠깐 들르다',null,'stop at ~'], 'go home':['x','집에 가다'],
+  'after that':['x','그 뒤에'], 'all morning':['x','오전 내내'], 'let me look.':['x','어디 보자',null,'Let me look.'], "that's strange.":['x','이상하네',null,"That's strange."],
+  'come back for':['x','~를 찾으러 돌아오다',null,'come back for ~'], 'for a week':['x','일주일 동안'], "i'm not sure where":['x','어디 ~인지 잘 모르겠어',null,"I'm not sure where ~"],
+  'look for':['x','~를 찾다',null,'look for ~'], 'what is it like?':['x','~는 어떻게 생겼어?',null,'What is ~ like?'], 'who else':['x','또 누가 ~?',null,'Who else ~?'],
+  'look around':['x','둘러보다'], 'talk to':['x','~와 이야기하다',null,'talk to ~'], 'look after':['x','~를 맡아 돌보다',null,'look after ~'], 'for a while':['x','잠시'],
+  'come back':['x','돌아오다'], 'give back':['x','~를 돌려주다',null,'give ~ back'], 'all evening':['x','저녁 내내'], 'all night':['x','밤새'], 'last month':['x','지난달'],
+  'get tired':['x','지치다'], 'miss':['x','~를 그리워하다',null,'miss ~']
 };
-const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소']];
-// the picnic case's words (its note blanks that are in WORDS), for 학습 on the main page
-const PICNIC_WORDS = [...new Set(Object.values(PICNIC_CASE.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))))].filter(k => WORDS[k]);
+const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소'], ['x','표현']];
+// the other cases' words (note blanks that are in WORDS, and phrases), for 학습 on the main page
+const packWords = c => [...new Set([...Object.values(c.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))), ...c.phrases.map(([key]) => key)])].filter(k => WORDS[k]);
+const PACK_WORDS = [['picnic-bag', '바뀐 소풍 가방', packWords(PICNIC_CASE)], ['unclaimed-umbrella', '주인 없는 우산', packWords(UMBRELLA_CASE)]];
 // Grammar notes, opened from the grammar links in a passage. name/pattern/ko: the card (Korean shown as soon as the
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
@@ -2481,10 +2502,7 @@ const GRAMMAR = {
       '지금의 일을 물을 때는 Do · Does를 써요. Do you have a pen?'] },
   'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.',
     more:['Who 누구 · What 무엇 · Where 어디 · When 언제 · Why 왜 · How 어떻게.',
-      'What 뒤에 명사를 붙이면 더 좁혀 물어요. What color …? 무슨 색, What pattern …? 어떤 무늬.',
-      'What is it like?는 "그건 어떻게 생겼어?"예요. 여기서 like는 "좋아하다"가 아니라 "~와 같은"이에요.',
-      'Who else …?는 "또 누가 …?"예요. else가 "그 밖에"를 더해요.'] },
-  'phrasal':   { name:'구동사', pattern:'come back · come in · give back', ko:'동사에 back·in 같은 작은 말이 붙어 새 뜻이 돼요. come back = 돌아오다, come in = 들어오다, give it back = 돌려주다(it이 가운데 들어가요).' }
+      'What 뒤에 명사를 붙이면 더 좁혀 물어요. What color …? 무슨 색, What pattern …? 어떤 무늬.'] }
 };
 // Where each grammar shows up: [grammar id, the words to highlight] per answer. The words are looked up in the
 // answer first, then in the player's question.
@@ -2496,7 +2514,7 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'badger:b1':[['passive','was found'], ['past-prog','was lying'], ['time-prep',"at nine o'clock"]],
   'badger:b2':[['wh-q','Who found'], ['past-irr','found him'], ['time-prep','between eight and nine']],
   'badger:b3':[['wh-q','What should I do'], ['modal','should I do'], ['imperative','Look around']],
-  'mole:m1':  [['wh-q','What did you see'], ['phrasal','came back'], ['time-prep','at nine'], ['to-purpose','to get a book']],
+  'mole:m1':  [['wh-q','What did you see'], ['time-prep','at nine'], ['to-purpose','to get a book']],
   'mole:m2':  [['did-q','Did anyone visit'], ['time-prep','at seven thirty'], ['to-purpose','to borrow']],
   'mole:m3':  [['did-q','Did the professor have'], ['past-irr','he wrote'], ['too-adj','too sweet']],
   'fiona:q1': [['be-past','I was at my bakery'], ['time-prep','from seven to ten'], ['past-prog','was baking']],
@@ -2504,7 +2522,7 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'fiona:q3': [['wh-q','How did you know'], ['be-past','He was'], ['past-irr','bought bread']],
   'ray:q1':   [['be-past','I was at the Lake Cafe'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
   'ray:q2':   [['modal','Can anyone prove'], ['past-irr','saw me'], ['imperative','Ask Mr. Duck']],
-  'ray:q3':   [['past-reg','borrowed'], ['negative','never gave'], ['phrasal','gave it back']],
+  'ray:q3':   [['past-reg','borrowed'], ['negative','never gave']],
   'rosie:q1': [['be-past','I was on Moon Hill'], ['time-prep','from eight to ten']],
   'rosie:q2': [['negative','Nobody was with me'], ['past-irr','I saw'], ['time-prep','at eight forty-five']],
   'rosie:q3': [['past-irr','taught'], ['going-to',"I'm going to miss"]],
@@ -2513,6 +2531,11 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'betty:b1': [['did-q','Did you go'], ['time-prep','at eight thirty'], ['negative','never saw']],
   'betty:b2': [['wh-q','What did you do'], ['past-reg','waited'], ['past-irr','went home']]
 };
+const PHRASE_LINES = PACK ? PACK.phrases : [
+  ['look around','badger:b3','Look around'], ['talk to','badger:b2','talk to her'], ['look after','mole:m1','look after'], ['for a while','mole:m1','for a while'],
+  ['come back','mole:m1','came back'], ['give back','ray:q3','gave it back'], ['all evening','fiona:q1','all evening'], ['all night','duck:d2','all night'],
+  ['last month','ray:q3','last month'], ['get tired','betty:b2','got tired'], ['miss','rosie:q3','miss him']
+];
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
@@ -5208,8 +5231,8 @@ function renderReview(dir){
         return !list.length ? '' : `<h3 class="rv-wsec">${label}</h3>` + list.map(w => {
           const [, ko, say] = WORDS[w.key], on = rv.keep.has(w.key);
           return `<div class="rv-word${on ? ' kept' : ''}"><span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}<span class="wko">${esc(ko)}</span></span>
-            <button class="play-btn" type="button" data-rv-sent="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기"></button>
-            <button class="pill sm keep" type="button" data-rv-keep="${w.key}" aria-pressed="${on}">${on ? '담음' : '담기'}</button></div>`;
+            <button class="play-btn" type="button" ${w.question ? `data-rv-question="${w.ref}"` : `data-rv-sent="${w.ref}" data-sent="${w.sent}"`} aria-label="문장 듣기"></button>
+            <button class="pill sm keep" type="button" data-rv-keep="${esc(w.key)}" aria-pressed="${on}">${on ? '담음' : '담기'}</button></div>`;
         }).join('');
       }).join('');
     foot = `<button class="pill big" type="button" data-rv-done>완료</button>`;
@@ -6340,6 +6363,14 @@ function learnedWords(){
       }));
     });
   });
+  // the case's phrases: heard in an answer's sentence, or in the detective's question (question: ▶ plays that)
+  PHRASE_LINES.forEach(([key, ref, words]) => {
+    const [id, qid] = ref.split(':');
+    if(seen.has(key) || !knownQuestion(id, qid)) return;
+    const s = spk(id), { inAnswer, idx } = grammarLine(id, qid, words);
+    const sentence = sentencesOf(inAnswer ? s.answers[qid] : qs(s).find(q => q.id === qid).en)[idx];
+    seen.set(key, { word:WORDS[key][3] || key, key, line:sentence.replace(words, `{{p|${words}}}`), bid:'p', ref, sent:idx, question:!inAnswer });
+  });
   return [...seen.values()];
 }
 // Which sentence of the answer a note blank was heard in: one that says the word (any accepted form), the one
@@ -6458,12 +6489,17 @@ function studyGrammar(){
 }
 function studyWords(){
   const words = bookWords();
-  // the picnic case's words kept in its review (its notes are not on this page): word and meaning
-  const picnicWords = solvedCases().includes('picnic-bag') ? (keptWords() || []).filter(k => PICNIC_WORDS.includes(k) && !words.some(w => w.key === k)) : [];
-  const picnic = picnicWords.length ? `<h2 class="home-sec">바뀐 소풍 가방 <small>${picnicWords.length}</small></h2>` + picnicWords.map(k => `<div class="wcard"><div class="wtop"><span class="wword">${esc(k)}</span><button class="replay-q" type="button" data-word-play="${esc(k)}" aria-label="${esc(k)} 발음 듣기">${playIcon}</button></div>${koToggle(WORDS[k][1])}</div>`).join('') : '';
-  return !words.length && !picnic
+  // the other cases' words kept in their reviews (their notes are not on this page): word and meaning
+  const shown = new Set(words.map(w => w.key));
+  const others = PACK_WORDS.map(([id, title, keys]) => {
+    if(!solvedCases().includes(id)) return '';
+    const list = (keptWords() || []).filter(k => keys.includes(k) && !shown.has(k));
+    list.forEach(k => shown.add(k));
+    return !list.length ? '' : `<h2 class="home-sec">${title} <small>${list.length}</small></h2>` + list.map(k => `<div class="wcard"><div class="wtop"><span class="wword">${esc(WORDS[k][3] || k)}</span><button class="replay-q" type="button" data-word-play="${esc(k)}" aria-label="${esc(WORDS[k][3] || k)} 발음 듣기">${playIcon}</button></div>${koToggle(WORDS[k][1])}</div>`).join('');
+  }).join('');
+  return !words.length && !others
     ? `<p class="home-empty">아직 모은 단어가 없어요.</p>`
-    : picnic + WORD_GROUPS.map(([g, label]) => {
+    : others + WORD_GROUPS.map(([g, label]) => {
         const list = words.filter(w => WORDS[w.key][0] === g);
         return !list.length ? '' : `<h2 class="home-sec">${label} <small>${list.length}</small></h2>` + list.map(w => {
           const [, ko, say] = WORDS[w.key];
