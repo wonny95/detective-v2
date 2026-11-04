@@ -6,6 +6,36 @@
 
 대상: [대본](case-04-missing-violin.md), [기획 화면](case-04-missing-violin.html). 의뢰 → 조사 → 커튼 뒤 발견 → 타라 확인 → 증거 비교 → 심문 → 반환 순서로 읽고, 방문 순서를 바꿨을 때도 검토했다.
 
+## 2026-11-04 Claude Code 점검 · 사용자와 합의해 반영한 것
+
+대본과 HTML에 반영했다. 영어 문장은 Claude Code의 제안을 사용자가 승인한 것이다.
+
+| 번호 | 문제 | 반영 |
+|---|---|---|
+| 1 | 케이스는 의자 옆, 의자는 문 옆인데 오웬은 줄곧 문 옆에 있었다고 하고 아무도 짚지 않음 | 심문 o4 뒤 탐정의 반박 d8 추가 |
+| 2 | 모모가 커튼 옆 사다리 위에 있는 동안 케이스를 옮기고 그 자리에서 현까지 끊음 | 제작자용 진실: 오웬이 혼자 있는 대기실에서 먼저 끊고, 모모가 사다리에 오른 틈에 옮김. m1은 `next to the stage door`, m2 뒷문장은 `I was busy with the light.`(빈칸 light). `there are` 횟수는 s4로 옮김 |
+| 3 | 케이스로 얼굴만 가려도 동물의 몸집·꼬리·옷이 보여 운반자를 구분할 수 있음 | p2를 문 너머로 케이스만 본 것으로 바꿈(빈칸 door). 제작자용: 일하다 조명이 켜지자 고개를 들었고, 오웬이 통로를 건널 때는 보지 못함 |
+| 4 | 공연 전인데 차례를 기다림, 제목은 대회인데 대사는 concert, 동기가 약함 | 대사와 문서를 contest·대회로 통일(이보 i3의 낱말 하나 포함), o8 질문 `Why were you there?`, o7 `I wanted to win. I'm sorry.`. 오웬의 차례는 무대 연습 차례 |
+| 5 | 경사가 용의자도 나오기 전에 대기실로 오겠다고 함, 탐정이 바이올린을 들고 있는 이유 없음 | b1 `Call me when you're ready.`, r3 뒤 탐정 r4 `I'll keep it safe for now.` |
+| 6 | 공연 전에 찾아 달라던 결말이 닫히지 않음 | end1에 `behind the curtain`, tara:end2 `I can't play today. I'm sad, but I'll get new strings.` |
+
+이어서 반영한 것:
+
+| 항목 | 반영 |
+|---|---|
+| 호칭 | 타라 t4 끝에 `I don't know their names.`(`and`를 빼서 18단어), 오웬 o9 `Momo, the stage helper, carried…` |
+| 인사 | 이보·모모에게 탐정이 `I'm looking for Tara's violin.`, 모모 g2 `Oh, I see. I help with the stage lights.` |
+| 사진 | 타라 `Here's a photo of my case.` 추가 |
+| 심문 | d2-question `under the curtain`, d4 `Did you cut the strings?`, o10 `Yes. I cut them.` |
+| 추리 보기 | Q1 `The case was hidden […]`, Q5 질문 `Whose clothes match the button?`, 보기 `Momo's uniform` |
+| 해금 | t2·t3는 t1 뒤, 타라 확인은 케이스 소지·파손 관찰이면 열림(이보 질문은 추리 전까지) |
+| 숨은 조건 | 소매 촬영은 필수로 명시, 탐정의 생각 4줄(소매 살피기, 사진 찍기, 니퍼 주인 묻기, 현 조각 비교) |
+| 커튼 | 핍 p1 전에 누르면 탐정의 짧은 반응 |
+
+아직 정하지 않은 것: 과거진행 대사 2개(L1-02인데 과거진행은 L2-03 B), 범인을 직접 고르는 단계, 심문 시작 때 경사를 부르는 대사, 니퍼 위치를 단서로 쓸지(타라가 그 의자 아래를 봤다는 점. 지금은 쓰지 않음), 수준이 높은 낱말(thickness, prove, explains the suspicion, damage, suspicious). 엔진 지원 여부는 아직 점검하지 않았다.
+
+---
+
 ## 2026-11-04 14:39 현재 버전 재점검
 
 대상은 `4bdd183`에서 수정한 현재 대본·HTML이다. 새 사건 프롬프트를 소급 적용해 개작하지 않았고, 사용자 결정으로 유지한 이보의 위치 설정·기존 진술은 수정 제안에서 제외한다. **이 절은 검토 결과이며 대본 수정이나 개발 인계가 아니다.**

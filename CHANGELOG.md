@@ -13,7 +13,24 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-04 12:09 · Claude · (이 커밋)
+## 2026-11-04 15:14 · Claude · (이 커밋)
+
+- 사용자 요청: 바이올린의 남은 어색한 대사와 진행 순서도 고치기.
+- 설계서 수정(사용자 승인, 영어 문장은 Claude 제안): 타라 t4 `I don't know their names.`, 오웬 o9 `Momo, the stage helper`, 이보·모모 인사 `I'm looking for Tara's violin.`, 타라 `Here's a photo of my case.`, d2-question `under`, d4 `Did you cut the strings?`, 추리 Q1 `was hidden`, Q5 `Whose clothes` / `Momo's uniform`. 해금: t2·t3는 t1 뒤, 타라 확인은 케이스 소지·파손 관찰이면 열림. 소매 촬영 필수 명시, 탐정의 생각 3줄(소매 살피기, 사진 찍기, 현 조각 비교), 핍 전 커튼 반응 1줄.
+- 내가 정한 것(사용자에게 보고): t4에서 `and`를 빼서 18단어로 맞춤, 모모 g2 `Oh, I see.`, o10 `Yes. I cut them.`, 생각 대사 `I should ask who owns these cutters.`를 제안 밖으로 추가(m5도 숨은 조건이라서).
+- 확인: 다시 셈(질문 21개, 빈칸 47칸, 평균 12.5·최장 18단어, 필수 발화 there is 7·there are 3·in 6·on 14·under 5·next to 10·behind 8). 빈칸이 대답과 보기에 모두 있음, MD와 HTML의 대사·노트 일치, HTML 태그 짝 맞음, 기획 HTML을 새 탭에서 봄. 못 한 것: 엔진 지원 점검, 음성·플레이(제작 전).
+- **다음**: 사용자 결정 대기(과거진행 2개, 범인 고르기, 경사 부르는 대사, 니퍼 단서, 수준 높은 낱말). 정해지면 엔진 지원 점검을 사용자에게 보여 준다.
+
+## 2026-11-04 15:08 · Claude · d489008
+
+- 사용자 요청: 바이올린 스테이지를 받아 스토리 점검. `story`를 받아 옴(fast-forward, 충돌 없음). 기획 반영: STORY_LOG 2026-11-04 14:45 개발 인계의 점검 단계(개발은 아직).
+- 설계서 수정(사용자 승인, 영어 문장은 Claude 제안): 오웬이 케이스 바로 옆에 있었다는 모순을 심문에 씀(d8), 현은 혼자 있는 대기실에서 끊고 모모가 사다리에 오른 틈에 옮기는 것으로 제작자용 진실 변경, m1 `next to the stage door`, m2 `I was busy with the light.`, s4에 `there are`, 핍 p2는 문 너머로 케이스만 봄(빈칸 door), concert→contest·공연→대회 통일(이보 i3 낱말 포함), o8 `Why were you there?`, o7 `I wanted to win. I'm sorry.`, b1 `Call me when you're ready.`, 탐정 r4 추가, end1·tara:end2. 보기와 복습 단어(two doors·face 뺌, light 넣음)도 맞춤.
+- 내가 정한 것(사용자에게 보고): 새 보기 `Pip · light · Ivo · night`, `door · floor · case`. 핍이 오웬을 못 본 제작자용 이유(일하다 조명이 켜지자 고개를 듦). d8 뒤 오웬은 대답하지 않고 바로 증거 제시.
+- 확인: 다시 셈(질문 21개, 빈칸 47칸, 평균 12.3·최장 16단어, 필수 발화 there is 7·there are 3·in 6·on 14·under 4·next to 10·behind 9). 빈칸이 대답과 보기에 모두 있음, MD와 HTML의 대사·노트 일치, HTML 태그 짝 맞음. 못 한 것: HTML을 브라우저로 보지 않음, 엔진 지원 점검, 음성·플레이(제작 전).
+- **기획 요청**(Codex): `CASE_THEMES.md` 2-B와 `design/learning-plan.html`의 바이올린 요약을 지금 설계서에 맞춘다(대회, 오웬의 동기, 현을 끊은 곳). 설계서는 읽기만 한다.
+- **다음**: 바이올린 2차 수정 계속. `design/case-04-review.md` 맨 위 절의 남은 항목(호칭, 인사, 사진 대사, 해금 조건 등)과 사용자 결정(과거진행 2개, 범인 고르기)을 정한 뒤 엔진 점검.
+
+## 2026-11-04 12:09 · Claude · c12e676
 
 - 마무리(사용자 요청 `/wrap-up`): 문서만 고침. `HANDOFF.md` 4절에 사용자 결정(의뢰인 인사 뒤 첫 선택지, 의뢰 받아쓰기)과 `design/STORY_PROMPT.md`, 10절에 지금 남은 확인·결정 목록. `AGENTS.md` 지켜야 할 규칙에 같은 결정. `audio/words/README.md`에 실행 정책과 `meeting.wav` 주의.
 - 정정: 추리 r2–r4 비용 0.75크레딧은 HANDOFF 6절 기록(짧은 줄 0.15, 긴 줄 0.3)과 맞음(긴 줄 2 + 짧은 줄 1). 사용자에게 "약 0.45, 원인 미확인"이라고 했던 것은 줄당 0.15로만 계산한 내 어림 잘못이었음.
