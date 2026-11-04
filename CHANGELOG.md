@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-04 15:18 · Claude · (이 커밋)
+## 2026-11-04 15:26 · Claude · (이 커밋)
+
+- 사용자 요청: 바이올린 엔진 점검. 코드를 읽어 판단함(실행 안 함), 게임 코드는 고치지 않음. 엔진에 더할 7가지와 빠진 대사를 `design/case-04-review.md` 맨 위에 기록.
+- 사용자 결정(추천대로): 대화는 열린 질문을 다 적으면 떠날 수 있음, 심문 시작은 추리판 끝 버튼 `오웬 심문 시작`, 경사 연락은 추리가 열리는 조건, 이 사건은 심문 증거 개수 숨김, `think-photo` 뺌(소매를 누르면 바로 찍힘), 바이올린 Case 03·도서관 Case 04, 빠진 대사는 Claude 초안을 사용자가 고름. L1-02 A 없이 먼저 내는 것과 여우 범인은 그대로.
+- 설계서 수정: `design/case-04-missing-violin.md`·`.html`에 위 결정. 빠진 대사 초안은 점검 기록에만 적음(확정 전).
+- 확인: MD와 HTML의 대사·노트 다시 대조, HTML 태그 짝 맞음. 못 한 것: 기획 HTML 화면(문장만 바꿈), 엔진 동작 실행.
+- **다음**: 빠진 대사 초안 확정 → 설계서 반영 → 장면별 그림 계획을 사용자와 정하기(비용 안내 뒤 생성) → 엔진·데이터 개발 → 녹음.
+
+## 2026-11-04 15:18 · Claude · 03f2ca7
 
 - 사용자 결정(추천대로): 과거진행을 과거형으로(m1 `I fixed…`, o8 `I waited…`), 추리 Q7 범인 고르기(`We should talk to [Owen].`, 추리 7문항), 심문 시작 때 탐정 `Officer, I'm ready.`, 니퍼 위치는 단서로 쓰지 않음, 낱말 쉽게(c3 `looks the same as`, o9 `Did you see anything strange?`, Q6 맞장구 `ask about the strings`).
 - 추천과 다르게 또는 더 고친 것(사용자에게 보고): Q3 맞장구는 추천한 `But he didn't move the case.`가 Q4의 답을 먼저 말해서 `That's why Momo seemed strange. But we don't know yet.`로 바꿈. 질문 `What did you do after rehearsal?`, `What did you carry?`, Q3 질문 `Why did Momo seem strange?`, o11 `I didn't break the violin.`도 같은 이유로 고침. 보기 `fixed · next to · found · behind`, 복습 단어 fixed.
