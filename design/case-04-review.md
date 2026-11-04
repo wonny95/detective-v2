@@ -19,7 +19,20 @@
 | 5 | 경사가 용의자도 나오기 전에 대기실로 오겠다고 함, 탐정이 바이올린을 들고 있는 이유 없음 | b1 `Call me when you're ready.`, r3 뒤 탐정 r4 `I'll keep it safe for now.` |
 | 6 | 공연 전에 찾아 달라던 결말이 닫히지 않음 | end1에 `behind the curtain`, tara:end2 `I can't play today. I'm sad, but I'll get new strings.` |
 
-아직 사용자에게 보여 주기만 한 것: 타라 t4와 오웬 o9의 호칭, 이보·모모 인사에서 바이올린을 말하지 않음, 타라 사진을 건네는 대사, d2-question의 under/behind, d4 → o10, 추리 Q1·Q5 보기, t1 뒤 t2·t3 해금, 타라 확인 조건, 추리가 열리는 숨은 조건, 소매 사진 선택/필수, 커튼 잠금, 니퍼 단서 활용, 과거진행 2개(L1-02인데 과거진행은 L2-03 B), 범인을 직접 고르는 단계. 엔진 지원 여부는 아직 점검하지 않았다.
+이어서 반영한 것:
+
+| 항목 | 반영 |
+|---|---|
+| 호칭 | 타라 t4 끝에 `I don't know their names.`(`and`를 빼서 18단어), 오웬 o9 `Momo, the stage helper, carried…` |
+| 인사 | 이보·모모에게 탐정이 `I'm looking for Tara's violin.`, 모모 g2 `Oh, I see. I help with the stage lights.` |
+| 사진 | 타라 `Here's a photo of my case.` 추가 |
+| 심문 | d2-question `under the curtain`, d4 `Did you cut the strings?`, o10 `Yes. I cut them.` |
+| 추리 보기 | Q1 `The case was hidden […]`, Q5 질문 `Whose clothes match the button?`, 보기 `Momo's uniform` |
+| 해금 | t2·t3는 t1 뒤, 타라 확인은 케이스 소지·파손 관찰이면 열림(이보 질문은 추리 전까지) |
+| 숨은 조건 | 소매 촬영은 필수로 명시, 탐정의 생각 4줄(소매 살피기, 사진 찍기, 니퍼 주인 묻기, 현 조각 비교) |
+| 커튼 | 핍 p1 전에 누르면 탐정의 짧은 반응 |
+
+아직 정하지 않은 것: 과거진행 대사 2개(L1-02인데 과거진행은 L2-03 B), 범인을 직접 고르는 단계, 심문 시작 때 경사를 부르는 대사, 니퍼 위치를 단서로 쓸지(타라가 그 의자 아래를 봤다는 점. 지금은 쓰지 않음), 수준이 높은 낱말(thickness, prove, explains the suspicion, damage, suspicious). 엔진 지원 여부는 아직 점검하지 않았다.
 
 ---
 
