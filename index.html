@@ -430,6 +430,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-foot .pill.big{width:100%}
 .rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:8px}
 .rv-title small{font-size:14px;color:var(--ink-soft)}
+/* the words page's count and 모두 담기 on their own row: beside the title a two-digit count broke the title in two */
+.rv-words-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.rv-words-bar small{font-size:14px;color:var(--ink-soft)}
 /* 뒤로 on the grammar and word pages (user request): the play screen's back button, before the title */
 .rv-title:has(.rv-back){align-items:center}
 .rv-back{flex-shrink:0;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
@@ -558,12 +561,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gram .gsent{display:block;margin-top:8px;font-size:15px;line-height:1.5}
 .rv-gram .wko{margin-top:6px}
 .rv-gram mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
-.rv-gram-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.rv-gram-head .keep{flex:none}
 .rv-gram-extra{display:block}
 .rv-gram-extra .gsent{margin-top:10px}
 .rv-gram-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
-/* how the form works (user request: the grammar page explained too little): under the row's line, across the row */
+/* how the form works (user request: the grammar page explained too little): under the row's line, across the row,
+   folded under 자세히 보기 (user request) */
+.rv-gram .gmore-btn{grid-column:1 / -1;justify-self:start;margin-top:10px}
 .gexplain{grid-column:1 / -1;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line)}
 .gexplain .gwhy{margin:0;font-size:14px;line-height:1.6}
 .gexplain ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
@@ -1737,6 +1740,12 @@ const PICNIC_CASE = {
         n3:['meeting','class','party','green','red','blue','yellow','pink'] }
     }
   },
+  // [WORDS key, where it is heard, the words to highlight in that sentence]
+  phrases:[
+    ["i'm not sure.",'rosie:r1',"I'm not sure"], ['just like','rosie:r1','just like'], ["i don't know.",'rosie:r3',"I don't know"], ["i can't remember",'rosie:r4',"I can't remember"],
+    ['stop at','ben:b1','stopped at'], ['go home','duck:v3','went home'], ['after that','ben:b1','After that'], ['all morning','nora:n3','all morning'],
+    ['let me look.','nora:n3','Let me look'], ["that's strange.",'nora:n3',"That's strange"]
+  ],
   grammarLines:{
     'rosie:r1':[['ownership','My bag']],
     'rosie:r2':[['wh-q','What is in your bag'], ['ownership','My bag']],
@@ -2046,18 +2055,22 @@ const UMBRELLA_CASE = {
       bank:{ f1:['white','dark blue','red','blue','star','handle'], f2:['gold','no','stars','pattern','small','plain'] }
     }
   },
+  phrases:[
+    ["i don't know.",'ella:e1',"I don't know"], ['come back for','ella:e1','came back for'], ['for a week','ella:e2','for a week'], ["i'm not sure where",'tess:t0',"I'm not sure where"],
+    ['look for','tess:t5','looking for'], ['what is it like?','tess:t1','What is your umbrella like'], ['who else','tess:t4','Who else']
+  ],
   grammarLines:{
     'ella:e1':[['whose','Whose umbrella is that'], ['negative',"I don't know"], ['past-irr','came back']],
     'tess:t0':[['did-q','Did you bring'], ['ownership','lend mine']],
-    'tess:t1':[['wh-q','What is your umbrella like'], ['ownership','Mine is dark blue']],
+    'tess:t1':[['ownership','Mine is dark blue']],
     'tess:t2':[['wh-q','What pattern'], ['ownership','Mine has gold stars']],
     'tess:t3':[['wh-q','What color'], ['ownership','Mine is dark blue inside']],
-    'tess:t4':[['wh-q','Who else was'], ['imperative','Ask Ruby'], ['be-past','We were at the bazaar']],
+    'tess:t4':[['imperative','Ask Ruby'], ['be-past','We were at the bazaar']],
     'tess:t5':[['ownership','his umbrella']],
-    'ruby:r1':[['wh-q','What is your umbrella like'], ['ownership','Mine is dark blue']],
+    'ruby:r1':[['ownership','Mine is dark blue']],
     'ruby:r2':[['wh-q','What pattern'], ['ownership','Mine has gold stars']],
     'ruby:r3':[['wh-q','What color'], ['ownership','Mine is gold inside']],
-    'finn:f1':[['wh-q','What is your umbrella like'], ['ownership','Mine is dark blue']],
+    'finn:f1':[['ownership','Mine is dark blue']],
     'finn:f2':[['wh-q','What pattern'], ['ownership','Mine has no pattern']]
   },
   answersKo:{
@@ -2388,11 +2401,24 @@ const WORDS = {
   'left':['w','두고 왔다 (leave의 과거)'], 'folder':['w','서류철, 폴더'], 'pen':['w','펜'], 'busy':['w','바쁜'], 'meeting':['n','회의'], 'inside':['w','안에'], 'tell':['w','말하다, 알리다'],
   'picnic':['w','소풍'], 'hers':['w','그녀의 것'], 'brought':['w','가져왔다'], 'one':['w','하나'], 'no':['w','하나도 없는'], 'not':['w','~않다'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
-  '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve']
+  '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve'],
+  'back':['w','돌아와서, 다시'], 'week':['w','주, 일주일'], 'lend':['w','빌려주다'], 'where':['w','어디'], 'dark blue':['w','남색'], 'handle':['w','손잡이'], 'gold':['w','금색'],
+  'here':['w','여기'], 'together':['w','함께'], 'umbrella':['w','우산'], 'pattern':['w','무늬'], 'plain':['w','무늬 없는'], 'windmill hill':['n','풍차 언덕',null,'Windmill Hill'],
+  // 표현 (user decision: fixed expressions and idioms are not grammar). Not note blanks: each case's phrases say where it is heard.
+  // The key is what the word audio reads; the fourth value is how it is written when that differs.
+  "i'm not sure.":['x','잘 모르겠어',null,"I'm not sure."], 'just like':['x','꼭 ~처럼',null,'just like ~'], "i don't know.":['x','몰라',null,"I don't know."],
+  "i can't remember":['x','~가 기억이 안 나',null,"I can't remember ~"], 'stop at':['x','~에 잠깐 들르다',null,'stop at ~'], 'go home':['x','집에 가다'],
+  'after that':['x','그 뒤에'], 'all morning':['x','오전 내내'], 'let me look.':['x','어디 보자',null,'Let me look.'], "that's strange.":['x','이상하네',null,"That's strange."],
+  'come back for':['x','~를 찾으러 돌아오다',null,'come back for ~'], 'for a week':['x','일주일 동안'], "i'm not sure where":['x','어디 ~인지 잘 모르겠어',null,"I'm not sure where ~"],
+  'look for':['x','~를 찾다',null,'look for ~'], 'what is it like?':['x','~는 어떻게 생겼어?',null,'What is ~ like?'], 'who else':['x','또 누가 ~?',null,'Who else ~?'],
+  'look around':['x','둘러보다'], 'talk to':['x','~와 이야기하다',null,'talk to ~'], 'look after':['x','~를 맡아 돌보다',null,'look after ~'], 'for a while':['x','잠시'],
+  'come back':['x','돌아오다'], 'give back':['x','~를 돌려주다',null,'give ~ back'], 'all evening':['x','저녁 내내'], 'all night':['x','밤새'], 'last month':['x','지난달'],
+  'get tired':['x','지치다'], 'miss':['x','~를 그리워하다',null,'miss ~']
 };
-const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소']];
-// the picnic case's words (its note blanks that are in WORDS), for 학습 on the main page
-const PICNIC_WORDS = [...new Set(Object.values(PICNIC_CASE.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))))].filter(k => WORDS[k]);
+const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소'], ['x','표현']];
+// the other cases' words (note blanks that are in WORDS, and phrases), for 학습 on the main page
+const packWords = c => [...new Set([...Object.values(c.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))), ...c.phrases.map(([key]) => key)])].filter(k => WORDS[k]);
+const PACK_WORDS = [['picnic-bag', '바뀐 소풍 가방', packWords(PICNIC_CASE)], ['unclaimed-umbrella', '주인 없는 우산', packWords(UMBRELLA_CASE)]];
 // Grammar notes, opened from the grammar links in a passage. name/pattern/ko: the card (Korean shown as soon as the
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
@@ -2481,10 +2507,7 @@ const GRAMMAR = {
       '지금의 일을 물을 때는 Do · Does를 써요. Do you have a pen?'] },
   'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.',
     more:['Who 누구 · What 무엇 · Where 어디 · When 언제 · Why 왜 · How 어떻게.',
-      'What 뒤에 명사를 붙이면 더 좁혀 물어요. What color …? 무슨 색, What pattern …? 어떤 무늬.',
-      'What is it like?는 "그건 어떻게 생겼어?"예요. 여기서 like는 "좋아하다"가 아니라 "~와 같은"이에요.',
-      'Who else …?는 "또 누가 …?"예요. else가 "그 밖에"를 더해요.'] },
-  'phrasal':   { name:'구동사', pattern:'come back · come in · give back', ko:'동사에 back·in 같은 작은 말이 붙어 새 뜻이 돼요. come back = 돌아오다, come in = 들어오다, give it back = 돌려주다(it이 가운데 들어가요).' }
+      'What 뒤에 명사를 붙이면 더 좁혀 물어요. What color …? 무슨 색, What pattern …? 어떤 무늬.'] }
 };
 // Where each grammar shows up: [grammar id, the words to highlight] per answer. The words are looked up in the
 // answer first, then in the player's question.
@@ -2496,7 +2519,7 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'badger:b1':[['passive','was found'], ['past-prog','was lying'], ['time-prep',"at nine o'clock"]],
   'badger:b2':[['wh-q','Who found'], ['past-irr','found him'], ['time-prep','between eight and nine']],
   'badger:b3':[['wh-q','What should I do'], ['modal','should I do'], ['imperative','Look around']],
-  'mole:m1':  [['wh-q','What did you see'], ['phrasal','came back'], ['time-prep','at nine'], ['to-purpose','to get a book']],
+  'mole:m1':  [['wh-q','What did you see'], ['time-prep','at nine'], ['to-purpose','to get a book']],
   'mole:m2':  [['did-q','Did anyone visit'], ['time-prep','at seven thirty'], ['to-purpose','to borrow']],
   'mole:m3':  [['did-q','Did the professor have'], ['past-irr','he wrote'], ['too-adj','too sweet']],
   'fiona:q1': [['be-past','I was at my bakery'], ['time-prep','from seven to ten'], ['past-prog','was baking']],
@@ -2504,7 +2527,7 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'fiona:q3': [['wh-q','How did you know'], ['be-past','He was'], ['past-irr','bought bread']],
   'ray:q1':   [['be-past','I was at the Lake Cafe'], ['past-reg','played'], ['time-prep','from eight to nine thirty']],
   'ray:q2':   [['modal','Can anyone prove'], ['past-irr','saw me'], ['imperative','Ask Mr. Duck']],
-  'ray:q3':   [['past-reg','borrowed'], ['negative','never gave'], ['phrasal','gave it back']],
+  'ray:q3':   [['past-reg','borrowed'], ['negative','never gave']],
   'rosie:q1': [['be-past','I was on Moon Hill'], ['time-prep','from eight to ten']],
   'rosie:q2': [['negative','Nobody was with me'], ['past-irr','I saw'], ['time-prep','at eight forty-five']],
   'rosie:q3': [['past-irr','taught'], ['going-to',"I'm going to miss"]],
@@ -2513,6 +2536,11 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'betty:b1': [['did-q','Did you go'], ['time-prep','at eight thirty'], ['negative','never saw']],
   'betty:b2': [['wh-q','What did you do'], ['past-reg','waited'], ['past-irr','went home']]
 };
+const PHRASE_LINES = PACK ? PACK.phrases : [
+  ['look around','badger:b3','Look around'], ['talk to','badger:b2','talk to her'], ['look after','mole:m1','look after'], ['for a while','mole:m1','for a while'],
+  ['come back','mole:m1','came back'], ['give back','ray:q3','gave it back'], ['all evening','fiona:q1','all evening'], ['all night','duck:d2','all night'],
+  ['last month','ray:q3','last month'], ['get tired','betty:b2','got tired'], ['miss','rosie:q3','miss him']
+];
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
@@ -5128,14 +5156,14 @@ let rv = null;
 function openReview(fromHome){
   const stat = fromHome ? caseStats()[CASE.id] : liveStats();
   const missed = stat?.missed || [];
-  const words = learnedWords(), kept = keptWords(), grammar = caseGrammar(), savedGrammar = keptGrammar();
+  const words = learnedWords(), kept = keptWords(), grammar = caseGrammar();
   rv = { fromHome:!!fromHome, stat, missed, wrong:stat?.wrong || {}, card:0, filled:{}, step:0,
     steps:['result', ...(missed.length ? ['missed'] : []), 'grammar', 'words'],
     words, keep:new Set(kept ? words.filter(w => kept.includes(w.key)).map(w => w.key) : words.map(w => w.key)),
-    grammar, keepGrammar:new Set(savedGrammar ? grammar.filter(([g]) => savedGrammar.includes(g)).map(([g]) => g) : grammar.map(([g]) => g)), extraGrammarOpen:false };
-  // a first review starts with nothing kept: the player picks
+    grammar, extraGrammarOpen:false, gmoreOpen:new Set() };
+  // a first review starts with no word kept: the player picks. Grammar is not picked (user decision): the case's forms join 학습 > 문법 here
   if(!fromHome && !kept) rv.keep.clear();
-  if(!fromHome && !savedGrammar) rv.keepGrammar.clear();
+  keepGrammar([...(keptGrammar() || []), ...grammar.map(([g]) => g)]);
   $('#review').hidden = false;
   renderReview();
   stampSound(340);
@@ -5188,28 +5216,28 @@ function renderReview(dir){
   if(step === 'grammar'){
     const keys = CASE.keys?.length ? CASE.keys : rv.grammar.slice(0, 3).map(([g]) => g);
     const extras = rv.grammar.filter(([g]) => !keys.includes(g));
-    body = `<h2 class="rv-title">${back}이번 사건의 문법 <small>${rv.keepGrammar.size} / ${rv.grammar.length}</small></h2>
-      <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use }) => {
-      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span>${grammarExplain(why, more)}</div>`;
+    body = `<h2 class="rv-title">${back}이번 사건의 문법</h2>
+      <h3 class="rv-wsec">이번 사건의 열쇠</h3><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use }) => {
+      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span>${grammarExplain(head, why, more)}</div>`;
       const { line, ko, play } = grammarLineParts(use);
       return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span></span>
         <button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button>
-        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button>${grammarExplain(why, more)}</div>`;
+        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button>${grammarExplain(head, why, more)}</div>`;
     }).join('') + `</div>${extras.length ? `<button class="pill rv-grammar-more" type="button" data-rv-extra aria-expanded="${rv.extraGrammarOpen}">${rv.extraGrammarOpen ? '다른 문법 접기' : `다른 문법 ${extras.length}개 보기`}</button>` : ''}` +
       (rv.extraGrammarOpen ? `<div class="rv-grams">${extras.map(([g]) => reviewExtraGrammar(g)).join('')}</div>` : '');
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
   }
   if(step === 'words'){
     const all = rv.words.length && rv.words.every(w => rv.keep.has(w.key));
-    body = `<h2 class="rv-title">${back}사건에 나온 단어 <small>${rv.keep.size} / ${rv.words.length}</small>
-        <button class="pill sm" type="button" data-rv-all aria-pressed="${all}" style="margin-left:auto">${all ? '모두 빼기' : '모두 담기'}</button></h2>` +
+    body = `<h2 class="rv-title">${back}사건에 나온 단어</h2>
+      <div class="rv-words-bar"><small>${rv.keep.size} / ${rv.words.length}</small><button class="pill sm" type="button" data-rv-all aria-pressed="${all}">${all ? '모두 빼기' : '모두 담기'}</button></div>` +
       WORD_GROUPS.map(([g, label]) => {
         const list = rv.words.filter(w => WORDS[w.key][0] === g);
         return !list.length ? '' : `<h3 class="rv-wsec">${label}</h3>` + list.map(w => {
           const [, ko, say] = WORDS[w.key], on = rv.keep.has(w.key);
           return `<div class="rv-word${on ? ' kept' : ''}"><span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}<span class="wko">${esc(ko)}</span></span>
-            <button class="play-btn" type="button" data-rv-sent="${w.ref}" data-sent="${w.sent}" aria-label="문장 듣기"></button>
-            <button class="pill sm keep" type="button" data-rv-keep="${w.key}" aria-pressed="${on}">${on ? '담음' : '담기'}</button></div>`;
+            <button class="play-btn" type="button" ${w.question ? `data-rv-question="${w.ref}"` : `data-rv-sent="${w.ref}" data-sent="${w.sent}"`} aria-label="문장 듣기"></button>
+            <button class="pill sm keep" type="button" data-rv-keep="${esc(w.key)}" aria-pressed="${on}">${on ? '담음' : '담기'}</button></div>`;
         }).join('');
       }).join('');
     foot = `<button class="pill big" type="button" data-rv-done>완료</button>`;
@@ -5262,8 +5290,10 @@ function reviewGrammar(){
     });
   });
 }
-const grammarExplain = (why, more) => !why && !more?.length ? '' :
-  `<div class="gexplain">${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}</div>`;
+// key: which row, so an open one stays open when the page is drawn again (다른 문법 보기)
+const grammarExplain = (key, why, more) => { const open = rv.gmoreOpen.has(key); return !why && !more?.length ? '' :
+  `<button class="pill sm gmore-btn" type="button" data-rv-gmore="${esc(key)}" aria-expanded="${open}">${open ? '접기' : '자세히 보기'}</button>` +
+  `<div class="gexplain"${open ? '' : ' hidden'}>${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}</div>`; };
 // a tagged line's Korean (that sentence when the answer's Korean has as many sentences) and what ▶ plays
 function grammarLineParts(use){
   const line = grammarLine(use.id, use.qid, use.words), s = spk(use.id);
@@ -5274,17 +5304,13 @@ function grammarLineParts(use){
   const play = line.inAnswer ? `data-rv-sent="${use.id}:${use.qid}" data-sent="${line.idx}"` : `data-rv-question="${use.id}:${use.qid}"`;
   return { line, ko, play };
 }
-function grammarKeepButton(g){
-  const on = rv.keepGrammar.has(g);
-  return `<button class="pill sm keep" type="button" data-rv-gkeep="${g}" aria-pressed="${on}">${on ? '담음' : '담기'}</button>`;
-}
 function reviewExtraGrammar(g){
   const use = grammarUses(g).find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || grammarUses(g)[0];
   const { line, ko, play } = grammarLineParts(use);
-  return `<div class="rv-word rv-gram rv-gram-extra"><div class="rv-gram-head"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>${grammarKeepButton(g)}</div>
+  return `<div class="rv-word rv-gram rv-gram-extra"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>
     <span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span>
     <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>
-    ${grammarExplain(GRAMMAR[g].ko, GRAMMAR[g].more)}</div>`;
+    ${grammarExplain(g, GRAMMAR[g].ko, GRAMMAR[g].more)}</div>`;
 }
 function replayReviewQuestion(ref){
   stopVoice();
@@ -5306,8 +5332,6 @@ function closeReview(){
   const kept = keptWords() ?? learnedWords().map(w => w.key), caseKeys = new Set(rv.words.map(w => w.key));
   // a word no longer in WORDS (a name kept before names stopped being words) leaves the book
   keepWords([...kept.filter(k => WORDS[k] && !caseKeys.has(k)), ...rv.keep]);
-  const grammar = keptGrammar() ?? learnedGrammar().map(([g]) => g), caseGrammarKeys = new Set(rv.grammar.map(([g]) => g));
-  keepGrammar([...grammar.filter(g => GRAMMAR[g] && !caseGrammarKeys.has(g)), ...rv.keepGrammar]);
   $('#review').hidden = true;
   const home = rv.fromHome; rv = null;
   if(home) renderHome(); else openCaseList();
@@ -5359,15 +5383,15 @@ $('#review').addEventListener('click', e => {
   }
   const gko = e.target.closest('[data-rv-gko]');
   if(gko){ const t = gko.closest('.rv-gram').querySelector('.wko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
-  if(e.target.closest('[data-rv-extra]')){
-    rv.extraGrammarOpen = !rv.extraGrammarOpen;
-    const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
+  const gmore = e.target.closest('[data-rv-gmore]');
+  if(gmore){
+    const t = gmore.closest('.rv-gram').querySelector('.gexplain'); t.hidden = !t.hidden;
+    gmore.setAttribute('aria-expanded', !t.hidden); gmore.textContent = t.hidden ? '자세히 보기' : '접기';
+    rv.gmoreOpen[t.hidden ? 'delete' : 'add'](gmore.dataset.rvGmore);
     return;
   }
-  const gkeep = e.target.closest('[data-rv-gkeep]');
-  if(gkeep){
-    const g = gkeep.dataset.rvGkeep;
-    if(rv.keepGrammar.has(g)) rv.keepGrammar.delete(g); else rv.keepGrammar.add(g);
+  if(e.target.closest('[data-rv-extra]')){
+    rv.extraGrammarOpen = !rv.extraGrammarOpen;
     const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
     return;
   }
@@ -6249,9 +6273,10 @@ function learnedGrammar(){
   if(solvedCases().includes('picnic-bag')) list.unshift(['ownership', 14]);
   return list;
 }
+// The grammar book: this case's learned forms, then the forms saved by other cases' reviews (no lines here: another case's data)
 function bookGrammar(){
-  const all = learnedGrammar(), kept = keptGrammar();
-  return kept ? all.filter(([g]) => kept.includes(g)) : all;
+  const all = learnedGrammar(), have = new Set(all.map(([g]) => g));
+  return [...all, ...(keptGrammar() || []).filter(g => GRAMMAR[g] && !have.has(g)).map(g => [g, 0])];
 }
 function openGrammar(g){
   const gr = GRAMMAR[g], uses = grammarUses(g);
@@ -6342,6 +6367,14 @@ function learnedWords(){
         return m;
       }));
     });
+  });
+  // the case's phrases: heard in an answer's sentence, or in the detective's question (question: ▶ plays that)
+  PHRASE_LINES.forEach(([key, ref, words]) => {
+    const [id, qid] = ref.split(':');
+    if(seen.has(key) || !knownQuestion(id, qid)) return;
+    const s = spk(id), { inAnswer, idx } = grammarLine(id, qid, words);
+    const sentence = sentencesOf(inAnswer ? s.answers[qid] : qs(s).find(q => q.id === qid).en)[idx];
+    seen.set(key, { word:WORDS[key][3] || key, key, line:sentence.replace(words, `{{p|${words}}}`), bid:'p', ref, sent:idx, question:!inAnswer });
   });
   return [...seen.values()];
 }
@@ -6457,16 +6490,21 @@ function studyGrammar(){
   return !list.length
     ? `<p class="home-empty">아직 모은 문법이 없어요.</p>`
     : list.map(([g, n]) => `<button class="wcard" type="button" data-grammar="${g}" style="text-align:left;width:100%">
-        <span class="wword">${esc(GRAMMAR[g].pattern)}</span><span class="wsay">${esc(GRAMMAR[g].name)} · 문장 ${n}</span></button>`).join('');
+        <span class="wword">${esc(GRAMMAR[g].pattern)}</span><span class="wsay">${esc(GRAMMAR[g].name)}${n ? ` · 문장 ${n}` : ''}</span></button>`).join('');
 }
 function studyWords(){
   const words = bookWords();
-  // the picnic case's words kept in its review (its notes are not on this page): word and meaning
-  const picnicWords = solvedCases().includes('picnic-bag') ? (keptWords() || []).filter(k => PICNIC_WORDS.includes(k) && !words.some(w => w.key === k)) : [];
-  const picnic = picnicWords.length ? `<h2 class="home-sec">바뀐 소풍 가방 <small>${picnicWords.length}</small></h2>` + picnicWords.map(k => `<div class="wcard"><div class="wtop"><span class="wword">${esc(k)}</span><button class="replay-q" type="button" data-word-play="${esc(k)}" aria-label="${esc(k)} 발음 듣기">${playIcon}</button></div>${koToggle(WORDS[k][1])}</div>`).join('') : '';
-  return !words.length && !picnic
+  // the other cases' words kept in their reviews (their notes are not on this page): word and meaning
+  const shown = new Set(words.map(w => w.key));
+  const others = PACK_WORDS.map(([id, title, keys]) => {
+    if(!solvedCases().includes(id)) return '';
+    const list = (keptWords() || []).filter(k => keys.includes(k) && !shown.has(k));
+    list.forEach(k => shown.add(k));
+    return !list.length ? '' : `<h2 class="home-sec">${title} <small>${list.length}</small></h2>` + list.map(k => `<div class="wcard"><div class="wtop"><span class="wword">${esc(WORDS[k][3] || k)}</span><button class="replay-q" type="button" data-word-play="${esc(k)}" aria-label="${esc(WORDS[k][3] || k)} 발음 듣기">${playIcon}</button></div>${koToggle(WORDS[k][1])}</div>`).join('');
+  }).join('');
+  return !words.length && !others
     ? `<p class="home-empty">아직 모은 단어가 없어요.</p>`
-    : picnic + WORD_GROUPS.map(([g, label]) => {
+    : others + WORD_GROUPS.map(([g, label]) => {
         const list = words.filter(w => WORDS[w.key][0] === g);
         return !list.length ? '' : `<h2 class="home-sec">${label} <small>${list.length}</small></h2>` + list.map(w => {
           const [, ko, say] = WORDS[w.key];
