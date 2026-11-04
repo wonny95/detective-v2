@@ -557,8 +557,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gram{display:block;padding:14px 14px 15px 16px}
 /* the whole card folds (user pick, 안 B): folded it is the form and its meaning; the head opens the line, ▶, 해석 and the explanation */
 .rv-gram-head{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
-.rv-gram-head svg{flex:none;width:20px;height:20px;transition:transform .18s}
+.rv-gram-head svg{flex:none;width:20px;height:20px;transition:transform .26s cubic-bezier(.2,.8,.3,1)}
 .rv-gram-head[aria-expanded="true"] svg{transform:rotate(180deg)}
+/* flow-root: the lines' top margins stay inside, so its measured height is the room it takes (foldGramBody) */
+.rv-gram-body{display:flow-root}
+.rv-gram-body[hidden]{display:none}
+@media(prefers-reduced-motion:reduce){.rv-gram-head svg{transition:none}}
 /* the form's meaning on its own line under the form (user request) */
 .rv-gram .wword small{display:block;margin-top:2px;font-family:var(--f-body);font-weight:400;font-size:13px;color:var(--ink-soft)}
 .rv-gram .gsent{display:block;margin-top:10px;font-size:15px;line-height:1.5}
@@ -5299,6 +5303,24 @@ function grammarPoint(text){
 const grammarExplain = (why, more) => !why && !more?.length ? '' :
   `<div class="gexplain">${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(grammarPoint).join('')}</ul>` : ''}</div>`;
 const GRAM_CHEVRON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 9 L12 15.5 L18.5 9" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+// A card opening or closing (user request): its height and its lines move together, and a card opened at the bottom of
+// the page comes into view. Tapped again midway, it turns back from where it is.
+function foldGramBody(body, open){
+  const from = body.hidden ? 0 : body.getBoundingClientRect().height, fade = body.hidden ? 0 : +getComputedStyle(body).opacity;
+  body.getAnimations().forEach(a => a.cancel());
+  body.hidden = false;
+  const full = body.getBoundingClientRect().height, reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const done = () => {
+    body.style.overflow = ''; body.hidden = !open;
+    if(!open) return;
+    const page = body.closest('.rv-body'), box = page.getBoundingClientRect(), card = body.closest('.rv-gram').getBoundingClientRect();
+    if(card.bottom > box.bottom) page.scrollBy({ top:Math.min(card.bottom - box.bottom, card.top - box.top), behavior:reduced ? 'auto' : 'smooth' });
+  };
+  if(reduced || !body.animate) return done();
+  body.style.overflow = 'hidden';
+  body.animate([{ height:`${from}px`, opacity:fade }, { height:`${open ? full : 0}px`, opacity:open ? 1 : 0 }],
+    { duration:open ? 280 : 200, easing:'cubic-bezier(.2,.8,.3,1)' }).onfinish = done;
+}
 // One form's card (user pick, 안 B): the head folds the rest. key: which card, so an open one stays open when the page is drawn again
 function grammarRow(key, head, name, parts, why, more){
   const open = rv.gmoreOpen.has(key);
@@ -5399,9 +5421,10 @@ $('#review').addEventListener('click', e => {
   if(gko){ const t = gko.closest('.rv-gram').querySelector('.wko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
   const gmore = e.target.closest('[data-rv-gmore]');
   if(gmore){
-    const t = gmore.closest('.rv-gram').querySelector('.rv-gram-body'); t.hidden = !t.hidden;
-    gmore.setAttribute('aria-expanded', !t.hidden);
-    rv.gmoreOpen[t.hidden ? 'delete' : 'add'](gmore.dataset.rvGmore);
+    const open = gmore.getAttribute('aria-expanded') !== 'true';
+    gmore.setAttribute('aria-expanded', open);
+    rv.gmoreOpen[open ? 'add' : 'delete'](gmore.dataset.rvGmore);
+    foldGramBody(gmore.closest('.rv-gram').querySelector('.rv-gram-body'), open);
     return;
   }
   if(e.target.closest('[data-rv-extra]')){
