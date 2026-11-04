@@ -6,23 +6,25 @@
 
 ## 1. 의뢰와 진실 — 제작자용
 
-- **의뢰인**: 마을 화단을 돌보는 알파카 넬. 돌아와 망가진 꽃을 발견하고 누가 그랬는지 밝혀 달라고 요청한다. 주변을 막고 꺾인 모종을 보호해야 해서 현장에 남는다. 피아는 모종판을 준비하러 작업실에 가 있다. 이 보호·준비 행동은 별도 퀘스트가 아니다.
+- **의뢰인**: 소풍 가방 사건에 등장했던 수달 올리. 이번에는 피아와 마을 화단을 함께 돌본다. 돌아와 망가진 꽃을 발견하고 누가 그랬는지 밝혀 달라고 요청한다. 주변을 막고 꺾인 모종을 보호해야 해서 현장에 남는다. 피아는 모종판을 준비하러 작업실에 가 있다. 이 보호·준비 행동은 별도 퀘스트가 아니다.
 - **풀 의문**: 꽃을 심는 정상 작업과 이후 생긴 훼손은 어떻게 다른가? 누가 화단에 들어가 꽃을 밟았는가?
 - **진실**: 너구리 거스가 공놀이를 하다 정원 안으로 공을 넘긴다. 공을 꺼내려 울타리를 넘어 정원 안쪽 길로 들어온 뒤, 화단 한가운데의 공을 향해 걸으며 꽃을 밟는다. 꽃을 망가뜨리려던 고의는 없지만 당황해 바깥길에서 공을 찾았다고 부인한다. 최종 확인에서 출입·훼손·숨긴 이유를 직접 인정한다.
-- **피아의 작업**: 꽃을 심고 작은 삽을 화단 옆에 두었다. 넬의 사진에서는 심기가 끝난 뒤에도 모든 꽃이 서 있다. 피아와 넬은 그 뒤 함께 가게에 갔다가 함께 돌아와 훼손을 발견한다. 흙 묻은 도구와 심기 흔적만으로 피아를 범인이라고 하지 않는다.
+- **피아의 작업**: 꽃을 심고 작은 삽을 화단 옆에 두었다. 올리의 사진에서는 심기가 끝난 뒤에도 모든 꽃이 서 있다. 피아와 올리는 그 뒤 함께 가게에 갔다가 함께 돌아와 훼손을 발견한다. 흙 묻은 도구와 심기 흔적만으로 피아를 범인이라고 하지 않는다.
 - **렌의 시야**: 벤치에 앉아 두 친구의 출발, 울타리 위로 날아간 공, 공을 들고 정원 안쪽 길에서 돌아오는 거스를 보았다. 낮은 울타리와 꽃줄기에 바닥 시야가 가려져 공이 떨어진 위치·발로 밟는 순간은 보지 못했다. 목격하지 않은 훼손을 진술하지 않는다.
 - **해결**: 정상 작업 뒤 사진과 동행을 확인해 피아 의심을 정리한다. 거스가 말한 마당 쪽 바깥길과 렌이 본 정원 안쪽 길의 차이를 짚고, 눌린 꽃 사이의 발자국·공 상태를 함께 제시해 훼손 경위를 묻는다. 사진만으로 특정인의 발자국이나 꽃잎 출처를 확정하지 않는다.
 
 ### 사건 순서
 
-1. 조사일 오전 피아와 넬이 꽃을 심는다. 도구·심기 흔적이 남는다.
-2. 넬이 작업 기록 사진을 찍는다. 꽃들이 서 있다. 넬과 피아는 추가 모종을 받으러 가게에 가고 렌은 두 사람이 떠나는 것을 본다.
+1. 조사일 오전 피아와 올리가 꽃을 심는다. 도구·심기 흔적이 남는다.
+2. 올리가 작업 기록 사진을 찍는다. 꽃들이 서 있다. 올리와 피아는 추가 모종을 받으러 가게에 가고 렌은 두 사람이 떠나는 것을 본다.
 3. 거스가 마당에서 공놀이를 하다가 낮은 울타리 너머로 공을 보낸다. 공은 꽃을 직접 누르지 않고 화단 안의 빈 흙 부분에 떨어진다.
 4. 거스가 공을 꺼내려 정원에 들어와 꽃 사이를 걸으며 밟는다. 공에는 흙과 꽃잎이 묻는다. 렌은 거스가 정원 안쪽 길에서 공을 들고 나오는 것만 본다.
-5. 넬과 피아가 돌아와 훼손을 발견한다. 넬은 현장을 지키고 피아는 같은 모종 가게의 작업실로 돌아가 모종판을 준비한다. 거스는 마당, 렌은 벤치에 있다.
-6. 같은 날 오후 탐정이 의뢰를 받아 조사한다. 거스는 공놀이·공 회수는 인정하고 출입·훼손은 부인하다가 두 차례 확인 뒤 인정한다. 탐정이 넬에게 보고한다.
+5. 올리와 피아가 돌아와 훼손을 발견한다. 올리는 현장을 지키고 피아는 같은 모종 가게의 작업실로 돌아가 모종판을 준비한다. 거스는 마당, 렌은 벤치에 있다.
+6. 같은 날 오후 탐정이 의뢰를 받아 조사한다. 거스는 공놀이·공 회수는 인정하고 출입·훼손은 부인하다가 두 차례 확인 뒤 인정한다. 탐정이 올리에게 보고한다.
 
 정확한 시각·밤사이 사건·과거진행 알리바이는 넣지 않는다. 모종 작업실은 Plant Shop 안의 공간이고 같은 가게를 가리킨다. 함께 다녀온 가게와 현재 피아가 있는 작업실을 별도 지도 장소로 늘리지 않는다. 조사 중 NPC는 각자 제자리에 있다. 경찰·후보 전원 집합·즉석 화단 복구는 없다.
+
+**인물 교체(사용자 요청 반영)**: 인원을 늘리지 않고 의뢰인 넬을 기존 수달 올리로 대체했다. 올리는 소풍 가방 사건에서 정원에 있던 같은 인물이며, 화단 돌봄은 이번 사건의 제작자용 배경이다. NPC는 기존 1명·신규 3명으로 총 4명을 유지한다. 기존 사건의 대본·설계서는 수정하지 않는다.
 
 ## 2. 학습·인물·장소
 
@@ -30,7 +32,7 @@
 
 | 인물 | 신규/재사용 | 현재 위치 | 제작자용 역할 |
 |---|---|---|---|
-| Nell 넬 · 알파카 | 신규 | 마을 화단 | 의뢰인·기록 사진 제공·피아 동행 확인 |
+| Ollie 올리 · 수달 | 재사용 · 소풍 가방 사건 | 마을 화단 | 의뢰인·기록 사진 제공·피아 동행 확인 |
 | Pia 피아 · 돼지 | 신규 | 모종 작업실(Plant Shop) | 꽃을 심은 정상 작업자·도구 때문에 초기 의심 |
 | Gus 거스 · 너구리 | 신규 | 공놀이 마당 | 공을 회수하다 꽃을 밟은 실제 행위자 |
 | Wren 렌 · 굴뚝새 | 신규 | 공원 벤치 | 출발·공 이동·귀환을 제한된 시야에서 목격 |
@@ -40,7 +42,7 @@
 
 | 배경 | 고정 인물·배치 | 사진/관찰할 부분 | 다른 장소와 연결 |
 |---|---|---|---|
-| 마을 화단 | 넬은 입구 옆, 일지는 벤치 위 | 눌린 꽃·작은 삽·화단 안 발자국. 정원 안쪽 길이 꽃 옆을 지남 | 낮은 울타리 밖 마당 쪽 길과 안쪽 길이 함께 보임 |
+| 마을 화단 | 올리는 입구 옆, 일지는 벤치 위 | 눌린 꽃·작은 삽·화단 안 발자국. 정원 안쪽 길이 꽃 옆을 지남 | 낮은 울타리 밖 마당 쪽 길과 안쪽 길이 함께 보임 |
 | 모종 작업실 | 피아는 작업대 옆 | 모종판·장갑. 꽃 심기와 외출을 질문 | Plant Shop은 일지 사진 아래 모종 구입처 상호로 발견 |
 | 공놀이 마당 | 거스는 골대 옆, 공은 발치 | 공의 흙·꽃잎, 마당 쪽 바깥길 | 낮은 울타리 너머 정원과 안쪽 길이 보임 |
 | 공원 벤치 | 렌은 벤치 옆 또는 위에 고정 | 정원 출입구·안쪽 길과 공의 공중 이동을 볼 수 있음 | 꽃머리는 보이나 울타리 뒤 바닥과 발은 가려져 있음 |
@@ -51,20 +53,20 @@
 
 | 정보/행동 | 열리는 조건 | 열리는 것 | 열리지 않는 것 |
 |---|---|---|---|
-| 최초 의뢰 | 넬 자기소개 | n0 하나만 | 다른 질문·다른 장소 |
+| 최초 의뢰 | 올리 자기소개 | n0 하나만 | 다른 질문·다른 장소 |
 | 정상 상태 기록 | n0 채점 | n1 | 피아 이름·거스 이름 |
 | 현장 촬영 | n1 채점 뒤 최초 대화 완료 | bed-photo·garden-photo·fence-photo 조사 | 누가 밟았는지·발자국 주인 |
 | 모종 작업실 | garden-photo 기록 및 실제 Plant Shop 상호 확인 | 장소, 도착 뒤 피아 자기소개 | 사진으로 피아 역할·알리바이 선공개 |
 | 공놀이 마당 | fence-photo 기록 및 실제 방향 표지 확인 | 장소, 도착 뒤 거스 자기소개 | 사진으로 거스를 범인으로 지정 |
 | 피아 후속 질문 | p1 → p2·p3, p3 → p4 | 작업 도구·외출·목격자 | 인사에서 사건 정보 공개 |
-| 넬 재방문 | pia:p3 채점·피아 소개 | nell:n2 | n2 때문에 넬 최초 대화를 잠금 |
+| 올리 재방문 | pia:p3 채점·피아 소개 | ollie:n2 | n2 때문에 올리 최초 대화를 잠금 |
 | 공원 벤치 | pia:p4 채점 | 장소, 도착 뒤 렌 자기소개와 w1 | 이름·알리바이 토스트 |
 | 렌 후속 | w1 → w2 | 공 이동 목격 | 공 착지·훼손을 봤다는 새 사실 |
 | 공 촬영 | g1 → g2·g4, g2 → g3, g4 허락 기록 후 열린 거스 질문 완료 | ball-photo | 공 습득·자동 인벤토리·진술의 사진화 |
 | 렌 마지막 목격 | w2·거스 소개·ball-photo | w3 | 잠긴 w3 때문에 첫 대화 완료를 막음 |
 | 추리 | 14개 질문 기록·사진 4종 | 추리 6문항 | 확인 전 범인 이름 알림 |
 | 마지막 확인 | 추리 완료 뒤 거스에게 돌아가 직접 선택 | 두 차례 증거 제시 | 자동 이동·경사 합류 |
-| 보고 | 거스의 훼손 인정 뒤 | 넬에게 직접 이동·결과 설명 | 사건 해결 전 요약 공개 |
+| 보고 | 거스의 훼손 인정 뒤 | 올리에게 직접 이동·결과 설명 | 사건 해결 전 요약 공개 |
 
 한 방문에서는 그때 열린 질문만 마쳐도 대화를 끝낼 수 있다. 외부에서 조건을 얻어야 하는 n2·w3를 이유로 첫 방문에 가두지 않는다. 현재 인물과 대화 중에는 촬영·이동을 하지 않고 대화를 마친 뒤 허락받은 현장을 조사한다. 발견 뒤에도 현재 화면에 머물고 장소만 알린다. 자기소개 전 이름표는 이름을 선공개하지 않는다. 선택 관찰 8개는 수집·완료 조건이 아니다. 사진·질문 개수는 제작자 문서에서만 보인다.
 
@@ -72,18 +74,18 @@
 
 모든 질문은 플레이어 선택지다. 질문을 고르면 탐정 질문과 답변을 듣고 노트에 받아 적는다. 영어 원문·해석의 실제 게임 공개는 공통 노트·해석 규칙을 따른다. 아래 답·정답 보기는 제작자 검토용이다.
 
-### 4.1 마을 화단 — 넬의 의뢰
+### 4.1 마을 화단 — 올리의 의뢰
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
-| nell:hello | 넬 · turn | **Oh, hello. I'm Nell.** / 어, 안녕. 난 넬이야. | 첫 만남 · 자기소개 |
+| ollie:hello | 올리 · turn | **Oh, hi! It's me, Ollie.** / 어, 안녕! 나야, 올리. | 올리와 재회 · 이름을 직접 말함 |
 
 | ID | 질문 선택지 / 답변 음성 | 노트 빈칸 | 보기 | 선행 조건·역할 |
 |---|---|---|---|---|
-| nell:n0 | **How can I help you?** / 무엇을 도와줄까?<br>넬: **I came back and found our flowers damaged. Can you find out who did it?** / 돌아왔더니 우리 꽃들이 망가져 있었어. 누가 그랬는지 알아봐 줄래? | “I came back and found our [flowers] [damaged]. Can you find out who [did] it?” | flowers · damaged · did · bottles · planted · does | 첫 질문 하나만 표시 · 채점 뒤 n1 해금 |
-| nell:n1 | **What were the flowers like before you left?** / 자리를 비우기 전 꽃들은 어떤 상태였니?<br>넬: **I took this photo after planting. All the flowers were standing.** / 꽃을 심은 뒤 이 사진을 찍었어. 꽃들이 모두 서 있었어. | “I [took] this [photo] after planting. All the flowers were [standing].” | took · photo · standing · take · drawing · flat | n0 뒤 · 일지를 펼쳐 사진을 가리킴 · garden-photo 기록 허용 |
+| ollie:n0 | **How can I help you?** / 무엇을 도와줄까?<br>올리: **I came back and found our flowers damaged. Can you find out who did it?** / 돌아왔더니 우리 꽃들이 망가져 있었어. 누가 그랬는지 알아봐 줄래? | “I came back and found our [flowers] [damaged]. Can you find out who [did] it?” | flowers · damaged · did · bottles · planted · does | 첫 질문 하나만 표시 · 채점 뒤 n1 해금 |
+| ollie:n1 | **What were the flowers like before you left?** / 자리를 비우기 전 꽃들은 어떤 상태였니?<br>올리: **I took this photo after planting. All the flowers were standing.** / 꽃을 심은 뒤 이 사진을 찍었어. 꽃들이 모두 서 있었어. | “I [took] this [photo] after planting. All the flowers were [standing].” | took · photo · standing · take · drawing · flat | n0 뒤 · 일지를 펼쳐 사진을 가리킴 · garden-photo 기록 허용 |
 
-넬은 n1 답변 때 작업일지를 펼쳐 실제 인쇄 사진을 가리킨다. 사진 아래에는 모종 구입처 Plant Shop 상호만 있다. 날짜·범인·피아 이름·알리바이를 글씨로 적어 주지 않는다. 함께 외출한 상대를 묻는 n2는 피아를 만나 그 주장을 들은 뒤 열린다.
+올리는 n1 답변 때 작업일지를 펼쳐 실제 인쇄 사진을 가리킨다. 사진 아래에는 모종 구입처 Plant Shop 상호만 있다. 날짜·범인·피아 이름·알리바이를 글씨로 적어 주지 않는다. 함께 외출한 상대를 묻는 n2는 피아를 만나 그 주장을 들은 뒤 열린다.
 
 ### 4.2 화단 현장·일지·울타리
 
@@ -116,13 +118,13 @@
 |---|---|---|---|---|
 | pia:p1 | **Did you work in the flower bed?** / 화단에서 일을 했니?<br>피아: **Yes, I planted the flowers. I didn't step on them.** / 응, 꽃을 심었어. 꽃을 밟지는 않았어. | “Yes, I [planted] the flowers. I [didn't] [step on] them.” | planted · didn't · step on · picked · did · sit on | 첫 방문 · 작업에 대해 처음 물음 |
 | pia:p2 | **What did you use?** / 무엇을 썼니?<br>피아: **I used a small shovel. I left it beside the bed.** / 작은 삽을 썼어. 화단 옆에 두고 왔어. | “I [used] a small [shovel]. I left it beside the bed.” | used · shovel · washed · bottle | p1 뒤 · 현장 도구의 작업 용도 |
-| pia:p3 | **Where did you go after planting?** / 꽃을 심은 뒤 어디에 갔니?<br>피아: **Nell and I went to the shop. We came back together.** / 넬과 가게에 갔어. 함께 돌아왔어. | “Nell and I [went] to the [shop]. We came back [together].” | went · shop · together · go · yard · alone | p1 뒤 · 넬 n2 재방문 질문 해금 |
+| pia:p3 | **Where did you go after planting?** / 꽃을 심은 뒤 어디에 갔니?<br>피아: **Ollie and I went to the shop. We came back together.** / 올리와 가게에 갔어. 함께 돌아왔어. | “Ollie and I [went] to the [shop]. We came back [together].” | went · shop · together · go · yard · alone | p1 뒤 · 올리 n2 재방문 질문 해금 |
 | pia:p4 | **Did anyone see you leave?** / 너희가 떠나는 걸 본 친구가 있니?<br>피아: **Yes. A friend on the park bench waved to us.** / 응. 공원 벤치에 있던 친구가 우리에게 손을 흔들었어. | “Yes. A [friend] on the park [bench] waved to us.” | friend · bench · flower · fence | p3 뒤 · 공원 벤치 발견. 이름은 자기소개 전 표시하지 않음 |
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
-| think:nell | 탐정 · thought | **Nell went with Pia. I should ask Nell too.** / 넬이 피아와 함께 갔대. 넬에게도 물어봐야겠어. | p3 뒤 n2 해금 |
-| move:nell | 탐정 · move-choice | **Go back to Nell.** / 넬에게 돌아가기 | 직접 선택 · 버튼 음성 없음 |
+| think:ollie | 탐정 · thought | **Ollie went with Pia. I should ask Ollie too.** / 올리가 피아와 함께 갔대. 올리에게도 물어봐야겠어. | p3 뒤 n2 해금 |
+| move:ollie | 탐정 · move-choice | **Go back to Ollie.** / 올리에게 돌아가기 | 직접 선택 · 버튼 음성 없음 |
 | think:bench | 탐정 · thought | **I should ask the friend on the bench.** / 벤치에 있던 친구에게 물어봐야겠어. | p4 채점 뒤 |
 | move:bench | 탐정 · move-choice | **Go to the park bench.** / 공원 벤치로 가기 | 직접 선택 · 버튼 음성 없음 |
 
@@ -159,7 +161,7 @@
 
 | ID | 질문 선택지 / 답변 음성 | 노트 빈칸 | 보기 | 선행 조건·역할 |
 |---|---|---|---|---|
-| wren:w1 | **Did you see Nell leave?** / 넬이 떠나는 걸 봤니?<br>렌: **Yes. She left with Pia. The flowers were still standing.** / 응. 피아와 함께 나갔어. 꽃들은 그때도 서 있었어. | “Yes. She [left] with [Pia]. The flowers were still [standing].” | left · Pia · standing · came · Gus · flat | 첫 방문 · 넬과 피아 소개·피아 p4 뒤 |
+| wren:w1 | **Did you see Ollie leave?** / 올리가 떠나는 걸 봤니?<br>렌: **Yes. Ollie left with Pia. The flowers were still standing.** / 응. 피아와 함께 나갔어. 꽃들은 그때도 서 있었어. | “Yes. Ollie [left] with [Pia]. The flowers were still [standing].” | left · Pia · standing · came · Gus · flat | 첫 방문 · 올리와 피아 소개·피아 p4 뒤 |
 | wren:w2 | **What happened after they left?** / 두 친구가 떠난 뒤 무슨 일이 있었니?<br>렌: **A ball flew over the fence. I didn't see it on the ground.** / 공이 울타리 너머로 날아갔어. 땅에 떨어진 공은 보지 못했어. | “A [ball] flew over the [fence]. I [didn't] see it on the ground.” | ball · fence · didn't · bottle · bench · did | w1 뒤 · 목격 범위 제한 |
 | wren:w3 | **Did anyone come back with a ball?** / 공을 들고 돌아온 친구가 있었니?<br>렌: **Yes. Gus came back with a ball from the garden path.** / 응. 거스가 정원 안쪽 길에서 공을 들고 돌아왔어. | “Yes. [Gus] came back with a ball from the [garden path].” | Gus · garden path · Pia · yard path | w2·거스 자기소개·ball-photo 뒤 · 재방문 가능 |
 
@@ -169,11 +171,11 @@
 
 w1·w2만 열린 첫 방문은 그 둘을 마치고 끝낼 수 있다. w3는 거스 이름을 알고 공을 살핀 뒤 묻는다. 이미 조건을 갖추고 렌을 처음 만났다면 한 방문에서 이어진다. 렌은 공을 집는 손동작이나 꽃을 밟은 순간은 못 봤으며, **공을 들고 돌아온 사람과 길**만 말한다. 목격 시야는 배경에서 확인한다.
 
-### 4.6 넬에게 피아의 동행 확인
+### 4.6 올리에게 피아의 동행 확인
 
 | ID | 질문 선택지 / 답변 음성 | 노트 빈칸 | 보기 | 선행 조건·역할 |
 |---|---|---|---|---|
-| nell:n2 | **Did you go to the shop with Pia?** / 피아와 함께 가게에 갔니?<br>넬: **Yes. We went to the shop together and came back together.** / 응. 함께 가게에 갔다가 함께 돌아왔어. | “Yes. We went to the [shop] [together] and came back together.” | shop · together · yard · alone | 피아 p3 채점·피아 자기소개 뒤 · 재방문 질문 |
+| ollie:n2 | **Did you go to the shop with Pia?** / 피아와 함께 가게에 갔니?<br>올리: **Yes. We went to the shop together and came back together.** / 응. 함께 가게에 갔다가 함께 돌아왔어. | “Yes. We went to the [shop] [together] and came back together.” | shop · together · yard · alone | 피아 p3 채점·피아 자기소개 뒤 · 재방문 질문 |
 
 n2는 피아와 함께 외출했다는 주장을 독립적으로 확인한다. 피아가 단지 화단 근처에 있었거나 도구를 썼다는 사실을 훼손 증거로 사용하지 않는다. 정상 작업 뒤 사진, 함께 떠남·돌아옴, 렌의 출발 목격을 연결한다. 이를 확인한 뒤 피아 의심은 정리하고 같은 의심을 반복하지 않는다.
 
@@ -183,9 +185,9 @@ n2는 피아와 함께 외출했다는 주장을 독립적으로 확인한다. �
 
 | 사진 ID | 중립 제목 | 촬영 지점·조건 | 함께 보여야 할 사실 | 쓰임과 한계 |
 |---|---|---|---|---|
-| bed-photo | 화단 | 넬 n1 뒤 화단 흙과 꽃 | 누운 꽃·꽃 사이를 가로지르는 일반 신발 자국·가장자리의 작은 삽과 심기 구멍 | 정상 작업과 이후 훼손을 구별. 사람의 종·신원은 알 수 없음 |
-| garden-photo | 화단 사진 | n1 뒤 넬이 펼친 작업일지 페이지 촬영 | 심은 꽃이 모두 서 있음. 사진 아래 모종 구입처 Plant Shop 상호 | 촬영 순서는 넬 진술로만 확인. 상호는 작업실 발견에 사용 |
-| fence-photo | 울타리 | 넬 n1 뒤 낮은 울타리와 바닥 | 울타리의 넘은 자국·안쪽 길에서 화단으로 이어진 발자국·밖의 마당 쪽 길·실제 Play Yard 방향 표지 | 두 길과 이동 범위를 구별. 이름·소유자·CCTV 인물은 없음 |
+| bed-photo | 화단 | 올리 n1 뒤 화단 흙과 꽃 | 누운 꽃·꽃 사이를 가로지르는 일반 신발 자국·가장자리의 작은 삽과 심기 구멍 | 정상 작업과 이후 훼손을 구별. 사람의 종·신원은 알 수 없음 |
+| garden-photo | 화단 사진 | n1 뒤 올리가 펼친 작업일지 페이지 촬영 | 심은 꽃이 모두 서 있음. 사진 아래 모종 구입처 Plant Shop 상호 | 촬영 순서는 올리 진술로만 확인. 상호는 작업실 발견에 사용 |
+| fence-photo | 울타리 | 올리 n1 뒤 낮은 울타리와 바닥 | 울타리의 넘은 자국·안쪽 길에서 화단으로 이어진 발자국·밖의 마당 쪽 길·실제 Play Yard 방향 표지 | 두 길과 이동 범위를 구별. 이름·소유자·CCTV 인물은 없음 |
 | ball-photo | 흙 묻은 공 | 거스 g4 허락·열린 질문 완료 뒤 | 공 전체와 흙·붙은 꽃잎 한 조각을 함께 알아볼 수 있는 거리 | 공이 화단 부근에 있었을 가능성을 더함. 사진만으로 꽃을 밟은 사람 확정 불가 |
 
 사진 하나가 자동으로 거스의 인물을 해금하거나 지목하지 않는다. 개인 소유나 진실은 이미 들은 말과 추리로 잇는다. 화단의 생생한 훼손 사진이 곧 범인의 행동을 재현하는 장면이 되지 않게 한다.
@@ -212,15 +214,15 @@ n2는 피아와 함께 외출했다는 주장을 독립적으로 확인한다. �
 | ID | 질문 / 완성 문장 | 보기 | 맞장구 | 힌트 | 근거 |
 |---|---|---|---|---|---|
 | q1 | **What did Pia do in the flower bed?** / 피아는 화단에서 무엇을 했을까?<br>Pia [planted] the flowers. | planted · picked · watered · carried · sold · painted | **Right. Pia planted the flowers.** / 맞아. 피아는 꽃을 심었어. | 피아의 첫 번째 작업 기록을 다시 들어 봐. | pia:p1 |
-| q2 | **When did Nell take the photo?** / 넬은 언제 사진을 찍었을까?<br>Nell took the photo [after planting]. | after planting · before planting · after coming back from the shop · after getting the ball · after taking the ball photo · after questioning Gus | **Yes. The flowers were standing after planting.** / 맞아. 꽃을 심은 뒤에도 꽃들이 서 있었어. | 넬이 작업일지 사진에 관해 한 말과 사진을 함께 확인해 봐. | nell:n1 · garden-photo |
-| q3 | **Who went to the shop with Pia?** / 누가 피아와 함께 가게에 갔을까?<br>Pia went to the shop with [Nell]. | Nell · Gus · Wren | **Pia didn't damage the flowers. She went with Nell.** / 피아가 꽃을 망친 건 아니야. 넬과 함께 갔어. | 피아의 행선지 기록과 넬의 재방문 답변을 대조해 봐. | pia:p3 · nell:n2 · wren:w1 |
+| q2 | **When did Ollie take the photo?** / 올리는 언제 사진을 찍었을까?<br>Ollie took the photo [after planting]. | after planting · before planting · after coming back from the shop · after getting the ball · after taking the ball photo · after questioning Gus | **Yes. The flowers were standing after planting.** / 맞아. 꽃을 심은 뒤에도 꽃들이 서 있었어. | 올리가 작업일지 사진에 관해 한 말과 사진을 함께 확인해 봐. | ollie:n1 · garden-photo |
+| q3 | **Who went to the shop with Pia?** / 누가 피아와 함께 가게에 갔을까?<br>Pia went to the shop with [Ollie]. | Ollie · Gus · Wren | **Pia didn't damage the flowers. She went with Ollie.** / 피아가 꽃을 망친 건 아니야. 올리와 함께 갔어. | 피아의 행선지 기록과 올리의 재방문 답변을 대조해 봐. | pia:p3 · ollie:n2 · wren:w1 |
 | q4 | **What did Wren see Gus carrying?** / 렌은 거스가 무엇을 들고 오는 걸 봤을까?<br>Wren saw Gus with [a ball]. | a ball · a shovel · a tray · a flowerpot · a notebook · a bottle | **Yes. Gus came back with a ball.** / 맞아. 거스가 공을 들고 돌아왔어. | 렌의 마지막 목격 기록에서 들고 있던 물건을 확인해 봐. | wren:w3 |
 | q5 | **Where did Wren see Gus come from?** / 렌이 봤을 때 거스는 어디에서 돌아왔을까?<br>Wren saw Gus come from [the garden path]. | the garden path · the yard path · the Plant Shop · the park bench · the shop door · the workshop table | **That differs from the path Gus named.** / 거스가 말한 길과는 달라. | 거스의 회수 위치와 렌의 목격 위치를 나란히 봐. | gus:g3 · wren:w3 · fence-photo |
-| q6 | **Whose account needs checking?** / 누구의 설명을 더 확인해야 할까?<br>[Gus]'s account does not fit all the evidence. | Nell · Pia · Gus · Wren | **We should ask about the path and the ball.** / 길과 공에 관해 더 물어봐야겠어. | 행동을 부정한 말이 다른 기록과 맞는지 살펴봐. | gus:g1–g3 · wren:w3 · bed-photo · fence-photo · ball-photo. 아직 훼손 범행 단정 아님 |
+| q6 | **Whose account needs checking?** / 누구의 설명을 더 확인해야 할까?<br>[Gus]'s account does not fit all the evidence. | Ollie · Pia · Gus · Wren | **We should ask about the path and the ball.** / 길과 공에 관해 더 물어봐야겠어. | 행동을 부정한 말이 다른 기록과 맞는지 살펴봐. | gus:g1–g3 · wren:w3 · bed-photo · fence-photo · ball-photo. 아직 훼손 범행 단정 아님 |
 
 Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는 점을 짚되 **거스가 꽃을 밟았다는 확정 문장은 마지막 인정 뒤** 쓴다. Q3 뒤에는 피아의 작업이 훼손 증거가 아니며 그 이후 동행도 확인됐음을 정리한다. 일반 추리 오답은 같은 문항에서 다시 고르며 맞장구·힌트가 정답을 미리 말하지 않는다.
 
-## 7. 거스 확인·인정·넬 보고
+## 7. 거스 확인·인정·올리 보고
 
 기존 엔딩의 사진/진술 제시 흐름을 현장 확인에 쓴다. 경찰·새 조사실·후보 전원 집합은 없다. 14문항·사진 4종·추리 6문항을 마친 뒤 직접 거스에게 돌아와 확인 시작을 고른다. 아래 choice는 모두 선택지이며 자동으로 질문하지 않는다. 별도 받아쓰기는 추가하지 않는다.
 
@@ -243,20 +245,20 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | det:r2 | 탐정 · turn | **The footprints cross the flowers. A petal is on your ball.** / 발자국이 꽃 위를 지나가. 네 공에는 꽃잎이 붙어 있고. | bed-photo 뒤 · 이미 기록한 ball-photo도 함께 참조. 발자국 주인 단정 금지 |
 | det:cq2 | 탐정 · choice | **Did you step on them to get your ball?** / 공을 가져오려고 꽃을 밟았니? | r2 뒤 질문 선택 · 받아쓰기 없음 |
 | gus:a2 | 거스 · turn | **Yes, I stepped on them by accident.** / 응, 실수로 꽃을 밟았어. | 훼손 인정 · 실제 행위자 확정 |
-| det:why | 탐정 · choice | **Why didn't you tell Nell?** / 넬에게 왜 말하지 않았니? | 훼손 인정 뒤 · 받아쓰기 없음 |
-| gus:why | 거스 · turn | **I was scared. I'm sorry I didn't tell her.** / 겁이 났어. 말하지 않아서 미안해. | 숨긴 이유 |
-| gus:help | 거스 · turn | **I can help Nell plant new flowers.** / 넬이 새 꽃을 심는 걸 도울 수 있어. | 복구 책임 |
-| think:report | 탐정 · thought | **Nell needs to hear what happened.** / 넬에게 무슨 일이 있었는지 알려야겠어. | 확인 뒤 · 거스는 마당에 남음 |
-| move:report | 탐정 · move-choice | **Go back to Nell.** / 넬에게 돌아가기 | 직접 선택 · 버튼 음성 없음 |
+| det:why | 탐정 · choice | **Why didn't you tell Ollie?** / 올리에게 왜 말하지 않았니? | 훼손 인정 뒤 · 받아쓰기 없음 |
+| gus:why | 거스 · turn | **I was scared. I'm sorry I didn't tell Ollie.** / 겁이 났어. 말하지 않아서 미안해. | 숨긴 이유 |
+| gus:help | 거스 · turn | **I can help Ollie plant new flowers.** / 올리가 새 꽃을 심는 걸 도울 수 있어. | 복구 책임 |
+| think:report | 탐정 · thought | **Ollie needs to hear what happened.** / 올리에게 무슨 일이 있었는지 알려야겠어. | 확인 뒤 · 거스는 마당에 남음 |
+| move:report | 탐정 · move-choice | **Go back to Ollie.** / 올리에게 돌아가기 | 직접 선택 · 버튼 음성 없음 |
 
 ### 의뢰인 보고
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
-| act:report | 탐정 · choice | **Tell Nell what happened.** / 넬에게 결과 설명하기 | 화단 도착 뒤 · 받아쓰기 없는 행동 버튼, 별도 음성 없음 |
+| act:report | 탐정 · choice | **Tell Ollie what happened.** / 올리에게 결과 설명하기 | 화단 도착 뒤 · 받아쓰기 없는 행동 버튼, 별도 음성 없음 |
 | det:report1 | 탐정 · turn | **Gus went in to get his ball. He stepped on the flowers.** / 거스가 공을 가지러 들어갔다가 꽃을 밟았어. | 인정한 행위만 보고 |
 | det:report2 | 탐정 · turn | **He wants to help you plant new flowers.** / 네가 새 꽃을 심는 걸 돕고 싶어 해. | 복구 의사 전달 |
-| nell:ending | 넬 · turn | **I'm sad about the flowers. Thank you for finding out what happened.** / 꽃들이 망가져 속상해. 무슨 일이 있었는지 알아봐 줘서 고마워. | 의뢰인 보고 완료 · 즉석 복구 없음 |
+| ollie:ending | 올리 · turn | **I'm sad about the flowers. Thank you for finding out what happened.** / 꽃들이 망가져 속상해. 무슨 일이 있었는지 알아봐 줘서 고마워. | 의뢰인 보고 완료 · 즉석 복구 없음 |
 
 ### 확인 대화의 오답 반응
 
@@ -264,7 +266,7 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 |---|---|---|---|
 | gus:wrong | 거스 · wrong | **That doesn't explain it.** / 그걸로는 설명이 안 되잖아. | 오답 제시 때만 · 같은 주장 유지, 정상 음성 횟수 제외 |
 
-공을 돌려주는 사건이 아니므로 공 건네주기나 강제 습득은 없다. 확인 뒤 탐정만 넬에게 이동하고 거스는 마당에 남는다. 복구 의사를 전하고 감사로 끝내며 꽃이 즉시 일어서거나 원화가 정상 화단으로 바뀌지 않는다. 해결 후 복습에서만 실제 행위자 얼굴·인정 내용·사건 요약을 공개한다.
+공을 돌려주는 사건이 아니므로 공 건네주기나 강제 습득은 없다. 확인 뒤 탐정만 올리에게 이동하고 거스는 마당에 남는다. 복구 의사를 전하고 감사로 끝내며 꽃이 즉시 일어서거나 원화가 정상 화단으로 바뀌지 않는다. 해결 후 복습에서만 실제 행위자 얼굴·인정 내용·사건 요약을 공개한다.
 
 ## 8. 예습·복습
 
@@ -284,19 +286,19 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 |---|---|---|
 | Did ...? | gus:g2 질문 | Did your ball stay in the yard? |
 | didn't + 동사원형 | gus:g1 답 | I didn't go into the flower bed. |
-| 긍정 과거 went | pia:p3 답 | Nell and I went to the shop. |
+| 긍정 과거 went | pia:p3 답 | Ollie and I went to the shop. |
 
 새 단어는 실제 빈칸에서 고르고 인물 이름은 빼며, 뜻은 사건 해결 뒤 복습에서 기본 표시한다. 과거형 낱말은 문법 형태와 연결하되 모두 별개의 문법 단원으로 늘리지 않는다.
 
 | 단어 | 뜻 | 실제 빈칸 출처 |
 |---|---|---|
-| flowers | 꽃들 | nell:n0 |
-| damaged | 망가진 | nell:n0 |
-| took | 찍었다·가져갔다, take의 과거형 | nell:n1 |
-| photo | 사진 | nell:n1 |
-| standing | 서 있는 | nell:n1 · wren:w1 |
-| shop | 가게 | nell:n2 · pia:p3 |
-| together | 함께 | nell:n2 · pia:p3 |
+| flowers | 꽃들 | ollie:n0 |
+| damaged | 망가진 | ollie:n0 |
+| took | 찍었다·가져갔다, take의 과거형 | ollie:n1 |
+| photo | 사진 | ollie:n1 |
+| standing | 서 있는 | ollie:n1 · wren:w1 |
+| shop | 가게 | ollie:n2 · pia:p3 |
+| together | 함께 | ollie:n2 · pia:p3 |
 | planted | 심었다, plant의 과거형 | pia:p1 |
 | used | 썼다, use의 과거형 | pia:p2 |
 | shovel | 삽 | pia:p2 |
@@ -318,7 +320,7 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | 표현·단어 | 뜻 | 출처 |
 |---|---|---|
 | step on | 밟다 | pia:p1 · I didn’t step on them. |
-| come back | 돌아오다 | nell:n2 · came back together |
+| come back | 돌아오다 | ollie:n2 · came back together |
 | by accident | 실수로 | gus:a2 · I stepped on them by accident. |
 | footprints | 발자국들 | obs:f1 · There are footprints between them. |
 | petal | 꽃잎 | obs:f4 · A petal is stuck to it. |
@@ -329,8 +331,8 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 
 | 알아들어야 하는 말 | 연결할 자료 | 판단 |
 |---|---|---|
-| pia:p1 planted / didn't step on | 정상 작업 사진·넬 n1 | 꽃을 심은 행동을 훼손과 구별 |
-| pia:p3·nell:n2 went / together | 렌 w1 출발 목격 | 서로의 동행 주장을 확인해 피아 의심 정리 |
+| pia:p1 planted / didn't step on | 정상 작업 사진·올리 n1 | 꽃을 심은 행동을 훼손과 구별 |
+| pia:p3·ollie:n2 went / together | 렌 w1 출발 목격 | 서로의 동행 주장을 확인해 피아 의심 정리 |
 | gus:g1 played / didn't go | 공 조사·w3 | 한 행동은 인정하면서 다른 행동은 부인한다는 점 확인 |
 | gus:g2 went over / got it back | fence-photo·ball-photo | 공의 이동과 회수 사실 확인 |
 | gus:g3 outside / wren:w3 garden path | 두 길의 실제 배경 | 주장한 회수 위치가 목격 위치와 다름 |
@@ -340,7 +342,7 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 
 | 장면 | 신규 그림·구도 | 신규 음성 범위 | 재사용/엔진 검토 |
 |---|---|---|---|
-| 공통 | 넬·피아·거스·렌 4명, 각 장소 전신 고정 | 각 인사·질문·답변 | 탐정·노트·사진·추리·증거 제시 공통 UI 재사용 |
+| 공통 | 피아·거스·렌 신규 3명. 올리는 기존 전신 원화 재사용을 우선하며 각 장소에 고정 | 각 인사·질문·답변 | 올리의 외형·기존 성격 유지. 신규 대사 녹음 필요. 탐정·노트·사진·추리·증거 제시 공통 UI 재사용 |
 | 화단 | 화단 배경, bed-photo·garden-photo·fence-photo 3종. 정상 사진과 현재 훼손을 구별 | n0·n1·n2, 현장 관찰·이동 생각·보고 | 촬영·제공된 일지 촬영은 기존 사진 흐름. 외부 조건 n2를 최초 대화 완료와 분리 |
 | 모종 작업실 | 작업실 배경, 모종판·장갑. 사건 중인 별도 피해물은 추가하지 않음 | p1–p4·이동 생각 | 채점으로 벤치와 n2 발견 |
 | 마당 | 마당 배경·거스 발치 공·ball-photo | g1–g4·공 관찰·확인·인정 | g4 촬영 허락 기록 뒤 대화를 마치고 조사. 소지품 추가 없음 |
@@ -359,8 +361,8 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 |---|---|---|
 | 인물 / 장소 | 4명 / 4곳 | 4명 / 4곳 |
 | 받아쓰기 질문 / 빈칸 | 14 / 36 | 14 / 36 |
-| 인물별 질문 | 넬 3·피아 4·거스 4·렌 3 | 동일 |
-| 인물별 빈칸 | 넬 8·피아 10·거스 10·렌 8 | 동일, 최대 27.8% |
+| 인물별 질문 | 올리 3·피아 4·거스 4·렌 3 | 동일 |
+| 인물별 빈칸 | 올리 8·피아 10·거스 10·렌 8 | 동일, 최대 27.8% |
 | 질문당 빈칸 | 1–3 | 2–3 |
 | 답변 평균 / 최장 단어 | 평균 8–12 / 최장 18 이하 | 11.1 / 15 |
 | 3문장 답변 | 3개 이하 | 2개 |
@@ -370,9 +372,9 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 
 | 열쇠 형태 | 정상 진행에서 들리는 수 | NPC 질문·답변의 예 |
 |---|---|---|
-| Did ...? 질문 | 9회 | nell:n2·pia:p1·p4·gus:g1·g2·wren:w1·w3 |
+| Did ...? 질문 | 9회 | ollie:n2·pia:p1·p4·gus:g1·g2·wren:w1·w3 |
 | didn't + 동사원형 | 9회 | pia:p1·gus:g1·g4·wren:w2 |
-| 긍정 과거 went | 7회 | nell:n2·pia:p3·gus:g2 |
+| 긍정 과거 went | 7회 | ollie:n2·pia:p3·gus:g2 |
 
 발화 수는 선택한 조사 질문·답변, 필수 현장 관찰·생각·확인·보고·추리 맞장구를 정상적으로 한 번씩 듣는 기준이다. Did 질문 수에는 어순이 다른 who did it·What did you use와 부정 Why didn't 질문을 더하지 않는다. went는 단어 형태의 실제 발생을 센다. 선택 TTS·예습·복습·이동 버튼 문구·추리 완성 문장·힌트·오답 재생·다시 듣기는 제외한다. 조건에 따라 생략되는 재방문 생각은 열쇠 형태가 없어 집계에 영향을 주지 않는다.
 
