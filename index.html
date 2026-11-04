@@ -5373,12 +5373,16 @@ function reviewNext(){
   stopVoice();
   if(rv.step < rv.steps.length - 1){ rv.step++; renderReview(1); }
 }
-// Words the player keeps join the word book; the case's words left out are taken out of it.
-function closeReview(){
-  stopVoice();
+// Words the player keeps join the word book; the case's words left out are taken out of it. Done at each tap (user
+// request: a word saved once shows as saved wherever it comes up again, even if this review is never finished).
+function saveReviewWords(){
   const kept = keptWords() ?? learnedWords().map(w => w.key), caseKeys = new Set(rv.words.map(w => w.key));
   // a word no longer in WORDS (a name kept before names stopped being words) leaves the book
   keepWords([...kept.filter(k => WORDS[k] && !caseKeys.has(k)), ...rv.keep]);
+}
+function closeReview(){
+  stopVoice();
+  saveReviewWords();
   $('#review').hidden = true;
   const home = rv.fromHome; rv = null;
   if(home) renderHome(); else openCaseList();
@@ -5457,6 +5461,7 @@ $('#review').addEventListener('click', e => {
   if(keep){
     const k = keep.dataset.rvKeep, on = !rv.keep.has(k);
     if(on) rv.keep.add(k); else rv.keep.delete(k);
+    saveReviewWords();
     const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
     if(on) hopKeep([...document.querySelectorAll('[data-rv-keep]')].find(b => b.dataset.rvKeep === k));
     return;
@@ -5464,6 +5469,7 @@ $('#review').addEventListener('click', e => {
   if(e.target.closest('[data-rv-all]')){
     const all = rv.words.every(w => rv.keep.has(w.key));
     rv.keep = new Set(all ? [] : rv.words.map(w => w.key));
+    saveReviewWords();
     const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
   }
 });
@@ -6112,13 +6118,18 @@ const GRAMMARBOOK_KEY = 'detective.grammarBook';
 const keptGrammar = () => readJSON(GRAMMARBOOK_KEY, null);
 function keepGrammar(keys){ try { localStorage.setItem(GRAMMARBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 // A saved grammar is its id, or one of its key forms as id#head (user decision: a player may know some forms and not
-// others). A bare id with forms (saved before cards had bookmarks) counts for all of them.
-const gramSaved = id => { const kept = keptGrammar() || []; return kept.includes(id) || kept.includes(id.split('#')[0]); };
+// others). A bare id with forms counts for all of them, and all its forms saved count as the id: the same grammar is a
+// key in one case and another grammar in the next (user request: what was saved shows as saved when it comes up again).
+const gramSaved = id => {
+  const kept = keptGrammar() || [], [g, head] = id.split('#');
+  return kept.includes(id) || kept.includes(g) || (!head && !!GRAMMAR[g]?.examples?.every(ex => kept.includes(`${g}#${ex.head}`)));
+};
 function toggleGramSaved(id){
-  const kept = keptGrammar() || [], g = id.split('#')[0], on = !gramSaved(id);
-  if(on) keepGrammar([...kept, id]);
-  else if(id !== g && kept.includes(g)) keepGrammar([...kept.filter(k => k !== g), ...GRAMMAR[g].examples.map(ex => `${g}#${ex.head}`).filter(k => k !== id)]);
-  else keepGrammar(kept.filter(k => k !== id));
+  const kept = keptGrammar() || [], g = id.split('#')[0], on = !gramSaved(id), whole = id === g;
+  const others = whole ? kept.filter(k => !k.startsWith(`${g}#`)) : kept;
+  if(on) keepGrammar([...others, id]);
+  else if(!whole && kept.includes(g)) keepGrammar([...kept.filter(k => k !== g), ...GRAMMAR[g].examples.map(ex => `${g}#${ex.head}`).filter(k => k !== id)]);
+  else keepGrammar(others.filter(k => k !== id));
   return on;
 }
 let solvedThisRun = false;
