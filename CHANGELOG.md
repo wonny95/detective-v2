@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-04 11:50 · Claude · (이 커밋)
+## 2026-11-04 12:09 · Claude · (이 커밋)
+
+- 마무리(사용자 요청 `/wrap-up`): 문서만 고침. `HANDOFF.md` 4절에 사용자 결정(의뢰인 인사 뒤 첫 선택지, 의뢰 받아쓰기)과 `design/STORY_PROMPT.md`, 10절에 지금 남은 확인·결정 목록. `AGENTS.md` 지켜야 할 규칙에 같은 결정. `audio/words/README.md`에 실행 정책과 `meeting.wav` 주의.
+- 정정: 추리 r2–r4 비용 0.75크레딧은 HANDOFF 6절 기록(짧은 줄 0.15, 긴 줄 0.3)과 맞음(긴 줄 2 + 짧은 줄 1). 사용자에게 "약 0.45, 원인 미확인"이라고 했던 것은 줄당 0.15로만 계산한 내 어림 잘못이었음.
+- 확인: 게임 파일을 고치지 않아 화면 확인 없음. 이번 세션 테스트 저장값은 앞서 지웠고(127.0.0.2에 이름·튜토리얼만 남김), 탭도 닫음.
+- **다음**: 사용자 지시 대기. 첫 후보는 `HANDOFF.md` 10절 "지금 남은 확인·결정"의 우산 복습 단어 결정. 코덱스 쪽은 바이올린 초안에 `design/STORY_PROMPT.md` 3단계 점검.
+
+## 2026-11-04 11:50 · Claude · 71ff57a
 
 - 사용자 결정(설계서 함께 수정): 소풍 로지도 우산 엘라와 같게. 탐정의 `Yes. How can I help you?`를 **인사 뒤 혼자 나오는 첫 질문 r0**으로, 로지의 의뢰(`This isn't my bag. Can you help me find mine?`)를 그 대답으로 노트에 받아 적음: `“This isn't [my] bag. Can you help me find [mine]?”`, 보기 my·your·mine·yours. 빈칸과 보기는 개발 제안(사건의 열쇠 표현이 첫 받아쓰기에 나오게). 소풍은 질문 15개·빈칸 39칸.
 - 달라진 것: 전에는 인사 뒤 r1만 나오고 r2–r4가 이어졌는데, 이제 r0 뒤에 r1–r4가 함께 나옴(엔진의 `openingQuestion`은 한 묶음만 지원). 복습 열쇠 카드 문장도 `my / your`는 `This isn't my bag.`, `mine / yours`는 `Can you help me find mine?`로 바뀜(r0 태그가 먼저라서).
@@ -41,7 +48,7 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 ## 2026-11-04 10:59 · Claude · a445ffd
 
 - 사용자와 고친 설계서(8절, 추리 맞장구 초안 검토): 예/아니오 질문에 Yes·Right로 시작하고는 아니라고 하던 Q2–Q4를 고침(사용자 선택: Q1은 그대로). Q2 `No, it can't. All three are the same. The handle isn't enough.` Q3 `No, it isn't. Finn's umbrella has no pattern.` Q4 `No, it isn't. The outside is the same, but the inside is not.` 해석도 함께. 힌트 5개와 Q1·Q5 맞장구는 그대로 확정. 설계서 md·html, 녹음 대본 다시 뽑음.
-- 녹음: `audio/umbrella/deduce/r2·r3·r4.mp3`를 Grady(감정 없음, MCP)로 다시 만듦, job `7d7ef024`, `e52c27bd`, `46dd38b0`. 잔액 기준 0.75크레딧(254.3 → 253.55, 사용자에게 안내한 약 0.45보다 많음, 원인은 확인하지 못함).
+- 녹음: `audio/umbrella/deduce/r2·r3·r4.mp3`를 Grady(감정 없음, MCP)로 다시 만듦, job `7d7ef024`, `e52c27bd`, `46dd38b0`. 잔액 기준 0.75크레딧(254.3 → 253.55, 안내한 약 0.45보다 많음: 긴 줄은 0.3).
 - `HANDOFF.md` 앞부분의 옛 설명(우산 그림·녹음이 남았다)을 지금 상태로 고침.
 - 확인(새 탭 127.0.0.2, `?case=umbrella&preview=deduce`): Q1–Q4를 풀어 새 맞장구 글자, `deduce/r2·r3·r4.mp3` 요청 200, 보드에 핀 X 표시. 콘솔 오류 없음, 구문 검사 통과. 새 녹음을 귀로 듣지는 못함. Q5부터 뒤 흐름은 대사를 바꾸지 않아 이번에 다시 보지 않음.
 - 사용자에게 알린 것(고치지 않음): Q2 카드의 `all lost umbrellas`는 테스가 잃어버렸다고 말한 적이 없어 조금 어긋남(전에 사용자와 정한 문장).
