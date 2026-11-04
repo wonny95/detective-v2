@@ -430,6 +430,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-foot .pill.big{width:100%}
 .rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:8px}
 .rv-title small{font-size:14px;color:var(--ink-soft)}
+/* the words page's count and 모두 담기 on their own row: beside the title a two-digit count broke the title in two */
+.rv-words-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.rv-words-bar small{font-size:14px;color:var(--ink-soft)}
 /* 뒤로 on the grammar and word pages (user request): the play screen's back button, before the title */
 .rv-title:has(.rv-back){align-items:center}
 .rv-back{flex-shrink:0;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
@@ -2399,6 +2402,8 @@ const WORDS = {
   'picnic':['w','소풍'], 'hers':['w','그녀의 것'], 'brought':['w','가져왔다'], 'one':['w','하나'], 'no':['w','하나도 없는'], 'not':['w','~않다'],
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve'],
+  'back':['w','돌아와서, 다시'], 'week':['w','주, 일주일'], 'lend':['w','빌려주다'], 'where':['w','어디'], 'dark blue':['w','남색'], 'handle':['w','손잡이'], 'gold':['w','금색'],
+  'here':['w','여기'], 'together':['w','함께'], 'umbrella':['w','우산'], 'pattern':['w','무늬'], 'plain':['w','무늬 없는'], 'windmill hill':['n','풍차 언덕',null,'Windmill Hill'],
   // 표현 (user decision: fixed expressions and idioms are not grammar). Not note blanks: each case's phrases say where it is heard.
   // The key is what the word audio reads; the fourth value is how it is written when that differs.
   "i'm not sure.":['x','잘 모르겠어',null,"I'm not sure."], 'just like':['x','꼭 ~처럼',null,'just like ~'], "i don't know.":['x','몰라',null,"I don't know."],
@@ -5224,8 +5229,8 @@ function renderReview(dir){
   }
   if(step === 'words'){
     const all = rv.words.length && rv.words.every(w => rv.keep.has(w.key));
-    body = `<h2 class="rv-title">${back}사건에 나온 단어 <small>${rv.keep.size} / ${rv.words.length}</small>
-        <button class="pill sm" type="button" data-rv-all aria-pressed="${all}" style="margin-left:auto">${all ? '모두 빼기' : '모두 담기'}</button></h2>` +
+    body = `<h2 class="rv-title">${back}사건에 나온 단어</h2>
+      <div class="rv-words-bar"><small>${rv.keep.size} / ${rv.words.length}</small><button class="pill sm" type="button" data-rv-all aria-pressed="${all}">${all ? '모두 빼기' : '모두 담기'}</button></div>` +
       WORD_GROUPS.map(([g, label]) => {
         const list = rv.words.filter(w => WORDS[w.key][0] === g);
         return !list.length ? '' : `<h3 class="rv-wsec">${label}</h3>` + list.map(w => {
