@@ -99,7 +99,7 @@
 
 ### 오웬 — 출연자 대기실 · 조사 질문 4개
 
-탐정이 타라의 바이올린에 관해 묻겠다고 말한 뒤 조사를 시작한다. 위치 → 기다린 이유 → 케이스를 마지막으로 본 때 → 근처에서 본 사람 순서로 묻는다. 탐정은 이동 방향을 먼저 정하지 않고, 오웬의 답변에서 커튼 뒤로 간 동선을 처음 듣는다. 오웬은 모모의 공구함 운반을 가리키지만, 줄곧 문 옆에 있었다는 자기 진술은 유지한다.
+탐정이 타라의 바이올린에 관해 묻겠다고 말한 뒤 조사를 시작한다. 위치 → 기다린 이유 → 케이스를 마지막으로 본 때 → 수상한 사람을 봤는지 순서로 묻는다. 탐정은 이동 방향을 먼저 정하지 않고, 오웬의 답변에서 커튼 뒤로 간 동선을 처음 듣는다. 오웬은 모모의 공구함 운반을 가리키지만, 줄곧 문 옆에 있었다는 자기 진술은 유지한다.
 
 | ID | 화자 | 영어 / 한국어 |
 |---|---|---|
@@ -112,7 +112,7 @@
 | owen:o1 | **Where were you after rehearsal?** / 리허설 뒤 어디에 있었니?<br>오웬: **I stayed next to the door the whole time.** / 난 줄곧 문 옆에 있었어. | “I stayed [next to] the [door] the [whole time].” → 줄곧 문 옆에 있었다는 진술 |
 | owen:o8 | **Why were you waiting by the door?** / 왜 문 옆에서 기다리고 있었니?<br>오웬: **I was waiting for my turn. I didn't want to miss it.** / 내 차례를 기다리고 있었어. 차례를 놓치고 싶지 않았거든. | “I was [waiting] for my [turn]. I didn't want to [miss] it.” → 기다린 이유와 연주 차례에 대한 신경 |
 | owen:o2 | **When did you last see Tara's case?** / 타라의 케이스를 마지막으로 언제 봤니?<br>오웬: **I saw it next to the chair before she went to the lobby.** / 타라가 로비로 가기 전 의자 옆에서 봤어. | “I saw it [next to] the [chair] before she went to the [lobby].” → 타라가 자리를 비우기 전 케이스 위치 |
-| owen:o9 | **Did you see anyone nearby?** / 근처에서 다른 사람을 봤니?<br>오웬: **I saw the stage helper carry a black toolbox behind the curtain.** / 무대 일을 돕는 친구가 검은 공구함을 들고 커튼 뒤로 가는 걸 봤어. | “I saw the stage helper carry a [black toolbox] [behind] the [curtain].” → 모모의 작업을 가리키며 의심을 다른 쪽으로 돌림 |
+| owen:o9 | **Did you see anyone suspicious?** / 수상한 사람을 봤니?<br>오웬: **I saw the stage helper carry a black toolbox behind the curtain.** / 무대 일을 돕는 친구가 검은 공구함을 들고 커튼 뒤로 가는 걸 봤어. | “I saw the stage helper carry a [black toolbox] [behind] the [curtain].” → 모모의 작업을 가리키며 의심을 다른 쪽으로 돌림 |
 
 ### 이보 — 공연 무대 · 조사 질문 4개
 
