@@ -16,7 +16,7 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 ## 2026-11-04 10:59 · Claude · (이 커밋)
 
 - 사용자와 고친 설계서(8절, 추리 맞장구 초안 검토): 예/아니오 질문에 Yes·Right로 시작하고는 아니라고 하던 Q2–Q4를 고침(사용자 선택: Q1은 그대로). Q2 `No, it can't. All three are the same. The handle isn't enough.` Q3 `No, it isn't. Finn's umbrella has no pattern.` Q4 `No, it isn't. The outside is the same, but the inside is not.` 해석도 함께. 힌트 5개와 Q1·Q5 맞장구는 그대로 확정. 설계서 md·html, 녹음 대본 다시 뽑음.
-- 녹음: `audio/umbrella/deduce/r2·r3·r4.mp3`를 Grady(감정 없음, MCP)로 다시 만듦, job `7d7ef024`, `e52c27bd`, `46dd38b0`. 약 0.45크레딧.
+- 녹음: `audio/umbrella/deduce/r2·r3·r4.mp3`를 Grady(감정 없음, MCP)로 다시 만듦, job `7d7ef024`, `e52c27bd`, `46dd38b0`. 잔액 기준 0.75크레딧(254.3 → 253.55, 사용자에게 안내한 약 0.45보다 많음, 원인은 확인하지 못함).
 - `HANDOFF.md` 앞부분의 옛 설명(우산 그림·녹음이 남았다)을 지금 상태로 고침.
 - 확인(새 탭 127.0.0.2, `?case=umbrella&preview=deduce`): Q1–Q4를 풀어 새 맞장구 글자, `deduce/r2·r3·r4.mp3` 요청 200, 보드에 핀 X 표시. 콘솔 오류 없음, 구문 검사 통과. 새 녹음을 귀로 듣지는 못함. Q5부터 뒤 흐름은 대사를 바꾸지 않아 이번에 다시 보지 않음.
 - 사용자에게 알린 것(고치지 않음): Q2 카드의 `all lost umbrellas`는 테스가 잃어버렸다고 말한 적이 없어 조금 어긋남(전에 사용자와 정한 문장).
