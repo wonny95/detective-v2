@@ -32,7 +32,17 @@
 | 숨은 조건 | 소매 촬영은 필수로 명시, 탐정의 생각 4줄(소매 살피기, 사진 찍기, 니퍼 주인 묻기, 현 조각 비교) |
 | 커튼 | 핍 p1 전에 누르면 탐정의 짧은 반응 |
 
-아직 정하지 않은 것: 과거진행 대사 2개(L1-02인데 과거진행은 L2-03 B), 범인을 직접 고르는 단계, 심문 시작 때 경사를 부르는 대사, 니퍼 위치를 단서로 쓸지(타라가 그 의자 아래를 봤다는 점. 지금은 쓰지 않음), 수준이 높은 낱말(thickness, prove, explains the suspicion, damage, suspicious). 엔진 지원 여부는 아직 점검하지 않았다.
+마지막으로 정한 것:
+
+| 항목 | 결정 |
+|---|---|
+| 과거진행 | 모두 과거형으로: m1 `I fixed…`(빈칸 fixed), o8 `I waited…`, 질문 `What did you do after rehearsal?`, `What did you carry?` |
+| 범인 고르기 | 추리 Q7 `Who should we talk to?` / `We should talk to [Owen].`(보기 Owen·Ivo·Momo). 추리는 7문항 |
+| 경사 부르기 | 심문 시작 때 탐정 `Officer, I'm ready.` 추가 |
+| 니퍼 위치 | 단서로 쓰지 않음. 오웬이 너무 일찍 드러나 모모를 의심하는 재미가 약해짐 |
+| 낱말 | c3 `looks the same as`, o9 `Did you see anything strange?`, Q3 `Why did Momo seem strange?`와 맞장구 `That's why Momo seemed strange. But we don't know yet.`, Q6 맞장구 `ask about the strings`, o11 `I didn't break the violin.` |
+
+남겨 둔 것: 현재진행 `I'm looking for Tara's violin.`(현재진행은 L1-05지만 굳어진 표현으로 둠), 추리 Q6 `According to Momo`. 다음은 엔진 지원 점검이다.
 
 ---
 

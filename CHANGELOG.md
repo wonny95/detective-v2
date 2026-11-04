@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-04 15:14 · Claude · (이 커밋)
+## 2026-11-04 15:18 · Claude · (이 커밋)
+
+- 사용자 결정(추천대로): 과거진행을 과거형으로(m1 `I fixed…`, o8 `I waited…`), 추리 Q7 범인 고르기(`We should talk to [Owen].`, 추리 7문항), 심문 시작 때 탐정 `Officer, I'm ready.`, 니퍼 위치는 단서로 쓰지 않음, 낱말 쉽게(c3 `looks the same as`, o9 `Did you see anything strange?`, Q6 맞장구 `ask about the strings`).
+- 추천과 다르게 또는 더 고친 것(사용자에게 보고): Q3 맞장구는 추천한 `But he didn't move the case.`가 Q4의 답을 먼저 말해서 `That's why Momo seemed strange. But we don't know yet.`로 바꿈. 질문 `What did you do after rehearsal?`, `What did you carry?`, Q3 질문 `Why did Momo seem strange?`, o11 `I didn't break the violin.`도 같은 이유로 고침. 보기 `fixed · next to · found · behind`, 복습 단어 fixed.
+- 설계서 수정: `design/case-04-missing-violin.md`·`.html`, `design/case-04-review.md` 맨 위 절. 스토리 2차 수정 완료.
+- 확인: 다시 셈(질문 21개, 빈칸 47칸, 평균 12.4·최장 18단어, 필수 발화 there is 7·there are 3·in 6·on 14·under 5·next to 10·behind 8). 빈칸이 대답과 보기에 모두 있음, MD와 HTML의 대사·노트 일치, HTML 태그 짝 맞음, 기획 HTML을 새 탭에서 봄. 못 한 것: 엔진 지원 점검, 음성·플레이(제작 전).
+- **다음**: 바이올린 엔진 지원 점검을 사용자에게 보여 주기(설계서 10절: 현장 직접 습득, 소지품 케이스 열기·비교, 심문에서 실물·진술 제시, 조건부 재방문과 단계별 해금).
+
+## 2026-11-04 15:14 · Claude · ab8269e
 
 - 사용자 요청: 바이올린의 남은 어색한 대사와 진행 순서도 고치기.
 - 설계서 수정(사용자 승인, 영어 문장은 Claude 제안): 타라 t4 `I don't know their names.`, 오웬 o9 `Momo, the stage helper`, 이보·모모 인사 `I'm looking for Tara's violin.`, 타라 `Here's a photo of my case.`, d2-question `under`, d4 `Did you cut the strings?`, 추리 Q1 `was hidden`, Q5 `Whose clothes` / `Momo's uniform`. 해금: t2·t3는 t1 뒤, 타라 확인은 케이스 소지·파손 관찰이면 열림. 소매 촬영 필수 명시, 탐정의 생각 3줄(소매 살피기, 사진 찍기, 현 조각 비교), 핍 전 커튼 반응 1줄.
