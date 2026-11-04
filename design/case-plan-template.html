@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><title>사건 상세 기획 · 공통 서식 v1</title>
+<!--
+사건 상세 기획 공통 서식 v1 (사용자 결정)
+1. 이 파일을 case-XX-사건이름.html로 복사한다. {{...}}와 샘플 항목을 사건 내용으로 교체한다.
+2. case-plan-common 스타일 블록은 그대로 사용한다. 사건마다 색·글꼴·너비·카드·대본 서식을 다시 만들거나 뒤에서 덮어쓰지 않는다.
+3. 문서 순서: 표지 → 장면별 스토리 → 현장 조사 → 배경·클릭 TTS → 한눈에 → 인물·장소 → 단서 비교 → 학습 → 제작 범위.
+4. 대화는 turn / turn det, 질문·답·노트는 question-choice / note-task, 클릭 TTS도 turn det를 쓴다.
+5. 인물·장소·질문 수에 맞춰 같은 카드를 반복한다. 그림과 사건에만 필요한 도해는 추가할 수 있으나 공통 서식을 바꾸지 않는다.
+6. 사용자 요청으로 서식 자체를 바꿀 때만 이 템플릿과 미인계 사건의 동일 스타일 블록을 함께 갱신한다.
+7. 인계된 사건은 직접 고치지 않고 STORY_LOG의 개발 요청에 대상 파일·동일 서식 적용 범위를 적는다.
+-->
+<style id="case-plan-common" data-version="1">
+:root { --ink:#44362c; --muted:#786b5d; --paper:#fffaf0; --line:#dfd2bc; --honey:#f1ce75; --rose:#b65f79; --sage:#e5ede0; --green:#456f54; --shadow:0 12px 36px rgba(66,49,30,.09); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#e9eddf; color:var(--ink); font:16px/1.6 system-ui,"Malgun Gothic",sans-serif; }
+    a { color:inherit; }
+    .wrap { width:min(1120px,calc(100% - 36px)); margin:auto; }
+    .topbar { position:sticky; top:0; z-index:10; background:rgba(255,250,240,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .top-inner { display:flex; justify-content:space-between; align-items:center; gap:22px; min-height:66px; }
+    .back { flex:none; display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:800; letter-spacing:-.03em; }
+    .back-mark { display:grid; place-items:center; width:32px; height:32px; border:2px solid var(--ink); border-radius:50%; background:var(--honey); line-height:1; }
+    .nav { display:flex; gap:18px; overflow-x:auto; white-space:nowrap; scrollbar-width:none; font-size:13px; font-weight:750; }
+    .nav::-webkit-scrollbar { display:none; }
+    .nav a { padding:13px 0; text-decoration:none; }
+    .nav a:hover,.back:hover,.text-link:hover { color:var(--rose); }
+    main { padding:28px 0 80px; }
+    section { scroll-margin-top:94px; margin-top:58px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(240px,.7fr); gap:20px; margin-top:0; }
+    .hero-copy,.hero-art,.panel,.story-card,.place-card,.person-card,.clue-card,.flow-card,.learning-card,.script-card,.end-card,.status-card { background:var(--paper); border:1.5px solid var(--line); border-radius:26px; box-shadow:var(--shadow); }
+    .hero-copy { padding:40px 42px; background:radial-gradient(circle at 92% 10%,#faeab8 0 12%,transparent 12.5%),var(--paper); }
+    .eyebrow { display:inline-block; color:var(--rose); font-size:12px; font-weight:900; letter-spacing:.1em; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin:14px 0 13px; font-size:clamp(34px,4.5vw,57px); line-height:1.13; letter-spacing:-.075em; }
+    .lead { max-width:670px; color:#605347; font-size:19px; }
+    .hero-art { display:flex; flex-direction:column; justify-content:flex-end; align-items:center; overflow:hidden; margin:0; background:#f4ead2; }
+    .hero-art img { width:min(100%,250px); max-height:290px; object-fit:contain; object-position:bottom; }
+    .hero-art figcaption { width:100%; padding:10px 16px; border-top:1px dashed #d8c5a4; text-align:center; font-size:12px; font-weight:750; color:#725c3d; background:#fff9e9; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:24px; }
+    .chip { padding:7px 11px; border:1px solid #d9c8aa; border-radius:999px; background:#fffdf8; font-size:12px; font-weight:800; }
+    .chip.status { background:#fff0cc; color:#946116; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:18px; }
+    .section-head h2 { margin:0; font-size:clamp(26px,3vw,35px); line-height:1.2; letter-spacing:-.06em; }
+    .section-head p { max-width:540px; margin:0; color:var(--muted); font-size:14px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .story-card,.place-card,.person-card,.clue-card,.learning-card,.end-card,.status-card { min-width:0; padding:23px; }
+    .story-card { border-top:6px solid var(--honey); }
+    .story-card:nth-child(2) { border-top-color:#a9bea3; }
+    .story-card:nth-child(3) { border-top-color:#d8a2b1; }
+    .step-no { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:11px; background:#f8e7ba; color:#76552c; font-size:13px; font-weight:900; }
+    .story-card:nth-child(2) .step-no { background:#e3eddd; color:#4e7356; }
+    .story-card:nth-child(3) .step-no { background:#f3dfe4; color:#9d5368; }
+    h3 { margin:13px 0 7px; font-size:20px; line-height:1.3; letter-spacing:-.04em; }
+    .story-card p,.person-card p,.place-card p,.learning-card p,.end-card p,.status-card p { margin:0; color:#675a4e; font-size:14px; }
+    .keyline { margin-top:14px!important; color:var(--green)!important; font-weight:750; }
+    .callout { margin-top:14px; padding:16px 19px; border:1px dashed #ccbda6; border-radius:16px; background:#fff8e9; color:#695a45; font-size:13px; }
+    .callout strong { color:#9d566c; }
+    .person-card { display:flex; gap:14px; align-items:flex-start; }
+    .avatar { display:grid; place-items:center; flex:none; width:50px; height:50px; border:2px solid #7b6653; border-radius:50%; background:#f8e4b5; font-weight:900; }
+    .person-card:nth-child(2) .avatar { background:#e8eee0; }
+    .person-card:nth-child(3) .avatar { background:#f4e0e4; }
+    .person-card:nth-child(4) .avatar { background:#dce8eb; }
+    .person-card h3,.place-card h3 { margin:0 0 4px; }
+    .role { display:block; margin-bottom:6px; color:var(--rose); font-size:12px; font-weight:850; }
+    .place-tag,.clue-tag { display:inline-block; margin-top:12px; padding:4px 9px; border-radius:8px; background:#f4eddf; color:#7d6443; font-size:11px; font-weight:800; }
+    .place-card { border-left:6px solid #b7caa9; }
+    .place-card:nth-child(2) { border-left-color:var(--honey); }
+    .place-card:nth-child(3) { border-left-color:#e1b0b8; }
+    .evidence-board { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    .clue-card { border-top:6px solid var(--honey); }
+    .clue-card:nth-child(2) { border-top-color:#b6cba8; }
+    .clue-card h3 { margin:0 0 8px; }
+    .items { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+    .item { display:inline-flex; align-items:center; gap:7px; padding:9px 11px; border:1px solid #ddcfb9; border-radius:11px; background:#fffdf8; font-size:13px; font-weight:800; }
+    .swatch { width:15px; height:15px; border:1px solid rgba(0,0,0,.16); border-radius:50%; background:var(--color); }
+    .clue-card p { margin:0; color:#675a4e; font-size:14px; }
+    .deduction { margin-top:15px; padding:17px 20px; border:1.5px solid #b8c9ae; border-radius:17px; background:#f3f8ef; color:#45684d; font-size:14px; }
+    .deduction strong { color:#345d3e; }
+    .matrix { overflow-x:auto; border:1.5px solid var(--line); border-radius:19px; background:var(--paper); box-shadow:var(--shadow); }
+    table { width:100%; border-collapse:collapse; min-width:540px; }
+    th,td { padding:12px 17px; text-align:left; border-bottom:1px solid #e8decc; font-size:13px; }
+    tr:last-child td { border-bottom:0; }
+    th { background:#f5ecd9; color:#715a3d; font-size:12px; }
+    td:first-child { font-weight:850; }
+    tr.winner { background:#edf4e8; }
+    .flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+    .flow-card { min-width:0; padding:18px; }
+    .flow-card b { display:block; margin-bottom:9px; color:var(--rose); font-size:12px; }
+    .flow-card strong { display:block; margin-bottom:5px; font-size:15px; }
+    .flow-card p { margin:0; color:var(--muted); font-size:12px; }
+    .learning-card { background:#f4f8ef; border-color:#bdcfb7; }
+    .learning-card h3 { margin:0 0 8px; }
+    .learning-card code { font-family:inherit; font-weight:800; color:#476b50; }
+    .end-card { background:#fff7e7; }
+    .end-card:nth-child(2) { background:#eff5eb; }
+    .end-card:nth-child(3) { background:#f9eef0; }
+    .end-card .quote { margin:12px 0 3px; font-size:15px; font-weight:800; line-height:1.5; }
+    .end-card .ko { color:#796959; font-size:13px; }
+    .status-card { background:#f7f5ef; }
+    .status-card ul { margin:5px 0 0; padding-left:19px; color:#675a4e; font-size:14px; }
+    .text-link { display:inline-block; margin-top:12px; color:#9e526c; font-size:13px; font-weight:800; text-decoration:none; }
+    .fine { margin:18px 0 0; color:var(--muted); font-size:12px; }
+    .storyboard { display:grid; gap:18px; }
+    .scene { overflow:hidden; scroll-margin-top:110px; border:1.5px solid var(--line); border-radius:25px; background:var(--paper); box-shadow:var(--shadow); }
+    .scene-index { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+    .scene-index a { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border:1px solid #cfbda4; border-radius:999px; background:#fffaf0; color:#735c42; font-size:12px; font-weight:800; text-decoration:none; }
+    .scene-index a:hover { background:#f8e8bd; }
+    .scene-head { padding:23px 27px; background:#f4ebd8; border-bottom:1px dashed #d1bea3; }
+    .scene:nth-child(even) .scene-head { background:#eaf0e5; }
+    .scene-kicker { display:block; color:#9d566c; font-size:12px; font-weight:900; letter-spacing:.06em; }
+    .scene-head h3 { margin:7px 0 4px; font-size:24px; }
+    .scene-head p { margin:0; color:#67594a; font-size:13px; }
+    .scene-art { margin:0; border-bottom:1px solid #dfd1b9; background:#e9e4d4; }
+    .scene-art img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .scene-body { display:grid; gap:15px; padding:23px 27px 26px; }
+    .scene-note { margin:0; color:#66594c; font-size:13px; }
+    .scene-note strong { color:#9c536b; }
+    .handoff-panel { padding:17px 19px; border:1.5px solid #c4d4b7; border-radius:17px; background:#f3f8ee; }
+    .handoff-panel h4 { margin:0 0 10px; color:#4f7354; font-size:15px; }
+    .handoff-panel .handoff-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+    .handoff-panel .handoff-item { padding:10px 13px; border:1px solid #b6c9aa; border-radius:11px; background:#fffdf6; font-size:13px; font-weight:800; }
+    .handoff-panel .handoff-button { padding:10px 16px; border-radius:11px; background:#91b493; color:#253b2d; font-size:13px; font-weight:900; }
+    .handoff-panel p { margin:10px 0 0; color:#5b705b; font-size:12px; }
+    .key-plan { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .key-card { margin-top:0; padding:18px; border:1px solid #dec9a5; border-radius:18px; background:#fff9eb; }
+    .key-card:nth-child(2) { background:#f1f5ed; border-color:#c8d5bb; }
+    .key-card:nth-child(3) { background:#f9eef1; border-color:#e0c3cb; }
+    .key-card .key-page { color:#a4576d; font-size:11px; font-weight:900; }
+    .key-card h4 { margin:7px 0 5px; color:#4c3a2d; font-size:20px; }
+    .key-card .key-why { min-height:38px; margin:0 0 12px; color:#695949; font-size:12px; }
+    .key-example { padding:9px 0; border-top:1px dashed #ddcdb7; }
+    .key-example summary { display:flex; justify-content:space-between; align-items:baseline; gap:8px; cursor:pointer; color:#493b30; font-size:13px; font-weight:750; list-style:none; }
+    .key-example summary::-webkit-details-marker { display:none; }
+    .key-example summary span { flex:none; color:#9a536c; font-size:11px; font-weight:800; }
+    .key-example p { margin:5px 0 0; color:#796a58; font-size:12px; }
+    .turn { padding:13px 16px; border:1px solid #e4d6be; border-radius:16px; background:#fffdf7; }
+    .turn.det { background:#f2f6ec; border-color:#c7d9bc; }
+    .turn .who { display:block; margin-bottom:4px; color:#a5576e; font-size:11px; font-weight:900; }
+    .turn.det .who { color:#4d7856; }
+    .turn .en { margin:0; font-size:14px; font-weight:750; }
+    .turn .ko { margin:4px 0 0; color:#74675a; font-size:12px; }
+    .choice-group { display:grid; gap:11px; }
+    .choice-heading { margin:4px 0 0; font-size:15px; }
+    .question-choice { padding:16px; border:1px solid #dbcab1; border-radius:17px; background:#fbf6eb; }
+    .question-choice .choice-no { display:inline-block; margin-bottom:5px; color:#9d5369; font-size:11px; font-weight:900; }
+    .question-choice .ask { margin:0 0 9px; font-weight:850; font-size:14px; }
+    .question-choice .translation { margin:-6px 0 10px; color:var(--muted); font-size:12px; }
+    .question-choice .reply { margin:0; padding:11px 12px; border-left:4px solid #b2c7a9; border-radius:0 9px 9px 0; background:#f0f5ea; font-size:13px; }
+    .question-choice .reply em { display:block; margin-top:3px; color:#718064; font-size:12px; font-style:normal; }
+    .note-task { margin-top:10px; padding:10px 12px; border:1px dashed #c9a8a6; border-radius:10px; background:#fffaf5; font-size:12px; }
+    .note-task b { color:#a55870; }
+    .bank { display:block; margin-top:5px; color:#786550; }
+    .result-tag { display:inline-block; margin-top:10px; padding:4px 8px; border-radius:8px; background:#e5eee0; color:#496f52; font-size:11px; font-weight:850; }
+    .scene-next { padding:11px 14px; border-radius:12px; background:#e7efe0; color:#456b4d; font-size:12px; font-weight:800; }
+    .scene-next strong { color:#35583f; }
+    .object-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .object-card { padding:12px 14px; border:1px solid #dfd2bc; border-radius:13px; background:#fffdf6; }
+    .object-card strong { display:block; font-size:13px; }
+    .object-card p { margin:3px 0 0; color:#675b4d; font-size:12px; }
+    .object-card small { color:#a55970; font-size:11px; font-weight:850; }
+    .field-label { margin:27px 0 12px; color:#755b3f; font-size:17px; }
+    .evidence-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .evidence-card { padding:15px; border:1px solid #ddcfb7; border-radius:18px; background:#fffdf7; }
+    .evidence-card small { color:#a2546b; font-size:11px; font-weight:850; }
+    .evidence-card h4 { margin:4px 0 8px; font-size:17px; }
+    .evidence-card p { margin:6px 0 0; color:#64584b; font-size:12px; }
+    .evidence-preview { height:165px; margin-bottom:10px; border:1px solid #decdb1; border-radius:11px; background-color:#e9e3d3; background-repeat:no-repeat; background-size:380% auto; }
+    .sound-zone { padding:18px; border:1px solid #ddcfb7; border-radius:18px; background:#fffaf0; }
+    .sound-zone h4 { margin:0 0 9px; font-size:16px; }
+    .sound-zone ul { margin:0; padding:0; list-style:none; }
+    .sound-zone li { padding:9px 0; border-top:1px dashed #dccdb8; font-size:12px; }
+    .sound-zone li:first-child { border-top:0; }
+    .sound-zone b { display:block; margin-bottom:3px; }
+    .sound-zone span { color:#776959; }
+    .ded-question { padding:15px 17px; border:1px solid #dcd0ba; border-radius:16px; background:#fffbf2; }
+    .ded-question b { display:block; color:#a2546b; font-size:12px; }
+    .ded-question .prompt { margin:5px 0 0; font-size:14px; font-weight:800; }
+    .ded-question .prompt-ko { margin:2px 0 8px; color:var(--muted); font-size:12px; }
+    .ded-question .answer-line { margin:0; padding:8px 10px; border-radius:9px; background:#edf3e7; font-size:13px; }
+    .ded-question .options { margin:6px 0 0; color:#665847; font-size:12px; }
+    .ded-question .reaction { margin:7px 0 0; color:#4e7153; font-size:12px; }
+    .ded-question .source { margin:5px 0 0; color:#8a7763; font-size:11px; }
+    .subhead { margin:5px 0 0; color:#755b3f; font-size:15px; }
+    .choice-guide { margin:0; padding-left:19px; color:#66594c; font-size:12px; }
+    .choice-guide li+li { margin-top:5px; }
+    .story-jump { display:inline-flex; margin-top:17px; padding:10px 14px; border-radius:12px; background:#f6e5b8; color:#674b27; text-decoration:none; font-size:13px; font-weight:850; }
+    @media (max-width:900px) { .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); } .key-plan { grid-template-columns:minmax(0,1fr); } .key-card .key-why { min-height:0; } }
+    @media (max-width:650px) { .wrap { width:min(550px,calc(100% - 24px)); } .top-inner { display:block; padding:10px 0; } .nav { gap:16px; } .hero,.grid-2,.grid-3,.evidence-board,.evidence-grid,.object-grid { grid-template-columns:minmax(0,1fr); } .hero-copy { padding:29px 25px; } .hero-art { min-height:210px; } .hero-art img { max-height:190px; } .section-head { display:block; } .section-head p { margin-top:7px; } .scene-head,.scene-body { padding-left:19px; padding-right:19px; } section { margin-top:46px; scroll-margin-top:111px; } }
+    @media (max-width:390px) { .flow { grid-template-columns:minmax(0,1fr); } }
+    .hero-art img { display:block; width:100%; max-height:none; aspect-ratio:16/9; object-fit:cover; }
+    .scene-art.dialogue-art { position:relative; overflow:hidden; }
+    .scene-art.dialogue-art .scene-character { position:absolute; left:8%; bottom:0; width:19%; height:84%; aspect-ratio:auto; object-fit:contain; object-position:center bottom; filter:drop-shadow(0 4px 3px rgba(71,54,29,.22)); }
+.plan-art-defs { position:absolute; overflow:hidden; pointer-events:none; }
+    .plan-photo-art { display:block; width:100%; height:auto; border:1px solid #d9c8ac; border-radius:12px; background:#f4ecdd; }
+    .plan-photo { min-width:0; margin:0; }
+    .plan-photo figcaption { margin:9px 0 0; color:#766653; font-size:12px; line-height:1.6; }
+    .plan-photo-wide { max-width:680px; margin:0 auto 18px; }
+    .plan-photo-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-bottom:18px; }
+    .evidence-card .evidence-preview.plan-photo-preview { height:auto; display:block; border:0; background:transparent; }
+    @media(max-width:650px) { .plan-photo-pair { grid-template-columns:minmax(0,1fr); } }
+      .place-plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
+    .place-clue-plan h4 { margin:19px 0 8px; font-size:15px; }
+    .place-clue-plan .room-sketch { grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:16px; }
+    .place-clue-plan .sketch-cell { min-width:0; padding:10px 8px; }
+    .place-clue-plan .sketch-cell small { max-width:100%; overflow-wrap:anywhere; }
+    .place-photo-plan { margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+    .place-photo-plan dl { display:grid; grid-template-columns:65px minmax(0,1fr); gap:7px 10px; margin:0; font-size:12px; line-height:1.65; }
+    .place-photo-plan dt { color:var(--green); font-weight:800; }
+    .place-photo-plan dd { margin:0; color:var(--muted); }
+    .place-clue-plan .place-clue-flow { margin-top:18px; padding-top:12px; border-top:1px dashed var(--line); color:var(--green); font-size:12px; }
+    @media(max-width:900px) { .place-plan-grid { grid-template-columns:minmax(0,1fr); } }
+    .scene-sketch { margin:0; padding:20px; min-height:210px; border-bottom:1px solid var(--line); background:linear-gradient(125deg,#e9ece0,#f7efda); }
+    .scene-sketch figcaption { margin-top:12px; color:#766653; font-size:12px; }
+    .room-sketch { display:grid; grid-template-columns:1fr 1fr 1fr; gap:11px; max-width:730px; margin:auto; }
+    .sketch-cell { min-height:108px; display:flex; flex-direction:column; justify-content:center; align-items:center; border:2px dashed #c6b897; border-radius:16px; background:#fffaf0; text-align:center; font-size:13px; font-weight:800; }
+    .sketch-cell strong { font-size:23px; line-height:1.3; }
+    .sketch-cell small { color:#776858; font-size:11px; }
+    .sketch-cell.missing { border-color:#dcaab5; background:#fff3f3; }
+    .sketch-cell.photo { border-color:#b8caa9; background:#f1f7ee; }
+    .sketch-cell.curtain { background:#e7e8e1; }
+    .mini-route { display:flex; align-items:stretch; gap:9px; flex-wrap:wrap; }
+    .mini-route span { flex:1 1 130px; padding:12px; border:1px solid #d9c9ac; border-radius:12px; background:#fffaf0; color:#705c43; font-size:12px; font-weight:800; text-align:center; }
+    .mini-route .arrow { flex:0 0 auto; display:grid; place-items:center; border:0; background:none; }
+    .expression-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .expression-card { padding:17px; border:1px solid #cbd9c3; border-radius:16px; background:#f6faf2; }
+    .expression-card h3 { margin:0 0 6px; font-size:18px; }
+    .expression-card p { margin:0; color:#5f705d; font-size:12px; }
+    .expression-card b { display:inline-block; margin-top:8px; color:#3b6847; font-size:12px; }
+    .interrogation { padding:17px; border:1.5px solid #d6b7bd; border-radius:17px; background:#fff8f8; }
+    .interrogation h4 { margin:0 0 10px; color:#945368; }
+    .interrogation .turn + .turn { margin-top:9px; }
+    .producer-only { padding:18px 20px; border:1px dashed #c7b18c; border-radius:16px; background:#fff5df; color:#725a39; font-size:13px; }
+    .producer-only strong { color:#9c526a; }
+
+    .plan-cover { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .plan-art-pending { display:grid; place-items:center; width:100%; min-height:210px; aspect-ratio:16/9; background:var(--sage); color:var(--muted); font-size:14px; }
+    .plan-anchor { display:block; scroll-margin-top:94px; }
+    .background-plan h3 { margin:0 0 12px; }
+    .background-copy { margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.8; }
+    .prop-tts + .prop-tts { margin-top:11px; }
+    .prop-tts .prop-when { margin:9px 0 0; font-size:12px; color:var(--muted); }
+    .prop-id { overflow-wrap:anywhere; }
+    @media(max-width:650px) { .room-sketch,.expression-grid { grid-template-columns:minmax(0,1fr); } .scene-sketch { padding:16px; } .plan-anchor { scroll-margin-top:111px; } }
+</style></head><body>
+<header class="topbar"><div class="wrap top-inner"><a class="back" href="learning-plan.html#middle-one"><span class="back-mark" aria-hidden="true">✦</span> 학습 기획으로 돌아가기</a><nav class="nav" aria-label="이 페이지 목차"><a href="#storyboard">장면별 스토리</a><a href="#fieldwork">현장 조사</a><a href="#story">한눈에</a><a href="#cast">인물·장소</a><a href="#evidence">단서 비교</a><a href="#learning">학습</a><a href="#ending">제작 범위</a></nav></div></header><main class="wrap">
+<section class="hero"><div class="hero-copy"><span class="eyebrow">공통 기획 서식 v1 · 복사용</span><h1>{{사건 제목}}</h1><p class="lead">{{의뢰와 풀어야 할 의문을 짧게 적는다.}}</p><div class="chips"><span class="chip">{{단원 · 사건 번호}}</span><span class="chip status">{{검토·인계 상태}}</span></div></div><figure class="hero-art"><div class="plan-art-pending">사건 대표 그림 · 같은 16:9 구도</div><figcaption>{{그림 설명과 제작 상태}}</figcaption></figure></section>
+<div class="callout"><strong>이 서식을 복사해서 새 사건을 시작한다.</strong> 소풍 기획서의 색·글꼴·대사·질문·노트 카드를 기준으로 한다. 공통 스타일을 그대로 두고 사건 내용과 그림을 교체한다. 이 문서는 게임이 아닌 제작자용 기획 화면이다.</div>
+<section id="storyboard"><div class="section-head"><h2>장면별 스토리보드</h2><p>{{사건 흐름과 검토할 내용을 한두 문장으로 적는다.}}</p></div><nav class="scene-index" aria-label="스토리 장면 이동"><a href="#scene-example">01 {{장면 이름}}</a></nav><div class="storyboard"><article class="scene" id="scene-example"><div class="scene-head"><span class="scene-kicker">장면 1 · {{장소}}</span><h3>{{장면 제목}}</h3><p>{{이 장면에 도달하는 조건}}</p></div><div class="scene-body"><div class="turn"><span class="who">{{화자}}</span><p class="en">{{첫인사 영어}}</p><p class="ko">{{첫인사 해석}}</p></div><div class="turn det"><span class="who">탐정</span><p class="en">{{탐정의 영어 대사}}</p><p class="ko">{{탐정 대사 해석}}</p></div><div class="choice-group"><div class="question-choice" data-ref="person:q1"><span class="choice-no">{{질문 ID · 해금·기록 역할}}</span><p class="ask">{{질문 영어}}</p><p class="translation">{{질문 해석}}</p><p class="reply">{{대답 영어}}<em>{{대답 해석}}</em></p><div class="note-task"><b>노트</b> · {{대답에 실제로 나오는 말의 [빈칸]}}</div></div></div><div class="scene-next">{{다음 장면으로 이어지는 조건}}</div></div></article></div></section>
+<section id="fieldwork"><div class="section-head"><h2>현장 조사</h2><p>{{필수 사진과 선택 관찰을 구분해 적는다.}}</p></div><nav class="scene-index" aria-label="현장 조사 항목"><a href="#place-clues">장소별 단서</a><a href="#background-tts">상세 배경·클릭 TTS</a></nav><span id="place-clues" class="plan-anchor" aria-hidden="true"></span><div class="place-plan-grid"><article class="place-card place-clue-plan"><span class="result-tag">{{장소 발견 조건}}</span><h3>{{장소}}</h3><div class="place-photo-plan"><div class="plan-art-pending">{{증거 그림}}</div><h4>{{중립적인 사진 이름}}</h4><dl><dt>조사 지점</dt><dd>{{물건과 위치}}</dd><dt>열리는 때</dt><dd>{{대화·증거 조건}}</dd><dt>촬영 구도</dt><dd>{{함께 보여야 하는 부분}}</dd><dt>쓰임</dt><dd>{{다른 단서와 비교할 점}}</dd></dl></div><h4>대화 기록</h4><p>{{인물과 기록할 내용}}</p><p class="place-clue-flow">{{조사와 재방문 순서}}</p></article></div></section>
+<section id="background-tts"><div class="section-head"><h2>상세 배경과 클릭 TTS</h2><p>{{배경 배치와 선택 소품의 관찰 대사를 적는다.}}</p></div><div class="grid-2"><article class="sound-zone background-plan"><span class="role">{{인물 위치}}</span><h3>{{장소}}</h3><p class="background-copy">{{배경 구도·소품 배치·인물 시야}}</p><div class="turn det prop-tts" data-prop="place:prop"><span class="who">탐정 · {{클릭 소품}}</span><p class="en prop-en">{{관찰 영어}}</p><p class="ko prop-ko">{{관찰 해석}}</p><p class="fine prop-when">{{보이는 시점}} · <span class="prop-id">{{관찰 ID}}</span></p></div></article></div></section>
+<section id="story"><div class="section-head"><h2>사건 한눈에</h2><p>제작자용 요약</p></div><div class="grid-3"><div class="story-card"><span class="step-no">01</span><h3>의뢰</h3><p>{{의뢰 이유와 의문}}</p></div><div class="story-card"><span class="step-no">02</span><h3>검증</h3><p>{{사진과 진술을 연결하는 과정}}</p></div><div class="story-card"><span class="step-no">03</span><h3>해결</h3><p>{{근거로 도달하는 결말}}</p></div></div></section>
+<section id="cast"><div class="section-head"><h2>인물과 장소</h2><p>{{주요 인물과 만나는 장소}}</p></div><div class="grid-3"><div class="person-card"><span class="avatar">{{종}}</span><div><span class="role">{{현재 장소}}</span><h3>{{인물 이름}}</h3><p>{{역할·복장·제작자용 배경}}</p></div></div></div></section>
+<section id="evidence"><div class="section-head"><h2>단서 비교</h2><p>{{무엇을 함께 봐야 판단할 수 있는가}}</p></div><div class="evidence-grid"><div class="evidence-card"><div class="plan-art-pending">{{사진 구도}}</div><small>{{발견 장소}}</small><h4>{{사진 이름}}</h4><p>{{관찰 가능한 사실}}</p></div></div><div class="deduction">{{사진과 진술의 연결}}</div></section>
+<section id="learning"><div class="section-head"><h2>학습과 제작 점검</h2><p>{{필수 발화·선택 발화를 구분한 점검 기준}}</p></div><div class="expression-grid"><div class="expression-card"><h3>{{열쇠 표현}}</h3><p>{{사건에서 알아들어야 하는 맥락}}</p><b>{{실제 발화 횟수}}</b></div></div><div class="grid-2"><div class="ded-question"><b>Q1 · {{판단}}</b><p class="prompt">{{추리 질문}}</p><p class="prompt-ko">{{해석}}</p><p class="answer-line">{{완성 문장과 [빈칸]}}</p><p class="options">{{보기}}</p><p class="source">{{근거 대사·사진}}</p></div></div></section>
+<section id="ending"><div class="section-head"><h2>제작 범위</h2><p>{{검토·인계 상태}}</p></div><div class="status-card"><p>{{새로 필요한 그림·음성·현재 있는 동작과 추가할 동작}} · {{전체 MD 설계서 연결}}</p></div></section>
+</main></body></html>
