@@ -6,6 +6,56 @@
 
 대상: [대본](case-04-missing-violin.md), [기획 화면](case-04-missing-violin.html). 의뢰 → 조사 → 커튼 뒤 발견 → 타라 확인 → 증거 비교 → 심문 → 반환 순서로 읽고, 방문 순서를 바꿨을 때도 검토했다.
 
+## 2026-11-04 Claude Code 엔진 점검 · 사용자 결정
+
+코드를 읽어 판단했고 실행해 보지는 않았다. 게임 코드는 아직 고치지 않았다.
+
+| # | 엔진에 더할 것 | 지금 상태 | 크기 |
+|---|---|---|---|
+| 1 | 대화 중에 떠나기 | `talkLocked()`: 질문을 하나 하면 전부 끝낼 때까지 잠김. 이보 i2, 모모 m3–m5에서 갇힘. 느낌표도 `phase`로만 판단 | 작음 |
+| 2 | 단계별 질문 해금 | `openingQuestion` 한 단계와 `needs`(사진)뿐. 다른 사람의 대답, 소지품, 관찰 조건 필요 | 작음 |
+| 3 | 조건이 있는 행동 | `actions`에 조건 없음. 대사 없는 버튼 글(`Call the officer.`)도 필요 | 작음 |
+| 4 | 현장에서 물건 바로 줍기 | `examine()`은 무조건 촬영. 나중에 나타나는 조사 지점, 커튼 잠김 반응 필요 | 중간 |
+| 5 | 소지품 열어 보기 | 케이스 열기는 `inspect`와 `#foldBtn`을 쓸 수 있으나 노트에서 들어가는 길과 돌아오는 곳이 없음 | 중간 |
+| 6 | 현 조각 비교, 탐정의 생각 | 비교 동작 없음. `together`는 사진 조건뿐 | 중간 |
+| 7 | 심문 일반화 | `fiona` 고정, 심문에 소지품 못 냄(`present()`가 `@` 참조에서 오류), 맞힌 뒤 대사 한 줄, 심문 또는 가방 전달 중 하나만, 조사실 고정 | 큼 |
+
+사용자 결정:
+
+- 대화 잠금: 지금 열린 질문을 다 적으면 떠날 수 있다.
+- 심문 시작: 추리판 끝 버튼 `오웬 심문 시작`. 경사 연락은 추리가 열리는 조건에 넣는다.
+- 심문 증거 개수 표시(`n / N`): 이 사건에서는 숨긴다.
+- `I should take a picture of this sleeve.`: 뺀다(소매를 누르면 바로 찍힘).
+- 사건 순서: 바이올린 Case 03, 도서관 Case 04.
+- 빠진 대사: Claude가 초안을 쓰고 사용자가 고른다(아래).
+- L1-02 A 없이 먼저 내는 것, 범인이 도서관과 같은 여우인 것: 그대로 둔다(사용자가 바꾸라고 하지 않음).
+
+### 빠진 대사 초안 · 사용자 확인 전
+
+| 어디 | 영어 / 한국어 |
+|---|---|
+| 소매 보기 행동(단추 습득 뒤, 세 사람) | Can I look at your sleeves? / 소매 좀 봐도 될까? |
+| 오웬의 대답 | My sleeves? OK. / 내 소매? 그래. |
+| 이보의 대답 | Sure. Take a look. / 그럼. 봐. |
+| 모모의 대답 | OK. These are my work clothes. / 그래. 이건 내 작업복이야. |
+| 이보 소매를 누를 때 | There are dark buttons on both sleeves. / 양쪽 소매에 어두운 단추가 있어. |
+| 모모 소매를 누를 때 | There are small silver buttons on both sleeves. / 양쪽 소매에 작은 은색 단추가 있어. |
+| 힌트 Q1 | What did Pip see? Where did we find the case? / 핍은 뭘 봤지? 케이스를 어디서 찾았지? |
+| 힌트 Q2 | Look at Tara's photo. Then look at the case. / 타라의 사진을 봐. 그런 다음 케이스를 봐. |
+| 힌트 Q3 | What did Owen see? What did Momo carry? / 오웬은 뭘 봤지? 모모는 뭘 들고 갔지? |
+| 힌트 Q4 | What did Pip say about the light? What did Ivo say? / 핍은 조명에 대해 뭐라고 했지? 이보는 뭐라고 했지? |
+| 힌트 Q5 | Look at the button. Then look at the sleeve photo. / 단추를 봐. 그런 다음 소매 사진을 봐. |
+| 힌트 Q6 | Listen to what Momo said about the cutters. / 모모가 니퍼에 대해 한 말을 다시 들어 봐. |
+| 힌트 Q7 | Think about the button and the cutters. / 단추와 니퍼를 생각해 봐. |
+| 장소 이름표 | Lobby, Waiting Room, Stage, Backstage |
+| 사진 이름표 | Case photo from Tara, Sleeves |
+| 소지품 이름표 | Black violin case, Gold button, Small cutters |
+| 소지품 설명 | 케이스 s2, 단추 s3, 니퍼 c2 재사용 |
+| 심문 뒤 탐정의 생각(녹음 없음) | 타라에게 알려 주자. |
+| 복습 요약 | 음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 준비실 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다. |
+
+---
+
 ## 2026-11-04 Claude Code 점검 · 사용자와 합의해 반영한 것
 
 대본과 HTML에 반영했다. 영어 문장은 Claude Code의 제안을 사용자가 승인한 것이다.
@@ -29,10 +79,20 @@
 | 심문 | d2-question `under the curtain`, d4 `Did you cut the strings?`, o10 `Yes. I cut them.` |
 | 추리 보기 | Q1 `The case was hidden […]`, Q5 질문 `Whose clothes match the button?`, 보기 `Momo's uniform` |
 | 해금 | t2·t3는 t1 뒤, 타라 확인은 케이스 소지·파손 관찰이면 열림(이보 질문은 추리 전까지) |
-| 숨은 조건 | 소매 촬영은 필수로 명시, 탐정의 생각 4줄(소매 살피기, 사진 찍기, 니퍼 주인 묻기, 현 조각 비교) |
+| 숨은 조건 | 소매 촬영은 필수로 명시, 탐정의 생각 3줄(소매 살피기, 니퍼 주인 묻기, 현 조각 비교) |
 | 커튼 | 핍 p1 전에 누르면 탐정의 짧은 반응 |
 
-아직 정하지 않은 것: 과거진행 대사 2개(L1-02인데 과거진행은 L2-03 B), 범인을 직접 고르는 단계, 심문 시작 때 경사를 부르는 대사, 니퍼 위치를 단서로 쓸지(타라가 그 의자 아래를 봤다는 점. 지금은 쓰지 않음), 수준이 높은 낱말(thickness, prove, explains the suspicion, damage, suspicious). 엔진 지원 여부는 아직 점검하지 않았다.
+마지막으로 정한 것:
+
+| 항목 | 결정 |
+|---|---|
+| 과거진행 | 모두 과거형으로: m1 `I fixed…`(빈칸 fixed), o8 `I waited…`, 질문 `What did you do after rehearsal?`, `What did you carry?` |
+| 범인 고르기 | 추리 Q7 `Who should we talk to?` / `We should talk to [Owen].`(보기 Owen·Ivo·Momo). 추리는 7문항 |
+| 경사 부르기 | 심문 시작 때 탐정 `Officer, I'm ready.` 추가 |
+| 니퍼 위치 | 단서로 쓰지 않음. 오웬이 너무 일찍 드러나 모모를 의심하는 재미가 약해짐 |
+| 낱말 | c3 `looks the same as`, o9 `Did you see anything strange?`, Q3 `Why did Momo seem strange?`와 맞장구 `That's why Momo seemed strange. But we don't know yet.`, Q6 맞장구 `ask about the strings`, o11 `I didn't break the violin.` |
+
+남겨 둔 것: 현재진행 `I'm looking for Tara's violin.`(현재진행은 L1-05지만 굳어진 표현으로 둠), 추리 Q6 `According to Momo`.
 
 ---
 

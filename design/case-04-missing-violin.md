@@ -1,6 +1,6 @@
 # 사라진 음악 대회 바이올린 — L1-02 B 1차 스토리 기획
 
-**2026-11-04 개발 인계 · Claude Code와 2차 수정 중.** 이후 설계서·대본 수정은 Claude Code와 사용자가 진행하며 Codex는 읽기만 한다. 인계는 바로 개발을 시작하라는 뜻이 아니라 문제 목록을 먼저 사용자에게 보여 주는 점검부터 진행한다는 뜻이다. 2026-11-04 사용자와 합의해 2차 수정을 시작했다(이 파일에 반영, [점검 기록](case-04-review.md) 맨 위). 남은 제안은 사용자 합의 뒤 반영한다. 교육 순서 Case 04 B이며 현재 앱의 사건 번호와는 별개다. [장면별 기획 화면](case-04-missing-violin.html)을 함께 본다.
+**2026-11-04 개발 인계 · 스토리 2차 수정 완료 · 엔진 점검 대기.** 이후 설계서·대본 수정은 Claude Code와 사용자가 진행하며 Codex는 읽기만 한다. 인계는 바로 개발을 시작하라는 뜻이 아니라 문제 목록을 먼저 사용자에게 보여 주는 점검부터 진행한다는 뜻이다. 2026-11-04 사용자와 합의한 2차 수정을 이 파일에 반영했다([점검 기록](case-04-review.md) 맨 위). 교육 순서 Case 04 B이고, 앱에서는 Case 03으로 나오며 도서관은 Case 04로 민다(사용자 결정). [장면별 기획 화면](case-04-missing-violin.html)을 함께 본다.
 
 ## 1. 의뢰와 진실 — 제작자용
 
@@ -63,7 +63,7 @@
 
 준비실의 두 문은 각각 무대와 옆 통로로 통하고, 대기실은 옆 통로에 연결된다. 이보와 핍은 서로 다른 문 쪽에서 관찰한다. 배경은 각자의 시야를 확인하는 데 쓰고, 범행 시점과 알리바이는 대화 기록을 대조해 판단한다. 조사 중 인물은 각자 제자리에 머문다. 타라는 파손 확인 뒤에도 로비에 머문다. 경사의 심문 동석은 후반 장면 전환으로 구분한다.
 
-의뢰인 첫인사 뒤에는 타라 t0 의뢰 질문만 보인다. t0 채점 뒤 t5 분실 시점 질문이 열리고, t5 채점 뒤 타라 t1·t4가 열리고, t1 채점 뒤 t2·t3가 열린다. t1은 대기실의 빈 케이스 자리, t4는 대기실의 여우·무대의 염소·준비실의 두더지와 해당 장소를 발견한다. 각자 인사한 뒤 이름을 안다. 모모 m2 채점 뒤 핍과 대화하고, 핍 p1 채점 뒤 커튼 조사와 이보 i2 질문이 열린다. 커튼 뒤 케이스를 열어 끊어진 현을 확인하고 케이스째 소지품으로 챙긴다. 바닥의 금색 단추도 별도 소지품으로 챙긴다. 단추 습득으로 오웬·이보·모모의 의복을 각자 있는 곳에서 살펴볼 수 있다. 비교할 인물과 방문 순서는 플레이어가 고른다. 오웬의 빠진 단추를 발견하면 현재 소매를 촬영한다(필수). 다른 인물의 촬영·전원 확인은 필수가 아니다. 케이스를 챙기고 현 파손을 관찰하면 로비에서 소지품의 바이올린을 타라에게 보여 주며 상태를 확인할 수 있다. 이보의 질문은 추리 전까지 마치면 된다. 아직 반환하지 않고 심문 동안 소지한다. 심문과 의뢰인 보고 뒤 반환한다. 니퍼는 대기실 오른쪽 의자 아래에서 별도 소지품으로 습득한다. 니퍼 소지·현 파손 관찰·모모 m4 기록·오웬 첫인사를 확인하면 모모 m5가 열린다. m5 채점으로 니퍼의 소유·대여 진술을 기록한다. 현 조각 비교를 마치면 추리가 열리고, 경사 연락까지 마쳐야 심문을 시작한다. 인물·장소 발견 뒤 자동 이동하지 않는다.
+의뢰인 첫인사 뒤에는 타라 t0 의뢰 질문만 보인다. t0 채점 뒤 t5 분실 시점 질문이 열리고, t5 채점 뒤 타라 t1·t4가 열리고, t1 채점 뒤 t2·t3가 열린다. t1은 대기실의 빈 케이스 자리, t4는 대기실의 여우·무대의 염소·준비실의 두더지와 해당 장소를 발견한다. 각자 인사한 뒤 이름을 안다. 모모 m2 채점 뒤 핍과 대화하고, 핍 p1 채점 뒤 커튼 조사와 이보 i2 질문이 열린다. 커튼 뒤 케이스를 열어 끊어진 현을 확인하고 케이스째 소지품으로 챙긴다. 바닥의 금색 단추도 별도 소지품으로 챙긴다. 단추 습득으로 오웬·이보·모모의 의복을 각자 있는 곳에서 살펴볼 수 있다. 비교할 인물과 방문 순서는 플레이어가 고른다. 오웬의 빠진 단추를 발견하면 현재 소매를 촬영한다(필수). 다른 인물의 촬영·전원 확인은 필수가 아니다. 케이스를 챙기고 현 파손을 관찰하면 로비에서 소지품의 바이올린을 타라에게 보여 주며 상태를 확인할 수 있다. 이보의 질문은 추리 전까지 마치면 된다. 아직 반환하지 않고 심문 동안 소지한다. 심문과 의뢰인 보고 뒤 반환한다. 니퍼는 대기실 오른쪽 의자 아래에서 별도 소지품으로 습득한다. 니퍼 소지·현 파손 관찰·모모 m4 기록·오웬 첫인사를 확인하면 모모 m5가 열린다. m5 채점으로 니퍼의 소유·대여 진술을 기록한다. 현 조각 비교와 경사 연락을 마치면 추리가 열린다. 추리가 끝나면 추리판 끝 버튼 오웬 심문 시작으로 심문한다(사용자 결정). 인물·장소 발견 뒤 자동 이동하지 않는다.
 
 오웬·이보는 각각 조사 질문 4개, 모모는 니퍼 대여 질문을 포함해 5개를 갖는다. 타라 6개와 핍 2개를 합쳐 총 21개다. 이보 i2는 핍 p1 채점 뒤, 모모 m3는 m1·오웬 o9 채점 뒤, m4는 m3·오웬 o9 채점 뒤, 모모 m5는 니퍼 소지·현 파손 관찰·m4 기록·오웬 첫인사 뒤에만 보인다. 잠긴 재방문 질문 때문에 첫 방문 대화가 막히지 않게 한다. 오웬 o8은 o1 뒤, 이보 i3·i4는 i1 뒤, 핍 p2는 p1 뒤에 열린다. 나머지 질문과 증거 수집은 가능한 순서로 진행한다. 인물은 각 장소의 제자리에 고정되고, 사건 정보는 대화·현장 증거로 발견한다.
 
@@ -114,9 +114,9 @@
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
 | owen:o1 | **Where were you after rehearsal?** / 리허설 뒤 어디에 있었니?<br>오웬: **I stayed next to the door the whole time.** / 난 줄곧 문 옆에 있었어. | “I stayed [next to] the door the [whole time].” → 첫 방문 · 채점 뒤 o8 해금 |
-| owen:o8 | **Why were you there?** / 왜 거기 있었니?<br>오웬: **I was waiting for my turn.** / 내 차례를 기다리고 있었어. | “I was waiting for my [turn].” → o1 채점 뒤 · 기다린 이유 |
+| owen:o8 | **Why were you there?** / 왜 거기 있었니?<br>오웬: **I waited for my turn.** / 내 차례를 기다렸어. | “I waited for my [turn].” → o1 채점 뒤 · 기다린 이유 |
 | owen:o2 | **When did you last see Tara's case?** / 타라의 케이스를 마지막으로 언제 봤니?<br>오웬: **Next to the chair, before Tara went to the lobby.** / 타라가 로비로 가기 전, 의자 옆에서 봤어. | “Next to the chair, before Tara went to the [lobby].” → 첫 방문 · 타라가 자리를 비우기 전 위치 |
-| owen:o9 | **Did you see anyone suspicious?** / 수상한 사람을 봤니?<br>오웬: **Momo, the stage helper, carried a black toolbox behind the curtain.** / 무대 일을 돕는 모모가 검은 공구함을 들고 커튼 뒤로 갔어. | “Momo, the stage helper, carried a [black toolbox] [behind] the curtain.” → 첫 방문 · 모모 m3·m4 후속 질문의 선행 정보 |
+| owen:o9 | **Did you see anything strange?** / 이상한 걸 봤니?<br>오웬: **Momo, the stage helper, carried a black toolbox behind the curtain.** / 무대 일을 돕는 모모가 검은 공구함을 들고 커튼 뒤로 갔어. | “Momo, the stage helper, carried a [black toolbox] [behind] the curtain.” → 첫 방문 · 모모 m3·m4 후속 질문의 선행 정보 |
 
 ### 이보 — 대회 무대 · 조사 질문 4개
 
@@ -147,9 +147,9 @@
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
-| momo:m1 | **What were you doing after rehearsal?** / 리허설 뒤에 뭘 하고 있었니?<br>모모: **I was fixing the light next to the stage door. It went out after rehearsal.** / 무대 쪽 문 옆 조명을 고치고 있었어. 리허설 뒤에 꺼졌거든. | “I was [fixing] the light [next to] the stage door. It went out after rehearsal.” → 첫 방문 · 하던 작업 |
+| momo:m1 | **What did you do after rehearsal?** / 리허설 뒤에 뭘 했니?<br>모모: **I fixed the light next to the stage door. It went out after rehearsal.** / 무대 쪽 문 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든. | “I [fixed] the light [next to] the stage door. It went out after rehearsal.” → 첫 방문 · 하던 작업 |
 | momo:m3 | **Did you go behind the curtain?** / 커튼 뒤에도 갔니?<br>모모: **Yes. There are spare bulbs on the shelf behind the curtain. I needed one.** / 응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어. | “Yes. There are spare [bulbs] on the shelf [behind] the curtain. I needed one.” → m1·오웬 o9 채점 뒤 · 커튼 뒤로 들어간 이유 |
-| momo:m4 | **What were you carrying?** / 무엇을 들고 있었니?<br>모모: **My black toolbox. I put it under the shelf before climbing the ladder.** / 내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어. | “My [black toolbox]. I put it [under] the shelf before climbing the ladder.” → m3·오웬 o9 채점 뒤 · 공구함 보관은 사다리 작업 전 |
+| momo:m4 | **What did you carry?** / 무엇을 들고 갔니?<br>모모: **My black toolbox. I put it under the shelf before climbing the ladder.** / 내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어. | “My [black toolbox]. I put it [under] the shelf before climbing the ladder.” → m3·오웬 o9 채점 뒤 · 공구함 보관은 사다리 작업 전 |
 | momo:m2 | **Who else was nearby?** / 근처에 또 누가 있었니?<br>모모: **Pip was by the side passage. I was busy with the light.** / 핍이 옆 통로에 있었어. 난 조명 일로 바빴어. | “[Pip] was by the side passage. I was busy with the [light].” → 첫 방문 · 정답 기록 → 옆 통로와 핍 발견 |
 | momo:m5 | **Whose cutters are these?** / 이 니퍼는 누구 거야?<br>모모: **They're mine. I lent them to Owen.** / 내 거야. 오웬에게 빌려줬어. | “They're mine. I [lent] them to [Owen].” → 니퍼 소지·현 파손 관찰·m4 기록·오웬 첫인사 뒤 재방문 |
 
@@ -193,7 +193,7 @@
 | detective:call | 탐정 | **Officer, I found Tara's violin. All four strings are broken.** / 경사, 타라의 바이올린을 찾았어. 현 네 줄이 모두 끊어져 있어. |
 | badger:b1 | 경사 | **Keep the violin safe. Call me when you're ready.** / 바이올린을 잘 보관해 둬. 준비되면 불러 줘. |
 
-행동 선택지 **Call the officer.** / 경사에게 알리기 를 골라야 detective:call과 badger:b1을 듣는다. 받아쓰기는 없고 연락을 마쳐도 현재 로비 화면에 머문다. 조사는 계속할 수 있으며, 심문 시작 전에만 연락 완료가 필요하다.
+행동 선택지 **Call the officer.** / 경사에게 알리기 를 골라야 detective:call과 badger:b1을 듣는다. 받아쓰기는 없고 연락을 마쳐도 현재 로비 화면에 머문다. 조사는 계속할 수 있으며, 추리가 열리려면 연락을 마쳐야 한다.
 
 타라는 연주하러 이동하지 않고 로비에 남는다. 탐정은 파손 확인 뒤 연락 행동을 선택해 경사에게 현 파손을 알리고 조사를 계속한다. 경사는 조사 중 동행하지 않으며 추리 뒤 심문 시작 때 대기실에 합류한다. 케이스를 보여 주는 것은 반환이 아니므로 소지품에서 빠지지 않는다. 누가 현을 끊었는지 이 단계에서는 확정하지 않는다. 범인을 확인한 뒤 결과를 설명하고 돌려준다.
 
@@ -205,7 +205,7 @@
 |---|---|---|
 | waiting:c1 | 탐정 | **There is a pair of cutters under the right chair.** / 오른쪽 의자 아래에 니퍼가 있어. |
 | waiting:c2 | 탐정 | **There is a short piece of string on the blades.** / 날에 짧은 줄 조각이 붙어 있어. |
-| waiting:c3 | 탐정 | **The piece has the same color and thickness as this broken string.** / 이 조각은 이 끊어진 현과 색과 굵기가 같네. |
+| waiting:c3 | 탐정 | **The piece looks the same as this broken string.** / 이 조각은 이 끊어진 현과 똑같아 보여. |
 
 waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 뒤 두 소지품을 확대해 비교할 때 듣는다. 니퍼를 먼저 찾았으면 나중에 이 비교를 할 수 있다. 니퍼 날의 짧은 은색 조각과 끊어진 굵은 현 한 줄의 색·굵기를 그림에서 비교한다. 비슷한 현일 가능성을 확인할 뿐, 그 바이올린에서 잘렸다고 확정하지 않는다. 사진이나 별도 현 조각 소지품을 추가하지 않는다.
 
@@ -217,7 +217,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 
 | 후보 · 현재 장소 | 소매에서 보이는 것 | 기록 방식 |
 |---|---|---|
-| 오웬 · 대기실 | 왼쪽에는 둥근 금색 단추, 오른쪽에는 빠진 자리와 실 | 관찰 뒤 촬영(필수) · sleeve-photo |
+| 오웬 · 대기실 | 왼쪽에는 둥근 금색 단추, 오른쪽에는 빠진 자리와 실 | 소매를 누르면 hall:f4와 함께 찍힘(필수) · sleeve-photo |
 | 이보 · 무대 | 양쪽 소매에 납작하고 어두운 단추가 붙어 있음 | 확대 관찰만 · 새 진술·알리바이 없음 |
 | 모모 · 준비실 | 작업복 양쪽 소매에 작은 은색 똑딱이 단추가 붙어 있음 | 확대 관찰만 · 별도 사진 없음 |
 
@@ -232,26 +232,26 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | ID | 화자 | 영어 / 한국어 | 나오는 때 |
 |---|---|---|---|
 | detective:think-sleeves | 탐정 | **I should look at everyone's sleeves.** / 다들 소매를 살펴봐야겠어. | gold-button 습득 직후 |
-| detective:think-photo | 탐정 | **I should take a picture of this sleeve.** / 이 소매를 사진으로 남겨야겠어. | 오웬 소매의 hall:f4 직후 |
 | detective:think-cutters | 탐정 | **I should ask who owns these cutters.** / 이 니퍼가 누구 건지 물어봐야겠어. | wire-cutters 습득 직후 |
 | detective:think-compare | 탐정 | **I should compare this piece with the broken strings.** / 이 조각을 끊어진 현과 비교해 봐야겠어. | 케이스와 니퍼를 모두 갖고 파손을 관찰했을 때, 비교 전 한 번 |
 
-질문 21개·사진 2종·소지품 3종을 모으고, 케이스를 열어 파손을 관찰하고 타라에게 상태를 확인받은 뒤 추리를 진행한다. 모모 m5로 대여 진술을 기록하고 현 조각을 바이올린 현과 비교해야 추리가 열린다. 경사 연락도 마친 뒤 심문을 시작한다. 소지품 세 물건은 심문이 끝날 때까지 보관한다.
+질문 21개·사진 2종·소지품 3종을 모으고, 케이스를 열어 파손을 관찰하고 타라에게 상태를 확인받은 뒤 추리를 진행한다. 모모 m5로 대여 진술을 기록하고 현 조각을 바이올린 현과 비교하고 경사 연락까지 마쳐야 추리가 열린다. 소지품 세 물건은 심문이 끝날 때까지 보관한다.
 
 | 순서 | 질문 · 완성 문장 | 보기 | 맞장구 | 힌트 | 근거 |
 |---|---|---|---|---|---|
 | 1 | **Where was the case hidden?** / 케이스는 어디에 숨겨졌을까?<br>The case was hidden [behind the curtain]. | behind the curtain · under the right chair · on the ladder · in the lobby · next to the left chair · under the shelf | Yes. That is where we found it. / 맞아. 그곳에서 찾았어. | 핍의 첫 목격담과 케이스를 처음 발견했을 때의 관찰을 함께 확인해 봐. | 핍 p1·stage:s1, 소지품 violin-case |
 | 2 | **How do we know it is Tara’s case?** / 타라의 케이스인지 어떻게 알았을까?<br>The [yellow moon sticker] matches Tara’s photo. | yellow moon sticker · red star sticker · blue flower sticker · white stripe · green handle · pink ribbon | Yes. The same mark is in the photo. / 맞아. 사진에 같은 표식이 있어. | 타라가 제공한 사진과 발견한 케이스 겉면을 비교해 봐. | 타라 t2·tara:photo·stage:s2, tara-photo와 violin-case |
-| 3 | **Why did Momo seem suspicious?** / 모모를 의심할 만한 이유는 무엇일까?<br>Momo went [behind the curtain] with a [black toolbox]. | 위치: behind the curtain · in the lobby · on the stage · under the chair · behind the door · next to the bench / 물건: black toolbox · black case · gold button · water bottle · music stand · contest poster | That explains the suspicion. It does not prove he moved the case. / 그래서 의심할 수 있었어. 케이스를 옮겼다는 증거는 아니야. | 오웬이 본 행동과 모모가 설명한 물건을 확인해 봐. | 오웬 o9·모모 m3·m4. 색과 장소가 비슷해 생긴 의심이며 정답 인물을 확정하지 않음 |
+| 3 | **Why did Momo seem strange?** / 모모가 왜 수상해 보였을까?<br>Momo went [behind the curtain] with a [black toolbox]. | 위치: behind the curtain · in the lobby · on the stage · under the chair · behind the door · next to the bench / 물건: black toolbox · black case · gold button · water bottle · music stand · contest poster | That's why Momo seemed strange. But we don't know yet. / 그래서 모모가 수상해 보였어. 하지만 아직은 몰라. | 오웬이 본 행동과 모모가 설명한 물건을 확인해 봐. | 오웬 o9·모모 m3·m4. 색과 장소가 비슷해 생긴 의심이며 정답 인물을 확정하지 않음 |
 | 4 | **Where was Momo when the case moved?** / 케이스가 옮겨질 때 모모는 어디에 있었을까?<br>Momo was [on the ladder]. | on the ladder · on the stage · in the lobby · under the right chair · behind the curtain · in the waiting room | Right. He could not carry the case at that moment. / 맞아. 그 순간에 케이스를 운반할 수는 없었어. | 핍과 이보가 같은 조명을 말하는 부분을 대조해 봐. | 핍 p1·이보 i2. 케이스 운반 시점만 판단하며 이보의 기존 위치 설정은 유지 |
 | 5 | **Whose clothes match the button?** / 발견한 단추는 누구의 옷과 맞을까?<br>The button matches [Owen’s jacket]. | Owen’s jacket · Ivo’s jacket · Momo’s uniform | Yes. A matching button remains on the other sleeve. / 맞아. 반대쪽 소매에는 같은 단추가 남아 있어. | 소지품 단추와 현재 소매 사진의 모양·크기·빈 자리를 비교해 봐. | gold-button·sleeve-photo·hall:f4. 다른 두 후보의 옷은 선택 관찰이며 추가 알리바이는 아님 |
-| 6 | **According to Momo, who borrowed the cutters?** / 모모는 누구에게 니퍼를 빌려줬다고 했을까?<br>Momo said he lent the cutters to [Owen]. | Owen · Ivo · Tara · Pip | That is what Momo said. We still need to ask about the damage. / 모모의 말은 그래. 파손에 대해서는 더 물어봐야 해. | 니퍼를 보여 주고 물었던 모모의 대답을 다시 들어 봐. | 모모 m5·wire-cutters. 대여 진술을 기록하며 오웬의 인정은 심문에서 확인 |
+| 6 | **According to Momo, who borrowed the cutters?** / 모모는 누구에게 니퍼를 빌려줬다고 했을까?<br>Momo said he lent the cutters to [Owen]. | Owen · Ivo · Tara · Pip | That is what Momo said. We still need to ask about the strings. / 모모의 말은 그래. 현에 대해서는 더 물어봐야 해. | 니퍼를 보여 주고 물었던 모모의 대답을 다시 들어 봐. | 모모 m5·wire-cutters. 대여 진술을 기록하며 오웬의 인정은 심문에서 확인 |
+| 7 | **Who should we talk to?** / 누구와 이야기해야 할까?<br>We should talk to [Owen]. | Owen · Ivo · Momo | Right. Let's talk to him. / 맞아. 오웬과 이야기하자. | 단추가 맞는 옷과 모모가 니퍼를 빌려줬다는 사람을 함께 떠올려 봐. | Q5·Q6, gold-button·sleeve-photo·모모 m5. 플레이어가 직접 고른다 |
 
-맞장구 6개는 탐정의 음성이며 정상 진행에서 한 번씩 듣는다. 열쇠 표현 횟수에도 포함한다. Q3은 위치·물건마다 보기 6개, Q5·Q6의 인물 보기는 해당 비교 후보 수만큼 쓴다. 맞장구는 현재 문항만 확인하며 다음 답을 알려 주지 않는다. 오답 반응은 **Check the records again.** / 기록을 다시 확인해 봐. 로 통일하고 같은 문항에서 다시 고른다.
+맞장구 7개는 탐정의 음성이며 정상 진행에서 한 번씩 듣는다. 열쇠 표현 횟수에도 포함한다. Q3은 위치·물건마다 보기 6개, Q5·Q6·Q7의 인물 보기는 해당 비교 후보 수만큼 쓴다. 맞장구는 현재 문항만 확인하며 다음 답을 알려 주지 않는다. 오답 반응은 **Check the records again.** / 기록을 다시 확인해 봐. 로 통일하고 같은 문항에서 다시 고른다.
 
 ## 9. 장면 6 — 탐정이 이끄는 심문
 
-추리 완료·경사 연락 완료 뒤 대기실에서 행동 선택지 **Start questioning Owen.** / 오웬 심문 시작 을 고른다. 탐정의 생각 뒤 경사가 합류하고 탐정이 묻는다. 경사나 다른 인물이 자동으로 탐정을 이동시키지 않는다. d0·d2-question·d6·d4·d5는 탐정의 질문 선택지이며, 대질 뒤 해당 질문 하나를 고르게 한다. 이 심문 질문은 받아쓰기를 추가하지 않는다.
+추리를 마치면 추리판 끝 버튼 오웬 심문 시작을 누른다(사용자 결정). 심문은 대기실에서 한다. 탐정의 생각과 연락 뒤 경사가 합류하고 탐정이 묻는다. 경사나 다른 인물이 자동으로 탐정을 이동시키지 않는다. d0·d2-question·d6·d4·d5는 탐정의 질문 선택지이며, 대질 뒤 해당 질문 하나를 고르게 한다. 이 심문 질문은 받아쓰기를 추가하지 않는다.
 
 탐정이 심문을 시작한다. 플레이어가 오웬의 주장에 맞는 소지품·진술을 내밀면 탐정이 근거를 짚고 다음 질문을 한다. 오소리 경사는 동석하고 자백 뒤 사건 정리를 맡는다.
 
@@ -266,6 +266,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | ID | 화자 | 영어 / 한국어 |
 |---|---|---|
 | detective:question-thought | 탐정 | **I should ask Owen about the button and the cutters.** / 오웬에게 단추와 니퍼에 관해 물어봐야겠어. |
+| detective:call2 | 탐정 | **Officer, I'm ready.** / 경사, 준비됐어. |
 | badger:b2 | 경사 | **I'm here, Detective. You can begin.** / 왔어, 탐정. 시작해도 돼. |
 | detective:d0 | 탐정 | **Owen, did you move Tara's case?** / 오웬, 네가 타라의 케이스를 옮겼니? |
 | owen:o3 | 오웬 | **No. Maybe Momo moved it. Momo went behind the curtain.** / 아니. 모모가 옮겼을지도 몰라. 모모는 커튼 뒤에 갔잖아. |
@@ -275,7 +276,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | detective:d2 | 탐정 | **This matches your left sleeve button. Your right one is missing.** / 이건 네 왼쪽 소매 단추와 같아. 오른쪽 단추는 없어졌고. |
 | detective:d2-question | 탐정 | **Why was this button under the curtain?** / 왜 이 단추가 커튼 아래에 있었을까? |
 | owen:o6 | 오웬 | **My sleeve caught on the curtain hook. I hid the case behind the curtain.** / 소매가 커튼 고리에 걸렸어. 내가 케이스를 커튼 뒤에 숨겼어. |
-| owen:o11 | 오웬 | **I only moved the case. I didn't damage the violin.** / 케이스를 옮겼을 뿐이야. 바이올린을 망가뜨리지는 않았어. |
+| owen:o11 | 오웬 | **I only moved the case. I didn't break the violin.** / 케이스를 옮겼을 뿐이야. 바이올린을 망가뜨리지는 않았어. |
 | detective:d6 | 탐정 | **Momo says he lent you these cutters. Did you borrow them?** / 모모는 네게 이 니퍼를 빌려줬다고 해. 네가 빌렸니? |
 | owen:o12 | 오웬 | **Yes, I borrowed them for my music stand. I didn't cut the strings.** / 응, 악보대를 고치려고 빌렸어. 현은 끊지 않았어. |
 | detective:d7 | 탐정 | **This piece looks like a broken string from the violin.** / 이 조각은 바이올린의 끊어진 현과 비슷해. |
@@ -416,9 +417,9 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 
 ### 제작 목록과 공통 동작
 
-질문 21개(타라 6·오웬 4·이보 4·모모 5·핍 2), 사진 2종, 소지품 3종, 추리 6문항, 심문 대질 3단계, 선택 클릭 TTS 12개다. 공통 디자인 템플릿 v1을 유지한다. 배경 4곳, 새 인물 5명과 기존 경사, 케이스 닫힘·열림과 끊어진 현 네 줄, 단추 실물·현 조각이 날에 남은 니퍼, 현재 소매 사진과 타라 제공 사진, 배경 소품·조사·의뢰·파손 확인·심문·최종 반환 음성이 필요하다. 기획 그림은 참고 구도이며 실제 원화와 녹음은 제작 전이다.
+질문 21개(타라 6·오웬 4·이보 4·모모 5·핍 2), 사진 2종, 소지품 3종, 추리 7문항, 심문 대질 3단계, 선택 클릭 TTS 12개다. 공통 디자인 템플릿 v1을 유지한다. 배경 4곳, 새 인물 5명과 기존 경사, 케이스 닫힘·열림과 끊어진 현 네 줄, 단추 실물·현 조각이 날에 남은 니퍼, 현재 소매 사진과 타라 제공 사진, 배경 소품·조사·의뢰·파손 확인·심문·최종 반환 음성이 필요하다. 기획 그림은 참고 구도이며 실제 원화와 녹음은 제작 전이다.
 
-우산의 소지품 카드와 확대 조사·건네주기 흐름을 기준으로 한다. **엔진 추가 필요**: 현장 물건을 사진 촬영 없이 직접 습득하고 현장에서 사라지게 하는 동작, 소지품 케이스의 열기·닫기 확대 조사, 심문에서 소지품 단추와 니퍼를 실물 근거로 내미는 동작. 현재 공통 화면을 유지해 더하며 사건 전용 화면을 만들지 않는다. 구체적인 지원 범위는 개발 인계 뒤 Claude Code가 먼저 점검한다. 실제 게임 파일은 기획에서 수정하지 않는다.
+우산의 소지품 카드와 확대 조사·건네주기 흐름을 기준으로 한다. **엔진 추가 필요**: 현장 물건을 사진 촬영 없이 직접 습득하고 현장에서 사라지게 하는 동작, 소지품 케이스의 열기·닫기 확대 조사, 심문에서 소지품 단추와 니퍼를 실물 근거로 내미는 동작. 현재 공통 화면을 유지해 더하며 사건 전용 화면을 만들지 않는다. 점검 결과와 사용자 결정은 [점검 기록](case-04-review.md) 맨 위에 있다. 실제 게임 파일은 기획에서 수정하지 않는다.
 
 ### 수정 장면의 그림·음성 제작 항목
 
@@ -427,10 +428,10 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | 질문 | 수정된 13개 조사 답변 음성, 질문별 보기 | 이보 조사 답변·기존 노트 유지. 실제 녹음은 아직 제작 전 |
 | 의복 비교 | 이보 양 소매·모모 양 소매 확대 참고 구도 | 오웬 현재 소매·민무늬 금색 단추, 각 인물 기존 장소 |
 | 니퍼 조사 | 날 조각과 끊어진 굵은 현을 구별할 수 있는 확대 원화, waiting:c3 음성 | 소지품 wire-cutters·violin-case. 추가 사진·별도 현 조각 없음 |
-| 조사 연결 | tara:photo-give, detective:think-sleeves·think-photo·think-cutters·think-compare, backstage:curtain-locked 음성 | 타라 사진·기존 장소 |
-| 연락·합류 | detective:r4·contact-thought·call, badger:b1·b2, detective:question-thought 음성 | 경사 기존 인물 원화·대기실 배경. 연락 전용 배경 없음 |
+| 조사 연결 | tara:photo-give, detective:think-sleeves·think-cutters·think-compare, backstage:curtain-locked 음성 | 타라 사진·기존 장소 |
+| 연락·합류 | detective:r4·contact-thought·call·call2, badger:b1·b2, detective:question-thought 음성 | 경사 기존 인물 원화·대기실 배경. 연락 전용 배경 없음 |
 | 심문 | d8·d2·d2-question·d6·d7·오웬 o12·o7과 수정된 해석에 맞는 음성 | 세 대질 구조·기존 이보와 핍 진술·물증 |
-| 보고·복습 | 탐정 end1, 타라 end2, 추리 맞장구 6개·오답 반응·단어/예문 음성 | 파손 상태·반환·공통 복습 화면 |
+| 보고·복습 | 탐정 end1, 타라 end2, 추리 맞장구 7개·오답 반응·단어/예문 음성 | 파손 상태·반환·공통 복습 화면 |
 
 외부 조건으로 잠긴 질문이 있는 방문의 대화 완료와 재방문 해금이 공통 엔진에서 가능한지도 개발 인계 후 점검한다. 새 질문이나 조건을 맞추기 위해 사건 전용 화면을 만들지 않는다.
 
@@ -471,7 +472,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | `ivo:i3` | practice · last part · protect · first part |
 | `ivo:i4` | door · open · ladder · next to · floor · closed · mirror · behind |
 | `ivo:i2` | on · ladder · next to · stage · on · under · chair · behind · lobby |
-| `momo:m1` | fixing · next to · finding · behind |
+| `momo:m1` | fixed · next to · found · behind |
 | `momo:m3` | bulbs · behind · buttons · next to |
 | `momo:m4` | black toolbox · under · black case · on |
 | `momo:m2` | Pip · light · Ivo · night |
@@ -487,7 +488,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 |---|---:|---:|
 | 받아쓰기 질문 | 21 | 21 |
 | 빈칸 | 78 | 47 |
-| 평균 답변 단어 | 14.4 | 12.5 |
+| 평균 답변 단어 | 14.4 | 12.4 |
 | 최장 답변 단어 | 22 | 18 (타라 t4) |
 | 질문당 빈칸 범위 | 2–6 | 1–5 |
 | 3칸 초과 문항 | 10 | 3 (이보 i1·i4·i2 유지) |
@@ -495,7 +496,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | 가장 높은 인물 빈칸 비중 | 34.6% | 31.9% (이보) |
 | 3문장 답변 | 5 | 1 |
 
-질문 수와 전체 빈칸은 제안 기준(12–15문항·30–38칸)보다 많다. 질문을 늘려 달라는 사용자 요청과 이번 이보 유지 결정을 반영한 범위이며, 실제 듣기 부담은 학생 검증 전이다. 사진 2종·소지품 3종·추리 6문항·대질 3단계·선택 소품 TTS 12개는 유지한다.
+질문 수와 전체 빈칸은 제안 기준(12–15문항·30–38칸)보다 많다. 질문을 늘려 달라는 사용자 요청과 이번 이보 유지 결정을 반영한 범위이며, 실제 듣기 부담은 학생 검증 전이다. 사진 2종·소지품 3종·추리 7문항·대질 3단계·선택 소품 TTS 12개는 유지한다.
 
 ## 13. 예습·복습
 
@@ -537,7 +538,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | door | 문 | 이보 i4·핍 p2 |
 | open | 열린 | 이보 i4 |
 | ladder | 사다리 | 이보 i4·i2 |
-| fixing | 고치고 있는 | 모모 m1 |
+| fixed | 고쳤다, fix의 과거형 | 모모 m1 |
 | bulbs | 전구들 | 모모 m3 |
 | light | 조명 | 모모 m2 |
 | lent | 빌려줬다, lend의 과거형 | 모모 m5 |
