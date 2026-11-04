@@ -15,3 +15,5 @@
 ```powershell
 powershell.exe -NoProfile -File scripts/generate-word-audio.ps1
 ```
+
+PC의 실행 정책에 막히면 스크립트를 돌리지 않고 `System.Speech`로 그 항목만 같은 설정으로 만든다(`owner.wav`가 그렇게 만들어졌다). 다시 생성하면 `meeting.wav`가 바뀌므로 `git checkout -- audio/words/meeting.wav`로 되돌린다.
