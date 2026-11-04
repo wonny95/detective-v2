@@ -71,6 +71,7 @@ node server.js            # http://localhost:5173/
 | `design/case-02-unclaimed-umbrella.md` | L1-01 B 주인 없는 우산 상세 설계(인계 뒤 개발 쪽 파일, 2차 수정본): 대본·노트·해금·사진·추리·결말·복습·남은 엔진 작업과 자산 |
 | `design/case-02-unclaimed-umbrella.html` | 우산 사건 장면별 스토리보드와 회관 단서 배치도, 맨 아래에 MD 전문 사본(MD를 고치면 함께 고친다) |
 | `design/case-02-unclaimed-umbrella-recording.md` | 우산 사건 녹음 대본(3단계): 화자별 모든 줄·저장할 파일 이름·해석, 같은 문장은 한 번만 녹음. `node scripts/umbrella-recording-script.js`가 게임 데이터에서 뽑으므로 대사를 고치면 다시 뽑는다 |
+| `design/STORY_PROMPT.md` | 새 사건 1차 기획 때 Codex에 넣는 프롬프트: 단계별 승인, 이야기·듣기·대사·추리·결말 규칙, 분량 균형표. 사용자와 정한 규칙이 새로 생기면 여기에도 더한다(분량 기준은 학생 검증 전 제안값) |
 | `design/case-01-picnic-bag.html` | 소풍 가방 A 스토리보드: 9개 장면을 따라 첫 대사·질문/노트/단어 카드·현장 물건·추리 보기/반응·오답·최종 사진 선택·해결 대사와 복습, 뒤에 인물·장소·단서/학습 요약. 원본 상세안은 Markdown |
 | `LEARNING_PLAN.md` | 한눈에 보는 학습기획안: 핵심 요약·현재 적용/미구현 구분·사건별 학습 흐름·제작 틀·탐정 훈련·보상·미결정 사항. 교육 목표·단원 순서는 `CURRICULUM.md` 참조 |
 | `design/learning-plan.html` | 학습기획안의 시각 요약: 6단계 흐름도·현재/새 사건 비교·구현 상태·2026년 적용 고시·중1~중3 권장 난도별 접고 펼치는 18단원·36개 사건의 의뢰/단서/해결/문법 초점, L1-01 A/B의 인물·장소·다음 작업·미결정 사항. 상세 기준은 `LEARNING_PLAN.md`·`CURRICULUM.md` |
