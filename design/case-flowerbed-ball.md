@@ -9,16 +9,16 @@
 - **의뢰인**: 소풍 가방 사건에 등장했던 수달 올리. 이번에는 피아와 마을 화단을 함께 돌본다. 돌아와 망가진 꽃을 발견하고 누가 그랬는지 밝혀 달라고 요청한다. 주변을 막고 꺾인 모종을 보호해야 해서 현장에 남는다. 피아는 모종판을 준비하러 작업실에 가 있다. 이 보호·준비 행동은 별도 퀘스트가 아니다.
 - **풀 의문**: 꽃을 심는 정상 작업과 이후 생긴 훼손은 어떻게 다른가? 누가 화단에 들어가 꽃을 밟았는가?
 - **진실**: 너구리 거스가 공놀이를 하다 정원 안으로 공을 넘긴다. 공을 꺼내려 울타리를 넘어 정원 안쪽 길로 들어온 뒤, 화단 한가운데의 공을 향해 걸으며 꽃을 밟는다. 꽃을 망가뜨리려던 고의는 없지만 당황해 바깥길에서 공을 찾았다고 부인한다. 최종 확인에서 출입·훼손·숨긴 이유를 직접 인정한다.
-- **피아의 작업**: 꽃을 심고 작은 삽을 화단 옆에 두었다. 올리의 사진에서는 심기가 끝난 뒤에도 모든 꽃이 서 있다. 피아와 올리는 그 뒤 함께 가게에 갔다가 함께 돌아와 훼손을 발견한다. 흙 묻은 도구와 심기 흔적만으로 피아를 범인이라고 하지 않는다.
-- **루카의 행동**: 코알라 루카가 혼자 꽃 사진을 찍으러 정원에 들어갔다. 화단으로 들어가지 않고 정원 안쪽 길에 머물렀다. 사진에 집중하다 꽃을 밟았을 가능성 때문에 조사하지만, 자기 주장만으로 제외하지 않는다. 렌은 루카가 길을 걷고 멈춰 찍다가 벤치로 돌아오는 전 구간과 그때 서 있던 꽃을 보았다. 거스와 공놀이하거나 함께 정원에 들어간 적은 없다. 현재 벤치 건너편에서 카메라를 정리한다. 꽃 훼손을 아직 보지 못했고 요청받으면 직접 아는 일을 설명한다.
+- **피아의 작업**: 꽃을 심고 작은 삽을 화단 옆에 두었다. 올리의 사진에서는 심기가 끝난 뒤에도 모든 꽃이 멀쩡하다. 피아와 올리는 그 뒤 함께 가게에 갔다가 함께 돌아와 훼손을 발견한다. 흙 묻은 도구와 심기 흔적만으로 피아를 범인이라고 하지 않는다.
+- **루카의 행동**: 코알라 루카가 혼자 꽃 사진을 찍으러 정원에 들어갔다. 화단으로 들어가지 않고 정원 안쪽 길에 머물렀다. 사진에 집중하다 꽃을 밟았을 가능성 때문에 조사하지만, 자기 주장만으로 제외하지 않는다. 렌은 루카가 길을 걷고 멈춰 찍다가 벤치로 돌아오는 전 구간과 그때도 멀쩡했던 꽃을 보았다. 거스와 공놀이하거나 함께 정원에 들어간 적은 없다. 현재 벤치 건너편에서 카메라를 정리한다. 꽃 훼손을 아직 보지 못했고 요청받으면 직접 아는 일을 설명한다.
 - **렌의 시야**: 벤치에 앉아 두 친구의 출발, 울타리 위로 날아간 공, 공을 들고 정원 안쪽 길에서 돌아오는 거스를 보았다. 낮은 울타리와 꽃줄기에 바닥 시야가 가려져 공이 떨어진 위치·발로 밟는 순간은 보지 못했다. 목격하지 않은 훼손을 진술하지 않는다.
 - **해결**: 피아는 작업 순서를 설명하는 참고인이다. 거스와 루카가 각각 정원에 들어갔을 가능성을 조사한다. 루카는 렌의 전 구간 목격으로 길에 머물렀음을 확인한다. 거스가 말한 마당 쪽 바깥길과 렌이 본 정원 안쪽 길의 차이를 짚고, 거스가 인정한 정원 출입과 눌린 꽃 사이 발자국을 함께 짚어 훼손 경위를 묻는다. 사진만으로 발자국 주인이나 공에 묻은 흙의 출처를 확정하지 않는다. 공놀이한 인물이 혼자라는 사실만으로 범인이라고 하지 않는다. 현장에 선명한 공 자국을 새로 만들지 않으며, 공만으로 루카를 제외하지 않는다.
 
 ### 사건 순서
 
 1. 조사일 오전 피아와 올리가 꽃을 심는다. 도구·심기 흔적이 남는다.
-2. 올리가 작업 기록 사진을 찍는다. 꽃들이 서 있다. 올리와 피아는 추가 모종을 받으러 가게에 가고 렌은 두 사람이 떠나는 것을 본다.
-3. 올리와 피아가 떠난 뒤 루카가 길 위에서 꽃 사진을 찍고 벤치로 돌아온다. 렌은 이 전 구간을 봤고 꽃머리는 계속 서 있다.
+2. 올리가 작업 기록 사진을 찍는다. 꽃들이 멀쩡하다. 올리와 피아는 추가 모종을 받으러 가게에 가고 렌은 두 사람이 떠나는 것을 본다.
+3. 올리와 피아가 떠난 뒤 루카가 길 위에서 꽃 사진을 찍고 벤치로 돌아온다. 렌은 이 전 구간을 봤고 꽃은 계속 멀쩡하다.
 4. 거스가 마당에서 공놀이를 하다가 낮은 울타리 너머로 공을 보낸다. 공은 꽃을 직접 누르지 않고 화단 안의 빈 흙 부분에 떨어진다.
 5. 거스가 공을 꺼내려 정원에 들어와 꽃 사이를 걸으며 밟는다. 공에는 흙만 조금 묻는다. 렌은 거스가 정원 안쪽 길에서 공을 들고 나오는 것만 본다.
 6. 올리와 피아가 돌아와 훼손을 발견한다. 올리는 현장을 지키고 피아는 같은 모종 가게의 작업실로 돌아가 모종판을 준비한다. 거스는 마당, 렌은 벤치에 있다.
@@ -86,7 +86,7 @@
 | ID | 질문 선택지 / 답변 음성 | 노트 빈칸 | 보기 | 선행 조건·역할 |
 |---|---|---|---|---|
 | ollie:n0 | **How can I help you?** / 무엇을 도와줄까?<br>올리: **I came back and found our flowers damaged. Can you find out who did it?** / 돌아왔더니 우리 꽃들이 망가져 있었어. 누가 그랬는지 알아봐 줄래? | “I came back and found our [flowers] [damaged]. Can you find out who [did] it?” | flowers · damaged · did · bottles · planted · does | 첫 질문 하나만 표시 · 채점 뒤 n1 해금 |
-| ollie:n1 | **What were the flowers like before you left?** / 자리를 비우기 전 꽃들은 어떤 상태였니?<br>올리: **I took this photo after planting. All the flowers were standing.** / 꽃을 심은 뒤 이 사진을 찍었어. 꽃들이 모두 서 있었어. | “I [took] this [photo] after planting. All the flowers were [standing].” | took · photo · standing · take · drawing · flat | n0 뒤 · 일지를 펼쳐 사진을 가리킴 · garden-photo 기록 허용 |
+| ollie:n1 | **What were the flowers like before you left?** / 자리를 비우기 전 꽃들은 어떤 상태였니?<br>올리: **I took this photo after planting. All the flowers were fine.** / 꽃을 심은 뒤 이 사진을 찍었어. 꽃들이 모두 멀쩡했어. | “I [took] this [photo] after planting. All the flowers were [fine].” | took · photo · fine · take · drawing · damaged | n0 뒤 · 일지를 펼쳐 사진을 가리킴 · garden-photo 기록 허용 |
 
 올리는 n1 답변 때 작업일지를 펼쳐 실제 인쇄 사진을 가리킨다. 사진 아래에는 모종 구입처 Plant Shop 상호만 있다. 날짜·범인·피아 이름·알리바이를 글씨로 적어 주지 않는다. 함께 외출한 사실은 피아와 렌의 답변에서 확인한다. 올리의 동행 재확인 질문은 두지 않는다.
 
@@ -94,8 +94,8 @@
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
-| obs:f1 | 탐정 · observation | **Some flowers are flat. There are footprints between them.** / 꽃 몇 송이가 눌려 있어. 꽃 사이에 발자국이 있어. | n0·n1 뒤 · bed-photo 촬영 |
-| obs:f2 | 탐정 · observation | **The flowers are standing in this photo.** / 이 사진에서는 꽃들이 서 있어. | n1 뒤 펼친 작업일지 · garden-photo 촬영 |
+| obs:f1 | 탐정 · observation | **Some flowers are damaged. There are footprints between them.** / 꽃 몇 송이가 망가져 있어. 꽃 사이에 발자국이 있어. | n0·n1 뒤 · bed-photo 촬영 |
+| obs:f2 | 탐정 · observation | **The flowers look fine in this photo.** / 이 사진에서는 꽃들이 멀쩡해 보여. | n1 뒤 펼친 작업일지 · garden-photo 촬영 |
 | obs:shop-name | 탐정 · observation | **The name below the photo is Plant Shop.** / 사진 아래 이름은 Plant Shop이네. | 사진 아래 모종 구입처 상호 · 작업실 장소만 발견 |
 | obs:f3 | 탐정 · observation | **Marks on the fence. Footprints lead from the garden path into the flower bed.** / 울타리에 자국이 있어. 발자국이 정원 안쪽 길에서 화단으로 이어져. | n0·n1 뒤 · fence-photo 촬영 |
 | obs:yard-view | 탐정 · observation | **There is a play yard beyond the fence.** / 울타리 너머에 공놀이 마당이 있어. | fence-photo의 울타리 너머 골대·마당 전경 · 장소만 발견 |
@@ -161,10 +161,10 @@
 
 | ID | 질문 선택지 / 답변 음성 | 노트 빈칸 | 보기 | 선행 조건·역할 |
 |---|---|---|---|---|
-| wren:w1 | **Did you see Ollie leave?** / 올리가 떠나는 걸 봤니?<br>렌: **Yes. Ollie left with Pia. The flowers were still standing.** / 응. 피아와 함께 나갔어. 꽃들은 그때도 서 있었어. | “Yes. Ollie [left] with Pia. The flowers were still [standing].” | left · standing · came · flat | 첫 방문 · 올리·피아 소개·피아 p4 뒤 |
+| wren:w1 | **Did you see Ollie leave?** / 올리가 떠나는 걸 봤니?<br>렌: **Yes. Ollie left with Pia. The flowers were still fine.** / 응. 피아와 함께 나갔어. 꽃들은 그때도 멀쩡했어. | “Yes. Ollie [left] with Pia. The flowers were still [fine].” | left · fine · came · damaged | 첫 방문 · 올리·피아 소개·피아 p4 뒤 |
 | wren:w2 | **What happened after they left?** / 두 친구가 떠난 뒤 무슨 일이 있었니?<br>렌: **A ball flew over the fence. I didn't see it on the ground.** / 공이 울타리 너머로 날아갔어. 땅에 떨어진 공은 보지 못했어. | “A [ball] flew over the [fence]. I [didn't] see it on the ground.” | ball · fence · didn't · bottle · bench · did | w1 뒤 · 목격 범위 제한 |
 | wren:w3 | **Did anyone come back with a ball?** / 공을 들고 돌아온 친구가 있었니?<br>렌: **Yes. Gus came back with a ball from the garden path.** / 응. 거스가 정원 안쪽 길에서 공을 들고 돌아왔어. | “Yes. [Gus] came back with a ball from the [garden path].” | Gus · garden path · Pia · yard path | w2·거스 자기소개·ball-photo 뒤 · 재방문 가능 |
-| wren:w4 | **Did you see Luca near the flower bed?** / 화단 근처에서 루카를 봤니?<br>렌: **Yes, he stayed on the path. The flowers were still standing.** / 응, 길 위에 머물렀어. 꽃들은 그때도 서 있었어. | “Yes, he [stayed] on the [path]. The flowers were still [standing].” | stayed · path · standing · stepped · bed · flat | 루카 l1·l2 채점 뒤 · 루카의 촬영부터 귀환까지 전 구간 목격 |
+| wren:w4 | **Did you see Luca near the flower bed?** / 화단 근처에서 루카를 봤니?<br>렌: **Yes, he stayed on the path. The flowers were still fine.** / 응, 길 위에 머물렀어. 꽃들은 그때도 멀쩡했어. | “Yes, he [stayed] on the [path]. The flowers were still [fine].” | stayed · path · fine · stepped · bed · damaged | 루카 l1·l2 채점 뒤 · 루카의 촬영부터 귀환까지 전 구간 목격 |
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
@@ -198,7 +198,7 @@ w1·w2만 열린 첫 방문은 그 둘을 마치고 끝낼 수 있다. w3는 거
 | 사진 ID | 중립 제목 | 촬영 지점·조건 | 함께 보여야 할 사실 | 쓰임과 한계 |
 |---|---|---|---|---|
 | bed-photo | 화단 | 올리 n1 뒤 화단 흙과 꽃 | 누운 꽃·꽃 사이를 가로지르는 일반 신발 자국·가장자리의 작은 삽과 심기 구멍 | 정상 작업과 이후 훼손을 구별. 사람의 종·신원은 알 수 없음 |
-| garden-photo | 화단 사진 | n1 뒤 올리가 펼친 작업일지 페이지 촬영 | 심은 꽃이 모두 서 있음. 사진 아래 모종 구입처 Plant Shop 상호 | 촬영 순서는 올리 진술로만 확인. 상호는 작업실 발견에 사용 |
+| garden-photo | 화단 사진 | n1 뒤 올리가 펼친 작업일지 페이지 촬영 | 심은 꽃이 모두 멀쩡함. 사진 아래 모종 구입처 Plant Shop 상호 | 촬영 순서는 올리 진술로만 확인. 상호는 작업실 발견에 사용 |
 | fence-photo | 울타리 | 올리 n1 뒤 낮은 울타리와 바닥 | 울타리의 넘은 자국·안쪽 길에서 화단으로 이어진 발자국·밖의 마당 쪽 길·울타리 너머 골대·공놀이 마당 전경 | 두 길과 이동 범위를 구별. 이름·소유자·CCTV 인물은 없음 |
 | ball-photo | 흙 묻은 공 | 거스 g4 허락·열린 질문 완료 뒤 | 공 전체와 표면의 작고 옅은 흙 얼룩. 공 대부분은 깨끗하게 보임 | 살펴본 공의 외형·상태를 기록. 흙만으로 특정 장소 방문·꽃 훼손·범인을 판정하지 않음 |
 
@@ -226,7 +226,7 @@ w1·w2만 열린 첫 방문은 그 둘을 마치고 끝낼 수 있다. w3는 거
 | ID | 질문 / 완성 문장 | 보기 | 맞장구 | 힌트 | 근거 |
 |---|---|---|---|---|---|
 | q1 | **What did Pia do in the flower bed?** / 피아는 화단에서 무엇을 했을까?<br>Pia [planted] the flowers. | planted · picked · watered · carried · sold · painted | **Right. Pia planted the flowers.** / 맞아. 피아는 꽃을 심었어. | 피아의 첫 번째 작업 기록을 다시 들어 봐. | pia:p1 |
-| q2 | **When did Ollie take the photo?** / 올리는 언제 사진을 찍었을까?<br>Ollie took the photo [after planting]. | after planting · before planting · after coming back from the shop · after getting the ball · after taking the ball photo · after questioning Gus | **Yes. The flowers were standing after planting.** / 맞아. 꽃을 심은 뒤에도 꽃들이 서 있었어. | 올리가 작업일지 사진에 관해 한 말과 사진을 함께 확인해 봐. | ollie:n1 · garden-photo |
+| q2 | **When did Ollie take the photo?** / 올리는 언제 사진을 찍었을까?<br>Ollie took the photo [after planting]. | after planting · before planting · after coming back from the shop · after getting the ball · after taking the ball photo · after questioning Gus | **Yes. The flowers were fine after planting.** / 맞아. 꽃을 심은 뒤에도 꽃들이 멀쩡했어. | 올리가 작업일지 사진에 관해 한 말과 사진을 함께 확인해 봐. | ollie:n1 · garden-photo |
 | q3 | **Where did Luca stay while taking photos?** / 루카는 사진을 찍는 동안 어디에 머물렀을까?<br>Luca stayed [on the path]. | on the path · between the flowers · beside the ball · inside the shop · behind the bench · over the fence | **Luca stayed on the path. The footprints cross the flower bed.** / 루카는 길 위에 머물렀어. 발자국은 화단을 가로질러 있어. | 루카의 위치 답변과 렌의 후속 목격을 화단 사진과 대조해 봐. | luca:l2 · wren:w4 · bed-photo. 렌이 촬영 전 구간을 목격했으므로 루카 제외 |
 | q4 | **What did Wren see Gus carrying?** / 렌은 거스가 무엇을 들고 오는 걸 봤을까?<br>Wren saw Gus with [a ball]. | a ball · a shovel · a tray · a flowerpot · a notebook · a bottle | **Yes. Gus came back with a ball.** / 맞아. 거스가 공을 들고 돌아왔어. | 렌의 마지막 목격 기록에서 들고 있던 물건을 확인해 봐. | wren:w3 |
 | q5 | **Where did Wren see Gus come from?** / 렌이 봤을 때 거스는 어디에서 돌아왔을까?<br>Wren saw Gus come from [the garden path]. | the garden path · the yard path · the Plant Shop · the park bench · the shop door · the workshop table | **That differs from the path Gus named.** / 거스가 말한 길과는 달라. | 거스의 회수 위치와 렌의 목격 위치를 나란히 봐. | gus:g3 · wren:w3 · fence-photo |
@@ -278,7 +278,7 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 |---|---|---|---|
 | gus:wrong | 거스 · wrong | **That doesn't explain it.** / 그걸로는 설명이 안 되잖아. | 오답 제시 때만 · 같은 주장 유지, 정상 음성 횟수 제외 |
 
-공을 돌려주는 사건이 아니므로 공 건네주기나 강제 습득은 없다. 확인 뒤 탐정만 올리에게 이동하고 거스는 마당에 남는다. 복구 의사를 전하고 감사로 끝내며 꽃이 즉시 일어서거나 원화가 정상 화단으로 바뀌지 않는다. 해결 후 복습에서만 실제 행위자 얼굴·인정 내용·사건 요약을 공개한다.
+공을 돌려주는 사건이 아니므로 공 건네주기나 강제 습득은 없다. 확인 뒤 탐정만 올리에게 이동하고 거스는 마당에 남는다. 복구 의사를 전하고 감사로 끝내며 꽃이 즉시 멀쩡해지거나 원화가 정상 화단으로 바뀌지 않는다. 해결 후 복습에서만 실제 행위자 얼굴·인정 내용·사건 요약을 공개한다.
 
 ## 8. 예습·복습
 
@@ -308,7 +308,7 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | damaged | 망가진 | ollie:n0 |
 | took | 찍었다·가져갔다, take의 과거형 | ollie:n1 |
 | photo | 사진 | ollie:n1 |
-| standing | 서 있는 | ollie:n1 · wren:w1 |
+| fine | 멀쩡한·괜찮은 | ollie:n1 · wren:w1·w4 |
 | shop | 가게 | pia:p3 |
 | plants | 식물들·모종들 | pia:p3 |
 | planted | 심었다, plant의 과거형 | pia:p1 |
