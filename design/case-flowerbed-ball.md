@@ -143,13 +143,13 @@
 | gus:g1 | **Did you play here this morning?** / 오늘 아침 여기서 놀았니?<br>거스: **Yes, I played with my ball. I didn't go into the flower bed.** / 응, 내 공으로 놀았어. 화단 안에는 들어가지 않았어. | “Yes, I [played] with my [ball]. I [didn't] go into the flower bed.” | played · ball · didn't · planted · bottle · did | 첫 방문 · 공놀이 인정과 화단 출입 부정 |
 | gus:g2 | **Did your ball stay in the yard?** / 공은 마당 안에 계속 있었니?<br>거스: **No, it went over the fence. I got it back.** / 아니, 울타리 너머로 넘어갔어. 다시 가져왔어. | “No, it [went] over the [fence]. I got it [back].” | went · fence · back · stayed · bench · away | g1 뒤 · 공 이동과 회수를 처음 들음 |
 | gus:g3 | **Where did you find your ball?** / 공을 어디에서 찾았니?<br>거스: **On the yard path, outside the garden fence.** / 정원 울타리 바깥, 마당 쪽 길에서 찾았어. | “On the [yard path], [outside] the garden fence.” | yard path · outside · garden path · inside | g2 뒤 · 거짓 회수 위치 |
-| gus:g4 | **Can I take a look at your ball?** / 네 공을 살펴봐도 될까?<br>거스: **Sure. I didn't clean it. There is still mud on it.** / 물론이야. 닦지 않았어. 아직 흙이 묻어 있어. | “Sure. I [didn't] clean it. There is still [mud] on it.” | didn't · mud · did · paint | g1 뒤 · 기록으로 촬영 허락. 열린 거스 질문 완료 뒤 ball-photo 조사 |
+| gus:g4 | **Can I take a look at your ball?** / 네 공을 살펴봐도 될까?<br>거스: **Sure, you can look at it. Please leave it here.** / 그래, 살펴봐도 돼. 여기에 두고 가 줘. | “Sure, you can [look] at it. Please leave it [here].” | look · here · listen · there | g1 뒤 · 기록으로 촬영 허락. 열린 거스 질문 완료 뒤 ball-photo 조사 |
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
 | obs:f4 | 탐정 · observation | **There is mud on the ball. A petal is stuck to it.** / 공에 흙이 묻어 있어. 꽃잎 하나가 붙어 있네. | g4·열린 거스 질문 완료 뒤 · ball-photo 촬영 |
 
-거스 발치에 공이 보인다. 첫인사·인물 외형·알림에 범인 표시를 하지 않는다. g4는 촬영 허락을 얻는 조사 질문이므로 받아쓰기 15개에 포함한다. 기록을 마친 뒤 공을 현장에서 촬영하고 실제 공은 거스 곁에 남긴다. 꽃잎이 붙어 있다는 사실만으로 그 꽃잎의 정확한 출처나 훼손 행위자를 확정하지 않는다.
+거스 발치에 공이 보인다. 거스는 살펴봐도 된다는 허락만 하며 흙·꽃잎·닦았는지는 말하지 않는다. 오염 상태는 대화 종료 뒤 탐정의 직접 관찰과 촬영으로 발견한다. 첫인사·인물 외형·알림에 범인 표시를 하지 않는다. g4는 촬영 허락을 얻는 조사 질문이므로 받아쓰기 15개에 포함한다. 기록을 마친 뒤 공을 현장에서 촬영하고 실제 공은 거스 곁에 남긴다. 꽃잎이 붙어 있다는 사실만으로 그 꽃잎의 정확한 출처나 훼손 행위자를 확정하지 않는다.
 
 ### 4.5 공원 벤치 — 렌
 
@@ -321,7 +321,8 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | back | 다시·돌아와 | gus:g2 |
 | yard path | 마당 쪽 길 | gus:g3 |
 | outside | 바깥에 | gus:g3 |
-| mud | 흙·진흙 | gus:g4 |
+| look | 보다 | gus:g4 |
+| here | 여기 | gus:g4 |
 | left | 떠났다, leave의 과거형 | wren:w1 |
 | garden path | 정원 안쪽 길 | wren:w3 |
 | photos | 사진들 | luca:l1 |
@@ -337,9 +338,10 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | come back | 돌아오다 | wren:w3 · Gus came back with a ball from the garden path |
 | by accident | 실수로 | gus:a2 · I stepped on them by accident. |
 | footprints | 발자국들 | obs:f1 · There are footprints between them. |
+| mud | 흙·진흙 | obs:f4 · There is mud on the ball. |
 | petal | 꽃잎 | obs:f4 · A petal is stuck to it. |
 
-come back·step on·by accident는 표현으로 다룬다. didn't·went는 열쇠 문법에 두고 사람 이름은 단어 카드로 만들지 않는다. 추가 footprint/petal 어휘는 현장 관찰에 실제 들린다는 출처를 남긴다.
+come back·step on·by accident는 표현으로 다룬다. didn't·went는 열쇠 문법에 두고 사람 이름은 단어 카드로 만들지 않는다. 추가 footprints/mud/petal 어휘는 현장 관찰에 실제 들린다는 출처를 남긴다.
 
 ### 들은 정보와 판단의 연결
 
@@ -379,8 +381,8 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 | 인물별 질문 | 올리 2·피아 3·거스 4·렌 4·루카 2 | 동일 |
 | 인물별 빈칸 | 올리 6·피아 8·거스 10·렌 10·루카 4 | 동일, 최대 26.3% |
 | 질문당 빈칸 | 1–3 | 2–3 |
-| 답변 평균 / 최장 단어 | 평균 8–12 / 최장 18 이하 | 10.8 / 15 |
-| 3문장 답변 | 3개 이하 | 3개 |
+| 답변 평균 / 최장 단어 | 평균 8–12 / 최장 18 이하 | 10.7 / 15 |
+| 3문장 답변 | 3개 이하 | 2개 |
 | 필수 사진 / 소지품 | 4 / 없음 | 4 / 없음 |
 | 선택 클릭 소품 | 8 | 8, 필수 발화에서 제외 |
 | 추리 / 확인 차례 | 6 / 2 | 6 / 2 |
@@ -388,7 +390,7 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 | 열쇠 형태 | 정상 진행에서 들리는 수 | NPC 질문·답변의 예 |
 |---|---|---|
 | Did ...? 질문 | 8회 | gus:g1·g2·wren:w1·w3·w4·luca:l1 |
-| didn't + 동사원형 | 9회 | gus:g1·g4·wren:w2·luca:l1·l2 |
+| didn't + 동사원형 | 8회 | gus:g1·wren:w2·luca:l1·l2 |
 | 긍정 과거 went | 4회 | pia:p3·gus:g2 |
 
 발화 수는 선택한 조사 질문·답변, 필수 현장 관찰·생각·확인·보고·추리 맞장구를 정상적으로 한 번씩 듣는 기준이다. Did 질문 수에는 어순이 다른 who did it·What did you use와 부정 Why didn't 질문을 더하지 않는다. went는 단어 형태의 실제 발생을 센다. 선택 TTS·예습·복습·이동 버튼 문구·추리 완성 문장·힌트·오답 재생·다시 듣기는 제외한다. 조건에 따라 생략되는 think:luca-check·think:wren-again은 제외했다. 루카 확인 생각의 went는 필수 횟수에 넣지 않는다.
