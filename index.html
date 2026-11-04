@@ -558,8 +558,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-gram .gsent{display:block;margin-top:8px;font-size:15px;line-height:1.5}
 .rv-gram .wko{margin-top:6px}
 .rv-gram mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
-.rv-gram-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.rv-gram-head .keep{flex:none}
 .rv-gram-extra{display:block}
 .rv-gram-extra .gsent{margin-top:10px}
 .rv-gram-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
@@ -5130,14 +5128,14 @@ let rv = null;
 function openReview(fromHome){
   const stat = fromHome ? caseStats()[CASE.id] : liveStats();
   const missed = stat?.missed || [];
-  const words = learnedWords(), kept = keptWords(), grammar = caseGrammar(), savedGrammar = keptGrammar();
+  const words = learnedWords(), kept = keptWords(), grammar = caseGrammar();
   rv = { fromHome:!!fromHome, stat, missed, wrong:stat?.wrong || {}, card:0, filled:{}, step:0,
     steps:['result', ...(missed.length ? ['missed'] : []), 'grammar', 'words'],
     words, keep:new Set(kept ? words.filter(w => kept.includes(w.key)).map(w => w.key) : words.map(w => w.key)),
-    grammar, keepGrammar:new Set(savedGrammar ? grammar.filter(([g]) => savedGrammar.includes(g)).map(([g]) => g) : grammar.map(([g]) => g)), extraGrammarOpen:false, gmoreOpen:new Set() };
-  // a first review starts with nothing kept: the player picks
+    grammar, extraGrammarOpen:false, gmoreOpen:new Set() };
+  // a first review starts with no word kept: the player picks. Grammar is not picked (user decision): the case's forms join 학습 > 문법 here
   if(!fromHome && !kept) rv.keep.clear();
-  if(!fromHome && !savedGrammar) rv.keepGrammar.clear();
+  keepGrammar([...(keptGrammar() || []), ...grammar.map(([g]) => g)]);
   $('#review').hidden = false;
   renderReview();
   stampSound(340);
@@ -5190,8 +5188,8 @@ function renderReview(dir){
   if(step === 'grammar'){
     const keys = CASE.keys?.length ? CASE.keys : rv.grammar.slice(0, 3).map(([g]) => g);
     const extras = rv.grammar.filter(([g]) => !keys.includes(g));
-    body = `<h2 class="rv-title">${back}이번 사건의 문법 <small>${rv.keepGrammar.size} / ${rv.grammar.length}</small></h2>
-      <div class="rv-gram-head"><h3 class="rv-wsec">이번 사건의 열쇠</h3>${keys.map(g => grammarKeepButton(g)).join('')}</div><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use }) => {
+    body = `<h2 class="rv-title">${back}이번 사건의 문법</h2>
+      <h3 class="rv-wsec">이번 사건의 열쇠</h3><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use }) => {
       if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span>${grammarExplain(head, why, more)}</div>`;
       const { line, ko, play } = grammarLineParts(use);
       return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span></span>
@@ -5264,7 +5262,7 @@ function reviewGrammar(){
     });
   });
 }
-// key: which row, so an open one stays open when the page is drawn again (담기, 다른 문법 보기)
+// key: which row, so an open one stays open when the page is drawn again (다른 문법 보기)
 const grammarExplain = (key, why, more) => { const open = rv.gmoreOpen.has(key); return !why && !more?.length ? '' :
   `<button class="pill sm gmore-btn" type="button" data-rv-gmore="${esc(key)}" aria-expanded="${open}">${open ? '접기' : '자세히 보기'}</button>` +
   `<div class="gexplain"${open ? '' : ' hidden'}>${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}</div>`; };
@@ -5278,14 +5276,10 @@ function grammarLineParts(use){
   const play = line.inAnswer ? `data-rv-sent="${use.id}:${use.qid}" data-sent="${line.idx}"` : `data-rv-question="${use.id}:${use.qid}"`;
   return { line, ko, play };
 }
-function grammarKeepButton(g){
-  const on = rv.keepGrammar.has(g);
-  return `<button class="pill sm keep" type="button" data-rv-gkeep="${g}" aria-pressed="${on}">${on ? '담음' : '담기'}</button>`;
-}
 function reviewExtraGrammar(g){
   const use = grammarUses(g).find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || grammarUses(g)[0];
   const { line, ko, play } = grammarLineParts(use);
-  return `<div class="rv-word rv-gram rv-gram-extra"><div class="rv-gram-head"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>${grammarKeepButton(g)}</div>
+  return `<div class="rv-word rv-gram rv-gram-extra"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>
     <span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span>
     <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>
     ${grammarExplain(g, GRAMMAR[g].ko, GRAMMAR[g].more)}</div>`;
@@ -5310,8 +5304,6 @@ function closeReview(){
   const kept = keptWords() ?? learnedWords().map(w => w.key), caseKeys = new Set(rv.words.map(w => w.key));
   // a word no longer in WORDS (a name kept before names stopped being words) leaves the book
   keepWords([...kept.filter(k => WORDS[k] && !caseKeys.has(k)), ...rv.keep]);
-  const grammar = keptGrammar() ?? learnedGrammar().map(([g]) => g), caseGrammarKeys = new Set(rv.grammar.map(([g]) => g));
-  keepGrammar([...grammar.filter(g => GRAMMAR[g] && !caseGrammarKeys.has(g)), ...rv.keepGrammar]);
   $('#review').hidden = true;
   const home = rv.fromHome; rv = null;
   if(home) renderHome(); else openCaseList();
@@ -5372,13 +5364,6 @@ $('#review').addEventListener('click', e => {
   }
   if(e.target.closest('[data-rv-extra]')){
     rv.extraGrammarOpen = !rv.extraGrammarOpen;
-    const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
-    return;
-  }
-  const gkeep = e.target.closest('[data-rv-gkeep]');
-  if(gkeep){
-    const g = gkeep.dataset.rvGkeep;
-    if(rv.keepGrammar.has(g)) rv.keepGrammar.delete(g); else rv.keepGrammar.add(g);
     const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
     return;
   }
@@ -6260,9 +6245,10 @@ function learnedGrammar(){
   if(solvedCases().includes('picnic-bag')) list.unshift(['ownership', 14]);
   return list;
 }
+// The grammar book: this case's learned forms, then the forms saved by other cases' reviews (no lines here: another case's data)
 function bookGrammar(){
-  const all = learnedGrammar(), kept = keptGrammar();
-  return kept ? all.filter(([g]) => kept.includes(g)) : all;
+  const all = learnedGrammar(), have = new Set(all.map(([g]) => g));
+  return [...all, ...(keptGrammar() || []).filter(g => GRAMMAR[g] && !have.has(g)).map(g => [g, 0])];
 }
 function openGrammar(g){
   const gr = GRAMMAR[g], uses = grammarUses(g);
@@ -6468,7 +6454,7 @@ function studyGrammar(){
   return !list.length
     ? `<p class="home-empty">아직 모은 문법이 없어요.</p>`
     : list.map(([g, n]) => `<button class="wcard" type="button" data-grammar="${g}" style="text-align:left;width:100%">
-        <span class="wword">${esc(GRAMMAR[g].pattern)}</span><span class="wsay">${esc(GRAMMAR[g].name)} · 문장 ${n}</span></button>`).join('');
+        <span class="wword">${esc(GRAMMAR[g].pattern)}</span><span class="wsay">${esc(GRAMMAR[g].name)}${n ? ` · 문장 ${n}` : ''}</span></button>`).join('');
 }
 function studyWords(){
   const words = bookWords();
