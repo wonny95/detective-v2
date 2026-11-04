@@ -10,7 +10,7 @@
 - **풀 의문**: 꽃을 심는 정상 작업과 이후 생긴 훼손은 어떻게 다른가? 누가 화단에 들어가 꽃을 밟았는가?
 - **진실**: 너구리 거스가 공놀이를 하다 정원 안으로 공을 넘긴다. 공을 꺼내려 울타리를 넘어 정원 안쪽 길로 들어온 뒤, 화단 한가운데의 공을 향해 걸으며 꽃을 밟는다. 꽃을 망가뜨리려던 고의는 없지만 당황해 바깥길에서 공을 찾았다고 부인한다. 최종 확인에서 출입·훼손·숨긴 이유를 직접 인정한다.
 - **피아의 작업**: 꽃을 심고 작은 삽을 화단 옆에 두었다. 올리의 사진에서는 심기가 끝난 뒤에도 모든 꽃이 서 있다. 피아와 올리는 그 뒤 함께 가게에 갔다가 함께 돌아와 훼손을 발견한다. 흙 묻은 도구와 심기 흔적만으로 피아를 범인이라고 하지 않는다.
-- **루카의 행동**: 여우 루카가 혼자 꽃 사진을 찍으러 정원에 들어갔다. 화단으로 들어가지 않고 정원 안쪽 길에 머물렀다. 사진에 집중하다 꽃을 밟았을 가능성 때문에 조사하지만, 자기 주장만으로 제외하지 않는다. 렌은 루카가 길을 걷고 멈춰 찍다가 벤치로 돌아오는 전 구간과 그때 서 있던 꽃을 보았다. 거스와 공놀이하거나 함께 정원에 들어간 적은 없다. 현재 벤치 건너편에서 카메라를 정리한다. 꽃 훼손을 아직 보지 못했고 요청받으면 직접 아는 일을 설명한다.
+- **루카의 행동**: 코알라 루카가 혼자 꽃 사진을 찍으러 정원에 들어갔다. 화단으로 들어가지 않고 정원 안쪽 길에 머물렀다. 사진에 집중하다 꽃을 밟았을 가능성 때문에 조사하지만, 자기 주장만으로 제외하지 않는다. 렌은 루카가 길을 걷고 멈춰 찍다가 벤치로 돌아오는 전 구간과 그때 서 있던 꽃을 보았다. 거스와 공놀이하거나 함께 정원에 들어간 적은 없다. 현재 벤치 건너편에서 카메라를 정리한다. 꽃 훼손을 아직 보지 못했고 요청받으면 직접 아는 일을 설명한다.
 - **렌의 시야**: 벤치에 앉아 두 친구의 출발, 울타리 위로 날아간 공, 공을 들고 정원 안쪽 길에서 돌아오는 거스를 보았다. 낮은 울타리와 꽃줄기에 바닥 시야가 가려져 공이 떨어진 위치·발로 밟는 순간은 보지 못했다. 목격하지 않은 훼손을 진술하지 않는다.
 - **해결**: 피아는 작업 순서를 설명하는 참고인이다. 거스와 루카가 각각 정원에 들어갔을 가능성을 조사한다. 루카는 렌의 전 구간 목격으로 길에 머물렀음을 확인한다. 거스가 말한 마당 쪽 바깥길과 렌이 본 정원 안쪽 길의 차이를 짚고, 눌린 꽃 사이의 발자국·공 상태를 함께 제시해 훼손 경위를 묻는다. 사진만으로 특정인의 발자국이나 꽃잎 출처를 확정하지 않는다. 공놀이한 인물이 혼자라는 사실만으로 범인이라고 하지 않는다. 현장에 선명한 공 자국을 새로 만들지 않으며, 공만으로 루카를 제외하지 않는다.
 
@@ -37,7 +37,7 @@
 | Ollie 올리 · 수달 | 재사용 · 소풍 가방 사건 | 마을 화단 | 의뢰인·기록 사진 제공·피아 동행 확인 |
 | Pia 피아 · 돼지 | 신규 | 모종 작업실(Plant Shop) | 꽃 심기·출발 순서를 설명하는 참고인. 용의자로 취급하지 않음 |
 | Gus 거스 · 너구리 | 신규 | 공놀이 마당 | 공을 회수하다 꽃을 밟은 실제 행위자 |
-| Luca 루카 · 여우 | 신규 제안 | 공원 벤치 건너편 | 사진을 찍으러 정원에 들어간 별도 용의자. 렌 목격으로 길에 머문 사실 확인 |
+| Luca 루카 · 코알라 | 신규 제안 | 공원 벤치 건너편 | 사진을 찍으러 정원에 들어간 별도 용의자. 렌 목격으로 길에 머문 사실 확인 |
 | Wren 렌 · 굴뚝새 | 신규 | 공원 벤치 | 출발·공 이동·귀환을 제한된 시야에서 목격 |
 | 다람쥐 탐정 | 기존 | 플레이어가 선택한 장소 | 탐문·촬영·추리·확인·보고 |
 
@@ -114,21 +114,21 @@
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
 | pia:hello | 피아 · turn | **Come in! I'm Pia.** / 들어와! 난 피아야. | 모종 작업실 첫 만남 |
-| det:pia-open | 탐정 · turn | **I'm checking what happened to the flower bed.** / 화단에 무슨 일이 있었는지 알아보고 있어. | 피아 소개 뒤 |
+| det:pia-open | 탐정 · turn | **I'm helping Ollie find out what happened.** / 올리를 도와 무슨 일이 있었는지 알아보고 있어. | 피아 소개 뒤 |
 | pia:ready | 피아 · turn | **Sure. What would you like to know?** / 그래. 무엇이 궁금하니? | 조사 정보는 질문에서 제공 |
 
 | ID | 질문 선택지 / 답변 음성 | 노트 빈칸 | 보기 | 선행 조건·역할 |
 |---|---|---|---|---|
-| pia:p1 | **Did you work in the flower bed?** / 화단에서 일을 했니?<br>피아: **Yes, I planted the flowers. Ollie took a photo after that.** / 응, 꽃을 심었어. 그 뒤에 올리가 사진을 찍었어. | “Yes, I [planted] the [flowers]. Ollie took a [photo] after that.” | planted · flowers · photo · picked · bottles · drawing | 첫 방문 · 작업에 대해 처음 물음 |
-| pia:p3 | **Where did you go after planting?** / 꽃을 심은 뒤 어디에 갔니?<br>피아: **Ollie and I went to the shop. We came back together.** / 올리와 가게에 갔어. 함께 돌아왔어. | “Ollie and I [went] to the [shop]. We came back [together].” | went · shop · together · go · yard · alone | p1 뒤 · 작업 뒤 외출 순서 |
-| pia:p4 | **Did anyone see you leave?** / 너희가 떠나는 걸 본 친구가 있니?<br>피아: **Yes. Two friends were by the park bench.** / 응. 공원 벤치 옆에 두 친구가 있었어. | “Yes. Two [friends] were by the park [bench].” | friends · bench · flowers · fence | p3 뒤 · 벤치의 두 친구 발견. 이름은 각자 소개 뒤 표시 |
+| pia:p1 | **Can you tell me about the flowers?** / 꽃들에 관해 알려줄래?<br>피아: **Yes, I planted the flowers. Ollie took a photo after that.** / 응, 꽃을 심었어. 그 뒤에 올리가 사진을 찍었어. | “Yes, I [planted] the [flowers]. Ollie took a [photo] after that.” | planted · flowers · photo · picked · bottles · drawing | 첫 방문 · 꽃 작업 이야기를 부탁함 |
+| pia:p3 | **What happened after that?** / 그 뒤에는 어떻게 됐니?<br>피아: **Ollie and I went to the shop for more plants.** / 올리와 모종을 더 가지러 가게에 갔어. | “Ollie and I [went] to the [shop] for more [plants].” | went · shop · plants · go · yard · photos | p1 뒤 · 앞서 말한 사진 촬영의 다음 일을 물음 |
+| pia:p4 | **Who else was near the garden?** / 정원 근처에는 또 누가 있었니?<br>피아: **Two friends were by the park bench.** / 공원 벤치 옆에 두 친구가 있었어. | “Two [friends] were by the park [bench].” | friends · bench · flowers · fence | p3 뒤 · 벤치의 두 친구 발견. 이름은 각자 소개 뒤 표시 |
 
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
 | think:bench | 탐정 · thought | **I should ask the friends by the bench.** / 벤치 옆 친구들에게 물어봐야겠어. | p4 채점 뒤 |
 | move:bench | 탐정 · move-choice | **Go to the park bench.** / 공원 벤치로 가기 | 직접 선택 · 버튼 음성 없음 |
 
-피아는 용의자가 아닌 참고인이다. 정상 작업과 출발 순서를 설명하고 벤치에 있던 두 친구를 알려 준다. 사진 찍는 친구의 행동은 직접 알지 못한다.
+피아는 올리와 함께 일한 협조자다. 꽃 작업 이야기를 부탁하고, 사진을 찍은 뒤의 일과 주변 친구들을 차례로 소개받는다. 행동 부정이나 목격자를 통한 알리바이 확인은 묻지 않는다. 사진 찍는 친구의 행동은 직접 알지 못한다.
 
 ### 4.4 공놀이 마당 — 거스
 
@@ -310,7 +310,7 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | photo | 사진 | ollie:n1 |
 | standing | 서 있는 | ollie:n1 · wren:w1 |
 | shop | 가게 | pia:p3 |
-| together | 함께 | pia:p3 |
+| plants | 식물들·모종들 | pia:p3 |
 | planted | 심었다, plant의 과거형 | pia:p1 |
 | went | 갔다, go의 과거형 | pia:p3 · gus:g2 |
 | friends | 친구들 | pia:p4 |
@@ -334,7 +334,7 @@ Q6의 답은 설명을 더 확인할 상대다. 사진과 진술이 충돌하는
 | 표현·단어 | 뜻 | 출처 |
 |---|---|---|
 | step on | 밟다 | det:cq2 · Did you step on them to get your ball? |
-| come back | 돌아오다 | pia:p3 · We came back together |
+| come back | 돌아오다 | wren:w3 · Gus came back with a ball from the garden path |
 | by accident | 실수로 | gus:a2 · I stepped on them by accident. |
 | footprints | 발자국들 | obs:f1 · There are footprints between them. |
 | petal | 꽃잎 | obs:f4 · A petal is stuck to it. |
@@ -346,7 +346,7 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 | 알아들어야 하는 말 | 연결할 자료 | 판단 |
 |---|---|---|
 | pia:p1 planted / flowers | 정상 작업 사진·올리 n1 | 꽃을 심은 행동을 훼손과 구별 |
-| pia:p3 went / together | 렌 w1 출발 목격·정상 사진 | 작업과 이후 훼손의 순서를 확인. 피아를 용의자로 삼지 않음 |
+| pia:p3 went / plants | 렌 w1 출발 목격·정상 사진 | 작업과 이후 훼손의 순서를 확인. 피아를 용의자로 삼지 않음 |
 | gus:g1 played / didn't go | 공 조사·w3 | 한 행동은 인정하면서 다른 행동은 부인한다는 점 확인 |
 | luca:l2 didn't / between · wren:w4 stayed / path | bed-photo | 루카는 길 위, 훼손 발자국은 꽃 사이. 독립 목격과 대조해 제외 |
 | gus:g2 went over / got it back | fence-photo·ball-photo | 공의 이동과 회수 사실 확인 |
@@ -379,7 +379,7 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 | 인물별 질문 | 올리 2·피아 3·거스 4·렌 4·루카 2 | 동일 |
 | 인물별 빈칸 | 올리 6·피아 8·거스 10·렌 10·루카 4 | 동일, 최대 26.3% |
 | 질문당 빈칸 | 1–3 | 2–3 |
-| 답변 평균 / 최장 단어 | 평균 8–12 / 최장 18 이하 | 10.9 / 15 |
+| 답변 평균 / 최장 단어 | 평균 8–12 / 최장 18 이하 | 10.8 / 15 |
 | 3문장 답변 | 3개 이하 | 3개 |
 | 필수 사진 / 소지품 | 4 / 없음 | 4 / 없음 |
 | 선택 클릭 소품 | 8 | 8, 필수 발화에서 제외 |
@@ -387,7 +387,7 @@ come back·step on·by accident는 표현으로 다룬다. didn't·went는 열�
 
 | 열쇠 형태 | 정상 진행에서 들리는 수 | NPC 질문·답변의 예 |
 |---|---|---|
-| Did ...? 질문 | 10회 | pia:p1·p4·gus:g1·g2·wren:w1·w3·w4·luca:l1 |
+| Did ...? 질문 | 8회 | gus:g1·g2·wren:w1·w3·w4·luca:l1 |
 | didn't + 동사원형 | 9회 | gus:g1·g4·wren:w2·luca:l1·l2 |
 | 긍정 과거 went | 4회 | pia:p3·gus:g2 |
 
