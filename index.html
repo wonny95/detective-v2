@@ -554,23 +554,23 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-grams{display:flex;flex-direction:column;gap:12px;margin-top:4px}
 /* the case's grammar in the same rows (user request): the form and its short name, a line from the case with the form
    marked, ▶ (that sentence) and 해석 (its Korean, in the row) on the right beside each other */
-.rv-gram{align-items:start;column-gap:10px;padding:14px 14px 15px 16px}
-.rv-gram .play-btn,.rv-gram .pill{margin-top:2px}
+.rv-gram{display:block;padding:14px 14px 15px 16px}
+/* the whole card folds (user pick, 안 B): folded it is the form and its meaning; the head opens the line, ▶, 해석 and the explanation */
+.rv-gram-head{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.rv-gram-head svg{flex:none;width:20px;height:20px;transition:transform .18s}
+.rv-gram-head[aria-expanded="true"] svg{transform:rotate(180deg)}
 /* the form's meaning on its own line under the form (user request) */
 .rv-gram .wword small{display:block;margin-top:2px;font-family:var(--f-body);font-weight:400;font-size:13px;color:var(--ink-soft)}
-.rv-gram .gsent{display:block;margin-top:8px;font-size:15px;line-height:1.5}
+.rv-gram .gsent{display:block;margin-top:10px;font-size:15px;line-height:1.5}
 .rv-gram .wko{margin-top:6px}
 .rv-gram mark{background:linear-gradient(transparent 58%,rgba(242,207,115,.6) 58%);color:inherit}
-.rv-gram-extra{display:block}
-.rv-gram-extra .gsent{margin-top:10px}
-.rv-gram-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
-/* how the form works (user request: the grammar page explained too little): under the row's line, across the row,
-   folded under 자세히 보기 (user request) */
-.rv-gram .gmore-btn{grid-column:1 / -1;justify-self:start;margin-top:10px}
-.gexplain{grid-column:1 / -1;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line)}
+.rv-gram-actions{display:flex;align-items:center;gap:8px;margin-top:10px}
+/* how the form works (user request: the grammar page explained too little) */
+.gexplain{margin-top:12px;padding-top:10px;border-top:1.5px dashed var(--line)}
 .gexplain .gwhy{margin:0;font-size:14px;line-height:1.6}
-.gexplain ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
-.gexplain li + li{margin-top:4px}
+.gexplain ul{margin:8px 0 0;padding-left:18px;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.gexplain li + li{margin-top:6px}
+.gexplain .gex-en{display:block;margin-top:1px;font-family:var(--f-hand);font-weight:700;font-size:14.5px;color:var(--ink)}
 .rv-grammar-more{width:100%;justify-content:center;min-height:42px}
 /* evidence notebook: two photos per row so several fit on screen at once */
 /* the list: two photo cards per row, each with only its name and where it was found; a card opens it */
@@ -2059,6 +2059,8 @@ const UMBRELLA_CASE = {
     ["i don't know.",'ella:e1',"I don't know"], ['come back for','ella:e1','came back for'], ['for a week','ella:e2','for a week'], ["i'm not sure where",'tess:t0',"I'm not sure where"],
     ['look for','tess:t5','looking for'], ['what is it like?','tess:t1','What is your umbrella like'], ['who else','tess:t4','Who else']
   ],
+  // a key form heard only outside the questions and answers: the sentence, cut from its recording (detective-end-ruby1)
+  formLines:{ 'Is this / that … yours?':{ en:'Is this umbrella yours?', words:'yours', ko:'이 우산 네 거야?', audio:'audio/umbrella/detective-end-ruby1-yours.mp3' } },
   grammarLines:{
     'ella:e1':[['whose','Whose umbrella is that'], ['negative',"I don't know"], ['past-irr','came back']],
     'tess:t0':[['did-q','Did you bring'], ['ownership','lend mine']],
@@ -5161,6 +5163,7 @@ function openReview(fromHome){
     steps:['result', ...(missed.length ? ['missed'] : []), 'grammar', 'words'],
     words, keep:new Set(kept ? words.filter(w => kept.includes(w.key)).map(w => w.key) : words.map(w => w.key)),
     grammar, extraGrammarOpen:false, gmoreOpen:new Set() };
+  rv.gmoreOpen.add(reviewGrammar()[0]?.head);   // the first form's card starts open
   // a first review starts with no word kept: the player picks. Grammar is not picked (user decision): the case's forms join 학습 > 문법 here
   if(!fromHome && !kept) rv.keep.clear();
   keepGrammar([...(keptGrammar() || []), ...grammar.map(([g]) => g)]);
@@ -5217,12 +5220,8 @@ function renderReview(dir){
     const keys = CASE.keys?.length ? CASE.keys : rv.grammar.slice(0, 3).map(([g]) => g);
     const extras = rv.grammar.filter(([g]) => !keys.includes(g));
     body = `<h2 class="rv-title">${back}이번 사건의 문법</h2>
-      <h3 class="rv-wsec">이번 사건의 열쇠</h3><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use }) => {
-      if(!use) return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span></span>${grammarExplain(head, why, more)}</div>`;
-      const { line, ko, play } = grammarLineParts(use);
-      return `<div class="rv-word rv-gram"><span><span class="wword">${esc(head)}<small>${esc(name)}</small></span><span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span></span>
-        <button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button>
-        <button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button>${grammarExplain(head, why, more)}</div>`;
+      <h3 class="rv-wsec">이번 사건의 열쇠</h3><div class="rv-grams">` + reviewGrammar().map(({ head, name, why, more, use, form }) => {
+      return grammarRow(head, head, name, use ? grammarLineParts(use) : form && formLineParts(form), why, more);
     }).join('') + `</div>${extras.length ? `<button class="pill rv-grammar-more" type="button" data-rv-extra aria-expanded="${rv.extraGrammarOpen}">${rv.extraGrammarOpen ? '다른 문법 접기' : `다른 문법 ${extras.length}개 보기`}</button>` : ''}` +
       (rv.extraGrammarOpen ? `<div class="rv-grams">${extras.map(([g]) => reviewExtraGrammar(g)).join('')}</div>` : '');
     foot = `<button class="pill big" type="button" data-rv-next>다음</button>`;
@@ -5286,14 +5285,28 @@ function reviewGrammar(){
     return GRAMMAR[g].examples.map(ex => {
       const form = ex.match ? new RegExp(ex.match, 'i') : new RegExp('^' + ex.head.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b[AB]\b/g, '.+') + '\\b', 'i');
       const fits = u => form.test(u.words);
-      return { head:ex.head, name:ex.ko, why:ex.why, more:ex.more, use:pick(own.filter(fits)) || pick(others.filter(fits)) };
+      return { head:ex.head, name:ex.ko, why:ex.why, more:ex.more, use:pick(own.filter(fits)) || pick(others.filter(fits)), form:PACK?.formLines?.[ex.head] };
     });
   });
 }
-// key: which row, so an open one stays open when the page is drawn again (다른 문법 보기)
-const grammarExplain = (key, why, more) => { const open = rv.gmoreOpen.has(key); return !why && !more?.length ? '' :
-  `<button class="pill sm gmore-btn" type="button" data-rv-gmore="${esc(key)}" aria-expanded="${open}">${open ? '접기' : '자세히 보기'}</button>` +
-  `<div class="gexplain"${open ? '' : ' hidden'}>${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}</div>`; };
+// a point's English example on its own line: the end of the point, after the last Korean
+function grammarPoint(text){
+  const hit = text.match(/^(.*[가-힣][^\sA-Za-z]*)\s+([A-Za-z"'][^가-힣]*)$/);
+  return `<li>${hit ? `${esc(hit[1].replace(/\s*예:$/, ''))}<span class="gex-en">${esc(hit[2])}</span>` : esc(text)}</li>`;
+}
+const grammarExplain = (why, more) => !why && !more?.length ? '' :
+  `<div class="gexplain">${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(grammarPoint).join('')}</ul>` : ''}</div>`;
+const GRAM_CHEVRON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 9 L12 15.5 L18.5 9" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+// One form's card (user pick, 안 B): the head folds the rest. key: which card, so an open one stays open when the page is drawn again
+function grammarRow(key, head, name, parts, why, more){
+  const open = rv.gmoreOpen.has(key);
+  return `<div class="rv-word rv-gram"><button class="rv-gram-head" type="button" data-rv-gmore="${esc(key)}" aria-expanded="${open}"><span class="wword">${esc(head)}<small>${esc(name)}</small></span>${GRAM_CHEVRON}</button>
+    <div class="rv-gram-body"${open ? '' : ' hidden'}>${parts ? `<span class="gsent">${parts.line.html}</span><span class="wko" hidden>${esc(parts.ko)}</span>
+      <div class="rv-gram-actions"><button class="play-btn" type="button" ${parts.play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>` : ''}
+      ${grammarExplain(why, more)}</div></div>`;
+}
+// a line the case has outside its questions and answers (PACK.formLines)
+const formLineParts = ({ en, words, ko, audio }) => ({ line:{ html:esc(en).replace(esc(words), `<mark>${esc(words)}</mark>`) }, ko, play:`data-rv-voice="${audio}"` });
 // a tagged line's Korean (that sentence when the answer's Korean has as many sentences) and what ▶ plays
 function grammarLineParts(use){
   const line = grammarLine(use.id, use.qid, use.words), s = spk(use.id);
@@ -5305,12 +5318,9 @@ function grammarLineParts(use){
   return { line, ko, play };
 }
 function reviewExtraGrammar(g){
-  const use = grammarUses(g).find(u => grammarLine(u.id, u.qid, u.words).inAnswer) || grammarUses(g)[0];
-  const { line, ko, play } = grammarLineParts(use);
-  return `<div class="rv-word rv-gram rv-gram-extra"><span class="wword">${esc(GRAMMAR[g].pattern)}<small>${esc(GRAMMAR[g].name)}</small></span>
-    <span class="gsent">${line.html}</span><span class="wko" hidden>${esc(ko)}</span>
-    <div class="rv-gram-actions"><button class="play-btn" type="button" ${play} aria-label="문장 듣기"></button><button class="pill sm" type="button" data-rv-gko aria-pressed="false">해석</button></div>
-    ${grammarExplain(g, GRAMMAR[g].ko, GRAMMAR[g].more)}</div>`;
+  const shown = reviewGrammar().map(r => r.use?.words), uses = grammarUses(g), answers = uses.filter(u => grammarLine(u.id, u.qid, u.words).inAnswer);
+  const use = answers.find(u => !shown.includes(u.words)) || answers[0] || uses[0];
+  return grammarRow(g, GRAMMAR[g].pattern, GRAMMAR[g].name, grammarLineParts(use), GRAMMAR[g].ko, GRAMMAR[g].more);
 }
 function replayReviewQuestion(ref){
   stopVoice();
@@ -5344,6 +5354,8 @@ $('#review').addEventListener('click', e => {
   if(sent) return replaySentence(sent.dataset.rvSent, +sent.dataset.sent);
   const question = e.target.closest('[data-rv-question]');
   if(question) return replayReviewQuestion(question.dataset.rvQuestion);
+  const formVoice = e.target.closest('[data-rv-voice]');
+  if(formVoice) return detectiveSay(formVoice.dataset.rvVoice);
   if(e.target.closest('[data-rv-next]')) return reviewNext();
   // back a page; back to the sentences to hear again, at the last one
   if(e.target.closest('[data-rv-back]')){
@@ -5385,8 +5397,8 @@ $('#review').addEventListener('click', e => {
   if(gko){ const t = gko.closest('.rv-gram').querySelector('.wko'); t.hidden = !t.hidden; gko.setAttribute('aria-pressed', !t.hidden); return; }
   const gmore = e.target.closest('[data-rv-gmore]');
   if(gmore){
-    const t = gmore.closest('.rv-gram').querySelector('.gexplain'); t.hidden = !t.hidden;
-    gmore.setAttribute('aria-expanded', !t.hidden); gmore.textContent = t.hidden ? '자세히 보기' : '접기';
+    const t = gmore.closest('.rv-gram').querySelector('.rv-gram-body'); t.hidden = !t.hidden;
+    gmore.setAttribute('aria-expanded', !t.hidden);
     rv.gmoreOpen[t.hidden ? 'delete' : 'add'](gmore.dataset.rvGmore);
     return;
   }
