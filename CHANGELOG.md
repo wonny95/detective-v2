@@ -13,7 +13,16 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-04 11:45 · Claude · (이 커밋)
+## 2026-11-04 10:27 · Claude · (이 커밋)
+
+- 사용자 결정(설계서 함께 수정): 우산 사건 엘라의 인사에서 탐정의 `Hello. How can I help?`가 자동 대사가 아니라 **인사 뒤 혼자 나오는 첫 질문 e0**이 됨. 엘라의 의뢰(`Someone left that umbrella here. Can you help me find its owner?`)가 그 대답이고 노트에 받아 적는다: `“Someone [left] that umbrella here. Can you help me find its [owner]?”`, 보기 left·lost·owner·friend(사용자 선택: 받아쓰기 포함, 보기는 제안한 그대로). e1·e2·조사 선택지는 e0을 적은 뒤에 나온다.
+- 엔진: 행동(`people[].actions`)도 `openingQuestion`을 기다린다(`openingAsked()`). 지금 행동이 있는 인물은 엘라뿐이다.
+- 음성: 크레딧 없음. 기존 녹음의 이름만 바꿈(`ella-hello2.mp3` → `ella-e0.mp3`, `detective-hello-ella.mp3` → `detective-ella-e0.mp3`). `SENTENCE_TIMES`에 ella:e0 추가(silencedetect로 잼). 단어 `owner`(주인)와 발음 `audio/words/owner.wav`(같은 Zira 설정) 추가. PowerShell 실행 정책 때문에 `scripts/generate-word-audio.ps1`이 막혀, 이 파일만 같은 설정으로 직접 만듦.
+- 설계서: `design/case-02-unclaimed-umbrella.md`·`.html`(요약, 4·5절, 조사 설명, 진행 표, 받아쓰기 14개·빈칸 33칸), 녹음 대본은 스크립트로 다시 뽑음. 로지의 같은 구조는 그대로 둠(사용자에게 알림: 해 보고 넓히기로 제안).
+- 확인(새 탭 127.0.0.2, `?case=umbrella&preview=talk`): 인사 뒤 `Hello. How can I help?` 하나만 표시 → 누르면 `detective-ella-e0`·`ella-e0` 재생 → 노트에 빈칸 2칸·보기 4개 → 정답 채점 통과, 지문에 의뢰가 남음 → 닫으면 e1·e2·조사 선택지 표시. 복습 단어 27개에 left·owner, ▶는 e0의 해당 문장. 콘솔 오류 없음, 구문 검사 통과. 못 한 것: 오답 흐름은 이 질문에서 해 보지 않음(다른 질문과 같은 코드), 전에 진행하던 저장 기록은 코드만 읽음(대화를 끝낸 저장은 그대로 끝, 진행 중이면 e0이 먼저 나옴), `owner` 발음은 소리로 들어 보지 않음.
+- **다음**: 사용자 지시 대기. 후보: 로지의 `Yes. How can I help you?`도 같은 방식으로 바꿀지(첫 플레이 튜토리얼과 맞는지 확인 필요).
+
+## 2026-11-04 10:15 · Claude · 5ad8e07
 
 - 사용자 선택(안 B): 복습 문법 카드를 카드째 접기(`grammarRow()`). 접히면 형태·뜻·화살표, 머리를 누르면 문장·▶·`해석`·설명. 첫 카드만 열린 채 시작, `자세히 보기` 버튼은 없어짐. 열쇠와 다른 문법이 같은 카드.
 - 함께(사용자에게 미리 알린 것):

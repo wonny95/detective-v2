@@ -1939,17 +1939,15 @@ const PICNIC_CASE = {
 const UMBRELLA_CASE = {
   start:'ella',
   people:{
-    ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'hall', witness:true, required:true, pitch:1.2, voice:2, bg:'#F1E4D2',
-      // MiniMax Petra, emotion happy (the user's recording of hello2 set the voice; the rest made on the Higgsfield site,
+    ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'hall', witness:true, required:true, pitch:1.2, voice:2, bg:'#F1E4D2', openingQuestion:'e0',
+      // MiniMax Petra, emotion happy (the user's recording of e0 set the voice; the rest made on the Higgsfield site,
       // since its MCP tool drops the emotion)
-      audio:Object.fromEntries(['hello', 'hello2', 'e1', 'e2', 'inspect', 'end1', 'end2', 'end3'].map(key => [key, `audio/umbrella/ella-${key}.mp3`])),
-      // she points at the umbrella stand by the door: far off, so "that" (design 2절)
+      audio:Object.fromEntries(['hello', 'e0', 'e1', 'e2', 'inspect', 'end1', 'end2', 'end3'].map(key => [key, `audio/umbrella/ella-${key}.mp3`])),
       hello:[
-        { key:'hello', en:"Hello. I'm Ella. I help at the village hall.", ko:'안녕. 난 엘라야. 마을회관 일을 돕고 있어.' },
-        { det:true, key:'hello-ella', en:'Hello. How can I help?', ko:'안녕. 무슨 일이야?' },
-        { key:'hello2', en:'Someone left that umbrella here. Can you help me find its owner?', ko:'누가 저 우산을 여기 두고 갔어. 주인 찾는 걸 도와줄래?' }
+        { key:'hello', en:"Hello. I'm Ella. I help at the village hall.", ko:'안녕. 난 엘라야. 마을회관 일을 돕고 있어.' }
       ],
       questions:[
+        { id:'e0', en:'Hello. How can I help?', ko:'안녕. 무슨 일이야?' },
         { id:'e1', en:'Whose umbrella is that?', ko:'저건 누구 우산이야?' },
         { id:'e2', en:'How long has it been here?', ko:'얼마나 오래 여기 있었어?' }
       ],
@@ -1958,14 +1956,17 @@ const UMBRELLA_CASE = {
         { id:'inspect', en:'Can I take a closer look at that umbrella?', ko:'저 우산 좀 자세히 봐도 될까?', answer:'Of course. Here you go.', answerKo:'물론이지. 여기 있어.', inspect:'umbrella' }
       ],
       answers:{
+        // she points at the umbrella stand by the door: far off, so "that" (design 2절)
+        e0:'Someone left that umbrella here. Can you help me find its owner?',
         e1:"I don't know. No one came back for it.",
         e2:"It's been here for a week."
       },
       notes:{
+        e0:['“Someone {{d|left}} that umbrella here. Can you help me find its {{e|owner}}?”'],
         e1:["“I don't {{a|know}}. No one came {{b|back}} for it.”"],
         e2:["“It's been here for a {{c|week}}.”"]
       },
-      bank:{ e1:['see','know','here','back'], e2:['day','week','month'] }
+      bank:{ e0:['lost','left','friend','owner'], e1:['see','know','here','back'], e2:['day','week','month'] }
     },
     // nameless until she says who she is (design: no name on her tag, map or notes before "I'm Tess")
     tess: { id:'tess', name:'Tess Tortoise', unnamed:'Tortoise', ko:'거북 테스', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:.95, voice:0, bg:'#DDE8D5', openingQuestion:'t0',
@@ -2076,7 +2077,7 @@ const UMBRELLA_CASE = {
     'finn:f2':[['wh-q','What pattern'], ['ownership','Mine has no pattern']]
   },
   answersKo:{
-    ella:{ e1:'몰라. 아무도 찾으러 오지 않았어.', e2:'일주일째 여기 있어.' },
+    ella:{ e0:'누가 저 우산을 여기 두고 갔어. 주인 찾는 걸 도와줄래?', e1:'몰라. 아무도 찾으러 오지 않았어.', e2:'일주일째 여기 있어.' },
     tess:{ t0:'응. 그런데 친구들에게 우산을 자주 빌려줘서, 지금 어디 있는지 잘 모르겠어.', t1:'내 거는 남색이야. 파란 손잡이가 있어.', t2:'내 거에는 금빛 별무늬가 있어.',
       t3:'내 거는 안쪽이 남색이야.', t4:'루비한테도 물어봐. 여기서 일하는 친구야. 그날 바자회에 함께 있었어.', t5:'핀이 자기 우산을 찾고 있어. 풍차 언덕에서 만날 수 있어.' },
     ruby:{ r1:'내 거는 남색이야. 파란 손잡이가 있어.', r2:'내 거에는 금빛 별무늬가 있어.', r3:'내 거는 안쪽이 금빛이야.' },
@@ -2405,7 +2406,7 @@ const WORDS = {
   '7 pm':['t','오후 7시','seven p.m.'], '8 pm':['t','오후 8시','eight p.m.'], '9 pm':['t','오후 9시','nine p.m.'], '10 pm':['t','오후 10시','ten p.m.'],
   '8:30':['t','8시 30분','eight thirty'], '8:45':['t','8시 45분','eight forty-five'], '9:30 pm':['t','오후 9시 30분','nine thirty p.m.'], 'twelve':['t','열둘, 12','twelve'],
   'back':['w','돌아와서, 다시'], 'week':['w','주, 일주일'], 'lend':['w','빌려주다'], 'where':['w','어디'], 'dark blue':['w','남색'], 'handle':['w','손잡이'], 'gold':['w','금색'],
-  'here':['w','여기'], 'together':['w','함께'], 'umbrella':['w','우산'], 'pattern':['w','무늬'], 'plain':['w','무늬 없는'], 'windmill hill':['n','풍차 언덕',null,'Windmill Hill'],
+  'owner':['w','주인'], 'here':['w','여기'], 'together':['w','함께'], 'umbrella':['w','우산'], 'pattern':['w','무늬'], 'plain':['w','무늬 없는'], 'windmill hill':['n','풍차 언덕',null,'Windmill Hill'],
   // 표현 (user decision: fixed expressions and idioms are not grammar). Not note blanks: each case's phrases say where it is heard.
   // The key is what the word audio reads; the fourth value is how it is written when that differs.
   "i'm not sure.":['x','잘 모르겠어',null,"I'm not sure."], 'just like':['x','꼭 ~처럼',null,'just like ~'], "i don't know.":['x','몰라',null,"I don't know."],
@@ -2546,7 +2547,7 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = UMBRELLA ? { 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
+const SENTENCE_TIMES = UMBRELLA ? { 'ella:e0':[[0, 1.8], [2.24, 3.56]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
   'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
   'rosie:r1':[[0,0.94],[1.44,3.76]],
@@ -2948,13 +2949,14 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 const spk = id => PEOPLE[id];
 const per = id => S.per[id];
 const qs = sp => sp.questions || QUESTIONS;
+// openingQuestion: one id, or several offered together first (Mr. Duck, user request); the rest, actions too, come once they are all asked
+const openingOf = speaker => [].concat(speaker.openingQuestion || []);
+const openingAsked = speaker => openingOf(speaker).every(id => per(speaker.id).order.includes(id));
 const availableQuestions = speaker => {
   const progress = per(speaker.id);
-  // openingQuestion: one id, or several offered together first (Mr. Duck, user request); the rest come once they are all asked
-  const opening = [].concat(speaker.openingQuestion || []);
   // not asked yet, or (a save from when a wrong check went back to the questions) asked but not written down right
   return qs(speaker).filter(question => (!progress.order.includes(question.id) || progress.questionChecks[question.id] === 'review') &&
-    (!opening.length || opening.every(id => progress.order.includes(id)) || opening.includes(question.id)) &&
+    (openingAsked(speaker) || openingOf(speaker).includes(question.id)) &&
     (speaker.needs?.[question.id] || []).every(ref => S.evidence.some(item => evRef(item) === ref)));
 };
 const cur = () => spk(S.cur);
@@ -3266,7 +3268,7 @@ function renderAsk(){
   if(p.phase === 'choose'){
     const left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
-      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('') + acts;
+      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('') + (openingAsked(s) ? acts : '');
   } else if(p.phase === 'done' && acts) html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` + acts;
   // a finished conversation has no button of its own: the top chip and a tap on the scene lead back to the place
   if(allConversationsDone()) html += `<button class="pill big" type="button" data-accuse>추리하기</button>`;

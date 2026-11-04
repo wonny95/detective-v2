@@ -20,7 +20,7 @@
 | # | 파일 | 장면 | 영어 | 해석 |
 |---|---|---|---|---|
 | 1 | `ella-hello.mp3` | 첫 인사 | Hello. I'm Ella. I help at the village hall. | 안녕. 난 엘라야. 마을회관 일을 돕고 있어. |
-| 2 | `ella-hello2.mp3` | 첫 인사 | Someone left that umbrella here. Can you help me find its owner? | 누가 저 우산을 여기 두고 갔어. 주인 찾는 걸 도와줄래? |
+| 2 | `ella-e0.mp3` | 대답 e0 | Someone left that umbrella here. Can you help me find its owner? | 누가 저 우산을 여기 두고 갔어. 주인 찾는 걸 도와줄래? |
 | 3 | `ella-e1.mp3` | 대답 e1 | I don't know. No one came back for it. | 몰라. 아무도 찾으러 오지 않았어. |
 | 4 | `ella-e2.mp3` | 대답 e2 | It's been here for a week. | 일주일째 여기 있어. |
 | 5 | `ella-inspect.mp3` | 행동의 대답 | Of course. Here you go. | 물론이지. 여기 있어. |
@@ -67,7 +67,7 @@
 
 | # | 파일 | 장면 | 영어 | 해석 |
 |---|---|---|---|---|
-| 1 | `detective-hello-ella.mp3` | 엘라 첫 인사 | Hello. How can I help? | 안녕. 무슨 일이야? |
+| 1 | `detective-ella-e0.mp3` | 엘라에게 질문 e0 | Hello. How can I help? | 안녕. 무슨 일이야? |
 | 2 | `detective-ella-e1.mp3` | 엘라에게 질문 e1 | Whose umbrella is that? | 저건 누구 우산이야? |
 | 3 | `detective-ella-e2.mp3` | 엘라에게 질문 e2 | How long has it been here? | 얼마나 오래 여기 있었어? |
 | 4 | `detective-ella-act-inspect.mp3` | 엘라에게 행동(우산 조사) | Can I take a closer look at that umbrella? | 저 우산 좀 자세히 봐도 될까? |
