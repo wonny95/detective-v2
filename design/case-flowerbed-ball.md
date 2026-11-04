@@ -156,8 +156,8 @@
 | ID | 화자·형태 | 영어 / 한국어 | 조건·역할 |
 |---|---|---|---|
 | wren:hello | 렌 · turn | **Hello there. I'm Wren.** / 반가워. 난 렌이야. | 벤치 첫 만남 |
-| det:wren-open | 탐정 · turn | **I'd like to ask about this morning.** / 오늘 아침에 관해 물어보고 싶어. | 렌 소개 뒤 |
-| wren:ready | 렌 · turn | **Of course. I'll tell you what I saw.** / 물론이야. 내가 본 걸 말해 줄게. | 실제로 본 범위만 |
+| det:wren-open | 탐정 · turn | **The flowers in the garden are damaged. I'm finding out what happened.** / 정원의 꽃들이 망가졌어. 무슨 일이 있었는지 알아보고 있어. | 렌 소개 뒤 |
+| wren:ready | 렌 · turn | **Oh, no! I'll help.** / 이런! 내가 도와줄게. | 훼손 소식에 반응 · 조사 정보는 질문에서 제공 |
 
 | ID | 질문 선택지 / 답변 음성 | 노트 빈칸 | 보기 | 선행 조건·역할 |
 |---|---|---|---|---|
