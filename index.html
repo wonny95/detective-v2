@@ -430,7 +430,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-foot .pill.big{width:100%}
 .rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:8px}
 .rv-title small{font-size:14px;color:var(--ink-soft)}
-/* the words page's count and 모두 담기 on their own row: beside the title a two-digit count broke the title in two */
+/* the words page's count and 모두 저장 on their own row: beside the title a two-digit count broke the title in two */
 .rv-words-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
 .rv-words-bar small{font-size:14px;color:var(--ink-soft)}
 /* 뒤로 on the grammar and word pages (user request): the play screen's back button, before the title */
@@ -514,7 +514,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .replay-q:active,.play-btn:active{transform:translateY(1px)}
 .replay-q svg{display:none}
 .play-btn{flex:none;width:32px;height:32px;padding:0}
-/* a small pill beside a ▶ (해석, 천천히, 담기) is as tall as the ▶ (user request: 32px) */
+/* a small pill beside a ▶ (해석, 천천히) is as tall as the ▶ (user request: 32px) */
 .ck-note .pill.sm,.office-foot .pill.sm,.bubble.say .say-foot .pill.sm,.deduce-q-row .pill.sm,.drawer-row .pill.sm,.np-actions .pill.sm,.ev-btns .pill.sm,.rv-word .pill.sm,.rv-play .pill.sm,.wcard > .pill.sm[data-wko],.wbtns .pill.sm{box-sizing:border-box;min-height:32px;height:32px;padding:0 10px}
 .ck-note .pill.sm{grid-row:1;grid-column:3}
 .ck-note:not(.ko-on) .ko{display:none}
@@ -549,7 +549,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .rv-word .wword{font-family:var(--f-hand);font-weight:700;font-size:17px}
 .rv-word .wsay{display:block;font-size:12px;color:var(--ink-soft)}
 .rv-word .wko{display:block;margin-top:3px;font-size:13px;color:var(--berry)}
-.rv-word .keep[aria-pressed="true"]{--btn:url(assets/ui/buttons/sage-flat.png)}
+/* saving a word (user pick: a bookmark, stars already score the cases): an outline, filled once saved; as tall as the ▶ */
+.rv-word .keep{display:grid;place-items:center;flex:none;width:32px;height:32px;padding:0;border:0;background:none;cursor:pointer}
+.rv-word .keep svg{display:block;width:24px;height:24px;fill:none;stroke:#4A3628;stroke-width:2.2;stroke-linejoin:round;transition:fill .15s}
+.rv-word .keep[aria-pressed="true"] svg{fill:var(--honey)}
 /* the case's grammar in the same rows (user request), with more room around and inside them (user request) */
 .rv-grams{display:flex;flex-direction:column;gap:12px;margin-top:4px}
 /* the case's grammar in the same rows (user request): the form and its short name, a line from the case with the form
@@ -5235,14 +5238,14 @@ function renderReview(dir){
   if(step === 'words'){
     const all = rv.words.length && rv.words.every(w => rv.keep.has(w.key));
     body = `<h2 class="rv-title">${back}사건에 나온 단어</h2>
-      <div class="rv-words-bar"><small>${rv.keep.size} / ${rv.words.length}</small><button class="pill sm" type="button" data-rv-all aria-pressed="${all}">${all ? '모두 빼기' : '모두 담기'}</button></div>` +
+      <div class="rv-words-bar"><small>${rv.keep.size} / ${rv.words.length}</small><button class="pill sm" type="button" data-rv-all aria-pressed="${all}">${all ? '모두 해제' : '모두 저장'}</button></div>` +
       WORD_GROUPS.map(([g, label]) => {
         const list = rv.words.filter(w => WORDS[w.key][0] === g);
         return !list.length ? '' : `<h3 class="rv-wsec">${label}</h3>` + list.map(w => {
           const [, ko, say] = WORDS[w.key], on = rv.keep.has(w.key);
           return `<div class="rv-word${on ? ' kept' : ''}"><span><span class="wword">${esc(w.word)}</span>${say ? `<span class="wsay">${esc(say)}</span>` : ''}<span class="wko">${esc(ko)}</span></span>
             <button class="play-btn" type="button" ${w.question ? `data-rv-question="${w.ref}"` : `data-rv-sent="${w.ref}" data-sent="${w.sent}"`} aria-label="문장 듣기"></button>
-            <button class="pill sm keep" type="button" data-rv-keep="${esc(w.key)}" aria-pressed="${on}">${on ? '담음' : '담기'}</button></div>`;
+            <button class="keep" type="button" data-rv-keep="${esc(w.key)}" aria-pressed="${on}" aria-label="${on ? '저장 해제' : '저장'}">${KEEP_ICON}</button></div>`;
         }).join('');
       }).join('');
     foot = `<button class="pill big" type="button" data-rv-done>완료</button>`;
@@ -5302,6 +5305,7 @@ function grammarPoint(text){
 }
 const grammarExplain = (why, more) => !why && !more?.length ? '' :
   `<div class="gexplain">${why ? `<p class="gwhy">${esc(why)}</p>` : ''}${more?.length ? `<ul>${more.map(grammarPoint).join('')}</ul>` : ''}</div>`;
+const KEEP_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5H17Q18.5 3.5 18.5 5V20.5L12 16.2 5.5 20.5V5Q5.5 3.5 7 3.5Z"/></svg>`;
 const GRAM_CHEVRON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 9 L12 15.5 L18.5 9" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 // A card opening or closing (user request): its height and its lines move together, and a card opened at the bottom of
 // the page comes into view. Tapped again midway, it turns back from where it is.
@@ -5437,6 +5441,10 @@ $('#review').addEventListener('click', e => {
     const k = keep.dataset.rvKeep, on = !rv.keep.has(k);
     if(on) rv.keep.add(k); else rv.keep.delete(k);
     const scroll = $('#reviewCard .rv-body').scrollTop; renderReview(); $('#reviewCard .rv-body').scrollTop = scroll;
+    // the bookmark just saved gives a small hop
+    if(on && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+      [...document.querySelectorAll('[data-rv-keep]')].find(b => b.dataset.rvKeep === k)?.querySelector('svg')
+        .animate({ transform:['scale(1)', 'scale(1.3)', 'scale(1)'] }, { duration:260, easing:'ease-out' });
     return;
   }
   if(e.target.closest('[data-rv-all]')){
