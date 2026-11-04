@@ -13,7 +13,16 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-04 10:51 · Claude · (이 커밋)
+## 2026-11-04 10:59 · Claude · (이 커밋)
+
+- 사용자와 고친 설계서(8절, 추리 맞장구 초안 검토): 예/아니오 질문에 Yes·Right로 시작하고는 아니라고 하던 Q2–Q4를 고침(사용자 선택: Q1은 그대로). Q2 `No, it can't. All three are the same. The handle isn't enough.` Q3 `No, it isn't. Finn's umbrella has no pattern.` Q4 `No, it isn't. The outside is the same, but the inside is not.` 해석도 함께. 힌트 5개와 Q1·Q5 맞장구는 그대로 확정. 설계서 md·html, 녹음 대본 다시 뽑음.
+- 녹음: `audio/umbrella/deduce/r2·r3·r4.mp3`를 Grady(감정 없음, MCP)로 다시 만듦, job `7d7ef024`, `e52c27bd`, `46dd38b0`. 약 0.45크레딧.
+- `HANDOFF.md` 앞부분의 옛 설명(우산 그림·녹음이 남았다)을 지금 상태로 고침.
+- 확인(새 탭 127.0.0.2, `?case=umbrella&preview=deduce`): Q1–Q4를 풀어 새 맞장구 글자, `deduce/r2·r3·r4.mp3` 요청 200, 보드에 핀 X 표시. 콘솔 오류 없음, 구문 검사 통과. 새 녹음을 귀로 듣지는 못함. Q5부터 뒤 흐름은 대사를 바꾸지 않아 이번에 다시 보지 않음.
+- 사용자에게 알린 것(고치지 않음): Q2 카드의 `all lost umbrellas`는 테스가 잃어버렸다고 말한 적이 없어 조금 어긋남(전에 사용자와 정한 문장).
+- **다음**: 사용자 지시 대기. 후보: 우산 설계서의 복습 단어(fabric·sunlight·indoors·mine·yours)를 사전에 넣을지 설계서를 맞출지.
+
+## 2026-11-04 10:51 · Claude · d3fc13a
 
 - 사용자 결정(안: 카드별): 복습 문법의 자동 저장을 없애고 **모든 문법 카드에 북마크**를 넣음(이미 아는 표현은 저장하지 않게). 처음에는 비어 있고 누른 것만 저장. 위치는 화살표 왼쪽, 저장한 카드는 단어 줄처럼 연두색. 전에 정한 "문법은 고르지 않고 자동 저장"을 사용자가 바꿈. 문법 페이지에 `모두 저장`은 넣지 않음(사용자에게 알림).
 - 저장 단위: 열쇠는 표현 카드마다 `id#표현`(`whose#my … / mine`), 다른 문법은 `id`. 전에 자동 저장된 `whose` 같은 기록은 지우지 않고 그 표현 모두 저장으로 침, 하나를 해제하면 나머지 표현만 남음.

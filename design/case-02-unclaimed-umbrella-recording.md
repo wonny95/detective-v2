@@ -106,13 +106,13 @@
 | 37 | `deduce/r1.mp3` | 추리 Q1 맞았을 때 (완성 문장: The toy bazaar moved indoors because of rain.) | Right. It rained that day. That's why we asked at Toy Nest. | 맞아. 그날 비가 왔어. 그래서 토이 네스트에 물어보러 갔지. |
 | 38 | `deduce/h1.mp3` | 추리 Q1 힌트 | Look at the notice in the village hall. | 회관의 안내문을 봐. |
 | 39 | `deduce/q2.mp3` | 추리 Q2 질문 | Can the handle tell us the owner? | 손잡이로 주인을 알 수 있을까? |
-| 40 | `deduce/r2.mp3` | 추리 Q2 맞았을 때 (완성 문장: Finn, Tess, and Ruby all lost umbrellas with blue handles.) | Yes. All three are the same. The handle isn't enough. | 맞아. 셋 다 똑같아. 손잡이만으로는 알 수 없어. |
+| 40 | `deduce/r2.mp3` | 추리 Q2 맞았을 때 (완성 문장: Finn, Tess, and Ruby all lost umbrellas with blue handles.) | No, it can't. All three are the same. The handle isn't enough. | 아니, 알 수 없어. 셋 다 똑같아. 손잡이만으로는 부족해. |
 | 41 | `deduce/h2.mp3` | 추리 Q2 힌트 | Look at the handle photo. What did Finn, Tess, and Ruby say? | 손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지? |
 | 42 | `deduce/q3.mp3` | 추리 Q3 질문 | Is this umbrella Finn's? | 이 우산은 핀의 것일까? |
-| 43 | `deduce/r3.mp3` | 추리 Q3 맞았을 때 (완성 문장: Finn's umbrella is plain. This one has gold stars.) | Right. Finn's umbrella has no pattern. So it isn't Finn's. | 맞아. 핀의 우산에는 무늬가 없어. 그러니 핀의 우산이 아니야. |
+| 43 | `deduce/r3.mp3` | 추리 Q3 맞았을 때 (완성 문장: Finn's umbrella is plain. This one has gold stars.) | No, it isn't. Finn's umbrella has no pattern. | 아니야. 핀의 우산에는 무늬가 없어. |
 | 44 | `deduce/h3.mp3` | 추리 Q3 힌트 | What did Finn say about the pattern? | 핀이 무늬에 대해 뭐라고 했지? |
 | 45 | `deduce/q4.mp3` | 추리 Q4 질문 | Is this umbrella Tess's? | 이 우산은 테스의 것일까? |
-| 46 | `deduce/r4.mp3` | 추리 Q4 맞았을 때 (완성 문장: Tess's umbrella is dark blue inside. This one is gold inside.) | Yes. The outside is the same, but the inside is not. So it isn't Tess's. | 맞아. 겉은 같지만 안쪽이 달라. 그러니 테스의 우산이 아니야. |
+| 46 | `deduce/r4.mp3` | 추리 Q4 맞았을 때 (완성 문장: Tess's umbrella is dark blue inside. This one is gold inside.) | No, it isn't. The outside is the same, but the inside is not. | 아니야. 겉은 같지만 안쪽이 달라. |
 | 47 | `deduce/h4.mp3` | 추리 Q4 힌트 | Look at the photo of the inside. What did Tess say about hers? | 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
 | 48 | `deduce/q5.mp3` | 추리 Q5 질문 | Whose umbrella is this? | 그럼 이 우산은 누구 것일까? |
 | 49 | `deduce/r5.mp3` | 추리 Q5 맞았을 때 (완성 문장: This umbrella is Ruby Cat's. It has a blue handle and gold stars, and it is gold inside.) | It's Ruby's umbrella. Let's tell Ella. | 루비의 우산이야. 엘라에게 알려 주자. |

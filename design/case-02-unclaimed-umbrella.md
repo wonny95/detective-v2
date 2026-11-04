@@ -297,14 +297,14 @@ t5는 우산을 찾는 핀에게 문의할 이유와 만날 장소를 알려 준
 | 4 | Is this umbrella Tess's? / 이 우산은 테스의 것일까? | Tess's umbrella is [dark blue] inside. This one is gold inside. | dark blue / gold / red / white / green / silver | tess:t3 + umbrella-inside — 겉모습은 같지만 펼쳐 본 안감 색이 다르다. 테스 제외 |
 | 5 | Whose umbrella is this? / 그럼 이 우산은 누구 것일까? | This umbrella is [Ruby Cat]'s. It has a blue handle and gold stars, and it is gold inside. | Ruby Cat / Finn Frog / Tess Tortoise | ruby:r1·r2·r3 + 우산 사진 3장 + Q3·Q4 — 겉이 같은 두 후보를 안감 색으로 구별한다. 이름 뒤 소유격과 마지막 설명은 문장 틀로 제공한다. |
 
-**맞장구·힌트 — 개발 초안(2026-11-03, 사용자 확인 필요):** 추리 보드는 문항마다 맞혔을 때의 맞장구와 두 번째 오답부터의 힌트가 필요해 개발에서 써 넣었다. 첫 오답은 공통 "Hmm… that doesn't fit."이다.
+**맞장구·힌트 — 개발 초안을 사용자가 검토함(2026-11-04: Q2–Q4를 No로 고침, 나머지는 그대로):** 추리 보드는 문항마다 맞혔을 때의 맞장구와 두 번째 오답부터의 힌트가 필요해 개발에서 써 넣었다. 첫 오답은 공통 "Hmm… that doesn't fit."이다.
 
 | Q | 맞장구 / 해석 | 힌트 / 해석 |
 |---|---|---|
 | 1 | Right. It rained that day. That's why we asked at Toy Nest. / 맞아. 그날 비가 왔어. 그래서 토이 네스트에 물어보러 갔지. | Look at the notice in the village hall. / 회관의 안내문을 봐. |
-| 2 | Yes. All three are the same. The handle isn't enough. / 맞아. 셋 다 똑같아. 손잡이만으로는 알 수 없어. | Look at the handle photo. What did Finn, Tess, and Ruby say? / 손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지? |
-| 3 | Right. Finn's umbrella has no pattern. So it isn't Finn's. / 맞아. 핀의 우산에는 무늬가 없어. 그러니 핀의 우산이 아니야. | What did Finn say about the pattern? / 핀이 무늬에 대해 뭐라고 했지? |
-| 4 | Yes. The outside is the same, but the inside is not. So it isn't Tess's. / 맞아. 겉은 같지만 안쪽이 달라. 그러니 테스의 우산이 아니야. | Look at the photo of the inside. What did Tess say about hers? / 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
+| 2 | No, it can't. All three are the same. The handle isn't enough. / 아니, 알 수 없어. 셋 다 똑같아. 손잡이만으로는 부족해. | Look at the handle photo. What did Finn, Tess, and Ruby say? / 손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지? |
+| 3 | No, it isn't. Finn's umbrella has no pattern. / 아니야. 핀의 우산에는 무늬가 없어. | What did Finn say about the pattern? / 핀이 무늬에 대해 뭐라고 했지? |
+| 4 | No, it isn't. The outside is the same, but the inside is not. / 아니야. 겉은 같지만 안쪽이 달라. | Look at the photo of the inside. What did Tess say about hers? / 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
 | 5 | It's Ruby's umbrella. Let's tell Ella. / 루비의 우산이야. 엘라에게 알려 주자. | Whose umbrella is gold inside? / 안쪽이 금빛인 우산은 누구 거지? |
 
 Q1은 비 때문에 실내로 옮긴 바자회를 확인해 토이 네스트를 찾아간 근거를 복습한다. Q3·Q4는 “Is this umbrella …'s?”로 묻고 Q5는 “Whose umbrella is this?”로 묻는다. Q3·Q4에서 서로 다른 후보를 제외한다. 주인 확정 근거는 각자의 독립적인 설명과 우산 사진 3장이다. 겉무늬 사진만으로 루비를 확정하지 않는다. 오답은 같은 문항에서 다시 선택하며 앞서 맞힌 진척을 유지한다.
