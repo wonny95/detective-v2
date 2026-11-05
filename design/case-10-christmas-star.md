@@ -95,7 +95,7 @@ e2 기록 뒤 c-case를 직접 촬영한다. 빈 자리와 흔한 포장지 조�
 
 ### 장면 3 · 시장 천막 — 메이의 실제 선물
 
-메이는 동그란 쿠키를 선물 상자에 담고 리본을 묶는다. 탐정이 온 이유를 밝힌 뒤 장난감을 포장하는지 먼저 확인하고 실제 작업을 묻는다. 메이의 선물에는 별 모양 물건이나 별 무늬가 없다.
+메이는 동그란 쿠키를 선물 상자에 담고 리본을 묶는다. 탐정이 온 이유를 밝힌 뒤 무엇을 포장하는지 묻고 리본 작업으로 이어 간다. 메이의 선물에는 별 모양 물건이나 별 무늬가 없다.
 
 - **mae:hello · 메이 · 자동**
   - Welcome! I'm Mae.
@@ -111,23 +111,23 @@ e2 기록 뒤 c-case를 직접 촬영한다. 빈 자리와 흔한 포장지 조�
 
 #### mae:m1 · 메이
 
-- **질문 선택지**: Are you wrapping toys?
-- 해석: 장난감을 포장하고 있어?
-- **대답**: No, I'm not wrapping toys. These are cookies.
-- 해석: 아니, 장난감을 포장하는 게 아니야. 이것들은 쿠키야.
-- **노트**: “No, I'm [not] wrapping toys. These are [cookies].”
-- **보기**: not · now · cookies · toys
+- **질문 선택지**: What are you wrapping?
+- 해석: 무엇을 포장하고 있어?
+- **대답**: I'm wrapping cookies. They're gifts for the children.
+- 해석: 쿠키를 포장하고 있어. 어린 친구들에게 줄 선물이야.
+- **노트**: “I'm [wrapping] [cookies]. They're gifts for the children.”
+- **보기**: wrapping · painting · cookies · toys
 - 조건: 시장 발견·메이 인사 뒤 첫 질문
 - 채점 뒤: m2·m3
 
 #### mae:m2 · 메이
 
-- **질문 선택지**: What are you doing?
-- 해석: 뭐 하고 있어?
-- **대답**: I'm packing cookies and tying ribbons on the boxes.
-- 해석: 쿠키를 포장하고 상자에 리본을 묶고 있어.
-- **노트**: “I'm [packing] [cookies] and tying ribbons on the boxes.”
-- **보기**: packing · painting · cookies · toys
+- **질문 선택지**: Are you tying ribbons around the boxes?
+- 해석: 상자에 리본을 묶고 있어?
+- **대답**: Yes, I'm tying the ribbons to keep the boxes closed.
+- 해석: 응, 상자가 열리지 않게 리본을 묶고 있어.
+- **노트**: “Yes, I'm [tying] the [ribbons] to keep the boxes closed.”
+- **보기**: tying · drying · ribbons · cookies
 - 조건: m1 기록 뒤
 - 채점 뒤: 현재 작업 기록
 
@@ -319,8 +319,8 @@ n4 허락 뒤 겉에서 이미 보이는 틈만 c-parcel로 찍는다. 종이를
   - 상자를 열어 줄래?
 
 - **nico:open-a1 · 니코 · 자동**
-  - Why? It's just a toy.
-  - 왜? 그냥 장난감이야.
+  - I'm not hiding anything. It's just a toy.
+  - 아무것도 숨기고 있지 않아. 그냥 장난감이야.
 
 니코의 장난감 주장 뒤 c-parcel을 제시한다. e1·c-case도 함께 확인할 수 있다. 오답 반응: **That doesn't explain the hole. / 그건 구멍을 설명해 주지 않아.** 같은 단계로 돌아가며 정답을 자동 제시하지 않는다.
 
@@ -549,9 +549,9 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 |---|---|
 | 질문 | What is Mae doing? |
 | 해석 | 메이는 무엇을 하고 있어? |
-| 완성 | Mae is [packing cookies]. |
+| 완성 | Mae is [wrapping cookies]. |
 | 해석 | 메이는 쿠키를 포장하고 있어. |
-| 보기 | packing cookies · fixing a chair · packing a wooden toy · helping at the gate · painting boxes · tying shoelaces |
+| 보기 | wrapping cookies · fixing a chair · packing a wooden toy · helping at the gate · painting boxes · tying shoelaces |
 | 맞장구 | The cookies are on her table. |
 | 해석 | 쿠키는 메이의 탁자에 있어. |
 | 힌트 | Listen to Mae's answers and look at the cookies. |
@@ -641,7 +641,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 
 | 들어야 할 대답 | 판단 |
 |---|---|
-| m1·m2 not wrapping toys / packing cookies | 메이의 실제 포장 물건과 작업 대조 |
+| m1·m2 wrapping cookies / tying ribbons | 포장 대상과 리본 작업을 차례로 듣고 실제 물건과 대조 |
 | b1·b2 not wrapping gifts / fixing a chair | 상자가 있다고 포장 중이라 단정하지 않음 |
 | b3 Nico is packing … on the porch | 현재 포장하는 친구와 위치로 다음 장소 발견 |
 | n2·n3 not wrapping cookies / wrapping a toy / small and wooden | 주장과 관의 일부·개봉 뒤 실제 물건 대조 |
@@ -654,7 +654,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 
 지금 하는 일을 말한다.
 
-실제 발화: **I'm packing cookies and tying ribbons on the boxes.** · mae:m2
+실제 발화: **I'm wrapping cookies. They're gifts for the children.** · mae:m1
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|
@@ -666,7 +666,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 
 not을 놓치면 반대 행동으로 기록한다.
 
-실제 발화: **No, I'm not wrapping toys. These are cookies.** · mae:m1
+실제 발화: **No, I'm not wrapping gifts. Those boxes are empty.** · ben:b1
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|
@@ -678,7 +678,7 @@ not을 놓치면 반대 행동으로 기록한다.
 
 상대의 현재 행동을 확인한다. Are you로 물으면 자기 행동을 I am으로 답한다.
 
-실제 발화: **Are you wrapping toys?** · mae:m1 질문
+실제 발화: **Are you tying ribbons around the boxes?** · mae:m2 질문
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|
@@ -686,17 +686,17 @@ not을 놓치면 반대 행동으로 기록한다.
 | Is she dancing? | 그 애는 춤추고 있어? |
 | Are they swimming? | 그 애들은 수영하고 있어? |
 
-#### 행동 질문 · What + be + 주어 + doing?
+#### 행동·대상 질문 · What + be + 주어 + -ing?
 
-무엇을 하는지 묻고 대답의 동사를 듣는다.
+지금 하는 행동이나 포장하는 대상을 묻는다.
 
-실제 발화: **What are you doing?** · mae:m2·ben:b2·nico:n1 질문
+실제 발화: **What are you wrapping?** · mae:m1 질문
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|
-| What are you doing? | 너 뭐 하고 있어? |
-| What is he doing? | 그 애는 뭐 하고 있어? |
-| What are they doing? | 그 애들은 뭐 하고 있어? |
+| What are you reading? | 무엇을 읽고 있어? |
+| What is he drawing? | 그 애는 무엇을 그리고 있어? |
+| What are they carrying? | 그 애들은 무엇을 들고 있어? |
 
 look for·put on·give back은 표현 목록이지 새 문법이 아니다. did·was·took는 마지막 위치·이전 목격·결말의 짧은 고정 설명에 쓴다. 과거 동선·과거진행 알리바이 학습으로 늘리지 않는다. 현재진행형을 듣지 않아도 사진만으로 답을 추측할 수 있는지는 실제 플레이로 확인해야 한다.
 
@@ -710,7 +710,7 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | case | 보관함 | ella:e2·ben:b4 |
 | helping | 돕고 있는 | ella:e3 |
 | paper | 종이 | mae:m1·nico:n4 |
-| cookies | 쿠키들 | mae:m1·m2·nico:n2 |
+| cookies | 쿠키들 | mae:m1·nico:n2 |
 | round | 동그란 | mae:m3 |
 | chocolate | 초콜릿 | mae:m3 |
 | empty | 비어 있는 | ben:b1 |
@@ -720,8 +720,10 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | packing | 싸서 포장하고 있는 | nico:n1 |
 | toy | 장난감 | nico:n2 |
 | wooden | 나무로 된 | nico:n3 |
+| tying | 묶고 있는 | mae:m2 |
+| ribbons | 리본들 | mae:m2 |
 
-인물 이름은 단어 목록에서 제외한다. 추가 제안: wrapping / 감싸 포장하는(mae:m1 질문·nico:n2), tube / 관(c-parcel), hiding / 숨기고 있는·sell / 팔다(nico:motive). 빈칸 목록과 구분하고 실제 대사를 출처로 붙인다.
+인물 이름은 단어 목록에서 제외한다. 추가 제안: wrapping / 감싸 포장하는(mae:m1 대답·nico:n2), tube / 관(c-parcel), hiding / 숨기고 있는(nico:open-a1·nico:motive)·sell / 팔다(nico:motive). 빈칸 목록과 구분하고 실제 대사를 출처로 붙인다.
 
 해결 뒤 복습 요약: **Nico took the town's gold star. He hid it in a gift box to sell it. The detective found it and brought it back. / 니코가 마을의 금제 별을 가져갔어. 팔려고 선물 상자에 숨겼어. 탐정이 찾아서 돌려줬어.** 범인·피해자 표시는 복습에서만 쓰며 니코 기존 외형을 재사용하는 제안이다.
 
@@ -750,15 +752,15 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | 인물당 질문 | 2–5 | 엘라4·메이3·벤4·니코4. 경사0은 결말 역할 예외 |
 | 빈칸 비중 | 한 명40% 이하 | 엘라10·메이7·벤10·니코10. 최대27.0% |
 | 질문당 빈칸 | 1–3 | 2–3 |
-| 대답 길이 | 평균8–12·최장18·3문장≤3 | 평균10.4·최장14단어·면담3문장0개/후속답변1개 |
+| 대답 길이 | 평균8–12·최장18·3문장≤3 | 평균10.5·최장14단어·면담3문장0개/후속답변1개 |
 | 필수 사진 | 3–5 | 5 · 추리 전4·개봉 뒤1 |
 | 선택 클릭 TTS | 장소당2–3 | 각2 · 총8 |
 | 추리 | 5–7 | 6 · 후보 보기2, 나머지6 |
 | 결말 차례 | 2–3 | 3 · 합류/동의/개봉, 심문/수령, 확인/반환 |
-| 열쇠 형태 | 각3회 이상·Q/A최소1 | 면담 긍정6·부정3·확인3·행동질문3 |
+| 열쇠 형태 | 각3회 이상·Q/A최소1 | 면담 긍정7·부정2·확인3·행동/대상질문3. 부정은 개봉 대답1회 추가로 기본3회 |
 | 후속 선택 질문 | 별도 공개 | 결말 7개 · 연락·기다리기·조사·수령·건네기 행동/이동 버튼 별도 |
 
-긍정6회는 I'm …ing 5회와 ben:b3의 Nico is packing 1회다. packing … and tying은 한 be구문으로 1회만 셌다. 부정3회는 I'm not …ing, 확인3회는 Are you …ing?, 행동 질문3회는 What are you doing?다. 각 형태의 실제 복습 문장이 면담에 있다. missing은 형용사라 현재진행으로 세지 않는다. 예습·힌트·보기·완성 문장·선택 TTS·복습·다시 듣기는 기본 횟수에서 제외했다.
+긍정7회는 I'm …ing 6회와 ben:b3의 Nico is packing 1회다. 면담 부정은 ben:b1·nico:n2의2회이며, 개봉 요청에 니코가 I'm not hiding anything.이라고 답하는 nico:open-a1까지 기본3회다. 이후 hiding 고백과 대조하는 사건상의 부정 진술이다. 확인 질문은 메이의 리본 작업·벤의 선물 포장·니코의 쿠키 포장 여부3회, What 질문은 메이의 포장 대상·벤과 니코의 현재 행동3회다. 각 형태의 실제 복습 문장이 면담에 있다. missing은 형용사라 현재진행으로 세지 않는다. 예습·힌트·보기·완성 문장·선택 TTS·복습·다시 듣기는 기본 횟수에서 제외했다.
 
 경사는 경찰이 필요한 절도 확인의 결말 인물이어서 받아쓰기를 추가하지 않았다. 확인·개봉 증거가 늘어 사진은 수리 A안의2장보다 늘었다. 발화량·길이는 L1 범위이고 입력 도움·직접 표현 분량은 높이지 않았다. 실제 학생 난도는 검증 전이다.
 
