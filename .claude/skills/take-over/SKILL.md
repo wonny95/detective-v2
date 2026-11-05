@@ -5,18 +5,22 @@ description: 개발(Claude Code) 쪽에서 Detective 작업을 이어받는다. 
 
 # 작업 이어받기 (Detective)
 
-개발은 Claude Code(`E:\GPT\Detective\Detective-dev`, `main`), 스토리 기획은 Codex(`E:\GPT\Detective\Detective-story`, `story`)가 동시에 맡는다(`AGENTS.md` 분업). 이 스킬은 `AGENTS.md`의 "시작 절차"를 따라 상태를 파악하고, 사용자에게 요약과 미리보기를 보여 주는 데서 멈춘다. **작업은 시작하지 않는다.** 사용자가 이어서 무엇을 할지 말하거나 CHANGELOG의 "다음"을 하라고 할 때 진행한다.
+개발은 Claude Code(개발 폴더, `main`), 스토리 기획은 Codex(`Detective-story` 폴더, `story`)가 동시에 맡는다(`AGENTS.md` 분업). 이 스킬은 `AGENTS.md`의 "시작 절차"를 따라 상태를 파악하고, 사용자에게 요약과 미리보기를 보여 주는 데서 멈춘다. **작업은 시작하지 않는다.** 사용자가 이어서 무엇을 할지 말하거나 CHANGELOG의 "다음"을 하라고 할 때 진행한다.
 
 ## 1. 상태 보기와 기획 받아 오기
 
 ```bash
-git rev-parse --show-toplevel; git branch --show-current   # E:/GPT/Detective/Detective-dev · main 이어야 한다
+git branch --show-current   # main이어야 한다. 폴더 경로는 컴퓨터마다 달라도 된다
 git status --short
+git fetch origin            # 다른 컴퓨터에서 올린 것 확인
+git rev-list --left-right --count main...origin/main     # "내 쪽 앞섬  GitHub 쪽 앞섬"
+git rev-list --left-right --count story...origin/story
 git log -8 --format='%h %an %ad %s' --date=format:'%m-%d %H:%M'
 git log --oneline main..story                              # 기획 쪽 새 커밋
 ```
 
-- 폴더·브랜치가 다르면 멈추고 사용자에게 알린다.
+- 브랜치가 다르면 멈추고 사용자에게 알린다. `story` 브랜치나 기획 폴더가 없으면 `AGENTS.md` "여러 컴퓨터에서 작업"의 처음 설정을 안내한다.
+- GitHub 쪽만 앞서면 받는다: `git merge --ff-only origin/main`, `git -C ../Detective-story merge --ff-only origin/story`. 양쪽이 갈라졌으면 멈추고 사용자에게 묻는다.
 - 이 폴더는 개발만 쓴다. 모르는 미커밋 파일은 사용자가 둔 것이다(예: 아직 정하지 않은 튜토리얼 시안). HANDOFF·CHANGELOG에서 언급되는지 확인하고, 모르는 파일이면 사용자에게 묻는다.
 - `story`에 새 커밋이 있으면 `git merge --no-edit story`로 받는다(기획 파일만 들어온다). 충돌이 나면 `git merge --abort` 후 충돌한 파일을 사용자에게 알린다.
 

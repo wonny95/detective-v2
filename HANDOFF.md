@@ -1,6 +1,6 @@
 # 인수인계 — 영어 듣기 추리 게임 프로토타입
 
-작업 폴더: `E:\GPT\Detective\Detective-dev` · 소스 기준: `index.html` · 작업 브랜치: `main`
+작업 폴더: 개발 폴더(경로는 컴퓨터마다 다를 수 있다) · 소스 기준: `index.html` · 작업 브랜치: `main`
 
 > 이 문서는 **지금 상태**만 설명한다. 무엇이 언제 바뀌었는지와 이어서 할 일은 `CHANGELOG.md` 맨 위 항목에 있다. 작업 시작·마무리 절차는 `AGENTS.md`를 따른다.
 
@@ -10,7 +10,7 @@
 
 ## 0. 다음 작업자를 위한 요약
 
-- 시작·마무리는 `AGENTS.md`를 따른다. **분업**(사용자 결정): 사건의 1차 스토리 기획은 Codex(`E:\GPT\Detective\Detective-story` worktree, `story`), 점검·2차 수정·개발·이후 수정은 Claude Code(`E:\GPT\Detective\Detective-dev`, `main`)가 사용자와 함께 맡는다(AGENTS.md "사건 진행 순서": 설계서를 넘겨받으면 그대로 개발할 때의 문제를 사용자에게 먼저 보여 주고, 합의한 대로 설계서를 고친 뒤 개발한다. 혼자 대본을 줄이거나 바꾸지 않는다). 인계된 사건의 설계서는 개발 쪽 파일이다(지금은 Case 01 A 소풍 가방, L1-01 B 주인 없는 우산). 서로의 파일은 고치지 않는다. 개발은 시작할 때 `story`를 merge해 기획을 받고 `design/STORY_LOG.md`의 개발 요청(개발 인계 포함)을 본 뒤 `CHANGELOG.md` 맨 위 항목의 "다음"을 따른다. 사용자 지시가 우선이며, 다음이 `사용자 지시 대기`이면 10절 후보를 임의로 구현하지 않는다.
+- 시작·마무리는 `AGENTS.md`를 따른다. **분업**(사용자 결정): 사건의 1차 스토리 기획은 Codex(`Detective-story` worktree, `story`), 점검·2차 수정·개발·이후 수정은 Claude Code(개발 폴더, `main`)가 사용자와 함께 맡는다(AGENTS.md "사건 진행 순서": 설계서를 넘겨받으면 그대로 개발할 때의 문제를 사용자에게 먼저 보여 주고, 합의한 대로 설계서를 고친 뒤 개발한다. 혼자 대본을 줄이거나 바꾸지 않는다). 인계된 사건의 설계서는 개발 쪽 파일이다(지금은 Case 01 A 소풍 가방, L1-01 B 주인 없는 우산). 서로의 파일은 고치지 않는다. 개발은 시작할 때 `story`를 merge해 기획을 받고 `design/STORY_LOG.md`의 개발 요청(개발 인계 포함)을 본 뒤 `CHANGELOG.md` 맨 위 항목의 "다음"을 따른다. 사용자 지시가 우선이며, 다음이 `사용자 지시 대기`이면 10절 후보를 임의로 구현하지 않는다.
 - **플레이 범위**: Case 01 바뀐 소풍 가방, Case 02 주인 없는 우산, Case 03 도서관 살인사건을 플레이할 수 있다(사용자 결정: 교육 순서대로 우산을 Case 02로, 도서관은 Case 03으로 밀림, 풀리는 순서 소풍 → 우산 → 도서관. **지금은 테스트 단계라 모두 열려 있다**: `ALL_CASES_OPEN = true`, 사용자 결정; 출시 전 `false`로 되돌리면 순서대로 열림). **세 사건은 같은 엔진·같은 화면**이다(3.0절). 소풍 사건은 로지의 의뢰에서 시작해 질문 15개·빈칸 39칸·소지품 가방·정원 사진 2장·추리 9문항·가방 전달 2번·복습으로 끝난다. 우산 사건은 엘라의 의뢰에서 시작해 받아쓰기 14개·빈칸 33칸·우산 확대 조사(접기·펴기)·필수 사진 5장·추리 5문항·우산 반환·복습으로 끝난다(3.0.1절, 그림·녹음 모두 들어감). 도서관 사건은 경찰 심문·자백까지 이어진다.
 - **노트**: 질문 선택 즉시 아래 60% 높이로 열리고 음성을 함께 재생한다. 단어 터치·드래그·직접 입력이 가능하고 도토리 힌트는 사건 전체 3개다. 오답은 같은 질문에서 고치며, 정답 정보는 즉시 해금한다. 노트를 닫으면 새 인물·장소 이름을 작은 발견 알림으로 모아 보여 주고 현재 대화·현장에 머문다. `Note`로 직접 열거나 정답 확인 결과를 볼 때는 전체 높이로 올라오고 뒤 장면은 어둡고 흐려진다. 배경·`Note` 재터치로 닫는다(3.3–3.4절). **받아 적는 중에는 노트가 고정된다**: 그 질문을 바르게 확인할 때까지 닫을 수 없고 노트 위 탭도 숨으며, 나가는 길은 `<`(대화 중단 창, 남으면 노트가 다시 올라옴)뿐이다(3.3절). 노트 위 탭은 `인물 · 증거 · 메모` 세 개로 고정(노트 종이 뒤에 끼운 칸막이 종이), 인물 장은 제목 아래 얼굴 줄로 인물을 바꾼다. 미세스 베어를 발견하면 그녀의 진술 메뉴가 표시된다. 완료된 인물의 진술 페이지에서도 얼굴 줄을 유지하며, 손가락 밀기·마우스 드래그로 얼굴 줄을 옆으로 넘길 수 있다. 📌로 진술·증거를 메모에 붙이고 쪽지마다 `내 생각`을 적으며 메모에는 직접 쓴다(사건마다 저장). 질문을 시작한 대화는 끝날 때까지 지도가 잠기고, `<`는 `<이름>와/과의 대화를 중단할까요?`를 묻는다(3.3절).
 - **화면**: 대화 제목은 NPC명, 현장 제목은 장소명이다. 둘 다 18px·줄 높이 1.4·칩 높이 36px이며 NPC 라벨 위아래 1px 여백을 둔다. 휴대폰 미리보기 외곽 테두리·그림자는 없고 바깥 배경은 세이지색 `#B6BDA5`다. 아래 메뉴(홈 `홈·사건·학습·마이`, 사건 안 `지도·Note`)는 칸 상자 없이 손그림 아이콘(`assets/ui/nav/`)과 이름만 놓인 물결선 종이 띠이고, 보고 있는 칸에 꿀색 손칠이 들어간다(3.1절). 메뉴는 지도(`.sheet.full`, z 30)보다 위(z 31)라 메뉴 위로 6px 나온 물결선(`.nav::before`)이 지도에 가리지 않고, 지도는 메뉴 뒤에서 올라온다. 노트 키보드(`.note-vkb`, 32)와 사건 목록(`.cases`, 35)은 메뉴보다 위다.
@@ -19,7 +19,7 @@
 - **복습**: 사건 사진(범인 머그샷)이 든 서류·별·피해자 후트 교수 초상이 있는 사건 요약·타일 3개 → 다시 들을 문장(있을 때) → 이번 사건의 문법(핵심 시간 표현 3가지 + 펼쳐 보는 다른 문법 13가지) → 사건에 나온 단어와 표현(뜻 기본 표시, 북마크로 저장). 문법 카드와 단어·표현 모두 북마크로 저장한 것만 학습 탭에 남는다. 단계는 아래 점, 버튼은 `다음`·`확인`·`완료`(3.7절).
 - **미리보기**: `node server.js`, `http://localhost:5173/`(Claude Code의 `detective-dev`와 공용). 확인은 사용자 탭을 건드리지 않고 사용하지 않은 호스트·포트의 새 탭에서 한다. `localhost`와 `127.0.0.1`은 저장소가 다르지만 같은 호스트·포트의 탭끼리는 공유한다(8절).
 - **테스트·미리보기 버튼**: 세 사건 모두 왼쪽 테스트 도구 7개와 오른쪽 미리보기가 나온다. 미리보기 맨 위의 사건 드롭다운(`CASES` 중 `playable`인 사건)으로 그 사건의 파트만 보여 준다(사용자 요청: 버튼이 많아도 한눈에·사건이 늘어도 되게, 8절).
-- **협업·공유**: 개발과 기획은 폴더·브랜치를 나눠 동시에 작업하고 merge로 주고받는다(AGENTS.md 분업 표: 기획 파일은 `design/STORY_LOG.md`·아직 인계하지 않은 `design/case-*`·`design/learning-plan.html`·`LEARNING_PLAN.md`·`CURRICULUM.md`·`CASE_THEMES.md`, 나머지와 인계된 사건 설계서는 개발). 개발은 확인 → HANDOFF → CHANGELOG → `main` 로컬 커밋, 기획은 STORY_LOG → `story` 커밋까지 마무리한다. GitHub 푸시(`main`만)와 claude.ai 아티팩트 업로드는 사용자 요청이 있을 때만 한다. 공개 데모는 갱신하지 않는다(1.1·9절).
+- **협업·공유**: 개발과 기획은 폴더·브랜치를 나눠 동시에 작업하고 merge로 주고받는다(AGENTS.md 분업 표: 기획 파일은 `design/STORY_LOG.md`·아직 인계하지 않은 `design/case-*`·`design/learning-plan.html`·`LEARNING_PLAN.md`·`CURRICULUM.md`·`CASE_THEMES.md`, 나머지와 인계된 사건 설계서는 개발). 개발은 확인 → HANDOFF → CHANGELOG → `main` 로컬 커밋, 기획은 STORY_LOG → `story` 커밋까지 마무리한다. GitHub 푸시(`main`·`story`)와 claude.ai 아티팩트 업로드는 사용자 요청이 있을 때만 한다. 다른 컴퓨터에서도 역할은 같고 파일은 GitHub로 주고받는다(AGENTS.md "여러 컴퓨터에서 작업"). 공개 데모는 갱신하지 않는다(1.1·9절).
 - **교육 기획**: `design/learning-plan.html`은 학습 흐름과 중1·중2·중3 권장 난도 **18단원·36개 사건의 제목·의뢰·단서·해결·A/B별 문법 초점**을 카드로 보여 준다. 세 학년 묶음은 각각 접고 펼칠 수 있으며 링크로 이동한 묶음은 열린다. L1-01 A/B에는 인물과 장소도 표시하고, A 카드의 제목·버튼은 읽기 쉬운 별도 상세 화면 `design/case-01-picnic-bag.html`로 연결된다. 제작자용 결말은 기획 화면에만 적고 실제 게임에서는 대화·증거로 발견하게 한다. 교육 기준은 2026년 현재 고시 상태로 표시한다(영어과 제2024-3호, 총론·중학교 제2026-1호; 2026학년도 중1·중2 적용, 중3은 2027학년도부터). 자세한 학습 경험과 사건 제작 틀은 `LEARNING_PLAN.md`, 교육 목표·단원 기준은 `CURRICULUM.md`, 대표 사건의 초기 주제안과 L1-01 B의 인물·장소는 `CASE_THEMES.md`다. 기본 시각은 교육 순서 Case 05–06, 시간 구간은 Case 17, 현재 도서관은 Case 18(L2-03 B) 배치안이다. 앱에서는 소풍 가방을 Case 01, 도서관을 Case 02로 플레이한다. 36개 사건의 줄거리·문법 분배와 학생 난도·효과는 미검증 기획안이다.
 - **중1 사건 결말 기획**: `design/learning-plan.html#middle-one`의 12개 사건 카드에 결말 장면을 적었다. 03 ‘사라진 축제 창고 열쇠’와 04 ‘잘못 놓인 소포’는 기존 심문 UI의 주장 말풍선·사진/진술 서랍·내밀기·돋보기 진행 표시를 현장 확인 대화에 재사용한다. 잘못 내민 단서는 같은 주장부터 다시 고른다. 09 ‘두 명의 축제 마스코트’와 11 ‘사라진 전시품’은 진술·사진 또는 기록의 모순을 당사자에게 짧게 묻는 확인 심문이다. 03·04·09·11 모두 경찰 조사실은 쓰지 않는다. 01–02·05–08·10·12는 의뢰인 확인·물건 반환·기록 정정으로 마친다. 이 12개 사건은 현재 앱에 구현되지 않은 기획이다. `LEARNING_PLAN.md`의 공통 학습 흐름도 심문을 사건별 선택 단계로 정리했다.
 - **소풍 가방 상세안과 구현**: 제작 대본·정답 논리는 `design/case-01-picnic-bag.md`, 시각 스토리보드는 `design/case-01-picnic-bag.html`이 기준이다. 게임 데이터는 `index.html`의 `PICNIC_CASE`다. 로지가 맡긴 가방에 노라의 서류와 펜이 있고, 벤이 노라에게 전한 가방에 로지의 도시락과 물병이 있다. 카페·벤·정원·노라의 진술과 정원 사진을 대조해 두 가방을 각각의 주인에게 돌려준다. 경찰 심문은 없다. 아직 없는 그림·녹음(Higgsfield 작업 목록)은 3.0절을 본다.
@@ -30,17 +30,17 @@
 ## 1. 실행
 
 ```powershell
-Set-Location E:\GPT\Detective\Detective-dev
+# 개발 폴더에서
 node server.js            # http://localhost:5173/
-# 기획 폴더(E:\GPT\Detective\Detective-story)에서 볼 때: $env:PORT = '5174'; node server.js  (같은 포트를 함께 쓰지 않는다)
+# 기획 폴더(Detective-story)에서 볼 때: $env:PORT = '5174'; node server.js  (같은 포트를 함께 쓰지 않는다)
 ```
 
 - 의존성 설치·빌드 과정 없음(Node 22에서 확인). `PORT` 환경 변수가 없으면 5173이다.
 - 기존 서버가 있으면 그대로 사용한다. 같은 포트에서 중복 실행하지 않는다. 서버는 로컬 개발 전용이다.
-- 미리보기를 계속 열어 둘 때는 짧은 명령 실행 세션에 서버를 묶지 않고 숨겨진 백그라운드 프로세스로 실행한다. 포트에 리스너가 없고 접속되지 않으면 서버부터 복구한다. PowerShell 예:
+- 미리보기를 계속 열어 둘 때는 짧은 명령 실행 세션에 서버를 묶지 않고 숨겨진 백그라운드 프로세스로 실행한다. 포트에 리스너가 없고 접속되지 않으면 서버부터 복구한다. 개발 폴더에서 PowerShell 예:
   ```powershell
   $env:PORT = '5173'
-  Start-Process node -ArgumentList 'E:\GPT\Detective\Detective-dev\server.js' -WorkingDirectory 'E:\GPT\Detective\Detective-dev' -WindowStyle Hidden
+  Start-Process node -ArgumentList 'server.js' -WorkingDirectory (Get-Location) -WindowStyle Hidden
   ```
 - `server.js`는 폴더 안 파일이 바뀌면 브라우저를 자동 새로고침한다(문서 수정에도 반응한다). `.git`·`.claude`·`node_modules`는 보지 않는다: 같은 저장소의 기획 worktree(Codex)가 커밋하거나 상태를 볼 때마다 `.git`이 바뀌어 미리보기가 계속 처음으로 돌아갔다. 새로고침 스니펫은 서빙할 때만 HTML에 끼워 넣는다.
 - 사건의 진행(질문·노트·증거·소지품·추리)은 도서관 `detective.save`, 소풍 `detective.save.picnic`에 주기적으로, 페이지를 숨기거나 닫을 때도 저장한다. 다시 열면 사건 목록에서 진행 중인 사건을 이어갈 수 있다(경찰 대화·심문·가방 전달 장면은 그 장면 처음부터). 튜토리얼 확인 여부·해결한 사건·학습 기록도 `localStorage`에 저장한다.
@@ -82,11 +82,11 @@ node server.js            # http://localhost:5173/
 | `AGENTS.md` | 에이전트용 작업 규칙·시작/마무리 절차(Codex가 자동으로 읽음) |
 | `CLAUDE.md` | Claude Code용 진입 파일. `AGENTS.md`를 불러온다 |
 | `.claude/skills/publish-artifact/` | 아티팩트 배포 스킬(`SKILL.md`)과 배포본 빌드 스크립트(`build.py`). 제목 `영어듣기 추리 게임 앱_YYMMDD`, 같은 날짜는 덮어쓰기 |
-| `.claude/skills/push-github/SKILL.md` | GitHub 비공개 저장소에 `main` 푸시(요청할 때만). 먼저 받고, 강제 푸시 금지 |
+| `.claude/skills/push-github/SKILL.md` | GitHub 비공개 저장소에 `main`과 `story` 푸시(요청할 때만). 먼저 받고, 강제 푸시 금지 |
 | `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
 | `.claude/skills/take-over/SKILL.md` | 개발 쪽 작업 이어받기(폴더·브랜치 확인 → `story` merge → STORY_LOG 개발 요청·CHANGELOG 맨 위·HANDOFF 0·4절 읽기 → `detective-dev` 미리보기 → 한국어 요약 보고). Claude Code는 `/take-over`. 코드는 고치지 않는다 |
 | `design/STORY_LOG.md` | 스토리 기획(Codex) 쪽 작업 기록. 맨 위 항목의 **개발 요청**을 개발이 반영하고 CHANGELOG에 "기획 반영"으로 적는다. "개발 인계"면 그 설계서를 점검해 사용자에게 먼저 보여 준다 |
-| `E:\GPT\Detective\Detective-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 연결은 상대 경로(`worktree.useRelativePaths`)라 두 폴더를 같은 상위 폴더에 함께 두면 어디로 옮겨도 된다. 폴더 이름을 바꿨으면 개발 폴더에서 `git worktree repair ../<기획 폴더 이름>`을 한 번 실행한다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
+| `../Detective-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 연결은 상대 경로(`worktree.useRelativePaths`)라 두 폴더를 같은 상위 폴더에 함께 두면 어디로 옮겨도 된다. 폴더 이름을 바꿨으면 개발 폴더에서 `git worktree repair ../<기획 폴더 이름>`을 한 번 실행한다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
 
 ## 3. 현재 앱 흐름
 
@@ -604,7 +604,7 @@ node server.js            # http://localhost:5173/
 
 ## 9. 관련 링크
 
-- **GitHub**(비공개): https://github.com/wonny95/detective — 원격 `origin`이 설정돼 있다. 사용자가 요청할 때만 `/push-github`로 푸시한다.
+- **GitHub**(비공개): https://github.com/wonny95/detective — 원격 `origin`이 설정돼 있다. 사용자가 요청할 때만 `/push-github`로 `main`과 `story`를 푸시한다.
 
 - **기획서**(Claude Docs): https://claude.ai/code/artifact/08bcf0e7-0d78-4add-818f-21d70acf3db7 — 앱 프로세스, 단계별 규칙, 결정이 필요한 사항. 채점·해금 방식은 이 문서(3.4)가 더 최신이다.
 - **아티팩트 배포**(사용자 결정): 사용자가 요청할 때만 한다. **날짜마다 아티팩트 하나**, 제목은 `영어듣기 추리 게임 앱_YYMMDD`(한국 시간). 같은 날 다시 배포하면 그 아티팩트를 덮어쓴다. 먼저 작업 마무리(커밋)를 하고 배포한다. 절차는 `.claude/skills/publish-artifact/SKILL.md`(Claude Code에서 `/publish-artifact`). 그림·음성은 `build.py`가 찾아 `files`로 함께 올린다. 테스트 버튼은 기본으로 보인다.
@@ -672,7 +672,7 @@ node server.js            # http://localhost:5173/
 ## 12. 작업 방식 (사용자 선호)
 
 - 응답은 한국어로 한다.
-- 개발(Claude Code)은 `E:\GPT\Detective\Detective-dev`·`main`, 기획(Codex)은 `E:\GPT\Detective\Detective-story`·`story`에서 동시에 작업하고 마무리 때 각자 로컬 커밋한다(사용자 결정). GitHub 푸시는 사용자 요청이 있을 때만 `main`을, 원격을 먼저 받고 fast-forward만 허용한다. 갈라졌으면 사용자에게 묻는다.
+- 개발(Claude Code)은 개발 폴더·`main`, 기획(Codex)은 `Detective-story`·`story`에서 동시에 작업하고 마무리 때 각자 로컬 커밋한다(사용자 결정). GitHub 푸시는 사용자 요청이 있을 때만 `main`과 `story`를, 원격을 먼저 받고 fast-forward만 허용한다. 갈라졌으면 사용자에게 묻는다.
 - 로컬 서버에서 수정하고 브라우저(새 탭)로 확인한다. **아티팩트 업로드는 요청할 때만** 한다.
 - 사용자가 "이어서 해줘"라고 하면 `AGENTS.md`의 시작 절차를 따른다.
 - Higgsfield 크레딧을 쓰는 생성은 쓰기 전에 대략의 비용을 알리고, 여러 개가 필요하면 한 장에 모아 만드는 등 아끼는 방법을 쓴다.

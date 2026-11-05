@@ -5,7 +5,7 @@ description: Detective 프로젝트의 작업 마무리 절차. 작업 하나를
 
 # 작업 마무리 (Detective)
 
-**개발(Claude Code, `E:\GPT\Detective\Detective-dev`, `main`)의 마무리**다. 스토리 기획(Codex, `E:\GPT\Detective\Detective-story`, `story`)은 `AGENTS.md`의 "스토리 기획" 마무리를 따른다. 이 마무리가 다음 작업자에게 넘겨주는 신호이므로 단계를 건너뛰지 않는다. 기준 규칙은 `AGENTS.md`의 "마무리 절차"이고, 이 문서는 그 체크리스트다.
+**개발(Claude Code, 개발 폴더, `main`)의 마무리**다. 스토리 기획(Codex, `Detective-story` 폴더, `story`)은 `AGENTS.md`의 "스토리 기획" 마무리를 따른다. 이 마무리가 다음 작업자에게 넘겨주는 신호이므로 단계를 건너뛰지 않는다. 기준 규칙은 `AGENTS.md`의 "마무리 절차"이고, 이 문서는 그 체크리스트다.
 
 - 먼저 `git branch --show-current`가 `main`인지 본다. 아니면 멈추고 사용자에게 알린다.
 - 기획 파일(`design/STORY_LOG.md`, 아직 인계하지 않은 `design/case-*`, `design/learning-plan.html`, `LEARNING_PLAN.md`, `CURRICULUM.md`, `CASE_THEMES.md`)은 커밋하지 않는다. 바뀌어 있으면 기획 쪽에서 받아 온 merge의 것인지 확인하고, 직접 고친 것이면 되돌리고 기획 요청으로 옮긴다. **인계된 사건의 설계서**(AGENTS.md "사건 진행 순서")는 개발 파일이라 사용자와 합의해 고친 것이면 커밋한다.

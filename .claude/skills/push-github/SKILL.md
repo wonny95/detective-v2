@@ -1,18 +1,19 @@
 ---
 name: push-github
-description: Detective 저장소의 main을 GitHub 비공개 저장소(https://github.com/wonny95/detective)에 올린다. 사용자가 "깃허브에 푸시해줘", "깃허브에 올려줘"라고 요청할 때만 쓴다. 마무리나 배포 때 자동으로 하지 않는다.
+description: Detective 저장소의 main과 story를 GitHub 비공개 저장소(https://github.com/wonny95/detective)에 올린다. 사용자가 "깃허브에 푸시해줘", "깃허브에 올려줘"라고 요청할 때만 쓴다. 마무리나 배포 때 자동으로 하지 않는다.
 ---
 
 # GitHub에 푸시 (Detective)
 
 - 저장소: `https://github.com/wonny95/detective.git`. **비공개**이고, 사용자가 만들었다. 원격 이름은 `origin`이다.
 - **사용자가 요청할 때만** 푸시한다(사용자 결정). `/wrap-up`이나 `/publish-artifact`에 넣지 않는다.
-- 강제 푸시(`--force`, `--force-with-lease`)는 하지 않는다. 올리는 브랜치는 `main` 하나다. 스토리 기획 브랜치 `story`(`E:\GPT\Detective\Detective-story` worktree)는 로컬에만 둔다. 기획까지 올리려면 먼저 `main`에 `story`를 merge한다(`AGENTS.md` 브랜치 주고받기).
+- 강제 푸시(`--force`, `--force-with-lease`)는 하지 않는다. 올리는 브랜치는 `main`과 스토리 기획 브랜치 `story`(`Detective-story` worktree) 둘이다. 다른 컴퓨터에서도 Codex가 `story`로 이어서 작업하기 때문이다(`AGENTS.md` 여러 컴퓨터에서 작업).
 
 ## 0. 먼저 작업 마무리
 
 - `git status --short`가 비어 있지 않으면 `/wrap-up`부터 끝낸다. 푸시는 커밋된 것만 올라간다.
 - 다른 에이전트가 작업 중인 것으로 보이는 미커밋 파일이 있으면, 그 파일은 건드리지 않는다. 사용자에게 알리고 나서 커밋된 것만 푸시한다.
+- 기획 폴더도 본다: `git -C ../Detective-story status --short`. Codex의 미커밋 변경은 올라가지 않으므로 있으면 사용자에게 알린다.
 
 ## 1. 확인
 
@@ -38,16 +39,17 @@ git remote get-url origin          # https://github.com/wonny95/detective.git
 ```bash
 git fetch origin
 git rev-list --left-right --count main...origin/main   # "내 쪽 앞섬  GitHub 쪽 앞섬"
+git rev-list --left-right --count story...origin/story
 ```
 
-- `origin/main`이 없으면(빈 저장소, 첫 푸시) 3단계로 간다.
-- GitHub 쪽에만 새 커밋이 있으면(예: 다른 기기에서 올림) `git merge --ff-only origin/main`으로 받는다.
+- `origin/story`가 없으면(첫 푸시) `story` 비교는 건너뛴다.
+- GitHub 쪽에만 새 커밋이 있으면(예: 다른 기기에서 올림) `git merge --ff-only origin/main`으로 받는다. `story`는 `git -C ../Detective-story merge --ff-only origin/story`로 받는다.
 - 양쪽에 서로 다른 커밋이 있으면 **멈추고 사용자에게 묻는다.** 임의로 rebase하거나 merge하지 않는다.
 
 ## 3. 푸시
 
 ```bash
-git push -u origin main    # 첫 푸시. 다음부터는 git push origin main
+git push -u origin main story    # 다음부터는 git push origin main story
 ```
 
 - **로그인**: 처음 푸시할 때 Git Credential Manager의 GitHub 로그인 창이 뜰 수 있다. 로그인은 사용자가 직접 한다. 토큰이나 비밀번호를 대신 입력하거나 명령에 넣지 않는다.
@@ -59,7 +61,8 @@ git push -u origin main    # 첫 푸시. 다음부터는 git push origin main
 ```bash
 git status -sb             # "## main...origin/main"이고 ahead/behind가 없어야 한다
 git log --oneline -1 origin/main
+git log --oneline -1 origin/story
 ```
 
-- 사용자에게 한국어로 보고한다: 올라간 커밋 범위(이전 `origin/main` → 지금), 커밋 수, 저장소 링크(https://github.com/wonny95/detective), 받아 온 GitHub 쪽 커밋이 있었는지.
+- 사용자에게 한국어로 보고한다: 브랜치별로 올라간 커밋 범위(이전 `origin/main` → 지금), 커밋 수, 저장소 링크(https://github.com/wonny95/detective), 받아 온 GitHub 쪽 커밋이 있었는지.
 - 푸시할 때마다 문서에 기록하지는 않는다. 기록하면 그것이 새 커밋이 되어, 항상 올라가지 않은 커밋이 하나 남는다. GitHub 커밋 목록이 기록이다.

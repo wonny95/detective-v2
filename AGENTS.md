@@ -17,7 +17,7 @@
 
 | | 개발 (Claude Code) | 스토리 기획 (Codex) |
 |---|---|---|
-| 폴더 | `E:\GPT\Detective\Detective-dev` | `E:\GPT\Detective\Detective-story` (같은 저장소의 worktree) |
+| 폴더 | 개발 폴더(이 저장소) | `Detective-story`(같은 상위 폴더에 있는 같은 저장소의 worktree) |
 | 브랜치 | `main` | `story` |
 | 고치는 파일 | 오른쪽 기획 파일을 **뺀 나머지 전부**: `index.html`, `assets/`, `audio/`, `scripts/`, `server.js`, `design/`의 UI 시안, **인계된 사건의 설계서**, `HANDOFF.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `.claude/` | **기획 파일만**: `design/STORY_LOG.md`, 아직 인계하지 않은 `design/case-*.md`·`design/case-*.html`, `design/learning-plan.html`, `LEARNING_PLAN.md`, `CURRICULUM.md`, `CASE_THEMES.md` |
 | 작업 기록 | `CHANGELOG.md`, `HANDOFF.md` | `design/STORY_LOG.md` |
@@ -33,16 +33,34 @@
 
 - 각자 **자기 폴더의 자기 브랜치에만** 커밋한다. 상대 브랜치로 `checkout`·`switch`하지 않는다. `rebase`, 강제 푸시, `git worktree remove`, 브랜치 삭제를 하지 않는다.
 - 받아 오기는 `merge`만 쓴다. 두 쪽이 고치는 파일이 겹치지 않으므로 충돌이 나지 않아야 한다.
-  - 개발: 시작할 때 `E:\GPT\Detective\Detective-dev`에서 `git merge --no-edit story`.
-  - 기획: 시작할 때 `E:\GPT\Detective\Detective-story`에서 `git merge --no-edit main`.
+  - 개발: 시작할 때 개발 폴더에서 `git merge --no-edit story`.
+  - 기획: 시작할 때 `Detective-story` 폴더에서 `git merge --no-edit main`.
 - 충돌이 나면 고치지 말고 `git merge --abort`로 되돌린 뒤 사용자에게 알린다(어느 쪽이 분업을 어겼는지 파일 이름과 함께).
-- GitHub에는 사용자가 요청할 때 `main`만 올린다(아래 규칙). `story`는 로컬 브랜치다.
+- GitHub에는 사용자가 요청할 때 `main`과 `story`를 올린다(아래 규칙).
+
+## 여러 컴퓨터에서 작업 (사용자 결정)
+
+어느 컴퓨터에서든 역할은 같다. 개발은 Claude Code가 `main`에서, 스토리 기획은 Codex가 `story`에서 한다. 파일은 GitHub로 주고받는다.
+
+- **폴더**: 같은 상위 폴더 안에 개발 폴더(`main`)와 기획 worktree `Detective-story`(`story`)를 나란히 둔다. 드라이브와 상위 경로, 개발 폴더 이름은 컴퓨터마다 달라도 된다. 역할은 경로가 아니라 브랜치로 확인한다.
+- **처음 한 번**: 개발 폴더에서 아래를 실행하고, Codex는 `Detective-story` 폴더에서 연다.
+
+  ```bash
+  git pull --ff-only
+  git config worktree.useRelativePaths true
+  git worktree add ../Detective-story story
+  ```
+
+- **컴퓨터를 떠날 때**: 두 브랜치 모두 커밋하고 사용자가 Claude Code에게 "깃허브에 올려줘"라고 한다(`main`과 `story`를 함께 올린다). 커밋하지 않은 변경은 옮겨지지 않는다.
+- **새 컴퓨터에서 시작할 때**: 아래 시작 절차가 GitHub에서 먼저 받는다.
+- 같은 브랜치를 두 컴퓨터에서 동시에 고치지 않는다. 갈라지면 임의로 합치지 말고 멈춰서 사용자에게 묻는다.
+- **저장소로 옮겨지지 않는 것**: Claude·Codex의 메모리와 대화 기록, 커밋하지 않은 파일, Higgsfield 등 외부 연결과 로그인, Node 설치. 그래서 작업 규칙은 메모리에만 두지 않고 이 문서에 적는다.
 
 ## 시작 절차 ("이어서 해줘"를 받았을 때)
 
-0. **폴더와 브랜치가 내 역할과 맞는지 본다**: `git rev-parse --show-toplevel`, `git branch --show-current`. 개발은 `E:/GPT/Detective/Detective-dev`·`main`, 기획은 `E:/GPT/Detective/Detective-story`·`story`. 다르면 작업하지 말고 사용자에게 알린다(Codex를 `E:\GPT\Detective\Detective-story` 폴더에서 열어야 한다).
+0. **브랜치가 내 역할과 맞는지 본다**: `git branch --show-current`. 개발은 `main`, 기획은 `story`. 폴더 경로는 컴퓨터마다 달라도 된다. 브랜치가 다르면 작업하지 말고 사용자에게 알린다(Codex는 `Detective-story` 폴더에서 열어야 한다). 이 컴퓨터에 `story` 브랜치나 기획 폴더가 없으면 위 "여러 컴퓨터에서 작업"의 처음 설정을 안내한다.
 1. `git status`와 `git log --oneline -5`로 내 폴더의 마지막 작업과 커밋되지 않은 변경을 본다. 내 폴더에는 나만 쓰므로, 모르는 미커밋 변경은 사용자가 둔 것이다(지우지 말고 알린다).
-2. 상대 브랜치를 받아 온다(위 "브랜치 주고받기").
+2. GitHub에서 받는다: `git fetch origin`. 두 브랜치 중 GitHub 쪽만 앞선 것이 있으면 그 브랜치의 폴더에서 `git merge --ff-only origin/<브랜치>`로 받는다(개발이 `story`를 받을 때는 `git -C ../Detective-story merge --ff-only origin/story`). 양쪽이 갈라졌으면 멈추고 사용자에게 묻는다. 그다음 상대 브랜치를 받아 온다(위 "브랜치 주고받기").
 3. 내 기록의 **맨 위 항목 하나**를 읽는다. 그 항목의 **"다음"**이 "이어서 해줘"의 뜻이다.
    - 개발: `CHANGELOG.md` 맨 위 항목. 그리고 `design/STORY_LOG.md`에서 아직 반영하지 않은 **개발 요청**이 있는지 본다(반영한 요청은 CHANGELOG에 "기획 반영: STORY_LOG <날짜>"로 적혀 있다). "개발 인계"가 있으면 위 "사건 진행 순서" 2번 점검부터 한다.
    - 기획: `design/STORY_LOG.md` 맨 위 항목. 그리고 `CHANGELOG.md`의 최근 항목에 **기획 요청**이 있는지 본다.
@@ -65,7 +83,16 @@
 
 1. 바꾼 설계서가 서로 맞는지 본다(사건 번호·인물·대사·노트 빈칸 표가 같은 내용인지). 게임 화면은 확인 대상이 아니다.
 2. `design/STORY_LOG.md` 맨 위에 항목을 추가한다(그 파일 머리의 형식). **개발 요청**에는 게임에 넣을 것만, 설계서의 절을 가리켜 적는다. 사건 기획을 마쳤으면 "개발 인계: <설계서>"라고 적고, 그 뒤로는 그 설계서를 고치지 않는다.
-3. `story`에 커밋한다. 메시지 첫 줄에 무엇을 기획했는지 적는다. 푸시하지 않는다.
+3. `story`에 커밋한다. 메시지 첫 줄에 무엇을 기획했는지 적는다. 푸시는 사용자가 요청할 때만 한다.
+
+## 개발 작업 방식 (사용자 결정)
+
+- **그림은 계획 먼저**: Higgsfield 그림을 만들기 전에 장면별 계획(새로 만들기·재사용·수정, 대략의 크레딧)을 사용자와 정하고, 합의한 것만 만든다. 음성은 사용자가 지정한 대사라면 비용을 알린 뒤 만든다.
+- **사용자가 만든 음성·그림**: Higgsfield에 만들어 두었다고 하면 링크를 묻거나 다시 만들지 않는다. `show_generations`에서 프롬프트로 찾아 내려받고, 같은 대사가 여럿이면 최신 것을 쓰고 어느 것을 썼는지 알린다.
+- **감정이 있는 음성**: Higgsfield MCP의 `generate_audio`는 `emotion`을 넘겨도 저장하지 않는다. 감정이 필요한 대사는 Claude in Chrome으로 `https://higgsfield.ai/audio`에서 만들고, `show_generations`로 `emotion`이 들어갔는지 확인한 뒤 내려받는다. 감정이 없는 대사는 MCP로 만들어도 된다.
+- **UI 시안**: 바꾸기 전에 `design/`에 3–5개 시안을 나란히 보여 준다. 고른 시안이 게임에 들어가면 시안 파일과 고르지 않은 후보 그림을 지우고 Higgsfield 원본 시트만 남긴다. "미사용 보관" 그림은 지우기 전에 묻는다.
+- **기존 UI를 다른 화면에도 보여 달라는 요청**: 지금의 모양과 위치를 그대로 쓴다. 다른 형태가 낫다고 생각하면 한 줄로 먼저 제안한다.
+- **파일 삭제**: 지울 파일 목록을 보여 주고 승인을 받은 뒤, 경로를 하나씩 적어 PowerShell로 휴지통에 보낸다. Bash의 `rm`은 데스크톱 앱에서 승인 버튼이 보이지 않아 10분 동안 멈춘다.
 
 ## 실행
 
@@ -96,7 +123,7 @@ PORT=5174 node server.js       # 기획 폴더에서 화면을 볼 때 (PowerShe
 - 채점 흐름(질문별 조용한 확인, 오답은 같은 노트에서 다시 듣고 수정, 정답 정보 즉시 해금, 전체 기록은 Note로 직접 열기)은 `HANDOFF.md` 3.4절을 따른다.
 - 한국어 해석은 `해석` 버튼을 눌러야만 보인다. 단, 사건 완료 후 복습의 새 단어 목록은 단어 뜻을 기본으로 보여 준다. 화면 안에 조작 설명 문장을 넣지 않는다(튜토리얼이 담당).
 - NPC는 전신으로 제자리에 고정한다. UI(질문 버튼, 노트)가 아래를 덮는다.
-- GitHub 비공개 저장소 `https://github.com/wonny95/detective`(원격 `origin`)에는 **사용자가 요청할 때만** `main`을 푸시한다. 강제 푸시 금지. 먼저 GitHub 쪽 커밋을 받고(`git fetch`, fast-forward만), 갈라졌으면 사용자에게 묻는다(`.claude/skills/push-github/SKILL.md`).
+- GitHub 비공개 저장소 `https://github.com/wonny95/detective`(원격 `origin`)에는 **사용자가 요청할 때만** `main`과 `story`를 푸시한다. 강제 푸시 금지. 먼저 GitHub 쪽 커밋을 받고(`git fetch`, fast-forward만), 갈라졌으면 사용자에게 묻는다(`.claude/skills/push-github/SKILL.md`).
 - 사용자에게는 한국어로 답한다. claude.ai 아티팩트 업로드는 사용자가 요청할 때만 한다. 날짜마다 하나(제목 `영어듣기 추리 게임 앱_YYMMDD`, 같은 날은 덮어쓰기), 작업 마무리 커밋 뒤에 배포한다(`.claude/skills/publish-artifact/SKILL.md`).
 - Higgsfield 크레딧을 쓰는 생성은 쓰기 전에 대략의 비용을 알린다.
 
