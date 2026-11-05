@@ -243,7 +243,151 @@
     .prop-tts .prop-when { margin:9px 0 0; font-size:12px; color:var(--muted); }
     .prop-id { overflow-wrap:anywhere; }
     @media(max-width:650px) { .room-sketch,.expression-grid { grid-template-columns:minmax(0,1fr); } .scene-sketch { padding:16px; } .plan-anchor { scroll-margin-top:111px; } }
-</style></head><body><header class="topbar"><div class="wrap top-inner"><a class="back" href="learning-plan.html#middle-one"><span class="back-mark" aria-hidden="true">✦</span> 학습 기획으로 돌아가기</a><nav class="nav" aria-label="기획 목차"><a href="#case-summary">한눈에</a><a href="#event-flow">사건 흐름</a><a href="#storyboard">대본</a><a href="#ben-recheck">벤 재방문</a><a href="#scene-6">추리</a><a href="#reference-index">전체 자료</a><a href="#learning">학습·복습</a><a href="#balance">균형표</a></nav></div></header><main class="wrap"><section class="hero"><div class="hero-copy"><span class="eyebrow">L1-05 · 10 B · 금으로 만든 별 절도안</span><h1>사라진 크리스마스트리의 별</h1><p class="lead">축제를 준비하는 여러 친구가 드나든 창고에서 금으로 만든 별이 사라졌다. 현재 작업에 관한 진술을 대조하고, 개봉 뒤 별 자체의 잎사귀 무늬와 보관함 출처를 확인한다.</p><div class="chips"><span class="chip">면담 15문항 · 37칸</span><span class="chip">필수 사진 4장 · 선택 1장 · 추리 6문항</span><span class="chip status">대본 사용자 검토 대기 · 개발 미인계</span></div></div><figure class="hero-art"><div class="plan-art-pending">속까지 꽉 찬, 금으로 만든 별<br>전구·전선·배터리 없음 · 그림 미제작</div><figcaption>엘라·벤·경사 재사용 / 홀리·메이·니코 신규</figcaption></figure></section><section class="story-card" id="case-summary"><div class="section-head"><h2>사건 한눈에</h2></div><div class="grid-3"><div class="object-card"><h3>의뢰</h3><p>창고에 보관한 금으로 만든 별이 사라져 엘라가 탐정에게 도움을 청한다.</p></div><div class="object-card"><h3>조사</h3><p>창고의 흔적과 친구들의 말을 모으고, 니코의 운반 설명을 벤의 진술과 대조한다.</p></div><div class="object-card"><h3>해결</h3><p>동의 후 상자를 열어 별을 확인하고, 출처·허락·목적을 들은 뒤 엘라에게 돌려준다.</p></div></div><p style="margin-top:14px">아래는 제작자용 기획서야. 장면별 대본은 펼쳐 두고, 학습 설계와 제작 메모는 필요할 때 열어 볼 수 있어.</p></section><section class="story-card" id="flow-overview"><div class="section-head"><h2>사건 흐름도</h2></div>
+</style><style id="christmas-reader-layout">/* Existing planning cards keep the common palette and typography. This shell only arranges the document. */
+body.christmas-reader { height:100dvh; overflow:hidden; }
+#plan-reader { height:100dvh; display:flex; flex-direction:column; padding:0; width:min(1500px,calc(100% - 36px)); margin:auto; }
+#plan-reader *,#plan-reader *::before,#plan-reader *::after { box-sizing:border-box; }
+#plan-reader [hidden] { display:none !important; }
+#plan-reader button,#plan-reader select { font:inherit; color:inherit; }
+#plan-reader button { cursor:pointer; }
+#plan-reader button:disabled { opacity:.4; cursor:default; }
+#plan-reader button:focus-visible,#plan-reader select:focus-visible,#plan-reader a:focus-visible { outline:3px solid var(--rose); outline-offset:3px; }
+#plan-reader .reader-header { display:flex; align-items:center; gap:22px; padding:16px 0 12px; flex:none; }
+#plan-reader .reader-brand { flex:1; min-width:0; }
+#plan-reader .reader-brand a { color:var(--muted); font-size:12px; text-decoration:none; }
+#plan-reader h1 { margin:2px 0 0; font-size:22px; line-height:1.4; letter-spacing:-.04em; }
+#plan-reader .reader-modebar { display:flex; gap:4px; padding:4px; border:1px solid var(--line); border-radius:14px; background:var(--paper); }
+#plan-reader .reader-modebar button,#plan-reader .reader-tabs button { border:0; border-radius:10px; padding:8px 15px; background:transparent; font-size:13px; font-weight:750; white-space:nowrap; }
+#plan-reader button[aria-pressed="true"],#plan-reader button[aria-selected="true"] { background:var(--honey); color:var(--ink); }
+#plan-reader .reader-status { font-size:11px; color:var(--muted); white-space:nowrap; }
+#plan-reader .reader-layout { display:grid; grid-template-columns:185px minmax(0,1fr) 300px; gap:14px; flex:1; min-height:0; padding-bottom:16px; }
+#plan-reader .reader-panel { min-width:0; min-height:0; border:1.5px solid var(--line); border-radius:22px; background:var(--paper); box-shadow:var(--shadow); overflow:hidden; }
+#plan-reader .reader-sidebar { display:flex; flex-direction:column; padding:14px 8px; }
+#plan-reader .reader-sidebar h2 { font-size:12px; color:var(--muted); margin:0 8px 10px; }
+#plan-reader .reader-list { overflow:auto; min-height:0; display:grid; align-content:start; gap:4px; scrollbar-width:thin; }
+#plan-reader .reader-list button { border:0; border-radius:12px; text-align:left; padding:9px 10px; background:transparent; font-size:13px; line-height:1.4; }
+#plan-reader .reader-list button:hover { background:var(--sage); }
+#plan-reader .reader-list button[aria-current="true"] { background:var(--sage); box-shadow:inset 3px 0 var(--green); color:var(--green); font-weight:850; }
+#plan-reader .reader-list small { display:block; font-size:11px; color:var(--muted); margin-top:3px; font-weight:400; }
+#plan-reader .reader-stage { display:flex; flex-direction:column; }
+#plan-reader .reader-scene-head { flex:none; padding:20px 24px 15px; border-bottom:1px dashed var(--line); background:#f4ebd8; }
+#plan-reader .reader-scene-head .scene-kicker { font-size:11px; }
+#plan-reader .reader-scene-head h2 { margin:5px 0; font-size:22px; line-height:1.35; letter-spacing:-.04em; }
+#plan-reader .reader-scene-head p { margin:0; font-size:13px; color:var(--muted); }
+#plan-reader .reader-jump { flex:none; display:flex; align-items:center; gap:10px; padding:12px 24px; border-bottom:1px solid var(--line); }
+#plan-reader .reader-jump label { flex:none; font-size:12px; color:var(--muted); }
+#plan-reader select { width:100%; min-width:0; padding:8px 10px; border:1px solid var(--line); border-radius:9px; background:#fffdf7; font-size:12px; }
+#plan-reader .reader-canvas { padding:22px 24px; min-height:0; flex:1; overflow:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+#plan-reader .reader-canvas > .reader-page { display:grid; align-content:start; gap:14px; }
+#plan-reader .turn .en,#plan-reader .question-choice .ask { font-size:17px; line-height:1.55; }
+#plan-reader .turn .ko,#plan-reader .question-choice .translation { font-size:14px; line-height:1.55; }
+#plan-reader .question-choice .reply { font-size:16px; line-height:1.65; }
+#plan-reader .question-choice .reply em { font-size:14px; line-height:1.6; }
+#plan-reader .reader-pager { flex:none; display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 24px; border-top:1px solid var(--line); background:#fffdf7; }
+#plan-reader .reader-pager button,#plan-reader .reader-mini { border:1px solid var(--line); border-radius:10px; padding:8px 13px; background:var(--paper); font-size:12px; font-weight:750; }
+#plan-reader .reader-pager button:last-child { background:var(--sage); border-color:#b6c9aa; color:var(--green); }
+#plan-reader .reader-page-position { font-size:11px; color:var(--muted); text-align:center; }
+#plan-reader .reader-inspector { display:flex; flex-direction:column; }
+#plan-reader .reader-tabs { display:flex; gap:3px; padding:12px 10px; border-bottom:1px solid var(--line); flex:none; }
+#plan-reader .reader-tabs button { flex:1; padding:8px 5px; font-size:12px; }
+#plan-reader .reader-inspector-content { padding:17px; overflow:auto; flex:1; min-height:0; display:grid; align-content:start; gap:15px; scrollbar-width:thin; }
+#plan-reader .reader-inspector-content h3 { margin:0; font-size:14px; }
+#plan-reader .reader-inspector-content p,#plan-reader .reader-inspector-content li { font-size:12px; line-height:1.7; margin:0; overflow-wrap:anywhere; }
+#plan-reader .reader-inspector-content .note-task { margin:0; line-height:1.8; }
+#plan-reader .reader-inspector-content .scene-next p { margin:5px 0 0; }
+#plan-reader .reader-inspector-content ul { padding-left:18px; margin:0; }
+#plan-reader .reader-inspector-content .object-card { padding:12px; }
+#plan-reader .reader-inspector-content details { font-size:12px; }
+#plan-reader .reader-wide { grid-column:2 / -1; }
+#plan-reader .reader-flow { display:flex; flex-direction:column; height:100%; min-height:0; }
+#plan-reader .reader-flow-toolbar { display:flex; align-items:center; gap:8px; padding-bottom:12px; font-size:12px; color:var(--muted); }
+#plan-reader .reader-flow-paper { flex:1; min-height:0; overflow:auto; }
+#plan-reader .reader-flow figure { margin:0 !important; height:100%; display:flex; flex-direction:column; gap:8px; }
+#plan-reader .reader-flow figure > div { min-height:0; flex:1; overflow:hidden !important; }
+#plan-reader .reader-flow svg { min-width:0 !important; width:100% !important; height:100% !important; }
+#plan-reader .reader-flow figcaption { flex:none; font-size:11px !important; margin:0 !important; }
+#plan-reader .reader-flow.is-zoomed figure { height:auto; }
+#plan-reader .reader-flow.is-zoomed figure > div { overflow:visible !important; flex:none; }
+#plan-reader .reader-flow.is-zoomed svg { min-width:1100px !important; height:auto !important; }
+#plan-reader .reader-summary { display:grid; gap:16px; }
+#plan-reader .reader-summary h3 { margin:0 0 5px; font-size:16px; }
+#plan-reader .reader-summary p { margin:0; font-size:14px; }
+#plan-reader .reader-summary .grid-3 { gap:12px; }
+#plan-reader .reader-summary .chips { margin-top:0; }
+#plan-reader .reader-reference { display:grid; gap:15px; }
+#plan-reader .reader-reference .story-card { border:0; box-shadow:none; padding:0; background:transparent; }
+#plan-reader .reader-reference .section-head h2 { font-size:22px; }
+#plan-reader .reader-reference .matrix { max-width:100%; overflow:auto; }
+#plan-reader .reader-reference h3 { margin:10px 0; font-size:17px; }
+#plan-reader .reader-reference p,#plan-reader .reader-reference li { font-size:13px; }
+#plan-reader .reader-mobile-controls { display:none; }
+#plan-reader .reader-detail-close { display:none; }
+@media(max-width:1100px) {
+ #plan-reader .reader-layout { grid-template-columns:160px minmax(0,1fr) 255px; gap:10px; }
+ #plan-reader .reader-status { display:none; }
+ #plan-reader .reader-canvas,#plan-reader .reader-scene-head,#plan-reader .reader-jump,#plan-reader .reader-pager { padding-left:18px; padding-right:18px; }
+}
+@media(max-width:900px) {
+ #plan-reader .reader-layout { grid-template-columns:150px minmax(0,1fr); position:relative; }
+ #plan-reader .reader-inspector { display:none; }
+ #plan-reader[data-details="open"] .reader-inspector { display:flex; position:absolute; z-index:15; right:0; top:0; bottom:16px; width:min(340px,100%); box-shadow:-10px 0 30px #44362c33; }
+ #plan-reader .reader-detail-close { display:block; border:0; background:transparent; padding:10px; color:var(--muted); text-align:right; }
+ #plan-reader .reader-detail-toggle { display:inline-block; }
+}
+@media(min-width:901px) { #plan-reader .reader-detail-toggle { display:none; } }
+@media(max-width:650px) {
+ #plan-reader { width:calc(100% - 20px); }
+ #plan-reader .reader-header { display:block; padding:9px 0; }
+ #plan-reader h1 { font-size:18px; }
+ #plan-reader .reader-brand a { font-size:10px; }
+ #plan-reader .reader-modebar { margin-top:8px; }
+ #plan-reader .reader-modebar button { flex:1; padding:6px 8px; font-size:12px; }
+ #plan-reader .reader-layout { grid-template-columns:minmax(0,1fr); padding-bottom:10px; }
+ #plan-reader .reader-sidebar { display:none; }
+ #plan-reader .reader-wide { grid-column:auto; }
+ #plan-reader .reader-mobile-controls { display:flex; gap:8px; margin-bottom:9px; }
+ #plan-reader .reader-mobile-controls label { position:absolute; width:1px;height:1px;overflow:hidden;clip-path:inset(50%); }
+ #plan-reader .reader-scene-head { padding:13px 16px; }
+ #plan-reader .reader-scene-head h2 { font-size:18px; }
+ #plan-reader .reader-scene-head p { font-size:11px; }
+ #plan-reader .reader-canvas { padding:14px 16px; }
+ #plan-reader .reader-jump { padding:8px 16px; }
+ #plan-reader .reader-pager { padding:10px 16px; gap:6px; }
+ #plan-reader .reader-pager button { padding:8px; font-size:11px; }
+ #plan-reader .turn .en,#plan-reader .question-choice .ask { font-size:15px; }
+ #plan-reader .question-choice .reply { font-size:14px; }
+ #plan-reader .turn .ko,#plan-reader .question-choice .translation,#plan-reader .question-choice .reply em { font-size:12px; }
+ #plan-reader .reader-summary .grid-3 { grid-template-columns:1fr; }
+}
+</style></head><body class="christmas-reader"><main id="plan-reader">
+<header class="reader-header">
+  <div class="reader-brand"><a href="learning-plan.html#middle-one">← 학습 기획</a><h1>사라진 크리스마스트리의 별</h1></div>
+  <nav class="reader-modebar" aria-label="기획서 보기 방식">
+    <button type="button" data-mode="flow" aria-pressed="false">사건 흐름</button>
+    <button type="button" data-mode="script" aria-pressed="true">대본</button>
+    <button type="button" data-mode="reference" aria-pressed="false">학습 점검</button>
+  </nav><span class="reader-status">L1-05 · 10 B<br>사용자 검토 중 · 개발 미인계</span>
+</header>
+<div class="reader-layout">
+  <aside class="reader-panel reader-sidebar" aria-label="기획 항목"><h2 id="reader-list-title">장면 선택</h2><nav id="reader-list" class="reader-list"></nav></aside>
+  <div class="reader-panel reader-stage" id="reader-stage">
+    <header class="reader-scene-head">
+      <div class="reader-mobile-controls"><label for="reader-mobile-select">항목 선택</label><select id="reader-mobile-select"></select></div>
+      <span class="scene-kicker" id="reader-context"></span><h2 id="reader-title" tabindex="-1"></h2><p id="reader-purpose"></p>
+    </header>
+    <div class="reader-jump" id="reader-jump"><label for="reader-step">대화 선택</label><select id="reader-step"></select><button class="reader-mini reader-detail-toggle" type="button" data-details-toggle>자료</button></div>
+    <div class="reader-canvas" id="reader-canvas" role="region" aria-label="선택한 기획 내용" tabindex="0"></div>
+    <footer class="reader-pager"><button id="reader-prev" type="button">← 이전</button><span class="reader-page-position" id="reader-position" aria-live="polite"></span><button id="reader-next" type="button">다음 →</button></footer>
+  </div>
+  <aside class="reader-panel reader-inspector" id="reader-inspector" aria-label="현재 장면의 설계 자료">
+    <button type="button" class="reader-detail-close" data-details-toggle>자료 닫기 ×</button>
+    <div class="reader-tabs" role="tablist" aria-label="장면 자료">
+      <button id="reader-tab-clues" type="button" role="tab" data-inspector="clues" aria-controls="reader-inspector-content" aria-selected="true">단서·흐름</button>
+      <button id="reader-tab-learning" type="button" role="tab" data-inspector="learning" aria-controls="reader-inspector-content" aria-selected="false" tabindex="-1">학습 설계</button>
+      <button id="reader-tab-production" type="button" role="tab" data-inspector="production" aria-controls="reader-inspector-content" aria-selected="false" tabindex="-1">제작 메모</button>
+    </div><div class="reader-inspector-content" id="reader-inspector-content" role="tabpanel" aria-labelledby="reader-tab-clues" tabindex="0"></div>
+  </aside>
+</div></main><template id="reader-source"><section class="hero"><div class="hero-copy"><span class="eyebrow">L1-05 · 10 B · 금으로 만든 별 절도안</span><h1>사라진 크리스마스트리의 별</h1><p class="lead">축제를 준비하는 여러 친구가 드나든 창고에서 금으로 만든 별이 사라졌다. 현재 작업에 관한 진술을 대조하고, 개봉 뒤 별 자체의 잎사귀 무늬와 보관함 출처를 확인한다.</p><div class="chips"><span class="chip">면담 15문항 · 37칸</span><span class="chip">필수 사진 4장 · 선택 1장 · 추리 6문항</span><span class="chip status">대본 사용자 검토 대기 · 개발 미인계</span></div></div><figure class="hero-art"><div class="plan-art-pending">속까지 꽉 찬, 금으로 만든 별<br>전구·전선·배터리 없음 · 그림 미제작</div><figcaption>엘라·벤·경사 재사용 / 홀리·메이·니코 신규</figcaption></figure></section><section class="story-card" id="case-summary"><div class="section-head"><h2>사건 한눈에</h2></div><div class="grid-3"><div class="object-card"><h3>의뢰</h3><p>창고에 보관한 금으로 만든 별이 사라져 엘라가 탐정에게 도움을 청한다.</p></div><div class="object-card"><h3>조사</h3><p>창고의 흔적과 친구들의 말을 모으고, 니코의 운반 설명을 벤의 진술과 대조한다.</p></div><div class="object-card"><h3>해결</h3><p>동의 후 상자를 열어 별을 확인하고, 출처·허락·목적을 들은 뒤 엘라에게 돌려준다.</p></div></div><p style="margin-top:14px">아래는 제작자용 기획서야. 장면별 대본은 펼쳐 두고, 학습 설계와 제작 메모는 필요할 때 열어 볼 수 있어.</p></section><section class="story-card" id="flow-overview"><div class="section-head"><h2>사건 흐름도</h2></div>
 <span class="plan-anchor" id="event-flow"></span>
 
 <p>사건의 진실과 플레이 순서를 나눈 제작자용 흐름도다. 창고의 출입 목격만으로 특정하지 않고, 벤·니코의 현재 작업 진술을 대조해 개봉을 요청한다. 별 실물·잎사귀 무늬·출처 확인은 개봉 뒤다. 선물 상자 자체는 물증으로 쓰지 않는다.</p>
@@ -691,13 +835,306 @@
 <p>검증 안 함: 실제 플레이·소요 시간·학습 효과·학생 청취·녹음 속도·실제 원화·엔진 실행. 문서의 문장 길이·원문 노트·보기·조건·대사·사진·흐름도는 대조하지만 사용자 승인 뒤 정식3단계 규칙별 점검을 대신하지 않는다.</p>
 </div></details></section><section class="story-card" id="next-steps"><details style="padding:12px 0;border-top:1px dashed var(--line)"><summary style="cursor:pointer;font-weight:750;color:var(--muted);font-size:13px">현재 상태와 다음 단계</summary><div style="display:grid;gap:12px;padding-top:14px"><div class="section-head"><h2>10. 다음 단계</h2></div>
 <p>현재 수정 대본을 사용자와 검토한다. 대본 승인 뒤 규칙별 지킴/어김/판단 필요·근거 대사·실제 균형표로 정식3단계 점검을 진행한다. 개발 인계는 별도 사용자 지시 때만 기록한다. 지금 작업 중인 시나리오만 유지하며 이전안 백업은 다시 만들지 않는다.</p>
-</div></details></section></main><script>
-function revealPlanningAnchor(){
-  const target=document.getElementById(decodeURIComponent(location.hash.slice(1)));
-  if(!target)return;
-  for(let n=target;n;n=n.parentElement)if(n.tagName==='DETAILS')n.open=true;
-  const own=target.querySelector(':scope > details');if(own)own.open=true;
-  requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
-}
-addEventListener('hashchange',revealPlanningAnchor);revealPlanningAnchor();
+</div></details></section></template><script id="reader-turn-metadata" type="application/json">{"ella:hello": {"who": "엘라", "kind": "자동"}, "det:storeroom-thought": {"who": "탐정", "kind": "생각"}, "move:gift": {"who": "이동", "kind": "이동 버튼"}, "mae:hello": {"who": "메이", "kind": "자동"}, "det:mae-intro": {"who": "탐정", "kind": "자동"}, "mae:ready": {"who": "메이", "kind": "자동"}, "ben:hello": {"who": "벤", "kind": "자동"}, "det:ben-intro": {"who": "탐정", "kind": "자동"}, "det:sleigh-thought": {"who": "탐정", "kind": "생각"}, "move:sleigh": {"who": "이동", "kind": "이동 버튼"}, "nico:hello": {"who": "니코", "kind": "자동"}, "det:nico-intro": {"who": "탐정", "kind": "자동"}, "det:compare-thought": {"who": "탐정", "kind": "생각"}, "det:open-q1": {"who": "탐정", "kind": "선택 질문"}, "nico:open-a1": {"who": "니코", "kind": "자동"}, "det:check-claim": {"who": "탐정", "kind": "진술 제시 뒤 선택 질문"}, "nico:open-a2": {"who": "니코", "kind": "자동"}, "open:box": {"who": "행동", "kind": "조사 행동"}, "det:call-thought": {"who": "탐정", "kind": "생각"}, "call:officer": {"who": "행동", "kind": "연락 선택지"}, "det:call": {"who": "탐정", "kind": "자동"}, "badger:phone": {"who": "응답한 목소리", "kind": "자동"}, "wait:officer": {"who": "행동", "kind": "다음 장면 선택지"}, "badger:hello": {"who": "경사", "kind": "자동"}, "det:origin-q": {"who": "탐정", "kind": "선택 질문"}, "nico:origin-a": {"who": "니코", "kind": "자동"}, "det:permission-q": {"who": "탐정", "kind": "증거 제시 뒤 선택 질문"}, "nico:admit": {"who": "니코", "kind": "자동"}, "det:motive-q": {"who": "탐정", "kind": "선택 질문"}, "nico:motive": {"who": "니코", "kind": "자동"}, "badger:keep": {"who": "경사", "kind": "자동"}, "det:take-q": {"who": "탐정", "kind": "선택 질문"}, "badger:take-a": {"who": "경사", "kind": "자동"}, "take:star": {"who": "행동", "kind": "소지품 받기"}, "det:return-thought": {"who": "탐정", "kind": "생각"}, "move:tree": {"who": "이동", "kind": "이동 버튼"}, "ella:return": {"who": "엘라", "kind": "자동"}, "det:confirm-owner": {"who": "탐정", "kind": "선택 질문"}, "ella:confirm-owner": {"who": "엘라", "kind": "자동"}, "det:report": {"who": "탐정", "kind": "보고 선택지"}, "ella:thanks": {"who": "엘라", "kind": "자동"}, "give:star": {"who": "행동", "kind": "소지품 건네기"}, "ella:end": {"who": "엘라", "kind": "자동"}, "det:ben-check-thought": {"who": "탐정", "kind": "생각"}, "move:ben-check": {"who": "이동", "kind": "이동 버튼"}, "ben:return": {"who": "벤", "kind": "자동"}, "det:sleigh-return-thought": {"who": "탐정", "kind": "생각"}, "move:sleigh-return": {"who": "이동", "kind": "이동 버튼"}, "move:storeroom": {"who": "이동", "kind": "이동 버튼"}, "holly:hello": {"who": "홀리", "kind": "자동"}, "det:holly-intro": {"who": "탐정", "kind": "자동"}, "holly:ready": {"who": "홀리", "kind": "자동"}, "det:gift-thought": {"who": "탐정", "kind": "생각"}, "det:books-q": {"who": "탐정", "kind": "행동 선택지"}, "ben:books-a": {"who": "벤", "kind": "자동"}, "det:star-look-q": {"who": "탐정", "kind": "행동 선택지"}, "badger:star-look-a": {"who": "경사", "kind": "자동"}, "look:star-back": {"who": "행동", "kind": "조사 행동"}}</script><script>(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const source = $('reader-source').content;
+  const meta = JSON.parse($('reader-turn-metadata').textContent);
+  const root = $('plan-reader');
+  const routes = new Map();
+  const memories = {script:new Map(),reference:new Map()};
+  const lastItems = {script:1,flow:0,reference:0};
+  const state = {mode:'flow',item:0,page:0,inspector:'clues',zoom:false};
+  const text = n => n?.textContent.trim() || '';
+  const isTurn = n => n.hasAttribute('data-line');
+  const kind = n => meta[n.dataset.line]?.kind || '';
+  const who = n => meta[n.dataset.line]?.who || '';
+  const node = (tag,content,cls) => {
+    const el=document.createElement(tag);
+    if(content)el.textContent=content;
+    if(cls)el.className=cls;
+    return el;
+  };
+  function clone(n) {
+    const c=n.cloneNode(true);
+    // Source anchors remain in the inert template; visible links are routed by this reader.
+    for(const x of [c,...c.querySelectorAll('[id]')]) {
+      if(x.id && !x.closest('svg')) {x.dataset.sourceAnchor=x.id;x.removeAttribute('id');}
+    }
+    return c;
+  }
+  function unwrap(details) {
+    const body=details.querySelector(':scope > div');
+    return body ? [...body.children] : [];
+  }
+  function register(nodes,route) {
+    for(const n of nodes) {
+      for(const x of [n,...n.querySelectorAll('[id],[data-line],[data-ref],[data-deduction],[data-evidence]')]) {
+        for(const id of [x.id,x.dataset.line,x.dataset.ref,x.dataset.deduction,x.dataset.evidence])if(id)routes.set(id,{...route});
+      }
+    }
+  }
+  function labelFor(nodes) {
+    const first=nodes[0];
+    if(first.matches('.question-choice'))return text(first.querySelector('.ask'));
+    if(first.matches('[data-evidence]'))return '사진 조사 · '+text(first.querySelector('.result-tag')).replace(/^(필수|선택) 사진 · /,'');
+    if(isTurn(first))return (kind(first)==='생각'?'탐정의 생각':who(first)+' · '+kind(first))+' — '+text(first.querySelector('.en'));
+    return text(first.querySelector('strong,h3,h4')) || text(first).slice(0,60);
+  }
+  const scenes=[...source.querySelectorAll('#storyboard > article.scene')].map((article,item) => {
+    const head=article.querySelector('.scene-head');
+    const body=article.querySelector('.scene-body');
+    const all=[...body.children];
+    const summary=all.find(n=>n.matches('.scene-next') && /얻은 정보|준비할 내용|해결/.test(text(n.querySelector('strong'))));
+    const memo=all.filter(n=>n.tagName==='DETAILS');
+    const photos=all.filter(n=>n.hasAttribute('data-evidence'));
+    const pages=[];
+    let pending=[];
+    for(let i=0;i<all.length;i++) {
+      const current=all[i];
+      if(current===summary || current.tagName==='DETAILS')continue;
+      if(current.tagName==='SPAN' || /^H[34]$/.test(current.tagName)) {pending.push(current);continue;}
+      const nodes=[...pending,current];pending=[];
+      if(isTurn(current)) {
+        const next=all[i+1];
+        if(next && isTurn(next)) {
+          if(/질문|행동 선택지/.test(kind(current)) && kind(next)==='자동' && who(next)!=='탐정') {
+            nodes.push(next);i++;
+          } else if(kind(current)==='생각' && /이동 버튼|연락 선택지/.test(kind(next))) {
+            nodes.push(next);i++;
+          } else if(kind(current)==='자동') {
+            while(nodes.filter(isTurn).length<3 && all[i+1] && isTurn(all[i+1]) && kind(all[i+1])==='자동')nodes.push(all[++i]);
+          }
+        }
+      }
+      const actual=nodes.find(n=>n.matches('.question-choice,[data-evidence],[data-line],.scene-next'));
+      const title=actual ? labelFor([actual]) : labelFor(nodes);
+      const page={nodes,label:title,anchor:actual?.dataset.ref || actual?.dataset.line || actual?.dataset.deduction || actual?.dataset.evidence || current.id || article.id};
+      const pageIndex=pages.length;pages.push(page);register(nodes,{mode:'script',item,page:pageIndex});
+    }
+    if(pending.length) {
+      if(pages.length)pages[pages.length-1].nodes.push(...pending);
+      else pages.push({nodes:pending,label:'장면 준비',anchor:article.id});
+    }
+    if(!pages.length)pages.push({nodes:[summary || node('p',text(head.querySelector('p')))],label:'장면 준비',anchor:article.id});
+    routes.set(article.id,{mode:'script',item,page:0});
+    return {id:article.id,title:text(head.querySelector('h3')),context:text(head.querySelector('.scene-kicker')),
+      purpose:text(head.querySelector('p')),pages,summary,memo,photos};
+  });
+  const flowSource=source.querySelector('#flow-overview');
+  const figures=[...flowSource.querySelectorAll('figure')];
+  const flowItems=[
+    {title:'사건 한눈에',context:'L1-05 · 10 B',purpose:'의뢰부터 반환까지 전체 구조를 확인해.',node:source.querySelector('#case-summary')},
+    {title:'사건이 벌어진 과정',context:'제작자용 진실',purpose:'탐정이 오기 전 사건의 순서야.',node:figures[0]},
+    {title:'탐정이 해결하는 과정',context:'플레이 흐름',purpose:'흐름도의 카드를 누르면 해당 장면의 대본이 열려.',node:figures[1]}
+  ];
+  for(const [id,item] of [['case-summary',0],['flow-overview',2],['event-flow',2]])routes.set(id,{mode:'flow',item,page:0});
+  const refIds=['fieldwork','overview','background-tts','unlocks','learning','deductions','truth','production','next-steps'];
+  const refNames=['증거 전체 목록','인물·장소','배경 TTS','해금·재방문','열쇠 표현·복습','추리 전체 자료','사건의 진실','제작 범위·남은 확인','다음 단계'];
+  const references=refIds.map((id,item) => {
+    const section=source.querySelector('#'+id);
+    let children=[...section.children];
+    if(children.length===1 && children[0].tagName==='DETAILS')children=unwrap(children[0]);
+    if(id==='deductions')children=children.flatMap(n=>n.tagName==='DETAILS'?unwrap(n):[n]);
+    const pages=[];let block=[];
+    function flush() {
+      if(!block.length)return;
+      const h=block.find(n=>/^H[23]$/.test(n.tagName)) || block.find(n=>n.matches('.section-head'));
+      const anchor=block.find(n=>n.id)?.id || id;
+      pages.push({nodes:block,label:text(h)||refNames[item],anchor});block=[];
+    }
+    for(const n of children) {
+      if(n.tagName==='H3' && block.some(x=>!x.matches('.plan-anchor'))) {
+        const trailing=[];
+        while(block.length && block[block.length-1].matches('.plan-anchor'))trailing.unshift(block.pop());
+        flush();block=trailing;
+      }
+      block.push(n);
+    }
+    flush();
+    if(!pages.length)pages.push({nodes:children,label:refNames[item],anchor:id});
+    pages.forEach((p,page)=>register(p.nodes,{mode:'reference',item,page}));
+    routes.set(id,{mode:'reference',item,page:0});
+    return {id,title:refNames[item],context:'전체 설계 자료',purpose:'대본과 함께 검토하는 학습·제작 자료야.',pages};
+  });
+  routes.set('storyboard',{mode:'script',item:1,page:0});
+  routes.set('plan-a',{mode:'script',item:0,page:0});
+  routes.set('reference-index',{mode:'reference',item:0,page:0});
+  // Reference copies must not steal the dedicated scene anchor.
+  scenes.forEach((s,item)=>routes.set(s.id,{mode:'script',item,page:0}));
+  const items=()=>state.mode==='script'?scenes:state.mode==='flow'?flowItems:references;
+  const selected=()=>items()[state.item];
+  const pages=()=>state.mode==='flow'?[{anchor:['case-summary','flow-truth','event-flow'][state.item]}]:selected().pages;
+  function setHash(anchor,push=false) {
+    const hash='#'+encodeURIComponent(anchor).replace(/%3A/g,':');
+    if(location.hash!==hash)history[push?'pushState':'replaceState'](null,'',hash);
+  }
+  function select(mode,item=0,page,updateURL=true,push=false) {
+    if(state.mode!=='flow')memories[state.mode].set(state.item,state.page);
+    lastItems[state.mode]=state.item;
+    state.mode=mode;state.item=Math.max(0,Math.min(item,items().length-1));
+    const remembered=mode==='flow'?0:(memories[mode].get(state.item)||0);
+    state.page=Math.max(0,Math.min(page??remembered,pages().length-1));
+    root.dataset.details='closed';state.zoom=false;
+    render();if(updateURL)setHash(pages()[state.page].anchor,push);
+  }
+  function navigate(direction) {
+    let page=state.page+direction,item=state.item;
+    if(page<0) {if(item===0)return;item--;page=state.mode==='flow'?0:items()[item].pages.length-1;}
+    else if(page>=pages().length) {if(item===items().length-1)return;item++;page=0;}
+    select(state.mode,item,page);
+  }
+  function fillList() {
+    const titles={script:'장면 선택',flow:'사건 흐름',reference:'점검 항목'};
+    $('reader-list-title').textContent=titles[state.mode];
+    $('reader-list').replaceChildren();$('reader-mobile-select').replaceChildren();
+    items().forEach((item,index)=> {
+      const label=state.mode==='script'?item.title.replace(/^장면 \d+ · /,''):item.title;
+      const b=node('button',label);b.type='button';b.dataset.item=String(index);
+      b.setAttribute('aria-current',String(index===state.item));
+      if(state.mode==='script')b.append(node('small',item.context.split(' · ')[0]));
+      $('reader-list').append(b);
+      const option=node('option',label);option.value=String(index);$('reader-mobile-select').append(option);
+    });
+    $('reader-mobile-select').value=String(state.item);
+    $('reader-list').querySelector('[aria-current="true"]')?.scrollIntoView({block:'nearest'});
+  }
+  function panelHeading(textValue) {return node('h3',textValue);}
+  function fillInspector() {
+    const panel=$('reader-inspector-content');panel.replaceChildren();
+    for(const b of root.querySelectorAll('[data-inspector]')) {
+      const active=b.dataset.inspector===state.inspector;
+      b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;
+    }
+    panel.setAttribute('aria-labelledby','reader-tab-'+state.inspector);
+    if(state.mode!=='script')return;
+    const scene=selected(),page=scene.pages[state.page];
+    if(state.inspector==='clues') {
+      panel.append(panelHeading('이 장면의 단서와 흐름'));
+      if(scene.summary)panel.append(clone(scene.summary));
+      for(const photo of scene.photos)panel.append(clone(photo));
+    } else if(state.inspector==='learning') {
+      panel.append(panelHeading('선택한 대화의 학습 설계'));
+      const found=page.nodes.flatMap(n=>[...n.querySelectorAll('details')]).filter(n=>text(n.querySelector('summary')).startsWith('학습 설계'));
+      if(found.length)for(const detail of found)for(const child of unwrap(detail))panel.append(clone(child));
+      else {
+        panel.append(node('p','질문을 고르면 해당 질문의 노트 빈칸·보기·추리 설계가 여기에 표시돼.'));
+        for(const [index,p] of scene.pages.entries())if(p.nodes.some(n=>n.matches('.question-choice'))) {
+          const b=node('button',p.label,'reader-mini');b.type='button';b.dataset.page=String(index);panel.append(b);
+        }
+      }
+    } else {
+      panel.append(panelHeading('현재 대화와 장면의 제작 메모'));
+      const found=page.nodes.flatMap(n=>[...n.querySelectorAll('details')]).filter(n=>text(n.querySelector('summary')).startsWith('제작 메모'));
+      for(const detail of found)for(const child of unwrap(detail))panel.append(clone(child));
+      for(const detail of scene.memo)for(const child of unwrap(detail))panel.append(clone(child));
+    }
+    panel.scrollTop=0;
+  }
+  function fillFlow() {
+    const canvas=$('reader-canvas');
+    if(state.item===0) {
+      const box=node('div','','reader-summary');
+      const summary=clone(flowItems[0].node);summary.querySelector('.section-head')?.remove();
+      summary.lastElementChild?.remove();
+      box.append(...summary.children);
+      const hero=source.querySelector('.hero');box.append(clone(hero.querySelector('.chips')));
+      box.append(clone(hero.querySelector('.lead')),clone(hero.querySelector('figcaption')));
+      const note=node('p','금으로 만든 별 하나 · 선물 상자는 숨기는 수단 · 현재 작업은 과거 알리바이가 아님.');box.append(note);
+      const b=node('button','해결 흐름도 보기 →','reader-mini');b.type='button';b.dataset.flow='2';box.append(b);
+      canvas.append(box);return;
+    }
+    const flow=node('div','','reader-flow');
+    const toolbar=node('div','','reader-flow-toolbar');
+    const b=node('button','확대해서 보기','reader-mini');b.type='button';b.dataset.zoom='toggle';b.setAttribute('aria-pressed','false');
+    toolbar.append(b,node('span','카드 선택 → 해당 대본'));
+    const paper=node('div','','reader-flow-paper');paper.append(clone(flowItems[state.item].node));flow.append(toolbar,paper);canvas.append(flow);
+  }
+  function render() {
+    const current=selected();
+    for(const b of root.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode));
+    $('reader-context').textContent=current.context;$('reader-title').textContent=current.title;$('reader-purpose').textContent=current.purpose;
+    fillList();
+    const stage=$('reader-stage');stage.classList.toggle('reader-wide',state.mode!=='script');
+    $('reader-inspector').hidden=state.mode!=='script';
+    $('reader-jump').hidden=state.mode==='flow';
+    $('reader-step').replaceChildren();
+    if(state.mode!=='flow')for(const [index,p] of pages().entries()) {
+      const option=node('option',String(index+1).padStart(2,'0')+' · '+p.label);option.value=String(index);$('reader-step').append(option);
+    }
+    $('reader-step').value=String(state.page);
+    $('reader-jump').querySelector('label').textContent=state.mode==='reference'?'항목 선택':'대화 선택';
+    root.querySelector('[data-details-toggle]').hidden=state.mode!=='script';
+    const canvas=$('reader-canvas');canvas.replaceChildren();
+    if(state.mode==='flow')fillFlow();
+    else {
+      const page=node('div','',state.mode==='reference'?'reader-reference':'reader-page');
+      for(const n of pages()[state.page].nodes) {
+        if(n.matches('.plan-anchor'))continue;
+        const c=clone(n);
+        if(state.mode==='script')for(const detail of c.querySelectorAll('details')) {
+          if(/^(학습 설계|제작 메모)/.test(text(detail.querySelector('summary'))))detail.remove();
+        }
+        page.append(c);
+      }
+      canvas.append(page);
+    }
+    const prev=$('reader-prev'),next=$('reader-next');
+    prev.disabled=state.item===0 && state.page===0;
+    next.disabled=state.item===items().length-1 && state.page===pages().length-1;
+    prev.textContent=state.mode==='script' && state.page===0?'← 이전 장면':'← 이전';
+    next.textContent=state.mode==='script' && state.page===pages().length-1?'다음 장면 →':'다음 →';
+    $('reader-position').textContent=state.mode==='flow'?(state.item+1)+' / '+items().length:
+      (state.mode==='script'?'대화 ':'항목 ')+(state.page+1)+' / '+pages().length;
+    fillInspector();canvas.scrollTop=0;
+  }
+  function restoreRoute() {
+    let hash='';try{hash=decodeURIComponent(location.hash.slice(1));}catch{}
+    const target=routes.get(hash) || (hash==='flow-truth'?{mode:'flow',item:1,page:0}:null);
+    if(target)select(target.mode,target.item,target.page,false);
+    else select('flow',0,0,false);
+  }
+  root.addEventListener('click',event=> {
+    const button=event.target.closest('button');
+    if(!button)return;
+    if(button.dataset.mode) {
+      const mode=button.dataset.mode;
+      select(mode,mode===state.mode?state.item:lastItems[mode],undefined,true,true);
+    } else if(button.dataset.item!==undefined)select(state.mode,Number(button.dataset.item),undefined,true,true);
+    else if(button.dataset.page!==undefined)select('script',state.item,Number(button.dataset.page));
+    else if(button.dataset.inspector) {state.inspector=button.dataset.inspector;fillInspector();}
+    else if(button.hasAttribute('data-details-toggle'))root.dataset.details=root.dataset.details==='open'?'closed':'open';
+    else if(button.dataset.flow)select('flow',Number(button.dataset.flow),0,true,true);
+    else if(button.dataset.zoom) {
+      state.zoom=!state.zoom;
+      root.querySelector('.reader-flow').classList.toggle('is-zoomed',state.zoom);
+      button.textContent=state.zoom?'전체 보기':'확대해서 보기';button.setAttribute('aria-pressed',String(state.zoom));
+    }
+  });
+  document.addEventListener('click',event=> {
+    const link=event.target.closest('a[href^="#"]');if(!link)return;
+    const id=decodeURIComponent(link.getAttribute('href').slice(1)),target=routes.get(id);
+    if(target){event.preventDefault();select(target.mode,target.item,target.page,true,true);}
+  });
+  $('reader-mobile-select').addEventListener('change',e=>select(state.mode,Number(e.target.value),undefined,true,true));
+  $('reader-step').addEventListener('change',e=>select(state.mode,state.item,Number(e.target.value)));
+  $('reader-prev').addEventListener('click',()=>navigate(-1));$('reader-next').addEventListener('click',()=>navigate(1));
+  root.querySelector('[role="tablist"]').addEventListener('keydown',event=> {
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+    const tabs=[...root.querySelectorAll('[data-inspector]')];let index=tabs.findIndex(b=>b.dataset.inspector===state.inspector);
+    index=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+    event.preventDefault();event.stopPropagation();state.inspector=tabs[index].dataset.inspector;fillInspector();tabs[index].focus();
+  });
+  root.addEventListener('keydown',event=> {
+    if(event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||event.target.closest('select,input,textarea,summary'))return;
+    if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();navigate(event.key==='ArrowLeft'?-1:1);}
+  });
+  addEventListener('hashchange',restoreRoute);addEventListener('popstate',restoreRoute);
+  // Inspection hook for document verification; it does not change story or game data.
+  window.christmasPlanningReader={
+    snapshot:()=>({state:{...state},scenes:scenes.map(s=>({id:s.id,pages:s.pages.map(p=>p.anchor)})),routes:[...routes.keys()]}),
+    select:(mode,item,page)=>select(mode,item,page),navigate
+  };
+  restoreRoute();
+})();
 </script></body></html>
