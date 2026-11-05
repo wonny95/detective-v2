@@ -161,9 +161,9 @@ flowchart LR
 
 - **질문 선택지**: Who came into the storeroom?
 - 해석: 창고에는 누가 들어왔어?
-- **대답**: I saw Mae, Ben, and Nico go in. I went in, too.
+- **대답**: I saw May, Ben, and Nico go in. I went in, too.
 - 해석: 메이, 벤, 니코가 들어가는 걸 봤어. 나도 들어갔어.
-- **노트**: “I [saw] Mae, Ben, and Nico go [in]. I went in, too.”
+- **노트**: “I [saw] May, Ben, and Nico go [in]. I went in, too.”
 - **보기**: saw · see · in · out
 - 조건: h1 기록 뒤
 - 채점 뒤: 여러 사람의 창고 출입 목격. 내용물·반출·범행은 모르는 진술이며 사진 증거로 만들지 않음
@@ -172,9 +172,9 @@ flowchart LR
 
 - **질문 선택지**: Are you wrapping the gifts here?
 - 해석: 여기서 선물을 포장하고 있어?
-- **대답**: No, I'm hanging ribbons. Mae and Ben are in the gift tent.
+- **대답**: No, I'm hanging ribbons. May and Ben are in the gift tent.
 - 해석: 아니, 리본을 달고 있어. 메이와 벤은 선물 포장 천막에 있어.
-- **노트**: “No, I'm [hanging] ribbons. Mae and Ben are in the [gift tent].”
+- **노트**: “No, I'm [hanging] ribbons. May and Ben are in the [gift tent].”
 - **보기**: hanging · wrapping · gift tent · storeroom
 - 조건: h1 기록 뒤
 - 채점 뒤: 현재 장식 작업·메이/벤의 포장 천막 발견. 각 이름 표시는 본인 소개 뒤. 현재 행동을 과거 알리바이로 쓰지 않음
@@ -194,7 +194,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
 메이는 쿠키 선물을 포장하고 있다. 홀리는 메이가 창고에 들어간 것을 봤지만, 포장 중인 현재 모습만으로 과거 반출을 부정하지 않는다. 탐정이 조사 이유를 밝힌 뒤 무엇을 포장하는지 묻는다.
 
 - **mae:hello · 메이 · 자동**
-  - Welcome! I'm Mae.
+  - Welcome! I'm May.
   - 어서 와! 난 메이야.
 
 - **det:mae-intro · 탐정 · 자동**
@@ -259,7 +259,7 @@ m3 뒤 쿠키를 직접 확인한다. 사진 c-cookies는 선택 기록이다. �
 - **대답**: Nico is helping with deliveries. He's by his sleigh outside.
 - 해석: 니코가 배송을 돕고 있어. 지금 밖에 있는 자기 썰매 옆에 있어.
 - **노트**: “[Nico] is helping with deliveries. He's by his [sleigh] [outside].”
-- **보기**: Nico · Mae · sleigh · tent · outside · inside
+- **보기**: Nico · May · sleigh · tent · outside · inside
 - 조건: b1 기록 뒤
 - 채점 뒤: 썰매 앞·이름 없는 펭귄. 이름 표시는 본인 인사 뒤
 
@@ -673,7 +673,7 @@ e0→e1·e2, e2→축제 창고·홀리·c-case. 홀리 h1→h2·h3, h3→포장
 | 해석 | 창고 출입 목격으로 무엇을 알 수 있어? |
 | 완성 | Holly saw [several friends] go into the storeroom. |
 | 해석 | 홀리는 여러 친구가 창고에 들어가는 걸 봤어. |
-| 보기 | several friends · only Nico · only Mae · only Ben · only Ella · no one |
+| 보기 | several friends · only Nico · only May · only Ben · only Ella · no one |
 | 맞장구 | We still need to check the other information. |
 | 해석 | 다른 정보도 확인해야 해. |
 | 힌트 | Listen to Holly's answer about the visitors. |
@@ -688,7 +688,7 @@ e0→e1·e2, e2→축제 창고·홀리·c-case. 홀리 h1→h2·h3, h3→포장
 | 해석 | 니코는 누구의 선물을 옮기고 있다고 말해? |
 | 완성 | Nico says he is taking [Ben's gift]. |
 | 해석 | 니코는 벤의 선물을 옮기고 있다고 말해. |
-| 보기 | Ben's gift · Mae's gift · Ella's case · his own gift · a ribbon basket · an empty box |
+| 보기 | Ben's gift · May's gift · Ella's case · his own gift · a ribbon basket · an empty box |
 | 맞장구 | That's his explanation of the box. |
 | 해석 | 그 상자에 대한 니코의 설명이야. |
 | 힌트 | Listen to Nico's answer about what he is carrying. |
@@ -748,7 +748,7 @@ e0→e1·e2, e2→축제 창고·홀리·c-case. 홀리 h1→h2·h3, h3→포장
 | 해석 | 누구에게 그 상자에 관해 다시 물어봐야 할까? |
 | 완성 | We should ask [Nico] about the box. |
 | 해석 | 니코에게 그 상자에 관해 다시 물어봐야 해. |
-| 보기 | Mae · Ben · Nico · Holly |
+| 보기 | May · Ben · Nico · Holly |
 | 맞장구 | Let's check the box's source. |
 | 해석 | 상자의 출처를 확인하자. |
 | 힌트 | Compare Nico's carrying answer with Ben's answer and the unfinished books. |
@@ -764,7 +764,7 @@ e0→e1·e2, e2→축제 창고·홀리·c-case. 홀리 h1→h2·h3, h3→포장
 | 들어야 하는 말 | 가능한 판단 |
 |---|---|
 | 홀리 h1 sorting decorations·helping Ella / h3 hanging ribbons·gift tent | 장식 준비와 선물 포장을 구별. 새 인물도 창고 사용자임을 조사 |
-| 홀리 h2 I saw Mae, Ben, and Nico go in. I went in, too. | 여러 사람의 출입을 알지만 그중 누가 별을 가져갔는지는 모름 |
+| 홀리 h2 I saw May, Ben, and Nico go in. I went in, too. | 여러 사람의 출입을 알지만 그중 누가 별을 가져갔는지는 모름 |
 | 니코 n2 taking Ben's gift / 벤 b2 all my gifts·still wrapping | 운반 대상 주장과 전부 여기에서 포장 중이라는 현재 사실을 대조 |
 | 니코 n3 not opening / loading | 상자를 여는지 싣는지 구별. 내용물은 알 수 없음 |
 | 니코 n4 not moving decorations / loading gifts | 선물만 나른다는 말과 개봉 뒤 실제 별 장식을 대조 |
