@@ -2,7 +2,7 @@
 
 **L1-05 현재진행형 · 2단계 대본 사용자 검토 대기 · 개발 미인계.** [장면별 기획](case-10-christmas-star.html) · [수리 A안 백업](case-10-christmas-star-repair.html) · [포장 B안 백업](case-10-christmas-star-outline.html#plan-b)
 
-사용자 요청으로 진짜 금으로 만든 별을 훔쳐 선물처럼 포장해 반출하려는 사건을 작성한다. **사라진 별은 전구·전선·배터리가 없는 실제 금제 장식이다.** 금색 칠을 한 물건이나 조명이 아니다. 벤이 고치는 물건은 별과 별개인 의자다. 기존 수리 A안과 포장 착오 B안은 백업으로 보존한다.
+사용자 요청으로 진짜 금으로 만든 별을 훔쳐 선물처럼 포장해 반출하려는 사건을 작성한다. **별 모양 물건은 도난당한 실제 금제 별 장식 하나만 나온다. 전구·전선·배터리는 없다.** 금색 칠을 한 물건이나 조명이 아니다. 벤이 고치는 물건은 별과 별개인 의자다. 기존 수리 A안과 포장 착오 B안은 백업으로 보존한다.
 
 니코를 범인으로 정한 것과 개별 대사·단서·새 장소는 기획자 제안이다. 사용자가 세부 설정이나 범인을 지정했다고 기록하지 않는다. 그림·음성은 생성하지 않았고 앱 사건 번호는 지정하지 않는다.
 
@@ -14,12 +14,12 @@
 2. 엘라가 설치 직전에 천막 옆 준비대에서 보관함을 연다. 입구의 어린 관람객을 잠깐 돕는 사이 별이 사라진다. 평소에 금제 별을 공공 탁자에 방치하는 설정은 아니다. 엘라는 재질·마을 소유·형태를 알고 있지만 별 사진을 미리 찍지 않는다.
 3. 벤은 공구를 가지러 지나가며 아직 보관함에 있던 별을 본다. 그 뒤 작업실에서 의자를 고친다. 이후의 출입은 계속 지켜보지 않았다.
 4. 니코는 팔 목적으로 별을 가져간다. 흔한 공용 포장지로 감싸는 과정에서 작은 조각이 보관함 뚜껑 틈에 남는다. 같은 종이를 여러 친구가 써서 종이만으로 특정인을 지목할 수 없다. 니코는 보관함을 닫고 발송 현관으로 옮긴다.
-5. 니코는 눈에 띄는 별을 선물처럼 감춰 가져가려 한다. 아직 포장이 끝나지 않아 관 일부가 종이 틈에서 보인다. 메이는 실제 종이 별 선물을 포장한다. 자동 출발·시간제한은 없다.
+5. 니코는 눈에 띄는 별을 선물처럼 감춰 가져가려 한다. 아직 포장이 끝나지 않아 관 일부가 종이 틈에서 보인다. 메이는 동그란 쿠키 선물을 포장한다. 별을 새로 만드는 인물은 없다. 자동 출발·시간제한은 없다.
 6. 엘라가 보관함을 다시 열어 별이 없음을 확인하고 탐정에게 부탁한다. 어린 친구들을 안내 중이어서 직접 여러 장소를 돌 수 없다. 탐정이 현장에 있어 도움을 부탁하는 규모이며 연락 수단이 전부 불가능하다고 설정하지 않는다.
 7. 탐정은 현재 작업·내용물 주장과 보관함·꾸러미를 비교해 확인할 상자를 좁힌다. 귀중품 관련 꾸러미 확인을 돕도록 경사를 부른 뒤 니코에게 개봉 동의를 구한다. 이때 절도 확정·체포를 선언하지 않는다.
 8. 실제 물건과 장난감 주장을 대조하고 탐정이 출처·허락·목적을 묻는다. 니코가 보관함에서 가져갔고 팔려고 숨긴다고 인정한다. 경사는 현장 보존·동석·후속 처리를 맡고 탐정은 별을 엘라에게 반환한다.
 
-유일한 혼동 장치는 **비슷해 보이는 선물 포장**이다. 종·성격·옷 색은 정답 근거가 아니다. 메이의 종이 물건과 벤의 수리는 현재 조사 물건을 구분할 뿐 과거 행동 전체의 알리바이가 아니다. 사진 한 장이나 작업이 다르다는 이유로 범행을 확정하지 않는다.
+유일한 혼동 장치는 **비슷해 보이는 선물 포장**이다. 종·성격·옷 색은 정답 근거가 아니다. 메이의 쿠키와 벤의 수리는 현재 조사 물건을 구분할 뿐 과거 행동 전체의 알리바이가 아니다. 사진 한 장이나 작업이 다르다는 이유로 범행을 확정하지 않는다.
 
 ## 2. 장면별 스토리보드
 
@@ -95,7 +95,7 @@ e2 기록 뒤 c-case를 직접 촬영한다. 빈 자리와 흔한 포장지 조�
 
 ### 장면 3 · 시장 천막 — 메이의 실제 선물
 
-메이는 종이 별을 접어 선물 상자에 담고 포장한다. 탐정이 온 이유를 밝힌 뒤 금속 별을 포장하는지 먼저 확인하고 실제 작업을 묻는다.
+메이는 동그란 쿠키를 선물 상자에 담고 리본을 묶는다. 탐정이 온 이유를 밝힌 뒤 장난감을 포장하는지 먼저 확인하고 실제 작업을 묻는다. 메이의 선물에는 별 모양 물건이나 별 무늬가 없다.
 
 - **mae:hello · 메이 · 자동**
   - Welcome! I'm Mae.
@@ -111,12 +111,12 @@ e2 기록 뒤 c-case를 직접 촬영한다. 빈 자리와 흔한 포장지 조�
 
 #### mae:m1 · 메이
 
-- **질문 선택지**: Are you wrapping metal stars?
-- 해석: 금속으로 된 별을 포장하고 있어?
-- **대답**: No, I'm not wrapping metal stars. These are paper.
-- 해석: 아니, 금속 별을 포장하는 게 아니야. 이것들은 종이야.
-- **노트**: “No, I'm [not] wrapping metal stars. These are [paper].”
-- **보기**: not · now · paper · metal
+- **질문 선택지**: Are you wrapping toys?
+- 해석: 장난감을 포장하고 있어?
+- **대답**: No, I'm not wrapping toys. These are cookies.
+- 해석: 아니, 장난감을 포장하는 게 아니야. 이것들은 쿠키야.
+- **노트**: “No, I'm [not] wrapping toys. These are [cookies].”
+- **보기**: not · now · cookies · toys
 - 조건: 시장 발견·메이 인사 뒤 첫 질문
 - 채점 뒤: m2·m3
 
@@ -124,25 +124,25 @@ e2 기록 뒤 c-case를 직접 촬영한다. 빈 자리와 흔한 포장지 조�
 
 - **질문 선택지**: What are you doing?
 - 해석: 뭐 하고 있어?
-- **대답**: I'm folding paper stars and wrapping them for the children.
-- 해석: 종이 별을 접고 어린 친구들에게 줄 선물로 포장하고 있어.
-- **노트**: “I'm [folding] [paper stars] and wrapping them for the children.”
-- **보기**: folding · fixing · paper stars · metal stars
+- **대답**: I'm packing cookies and tying ribbons on the boxes.
+- 해석: 쿠키를 포장하고 상자에 리본을 묶고 있어.
+- **노트**: “I'm [packing] [cookies] and tying ribbons on the boxes.”
+- **보기**: packing · painting · cookies · toys
 - 조건: m1 기록 뒤
 - 채점 뒤: 현재 작업 기록
 
 #### mae:m3 · 메이
 
-- **질문 선택지**: Can I see one of your stars?
-- 해석: 네 별 하나를 봐도 돼?
-- **대답**: Sure. Each star is flat, with a string at the top.
-- 해석: 물론이지. 별마다 납작하고 위쪽에 줄이 달려 있어.
-- **노트**: “Sure. Each star is [flat], with a [string] at the [top].”
-- **보기**: flat · round · string · spring · top · bottom
+- **질문 선택지**: Can I see the cookies?
+- 해석: 쿠키를 봐도 돼?
+- **대답**: Sure. They're round, with chocolate on the top.
+- 해석: 물론이지. 동그랗고 위쪽에 초콜릿이 있어.
+- **노트**: “Sure. They're [round], with [chocolate] on the [top].”
+- **보기**: round · flat · chocolate · paper · top · bottom
 - 조건: m1 기록 뒤
-- 채점 뒤: c-paper 촬영 허락
+- 채점 뒤: c-cookies 촬영 허락
 
-m3 기록 뒤 c-paper를 촬영한다. 시장 뒤 실제 열린 문과 Workshop 문패를 c-sign으로 찍으면 작업실만 발견한다. 문패에는 인물 이름·직업·별 위치를 적지 않는다. 메이는 질문하지 않은 다른 인물 정보를 덧붙이지 않는다.
+m3 기록 뒤 c-cookies를 촬영한다. 시장 뒤 실제 열린 문과 Workshop 문패를 c-sign으로 찍으면 작업실만 발견한다. 문패에는 인물 이름·직업·별 위치를 적지 않는다. 메이는 질문하지 않은 다른 인물 정보를 덧붙이지 않는다.
 
 - **det:workshop-thought · 탐정 · 생각**
   - I should look inside the workshop.
@@ -243,12 +243,12 @@ b3는 지금 보이는 작업·위치, b4는 이전에 본 물건 상태다. 벤
 
 #### nico:n2 · 니코
 
-- **질문 선택지**: Are you wrapping paper stars?
-- 해석: 종이 별을 포장하고 있어?
-- **대답**: No, I'm not wrapping paper stars. I'm wrapping a toy.
-- 해석: 아니, 종이 별을 포장하는 게 아니야. 장난감을 포장하고 있어.
-- **노트**: “No, I'm [not] wrapping [paper stars]. I'm wrapping a [toy].”
-- **보기**: not · now · paper stars · metal stars · toy · tool
+- **질문 선택지**: Are you wrapping cookies?
+- 해석: 쿠키를 포장하고 있어?
+- **대답**: No, I'm not wrapping cookies. I'm wrapping a toy.
+- 해석: 아니, 쿠키를 포장하는 게 아니야. 장난감을 포장하고 있어.
+- **노트**: “No, I'm [not] wrapping [cookies]. I'm wrapping a [toy].”
+- **보기**: not · now · cookies · ribbons · toy · tool
 - 조건: n1 기록 뒤
 - 채점 뒤: 포장 내용물에 관한 니코 주장 기록. 사실로 확정하지 않음
 
@@ -280,7 +280,7 @@ n4 허락 뒤 겉에서 이미 보이는 틈만 c-parcel로 찍는다. 종이를
   - I should compare the notes and the photos.
   - 기록과 사진을 비교해 봐야겠어.
 
-행동 선택지: **Compare the clues. / 단서 비교하기**. 면담 15개와 개봉 전 사진 c-case·c-paper·c-sign·c-parcel이 모이면 추리를 연다. 개수는 제작 조건이며 플레이 화면에는 표시하지 않는다.
+행동 선택지: **Compare the clues. / 단서 비교하기**. 면담 15개와 개봉 전 사진 c-case·c-cookies·c-sign·c-parcel이 모이면 추리를 연다. 개수는 제작 조건이며 플레이 화면에는 표시하지 않는다.
 
 ### 장면 6 · 추리 — 확인할 상자 선택
 
@@ -440,15 +440,15 @@ c-open 촬영 뒤 문답이 열린다. 질문·증거 제시·추궁은 탐정�
 | 해석 | 빈 보관함이야. 뚜껑 아래에 포장지가 있어. |
 | 쓰임 | e1·e2와 연결해 원래 물건이 놓였던 자리와 포장 가능성을 조사. 종이는 시장 공용이라 소유자·범인을 특정하지 않음. |
 
-### c-paper · 종이 별
+### c-cookies · 쿠키 선물
 
 | 항목 | 내용 |
 |---|---|
 | 열리는 때 | mae:m3 기록 뒤 직접 촬영 |
-| 촬영 그림 | 열린 선물 상자에 담긴 종이 별과 메이가 보여 준 납작한 별 하나. 위쪽 실 고리. 사람·작업 동작·소유 이름 없음. |
-| 관찰 음성 | Flat paper stars, with strings at the top. |
-| 해석 | 위쪽에 줄이 달린 납작한 종이 별들이야. |
-| 쓰임 | 메이 진술과 현재 포장 물건 대조. 과거 절도 무관함을 단정하는 알리바이로 쓰지 않음. |
+| 촬영 그림 | 열린 선물 상자에 동그란 쿠키와 초콜릿 윗면이 보임. 평범한 리본과 포장지. 사람·작업 동작·소유 이름·별 모양 쿠키나 무늬는 없음. |
+| 관찰 음성 | Round cookies, with chocolate on the top. |
+| 해석 | 위쪽에 초콜릿이 있는 동그란 쿠키들이야. |
+| 쓰임 | 메이가 포장하는 실제 물건과 m1·m2·m3을 비교. 금제 별과 같은 별 모양을 반복하지 않으며 과거 행동 전체의 알리바이로 삼지 않음. |
 
 ### c-sign · 작업실 문
 
@@ -506,7 +506,7 @@ c-open 촬영 뒤 문답이 열린다. 질문·증거 제시·추궁은 탐정�
 | 인물 | 재사용·신규 | 위치 | 아는 범위·역할 |
 |---|---|---|---|
 | 엘라 · 사슴 | 우산 인물 재사용 | 트리 광장 | 금제 별의 재질·소유·구조·마지막 위치 |
-| 메이 · 생쥐 | 신규 | 시장 천막 | 자신이 만드는 종이 별·포장만 설명 |
+| 메이 · 생쥐 | 신규 | 시장 천막 | 자신이 포장하는 쿠키·리본 작업만 설명 |
 | 벤 · 비버 | 소풍 인물 재사용 | 장식 작업실 | 의자 수리. 이전에 본 별·현재 현관의 포장 동작만 앎 |
 | 니코 · 펭귄 | 신규 | 발송 현관 | 금제 별을 감춰 포장. 내용물·출처를 거짓 주장 |
 | 오소리 경사 | 기존 재사용 | 연락 뒤 같은 발송 현관 | 동석·현장 보존·후속 처리. 탐정 대신 심문하지 않음 |
@@ -525,7 +525,7 @@ NPC5명·장소4곳이다. 면담은4명이고 경사는 결말에만 등장한�
 | ella:e3 | e0 기록 뒤 | 의뢰인이 남는 이유 |
 | mae:m1 | 시장 발견·메이 인사 뒤 첫 질문 | m2·m3 |
 | mae:m2 | m1 기록 뒤 | 현재 작업 기록 |
-| mae:m3 | m1 기록 뒤 | c-paper 촬영 허락 |
+| mae:m3 | m1 기록 뒤 | c-cookies 촬영 허락 |
 | ben:b1 | 작업실 발견·벤 인사 뒤 첫 질문 | b2·b3·b4 |
 | ben:b2 | b1 기록 뒤 | 현재 작업 기록 |
 | ben:b3 | b1 기록 뒤 | 발송 현관·이름 없는 펭귄. 이름 표시는 본인 인사 뒤 |
@@ -549,14 +549,14 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 |---|---|
 | 질문 | What is Mae doing? |
 | 해석 | 메이는 무엇을 하고 있어? |
-| 완성 | Mae is [folding paper stars]. |
-| 해석 | 메이는 종이 별을 접고 있어. |
-| 보기 | folding paper stars · fixing a chair · packing a wooden toy · helping at the gate · painting boxes · making metal stars |
-| 맞장구 | Her sample stars are flat. |
-| 해석 | 메이가 보여 준 별은 납작해. |
-| 힌트 | Listen to Mae's answers and look at her sample. |
-| 해석 | 메이의 대답을 듣고 보여 준 물건을 봐. |
-| 근거 | mae:m1·m2·m3 + c-paper. 메이의 현재 물건 제외 근거이며 과거 절도 무관함을 증명하는 알리바이가 아님 |
+| 완성 | Mae is [packing cookies]. |
+| 해석 | 메이는 쿠키를 포장하고 있어. |
+| 보기 | packing cookies · fixing a chair · packing a wooden toy · helping at the gate · painting boxes · tying shoelaces |
+| 맞장구 | The cookies are on her table. |
+| 해석 | 쿠키는 메이의 탁자에 있어. |
+| 힌트 | Listen to Mae's answers and look at the cookies. |
+| 해석 | 메이의 대답을 듣고 쿠키를 봐. |
+| 근거 | mae:m1·m2·m3 + c-cookies. 메이가 현재 포장하는 것은 쿠키라는 확인이며 과거 행동 전체의 알리바이는 아님 |
 
 ### deduction:q2
 
@@ -566,7 +566,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 | 해석 | 벤은 선물을 포장하고 있어? |
 | 완성 | Ben [is not wrapping gifts]. |
 | 해석 | 벤은 선물을 포장하고 있지 않아. |
-| 보기 | is not wrapping gifts · is wrapping gifts · is wrapping paper stars · is packing a toy · is carrying gift boxes · is opening a gift |
+| 보기 | is not wrapping gifts · is wrapping gifts · is wrapping cookies · is packing a toy · is carrying gift boxes · is opening a gift |
 | 맞장구 | He isn't wrapping gifts. He's fixing a chair. |
 | 해석 | 선물을 포장하는 게 아니야. 의자를 고치고 있어. |
 | 힌트 | Listen to Ben's first two answers. |
@@ -581,7 +581,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 | 해석 | 니코는 상자에 무엇이 있다고 말해? |
 | 완성 | Nico says he is wrapping [a wooden toy]. |
 | 해석 | 니코는 나무 장난감을 포장하고 있다고 말해. |
-| 보기 | a wooden toy · a paper star · a gold star · a lamp · a bag of tools · an empty case |
+| 보기 | a wooden toy · a box of cookies · a gold star · a chair · a bag of tools · an empty case |
 | 맞장구 | That's his description. We need to see inside. |
 | 해석 | 니코의 설명이야. 안을 봐야 해. |
 | 힌트 | Listen to Nico's answers about the gift and what it looks like. |
@@ -611,7 +611,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 | 해석 | 포장지 아래에 무엇이 보여? |
 | 완성 | There is [a short tube with a round hole]. |
 | 해석 | 둥근 구멍이 있는 짧은 관이 보여. |
-| 보기 | a short tube with a round hole · a string tied to a flat star · a wooden handle · a lamp switch · an empty paper bag · a pair of scissors |
+| 보기 | a short tube with a round hole · a cookie with a chocolate top · a wooden handle · a chair leg · an empty paper bag · a pair of scissors |
 | 맞장구 | The shapes look the same. We need to see inside. |
 | 해석 | 모양이 같아 보여. 안을 봐야 해. |
 | 힌트 | Compare the parcel photo, the case, and Ella's words. |
@@ -641,10 +641,10 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 
 | 들어야 할 대답 | 판단 |
 |---|---|
-| m1·m2 not wrapping metal stars / folding paper stars | 메이 작업·재질과 실제 물건 대조 |
+| m1·m2 not wrapping toys / packing cookies | 메이의 실제 포장 물건과 작업 대조 |
 | b1·b2 not wrapping gifts / fixing a chair | 상자가 있다고 포장 중이라 단정하지 않음 |
 | b3 Nico is packing … on the porch | 현재 포장하는 친구와 위치로 다음 장소 발견 |
-| n2·n3 wrapping a toy / small and wooden | 주장과 관의 일부·개봉 뒤 실제 물건 대조 |
+| n2·n3 not wrapping cookies / wrapping a toy / small and wooden | 주장과 관의 일부·개봉 뒤 실제 물건 대조 |
 | e1 real gold / hole at the bottom | 사진 색이 아닌 엘라의 설명 사용 |
 | 심문 hiding … want to sell | 포장의 실제 목적과 무허락 출처를 함께 확인 |
 
@@ -654,7 +654,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 
 지금 하는 일을 말한다.
 
-실제 발화: **I'm folding paper stars and wrapping them for the children.** · mae:m2
+실제 발화: **I'm packing cookies and tying ribbons on the boxes.** · mae:m2
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|
@@ -666,7 +666,7 @@ e2 기록으로 시장을 발견하고 보관함은 별도 촬영한다. c-sign�
 
 not을 놓치면 반대 행동으로 기록한다.
 
-실제 발화: **No, I'm not wrapping metal stars. These are paper.** · mae:m1
+실제 발화: **No, I'm not wrapping toys. These are cookies.** · mae:m1
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|
@@ -678,7 +678,7 @@ not을 놓치면 반대 행동으로 기록한다.
 
 상대의 현재 행동을 확인한다. Are you로 물으면 자기 행동을 I am으로 답한다.
 
-실제 발화: **Are you wrapping metal stars?** · mae:m1 질문
+실제 발화: **Are you wrapping toys?** · mae:m1 질문
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|
@@ -710,9 +710,9 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | case | 보관함 | ella:e2·ben:b4 |
 | helping | 돕고 있는 | ella:e3 |
 | paper | 종이 | mae:m1·nico:n4 |
-| folding | 접고 있는 | mae:m2 |
-| flat | 납작한 | mae:m3 |
-| string | 줄 | mae:m3 |
+| cookies | 쿠키들 | mae:m1·m2·nico:n2 |
+| round | 동그란 | mae:m3 |
+| chocolate | 초콜릿 | mae:m3 |
 | empty | 비어 있는 | ben:b1 |
 | fixing | 고치고 있는 | ben:b2 |
 | chair | 의자 | ben:b2 |
@@ -721,7 +721,7 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | toy | 장난감 | nico:n2 |
 | wooden | 나무로 된 | nico:n3 |
 
-인물 이름은 단어 목록에서 제외한다. 추가 제안: metal / 금속(mae:m1 질문), wrapping / 감싸 포장하는(mae:m1 질문·nico:n2), tube / 관(c-parcel), hiding / 숨기고 있는·sell / 팔다(nico:motive). 빈칸 목록과 구분하고 실제 대사를 출처로 붙인다.
+인물 이름은 단어 목록에서 제외한다. 추가 제안: wrapping / 감싸 포장하는(mae:m1 질문·nico:n2), tube / 관(c-parcel), hiding / 숨기고 있는·sell / 팔다(nico:motive). 빈칸 목록과 구분하고 실제 대사를 출처로 붙인다.
 
 해결 뒤 복습 요약: **Nico took the town's gold star. He hid it in a gift box to sell it. The detective found it and brought it back. / 니코가 마을의 금제 별을 가져갔어. 팔려고 선물 상자에 숨겼어. 탐정이 찾아서 돌려줬어.** 범인·피해자 표시는 복습에서만 쓰며 니코 기존 외형을 재사용하는 제안이다.
 
@@ -750,7 +750,7 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | 인물당 질문 | 2–5 | 엘라4·메이3·벤4·니코4. 경사0은 결말 역할 예외 |
 | 빈칸 비중 | 한 명40% 이하 | 엘라10·메이7·벤10·니코10. 최대27.0% |
 | 질문당 빈칸 | 1–3 | 2–3 |
-| 대답 길이 | 평균8–12·최장18·3문장≤3 | 평균10.8·최장14단어·면담3문장0개/후속답변1개 |
+| 대답 길이 | 평균8–12·최장18·3문장≤3 | 평균10.4·최장14단어·면담3문장0개/후속답변1개 |
 | 필수 사진 | 3–5 | 5 · 추리 전4·개봉 뒤1 |
 | 선택 클릭 TTS | 장소당2–3 | 각2 · 총8 |
 | 추리 | 5–7 | 6 · 후보 보기2, 나머지6 |
@@ -758,7 +758,7 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | 열쇠 형태 | 각3회 이상·Q/A최소1 | 면담 긍정6·부정3·확인3·행동질문3 |
 | 후속 선택 질문 | 별도 공개 | 결말 7개 · 연락·기다리기·조사·수령·건네기 행동/이동 버튼 별도 |
 
-긍정6회는 I'm …ing 5회와 ben:b3의 Nico is packing 1회다. folding … and wrapping은 한 be구문으로 1회만 셌다. 부정3회는 I'm not …ing, 확인3회는 Are you …ing?, 행동 질문3회는 What are you doing?다. 각 형태의 실제 복습 문장이 면담에 있다. missing은 형용사라 현재진행으로 세지 않는다. 예습·힌트·보기·완성 문장·선택 TTS·복습·다시 듣기는 기본 횟수에서 제외했다.
+긍정6회는 I'm …ing 5회와 ben:b3의 Nico is packing 1회다. packing … and tying은 한 be구문으로 1회만 셌다. 부정3회는 I'm not …ing, 확인3회는 Are you …ing?, 행동 질문3회는 What are you doing?다. 각 형태의 실제 복습 문장이 면담에 있다. missing은 형용사라 현재진행으로 세지 않는다. 예습·힌트·보기·완성 문장·선택 TTS·복습·다시 듣기는 기본 횟수에서 제외했다.
 
 경사는 경찰이 필요한 절도 확인의 결말 인물이어서 받아쓰기를 추가하지 않았다. 확인·개봉 증거가 늘어 사진은 수리 A안의2장보다 늘었다. 발화량·길이는 L1 범위이고 입력 도움·직접 표현 분량은 높이지 않았다. 실제 학생 난도는 검증 전이다.
 
@@ -778,12 +778,12 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 | 장면 | 신규 그림·녹음 | 재사용 제안 | 동작·지원 확인 |
 |---|---|---|---|
 | 광장 | 겨울 배경·금제 별·보관함 증거 | 엘라·탐정 외형 | 특징·마지막 위치 기록. 사전 사진 없음 |
-| 시장 | 메이 전신·천막·종이 별·작업실 문 사진 | 기존 대화/사진 화면 | 실제 표지로 장소 발견 |
+| 시장 | 메이 전신·천막·쿠키 선물·작업실 문 사진 | 기존 대화/사진 화면 | 실제 표지로 장소 발견 |
 | 작업실 | 배경·의자·공구·빈 상자 | 벤 외형·작업복 변형 제안 | 별과 별개의 의자 수리 |
 | 현관 | 니코 전신·배경·포장/개봉 그림·별 소지품 | 추리·심문·경사 외형 | 동의 뒤 조사·사진 추가·동석·증거 제시 |
 | 반환·복습 | 확인·보고·감사·예문 음성, 축제 마무리 그림 선택 | 엘라·광장·복습 화면 | 실물 확인·보고·건네기. 별에 전기 부품·자체 발광 없음 |
 
-기존 동작의 조합으로 계획한다. **추리 뒤 개봉 조사·새 사진 수집·심문 조건 갱신**, **연락 뒤 같은 현관에 경사 합류**는 실제 지원을 확인해야 하며 미지원이면 엔진 추가 필요로 개발 점검에 남긴다. 타이머·생중계·추적·새 법률 판단 시스템은 요구하지 않는다. 그림·음성 생성 없음.
+기존 동작의 조합으로 계획한다. **추리 뒤 개봉 조사·새 사진 수집·심문 조건 갱신**, **연락 뒤 같은 현관에 경사 합류**는 실제 지원을 확인해야 하며 미지원이면 엔진 추가 필요로 개발 점검에 남긴다. 타이머·생중계·추적·새 법률 판단 시스템은 요구하지 않는다. 그림·음성 생성 없음. 현재안의 포장지·장식·쿠키·배경에는 금제 별 외의 별 모양이나 별 무늬를 넣지 않는다.
 
 사용자 결정: 진짜 금제 별 절도 방향으로 우선 대본 작성, 현재진행형 중심, 기존 인물 재등장, 사전 별 사진 삭제, B안 백업 유지.
 
@@ -797,6 +797,6 @@ look for·put on·give back은 표현 목록이지 새 문법이 아니다. did�
 
 ## 10. 백업과 다음 단계
 
-[수리 A안 대본](case-10-christmas-star-repair.html)과 [포장 B안 뼈대](case-10-christmas-star-outline.html#plan-b)를 보존했다. B안은 포장 착오이고 현재의 의도적 절도안과 다른 대안이다. 사전 사진·포장 가능성은 미해결이어서 돌아가면 재설계한다.
+[수리 A안 대본](case-10-christmas-star-repair.html)과 [포장 B안 뼈대](case-10-christmas-star-outline.html#plan-b)를 보존했다. B안은 포장 착오이고 현재의 의도적 절도안과 다른 대안이다. 백업은 이전 기록으로 보존하며 재채택할 때도 금제 별 하나만 나온다는 새 원칙에 맞춰 수정해야 한다. 사전 사진·포장 가능성은 미해결이어서 돌아가면 재설계한다.
 
 현재는 금제 별 절도안 2단계 대본 검토 대기다. 합의한 수정과 대본 승인 뒤 3단계의 지킴/어김/판단 필요·근거 대사·실제 균형표를 제출한다. 개발 인계는 별도 사용자 지시 때만 한다.
