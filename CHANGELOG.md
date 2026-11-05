@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-05 18:24 · Claude · (이 커밋)
+## 2026-11-05 18:31 · Claude · (이 커밋)
+
+- 사용자 요청: 커밋하지 않고 두었던 튜토리얼 시안 4개(`design/tutorial-motion.html`, `scripts/cut-tutorial-paw.py`, `assets/ui/tutorial-paw.png`, `assets/ui/pointer-paws-back-higgsfield-original.png`)를 다른 컴퓨터에서도 고칠 수 있게 커밋하고 GitHub에 올림. 파일 내용은 그대로이고 게임에는 아직 적용하지 않음.
+- 문서: `HANDOFF.md` 파일 표, `assets/ui/README.md`에 미적용 시안으로 적음. 스킬의 "아직 정하지 않은 튜토리얼 시안" 예시를 지움.
+- 확인: 시안과 스크립트에 고정 경로가 없음(상대 경로만 씀). 못 한 것: 시안 화면을 열어 보기, 다른 컴퓨터에서 실행.
+- **다음**: 튜토리얼 시안은 사용자가 고쳐서 적용하자고 할 때 진행. 그 밖에는 바이올린: 빠진 대사 초안 확정 → 설계서 반영 → 장면별 그림 계획을 사용자와 정하기(비용 안내 뒤 생성) → 엔진·데이터 개발 → 녹음.
+
+## 2026-11-05 18:24 · Claude · 9f3d8bb
 
 - 사용자 요청: 다른 컴퓨터에서 받으니 경로가 다르다는 경고가 남. 그 컴퓨터에서도 Codex는 기획, Claude는 개발을 함(사용자 결정).
 - 원인: 시작 절차가 폴더를 `E:` 경로로 확인했음. `AGENTS.md`, `HANDOFF.md`, take-over·wrap-up·push-github 스킬의 고정 경로를 없애고 역할은 브랜치로 확인하게 함. 지난 기록인 이 파일은 그대로 둠.

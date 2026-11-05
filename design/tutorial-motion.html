@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>튜토리얼 움직임 시안</title>
+<style>
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2")}
+body{margin:0;background:#B6BDA5;font-family:"Paperlogy Display",system-ui,sans-serif;color:#4A3628;padding:20px 16px 40px}
+.wrap{max-width:1000px;margin:0 auto;display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.side{flex:1;min-width:260px}
+h1{margin:0 0 8px;font-weight:400;font-size:20px}
+p{margin:0 0 12px;font-size:14px;line-height:1.6}
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.opts button{font:inherit;font-size:14px;color:inherit;border:1.5px solid #4A3628;background:#FFFDF7;border-radius:14px;padding:6px 12px;cursor:pointer}
+.opts button[aria-pressed="true"]{background:#F2C14E}
+.opts button{display:flex;align-items:center;gap:6px}.opts img{height:34px}
+iframe{width:390px;height:844px;border:0;border-radius:28px;box-shadow:0 6px 18px rgba(60,40,20,.25);background:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <iframe id="game" src="../index.html?preview=tutorial" title="게임"></iframe>
+  <div class="side">
+    <h1>튜토리얼 움직임 시안</h1>
+    <p>실제 게임 안의 튜토리얼 팝업이에요. 1·2장은 그림 대신 게임의 버튼·노트·단어 카드를 그대로 써서, 누르는 동작을 짧게 반복해서 보여 줘요. 내용은 사건과 무관한 예문이에요.</p>
+    <p>누르는 손가락은 탐정의 오른쪽 앞발(오른손 2, 사용자 결정)이에요.</p>
+    <p>3–6장은 아직 지금 그림이에요. 방향이 괜찮으면 나머지도 같은 방식으로 만들어요.</p>
+  </div>
+</div>
+<script>
+const frame = document.getElementById('game');
+const PAW_TIP = .258;   // the fingertip across assets/ui/tutorial-paw.png (cut-tutorial-paw.py)
+
+const CSS = `
+.tdemo{position:relative;aspect-ratio:5 / 4;overflow:hidden;background:#F3ECDD}
+.tdemo-stage{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;transition:transform .7s cubic-bezier(.3,.8,.3,1);pointer-events:none}
+.tdemo-art{position:absolute;inset:0;background:url(assets/places/library-higgsfield-v2.png) 46% 0/auto 62% no-repeat,url(assets/places/library-floor.jpg) 46% 0/auto 100% #9C7A55}
+.tdemo-art::after{content:"";position:absolute;left:0;right:0;top:62%;bottom:0;background:url(assets/places/library-floor.jpg) 46% 0/auto 100%}
+.tdemo-npc{position:absolute;left:50%;top:16%;height:58%;transform:translateX(-50%);transform-origin:50% 0;transition:top .65s cubic-bezier(.3,.8,.3,1),height .65s cubic-bezier(.3,.8,.3,1)}
+.tdemo.talking .tdemo-npc{top:7%;height:46%}
+.tdemo .ask-panel{transition:opacity .25s}
+.tdemo .dock{transform:translateY(calc(100% + 48px))}
+.tdemo.note .dock{transform:translateY(0)}
+.tdemo .ask-panel .q.press,.tdemo .press{transform:translateY(2px);filter:brightness(.94)}
+.tdemo-waves{position:absolute;left:66%;top:12%;width:46px;height:60px;opacity:0;transition:opacity .2s}
+.tdemo-waves.on{opacity:1}
+.tdemo-waves path{fill:none;stroke:#FFFDF7;stroke-width:4;stroke-linecap:round;animation:twv 1.1s ease-in-out infinite}
+.tdemo-waves path:nth-child(2){animation-delay:.18s}.tdemo-waves path:nth-child(3){animation-delay:.36s}
+@keyframes twv{0%,100%{opacity:.15}50%{opacity:1}}
+.tdemo-tap{position:absolute;z-index:30;left:0;top:0;width:0;height:0;opacity:0;transition:left .45s cubic-bezier(.3,.8,.3,1),top .45s cubic-bezier(.3,.8,.3,1),opacity .2s}
+.tdemo-tap.on{opacity:1}
+.tdemo-tap.ring::before{content:"";position:absolute;left:-22px;top:-22px;width:44px;height:44px;border-radius:50%;background:rgba(242,193,78,.35);border:3px solid #E0A526;box-sizing:border-box}
+.tdemo-tap.ring.hit::before{animation:tring .45s ease-out}
+@keyframes tring{0%{transform:scale(.6)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+.tdemo .tdemo-tap.hand img{position:absolute;top:-3px;height:58px;width:auto;max-width:none;aspect-ratio:auto;animation:none;filter:drop-shadow(1px 3px 1px rgba(74,54,40,.3));transform-origin:var(--tip) 0;transition:transform .15s}
+.tdemo .tdemo-tap.hand.hit img{transform:scale(.88) translateY(4px)}
+.tdemo-fly{position:absolute;z-index:25;margin:0;white-space:nowrap}
+.tdemo-world{position:absolute;left:0;top:0;width:1376px;height:1274px;transform-origin:0 0;transition:transform .8s cubic-bezier(.3,.8,.3,1)}
+.tdemo-world img{animation:none;aspect-ratio:auto}
+.tdemo-world .tw-art{position:absolute;left:0;top:0;width:1376px;height:768px}
+.tdemo-world .tw-floor{position:absolute;left:0;top:768px;width:1376px;height:506px}
+.tdemo-world .tw-box{position:absolute;left:0;top:0;width:1376px;height:768px}
+.tdemo-world .scene-npc span{transform:translateX(-50%) scale(calc(1 / var(--z, 1)));transform-origin:50% 0;transition:opacity .3s}
+.tdemo.talk .tdemo-world .scene-npc span{opacity:0}
+`;
+const HAND = `<svg viewBox="0 0 46 56" aria-hidden="true"><path d="M15 30V8.5a4.5 4.5 0 0 1 9 0V24l1-.4a4.3 4.3 0 0 1 5.6 2.2l.3.8.8-.3a4.3 4.3 0 0 1 5.5 2.6l.2.7a4.2 4.2 0 0 1 5.3 3V40c0 8-6 14-14 14h-3c-5 0-8.6-2-11.3-6L6.6 39.4a4 4 0 0 1 6.2-5z" fill="#FFF8E9" stroke="#4A3628" stroke-width="2.6" stroke-linejoin="round"/></svg>`;
+
+// the note (the game's own markup, ids left out), sample lines that are not the case's
+const NOTE = (lines, words) => `<section class="dock" aria-hidden="true"><div class="note-cats">${['M5 3.5h8.4a3 3 0 0 1 3 3v4.8a3 3 0 0 1-3 3H8.8l-3.6 3v-3H5a3 3 0 0 1-3-3V6.5a3 3 0 0 1 3-3z','M4.5 7h3l1.6-2.5h5.8L16.5 7h3a2.5 2.5 0 0 1 2.5 2.5v8.3a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 17.8V9.5A2.5 2.5 0 0 1 4.5 7z','M12 2.5a4.6 4.6 0 0 1 2.9 8.2l.4 1.5h1.6a1.8 1.8 0 0 1 0 3.6h-3.6v4.6a1.3 1.3 0 0 1-2.6 0v-4.6H7.1a1.8 1.8 0 0 1 0-3.6h1.6l.4-1.5A4.6 4.6 0 0 1 12 2.5z'].map((d, i) => `<button class="ncat" type="button" aria-pressed="${i === 0}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
+  <div class="note-edge"></div>
+  <div class="dock-head"><div class="listen"><button class="pill t-replay" type="button"><span class="play-ico"></span>다시 듣기</button><button class="spd t-slow" type="button" aria-pressed="false">1×</button><button class="hint t-hint" type="button"><img src="assets/ui/icons-v2/acorn.png" alt=""><span class="n">3</span></button></div></div>
+  <div class="dock-body"><div class="note-page"><div class="nblock now"><span class="qlabel">Q. ${lines.q}</span>${lines.rows.map(r => `<div class="nline">${r.replace(/_/g, () => '<input class="blank" value="" size="5" tabindex="-1" readonly>')}</div>`).join('')}</div></div>
+  <div class="bank">${words.map(w => `<button class="word" type="button">${w}</button>`).join('')}</div></div>
+  <div class="dock-foot"><button class="pill finish wait" type="button">기록 완료</button></div></section>`;
+
+// a person as the place draws one (renderPlaces: .scene-npc, the body, the closed and open mouths)
+const NPC = (id, name, style, box, w, h, [mx, my, mw, mhc, mho]) => `<button class="scene-npc" type="button" data-talk="${id}" style="${style}"><svg viewBox="${box}" aria-hidden="true"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="assets/characters/${id === 'badger' ? 'sgt-badger' : id}-higgsfield.png" width="${w}" height="${h}"/><image class="npc-mouth closed" href="assets/characters/mouths/${id}-closed.png" x="${mx}" y="${my}" width="${mw}" height="${mhc}"/><image class="npc-mouth open" href="assets/characters/mouths/${id}-open.png" x="${mx}" y="${my}" width="${mw}" height="${mho}"/></g></g></svg><span>${name}</span></button>`;
+// the camera on the place picture (1376 × 768 and its floor): the place, talking to Sgt. Badger, and with the note up
+const CAMS = { place:[.776, -339, 0], talk:[1.34, -727, -379], note:[1.06, -534, -344] };
+const DEMOS = {
+  '질문하고 들어요': {
+    title:'말을 걸고 질문해요',
+    text:'현장의 <b>동물 친구</b>를 누르면 말을 걸 수 있어요. <b>질문</b>을 고르면 노트가 올라오고 영어 대답이 들려요.',
+    html: () => `<div class="tdemo-world">
+        <img class="tw-art" src="assets/places/library-higgsfield-v2.png" alt=""><img class="tw-floor" src="assets/places/library-floor.jpg" alt="">
+        <div class="tw-box">${NPC('badger', 'Sgt. Badger', 'left:50%;bottom:7%;height:44%;width:17.54%;transform:translateX(-50%)', '0 0 1060 1484', 1060, 1484, [438, 613, 208, 67, 95])}${NPC('mole', 'Mrs. Mole', 'left:66%;bottom:7%;height:40%;width:14.69%;transform:translateX(-48.77%)', '0 0 408 620', 408, 620, [156, 197, 96, 34, 41])}</div>
+      </div>
+      <div class="ask-panel" style="opacity:0"><div class="ask-top"><button class="pill sm" type="button">해석</button></div><button class="q" type="button"><span class="en">What did you see?</span></button><button class="q" type="button"><span class="en">Where did you go?</span></button></div>
+      ${NOTE({ q:'What did you see?', rows:['I saw a _ .', 'It was on the _ .'] }, ['cat', 'dog', 'desk', 'roof'])}`,
+    async run(t){
+      t.cam('place', true); t.view(0, 280, true); await t.wait(1100);
+      await t.tap('.scene-npc[data-talk="badger"]');
+      t.el.classList.add('talk'); t.cam('talk'); t.view(0, 532);
+      await t.wait(500); t.q('.ask-panel').style.opacity = 1; await t.wait(900);
+      await t.tap('.ask-panel .q');
+      t.q('.ask-panel').style.opacity = 0;
+      t.el.classList.add('note'); t.cam('note'); t.view(0, 150);
+      await t.wait(500); t.q('.scene-npc[data-talk="badger"]').classList.add('talking'); await t.wait(2600);
+      t.q('.scene-npc[data-talk="badger"]').classList.remove('talking'); await t.wait(700);
+    }
+  },
+  '빈칸을 채워요': {
+    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/sgt-badger-higgsfield.png" alt="">
+      ${NOTE({ q:'What did you find?', rows:['I found a _ .', 'It was under the _ .', 'I saw it at _ .'] }, ['book', 'bag', 'desk', 'door', 'noon', 'night'])}`,
+    async run(t){
+      t.el.classList.add('note', 'talking'); t.view(0, 362, true); await t.wait(1000);
+      const blanks = t.all('.blank');
+      // a tap: the card flies to the first blank
+      await t.tap('.word:nth-child(1)'); await t.fly('.word:nth-child(1)', blanks[0]);
+      await t.wait(500);
+      // a drag: the card follows the finger to the blank
+      await t.drag('.word:nth-child(3)', blanks[1]);
+      await t.wait(500);
+      // the acorn: one blank filled
+      await t.tap('.t-hint'); blanks[2].value = 'noon'; blanks[2].classList.add('hint'); t.q('.t-hint .n').textContent = '2';
+      t.all('.word')[4].classList.add('used'); await t.wait(1800);
+    }
+  }
+};
+
+let runId = 0;
+function remount(){ const d = frame.contentDocument; if(d?.querySelector('#tutFig')) mount(d, true); }
+function mount(d, force){
+  const fig = d.querySelector('#tutFig'), title = d.querySelector('#tutTitle').textContent, demo = DEMOS[title] || Object.values(DEMOS).find(x => x.title === title);
+  if(!demo){ runId++; return; }
+  if(demo.title){ d.querySelector('#tutTitle').textContent = demo.title; d.querySelector('#tutText').innerHTML = demo.text; }
+  if(!force && fig.querySelector('.tdemo')) return;
+  const my = ++runId;
+  fig.innerHTML = `<div class="tdemo"><div class="tdemo-stage">${demo.html()}</div><div class="tdemo-tap hand"><img src="assets/ui/tutorial-paw.png" alt="" style="--tip:${PAW_TIP * 100}%"></div></div>`;
+  const box = fig.querySelector('.tdemo'), stage = box.querySelector('.tdemo-stage'), tap = box.querySelector('.tdemo-tap');
+  const hand = tap.querySelector('img'); const place = () => { hand.style.left = `${-PAW_TIP * 58 * hand.naturalWidth / hand.naturalHeight}px`; };
+  hand.complete ? place() : hand.onload = place;
+  const alive = () => my === runId && box.isConnected;
+  const wait = ms => new Promise((res, rej) => setTimeout(() => alive() ? res() : rej('stop'), ms));
+  let scale = 1, vx = 0, vy = 0;
+  const t = {
+    el: stage.parentElement,
+    q: s => stage.querySelector(s), all: s => [...stage.querySelectorAll(s)],
+    wait,
+    // show the stage from (x, y), 390 wide
+    view(x, y, now){
+      vx = x; vy = y; scale = box.clientWidth / 390;
+      if(now) stage.style.transition = 'none';
+      stage.style.transform = `scale(${scale}) translate(${-x}px, ${-y}px)`;
+      if(now){ stage.offsetWidth; stage.style.transition = ''; }
+    },
+    // a point of an element in the box's own pixels
+    at(el){ const r = el.getBoundingClientRect(), b = box.getBoundingClientRect(); return [r.left - b.left + r.width / 2, r.top - b.top + r.height / 2]; },
+    async tap(s){
+      const el = typeof s === 'string' ? stage.querySelector(s) : s, [x, y] = t.at(el);
+      tap.style.left = x + 'px'; tap.style.top = y + 'px'; tap.classList.add('on'); await wait(500);
+      tap.classList.add('hit'); if(!el.matches('.scene-npc')) el.classList.add('press'); await wait(220);
+      el.classList.remove('press'); tap.classList.remove('hit'); await wait(150);
+      tap.classList.remove('on');
+    },
+    async fly(s, blank){
+      const card = stage.querySelector(s), c = card.getBoundingClientRect(), b = blank.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+      const ghost = card.cloneNode(true); ghost.classList.add('tdemo-fly');
+      Object.assign(ghost.style, { left:(c.left - sr.left) / scale + 'px', top:(c.top - sr.top) / scale + 'px' });
+      stage.append(ghost); card.classList.add('used'); tap.classList.remove('on');
+      await ghost.animate([{ transform:'none' }, { transform:`translate(${(b.left - c.left) / scale}px, ${(b.top - c.top) / scale}px) scale(.9)`, opacity:.6 }], { duration:450, easing:'cubic-bezier(.3,.8,.3,1)', fill:'forwards' }).finished;
+      ghost.remove(); blank.value = card.textContent; blank.classList.add('hot'); await wait(400); blank.classList.remove('hot');
+    },
+    async drag(s, blank){
+      const card = stage.querySelector(s), [x0, y0] = t.at(card), [x1, y1] = t.at(blank);
+      tap.style.left = x0 + 'px'; tap.style.top = y0 + 'px'; tap.classList.add('on'); await wait(500);
+      tap.classList.add('hit'); await wait(200);
+      const c = card.getBoundingClientRect(), sr = stage.getBoundingClientRect(), b = blank.getBoundingClientRect();
+      const ghost = card.cloneNode(true); ghost.classList.add('tdemo-fly');
+      Object.assign(ghost.style, { left:(c.left - sr.left) / scale + 'px', top:(c.top - sr.top) / scale + 'px' });
+      stage.append(ghost); card.classList.add('used');
+      tap.style.transition = 'left .8s ease-in-out, top .8s ease-in-out'; tap.style.left = x1 + 'px'; tap.style.top = y1 + 'px';
+      await ghost.animate([{ transform:'none' }, { transform:`translate(${(b.left - c.left) / scale}px, ${(b.top - c.top) / scale}px)` }], { duration:800, easing:'ease-in-out', fill:'forwards' }).finished;
+      tap.classList.remove('hit'); ghost.remove(); blank.value = card.textContent; blank.classList.add('hot');
+      await wait(250); tap.style.transition = ''; tap.classList.remove('on'); await wait(300); blank.classList.remove('hot');
+    },
+    waves(on){ stage.querySelector('.tdemo-waves')?.classList.toggle('on', on); },
+    cam(name, now){
+      const w = stage.querySelector('.tdemo-world'), [z, x, y] = CAMS[name];
+      if(now) w.style.transition = 'none';
+      w.style.setProperty('--z', z); w.style.transform = `translate(${x}px, ${y}px) scale(${z})`;
+      if(now){ w.offsetWidth; w.style.transition = ''; }
+    }
+  };
+  (async () => {
+    try {
+      for(;;){
+        await demo.run(t);
+        tap.classList.remove('on');
+        box.animate([{ opacity:1 }, { opacity:0 }], { duration:300, fill:'forwards' }); await wait(320);
+        if(!alive()) return;
+        stage.innerHTML = demo.html(); stage.parentElement.classList.remove('note', 'talking', 'talk');
+        box.animate([{ opacity:0 }, { opacity:1 }], { duration:300, fill:'forwards' }); await wait(300);
+      }
+    } catch(e){ if(e !== 'stop') console.error(e); }
+  })();
+}
+frame.addEventListener('load', () => {
+  const d = frame.contentDocument;
+  const style = d.createElement('style'); style.textContent = CSS; d.head.append(style);
+  const fig = d.querySelector('#tutFig');
+  new d.defaultView.MutationObserver(() => { if(!fig.querySelector('.tdemo')) mount(d); }).observe(fig, { childList:true });
+  mount(d);
+});
+</script>
+</body>
+</html>

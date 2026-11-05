@@ -21,7 +21,7 @@ git log --oneline main..story                              # 기획 쪽 새 커�
 
 - 브랜치가 다르면 멈추고 사용자에게 알린다. `story` 브랜치나 기획 폴더가 없으면 `AGENTS.md` "여러 컴퓨터에서 작업"의 처음 설정을 안내한다.
 - GitHub 쪽만 앞서면 받는다: `git merge --ff-only origin/main`, `git -C ../Detective-story merge --ff-only origin/story`. 양쪽이 갈라졌으면 멈추고 사용자에게 묻는다.
-- 이 폴더는 개발만 쓴다. 모르는 미커밋 파일은 사용자가 둔 것이다(예: 아직 정하지 않은 튜토리얼 시안). HANDOFF·CHANGELOG에서 언급되는지 확인하고, 모르는 파일이면 사용자에게 묻는다.
+- 이 폴더는 개발만 쓴다. 모르는 미커밋 파일은 사용자가 둔 것이다. HANDOFF·CHANGELOG에서 언급되는지 확인하고, 모르는 파일이면 사용자에게 묻는다.
 - `story`에 새 커밋이 있으면 `git merge --no-edit story`로 받는다(기획 파일만 들어온다). 충돌이 나면 `git merge --abort` 후 충돌한 파일을 사용자에게 알린다.
 
 ## 2. 인수인계 읽기
