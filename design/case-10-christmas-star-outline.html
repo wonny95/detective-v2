@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><title>크리스마스 별 · 뼈대 비교와 B안 백업</title>
+<!--
+사건 상세 기획 공통 서식 v1 (사용자 결정)
+1. 이 파일을 case-XX-사건이름.html로 복사한다. {{...}}와 샘플 항목을 사건 내용으로 교체한다.
+2. case-plan-common 스타일 블록은 그대로 사용한다. 사건마다 색·글꼴·너비·카드·대본 서식을 다시 만들거나 뒤에서 덮어쓰지 않는다.
+3. 문서 순서: 표지 → 장면별 스토리 → 현장 조사 → 배경·클릭 TTS → 한눈에 → 인물·장소 → 단서 비교 → 학습 → 제작 범위.
+4. 대화는 turn / turn det, 질문·답·노트는 question-choice / note-task, 클릭 TTS도 turn det를 쓴다.
+5. 인물·장소·질문 수에 맞춰 같은 카드를 반복한다. 그림과 사건에만 필요한 도해는 추가할 수 있으나 공통 서식을 바꾸지 않는다.
+6. 사용자 요청으로 서식 자체를 바꿀 때만 이 템플릿과 미인계 사건의 동일 스타일 블록을 함께 갱신한다.
+7. 인계된 사건은 직접 고치지 않고 STORY_LOG의 개발 요청에 대상 파일·동일 서식 적용 범위를 적는다.
+-->
+<style id="case-plan-common" data-version="1">
+:root { --ink:#44362c; --muted:#786b5d; --paper:#fffaf0; --line:#dfd2bc; --honey:#f1ce75; --rose:#b65f79; --sage:#e5ede0; --green:#456f54; --shadow:0 12px 36px rgba(66,49,30,.09); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#e9eddf; color:var(--ink); font:16px/1.6 system-ui,"Malgun Gothic",sans-serif; }
+    a { color:inherit; }
+    .wrap { width:min(1120px,calc(100% - 36px)); margin:auto; }
+    .topbar { position:sticky; top:0; z-index:10; background:rgba(255,250,240,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .top-inner { display:flex; justify-content:space-between; align-items:center; gap:22px; min-height:66px; }
+    .back { flex:none; display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:800; letter-spacing:-.03em; }
+    .back-mark { display:grid; place-items:center; width:32px; height:32px; border:2px solid var(--ink); border-radius:50%; background:var(--honey); line-height:1; }
+    .nav { display:flex; gap:18px; overflow-x:auto; white-space:nowrap; scrollbar-width:none; font-size:13px; font-weight:750; }
+    .nav::-webkit-scrollbar { display:none; }
+    .nav a { padding:13px 0; text-decoration:none; }
+    .nav a:hover,.back:hover,.text-link:hover { color:var(--rose); }
+    main { padding:28px 0 80px; }
+    section { scroll-margin-top:94px; margin-top:58px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(240px,.7fr); gap:20px; margin-top:0; }
+    .hero-copy,.hero-art,.panel,.story-card,.place-card,.person-card,.clue-card,.flow-card,.learning-card,.script-card,.end-card,.status-card { background:var(--paper); border:1.5px solid var(--line); border-radius:26px; box-shadow:var(--shadow); }
+    .hero-copy { padding:40px 42px; background:radial-gradient(circle at 92% 10%,#faeab8 0 12%,transparent 12.5%),var(--paper); }
+    .eyebrow { display:inline-block; color:var(--rose); font-size:12px; font-weight:900; letter-spacing:.1em; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin:14px 0 13px; font-size:clamp(34px,4.5vw,57px); line-height:1.13; letter-spacing:-.075em; }
+    .lead { max-width:670px; color:#605347; font-size:19px; }
+    .hero-art { display:flex; flex-direction:column; justify-content:flex-end; align-items:center; overflow:hidden; margin:0; background:#f4ead2; }
+    .hero-art img { width:min(100%,250px); max-height:290px; object-fit:contain; object-position:bottom; }
+    .hero-art figcaption { width:100%; padding:10px 16px; border-top:1px dashed #d8c5a4; text-align:center; font-size:12px; font-weight:750; color:#725c3d; background:#fff9e9; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:24px; }
+    .chip { padding:7px 11px; border:1px solid #d9c8aa; border-radius:999px; background:#fffdf8; font-size:12px; font-weight:800; }
+    .chip.status { background:#fff0cc; color:#946116; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:18px; }
+    .section-head h2 { margin:0; font-size:clamp(26px,3vw,35px); line-height:1.2; letter-spacing:-.06em; }
+    .section-head p { max-width:540px; margin:0; color:var(--muted); font-size:14px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .story-card,.place-card,.person-card,.clue-card,.learning-card,.end-card,.status-card { min-width:0; padding:23px; }
+    .story-card { border-top:6px solid var(--honey); }
+    .story-card:nth-child(2) { border-top-color:#a9bea3; }
+    .story-card:nth-child(3) { border-top-color:#d8a2b1; }
+    .step-no { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:11px; background:#f8e7ba; color:#76552c; font-size:13px; font-weight:900; }
+    .story-card:nth-child(2) .step-no { background:#e3eddd; color:#4e7356; }
+    .story-card:nth-child(3) .step-no { background:#f3dfe4; color:#9d5368; }
+    h3 { margin:13px 0 7px; font-size:20px; line-height:1.3; letter-spacing:-.04em; }
+    .story-card p,.person-card p,.place-card p,.learning-card p,.end-card p,.status-card p { margin:0; color:#675a4e; font-size:14px; }
+    .keyline { margin-top:14px!important; color:var(--green)!important; font-weight:750; }
+    .callout { margin-top:14px; padding:16px 19px; border:1px dashed #ccbda6; border-radius:16px; background:#fff8e9; color:#695a45; font-size:13px; }
+    .callout strong { color:#9d566c; }
+    .person-card { display:flex; gap:14px; align-items:flex-start; }
+    .avatar { display:grid; place-items:center; flex:none; width:50px; height:50px; border:2px solid #7b6653; border-radius:50%; background:#f8e4b5; font-weight:900; }
+    .person-card:nth-child(2) .avatar { background:#e8eee0; }
+    .person-card:nth-child(3) .avatar { background:#f4e0e4; }
+    .person-card:nth-child(4) .avatar { background:#dce8eb; }
+    .person-card h3,.place-card h3 { margin:0 0 4px; }
+    .role { display:block; margin-bottom:6px; color:var(--rose); font-size:12px; font-weight:850; }
+    .place-tag,.clue-tag { display:inline-block; margin-top:12px; padding:4px 9px; border-radius:8px; background:#f4eddf; color:#7d6443; font-size:11px; font-weight:800; }
+    .place-card { border-left:6px solid #b7caa9; }
+    .place-card:nth-child(2) { border-left-color:var(--honey); }
+    .place-card:nth-child(3) { border-left-color:#e1b0b8; }
+    .evidence-board { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    .clue-card { border-top:6px solid var(--honey); }
+    .clue-card:nth-child(2) { border-top-color:#b6cba8; }
+    .clue-card h3 { margin:0 0 8px; }
+    .items { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+    .item { display:inline-flex; align-items:center; gap:7px; padding:9px 11px; border:1px solid #ddcfb9; border-radius:11px; background:#fffdf8; font-size:13px; font-weight:800; }
+    .swatch { width:15px; height:15px; border:1px solid rgba(0,0,0,.16); border-radius:50%; background:var(--color); }
+    .clue-card p { margin:0; color:#675a4e; font-size:14px; }
+    .deduction { margin-top:15px; padding:17px 20px; border:1.5px solid #b8c9ae; border-radius:17px; background:#f3f8ef; color:#45684d; font-size:14px; }
+    .deduction strong { color:#345d3e; }
+    .matrix { overflow-x:auto; border:1.5px solid var(--line); border-radius:19px; background:var(--paper); box-shadow:var(--shadow); }
+    table { width:100%; border-collapse:collapse; min-width:540px; }
+    th,td { padding:12px 17px; text-align:left; border-bottom:1px solid #e8decc; font-size:13px; }
+    tr:last-child td { border-bottom:0; }
+    th { background:#f5ecd9; color:#715a3d; font-size:12px; }
+    td:first-child { font-weight:850; }
+    tr.winner { background:#edf4e8; }
+    .flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+    .flow-card { min-width:0; padding:18px; }
+    .flow-card b { display:block; margin-bottom:9px; color:var(--rose); font-size:12px; }
+    .flow-card strong { display:block; margin-bottom:5px; font-size:15px; }
+    .flow-card p { margin:0; color:var(--muted); font-size:12px; }
+    .learning-card { background:#f4f8ef; border-color:#bdcfb7; }
+    .learning-card h3 { margin:0 0 8px; }
+    .learning-card code { font-family:inherit; font-weight:800; color:#476b50; }
+    .end-card { background:#fff7e7; }
+    .end-card:nth-child(2) { background:#eff5eb; }
+    .end-card:nth-child(3) { background:#f9eef0; }
+    .end-card .quote { margin:12px 0 3px; font-size:15px; font-weight:800; line-height:1.5; }
+    .end-card .ko { color:#796959; font-size:13px; }
+    .status-card { background:#f7f5ef; }
+    .status-card ul { margin:5px 0 0; padding-left:19px; color:#675a4e; font-size:14px; }
+    .text-link { display:inline-block; margin-top:12px; color:#9e526c; font-size:13px; font-weight:800; text-decoration:none; }
+    .fine { margin:18px 0 0; color:var(--muted); font-size:12px; }
+    .storyboard { display:grid; gap:18px; }
+    .scene { overflow:hidden; scroll-margin-top:110px; border:1.5px solid var(--line); border-radius:25px; background:var(--paper); box-shadow:var(--shadow); }
+    .scene-index { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+    .scene-index a { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border:1px solid #cfbda4; border-radius:999px; background:#fffaf0; color:#735c42; font-size:12px; font-weight:800; text-decoration:none; }
+    .scene-index a:hover { background:#f8e8bd; }
+    .scene-head { padding:23px 27px; background:#f4ebd8; border-bottom:1px dashed #d1bea3; }
+    .scene:nth-child(even) .scene-head { background:#eaf0e5; }
+    .scene-kicker { display:block; color:#9d566c; font-size:12px; font-weight:900; letter-spacing:.06em; }
+    .scene-head h3 { margin:7px 0 4px; font-size:24px; }
+    .scene-head p { margin:0; color:#67594a; font-size:13px; }
+    .scene-art { margin:0; border-bottom:1px solid #dfd1b9; background:#e9e4d4; }
+    .scene-art img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .scene-body { display:grid; gap:15px; padding:23px 27px 26px; }
+    .scene-note { margin:0; color:#66594c; font-size:13px; }
+    .scene-note strong { color:#9c536b; }
+    .handoff-panel { padding:17px 19px; border:1.5px solid #c4d4b7; border-radius:17px; background:#f3f8ee; }
+    .handoff-panel h4 { margin:0 0 10px; color:#4f7354; font-size:15px; }
+    .handoff-panel .handoff-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+    .handoff-panel .handoff-item { padding:10px 13px; border:1px solid #b6c9aa; border-radius:11px; background:#fffdf6; font-size:13px; font-weight:800; }
+    .handoff-panel .handoff-button { padding:10px 16px; border-radius:11px; background:#91b493; color:#253b2d; font-size:13px; font-weight:900; }
+    .handoff-panel p { margin:10px 0 0; color:#5b705b; font-size:12px; }
+    .key-plan { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .key-card { margin-top:0; padding:18px; border:1px solid #dec9a5; border-radius:18px; background:#fff9eb; }
+    .key-card:nth-child(2) { background:#f1f5ed; border-color:#c8d5bb; }
+    .key-card:nth-child(3) { background:#f9eef1; border-color:#e0c3cb; }
+    .key-card .key-page { color:#a4576d; font-size:11px; font-weight:900; }
+    .key-card h4 { margin:7px 0 5px; color:#4c3a2d; font-size:20px; }
+    .key-card .key-why { min-height:38px; margin:0 0 12px; color:#695949; font-size:12px; }
+    .key-example { padding:9px 0; border-top:1px dashed #ddcdb7; }
+    .key-example summary { display:flex; justify-content:space-between; align-items:baseline; gap:8px; cursor:pointer; color:#493b30; font-size:13px; font-weight:750; list-style:none; }
+    .key-example summary::-webkit-details-marker { display:none; }
+    .key-example summary span { flex:none; color:#9a536c; font-size:11px; font-weight:800; }
+    .key-example p { margin:5px 0 0; color:#796a58; font-size:12px; }
+    .turn { padding:13px 16px; border:1px solid #e4d6be; border-radius:16px; background:#fffdf7; }
+    .turn.det { background:#f2f6ec; border-color:#c7d9bc; }
+    .turn .who { display:block; margin-bottom:4px; color:#a5576e; font-size:11px; font-weight:900; }
+    .turn.det .who { color:#4d7856; }
+    .turn .en { margin:0; font-size:14px; font-weight:750; }
+    .turn .ko { margin:4px 0 0; color:#74675a; font-size:12px; }
+    .choice-group { display:grid; gap:11px; }
+    .choice-heading { margin:4px 0 0; font-size:15px; }
+    .question-choice { padding:16px; border:1px solid #dbcab1; border-radius:17px; background:#fbf6eb; }
+    .question-choice .choice-no { display:inline-block; margin-bottom:5px; color:#9d5369; font-size:11px; font-weight:900; }
+    .question-choice .ask { margin:0 0 9px; font-weight:850; font-size:14px; }
+    .question-choice .translation { margin:-6px 0 10px; color:var(--muted); font-size:12px; }
+    .question-choice .reply { margin:0; padding:11px 12px; border-left:4px solid #b2c7a9; border-radius:0 9px 9px 0; background:#f0f5ea; font-size:13px; }
+    .question-choice .reply em { display:block; margin-top:3px; color:#718064; font-size:12px; font-style:normal; }
+    .note-task { margin-top:10px; padding:10px 12px; border:1px dashed #c9a8a6; border-radius:10px; background:#fffaf5; font-size:12px; }
+    .note-task b { color:#a55870; }
+    .bank { display:block; margin-top:5px; color:#786550; }
+    .result-tag { display:inline-block; margin-top:10px; padding:4px 8px; border-radius:8px; background:#e5eee0; color:#496f52; font-size:11px; font-weight:850; }
+    .scene-next { padding:11px 14px; border-radius:12px; background:#e7efe0; color:#456b4d; font-size:12px; font-weight:800; }
+    .scene-next strong { color:#35583f; }
+    .object-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .object-card { padding:12px 14px; border:1px solid #dfd2bc; border-radius:13px; background:#fffdf6; }
+    .object-card strong { display:block; font-size:13px; }
+    .object-card p { margin:3px 0 0; color:#675b4d; font-size:12px; }
+    .object-card small { color:#a55970; font-size:11px; font-weight:850; }
+    .field-label { margin:27px 0 12px; color:#755b3f; font-size:17px; }
+    .evidence-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .evidence-card { padding:15px; border:1px solid #ddcfb7; border-radius:18px; background:#fffdf7; }
+    .evidence-card small { color:#a2546b; font-size:11px; font-weight:850; }
+    .evidence-card h4 { margin:4px 0 8px; font-size:17px; }
+    .evidence-card p { margin:6px 0 0; color:#64584b; font-size:12px; }
+    .evidence-preview { height:165px; margin-bottom:10px; border:1px solid #decdb1; border-radius:11px; background-color:#e9e3d3; background-repeat:no-repeat; background-size:380% auto; }
+    .sound-zone { padding:18px; border:1px solid #ddcfb7; border-radius:18px; background:#fffaf0; }
+    .sound-zone h4 { margin:0 0 9px; font-size:16px; }
+    .sound-zone ul { margin:0; padding:0; list-style:none; }
+    .sound-zone li { padding:9px 0; border-top:1px dashed #dccdb8; font-size:12px; }
+    .sound-zone li:first-child { border-top:0; }
+    .sound-zone b { display:block; margin-bottom:3px; }
+    .sound-zone span { color:#776959; }
+    .ded-question { padding:15px 17px; border:1px solid #dcd0ba; border-radius:16px; background:#fffbf2; }
+    .ded-question b { display:block; color:#a2546b; font-size:12px; }
+    .ded-question .prompt { margin:5px 0 0; font-size:14px; font-weight:800; }
+    .ded-question .prompt-ko { margin:2px 0 8px; color:var(--muted); font-size:12px; }
+    .ded-question .answer-line { margin:0; padding:8px 10px; border-radius:9px; background:#edf3e7; font-size:13px; }
+    .ded-question .options { margin:6px 0 0; color:#665847; font-size:12px; }
+    .ded-question .reaction { margin:7px 0 0; color:#4e7153; font-size:12px; }
+    .ded-question .source { margin:5px 0 0; color:#8a7763; font-size:11px; }
+    .subhead { margin:5px 0 0; color:#755b3f; font-size:15px; }
+    .choice-guide { margin:0; padding-left:19px; color:#66594c; font-size:12px; }
+    .choice-guide li+li { margin-top:5px; }
+    .story-jump { display:inline-flex; margin-top:17px; padding:10px 14px; border-radius:12px; background:#f6e5b8; color:#674b27; text-decoration:none; font-size:13px; font-weight:850; }
+    @media (max-width:900px) { .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); } .key-plan { grid-template-columns:minmax(0,1fr); } .key-card .key-why { min-height:0; } }
+    @media (max-width:650px) { .wrap { width:min(550px,calc(100% - 24px)); } .top-inner { display:block; padding:10px 0; } .nav { gap:16px; } .hero,.grid-2,.grid-3,.evidence-board,.evidence-grid,.object-grid { grid-template-columns:minmax(0,1fr); } .hero-copy { padding:29px 25px; } .hero-art { min-height:210px; } .hero-art img { max-height:190px; } .section-head { display:block; } .section-head p { margin-top:7px; } .scene-head,.scene-body { padding-left:19px; padding-right:19px; } section { margin-top:46px; scroll-margin-top:111px; } }
+    @media (max-width:390px) { .flow { grid-template-columns:minmax(0,1fr); } }
+    .hero-art img { display:block; width:100%; max-height:none; aspect-ratio:16/9; object-fit:cover; }
+    .scene-art.dialogue-art { position:relative; overflow:hidden; }
+    .scene-art.dialogue-art .scene-character { position:absolute; left:8%; bottom:0; width:19%; height:84%; aspect-ratio:auto; object-fit:contain; object-position:center bottom; filter:drop-shadow(0 4px 3px rgba(71,54,29,.22)); }
+.plan-art-defs { position:absolute; overflow:hidden; pointer-events:none; }
+    .plan-photo-art { display:block; width:100%; height:auto; border:1px solid #d9c8ac; border-radius:12px; background:#f4ecdd; }
+    .plan-photo { min-width:0; margin:0; }
+    .plan-photo figcaption { margin:9px 0 0; color:#766653; font-size:12px; line-height:1.6; }
+    .plan-photo-wide { max-width:680px; margin:0 auto 18px; }
+    .plan-photo-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-bottom:18px; }
+    .evidence-card .evidence-preview.plan-photo-preview { height:auto; display:block; border:0; background:transparent; }
+    @media(max-width:650px) { .plan-photo-pair { grid-template-columns:minmax(0,1fr); } }
+      .place-plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
+    .place-clue-plan h4 { margin:19px 0 8px; font-size:15px; }
+    .place-clue-plan .room-sketch { grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:16px; }
+    .place-clue-plan .sketch-cell { min-width:0; padding:10px 8px; }
+    .place-clue-plan .sketch-cell small { max-width:100%; overflow-wrap:anywhere; }
+    .place-photo-plan { margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+    .place-photo-plan dl { display:grid; grid-template-columns:65px minmax(0,1fr); gap:7px 10px; margin:0; font-size:12px; line-height:1.65; }
+    .place-photo-plan dt { color:var(--green); font-weight:800; }
+    .place-photo-plan dd { margin:0; color:var(--muted); }
+    .place-clue-plan .place-clue-flow { margin-top:18px; padding-top:12px; border-top:1px dashed var(--line); color:var(--green); font-size:12px; }
+    @media(max-width:900px) { .place-plan-grid { grid-template-columns:minmax(0,1fr); } }
+    .scene-sketch { margin:0; padding:20px; min-height:210px; border-bottom:1px solid var(--line); background:linear-gradient(125deg,#e9ece0,#f7efda); }
+    .scene-sketch figcaption { margin-top:12px; color:#766653; font-size:12px; }
+    .room-sketch { display:grid; grid-template-columns:1fr 1fr 1fr; gap:11px; max-width:730px; margin:auto; }
+    .sketch-cell { min-height:108px; display:flex; flex-direction:column; justify-content:center; align-items:center; border:2px dashed #c6b897; border-radius:16px; background:#fffaf0; text-align:center; font-size:13px; font-weight:800; }
+    .sketch-cell strong { font-size:23px; line-height:1.3; }
+    .sketch-cell small { color:#776858; font-size:11px; }
+    .sketch-cell.missing { border-color:#dcaab5; background:#fff3f3; }
+    .sketch-cell.photo { border-color:#b8caa9; background:#f1f7ee; }
+    .sketch-cell.curtain { background:#e7e8e1; }
+    .mini-route { display:flex; align-items:stretch; gap:9px; flex-wrap:wrap; }
+    .mini-route span { flex:1 1 130px; padding:12px; border:1px solid #d9c9ac; border-radius:12px; background:#fffaf0; color:#705c43; font-size:12px; font-weight:800; text-align:center; }
+    .mini-route .arrow { flex:0 0 auto; display:grid; place-items:center; border:0; background:none; }
+    .expression-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .expression-card { padding:17px; border:1px solid #cbd9c3; border-radius:16px; background:#f6faf2; }
+    .expression-card h3 { margin:0 0 6px; font-size:18px; }
+    .expression-card p { margin:0; color:#5f705d; font-size:12px; }
+    .expression-card b { display:inline-block; margin-top:8px; color:#3b6847; font-size:12px; }
+    .interrogation { padding:17px; border:1.5px solid #d6b7bd; border-radius:17px; background:#fff8f8; }
+    .interrogation h4 { margin:0 0 10px; color:#945368; }
+    .interrogation .turn + .turn { margin-top:9px; }
+    .producer-only { padding:18px 20px; border:1px dashed #c7b18c; border-radius:16px; background:#fff5df; color:#725a39; font-size:13px; }
+    .producer-only strong { color:#9c526a; }
+
+    .plan-cover { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .plan-art-pending { display:grid; place-items:center; width:100%; min-height:210px; aspect-ratio:16/9; background:var(--sage); color:var(--muted); font-size:14px; }
+    .plan-anchor { display:block; scroll-margin-top:94px; }
+    .background-plan h3 { margin:0 0 12px; }
+    .background-copy { margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.8; }
+    .prop-tts + .prop-tts { margin-top:11px; }
+    .prop-tts .prop-when { margin:9px 0 0; font-size:12px; color:var(--muted); }
+    .prop-id { overflow-wrap:anywhere; }
+    @media(max-width:650px) { .room-sketch,.expression-grid { grid-template-columns:minmax(0,1fr); } .scene-sketch { padding:16px; } .plan-anchor { scroll-margin-top:111px; } }
+</style></head><body><header class="topbar"><div class="wrap top-inner"><a class="back" href="learning-plan.html#middle-one"><span class="back-mark" aria-hidden="true">✦</span> 학습 기획으로 돌아가기</a><nav class="nav" aria-label="기획 목차"><a href="#overview">A안 방향</a><a href="#cast">인물·장소</a><a href="#plan-a">A 진행안</a><a href="#plan-b">B 비교 기록</a><a href="#learning">학습</a><a href="#balance">균형표</a><a href="#approval">결정할 것</a></nav></div></header><main class="wrap"><div class="callout"><strong>B안 백업 보존.</strong> A안은 <a href="case-10-christmas-star.html">전체 대본 기획</a>으로 진행한다. 아래는 대본 작성 전 비교 기록이다. B안의 사전 별 사진·포장 물리성은 미해결 상태로 남긴다.</div><section class="hero"><div class="hero-copy"><span class="eyebrow">L1-05 · 10 B · 1단계 상세 뼈대</span><h1>사라진 크리스마스트리의 별</h1><p class="lead">현재 하는 일과 하지 않는 일을 듣고, 트리의 별이 어디에 있는지 찾아내는 크리스마스 사건.</p><div class="chips"><span class="chip">현재진행형 긍정·부정·질문</span><span class="chip status">A안 우선 진행 · 대본 미작성</span></div></div><figure class="hero-art"><div class="plan-art-pending">크리스마스트리의 별 · 대표 그림 미제작</div><figcaption>그림·녹음 생성 없음 · 기존 공통 기획 서식 v1</figcaption></figure></section><div class="callout"><strong>A안 우선 진행:</strong> 벤이 느슨한 고정부를 고치려고 별을 가져갔지만 엘라에게 전달하지 않았다. 수리·현장 확인·반환 흐름으로 정리한다. B안은 비교 기록이며 대본은 아직 작성하지 않았다.</div><p><strong>L1-05 지금 무엇을 할까 · A안 우선 진행·뼈대 정리 · 대본 미작성 · 개발 미인계.</strong> <a href="case-10-christmas-star-outline.html">같은 내용의 기획 화면</a></p>
+<p>사용자는 다시 A안 「별을 고치고 있는 친구」가 낫겠다는 선호를 밝혔다. A안을 우선 진행 방향으로 정리한다. 아래 인물 세부 설정·분량은 기획 제안이며 B안은 비교 기록으로만 남긴다. 2단계 대본은 아직 작성하지 않았다. 10은 교육 기획 번호이고 앱 사건 번호를 지정하지 않는다.</p>
+<p>현재 방향: 엘라가 별 찾기를 의뢰하고, 탐정이 종이 별 만들기와 조명 고정부 수리를 구별해 벤의 작업실에서 별을 확인한다. 벤이 느슨한 고정부를 발견해 가져갔지만 엘라에게 알리는 것을 빠뜨린 원래 A안이다. 벤이 별을 망가뜨리거나 잘못을 감추는 설정, 선물 포장·눈바람 대안은 채택하지 않는다. 엘라와 벤은 기존 인물을 재사용한다.</p>
+<section class="story-card" id="overview"><div class="section-head"><h2>1. 진행할 A안과 B안 비교 기록</h2></div>
+<div class="matrix"><table><thead><tr><th>비교</th><th>A안 · 별을 고치고 있는 친구 — 우선 진행</th><th>B안 · 다른 장식과 함께 포장된 별 — 백업</th></tr></thead><tbody>
+<tr><td>핵심 의문</td><td>어떤 작업 중인 물건이 트리의 별이며 왜 그곳에 있나</td><td>어떤 꾸러미에 별이 들어 있으며 왜 함께 포장됐나</td></tr>
+<tr><td>실제 원인</td><td>느슨한 고정부를 발견한 친구가 수리하려고 작업실에 가져감. 전달을 빠뜨림</td><td>공용 준비대의 별이 포장천에 가려진 채 장식 운반 쟁반에 함께 실림</td></tr>
+<tr><td>헷갈리는 장치 하나</td><td>시장에서 만들고 있는 종이 별</td><td>같은 천으로 덮은 장식 쟁반 두 개</td></tr>
+<tr><td>서로 다른 제외 근거</td><td>종이 별은 매다는 고리만 있고 트리 기둥에 꽂는 부분이 없음</td><td>첫 쟁반은 종이 장식을 하나씩 걸고 있고, 남은 내용물도 종이뿐임</td></tr>
+<tr><td>듣기로 찾아낼 차이</td><td>별을 접어 만드는 일과 조명 고정부를 고치는 일</td><td>장식을 꺼내 걸고 있는 일과 아직 쟁반을 묶고 있는 일</td></tr>
+<tr><td>결말</td><td>현장 확인 → 별을 받아 의뢰인에게 반환·보고</td><td>쟁반 열어 확인 → 별을 받아 의뢰인에게 반환·보고</td></tr>
+<tr><td>부담</td><td>수리 중 물건이 처음부터 다 보이지 않는 자연스러운 구도 필요</td><td>우연히 함께 싸인 경위와 쟁반 구분을 추가로 설명해야 함</td></tr>
+</tbody></table></div>
+<p><strong>A안을 우선 진행한다.</strong> 지금 하고 있는 작업의 차이가 물건을 찾는 기준이 되고, 수리하려던 행동과 의뢰인에게 전달하지 않은 실수를 구별할 수 있다. B안도 가능하지만 포장 경위 설명이 늘어날 수 있다. 어느 안도 도둑·범인을 찾는 사건으로 확정하지 않는다. 별의 행방을 찾는 의뢰이므로, 현재 행동만 보고 과거의 운반자나 무고함을 단정하지 않는다.</p>
+</section>
+<section class="story-card" id="cast"><div class="section-head"><h2>2. 공통 인물·장소 제안</h2></div>
+<div class="matrix"><table><thead><tr><th>인물</th><th>신규·재사용</th><th>겉모습·성격 제안</th><th>A안 역할</th><th>B안 역할</th></tr></thead><tbody>
+<tr><td>엘라 Ella · 사슴</td><td>우산의 엘라 재사용</td><td>기존 외형 유지. 차분하게 일을 나눔</td><td>의뢰인. 트리 광장에서 관람객 입장 안내</td><td>동일</td></tr>
+<tr><td>메이 Mae · 생쥐</td><td>신규</td><td>둥근 앞치마, 소매를 걷은 작업복. 작업물을 보여 주며 차근차근 설명하는 편</td><td>시장에서 종이 별을 접어 창가에 매달고 있음</td><td>시장에서 첫 쟁반의 종이 장식을 꺼내 매달고 있음</td></tr>
+<tr><td>니코 Nico · 펭귄</td><td>신규</td><td>짧은 작업 조끼, 공용 도구 가방. 필요한 범위만 답함</td><td>메이 옆 시장 준비대에서 도구를 정리함. 빌려준 공구와 작업실을 앎</td><td>같은 준비대에서 포장천을 정리함. 두 번째 쟁반의 운반 경로를 봄</td></tr>
+<tr><td>벤 Ben · 비버</td><td>소풍 가방의 벤 재사용</td><td>주머니 달린 작업 앞치마. 손본 뒤 설명하려다 연락을 빠뜨림</td><td>장식 작업실에서 트리 별의 고정부를 조이고 있음</td><td>운반 쉼터에서 두 번째 쟁반의 끈을 묶고 있음</td></tr>
+<tr><td>다람쥐 탐정</td><td>기존 재사용 · NPC 수 제외</td><td>기존 외형 유지</td><td>조사·비교·반환·보고</td><td>동일</td></tr>
+</tbody></table></div>
+<p>메이의 종은 기존 미아와 같지만 <strong>다른 인물</strong>이며 미아 원화를 새 인물로 재표기하지 않는다. 새 NPC는 다람쥐를 쓰지 않는다. 종·털색·옷 색·성격은 정답 근거가 아니다. 엘라 외에도 기존 인물을 다시 등장시키는 것은 사용자 요청이다. 신규 비버를 소풍 가방의 벤으로 대체했다. 벤이 행사 준비를 돕는 배경은 이번 사건의 기획 제안이며 기존 직업으로 단정하지 않는다. 다른 사건을 플레이했어야만 이해되는 대사는 두지 않는다.</p>
+<div class="matrix"><table><thead><tr><th>장소</th><th>신규·재사용</th><th>등장인물·화면 배치</th><th>눌러 보는 물건 계획</th></tr></thead><tbody>
+<tr><td>트리 광장</td><td>신규 계절 배경</td><td>엘라는 낮은 입장 안내대 옆. 트리 꼭대기는 비어 있음. 엘라에게 별의 용도·특징과 마지막으로 둔 자리를 질문</td><td>장식 공, 안내대의 작은 종</td></tr>
+<tr><td>크리스마스 시장 준비 천막</td><td>신규 계절 배경</td><td>왼쪽 작업대의 메이와 오른쪽 도구 선반의 니코. 둘이 같은 일을 하거나 똑같은 답을 하지 않음</td><td>종이 가위, 리본 바구니</td></tr>
+<tr><td>A: 장식 작업실 / B: 운반 쉼터</td><td>선택한 안의 배경만 신규</td><td>A는 벤의 작업대 일부를 작업 천과 몸으로 가림. B는 벤 옆에 아직 덮인 운반 쟁반</td><td>A: 공구 걸이·작업등 / B: 빈 상자·운반 손잡이</td></tr>
+</tbody></table></div>
+<p>각 안은 <strong>NPC 4명·장소 3곳</strong>이다. 풍경 속 이름 없는 관람객은 상호작용·증언을 하는 인물로 추가하지 않는다. 같은 엔진과 고정 NPC 배치를 쓰며 실제 걷기·연속 운반 애니메이션을 요구하지 않는다.</p>
+</section>
+<section class="story-card" id="plan-a"><div class="section-head"><h2>3. A안 — 별을 고치고 있는 친구</h2></div>
+<h3>의뢰인·의뢰 이유·풀 의문</h3>
+<p>엘라는 점등식을 준비하며 트리에 달 별이 준비대에서 보이지 않는 것을 알아차린다. 입장 구역에서 어린 관람객을 안내하고 있어 여러 준비 장소를 돌아볼 수 없다. 탐정에게 별을 찾아 달라고 직접 부탁한다. 처음부터 누구를 의심하거나 작업실로 가라고 말하지 않는다.</p>
+<p>의뢰는 인사 → 탐정의 첫 선택 질문 → 짧은 의뢰를 받아쓰는 흐름으로 나눈다. 후속 질문에서 별의 용도·특징과 마지막으로 둔 자리를 듣고 노트에 기록한다. 엘라가 별을 찍어 둔 사진은 쓰지 않는다. 해결할 의문은 <strong>어느 곳의 어떤 물건이 찾는 별이며, 왜 옮겨졌는가</strong>다.</p>
+<h3>제작자용 진실·시간순</h3>
+<ol>
+<li>엘라가 트리에 꽂을 별을 광장 공용 준비대에 둔다. 그 별은 종이 장식이 아닌 조명이며, 아래에 트리 끝에 끼우는 빈 고정부가 있다. 엘라는 설치 준비를 맡아 그 용도와 형태를 알고 있다.</li>
+<li>엘라는 관람객 입장 안내로 간다. 준비대는 시장 천막 앞에 있지만 그 뒤에서 하는 작업까지 보지는 못한다.</li>
+<li>벤이 조명 부품을 가지러 들렀다가 별의 고정부가 흔들리는 것을 발견한다. 그대로 트리에 꽂으면 비뚤어지므로 수리하려고 작업실로 가져간다. 도난·장식 교환·다른 고장은 없다.</li>
+<li>벤은 도구를 정리하는 니코에게 드라이버를 빌린다. 니코는 별을 보지 못하고 어떤 공구를 빌려줬는지와 벤이 작업하는 장소만 안다. 메이는 시장 천막에서 종이 별을 접고 매달고 있다.</li>
+<li>엘라는 설치할 별이 없음을 알고 의뢰한다. 벤은 고정부를 아직 조이는 중이며 끝나면 가져다주려 한다. 누군가 찾는다는 것을 몰랐고, 가져가기 전에 엘라에게 알려야 했다는 점은 마지막에 인정한다.</li>
+<li>탐정이 엘라에게 들은 용도·특징과 각자의 현재 작업, 현장에서 찍은 물건 사진을 대조한다. 벤에게 경위를 확인하고 수리가 끝난 별을 받아 엘라에게 돌려준다.</li>
+</ol>
+<p>공구 하나를 빌렸다는 사실은 별을 가져갔다는 증거가 아니다. 벤이 아직 돌아오지 않은 이유는 <strong>수리 미완료</strong>, 엘라가 직접 돌아다니지 않은 이유는 <strong>관람객 안내를 맡고 있음</strong>이다. 의뢰인이 바쁘다는 이유로 모든 연락 수단이 불가능하다고 설정하지 않는다. 현장에서 탐정을 만나 조사 부탁을 하는 규모다.</p>
+<h3>후보별 제외·확인 근거</h3>
+<div class="matrix"><table><thead><tr><th>조사 대상</th><th>처음 확인하는 이유</th><th>함께 대조할 정보</th><th>판단·한계</th></tr></thead><tbody>
+<tr><td>메이의 별</td><td>작업대에서 별 모양 물건을 만들고 있음</td><td>종이를 접고 매달고 있다는 현재 행동 진술 + 물건 사진의 얇은 접힘·매다는 고리 + 엘라가 설명한 꽂는 고정부</td><td>현재 만들고 있는 것은 트리 별이 아님. 메이가 과거에 별을 건드린 적 없다고 단정하는 알리바이로 쓰지 않음</td></tr>
+<tr><td>니코의 정리 중인 도구</td><td>같은 준비대에서 부품과 공구를 정리함</td><td>지금 정리하는 것은 도구라는 답변 + 비어 있는 공구 자리와 드라이버 대여 진술</td><td>정리 중인 도구에서 별을 찾는 가설을 정리함. 니코를 범인 후보처럼 몰지 않으며 대여 사실만으로 벤을 확정하지 않음</td></tr>
+<tr><td>벤의 수리 중인 물건</td><td>별 고정부에 필요한 공구를 빌렸고 조명 부품을 고치는 중</td><td>작업의 긍정·부정 진술 + 엘라에게 받아 적은 용도·특징 + 허락 뒤 살펴본 실제 아래 고정부</td><td>실제 물건 확인 전에는 유력한 확인 대상일 뿐. 고정부의 구조·물건 전체와 설명이 맞는 것을 보고 반환 대상으로 확인</td></tr>
+</tbody></table></div>
+<p>헷갈리는 장치는 <strong>종이 별 하나</strong>다. 똑같은 별 여러 개, 옷 단서, 숨겨진 쪽지, 비밀 통로를 추가하지 않는다. 별 모양만으로는 종이 별과 트리 별을 구분하지 못하고, 드라이버를 빌린 사실만으로도 정답을 알 수 없다.</p>
+<h3>해금과 조사 순서</h3>
+<div class="matrix"><table><thead><tr><th>차례</th><th>얻는 정보·행동</th><th>다음에 열리는 것</th></tr></thead><tbody>
+<tr><td>1 광장</td><td>의뢰를 바르게 기록</td><td>엘라의 용도·특징·마지막 위치 후속 질문</td></tr>
+<tr><td>2 특징·마지막 위치 기록</td><td>엘라에게 별의 용도·특징을 듣는다. 마지막으로 둔 자리는 시장 천막 앞의 공용 준비대라는 대답을 받아 적음</td><td>위치 대답의 노트 채점 통과로 시장 천막 장소만 발견. 후보 이름·직업·현재 별 행방은 공개하지 않음</td></tr>
+<tr><td>3 시장</td><td>메이·니코에게 각각 인사. 현재 작업 질문을 기록</td><td>메이 물건 촬영 허락과 니코 후속 공구 질문</td></tr>
+<tr><td>4 후보 비교</td><td>메이의 접기·매달기 진술과 종이 별 사진 대조. 니코의 대여와 작업 장소 대답을 받아 적음</td><td>장식 작업실과 소개받은 친구의 발견. 화면 이름은 본인의 자기소개 뒤 표시</td></tr>
+<tr><td>5 작업실</td><td>벤의 현재 작업을 질문. 무엇을 만들고 있지는 않은지도 확인. 허락 후 물건 전체와 고정부를 살펴 촬영</td><td>현장 사진 두 장과 필수 기록이 모이면 추리 보드</td></tr>
+<tr><td>6 추리</td><td>현재 작업 → 물건 용도 → 확인할 대상과 장소를 연결</td><td>벤에게 현장 확인하는 행동 선택지</td></tr>
+<tr><td>7 현장 확인</td><td>별을 가져온 이유·연락을 빠뜨린 경위를 짧게 확인. 수리 완료 뒤 별을 받음</td><td>소지품 별·엘라 반환 선택지</td></tr>
+<tr><td>8 보고</td><td>생각·이동 버튼으로 광장을 골라 돌아가 반환·결과 설명</td><td>엘라 반응·복습</td></tr>
+</tbody></table></div>
+<p>장소 해금은 사진 배경 대신 엘라의 마지막 위치 진술을 바르게 기록했을 때 일어난다. 엘라는 자신이 별을 둔 자리만 답한다. 별이 지금 어디에 있는지나 누가 가져갔는지는 모른다. 잠긴 후속 질문이 있더라도 처음 열린 질문을 마쳤으면 그 장소를 떠날 수 있다. 자동 이동은 없다.</p>
+<h3>사진·학습 판단·추리 계획</h3>
+<div class="matrix"><table><thead><tr><th>필수 사진</th><th>보이는 것</th><th>반드시 함께 들을 정보</th></tr></thead><tbody>
+<tr><td>a-paper · 작업대</td><td>메이의 접은 종이 별, 종이 접힘, 실 고리</td><td>지금 접어 만들고 매다는 작업이라는 대답</td></tr>
+<tr><td>a-fitting · 작업 중인 장식</td><td>벤 허락 뒤 살핀 별 전체와 고정부. 도구는 주변에 놓임</td><td>지금 고치는 중이라는 대답, 별을 새로 만들거나 포장하는 중은 아니라는 대답</td></tr>
+</tbody></table></div>
+<p>추리 6문항의 기능 순서는 엘라가 찾는 물건의 용도 → 메이의 현재 작업 → 메이 물건을 제외하는 근거 → 니코 말로 찾아갈 곳 → 벤의 작업·현장 사진과 엘라에게 들은 특징 연결 → 누구에게 별 반환을 확인할지다. 완성 문장·6개 보기·맞장구·힌트는 2단계에서 쓴다. 마지막 물건을 실제로 살피기 전 사진 제목이나 관찰 말이 정답을 대신하지 않는다.</p>
+<p>결말 2차례는 <strong>작업실에서 물건·경위를 확인하고 받기</strong>, <strong>광장에서 의뢰인에게 돌려주고 보고하기</strong>다. 심문이나 경찰은 필요하지 않다. 고정부 수리 결과만 짧게 확인하며, 복잡한 전기 수리·전선 작업은 다루지 않는다. 탐정이 높은 트리에 올라가 설치하지 않는다. 마지막 점등은 선택 정지 일러스트로 제안하며 자동 설치를 플레이 동작으로 요구하지 않는다. 미해결 실마리는 남기지 않는다.</p>
+</section>
+<section class="story-card" id="plan-b"><div class="section-head"><h2>4. B안 — 다른 장식과 함께 포장된 별 · 백업 비교 기록</h2></div>
+<p>아래는 백업 당시의 비교 기록이다. 별 기준 사진을 쓰는 이 안의 설정은 현재 A안에 적용하지 않는다.</p>
+<h3>의뢰인·의뢰 이유·풀 의문</h3>
+<p>엘라의 의뢰와 관람객 안내 사정은 A안과 같다. 다만 별을 잠시 둔 곳은 광장과 시장이 함께 쓰는 준비대다. 시장 천막 앞 준비대의 물건이 정리된 뒤 별이 보이지 않는다. 의뢰인은 포장되었거나 누가 가져갔다고 추측하지 않고 사라진 물건의 용도와 기준 사진만 제공한다.</p>
+<p>풀 의문은 <strong>어떤 운반 쟁반에 별이 함께 실렸으며 어떻게 돌려받을 수 있는가</strong>다. 같은 천으로 덮은 쟁반 두 개가 유일한 혼동 장치다. A안의 수리·드라이버·종이 별 오인은 함께 넣지 않는다.</p>
+<h3>제작자용 진실·시간순</h3>
+<ol>
+<li>엘라가 설치할 별을 사진으로 기록하고 공용 준비대에 둔다. 사진에는 별의 꽂는 고정부가 보인다.</li>
+<li>메이가 준비대의 종이 장식을 첫 쟁반에 담는다. 작업 공간이 부족해 큰 포장천을 걷어 두 번째 쟁반 위로 접어 올린다. 그 천 위에 놓여 있던 별도 접힌 천 사이로 함께 들어간다. 천막 안과 광장 사이를 함께 준비하므로 엘라가 물건을 두는 행동 자체는 이상하지 않음.</li>
+<li>벤은 천으로 덮인 두 번째 쟁반을 시장 입구 운반 쉼터로 옮긴다. 안의 물건을 하나씩 확인하지 않는다. 니코는 두 쟁반이 각각 어디로 갔는지만 직접 본다.</li>
+<li>메이는 첫 쟁반을 천막에 두고 종이 장식을 꺼내 매달고 있다. 벤은 두 번째 쟁반에서 천이 흘러내리지 않게 끈을 묶고 있다. 아직 시장 다른 곳으로 출발하지 않음.</li>
+<li>엘라가 별을 찾지 못해 의뢰한다. 벤은 별이 들어 있는지 모르므로 돌려주러 올 이유가 없고, 메이도 함께 싸인 것을 알지 못한다.</li>
+<li>탐정은 두 곳의 현재 작업과 물건을 비교한다. 이미 꺼낸 종이 장식과 남은 종이만 있는 첫 쟁반을 제외하고, 벤에게 두 번째 쟁반을 열어 봐도 되는지 묻는다.</li>
+<li>천을 젖힌 뒤 실제 별을 기준 사진·설명과 대조한다. 메이에게 천 정리 경위를 짧게 확인하고 별을 받아 엘라에게 반환한다. 고의 은닉·절도를 자백시키지 않음.</li>
+</ol>
+<p>천과 별이 함께 접힐 수 있는 무게·크기는 원화와 소품 설계에서 확인해야 한다. 별이 너무 커서 누구나 알아차릴 정도라면 이 안의 전제가 무너진다. 이 부담 때문에 B안을 차선으로 제안한다.</p>
+<h3>후보별 제외·확인 근거</h3>
+<div class="matrix"><table><thead><tr><th>대상</th><th>처음 확인하는 이유</th><th>제외·확인 근거</th><th>한계</th></tr></thead><tbody>
+<tr><td>메이의 첫 쟁반</td><td>준비대에서 나왔고 같은 천으로 덮여 있었음</td><td>지금 종이 장식을 꺼내 걸고 있다는 진술 + 펼친 천과 비워진 쟁반 바닥 사진 + 남은 것은 종이라는 설명</td><td>현재 행동만으로 메이가 과거에 무엇을 옮기지 않았다고 단정하지 않음</td></tr>
+<tr><td>벤의 두 번째 쟁반</td><td>같은 준비대에서 출발했고 아직 내용물을 확인하지 않음</td><td>니코가 본 두 쟁반의 목적지 + 메이 쟁반 제외 + 벤이 아직 묶고 있고 열어 보지는 않았다는 답변</td><td>끈 묶기만으로 별이 있다고 확정하지 않음. 마지막 개봉과 물건 대조 필요</td></tr>
+<tr><td>니코</td><td>준비대 정리와 두 쟁반 이동을 직접 봄</td><td>포장천 정리 작업과 본 범위를 설명하는 참고인</td><td>내용을 못 봤으므로 누구의 별이 안에 있다고 알려 주지 않음</td></tr>
+</tbody></table></div>
+<h3>해금·사진·추리·결말</h3>
+<div class="matrix"><table><thead><tr><th>순서</th><th>조사와 기록</th><th>해금</th></tr></thead><tbody>
+<tr><td>1</td><td>엘라의 의뢰·용도·기준 사진</td><td>사진 배경의 옆 시장 천막</td></tr>
+<tr><td>2</td><td>메이·니코 인사. 현재 작업과 쟁반에 관한 질문 기록</td><td>메이 쟁반 촬영 허락. 니코가 직접 본 두 번째 쟁반의 위치</td></tr>
+<tr><td>3</td><td>메이의 현재 꺼내기·매달기와 남은 종이 장식·빈 바닥 대조</td><td>첫 쟁반에서 별을 찾는 가설 정리</td></tr>
+<tr><td>4</td><td>운반 쉼터에서 벤의 현재 묶기·아직 열지 않은 상태 기록. 덮인 쟁반 촬영</td><td>추리 보드</td></tr>
+<tr><td>5</td><td>두 쟁반의 작업·남은 물건·아직 확인하지 않은 상태를 비교하는 추리 6문항</td><td>두 번째 쟁반 개봉 허락을 구하는 행동 선택지</td></tr>
+<tr><td>6</td><td>허락 뒤 천을 젖혀 별 전체·고정부 촬영. 메이에게 포장 경위를 확인하고 별을 받음</td><td>광장으로 돌아갈 선택지</td></tr>
+<tr><td>7</td><td>엘라에게 별 반환·보고</td><td>복습</td></tr>
+</tbody></table></div>
+<p>필수 사진은 <strong>b-reference 별 장식 / b-empty 쟁반과 종이 장식 / b-covered 덮인 쟁반 / b-open 펼친 천과 장식</strong> 4장이다. b-covered는 물건 상태를 확인하는 자료이며 단독으로 내용물을 알려 주지 않는다. 개봉 전 추리의 결론은 별의 위치 확정이 아니라 <strong>다음으로 열어 확인할 쟁반</strong>이다. b-open을 보고 확인한 뒤에만 별을 찾았다고 말한다.</p>
+<p>결말 3차례는 <strong>쉼터에서 개봉·물건 확인</strong>, <strong>시장 천막에서 함께 포장된 경위를 확인하고 받기</strong>, <strong>광장 반환·보고</strong>다. 이동은 매번 생각과 이동 버튼으로 한다. 별을 소지하기 전에는 물건을 들고 있다는 지시어를 쓰지 않는다. 우연히 함께 담긴 경위를 추가로 들어야 하므로 A안보다 결말이 한 차례 길다. 미해결 실마리는 남기지 않는다.</p>
+</section>
+<section class="story-card" id="learning"><div class="section-head"><h2>5. 학습 목표와 듣기–판단 연결</h2></div>
+<p>새 의미 대조는 <strong>지금 실제로 하는 일과 하지 않는 일</strong>이다. L1-05 A에서 익힌 현재진행형을 다른 사건에 적용한다. 핵심 형태는 is + -ing / isn&#x27;t + -ing / Is … -ing?로 좁혀 각각 질문·대답에서 적어도 한 번, 필수 발화 전체에서 3번 이상 들리도록 배치한다. 이미 배운 are + -ing는 복습으로 활용하고, 복수 부정·의문까지 별도 새 열쇠로 확대할지는 승인 때 정한다. 현재 단계의 횟수는 목표이며 대본을 실제로 센 값은 아니다.</p>
+<div class="matrix"><table><thead><tr><th>안</th><th>알아들을 정보의 기능 — 대사 아님</th><th>가능해지는 판단</th></tr></thead><tbody>
+<tr><td>A</td><td>엘라가 지금 입장을 안내하고 있음</td><td>의뢰인이 현장에 남아 조사를 부탁한 이유 이해</td></tr>
+<tr><td>A</td><td>메이는 별을 접거나 매달고 있고, 고정부를 고치는 중은 아님</td><td>같은 별 모양이어도 다른 작업·물건임을 사진과 연결</td></tr>
+<tr><td>A</td><td>니코는 공구를 정리 중이며 조명을 만드는 중은 아님</td><td>정리 중인 도구를 찾는 별로 오인하지 않고 대여·작업 장소를 질문</td></tr>
+<tr><td>A</td><td>벤은 고정부를 고치는 중이며 새 별을 접거나 포장하는 중은 아님</td><td>다음으로 실제 물건을 살펴봐야 할 작업대 선택</td></tr>
+<tr><td>B</td><td>메이는 종이 장식을 꺼내 걸고 있으며 쟁반을 묶는 중은 아님</td><td>비워진 첫 쟁반 사진을 말의 대상과 연결</td></tr>
+<tr><td>B</td><td>벤은 아직 끈을 묶고 있으며 장식을 꺼내 매다는 중은 아님</td><td>확인하지 않은 쟁반이 남아 있음을 판단</td></tr>
+<tr><td>공통</td><td>긍정·부정의 차이와 질문에 대한 대답</td><td>물건이 비슷하게 보여도 현재 하고 있는 일을 바꿔 기록하지 않음</td></tr>
+</tbody></table></div>
+<p>과거의 이동·포장·수리 이유는 결말의 짧은 배경 설명에 필요한 범위로만 쓴다. 그 설명을 들어야 앞선 추리를 풀 수 있는 구조로 만들지 않는다. 현재진행을 과거진행 목격담으로 바꾸지 않고, 관찰하지 않은 먼 장소의 현재 행동을 다른 인물이 단정하지 않는다.</p>
+<p>대본 단계에서는 새 어휘를 A: fold·hang·fix / B: pack·tie·hang 중심으로 제한한다. socket·bracket 같은 기술 용어는 새 필수 받아쓰기로 삼지 않고 고정부는 쉬운 기초어와 그림으로 설명한다. 색·종·직업은 정답 열쇠가 아니다. look for 등은 표현 목록으로 두며 문법으로 분류하지 않는다.</p>
+</section>
+<section class="story-card" id="balance"><div class="section-head"><h2>6. 균형표 — 두 안의 계획값</h2></div>
+<p>아래는 <strong>1단계 예산</strong>이다. 2단계 작성과 3단계 점검에서 실제 값으로 다시 센다. 엘라 3문항·8칸 / 메이 4문항·9칸 / 니코 3문항·7칸 / 벤 4문항·10칸으로 양쪽 안의 질문 수를 맞춘다. 경위 확인·허락·반환 행동은 별도로 기록하며 숫자를 숨겨 실제 학습량을 늘리지 않는다.</p>
+<div class="matrix"><table><thead><tr><th>항목</th><th>L1 기준</th><th>A안 계획</th><th>B안 계획</th></tr></thead><tbody>
+<tr><td>인물 / 장소</td><td>4–5명 / 3–4곳</td><td>NPC 4 / 3</td><td>NPC 4 / 3</td></tr>
+<tr><td>받아쓰기 질문 / 빈칸</td><td>12–15 / 30–38</td><td>14 / 34</td><td>14 / 34</td></tr>
+<tr><td>인물당 질문</td><td>2–5</td><td>3 / 4 / 3 / 4</td><td>동일</td></tr>
+<tr><td>한 인물 빈칸 비중</td><td>40% 이하</td><td>최대 벤 10/34 = 29.4%</td><td>동일</td></tr>
+<tr><td>질문당 빈칸</td><td>1–3</td><td>2–3</td><td>2–3</td></tr>
+<tr><td>대답 길이</td><td>평균 8–12, 최장 18단어, 3문장 ≤3개</td><td>평균 8–12·최장 18·3문장 ≤2 목표</td><td>동일</td></tr>
+<tr><td>필수 사진</td><td>3–5</td><td>2 · 아래 예외 사유</td><td>4 · 백업 기록</td></tr>
+<tr><td>장소당 눌러 보는 물건</td><td>2–3</td><td>각 2, 총 6</td><td>각 2, 총 6</td></tr>
+<tr><td>추리 문항</td><td>5–7</td><td>6</td><td>6</td></tr>
+<tr><td>결말 차례</td><td>2–3</td><td>2</td><td>3</td></tr>
+<tr><td>열쇠 표현</td><td>형태마다 3회 이상</td><td>세 핵심 형태 각 ≥3 목표, Q/A 각 ≥1</td><td>동일</td></tr>
+<tr><td>받아쓰기 없는 선택 질문·행동</td><td>별도 공개</td><td>조사 허락 2·현장 확인 2·받기/반환 2 = 6개 목표</td><td>조사 허락 2·개봉 1·경위 확인 1·받기/반환 2 = 6개 목표</td></tr>
+</tbody></table></div>
+<p><strong>A안 사진 수 예외:</strong> 엘라의 사전 별 사진을 삭제해 필수 사진을 2장으로 줄인다. 엘라의 용도·특징 받아쓰기와 두 현장 사진을 결합하므로 듣기와 물증 대조는 유지한다. 기준의 최소 사진 수를 맞추기 위한 사진은 추가하지 않는다. 3단계에서 이 예외와 판단 근거를 다시 보고한다.</p>
+<h3>기준 사건과 나란히 비교</h3>
+<p>인계된 MD의 질문 표를 읽어 직접 센 값이다. 우산 질문 수는 받아쓰기 없는 조사 시작 선택지와 구별했다. 기준 사건 문서의 오래된 요약과 값이 다를 수 있으며 인계 설계서는 수정하지 않는다.</p>
+<div class="matrix"><table><thead><tr><th>항목</th><th>소풍 가방</th><th>주인 없는 우산</th><th>별 A / B</th></tr></thead><tbody>
+<tr><td>NPC / 장소</td><td>6 / 5</td><td>4 / 3</td><td>4 / 3</td></tr>
+<tr><td>받아쓰기 / 빈칸</td><td>15 / 39</td><td>14 / 33</td><td>14 / 34 계획</td></tr>
+<tr><td>필수 사진</td><td>2</td><td>5, 선택 행사 사진 1 별도</td><td>2 / 4 계획 · B 백업</td></tr>
+<tr><td>추리 문항</td><td>9</td><td>5</td><td>6 / 6 계획</td></tr>
+<tr><td>핵심 관계</td><td>소유·내용물 연결</td><td>물건 특징·진술·행사 단서 연결</td><td>현재 작업 긍정·부정과 물건 용도 연결</td></tr>
+</tbody></table></div>
+<p>새 사건은 발화량·관계·어휘를 동시에 높이지 않는다. 새 어휘를 줄이고 현재 작업 두 가지의 대비를 중심으로 하며 시간 계산·복수 사건·영상 대조는 넣지 않는다. 기준값의 차이는 새 사건을 따라 늘려야 할 목표가 아니다.</p>
+</section>
+<section class="story-card" id="production"><div class="section-head"><h2>7. 장면별 제작 범위와 엔진</h2></div>
+<div class="matrix"><table><thead><tr><th>장면</th><th>그림 신규·재사용 제안</th><th>녹음 제안</th><th>엔진 동작·지원 판단</th></tr></thead><tbody>
+<tr><td>광장 의뢰</td><td>엘라 기존 외형 재사용, 겨울 옷 변형은 신규. 트리 광장 신규. 사전 별 사진 없음. 별 특징은 질문·받아쓰기로 기록</td><td>엘라와 탐정 전 대사 신규</td><td>첫 질문 제한·받아쓰기. 마지막 위치 진술 채점 뒤 장소 발견</td></tr>
+<tr><td>시장 조사</td><td>메이·니코 전신 신규 각 1, 시장 천막 신규 1. 안별 작업 소품 별도</td><td>두 인물·탐정·물건 관찰 신규</td><td>고정 NPC·허락 선택지·촬영·선택 TTS</td></tr>
+<tr><td>A 작업실</td><td>벤 기존 외형 재사용·작업복 변형 신규·작업실 신규 1·별 고정부 조사 그림 신규</td><td>벤·탐정 신규</td><td>확대 조사·사진. 실제 손·공구 움직임 없이 준비 작업을 나타내는 정지 상태</td></tr>
+<tr><td>B 쉼터</td><td>벤 기존 외형 재사용·작업복 변형 신규·쉼터 신규 1·덮은/펼친 쟁반 그림 신규</td><td>벤·탐정 신규</td><td>허락 뒤 확대 조사 상태 변경. 기존 조사 동작으로 가능한지 확인 필요</td></tr>
+<tr><td>추리</td><td>기존 추리 보드·증거 노트 재사용</td><td>탐정 질문·맞장구·힌트 신규</td><td>기존 추리. 정답 위치는 발견 전 미확정으로 유지</td></tr>
+<tr><td>반환·보고</td><td>별 소지품 신규 1, 엘라·광장 재사용. 선택 점등 마무리 그림 신규</td><td>확인·수령·보고·감사·복습 신규</td><td>소지품 받기·건네기·복습. 자동 이동 없음</td></tr>
+</tbody></table></div>
+<p>선택한 안 기준 신규 NPC 2명·장소 3곳이며 엘라·벤과 탐정은 재사용한다. 배경 소품·증거 그림·소지품 그림은 위 표의 장면별 항목으로 별도 제작한다. 그림·녹음은 <strong>생성하지 않았다</strong>. 재사용은 외형·UI에 대한 제안이며 기존 다른 사건의 음성을 내용 확인 없이 가져오지 않는다.</p>
+<p>A안은 확정적인 새 엔진 동작을 요구하지 않는다. B안의 덮은 천 → 개봉 조사 상태가 기존 확대 조사로 표현되지 않으면 <strong>엔진 추가 필요</strong>로 개발 점검에 남긴다. 실제 엔진 지원은 검증 안 함이다. 두 안 모두 생중계·영상 재생·실시간 위치 추적·시간 제한·NPC 동선 애니메이션을 요구하지 않는다. 게임 화면·코드 구현 방식은 정하지 않는다.</p>
+</section>
+<section class="story-card" id="approval"><div class="section-head"><h2>8. 승인 전 결정과 남은 작업</h2></div>
+<div class="matrix"><table><thead><tr><th>구분</th><th>내용</th></tr></thead><tbody>
+<tr><td>사용자가 결정할 것</td><td>A안을 우선 진행한다. 인물 세부 역할과 단수 긍정·부정·의문 중심의 학습 범위는 대본 구체화 시 검토한다</td></tr>
+<tr><td>기획자가 제안으로 채운 것</td><td>이름·종·장소·현재 작업, 수리 전달 누락 또는 포장 착오, 14문항·34칸, 사진 수, 결말 차례</td></tr>
+<tr><td>아직 쓰지 않은 것</td><td>전체 영어·반말 해석, 문항별 실제 노트와 보기, 추리 완성 문장·6개 보기·맞장구·힌트, 열쇠별 사건 밖 예문 3개·한국어 설명, 실제 복습 단어, 새 상황·지연 복습 문항</td></tr>
+<tr><td>확인하지 못한 것</td><td>실제 플레이·소요 시간·학습 효과는 검증 안 함. 원화에서 진술한 특징과 종이 별/고정부의 구별·작업 가림·B안 천 포장 가능 여부, 음성 속도, 엔진 조사 상태 변경 지원도 검증 안 함</td></tr>
+</tbody></table></div>
+<p><strong>A안으로 뼈대를 정리했으며 대본은 미작성이다.</strong> 다른 대안의 동기·사고를 섞지 않고 A안의 전체 대본을 다음 단계에서 작성해 사용자 검토를 받는다. 이후 3단계에서 규칙별 지킴/어김/판단 필요와 근거 대사, 실제 균형표를 제출한다. 별도 요청 전에는 개발 인계를 기록하지 않는다.</p>
+</section></main></body></html>
