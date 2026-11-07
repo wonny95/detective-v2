@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-05 18:31 · Claude · (이 커밋)
+## 2026-11-07 23:07 · Claude · (이 커밋)
+
+- 이 컴퓨터 설정(사용자 요청): GitHub에서 받아 `F:\detective\Detective-dev`(`main`)와 `F:\detective\Detective-story`(`story`, worktree)를 나란히 둠. 저장소 밖 `F:\detective\.claude\launch.json`에 미리보기 설정(5173, 개발 폴더의 `server.js`).
+- 사용자 요청: 바이올린 재점검. 엔진은 지난 점검 뒤 바뀌지 않아 7가지 목록 유효. 개발 전에 정할 것 6가지를 `design/case-04-review.md` 맨 위에 적음.
+- 사용자 확정: 빠진 대사 초안을 그대로 확정해 설계서 MD·HTML에 반영. 소매 보기 행동과 세 사람의 대답, 이보·모모 소매 관찰(8절), 추리 힌트 7개를 영어+해석으로(기존 사건 `hint`·`hintKo`와 같은 방식), 심문 뒤 녹음 없는 생각, 이름표(10절), 복습 요약(13절). 머리말 상태를 "엔진 점검 완료 · 빠진 대사 확정"으로.
+- 확인: 새 문장 16개가 MD·HTML에 같게 들어감, HTML 태그 짝 맞음, 기획 화면을 새 탭에서 열어 새 대사 6개·힌트 7개·요약 표시 확인. 못 한 것: 게임 코드(안 고침), 녹음·그림.
+- **다음**: 재점검 1–4번(니퍼 생각 시점, t1 뒤 오웬 표시, 경사 연락 조건, 추리 해금 조건)을 사용자와 정하고 5–6번 문구 정리 → 장면별 그림 계획(비용 안내 뒤 생성) → 엔진·데이터 개발 → 녹음.
+
+## 2026-11-05 18:31 · Claude · 00a8870
 
 - 사용자 요청: 커밋하지 않고 두었던 튜토리얼 시안 4개(`design/tutorial-motion.html`, `scripts/cut-tutorial-paw.py`, `assets/ui/tutorial-paw.png`, `assets/ui/pointer-paws-back-higgsfield-original.png`)를 다른 컴퓨터에서도 고칠 수 있게 커밋하고 GitHub에 올림. 파일 내용은 그대로이고 게임에는 아직 적용하지 않음.
 - 문서: `HANDOFF.md` 파일 표, `assets/ui/README.md`에 미적용 시안으로 적음. 스킬의 "아직 정하지 않은 튜토리얼 시안" 예시를 지움.
