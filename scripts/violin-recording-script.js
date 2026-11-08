@@ -44,26 +44,27 @@ const esc = s => String(s).replace(/\|/g, '\\|');
 const unique = l => new Set(l.map(x => x.en)).size;
 const sentences = en => (en.match(/[^.!?]+[.!?]+/g) || [en]).length;
 const all = Object.values(lines).flat();
+const done = x => fs.existsSync(x.file);
 let out = `# 사라진 음악 대회 바이올린 — 녹음 대본
 
 \`scripts/violin-recording-script.js\`가 게임 데이터(\`index.html\`의 \`VIOLIN_CASE\`)에서 뽑은 목록이다. 대사를 고치면 이 파일도 다시 뽑는다. 파일 이름은 게임이 재생할 녹음 파일이다(\`audio/violin/\`).
 
 - **탐정 줄은 모두 녹음됨**(90문장, MiniMax Grady·감정 없음, 목록과 job은 \`audio/violin/README.md\`). 아래는 아직 브라우저 음성으로 나오는 인물들의 줄이다.
-- **목소리는 정할 것**(사용자 결정): 앞 사건처럼 Higgsfield MiniMax 프리셋에서 인물마다 하나. 오소리 경사는 도서관 사건과 같은 목소리(Fraser)를 쓰면 이어진다.
+- **목소리는 정할 것**(사용자 결정): 앞 사건처럼 Higgsfield MiniMax 프리셋에서 인물마다 하나. 오소리 경사는 도서관 사건과 같은 **Fraser**·감정 없음으로 녹음했다(사용자 결정). 녹음된 줄은 **녹음** 칸에 ✓.
 - **감정**: 오웬의 심문 줄 가운데 표정이 바뀌는 줄(당황·슬픔)은 감정을 넣으려면 Higgsfield 웹(\`higgsfield.ai/audio\`)에서 만든다(MCP는 감정을 저장하지 않음). 나머지는 앞 사건 인물처럼 행복 또는 감정 없음.
 - 여러 문장 대답(**문장** 칸이 2 이상)은 노트의 문장별 다시 듣기에 문장 구간(\`SENTENCE_TIMES\`)이 필요하다(녹음 뒤 무음 구간으로 잰다).
 - 같은 화자의 같은 문장은 한 번만 녹음하고 파일을 함께 쓴다(**같은 녹음**에 처음 나온 번호).
 
-| 화자 | 줄 수 | 녹음할 문장 |
-|---|---|---|
-${Object.entries(lines).map(([who, l]) => `| ${NAMES[who]} | ${l.length} | ${unique(l)} |`).join('\n')}
-| **합계** | **${all.length}** | **${Object.values(lines).reduce((t, l) => t + unique(l), 0)}** |
+| 화자 | 줄 수 | 녹음할 문장 | 녹음됨 |
+|---|---|---|---|
+${Object.entries(lines).map(([who, l]) => `| ${NAMES[who]} | ${l.length} | ${unique(l)} | ${l.filter(done).length} |`).join('\n')}
+| **합계** | **${all.length}** | **${Object.values(lines).reduce((t, l) => t + unique(l), 0)}** | **${all.filter(done).length}** |
 `;
 for(const [who, l] of Object.entries(lines)){
-  out += `\n## ${NAMES[who]} (${l.length}줄)\n\n| # | 파일 | 장면 | 영어 | 문장 | 표정 | 해석 |\n|---|---|---|---|---|---|---|\n`;
+  out += `\n## ${NAMES[who]} (${l.length}줄)\n\n| # | 파일 | 장면 | 영어 | 문장 | 표정 | 해석 | 녹음 |\n|---|---|---|---|---|---|---|---|\n`;
   l.forEach((x, i) => {
     const first = l.findIndex(y => y.en === x.en), same = first < i ? `<br>**같은 녹음**: ${first + 1}번` : '';
-    out += `| ${i + 1} | \`${x.file.replace(DIR, '')}\` | ${esc(x.scene)} | ${esc(x.en)}${same} | ${sentences(x.en)} | ${x.mood} | ${esc(x.ko)} |\n`;
+    out += `| ${i + 1} | \`${x.file.replace(DIR, '')}\` | ${esc(x.scene)} | ${esc(x.en)}${same} | ${sentences(x.en)} | ${x.mood} | ${esc(x.ko)} | ${done(x) ? '✓' : ''} |\n`;
   });
 }
 fs.writeFileSync('design/case-04-missing-violin-recording.md', out.replace(/\n/g, '\r\n'));

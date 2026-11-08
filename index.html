@@ -2415,7 +2415,9 @@ const VIOLIN_CASE = {
       bank:{ p1:['black case','behind','black toolbox','next to'], p2:['door','floor','case'] }
     },
     // the officer joins only for the questioning (ending.script puts him in the waiting room, S.met while it lasts)
-    badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'waiting', witness:true, joins:true, pitch:.9, voice:3, bg:'#DCE3F0', questions:[], answers:{}, notes:{}, bank:{} }
+    // the same voice as the library case's officer (Higgsfield · MiniMax · Fraser): b1 on the phone, b2·b3 at the questioning
+    badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'waiting', witness:true, joins:true, pitch:.9, voice:3, bg:'#DCE3F0', questions:[], answers:{}, notes:{}, bank:{},
+      audio:{ b1:'audio/violin/badger-b1.mp3', b2:'audio/violin/badger-b2.mp3', b3:'audio/violin/badger-b3.mp3' } }
   },
   phrases:[
     ['the whole time','owen:o1','the whole time'], ['come back','tara:t5','came back'], ['go out','momo:m1','went out'], ['come back on','pip:p1','came back on']
@@ -4102,7 +4104,10 @@ function playLines(id, lines, onDone, i = 0){
   }
   if(line.phone){
     renderSay({ name:line.phone, en:line.en, ko:line.ko, det:true, face:line.face });
-    return readOut(line.en, () => waitTap(() => { if(S.investigate || S.cur !== id) return; if(!ending) renderSay(null); next(); }));
+    // the caller's recording when they have one (face: who is calling), else the browser's voice
+    const heard = () => waitTap(() => { if(S.investigate || S.cur !== id) return; if(!ending) renderSay(null); next(); });
+    const rec = line.face && PEOPLE[line.face]?.audio?.[line.key];
+    return rec ? detectiveSay(rec, heard, null, line.en) : readOut(line.en, heard);
   }
   if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, next, null, line.as); }
   const name = detectiveName(), named = text => text.replace(' {name}', name ? ` ${name}` : '');

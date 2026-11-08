@@ -1,4 +1,4 @@
-# 바이올린 사건 탐정 음성
+# 바이올린 사건 녹음
 
 탐정이 소리 내어 하는 줄만 녹음했다(다른 인물은 아직 브라우저 음성). 목록은 `scripts/violin-detective-lines.js`가 `VIOLIN_CASE`에서 뽑는다. 같은 문장은 녹음 하나를 파일 이름마다 복사했다.
 
@@ -97,3 +97,13 @@
 | `dceaf0e4` | Why did you do that? | detective-d5.mp3 |
 | `8b2a141d` | Owen hid your case behind the curtain. He cut the strings. | detective-end1.mp3 |
 | `b363282d` | Here is your violin. | detective-end2.mp3 |
+
+## 오소리 경사
+
+도서관 사건의 경사와 같은 목소리(MiniMax 프리셋 **Fraser** `6705e465-7b52-5915-a1d8-b1222885e01d`, 감정 없음, 사용자 결정). 2026-11-09, 3문장 약 0.45크레딧. 게임에서는 `VIOLIN_CASE.people.badger.audio`.
+
+| job | 문장 | 파일 |
+|---|---|---|
+| `d04da025` | Keep the violin safe. Call me when you're ready. | badger-b1.mp3 (전화) |
+| `6f27ac7f` | I'm here, Detective. You can begin. | badger-b2.mp3 |
+| `20fa943a` | I'll talk to Owen. Please tell Tara what happened. | badger-b3.mp3 |
