@@ -37,7 +37,7 @@
 | `31604f88` | Did you see a violin? | detective-pip-p1.mp3 |
 | `e78d4e92` | Could you see who it was? | detective-pip-p2.mp3 |
 | `cb22c730` | There is a contest poster on the wall. | detective-foyer-0.mp3 |
-| `b00811eb` | There are more programs on the table. | detective-foyer-1.mp3 |
+| `138f5529` | There are programs on the table. | detective-foyer-1.mp3 (2026-11-09 다시: more를 뺌) |
 | `c815c150` | A contest program under the bench. Someone dropped it. | detective-foyer-2.mp3 |
 | `f9818ad3` | There are two chairs next to the door. The case isn't there. | detective-waiting-0.mp3 |
 | `cda57863` | A big mirror. My hat looks fine. | detective-waiting-1.mp3 |

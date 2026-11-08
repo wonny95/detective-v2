@@ -73,7 +73,7 @@
 |---|---|---|---|---|---|---|---|
 | 1 | `momo-hello.mp3` | 첫 인사 | Come in. I'm Momo. | 2 |  | 들어와. 난 모모야. |  |
 | 2 | `momo-hello2.mp3` | 첫 인사 | Oh, I see. I help with the stage lights. | 2 |  | 아, 그렇구나. 나는 무대 조명을 돕고 있어. |  |
-| 3 | `momo-m1.mp3` | 대답 m1 (질문: What did you do after rehearsal?) | I fixed the light next to the stage door. It went out after rehearsal. | 2 |  | 무대 쪽 문 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든. |  |
+| 3 | `momo-m1.mp3` | 대답 m1 (질문: What did you do after rehearsal?) | I fixed the light next to the ladder. It went out after rehearsal. | 2 |  | 사다리 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든. |  |
 | 4 | `momo-m3.mp3` | 대답 m3 (질문: Did you go behind the curtain?) | Yes. There are spare bulbs on the shelf behind the curtain. I needed one. | 3 |  | 응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어. |  |
 | 5 | `momo-m4.mp3` | 대답 m4 (질문: What did you carry?) | My black toolbox. I put it under the shelf before climbing the ladder. | 2 |  | 내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어. |  |
 | 6 | `momo-m2.mp3` | 대답 m2 (질문: Who else was nearby?) | Pip was by the side passage. I was busy with the light. | 2 |  | 핍이 옆 통로에 있었어. 난 조명 일로 바빴어. |  |

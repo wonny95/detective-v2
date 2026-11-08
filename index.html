@@ -2381,14 +2381,14 @@ const VIOLIN_CASE = {
       needs:{ m3:['momo:m1', 'owen:o9'], m4:['momo:m3', 'owen:o9'], m5:['@wire-cutters', '!seen-strings', 'momo:m4', 'met:owen'] },
       unlocks:{ m2:{ people:['pip'] } },
       answers:{
-        m1:'I fixed the light next to the stage door. It went out after rehearsal.',
+        m1:'I fixed the light next to the ladder. It went out after rehearsal.',
         m3:'Yes. There are spare bulbs on the shelf behind the curtain. I needed one.',
         m4:'My black toolbox. I put it under the shelf before climbing the ladder.',
         m2:'Pip was by the side passage. I was busy with the light.',
         m5:"They're mine. I lent them to Owen."
       },
       notes:{
-        m1:['“I {{a|fixed}} the light {{b|next to}} the stage door. It went out after rehearsal.”'],
+        m1:['“I {{a|fixed}} the light {{b|next to}} the ladder. It went out after rehearsal.”'],
         m3:['“Yes. There are spare {{c|bulbs}} on the shelf {{d|behind}} the curtain. I needed one.”'],
         m4:['“My {{e|black toolbox}}. I put it {{f|under}} the shelf before climbing the ladder.”'],
         m2:['“{{g|Pip}} was by the side passage. I was busy with the {{h|light}}.”'],
@@ -2433,7 +2433,7 @@ const VIOLIN_CASE = {
     'ivo:i1':[['be-past','I was'], ['place-prep','next to the music stand on the stage']],
     'ivo:i4':[['be-past','The side curtain was open'], ['place-prep','next to the light']],
     'ivo:i2':[['place-prep','on the ladder, next to the light']],
-    'momo:m1':[['past-reg','fixed'], ['place-prep','next to the stage door']],
+    'momo:m1':[['past-reg','fixed'], ['place-prep','next to the ladder']],
     'momo:m3':[['place-prep','There are spare bulbs on the shelf behind the curtain']],
     'momo:m4':[['place-prep','under the shelf']],
     'momo:m5':[['ownership',"They're mine"], ['past-irr','lent']],
@@ -2445,7 +2445,7 @@ const VIOLIN_CASE = {
       t2:'내 검은 케이스에는 노란 달 스티커가 있어.', t3:'문 옆에 의자가 두 개 있어. 둘 다 아래를 찾아봤지만 케이스가 없었어.', t4:'대기실의 여우, 무대 위의 염소, 무대 뒤의 두더지를 봤어. 이름은 몰라.' },
     owen:{ o1:'난 줄곧 문 옆에 있었어.', o8:'내 차례를 기다렸어.', o2:'타라가 로비로 가기 전, 의자 옆에서 봤어.', o9:'무대 일을 돕는 모모가 검은 공구함을 들고 커튼 뒤로 갔어.' },
     ivo:{ i1:'무대 위 악보대 옆에 있었어.', i3:'대회 전에 마지막 부분을 한 번 더 연습하고 싶었어.', i4:'옆 가림막이 열려 있었어. 조명 옆 사다리가 보였어.', i2:'모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고.' },
-    momo:{ m1:'무대 쪽 문 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든.', m3:'응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어.', m4:'내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어.',
+    momo:{ m1:'사다리 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든.', m3:'응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어.', m4:'내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어.',
       m2:'핍이 옆 통로에 있었어. 난 조명 일로 바빴어.', m5:'내 거야. 오웬에게 빌려줬어.' },
     pip:{ p1:'아니. 하지만 조명이 다시 켜졌을 때 누군가 검은 케이스를 커튼 뒤로 가져갔어.', p2:'아니. 문 너머로 케이스만 봤고, 스티커도 보지 못했어.' }
   },
@@ -2455,8 +2455,8 @@ const VIOLIN_CASE = {
     { id:'foyer', x:50, y:78, label:'Lobby', artWidth:1376, artHeight:768,
       clues:[
         { label:'Contest poster', prop:true, en:'There is a contest poster on the wall.', ko:'벽에 대회 포스터가 있어.' },
-        { label:'Programs', prop:true, en:'There are more programs on the table.', ko:'탁자 위에 안내지가 더 있어.' },
-        { label:'Leaflet', prop:true, en:'A contest program under the bench. Someone dropped it.', ko:'벤치 아래에 대회 안내지가 있네. 누가 떨어뜨렸나 봐.' }
+        { label:'Programs', prop:true, en:'There are programs on the table.', ko:'탁자 위에 안내지가 있어.' },
+        { label:'Dropped program', prop:true, en:'A contest program under the bench. Someone dropped it.', ko:'벤치 아래에 대회 안내지가 있네. 누가 떨어뜨렸나 봐.' }
       ],
       spots:[ { clue:0, x:3, y:0, w:18, h:38 }, { clue:1, x:85.5, y:30, w:10, h:10 }, { clue:2, x:16, y:87, w:9.5, h:11 } ] },
     { id:'waiting', x:22, y:46, label:'Waiting Room', artWidth:1376, artHeight:768,
@@ -2575,7 +2575,7 @@ const VIOLIN_CASE = {
         hint:'What did Pip say about the light? What did Ivo say?', hintKo:'핍은 조명에 대해 뭐라고 했지? 이보는 뭐라고 했지?', out:true },
       { step:4, who:'owen', q:'Whose clothes match the button?', qKo:'발견한 단추는 누구의 옷과 맞을까?',
         card:"The button matches {opt:Owen's jacket}.", cardKo:'단추는 오웬의 재킷과 맞는다.',
-        opts:["Owen's jacket", "Ivo's jacket", "Momo's uniform"],
+        opts:["Owen's jacket", "Ivo's jacket", "Momo's work clothes"],
         right:'Yes. A matching button remains on the other sleeve.', rightKo:'맞아. 반대쪽 소매에는 같은 단추가 남아 있어.',
         hint:'Look at the button. Then look at the sleeve photo.', hintKo:'단추를 봐. 그런 다음 소매 사진을 봐.' },
       { step:4, who:'owen', q:'According to Momo, who borrowed the cutters?', qKo:'모모는 누구에게 니퍼를 빌려줬다고 했을까?',

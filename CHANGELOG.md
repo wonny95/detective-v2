@@ -13,7 +13,17 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-09 · Claude · (이 커밋) 소매·심문·핍 위치
+## 2026-11-09 · Claude · (이 커밋) 점검 4–7번
+
+- 바이올린 점검 4–7번을 사용자 요청대로 고침(설계서 MD·HTML·녹음 대본 반영):
+  - 모모 m1 "I fixed the light next to the ladder."(준비실 그림에서 조명은 사다리 옆, 무대 쪽 문 옆이 아님; 빈칸 fixed·next to 그대로, 문법 줄 next to the ladder).
+  - 추리 Q5 보기 "Momo's uniform" → "Momo's work clothes"(모모 소매 대답과 같게).
+  - 로비 탁자 "There are programs on the table."(more를 뺌, 탐정 녹음 다시 약 0.15크레딧).
+  - 로비 벤치 밑 물건 이름 "Leaflet" → "Dropped program"(문장과 같게, 탁자 "Programs"와 구별).
+- 확인(새 탭): 로비 물건 이름 셋, 탁자 새 녹음 재생, 구문 검사. 못 한 것: 추리 Q5 보기 화면(데이터만 바꿈).
+- **다음**: 남은 점검 8–10번(목소리 섞임, 로비 위 잘림, 지도 로비 배치)은 사용자 판단. 나머지 인물 녹음 → 1단계 확인.
+
+## 2026-11-09 · Claude · d0d861d 소매·심문·핍 위치
 
 - 바이올린 점검(사용자 요청)에서 나온 1–3번과 핍 위치를 사용자와 고침(설계서 MD·HTML 반영):
   - 오웬 소매: 캐릭터와 확대 그림 모두 화면 왼쪽 소매에 단추가 없는데 대사는 오웬 기준 "left/right"라 거꾸로 들림 → 사용자 결정으로 왼쪽·오른쪽을 뺌. 소매 보기 "One sleeve has a gold button. The button on the other sleeve is missing.", 심문 d2 "This matches the button on your sleeve. The other one is missing." 탐정 녹음 2줄 다시(Grady, 약 0.3크레딧).

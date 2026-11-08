@@ -147,7 +147,7 @@
 
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
-| momo:m1 | **What did you do after rehearsal?** / 리허설 뒤에 뭘 했니?<br>모모: **I fixed the light next to the stage door. It went out after rehearsal.** / 무대 쪽 문 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든. | “I [fixed] the light [next to] the stage door. It went out after rehearsal.” → 첫 방문 · 하던 작업 |
+| momo:m1 | **What did you do after rehearsal?** / 리허설 뒤에 뭘 했니?<br>모모: **I fixed the light next to the ladder. It went out after rehearsal.** / 사다리 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든. | “I [fixed] the light [next to] the stage door. It went out after rehearsal.” → 첫 방문 · 하던 작업 |
 | momo:m3 | **Did you go behind the curtain?** / 커튼 뒤에도 갔니?<br>모모: **Yes. There are spare bulbs on the shelf behind the curtain. I needed one.** / 응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어. | “Yes. There are spare [bulbs] on the shelf [behind] the curtain. I needed one.” → m1·오웬 o9 채점 뒤 · 커튼 뒤로 들어간 이유 |
 | momo:m4 | **What did you carry?** / 무엇을 들고 갔니?<br>모모: **My black toolbox. I put it under the shelf before climbing the ladder.** / 내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어. | “My [black toolbox]. I put it [under] the shelf before climbing the ladder.” → m3·오웬 o9 채점 뒤 · 공구함 보관은 사다리 작업 전 |
 | momo:m2 | **Who else was nearby?** / 근처에 또 누가 있었니?<br>모모: **Pip was by the side passage. I was busy with the light.** / 핍이 옆 통로에 있었어. 난 조명 일로 바빴어. | “[Pip] was by the side passage. I was busy with the [light].” → 첫 방문 · 정답 기록 → 옆 통로와 핍 발견 |
@@ -253,7 +253,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | 2 | **How do we know it is Tara’s case?** / 타라의 케이스인지 어떻게 알았을까?<br>The [yellow moon sticker] matches Tara’s photo. | yellow moon sticker · red star sticker · blue flower sticker · white stripe · green handle · pink ribbon | Yes. The same mark is in the photo. / 맞아. 사진에 같은 표식이 있어. | Look at Tara's photo. Then look at the case. / 타라의 사진을 봐. 그런 다음 케이스를 봐. | 타라 t2·tara:photo·stage:s2, tara-photo와 violin-case |
 | 3 | **Why did Momo seem strange?** / 모모가 왜 수상해 보였을까?<br>Momo went [behind the curtain] with a [black toolbox]. | 위치: behind the curtain · in the lobby · on the stage · under the chair · behind the door · next to the bench / 물건: black toolbox · black case · gold button · water bottle · music stand · contest poster | That's why Momo seemed strange. But we don't know yet. / 그래서 모모가 수상해 보였어. 하지만 아직은 몰라. | What did Owen see? What did Momo carry? / 오웬은 뭘 봤지? 모모는 뭘 들고 갔지? | 오웬 o9·모모 m3·m4. 색과 장소가 비슷해 생긴 의심이며 정답 인물을 확정하지 않음 |
 | 4 | **Where was Momo when the case moved?** / 케이스가 옮겨질 때 모모는 어디에 있었을까?<br>Momo was [on the ladder]. | on the ladder · on the stage · in the lobby · under the right chair · behind the curtain · in the waiting room | Right. He could not carry the case at that moment. / 맞아. 그 순간에 케이스를 운반할 수는 없었어. | What did Pip say about the light? What did Ivo say? / 핍은 조명에 대해 뭐라고 했지? 이보는 뭐라고 했지? | 핍 p1·이보 i2. 케이스 운반 시점만 판단하며 이보의 기존 위치 설정은 유지 |
-| 5 | **Whose clothes match the button?** / 발견한 단추는 누구의 옷과 맞을까?<br>The button matches [Owen’s jacket]. | Owen’s jacket · Ivo’s jacket · Momo’s uniform | Yes. A matching button remains on the other sleeve. / 맞아. 반대쪽 소매에는 같은 단추가 남아 있어. | Look at the button. Then look at the sleeve photo. / 단추를 봐. 그런 다음 소매 사진을 봐. | gold-button·sleeve-photo·hall:f4. 다른 두 후보의 옷은 선택 관찰이며 추가 알리바이는 아님 |
+| 5 | **Whose clothes match the button?** / 발견한 단추는 누구의 옷과 맞을까?<br>The button matches [Owen’s jacket]. | Owen’s jacket · Ivo’s jacket · Momo’s work clothes | Yes. A matching button remains on the other sleeve. / 맞아. 반대쪽 소매에는 같은 단추가 남아 있어. | Look at the button. Then look at the sleeve photo. / 단추를 봐. 그런 다음 소매 사진을 봐. | gold-button·sleeve-photo·hall:f4. 다른 두 후보의 옷은 선택 관찰이며 추가 알리바이는 아님 |
 | 6 | **According to Momo, who borrowed the cutters?** / 모모는 누구에게 니퍼를 빌려줬다고 했을까?<br>Momo said he lent the cutters to [Owen]. | Owen · Ivo · Tara · Pip | That is what Momo said. We still need to ask about the strings. / 모모의 말은 그래. 현에 대해서는 더 물어봐야 해. | Listen to what Momo said about the cutters. / 모모가 니퍼에 대해 한 말을 다시 들어 봐. | 모모 m5·wire-cutters. 대여 진술을 기록하며 오웬의 인정은 심문에서 확인 |
 | 7 | **Who should we talk to?** / 누구와 이야기해야 할까?<br>We should talk to [Owen]. | Owen · Ivo · Momo | Right. Let's talk to him. / 맞아. 오웬과 이야기하자. | Think about the button and the cutters. / 단추와 니퍼를 생각해 봐. | Q5·Q6, gold-button·sleeve-photo·모모 m5. 플레이어가 직접 고른다 |
 
@@ -378,7 +378,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 |---|---|---|---|
 | lobby:poster | 벽의 대회 포스터 | **There is a contest poster on the wall.** / 벽에 대회 포스터가 있어. | 로비 첫 방문부터 |
 | lobby:program | 벤치 아래 삐져나온 안내지 | **A contest program under the bench. Someone dropped it.** / 벤치 아래에 대회 안내지가 있네. 누가 떨어뜨렸나 봐. | 로비 첫 방문부터 · 평범한 대회 안내지로 확인 |
-| lobby:program-stack | 탁자 위 프로그램 묶음 | **There are more programs on the table.** / 탁자 위에 안내지가 더 있어. | 로비 첫 방문부터 |
+| lobby:program-stack | 탁자 위 프로그램 묶음 | **There are programs on the table.** / 탁자 위에 안내지가 있어. | 로비 첫 방문부터 |
 
 #### 출연자 대기실
 
