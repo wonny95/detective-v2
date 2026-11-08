@@ -119,3 +119,15 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 같은 스크립트가 반으로 나눠 알파 경계 + 3% 여백, 높이 700px로 맞추고 얼굴 아이콘(`assets/ui/icons-v2/<id>.png`, 160px, 흰 테두리)을 자른다. 적용본: `tess-higgsfield.png` 459×700, `ruby-higgsfield.png` 517×700, `ella-higgsfield.png` 472×700, `finn-higgsfield.png` 420×700. 화면 높이(`positions`)는 시트 안의 키 비율로(엘라·루비 46, 테스 43, 핀 37).
 - 입: `scripts/make-npc-mouths.py`의 `tess`·`ruby`·`ella`·`finn`. 닫은 입은 그림 그대로(`AS_DRAWN`: 고양이·사슴의 코 밑 입 모양을 살림), 벌린 입만 시트의 미소 벌림.
 - 프롬프트 요지: 참조와 같은 크레용·색연필 화풍·비율로 두 인물을 나란히, 크림 종이 배경, 빈손, 우산 없음, **남색·금색 없음**(우산 특징과 겹치지 않게, 설계서 3절). 테스 — 올리브색 피부, 갈색 등딱지, 크림 셔츠에 민트색 가게 앞치마. 루비 — 회색 줄무늬 고양이, 흰 둥근 깃의 루비색 원피스·검정 벨트·크림 스타킹·검정 메리제인. 엘라 — 황갈색 사슴(뿔 없음), 테라코타 니트 가디건·흰 블라우스·베이지 치마. 핀 — 연두색 개구리, 주황 줄무늬 티셔츠·황갈색 반바지·빨간 운동화.
+
+## 바이올린 사건 타라·오웬·이보·모모·핍 (Claude 제작, 2026-11-07, 원본만)
+
+- 사용자 결정(그림 계획). 우산 사건처럼 Higgsfield Nano Banana 2.1, 16:9, 2K, thinking high, 참조 `tess-ruby-higgsfield-original.jpg`·`ella-finn-higgsfield-original.jpg`(업로드 media `dfbb2e87-…`·`a129b601-…`). 장당 2크레딧. 아직 배경 제거·자르기·입을 하지 않은 원본이다.
+  - 족제비 타라 + 여우 오웬: job `10d6669d-b559-4cd2-bbe0-bfce23d6d736` → `tara-owen-higgsfield-original.jpg`. 오웬 재킷의 민무늬 금색 단추, **화면 왼쪽(오웬의 오른쪽) 소매 단추가 빠지고 실이 나온 자리**, 화면 오른쪽 소매에는 금색 단추(설계서 8절).
+  - 두더지 모모 + 참새 핍(같은 화면에 섬): job `9e3f5b63-83d8-4ce3-bbd2-11ea736d9146` → `momo-pip-higgsfield-original.jpg`. 모모는 도서관의 몰 부인과 구별되게 안경 없이 올리브색 작업 멜빵·줄무늬 셔츠, 소매마다 은색 똑딱이 단추 둘.
+  - 염소 이보: job `aebc6daf-da25-45c6-9781-147d0b92f52c` → `ivo-higgsfield-original.jpg`. 남색 재킷, 소매마다 납작하고 어두운 단추.
+- 오웬 표정 2종(심문용, 도서관 피오나처럼): 16:9, 1K, 참조 위 오웬 job. 장당 1.5크레딧.
+  - 당황: job `581e5172-d478-45d9-aa35-6f3a3129d222` → `owen-nervous-original.jpg`(첫 판 `70a59d9f-…`는 다리·꼬리가 하나 더 그려져 버림).
+  - 고개 숙임: job `5b073cde-e582-4779-bf6d-d10c53a9ec25` → `owen-sad-original.jpg`. 같은 오웬이 둘 그려졌다. 왼쪽(두 손을 모은 쪽)을 쓴다.
+- 프롬프트 요지: 참조와 같은 크레용·색연필 화풍·비율, 흰 스티커 테두리, 크림 종이 배경, 빈손, 악기·케이스 없음. 타라 — 크림·세이블 털과 눈가 띠, 자두색 연주 원피스·흰 둥근 깃·검정 플랫. 오웬 — 붉은 주황 여우, 짙은 초록 연주 재킷·검정 나비넥타이·회색 바지. 모모 — 짙은 회색 두더지, 분홍 코, 안경 없음. 핍 — 갈색 참새, 하늘색 자원봉사 조끼와 글자 없는 흰 배지. 이보 — 흰 염소, 굽은 뿔, 남색 재킷, 금색 없음.
+- 적용(2026-11-08): Higgsfield `remove_background`(타라·오웬 `60c41134-…`, 모모·핍 `b953d4e8-…`, 이보 `c27799c2-…`, 오웬 당황 `b0b16f89-…`, 오웬 고개 숙임 `ac464ae9-…`; 결과 PNG는 저장소에 넣지 않고 job에서 다시 받는다) → `scripts/cut-violin-art.ps1 -Step people`(이 컴퓨터에 Python이 없어 PowerShell + `scripts/ArtTools.cs`, 우산 스크립트와 같은 3% 여백·높이 700·160px 얼굴 아이콘). 적용본: `tara-higgsfield.png` 475×700, `owen-higgsfield.png` 494×700, `ivo-higgsfield.png` 466×700, `momo-higgsfield.png` 421×700, `pip-higgsfield.png` 480×700, `owen-nervous-higgsfield.png` 492×700, `owen-sad-higgsfield.png` 570×700(시트 왼쪽 오웬), 얼굴 `assets/ui/icons-v2/tara·owen·ivo·momo·pip.png`. 배경 제거가 그림 안을 비운 곳이 없어 윤곽 안 다시 채우기는 하지 않았다. **입 그림(`MOUTHS`)은 아직 없음**(그려진 입 그대로, 말할 때 입이 움직이지 않음).

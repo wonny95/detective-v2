@@ -1,4 +1,6 @@
 # Run with Windows PowerShell 5.1 from the project root. Requires Node and an installed English SAPI voice.
+# -Missing: only the files not made yet (another computer's voice may differ; existing clips stay as they are)
+param([switch]$Missing)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Speech
 $projectDir = Split-Path $PSScriptRoot -Parent
@@ -24,6 +26,7 @@ try {
   $synth.Volume = 85
   $format = New-Object System.Speech.AudioFormat.SpeechAudioFormatInfo(22050, [System.Speech.AudioFormat.AudioBitsPerSample]::Sixteen, [System.Speech.AudioFormat.AudioChannel]::Mono)
   foreach ($entry in $entries) {
+    if ($Missing -and (Test-Path (Join-Path $outDir $entry.file))) { continue }
     $synth.SetOutputToWaveFile((Join-Path $outDir $entry.file), $format)
     $synth.Speak($entry.text)
     $synth.SetOutputToNull()

@@ -941,7 +941,7 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
   /* centred on the sentence's letters, filled or empty (user request): middle sits on the x-height, a little low for this font */
   vertical-align:middle;position:relative;top:-2px;border-radius:5px;border:2px dashed var(--c);
   background:rgba(255,255,255,.4);font-family:var(--f-display);font-size:14px;color:var(--ink)}
-.ded-slot.opt{--c:#C9B6E8}.ded-slot.person{--c:#A9D79A}.ded-slot.place{--c:#F2B983}.ded-slot.time{--c:#9CC8F0}.ded-slot.color{--c:#F3A9B8}
+.ded-slot.opt,.ded-slot.opt2{--c:#C9B6E8}.ded-slot.person{--c:#A9D79A}.ded-slot.place{--c:#F2B983}.ded-slot.time{--c:#9CC8F0}.ded-slot.color{--c:#F3A9B8}
 /* an empty blank: a filled honey patch, no dashed line (user request) */
 button.ded-slot{cursor:pointer;border-color:transparent;background:color-mix(in srgb,var(--honey) 80%,#fff);animation:deduce-blink 1.4s ease-in-out infinite}
 button.ded-slot[aria-expanded="true"]{animation:none;box-shadow:0 0 0 3px rgba(242,207,115,.9)}
@@ -1388,7 +1388,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <section class="sheet full" id="sheet-map" aria-label="마을 지도">
       <div class="map-stage">
         <div class="map" id="map">
-          <img class="map-art" src="assets/places/village-map-day-higgsfield.webp" alt="">
+          <img class="map-art" src="assets/places/village-map-day.jpg" alt="">
           <p class="map-empty" id="mapEmpty">아직 알게 된 장소가 없어요.</p>
         </div>
       </div>
@@ -1549,9 +1549,9 @@ const PREVIEW = new URLSearchParams(location.search).get('preview');
 // the case this page plays (user decision: one engine, each case its own data): ?case=picnic is Case 01 바뀐 소풍 가방,
 // ?case=umbrella Case 02 주인 없는 우산, without it the library case. Each case keeps its own save; going back to the case
 // cards opens the main page.
-const CASE_PARAMS = { 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella' };
+const CASE_PARAMS = { 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella', 'missing-violin':'violin' };
 const CASE_ID = Object.keys(CASE_PARAMS).find(id => CASE_PARAMS[id] === new URLSearchParams(location.search).get('case')) || 'case01';
-const PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella';
+const PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella', VIOLIN = CASE_ID === 'missing-violin';
 // a case page's address and save, by case id
 const caseHref = id => CASE_PARAMS[id] ? `?case=${CASE_PARAMS[id]}` : location.pathname;
 const caseSaveKey = id => id === 'case01' ? 'detective.save' : id === 'picnic-bag' ? 'detective.save.picnic' : `detective.save.${CASE_PARAMS[id]}`;
@@ -2231,7 +2231,404 @@ const UMBRELLA_CASE = {
    Each answer has its own note lines and word cards. {{id|answer/alt}} marks a blank. */
 // the detective's sentence for each photo and object: audio/umbrella/detective-<place>-<n>.mp3
 UMBRELLA_CASE.places.forEach(pl => pl.clues.forEach((c, i) => c.audio = `audio/umbrella/detective-${pl.id}-${i}.mp3`));
-const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : null;
+/* Case 03 사라진 음악 대회 바이올린 (?case=violin, design/case-04-missing-violin.md): Tara's violin case went missing
+   before the contest. The same engine as the other cases, with what this case adds (case-04-review.md 엔진 점검):
+   - needs: a question waits for conditions (cond()): another answer written down, a thing carried, something done
+     (!flag), someone met (met:); a conversation can be left once its open questions are written (PACK.leaveOpen)
+   - actions with lines, conditions (when) and a flag they set once said (Tara's check, the call to the officer, the
+     sleeves); spots that come and go (when/unless), things picked up from the place (take) with the detective's lines
+   - things in 소지품 opened and closed (opened), two compared (compare), the detective's thoughts when their
+     conditions are met (thoughts)
+   - the questioning in the waiting room (ending.script): the detective's questions, Owen's claims answered with a
+     statement or a thing held up, then the violin back to Tara (handoff)
+   No recordings yet (silent): every line is read by the browser's voice. */
+const VIOLIN_CASE = {
+  start:'tara',
+  silent:true,
+  leaveOpen:true,
+  accused:'owen',
+  hideEvidenceCount:true,
+  people:{
+    tara: { id:'tara', name:'Tara Ferret', ko:'족제비 타라', job:'의뢰인', place:'foyer', witness:true, required:true, pitch:1.3, voice:2, bg:'#EADCEB', openingQuestion:'t0',
+      hello:[ { key:'hello', en:"Hello, Detective. I'm Tara.", ko:'안녕, 탐정. 난 타라야.' } ],
+      questions:[
+        { id:'t0', en:'How can I help you?', ko:'무엇을 도와줄까?' },
+        { id:'t5', en:'When did you notice your violin was missing?', ko:'언제 바이올린이 없어진 걸 알았니?' },
+        { id:'t1', en:'Where did you leave it?', ko:'어디에 두었니?' },
+        { id:'t2', en:'What does your case look like?', ko:'케이스는 어떻게 생겼니?' },
+        { id:'t3', en:'Where did you look?', ko:'어디를 찾아봤니?' },
+        { id:'t4', en:'Who did you see before you left?', ko:'자리를 비우기 전에 누구를 봤니?' }
+      ],
+      // design 3절: t0 → t5 → t1·t4, t1 → t2·t3
+      needs:{ t5:['tara:t0'], t1:['tara:t5'], t4:['tara:t5'], t2:['tara:t1'], t3:['tara:t1'] },
+      unlocks:{ t1:{ places:['waiting'] }, t4:{ people:['owen', 'ivo', 'momo'] } },
+      answers:{
+        t0:'My violin is missing. Can you find it before the contest?',
+        t5:'I played it at rehearsal. It was gone when I came back from the lobby.',
+        t1:'I left it in its case, next to the left chair in the waiting room.',
+        t2:'There is a yellow moon sticker on my black case.',
+        t3:"There are two chairs by the door. I looked under both, but the case wasn't there.",
+        t4:"A fox in the waiting room, a goat on stage, a mole backstage. I don't know their names."
+      },
+      notes:{
+        t0:['“My violin is {{a|missing}}. Can you {{b|find}} it before the contest?”'],
+        t5:['“I played it at {{c|rehearsal}}. It was gone when I came back from the {{d|lobby}}.”'],
+        t1:['“I left it {{e|in}} its case, {{f|next to}} the left chair in the {{g|waiting room}}.”'],
+        t2:['“There is a {{h|yellow moon}} sticker {{i|on}} my black case.”'],
+        t3:["“There are two chairs by the door. I looked {{j|under}} both, but the case wasn't there.”"],
+        t4:["“A {{k|fox}} in the waiting room, a {{l|goat}} on stage, a {{m|mole}} backstage. I don't know their names.”"]
+      },
+      bank:{ t0:['missing','find','broken','leave'], t5:['rehearsal','lobby','contest','stage'], t1:['in','next to','waiting room','on','behind','lobby'],
+        t2:['yellow moon','on','yellow star','under'], t3:['under','on','behind'], t4:['fox','goat','mole','deer','bear','rabbit'] },
+      // design 4절: her photo of the case, taken once t2 is written down
+      after:{ t2:{ lines:[
+        { key:'photo-give', en:"Here's a photo of my case.", ko:'내 케이스 사진이야.' },
+        { det:true, key:'photo', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.' }
+      ], snap:['taraphoto-0'] } },
+      // design 7절: the violin shown to her once found and its strings seen; then the call to the officer, from the lobby
+      actions:[
+        { id:'check', en:'Can you check this violin?', ko:'이 바이올린을 확인해 줄래?', when:['@violin-case', '!seen-strings'], flag:'tara-check',
+          lines:[
+            { det:true, key:'r1', en:'I found this behind the curtain. The violin is in it.', ko:'커튼 뒤에서 찾았어. 바이올린은 안에 있어.' },
+            { key:'r2', en:'My moon sticker! This is my violin. But the strings are broken.', ko:'내 달 스티커네! 내 바이올린이야. 그런데 현이 끊어져 있어.' },
+            { key:'r3', en:"I can't play it. Please find out what happened.", ko:'이걸로는 연주할 수 없어. 무슨 일이 있었는지 알아봐 줘.' },
+            { det:true, key:'r4', en:"I'll keep it safe for now.", ko:'일단 내가 잘 보관할게.' },
+            { det:true, key:'contact-thought', en:'The strings are broken. I should tell the officer.', ko:'현이 끊어져 있어. 경사에게 알려야겠어.' }
+          ] },
+        { id:'call', en:'Call the officer.', ko:'경사에게 알리기', say:false, when:['!tara-check'], flag:'called',
+          lines:[
+            { det:true, key:'call', en:'Officer, I found Tara\'s violin. All four strings are broken.', ko:'경사, 타라의 바이올린을 찾았어. 현 네 줄이 모두 끊어져 있어.' },
+            { phone:'Sgt. Badger', key:'b1', en:"Keep the violin safe. Call me when you're ready.", ko:'바이올린을 잘 보관해 둬. 준비되면 불러 줘.', as:{ pitch:.9, voice:3 } }
+          ] }
+      ]
+    },
+    // hidden until Tara's t4 (unlocks), standing by the door to the corridor
+    owen: { id:'owen', name:'Owen Fox', ko:'여우 오웬', job:'출연자', place:'waiting', witness:true, required:true, pitch:1.0, voice:1, bg:'#F3DFCC',
+      hello:[
+        { key:'hello', en:"Oh, hello. I'm Owen.", ko:'어, 안녕. 난 오웬이야.' },
+        { det:true, key:'owen-open', en:"I'd like to ask about Tara's violin.", ko:'타라의 바이올린에 관해 물어보고 싶어.' },
+        { key:'hello2', en:"I'll tell you what I can.", ko:'내가 아는 건 말해 줄게.' }
+      ],
+      questions:[
+        { id:'o1', en:'Where were you after rehearsal?', ko:'리허설 뒤 어디에 있었니?' },
+        { id:'o8', en:'Why were you there?', ko:'왜 거기 있었니?' },
+        { id:'o2', en:"When did you last see Tara's case?", ko:'타라의 케이스를 마지막으로 언제 봤니?' },
+        { id:'o9', en:'Did you see anything strange?', ko:'이상한 걸 봤니?' }
+      ],
+      needs:{ o8:['owen:o1'] },
+      answers:{
+        o1:'I stayed next to the door the whole time.',
+        o8:'I waited for my turn.',
+        o2:'Next to the chair, before Tara went to the lobby.',
+        o9:'Momo, the stage helper, carried a black toolbox behind the curtain.'
+      },
+      notes:{
+        o1:['“I stayed {{a|next to}} the door the {{b|whole time}}.”'],
+        o8:['“I waited for my {{c|turn}}.”'],
+        o2:['“Next to the chair, before Tara went to the {{d|lobby}}.”'],
+        o9:['“Momo, the stage helper, carried a {{e|black toolbox}} {{f|behind}} the curtain.”']
+      },
+      bank:{ o1:['next to','whole time','behind','last time'], o8:['turn','tool','train'], o2:['lobby','ladder','library'], o9:['black toolbox','behind','black case','next to'] },
+      actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'My sleeves? OK.', answerKo:'내 소매? 그래.', inspect:'sleeves-owen' } ]
+    },
+    ivo: { id:'ivo', name:'Ivo Goat', ko:'염소 이보', job:'출연자', place:'stage', witness:true, required:true, pitch:1.05, voice:0, bg:'#DDE3EE',
+      hello:[
+        { key:'hello', en:"Hello, I'm Ivo.", ko:'안녕, 난 이보야.' },
+        { det:true, key:'ivo-open', en:"I'm looking for Tara's violin.", ko:'타라의 바이올린을 찾고 있어.' },
+        { key:'hello2', en:'Of course. What would you like to know?', ko:'물론이야. 무엇이 궁금하니?' }
+      ],
+      questions:[
+        { id:'i1', en:'Where were you after rehearsal?', ko:'리허설 뒤 어디에 있었니?' },
+        { id:'i3', en:'Why did you stay on stage?', ko:'왜 무대에 남아 있었니?' },
+        { id:'i4', en:'What could you see from the stage?', ko:'무대에서 무엇이 보였니?' },
+        { id:'i2', en:'What did you see when the light came back on?', ko:'조명이 다시 켜졌을 때 무엇을 봤니?' }
+      ],
+      needs:{ i3:['ivo:i1'], i4:['ivo:i1'], i2:['pip:p1'] },
+      answers:{
+        i1:'I was next to the music stand on the stage.',
+        i3:'I wanted to practice the last part once more before the contest.',
+        i4:'The door was open. I could see the ladder next to the light.',
+        i2:'Momo was on the ladder, next to the light. I was still on the stage.'
+      },
+      notes:{
+        i1:['“I was {{a|next to}} the {{b|music stand}} {{c|on}} the {{d|stage}}.”'],
+        i3:['“I wanted to {{e|practice}} the {{f|last part}} once more before the contest.”'],
+        i4:['“The {{g|door}} was {{h|open}}. I could see the {{i|ladder}} {{j|next to}} the light.”'],
+        i2:['“Momo was {{k|on}} the {{l|ladder}}, {{m|next to}} the light. I was still {{n|on}} the {{o|stage}}.”']
+      },
+      bank:{ i1:['next to','music stand','on','stage','behind','toolbox','under','lobby'], i3:['practice','last part','protect','first part'],
+        i4:['door','open','ladder','next to','floor','closed','mirror','behind'], i2:['on','ladder','next to','stage','on','under','chair','behind','lobby'] },
+      actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'Sure. Take a look.', answerKo:'그럼. 봐.', inspect:'sleeves-ivo' } ]
+    },
+    momo: { id:'momo', name:'Momo Mole', ko:'두더지 모모', job:'조명 담당', place:'backstage', witness:true, required:true, pitch:.95, voice:1, bg:'#E2E4D2',
+      hello:[
+        { key:'hello', en:"Come in. I'm Momo.", ko:'들어와. 난 모모야.' },
+        { det:true, key:'momo-open', en:"I'm looking for Tara's violin.", ko:'타라의 바이올린을 찾고 있어.' },
+        { key:'hello2', en:'Oh, I see. I help with the stage lights.', ko:'아, 그렇구나. 나는 무대 조명을 돕고 있어.' }
+      ],
+      questions:[
+        { id:'m1', en:'What did you do after rehearsal?', ko:'리허설 뒤에 뭘 했니?' },
+        { id:'m3', en:'Did you go behind the curtain?', ko:'커튼 뒤에도 갔니?' },
+        { id:'m4', en:'What did you carry?', ko:'무엇을 들고 갔니?' },
+        { id:'m2', en:'Who else was nearby?', ko:'근처에 또 누가 있었니?' },
+        { id:'m5', en:'Whose cutters are these?', ko:'이 니퍼는 누구 거야?' }
+      ],
+      // design 3절: the curtain and what he carried once Owen has told about it; the cutters once they are found, the strings
+      // seen, m4 written and Owen met
+      needs:{ m3:['momo:m1', 'owen:o9'], m4:['momo:m3', 'owen:o9'], m5:['@wire-cutters', '!seen-strings', 'momo:m4', 'met:owen'] },
+      unlocks:{ m2:{ people:['pip'] } },
+      answers:{
+        m1:'I fixed the light next to the stage door. It went out after rehearsal.',
+        m3:'Yes. There are spare bulbs on the shelf behind the curtain. I needed one.',
+        m4:'My black toolbox. I put it under the shelf before climbing the ladder.',
+        m2:'Pip was by the side passage. I was busy with the light.',
+        m5:"They're mine. I lent them to Owen."
+      },
+      notes:{
+        m1:['“I {{a|fixed}} the light {{b|next to}} the stage door. It went out after rehearsal.”'],
+        m3:['“Yes. There are spare {{c|bulbs}} on the shelf {{d|behind}} the curtain. I needed one.”'],
+        m4:['“My {{e|black toolbox}}. I put it {{f|under}} the shelf before climbing the ladder.”'],
+        m2:['“{{g|Pip}} was by the side passage. I was busy with the {{h|light}}.”'],
+        m5:["“They're mine. I {{i|lent}} them to {{j|Owen}}.”"]
+      },
+      bank:{ m1:['fixed','next to','found','behind'], m3:['bulbs','behind','buttons','next to'], m4:['black toolbox','under','black case','on'],
+        m2:['Pip','light','Ivo','night'], m5:['lent','Owen','left','Ivo'] },
+      actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'OK. These are my work clothes.', answerKo:'그래. 이건 내 작업복이야.', inspect:'sleeves-momo' } ]
+    },
+    pip: { id:'pip', name:'Pip Sparrow', ko:'참새 핍', job:'자원봉사자', place:'backstage', witness:true, required:true, pitch:1.5, voice:2, bg:'#DCEBF3',
+      hello:[ { key:'hello', en:"Hi there! I'm Pip.", ko:'안녕! 난 핍이야.' } ],
+      questions:[
+        { id:'p1', en:'Did you see a violin?', ko:'바이올린을 봤니?' },
+        { id:'p2', en:'Could you see who it was?', ko:'누군지 봤니?' }
+      ],
+      needs:{ p2:['pip:p1'] },
+      answers:{
+        p1:'No, but someone carried a black case behind the curtain when the light came back on.',
+        p2:"No. I only saw the case through the door, and I couldn't see a sticker."
+      },
+      notes:{
+        p1:['“No, but someone carried a {{a|black case}} {{b|behind}} the curtain when the light came back on.”'],
+        p2:["“No. I only saw the case through the {{c|door}}, and I couldn't see a sticker.”"]
+      },
+      bank:{ p1:['black case','behind','black toolbox','next to'], p2:['door','floor','case'] }
+    },
+    // the officer joins only for the questioning (ending.script puts him in the waiting room, S.met while it lasts)
+    badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'waiting', witness:true, joins:true, pitch:.9, voice:3, bg:'#DCE3F0', questions:[], answers:{}, notes:{}, bank:{} }
+  },
+  phrases:[
+    ['the whole time','owen:o1','the whole time'], ['come back','tara:t5','came back'], ['go out','momo:m1','went out'], ['come back on','pip:p1','came back on']
+  ],
+  grammarLines:{
+    'tara:t1':[['place-prep','in its case'], ['place-prep','next to the left chair']],
+    'tara:t2':[['place-prep','There is a yellow moon sticker on my black case']],
+    'tara:t3':[['place-prep','There are two chairs'], ['place-prep','under both']],
+    'tara:t5':[['past-reg','played'], ['past-irr','came back']],
+    'owen:o1':[['place-prep','next to the door']],
+    'owen:o9':[['place-prep','behind the curtain']],
+    'ivo:i1':[['be-past','I was'], ['place-prep','next to the music stand on the stage']],
+    'ivo:i4':[['be-past','The door was open'], ['place-prep','next to the light']],
+    'ivo:i2':[['place-prep','on the ladder, next to the light']],
+    'momo:m1':[['past-reg','fixed'], ['place-prep','next to the stage door']],
+    'momo:m3':[['place-prep','There are spare bulbs on the shelf behind the curtain']],
+    'momo:m4':[['place-prep','under the shelf']],
+    'momo:m5':[['ownership',"They're mine"], ['past-irr','lent']],
+    'pip:p1':[['place-prep','behind the curtain']],
+    'pip:p2':[['negative',"couldn't see"]]
+  },
+  answersKo:{
+    tara:{ t0:'바이올린이 없어졌어. 대회 전에 찾아줄 수 있어?', t5:'리허설에서 연주했어. 로비에 갔다 돌아왔더니 없어졌어.', t1:'케이스에 넣어서 출연자 대기실 왼쪽 의자 옆에 두었어.',
+      t2:'내 검은 케이스에는 노란 달 스티커가 있어.', t3:'문 옆에 의자가 두 개 있어. 둘 다 아래를 찾아봤지만 케이스가 없었어.', t4:'대기실의 여우, 무대 위의 염소, 무대 뒤의 두더지를 봤어. 이름은 몰라.' },
+    owen:{ o1:'난 줄곧 문 옆에 있었어.', o8:'내 차례를 기다렸어.', o2:'타라가 로비로 가기 전, 의자 옆에서 봤어.', o9:'무대 일을 돕는 모모가 검은 공구함을 들고 커튼 뒤로 갔어.' },
+    ivo:{ i1:'무대 위 악보대 옆에 있었어.', i3:'대회 전에 마지막 부분을 한 번 더 연습하고 싶었어.', i4:'문이 열려 있었어. 조명 옆 사다리가 보였어.', i2:'모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고.' },
+    momo:{ m1:'무대 쪽 문 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든.', m3:'응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어.', m4:'내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어.',
+      m2:'핍이 옆 통로에 있었어. 난 조명 일로 바빴어.', m5:'내 거야. 오웬에게 빌려줬어.' },
+    pip:{ p1:'아니. 하지만 조명이 다시 켜졌을 때 누군가 검은 케이스를 커튼 뒤로 가져갔어.', p2:'아니. 문 너머로 케이스만 봤고, 스티커도 보지 못했어.' }
+  },
+  // four rooms of the music hall (one building on the map); the detective's sentences from design 6·7·10절. A spot's
+  // when/unless: conditions for it to be there; a clue's take: picked up into 소지품 after its lines (no photo)
+  places:[
+    { id:'foyer', x:87, y:41, label:'Lobby', artWidth:1376, artHeight:768,
+      clues:[
+        { label:'Contest poster', prop:true, en:'There is a contest poster on the wall.', ko:'벽에 대회 포스터가 있어.' },
+        { label:'Programs', prop:true, en:'There are more programs on the table.', ko:'탁자 위에 안내지가 더 있어.' }
+      ],
+      spots:[ { clue:0, x:3, y:0, w:18, h:62 }, { clue:1, x:85, y:53, w:10, h:12 } ] },
+    { id:'waiting', x:74, y:38, label:'Waiting Room', artWidth:1376, artHeight:768,
+      clues:[
+        { label:'Two chairs', prop:true, en:"There are two chairs next to the door. The case isn't there.", ko:'문 옆에 의자가 두 개 있어. 케이스는 없네.' },
+        { label:'Mirror', prop:true, en:'A big mirror. My hat looks fine.', ko:'커다란 거울이네. 모자는 잘 쓰고 있어.' },
+        { label:'Water bottle', prop:true, en:'There is a water bottle on the table.', ko:'탁자 위에 물병이 있어.' },
+        { label:'Small cutters', take:'wire-cutters', lines:[
+          { key:'c1', en:'There is a pair of cutters under the right chair.', ko:'오른쪽 의자 아래에 니퍼가 있어.' },
+          { key:'c2', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.' } ] }
+      ],
+      spots:[ { clue:0, x:39, y:50, w:16, h:30 }, { clue:1, x:79, y:22, w:17, h:68 }, { clue:2, x:95.5, y:63, w:4.5, h:14 },
+        { clue:3, x:57, y:83, w:8, h:8, unless:['!took:wire-cutters'] } ] },
+    { id:'stage', x:91, y:33, label:'Stage', artWidth:1376, artHeight:768,
+      clues:[
+        { label:'Sheet music', prop:true, en:'There is sheet music on the stand.', ko:'악보대에 악보가 있어.' },
+        { label:'Stool', prop:true, en:'There is a stool next to the music stand.', ko:'악보대 옆에 작은 의자가 있어.' },
+        { label:'Open door', prop:true, en:'The door is open. I can see a ladder.', ko:'문이 열려 있어. 사다리가 보이네.' }
+      ],
+      spots:[ { clue:0, x:81, y:51, w:14, h:18 }, { clue:1, x:89, y:90, w:10, h:10 }, { clue:2, x:24, y:7, w:20, h:70 } ] },
+    // the curtain opens once Pip has told what he saw (design 6절); the case and the button lie in front of it until taken
+    { id:'backstage', x:76, y:29, label:'Backstage', artWidth:1376, artHeight:768,
+      clues:[
+        { label:'Ladder', prop:true, en:'The ladder is next to the light.', ko:'사다리가 조명 옆에 있어.' },
+        { label:'Curtain', prop:true, en:'There is a long curtain here. I should ask more first.', ko:'긴 커튼이 있네. 먼저 더 물어봐야겠어.' },
+        { label:'Curtain', take:'!curtain', lines:[ { key:'s1', en:'There is a case behind the curtain.', ko:'커튼 뒤에 케이스가 있어.' } ] },
+        { label:'Black violin case', take:'violin-case', flag:'seen-strings', lines:[
+          { key:'s2', en:'The yellow moon is on the case. The violin is in it.', ko:'케이스에 노란 달이 있고 바이올린은 안에 있어.' },
+          { key:'s4', en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } ] },
+        { label:'Gold button', take:'gold-button', lines:[ { key:'s3', en:'There is a gold button under the curtain.', ko:'커튼 아래에 금색 단추가 있어.' } ] },
+        { label:'Toolbox', prop:true, en:'A black toolbox under the shelf.', ko:'선반 아래에 검은 공구함이 있네.' },
+        { label:'Spare bulbs', prop:true, en:'There are spare bulbs on the shelf.', ko:'선반 위에 예비 전구들이 있어.' }
+      ],
+      spots:[ { clue:0, x:17, y:16, w:15, h:76 },
+        { clue:1, x:50, y:0, w:34, h:92, unless:['pip:p1'] },
+        { clue:2, x:50, y:0, w:34, h:92, when:['pip:p1'], unless:['!curtain'] },
+        { clue:3, x:55, y:81, w:21, h:18, when:['!curtain'], unless:['!took:violin-case'] },
+        { clue:4, x:78, y:83, w:4.5, h:6.5, when:['!curtain'], unless:['!took:gold-button'] },
+        { clue:5, x:59, y:67, w:14.5, h:15, when:['!curtain'] },
+        { clue:6, x:57, y:44, w:11, h:7, when:['!curtain'] } ] },
+    // never on the map: Tara's photo (taken in her talk), each person's sleeves (their action's close look)
+    { id:'taraphoto', inspect:true, label:'Lobby', artWidth:1024, artHeight:765,
+      clues:[ { label:'Case photo from Tara', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.' } ],
+      spots:[ { clue:0, x:0, y:0, w:100, h:100, photo:{x:0,y:0,w:1020,h:765} } ] },
+    { id:'sleeves-owen', inspect:true, label:'Waiting Room', artWidth:1376, artHeight:768,
+      clues:[ { label:'Sleeves', en:'There is a button on the left sleeve. The button on the right sleeve is missing.', ko:'왼쪽 소매에는 단추가 있어. 오른쪽 소매의 단추가 없어졌네.' } ],
+      spots:[ { clue:0, x:35.5, y:23, w:29, h:36, photo:{x:488,y:174,w:400,h:300} } ] },
+    { id:'sleeves-ivo', inspect:true, label:'Stage', artWidth:1376, artHeight:768,
+      clues:[ { label:'Sleeves', prop:true, en:'There are dark buttons on both sleeves.', ko:'양쪽 소매에 어두운 단추가 있어.' } ],
+      spots:[ { clue:0, x:35.5, y:23, w:29, h:36 } ] },
+    { id:'sleeves-momo', inspect:true, label:'Backstage', artWidth:1376, artHeight:768,
+      clues:[ { label:'Sleeves', prop:true, en:'There are small silver buttons on both sleeves.', ko:'양쪽 소매에 작은 은색 단추가 있어.' } ],
+      spots:[ { clue:0, x:35.5, y:23, w:29, h:36 } ] }
+  ],
+  // the photos and the things the deduction needs (design 8절, user decision 2026-11-07)
+  needed:['taraphoto-0', 'sleeves-owen-0'],
+  ready:['@violin-case', '@gold-button', '@wire-cutters', '!seen-strings', '!tara-check', '!compared', '!called'],
+  // the detective's thoughts, once each, when their conditions are met (design 8절; the cutters' once m5 opens, user
+  // decision 2026-11-07)
+  thoughts:[
+    { when:['@gold-button'], line:{ key:'think-sleeves', en:"I should look at everyone's sleeves.", ko:'다들 소매를 살펴봐야겠어.' } },
+    { when:['@wire-cutters', '!seen-strings', 'momo:m4', 'met:owen'], line:{ key:'think-cutters', en:'I should ask who owns these cutters.', ko:'이 니퍼가 누구 건지 물어봐야겠어.' } },
+    { when:['@violin-case', '@wire-cutters', '!seen-strings'], unless:['!compared'], line:{ key:'think-compare', en:'I should compare this piece with the broken strings.', ko:'이 조각을 끊어진 현과 비교해 봐야겠어.' } }
+  ],
+  // the piece on the cutters' blades held against the broken strings (design 7절 waiting:c3)
+  compare:{ items:['wire-cutters', 'violin-case'], when:['@violin-case', '@wire-cutters', '!seen-strings'], flag:'compared',
+    line:{ key:'c3', en:'The piece looks the same as this broken string.', ko:'이 조각은 이 끊어진 현과 똑같아 보여.' } },
+  positions:{
+    tara:{x:57, floor:93, height:44},
+    owen:{x:24, floor:94, height:44},
+    ivo:{x:70, floor:94, height:46},
+    momo:{x:46, floor:95, height:42},
+    pip:{x:11, floor:95, height:30},
+    badger:{x:66, floor:94, height:44}
+  },
+  items:{
+    // titles say what the thing is, never whose (design 10절)
+    'violin-case':{ label:'Black violin case', en:'The yellow moon is on the case. The violin is in it.', ko:'케이스에 노란 달이 있고 바이올린은 안에 있어.',
+      img:'assets/places/violin/case-closed.png', w:301, h:640, crop:[-276, 0, 853, 640], bag:'assets/places/violin/case-closed.png',
+      opened:{ img:'assets/places/violin/case-open.png', w:418, h:640, crop:[-218, 0, 853, 640], en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } },
+    'gold-button':{ label:'Gold button', en:'There is a gold button under the curtain.', ko:'커튼 아래에 금색 단추가 있어.',
+      img:'assets/places/violin/gold-button.png', w:232, h:240, crop:[-84, -30, 400, 300] },
+    'wire-cutters':{ label:'Small cutters', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.',
+      img:'assets/places/violin/cutters.png', w:307, h:460, crop:[-166, -10, 640, 480] }
+  },
+  previewHandback:['violin-case'],
+  deduce:{
+    people:[['Tara Ferret', 'tara'], ['Owen Fox', 'owen'], ['Ivo Goat', 'ivo'], ['Momo Mole', 'momo'], ['Pip Sparrow', 'pip']],
+    places:[], things:[], colors:[], times:[],
+    suspects:[['momo', 'Momo'], ['owen', 'Owen']],
+    go:'오웬 심문 시작',
+    miss:{ en:'Check the records again.', ko:'기록을 다시 확인해 봐.' },
+    qs:[
+      { step:1, q:'Where was the case hidden?', qKo:'케이스는 어디에 숨겨졌을까?',
+        card:'The case was hidden {opt:behind the curtain}.', cardKo:'케이스는 커튼 뒤에 숨겨져 있었다.',
+        opts:['behind the curtain', 'under the right chair', 'on the ladder', 'in the lobby', 'next to the left chair', 'under the shelf'],
+        right:'Yes. That is where we found it.', rightKo:'맞아. 그곳에서 찾았어.',
+        hint:'What did Pip see? Where did we find the case?', hintKo:'핍은 뭘 봤지? 케이스를 어디서 찾았지?' },
+      { step:2, q:"How do we know it is Tara's case?", qKo:'타라의 케이스인지 어떻게 알았을까?',
+        card:"The {opt:yellow moon sticker} matches Tara's photo.", cardKo:'노란 달 스티커가 타라의 사진과 같다.',
+        opts:['yellow moon sticker', 'red star sticker', 'blue flower sticker', 'white stripe', 'green handle', 'pink ribbon'],
+        right:'Yes. The same mark is in the photo.', rightKo:'맞아. 사진에 같은 표식이 있어.',
+        hint:"Look at Tara's photo. Then look at the case.", hintKo:'타라의 사진을 봐. 그런 다음 케이스를 봐.' },
+      { step:3, who:'momo', q:'Why did Momo seem strange?', qKo:'모모가 왜 수상해 보였을까?',
+        card:'Momo went {opt:behind the curtain} with a {opt2:black toolbox}.', cardKo:'모모는 검은 공구함을 들고 커튼 뒤로 갔다.',
+        opts:['behind the curtain', 'in the lobby', 'on the stage', 'under the chair', 'behind the door', 'next to the bench'],
+        opts2:['black toolbox', 'black case', 'gold button', 'water bottle', 'music stand', 'contest poster'],
+        right:"That's why Momo seemed strange. But we don't know yet.", rightKo:'그래서 모모가 수상해 보였어. 하지만 아직은 몰라.',
+        hint:'What did Owen see? What did Momo carry?', hintKo:'오웬은 뭘 봤지? 모모는 뭘 들고 갔지?' },
+      { step:3, who:'momo', q:'Where was Momo when the case moved?', qKo:'케이스가 옮겨질 때 모모는 어디에 있었을까?',
+        card:'Momo was {opt:on the ladder}.', cardKo:'모모는 사다리 위에 있었다.',
+        opts:['on the ladder', 'on the stage', 'in the lobby', 'under the right chair', 'behind the curtain', 'in the waiting room'],
+        right:'Right. He could not carry the case at that moment.', rightKo:'맞아. 그 순간에 케이스를 운반할 수는 없었어.',
+        hint:'What did Pip say about the light? What did Ivo say?', hintKo:'핍은 조명에 대해 뭐라고 했지? 이보는 뭐라고 했지?', out:true },
+      { step:4, who:'owen', q:'Whose clothes match the button?', qKo:'발견한 단추는 누구의 옷과 맞을까?',
+        card:"The button matches {opt:Owen's jacket}.", cardKo:'단추는 오웬의 재킷과 맞는다.',
+        opts:["Owen's jacket", "Ivo's jacket", "Momo's uniform"],
+        right:'Yes. A matching button remains on the other sleeve.', rightKo:'맞아. 반대쪽 소매에는 같은 단추가 남아 있어.',
+        hint:'Look at the button. Then look at the sleeve photo.', hintKo:'단추를 봐. 그런 다음 소매 사진을 봐.' },
+      { step:4, who:'owen', q:'According to Momo, who borrowed the cutters?', qKo:'모모는 누구에게 니퍼를 빌려줬다고 했을까?',
+        card:'Momo said he lent the cutters to {opt:Owen}.', cardKo:'모모는 니퍼를 오웬에게 빌려줬다고 했다.',
+        opts:['Owen', 'Ivo', 'Tara', 'Pip'],
+        right:'That is what Momo said. We still need to ask about the strings.', rightKo:'모모의 말은 그래. 현에 대해서는 더 물어봐야 해.',
+        hint:'Listen to what Momo said about the cutters.', hintKo:'모모가 니퍼에 대해 한 말을 다시 들어 봐.' },
+      // the ring is who to talk to (lie: the board's ring)
+      { step:4, who:'owen', q:'Who should we talk to?', qKo:'누구와 이야기해야 할까?',
+        card:'We should talk to {opt:Owen}.', cardKo:'오웬과 이야기해야 한다.',
+        opts:['Owen', 'Ivo', 'Momo'],
+        right:"Right. Let's talk to him.", rightKo:'맞아. 오웬과 이야기하자.',
+        hint:'Think about the button and the cutters.', hintKo:'단추와 니퍼를 생각해 봐.', lie:true }
+    ]
+  },
+  ending:{
+    // design 9절: in the waiting room, the officer beside them; the detective asks (ask: the one question to pick), Owen
+    // claims (claim: answered with what accept takes, then hit), the lines in turn (lines)
+    intro:[
+      { det:true, key:'question-thought', en:'I should ask Owen about the button and the cutters.', ko:'오웬에게 단추와 니퍼에 관해 물어봐야겠어.' },
+      { det:true, key:'call2', en:"Officer, I'm ready.", ko:'경사, 준비됐어.' },
+      { who:'badger', key:'b2', en:"I'm here, Detective. You can begin.", ko:'왔어, 탐정. 시작해도 돼.' }
+    ],
+    script:[
+      { ask:true, key:'d0', en:"Owen, did you move Tara's case?", ko:'오웬, 네가 타라의 케이스를 옮겼니?' },
+      { claim:true, accept:['ivo:i2'],
+        lines:[ { who:'owen', key:'o3', en:'No. Maybe Momo moved it. Momo went behind the curtain.', ko:'아니. 모모가 옮겼을지도 몰라. 모모는 커튼 뒤에 갔잖아.' } ],
+        hit:[ { det:true, key:'d1', en:'Ivo saw Momo on the ladder when the light came back on. Pip saw the case move at that moment.', ko:'조명이 다시 켜졌을 때 이보는 모모를 사다리 위에서 봤어. 핍은 바로 그때 케이스가 옮겨지는 걸 봤고.' } ] },
+      { claim:true, accept:['@gold-button'],
+        lines:[ { who:'owen', key:'o4', mood:'nervous', en:'Then it was someone else. I stayed next to the door.', ko:'그럼 다른 누군가였겠지. 난 문 옆에 있었어.' },
+          { det:true, key:'d8', en:"The case was next to the chair. The chair is next to the door. You didn't see anyone?", ko:'케이스는 의자 옆에 있었어. 의자는 문 옆에 있고. 아무도 못 봤다고?' } ],
+        hit:[ { det:true, key:'d2', en:'This matches your left sleeve button. Your right one is missing.', ko:'이건 네 왼쪽 소매 단추와 같아. 오른쪽 단추는 없어졌고.' } ] },
+      { ask:true, key:'d2-question', en:'Why was this button under the curtain?', ko:'왜 이 단추가 커튼 아래에 있었을까?' },
+      { lines:[ { who:'owen', key:'o6', mood:'nervous', en:'My sleeve caught on the curtain hook. I hid the case behind the curtain.', ko:'소매가 커튼 고리에 걸렸어. 내가 케이스를 커튼 뒤에 숨겼어.' } ] },
+      { claim:true, accept:['@wire-cutters'],
+        lines:[ { who:'owen', key:'o11', mood:'nervous', en:"I only moved the case. I didn't break the violin.", ko:'케이스를 옮겼을 뿐이야. 바이올린을 망가뜨리지는 않았어.' } ],
+        hit:[ { det:true, key:'d6', en:'Momo says he lent you these cutters. Did you borrow them?', ko:'모모는 네게 이 니퍼를 빌려줬다고 해. 네가 빌렸니?' },
+          { who:'owen', key:'o12', mood:'nervous', en:"Yes, I borrowed them for my music stand. I didn't cut the strings.", ko:'응, 악보대를 고치려고 빌렸어. 현은 끊지 않았어.' },
+          { det:true, key:'d7', en:'This piece looks like a broken string from the violin.', ko:'이 조각은 바이올린의 끊어진 현과 비슷해.' } ] },
+      { ask:true, key:'d4', en:'Did you cut the strings?', ko:'네가 현을 끊었니?' },
+      { lines:[ { who:'owen', key:'o10', mood:'sad', en:'Yes. I cut them.', ko:'응. 내가 끊었어.' } ] },
+      { ask:true, key:'d5', en:'Why did you do that?', ko:'왜 그랬니?' },
+      { lines:[ { who:'owen', key:'o7', mood:'sad', en:"I wanted to win. I'm sorry.", ko:'내가 이기고 싶었어. 미안해.' },
+        { who:'badger', key:'b3', en:"I'll talk to Owen. Please tell Tara what happened.", ko:'난 오웬과 이야기할게. 타라에게 무슨 일이 있었는지 알려 줘.' } ] }
+    ],
+    // the gauge: one step per claim
+    confront:[ { accept:['ivo:i2'] }, { accept:['@gold-button'] }, { accept:['@wire-cutters'] } ],
+    miss:{ who:'owen', key:'wrong', en:"That doesn't explain anything.", ko:'그걸로는 아무것도 설명이 안 되잖아.' },
+    // then the violin back to Tara in the lobby (design 9절 end)
+    handoff:[
+      { to:'tara', go:{ think:true, en:'타라에게 알려 주자.' }, goLabel:'로비로 가기', give:'violin-case', giveLabel:'바이올린 건네주기',
+        open:{ det:true, key:'end1', en:'Owen hid your case behind the curtain. He cut the strings.', ko:'오웬이 네 케이스를 커튼 뒤에 숨겼어. 현도 오웬이 끊었어.' },
+        before:[ { det:true, key:'end2', en:'Here is your violin.', ko:'여기 네 바이올린이야.' } ],
+        lines:[
+          { key:'end1', en:'Thank you for finding my violin and telling me what happened.', ko:'바이올린을 찾아 주고 무슨 일이 있었는지 알려 줘서 고마워.' },
+          { key:'end2', en:"I can't play today. I'm sad, but I'll get new strings.", ko:'오늘은 연주할 수 없어. 속상하지만 현을 새로 갈 거야.' }
+        ] }
+    ]
+  }
+};
+const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : null;
 const PEOPLE = PACK ? PACK.people : {
   // the partner — met first, at the crime scene
   badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'동료 경찰', place:'library', partner:true,
@@ -2410,6 +2807,12 @@ const WORDS = {
   'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
   'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'], 'book':['w','책'], 'newspaper':['w','신문'], 'alone':['w','혼자'],
   'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'],
+  'missing':['w','없어진'], 'find':['w','찾다'], 'rehearsal':['w','리허설'], 'waiting room':['n','대기실'], 'yellow moon':['w','노란 달'],
+  'in':['w','~ 안에'], 'on':['w','~ 위에'], 'under':['w','~ 아래에'], 'next to':['w','~ 옆에'], 'behind':['w','~ 뒤에'],
+  'fox':['w','여우'], 'goat':['w','염소'], 'mole':['w','두더지'], 'whole time':['w','내내'], 'turn':['w','차례'], 'black toolbox':['w','검은 공구함'],
+  'music stand':['w','악보대'], 'practice':['w','연습하다'], 'last part':['w','마지막 부분'], 'door':['w','문'], 'ladder':['w','사다리'],
+  'fixed':['w','고쳤다 (fix의 과거)'], 'bulbs':['w','전구들'], 'light':['w','조명'], 'lent':['w','빌려줬다 (lend의 과거)'], 'black case':['w','검은 케이스'],
+  'the whole time':['x','내내, 줄곧'], 'go out':['x','(불이) 꺼지다'], 'come back on':['x','(불이) 다시 켜지다'],
   'blue':['w','파란색'], 'red':['w','빨간색'], 'yellow':['w','노란색'], 'green':['w','초록색'], 'remember':['w','기억하다'], 'mixed up':['w','뒤바뀐'],
   'garden':['n','정원'], 'house':['w','집'], 'office':['n','사무실, 회사'], 'know':['w','알다'], 'open':['w','열다'], 'opened':['w','열었다'],
   'sure':['w','확신하는'], 'lunch box':['w','도시락'], 'bottle':['w','물병'], 'find out':['w','알아내다'], 'took':['w','가져갔다 (take의 과거)'],
@@ -2433,7 +2836,8 @@ const WORDS = {
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소'], ['x','표현']];
 // the other cases' words (note blanks that are in WORDS, and phrases), for 학습 on the main page
 const packWords = c => [...new Set([...Object.values(c.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))), ...c.phrases.map(([key]) => key)])].filter(k => WORDS[k]);
-const PACK_WORDS = [['picnic-bag', '바뀐 소풍 가방', packWords(PICNIC_CASE)], ['unclaimed-umbrella', '주인 없는 우산', packWords(UMBRELLA_CASE)]];
+const PACK_WORDS = [['picnic-bag', '바뀐 소풍 가방', packWords(PICNIC_CASE)], ['unclaimed-umbrella', '주인 없는 우산', packWords(UMBRELLA_CASE)],
+  ['missing-violin', '사라진 음악 대회 바이올린', packWords(VIOLIN_CASE)]];
 // Grammar notes, opened from the grammar links in a passage. name/pattern/ko: the card (Korean shown as soon as the
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
 const GRAMMAR = {
@@ -2470,6 +2874,19 @@ const GRAMMAR = {
           'Mine이 문장 맨 앞에 오면 물건 하나를 가리키므로 is·has를 써요. Mine has a red handle.',
           "이름 뒤에 \'s를 붙여도 누구의 것인지 말할 수 있어요. Sam\'s bag = Sam\'s(샘의 것)."],
         lines:[['{My notebook} is green.', '내 공책은 초록색이야.'], ['This toy is {mine}.', '이 장난감은 내 거야.'], ['That scarf is not {mine}.', '저 목도리는 내 거 아니야.']] }
+    ] },
+  // the violin case's key (L1-02 B): where things are
+  'place-prep':{ name:'위치 표현', pattern:'there is / there are · in / on / under · next to / behind', ko:'there is/are로 무엇이 있는지 말하고, in·on·under·next to·behind로 어디에 있는지 말해요.',
+    examples:[
+      { head:'There is / There are', ko:'~이 있어', why:'하나면 There is, 둘 이상이면 There are로 무엇이 있는지 말해요.', match:"\\bthere (is|are)\\b|\\bthere's\\b",
+        more:['There is 뒤에는 a·an이나 하나인 물건, There are 뒤에는 two·three나 -s가 붙은 물건이 와요.', "There is는 줄여서 There's라고도 해요.", '어디에 있는지는 뒤에 in·on·under 같은 말로 붙여요. There is a cup on the table.'],
+        lines:[['{There is} a cup on the table.', '탁자 위에 컵 하나가 있어.'], ['{There are} two books on the desk.', '책상 위에 책 두 권이 있어.'], ['{There is} a ball under the desk.', '책상 아래에 공 하나가 있어.']] },
+      { head:'in / on / under', ko:'안에 / 위에 / 아래에', why:'in은 안쪽 공간, on은 표면에 닿은 곳, under는 아래쪽이에요.', match:'\\b(in|on|under)\\b',
+        more:['in은 상자·방·가방처럼 안이 있는 곳에 써요. in the bag, in the waiting room.', 'on은 위에 닿아 있을 때예요. 벽에 붙은 것, 무대·사다리 위에도 써요. on the wall, on the stage.', 'under는 바로 아래예요. under the chair, under the shelf.'],
+        lines:[['The pencil is {in} the bag.', '연필은 가방 안에 있어.'], ['A book is {on} the shelf.', '책이 선반 위에 있어.'], ['The ball is {under} the chair.', '공은 의자 아래에 있어.']] },
+      { head:'next to / behind', ko:'옆에 / 뒤에', why:'next to는 바로 옆, behind는 무엇에 가려진 뒤쪽이에요.', match:'\\b(next to|behind)\\b',
+        more:['next to는 두 단어가 한 덩어리예요. next to the door = 문 옆에.', 'behind는 앞에 있는 것에 가려 잘 보이지 않는 곳이에요. behind the curtain = 커튼 뒤에.', '반대말은 in front of(앞에)예요.'],
+        lines:[['The lamp is {next to} the bed.', '램프는 침대 옆에 있어.'], ['The cat is {behind} the door.', '고양이는 문 뒤에 있어.'], ['My bag is {next to} the chair.', '내 가방은 의자 옆에 있어.']] }
     ] },
   'be-past':   { name:'be동사 과거', pattern:'was / were', ko:'"~에 있었다, ~였다"를 말할 때 써요. I·he·she 뒤에는 was, you·we·they 뒤에는 were가 와요. 알리바이는 거의 이 말로 시작해요.',
     more:['I · he · she · it → was, you · we · they → were.',
@@ -2857,12 +3274,21 @@ const SPRITES = {
   tess:{src:'assets/characters/tess-higgsfield.png', w:459, h:700, face:'73 0 350 350', anchor:.54},
   ruby:{src:'assets/characters/ruby-higgsfield.png', w:517, h:700, face:'16 7 371 371', anchor:.39},
   ella:{src:'assets/characters/ella-higgsfield.png', w:472, h:700, face:'54 14 364 364', anchor:.5},
-  finn:{src:'assets/characters/finn-higgsfield.png', w:420, h:700, face:'14 0 385 385', anchor:.5}
+  finn:{src:'assets/characters/finn-higgsfield.png', w:420, h:700, face:'14 0 385 385', anchor:.5},
+  // the violin case (scripts/cut-violin-art.ps1); the officer is the library case's Sgt. Badger
+  tara:{src:'assets/characters/tara-higgsfield.png', w:475, h:700, face:'63 14 350 350', anchor:.55},
+  owen:{src:'assets/characters/owen-higgsfield.png', w:494, h:700, face:'32 0 350 350', anchor:.42},
+  ivo:{src:'assets/characters/ivo-higgsfield.png', w:466, h:700, face:'51 0 364 364', anchor:.5},
+  momo:{src:'assets/characters/momo-higgsfield.png', w:421, h:700, face:'35 14 350 350', anchor:.5},
+  pip:{src:'assets/characters/pip-higgsfield.png', w:480, h:700, face:'23 0 434 434', anchor:.5}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
   'fiona:nervous':{src:'assets/characters/fiona-nervous.png', w:477, h:641, height:641/621, anchor:.42},
-  'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415}
+  'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415},
+  // Owen in the questioning (violin case): cornered from his second claim, sorry when he owns up
+  'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.png', w:492, h:700, anchor:.44},
+  'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:570, h:700, anchor:.4}
 });
 const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : id;
 // Each sprite's mouth pictures, [x, y, w, h] in sprite px: the drawn mouth painted over with the fur around it, and a
@@ -2929,7 +3355,7 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
 // the last ones cut from their sprites (scripts/cut-picnic-characters.py, cut-umbrella-characters.py); mia-solo and
 // ollie are PEOPLE.mia.faces
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia', 'mia-solo', 'ollie',
-  'tess', 'ruby', 'ella', 'finn'];
+  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip'];
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
 const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.png`;
 const miniSVG = id => FACE_ICONS.includes(id) || !SPRITES[id] && !DRAWN.includes(id) ? `<img class="face" src="${faceSrc(id)}" alt="" draggable="false">`
@@ -2951,6 +3377,7 @@ const S = {
   met:[START],       // people the player knows about
   named:new Set(),   // of those, the ones only heard of by name (unlocks.names): in the notebook before their place opens
   items:[],          // 소지품: ITEMS the detective carries (picnic case)
+  flags:new Set(),   // what has been done, for a case's conditions (cond('!flag'), violin case): 'curtain', 'took:<item>', 'open:<item>'…
   handoffRound:0,    // how many bags are back with their owner (picnic case)
   mood:{},           // a person shown with another expression (ending)
   visit:{},          // a person standing somewhere else for a scene: { id:{ place, x, floor, height } } (ending)
@@ -2970,15 +3397,27 @@ const availableQuestions = speaker => {
   // not asked yet, or (a save from when a wrong check went back to the questions) asked but not written down right
   return qs(speaker).filter(question => (!progress.order.includes(question.id) || progress.questionChecks[question.id] === 'review') &&
     (openingAsked(speaker) || openingOf(speaker).includes(question.id)) &&
-    (speaker.needs?.[question.id] || []).every(ref => S.evidence.some(item => evRef(item) === ref)));
+    (speaker.needs?.[question.id] || []).every(cond));
 };
+// A condition in a case's data (needs, when, unless, ready): a photo 'place-clue', a statement written down right
+// 'person:question', a thing carried '@item', something done '!flag', someone met (greeting heard) 'met:person'
+function cond(c){
+  if(c.startsWith('@')) return S.items.includes(c.slice(1));
+  if(c.startsWith('!')) return S.flags.has(c.slice(1));
+  if(c.startsWith('met:')){ const p = per(c.slice(4)); return p.phase !== 'wait' && !p.helloCut; }
+  if(c.includes(':')) return sayOk(c);
+  return S.evidence.some(item => evRef(item) === c);
+}
 const cur = () => spk(S.cur);
 const st = () => per(S.cur);
 // Once the first question has been asked, a conversation is finished (every question written down right) before the
 // player goes anywhere else (user request: going off to gather evidence in the middle of the listening confused
 // players): no map, no tap on the scene to step back into the place; < asks first whether to stop the conversation
 // (askStopTalk), and stopping it goes back to the place. The notebook stays open to them.
-const talkLocked = () => !!S.cur && !S.investigate && !ending && per(S.cur).order.length > 0 && per(S.cur).phase !== 'done';
+// A case with questions that wait for other conversations (leaveOpen, violin case): once the open ones are written
+// down the player may go (user decision), the rest come later.
+const talkLocked = () => !!S.cur && !S.investigate && !ending && per(S.cur).order.length > 0 && per(S.cur).phase !== 'done' &&
+  !(PACK?.leaveOpen && per(S.cur).phase !== 'record' && !availableQuestions(cur()).length);
 // writing an answer down: the notebook stays out on that question until it checks right, no tabs and no putting it away
 // (user decision); 〈 still puts it away to ask about stopping the conversation, and staying takes it out again
 const recordLocked = () => talkLocked() && per(S.cur).phase === 'record';
@@ -3277,7 +3716,7 @@ function renderAsk(){
   if(S.investigate || greetingId === s.id){ box.innerHTML = ''; return; }
   let html = '';
   // actions: asked as often as the player likes and never written down (the umbrella case's close look), also once done
-  const acts = (s.actions || []).map(a => `<button class="q" type="button" data-act="${a.id}"><span class="en">${esc(a.en)}</span><span class="ko">${esc(a.ko)}</span></button>`).join('');
+  const acts = (s.actions || []).filter(actionOpen).map(a => `<button class="q" type="button" data-act="${a.id}"><span class="en">${esc(a.en)}</span><span class="ko">${esc(a.ko)}</span></button>`).join('');
   if(p.phase === 'choose'){
     const left = availableQuestions(s);
     html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
@@ -3395,7 +3834,7 @@ function renderDock(){
         <span class="place">${esc(open.place)}</span>
         <h4>${esc(open.label)}<button class="replay-q" type="button" data-ev-play="${open.ref}" aria-label="다시 듣기">${playIcon}</button></h4>
         <p>${esc(open.en)}</p><p class="ko" hidden>${esc(open.ko)}</p>
-        <span class="ev-btns">${open.item ? '' : pinBtn(`ev:${open.ref}`)}<button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${open.ref}">내밀기</button>` : ''}</span></div></div>`;
+        <span class="ev-btns">${open.item ? itemButtons(open.ref.slice(1)) : pinBtn(`ev:${open.ref}`)}<button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${open.ref}">내밀기</button>` : ''}</span></div></div>`;
     } else {
       evidenceOpen = null;
       const all = evidenceEntries();
@@ -3489,6 +3928,14 @@ function bindDock(){
     evidenceOpen = button.dataset.evOpen; renderDock(); playEvidence(evidenceOpen);
   }));
   body.querySelectorAll('[data-ev-play]').forEach(button => button.addEventListener('click', () => playEvidence(button.dataset.evPlay)));
+  body.querySelectorAll('[data-item-open]').forEach(button => button.addEventListener('click', () => {
+    const key = `open:${button.dataset.itemOpen}`; if(S.flags.has(key)) S.flags.delete(key); else S.flags.add(key);
+    saveGame(); renderDock(); playEvidence(evidenceOpen);
+  }));
+  body.querySelectorAll('[data-item-compare]').forEach(button => button.addEventListener('click', () => {
+    const c = PACK.compare; S.flags.add(c.flag); saveGame(); checkThoughts(); renderDock(); updateAccuse();
+    detectiveSay(c.line.key, null, null, c.line.en);
+  }));
   body.querySelectorAll('[data-evidence-ko]').forEach(button => button.addEventListener('click', () => {
     const translation = button.closest('[data-evidence]').querySelector('.ko');
     translation.hidden = !translation.hidden;
@@ -3635,6 +4082,10 @@ function playLines(id, lines, onDone, i = 0){
     per(id).introduced = true; renderWho(); renderChip(); renderPlaces();
     document.querySelectorAll(`.scene-npc[data-talk="${id}"] > span`).forEach(tag => { tag.textContent = spk(id).name; });
   }
+  if(line.phone){
+    renderSay({ name:line.phone, en:line.en, ko:line.ko });
+    return readOut(line.en, () => waitTap(() => { if(S.investigate || S.cur !== id) return; if(!ending) renderSay(null); next(); }));
+  }
   if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, next, null, line.as); }
   const name = detectiveName(), named = text => text.replace(' {name}', name ? ` ${name}` : '');
   renderSay(detLine({ ...line, en:named(line.en), ko:named(line.ko) }));
@@ -3682,19 +4133,23 @@ function ask(qid){
     if(turn === speechTurn && S.cur === who && !S.investigate && per(who).recording === qid) speak(cur().answers[qid], qid, who);
   }, 300), null, qs(cur()).find(question => question.id === qid).en);
 }
-// One of the person's actions: the detective asks, they answer, then what it opens (inspect: the close look)
+// an action is offered while its conditions hold (when) and until what it does is done (flag)
+const actionOpen = a => (a.when || []).every(cond) && !(a.flag && S.flags.has(a.flag));
+// One of the person's actions: the detective asks, they answer (or the lines it has), then what it opens (inspect: the
+// close look) and what it marks done (flag). A choice that is not said (say:false) starts with its lines.
 function doAction(aid){
   const s = cur(), a = s.actions?.find(x => x.id === aid), who = s.id;
   if(!a || S.investigate || greetingId === who || recordLocked()) return;
   clearTimeout(greetingTimer); hideBubble();
   // the questions stay away while the action is said and answered, as in a greeting (user request: they came back at
   // once under the detective's line)
-  const lines = [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }, { key:aid, en:a.answer, ko:a.answerKo }];
+  const lines = [...(a.say === false ? [] : [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }]), ...(a.lines || [{ key:aid, en:a.answer, ko:a.answerKo }])];
   const done = () => {
     if(greetingId !== who) return;
     setGreeting(null);
+    if(a.flag && !S.flags.has(a.flag)){ S.flags.add(a.flag); saveGame(); checkThoughts(); }
     if(a.inspect && S.cur === who && !S.investigate) openInspect(a.inspect);
-    else renderAsk();
+    else { renderAsk(); if(thoughts.length) playThought(); }
   };
   setGreeting(who); renderAsk();
   playLines(who, lines, done);
@@ -3760,6 +4215,7 @@ function finishRecord(){
   p.phase = qs(cur()).every(question => p.questionChecks[question.id] === 'ok') ? 'done' : 'choose';
   const beat = cur().after?.[qid] || (p.phase === 'done' && cur().after?.done);
   if(beat) beats.push({ id:S.cur, ...beat });
+  checkThoughts();
   const revealed = unlock(cur().unlocks?.[qid]) || {};
   pendingPins.push(...(revealed.places || []));
   pendingPeople.push(...(revealed.people || []));
@@ -4092,8 +4548,20 @@ function playThought(){
   const t = thoughts.shift(); if(!t) return;
   const revealed = unlock(t.unlocks) || {};
   pendingPins.push(...(revealed.places || [])); pendingPeople.push(...(revealed.people || []));
-  if(!S.investigate) return revealDiscoveries();
-  renderSay(detLine(t.line));
+  const after = () => { revealDiscoveries(); if(thoughts.length) playThought(); };
+  // in a conversation: the detective's own bubble over the scene (violin case thoughts)
+  if(!S.investigate){
+    if(ending) return after();
+    renderSay(detLine(t.line));
+    return detectiveSay(t.line.key, () => waitTap(() => { renderSay(null); after(); }), null, t.line.en);
+  }
+  placeLines([t.line], after);
+}
+// The detective's lines over the place (where the scene and its bubble are hidden): a copy of the detective's bubble on
+// the picture, tapped on once said, then the next; onDone after the last.
+function placeLines(lines, onDone, n = 0){
+  const line = lines[n]; if(!line) return onDone?.();
+  renderSay(detLine(line));
   const say = $('#sayBubble'), think = document.createElement('div');
   think.className = say.className + ' think-place'; think.setAttribute('role', 'status'); think.innerHTML = say.innerHTML;
   renderSay(null);
@@ -4101,9 +4569,16 @@ function playThought(){
   think.addEventListener('click', e => {
     const ko = e.target.closest('[data-say-ko]');
     if(ko){ const text = think.querySelector('.say-ko'); text.hidden = !text.hidden; ko.setAttribute('aria-pressed', !text.hidden); return; }
-    if(!e.target.closest('button') && think.classList.contains('wait-tap')){ think.remove(); revealDiscoveries(); }
+    if(!e.target.closest('button') && think.classList.contains('wait-tap')){ think.remove(); placeLines(lines, onDone, n + 1); }
   });
-  detectiveSay(t.line.key, () => { if(think.isConnected) think.classList.add('wait-tap'); }, null, t.line.en);
+  detectiveSay(line.key, () => { if(think.isConnected) think.classList.add('wait-tap'); }, null, line.en);
+}
+// the thoughts due now (PACK.thoughts: each once, when its conditions are met and not its unless), queued for playThought
+function checkThoughts(){
+  (PACK?.thoughts || []).forEach((t, n) => {
+    if((S.thought ||= []).includes(n) || !t.when.every(cond) || (t.unless || []).some(cond)) return;
+    S.thought.push(n); thoughts.push(t);
+  });
 }
 // PEOPLE[].after, once the notebook with the checked question is put away: lines in turn (playLines), then a thing handed
 // to the detective (give: 소지품) or the photos the detective asked for (snap: taken right there, user decision)
@@ -4292,7 +4767,7 @@ function objectJosa(name){
 /* ---------- accuse ---------- */
 function allConversationsDone(){
   return PEOPLE_ORDER.filter(id => !spk(id).witness || spk(id).required).every(id => per(id).phase === 'done') &&
-    (PACK?.needed || []).every(ref => S.evidence.some(item => evRef(item) === ref));
+    (PACK?.needed || []).every(ref => S.evidence.some(item => evRef(item) === ref)) && (PACK?.ready || []).every(cond);
 }
 // The place view's 추리하기 (the conversation's is drawn by renderAsk, the map's in openSheet): all three open the
 // deduction board, and the accusation is made only there (user decision).
@@ -4369,7 +4844,7 @@ const DEDUCE = PACK ? PACK.deduce : {
 // browser's voice (a question marked unrecorded, all three of its lines)
 const DEDUCE_RECORDED = PACK?.silent ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => q.unrecorded ? [] : [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
 const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : 'audio/deduce/';
-const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답' };
+const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답', opt2:'답' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
 // progress is kept by question number, so it is kept only while the cards are the same (a save from before the questions
@@ -4496,7 +4971,7 @@ function openDeduceDrop(slot){
   setNotes(false);
   deduceSlot = +slot.dataset.dslot || 0;
   const st = deduceState(), { kind } = deduceBlanks(DEDUCE.qs[st.at])[deduceSlot], tried = st.tried[st.at] || new Set(), drop = $('#deduceDrop');
-  const faces = kind === 'person', words = kind === 'opt' ? DEDUCE.qs[st.at].opts : deduceWords(kind);
+  const faces = kind === 'person', words = kind === 'opt' ? DEDUCE.qs[st.at].opts : kind === 'opt2' ? DEDUCE.qs[st.at].opts2 : deduceWords(kind);
   drop.className = `deduce-drop ${kind}${kind === 'place' ? '' : ' wide'}`;
   drop.innerHTML = `<div class="dz-list" style="--cols:${faces ? 4 : kind === 'time' ? 3 : 2}">` + words.map(word =>
     `<button class="dz-opt${faces ? ' face' : ''}${tried.has(word) ? ' tried' : ''}" type="button" role="option" data-dword="${esc(word)}">${deducePic(kind, word)}${esc(word)}</button>`).join('') + '</div>';
@@ -4591,7 +5066,7 @@ $('#deduceKo').onclick = () => {
 };
 // all worked out: report the deduction to Sgt. Badger (startCall)
 $('#deduceGo button').textContent = DEDUCE.go || '경찰에게 알리기';
-$('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); (ENDING.handoff ? startHandoff : startCall)(); };
+$('#deduceGo').onclick = () => { if(!deduceEnd()) return; stopVoice(); closeDeduce(); (ENDING.script ? startScript : ENDING.handoff ? startHandoff : startCall)(); };
 
 /* ---------- ending ----------
    Every accusation moves the suspect and Sgt. Badger to the village station's interview room.
@@ -4667,10 +5142,10 @@ $('#sayBubble').addEventListener('click', e => {
 });
 // The room stays dim through the confession, but the progress gauge belongs to questioning only.
 function renderInterrogationGauge(){
-  const on = !!ending && ['confront', 'confession'].includes(ending.step);
-  const questioning = ending?.step === 'confront';
+  const on = !!ending && (!!ending.script || ['confront', 'confession'].includes(ending.step));
+  const questioning = !!ending && (!!ending.script || ending.step === 'confront');
   $('#app').classList.toggle('questioning', questioning);
-  $('#backTab').disabled = questioning && (!ending.line || !!$('.presented'));
+  $('#backTab').disabled = questioning && (ending.script ? !!$('.presented') : !ending.line || !!$('.presented'));
   $('#backTab').setAttribute('aria-label', questioning ? '심문 나가기' : '뒤로');
   $('#app').classList.toggle('interrogate', on);
   const box = $('#interrogationGauge');
@@ -4690,10 +5165,18 @@ function updateInterrogationGauge(round, feedback = ''){
   if(feedback){ void box.offsetWidth; box.classList.add(feedback); }
 }
 
+// a thing's own buttons on its notebook page: open or close it (opened), hold the two up together (PACK.compare)
+function itemButtons(id){
+  const it = ITEMS[id], c = PACK?.compare;
+  return (it.opened ? `<button class="pill sm" type="button" data-item-open="${id}" aria-pressed="${S.flags.has(`open:${id}`)}">${S.flags.has(`open:${id}`) ? '닫기' : '열기'}</button>` : '') +
+    (c?.items.includes(id) && c.when.every(cond) && !S.flags.has(c.flag) ? '<button class="pill sm green" type="button" data-item-compare>비교하기</button>' : '');
+}
 // One shape for a photo ('place-clue') and a thing in 소지품 ('@item'): what the notebook and the drawer show of it.
 const isItemRef = ref => ref?.startsWith('@');
+// a thing that opens (opened: its picture and sentence when open, S.flags 'open:<id>') as it is now
+const itemNow = id => ITEMS[id].opened && S.flags.has(`open:${id}`) ? { ...ITEMS[id], ...ITEMS[id].opened } : ITEMS[id];
 function itemPhoto(id){
-  const it = ITEMS[id], [x, y, w, h] = it.crop;
+  const it = itemNow(id), [x, y, w, h] = it.crop;
   return `<svg viewBox="${x} ${y} ${w} ${h}" aria-hidden="true"><image href="${it.img}" width="${it.w}" height="${it.h}"/></svg>`;
 }
 // the drawer's card for a thing to hand over: the thing itself when it has a picture of its own (bag), else its photo
@@ -4707,8 +5190,10 @@ function handBag(id, way){
 function evidenceEntry(ref){
   if(!ref) return null;
   if(isItemRef(ref)){
-    const id = ref.slice(1), it = ITEMS[id];
-    return S.items.includes(id) ? { ref, item:true, label:it.label, place:'소지품', en:it.en, ko:it.ko, audio:it.audio, photo:itemPhoto(id) } : null;
+    const id = ref.slice(1), it = itemNow(id), c = PACK?.compare;
+    // once compared, the two things' pages have that sentence too
+    const more = c?.items.includes(id) && S.flags.has(c.flag) ? c.line : null;
+    return S.items.includes(id) ? { ref, item:true, label:it.label, place:'소지품', en:more ? `${it.en} ${more.en}` : it.en, ko:more ? `${it.ko} ${more.ko}` : it.ko, audio:it.audio, photo:itemPhoto(id) } : null;
   }
   const record = S.evidence.find(item => evRef(item) === ref);
   if(!record) return null;
@@ -4754,7 +5239,7 @@ function openDrawer(tab = 'photo'){
   const handing = ending?.step === 'handoff';
   $('#drawer').querySelectorAll('[data-drawer-tab]').forEach(b => {
     b.setAttribute('aria-pressed', b.dataset.drawerTab === tab);
-    b.hidden = handing ? b.dataset.drawerTab !== 'item' : b.dataset.drawerTab === 'item';
+    b.hidden = handing ? b.dataset.drawerTab !== 'item' : b.dataset.drawerTab === 'item' && !ending?.script;   // the violin case's questioning takes things too
   });
   $('#drawer h3').textContent = handing ? '소지품' : '증거';
   $('#drawerStrip').innerHTML = drawerStripHTML();
@@ -4847,7 +5332,10 @@ $('#drawer').addEventListener('click', e => {
 
 function endingControls(){
   const e = ending;
+  // the detective's question to pick (the questioning's ask)
+  if(e.step === 'ask') return `<button class="pill big green" type="button" data-end="ask">${esc(ENDING.script[e.si].en)}</button>`;
   if(!e.line) return '';
+  if(e.step === 'say') return '';   // the questioning's lines go on by themselves
   if(e.step === 'call') return e.i ? '<button class="pill big" type="button" data-end="interview">심문 시작</button>' : '';
   const tools = '';   // 다시 듣기 and 해석 are in the speech bubble
   if(e.step === 'confront') return e.line === ENDING.opening ? '' : tools + `<button class="pill big green" type="button" data-end="present">증거 내밀기</button>`;
@@ -4857,6 +5345,7 @@ function endingControls(){
 }
 function endingAction(action, who){
   const e = ending; if(!e) return;
+  if(action === 'ask') return scriptAsk();
   if(action === 'present'){ stopVoice(); openDrawer(); return; }
   if(action === 'give'){ stopVoice(); openDrawer('item'); return; }
   if(action === 'next') endingNext();
@@ -4868,7 +5357,8 @@ function endingFocus(who){
   if(ending.shown === who && !S.investigate) return false;
   const samePlace = ending.shown && !S.investigate && placeIdOf(ending.shown) === placeIdOf(who);
   ending.shown = who;
-  stopVoice(); S.cur = who; S.view = who; S.sel = null;
+  stopVoice(); S.cur = who; S.sel = null;
+  if(!spk(who).joins) S.view = who;   // the officer only joins the questioning: no page of his in the notebook
   openSheet(null); setNotes(false);
   if(S.investigate) setInvestigate(false);
   if(samePlace){ $('#app').classList.toggle('partner', !!cur().partner); focusCamera(null, true); }
@@ -4935,6 +5425,93 @@ function callGo(){
   accusedId = CULPRIT;
   startEnding();
 }
+/* The violin case's questioning (ENDING.script, design 9절): in the waiting room with the officer beside them. The
+   detective's questions (ask: the player picks the one question), lines said in turn, and Owen's claims (claim) answered
+   from the drawer with a statement or a thing (accept: then the lines it leads to, hit; a wrong one: his answer and the
+   same claim again). Each claim answered fills the gauge (ENDING.confront). Then the violin back to Tara (handoff); a
+   questioning heard to its end is not asked again. */
+function startScript(){
+  if(S.flags.has('confessed')) return startHandoff();
+  accusedId = PACK.accused;
+  ending = { step:'say', script:true, si:0, returnPlace:S.place || cur().place };
+  endingRound = 0; S.mood = {};
+  S.visit = { badger:{ place:spk(accusedId).place, ...NPC_POSITIONS.badger } };
+  if(!S.met.includes('badger')){ S.met.push('badger'); ending.joined = 'badger'; }
+  $('#app').classList.add('ending');
+  endingFocus(accusedId); renderInterrogationGauge();
+  scriptLines(ENDING.intro, () => scriptGo(0));
+}
+// lines in turn: the detective's in their bubble, the others' by them (mood: their face from then on)
+function scriptLines(lines, onDone, i = 0){
+  if(!ending?.script) return;
+  const line = lines[i];
+  if(!line) return onDone();
+  let went = false;
+  const next = () => { if(went) return; went = true; endTimer = setTimeout(() => scriptLines(lines, onDone, i + 1), 500); };
+  if(!line.det) return endingSay(line, line.mood, next);
+  clearTimeout(endTimer);
+  ending.line = detLine(line); ending.lineDone = next;
+  renderSay(ending.line); renderAsk();
+  endTimer = setTimeout(() => detectiveSay(line.key, next, null, line.en), 400);
+}
+function scriptGo(i){
+  if(!ending?.script) return;
+  clearTimeout(endTimer);
+  ending.si = i;
+  const item = ENDING.script[i];
+  if(!item) return scriptEnd();
+  if(item.ask){ Object.assign(ending, { step:'ask', line:null, lineDone:null }); renderSay(null); endingFocus(accusedId); return renderAsk(); }
+  ending.step = 'say';
+  scriptLines(item.lines, () => {
+    if(!item.claim) return scriptGo(i + 1);
+    ending.step = 'confront'; renderAsk(); renderInterrogationGauge();
+  });
+}
+function scriptAsk(){
+  const item = ENDING.script[ending?.si];
+  if(ending?.step !== 'ask' || !item?.ask) return;
+  ending.step = 'say';
+  scriptLines([{ det:true, key:item.key, en:item.en, ko:item.ko }], () => scriptGo(ending.si + 1));
+}
+// what is held up: a statement (who said it, what was written down) or a photo or thing
+function presentFigure(ref){
+  if(!isSayRef(ref)) return `<figure>${evidenceEntry(ref)?.photo || ''}</figure>`;
+  const [id, qid] = ref.split(':');
+  return `<figure class="say"><span class="who">${sayFace(id)}${esc(spk(id).name)}</span><p>${esc(writtenLines(id, qid).join(' '))}</p></figure>`;
+}
+function scriptPresent(ref){
+  if(ending?.step !== 'confront') return;
+  const item = ENDING.script[ending.si], right = item.accept.includes(ref);
+  clearTimeout(endTimer); stopVoice(); setNotes(false); renderDock(); renderSay(null);
+  ending.step = 'say'; ending.line = null; renderAsk();
+  const shot = document.createElement('div');
+  shot.className = `presented ${right ? 'hit' : 'miss'}`;
+  shot.innerHTML = presentFigure(ref) + (right ? '<span class="contra">모순!</span>' : '');
+  $('.scene').appendChild(shot);
+  $('#backTab').disabled = true;
+  setTimeout(() => {
+    if(!ending?.script) return;
+    const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {});
+    if(!right) return;
+    stampSound();
+    const scene = $('.scene'), npc = $(`#talkCamera .scene-npc[data-talk="${accusedId}"]`);
+    scene.classList.remove('jolt'); npc?.classList.remove('flinch'); void scene.offsetWidth;
+    scene.classList.add('jolt'); npc?.classList.add('flinch');
+    updateInterrogationGauge(++endingRound, 'hit');
+  }, 480);
+  setTimeout(() => { shot.remove(); $('.scene').classList.remove('jolt'); if(ending?.script) renderInterrogationGauge(); }, 1300);
+  endTimer = setTimeout(() => {
+    if(!ending?.script) return;
+    if(!right) return scriptLines([ENDING.miss], () => { endTimer = setTimeout(() => scriptGo(ending.si), 700); });
+    scriptLines(item.hit, () => scriptGo(ending.si + 1));
+  }, 1300);
+}
+function scriptEnd(){
+  S.flags.add('confessed'); saveGame();
+  Object.assign(ending, { script:false, round:S.handoffRound || 0 });
+  endingRound = 0; renderInterrogationGauge();
+  handoffGo();
+}
 function startEnding(){
   enterInterview('fiona', 'confront');
   endingRound = 0;
@@ -4949,7 +5526,7 @@ function playInterrogationOpening(){
   });
 }
 function requestLeaveInterrogation(){
-  if(ending?.step !== 'confront' || !ending.line || $('.presented')) return;
+  if(!ending || (!ending.script && (ending.step !== 'confront' || !ending.line)) || $('.presented')) return;
   clearTimeout(endTimer); stopVoice();
   $('#leaveInterrogation').hidden = false;
   $('#leaveInterrogation [data-interrogation-stay]').focus();
@@ -4957,6 +5534,7 @@ function requestLeaveInterrogation(){
 function stayInInterrogation(){
   $('#leaveInterrogation').hidden = true;
   $('#backTab').focus();
+  if(ending?.script) return scriptGo(ending.si);
   if(ending?.line === ENDING.opening) playInterrogationOpening();
 }
 $('#leaveInterrogation').addEventListener('click', e => {
@@ -4975,13 +5553,16 @@ function leaveEnding(){
   const returnPlace = ending?.returnPlace || cur().place;
   $('#leaveInterrogation').hidden = true;
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
-  ending = null; endingRound = 0; $('#app').classList.remove('ending'); renderInterrogationGauge();
+  // the officer joined only for the questioning (violin case)
+  if(ending?.joined) S.met = S.met.filter(id => id !== ending.joined);
+  ending = null; endingRound = 0; S.mood = {}; $('#app').classList.remove('ending'); renderInterrogationGauge();
   leaveInterview();
   if(CULPRIT) setMood(CULPRIT, null);
   enterPlace(returnPlace, true);
   openSheet('map');
 }
 function present(ref){
+  if(ending?.script) return scriptPresent(ref);
   if(ending?.step === 'handoff') return handOver(ref);
   if(ending?.step !== 'confront') return;
   clearTimeout(endTimer); stopVoice();
@@ -5581,7 +6162,22 @@ const ART = {
   garden: () => `<image href="assets/places/picnic-storyboard/garden.webp" width="1376" height="768"/>
     <image href="assets/places/picnic-storyboard/backpack-blue.png" x="985" y="276" width="107" height="106"/>
     <image href="assets/places/picnic-storyboard/backpack-red.png" x="1112" y="276" width="107" height="106"/>`,
-  lobby: () => `<image href="assets/places/picnic-storyboard/lobby-higgsfield.webp" width="1376" height="768"/>`
+  lobby: () => `<image href="assets/places/picnic-storyboard/lobby-higgsfield.webp" width="1376" height="768"/>`,
+  // the violin case (assets/places/violin/, scripts/cut-violin-art.ps1): the cutters lie under the right chair, the case
+  // and the button in front of the curtain once it is drawn aside, each until picked up; the close looks: Tara's photo,
+  // the sleeves
+  foyer: () => `<image href="assets/places/violin/lobby.jpg" width="1376" height="768"/>`,
+  waiting: () => `<image href="assets/places/violin/waiting.jpg" width="1376" height="768"/>` + (S.flags.has('took:wire-cutters') ? '' :
+    `<g transform="translate(832 668) rotate(-65) scale(.17)"><image href="assets/places/violin/cutters.png" x="-153" y="-230" width="307" height="460"/></g>`),
+  stage: () => `<image href="assets/places/violin/stage.jpg" width="1376" height="768"/>`,
+  backstage: () => !S.flags.has('curtain') ? `<image href="assets/places/violin/backstage.jpg" width="1376" height="768"/>`
+    : `<image href="assets/places/violin/backstage-open.jpg" width="1376" height="768"/>` +
+      (S.flags.has('took:violin-case') ? '' : `<g transform="translate(902 694) rotate(-86) scale(.44)"><image href="assets/places/violin/case-closed.png" x="-150" y="-320" width="301" height="640"/></g>`) +
+      (S.flags.has('took:gold-button') ? '' : `<image href="assets/places/violin/gold-button.png" x="1088" y="650" width="30" height="31"/>`),
+  taraphoto: () => `<image href="assets/places/violin/tara-photo.jpg" width="1024" height="765"/>`,
+  'sleeves-owen': () => closeLook('waiting', 'sleeves-owen'),
+  'sleeves-ivo': () => closeLook('stage', 'sleeves-ivo'),
+  'sleeves-momo': () => closeLook('backstage', 'sleeves-momo')
 };
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
@@ -5603,9 +6199,18 @@ const ART_FLOOR = {
   // the umbrella case: one tall picture each, as Betty's home
   hall:    { src:'assets/places/umbrella/hall-floor.jpg', h:975 },
   toynest: { src:'assets/places/umbrella/toynest-floor.jpg', h:1015 },
-  windmill:{ src:'assets/places/umbrella/windmill-floor.jpg', h:1025 }
+  windmill:{ src:'assets/places/umbrella/windmill-floor.jpg', h:1025 },
+  // the violin case: one tall picture each as well
+  foyer:    { src:'assets/places/violin/lobby-floor.jpg', h:875 },
+  waiting:  { src:'assets/places/violin/waiting-floor.jpg', h:935 },
+  stage:    { src:'assets/places/violin/stage-floor.jpg', h:915 },
+  backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 }
 };
 
+// a close look (violin case): the picture at phone width in the middle, over its room blurred and dimmed
+const closeLook = (room, pic) => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+  <image href="assets/places/violin/${room}.jpg" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>
+  <image href="assets/places/violin/${pic}.jpg" x="488" y="220" width="400" height="207"/>`;
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
 
 // a person's on-picture box in % of the picture: left/right of the sprite, top of the head, plus its height
@@ -5622,7 +6227,7 @@ function renderScene(placeId = S.place){
   art.style.setProperty('--world-width', `${pl.artWidth || 900}px`);
   art.style.setProperty('--world-height', `${pl.artHeight || 600}px`);
   // what is carried and handed over is in it too: the hall's umbrella leaves its stand when Ella hands it over
-  const people = peopleAt(pl.id), signature = `${pl.id}:${people.map(spriteKey).join(',')}${pl.inspect ? `:${!!S.unfolded}` : ''}:${S.items.join('.')}:${S.handoffRound}`;
+  const people = peopleAt(pl.id), signature = `${pl.id}:${people.map(spriteKey).join(',')}${pl.inspect ? `:${!!S.unfolded}` : ''}:${S.items.join('.')}:${S.handoffRound}:${[...S.flags].join('.')}:${pl.spots.map(s => +spotOn(s)).join('')}`;
   if(art.dataset.scene === signature){
     art.querySelectorAll('.spot').forEach(spot => spot.classList.toggle('found', S.found[pl.id].has(+spot.dataset.clue)));
     return;
@@ -5633,7 +6238,7 @@ function renderScene(placeId = S.place){
   art.style.setProperty('--art-share', artHeight / (artHeight + (floor ? Math.min(floor.h, artHeight * .3) : 0)));
   art.innerHTML = `<svg viewBox="0 0 ${pl.artWidth || 900} ${pl.artHeight || 600}" aria-hidden="true">${ART[pl.id]()}</svg>` +
     (floor ? `<img class="art-floor" src="${floor.src}" alt=""${floor.overlap ? ` style="top:${100 - floor.overlap / artHeight * 100}%"` : ''}>` : '') +
-    pl.spots.filter(s => !s.talk && !(s.folded && S.unfolded) && !(s.open && !S.unfolded)).map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
+    pl.spots.filter(s => !s.talk && !(s.folded && S.unfolded) && !(s.open && !S.unfolded) && spotOn(s)).map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
     people.map(id => {
       const position = positionOf(id), sprite = SPRITES[spriteKey(id)], { width, height } = npcBox(id, pl);
@@ -5715,8 +6320,26 @@ function sayProp(clue){
   voice.currentTime = 0;
   voice.play().catch(() => {});
 }
+// a spot is there while its conditions hold (when) and none of its unless does
+const spotOn = s => (s.when || []).every(cond) && !(s.unless || []).some(cond);
+// A thing picked up where it lies (take, violin case: no photo): the detective's lines over the place, then it goes into
+// 소지품 ('!flag' instead: only marks it done, the curtain drawn aside), and any thought now due
+function takeFromPlace(pl, i){
+  const clue = pl.clues[i];
+  if($('.art-stage .think-place')) return;   // already saying something here
+  cancelCapture(); stopVoice();
+  S.found[pl.id].add(i);
+  placeLines(clue.lines || [], () => {
+    if(clue.take.startsWith('!')) S.flags.add(clue.take.slice(1));
+    else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); toast('소지품을 노트에 넣었어요.'); }
+    if(clue.flag) S.flags.add(clue.flag);
+    saveGame(); renderScene(); renderSceneHead(); renderPlaces(); updateAccuse();
+    checkThoughts(); if(thoughts.length) setTimeout(playThought, 2600);
+  });
+}
 function examine(i){
   const pl = placeObj();
+  if(pl.clues[i].take) return takeFromPlace(pl, i);
   if(pl.clues[i].prop){ sayProp(pl.clues[i]); return; }
   const fresh = !S.found[pl.id].has(i);
   S.found[pl.id].add(i);
@@ -5816,7 +6439,7 @@ function enterPlace(id, fromConversation = false){
 // Only steps a photo answers (user decision: a statement comes anyway, every talk has to be finished): the library's
 // Mrs. Bear step is left out, 4. The picnic case has no interrogation, so no chip.
 function evidenceNeed(){
-  if(!ENDING.confront) return { got:0, of:0 };
+  if(!ENDING.confront || PACK?.hideEvidenceCount) return { got:0, of:0 };
   const steps = ENDING.confront.filter(step => step.accept.some(key => !isSayRef(key)));
   const found = key => { if(isSayRef(key)) return false; const at = key.lastIndexOf('-'); return !!S.found[key.slice(0, at)]?.has(+key.slice(at + 1)); };
   return { got:steps.filter(step => step.accept.some(found)).length, of:steps.length };
@@ -5825,7 +6448,7 @@ let evShown = null;
 function renderSceneHead(){
   const pl = placeObj(), { got, of } = evidenceNeed(), chip = $('#evCount');
   $('#sceneTitle').textContent = pl ? pl.label : '';
-  $('#foldFoot').hidden = !(S.investigate && pl?.inspect);
+  $('#foldFoot').hidden = !(S.investigate && pl?.inspect && pl.spots.some(s => s.folded || s.open));
   $('#foldBtn').textContent = S.unfolded ? '접기' : '펼치기';
   chip.innerHTML = `<img src="assets/ui/icons/magnifier.png" alt="">${got} <small>/ ${of}</small>`;
   chip.setAttribute('aria-label', `심문 증거 ${of}개 중 ${got}개`);
@@ -6095,15 +6718,19 @@ const CASES = [
     focus:'누구의 것인지 듣기', keys:['whose'],
     photo:{ img:'assets/places/umbrella/umbrella-sheet-original.png' },
     summary:'마을회관에 일주일째 남은 별무늬 우산의 주인을 찾았다. 장난감 바자회 날 비가 와서 바자회가 회관 안에서 열렸고, 바자회를 연 토이 네스트의 테스와 루비, 우산을 찾던 핀의 설명을 대조했다. 겉모습은 테스와 루비의 우산이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
-  { id:'case01', no:'Case 03', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
+  // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
+  { id:'missing-violin', no:'Case 03', title:'사라진 음악 대회 바이올린', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스' }, playable:true,
+    focus:'위치 표현 듣기', keys:['place-prep'],
+    photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.png', cx:40 },
+    summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 준비실 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
+  { id:'case01', no:'Case 04', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
     victimPhoto:'assets/characters/hoot-higgsfield.png',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
-  { id:'case03', no:'Case 04' },
-  { id:'case04', no:'Case 05' },
-  { id:'case05', no:'Case 06' }
+  { id:'case03', no:'Case 05' },
+  { id:'case04', no:'Case 06' }
 ];
 // the case this page plays (CASE_ID)
 const CASE = CASES.find(c => c.id === CASE_ID);
@@ -6267,6 +6894,7 @@ function loadGame(){
   // anyone added to the case since the save starts fresh; a check's open feedback is not kept
   S.per = Object.fromEntries(PEOPLE_ORDER.map(id => [id, { ...newSpeakerState(), ...saved[id], feedback:null }]));
   S.items ||= [];
+  if(!(S.flags instanceof Set)) S.flags = new Set();
   if(!(S.named instanceof Set)) S.named = new Set();
   if(!PACK) libraryMigrations();
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
@@ -6720,8 +7348,8 @@ $('#devDone').onclick = () => {
     p.order.forEach(qid => { p.questionChecks[qid] = 'ok'; });
     fillAnswers(id, p.order, false);
   });
-  S.met = [...PEOPLE_ORDER];
-  PLACES.forEach(pl => S.known.add(pl.id));
+  S.met = PEOPLE_ORDER.filter(id => !spk(id).joins);
+  PLACES.forEach(pl => { if(!pl.inspect) S.known.add(pl.id); });
   PEOPLE_ORDER.forEach(id => Object.values(spk(id).after || {}).forEach(beat => { if(beat.give && !S.items.includes(beat.give) && !S.handoffRound) S.items.push(beat.give); }));
   renderPlaces();
   if(S.investigate && S.place) renderDock(); else enterPlace(cur().place, true);
@@ -6734,10 +7362,18 @@ $('#devEvidence').onclick = () => {
   let n = 0;
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
     if(clue.prop || !place.spots.some(spot => spot.clue === clueIndex)) return;
+    if(clue.take){
+      S.found[place.id].add(clueIndex);
+      if(clue.take.startsWith('!')) S.flags.add(clue.take.slice(1));
+      else if(!S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); }
+      if(clue.flag) S.flags.add(clue.flag);
+      return;
+    }
     S.found[place.id].add(clueIndex);
     if(S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)) return;
     S.evidence.push({ placeId:place.id, clueIndex, photo:evidencePhoto(place, clueIndex) }); n++;
   }));
+  (PACK?.ready || []).forEach(c => { if(c.startsWith('!')) S.flags.add(c.slice(1)); });
   renderPlaces(); renderDock();
   if(S.investigate && S.place){ renderSceneHead(); renderScene(); }
   toast(n ? `증거 ${n}개를 노트에 기록했어요.` : '이미 모든 증거를 모았어요.');
@@ -6809,6 +7445,8 @@ const previewDeduced = () => {
 const PREVIEW_OF = {
   'picnic-bag':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['handoff', '노라에게 전달'], ['handback', '로지에게 전달'], ['review', '복습']],
+  'missing-violin':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
+    ['questioning', '오웬 심문'], ['return', '타라에게 반환'], ['review', '복습']],
   'unclaimed-umbrella':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['inspect', '우산 조사'],
     ['deduce', '추리 보드'], ['handoff', '엘라에게 알리기'], ['handback', '루비에게 전달'], ['review', '복습']],
   case01:[['home', '홈'], ['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
@@ -6829,6 +7467,8 @@ const PREVIEW_RUN = {
   call:() => { previewCase(); previewDeduced(); openSheet(null); startCall(); },
   interview:() => { previewCase(); previewDeduced(); openSheet(null); accusedId = CULPRIT; startEnding(); },
   confession:() => { previewCase(); $('#devInterro').click(); },
+  questioning:() => { previewCase(); previewDeduced(); openSheet(null); startScript(); },
+  return:() => { previewCase(); previewDeduced(); openSheet(null); S.flags.add('confessed'); startScript(); },
   review:() => { previewCase(); previewDeduced(); openSheet(null); openReview(); }
 };
 const PREVIEW_PARTS = PREVIEW_OF[CASE_ID].map(([id, label]) => [id, label, PREVIEW_RUN[id]]);
