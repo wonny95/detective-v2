@@ -1266,12 +1266,14 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 }
 .devpreview small{font-family:var(--f-display);font-size:13px;color:var(--ink-soft);text-align:center}
 /* 미리보기: the case switch on top, then that case's parts only (user request: not too many buttons at once) */
-.devpreview{gap:6px}
+.devpreview{gap:6px;width:172px}
 .devpreview .devbtn{font-size:13px;padding:8px 14px}
 /* the case switch is a dropdown of every playable case (user request: more cases will come), drawn like the buttons:
    the current case on a honey button, its list a rounded paper card of the same buttons */
 .dev-cases{position:relative;margin-bottom:6px}
 .dev-cases > .devbtn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--honey)}
+.dev-cases > .devbtn > span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.dev-cases > .devbtn::after{flex:none}
 .dev-cases > .devbtn::after{content:"";width:7px;height:7px;margin-top:-4px;border:solid var(--ink);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .15s}
 .dev-cases > .devbtn[aria-expanded="true"]::after{margin-top:3px;transform:rotate(-135deg)}
 .dev-case-list{position:absolute;z-index:1;top:calc(100% + 6px);right:0;min-width:100%;width:max-content;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;padding:8px;
@@ -1388,7 +1390,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <section class="sheet full" id="sheet-map" aria-label="마을 지도">
       <div class="map-stage">
         <div class="map" id="map">
-          <img class="map-art" src="assets/places/village-map-day.jpg" alt="">
+          <img class="map-art" src="assets/places/village-map-day-higgsfield.webp" alt="">
           <p class="map-empty" id="mapEmpty">아직 알게 된 장소가 없어요.</p>
         </div>
       </div>
@@ -2298,7 +2300,7 @@ const VIOLIN_CASE = {
         { id:'call', en:'Call the officer.', ko:'경사에게 알리기', say:false, when:['!tara-check'], flag:'called',
           lines:[
             { det:true, key:'call', en:'Officer, I found Tara\'s violin. All four strings are broken.', ko:'경사, 타라의 바이올린을 찾았어. 현 네 줄이 모두 끊어져 있어.' },
-            { phone:'Sgt. Badger', key:'b1', en:"Keep the violin safe. Call me when you're ready.", ko:'바이올린을 잘 보관해 둬. 준비되면 불러 줘.', as:{ pitch:.9, voice:3 } }
+            { phone:'Sgt. Badger', face:'badger', key:'b1', en:"Keep the violin safe. Call me when you're ready.", ko:'바이올린을 잘 보관해 둬. 준비되면 불러 줘.', as:{ pitch:.9, voice:3 } }
           ] }
       ]
     },
@@ -2450,9 +2452,10 @@ const VIOLIN_CASE = {
     { id:'foyer', x:87, y:41, label:'Lobby', artWidth:1376, artHeight:768,
       clues:[
         { label:'Contest poster', prop:true, en:'There is a contest poster on the wall.', ko:'벽에 대회 포스터가 있어.' },
-        { label:'Programs', prop:true, en:'There are more programs on the table.', ko:'탁자 위에 안내지가 더 있어.' }
+        { label:'Programs', prop:true, en:'There are more programs on the table.', ko:'탁자 위에 안내지가 더 있어.' },
+        { label:'Leaflet', prop:true, en:'A contest program under the bench. Someone dropped it.', ko:'벤치 아래에 대회 안내지가 있네. 누가 떨어뜨렸나 봐.' }
       ],
-      spots:[ { clue:0, x:3, y:0, w:18, h:62 }, { clue:1, x:85, y:53, w:10, h:12 } ] },
+      spots:[ { clue:0, x:3, y:0, w:18, h:38 }, { clue:1, x:85.5, y:30, w:10, h:10 }, { clue:2, x:16, y:87, w:9.5, h:11 } ] },
     { id:'waiting', x:74, y:38, label:'Waiting Room', artWidth:1376, artHeight:768,
       clues:[
         { label:'Two chairs', prop:true, en:"There are two chairs next to the door. The case isn't there.", ko:'문 옆에 의자가 두 개 있어. 케이스는 없네.' },
@@ -2529,12 +2532,12 @@ const VIOLIN_CASE = {
   items:{
     // titles say what the thing is, never whose (design 10절)
     'violin-case':{ label:'Black violin case', en:'The yellow moon is on the case. The violin is in it.', ko:'케이스에 노란 달이 있고 바이올린은 안에 있어.',
-      img:'assets/places/violin/case-closed.png', w:301, h:640, crop:[-276, 0, 853, 640], bag:'assets/places/violin/case-closed.png',
-      opened:{ img:'assets/places/violin/case-open.png', w:418, h:640, crop:[-218, 0, 853, 640], en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } },
+      img:'assets/places/violin/case-closed.png', w:293, h:640, crop:[-280, 0, 853, 640], bag:'assets/places/violin/case-closed.png',
+      opened:{ img:'assets/places/violin/case-open.png', w:416, h:640, crop:[-218, 0, 853, 640], en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } },
     'gold-button':{ label:'Gold button', en:'There is a gold button under the curtain.', ko:'커튼 아래에 금색 단추가 있어.',
-      img:'assets/places/violin/gold-button.png', w:232, h:240, crop:[-84, -30, 400, 300] },
+      img:'assets/places/violin/gold-button.png', w:240, h:240, crop:[-80, -30, 400, 300] },
     'wire-cutters':{ label:'Small cutters', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.',
-      img:'assets/places/violin/cutters.png', w:307, h:460, crop:[-166, -10, 640, 480] }
+      img:'assets/places/violin/cutters.png', w:302, h:460, crop:[-169, -10, 640, 480] }
   },
   previewHandback:['violin-case'],
   deduce:{
@@ -3275,11 +3278,11 @@ const SPRITES = {
   ruby:{src:'assets/characters/ruby-higgsfield.png', w:517, h:700, face:'16 7 371 371', anchor:.39},
   ella:{src:'assets/characters/ella-higgsfield.png', w:472, h:700, face:'54 14 364 364', anchor:.5},
   finn:{src:'assets/characters/finn-higgsfield.png', w:420, h:700, face:'14 0 385 385', anchor:.5},
-  // the violin case (scripts/cut-violin-art.ps1); the officer is the library case's Sgt. Badger
-  tara:{src:'assets/characters/tara-higgsfield.png', w:475, h:700, face:'63 14 350 350', anchor:.55},
-  owen:{src:'assets/characters/owen-higgsfield.png', w:494, h:700, face:'32 0 350 350', anchor:.42},
-  ivo:{src:'assets/characters/ivo-higgsfield.png', w:466, h:700, face:'51 0 364 364', anchor:.5},
-  momo:{src:'assets/characters/momo-higgsfield.png', w:421, h:700, face:'35 14 350 350', anchor:.5},
+  // the violin case (scripts/cut-violin-characters.py); the officer is the library case's Sgt. Badger
+  tara:{src:'assets/characters/tara-higgsfield.png', w:470, h:700, face:'60 14 350 350', anchor:.55},
+  owen:{src:'assets/characters/owen-higgsfield.png', w:485, h:700, face:'29 0 350 350', anchor:.42},
+  ivo:{src:'assets/characters/ivo-higgsfield.png', w:457, h:700, face:'46 0 364 364', anchor:.5},
+  momo:{src:'assets/characters/momo-higgsfield.png', w:420, h:700, face:'35 14 350 350', anchor:.5},
   pip:{src:'assets/characters/pip-higgsfield.png', w:480, h:700, face:'23 0 434 434', anchor:.5}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
@@ -3287,8 +3290,8 @@ Object.assign(SPRITES, {
   'fiona:nervous':{src:'assets/characters/fiona-nervous.png', w:477, h:641, height:641/621, anchor:.42},
   'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415},
   // Owen in the questioning (violin case): cornered from his second claim, sorry when he owns up
-  'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.png', w:492, h:700, anchor:.44},
-  'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:570, h:700, anchor:.4}
+  'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.png', w:486, h:700, anchor:.44},
+  'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:566, h:700, anchor:.4}
 });
 const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : id;
 // Each sprite's mouth pictures, [x, y, w, h] in sprite px: the drawn mouth painted over with the fur around it, and a
@@ -3314,6 +3317,14 @@ const MOUTHS = {
   finn:{closed:[114,145,189,50], open:[114,145,189,80]},
   'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
   'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]},
+  // the violin case: the closed mouth as drawn; Pip's beak opens (its lower half drops)
+  tara:{closed:[233,214,90,24], open:[233,214,90,36]},
+  owen:{closed:[156,258,81,22], open:[156,258,81,30]},
+  ivo:{closed:[191,259,75,20], open:[191,259,75,28]},
+  momo:{closed:[162,211,96,32], open:[162,211,96,41]},
+  pip:{closed:[186,176,98,74], open:[186,176,98,74]},
+  'owen:nervous':{closed:[149,262,102,24], open:[149,262,102,29]},
+  'owen:sad':{closed:[224,226,53,19], open:[224,226,53,20]},
   detective:{closed:[229,270,100,34], open:[229,270,100,45]},
   'detective:thinking':{closed:[228,271,81,35], open:[228,271,81,39]},
   'detective:point':{closed:[217,268,100,37], open:[217,268,100,47]},
@@ -4083,7 +4094,7 @@ function playLines(id, lines, onDone, i = 0){
     document.querySelectorAll(`.scene-npc[data-talk="${id}"] > span`).forEach(tag => { tag.textContent = spk(id).name; });
   }
   if(line.phone){
-    renderSay({ name:line.phone, en:line.en, ko:line.ko });
+    renderSay({ name:line.phone, en:line.en, ko:line.ko, det:true, face:line.face });
     return readOut(line.en, () => waitTap(() => { if(S.investigate || S.cur !== id) return; if(!ending) renderSay(null); next(); }));
   }
   if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, next, null, line.as); }
@@ -5119,7 +5130,8 @@ function renderSay(line){
   const again = line === ending?.line && !line.think;   // the detective's thought is not said
   // the detective (the player, never on screen) speaks from below, on honey paper with their face (user pick A)
   b.classList.toggle('det', !!line.det);
-  b.innerHTML = (line.det ? '<img class="say-face" src="assets/ui/icons-v2/detective.png" alt="">' : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
+  // a line from below with someone else's face (face: the officer on the phone, violin case)
+  b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/detective.png'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
 }
@@ -6168,16 +6180,16 @@ const ART = {
   // the sleeves
   foyer: () => `<image href="assets/places/violin/lobby.jpg" width="1376" height="768"/>`,
   waiting: () => `<image href="assets/places/violin/waiting.jpg" width="1376" height="768"/>` + (S.flags.has('took:wire-cutters') ? '' :
-    `<g transform="translate(832 668) rotate(-65) scale(.17)"><image href="assets/places/violin/cutters.png" x="-153" y="-230" width="307" height="460"/></g>`),
+    `<g transform="translate(832 668) rotate(-65) scale(.17)"><image href="assets/places/violin/cutters.png" x="-151" y="-230" width="302" height="460"/></g>`),
   stage: () => `<image href="assets/places/violin/stage.jpg" width="1376" height="768"/>`,
   backstage: () => !S.flags.has('curtain') ? `<image href="assets/places/violin/backstage.jpg" width="1376" height="768"/>`
     : `<image href="assets/places/violin/backstage-open.jpg" width="1376" height="768"/>` +
-      (S.flags.has('took:violin-case') ? '' : `<g transform="translate(902 694) rotate(-86) scale(.44)"><image href="assets/places/violin/case-closed.png" x="-150" y="-320" width="301" height="640"/></g>`) +
-      (S.flags.has('took:gold-button') ? '' : `<image href="assets/places/violin/gold-button.png" x="1088" y="650" width="30" height="31"/>`),
+      (S.flags.has('took:violin-case') ? '' : `<g transform="translate(902 694) rotate(-86) scale(.44)"><image href="assets/places/violin/case-closed.png" x="-146" y="-320" width="293" height="640"/></g>`) +
+      (S.flags.has('took:gold-button') ? '' : `<image href="assets/places/violin/gold-button.png" x="1088" y="650" width="30" height="30"/>`),
   taraphoto: () => `<image href="assets/places/violin/tara-photo.jpg" width="1024" height="765"/>`,
-  'sleeves-owen': () => closeLook('waiting', 'sleeves-owen'),
-  'sleeves-ivo': () => closeLook('stage', 'sleeves-ivo'),
-  'sleeves-momo': () => closeLook('backstage', 'sleeves-momo')
+  'sleeves-owen': () => closeLook('waiting', 'sleeves-owen', 442),
+  'sleeves-ivo': () => closeLook('stage', 'sleeves-ivo', 427),
+  'sleeves-momo': () => closeLook('backstage', 'sleeves-momo', 385)
 };
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
@@ -6201,16 +6213,17 @@ const ART_FLOOR = {
   toynest: { src:'assets/places/umbrella/toynest-floor.jpg', h:1015 },
   windmill:{ src:'assets/places/umbrella/windmill-floor.jpg', h:1025 },
   // the violin case: one tall picture each as well
-  foyer:    { src:'assets/places/violin/lobby-floor.jpg', h:875 },
+  foyer:    { src:'assets/places/violin/lobby-floor.jpg', h:695 },
   waiting:  { src:'assets/places/violin/waiting-floor.jpg', h:935 },
   stage:    { src:'assets/places/violin/stage-floor.jpg', h:915 },
   backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 }
 };
 
-// a close look (violin case): the picture at phone width in the middle, over its room blurred and dimmed
-const closeLook = (room, pic) => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+// a close look (violin case): the cut-out (w: its width at 300 tall) in the middle, 260 tall, over its room blurred and
+// dimmed
+const closeLook = (room, pic, w) => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
   <image href="assets/places/violin/${room}.jpg" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>
-  <image href="assets/places/violin/${pic}.jpg" x="488" y="220" width="400" height="207"/>`;
+  <image href="assets/places/violin/${pic}.png" x="${688 - w * 13 / 30}" y="200" width="${w * 13 / 15}" height="260"/>`;
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
 
 // a person's on-picture box in % of the picture: left/right of the sprite, top of the head, plus its height
@@ -7477,7 +7490,7 @@ function renderPreviewTools(){
   const here = previewCaseShown === CASE_ID, parts = PREVIEW_OF[previewCaseShown];
   const cases = CASES.filter(c => c.playable), name = c => esc(`${c.no} ${c.title}`);
   $('#devPreview').innerHTML = '<small>미리보기</small><div class="dev-cases">' +
-    `<button class="devbtn" type="button" id="previewCase" aria-haspopup="true" aria-expanded="false" aria-label="미리 볼 사건">${name(cases.find(c => c.id === previewCaseShown))}</button>` +
+    `<button class="devbtn" type="button" id="previewCase" aria-haspopup="true" aria-expanded="false" aria-label="미리 볼 사건" title="${name(cases.find(c => c.id === previewCaseShown))}"><span>${name(cases.find(c => c.id === previewCaseShown))}</span></button>` +
     `<div class="dev-case-list" id="previewCaseList" hidden>${cases.map(c => `<button class="devbtn" type="button" data-preview-case="${c.id}" aria-pressed="${previewCaseShown === c.id}">${name(c)}</button>`).join('')}</div></div>` +
     parts.map(([id, label]) => `<button class="devbtn" type="button" data-preview="${id}" aria-pressed="${here && id === PREVIEW}">${label}</button>`).join('') +
     (PREVIEW ? '<button class="devbtn" type="button" data-preview-end>미리보기 끝</button>' : '');

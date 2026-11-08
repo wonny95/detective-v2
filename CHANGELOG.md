@@ -13,7 +13,16 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-08 16:42 · Claude · (이 커밋)
+## 2026-11-08 · Claude · (이 커밋)
+
+- 사용자 지적: 개발 방식이 이전과 다름, 그림 자르기 문제, 미리보기 버튼 폭. 앞으로 단계별 진행(사용자 결정).
+- 사용자 결정(추천안): 경사 전화 대사는 아래 말풍선에 경사 얼굴로, 로비 벤치 밑 안내지 소품을 되살림(로비 띠 시작 380).
+- 그림 다시 자르기(사용자 승인: Python 3.12 + Pillow 설치): `scripts/cut-violin-characters.py`(흰 스티커 테두리를 바깥에서 깎음), `scripts/cut-violin-places.py`(장소·소지품 테두리 제거·소매는 종이 없이 오려 냄·타라 사진·지도는 원래 webp에 붙임). PowerShell 스크립트(`ArtTools.cs`, `cut-violin-art.ps1`)는 휴지통으로. 새 인물 입(`make-npc-mouths.py`, 닫은 입은 그림 그대로, 핍은 부리가 벌어짐).
+- 미리보기 칸 폭을 172px로 고정, 긴 사건 이름은 …(사용자 지적).
+- 확인: 구문 검사, 그림 미리보기(인물·소지품·소매·입). 못 한 것: 이번 수정 뒤 브라우저 확인(사용량 한도). 안 쓰게 된 `assets/places/village-map-day.jpg`·`assets/places/violin/sleeves-*.jpg`와 PNG 원본 14개는 지울지 사용자 확인 전.
+- **다음**: 브라우저로 로비 안내지·소매 확대·입·지도 확인 → 1단계 확인(사용자 플레이).
+
+## 2026-11-08 16:42 · Claude · 5c4213a
 
 - 사용자 요청: 바이올린 스테이지 개발. 설계서 `design/case-04-missing-violin.md`대로 `VIOLIN_CASE`(`?case=violin`, Case 03)를 만들고 도서관을 Case 04로 밈(사용자 결정 2026-11-04). 녹음은 없어 브라우저 음성(`silent`).
 - 그림(사용자 결정, 2026-11-07 생성한 27.5크레딧분): 배경 제거 6장(Higgsfield `remove_background`), 자르기는 이 컴퓨터에 Python이 없어 `scripts/cut-violin-art.ps1` + `scripts/ArtTools.cs`(PowerShell·C#). 인물 다섯·오웬 표정 둘·얼굴 아이콘, 장소 넷과 커튼을 연 준비실·바닥, 소지품 넷, 소매 셋, 타라의 사진, 지도에 음악회관(모든 사건의 지도가 `assets/places/village-map-day.jpg`로 바뀜). 받은 PNG 원본 14개는 품질 92 JPG로 저장해 커밋하고, PNG는 커밋하지 않고 폴더에 남겨 둠(지울지 사용자 확인 전).

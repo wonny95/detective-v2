@@ -42,13 +42,20 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'tess':('tess-higgsfield.png',266,212,100,20,'smile',4,203),
    'ruby':('ruby-higgsfield.png',202,230,78,20,'smile',3,226),
    'ella':('ella-higgsfield.png',238,248,58,14,'smile',3,244),
-   'finn':('finn-higgsfield.png',209,155,175,35,'smile',4.5,145)}
+   'finn':('finn-higgsfield.png',209,155,175,35,'smile',4.5,145),
+   # the violin case (2026-11-08); search tops just under the nose, so the line from it stays
+   'tara':('tara-higgsfield.png',277,220,80,14,'smile',3.5,212),
+   'owen':('owen-higgsfield.png',197,258,70,15,'smile',3,258),
+   'ivo':('ivo-higgsfield.png',228,260,63,13,'smile',3,259),
+   'momo':('momo-higgsfield.png',210,213,85,22,'smile',4,211),
+   'owen-nervous':('owen-nervous-higgsfield.png',200,265,90,13,'nervous',3,262),
+   'owen-sad':('owen-sad-higgsfield.png',251,227,42,11,'sad',4,226)}
 import sys
 if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
 NEAR=('mia-ollie','finn')   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
 # only cover within the recorded box (a few px around): on these pictures the crayon texture links the mouth to the
 # cheeks and whiskers
-LIMIT=('nora','mia','mia-ollie','tess','ruby','ella','finn')
+LIMIT=('nora','mia','mia-ollie','tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 DARK={'mia':50}   # how much darker than the fur around a mark must be (default 22); Mia's white muzzle has crayon grain
 KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinking':(248,252,288,276),
       'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276),
@@ -56,7 +63,9 @@ KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinki
 # areas never covered (sprite px): the badger's nose sits right above the curled mouth ends; Ollie's nose, Mia's line from the nose
 # the umbrella case: the closed mouth stays as drawn (the cat's and the deer's mouth under the nose, Tess's and Finn's
 # smile), only the open one is new
-AS_DRAWN=('tess','ruby','ella','finn')
+# the violin case's too (the ferret's wavy line, the fox's and the goat's mouth under the nose, Owen's wobbly and sad
+# mouths)
+AS_DRAWN=('tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 SRC_LINE=6   # line weight of the closed mouths in the sheet (px)
 L=lambda im: im.convert('L')
 
@@ -190,6 +199,18 @@ def ben_mouth():
     layer.crop(tb).save(M+'ben-open.png',optimize=True)
     meta['ben']={'closed':[box[0],box[1],box[2]-box[0],box[3]-box[1]],'open':[face[0]+tb[0],face[1]+tb[1],tb[2]-tb[0],tb[3]-tb[1]]}; print('ben',meta['ben'])
 if not sys.argv[1:] or 'ben' in sys.argv[1:]: ben_mouth()
+def pip_mouth():
+    """Pip the sparrow talks with his beak: closed = as drawn; open = the lower half (under the line across it, y 216)
+    dropped 6 px, the gap the dark inside of the beak, only across the beak's own width at that line"""
+    im=Image.open(D+'pip-higgsfield.png').convert('RGBA'); box=(186,176,284,250); split=216; drop=6
+    reg=im.crop(box); reg.save(M+'pip-closed.png',optimize=True)
+    W,H=reg.size; s=split-box[1]; out=reg.copy()
+    out.paste(reg.crop((0,s,W,H-drop)),(0,s+drop))
+    row=[reg.getpixel((i,s)) for i in range(W)]; dark=[i for i,p in enumerate(row) if sum(p[:3])<330]
+    d=ImageDraw.Draw(out); d.rectangle((min(dark),s,max(dark),s+drop),fill=(70,38,36,255))
+    out.save(M+'pip-open.png',optimize=True)
+    meta['pip']={'closed':[box[0],box[1],W,H],'open':[box[0],box[1],W,H]}; print('pip',meta['pip'])
+if not sys.argv[1:] or 'pip' in sys.argv[1:]: pip_mouth()
 # duck: the generated beaks replace the drawn one (147..300 x 167..248)
 for state,name in [('closed','beak'),('open','beak-open')] if not sys.argv[1:] or 'duck' in sys.argv[1:] else []:
     m=CUT[name]; BW=166; th=int(m.size[1]*BW/m.size[0]*0.9)
