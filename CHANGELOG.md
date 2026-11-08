@@ -13,7 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-08 · Claude · (이 커밋)
+## 2026-11-08 21:30 · Claude · (이 커밋)
+
+- 사용자 요청: 탐정 목소리를 Higgsfield로 만들어 넣기. 바이올린 사건의 탐정 줄 90문장(파일 95개, 같은 문장은 복사)을 MiniMax **Grady**·감정 없음(앞 사건 탐정과 같은 목소리)으로 만들어 `audio/violin/`에 넣음(문장당 약 0.15크레딧, 약 13.5크레딧). 목록·job은 `audio/violin/README.md`, 뽑기는 `scripts/violin-detective-lines.js`.
+- 엔진: `VIOLIN_CASE.silent`를 빼고 경로를 이음 — `detectiveSay`·`askAudio`·`DEDUCE_DIR`에 `audio/violin/`, 살펴보는 물건의 `clue.audio`, 소지품은 주울 때의 줄(케이스 s2·연 케이스 s4·단추 s3·니퍼 c2). 비교한 소지품은 자기 문장 뒤에 비교 문장(c3)을 이어서 들려줌(`playEvidence`가 녹음 둘을 차례로). 다른 인물과 경사의 전화 줄은 그대로 브라우저 음성.
+- 그림 자르기를 Python으로 바꾼 것에 맞춰 HANDOFF(3.0.2·지도·7절)와 그림 README의 PowerShell·`village-map-day.jpg`·입 없음 설명을 고침.
+- 확인(새 탭): 타라 질문(`detective-tara-t0`), 추리 q1, 심문(`question-thought`·`call2`), 로비 포스터(`detective-foyer-0`) 녹음이 200으로 받아져 재생, 콘솔 오류 없음, 구문 검사. 앞 커밋의 그림은 로비의 타라·대기실 경사 화면만 봄(로비 안내지·소매 확대·입 움직임·지도는 아직). 못 한 것: 95파일을 하나하나 귀로 듣기, 처음부터 끝까지 한 판, 실제 폰.
+- **다음**: 1단계 확인(사용자가 처음부터 끝까지 플레이) → 고칠 점 반영 → 다른 인물 녹음(목소리 고르기·비용 안내). 안 쓰게 된 `assets/places/village-map-day.jpg`·`assets/places/violin/sleeves-*.jpg`와 커밋하지 않은 PNG 원본 14개를 지울지 사용자에게 묻기.
+
+## 2026-11-08 · Claude · 9f095eb
 
 - 사용자 지적: 개발 방식이 이전과 다름, 그림 자르기 문제, 미리보기 버튼 폭. 앞으로 단계별 진행(사용자 결정).
 - 사용자 결정(추천안): 경사 전화 대사는 아래 말풍선에 경사 얼굴로, 로비 벤치 밑 안내지 소품을 되살림(로비 띠 시작 380).

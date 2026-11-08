@@ -2243,10 +2243,10 @@ UMBRELLA_CASE.places.forEach(pl => pl.clues.forEach((c, i) => c.audio = `audio/u
      conditions are met (thoughts)
    - the questioning in the waiting room (ending.script): the detective's questions, Owen's claims answered with a
      statement or a thing held up, then the violin back to Tara (handoff)
-   No recordings yet (silent): every line is read by the browser's voice. */
+   The detective's lines are recorded (audio/violin/, scripts/violin-detective-lines.js); the others are still read by
+   the browser's voice (speak with no recording). */
 const VIOLIN_CASE = {
   start:'tara',
-  silent:true,
   leaveOpen:true,
   accused:'owen',
   hideEvidenceCount:true,
@@ -2631,6 +2631,11 @@ const VIOLIN_CASE = {
     ]
   }
 };
+// the detective's sentence for each thing looked at (audio/violin/detective-<place>-<n>.mp3; things picked up say their
+// own lines), and for the things carried: what was said when picking each up (s2, s4 open, s3, c2)
+VIOLIN_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take) c.audio = `audio/violin/detective-${pl.id}-${i}.mp3`; }));
+Object.entries({ 'violin-case':'s2', 'gold-button':'s3', 'wire-cutters':'c2' }).forEach(([id, key]) => { VIOLIN_CASE.items[id].audio = `audio/violin/detective-${key}.mp3`; });
+VIOLIN_CASE.items['violin-case'].opened.audio = 'audio/violin/detective-s4.mp3';
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : null;
 const PEOPLE = PACK ? PACK.people : {
   // the partner — met first, at the crime scene
@@ -3758,13 +3763,15 @@ function playEvidence(ref){
   const entry = evidenceEntry(ref);
   if(!entry) return;
   if(!entry.audio) return readOut(entry.en);
-  const clue = entry;
+  // a thing compared (violin case) says its own sentence, then the comparison's
+  const [first, ...rest] = [].concat(entry.audio);
   stopVoice();
   const voice = $('#evidenceVoice');
   voice.onended = voice.onerror = null;
-  if(!voice.src.endsWith(clue.audio)) voice.src = clue.audio;
+  if(!voice.src.endsWith(first)) voice.src = first;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.currentTime = 0;
+  if(rest.length) voice.onended = () => { voice.onended = null; detectiveSay(rest[0]); };
   voice.play().catch(() => {});
 }
 // One of the detective's own lines (DETECTIVE, audio/detective-<key>.mp3), in the same voice as the evidence sentences.
@@ -3777,9 +3784,9 @@ function detectiveSay(key, onDone, onBlocked, text){
   voice.onended = voice.onerror = null;
   if(text && (!key || PACK?.silent)){ readOut(text, onDone); return; }
   // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/, the umbrella case's all in
-  // audio/umbrella/
+  // audio/umbrella/, the violin case's in audio/violin/
   voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3`
-    : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
+    : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : VIOLIN ? `audio/violin/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
@@ -4177,6 +4184,7 @@ function openInspect(id = PLACES.find(p => p.inspect)?.id){
 function askAudio(id, qid){
   if(PICNIC) return `audio/picnic/detective-${id}-${qid}.mp3`;
   if(UMBRELLA) return `audio/umbrella/detective-${id}-${qid}.mp3`;
+  if(VIOLIN) return `audio/violin/detective-${id}-${qid}.mp3`;
   return spk(id).questions ? `audio/detective-ask-${id}-${qid}.mp3` : `audio/detective-ask-${qid}.mp3`;
 }
 // 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
@@ -4854,7 +4862,7 @@ const DEDUCE = PACK ? PACK.deduce : {
 // replies, h1… hints, miss; the detective's voice, Higgsfield MiniMax Grady); a line missing here is read by the
 // browser's voice (a question marked unrecorded, all three of its lines)
 const DEDUCE_RECORDED = PACK?.silent ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => q.unrecorded ? [] : [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : 'audio/deduce/';
+const DEDUCE_DIR = PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : VIOLIN ? 'audio/violin/deduce/' : 'audio/deduce/';
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답', opt2:'답' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
@@ -5205,7 +5213,8 @@ function evidenceEntry(ref){
     const id = ref.slice(1), it = itemNow(id), c = PACK?.compare;
     // once compared, the two things' pages have that sentence too
     const more = c?.items.includes(id) && S.flags.has(c.flag) ? c.line : null;
-    return S.items.includes(id) ? { ref, item:true, label:it.label, place:'소지품', en:more ? `${it.en} ${more.en}` : it.en, ko:more ? `${it.ko} ${more.ko}` : it.ko, audio:it.audio, photo:itemPhoto(id) } : null;
+    const audio = more && it.audio ? [it.audio, `audio/violin/detective-${more.key}.mp3`] : it.audio;
+    return S.items.includes(id) ? { ref, item:true, label:it.label, place:'소지품', en:more ? `${it.en} ${more.en}` : it.en, ko:more ? `${it.ko} ${more.ko}` : it.ko, audio, photo:itemPhoto(id) } : null;
   }
   const record = S.evidence.find(item => evRef(item) === ref);
   if(!record) return null;
@@ -6175,7 +6184,7 @@ const ART = {
     <image href="assets/places/picnic-storyboard/backpack-blue.png" x="985" y="276" width="107" height="106"/>
     <image href="assets/places/picnic-storyboard/backpack-red.png" x="1112" y="276" width="107" height="106"/>`,
   lobby: () => `<image href="assets/places/picnic-storyboard/lobby-higgsfield.webp" width="1376" height="768"/>`,
-  // the violin case (assets/places/violin/, scripts/cut-violin-art.ps1): the cutters lie under the right chair, the case
+  // the violin case (assets/places/violin/, scripts/cut-violin-places.py): the cutters lie under the right chair, the case
   // and the button in front of the curtain once it is drawn aside, each until picked up; the close looks: Tara's photo,
   // the sleeves
   foyer: () => `<image href="assets/places/violin/lobby.jpg" width="1376" height="768"/>`,
