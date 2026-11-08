@@ -126,3 +126,64 @@ MiniMax 프리셋 **Evie** `7a6845a2-5865-5669-a0ca-8fc8d8e96528`(사용자 결�
 | `d24f1f6b` | I can't play it. Please find out what happened. | tara-r3.mp3 |
 | `0b026639` | Thank you for finding my violin and telling me what happened. | tara-end1.mp3 |
 | `b8502f0d` | I can't play today. I'm sad, but I'll get new strings. | tara-end2.mp3 |
+
+## 오웬
+
+MiniMax 프리셋 **Miles `e18664a7-…`**, 감정 없음(사용자 결정, 2026-11-09). 여러 문장 대답의 구간은 `SENTENCE_TIMES`.
+
+| job | 문장 | 파일 |
+|---|---|---|
+| `6a2fb7b4` | Oh, hello. I'm Owen. | owen-hello.mp3 |
+| `5e1f924c` | I'll tell you what I can. | owen-hello2.mp3 |
+| `f42ae74c` | I stayed next to the door the whole time. | owen-o1.mp3 |
+| `e5167cfb` | I waited for my turn. | owen-o8.mp3 |
+| `82b3aeb9` | Next to the chair, before Tara went to the lobby. | owen-o2.mp3 |
+| `cdd276cf` | Momo, the stage helper, carried a black toolbox behind the curtain. | owen-o9.mp3 |
+| `06a8da44` | My sleeves? OK. | owen-sleeves.mp3 |
+| `6a22da19` | No. Maybe Momo moved it. Momo went behind the curtain. | owen-o3.mp3 |
+| `8917980d` | Then it was someone else. I stayed next to the door. | owen-o4.mp3 |
+| `85db216f` | My sleeve caught on the curtain hook. I hid the case behind the curtain. | owen-o6.mp3 |
+| `0e200956` | I only moved the case. I didn't break the violin. | owen-o11.mp3 |
+| `47c3054e` | Yes, I borrowed them for my music stand. I didn't cut the strings. | owen-o12.mp3 |
+| `6a2d6063` | Yes. I cut them. | owen-o10.mp3 |
+| `0f0b8741` | I wanted to win. I'm sorry. | owen-o7.mp3 |
+| `eda65d2d` | That doesn't explain anything. | owen-wrong.mp3 |
+
+## 이보
+
+MiniMax 프리셋 **Jasper `a7b8abe9-…`**, 감정 없음(사용자 결정, 2026-11-09). 여러 문장 대답의 구간은 `SENTENCE_TIMES`.
+
+| job | 문장 | 파일 |
+|---|---|---|
+| `819c0b96` | Hello, I'm Ivo. | ivo-hello.mp3 |
+| `c5abeb18` | Of course. What would you like to know? | ivo-hello2.mp3 |
+| `7f0bdb72` | I was next to the music stand on the stage. | ivo-i1.mp3 |
+| `b414bc65` | I wanted to practice the last part once more before the contest. | ivo-i3.mp3 |
+| `46aeb34b` | The side curtain was open. I could see the ladder next to the light. | ivo-i4.mp3 |
+| `d8d402b7` | Momo was on the ladder, next to the light. I was still on the stage. | ivo-i2.mp3 |
+| `ef17169d` | Sure. Take a look. | ivo-sleeves.mp3 |
+
+## 모모
+
+MiniMax 프리셋 **Barrett `d603a8cd-…`**, 감정 없음(사용자 결정, 2026-11-09). 여러 문장 대답의 구간은 `SENTENCE_TIMES`.
+
+| job | 문장 | 파일 |
+|---|---|---|
+| `bb0a975e` | Come in. I'm Momo. | momo-hello.mp3 |
+| `68fb6381` | Oh, I see. I help with the stage lights. | momo-hello2.mp3 |
+| `6eee774c` | I fixed the light next to the ladder. It went out after rehearsal. | momo-m1.mp3 |
+| `7d679df1` | Yes. There are spare bulbs on the shelf behind the curtain. I needed one. | momo-m3.mp3 |
+| `fa79002c` | My black toolbox. I put it under the shelf before climbing the ladder. | momo-m4.mp3 |
+| `f6247e88` | Pip was by the side passage. I was busy with the light. | momo-m2.mp3 |
+| `3325199b` | They're mine. I lent them to Owen. | momo-m5.mp3 |
+| `0a17b081` | OK. These are my work clothes. | momo-sleeves.mp3 |
+
+## 핍
+
+MiniMax 프리셋 **Pixie `0178ef57-…`**, 감정 없음(사용자 결정, 2026-11-09). 여러 문장 대답의 구간은 `SENTENCE_TIMES`.
+
+| job | 문장 | 파일 |
+|---|---|---|
+| `d0fce8d1` | Hi there! I'm Pip. | pip-hello.mp3 |
+| `dbbd6217` | No, but someone carried a black case behind the curtain when the light came back on. | pip-p1.mp3 |
+| `7289b453` | No. I only saw the case through the door, and I couldn't see a sticker. | pip-p2.mp3 |

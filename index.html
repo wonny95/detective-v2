@@ -2642,8 +2642,12 @@ VIOLIN_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take) c.audi
 Object.entries({ 'violin-case':'s2', 'gold-button':'s3', 'wire-cutters':'c2' }).forEach(([id, key]) => { VIOLIN_CASE.items[id].audio = `audio/violin/detective-${key}.mp3`; });
 VIOLIN_CASE.items['violin-case'].opened.audio = 'audio/violin/detective-s4.mp3';
 // the people's recordings (audio/violin/<id>-<key>.mp3, design/case-04-missing-violin-recording.md): Tara (Higgsfield
-// MiniMax Evie; her hello is the user's own with emotion sad, the rest without emotion, user decision)
-Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give', 'r2', 'r3', 'end1', 'end2'] }).forEach(([id, keys]) => {
+// MiniMax Evie; her hello is the user's own with emotion sad, the rest without emotion, user decision), Owen (Miles),
+// Ivo (Jasper), Momo (Barrett), Pip (Pixie), all without emotion (user decision)
+Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give', 'r2', 'r3', 'end1', 'end2'],
+  owen:['hello', 'hello2', 'o1', 'o8', 'o2', 'o9', 'sleeves', 'o3', 'o4', 'o6', 'o11', 'o12', 'o10', 'o7', 'wrong'],
+  ivo:['hello', 'hello2', 'i1', 'i3', 'i4', 'i2', 'sleeves'], momo:['hello', 'hello2', 'm1', 'm3', 'm4', 'm2', 'm5', 'sleeves'],
+  pip:['hello', 'p1', 'p2'] }).forEach(([id, keys]) => {
   VIOLIN_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/violin/${id}-${k}.mp3`]));
 });
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : null;
@@ -2997,7 +3001,9 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
 const SENTENCE_TIMES = VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
-  'tara:t4':[[0, 4.9], [5.15, 6.3]] } : UMBRELLA ? { 'ella:e0':[[0, 1.8], [2.24, 3.56]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
+  'tara:t4':[[0, 4.9], [5.15, 6.3]], 'ivo:i4':[[0, 1.4], [2.4, 4.05]], 'ivo:i2':[[0, 2.35], [2.8, 3.95]],
+  'momo:m1':[[0, 1.9], [2.35, 3.9]], 'momo:m3':[[0, .7], [1.05, 4], [4.55, 5.45]], 'momo:m4':[[0, 1.4], [2.05, 4.45]], 'momo:m2':[[0, 1.75], [2, 3.2]],
+  'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .65], [.75, 5.1]] } : UMBRELLA ? { 'ella:e0':[[0, 1.8], [2.24, 3.56]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
   'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
   'rosie:r0':[[0,1.18],[1.47,2.72]],
