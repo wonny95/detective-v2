@@ -107,3 +107,22 @@
 | `d04da025` | Keep the violin safe. Call me when you're ready. | badger-b1.mp3 (전화) |
 | `6f27ac7f` | I'm here, Detective. You can begin. | badger-b2.mp3 |
 | `20fa943a` | I'll talk to Owen. Please tell Tara what happened. | badger-b3.mp3 |
+
+## 타라
+
+MiniMax 프리셋 **Evie** `7a6845a2-5865-5669-a0ca-8fc8d8e96528`(사용자 결정). 첫 인사는 사용자가 Higgsfield 웹에서 감정 **sad**로 만든 것, 나머지 11줄은 감정 없이 MCP로(사용자 결정: Claude in Chrome이 연결되지 않아). 2026-11-09, 약 1.65크레딧. 여러 문장 대답의 구간은 `SENTENCE_TIMES`(브라우저에서 디코딩해 무음 구간으로 잼).
+
+| job | 문장 | 파일 |
+|---|---|---|
+| `871bc905` | Hello, Detective. I'm Tara. | tara-hello.mp3 |
+| `039dc496` | My violin is missing. Can you find it before the contest? | tara-t0.mp3 |
+| `4ff89379` | I played it at rehearsal. It was gone when I came back from the lobby. | tara-t5.mp3 |
+| `3010d72d` | I left it in its case, next to the left chair in the waiting room. | tara-t1.mp3 |
+| `5ae89722` | There is a yellow moon sticker on my black case. | tara-t2.mp3 |
+| `527632bc` | There are two chairs by the door. I looked under both, but the case wasn't there. | tara-t3.mp3 |
+| `d55e6314` | A fox in the waiting room, a goat on stage, a mole backstage. I don't know their names. | tara-t4.mp3 |
+| `a99cb1db` | Here's a photo of my case. | tara-photo-give.mp3 |
+| `7d6e18aa` | My moon sticker! This is my violin. But the strings are broken. | tara-r2.mp3 |
+| `d24f1f6b` | I can't play it. Please find out what happened. | tara-r3.mp3 |
+| `0b026639` | Thank you for finding my violin and telling me what happened. | tara-end1.mp3 |
+| `b8502f0d` | I can't play today. I'm sad, but I'll get new strings. | tara-end2.mp3 |
