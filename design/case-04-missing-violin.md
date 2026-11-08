@@ -132,7 +132,7 @@
 |---|---|---|
 | ivo:i1 | **Where were you after rehearsal?** / 리허설 뒤 어디에 있었니?<br>이보: **I was next to the music stand on the stage.** / 무대 위 악보대 옆에 있었어. | “I was [next to] the [music stand] [on] the [stage].” → 무대 위에서 연습한 위치 |
 | ivo:i3 | **Why did you stay on stage?** / 왜 무대에 남아 있었니?<br>이보: **I wanted to practice the last part once more before the contest.** / 대회 전에 마지막 부분을 한 번 더 연습하고 싶었어. | “I wanted to [practice] the [last part] once more before the contest.” → i1 채점 뒤 · 리허설 뒤에도 무대에 남은 이유 |
-| ivo:i4 | **What could you see from the stage?** / 무대에서 무엇이 보였니?<br>이보: **The door was open. I could see the ladder next to the light.** / 문이 열려 있었어. 조명 옆 사다리가 보였어. | “The [door] was [open]. I could see the [ladder] [next to] the light.” → i1 채점 뒤 · 모모를 볼 수 있었던 시야 확인 |
+| ivo:i4 | **What could you see from the stage?** / 무대에서 무엇이 보였니?<br>이보: **The side curtain was open. I could see the ladder next to the light.** / 옆 가림막이 열려 있었어. 조명 옆 사다리가 보였어. | “The [side curtain] was [open]. I could see the [ladder] [next to] the light.” → i1 채점 뒤 · 모모를 볼 수 있었던 시야 확인 |
 | ivo:i2 | **What did you see when the light came back on?** / 조명이 다시 켜졌을 때 무엇을 봤니?<br>이보: **Momo was on the ladder, next to the light. I was still on the stage.** / 모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고. | “Momo was [on] the [ladder], [next to] the light. I was still [on] the [stage].” → 핍 p1 채점 뒤 · 같은 시점의 모모 위치 확인 |
 
 ### 모모 — 무대 옆 준비실 · 조사 질문 5개
@@ -394,13 +394,13 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 #### 대회 무대
 
 - **인물**: 이보 · 무대 가장자리 악보대 옆
-- **배경 구도**: 나무 무대 바닥과 객석 일부를 함께 담고, 가장자리에 악보를 펼친 악보대와 작은 의자를 둔다. 이보는 악보대 옆에서 연습한다. 열린 무대 옆문 너머 준비실의 사다리와 작업등이 보이되 커튼 뒤 바닥과 숨긴 케이스는 보이지 않는다.
+- **배경 구도**: 나무 무대 바닥과 객석 일부를 함께 담고, 가장자리에 악보를 펼친 악보대와 작은 의자를 둔다. 이보는 악보대 옆에서 연습한다. 걷힌 검은 옆 가림막(윙) 너머 준비실의 사다리와 작업등이 보이되 커튼 뒤 바닥과 숨긴 케이스는 보이지 않는다.
 
 | TTS ID | 클릭 요소 | 영어 / 한국어 | 보이는 시점과 역할 |
 |---|---|---|---|
 | stage:sheet-music | 악보대 위 펼친 악보 | **There is sheet music on the stand.** / 악보대에 악보가 있어. | 타라 t4 채점 뒤 무대 방문부터 |
 | stage:stool | 악보대 옆 작은 의자 | **There is a stool next to the music stand.** / 악보대 옆에 작은 의자가 있어. | 무대 방문부터 |
-| stage:door | 열린 무대 옆문 | **The door is open. I can see a ladder.** / 문이 열려 있어. 사다리가 보이네. | 무대 방문부터 · 현재 시야만 확인, 과거 알리바이는 진술로 판단 |
+| stage:door | 걷힌 옆 가림막 | **The side curtain is open. I can see a ladder.** / 옆 가림막이 열려 있어. 사다리가 보이네. | 무대 방문부터 · 현재 시야만 확인, 과거 알리바이는 진술로 판단 |
 
 #### 무대 옆 통로·준비실
 
@@ -489,7 +489,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | `owen:o9` | black toolbox · behind · black case · next to |
 | `ivo:i1` | next to · music stand · on · stage · behind · toolbox · under · lobby |
 | `ivo:i3` | practice · last part · protect · first part |
-| `ivo:i4` | door · open · ladder · next to · floor · closed · mirror · behind |
+| `ivo:i4` | side curtain · open · ladder · next to · floor · closed · mirror · behind |
 | `ivo:i2` | on · ladder · next to · stage · on · under · chair · behind · lobby |
 | `momo:m1` | fixed · next to · found · behind |
 | `momo:m3` | bulbs · behind · buttons · next to |
@@ -560,7 +560,8 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | stage | 무대 | 이보 i1·i2 |
 | practice | 연습하다 | 이보 i3 |
 | last part | 마지막 부분 | 이보 i3 |
-| door | 문 | 이보 i4·핍 p2 |
+| door | 문 | 핍 p2 |
+| side curtain | (무대) 옆 가림막 | 이보 i4 |
 | open | 열린 | 이보 i4 |
 | ladder | 사다리 | 이보 i4·i2 |
 | fixed | 고쳤다, fix의 과거형 | 모모 m1 |

@@ -2349,17 +2349,17 @@ const VIOLIN_CASE = {
       answers:{
         i1:'I was next to the music stand on the stage.',
         i3:'I wanted to practice the last part once more before the contest.',
-        i4:'The door was open. I could see the ladder next to the light.',
+        i4:'The side curtain was open. I could see the ladder next to the light.',
         i2:'Momo was on the ladder, next to the light. I was still on the stage.'
       },
       notes:{
         i1:['“I was {{a|next to}} the {{b|music stand}} {{c|on}} the {{d|stage}}.”'],
         i3:['“I wanted to {{e|practice}} the {{f|last part}} once more before the contest.”'],
-        i4:['“The {{g|door}} was {{h|open}}. I could see the {{i|ladder}} {{j|next to}} the light.”'],
+        i4:['“The {{g|side curtain}} was {{h|open}}. I could see the {{i|ladder}} {{j|next to}} the light.”'],
         i2:['“Momo was {{k|on}} the {{l|ladder}}, {{m|next to}} the light. I was still {{n|on}} the {{o|stage}}.”']
       },
       bank:{ i1:['next to','music stand','on','stage','behind','toolbox','under','lobby'], i3:['practice','last part','protect','first part'],
-        i4:['door','open','ladder','next to','floor','closed','mirror','behind'], i2:['on','ladder','next to','stage','on','under','chair','behind','lobby'] },
+        i4:['side curtain','open','ladder','next to','floor','closed','mirror','behind'], i2:['on','ladder','next to','stage','on','under','chair','behind','lobby'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'Sure. Take a look.', answerKo:'그럼. 봐.', inspect:'sleeves-ivo' } ]
     },
     momo: { id:'momo', name:'Momo Mole', ko:'두더지 모모', job:'조명 담당', place:'backstage', witness:true, required:true, pitch:.95, voice:1, bg:'#E2E4D2',
@@ -2430,7 +2430,7 @@ const VIOLIN_CASE = {
     'owen:o1':[['place-prep','next to the door']],
     'owen:o9':[['place-prep','behind the curtain']],
     'ivo:i1':[['be-past','I was'], ['place-prep','next to the music stand on the stage']],
-    'ivo:i4':[['be-past','The door was open'], ['place-prep','next to the light']],
+    'ivo:i4':[['be-past','The side curtain was open'], ['place-prep','next to the light']],
     'ivo:i2':[['place-prep','on the ladder, next to the light']],
     'momo:m1':[['past-reg','fixed'], ['place-prep','next to the stage door']],
     'momo:m3':[['place-prep','There are spare bulbs on the shelf behind the curtain']],
@@ -2443,7 +2443,7 @@ const VIOLIN_CASE = {
     tara:{ t0:'바이올린이 없어졌어. 대회 전에 찾아줄 수 있어?', t5:'리허설에서 연주했어. 로비에 갔다 돌아왔더니 없어졌어.', t1:'케이스에 넣어서 출연자 대기실 왼쪽 의자 옆에 두었어.',
       t2:'내 검은 케이스에는 노란 달 스티커가 있어.', t3:'문 옆에 의자가 두 개 있어. 둘 다 아래를 찾아봤지만 케이스가 없었어.', t4:'대기실의 여우, 무대 위의 염소, 무대 뒤의 두더지를 봤어. 이름은 몰라.' },
     owen:{ o1:'난 줄곧 문 옆에 있었어.', o8:'내 차례를 기다렸어.', o2:'타라가 로비로 가기 전, 의자 옆에서 봤어.', o9:'무대 일을 돕는 모모가 검은 공구함을 들고 커튼 뒤로 갔어.' },
-    ivo:{ i1:'무대 위 악보대 옆에 있었어.', i3:'대회 전에 마지막 부분을 한 번 더 연습하고 싶었어.', i4:'문이 열려 있었어. 조명 옆 사다리가 보였어.', i2:'모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고.' },
+    ivo:{ i1:'무대 위 악보대 옆에 있었어.', i3:'대회 전에 마지막 부분을 한 번 더 연습하고 싶었어.', i4:'옆 가림막이 열려 있었어. 조명 옆 사다리가 보였어.', i2:'모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고.' },
     momo:{ m1:'무대 쪽 문 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든.', m3:'응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어.', m4:'내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어.',
       m2:'핍이 옆 통로에 있었어. 난 조명 일로 바빴어.', m5:'내 거야. 오웬에게 빌려줬어.' },
     pip:{ p1:'아니. 하지만 조명이 다시 켜졌을 때 누군가 검은 케이스를 커튼 뒤로 가져갔어.', p2:'아니. 문 너머로 케이스만 봤고, 스티커도 보지 못했어.' }
@@ -2473,9 +2473,9 @@ const VIOLIN_CASE = {
       clues:[
         { label:'Sheet music', prop:true, en:'There is sheet music on the stand.', ko:'악보대에 악보가 있어.' },
         { label:'Stool', prop:true, en:'There is a stool next to the music stand.', ko:'악보대 옆에 작은 의자가 있어.' },
-        { label:'Open door', prop:true, en:'The door is open. I can see a ladder.', ko:'문이 열려 있어. 사다리가 보이네.' }
+        { label:'Side curtain', prop:true, en:'The side curtain is open. I can see a ladder.', ko:'옆 가림막이 열려 있어. 사다리가 보이네.' }
       ],
-      spots:[ { clue:0, x:81, y:33, w:14, h:20 }, { clue:1, x:88, y:72, w:11, h:28 }, { clue:2, x:3, y:2, w:29, h:86 } ] },
+      spots:[ { clue:0, x:81, y:33, w:14, h:20 }, { clue:1, x:88, y:72, w:11, h:28 }, { clue:2, x:0, y:2, w:30, h:80 } ] },
     // the curtain opens once Pip has told what he saw (design 6절); the case and the button lie in front of it until taken
     { id:'backstage', x:76, y:29, label:'Backstage', artWidth:1376, artHeight:768,
       clues:[
@@ -2820,7 +2820,7 @@ const WORDS = {
   'missing':['w','없어진'], 'find':['w','찾다'], 'rehearsal':['w','리허설'], 'waiting room':['n','대기실'], 'yellow moon':['w','노란 달'],
   'in':['w','~ 안에'], 'on':['w','~ 위에'], 'under':['w','~ 아래에'], 'next to':['w','~ 옆에'], 'behind':['w','~ 뒤에'],
   'fox':['w','여우'], 'goat':['w','염소'], 'mole':['w','두더지'], 'whole time':['w','내내'], 'turn':['w','차례'], 'black toolbox':['w','검은 공구함'],
-  'music stand':['w','악보대'], 'practice':['w','연습하다'], 'last part':['w','마지막 부분'], 'door':['w','문'], 'ladder':['w','사다리'],
+  'music stand':['w','악보대'], 'practice':['w','연습하다'], 'last part':['w','마지막 부분'], 'door':['w','문'], 'side curtain':['w','(무대) 옆 가림막'], 'ladder':['w','사다리'],
   'fixed':['w','고쳤다 (fix의 과거)'], 'bulbs':['w','전구들'], 'light':['w','조명'], 'lent':['w','빌려줬다 (lend의 과거)'], 'black case':['w','검은 케이스'],
   'the whole time':['x','내내, 줄곧'], 'go out':['x','(불이) 꺼지다'], 'come back on':['x','(불이) 다시 켜지다'],
   'blue':['w','파란색'], 'red':['w','빨간색'], 'yellow':['w','노란색'], 'green':['w','초록색'], 'remember':['w','기억하다'], 'mixed up':['w','뒤바뀐'],

@@ -63,7 +63,7 @@
 | 2 | `ivo-hello2.mp3` | 첫 인사 | Of course. What would you like to know? | 2 |  | 물론이야. 무엇이 궁금하니? |  |
 | 3 | `ivo-i1.mp3` | 대답 i1 (질문: Where were you after rehearsal?) | I was next to the music stand on the stage. | 1 |  | 무대 위 악보대 옆에 있었어. |  |
 | 4 | `ivo-i3.mp3` | 대답 i3 (질문: Why did you stay on stage?) | I wanted to practice the last part once more before the contest. | 1 |  | 대회 전에 마지막 부분을 한 번 더 연습하고 싶었어. |  |
-| 5 | `ivo-i4.mp3` | 대답 i4 (질문: What could you see from the stage?) | The door was open. I could see the ladder next to the light. | 2 |  | 문이 열려 있었어. 조명 옆 사다리가 보였어. |  |
+| 5 | `ivo-i4.mp3` | 대답 i4 (질문: What could you see from the stage?) | The side curtain was open. I could see the ladder next to the light. | 2 |  | 옆 가림막이 열려 있었어. 조명 옆 사다리가 보였어. |  |
 | 6 | `ivo-i2.mp3` | 대답 i2 (질문: What did you see when the light came back on?) | Momo was on the ladder, next to the light. I was still on the stage. | 2 |  | 모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고. |  |
 | 7 | `ivo-sleeves.mp3` | 행동 (Can I look at your sleeves?) | Sure. Take a look. | 2 |  | 그럼. 봐. |  |
 

@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-09 · Claude · (이 커밋) 무대 그림
+## 2026-11-09 · Claude · (이 커밋) 무대 옆 가림막
+
+- 사용자와 고친 설계서(사용자 결정: 무대 옆 열린 문이 어색해 실제 무대처럼 검은 옆 가림막으로): 이보 i4 "The side curtain was open. I could see the ladder next to the light."(빈칸 side curtain·open·ladder·next to, 보기 door → side curtain), 무대 물건 'Side curtain' "The side curtain is open. I can see a ladder.", 단어 side curtain(옆 가림막)을 더함(door는 핍 p2에 남음). 설계서 MD·HTML(3·7·10·단어 절)에 반영. 오웬 o1·모모 m1·핍 p2의 문은 대기실·준비실 문이라 그대로.
+- 그림: 무대 그림을 참조로 편집(Nano Banana 2.1, 2크레딧, job `58bc5c63-…`): 문 자리를 걷힌 검은 옆 가림막으로, 그 너머 작업등 옆 사다리는 그대로. 클릭 지점 다시 맞춤. 탐정 녹음 `detective-stage-2.mp3` 다시(Grady, 약 0.15크레딧). 단어 음성 `audio/words/side-curtain.wav`(`generate-word-audio.ps1 -Missing`). 녹음 대본 다시 뽑음.
+- 확인(새 탭): 무대 가림막 그림과 클릭 지점, 새 녹음 재생, 구문 검사. 못 한 것: 이보 i4 노트 받아쓰기 직접 풀어 보기.
+- **다음**: 사용자 요청인 바이올린 사건 지도(마을 전체 대신 음악회관만) 계획을 정하기 → 나머지 인물 녹음 → 1단계 확인.
+
+## 2026-11-09 · Claude · 495c8b0 무대 그림
 
 - 사용자 요청: 무대 배경을 더 무대답게(사용자 결정: 무대 위에서 객석 쪽 시점, 무대만 다시). Nano Banana 2.1 3:4 2K 한 장(2크레딧, job `db00b210-…`): 금색 무대 틀·걷힌 붉은 막·스포트라이트·각광·객석, 이보 진술에 필요한 열린 옆문 너머 작업등 옆 사다리와 악보대·작은 의자는 그대로. 띠 시작 300(바닥 775), 클릭 지점 세 곳을 새 그림에 맞춤. 원본은 `stage-higgsfield-original.jpg`를 바꿈(첫 판은 job으로 남음).
 - 확인(새 탭): 무대 장면, 클릭 지점 세 곳이 문·악보·의자 위, 이보가 악보대 옆, 구문 검사. 못 한 것: 사건 카드 그림(무대 그림을 씀)·실제 폰.

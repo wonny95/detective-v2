@@ -46,7 +46,7 @@
 | `9004305f` | There is a short piece of string on the blades. | detective-c2.mp3 |
 | `388a275e` | There is sheet music on the stand. | detective-stage-0.mp3 |
 | `fd005adc` | There is a stool next to the music stand. | detective-stage-1.mp3 |
-| `22515469` | The door is open. I can see a ladder. | detective-stage-2.mp3 |
+| `5a708f83` | The side curtain is open. I can see a ladder. | detective-stage-2.mp3 (2026-11-09 다시, 첫 판 `22515469`는 문 대사) |
 | `798bb189` | The ladder is next to the light. | detective-backstage-0.mp3 |
 | `42852a0e` | There is a long curtain here. I should ask more first. | detective-backstage-1.mp3 |
 | `453d70d0` | There is a case behind the curtain. | detective-s1.mp3 |
