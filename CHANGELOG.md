@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-08 21:30 · Claude · (이 커밋)
+## 2026-11-09 · Claude · (이 커밋)
+
+- 사용자 승인: 안 쓰게 된 그림 18개를 휴지통으로. 커밋돼 있던 `assets/places/village-map-day.jpg`(지도는 webp로 돌아감)·`assets/places/violin/sleeves-owen·ivo·momo.jpg`(소매는 PNG로 바뀜), 커밋하지 않은 PNG 원본 14개(같은 그림의 JPG 원본이 저장소에 있음). 원본 시트 `sleeves-sheet-original.jpg`는 자르기 스크립트가 써서 남김. 앞서 사용자에게 16개라고 잘못 셈.
+- 확인: 게임·스크립트·문서에 지운 파일을 가리키는 곳 없음.
+- **다음**: 1단계 확인(사용자가 처음부터 끝까지 플레이) → 고칠 점 반영 → 다른 인물 녹음(목소리 고르기·비용 안내).
+
+## 2026-11-08 21:30 · Claude · 363dee9
 
 - 사용자 요청: 탐정 목소리를 Higgsfield로 만들어 넣기. 바이올린 사건의 탐정 줄 90문장(파일 95개, 같은 문장은 복사)을 MiniMax **Grady**·감정 없음(앞 사건 탐정과 같은 목소리)으로 만들어 `audio/violin/`에 넣음(문장당 약 0.15크레딧, 약 13.5크레딧). 목록·job은 `audio/violin/README.md`, 뽑기는 `scripts/violin-detective-lines.js`.
 - 엔진: `VIOLIN_CASE.silent`를 빼고 경로를 이음 — `detectiveSay`·`askAudio`·`DEDUCE_DIR`에 `audio/violin/`, 살펴보는 물건의 `clue.audio`, 소지품은 주울 때의 줄(케이스 s2·연 케이스 s4·단추 s3·니퍼 c2). 비교한 소지품은 자기 문장 뒤에 비교 문장(c3)을 이어서 들려줌(`playEvidence`가 녹음 둘을 차례로). 다른 인물과 경사의 전화 줄은 그대로 브라우저 음성.
