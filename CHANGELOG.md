@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-09 · Claude · (이 커밋)
+## 2026-11-09 · Claude · (이 커밋) 녹음 대본
+
+- 사용자 요청: 필요한 음성 대본 뽑기. 바이올린 사건의 인물 줄(탐정 제외, 탐정은 녹음 완료) 대본 `design/case-04-missing-violin-recording.md`를 `scripts/violin-recording-script.js`로 `VIOLIN_CASE`에서 뽑음(우산 대본과 같은 형식, 표정·문장 수 칸 추가). 타라 12·오웬 15·이보 7·모모 8·핍 3·오소리 경사 3, 모두 48줄(같은 문장 없음).
+- 확인: 대사·키를 게임 데이터와 대조(대본은 데이터에서 직접 뽑음). 게임 코드는 안 고침.
+- **다음**: 사용자가 인물별 목소리를 고르면(비용 안내) 녹음 → `people[].audio` 연결·`SENTENCE_TIMES`. 그와 별개로 1단계 확인(처음부터 끝까지 플레이).
+
+## 2026-11-09 · Claude · c6d5268
 
 - 사용자 승인: 안 쓰게 된 그림 18개를 휴지통으로. 커밋돼 있던 `assets/places/village-map-day.jpg`(지도는 webp로 돌아감)·`assets/places/violin/sleeves-owen·ivo·momo.jpg`(소매는 PNG로 바뀜), 커밋하지 않은 PNG 원본 14개(같은 그림의 JPG 원본이 저장소에 있음). 원본 시트 `sleeves-sheet-original.jpg`는 자르기 스크립트가 써서 남김. 앞서 사용자에게 16개라고 잘못 셈.
 - 확인: 게임·스크립트·문서에 지운 파일을 가리키는 곳 없음.
