@@ -18,7 +18,7 @@ from collections import deque
 from PIL import Image, ImageFilter, ImageChops, ImageDraw
 D = 'assets/places/violin/'
 CUT = sys.argv[1].rstrip('/\\') + '/'
-TOP = {'lobby': 380, 'waiting': 140, 'stage': 160, 'backstage': 250, 'backstage-open': 250}
+TOP = {'lobby': 380, 'waiting': 140, 'stage': 300, 'backstage': 250, 'backstage-open': 250}
 for id, top in TOP.items():
     im = Image.open(D + f'{id}-higgsfield-original.jpg').convert('RGB').resize((1376, 1843), Image.LANCZOS)
     im.crop((0, top, 1376, top + 768)).save(D + f'{id}.jpg', quality=88)
