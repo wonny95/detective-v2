@@ -13,7 +13,16 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-09 · Claude · (이 커밋) 추리 보기 팝업
+## 2026-11-09 · Claude · (이 커밋) 소매·심문·핍 위치
+
+- 바이올린 점검(사용자 요청)에서 나온 1–3번과 핍 위치를 사용자와 고침(설계서 MD·HTML 반영):
+  - 오웬 소매: 캐릭터와 확대 그림 모두 화면 왼쪽 소매에 단추가 없는데 대사는 오웬 기준 "left/right"라 거꾸로 들림 → 사용자 결정으로 왼쪽·오른쪽을 뺌. 소매 보기 "One sleeve has a gold button. The button on the other sleeve is missing.", 심문 d2 "This matches the button on your sleeve. The other one is missing." 탐정 녹음 2줄 다시(Grady, 약 0.3크레딧).
+  - 심문 대질 2는 금색 단추와 함께 오웬 소매 사진(`sleeves-owen-0`)도, 대질 3은 니퍼와 함께 모모 m5 진술도 정답(`script[].accept`·`confront`).
+  - 핍: 준비실 왼쪽 문틀 옆 바닥에 홀로 서 있던 것을 옆 통로 문간 안쪽으로(`positions.pip` x 7·floor 88·height 25, 모모 m2 "Pip was by the side passage").
+- 확인(새 탭): 핍이 통로 문간에 선 모습, 구문 검사. 못 한 것: 심문에서 소매 사진·m5를 실제로 내밀어 보기(정답 판정은 `accept.includes(ref)`라 데이터만 바꿈), 새 녹음 귀로 듣기.
+- **다음**: 점검 목록 4–10번(모모 m1 조명 위치, Q5 uniform, 로비 문장·이름표, 목소리 섞임, 로비 위 잘림, 지도 로비 배치) 중 사용자가 고를 것. 그 뒤 나머지 인물 녹음 → 1단계 확인.
+
+## 2026-11-09 · Claude · 2b63bda 추리 보기 팝업
 
 - 사용자 지적: 바이올린 추리 Q1 보기 팝업에서 긴 보기("under the right chair" 등)가 종이 밖으로 넘침. 원인: 두 칸 격자가 `1fr`에 줄바꿈 없음이라 긴 글이 칸을 밀어냄. 칸을 `minmax(0,1fr)`로, 보기 글은 가운데 맞춤·줄바꿈(`text-wrap:balance`), 넓은 팝업은 `min(360px, 화면-16px)`.
 - 확인(새 탭): 데스크톱·폰 너비 375에서 Q1 팝업이 화면 안, 넘치는 보기 없음, 구문 검사. 못 한 것: 다른 사건 추리 팝업 눈으로 다시 보기(같은 규칙이라 짧은 보기는 그대로 한 줄).

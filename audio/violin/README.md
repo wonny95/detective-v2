@@ -55,7 +55,7 @@
 | `b937d2df` | There is a gold button under the curtain. | detective-s3.mp3 |
 | `8dc9b9ec` | A black toolbox under the shelf. | detective-backstage-5.mp3 |
 | `cad1297b` | There are spare bulbs on the shelf. | detective-backstage-6.mp3 |
-| `35ae0221` | There is a button on the left sleeve. The button on the right sleeve is missing. | detective-sleeves-owen-0.mp3 |
+| `41192830` | One sleeve has a gold button. The button on the other sleeve is missing. | detective-sleeves-owen-0.mp3 (2026-11-09 다시: 왼쪽·오른쪽을 뺌) |
 | `e359dc2c` | There are dark buttons on both sleeves. | detective-sleeves-ivo-0.mp3 |
 | `d65ad10c` | There are small silver buttons on both sleeves. | detective-sleeves-momo-0.mp3 |
 | `e41a5edc` | I should look at everyone's sleeves. | detective-think-sleeves.mp3 |
@@ -89,7 +89,7 @@
 | `53354373` | Owen, did you move Tara's case? | detective-d0.mp3 |
 | `4d52d80a` | Ivo saw Momo on the ladder when the light came back on. Pip saw the case move at that moment. | detective-d1.mp3 |
 | `07f04d13` | The case was next to the chair. The chair is next to the door. You didn't see anyone? | detective-d8.mp3 |
-| `230bedb7` | This matches your left sleeve button. Your right one is missing. | detective-d2.mp3 |
+| `152258a8` | This matches the button on your sleeve. The other one is missing. | detective-d2.mp3 (2026-11-09 다시) |
 | `bbb8efb0` | Why was this button under the curtain? | detective-d2-question.mp3 |
 | `db39a836` | Momo says he lent you these cutters. Did you borrow them? | detective-d6.mp3 |
 | `769f5826` | This piece looks like a broken string from the violin. | detective-d7.mp3 |

@@ -229,7 +229,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | owen:sleeves | 오웬 | **My sleeves? OK.** / 내 소매? 그래. |
 | ivo:sleeves | 이보 | **Sure. Take a look.** / 그럼. 봐. |
 | momo:sleeves | 모모 | **OK. These are my work clothes.** / 그래. 이건 내 작업복이야. |
-| hall:f4 | 탐정 | **There is a button on the left sleeve. The button on the right sleeve is missing.** / 왼쪽 소매에는 단추가 있어. 오른쪽 소매의 단추가 없어졌네. |
+| hall:f4 | 탐정 | **One sleeve has a gold button. The button on the other sleeve is missing.** / 한쪽 소매에는 금색 단추가 있어. 다른 쪽 소매의 단추는 없어졌네. |
 | stage:ivo-sleeves | 탐정 | **There are dark buttons on both sleeves.** / 양쪽 소매에 어두운 단추가 있어. |
 | backstage:momo-sleeves | 탐정 | **There are small silver buttons on both sleeves.** / 양쪽 소매에 작은 은색 단추가 있어. |
 
@@ -283,7 +283,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | detective:d1 | 탐정 | **Ivo saw Momo on the ladder when the light came back on. Pip saw the case move at that moment.** / 조명이 다시 켜졌을 때 이보는 모모를 사다리 위에서 봤어. 핍은 바로 그때 케이스가 옮겨지는 걸 봤고. |
 | owen:o4 | 오웬 | **Then it was someone else. I stayed next to the door.** / 그럼 다른 누군가였겠지. 난 문 옆에 있었어. |
 | detective:d8 | 탐정 | **The case was next to the chair. The chair is next to the door. You didn't see anyone?** / 케이스는 의자 옆에 있었어. 의자는 문 옆에 있고. 아무도 못 봤다고? |
-| detective:d2 | 탐정 | **This matches your left sleeve button. Your right one is missing.** / 이건 네 왼쪽 소매 단추와 같아. 오른쪽 단추는 없어졌고. |
+| detective:d2 | 탐정 | **This matches the button on your sleeve. The other one is missing.** / 이건 네 소매의 단추와 같아. 다른 쪽 단추는 없어졌고. |
 | detective:d2-question | 탐정 | **Why was this button under the curtain?** / 왜 이 단추가 커튼 아래에 있었을까? |
 | owen:o6 | 오웬 | **My sleeve caught on the curtain hook. I hid the case behind the curtain.** / 소매가 커튼 고리에 걸렸어. 내가 케이스를 커튼 뒤에 숨겼어. |
 | owen:o11 | 오웬 | **I only moved the case. I didn't break the violin.** / 케이스를 옮겼을 뿐이야. 바이올린을 망가뜨리지는 않았어. |
@@ -336,7 +336,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | 구분·ID | 이름 | 조사 지점과 열리는 때 | 살펴볼 부분과 쓰임 |
 |---|---|---|---|
 | 사진 · sleeve-photo | 현재 소매 | gold-button 소지품 습득 뒤 의복 비교 | 오웬의 양 소매를 한 장에 담는다. 오른쪽의 빈 자리와 왼쪽에 남은 금색 단추를 금색 단추 실물과 비교한다. |
-| 소지품 · wire-cutters | 작은 니퍼 | 대기실 오른쪽 의자 다리 아래. 대기실 방문 뒤 관찰 → 챙기기 | 날에 남은 짧은 현 조각을 살핀다. 모모 m5로 소유·대여 진술을 듣고, 심문 대질 3에서 실물을 내민다. |
+| 소지품 · wire-cutters | 작은 니퍼 | 대기실 오른쪽 의자 다리 아래. 대기실 방문 뒤 관찰 → 챙기기 | 날에 남은 짧은 현 조각을 살핀다. 모모 m5로 소유·대여 진술을 듣고, 심문 대질 3에서 실물을 내민다(모모 m5 진술을 내밀어도 정답, 2026-11-09 사용자 결정). |
 
 - **대화 기록**. 오웬 질문 4개. 기다린 이유·케이스 목격·모모의 공구함 운반·거짓 위치 주장.
 - **관찰할 소품**. 의자와 빈 바닥·거울·물병. 대기실 출입문에서 통로 건너 준비실 입구와 커튼 쪽 동선이 보인다.
@@ -357,7 +357,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | 구분·ID | 이름 | 조사 지점과 열리는 때 | 살펴볼 부분과 쓰임 |
 |---|---|---|---|
 | 소지품 · violin-case | 검은 바이올린 케이스 | 긴 커튼 뒤 바닥. 핍 p1 채점 뒤 케이스 열기 → 현 네 줄 파손 확인 → 챙기기 | 닫힌 상태에서 검은색·노란 달 스티커, 열린 상태에서 현이 끊어진 바이올린을 살핀다. 바이올린을 담은 케이스 한 개로 소지한다. 타라에게 보여 주고 심문 뒤 돌려준다. |
-| 소지품 · gold-button | 민무늬 금색 단추 | 커튼 아래 바닥. 핍 p1 채점 뒤 관찰 → 챙기기 | 금색과 둥근 모양을 살핀다. 습득으로 소매 조사가 열리고, 심문 대질 2에서 실물을 제시한다. 소유자는 이름표에 적지 않는다. |
+| 소지품 · gold-button | 민무늬 금색 단추 | 커튼 아래 바닥. 핍 p1 채점 뒤 관찰 → 챙기기 | 금색과 둥근 모양을 살핀다. 습득으로 소매 조사가 열리고, 심문 대질 2에서 실물을 제시한다(오웬 소매 사진을 내밀어도 정답, 2026-11-09 사용자 결정). 소유자는 이름표에 적지 않는다. |
 
 - **대화 기록**. 모모 5개·핍 2개 질문. 모모 m5는 니퍼 습득과 파손 관찰 뒤 재방문 질문이다. 현을 끊는 장면을 봤다는 진술은 없다.
 - **관찰할 소품**. 사다리·작업등, 커튼 조사 뒤 드러나는 공구함·전구. 이 관찰로 과거 알리바이를 자동 확정하지 않는다.

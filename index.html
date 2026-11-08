@@ -2502,7 +2502,7 @@ const VIOLIN_CASE = {
       clues:[ { label:'Case photo from Tara', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.' } ],
       spots:[ { clue:0, x:0, y:0, w:100, h:100, photo:{x:0,y:0,w:1020,h:765} } ] },
     { id:'sleeves-owen', inspect:true, label:'Waiting Room', artWidth:1376, artHeight:768,
-      clues:[ { label:'Sleeves', en:'There is a button on the left sleeve. The button on the right sleeve is missing.', ko:'왼쪽 소매에는 단추가 있어. 오른쪽 소매의 단추가 없어졌네.' } ],
+      clues:[ { label:'Sleeves', en:'One sleeve has a gold button. The button on the other sleeve is missing.', ko:'한쪽 소매에는 금색 단추가 있어. 다른 쪽 소매의 단추는 없어졌네.' } ],
       spots:[ { clue:0, x:35.5, y:23, w:29, h:36, photo:{x:488,y:174,w:400,h:300} } ] },
     { id:'sleeves-ivo', inspect:true, label:'Stage', artWidth:1376, artHeight:768,
       clues:[ { label:'Sleeves', prop:true, en:'There are dark buttons on both sleeves.', ko:'양쪽 소매에 어두운 단추가 있어.' } ],
@@ -2529,7 +2529,7 @@ const VIOLIN_CASE = {
     owen:{x:24, floor:94, height:44},
     ivo:{x:70, floor:94, height:46},
     momo:{x:46, floor:95, height:42},
-    pip:{x:11, floor:95, height:30},
+    pip:{x:7, floor:88, height:25},
     badger:{x:66, floor:94, height:44}
   },
   items:{
@@ -2604,13 +2604,13 @@ const VIOLIN_CASE = {
       { claim:true, accept:['ivo:i2'],
         lines:[ { who:'owen', key:'o3', en:'No. Maybe Momo moved it. Momo went behind the curtain.', ko:'아니. 모모가 옮겼을지도 몰라. 모모는 커튼 뒤에 갔잖아.' } ],
         hit:[ { det:true, key:'d1', en:'Ivo saw Momo on the ladder when the light came back on. Pip saw the case move at that moment.', ko:'조명이 다시 켜졌을 때 이보는 모모를 사다리 위에서 봤어. 핍은 바로 그때 케이스가 옮겨지는 걸 봤고.' } ] },
-      { claim:true, accept:['@gold-button'],
+      { claim:true, accept:['@gold-button', 'sleeves-owen-0'],
         lines:[ { who:'owen', key:'o4', mood:'nervous', en:'Then it was someone else. I stayed next to the door.', ko:'그럼 다른 누군가였겠지. 난 문 옆에 있었어.' },
           { det:true, key:'d8', en:"The case was next to the chair. The chair is next to the door. You didn't see anyone?", ko:'케이스는 의자 옆에 있었어. 의자는 문 옆에 있고. 아무도 못 봤다고?' } ],
-        hit:[ { det:true, key:'d2', en:'This matches your left sleeve button. Your right one is missing.', ko:'이건 네 왼쪽 소매 단추와 같아. 오른쪽 단추는 없어졌고.' } ] },
+        hit:[ { det:true, key:'d2', en:'This matches the button on your sleeve. The other one is missing.', ko:'이건 네 소매의 단추와 같아. 다른 쪽 단추는 없어졌고.' } ] },
       { ask:true, key:'d2-question', en:'Why was this button under the curtain?', ko:'왜 이 단추가 커튼 아래에 있었을까?' },
       { lines:[ { who:'owen', key:'o6', mood:'nervous', en:'My sleeve caught on the curtain hook. I hid the case behind the curtain.', ko:'소매가 커튼 고리에 걸렸어. 내가 케이스를 커튼 뒤에 숨겼어.' } ] },
-      { claim:true, accept:['@wire-cutters'],
+      { claim:true, accept:['@wire-cutters', 'momo:m5'],
         lines:[ { who:'owen', key:'o11', mood:'nervous', en:"I only moved the case. I didn't break the violin.", ko:'케이스를 옮겼을 뿐이야. 바이올린을 망가뜨리지는 않았어.' } ],
         hit:[ { det:true, key:'d6', en:'Momo says he lent you these cutters. Did you borrow them?', ko:'모모는 네게 이 니퍼를 빌려줬다고 해. 네가 빌렸니?' },
           { who:'owen', key:'o12', mood:'nervous', en:"Yes, I borrowed them for my music stand. I didn't cut the strings.", ko:'응, 악보대를 고치려고 빌렸어. 현은 끊지 않았어.' },
@@ -2622,7 +2622,7 @@ const VIOLIN_CASE = {
         { who:'badger', key:'b3', en:"I'll talk to Owen. Please tell Tara what happened.", ko:'난 오웬과 이야기할게. 타라에게 무슨 일이 있었는지 알려 줘.' } ] }
     ],
     // the gauge: one step per claim
-    confront:[ { accept:['ivo:i2'] }, { accept:['@gold-button'] }, { accept:['@wire-cutters'] } ],
+    confront:[ { accept:['ivo:i2'] }, { accept:['@gold-button', 'sleeves-owen-0'] }, { accept:['@wire-cutters', 'momo:m5'] } ],
     miss:{ who:'owen', key:'wrong', en:"That doesn't explain anything.", ko:'그걸로는 아무것도 설명이 안 되잖아.' },
     // then the violin back to Tara in the lobby (design 9절 end)
     handoff:[
