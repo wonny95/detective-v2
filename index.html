@@ -3923,7 +3923,14 @@ function renderDock(){
   }
 
   body.innerHTML = html;
-  body.querySelector('.nface[aria-pressed="true"]')?.scrollIntoView({ block:'nearest', inline:'nearest' });
+  // the chosen face into view by scrolling only its own row: scrollIntoView would also scroll the window (the closed
+  // notebook sits below the screen), and the whole game jolted up when a case started
+  const face = body.querySelector('.nface[aria-pressed="true"]'), row = face?.parentElement;
+  if(row){
+    const r = face.getBoundingClientRect(), b = row.getBoundingClientRect();
+    if(r.right > b.right) row.scrollLeft += r.right - b.right;
+    if(r.left < b.left) row.scrollLeft -= b.left - r.left;
+  }
   freshCheck = missCheck = null;
   bindDock();
   writeState();
