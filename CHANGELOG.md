@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-09 12:03 · Claude · (이 커밋) 우산 펼치기·접기 효과음
+## 2026-11-09 12:10 · Claude · (이 커밋) 우산 열쇠 제목을 사전처럼
+
+- 사용자 요청: 우산 열쇠 카드 제목의 `…`가 어색함. 사전은 낱말과 실제 예문으로 보여 주므로 그대로: `Whose … is this / that?` → `Whose bag is this?`(줄바꿈 Whose bag / is this?), `Is this / that … yours?` → `Is this yours?`, `my … / mine` → `my / mine`(짧은 뜻 `나의 / 나의 것`). 문법 전체 형태 `pattern`, 설명의 `Is this … yours?`, 사건 문장 연결 `formLines` 키도 같이. 예전 이름으로 저장된 문법 북마크는 `GRAMMAR_RENAMED`로 새 이름에 이어짐.
+- 제목 발음: `audio/examples/whose-1.wav`·`whose-2.wav`를 SAPI Zira로 다시 만듦(예전 파일은 휴지통, `whose-3.wav`는 읽는 소리가 같아 그대로).
+- 확인(새 탭): 우산 열쇠 1–3쪽 제목·뜻 표, 카드 높이 같음(266px), 북마크 이름 잇기(노드로), 구문 검사. 못 한 것: 새 발음 귀로 듣기, 복습 페이지의 문법 카드.
+- **다음**: 바이올린 1단계 플레이 확인(사용자). 그 밖에는 사용자 지시 대기.
+
+## 2026-11-09 12:03 · Claude · 3903912 우산 펼치기·접기 효과음
 
 - 사용자 요청: 우산을 펼칠 때 효과음. 사용자가 준 freesound "umbrella"(43325)를 잘라 `audio/umbrella-open.mp3`(1.2초)와 접을 때 쓰는 앞쪽 바스락 소리 `audio/umbrella-fold.mp3`(0.42초, 조금 작게). `#foldBtn`을 누르면 `playUmbrella(open)`이 `#umbrellaSound`로 재생.
 - 확인(새 탭, `?case=umbrella&preview=inspect`): 펼치기 → open 재생, 접기 → fold 재생(둘 다 불러와 재생 중), 콘솔 오류 없음, 구문 검사. 못 한 것: 귀로 듣기(소리 구간은 파형으로 골랐음), 실제 휴대폰.

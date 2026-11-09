@@ -2085,7 +2085,7 @@ const UMBRELLA_CASE = {
     ['look for','tess:t5','looking for'], ['what is it like?','tess:t1','What is your umbrella like'], ['who else','tess:t4','Who else']
   ],
   // a key form heard only outside the questions and answers: the sentence, cut from its recording (detective-end-ruby1)
-  formLines:{ 'Is this / that … yours?':{ en:'Is this umbrella yours?', words:'yours', ko:'이 우산 네 거야?', audio:'audio/umbrella/detective-end-ruby1-yours.mp3' } },
+  formLines:{ 'Is this yours?':{ en:'Is this umbrella yours?', words:'yours', ko:'이 우산 네 거야?', audio:'audio/umbrella/detective-end-ruby1-yours.mp3' } },
   grammarLines:{
     'ella:e1':[['whose','Whose umbrella is that'], ['negative',"I don't know"], ['past-irr','came back']],
     'tess:t0':[['did-q','Did you bring'], ['ownership','lend mine']],
@@ -2887,21 +2887,21 @@ const GRAMMAR = {
       { head:'mine / yours', ko:'나의 것 / 너의 것', mean:[['mine','나의 것'],['yours','너의 것']], why:'뒤에 이름 없이 혼자 써요. my bag을 한 단어로 하면 mine이에요.', match:'\\b(mine|yours|hers)\\b',
         lines:[['This pencil is {mine}.', '이 연필은 내 것이에요.'], ['Is this ruler {yours}?', '이 자는 네 것이니?'], ['This book is not {mine}.', '이 책은 내 것이 아니에요.']] }
     ] },
-  whose: { name:'누구의 것인지 묻기', pattern:'Whose … is this/that? / Is this … yours? / mine', ko:'Whose로 누구의 것인지 묻고, Is this … yours?로 듣는 사람의 것인지 확인해요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
+  whose: { name:'누구의 것인지 묻기', pattern:'Whose bag is this? / Is this yours? / my / mine', ko:'Whose로 누구의 것인지 묻고, Is this yours?로 듣는 사람의 것인지 확인해요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
     examples:[
-      { head:'Whose … is this / that?', parts:['Whose … is','this / that?'], ko:'누구 거야?', mean:[['whose','누구의'],['this','이것'],['that','저것']], why:'누구의 것인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
+      { head:'Whose bag is this?', parts:['Whose bag','is this?'], ko:'누구 거야?', mean:[['whose','누구의'],['this','이것'],['that','저것']], why:'누구의 것인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
         more:['이름은 Whose 바로 뒤에 붙여 한 덩어리로 맨 앞에 둬요. Whose bag is this?',
           '여러 개면 this·that 대신 these·those, is 대신 are를 써요. Whose shoes are these?',
           "대답은 '이름 + \'s'나 mine·yours·his·hers로 해요. It\'s Sam\'s. / It\'s mine.",
           "소리가 같은 Who\'s(= Who is)와 헷갈리지 마세요. Who\'s that?은 '저 사람은 누구야?'예요."],
         lines:[['{Whose book} is this?', '이 책은 누구 거야?'], ['{Whose hat} is that?', '저 모자는 누구 거야?'], ['{Whose pencil} is this?', '이 연필은 누구 거야?']] },
-      { head:'Is this / that … yours?', parts:['Is this / that','… yours?'], ko:'네 거야?', mean:[['this','이것'],['that','저것'],['yours','너의 것']], why:'물건을 가리키며 듣는 사람의 것인지 확인해요.', match:'\\byours\\b',
+      { head:'Is this yours?', ko:'네 거야?', mean:[['this','이것'],['that','저것'],['yours','너의 것']], why:'물건을 가리키며 듣는 사람의 것인지 확인해요.', match:'\\byours\\b',
         more:['Is this cup yours?와 Is this your cup?은 같은 뜻이에요. your 뒤에는 이름이 오고, yours는 혼자 써요.',
           "대답은 짧게 Yes, it is. / No, it isn\'t.로 해요. Yes, it\'s mine.이라고 해도 돼요.",
           "다른 사람의 것인지 물을 때는 yours 자리에 his·hers나 '이름 + \'s'를 넣어요. Is this hers? / Is this Sam\'s?",
           "물건을 앞에서 이미 말했으면 it으로 받아요. There\'s a cup here. Is it yours?"],
         lines:[['Is this ruler {yours}?', '이 자 네 거야?'], ['Is that coat {yours}?', '저 외투 네 거야?'], ['Is this cup {yours}?', '이 컵 네 거야?']] },
-      { head:'my … / mine', ko:'나의 … / 나의 것', mean:[['my','나의'],['mine','나의 것']], why:'my 뒤에는 꼭 이름이 오고, mine은 뒤에 이름 없이 혼자 써요. my bag = mine.', match:'\\b(my|mine)\\b',
+      { head:'my / mine', ko:'나의 / 나의 것', mean:[['my','나의'],['mine','나의 것']], why:'my 뒤에는 꼭 이름이 오고, mine은 뒤에 이름 없이 혼자 써요. my bag = mine.', match:'\\b(my|mine)\\b',
         more:['mine은 "my + 이름"을 한 단어로 대신해요. My bag is blue. = Mine is blue.',
           '짝을 함께 외워요. my → mine, your → yours, her → hers, his → his(모양이 같아요).',
           'Mine이 문장 맨 앞에 오면 물건 하나를 가리키므로 is·has를 써요. Mine has a red handle.',
@@ -6816,7 +6816,9 @@ const WORDBOOK_KEY = 'detective.wordBook';
 const keptWords = () => readJSON(WORDBOOK_KEY, null);
 function keepWords(keys){ try { localStorage.setItem(WORDBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 const GRAMMARBOOK_KEY = 'detective.grammarBook';
-const keptGrammar = () => readJSON(GRAMMARBOOK_KEY, null);
+// the umbrella key's heads were patterns with … until 2026-11-09 (user request: as a dictionary shows them); old bookmarks follow
+const GRAMMAR_RENAMED = { 'whose#Whose … is this / that?':'whose#Whose bag is this?', 'whose#Is this / that … yours?':'whose#Is this yours?', 'whose#my … / mine':'whose#my / mine' };
+const keptGrammar = () => { const k = readJSON(GRAMMARBOOK_KEY, null); return k && k.map(x => GRAMMAR_RENAMED[x] || x); };
 function keepGrammar(keys){ try { localStorage.setItem(GRAMMARBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 // A saved grammar is its id, or one of its key forms as id#head (user decision: a player may know some forms and not
 // others). A bare id with forms counts for all of them, and all its forms saved count as the id: the same grammar is a
