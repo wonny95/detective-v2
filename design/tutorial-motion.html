@@ -135,6 +135,9 @@ const NOTE5 = {
 // the camera on the place picture (1376 × 768 and its floor): the place, talking to Sgt. Badger, and with the note up
 // talk and note keep Sgt. Badger's head and body in sight above the questions and the note (user request: the head was cut off)
 const CAMS = { place:[.776, -339, 0], talk:[.7, -287, -143], note:[.7, -287, -143] };
+// 7장's camera: z steps back (1 = the phone's width); x keeps the 390-wide screen in the middle
+const T7 = (() => { const z = .68, dz = .8, side = k => -(390 / k - 390) / 2;
+  return { z, dz, talk:[side(z), 48], held:[side(z), 192], drawer:[side(dz), 454] }; })();
 const DEMOS = {
   '질문하고 들어요': {
     title:'말을 걸고 질문해요',
@@ -311,24 +314,25 @@ const DEMOS = {
       <section class="drawer"><div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" aria-pressed="true">사진</button><button class="pill sm" type="button" aria-pressed="false">진술</button></div><button class="x close-button" type="button"></button></div>
         <div class="drawer-strip">${[['Open book', 420, 350, 160, 120], ['Lamp', 590, 0, 160, 120], ['Plant', 208, 315, 120, 90]].map(([l, ...b]) => `<button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${PHOTO(...b)}</span><span class="dlabel">${l}</span><span class="dplace">Old Library</span></button>`).join('')}</div>
         <div class="drawer-pick" hidden><p>The lamps are still on.</p><div class="drawer-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div><button class="pill big" type="button">내밀기</button></div></section>`,
-    // the claim and their answer: stepped back, so the bubble and the person are seen together
-    setup(t){ t.view(-195, 0, true, .5); },
+    // the claim and their answer: stepped back a little, so the bubble and the person are seen together (the room fills
+    // the sides; user request: not too much of it)
+    setup(t){ t.view(...T7.talk, true, T7.z); },
     async run(t){
       // the claim, read out
       await t.wait(2200);
-      // down to 증거 내밀기: the drawer comes up from the bottom
-      t.view(0, 532); await t.wait(900);
+      // down to 증거 내밀기, in one move to where the button, the drawer, its cards and 내밀기 are all in sight: the camera
+      // then stays put while a photo is picked and held up (user request: it bounced up to the card and back)
+      t.view(...T7.drawer, false, T7.dz); await t.wait(1000);
       await t.tap('.t7-ask .pill'); t.q('.drawer').classList.add('open'); await t.wait(1000);
-      // a photo picked: its sentence and 내밀기 under it, the drawer growing to them (pickEvidence); the view goes up to the card
+      // a photo picked: its sentence and 내밀기 under it, the drawer growing to them (pickEvidence)
       await t.tap('.dcard:nth-child(2)'); t.q('.dcard:nth-child(2)').setAttribute('aria-pressed', 'true');
       const drawer = t.q('.drawer'), from = drawer.offsetHeight; t.q('.drawer-pick').hidden = false;
       drawer.animate([{ height:from + 'px' }, { height:drawer.offsetHeight + 'px' }], { duration:320, easing:'cubic-bezier(.2,.9,.3,1)' });
-      t.view(0, 470); await t.wait(1300);
-      t.view(0, 532); await t.wait(800);
+      await t.wait(1600);
       await t.tap('.drawer-pick .pill.big');
       // 내밀기 (present): the drawer goes down, the photo flies up in the middle and 모순! is stamped on it; at 0.48 s the room
       // jolts, they flinch and the gauge fills; the photo is gone at 1.3 s, then their answer
-      drawer.classList.remove('open'); t.view(-195, 110, false, .5);
+      drawer.classList.remove('open'); t.view(...T7.held, false, T7.z);
       t.q('.t7-claim').hidden = true;
       t.el.querySelector('.tdemo-stage').insertAdjacentHTML('beforeend', `<div class="presented hit"><figure>${PHOTO(590, 0, 160, 120)}</figure><span class="contra">모순!</span></div>`);
       await t.wait(480);
@@ -336,7 +340,7 @@ const DEMOS = {
       await t.wait(820);
       t.q('.presented').remove(); t.q('.t7-cam').classList.remove('jolt'); t.q('.t7-npc').classList.remove('flinch');
       // their answer, back up at the bubble
-      t.view(-195, 0, false, .5); await t.wait(500);
+      t.view(...T7.talk, false, T7.z); await t.wait(500);
       t.q('.t7-claim .say-en').textContent = 'Oh... they were on.'; t.q('.t7-claim').hidden = false; await t.wait(2400);
     }
   }
