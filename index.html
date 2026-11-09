@@ -497,6 +497,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-key .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
 .ck-key .gpattern .part{white-space:nowrap}
 .ck-key .gko{margin:10px 0 0;font-size:15px;line-height:1.55;word-break:keep-all;text-wrap:pretty}
+/* the words' dictionary meanings (examples[].mean, user decision: mockup C) as a small two-column table between dashed
+   rules, under the form */
+.ck-mean{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:10px 0 0;padding:7px 2px;border-top:1.5px dashed rgba(74,54,40,.3);border-bottom:1.5px dashed rgba(74,54,40,.3);font-size:15px;line-height:1.4}
+.ck-mean dt{font-family:var(--f-display)}
+.ck-mean dd{margin:0;font-weight:700;color:var(--berry)}
 #caseKey{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat}
 #caseKey .mcard.review{background:none}
 /* which page: a row of dots above the buttons (user decision: at the bottom, dots), the page shown in honey */
@@ -7132,7 +7137,7 @@ function caseKeyHTML(at, turn){
   const form = ex.parts ? ex.parts.map(part => `<span class="part">${esc(part)}</span>`).join(' ') : esc(ex.head);
   return `<div class="ck-top"><div class="ck-head"><h2 class="ck-case"><span class="no">${esc(CASE.no)}</span>${esc(CASE.title)}</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card">
-      <div class="ck-key"><div class="ck-eyebrow">이번 사건의 열쇠 <span class="n">· ${at + 1}/${caseKeyPages.length}</span></div><h3 class="gpattern">${form}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
+      <div class="ck-key"><div class="ck-eyebrow">이번 사건의 열쇠 <span class="n">· ${at + 1}/${caseKeyPages.length}</span></div><h3 class="gpattern">${form}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3>${ex.mean ? `<dl class="ck-mean">${ex.mean.map(([w, k]) => `<dt>${esc(w)}</dt><dd>${esc(k)}</dd>`).join('')}</dl>` : ''}<p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
       ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${markForm(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div>` : ''}</div>
     <div class="ck-dots" aria-label="${at + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i${i === at ? ' class="now"' : ''}></i>`).join('')}</div>
     <div class="rv-foot ck-foot">${at ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
