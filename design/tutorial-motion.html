@@ -56,10 +56,11 @@ const CSS = `
    gauge at the top, the speech bubble, 증거 내밀기 at the bottom, the evidence drawer coming up from it */
 .tdemo .t7-cam{position:absolute;left:0;top:0;width:390px;height:844px}
 .tdemo .t7-cam.jolt{animation:jolt .42s ease-out}
-.tdemo .t7-room{position:absolute;inset:0;background:url(assets/places/station-interview-room.png) 50% 50%/cover #9C7A55}
+.tdemo .t7-room{position:absolute;inset:0 -400px;background:url(assets/places/station-interview-room.png) 50% 50%/cover #9C7A55}
 .tdemo .tdemo-stage .t7-npc{position:absolute;left:50%;bottom:11%;height:54%;width:auto;max-width:none;transform:translateX(-50%)}
 .tdemo .t7-npc.flinch{animation:flinch .5s ease-out}
 .tdemo .t7-claim{--bubble-top:66px}
+.tdemo .gauge-symbol{width:34px;height:34px}   /* the game's tutorial picture rule (width 100%) stretched it */
 .tdemo .interrogation-gauge .gauge-fill{--q:.34}
 .tdemo .interrogation-gauge.up .gauge-fill{--q:.67}
 /* 4–6장 */
@@ -308,7 +309,8 @@ const DEMOS = {
       <section class="drawer"><div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" aria-pressed="true">사진</button><button class="pill sm" type="button" aria-pressed="false">진술</button></div><button class="x close-button" type="button"></button></div>
         <div class="drawer-strip">${[['Open book', 420, 350, 160, 120], ['Lamp', 590, 0, 160, 120], ['Plant', 208, 315, 120, 90]].map(([l, ...b]) => `<button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${PHOTO(...b)}</span><span class="dlabel">${l}</span><span class="dplace">Old Library</span></button>`).join('')}</div>
         <div class="drawer-pick" hidden><p>The lamps are still on.</p><div class="drawer-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div><button class="pill big" type="button">내밀기</button></div></section>`,
-    setup(t){ t.view(0, 0, true); },
+    // the claim and their answer: stepped back, so the bubble and the person are seen together
+    setup(t){ t.view(-195, 0, true, .5); },
     async run(t){
       // the claim, read out
       await t.wait(2200);
@@ -324,7 +326,7 @@ const DEMOS = {
       await t.tap('.drawer-pick .pill.big');
       // 내밀기 (present): the drawer goes down, the photo flies up in the middle and 모순! is stamped on it; at 0.48 s the room
       // jolts, they flinch and the gauge fills; the photo is gone at 1.3 s, then their answer
-      drawer.classList.remove('open'); t.view(0, 266);
+      drawer.classList.remove('open'); t.view(-195, 110, false, .5);
       t.q('.t7-claim').hidden = true;
       t.el.querySelector('.tdemo-stage').insertAdjacentHTML('beforeend', `<div class="presented hit"><figure>${PHOTO(590, 0, 160, 120)}</figure><span class="contra">모순!</span></div>`);
       await t.wait(480);
@@ -332,7 +334,7 @@ const DEMOS = {
       await t.wait(820);
       t.q('.presented').remove(); t.q('.t7-cam').classList.remove('jolt'); t.q('.t7-npc').classList.remove('flinch');
       // their answer, back up at the bubble
-      t.view(0, 0); await t.wait(500);
+      t.view(-195, 0, false, .5); await t.wait(500);
       t.q('.t7-claim .say-en').textContent = 'Oh... they were on.'; t.q('.t7-claim').hidden = false; await t.wait(2400);
     }
   }
@@ -358,8 +360,9 @@ function mount(d, force){
     q: s => stage.querySelector(s), all: s => [...stage.querySelectorAll(s)],
     wait,
     // show the stage from (x, y), 390 wide
-    view(x, y, now){
-      vx = x; vy = y; scale = box.clientWidth / 390;
+    // z < 1 steps back to show more of the screen (the room is wider than the phone, so the sides stay filled)
+    view(x, y, now, z = 1){
+      vx = x; vy = y; scale = box.clientWidth / 390 * z;
       if(now) stage.style.transition = 'none';
       stage.style.transform = `scale(${scale}) translate(${-x}px, ${-y}px)`;
       if(now){ stage.offsetWidth; stage.style.transition = ''; }

@@ -1,4 +1,4 @@
-// The 심문해요 tutorial picture (tut-7): the motion mockup's own questioning (a made-up claim, the lamp photo held up with 모순!), shot
+// The 심문해요 tutorial picture (tut-7): the motion mockup's own questioning (a made-up claim, the lamp photo picked, the whole screen), shot
 // at 3x from the headless Chrome on :9333 with the dev server on 5173. usage: node questioning.mjs <out.png> (then questioning.py)
 import fs from 'node:fs';
 const out = process.argv[2];
@@ -16,9 +16,13 @@ const js = `(async () => {
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const f = document.getElementById('game'), d = f.contentDocument;
   for(let i = 0; i < 6; i++){ [...d.querySelectorAll('button')].find(b => b.textContent.trim() === '다음' && b.offsetParent)?.click(); await wait(500); }
-  // the moment the photo is held up: it is in the middle with 모순! stamped on it, the person behind
-  for(let i = 0; i < 400; i++){ if(d.querySelector('.tdemo .presented')) break; await wait(25); }
-  await wait(620);
+  // the moment a photo is picked, the whole screen at once: the gauge, the claim, the person, the drawer with the lamp
+  // photo and 내밀기 (the camera stepped back so far that the full phone screen fits; the room fills the sides)
+  for(let i = 0; i < 400; i++){ const p = d.querySelector('.tdemo .drawer-pick'); if(p && !p.hidden) break; await wait(25); }
+  await wait(450);
+  const box = d.querySelector('.tdemo'), stage = box.querySelector('.tdemo-stage'), z = box.clientHeight / 844, w = box.clientWidth / z;
+  stage.style.transition = 'none'; stage.style.transform = 'scale(' + z + ') translate(' + (w - 390) / 2 + 'px, 0px)';
+  await wait(120);
   const fr = f.getBoundingClientRect(), b = d.querySelector('.tdemo').getBoundingClientRect();
   return [d.querySelector('#tutTitle').textContent, fr.left + b.left, fr.top + b.top, fr.left + b.right, fr.top + b.bottom];
 })()`;
