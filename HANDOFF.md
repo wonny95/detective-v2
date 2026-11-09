@@ -86,7 +86,7 @@ node server.js            # http://localhost:5173/
 | `.claude/skills/wrap-up/SKILL.md` | 작업 마무리 체크리스트(확인 → HANDOFF → CHANGELOG → 커밋 → 보고). Claude Code는 `/wrap-up`으로 부르고, Codex도 읽고 따를 수 있다 |
 | `.claude/skills/take-over/SKILL.md` | 개발 쪽 작업 이어받기(폴더·브랜치 확인 → `story` merge → STORY_LOG 개발 요청·CHANGELOG 맨 위·HANDOFF 0·4절 읽기 → `detective-dev` 미리보기 → 한국어 요약 보고). Claude Code는 `/take-over`. 코드는 고치지 않는다 |
 | `design/STORY_LOG.md` | 스토리 기획(Codex) 쪽 작업 기록. 맨 위 항목의 **개발 요청**을 개발이 반영하고 CHANGELOG에 "기획 반영"으로 적는다. "개발 인계"면 그 설계서를 점검해 사용자에게 먼저 보여 준다 |
-| `design/tutorial-motion.html`, `scripts/cut-tutorial-paw.py`, `assets/ui/tutorial-paw.png`, `assets/ui/pointer-paws-back-higgsfield-original.png` | 튜토리얼 손 동작 시안과 그 그림, 그림을 자르는 스크립트. 게임에는 아직 적용하지 않았다 |
+| `scripts/cut-tutorial-paw.py`, `assets/ui/tutorial-paw.png`, `assets/ui/pointer-paws-back-higgsfield-original.png` | 튜토리얼 시연에서 누르는 탐정 앞발 그림과 원본 시트, 자르는 스크립트 |
 | `../Detective-story` | 같은 저장소의 git worktree(브랜치 `story`). Codex는 이 폴더에서 연다. 연결은 상대 경로(`worktree.useRelativePaths`)라 두 폴더를 같은 상위 폴더에 함께 두면 어디로 옮겨도 된다. 폴더 이름을 바꿨으면 개발 폴더에서 `git worktree repair ../<기획 폴더 이름>`을 한 번 실행한다. 개발 폴더와 파일을 나눠 쓴다(AGENTS.md 분업 표) |
 
 ## 3. 현재 앱 흐름
@@ -164,7 +164,7 @@ node server.js            # http://localhost:5173/
 - **학습 > 문법**: 복습에서 북마크로 저장한 것만 보여 준다(사용자 결정: 이미 아는 표현일 수 있음, `bookGrammar()`). 열쇠 표현은 표현마다 한 줄, 다른 문법은 문법마다 한 줄이다. 누르면 문법 카드가 열린다(`openGrammar(id)`, 3.4절 문법 노트). 표현 카드는 그 표현의 설명, 이 사건에서 나온 문장, 없으면 예문을 보여 준다. 다른 사건의 문장은 그 사건 데이터가 지금 페이지에 없어서 나오지 않는다.
 - **학습 > 복습**: 해결한 사건 카드(별점·첫 확인 칸 수, `복습 보기` → 복습 화면, `닫기`로 돌아옴)와 **다시 들을 문장**(첫 확인에서 틀린 질문의 대답: ▶, `문장`으로 영어, `해석`으로 한국어).
 - **마이**(옛 `내 기록`): 연속 학습일, 해결한 사건 수, 처음 확인 정확도, 모은 단어 수, 이번 주(월–일) 학습한 날, 설정의 `플레이 방법 다시 보기`·`탐정 이름 바꾸기`.
-- 튜토리얼은 7단계를 한 장씩 보여 준다. 그림은 **실제 게임 화면을 잘라 만든 이미지**다(사용자 결정, `assets/ui/tutorial/tut-1…7.webp`, 900×720, 카드 안에서 5:4). 정답·범인·핵심 증거가 보이지 않게 자르고, 화면이 바뀌면 `scripts/tutorial-shots/`로 다시 찍는다(`assets/ui/tutorial/README.md`). 그림은 넘길 때 살짝 떠오르고, 동작 줄이기에서는 바로 보인다.
+- 튜토리얼은 7단계를 한 장씩 보여 준다. 장마다 **게임의 실제 화면 마크업이 움직이는 시연**이다(사용자 결정, 시안 `design/tutorial-motion.html`을 적용, `TUT_DEMO`, 각 `TUT`의 `demo`): 탐정의 오른쪽 앞발(`assets/ui/tutorial-paw.png`)이 누르고 끌고, 카메라가 따라가며(화면 카메라 `view(x, y, now, z)`: 이동은 확대 밖에서, .8초 부드러운 곡선; 1·4장은 장면 카메라 `cam`도 같은 시간), 한 바퀴 끝나면 0.3초 흐려졌다가 처음부터 반복한다. 예문·장소·물건은 사건의 답이 드러나지 않는 예시다(고양이 문장, 도서관 소품 책·램프·화분, 비버 벤의 지어낸 주장, 심문실 배경). 장을 넘기거나 닫으면 멈춘다(`TUT_DEMO.stop()`). 기기에서 '동작 줄이기'를 켜면 대신 정지 그림(`assets/ui/tutorial/tut-1…7.webp`, 900×720, 실제 화면을 자른 것, `scripts/tutorial-shots/`로 다시 찍음, `assets/ui/tutorial/README.md`)이 나온다.
   1. 질문하고 들어요: 질문을 고르면 노트가 올라오고 영어 대답이 들림, `다시 듣기`·속도 칩 `1×`.
   2. 빈칸을 채워요: 단어 카드 터치로 앞 빈칸부터, 끌어다 놓기·직접 쓰기, 도토리 힌트(사건마다 3개).
   3. 기록 완료로 확인해요: `기록 완료` → 틀린 칸은 흔들림 → 다시 듣고 고쳐서 또 확인 → 바르게 적으면 새 장소·인물.
@@ -404,7 +404,7 @@ node server.js            # http://localhost:5173/
 | `NPC_POSITIONS` | 배경 기준 가로 위치·발 위치·전신 높이(%). 대화와 현장에서 같은 좌표. 장면용 임시 위치는 `S.visit`(`placeIdOf()`, `positionOf()`로 읽는다) |
 | `PLACES` | 지도 핀 `x,y`(지도 그림 %), `clues`(label/en/ko/`audio`, 단서가 아닌 물건은 `prop:true`), 누르는 영역 `spots`(%), 촬영 범위 `spots.photo`(원본 좌표, 4:3) |
 | `ART`, `ART_FLOOR` | 장소 그림 SVG(1376×768 PNG + 덧그림), 장소별 바닥 확장 그림과 높이 |
-| `CULPRIT`, `CASES`, `TUT` | 범인 `'fiona'`, 사건 목록(`focus` 학습 포인트, `keys` 이번 사건의 열쇠 문법 카드), 튜토리얼 7단계 |
+| `CULPRIT`, `CASES`, `TUT` | 범인 `'fiona'`, 사건 목록(`focus` 학습 포인트, `keys` 이번 사건의 열쇠 문법 카드), 튜토리얼 7단계(`demo`: 장마다 움직이는 시연 id, `img`: 동작 줄이기 때의 정지 그림) |
 | `GRAMMAR`, `GRAMMAR_LINES` | 문법 노트(`examples`: 이번 사건의 열쇠 페이지의 형태별 예문)와 질문별 문법·강조할 말(3.4.1절) |
 | `PHRASE_LINES`(사건 묶음의 `phrases`), `PACK_WORDS` | 사건의 표현: `[WORDS 키, '인물:질문', 강조할 말]`. 다른 사건에서 담은 단어를 학습에 보여 주기 위한 사건별 단어 목록 |
 | `GLOSS` | 노트 단어 뜻(단어 뜻 톡): 소문자 단어·표현 → 뜻. 인물 이름은 사건 인물에서 |

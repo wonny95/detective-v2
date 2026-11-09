@@ -1,4 +1,4 @@
-# 7 심문해요: cut from the motion mockup's own questioning (design/tutorial-motion.html: a made-up claim, the lamp photo
+# 7 심문해요: cut from the tutorial's own moving questioning page (TUT_DEMO in index.html: a made-up claim, the lamp photo
 # picked, the questioning room behind), not from the game: the game's own questioning shows the culprit.
 # usage: node scripts/tutorial-shots/questioning.mjs scripts/tutorial-shots/shots/m-int.png
 #        python scripts/tutorial-shots/questioning.py scripts/tutorial-shots/shots
