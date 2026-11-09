@@ -483,14 +483,20 @@ button.chip:disabled{cursor:default;box-shadow:none}
    card pinned with the red tack, the examples on three taped notes, each with ▶. The paper, notes and tape are
    hand-drawn (assets/ui/casekey/, user request: in the game's illustration style), the buttons the game's own. */
 .ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px;padding-top:10px}
-/* the page's title sits under the case name in the top bar (user request), not on the pinned card */
-.ck-head{display:flex;flex-direction:column;gap:2px;min-width:0}
-.ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
+/* the top bar shows the case only (user decision, mockup ⑥): its number on a berry tag and its title; 이번 사건의 열쇠 is the
+   card's eyebrow */
+.ck-head{min-width:0}
+.ck-case{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.25;color:var(--ink)}
+.ck-case .no{flex:none;padding:3px 8px 2px;border-radius:7px;background:var(--berry);color:#FFFDF7;font-size:12px;line-height:1.2}
 .ck-top .close-button{margin-left:auto}
-.ck-key{display:flex;flex-direction:column;gap:4px}
+/* the card (user decision, mockup A): eyebrow (이번 사건의 열쇠 · 1/3) → the form (34px, breaking only between its parts) →
+   10px → the Korean (15px); the card as tall on every page as the case's tallest (--ck-card-h), so nothing below moves */
+.ck-key{display:flex;flex-direction:column}
+.ck-eyebrow{margin-bottom:4px;font-family:var(--f-display);font-size:12.5px;color:var(--ink-soft)}
+.ck-eyebrow .n{color:var(--berry)}
 .ck-key .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
-.ck-key .ck-name{font-family:var(--f-display);font-size:14px;color:var(--ink-soft)}
-.ck-key .gko{margin:0;font-size:14px;line-height:1.6}
+.ck-key .gpattern .part{white-space:nowrap}
+.ck-key .gko{margin:10px 0 0;font-size:15px;line-height:1.55;word-break:keep-all;text-wrap:pretty}
 #caseKey{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat}
 #caseKey .mcard.review{background:none}
 /* which page: a row of dots above the buttons (user decision: at the bottom, dots), the page shown in honey */
@@ -498,8 +504,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,54,40,.22);transition:background .2s,transform .2s}
 .ck-dots i.now{background:#E0A526;transform:scale(1.3)}
 #caseKey .rv-body{gap:0;padding:0 6px 12px}
-.ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:8px 8px 4px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg)}
-.ck-card::before{content:"";position:absolute;left:50%;top:-28px;width:24px;height:33px;margin-left:-9px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
+.ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:10px 6px 0;padding:8px 8px 4px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-.6deg)}
 .ck-notes{display:flex;flex-direction:column;gap:14px;margin:22px 4px 0}
 .ck-note{--note:url(assets/ui/casekey/note-yellow.webp);position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2px 6px;margin:0;padding:3px 0 3px 4px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border:11px solid transparent;border-width:11px 26px 11px 11px;border-image:var(--note) 22 54 22 22 fill / 11px 26px 11px 11px stretch;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18))}
 .ck-note:nth-child(3n+1){transform:rotate(1.2deg);margin-right:20px}
@@ -543,8 +548,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* 이전 takes 다음's height (stretched in the row): a taller 이전 made 다음 grow when it appeared on page 2 */
 .ck-foot .pill:not(.big){flex:none;min-height:0;padding:0 18px}
 .ck-foot .pill.big{flex:1;width:auto}
-.ck-key .gpattern{padding-right:44px;font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.05;text-wrap:balance}
-.ck-key .ck-name{font-size:12px}
+.ck-key .gpattern{padding-right:40px;font-family:var(--f-display);font-weight:400;font-size:34px;line-height:1.15;text-wrap:balance}
+#caseKey .ck-card{box-sizing:border-box;min-height:var(--ck-card-h, auto)}
 /* the form's ▶ is pinned to the card's top right corner (user request), clear of the form however it wraps */
 .ck-key .gpattern .replay-q{position:absolute;top:2px;right:2px;width:34px;height:34px;margin:0}
 .rv-wsec{margin:4px 0 -4px;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--ink-soft)}
@@ -2884,13 +2889,13 @@ const GRAMMAR = {
     ] },
   whose: { name:'누구의 것인지 묻기', pattern:'Whose … is this/that? / Is this … yours? / mine', ko:'Whose로 누구의 물건인지 묻고, Is this … yours?로 듣는 사람의 것인지 확인해요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
     examples:[
-      { head:'Whose … is this / that?', ko:'누구 거야?', why:'누구의 물건인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
+      { head:'Whose … is this / that?', parts:['Whose … is','this / that?'], ko:'누구 거야?', why:'누구의 물건인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
         more:['물건 이름은 Whose 바로 뒤에 붙여 한 덩어리로 맨 앞에 둬요. Whose bag is this?',
           '여러 개면 this·that 대신 these·those, is 대신 are를 써요. Whose shoes are these?',
           "대답은 '이름 + \'s'나 mine·yours·his·hers로 해요. It\'s Sam\'s. / It\'s mine.",
           "소리가 같은 Who\'s(= Who is)와 헷갈리지 마세요. Who\'s that?은 '저 사람은 누구야?'예요."],
         lines:[['{Whose book} is this?', '이 책은 누구 거야?'], ['{Whose hat} is that?', '저 모자는 누구 거야?'], ['{Whose pencil} is this?', '이 연필은 누구 거야?']] },
-      { head:'Is this / that … yours?', ko:'네 거야?', why:'물건을 가리키며 듣는 사람의 것인지 확인해요.', match:'\\byours\\b',
+      { head:'Is this / that … yours?', parts:['Is this / that','… yours?'], ko:'네 거야?', why:'물건을 가리키며 듣는 사람의 것인지 확인해요.', match:'\\byours\\b',
         more:['Is this cup yours?와 Is this your cup?은 같은 뜻이에요. your 뒤에는 물건 이름이 오고, yours는 혼자 써요.',
           "대답은 짧게 Yes, it is. / No, it isn\'t.로 해요. Yes, it\'s mine.이라고 해도 돼요.",
           "다른 사람의 것인지 물을 때는 yours 자리에 his·hers나 '이름 + \'s'를 넣어요. Is this hers? / Is this Sam\'s?",
@@ -2906,7 +2911,7 @@ const GRAMMAR = {
   // the violin case's key (L1-02 B): where things are
   'place-prep':{ name:'위치 표현', pattern:'there is / there are · in / on / under · next to / behind', ko:'there is/are로 무엇이 있는지 말하고, in·on·under·next to·behind로 어디에 있는지 말해요.',
     examples:[
-      { head:'There is / There are', ko:'~이 있어', why:'하나면 There is, 둘 이상이면 There are로 무엇이 있는지 말해요.', match:"\\bthere (is|are)\\b|\\bthere's\\b",
+      { head:'There is / There are', parts:['There is /','There are'], ko:'~이 있어', why:'하나면 There is, 둘 이상이면 There are로 무엇이 있는지 말해요.', match:"\\bthere (is|are)\\b|\\bthere's\\b",
         more:['There is 뒤에는 a·an이나 하나인 물건, There are 뒤에는 two·three나 -s가 붙은 물건이 와요.', "There is는 줄여서 There's라고도 해요.", '어디에 있는지는 뒤에 in·on·under 같은 말로 붙여요. There is a cup on the table.'],
         lines:[['{There is} a cup on the table.', '탁자 위에 컵 하나가 있어.'], ['{There are} two books on the desk.', '책상 위에 책 두 권이 있어.'], ['{There is} a ball under the desk.', '책상 아래에 공 하나가 있어.']] },
       { head:'in / on / under', ko:'안에 / 위에 / 아래에', why:'in은 안쪽 공간, on은 표면에 닿은 곳, under는 아래쪽이에요.', match:'\\b(in|on|under)\\b',
@@ -2940,7 +2945,7 @@ const GRAMMAR = {
           '시작만 말하면 from(~부터), 끝만 말하면 until(~까지)이에요. from seven / until ten.',
           '시각뿐 아니라 요일에도 써요. from Monday to Friday = 월요일부터 금요일까지.'],
         lines:[['I swim {from two to four}.', '나는 2시부터 4시까지 수영해요.'], ['The market is open {from six to noon}.', '시장은 6시부터 정오까지 열어요.'], ['We studied {from one to five}.', '우리는 1시부터 5시까지 공부했어요.']] },
-      { head:'between A and B', ko:'두 시각 사이의 어느 때', why:'A와 B 사이 어느 때인지는 콕 집지 않을 때 써요. "A에서 B 사이에"예요.',
+      { head:'between A and B', parts:['between','A and B'], ko:'두 시각 사이의 어느 때', why:'A와 B 사이 어느 때인지는 콕 집지 않을 때 써요. "A에서 B 사이에"예요.',
         more:['between 뒤는 꼭 A and B예요. between eight to nine은 틀려요.',
           '동사를 함께 봐요. arrive·call처럼 한 번 일어나는 일이면 그 사이의 어느 한 때예요. I arrived between eight and nine. = 8시에서 9시 사이 어느 때 도착했어.',
           'be closed·stay처럼 계속되는 일이면 그 시간 내내예요. The shop is closed between one and two. = 1시부터 2시까지 닫혀 있어.',
@@ -6310,8 +6315,13 @@ function tapFx(x, y, kind, text){
 function evidencePhoto(place, clueIndex){
   const spot = place.spots.find(item => item.clue === clueIndex);
   if(spot.photo){
-    const crop = spot.photo;
-    return `<svg viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}" aria-hidden="true">${ART[place.id]()}</svg>`;
+    // a spot seen only open (or only folded) is drawn that way, whatever the umbrella is now (the test tools and
+    // previews put the inside of the umbrella in the notebook while it was folded)
+    const crop = spot.photo, was = S.unfolded;
+    if(spot.open || spot.folded) S.unfolded = !!spot.open;
+    const art = ART[place.id]();
+    S.unfolded = was;
+    return `<svg viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}" aria-hidden="true">${art}</svg>`;
   }
   const artWidth = place.artWidth || 900, artHeight = place.artHeight || 600;
   const height = Math.min(artHeight, Math.max(spot.h * artHeight / 100 * 1.12, spot.w * artWidth / 100 * .84, 120));
@@ -6958,8 +6968,11 @@ function loadGame(){
   // a photo with its own crop is framed as the crop is now (user request: the umbrella handle's moved down); only the
   // frame changes, the picture inside stays as it was taken (the umbrella folded or open)
   S.evidence.forEach(item => {
-    const crop = placeOf(item.placeId)?.spots.find(spot => spot.clue === item.clueIndex)?.photo;
-    if(crop && typeof item.photo === 'string') item.photo = item.photo.replace(/viewBox="[^"]*"/, `viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}"`);
+    const place = placeOf(item.placeId), spot = place?.spots.find(spot => spot.clue === item.clueIndex), crop = spot?.photo;
+    // a spot seen only folded or only open is drawn again in that state (older saves could hold the inside of the
+    // umbrella photographed folded)
+    if(spot && (spot.open || spot.folded)) item.photo = evidencePhoto(place, item.clueIndex);
+    else if(crop && typeof item.photo === 'string') item.photo = item.photo.replace(/viewBox="[^"]*"/, `viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}"`);
   });
   S.met = S.met.filter(id => PEOPLE[id]);
   endingRound = data.endingRound || 0;
@@ -7081,8 +7094,25 @@ function openCaseKey(list, then){
   page.classList.remove('ck-in', 'ck-out');
   page.classList.toggle('ck-first', $('#caseList').hidden);   // no case cards under it: a case's page just opened
   page.hidden = false;
+  sizeCaseKey(); document.fonts?.ready.then(sizeCaseKey);   // again once the page's own fonts are in
   void page.offsetWidth; page.classList.add('ck-in');   // restart the coming-in each time
 }
+// the card is as tall on every page as on the case's tallest page (user decision, mockup A: the notes, dots and buttons
+// below stay where they are when a page turns); measured again once the fonts are in and when the window changes
+// The pages are laid out in an unseen copy of the card's page, so the page shown is not drawn again (its rise goes on).
+function sizeCaseKey(){
+  const page = $('#caseKey'), card = $('#caseKeyCard');
+  if(page.hidden || !caseKeyPages.length) return;
+  const probe = card.cloneNode(false);
+  probe.removeAttribute('id'); probe.setAttribute('aria-hidden', 'true');
+  probe.style.cssText = 'position:absolute;inset:0;visibility:hidden;pointer-events:none';
+  page.style.removeProperty('--ck-card-h'); page.appendChild(probe);
+  const tallest = Math.max(...caseKeyPages.map((x, i) => { probe.innerHTML = caseKeyHTML(i); return probe.querySelector('.ck-card').offsetHeight; }));
+  probe.remove();
+  page.style.setProperty('--ck-card-h', tallest + 'px');
+}
+document.fonts?.addEventListener('loadingdone', sizeCaseKey);
+addEventListener('resize', sizeCaseKey);
 // the page fades out over what comes next, which is already there underneath
 function closeCaseKey(){
   const page = $('#caseKey');
@@ -7093,13 +7123,19 @@ function closeCaseKey(){
 }
 function renderCaseKey(turn){
   if(turn) $('#caseKey').classList.remove('ck-in');   // a page turn slides (ck-turn), the rise is only for coming in
-  const { g, ex } = caseKeyPages[caseKeyAt], last = caseKeyAt === caseKeyPages.length - 1;
-  $('#caseKeyCard').innerHTML = `<div class="ck-top"><div class="ck-head"><small>${esc(CASE.no)} · ${esc(CASE.title)}</small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
+  $('#caseKeyCard').innerHTML = caseKeyHTML(caseKeyAt, turn);
+}
+// one page of the case key: page `at` of caseKeyPages
+function caseKeyHTML(at, turn){
+  const { g, ex } = caseKeyPages[at], last = at === caseKeyPages.length - 1;
+  // the form breaks only between its parts (ex.parts, user decision: by meaning, not wherever the width runs out)
+  const form = ex.parts ? ex.parts.map(part => `<span class="part">${esc(part)}</span>`).join(' ') : esc(ex.head);
+  return `<div class="ck-top"><div class="ck-head"><h2 class="ck-case"><span class="no">${esc(CASE.no)}</span>${esc(CASE.title)}</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card">
-      <div class="ck-key"><h3 class="gpattern">${esc(ex.head)}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3><span class="ck-name">${esc(GRAMMAR[g].name)}</span><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
+      <div class="ck-key"><div class="ck-eyebrow">이번 사건의 열쇠 <span class="n">· ${at + 1}/${caseKeyPages.length}</span></div><h3 class="gpattern">${form}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3><p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
       ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${markForm(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div>` : ''}</div>
-    <div class="ck-dots" aria-label="${caseKeyAt + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i${i === caseKeyAt ? ' class="now"' : ''}></i>`).join('')}</div>
-    <div class="rv-foot ck-foot">${caseKeyAt ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
+    <div class="ck-dots" aria-label="${at + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i${i === at ? ' class="now"' : ''}></i>`).join('')}</div>
+    <div class="rv-foot ck-foot">${at ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
 }
 $('#caseKey').addEventListener('click', e => {
   const play = e.target.closest('[data-ck-play]');
