@@ -525,6 +525,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
    card and the notes rise one after another; 사건 시작 and × fade it out over what comes next (openCaseKey, closeCaseKey).
    The rise moves `translate`, so the card's and notes' own tilt (transform) stays */
 #caseKey.ck-in{animation:ck-page .4s ease-out both}
+/* on a case's own page it is the first thing seen (the case's first scene is already drawn under it): the paper is there at
+   once and only the card and the notes rise, else that scene showed through the fade */
+#caseKey.ck-in.ck-first{animation:none}
 #caseKey.ck-in :is(.ck-card,.ck-note,.ck-dots,.ck-foot){animation:ck-rise .45s ease-out both}
 #caseKey.ck-in .ck-card{animation-delay:.15s}
 #caseKey.ck-in .ck-note:nth-child(1){animation-delay:.3s}
@@ -7074,7 +7077,9 @@ function openCaseKey(list, then){
   renderCaseKey();
   const page = $('#caseKey');
   clearTimeout(caseKeyFade);
-  page.classList.remove('ck-in', 'ck-out'); page.hidden = false;
+  page.classList.remove('ck-in', 'ck-out');
+  page.classList.toggle('ck-first', $('#caseList').hidden);   // no case cards under it: a case's page just opened
+  page.hidden = false;
   void page.offsetWidth; page.classList.add('ck-in');   // restart the coming-in each time
 }
 // the page fades out over what comes next, which is already there underneath
