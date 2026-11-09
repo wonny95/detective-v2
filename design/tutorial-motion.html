@@ -40,6 +40,9 @@ const CSS = `
 .tdemo-art::after{content:"";position:absolute;left:0;right:0;top:62%;bottom:0;background:url(assets/places/library-floor.jpg) 46% 0/auto 100%}
 .tdemo-npc{position:absolute;left:50%;top:16%;height:58%;transform:translateX(-50%);transform-origin:50% 0;transition:top .65s cubic-bezier(.3,.8,.3,1),height .65s cubic-bezier(.3,.8,.3,1)}
 .tdemo.talking .tdemo-npc{top:7%;height:46%}
+/* the game's tutorial picture rule (#tutFig img: full width, 5:4) would squash the pictures inside the demo */
+.tdemo .tdemo-stage img{aspect-ratio:auto}
+.tdemo .tdemo-stage .tdemo-npc{width:auto;max-width:none}
 .tdemo .ask-panel{transition:opacity .25s}
 .tdemo .dock{transform:translateY(calc(100% + 48px))}
 .tdemo.note .dock{transform:translateY(0)}
