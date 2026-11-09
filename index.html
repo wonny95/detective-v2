@@ -723,6 +723,13 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* word cards: one cream paper (user decision: the rotating colours meant nothing); a word already on the page fades */
 .word{touch-action:none;user-select:none;-webkit-user-select:none;border:1.5px solid var(--ink);border-radius:12px 14px 11px 15px;background:#FFFDF7;padding:5px 12px;font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink);box-shadow:1.5px 2px 0 rgba(74,54,40,.18);cursor:grab;transition:opacity .2s}
 .word.used{opacity:.4;box-shadow:none}
+/* a word on the note tapped for its meaning (glossify, showGloss): the word turns honey, the bubble sits above it */
+.gw{cursor:pointer;border-radius:4px;transition:background-color .15s}
+.gw.on,.blank.gloss-on{background-color:rgba(242,207,115,.6)!important}
+.gloss-tip{position:fixed;z-index:300;max-width:260px;padding:6px 11px 5px;border-radius:10px;background:#4A3628;color:#FFFDF7;font-family:var(--f-display);font-size:14px;line-height:1.35;box-shadow:0 3px 8px rgba(40,30,20,.3);pointer-events:none;animation:gloss-in .15s ease-out}
+.gloss-tip b{font-weight:400;margin-right:7px;color:#F2CF73}
+.gloss-tip::after{content:"";position:absolute;left:var(--x,50%);bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#4A3628}
+@keyframes gloss-in{from{opacity:0;transform:translateY(3px)}}
 .word.sel{outline:3px solid var(--berry);outline-offset:2px}
 .ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-60%) rotate(-4deg);opacity:.95}
 .word-flight{position:fixed;z-index:100;pointer-events:none;margin:0;box-sizing:border-box;white-space:nowrap;transform-origin:center}
@@ -2866,6 +2873,100 @@ const WORDS = {
   'come back':['x','돌아오다'], 'give back':['x','~를 돌려주다',null,'give ~ back'], 'all evening':['x','저녁 내내'], 'all night':['x','밤새'], 'last month':['x','지난달'],
   'get tired':['x','지치다'], 'miss':['x','~를 그리워하다',null,'miss ~']
 };
+// 노트의 단어 뜻 (user request: once a question is written down right, every word on the note can be tapped for its
+// meaning; also the evidence notes and the pinned memos). Keys are lower case; a key of two or more words is a phrase
+// and wins over its single words (next to, waiting room). The meaning is the one the game's own lines use. People's
+// names come from the case's people (spk().ko), not from here; X's adds 의.
+const GLOSS = {
+  // phrases
+  'next to':'~ 옆에', 'waiting room':'대기실', 'dark blue':'남색, 짙은 파란색', 'dark green':'짙은 초록색', 'there is':'~이 있다 (하나)', "there's":'~이 있다 (there is)',
+  'there are':'~이 있다 (여럿)', 'no one':'아무도 ~않다', 'shooting star':'별똥별', 'regular customer':'단골손님', 'looking for':'~을 찾고 있다',
+  'look for':'~을 찾다', 'look after':'~을 돌보다, 봐 주다', 'look around':'둘러보다', 'find out':'알아내다', 'mixed up':'뒤바뀌었다, 섞였다',
+  'came back':'돌아왔다', 'come back':'돌아오다', 'came back on':'(불이) 다시 켜졌다', 'went out':'(불이) 꺼졌다, 나갔다', 'all morning':'아침 내내',
+  'all evening':'저녁 내내', 'all night':'밤새, 밤 내내', 'whole time':'그동안 내내', 'last month':'지난달', 'once more':'한 번 더', 'last part':'마지막 부분',
+  'music stand':'보면대 (악보를 올려놓는 대)', 'side curtain':'옆 커튼', 'side passage':'옆 통로', 'stage helper':'무대 도우미', 'lunch box':'도시락통',
+  'picnic things':'소풍 물건', 'blueberry pies':'블루베리 파이', 'music book':'음악 책', 'lake cafe':'호수 카페 (가게 이름)', 'moon hill':'달 언덕 (장소 이름)',
+  'star club':'별 동호회', 'windmill hill':'풍차 언덕 (장소 이름)', 'old library':'옛 도서관 (장소 이름)', 'toy nest':'토이 네스트 (가게 이름)',
+  'toy bazaar':'장난감 바자회', 'village hall':'마을 회관', 'professor hoot':'후트 교수 (올빼미)', 'left chair':'왼쪽 의자', 'just like':'꼭 ~처럼',
+  'look like':'~처럼 생기다', 'how long':'얼마나 오래', 'long time':'오랫동안', 'for a while':'잠시 동안', 'so much':'아주 많이', 'who else':'그 밖에 누가',
+  'someone else':'다른 누군가', "someone else's":'다른 누군가의', 'either of you':'너희 둘 중 누구든', 'of course':'물론이지', 'all right':'좋아, 알았어',
+  'thank you':'고마워', 'rolling pin':'밀대', 'rocking chair':'흔들의자', 'instant camera':'즉석카메라', 'order board':'주문판', 'curtain hook':'커튼 고리',
+  'black toolbox':'검은 공구 상자', 'black case':'검은 케이스', 'piece of':'~ 한 조각', 'a lot':'많이', 'lots of':'많은', 'in front of':'~ 앞에',
+  'going to':'~할 것이다', 'get back':'돌려받다, 돌아가다', 'gave it back':'돌려줬다', 'let me look':'어디 보자', "let's":'~하자 (let us)', 'come in':'들어오다', 'came in':'들어왔다',
+  'right now':'지금 바로', 'for now':'당분간, 지금은', 'slipped past':'놓쳤다, 스쳐 지나갔다', 'venue change':'장소 변경', 'contest program':'대회 프로그램 (순서표)',
+  'pm':'오후', 'am':'오전',
+  // words
+  a:'하나의, 어떤', about:'~에 대한', acorn:'도토리', after:'~ 후에', again:'다시', all:'모든, 내내', alone:'혼자', an:'하나의, 어떤', and:'그리고, ~와',
+  angry:'화가 난', animals:'동물들', answering:'대답하기', any:'어떤, 아무', anyone:'누군가, 아무나', anything:'무언가, 아무것도', are:'~이다, 있다 (be)',
+  argued:'말다툼했다', around:'주위에, 여기저기', as:'~처럼, ~로서', ask:'물어보다', asked:'부탁했다, 물었다 (ask의 과거)', at:'~에 (장소·시각)',
+  back:'뒤, 다시, 돌려', backstage:'무대 뒤에', bag:'가방', bags:'가방들', bakery:'빵집', baking:'(빵을) 굽는', banner:'현수막', basket:'바구니', baskets:'바구니들',
+  bazaar:'바자회', be:'~이다, 있다', bear:'곰', because:'~ 때문에', been:'~이었다, 있었다 (have been)', before:'~ 전에', begin:'시작하다', behind:'~ 뒤에',
+  bench:'벤치', between:'~ 사이에', big:'큰', black:'검은색', blades:'날개 (바람개비의)', blue:'파란색', blueberry:'블루베리', board:'판, 게시판',
+  book:'책', books:'책들', borrow:'빌리다', borrowed:'빌렸다 (borrow의 과거)', both:'둘 다', bottle:'병, 물병', bought:'샀다 (buy의 과거)', box:'상자',
+  bread:'빵', break:'쉬는 시간, 깨다', bright:'밝은', bring:'가져오다', broken:'끊어진, 고장 난', brought:'가져왔다 (bring의 과거)', brown:'갈색',
+  bulbs:'전구들', burn:'타다', burnt:'탄', busy:'바쁜', but:'하지만', button:'단추', buttons:'단추들', by:'~ 옆에, ~이 (만든)', cafe:'카페', call:'전화하다, 부르다',
+  came:'왔다 (come의 과거)', camera:'카메라', can:'~할 수 있다', "can't":'~할 수 없다 (cannot)', carefully:'꼼꼼히, 조심스럽게',
+  carried:'옮겼다, 들고 갔다 (carry의 과거)', carry:'옮기다, 들고 가다', case:'케이스, 상자, 사건', catch:'잡다, (소리를) 듣다', caught:'걸렸다, 잡혔다 (catch의 과거)',
+  chair:'의자', chairs:'의자들', chalkboard:'칠판', change:'변경, 바꾸다', check:'확인하다', checked:'확인했다', clear:'맑은', climbing:'올라가기',
+  clock:'시계', closed:'닫힌, 닫았다', closer:'더 가까이', cloth:'천, 식탁보', club:'동호회, 모임', color:'색', come:'오다', coming:'오는 중',
+  compare:'비교하다', contest:'대회', cool:'시원한, 멋진', could:'~할 수 있었다 (can의 과거)', "couldn't":'~할 수 없었다 (could not)', counter:'계산대',
+  course:'(of course) 물론', covers:'덮다', crayons:'크레용들', crumpled:'구겨진', cups:'컵들', curtain:'커튼, (무대의) 막', customer:'손님',
+  cut:'자르다, 잘린', cutters:'커터 (자르는 도구)', dark:'어두운, 짙은', day:'날, 하루', detective:'탐정', did:'했다 (do의 과거)', "didn't":'~하지 않았다 (did not)',
+  do:'하다', does:'하다 (do, 그·그녀)', "doesn't":'~하지 않는다 (does not)', dog:'강아지, 개', "don't":'~하지 않다 (do not)', door:'문', dropped:'떨어뜨렸다',
+  duck:'오리', ears:'귀', eight:'8, 여덟', either:'(둘 중) 어느 쪽', else:'그 밖의, 다른', empty:'빈, 비어 있는', enjoy:'즐기다', evening:'저녁',
+  every:'모든, 매', "everyone's":'모두의', everything:'모든 것', everywhere:'모든 곳', explain:'설명하다', fabric:'천, 옷감', fence:'울타리', festival:'축제',
+  find:'찾다', finding:'찾기', fine:'괜찮은, 좋아', finish:'끝내다', first:'첫 번째, 먼저', fit:'맞다', five:'5, 다섯', fixed:'고쳤다', flies:'날다', floor:'바닥',
+  flowers:'꽃들', folder:'폴더, 서류철', footprints:'발자국들', for:'~을 위해, ~ 동안', forty:'40, 마흔', found:'찾았다, 발견했다 (find의 과거)', four:'4, 넷',
+  fox:'여우', friends:'친구들', from:'~부터, ~에서', full:'가득 찬', fur:'털', garden:'정원', gate:'문, 대문', gave:'줬다 (give의 과거)', get:'가져오다, 받다',
+  go:'가다', goat:'염소', goes:'가다 (그·그녀)', going:'가는, (going to) ~할 것이다', gold:'금색', golden:'금빛의', gone:'사라진, 없어진', good:'좋은',
+  got:'~하게 되었다, ~해졌다 (get의 과거)', grass:'풀, 잔디', gray:'회색', green:'초록색', grow:'자라다', guitar:'기타', had:'가지고 있었다, 있었다 (have의 과거)',
+  hall:'회관, 홀', handle:'손잡이', happened:'일어났다, 생겼다', has:'가지고 있다, 있다', hat:'모자', have:'가지고 있다, 있다', he:'그, 그 남자', hear:'듣다',
+  heard:'들었다 (hear의 과거)', hello:'안녕, 안녕하세요', help:'돕다', helper:'도우미', helping:'돕는', her:'그녀의, 그녀를', here:'여기에', "here's":'여기 ~이 있어',
+  hers:'그녀의 것', hi:'안녕', hid:'숨겼다 (hide의 과거)', hill:'언덕', him:'그를, 그에게', his:'그의, 그의 것', hit:'치다, 부딪히다', hmm:'흠', hollow:'(마을 이름) 할로우, 골짜기',
+  home:'집, 집에', honey:'꿀', hook:'고리', horse:'말', hosted:'열었다, 주최했다', house:'집', how:'어떻게, 얼마나', i:'나', "i'd":'나는 ~하고 싶다 (I would)',
+  "i'll":'나는 ~할 것이다 (I will)', "i'm":'나는 ~이다 (I am)', if:'만약 ~라면', in:'~ 안에, ~에', indoors:'실내로, 실내에서', inside:'안에, 안쪽',
+  instant:'즉석의', is:'~이다, 있다 (be)', "isn't":'~이 아니다 (is not)', it:'그것', "it's":'그것은 ~이다 (it is, it has)', its:'그것의', jam:'잼', jars:'병들, 단지들',
+  join:'함께하다, 참여하다', just:'꼭, 딱, 방금', keep:'지키다, 보관하다', kind:'친절한', kitchen:'부엌', knock:'두드리다', knocked:'두드렸다, 노크했다', know:'알다',
+  ladder:'사다리', lake:'호수', lamps:'램프들', lantern:'랜턴, 등불', last:'지난, 마지막', leans:'기대어 있다', leave:'두고 가다, 떠나다',
+  left:'두고 갔다, 떠났다 (leave의 과거)', lend:'빌려주다', lent:'빌려줬다 (lend의 과거)', let:'~하게 하다', librarian:'사서', library:'도서관',
+  light:'조명, 불', lights:'조명들, 불빛', like:'~ 같은, ~처럼, 좋아하다', little:'작은', live:'살다', loaf:'(빵) 한 덩이', lobby:'로비', logs:'통나무들',
+  long:'오래, 긴', look:'보다', looked:'살펴봤다', looking:'보는, 찾는', looks:'~처럼 보이다', lost:'잃어버렸다 (lose의 과거)', lots:'많음', lunch:'점심',
+  lying:'누워 있는', matches:'~와 같다, 맞다', maybe:'아마', me:'나를, 나에게', meet:'만나다', meeting:'회의', middle:'가운데', mine:'나의 것',
+  mirror:'거울', miss:'그리워하다', missing:'없어진, 사라진', mixed:'섞인', mole:'두더지', moment:'잠깐, 순간', month:'달, 한 달', moon:'달', more:'더',
+  morning:'아침', move:'옮기다, 움직이다', moved:'옮겼다', moving:'움직이는', mr:'~씨, 아저씨 (남자 어른)', mrs:'~부인, 아주머니 (결혼한 여자 어른)', much:'많이',
+  muffins:'머핀들', music:'음악', my:'나의', name:'이름', names:'이름들', nearby:'근처에', needed:'필요했다', needs:'필요하다', nest:'둥지', never:'한 번도 ~않다, 절대 ~않다',
+  new:'새로운', newspaper:'신문', next:'다음, 다음에', nice:'좋은, 멋진', night:'밤', nine:'9, 아홉', no:'아니, 없는', nobody:'아무도 ~않다', not:'~ 아니다, ~않다',
+  notebook:'공책, 수첩', notes:'메모들', nothing:'아무것도 ~않다', notice:'안내문, 알아차리다', now:'지금', "o'clock":'~시 (정각)', october:'10월', of:'~의', office:'사무실',
+  officer:'경찰관', offices:'사무실들', often:'자주', oh:'아, 오', old:'나이 든, 오래된', on:'~ 위에, ~에', once:'한 번', one:'하나, (앞에 말한) 것', only:'~만, 오직',
+  open:'열다, 열린', opened:'열었다', orange:'주황색', order:'주문', orders:'주문들', other:'다른', our:'우리의', out:'밖으로', oven:'오븐', over:'~ 위로, 끝난',
+  owl:'올빼미', owner:'주인', owns:'~의 주인이다, 가지고 있다', pair:'한 쌍', paper:'종이', part:'부분', passage:'통로', past:'지나서', path:'길, 오솔길', pattern:'무늬',
+  pen:'펜', photo:'사진', picnic:'소풍', picture:'그림, 사진', piece:'조각', pies:'파이들', pile:'더미', pin:'핀', pinwheel:'바람개비', place:'장소', plain:'무늬 없는, 민무늬',
+  plans:'계획들', plant:'식물, 화분', plates:'접시들', play:'연주하다, 놀다', played:'연주했다', playing:'연주하는, 노는', please:'~해 주세요', points:'가리키다, 향하다',
+  poster:'포스터', practice:'연습하다', printed:'인쇄했다, 찍어 냈다', problems:'문제들', professor:'교수', program:'프로그램, 순서표', programs:'프로그램들',
+  prove:'증명하다', purple:'보라색', put:'두었다, 놓았다 (put의 과거)', questions:'질문들', quiet:'조용한', rabbit:'토끼', raccoon:'너구리', rain:'비', rained:'비가 왔다',
+  ran:'달렸다 (run의 과거)', read:'읽다, 읽었다', ready:'준비된', really:'정말로', records:'기록들', red:'빨간색', regular:'단골의, 늘 오는', rehearsal:'리허설, 예행연습',
+  remember:'기억하다', request:'의뢰, 부탁', return:'돌려주다, 반납하다', review:'평, 리뷰', right:'맞아, 오른쪽', rolling:'구르는', room:'방', round:'둥근', rug:'깔개',
+  sad:'슬픈', safe:'안전한', said:'말했다 (say의 과거)', same:'같은', saw:'봤다 (see의 과거)', says:'말한다', scared:'무서워하는, 겁먹은', see:'보다', seven:'7, 일곱',
+  she:'그녀', sheet:'한 장', shelf:'선반', shooting:'(shooting star) 별똥별', short:'짧은', should:'~해야 한다', side:'옆, 측면', sign:'표지판', silver:'은색', sits:'놓여 있다, 앉아 있다',
+  sky:'하늘', sleeve:'소매', sleeves:'소매들', slipped:'미끄러졌다, 빠져나갔다', small:'작은', so:'그래서, 아주', some:'몇몇, 어떤', someone:'누군가', songs:'노래들', sorry:'미안해',
+  spare:'여분의', stage:'무대', stairs:'계단', stand:'대, 받침대', star:'별', stars:'별들', stay:'머무르다', stayed:'머물렀다, 있었다', stepped:'밟았다, 발을 디뎠다',
+  sticker:'스티커', sticky:'끈적끈적한', still:'아직, 여전히', stone:'돌', stool:'등받이 없는 의자', stopped:'들렀다, 멈췄다', strange:'이상한', string:'줄', strings:'줄들, (악기의) 현',
+  sunlight:'햇빛', sure:'확실한', sweet:'달콤한, 단', table:'탁자', take:'가져가다, 데려가다', takes:'(시간이) 걸리다', talk:'이야기하다', tall:'키가 큰, 높은', taught:'가르쳐 줬다 (teach의 과거)',
+  teddy:'곰 인형', telescope:'망원경', tell:'말하다, 알리다', telling:'말하는', ten:'10, 열', thank:'고마워하다', thanks:'고마워', that:'저, 그, 저것, ~라고',
+  "that's":'그것은 ~이다 (that is)', the:'그 (정해진 것 앞)', their:'그들의', them:'그들을, 그것들을', then:'그다음에, 그때', there:'거기에', these:'이것들, 이', they:'그들, 그것들',
+  "they're":'그것들은 ~이다 (they are)', things:'물건들', think:'생각하다', thinks:'생각한다', thirty:'30, 서른', this:'이, 이것', three:'3, 셋', through:'~을 통해', time:'시간, 때',
+  to:'~로, ~에게, ~까지', today:'오늘', "today's":'오늘의', together:'함께', told:'말했다 (tell의 과거)', tomorrow:'내일', tonight:'오늘 밤', too:'너무, ~도', took:'가져갔다 (take의 과거)',
+  toolbox:'공구 상자', top:'맨 위', toy:'장난감', toys:'장난감들', trash:'쓰레기', tuft:'(털) 뭉치', turn:'차례', twelve:'12, 열둘', two:'2, 둘', umbrella:'우산', under:'~ 아래에',
+  until:'~까지', up:'위로', us:'우리를', venue:'장소, 행사장', very:'매우', victim:'피해자', village:'마을', violin:'바이올린', visit:'방문하다', waited:'기다렸다', waiting:'기다리는',
+  wall:'벽', want:'원하다', wanted:'원했다', wants:'원한다', warm:'따뜻한', was:'~이었다, 있었다 (is의 과거)', "wasn't":'~이 아니었다, 없었다 (was not)', watched:'지켜봤다',
+  water:'물', we:'우리', week:'일주일', welcome:'환영해', went:'갔다 (go의 과거)', were:'~이었다, 있었다 (are의 과거)', what:'무엇', "what's":'무엇이 ~이니 (what is)',
+  when:'언제, ~할 때', where:'어디', while:'동안', white:'흰색', who:'누구, ~한 (사람)', whole:'전체의', whose:'누구의', why:'왜', will:'~할 것이다', win:'이기다',
+  window:'창문', windmill:'풍차', with:'~와 함께, ~을 가진', witness:'목격자, 증인', wonderful:'멋진', wooden:'나무로 된', word:'말, 단어', words:'말들, 단어들',
+  work:'일, 일하다', worked:'일했다', workers:'일하는 사람들', works:'일한다', would:'~할 것이다, ~하고 싶다', wrote:'썼다 (write의 과거)', yarn:'털실', yellow:'노란색',
+  ordered:'주문했다', rocking:'흔들리는', saturn:'토성', tired:'피곤한, 지친',
+  mia:'미아', ollie:'올리', hoot:'후트 (올빼미 교수)', yet:'아직',
+  yes:'응, 네', you:'너, 당신', "you're":'너는 ~이다 (you are)', your:'너의', yours:'너의 것'
+};
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소'], ['x','표현']];
 // the other cases' words (note blanks that are in WORDS, and phrases), for 학습 on the main page
 const packWords = c => [...new Set([...Object.values(c.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))), ...c.phrases.map(([key]) => key)])].filter(k => WORDS[k]);
@@ -3725,6 +3826,78 @@ function memoHTML(){
   return `<div class="memo-page">${pins}<textarea class="memo-text" id="memoText" spellcheck="false" autocomplete="off" aria-label="내 메모">${esc(S.memo.text)}</textarea></div>`;
 }
 
+/* ---------- word meanings on the note ---------- */
+// A word, or a phrase of two to four words, tapped on the note shows its meaning in a small bubble (user request).
+// Only on what the player has already got right: a statement written down right (its question, its lines and its
+// passage), an evidence note and the pinned memos. People by their name from the case (spk().ko), then GLOSS; X's adds 의.
+const glossKey = s => s.toLowerCase().replace(/’/g, "'").replace(/\./g, '').replace(/\s+/g, ' ').trim();
+let glossNames;
+function glossOf(text){
+  if(!glossNames){
+    glossNames = {};
+    Object.values(PEOPLE).forEach(p => {
+      const names = [p.name, p.id === 'betty' ? 'Mrs. Bear' : ''].filter(n => n && !n.includes('&'));   // a pair (Mia & Ollie) is in GLOSS
+      names.forEach(n => { glossNames[glossKey(n)] = p.ko; const first = glossKey(n).split(' ')[0]; if(!/^(mr|mrs|the)$/.test(first)) glossNames[first] = p.ko; });
+    });
+  }
+  const k = glossKey(text), own = /'s$/.test(k) && !GLOSS[k], base = own ? k.slice(0, -2) : k;
+  const m = glossNames[base] || GLOSS[base];
+  return m ? m + (own ? '의' : '') : '';
+}
+// every text in el becomes words that can be tapped (data-gloss), the longest phrase first
+function glossify(el){
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement.closest('button, .gw, .ko, .np-ko') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+  const nodes = []; while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const text = node.textContent, toks = [...text.matchAll(/[A-Za-z]+(?:['’][A-Za-z]+)?/g)];
+    if(!toks.length) return;
+    const frag = document.createDocumentFragment(); let at = 0, i = 0;
+    while(i < toks.length){
+      let n = Math.min(4, toks.length - i), hit = '';
+      for(; n > 1; n--){
+        const gaps = toks.slice(i, i + n - 1).every((t, j) => /^\.?\s+$/.test(text.slice(t.index + t[0].length, toks[i + j + 1].index)));
+        if(gaps && (hit = glossOf(toks.slice(i, i + n).map(t => t[0]).join(' ')))) break;
+      }
+      if(n === 1) hit = glossOf(toks[i][0]);
+      const start = toks[i].index, last = toks[i + n - 1], end = last.index + last[0].length;
+      if(hit){
+        frag.append(text.slice(at, start));
+        const w = document.createElement('span'); w.className = 'gw'; w.dataset.gloss = hit; w.textContent = text.slice(start, end);
+        frag.append(w); at = end;
+      }
+      i += n;
+    }
+    frag.append(text.slice(at)); node.replaceWith(frag);
+  });
+}
+function glossifyDock(body){
+  body.querySelectorAll('.nblock').forEach(b => { if(b.querySelector('.question-state.ok')) b.querySelectorAll('.qlabel, .nline, .npassage > p:not(.np-ko)').forEach(glossify); });
+  body.querySelectorAll('.evidence-detail > p:not(.ko), .memo-pin > div').forEach(glossify);
+}
+function hideGloss(){ $('#glossTip')?.remove(); document.querySelectorAll('.gw.on, .blank.gloss-on').forEach(w => w.classList.remove('on', 'gloss-on')); }
+function showGloss(el, word, meaning){
+  const again = el.classList.contains('on') || el.classList.contains('gloss-on');
+  hideGloss(); if(again || !meaning) return;
+  el.classList.add(el.classList.contains('gw') ? 'on' : 'gloss-on');
+  const r = el.getBoundingClientRect(), tip = document.createElement('div');
+  tip.id = 'glossTip'; tip.className = 'gloss-tip'; tip.setAttribute('role', 'status');
+  tip.innerHTML = `<b>${esc(word)}</b>${esc(meaning)}`;
+  document.body.append(tip);
+  // above the word, kept inside the app's frame
+  const app = $('#app').getBoundingClientRect(), w = tip.offsetWidth;
+  tip.style.left = Math.max(app.left + 6, Math.min(app.right - w - 6, r.left + r.width / 2 - w / 2)) + 'px';
+  tip.style.top = (r.top - tip.offsetHeight - 8) + 'px';
+  tip.style.setProperty('--x', (r.left + r.width / 2 - parseFloat(tip.style.left)) + 'px');
+}
+$('#dockBody').addEventListener('click', e => {
+  const w = e.target.closest('.gw');
+  if(w) return showGloss(w, w.textContent, w.dataset.gloss);
+  const b = e.target.closest('.blank.ok[readonly]');
+  if(b) showGloss(b, b.value, glossOf(b.value));
+});
+$('#dockBody').addEventListener('scroll', hideGloss);
+document.addEventListener('pointerdown', e => { if(!e.target.closest('.gw, .blank.ok[readonly]')) hideGloss(); }, true);
+
 function blockHTML(sIdx, qid, now){
   const s = spk(sIdx), p = per(sIdx), q = qs(s).find(x => x.id === qid);
   let n = 0;   // blank order, for the one-by-one light-up of a fresh check
@@ -3854,7 +4027,7 @@ const openPassages = new Set(), openPassageKo = new Set();   // passages shown, 
 let freshCheck = null;   // 'person:question' just written down right: its block animates on the next render only
 let missCheck = null;    // 'person:question' just checked with wrong blanks: they shake on the next render only
 function renderDock(){
-  clearWordFlights();
+  clearWordFlights(); hideGloss();
   renderWho(); renderChip(); renderAsk(); renderHint(); updateAccuse();
   const locked = talkLocked();
   $('#app').classList.toggle('talk-locked', locked); $('#mapTab').disabled = locked;
@@ -3954,6 +4127,7 @@ function renderDock(){
 
 function bindDock(){
   const body = $('#dockBody');
+  glossifyDock(body);
   const faces = body.querySelector('.nfaces');
   if(faces){
     let drag = null, moved = false;
