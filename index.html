@@ -483,16 +483,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
    card pinned with the red tack, the examples on three taped notes, each with ▶. The paper, notes and tape are
    hand-drawn (assets/ui/casekey/, user request: in the game's illustration style), the buttons the game's own. */
 .ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px;padding-top:10px}
-/* the top bar shows the case only (user decision, mockup ⑥): its number on a berry tag and its title; 이번 사건의 열쇠 is the
-   card's eyebrow */
-.ck-head{min-width:0}
-.ck-case{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.25;color:var(--ink)}
-.ck-case .no{flex:none;padding:3px 8px 2px;border-radius:7px;background:var(--berry);color:#FFFDF7;font-size:12px;line-height:1.2}
+/* the top bar: 이번 사건의 열쇠 as the review page's title, no case name (user request: the case was just picked) */
 .ck-top .close-button{margin-left:auto}
-/* the card (user decision, mockup A): eyebrow (이번 사건의 열쇠; no page number, the dots below say it, user request) → the form (34px, breaking only between its parts) →
-   10px → the Korean (15px); the card as tall on every page as the case's tallest (--ck-card-h), so nothing below moves */
+/* the card (user decision, mockup A): the form (34px, breaking only between its parts) → its words' meanings → 10px → the
+   Korean (15px); the card as tall on every page as the case's tallest (--ck-card-h), so nothing below moves */
 .ck-key{display:flex;flex-direction:column}
-.ck-eyebrow{margin-bottom:4px;font-family:var(--f-display);font-size:12.5px;color:var(--ink-soft)}
 .ck-key .gpattern{margin:0;font-family:var(--f-hand);font-weight:700;font-size:24px;line-height:1.2}
 .ck-key .gpattern .part{white-space:nowrap}
 .ck-key .gko{margin:10px 0 0;font-size:15px;line-height:1.55;word-break:keep-all;text-wrap:pretty}
@@ -7134,9 +7129,9 @@ function caseKeyHTML(at, turn){
   const { g, ex } = caseKeyPages[at], last = at === caseKeyPages.length - 1;
   // the form breaks only between its parts (ex.parts, user decision: by meaning, not wherever the width runs out)
   const form = ex.parts ? ex.parts.map(part => `<span class="part">${esc(part)}</span>`).join(' ') : esc(ex.head);
-  return `<div class="ck-top"><div class="ck-head"><h2 class="ck-case"><span class="no">${esc(CASE.no)}</span>${esc(CASE.title)}</h2></div><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
+  return `<div class="ck-top"><h2 class="rv-title">이번 사건의 열쇠</h2><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card">
-      <div class="ck-key"><div class="ck-eyebrow">이번 사건의 열쇠</div><h3 class="gpattern">${form}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3>${ex.mean ? `<dl class="ck-mean">${ex.mean.map(([w, k]) => `<dt>${esc(w)}</dt><dd>${esc(k)}</dd>`).join('')}</dl>` : ''}<p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
+      <div class="ck-key"><h3 class="gpattern">${form}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3>${ex.mean ? `<dl class="ck-mean">${ex.mean.map(([w, k]) => `<dt>${esc(w)}</dt><dd>${esc(k)}</dd>`).join('')}</dl>` : ''}<p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
       ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${markForm(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div>` : ''}</div>
     <div class="ck-dots" aria-label="${at + 1} / ${caseKeyPages.length}">${caseKeyPages.map((x, i) => `<i${i === at ? ' class="now"' : ''}></i>`).join('')}</div>
     <div class="rv-foot ck-foot">${at ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? '사건 시작' : '다음'}</button></div>`;
