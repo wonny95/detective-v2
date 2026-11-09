@@ -540,7 +540,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes ck-leave{to{opacity:0;transform:scale(1.02)}}
 @media(prefers-reduced-motion:reduce){.ck-turn,#caseKey.ck-in,#caseKey.ck-in *,#caseKey.ck-out{animation:none}}
 .ck-foot{display:flex;gap:8px}
-.ck-foot .pill:not(.big){flex:none;min-height:50px;padding:0 18px}
+/* 이전 takes 다음's height (stretched in the row): a taller 이전 made 다음 grow when it appeared on page 2 */
+.ck-foot .pill:not(.big){flex:none;min-height:0;padding:0 18px}
 .ck-foot .pill.big{flex:1;width:auto}
 .ck-key .gpattern{padding-right:44px;font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1.05;text-wrap:balance}
 .ck-key .ck-name{font-size:12px}
