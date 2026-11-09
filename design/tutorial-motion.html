@@ -46,7 +46,8 @@ const CSS = `
 .tdemo .ask-panel{transition:opacity .25s}
 .tdemo .dock{transform:translateY(calc(100% + 48px))}
 .tdemo.note .dock{transform:translateY(0)}
-.tdemo .ask-panel .q.press,.tdemo .press{transform:translateY(2px);filter:brightness(.94)}
+/* a press nudges with the translate property, on top of the button's own transform (a map pin is centred with translate(-50%,-50%)) */
+.tdemo .ask-panel .q.press,.tdemo .press{translate:0 2px;filter:brightness(.94)}
 .tdemo-waves{position:absolute;left:66%;top:12%;width:46px;height:60px;opacity:0;transition:opacity .2s}
 .tdemo-waves.on{opacity:1}
 .tdemo-waves path{fill:none;stroke:#FFFDF7;stroke-width:4;stroke-linecap:round;animation:twv 1.1s ease-in-out infinite}
