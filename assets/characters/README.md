@@ -126,7 +126,13 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
   - 족제비 타라 + 여우 오웬: job `10d6669d-b559-4cd2-bbe0-bfce23d6d736` → `tara-owen-higgsfield-original.jpg`. 오웬 재킷의 민무늬 금색 단추, **화면 왼쪽(오웬의 오른쪽) 소매 단추가 빠지고 실이 나온 자리**, 화면 오른쪽 소매에는 금색 단추(설계서 8절).
   - 두더지 모모 + 참새 핍(같은 화면에 섬): job `9e3f5b63-83d8-4ce3-bbd2-11ea736d9146` → `momo-pip-higgsfield-original.jpg`. 모모는 도서관의 몰 부인과 구별되게 안경 없이 올리브색 작업 멜빵·줄무늬 셔츠, 소매마다 은색 똑딱이 단추 둘.
   - 염소 이보: job `aebc6daf-da25-45c6-9781-147d0b92f52c` → `ivo-higgsfield-original.jpg`. 남색 재킷, 소매마다 납작하고 어두운 단추.
-- 오웬 표정 2종(심문용, 도서관 피오나처럼): 16:9, 1K, 참조 위 오웬 job. 장당 1.5크레딧.
+- **오웬을 강아지로 바꿈(사용자 결정, 2026-11-09: 범인이 도서관과 같은 여우라서).** 지금 쓰는 오웬 세 장은 아래 강아지 판이고, 위의 여우 오웬 job은 기록으로만 남긴다(타라는 여전히 `tara-owen` 시트의 왼쪽).
+  - 기본: Nano Banana 2.1, 3:4, 2K, thinking high, 참조 `10d6669d-…`(여우 오웬), 2크레딧. job `273bc0cd-ea5e-449d-addc-43a00da7260c` → `owen-higgsfield-original.jpg`. 갈색·크림색 처진 귀 강아지, 같은 초록 재킷·금색 단추·나비넥타이·회색 바지·갈색 구두, 화면 왼쪽 소매 단추 빠지고 실밥, 오른쪽 소매 금색 단추.
+  - 당황: 1K, 참조 위 강아지 job과 여우 당황 `581e5172-…`, 1.5크레딧. job `a68ad591-3ba0-41a8-884d-30831619496e` → `owen-nervous-original.jpg`.
+  - 고개 숙임: 1K, 참조 강아지 job과 여우 고개 숙임 `5b073cde-…`, 1.5크레딧. job `17267e35-ed72-4799-9b01-d05918f6239b` → `owen-sad-original.jpg`(한 마리만).
+  - 배경 제거 `cf2d5d88-…`·`794a91fe-…`·`8a54745e-…` → `scripts/cut-violin-characters.py <폴더> owen owen-nervous owen-sad`. 그 뒤 바깥에 닿은 흰 테두리 조각(소매 실밥 옆·손과 재킷 사이·구두 옆)을 따로 지웠다. 적용본 `owen-higgsfield.png` 471×700(얼굴 `68 0 336 336`), `owen-nervous-higgsfield.png` 470×700, `owen-sad-higgsfield.png` 471×700. 입은 `scripts/make-npc-mouths.py owen owen-nervous owen-sad`(닫은 입은 그린 그대로).
+  - 소매 사진 `places/violin/sleeves-owen.png`의 주황 여우 발을 강아지 털색으로 바꿨다(Python, 색상만).
+- 오웬 표정 2종(심문용, 도서관 피오나처럼, 여우 판): 16:9, 1K, 참조 위 오웬 job. 장당 1.5크레딧.
   - 당황: job `581e5172-d478-45d9-aa35-6f3a3129d222` → `owen-nervous-original.jpg`(첫 판 `70a59d9f-…`는 다리·꼬리가 하나 더 그려져 버림).
   - 고개 숙임: job `5b073cde-e582-4779-bf6d-d10c53a9ec25` → `owen-sad-original.jpg`. 같은 오웬이 둘 그려졌다. 왼쪽(두 손을 모은 쪽)을 쓴다.
 - 프롬프트 요지: 참조와 같은 크레용·색연필 화풍·비율, 흰 스티커 테두리, 크림 종이 배경, 빈손, 악기·케이스 없음. 타라 — 크림·세이블 털과 눈가 띠, 자두색 연주 원피스·흰 둥근 깃·검정 플랫. 오웬 — 붉은 주황 여우, 짙은 초록 연주 재킷·검정 나비넥타이·회색 바지. 모모 — 짙은 회색 두더지, 분홍 코, 안경 없음. 핍 — 갈색 참새, 하늘색 자원봉사 조끼와 글자 없는 흰 배지. 이보 — 흰 염소, 굽은 뿔, 남색 재킷, 금색 없음.

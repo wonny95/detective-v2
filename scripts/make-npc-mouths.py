@@ -45,11 +45,11 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'finn':('finn-higgsfield.png',209,155,175,35,'smile',4.5,145),
    # the violin case (2026-11-08); search tops just under the nose, so the line from it stays
    'tara':('tara-higgsfield.png',277,220,80,14,'smile',3.5,212),
-   'owen':('owen-higgsfield.png',197,258,70,15,'smile',3,258),
+   'owen':('owen-higgsfield.png',219,214,82,18,'smile',3,213),
    'ivo':('ivo-higgsfield.png',228,260,63,13,'smile',3,259),
    'momo':('momo-higgsfield.png',210,213,85,22,'smile',4,211),
-   'owen-nervous':('owen-nervous-higgsfield.png',200,265,90,13,'nervous',3,262),
-   'owen-sad':('owen-sad-higgsfield.png',251,227,42,11,'sad',4,226)}
+   'owen-nervous':('owen-nervous-higgsfield.png',221,223,90,14,'nervous',3,212),
+   'owen-sad':('owen-sad-higgsfield.png',221,225,52,16,'sad',3,216)}
 import sys
 if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
 NEAR=('mia-ollie','finn')   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture

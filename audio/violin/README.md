@@ -120,7 +120,7 @@ MiniMax 프리셋 **Evie** `7a6845a2-5865-5669-a0ca-8fc8d8e96528`(사용자 결�
 | `3010d72d` | I left it in its case, next to the left chair in the waiting room. | tara-t1.mp3 |
 | `5ae89722` | There is a yellow moon sticker on my black case. | tara-t2.mp3 |
 | `527632bc` | There are two chairs by the door. I looked under both, but the case wasn't there. | tara-t3.mp3 |
-| `d55e6314` | A fox in the waiting room, a goat on stage, a mole backstage. I don't know their names. | tara-t4.mp3 |
+| `f6bc7b8d` | A dog in the waiting room, a goat on stage, a mole backstage. I don't know their names. | tara-t4.mp3 (2026-11-09 범인을 강아지로 바꾸며 다시 녹음, 이전 `d55e6314`는 fox) |
 | `a99cb1db` | Here's a photo of my case. | tara-photo-give.mp3 |
 | `7d6e18aa` | My moon sticker! This is my violin. But the strings are broken. | tara-r2.mp3 |
 | `d24f1f6b` | I can't play it. Please find out what happened. | tara-r3.mp3 |
