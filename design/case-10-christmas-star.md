@@ -338,8 +338,10 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
   - 엘라가 없어진 별을 찾는 걸 돕고 있어.
 
 - **nico:ready · 니코 · 자동**
-  - The star is missing? I can talk, but I need to finish up here.
-  - 별이 사라졌다고? 얘기는 할 수 있는데, 이 일은 마저 끝내야 해.
+  - The star for the tree? I'll help if I can.
+  - 트리에 달 별 말이야? 도울 일이 있으면 말해 줘.
+
+니코는 처음 만났을 때 다른 봉사자처럼 평소 말투로 답한다. 탐정은 썰매 짐칸에서 일하던 모습을 보고 무엇을 하고 있는지 묻는다.
 
 #### nico:n1 · 니코
 
