@@ -6310,8 +6310,13 @@ function tapFx(x, y, kind, text){
 function evidencePhoto(place, clueIndex){
   const spot = place.spots.find(item => item.clue === clueIndex);
   if(spot.photo){
-    const crop = spot.photo;
-    return `<svg viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}" aria-hidden="true">${ART[place.id]()}</svg>`;
+    // a spot seen only open (or only folded) is drawn that way, whatever the umbrella is now (the test tools and
+    // previews put the inside of the umbrella in the notebook while it was folded)
+    const crop = spot.photo, was = S.unfolded;
+    if(spot.open || spot.folded) S.unfolded = !!spot.open;
+    const art = ART[place.id]();
+    S.unfolded = was;
+    return `<svg viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}" aria-hidden="true">${art}</svg>`;
   }
   const artWidth = place.artWidth || 900, artHeight = place.artHeight || 600;
   const height = Math.min(artHeight, Math.max(spot.h * artHeight / 100 * 1.12, spot.w * artWidth / 100 * .84, 120));
@@ -6958,8 +6963,11 @@ function loadGame(){
   // a photo with its own crop is framed as the crop is now (user request: the umbrella handle's moved down); only the
   // frame changes, the picture inside stays as it was taken (the umbrella folded or open)
   S.evidence.forEach(item => {
-    const crop = placeOf(item.placeId)?.spots.find(spot => spot.clue === item.clueIndex)?.photo;
-    if(crop && typeof item.photo === 'string') item.photo = item.photo.replace(/viewBox="[^"]*"/, `viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}"`);
+    const place = placeOf(item.placeId), spot = place?.spots.find(spot => spot.clue === item.clueIndex), crop = spot?.photo;
+    // a spot seen only folded or only open is drawn again in that state (older saves could hold the inside of the
+    // umbrella photographed folded)
+    if(spot && (spot.open || spot.folded)) item.photo = evidencePhoto(place, item.clueIndex);
+    else if(crop && typeof item.photo === 'string') item.photo = item.photo.replace(/viewBox="[^"]*"/, `viewBox="${crop.x} ${crop.y} ${crop.w} ${crop.h}"`);
   });
   S.met = S.met.filter(id => PEOPLE[id]);
   endingRound = data.endingRound || 0;

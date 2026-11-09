@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>열쇠 카드 글자 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+:root{--paper:#FBF4E6;--line:#E3D5B8;--ink:#4A3628;--ink-soft:#7D6A58;--berry:#C96F86;--ground:#B6BDA5;
+  --f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--f-body:"Paperlogy",system-ui,sans-serif;--f-hand:"Paperlogy",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body)}
+header.bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:12px 20px;background:#E9ECDF;border-bottom:2px solid #9AA287}
+header.bar h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:18px}
+.seg{display:flex;gap:4px}
+.seg button{font:inherit;font-size:13px;padding:6px 12px;border:2px solid var(--ink);border-radius:999px;background:#FFFDF7;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#FFFDF7}
+.cols{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;padding:20px 16px 40px}
+.col{width:430px;display:flex;flex-direction:column;gap:8px}
+.col h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px}
+.col p.desc{margin:0;min-height:58px;font-size:12.5px;line-height:1.5;color:#3E4A35}
+
+/* the phone: the game's key page */
+.phone{position:relative;height:860px;border-radius:26px;overflow:hidden;box-shadow:0 6px 18px rgba(40,50,30,.25);
+  background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(../assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat}
+.page{position:absolute;inset:0;display:flex;flex-direction:column;padding:0 18px 16px}
+.ck-top{flex:none;display:flex;align-items:center;gap:10px;min-height:42px;padding-top:10px}
+.ck-head{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
+.rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px}
+.close-button{margin-left:auto;flex:none;width:42px;height:42px;border:0;background:url(../assets/ui/close-button.png) center/contain no-repeat;filter:drop-shadow(0 3px 0 rgba(74,54,40,.3))}
+.body{flex:1;min-height:0;padding:0 6px 12px}
+.ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:8px 8px 4px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg)}
+.ck-card::before{content:"";position:absolute;left:50%;top:-28px;width:24px;height:33px;margin-left:-9px;background:url(../assets/ui/tack-red.webp) center/100% no-repeat}
+.ck-key{display:flex;flex-direction:column}
+.ck-key h3{margin:0;font-family:var(--f-display);font-weight:400}
+.ck-key .gko{margin:0}
+.replay-q{display:inline-block;flex:none;width:34px;height:34px;padding:0;border:0;background:url(../assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(../assets/ui/buttons/round-cream.png) center/100% no-repeat;cursor:pointer}
+.ck-notes{display:flex;flex-direction:column;gap:14px;margin:22px 4px 0}
+.ck-note{--note:url(../assets/ui/casekey/note-yellow.webp);position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2px 6px;margin:0;padding:3px 0 3px 4px;font-family:var(--f-hand);font-size:17px;line-height:1.35;border:11px solid transparent;border-width:11px 26px 11px 11px;border-image:var(--note) 22 54 22 22 fill / 11px 26px 11px 11px stretch;filter:drop-shadow(1px 3px 3px rgba(70,50,30,.18))}
+.ck-note:nth-child(3n+1){transform:rotate(1.2deg);margin-right:20px}
+.ck-note:nth-child(3n+2){--note:url(../assets/ui/casekey/note-blue.webp);transform:rotate(-1deg);margin-left:20px}
+.ck-note:nth-child(3n){--note:url(../assets/ui/casekey/note-pink.webp);transform:rotate(.8deg);margin-right:8px}
+.ck-note::before{content:"";position:absolute;left:50%;top:-19px;width:58px;height:18px;margin-left:-29px;background:url(../assets/ui/casekey/tape.webp) center/100% 100% no-repeat;opacity:.92;transform:rotate(-3deg)}
+.ck-note:nth-child(3n+2)::before{transform:rotate(4deg)}
+.ck-note mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%);color:inherit}
+.ck-note .replay-q{grid-row:1;grid-column:2;width:32px;height:32px}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:2px solid transparent;background:none;font-family:var(--f-display);font-size:14px;color:var(--ink);cursor:pointer;
+  --btn:url(../assets/ui/buttons/cream-flat.png);--bw:15px;border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;padding:6px 12px}
+.pill.sm{--bw:12px;height:32px;padding:0 10px;font-size:12px}
+.ck-note .pill.sm{grid-row:1;grid-column:3}
+.ck-note:not(.ko-on) .ko{display:none}
+.ck-note .ko{grid-column:1 / -1;font-family:var(--f-body);font-size:12.5px;font-weight:700;color:var(--berry)}
+.ck-dots{flex:none;display:flex;justify-content:center;align-items:center;gap:9px;margin-bottom:10px}
+.ck-dots i{width:8px;height:8px;border-radius:50%;background:rgba(74,54,40,.22)}
+.ck-dots i.now{background:#E0A526;transform:scale(1.3)}
+.ck-foot{flex:none;display:flex;gap:8px}
+.ck-foot .pill:not(.big){flex:none;padding:0 18px}
+.ck-foot .big{flex:1;--btn:url(../assets/ui/buttons/berry-flat.png);--bw:20px;font-size:17px;padding:11px 14px;color:#FFFDF7}
+
+/* 지금: the game as it is */
+.v-now .ck-key{gap:4px}
+.v-now .ck-key h3{padding-right:44px;font-size:44px;line-height:1.05;text-wrap:balance}
+.v-now .ck-key .head-part{white-space:normal}
+.v-now .ck-key h3 .replay-q{position:absolute;top:2px;right:2px}
+.v-now .ck-name{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
+.v-now .gko{font-size:14px;line-height:1.6}
+.v-now .eyebrow{display:none}
+
+/* A, B, C share: the label above as an eyebrow, a set gap, breaks only between the head's parts, fixed card height */
+.v-a .ck-name,.v-b .ck-name,.v-c .ck-name{display:none}
+.eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:4px;font-family:var(--f-display);font-size:12.5px;color:var(--ink-soft)}
+.eyebrow .n{color:var(--berry)}
+.head-part{white-space:nowrap}
+.v-a .ck-key h3,.v-b .ck-key h3,.v-c .ck-key h3{line-height:1.15}
+.v-a .gko,.v-b .gko,.v-c .gko{margin-top:10px;font-size:15px;line-height:1.55;word-break:keep-all;text-wrap:pretty}
+
+/* A: 추천 ①–⑤ */
+.v-a .ck-key h3{padding-right:40px;font-size:34px}
+.v-a .ck-key h3 .replay-q{position:absolute;top:2px;right:2px}
+.v-a .eyebrow .replay-q{display:none}
+/* B: A + ▶ at the end of the eyebrow row */
+.v-b .ck-key h3{font-size:34px}
+.v-b .ck-key h3 .replay-q{display:none}
+.v-b .eyebrow{justify-content:space-between;margin-bottom:2px}
+/* C: smaller, calmer, less tilt */
+.v-c .ck-card{transform:rotate(-.6deg)}
+.v-c .ck-key h3{padding-right:40px;font-size:28px}
+.v-c .ck-key h3 .replay-q{position:absolute;top:2px;right:2px;width:32px;height:32px}
+.v-c .eyebrow .replay-q{display:none}
+.v-a .eyebrow .replay-q,.v-c .eyebrow .replay-q{display:none}
+</style>
+</head>
+<body>
+<header class="bar">
+  <h1>이번 사건의 열쇠 · 글자 정리 시안</h1>
+  <div class="seg" id="caseSeg"></div>
+  <div class="seg" id="pageSeg"></div>
+</header>
+<div class="cols" id="cols"></div>
+<script>
+// the game's key grammar (index.html GRAMMAR[].examples) for the four cases; head parts: where the heading may break
+const KEYS = {
+  umbrella:{ no:'Case 02', title:'주인 없는 우산', name:'누구의 것인지 묻기', pages:[
+    { head:['Whose … is', 'this / that?'], why:'누구의 물건인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
+      lines:[['{Whose book} is this?','이 책은 누구 거야?'],['{Whose hat} is that?','저 모자는 누구 거야?'],['{Whose pencil} is this?','이 연필은 누구 거야?']] },
+    { head:['Is this / that', '… yours?'], why:'물건을 가리키며 듣는 사람의 것인지 확인해요.',
+      lines:[['Is this ruler {yours}?','이 자 네 거야?'],['Is that coat {yours}?','저 외투 네 거야?'],['Is this cup {yours}?','이 컵 네 거야?']] },
+    { head:['my … / mine'], why:'my는 물건 이름 앞에 붙이고, mine은 물건 이름 없이 혼자 써요.',
+      lines:[['{My notebook} is green.','내 공책은 초록색이야.'],['This toy is {mine}.','이 장난감은 내 거야.'],['That scarf is not {mine}.','저 목도리는 내 거 아니야.']] } ] },
+  violin:{ no:'Case 03', title:'사라진 음악 대회 바이올린', name:'위치 표현', pages:[
+    { head:['There is /', 'There are'], why:'하나면 There is, 둘 이상이면 There are로 무엇이 있는지 말해요.',
+      lines:[['{There is} a cup on the table.','탁자 위에 컵 하나가 있어.'],['{There are} two books on the desk.','책상 위에 책 두 권이 있어.'],['{There is} a ball under the desk.','책상 아래에 공 하나가 있어.']] },
+    { head:['in / on / under'], why:'in은 안쪽 공간, on은 표면에 닿은 곳, under는 아래쪽이에요.',
+      lines:[['The pencil is {in} the bag.','연필은 가방 안에 있어.'],['A book is {on} the shelf.','책이 선반 위에 있어.'],['The ball is {under} the chair.','공은 의자 아래에 있어.']] },
+    { head:['next to / behind'], why:'next to는 바로 옆, behind는 무엇에 가려진 뒤쪽이에요.',
+      lines:[['The lamp is {next to} the bed.','램프는 침대 옆에 있어.'],['The cat is {behind} the door.','고양이는 문 뒤에 있어.'],['My bag is {next to} the chair.','내 가방은 의자 옆에 있어.']] } ] },
+  picnic:{ no:'Case 01', title:'바뀐 소풍 가방', name:'소유 표현', pages:[
+    { head:['my / your'], why:'물건 이름 앞에 붙여 누구의 것인지 말해요. my는 말하는 사람의 것, your는 듣는 사람의 것이에요.',
+      lines:[['{My book} is big.','내 책은 커요.'],['{Your pen} is black.','네 펜은 검은색이에요.'],['Is this {your hat}?','이건 네 모자니?']] },
+    { head:['his / her'], why:'his는 그 남자의 것, her는 그 여자의 것이에요. 이것도 물건 이름 앞에 붙여요.',
+      lines:[['{His cup} is white.','그의 컵은 흰색이에요.'],['{Her notebook} is small.','그녀의 공책은 작아요.'],['{His hat} is black.','그의 모자는 검은색이에요.']] },
+    { head:['mine / yours'], why:'물건 이름 없이 혼자 써요. mine은 내 것, yours는 네 것이에요.',
+      lines:[['This pencil is {mine}.','이 연필은 내 것이에요.'],['Is this ruler {yours}?','이 자는 네 것이니?'],['This book is not {mine}.','이 책은 내 것이 아니에요.']] } ] },
+  library:{ no:'Case 04', title:'도서관 살인사건', name:'시간 전치사', pages:[
+    { head:['at'], why:'시각 하나를 콕 집어 말할 때 써요. "몇 시에"예요. at six = 6시에.',
+      lines:[['The shop opens {at eleven}.','가게는 11시에 문을 열어요.'],["Let's meet {at noon}.",'정오에 만나요.'],['The train leaves {at six fifteen}.','기차는 6시 15분에 떠나요.']] },
+    { head:['from A to B'], why:'A에 시작해서 B까지 내내 이어질 때 써요. "A부터 B까지"예요.',
+      lines:[['I swim {from two to four}.','나는 2시부터 4시까지 수영해요.'],['The market is open {from six to noon}.','시장은 6시부터 정오까지 열어요.'],['We studied {from one to five}.','우리는 1시부터 5시까지 공부했어요.']] },
+    { head:['between', 'A and B'], why:'A와 B 사이 어느 때인지는 콕 집지 않을 때 써요. "A에서 B 사이에"예요.',
+      lines:[['Call me {between one and three}.','1시에서 3시 사이에 전화해 줘요.'],['The bus comes {between five and six}.','버스는 5시에서 6시 사이에 와요.'],['Come home {between eleven and twelve}.','11시에서 12시 사이에 집에 오세요.']] } ] }
+};
+const VARIANTS = [
+  { id:'now', label:'지금', desc:'게임 그대로. 제목 44px, 이름 12px가 제목 바로 아래, 설명 14px. 쪽마다 카드 높이가 달라 아래 쪽지가 움직인다.' },
+  { id:'a', label:'A · 추천 ①–⑤', desc:'제목 34px, 이름은 제목 위 머리말(쪽 번호와 함께), 제목↔설명 10px, 설명 15px. 제목은 뜻 단위로만 줄바꿈, 카드 높이 고정. ▶는 지금처럼 오른쪽 위.' },
+  { id:'b', label:'B · A + ▶ 머리말 줄로', desc:'A와 같고 ▶만 머리말 줄 오른쪽 끝으로. 제목이 오른쪽 자리를 비우지 않아 줄이 덜 바뀐다.' },
+  { id:'c', label:'C · 차분하게', desc:'제목 28px, 카드 기울기 -1.5° → -0.6°. 나머지는 A와 같다. 크게 강조하는 맛은 줄고 가장 정돈돼 보인다.' }
+];
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[c]);
+const mark = s => esc(s).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
+let caseId = 'umbrella', at = 0;
+function pageHTML(c, i){
+  const p = c.pages[i], last = i === c.pages.length - 1, play = '<button class="replay-q" type="button" aria-label="듣기"></button>';
+  return `<div class="ck-top"><div class="ck-head"><small>${c.no} · ${c.title}</small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" aria-label="닫기"></button></div>
+    <div class="body"><div class="ck-card"><div class="ck-key">
+      <div class="eyebrow"><span>${c.name} <span class="n">· ${i + 1}/${c.pages.length}</span></span>${play}</div>
+      <h3>${p.head.map(h => `<span class="head-part">${esc(h)}</span>`).join(' ')}${play}</h3>
+      <span class="ck-name">${c.name}</span><p class="gko">${esc(p.why)}</p></div></div>
+      <div class="ck-notes">${p.lines.map(([en, ko]) => `<p class="ck-note"><span>${mark(en)}</span><button class="replay-q" type="button" aria-label="예문 듣기"></button><button class="pill sm" type="button" data-ko>해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div></div>
+    <div class="ck-dots">${c.pages.map((x, j) => `<i${j === i ? ' class="now"' : ''}></i>`).join('')}</div>
+    <div class="ck-foot">${i ? '<button class="pill" type="button" data-prev>이전</button>' : ''}<button class="pill big" type="button" data-next>${last ? '사건 시작' : '다음'}</button></div>`;
+}
+function render(){
+  const c = KEYS[caseId];
+  document.getElementById('cols').innerHTML = VARIANTS.map(v => `<section class="col"><h2>${v.label}</h2><p class="desc">${v.desc}</p><div class="phone v-${v.id}"><div class="page"></div></div></section>`).join('');
+  document.querySelectorAll('.phone').forEach((ph, k) => {
+    const page = ph.querySelector('.page'), fixed = VARIANTS[k].id !== 'now';
+    let tallest = 0;
+    if(fixed) c.pages.forEach((x, i) => { page.innerHTML = pageHTML(c, i); tallest = Math.max(tallest, page.querySelector('.ck-card').offsetHeight); });
+    page.innerHTML = pageHTML(c, at);
+    if(fixed) page.querySelector('.ck-card').style.minHeight = tallest + 'px';
+  });
+  document.getElementById('caseSeg').innerHTML = Object.entries(KEYS).map(([id, k]) => `<button type="button" data-case="${id}" aria-pressed="${id === caseId}">${k.no} ${k.title}</button>`).join('');
+  document.getElementById('pageSeg').innerHTML = c.pages.map((x, i) => `<button type="button" data-page="${i}" aria-pressed="${i === at}">${i + 1}쪽</button>`).join('');
+}
+document.addEventListener('click', e => {
+  const t = e.target;
+  if(t.closest('[data-case]')){ caseId = t.closest('[data-case]').dataset.case; at = 0; return render(); }
+  if(t.closest('[data-page]')){ at = +t.closest('[data-page]').dataset.page; return render(); }
+  if(t.closest('[data-next]')){ if(at < KEYS[caseId].pages.length - 1){ at++; render(); } return; }
+  if(t.closest('[data-prev]')){ at--; return render(); }
+  const ko = t.closest('[data-ko]'); if(ko) ko.closest('.ck-note').classList.toggle('ko-on');
+});
+document.fonts.ready.then(render); render();
+</script>
+</body>
+</html>
