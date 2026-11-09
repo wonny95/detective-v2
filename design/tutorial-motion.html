@@ -35,7 +35,9 @@ const PAW_TIP = .258;   // the fingertip across assets/ui/tutorial-paw.png (cut-
 
 const CSS = `
 .tdemo{position:relative;aspect-ratio:5 / 4;overflow:hidden;background:#F3ECDD}
-.tdemo-stage{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;transition:transform .7s cubic-bezier(.3,.8,.3,1);pointer-events:none}
+/* the camera (user request: no wobble): the screen's camera and the place's own move together, the same time and a gentle
+   start and stop */
+.tdemo-stage{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;transition:transform .8s cubic-bezier(.45,0,.2,1);pointer-events:none}
 .tdemo-art{position:absolute;inset:0;background:url(assets/places/library-higgsfield-v2.png) 46% 0/auto 62% no-repeat,url(assets/places/library-floor.jpg) 46% 0/auto 100% #9C7A55}
 .tdemo-art::after{content:"";position:absolute;left:0;right:0;top:62%;bottom:0;background:url(assets/places/library-floor.jpg) 46% 0/auto 100%}
 .tdemo-npc{position:absolute;left:50%;top:16%;height:58%;transform:translateX(-50%);transform-origin:50% 0;transition:top .65s cubic-bezier(.3,.8,.3,1),height .65s cubic-bezier(.3,.8,.3,1)}
@@ -93,7 +95,7 @@ const CSS = `
 .tdemo .t-replay.playing{filter:sepia(.6) saturate(2.4) brightness(1.03)}
 .tdemo .t-replay.playing .play-ico{animation:tplay .6s ease-in-out infinite}
 @keyframes tplay{50%{transform:scale(1.25)}}
-.tdemo-world{position:absolute;left:0;top:0;width:1376px;height:1274px;transform-origin:0 0;transition:transform .8s cubic-bezier(.3,.8,.3,1)}
+.tdemo-world{position:absolute;left:0;top:0;width:1376px;height:1274px;transform-origin:0 0;transition:transform .8s cubic-bezier(.45,0,.2,1)}
 .tdemo-world img{animation:none;aspect-ratio:auto}
 .tdemo-world .tw-art{position:absolute;left:0;top:0;width:1376px;height:768px}
 .tdemo-world .tw-floor{position:absolute;left:0;top:768px;width:1376px;height:506px}
@@ -364,7 +366,9 @@ function mount(d, force){
     view(x, y, now, z = 1){
       vx = x; vy = y; scale = box.clientWidth / 390 * z;
       if(now) stage.style.transition = 'none';
-      stage.style.transform = `scale(${scale}) translate(${-x}px, ${-y}px)`;
+      // the offset in screen pixels first, then the scale: both change in a straight line (with the offset inside the scale
+      // the two multiplied and the picture swung on its way)
+      stage.style.transform = `translate(${-x * scale}px, ${-y * scale}px) scale(${scale})`;
       if(now){ stage.offsetWidth; stage.style.transition = ''; }
     },
     // a point of an element in the box's own pixels
