@@ -31,6 +31,26 @@ header.bar h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:18
 .ck-head{display:flex;flex-direction:column;gap:2px;min-width:0}
 .ck-top small{font-family:var(--f-display);font-size:13px;color:var(--berry)}
 .rv-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px}
+.ck-top .no,.ck-top .t{font:inherit}
+/* 머리줄 ② 사건 제목을 크게: page name small above, the case's title big with its number as a berry tag */
+.h-big .ck-head{flex-direction:column-reverse;gap:3px}
+.h-big .rv-title{font-size:13px;color:var(--ink-soft)}
+.h-big .ck-top small{display:flex;align-items:center;gap:8px;font-size:21px;color:var(--ink)}
+.h-big .ck-top small .dot{display:none}
+.h-big .ck-top .no{flex:none;padding:3px 8px 2px;border-radius:7px;background:var(--berry);color:#FFFDF7;font-size:12px}
+/* 머리줄 ③ 가운데 제목: the page's name centred, the case under it, × kept at the right */
+.h-center .ck-top{position:relative;justify-content:center;min-height:62px}
+.h-center .ck-head{align-items:center;text-align:center;flex-direction:column-reverse;gap:2px}
+.h-center .rv-title{font-size:21px}
+.h-center .ck-top small{color:var(--ink-soft);font-size:12.5px}
+.h-center .ck-top small .no{color:var(--berry)}
+.h-center .close-button{position:absolute;right:0;top:10px;margin:0}
+/* 머리줄 ④ 다듬기만: the same order, the case number as a small tag, the case's title in ink, more air */
+.h-tidy .ck-head{gap:5px}
+.h-tidy .ck-top small{display:flex;align-items:center;gap:7px;color:var(--ink-soft);font-size:13px}
+.h-tidy .ck-top small .dot{display:none}
+.h-tidy .ck-top .no{flex:none;padding:2px 7px 1px;border:1.5px solid var(--berry);border-radius:6px;color:var(--berry);font-size:11.5px}
+.h-tidy .rv-title{font-size:23px}
 .close-button{margin-left:auto;flex:none;width:42px;height:42px;border:0;background:url(../assets/ui/close-button.png) center/contain no-repeat;filter:drop-shadow(0 3px 0 rgba(74,54,40,.3))}
 .body{flex:1;min-height:0;padding:0 6px 12px}
 .ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:8px 8px 4px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg)}
@@ -99,6 +119,7 @@ header.bar h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:18
   <h1>이번 사건의 열쇠 · 글자 정리 시안</h1>
   <div class="seg" id="caseSeg"></div>
   <div class="seg" id="pageSeg"></div>
+  <div class="seg" id="headSeg"></div>
 </header>
 <div class="cols" id="cols"></div>
 <script>
@@ -141,10 +162,11 @@ const VARIANTS = [
 ];
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[c]);
 const mark = s => esc(s).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
-let caseId = 'umbrella', at = 0;
+let caseId = 'umbrella', at = 0, head = 'now';
+const HEADS = [['now', '머리줄 ① 지금'], ['tidy', '④ 다듬기만'], ['big', '② 사건 제목 크게'], ['center', '③ 가운데 제목']];
 function pageHTML(c, i){
   const p = c.pages[i], last = i === c.pages.length - 1, play = '<button class="replay-q" type="button" aria-label="듣기"></button>';
-  return `<div class="ck-top"><div class="ck-head"><small>${c.no} · ${c.title}</small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" aria-label="닫기"></button></div>
+  return `<div class="ck-top"><div class="ck-head"><small><span class="no">${c.no}</span><span class="dot"> · </span><span class="t">${c.title}</span></small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" aria-label="닫기"></button></div>
     <div class="body"><div class="ck-card"><div class="ck-key">
       <div class="eyebrow"><span>${c.name} <span class="n">· ${i + 1}/${c.pages.length}</span></span>${play}</div>
       <h3>${p.head.map(h => `<span class="head-part">${esc(h)}</span>`).join(' ')}${play}</h3>
@@ -164,11 +186,14 @@ function render(){
     if(fixed) page.querySelector('.ck-card').style.minHeight = tallest + 'px';
   });
   document.getElementById('caseSeg').innerHTML = Object.entries(KEYS).map(([id, k]) => `<button type="button" data-case="${id}" aria-pressed="${id === caseId}">${k.no} ${k.title}</button>`).join('');
+  document.body.className = 'h-' + head;
+  document.getElementById('headSeg').innerHTML = HEADS.map(([id, label]) => `<button type="button" data-head="${id}" aria-pressed="${id === head}">${label}</button>`).join('');
   document.getElementById('pageSeg').innerHTML = c.pages.map((x, i) => `<button type="button" data-page="${i}" aria-pressed="${i === at}">${i + 1}쪽</button>`).join('');
 }
 document.addEventListener('click', e => {
   const t = e.target;
   if(t.closest('[data-case]')){ caseId = t.closest('[data-case]').dataset.case; at = 0; return render(); }
+  if(t.closest('[data-head]')){ head = t.closest('[data-head]').dataset.head; return render(); }
   if(t.closest('[data-page]')){ at = +t.closest('[data-page]').dataset.page; return render(); }
   if(t.closest('[data-next]')){ if(at < KEYS[caseId].pages.length - 1){ at++; render(); } return; }
   if(t.closest('[data-prev]')){ at--; return render(); }
