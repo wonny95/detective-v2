@@ -224,7 +224,12 @@ const DEMOS = {
           <button class="spot t4-book" type="button" style="left:32.5%;top:49%;width:8%;height:7%"></button></div>
       </div>
       <div class="tdemo-mapv"><div class="map"><img class="map-art" src="assets/places/village-map-day-higgsfield.webp" alt="">
-        <button class="pin crime" type="button" style="left:27%;top:47%"><span class="pin-label">Old Library</span><span class="pin-people"><span class="mini" style="background:#DCE3F0"><img src="assets/ui/icons-v2/badger.png" alt=""></span></span></button></div></div>`,
+        <button class="pin crime" type="button" style="left:27%;top:47%"><span class="pin-label">Old Library</span><span class="pin-people"><span class="mini" style="background:#DCE3F0"><img src="assets/ui/icons-v2/badger.png" alt=""></span></span></button></div></div>
+      <section class="dock" aria-hidden="true"><div class="note-cats">${CATS.map(([k, d]) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${k === 'evidence'}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
+        <div class="note-edge"></div><div class="dock-head"><button class="ev-back" type="button">‹ 증거 기록</button></div>
+        <div class="dock-body"><div class="evidence-page"><div class="evidence-detail"><figure class="evidence-photo">${PHOTO(420, 350, 160, 120)}</figure><span class="place">Old Library</span>
+          <h4>Open book${PLAY}</h4><p>An open book on the table: 'The Moon and the Stars.'</p><span class="ev-btns">${PIN()}<button class="pill sm" type="button">해석</button></span></div></div></div></section>
+      <div class="toast t4-toast" hidden>증거를 노트에 기록했어요.</div>`,
     setup(t){ t.cam('place', true); t.view(0, 280, true); },
     async run(t){
       await t.wait(1100);
@@ -233,10 +238,14 @@ const DEMOS = {
       // slide the place sideways (the camera follows the paw)
       await t.swipe([250, 160], [120, 0], () => t.camTo(.776, -219, 0));
       await t.wait(700);
-      // something odd: the shutter, the photo comes up, then goes away into the evidence
+      // something odd, as the game takes it (captureEvidence): the photo zooms up, the shutter flashes at 0.5 s, the
+      // detective reads it out, then the Note opens on its evidence page
       await t.tap('.t4-book');
-      t.flash(); t.photo(PHOTO(420, 350, 160, 120)); await t.wait(1900);
-      await t.photoAway(); await t.wait(900);
+      t.photo(PHOTO(420, 350, 160, 120)); await t.wait(500);
+      t.flash(t.q('.t4-cap')); await t.wait(2100);
+      t.q('.t4-cap').remove(); t.el.classList.add('note'); t.view(0, 300);
+      const toast = t.q('.t4-toast'); toast.style.top = '372px'; toast.hidden = false;
+      await t.wait(2600);
     }
   },
   // 5장: Note's 증거 tab → a photo → 해석 → 📌 → 메모 tab, where it is pinned
@@ -358,13 +367,16 @@ function mount(d, force){
       const x0 = from[0] * scale, y0 = from[1] * scale;
       tap.style.left = x0 + 'px'; tap.style.top = y0 + 'px'; tap.classList.add('on'); await wait(500);
       tap.classList.add('hit'); await wait(200);
-      tap.style.transition = 'left .8s ease-in-out, top .8s ease-in-out'; tap.style.left = x0 + by[0] * scale + 'px'; tap.style.top = y0 + by[1] * scale + 'px';
-      move(); await wait(850);
+      const world = stage.querySelector('.tdemo-world');
+      tap.style.transition = 'left .9s ease-in-out, top .9s ease-in-out'; if(world) world.style.transition = 'transform .9s ease-in-out';
+      tap.style.left = x0 + by[0] * scale + 'px'; tap.style.top = y0 + by[1] * scale + 'px';
+      move(); await wait(950);
+      if(world) world.style.transition = '';
       tap.classList.remove('hit'); await wait(200); tap.style.transition = ''; tap.classList.remove('on');
     },
     camTo(z, x, y){ const w = stage.querySelector('.tdemo-world'); w.style.setProperty('--z', z); w.style.transform = `translate(${x}px, ${y}px) scale(${z})`; },
     // the camera: a white flash, the photo comes up in its frame, then shrinks away into the evidence
-    flash(){ stage.insertAdjacentHTML('beforeend', '<div class="capture-flash"></div>'); setTimeout(() => stage.querySelector('.capture-flash')?.remove(), 500); },
+    flash(on = stage){ on.insertAdjacentHTML('beforeend', '<div class="capture-flash"></div>'); setTimeout(() => on.querySelector('.capture-flash')?.remove(), 450); },
     photo(svg){ stage.insertAdjacentHTML('beforeend', `<div class="capture-view t4-cap"><div class="capture-frame">${svg}</div></div>`); },
     async photoAway(){
       const cap = stage.querySelector('.t4-cap'); if(!cap) return;
