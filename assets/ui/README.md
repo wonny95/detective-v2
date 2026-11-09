@@ -67,10 +67,10 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 - `polaroid-card.webp` (414×528): 사진 카드(사진 칸 없는 빈 폴라로이드 종이). job `68f66e93-f8c8-49b2-9a6e-d0eb3a8a0694`, 원본 `polaroid-card-higgsfield-original.png`. `.polaroid` 배경으로 100%×100% 늘린다(사진 카드 비율이 0.7–0.8로 비슷해 9조각 없이 씀).
 - 셋 다 Nano Banana 2.1(1K, thinking high), 카페 배경 그림(job `354bb7cb-…`) 화풍 참조, 마젠타 배경을 로컬에서 지움.
 
-## 미적용 시안
+## 튜토리얼 탐정 앞발
 
 - `pointer-paws-back-higgsfield-original.png`: 탐정 앞발 뒷모습 6개를 그린 Higgsfield 시트(마젠타 배경, 왼발). job 번호는 적어 두지 않았다.
-- `tutorial-paw.png`: 위 시트의 위쪽 가운데 발을 `scripts/cut-tutorial-paw.py`로 자르고 좌우 반전한 오른발(긴 변 200px, 사용자 결정: 오른손 2). `design/tutorial-motion.html` 시안에서만 쓰고 게임에는 아직 넣지 않았다.
+- `tutorial-paw.png`: 위 시트의 위쪽 가운데 발을 `scripts/cut-tutorial-paw.py`로 자르고 좌우 반전한 오른발(긴 변 200px, 사용자 결정: 오른손 2). 튜토리얼 시연(`TUT_DEMO`)에서 버튼을 누르는 손가락. 손끝은 그림 폭의 25.8%(`PAW_TIP`).
 
 ## 제작
 
