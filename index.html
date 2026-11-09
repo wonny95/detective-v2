@@ -2281,12 +2281,12 @@ const VIOLIN_CASE = {
         t0:['“My violin is {{a|missing}}. Can you {{b|find}} it before the contest?”'],
         t5:['“I played it at {{c|rehearsal}}. It was gone when I came back from the {{d|lobby}}.”'],
         t1:['“I left it {{e|in}} its case, {{f|next to}} the left chair in the {{g|waiting room}}.”'],
-        t2:['“There is a {{h|yellow moon}} sticker {{i|on}} my black case.”'],
-        t3:["“There are two chairs by the door. I looked {{j|under}} both, but the case wasn't there.”"],
+        t2:['“{{n|There is}} a {{h|yellow moon}} sticker {{i|on}} my black case.”'],
+        t3:["“{{o|There are}} two chairs by the door. I looked {{j|under}} both, but the case wasn't there.”"],
         t4:["“A {{k|dog}} in the waiting room, a {{l|goat}} on stage, a {{m|mole}} backstage. I don't know their names.”"]
       },
       bank:{ t0:['missing','find','broken','leave','mixing','fine'], t5:['rehearsal','lobby','contest','stage','hobby','library'], t1:['in','next to','waiting room','on','behind','lobby','under'],
-        t2:['yellow moon','on','yellow star','under','yellow spoon','in'], t3:['under','on','behind','next to','in'], t4:['dog','goat','mole','deer','bear','rabbit','fox'] },
+        t2:['There is','yellow moon','on','There are','They are','yellow star','under','yellow spoon','in'], t3:['There are','under','There is','They are','on','behind','next to','in'], t4:['dog','goat','mole','deer','bear','rabbit','fox'] },
       // design 4절: her photo of the case, taken once t2 is written down
       after:{ t2:{ lines:[
         { key:'photo-give', en:"Here's a photo of my case.", ko:'내 케이스 사진이야.' },
@@ -2393,12 +2393,12 @@ const VIOLIN_CASE = {
       },
       notes:{
         m1:['“I {{a|fixed}} the light {{b|next to}} the ladder. It went out after rehearsal.”'],
-        m3:['“Yes. There are spare {{c|bulbs}} on the shelf {{d|behind}} the curtain. I needed one.”'],
+        m3:['“Yes. {{k|There are}} spare {{c|bulbs}} on the shelf {{d|behind}} the curtain. I needed one.”'],
         m4:['“My {{e|black toolbox}}. I put it {{f|under}} the shelf before climbing the ladder.”'],
         m2:['“{{g|Pip}} was by the side passage. I was busy with the {{h|light}}.”'],
         m5:["“They're mine. I {{i|lent}} them to {{j|Owen}}.”"]
       },
-      bank:{ m1:['fixed','next to','found','behind','mixed','under'], m3:['bulbs','behind','buttons','next to','bells','under'], m4:['black toolbox','under','black case','on','black box','behind'],
+      bank:{ m1:['fixed','next to','found','behind','mixed','under'], m3:['There are','bulbs','behind','There is','They are','buttons','next to','bells','under'], m4:['black toolbox','under','black case','on','black box','behind'],
         m2:['Pip','light','Ivo','night','Tara','right'], m5:['lent','Owen','left','Ivo','sent','Tara'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'OK. These are my work clothes.', answerKo:'그래. 이건 내 작업복이야.', inspect:'sleeves-momo' } ]
     },
@@ -2840,7 +2840,7 @@ const WORDS = {
   'fox':['w','여우'], 'dog':['w','개, 강아지'], 'goat':['w','염소'], 'mole':['w','두더지'], 'whole time':['w','내내'], 'turn':['w','차례'], 'black toolbox':['w','검은 공구함'],
   'music stand':['w','악보대'], 'practice':['w','연습하다'], 'last part':['w','마지막 부분'], 'door':['w','문'], 'side curtain':['w','(무대) 옆 가림막'], 'ladder':['w','사다리'],
   'fixed':['w','고쳤다 (fix의 과거)'], 'bulbs':['w','전구들'], 'light':['w','조명'], 'lent':['w','빌려줬다 (lend의 과거)'], 'black case':['w','검은 케이스'],
-  'the whole time':['x','내내, 줄곧'], 'go out':['x','(불이) 꺼지다'], 'come back on':['x','(불이) 다시 켜지다'],
+  'the whole time':['x','내내, 줄곧'], 'there is':['x','~이 있다 (하나)'], 'there are':['x','~이 있다 (여럿)'], 'go out':['x','(불이) 꺼지다'], 'come back on':['x','(불이) 다시 켜지다'],
   'blue':['w','파란색'], 'red':['w','빨간색'], 'yellow':['w','노란색'], 'green':['w','초록색'], 'remember':['w','기억하다'], 'mixed up':['w','뒤바뀐'],
   'garden':['n','정원'], 'house':['w','집'], 'office':['n','사무실, 회사'], 'know':['w','알다'], 'open':['w','열다'], 'opened':['w','열었다'],
   'sure':['w','확신하는'], 'lunch box':['w','도시락'], 'bottle':['w','물병'], 'find out':['w','알아내다'], 'took':['w','가져갔다 (take의 과거)'],

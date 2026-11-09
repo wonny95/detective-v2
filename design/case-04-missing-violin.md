@@ -82,8 +82,8 @@
 | tara:t0 | **How can I help you?** / 무엇을 도와줄까?<br>타라: **My violin is missing. Can you find it before the contest?** / 바이올린이 없어졌어. 대회 전에 찾아줄 수 있어? | “My violin is [missing]. Can you [find] it before the contest?” → 첫 질문 · 의뢰 기록 뒤 t5 해금 |
 | tara:t5 | **When did you notice your violin was missing?** / 언제 바이올린이 없어진 걸 알았니?<br>타라: **I played it at rehearsal. It was gone when I came back from the lobby.** / 리허설에서 연주했어. 로비에 갔다 돌아왔더니 없어졌어. | “I played it at [rehearsal]. It was gone when I came back from the [lobby].” → t0 채점 뒤 · 리허설과 로비 방문을 처음 알게 됨 |
 | tara:t1 | **Where did you leave it?** / 어디에 두었니?<br>타라: **I left it in its case, next to the left chair in the waiting room.** / 케이스에 넣어서 출연자 대기실 왼쪽 의자 옆에 두었어. | “I left it [in] its case, [next to] the left chair in the [waiting room].” → t5 채점 뒤 · 정답 기록 → 출연자 대기실 발견 |
-| tara:t2 | **What does your case look like?** / 케이스는 어떻게 생겼니?<br>타라: **There is a yellow moon sticker on my black case.** / 내 검은 케이스에는 노란 달 스티커가 있어. | “There is a [yellow moon] sticker [on] my black case.” → t1 채점 뒤 · 타라 제공 케이스 사진 |
-| tara:t3 | **Where did you look?** / 어디를 찾아봤니?<br>타라: **There are two chairs by the door. I looked under both, but the case wasn't there.** / 문 옆에 의자가 두 개 있어. 둘 다 아래를 찾아봤지만 케이스가 없었어. | “There are two chairs by the door. I looked [under] both, but the case wasn't there.” → t1 채점 뒤 · 이미 찾아본 곳 |
+| tara:t2 | **What does your case look like?** / 케이스는 어떻게 생겼니?<br>타라: **There is a yellow moon sticker on my black case.** / 내 검은 케이스에는 노란 달 스티커가 있어. | “[There is] a [yellow moon] sticker [on] my black case.” → t1 채점 뒤 · 타라 제공 케이스 사진 |
+| tara:t3 | **Where did you look?** / 어디를 찾아봤니?<br>타라: **There are two chairs by the door. I looked under both, but the case wasn't there.** / 문 옆에 의자가 두 개 있어. 둘 다 아래를 찾아봤지만 케이스가 없었어. | “[There are] two chairs by the door. I looked [under] both, but the case wasn't there.” → t1 채점 뒤 · 이미 찾아본 곳 |
 | tara:t4 | **Who did you see before you left?** / 자리를 비우기 전에 누구를 봤니?<br>타라: **A dog in the waiting room, a goat on stage, a mole backstage. I don't know their names.** / 대기실의 강아지, 무대 위의 염소, 무대 뒤의 두더지를 봤어. 이름은 몰라. | “A [dog] in the waiting room, a [goat] on stage, a [mole] backstage. I don't know their names.” → t5 채점 뒤 · 친구들과 무대·준비실 발견 |
 
 | ID | 화자 | 영어 / 한국어 |
@@ -148,7 +148,7 @@
 | ID | 질문 선택지 / 답변 음성 · 영어 / 한국어 | 노트 빈칸 · 역할 |
 |---|---|---|
 | momo:m1 | **What did you do after rehearsal?** / 리허설 뒤에 뭘 했니?<br>모모: **I fixed the light next to the ladder. It went out after rehearsal.** / 사다리 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든. | “I [fixed] the light [next to] the stage door. It went out after rehearsal.” → 첫 방문 · 하던 작업 |
-| momo:m3 | **Did you go behind the curtain?** / 커튼 뒤에도 갔니?<br>모모: **Yes. There are spare bulbs on the shelf behind the curtain. I needed one.** / 응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어. | “Yes. There are spare [bulbs] on the shelf [behind] the curtain. I needed one.” → m1·오웬 o9 채점 뒤 · 커튼 뒤로 들어간 이유 |
+| momo:m3 | **Did you go behind the curtain?** / 커튼 뒤에도 갔니?<br>모모: **Yes. There are spare bulbs on the shelf behind the curtain. I needed one.** / 응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어. | “Yes. [There are] spare [bulbs] on the shelf [behind] the curtain. I needed one.” → m1·오웬 o9 채점 뒤 · 커튼 뒤로 들어간 이유 |
 | momo:m4 | **What did you carry?** / 무엇을 들고 갔니?<br>모모: **My black toolbox. I put it under the shelf before climbing the ladder.** / 내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어. | “My [black toolbox]. I put it [under] the shelf before climbing the ladder.” → m3·오웬 o9 채점 뒤 · 공구함 보관은 사다리 작업 전 |
 | momo:m2 | **Who else was nearby?** / 근처에 또 누가 있었니?<br>모모: **Pip was by the side passage. I was busy with the light.** / 핍이 옆 통로에 있었어. 난 조명 일로 바빴어. | “[Pip] was by the side passage. I was busy with the [light].” → 첫 방문 · 정답 기록 → 옆 통로와 핍 발견 |
 | momo:m5 | **Whose cutters are these?** / 이 니퍼는 누구 거야?<br>모모: **They're mine. I lent them to Owen.** / 내 거야. 오웬에게 빌려줬어. | “They're mine. I [lent] them to [Owen].” → 니퍼 소지·현 파손 관찰·m4 기록·오웬 첫인사 뒤 재방문 |
@@ -473,15 +473,15 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 
 ## 12. 받아쓰기 보기와 균형
 
-질문 21개는 유지한다. 이보의 기존 질문·답변·노트 빈칸·위치 진술은 그대로 둔다(사용자 결정). 다른 답변은 짧게 다듬고 빈칸은 단서·열쇠 표현을 중심으로 줄였다. 아래 같은 낱말이 두 번 나오면 별도 카드 두 개이며, 빈칸은 실제 대답과 정확히 같다. 보기는 질문마다 오답 4개 이상이다(사용자 요청: 선택지를 더 많이. 소리가 비슷한 말이나 같은 종류의 말, 타라 t4는 범인 동물을 정할 때 함께 정한다).
+질문 21개는 유지한다. 이보의 기존 질문·답변·노트 빈칸·위치 진술은 그대로 둔다(사용자 결정). 다른 답변은 짧게 다듬고 빈칸은 단서·열쇠 표현을 중심으로 줄였다. 아래 같은 낱말이 두 번 나오면 별도 카드 두 개이며, 빈칸은 실제 대답과 정확히 같다. There is/are가 들리는 타라 t2·t3, 모모 m3에는 그 부분도 빈칸이다(사용자 결정 2026-11-09: 열쇠 표현을 직접 받아 적게, 보기에 There is · There are · They are). 보기는 질문마다 오답 4개 이상이다(사용자 요청: 선택지를 더 많이. 소리가 비슷한 말이나 같은 종류의 말, 타라 t4는 범인 동물을 정할 때 함께 정한다).
 
 | 질문 ID | 보기 카드 |
 |---|---|
 | `tara:t0` | missing · find · broken · leave · mixing · fine |
 | `tara:t5` | rehearsal · lobby · contest · stage · hobby · library |
 | `tara:t1` | in · next to · waiting room · on · behind · lobby · under |
-| `tara:t2` | yellow moon · on · yellow star · under · yellow spoon · in |
-| `tara:t3` | under · on · behind · next to · in |
+| `tara:t2` | There is · yellow moon · on · There are · They are · yellow star · under · yellow spoon · in |
+| `tara:t3` | There are · under · There is · They are · on · behind · next to · in |
 | `tara:t4` | dog · goat · mole · deer · bear · rabbit · fox |
 | `owen:o1` | next to · whole time · behind · last time · under · whole day |
 | `owen:o8` | turn · tool · train · tune · time |
@@ -492,7 +492,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | `ivo:i4` | side curtain · open · ladder · next to · floor · closed · mirror · behind |
 | `ivo:i2` | on · ladder · next to · stage · on · under · chair · behind · lobby |
 | `momo:m1` | fixed · next to · found · behind · mixed · under |
-| `momo:m3` | bulbs · behind · buttons · next to · bells · under |
+| `momo:m3` | There are · bulbs · behind · There is · They are · buttons · next to · bells · under |
 | `momo:m4` | black toolbox · under · black case · on · black box · behind |
 | `momo:m2` | Pip · light · Ivo · night · Tara · right |
 | `momo:m5` | lent · Owen · left · Ivo · sent · Tara |
@@ -506,7 +506,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | 항목 | 수정 전 | 수정 후 |
 |---|---:|---:|
 | 받아쓰기 질문 | 21 | 21 |
-| 빈칸 | 78 | 47 |
+| 빈칸 | 78 | 50 |
 | 평균 답변 단어 | 14.4 | 12.4 |
 | 최장 답변 단어 | 22 | 18 (타라 t4) |
 | 질문당 빈칸 범위 | 2–6 | 1–5 |
