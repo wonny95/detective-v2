@@ -23,10 +23,10 @@ iframe{width:390px;height:844px;border:0;border-radius:28px;box-shadow:0 6px 18p
   <iframe id="game" src="../index.html?preview=tutorial" title="게임"></iframe>
   <div class="side">
     <h1>튜토리얼 움직임 시안</h1>
-    <p>실제 게임 안의 튜토리얼 팝업이에요. 모든 장(1–6)이 그림 대신 게임의 버튼·노트·단어 카드를 그대로 써서, 누르는 동작을 짧게 반복해서 보여 줘요. 내용은 사건과 무관한 예문이에요.</p>
+    <p>실제 게임 안의 튜토리얼 팝업이에요. 모든 장(1–7)이 그림 대신 게임의 버튼·노트·단어 카드를 그대로 써서, 누르는 동작을 짧게 반복해서 보여 줘요. 내용은 사건과 무관한 예문이에요.</p>
     <p>누르는 손가락은 탐정의 오른쪽 앞발(오른손 2, 사용자 결정)이에요.</p>
     <p>3장은 기록 완료 → 틀린 칸이 흔들리고 다시 확인 → 다시 듣기 → 고치기 → 다시 확인(초록, ✓ 확인됨) → 닫기 → 새 장소 알림까지 게임의 실제 움직임 그대로예요.</p>
-    <p>4–6장도 같은 방식이에요: 4장 지도 → 현장 → 옆으로 밀기 → 사진 찍기, 5장 증거 → 📌 → 메모, 6장 추리 빈칸 → 경찰에게 알리기 → 심문에서 증거 내밀기(사건과 무관한 예시).</p>
+    <p>4–6장도 같은 방식이에요: 4장 지도 → 현장 → 옆으로 밀기 → 사진 찍기, 5장 증거 → 📌 → 메모, 6장 추리 빈칸 → 경찰에게 알리기, 7장 심문에서 증거 내밀기(사건과 무관한 예시).</p>
   </div>
 </div>
 <script>
@@ -69,10 +69,12 @@ const CSS = `
 .tdemo .t6-deduce .ded-cards{padding-top:10px}
 .tdemo .t6-deduce[hidden],.tdemo .t6-int[hidden]{display:none}
 .tdemo .t6-int{position:absolute;left:0;top:0;width:390px;height:312px;overflow:hidden}
-.tdemo .t6-int .tdemo-npc{top:auto;bottom:-58%;left:27%;height:125%}
-.tdemo .t6-int .bubble{--bubble-top:18px;left:auto;right:10px;transform:none;width:60%;padding:16px 18px}
+.tdemo .t6-int .tdemo-art{background:url(assets/places/station-interview-room.png) 50% 30%/cover #9C7A55}   /* the game's questioning room: no clue of the case in sight */
+.tdemo .t6-int .tdemo-art::after{display:none}
+.tdemo .t6-int .tdemo-npc{top:auto;bottom:-22%;left:25%;height:118%}
+.tdemo .t6-int .bubble{--bubble-top:12px;left:auto;right:10px;transform:none;width:58%;padding:12px 16px;font-size:14px;line-height:1.35}
 .tdemo .t6-int .bubble::after{left:22%}
-.tdemo .t6-int .drawer{max-height:calc(100% - 16px)}
+.tdemo .t6-int .drawer{max-height:none;zoom:.66}   /* a bit smaller, so the claim stays in sight above it */
 .tdemo .t6-caught{animation:t6-jolt .5s ease-out}
 @keyframes t6-jolt{0%{transform:scale(1.08) rotate(-2deg)}40%{transform:rotate(1.5deg)}100%{transform:none}}
 @keyframes twv{0%,100%{opacity:.15}50%{opacity:1}}
@@ -268,36 +270,43 @@ const DEMOS = {
       await t.tap('[data-cat="memo"]'); NOTE5.memo(t); await t.wait(2200);
     }
   },
-  // 6장: 추리하기 → the detective's question, a blank filled from its list → 경찰에게 알리기 → the questioning: a claim, the
-  // evidence drawer, the photo that shows it is not true, 내밀기 (a made-up claim, not the case's)
-  '추리하고 심문해요': {
+  // 6장 추리해요: the detective's question, a blank filled from its list (the game's deduce drop) → 경찰에게 알리기
+  '추리해요': {
     html: () => `<section class="deduce t6-deduce"><div class="deduce-head"><h2>Deduction</h2></div>
         <div class="deduce-q"><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-q-txt"><p>Where was the cat?</p><div class="deduce-q-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div></div></div>
         <div class="deduce-board"><div class="ded-cards"><div class="ded-card t6-card"><div class="ded-line"><p>The cat was on the <button class="ded-slot place" type="button"></button>.</p></div></div></div></div>
         <div class="deduce-go" hidden><button class="pill big" type="button">경찰에게 알리기</button></div>
-        <div class="deduce-drop place t6-drop" hidden><div class="dz-list" style="--cols:2">${['desk', 'roof', 'door', 'bag'].map(w => `<button class="dz-opt" type="button" data-w="${w}">${w}</button>`).join('')}</div></div></section>
-      <div class="t6-int" hidden><div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/ben-higgsfield.png" alt="">
+        <div class="deduce-drop place t6-drop" hidden><div class="dz-list" style="--cols:2">${['desk', 'roof', 'door', 'bag'].map(w => `<button class="dz-opt" type="button" data-w="${w}">${w}</button>`).join('')}</div></div></section>`,
+    setup(t){ t.view(0, 0, true); },
+    async run(t){
+      await t.wait(1200);
+      const slot = t.q('.ded-slot'), drop = t.q('.t6-drop');
+      await t.tap(slot);
+      // the list as the game places it (openDeduceDrop): centred on the blank, kept inside the board, its tail on the blank;
+      // no room under the card here, so above the whole card
+      const s = slot.getBoundingClientRect(), c = t.q('.t6-card').getBoundingClientRect(), d = t.q('.t6-deduce').getBoundingClientRect(), k = d.width / 390;
+      drop.hidden = false; drop.classList.add('up');
+      const w = drop.offsetWidth, mid = (s.left - d.left + s.width / 2) / k, left = Math.min(Math.max(mid - w / 2, 8), 390 - w - 8);
+      drop.style.left = left + 'px'; drop.style.top = ((c.top - d.top) / k - 16 - drop.offsetHeight) + 'px';
+      drop.style.setProperty('--ox', Math.min(Math.max(mid - left, 34), w - 34) + 'px');
+      await t.wait(900);
+      await t.tap('.t6-drop [data-w="desk"]'); drop.hidden = true;
+      slot.classList.add('full'); slot.textContent = 'desk'; t.q('.t6-card').classList.add('pop'); await t.wait(1000);
+      t.q('.deduce-go').hidden = false; await t.wait(700);
+      await t.tap('.deduce-go .pill'); await t.wait(900);
+    }
+  },
+  // 7장 심문해요: a claim, the evidence drawer, the photo that shows it is not true, 내밀기 (a made-up claim, not the case's)
+  '심문해요': {
+    html: () => `<div class="t6-int"><div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/ben-higgsfield.png" alt="">
         <div class="bubble say t6-claim"><div class="bubble-copy"><span class="tag">Ben Beaver</span><span class="say-en">The lamps were off when I left.</span></div></div>
         <section class="drawer"><div class="drawer-head"><h3>증거</h3></div>
           <div class="drawer-strip">${[['Open book', 420, 350, 160, 120], ['Lamp', 590, 0, 160, 120], ['Plant', 208, 315, 120, 90]].map(([l, ...b]) => `<button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${PHOTO(...b)}</span><span class="dlabel">${l}</span><span class="dplace">Old Library</span></button>`).join('')}</div>
           <div class="drawer-pick" hidden><p>The lamps are still on.</p><button class="pill big" type="button">내밀기</button></div></section></div>`,
     setup(t){ t.view(0, 0, true); },
     async run(t){
-      await t.wait(1200);
-      // a blank of the card opens its list under it; the word goes in
-      const slot = t.q('.ded-slot'), drop = t.q('.t6-drop');
-      await t.tap(slot);
-      // as the game does when there is no room under the card: the list opens above the whole card
-      const s = slot.getBoundingClientRect(), c = t.q('.t6-card').getBoundingClientRect(), d = t.q('.t6-deduce').getBoundingClientRect(), k = d.width / 390;
-      drop.hidden = false; drop.classList.add('up');
-      drop.style.left = '70px'; drop.style.top = ((c.top - d.top) / k - 16 - drop.offsetHeight) + 'px'; drop.style.setProperty('--ox', ((s.left - d.left) / k - 70 + s.width / k / 2) + 'px');
-      await t.wait(900);
-      await t.tap('.t6-drop [data-w="desk"]'); drop.hidden = true;
-      slot.classList.add('full'); slot.textContent = 'desk'; t.q('.t6-card').classList.add('pop'); await t.wait(1000);
-      t.q('.deduce-go').hidden = false; await t.wait(700);
-      await t.tap('.deduce-go .pill');
-      // the questioning: their claim, then the evidence drawer
-      t.q('.t6-deduce').hidden = true; t.q('.t6-int').hidden = false; await t.wait(1600);
+      // their claim, then the evidence drawer
+      await t.wait(1600);
       t.q('.drawer').classList.add('open'); await t.wait(900);
       await t.tap('.dcard:nth-child(2)'); t.q('.dcard:nth-child(2)').setAttribute('aria-pressed', 'true'); t.q('.drawer-pick').hidden = false; await t.wait(1100);
       await t.tap('.drawer-pick .pill.big');

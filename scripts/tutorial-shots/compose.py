@@ -46,6 +46,6 @@ one('tut-3.webp', ('c-wrong', 24, 340, 366, 612))
 two('tut-4.webp', ('j-map', 0, 140, 262, 574), ('h-place2', 26, 92, 300, 546))
 # 5 Note를 펼쳐 봐요: the tabs, the person, 📌 (cut above the answers)
 one('tut-5.webp', ('k-person', 10, 36, 366, 318))
-# 6 추리하고 심문해요: the deduction board's first question, the suspects not yet known
+# 6 추리해요: the deduction board's first question, the suspects not yet known (7 심문해요 is questioning.py)
 one('tut-6.webp', ('i-deduce', 0, 40, 390, 348))
 print(sorted(os.listdir(OUT)), [os.path.getsize(OUT + f) // 1024 for f in sorted(os.listdir(OUT))])
