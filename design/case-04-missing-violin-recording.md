@@ -28,7 +28,7 @@
 | 4 | `tara-t1.mp3` | 대답 t1 (질문: Where did you leave it?) | I left it in its case, next to the left chair in the waiting room. | 1 |  | 케이스에 넣어서 출연자 대기실 왼쪽 의자 옆에 두었어. | ✓ |
 | 5 | `tara-t2.mp3` | 대답 t2 (질문: What does your case look like?) | There is a yellow moon sticker on my black case. | 1 |  | 내 검은 케이스에는 노란 달 스티커가 있어. | ✓ |
 | 6 | `tara-t3.mp3` | 대답 t3 (질문: Where did you look?) | There are two chairs by the door. I looked under both, but the case wasn't there. | 2 |  | 문 옆에 의자가 두 개 있어. 둘 다 아래를 찾아봤지만 케이스가 없었어. | ✓ |
-| 7 | `tara-t4.mp3` | 대답 t4 (질문: Who did you see before you left?) | A fox in the waiting room, a goat on stage, a mole backstage. I don't know their names. | 2 |  | 대기실의 여우, 무대 위의 염소, 무대 뒤의 두더지를 봤어. 이름은 몰라. | ✓ |
+| 7 | `tara-t4.mp3` | 대답 t4 (질문: Who did you see before you left?) | A dog in the waiting room, a goat on stage, a mole backstage. I don't know their names. | 2 |  | 대기실의 강아지, 무대 위의 염소, 무대 뒤의 두더지를 봤어. 이름은 몰라. | ✓ |
 | 8 | `tara-photo-give.mp3` | t2를 적은 뒤 | Here's a photo of my case. | 1 |  | 내 케이스 사진이야. | ✓ |
 | 9 | `tara-r2.mp3` | 행동 (Can you check this violin?) | My moon sticker! This is my violin. But the strings are broken. | 3 |  | 내 달 스티커네! 내 바이올린이야. 그런데 현이 끊어져 있어. | ✓ |
 | 10 | `tara-r3.mp3` | 행동 (Can you check this violin?) | I can't play it. Please find out what happened. | 2 |  | 이걸로는 연주할 수 없어. 무슨 일이 있었는지 알아봐 줘. | ✓ |

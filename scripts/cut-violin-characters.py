@@ -1,17 +1,18 @@
 """Violin case people from the Higgsfield sheets, background removed by Higgsfield (remove_background, job ids in
 assets/characters/README.md; the cut-outs are kept outside the repo, folder given as the first argument, files
-<sheet>-cutout.png): Tara (left) and Owen (right), Momo (left) and Pip (right), Ivo alone, Owen nervous, Owen sad (the
-left one of the two drawn). Same crop, size and face icon as scripts/cut-umbrella-characters.py: a 3% margin, 700 px
+<sheet>-cutout.png): Tara (left of the Tara and Owen sheet), Momo (left) and Pip (right), Ivo alone, and Owen as a
+dog (user decision 2026-11-09: the culprit is no longer a fox) alone, nervous and sad, each a sheet of its own. Same crop, size and face icon as scripts/cut-umbrella-characters.py: a 3% margin, 700 px
 tall -> assets/characters/<id>-higgsfield.png, and a 160 px face icon -> assets/ui/icons-v2/<id>.png.
 These sheets kept the drawings' white sticker rim after the background removal: it is peeled off from the outside in,
 only light and greyish pixels, stopping at the brown ink outline (as the mole/fox/raccoon/rabbit rim, 2026-10-16).
 Prints each sprite's size and the face viewBox for SPRITES.
-Run from the project folder: python -I scripts/cut-violin-characters.py <cut-out folder>"""
+Run from the project folder: python -I scripts/cut-violin-characters.py <cut-out folder> [sheet names]"""
 import sys
 from collections import deque
 from PIL import Image, ImageFilter, ImageDraw, ImageChops
 D = 'assets/characters/'
 CUT = sys.argv[1].rstrip('/\\') + '/'
+ONLY = sys.argv[2:]   # sheet names to cut (none: all)
 def trim(im):
     box = im.getchannel('A').point(lambda a: 255 if a > 24 else 0).getbbox()
     im = im.crop(box); m = round(max(im.size) * .03)
@@ -63,11 +64,13 @@ def save(id, im, head):
 def sheet(name, orig):
     return peel(solid(Image.open(CUT + f'{name}-cutout.png').convert('RGBA'), Image.open(D + orig)))
 for name, orig, parts in [
-        ('tara-owen', 'tara-owen-higgsfield-original.jpg', [('tara', 0, .5, (.5, .02, .5)), ('owen', .5, 1, (.42, .0, .5))]),
+        ('tara-owen', 'tara-owen-higgsfield-original.jpg', [('tara', 0, .5, (.5, .02, .5))]),
+        ('owen', 'owen-higgsfield-original.jpg', [('owen', 0, 1, (.5, .0, .48))]),
         ('momo-pip', 'momo-pip-higgsfield-original.jpg', [('momo', 0, .5, (.5, .02, .5)), ('pip', .5, 1, (.5, .0, .62))]),
         ('ivo', 'ivo-higgsfield-original.jpg', [('ivo', 0, 1, (.5, .0, .52))]),
         ('owen-nervous', 'owen-nervous-original.jpg', [('owen-nervous', 0, 1, None)]),
-        ('owen-sad', 'owen-sad-original.jpg', [('owen-sad', 0, .5, None)])]:
+        ('owen-sad', 'owen-sad-original.jpg', [('owen-sad', 0, 1, None)])]:
+    if ONLY and name not in ONLY: continue
     im = sheet(name, orig)
     for id, x0, x1, head in parts:
         save(id, im.crop((round(im.width * x0), 0, round(im.width * x1), im.height)), head)
