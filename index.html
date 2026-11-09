@@ -1323,6 +1323,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
 <div class="app" id="app">
   <audio id="cameraShutter" src="audio/camera-shutter.mp3" preload="auto" hidden></audio>
+  <audio id="umbrellaSound" preload="auto" hidden></audio>
   <audio id="correctChime" src="audio/note-correct.mp3" preload="auto" hidden></audio>
   <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
   <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
@@ -4828,7 +4829,14 @@ function allConversationsDone(){
 // The place view's 추리하기 (the conversation's is drawn by renderAsk, the map's in openSheet): all three open the
 // deduction board, and the accusation is made only there (user decision).
 function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!ending || !!(S.investigate && placeObj()?.inspect); }
-$('#foldBtn').onclick = () => { cancelCapture(); stopVoice(); S.unfolded = !S.unfolded; renderScene(); renderSceneHead(); saveGame(); };
+$('#foldBtn').onclick = () => { cancelCapture(); stopVoice(); S.unfolded = !S.unfolded; playUmbrella(S.unfolded); renderScene(); renderSceneHead(); saveGame(); };
+// the umbrella opening / folding (user request; user-given freesound clip, audio/umbrella-open.mp3, the fold its first rustle)
+function playUmbrella(open){
+  const s = $('#umbrellaSound');
+  s.src = open ? 'audio/umbrella-open.mp3' : 'audio/umbrella-fold.mp3';
+  s.currentTime = 0;
+  s.play().catch(() => {});
+}
 $('#accuseFoot').onclick = e => { if(e.target.closest('[data-accuse]')) openDeduce(); };
 $('#accuseBtn').onclick = () => openDeduce();
 // who is being questioned (the culprit): their own statements stay out of the evidence drawer
