@@ -473,31 +473,31 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 
 ## 12. 받아쓰기 보기와 균형
 
-질문 21개는 유지한다. 이보의 기존 질문·답변·노트 빈칸·위치 진술은 그대로 둔다(사용자 결정). 다른 답변은 짧게 다듬고 빈칸은 단서·열쇠 표현을 중심으로 줄였다. 아래 같은 낱말이 두 번 나오면 별도 카드 두 개이며, 빈칸은 실제 대답과 정확히 같다.
+질문 21개는 유지한다. 이보의 기존 질문·답변·노트 빈칸·위치 진술은 그대로 둔다(사용자 결정). 다른 답변은 짧게 다듬고 빈칸은 단서·열쇠 표현을 중심으로 줄였다. 아래 같은 낱말이 두 번 나오면 별도 카드 두 개이며, 빈칸은 실제 대답과 정확히 같다. 보기는 질문마다 오답 4개 이상이다(사용자 요청: 선택지를 더 많이. 소리가 비슷한 말이나 같은 종류의 말, 타라 t4는 범인 동물을 정할 때 함께 정한다).
 
 | 질문 ID | 보기 카드 |
 |---|---|
-| `tara:t0` | missing · find · broken · leave |
-| `tara:t5` | rehearsal · lobby · contest · stage |
-| `tara:t1` | in · next to · waiting room · on · behind · lobby |
-| `tara:t2` | yellow moon · on · yellow star · under |
-| `tara:t3` | under · on · behind |
+| `tara:t0` | missing · find · broken · leave · mixing · fine |
+| `tara:t5` | rehearsal · lobby · contest · stage · hobby · library |
+| `tara:t1` | in · next to · waiting room · on · behind · lobby · under |
+| `tara:t2` | yellow moon · on · yellow star · under · yellow spoon · in |
+| `tara:t3` | under · on · behind · next to · in |
 | `tara:t4` | fox · goat · mole · deer · bear · rabbit |
-| `owen:o1` | next to · whole time · behind · last time |
-| `owen:o8` | turn · tool · train |
-| `owen:o2` | lobby · ladder · library |
-| `owen:o9` | black toolbox · behind · black case · next to |
+| `owen:o1` | next to · whole time · behind · last time · under · whole day |
+| `owen:o8` | turn · tool · train · tune · time |
+| `owen:o2` | lobby · ladder · library · hobby · lady |
+| `owen:o9` | black toolbox · behind · black case · next to · black box · under |
 | `ivo:i1` | next to · music stand · on · stage · behind · toolbox · under · lobby |
-| `ivo:i3` | practice · last part · protect · first part |
+| `ivo:i3` | practice · last part · protect · first part · play · fast part |
 | `ivo:i4` | side curtain · open · ladder · next to · floor · closed · mirror · behind |
 | `ivo:i2` | on · ladder · next to · stage · on · under · chair · behind · lobby |
-| `momo:m1` | fixed · next to · found · behind |
-| `momo:m3` | bulbs · behind · buttons · next to |
-| `momo:m4` | black toolbox · under · black case · on |
-| `momo:m2` | Pip · light · Ivo · night |
-| `momo:m5` | lent · Owen · left · Ivo |
-| `pip:p1` | black case · behind · black toolbox · next to |
-| `pip:p2` | door · floor · case |
+| `momo:m1` | fixed · next to · found · behind · mixed · under |
+| `momo:m3` | bulbs · behind · buttons · next to · bells · under |
+| `momo:m4` | black toolbox · under · black case · on · black box · behind |
+| `momo:m2` | Pip · light · Ivo · night · Tara · right |
+| `momo:m5` | lent · Owen · left · Ivo · sent · Tara |
+| `pip:p1` | black case · behind · black toolbox · next to · black bag · under |
+| `pip:p2` | door · floor · case · window · four |
 
 
 

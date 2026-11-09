@@ -2284,8 +2284,8 @@ const VIOLIN_CASE = {
         t3:["“There are two chairs by the door. I looked {{j|under}} both, but the case wasn't there.”"],
         t4:["“A {{k|fox}} in the waiting room, a {{l|goat}} on stage, a {{m|mole}} backstage. I don't know their names.”"]
       },
-      bank:{ t0:['missing','find','broken','leave'], t5:['rehearsal','lobby','contest','stage'], t1:['in','next to','waiting room','on','behind','lobby'],
-        t2:['yellow moon','on','yellow star','under'], t3:['under','on','behind'], t4:['fox','goat','mole','deer','bear','rabbit'] },
+      bank:{ t0:['missing','find','broken','leave','mixing','fine'], t5:['rehearsal','lobby','contest','stage','hobby','library'], t1:['in','next to','waiting room','on','behind','lobby','under'],
+        t2:['yellow moon','on','yellow star','under','yellow spoon','in'], t3:['under','on','behind','next to','in'], t4:['fox','goat','mole','deer','bear','rabbit'] },
       // design 4절: her photo of the case, taken once t2 is written down
       after:{ t2:{ lines:[
         { key:'photo-give', en:"Here's a photo of my case.", ko:'내 케이스 사진이야.' },
@@ -2334,7 +2334,7 @@ const VIOLIN_CASE = {
         o2:['“Next to the chair, before Tara went to the {{d|lobby}}.”'],
         o9:['“Momo, the stage helper, carried a {{e|black toolbox}} {{f|behind}} the curtain.”']
       },
-      bank:{ o1:['next to','whole time','behind','last time'], o8:['turn','tool','train'], o2:['lobby','ladder','library'], o9:['black toolbox','behind','black case','next to'] },
+      bank:{ o1:['next to','whole time','behind','last time','under','whole day'], o8:['turn','tool','train','tune','time'], o2:['lobby','ladder','library','hobby','lady'], o9:['black toolbox','behind','black case','next to','black box','under'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'My sleeves? OK.', answerKo:'내 소매? 그래.', inspect:'sleeves-owen' } ]
     },
     ivo: { id:'ivo', name:'Ivo Goat', ko:'염소 이보', job:'출연자', place:'stage', witness:true, required:true, pitch:1.05, voice:0, bg:'#DDE3EE',
@@ -2362,7 +2362,7 @@ const VIOLIN_CASE = {
         i4:['“The {{g|side curtain}} was {{h|open}}. I could see the {{i|ladder}} {{j|next to}} the light.”'],
         i2:['“Momo was {{k|on}} the {{l|ladder}}, {{m|next to}} the light. I was still {{n|on}} the {{o|stage}}.”']
       },
-      bank:{ i1:['next to','music stand','on','stage','behind','toolbox','under','lobby'], i3:['practice','last part','protect','first part'],
+      bank:{ i1:['next to','music stand','on','stage','behind','toolbox','under','lobby'], i3:['practice','last part','protect','first part','play','fast part'],
         i4:['side curtain','open','ladder','next to','floor','closed','mirror','behind'], i2:['on','ladder','next to','stage','on','under','chair','behind','lobby'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'Sure. Take a look.', answerKo:'그럼. 봐.', inspect:'sleeves-ivo' } ]
     },
@@ -2397,8 +2397,8 @@ const VIOLIN_CASE = {
         m2:['“{{g|Pip}} was by the side passage. I was busy with the {{h|light}}.”'],
         m5:["“They're mine. I {{i|lent}} them to {{j|Owen}}.”"]
       },
-      bank:{ m1:['fixed','next to','found','behind'], m3:['bulbs','behind','buttons','next to'], m4:['black toolbox','under','black case','on'],
-        m2:['Pip','light','Ivo','night'], m5:['lent','Owen','left','Ivo'] },
+      bank:{ m1:['fixed','next to','found','behind','mixed','under'], m3:['bulbs','behind','buttons','next to','bells','under'], m4:['black toolbox','under','black case','on','black box','behind'],
+        m2:['Pip','light','Ivo','night','Tara','right'], m5:['lent','Owen','left','Ivo','sent','Tara'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'OK. These are my work clothes.', answerKo:'그래. 이건 내 작업복이야.', inspect:'sleeves-momo' } ]
     },
     pip: { id:'pip', name:'Pip Sparrow', ko:'참새 핍', job:'자원봉사자', place:'backstage', witness:true, required:true, pitch:1.5, voice:2, bg:'#DCEBF3',
@@ -2416,7 +2416,7 @@ const VIOLIN_CASE = {
         p1:['“No, but someone carried a {{a|black case}} {{b|behind}} the curtain when the light came back on.”'],
         p2:["“No. I only saw the case through the {{c|door}}, and I couldn't see a sticker.”"]
       },
-      bank:{ p1:['black case','behind','black toolbox','next to'], p2:['door','floor','case'] }
+      bank:{ p1:['black case','behind','black toolbox','next to','black bag','under'], p2:['door','floor','case','window','four'] }
     },
     // the officer joins only for the questioning (ending.script puts him in the waiting room, S.met while it lasts)
     // the same voice as the library case's officer (Higgsfield · MiniMax · Fraser): b1 on the phone, b2·b3 at the questioning
