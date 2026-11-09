@@ -1637,7 +1637,7 @@ const PICNIC_CASE = {
         r4:["She can't {{i|remember}} who she saw.", 'She went to the {{j|cafe/lake cafe}}.', 'Maybe the bags got {{k|mixed up}} there.']
       },
       // word banks: about three wrong cards per blank, answers not first in their group (user request: two choices were too easy)
-      bank:{ r0:['your','my','yours','mine'], r1:['sorry','happy','sure','sad','red','green','blue','yellow'],
+      bank:{ r0:['your','my','his','her','yours','mine','hers'], r1:['sorry','happy','sure','sad','red','green','blue','yellow'],
         r2:['green','red','blue','yellow','book','lunch box','cup','bottle','sandwich'],
         r3:['see','know','hear','look out','give up','find out','pick up'],
         r4:['forget','see','remember','garden','library','cafe','bakery','lost','mixed up','picked up'] }
@@ -1667,7 +1667,7 @@ const PICNIC_CASE = {
         v2:['{{c|Nobody/no one}} {{d|left}} a bag at the cafe.'],
         v3:['Ben went {{g|home}}.', 'Mia and Ollie went to the {{h|garden}}.']
       },
-      bank:{ v1:['Ray','Betty','Ben','Fiona','Hoot'], v2:['Nobody','Everyone','Ben','left','took','brought'],
+      bank:{ v1:['Ray','Betty','Ben','Fiona','Hoot','Rosie'], v2:['Nobody','Everyone','Ben','left','took','brought'],
         v3:['office','home','cafe','library','garden','bakery'] }
     },
     // b1 first: "What was in the bag?" only once he has said he had one (user request)
@@ -1738,7 +1738,7 @@ const PICNIC_CASE = {
         g1:["Ollie's bag is {{a|red}}.", "Mia's bag is {{b|blue}}."],
         g2:["The blue bag is Mia's.", 'She {{c|opened}} it.', 'Her {{d|picnic}} things are {{e|inside}}.']
       },
-      bank:{ g1:['yellow','red','green','blue','pink'], g2:['closed','lost','opened','office','picnic','school','outside','under','inside'] }
+      bank:{ g1:['yellow','red','green','blue','pink','black','white'], g2:['closed','lost','opened','office','picnic','school','outside','under','inside'] }
     },
     nora: { id:'nora', name:'Nora Hedgehog', ko:'고슴도치 노라', job:'회사원', place:'lobby', witness:true, required:true, pitch:1.1, voice:0, bg:'#F3E1D3',
       // Nora's recorded voice (Higgsfield · MiniMax · Maeve; hello made by the user). thanks: her line in the hand-over
@@ -1995,7 +1995,7 @@ const UMBRELLA_CASE = {
         e1:["“I don't {{a|know}}. No one came {{b|back}} for it.”"],
         e2:["“It's been here for a {{c|week}}.”"]
       },
-      bank:{ e0:['lost','left','friend','owner'], e1:['see','know','here','back'], e2:['day','week','month'] }
+      bank:{ e0:['lost','left','lent','felt','friend','owner','order','other'], e1:['see','know','now','think','here','back','bag','home'], e2:['day','week','month','year','hour','weekend'] }
     },
     // nameless until she says who she is (design: no name on her tag, map or notes before "I'm Tess")
     tess: { id:'tess', name:'Tess Tortoise', unnamed:'Tortoise', ko:'거북 테스', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:.95, voice:0, bg:'#DDE8D5', openingQuestion:'t0',
@@ -2032,9 +2032,9 @@ const UMBRELLA_CASE = {
         t4:['“Ask {{j|Ruby}}, too. She works {{k|here}}. We were at the bazaar {{l|together}}.”'],
         t5:['“{{m|Finn}} is looking for his {{n|umbrella}}. You can find him on {{o|Windmill Hill}}.”']
       },
-      bank:{ t0:['borrow','lend','when','where'], t1:['black','dark blue','red','blue','bottle','handle'], t2:['silver','gold','stripes','stars'],
-        t3:['gold','dark blue','outside','inside'], t4:['Finn','Ruby','there','here','alone','together'],
-        t5:['Ruby','Finn','bag','umbrella','Toy Nest','Windmill Hill'] }
+      bank:{ t0:['borrow','lend','land','send','when','where','what','who'], t1:['black','dark blue','red','blue','green','bottle','handle','strap'], t2:['silver','gold','cold','white','stripes','stars','stairs','dots'],
+        t3:['gold','dark blue','silver','dark green','outside','inside','under','behind'], t4:['Finn','Ruby','there','here','near','alone','together'],
+        t5:['Ruby','Finn','bag','umbrella','hat','Toy Nest','Windmill Hill'] }
     },
     ruby: { id:'ruby', name:'Ruby Cat', ko:'고양이 루비', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:1.35, voice:2, bg:'#F3DDE2',
       // MiniMax Gracie, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site)
@@ -2059,7 +2059,7 @@ const UMBRELLA_CASE = {
         r2:['“Mine has {{d|gold}} {{e|stars}}.”'],
         r3:['“Mine is {{f|gold}} {{g|inside}}.”']
       },
-      bank:{ r1:['black','dark blue','red','blue','star','handle'], r2:['silver','gold','stripes','stars'], r3:['dark blue','gold','outside','inside'] }
+      bank:{ r1:['black','dark blue','red','blue','green','star','handle'], r2:['silver','gold','cold','white','stripes','stars','stairs','dots'], r3:['dark blue','gold','silver','cold','outside','inside','under','behind'] }
     },
     finn: { id:'finn', name:'Finn Frog', ko:'개구리 핀', job:'우산을 잃어버린 친구', place:'windmill', witness:true, required:true, pitch:1.1, voice:1, bg:'#DDEBD3',
       // MiniMax Dylan, emotion happy (the user's pick; made on the Higgsfield site)
@@ -2082,7 +2082,7 @@ const UMBRELLA_CASE = {
         f1:['“Mine is {{a|dark blue}}. It has a {{b|blue}} {{c|handle}}.”'],
         f2:["“Mine has {{d|no}} {{e|pattern}}. It's {{f|plain}}.”"]
       },
-      bank:{ f1:['white','dark blue','red','blue','star','handle'], f2:['gold','no','stars','pattern','small','plain'] }
+      bank:{ f1:['white','dark blue','red','blue','green','star','handle'], f2:['gold','no','stars','stripes','pattern','small','plain'] }
     }
   },
   phrases:[
@@ -2345,7 +2345,7 @@ const VIOLIN_CASE = {
         o2:['“Next to the chair, before Tara went to the {{d|lobby}}.”'],
         o9:['“Momo, the stage helper, carried a {{e|black toolbox}} {{f|behind}} the curtain.”']
       },
-      bank:{ o1:['next to','whole time','behind','last time','under','whole day'], o8:['turn','tool','train','tune','time'], o2:['lobby','ladder','library','hobby','lady'], o9:['black toolbox','behind','black case','next to','black box','under'] },
+      bank:{ o1:['next to','whole time','behind','last time','under','whole day'], o8:['turn','tool','train','tune','time','town'], o2:['lobby','ladder','library','hobby','lady','hallway'], o9:['black toolbox','behind','black case','next to','black box','under'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'My sleeves? OK.', answerKo:'내 소매? 그래.', inspect:'sleeves-owen' } ]
     },
     ivo: { id:'ivo', name:'Ivo Goat', ko:'염소 이보', job:'출연자', place:'stage', witness:true, required:true, pitch:1.05, voice:0, bg:'#DDE3EE',
@@ -2427,7 +2427,7 @@ const VIOLIN_CASE = {
         p1:['“No, but someone carried a {{a|black case}} {{b|behind}} the curtain when the light came back on.”'],
         p2:["“No. I only saw the case through the {{c|door}}, and I couldn't see a sticker.”"]
       },
-      bank:{ p1:['black case','behind','black toolbox','next to','black bag','under'], p2:['door','floor','case','window','four'] }
+      bank:{ p1:['black case','behind','black toolbox','next to','black bag','under'], p2:['door','floor','case','window','four','wall'] }
     },
     // the officer joins only for the questioning (ending.script puts him in the waiting room, S.met while it lasts)
     // the same voice as the library case's officer (Higgsfield · MiniMax · Fraser): b1 on the phone, b2·b3 at the questioning
@@ -2694,8 +2694,8 @@ const PEOPLE = PACK ? PACK.people : {
     },
     bank:{
       b1:['Hoot','Mole','Library','Bakery','8 PM','9 PM','10 PM'],
-      b2:['Mrs. Mole','Mrs. Bear','librarian','baker','7 PM','8 PM','9 PM'],
-      b3:['library','bakery','tell','ask']
+      b2:['Mrs. Mole','Mrs. Bear','librarian','baker','7 PM','8 PM','9 PM','10 PM'],
+      b3:['library','bakery','cafe','garden','tell','ask','call','sell']
     }
   },
   // the witness who found the victim — her answers name the people to look for
@@ -2744,9 +2744,9 @@ const PEOPLE = PACK ? PACK.people : {
       q3:["Hoot was a {{k|regular customer}} who bought {{l|bread}} from Fiona every {{m|morning}}."]
     },
     bank:{
-      q1:['bakery','library','7 PM','9 PM','10 PM','blueberry pies','apple cakes'],
-      q2:['alone','together','evening','morning','kitchen'],
-      q3:['regular customer','stranger','bread','pies','morning','evening']
+      q1:['bakery','library','7 PM','9 PM','10 PM','blueberry pies','apple cakes','cookies'],
+      q2:['alone','together','evening','morning','afternoon','kitchen'],
+      q3:['regular customer','stranger','bread','pies','cakes','morning','evening']
     }
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
@@ -2764,9 +2764,9 @@ const PEOPLE = PACK ? PACK.people : {
       q3:["Hoot borrowed his {{g|lantern}} and never gave it back.","He was a kind old {{h|owl}}."]
     },
     bank:{
-      q1:['Lake Cafe','Moon Hill','guitar','drum','8 PM','9 PM','9:30 PM'],
-      q2:['cafe','town','Mr. Duck','Mrs. Bear'],
-      q3:['lantern','umbrella','owl','fox']
+      q1:['Lake Cafe','Moon Hill','guitar','drum','piano','8 PM','9 PM','9:30 PM'],
+      q2:['cafe','town','park','library','Mr. Duck','Mrs. Bear','Mrs. Mole'],
+      q3:['lantern','umbrella','lamp','candle','owl','fox','bear']
     }
   },
   rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
@@ -2785,9 +2785,9 @@ const PEOPLE = PACK ? PACK.people : {
       q3:["Hoot taught her the names of the {{i|stars}}."]
     },
     bank:{
-      q1:['Moon Hill','Lake Cafe','telescope','camera','8 PM','9 PM','10 PM'],
+      q1:['Moon Hill','Lake Cafe','telescope','camera','blanket','8 PM','9 PM','10 PM'],
       q2:['Nobody','Mr. Duck','shooting star','rainbow','8:45','8:15','Star Club','Book Club'],
-      q3:['stars','flowers','birds']
+      q3:['stars','flowers','birds','clouds','moon','planes']
     }
   },
   // a witness: someone whose word checks another person's alibi. Not a suspect, and talking to him is optional.
@@ -2807,8 +2807,8 @@ const PEOPLE = PACK ? PACK.people : {
       d2:["Ray {{d|never}} left the stage.","Mr. Duck was behind the {{e|counter}} all night.","Ray played {{f|twelve/12}} songs."]
     },
     bank:{
-      d1:['stage','counter','8 PM','9 PM','9:30 PM','10 PM'],
-      d2:['never','often','counter','door','twelve','two']
+      d1:['stage','counter','kitchen','8 PM','9 PM','9:30 PM','10 PM'],
+      d2:['never','often','always','counter','door','twelve','two']
     }
   },
   // the customer on Fiona's order board (user decision): a witness, but her word is needed in the interview, so
@@ -2830,7 +2830,7 @@ const PEOPLE = PACK ? PACK.people : {
     },
     bank:{
       b1:['8:30','8:40','9 PM','loaf','cake','Fiona','Mr. Duck'],
-      b2:['waited','danced','home','library']
+      b2:['waited','danced','walked','worked','home','library','bakery','cafe']
     }
   }
 };
