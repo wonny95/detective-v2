@@ -484,8 +484,8 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | `tara:t3` | There are · under · There is · They are · on · behind · next to · in |
 | `tara:t4` | dog · goat · mole · deer · bear · rabbit · fox |
 | `owen:o1` | next to · whole time · behind · last time · under · whole day |
-| `owen:o8` | turn · tool · train · tune · time |
-| `owen:o2` | lobby · ladder · library · hobby · lady |
+| `owen:o8` | turn · tool · train · tune · time · town |
+| `owen:o2` | lobby · ladder · library · hobby · lady · hallway |
 | `owen:o9` | black toolbox · behind · black case · next to · black box · under |
 | `ivo:i1` | next to · music stand · on · stage · behind · toolbox · under · lobby |
 | `ivo:i3` | practice · last part · protect · first part · play · fast part |
@@ -497,7 +497,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 | `momo:m2` | Pip · light · Ivo · night · Tara · right |
 | `momo:m5` | lent · Owen · left · Ivo · sent · Tara |
 | `pip:p1` | black case · behind · black toolbox · next to · black bag · under |
-| `pip:p2` | door · floor · case · window · four |
+| `pip:p2` | door · floor · case · window · four · wall |
 
 
 
