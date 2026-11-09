@@ -51,6 +51,14 @@ header.bar h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:18
 .h-tidy .ck-top small .dot{display:none}
 .h-tidy .ck-top .no{flex:none;padding:2px 7px 1px;border:1.5px solid var(--berry);border-radius:6px;color:var(--berry);font-size:11.5px}
 .h-tidy .rv-title{font-size:23px}
+/* 머리줄 ⑤ 열쇠 없이: the header shows the case only; 열쇠 becomes a small key drawn before the card's eyebrow */
+.h-nokey .rv-title{display:none}
+.h-nokey .ck-top small{display:flex;align-items:center;gap:8px;font-size:21px;color:var(--ink)}
+.h-nokey .ck-top small .dot{display:none}
+.h-nokey .ck-top .no{flex:none;padding:3px 8px 2px;border-radius:7px;background:var(--berry);color:#FFFDF7;font-size:12px}
+.key-ico{display:none;flex:none;width:22px;height:13px}
+.h-nokey .key-ico{display:inline-block}
+.eyebrow > span:first-child{display:inline-flex;align-items:center;gap:5px}
 .close-button{margin-left:auto;flex:none;width:42px;height:42px;border:0;background:url(../assets/ui/close-button.png) center/contain no-repeat;filter:drop-shadow(0 3px 0 rgba(74,54,40,.3))}
 .body{flex:1;min-height:0;padding:0 6px 12px}
 .ck-card{position:relative;display:flex;flex-direction:column;gap:8px;margin:22px 6px 0;padding:8px 8px 4px;border:12px solid transparent;border-image:url(../assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(-1.5deg)}
@@ -163,12 +171,12 @@ const VARIANTS = [
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[c]);
 const mark = s => esc(s).replace(/\{([^}]+)\}/g, '<mark>$1</mark>');
 let caseId = 'umbrella', at = 0, head = 'now';
-const HEADS = [['now', '머리줄 ① 지금'], ['tidy', '④ 다듬기만'], ['big', '② 사건 제목 크게'], ['center', '③ 가운데 제목']];
+const HEADS = [['now', '머리줄 ① 지금'], ['tidy', '④ 다듬기만'], ['big', '② 사건 제목 크게'], ['center', '③ 가운데 제목'], ['nokey', '⑤ 열쇠 없이']];
 function pageHTML(c, i){
   const p = c.pages[i], last = i === c.pages.length - 1, play = '<button class="replay-q" type="button" aria-label="듣기"></button>';
   return `<div class="ck-top"><div class="ck-head"><small><span class="no">${c.no}</span><span class="dot"> · </span><span class="t">${c.title}</span></small><h2 class="rv-title">이번 사건의 열쇠</h2></div><button class="close-button" type="button" aria-label="닫기"></button></div>
     <div class="body"><div class="ck-card"><div class="ck-key">
-      <div class="eyebrow"><span>${c.name} <span class="n">· ${i + 1}/${c.pages.length}</span></span>${play}</div>
+      <div class="eyebrow"><span><svg class="key-ico" viewBox="0 0 44 26" aria-hidden="true"><circle cx="10" cy="13" r="7.5" fill="#E0A526" stroke="#4A3628" stroke-width="2.2"/><circle cx="10" cy="13" r="2.6" fill="#F8EED7" stroke="#4A3628" stroke-width="1.6"/><path d="M17.5 13 H41 M33 13 v6 M38 13 v4.5" fill="none" stroke="#4A3628" stroke-width="3" stroke-linecap="round"/></svg>${c.name} <span class="n">· ${i + 1}/${c.pages.length}</span></span>${play}</div>
       <h3>${p.head.map(h => `<span class="head-part">${esc(h)}</span>`).join(' ')}${play}</h3>
       <span class="ck-name">${c.name}</span><p class="gko">${esc(p.why)}</p></div></div>
       <div class="ck-notes">${p.lines.map(([en, ko]) => `<p class="ck-note"><span>${mark(en)}</span><button class="replay-q" type="button" aria-label="예문 듣기"></button><button class="pill sm" type="button" data-ko>해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div></div>
