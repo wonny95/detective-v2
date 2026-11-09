@@ -2887,9 +2887,9 @@ const GRAMMAR = {
       { head:'mine / yours', ko:'나의 것 / 너의 것', mean:[['mine','나의 것'],['yours','너의 것']], why:'뒤에 이름 없이 혼자 써요. my bag을 한 단어로 하면 mine이에요.', match:'\\b(mine|yours|hers)\\b',
         lines:[['This pencil is {mine}.', '이 연필은 내 것이에요.'], ['Is this ruler {yours}?', '이 자는 네 것이니?'], ['This book is not {mine}.', '이 책은 내 것이 아니에요.']] }
     ] },
-  whose: { name:'누구의 것인지 묻기', pattern:'Whose bag is this? / Is this yours? / my / mine', ko:'Whose로 누구의 것인지 묻고, Is this yours?로 듣는 사람의 것인지 확인해요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
+  whose: { name:'누구의 것인지 묻기', pattern:'Whose is this? / Is this yours? / my / mine', ko:'Whose로 누구의 것인지 묻고, Is this yours?로 듣는 사람의 것인지 확인해요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.',
     examples:[
-      { head:'Whose bag is this?', parts:['Whose bag','is this?'], ko:'누구 거야?', mean:[['whose','누구의'],['this','이것'],['that','저것']], why:'누구의 것인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
+      { head:'Whose is this?', ko:'누구 거야?', mean:[['whose','누구의 (것)'],['this','이것'],['that','저것']], why:'누구의 것인지 물어요. this는 가까이 있는 것, that은 멀리 있는 것을 가리켜요.', match:'\\bwhose\\b',
         more:['이름은 Whose 바로 뒤에 붙여 한 덩어리로 맨 앞에 둬요. Whose bag is this?',
           '여러 개면 this·that 대신 these·those, is 대신 are를 써요. Whose shoes are these?',
           "대답은 '이름 + \'s'나 mine·yours·his·hers로 해요. It\'s Sam\'s. / It\'s mine.",
@@ -6817,7 +6817,7 @@ const keptWords = () => readJSON(WORDBOOK_KEY, null);
 function keepWords(keys){ try { localStorage.setItem(WORDBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 const GRAMMARBOOK_KEY = 'detective.grammarBook';
 // the umbrella key's heads were patterns with … until 2026-11-09 (user request: as a dictionary shows them); old bookmarks follow
-const GRAMMAR_RENAMED = { 'whose#Whose … is this / that?':'whose#Whose bag is this?', 'whose#Is this / that … yours?':'whose#Is this yours?', 'whose#my … / mine':'whose#my / mine' };
+const GRAMMAR_RENAMED = { 'whose#Whose … is this / that?':'whose#Whose is this?', 'whose#Whose bag is this?':'whose#Whose is this?', 'whose#Is this / that … yours?':'whose#Is this yours?', 'whose#my … / mine':'whose#my / mine' };
 const keptGrammar = () => { const k = readJSON(GRAMMARBOOK_KEY, null); return k && k.map(x => GRAMMAR_RENAMED[x] || x); };
 function keepGrammar(keys){ try { localStorage.setItem(GRAMMARBOOK_KEY, JSON.stringify([...new Set(keys)])); } catch(e){} }
 // A saved grammar is its id, or one of its key forms as id#head (user decision: a player may know some forms and not

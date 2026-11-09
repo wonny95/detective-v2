@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-09 12:10 · Claude · (이 커밋) 우산 열쇠 제목을 사전처럼
+## 2026-11-09 12:15 · Claude · (이 커밋) 우산 열쇠 1쪽 Whose is this?
+
+- 사용자 결정: 1쪽 제목에 아무 물건(bag)을 넣지 않고 `Whose is this?`(사전 예문 모양, 한 줄). 뜻 표 `whose 누구의 (것)`. 물건 이름을 붙여 묻는 모양은 쪽지 예문(Whose book is this? 등)이 보여 줌. `GRAMMAR_RENAMED`에 직전 이름도 더함.
+- 제목 발음 `audio/examples/whose-1.wav` 다시 만듦(SAPI Zira, 예전 파일은 휴지통).
+- 확인(새 탭): 1–3쪽 제목 한 줄, 카드 높이 같음(266 → 227px), 구문 검사. 못 한 것: 새 발음 귀로 듣기.
+- **다음**: 바이올린 1단계 플레이 확인(사용자). 그 밖에는 사용자 지시 대기.
+
+## 2026-11-09 12:10 · Claude · 578c8e6 우산 열쇠 제목을 사전처럼
 
 - 사용자 요청: 우산 열쇠 카드 제목의 `…`가 어색함. 사전은 낱말과 실제 예문으로 보여 주므로 그대로: `Whose … is this / that?` → `Whose bag is this?`(줄바꿈 Whose bag / is this?), `Is this / that … yours?` → `Is this yours?`, `my … / mine` → `my / mine`(짧은 뜻 `나의 / 나의 것`). 문법 전체 형태 `pattern`, 설명의 `Is this … yours?`, 사건 문장 연결 `formLines` 키도 같이. 예전 이름으로 저장된 문법 북마크는 `GRAMMAR_RENAMED`로 새 이름에 이어짐.
 - 제목 발음: `audio/examples/whose-1.wav`·`whose-2.wav`를 SAPI Zira로 다시 만듦(예전 파일은 휴지통, `whose-3.wav`는 읽는 소리가 같아 그대로).
