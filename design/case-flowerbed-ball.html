@@ -398,6 +398,7 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
   <div class="reader-brand"><a href="learning-plan.html#flowerbed-proposal">← 학습 기획</a><h1>누가 화단을 망쳤을까?</h1></div>
   <nav class="reader-modebar" aria-label="기획서 보기 방식">
     <button type="button" data-mode="flow" aria-pressed="false">사건 흐름</button>
+    <button type="button" data-mode="prep" aria-pressed="false">예습</button>
     <button type="button" data-mode="script" aria-pressed="true">대본</button>
     <button type="button" data-mode="reference" aria-pressed="false">학습 점검</button>
   </nav><span class="reader-status">L1-06 · B안<br>사용자 검토 중 · 개발 미인계</span>
@@ -462,9 +463,9 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
   const meta = JSON.parse($('reader-turn-metadata').textContent);
   const root = $('plan-reader');
   const routes = new Map();
-  const memories = {script:new Map(),reference:new Map()};
+  const memories = {prep:new Map(),script:new Map(),reference:new Map()};
   const sceneScroll = new Map();
-  const lastItems = {script:1,flow:0,reference:0};
+  const lastItems = {prep:0,script:0,flow:0,reference:0};
   const state = {mode:'flow',item:0,page:0,inspector:'clues',zoom:false};
   const text = n => n?.textContent.trim() || '';
   const isTurn = n => n.hasAttribute('data-line');
@@ -525,7 +526,7 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     if(isTurn(first))return (kind(first)==='생각'?'탐정의 생각':who(first)+' · '+kind(first))+' — '+text(first.querySelector('.en'));
     return text(first.querySelector('strong,h3,h4')) || text(first).slice(0,60);
   }
-  const scenes=[...source.querySelectorAll('#storyboard > article.scene')].map((article,item) => {
+  const scenes=[...source.querySelectorAll('#storyboard > article.scene:not(#scene-0)')].map((article,item) => {
     const head=article.querySelector('.scene-head');
     const body=article.querySelector('.scene-body');
     const all=[...body.children];
@@ -565,7 +566,7 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     return {id:article.id,title:text(head.querySelector('h3')),context:text(head.querySelector('.scene-kicker')),
       purpose:text(head.querySelector('p')),pages,summary,memo,photos};
   });
-  const sceneLabels=['예습','올리의 의뢰','화단 현장','피아','거스','렌','루카','추리','확인·보고'];
+  const sceneLabels=['올리의 의뢰','화단 현장','피아','거스','렌','루카','추리','확인·보고'];
   const flowSource=source.querySelector('#flow-overview');
   const figures=[...flowSource.querySelectorAll('figure')];
   const flowItems=[
@@ -602,12 +603,19 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     routes.set(id,{mode:'reference',item,page:0});
     return {id,title:refNames[item],context:'전체 설계 자료',purpose:'대본과 함께 검토하는 학습·제작 자료야.',pages};
   });
-  routes.set('storyboard',{mode:'script',item:1,page:0});
-  routes.set('plan-a',{mode:'script',item:0,page:0});
+  const prepScene=source.querySelector('#scene-0');
+  const prepItems=[{
+    title:text(prepScene.querySelector('.scene-head h3')),context:'L1-06 · 과거 행동',
+    purpose:text(prepScene.querySelector('.scene-head p')),
+    pages:[{anchor:'prep',nodes:[...prepScene.querySelector('.scene-body').children]}],
+  }];
+  for(const id of ['prep','scene-0','plan-a'])routes.set(id,{mode:'prep',item:0,page:0});
+  routes.set('storyboard',{mode:'script',item:0,page:0});
   routes.set('reference-index',{mode:'reference',item:0,page:0});
   // Reference copies must not steal the dedicated scene anchor.
   scenes.forEach((s,item)=>routes.set(s.id,{mode:'script',item,page:0}));
-  const items=()=>state.mode==='script'?scenes:state.mode==='flow'?flowItems:references;
+  const modes={script:scenes,flow:flowItems,prep:prepItems,reference:references};
+  const items=()=>modes[state.mode];
   const selected=()=>items()[state.item];
   const pages=()=>state.mode==='flow'?[{anchor:['case-summary','flow-truth','event-flow'][state.item]}]:selected().pages;
   function setHash(anchor,push=false) {
@@ -625,6 +633,10 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     render(mode==='script' && page!==undefined);if(updateURL)setHash(pages()[state.page].anchor,push);
   }
   function navigate(direction) {
+    if(state.mode==='prep') {
+      if(direction>0)select('script',0,0,true,true);
+      return;
+    }
     if(state.mode==='script') {
       const next=state.item+direction;
       if(next>=0 && next<scenes.length)select('script',next,0);
@@ -636,13 +648,13 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     select(state.mode,item,page);
   }
   function fillList() {
-    const titles={script:'장면 선택',flow:'사건 흐름',reference:'점검 항목'};
+    const titles={script:'장면 선택',flow:'사건 흐름',prep:'예습 항목',reference:'점검 항목'};
     $('reader-list-title').textContent=titles[state.mode];
     $('reader-list').replaceChildren();$('reader-mobile-select').replaceChildren();
     items().forEach((item,index)=> {
       const label=state.mode==='script'?sceneLabels[index]:item.title;
       const b=node('button');b.type='button';b.dataset.item=String(index);
-      b.append(node('span',String(state.mode==='script'?index:index+1).padStart(2,'0'),'reader-item-number'),node('span',label,'reader-item-label'));
+      b.append(node('span',String(index+1).padStart(2,'0'),'reader-item-number'),node('span',label,'reader-item-label'));
       b.setAttribute('aria-current',String(index===state.item));
       $('reader-list').append(b);
       const option=node('option',label);option.value=String(index);$('reader-mobile-select').append(option);
@@ -718,7 +730,7 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     fillList();
     const stage=$('reader-stage');stage.classList.toggle('reader-wide',state.mode!=='script');
     $('reader-inspector').hidden=state.mode!=='script';
-    $('reader-jump').hidden=state.mode==='flow';
+    $('reader-jump').hidden=state.mode==='flow'||state.mode==='prep';
     $('reader-jump').classList.toggle('reader-scene-tools',state.mode==='script');
     $('reader-jump').querySelector('label').hidden=state.mode!=='reference';
     $('reader-step').hidden=state.mode!=='reference';
@@ -732,7 +744,7 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     const canvas=$('reader-canvas');canvas.replaceChildren();
     if(state.mode==='flow')fillFlow();
     else {
-      const page=node('div','',state.mode==='reference'?'reader-reference':'reader-page reader-transcript');
+      const page=node('div','',state.mode==='script'?'reader-page reader-transcript':'reader-reference');
       const groups=state.mode==='script'?selected().pages:[pages()[state.page]];
       for(const [index,group] of groups.entries()) {
         const block=node('div','',state.mode==='script'?'reader-dialogue-block':'reader-reference-block');
@@ -752,12 +764,12 @@ body.flowerbed-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
     }
     const prev=$('reader-prev'),next=$('reader-next');
     prev.disabled=state.item===0 && (state.mode==='script'||state.page===0);
-    next.disabled=state.item===items().length-1 && (state.mode==='script'||state.page===pages().length-1);
+    next.disabled=state.mode!=='prep' && state.item===items().length-1 && (state.mode==='script'||state.page===pages().length-1);
     prev.textContent=state.mode==='script'?'← 이전 장면':'← 이전';
-    next.textContent=state.mode==='script'?'다음 장면 →':'다음 →';
+    next.textContent=state.mode==='prep'?'대본 보기 →':state.mode==='script'?'다음 장면 →':'다음 →';
     $('reader-position').textContent=state.mode==='flow'?(state.item+1)+' / '+items().length:
       state.mode==='script'?'장면 '+(state.item+1)+' / '+items().length:
-      '항목 '+(state.page+1)+' / '+pages().length;
+      state.mode==='prep'?'예습':'항목 '+(state.page+1)+' / '+pages().length;
     fillInspector();
     canvas.scrollTop=state.mode==='script'?(sceneScroll.get(state.item)||0):0;
     if(state.mode==='script' && focusDialogue) {
