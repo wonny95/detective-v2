@@ -236,7 +236,9 @@ const DEMOS = {
       // the map: its pin opens the place
       await t.tap('.pin'); t.q('.tdemo-mapv').classList.add('off'); await t.wait(1100);
       // slide the place sideways (the camera follows the paw)
-      await t.swipe([250, 160], [120, 0], () => t.camTo(.776, -219, 0));
+      // on the empty bookshelf at the left (user request: over a person it looked like tapping them); the place moves
+      // with the paw, so the paw stays on the shelf
+      await t.swipe([28, 70], [120, 0], () => t.camTo(.776, -219, 0));
       await t.wait(700);
       // something odd, as the game takes it (captureEvidence): the photo zooms up, the shutter flashes at 0.5 s, the
       // detective reads it out, then the Note opens on its evidence page
