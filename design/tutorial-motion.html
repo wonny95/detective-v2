@@ -52,6 +52,16 @@ const CSS = `
 .tdemo-waves.on{opacity:1}
 .tdemo-waves path{fill:none;stroke:#FFFDF7;stroke-width:4;stroke-linecap:round;animation:twv 1.1s ease-in-out infinite}
 .tdemo-waves path:nth-child(2){animation-delay:.18s}.tdemo-waves path:nth-child(3){animation-delay:.36s}
+/* 7장: the game's questioning screen as it is (390 × 844 under the camera): the room, the person standing, ‹ and the
+   gauge at the top, the speech bubble, 증거 내밀기 at the bottom, the evidence drawer coming up from it */
+.tdemo .t7-cam{position:absolute;left:0;top:0;width:390px;height:844px}
+.tdemo .t7-cam.jolt{animation:jolt .42s ease-out}
+.tdemo .t7-room{position:absolute;inset:0;background:url(assets/places/station-interview-room.png) 50% 50%/cover #9C7A55}
+.tdemo .tdemo-stage .t7-npc{position:absolute;left:50%;bottom:11%;height:54%;width:auto;max-width:none;transform:translateX(-50%)}
+.tdemo .t7-npc.flinch{animation:flinch .5s ease-out}
+.tdemo .t7-claim{--bubble-top:66px}
+.tdemo .interrogation-gauge .gauge-fill{--q:.34}
+.tdemo .interrogation-gauge.up .gauge-fill{--q:.67}
 /* 4–6장 */
 .tdemo-mapv{position:absolute;left:0;top:0;width:390px;height:844px;z-index:3;overflow:hidden;background:#7FA06A;transition:opacity .45s}
 .tdemo-mapv.off{opacity:0}
@@ -67,19 +77,7 @@ const CSS = `
 .tdemo .t6-deduce{bottom:auto;height:312px}
 .tdemo .t6-deduce .deduce-q{min-height:0}
 .tdemo .t6-deduce .ded-cards{padding-top:10px}
-.tdemo .t6-deduce[hidden],.tdemo .t6-int[hidden]{display:none}
-.tdemo .t6-int{position:absolute;left:0;top:0;width:390px;height:312px;overflow:hidden}
-.tdemo .t6-int .tdemo-art{background:url(assets/places/station-interview-room.png) 50% 30%/cover #9C7A55}   /* the game's questioning room: no clue of the case in sight */
-.tdemo .t6-int .tdemo-art::after{display:none}
-.tdemo .t6-int .tdemo-npc{top:auto;bottom:-22%;left:25%;height:118%}
-.tdemo .t6-int .bubble{--bubble-top:12px;left:auto;right:10px;transform:none;width:58%;padding:12px 16px;font-size:14px;line-height:1.35}
-.tdemo .t6-int .bubble::after{left:22%}
-.tdemo .t6-int .drawer{max-height:none;zoom:.66}   /* a bit smaller, so the claim stays in sight above it */
-.tdemo .t6-caught{animation:t6-jolt .5s ease-out}
 /* 내밀기 as the game does it (present): the photo flies up in the middle, 모순! is stamped on it, the room jolts and they flinch */
-.tdemo .t6-int.jolt{animation:jolt .42s ease-out}
-.tdemo .t6-int .tdemo-npc.flinch{animation:flinch .5s ease-out}
-@keyframes t6-jolt{0%{transform:scale(1.08) rotate(-2deg)}40%{transform:rotate(1.5deg)}100%{transform:none}}
 @keyframes twv{0%,100%{opacity:.15}50%{opacity:1}}
 .tdemo-tap{position:absolute;z-index:30;left:0;top:0;width:0;height:0;opacity:0;transition:left .45s cubic-bezier(.3,.8,.3,1),top .45s cubic-bezier(.3,.8,.3,1),opacity .2s}
 .tdemo-tap.on{opacity:1}
@@ -299,35 +297,43 @@ const DEMOS = {
       await t.tap('.deduce-go .pill'); await t.wait(900);
     }
   },
-  // 7장 심문해요: a claim, the evidence drawer, the photo that shows it is not true, 내밀기 (a made-up claim, not the case's)
+  // 7장 심문해요: the game's questioning screen (a made-up claim, not the case's): the claim → 증거 내밀기 → the drawer → a
+  // photo → 내밀기 → it flies up with 모순!, the room jolts, they flinch, the gauge fills → their answer. The camera follows.
   '심문해요': {
-    html: () => `<div class="t6-int"><div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/ben-higgsfield.png" alt="">
-        <div class="bubble say t6-claim"><div class="bubble-copy"><span class="tag">Ben Beaver</span><span class="say-en">The lamps were off when I left.</span></div></div>
-        <section class="drawer"><div class="drawer-head"><h3>증거</h3></div>
-          <div class="drawer-strip">${[['Open book', 420, 350, 160, 120], ['Lamp', 590, 0, 160, 120], ['Plant', 208, 315, 120, 90]].map(([l, ...b]) => `<button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${PHOTO(...b)}</span><span class="dlabel">${l}</span><span class="dplace">Old Library</span></button>`).join('')}</div>
-          <div class="drawer-pick" hidden><p>The lamps are still on.</p><button class="pill big" type="button">내밀기</button></div></section></div>`,
+    html: () => `<div class="t7-cam"><div class="t7-room"></div><img class="t7-npc" src="assets/characters/ben-higgsfield.png" alt=""></div>
+      <button class="pill top-back" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="interrogation-gauge"><span class="gauge-track"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt=""><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
+      <div class="bubble say t7-claim"><div class="bubble-copy"><span class="tag">Ben Beaver</span><span class="say-en">I turned off all the lamps when I left the library.</span></div><span class="say-foot"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></span></div>
+      <div class="ask-panel t7-ask"><button class="pill big green" type="button">증거 내밀기</button></div>
+      <section class="drawer"><div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" aria-pressed="true">사진</button><button class="pill sm" type="button" aria-pressed="false">진술</button></div><button class="x close-button" type="button"></button></div>
+        <div class="drawer-strip">${[['Open book', 420, 350, 160, 120], ['Lamp', 590, 0, 160, 120], ['Plant', 208, 315, 120, 90]].map(([l, ...b]) => `<button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${PHOTO(...b)}</span><span class="dlabel">${l}</span><span class="dplace">Old Library</span></button>`).join('')}</div>
+        <div class="drawer-pick" hidden><p>The lamps are still on.</p><div class="drawer-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div><button class="pill big" type="button">내밀기</button></div></section>`,
     setup(t){ t.view(0, 0, true); },
     async run(t){
-      // their claim, then the evidence drawer
-      await t.wait(1600);
-      t.q('.drawer').classList.add('open'); await t.wait(900);
-      // a photo picked: its sentence and 내밀기 come up under it, the drawer growing to them as the game does (pickEvidence)
+      // the claim, read out
+      await t.wait(2200);
+      // down to 증거 내밀기: the drawer comes up from the bottom
+      t.view(0, 532); await t.wait(900);
+      await t.tap('.t7-ask .pill'); t.q('.drawer').classList.add('open'); await t.wait(1000);
+      // a photo picked: its sentence and 내밀기 under it, the drawer growing to them (pickEvidence); the view goes up to the card
       await t.tap('.dcard:nth-child(2)'); t.q('.dcard:nth-child(2)').setAttribute('aria-pressed', 'true');
       const drawer = t.q('.drawer'), from = drawer.offsetHeight; t.q('.drawer-pick').hidden = false;
       drawer.animate([{ height:from + 'px' }, { height:drawer.offsetHeight + 'px' }], { duration:320, easing:'cubic-bezier(.2,.9,.3,1)' });
-      await t.wait(1100);
+      t.view(0, 470); await t.wait(1300);
+      t.view(0, 532); await t.wait(800);
       await t.tap('.drawer-pick .pill.big');
-      // 내밀기 as the game does it (present): the drawer goes down, the photo flies up in the middle and 모순! is stamped
-      // on it; at 0.48 s the room jolts and they flinch; the photo is gone at 1.3 s, then their answer
-      t.q('.drawer').classList.remove('open'); t.q('.t6-claim').hidden = true;
-      const int = t.q('.t6-int');
-      int.insertAdjacentHTML('beforeend', `<div class="presented hit"><figure>${PHOTO(590, 0, 160, 120)}</figure><span class="contra">모순!</span></div>`);
+      // 내밀기 (present): the drawer goes down, the photo flies up in the middle and 모순! is stamped on it; at 0.48 s the room
+      // jolts, they flinch and the gauge fills; the photo is gone at 1.3 s, then their answer
+      drawer.classList.remove('open'); t.view(0, 266);
+      t.q('.t7-claim').hidden = true;
+      t.el.querySelector('.tdemo-stage').insertAdjacentHTML('beforeend', `<div class="presented hit"><figure>${PHOTO(590, 0, 160, 120)}</figure><span class="contra">모순!</span></div>`);
       await t.wait(480);
-      int.classList.add('jolt'); t.q('.t6-int .tdemo-npc').classList.add('flinch');
+      t.q('.t7-cam').classList.add('jolt'); t.q('.t7-npc').classList.add('flinch'); t.q('.interrogation-gauge').classList.add('up', 'hit');
       await t.wait(820);
-      t.q('.presented').remove(); int.classList.remove('jolt'); t.q('.t6-int .tdemo-npc').classList.remove('flinch');
-      await t.wait(300);
-      t.q('.t6-claim .say-en').textContent = 'Oh... they were on.'; t.q('.t6-claim').hidden = false; t.q('.t6-claim').classList.add('t6-caught'); await t.wait(2200);
+      t.q('.presented').remove(); t.q('.t7-cam').classList.remove('jolt'); t.q('.t7-npc').classList.remove('flinch');
+      // their answer, back up at the bubble
+      t.view(0, 0); await t.wait(500);
+      t.q('.t7-claim .say-en').textContent = 'Oh... they were on.'; t.q('.t7-claim').hidden = false; await t.wait(2400);
     }
   }
 };

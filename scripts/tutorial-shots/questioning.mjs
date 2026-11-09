@@ -1,4 +1,4 @@
-// The 심문해요 tutorial picture (tut-7): the motion mockup's own questioning (a made-up claim, the lamp photo picked), shot
+// The 심문해요 tutorial picture (tut-7): the motion mockup's own questioning (a made-up claim, the lamp photo held up with 모순!), shot
 // at 3x from the headless Chrome on :9333 with the dev server on 5173. usage: node questioning.mjs <out.png> (then questioning.py)
 import fs from 'node:fs';
 const out = process.argv[2];
@@ -16,8 +16,9 @@ const js = `(async () => {
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const f = document.getElementById('game'), d = f.contentDocument;
   for(let i = 0; i < 6; i++){ [...d.querySelectorAll('button')].find(b => b.textContent.trim() === '다음' && b.offsetParent)?.click(); await wait(500); }
-  for(let i = 0; i < 200; i++){ const p = d.querySelector('.tdemo .drawer-pick'); if(p && !p.hidden) break; await wait(50); }
-  await wait(250);
+  // the moment the photo is held up: it is in the middle with 모순! stamped on it, the person behind
+  for(let i = 0; i < 400; i++){ if(d.querySelector('.tdemo .presented')) break; await wait(25); }
+  await wait(620);
   const fr = f.getBoundingClientRect(), b = d.querySelector('.tdemo').getBoundingClientRect();
   return [d.querySelector('#tutTitle').textContent, fr.left + b.left, fr.top + b.top, fr.left + b.right, fr.top + b.bottom];
 })()`;
