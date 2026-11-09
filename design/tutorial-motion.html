@@ -26,7 +26,7 @@ iframe{width:390px;height:844px;border:0;border-radius:28px;box-shadow:0 6px 18p
     <p>실제 게임 안의 튜토리얼 팝업이에요. 모든 장(1–6)이 그림 대신 게임의 버튼·노트·단어 카드를 그대로 써서, 누르는 동작을 짧게 반복해서 보여 줘요. 내용은 사건과 무관한 예문이에요.</p>
     <p>누르는 손가락은 탐정의 오른쪽 앞발(오른손 2, 사용자 결정)이에요.</p>
     <p>3장은 기록 완료 → 틀린 칸이 흔들리고 다시 확인 → 다시 듣기 → 고치기 → 다시 확인(초록, ✓ 확인됨) → 닫기 → 새 장소 알림까지 게임의 실제 움직임 그대로예요.</p>
-    <p>4–6장도 같은 방식이에요: 4장 지도 → 현장 → 옆으로 밀기 → 사진 찍기, 5장 증거 → 해석 → 📌 → 메모, 6장 추리 빈칸 → 경찰에게 알리기 → 심문에서 증거 내밀기(사건과 무관한 예시).</p>
+    <p>4–6장도 같은 방식이에요: 4장 지도 → 현장 → 옆으로 밀기 → 사진 찍기, 5장 증거 → 📌 → 메모, 6장 추리 빈칸 → 경찰에게 알리기 → 심문에서 증거 내밀기(사건과 무관한 예시).</p>
   </div>
 </div>
 <script>
@@ -250,7 +250,7 @@ const DEMOS = {
       await t.wait(2600);
     }
   },
-  // 5장: Note's 증거 tab → a photo → 해석 → 📌 → 메모 tab, where it is pinned
+  // 5장: Note's 증거 tab → a photo → 📌 → 메모 tab, where it is pinned (user decision: no 해석 step)
   'Note를 펼쳐 봐요': {
     html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/sgt-badger-higgsfield.png" alt="">
       <section class="dock" aria-hidden="true"><div class="note-cats">${CATS.map(([k, d], i) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${i === 0}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
@@ -262,7 +262,6 @@ const DEMOS = {
       await t.tap('.ev-card'); NOTE5.detail(t); await t.wait(600);
       // the photo's sentence and its buttons are lower: the view follows them, and goes back up to the tabs
       t.view(0, 380); await t.wait(900);
-      await t.tap('[data-t5-ko]'); t.q('.evidence-detail .ko').hidden = false; t.q('[data-t5-ko]').setAttribute('aria-pressed', 'true'); await t.wait(1300);
       await t.tap('.ev-btns .nb-pin'); t.q('.ev-btns .nb-pin').classList.add('on'); t.q('.ev-btns .nb-pin').setAttribute('aria-pressed', 'true');
       t.q('[data-cat="memo"]').insertAdjacentHTML('beforeend', '<span class="badge">1</span>'); await t.wait(1000);
       t.view(0, 300); await t.wait(800);
