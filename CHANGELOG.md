@@ -13,7 +13,18 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-10 12:01 · Claude · (이 커밋) 크리스마스 별: 니코의 빈 상자 이유·테스를 본 것 같다는 말·별 장난감
+## 2026-11-10 12:14 · Claude · (이 커밋) 결론은 플레이어가: 크리스마스 별 수정과 규칙
+
+- 사용자 결정: 탐정이 결론짓지 않고 플레이어가 결론짓고 추리한다. AGENTS.md "지켜야 할 규칙", HANDOFF 4절, `design/STORY_PROMPT.md` 추리 절에 같은 규칙을 적었다(탐정의 생각·관찰·설명은 본 것과 들은 것만, 결론은 추리 문항·증거 내밀기·직접 고르기로 플레이어가 정함. 갈 곳만 알려 주는 생각과 증거를 고른 뒤의 짧은 설명은 괜찮음).
+- 크리스마스 별 설계서(MD·HTML):
+  - 별 장난감 뒷면 사진의 관찰 음성 "No leaf pattern on this one." → "Let's look at the back."(무늬는 플레이어가 사진에서 봄). 돌아가는 생각 "It's just a toy. …" → "I should go back to the sleigh.". 심문의 det:toy-star는 "Look. It's a toy from Toy Nest."로 줄임.
+  - 새 추리 7번 deduction:toy-star: "Is the star on Tess's table the missing star?" → "No. Tess's star is [a toy star from Toy Nest]."(보기 6, 근거 t4·c-toy-star·e1). 추리 8문항이 됨. q6(이제 추리 8번)의 근거에 남아 있던 홀리 탓 설명을 테스로 고침.
+  - 상자 고르기: 들어 보기와 "This one is light/heavy" 대사를 빼고, 니코 "Open any box. They're all empty boxes for the tent!" 뒤 플레이어가 상자 넷 가운데 하나를 직접 고른다. 단서는 엘라 very heavy·테스 very light·니코가 두 손으로 밀던 상자와 그 자리만 눌린 짐칸(그림). 빈 상자는 "Nothing in this one."(벌점 없음) 뒤 다시 고름.
+- 확인: 옛 대사 검색 0건, HTML 스크립트 구문·메타데이터 JSON, 미리보기에서 장면 5·6·7의 새 대사, 콘솔 오류 없음.
+- **기획 요청**: 새 규칙 "추리의 결론은 플레이어가 내린다"를 다음 사건 1차 기획부터 따라 주세요(`design/STORY_PROMPT.md` 추리 절, AGENTS.md "지켜야 할 규칙").
+- **다음**: 사용자의 설계서 검토를 이어 간다. 이미 개발된 사건(소풍·우산·바이올린)에도 탐정이 결론을 먼저 말하는 대사가 있는지 점검할지 사용자에게 묻는다. 그 뒤 크리스마스 별의 그림·음성 계획, 엔진 추가 넷과 사건 데이터.
+
+## 2026-11-10 12:01 · Claude · a306a6c 크리스마스 별: 니코의 빈 상자 이유·테스를 본 것 같다는 말·별 장난감
 
 - 사용자 요청(미리보기 검토):
   - 니코의 창고 대답이 이상하다(나르는 사람이 선물을 나를 빈 상자가 필요할 이유가 없고, 묻지 않은 이유부터 답함). 사용자 결정: "Yes. I got some empty boxes for the gift tent." / "응. 포장 천막에서 쓸 빈 상자를 가져왔어." 썰매의 빈 상자 셋은 천막에 가져다줄 상자이고, 니코는 그것을 가지러 뒷문으로 들어갔다가 별을 그중 한 상자에 숨겼다(§1·장면 5·인물표·§8).
