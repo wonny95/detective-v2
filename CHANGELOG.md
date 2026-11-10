@@ -13,7 +13,18 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-10 12:37 · Claude · (이 커밋) 크리스마스 별: 헷갈리는 물건 단서 — 선반 아래 금빛 반짝이
+## 2026-11-10 12:43 · Claude · (이 커밋) 크리스마스 별: 니코의 첫 주장을 흐리게("다른 봉사자들이 포장한 선물")
+
+- 사용자 요청: 니코가 테스에게 선물을 받았다고 하지 말고 다른 이들이 포장한 선물이라고만 하기. 사용자 결정(제안 문장 승인).
+- 설계서 수정(MD·HTML):
+  - 니코 n2 "I'm loading some gifts. Other volunteers wrapped them." / "선물 몇 개를 싣고 있어. 다른 봉사자들이 포장한 거야." 노트 "I'm [loading] some [gifts]. Other [volunteers] [wrapped] them."(보기 loading · opening · gifts · cookies · volunteers · children · wrapped · opened). n3의 May and Tess로 두 사람을 확인하러 간다.
+  - 심문 첫 주장 "Tess gave me that gift."는 그대로이며, 니코가 처음 테스 이름을 대는 순간이 된다.
+  - 추리 2번 정답 "Nico says he is loading [gifts other volunteers wrapped]."(one of Tess's toy gifts는 오답 보기로). 추리 5·9번 근거에 mae:m3(메이의 상자도 아직 천막에).
+  - 진실 4번·흐름도(MD Mermaid·HTML SVG)·해금표·장면 5 설명·학습 대조표, 복습 단어(volunteers·wrapped 추가, toy 출처는 t4만, 추가 제안 어휘에서 volunteers 뺌), 집계(빈칸 45·대답 평균 10.9), §9 결정 표("니코의 흐린 첫 주장"). 지난 커밋에서 남은 "필수 사진 7장" 한 곳도 8장으로.
+- 확인: HTML 스크립트 구문·메타데이터 JSON, 새 탭에서 nico:n2와 추리 2번의 새 문장, 콘솔 오류 없음.
+- **다음**: 사용자의 설계서 검토를 이어 간다. 그 뒤 그림·음성 계획을 장면별로 사용자와 정하기, 엔진 추가 넷과 사건 데이터.
+
+## 2026-11-10 12:37 · Claude · c46c559 크리스마스 별: 헷갈리는 물건 단서 — 선반 아래 금빛 반짝이
 
 - 사용자 요청: 니코의 알리바이가 약하다는 이야기 끝에, 진술 말고 헷갈리는 다른 단서를 더 넣고 싶다. 사용자 결정(세 안 가운데): 선반 아래 금빛 반짝이. 세 번째 바퀴 자국·메이의 별 쿠키는 넣지 않음. 메이의 썰매 목격(n5 반박) 제안은 고르지 않음.
 - 설계서 수정(MD·HTML):
