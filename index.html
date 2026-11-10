@@ -146,7 +146,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* a detective line in a conversation waits for a tap on the screen (tapWait): a small blinking mark under the face */
 .bubble.say.det.wait-tap::after{display:block;left:40px;bottom:24px;width:0;height:0;transform:none;background:none;border:7px solid transparent;border-bottom:0;border-top:9px solid #A0703A;animation:tap-cue 1s ease-in-out infinite}
 @keyframes tap-cue{0%,100%{opacity:.35;translate:0 0}50%{opacity:1;translate:0 3px}}
-@media (prefers-reduced-motion:reduce){.bubble.say.det.wait-tap::after{animation:none}}
+.tap-cue{position:absolute;left:50%;bottom:calc(96px + env(safe-area-inset-bottom, 0px));z-index:6;width:0;height:0;margin-left:-9px;border:9px solid transparent;border-bottom:0;border-top:12px solid #A0703A;filter:drop-shadow(0 1px 0 #fff) drop-shadow(0 0 2px #fff);pointer-events:none;animation:tap-cue 1s ease-in-out infinite}
+.tap-cue[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){.bubble.say.det.wait-tap::after,.tap-cue{animation:none}}
 /* the detective's bubble always sits just above the bottom tabs, as in the greeting (user request: one place for it).
    In a conversation the questions under it wait until the line is gone; in the ending a button that goes with the line
    (가방 건네주기, 증거 내밀기) stays, so there the bubble sits above it */
@@ -1416,6 +1418,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="ask-panel" id="askPanel"></div>
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
+      <div class="tap-cue" id="tapCue" hidden></div>
       <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt="" draggable="false"><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
     </section>
 
@@ -4784,17 +4787,21 @@ let greetingTimer;
 // whom the first-meeting greeting is playing for: their questions wait until it is over (user request), and the
 // detective's bubble sits lower meanwhile (.app.greeting)
 let greetingId = null, greetingCut;
-// A detective line said in turn in a conversation stays on screen until the player taps the screen (user request: it went
-// on by itself). tapWait: what goes on, once that line has been said; tapWaited: the time spent waiting so far (ms)
+// A line said in turn in a conversation, the detective's or the person's, waits for the player's tap on the screen before
+// the next (user request: they went on by itself; a person's line has no bubble, so a ▼ shows above the tabs instead). tapWait: what goes on, once that line has been said; tapWaited: the time spent waiting so far (ms)
 let tapWait = null, tapSince = 0, tapWaited = 0;
-function waitTap(go){ tapWait = go; tapSince = Date.now(); $('#sayBubble').classList.add('wait-tap'); }
+function waitTap(go){
+  tapWait = go; tapSince = Date.now();
+  const bubble = $('#sayBubble');
+  if(bubble.hidden) $('#tapCue').hidden = false; else bubble.classList.add('wait-tap');
+}
 function tapGo(){
   const go = tapWait; if(!go) return false;
   dropTap(); go(); return true;
 }
 function dropTap(){
   if(tapWait) tapWaited += Date.now() - tapSince;
-  tapWait = null; $('#sayBubble').classList.remove('wait-tap');
+  tapWait = null; $('#sayBubble').classList.remove('wait-tap'); $('#tapCue').hidden = true;
 }
 // the fallback for lines said in turn that never report their end: fn after ms, not counting the time spent waiting
 // for the player's tap; { stop() } cancels it
@@ -4858,7 +4865,9 @@ function playLines(id, lines, onDone, i = 0){
   if(S.investigate || S.cur !== id) return;
   if(!line) return onDone?.();
   const next = () => { greetingTimer = setTimeout(() => playLines(id, lines, onDone, i + 1), 400); };
-  if(typeof line === 'string') return speak(line, 'hello', id, next);
+  // a person's line, once said, waits for a tap too
+  const tapNext = () => waitTap(() => { if(S.investigate || S.cur !== id) return; next(); });
+  if(typeof line === 'string') return speak(line, 'hello', id, tapNext);
   if(line.intro && !per(id).introduced){
     per(id).introduced = true; renderWho(); renderChip(); renderPlaces();
     document.querySelectorAll(`.scene-npc[data-talk="${id}"] > span`).forEach(tag => { tag.textContent = spk(id).name; });
@@ -4870,7 +4879,7 @@ function playLines(id, lines, onDone, i = 0){
     const rec = line.face && PEOPLE[line.face]?.audio?.[line.key];
     return rec ? detectiveSay(rec, heard, null, line.en) : readOut(line.en, heard);
   }
-  if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, next, null, line.as); }
+  if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, tapNext, null, line.as); }
   const name = detectiveName(), named = text => text.replace(' {name}', name ? ` ${name}` : '');
   renderSay(detLine({ ...line, en:named(line.en), ko:named(line.ko) }));
   // the next line waits for a tap on the screen once this one has been said
