@@ -84,7 +84,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .map-btn:active{transform:translateY(2px);box-shadow:none}
 /* a conversation under way is finished before anything else (talkLocked): the map waits, dimmed */
 .app.talk-locked #mapTab{opacity:.45}
-.map-btn.new .hn-ic::after{content:"";position:absolute;z-index:2;top:0;right:6px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
+.items-btn.new .hn-ic::after,.map-btn.new .hn-ic::after{content:"";position:absolute;z-index:2;top:0;right:6px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
 button.chip{color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
 button.chip:disabled{cursor:default;box-shadow:none}
 .scene-npc .m-open{opacity:0}
@@ -211,6 +211,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .scard[aria-pressed="true"]{transform:translateY(-6px) rotate(-2deg);box-shadow:0 0 0 3px var(--berry),3px 8px 10px rgba(74,54,40,.25)}
 .say-face{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink);background:#FFF8E9 center/88% no-repeat}
 .drawer-pick .who-says{font-family:var(--f-display)}
+/* 소지품 opened from the bottom menu: the picked thing larger above its sentence */
+.weigh-beam{animation:weigh-swing .5s cubic-bezier(.3,1.4,.5,1)}
+.weigh-pan{animation:weigh-hang .5s cubic-bezier(.3,1.4,.5,1)}
+@keyframes weigh-swing{from{transform:rotate(var(--from))}}
+@keyframes weigh-hang{from{transform:translate(var(--fx),var(--fy))}}
+.drawer-pick .item-big{width:min(240px,70%);align-self:center;margin:0;flex-shrink:0}
+.drawer-pick .item-big.bag-pic{border:0;background:none}
+.drawer-pick .item-big img{width:100%;height:100%;object-fit:contain}
 /* a statement held up: the slip instead of a photo */
 .presented figure.say{aspect-ratio:auto;display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px;box-sizing:border-box;border:2px solid var(--ink);border-radius:4px 10px 6px 8px;
   background:#FFFDF2 repeating-linear-gradient(transparent 0 25px,rgba(120,150,190,.35) 25px 26px) 0 52px/100% auto no-repeat}
@@ -1071,6 +1079,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
 .home-page[hidden]{display:none}
 .cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+/* a case with things to carry (PACK.items) has 소지품 as a third tab (user pick: 지도 · Note · 소지품) */
+.nav.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* the menus (user choice, option A; the app's 홈 · 사건 · 학습 · 마이 and a case's 지도 · Note alike): no box
    around each item — an illustrated icon and its name on the paper strip, whose top is a hand-drawn wavy line; the page
    shown (or the sheet open) has a honey colored-pencil patch behind its icon and a darker name. Icons: assets/ui/nav. */
@@ -1406,11 +1416,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
       <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt="" draggable="false"><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
-      <section class="drawer" id="drawer" aria-label="증거 서랍">
-        <div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" data-drawer-tab="photo" aria-pressed="true">사진</button><button class="pill sm" type="button" data-drawer-tab="say" aria-pressed="false">진술</button><button class="pill sm" type="button" data-drawer-tab="item" aria-pressed="false" hidden>소지품</button></div><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
-        <div class="drawer-strip" id="drawerStrip"></div>
-        <div class="drawer-pick" id="drawerPick" hidden></div>
-      </section>
     </section>
 
     <!-- PART 2: investigation — a large illustration per place; tap suspicious things to find clues -->
@@ -1425,6 +1430,14 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <div class="accuse-foot" id="foldFoot" hidden><button class="pill big" type="button" id="foldBtn">펼치기</button></div>
         <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
       </div>
+    </section>
+
+    <!-- the drawer: the questioning's evidence, the things handed over, and 소지품 from the bottom menu (in .main, over
+         a conversation and a place alike) -->
+    <section class="drawer" id="drawer" aria-label="증거 서랍">
+      <div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" data-drawer-tab="photo" aria-pressed="true">사진</button><button class="pill sm" type="button" data-drawer-tab="say" aria-pressed="false">진술</button><button class="pill sm" type="button" data-drawer-tab="item" aria-pressed="false" hidden>소지품</button></div><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
+      <div class="drawer-strip" id="drawerStrip"></div>
+      <div class="drawer-pick" id="drawerPick" hidden></div>
     </section>
 
     <!-- Deduction: the cork board where the detective works it out, one question at a time (DEDUCE) -->
@@ -1484,6 +1497,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     </button>
     <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
       <span class="hn-ic"><img src="assets/ui/nav/note.png" alt="" draggable="false"></span>Note
+    </button>
+    <button class="tab items-btn" type="button" id="itemsTab" aria-expanded="false" aria-controls="drawer" aria-label="소지품" hidden>
+      <span class="hn-ic"><img src="assets/ui/nav/bag-satchel.png" alt="" draggable="false"></span>소지품
     </button>
   </nav>
 
@@ -2994,6 +3010,11 @@ const CHRISTMAS_CASE = {
         { label:'Toy car', prop:true, en:'A little toy car!', ko:'작은 장난감 자동차네!' }
       ],
       spots:[ { clue:0, x:13, y:0, w:74, h:100, photo:{ x:176, y:0, w:1024, h:768 } }, { clue:1, x:26, y:43, w:17, h:29 } ] },
+    // the scale in use over the sleigh (WEIGH): the five boxes in the sleigh's order (the third holds the star), the pans
+    { id:'weigh', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768, balance:{ weights:[1, 1, 3, 1, 1] },
+      clues:[0, 1, 2, 3, 4].map(n => ({ label:'Box', weigh:n })).concat([{ label:'Left plate', plate:0 }, { label:'Right plate', plate:1 }]),
+      spots:[0, 1, 2, 3, 4].map(n => ({ clue:n, box:n, x:(688 + (n - 2) * 76 - 33) / 13.76, y:73, w:4.8, h:8.5 }))
+        .concat([{ clue:5, plate:0, x:37.5, y:44, w:9.5, h:19 }, { clue:6, plate:1, x:53, y:44, w:9.5, h:19 }]) },
     { id:'toystar', inspect:true, label:'Gift Tent', artWidth:1376, artHeight:768,
       clues:[ { label:'Back of the toy star', en:'The edge is peeling.', ko:'가장자리가 벗겨졌네.' } ],
       spots:[ { clue:0, x:29, y:14, w:42, h:72, photo:{ x:288, y:84, w:800, h:600 } } ] },
@@ -3029,7 +3050,9 @@ const CHRISTMAS_CASE = {
     // titles say what the thing is, never whose (design)
     star:{ label:'Gold star', en:'A star inside the box.', ko:'상자 안에 별이 있어.', img:'assets/places/christmas/box-star.png', w:1069, h:696, crop:[-100, -137, 1269, 952],
       bag:'assets/places/christmas/box-star.png' },
-    scale:{ label:'Scale', en:'A scale with two plates.', ko:'접시 두 개 달린 저울이야.', img:'assets/places/christmas/scale.png', w:857, h:693, crop:[-50, -60, 957, 718] }
+    // used at the sleigh once the officer says to open a box, until it is opened: the close look 'weigh' (design 장면 7)
+    scale:{ label:'Scale', en:'A scale with two plates.', ko:'접시 두 개 달린 저울이야.', img:'assets/places/christmas/scale.png', w:857, h:693, crop:[-50, -60, 957, 718],
+      use:{ at:'sleigh', when:['!open-order'], unless:['!box-open'], inspect:'weigh' } }
   },
   previewHandback:['star'],
   // the festival ground from above (user plan 10번), its own map as the violin case's hall
@@ -4481,6 +4504,8 @@ $('#askPanel').addEventListener('click', e => {
 let noteRaised = false;
 // 'person:question' whose answer text (지문) is open under a checked question: the fresh check opens it; putting the
 // notebook away folds them all, so the full page starts compact and 지문 opens one again
+let plates = [null, null];   // the boxes (their index) on the scale's left and right pan (WEIGH)
+let drawerBrowse = false;   // the drawer is 소지품 opened from the bottom menu: looked at and used, not held up or handed over
 let evidenceOpen = null;   // 'place-clueIndex' of the evidence shown on its own in the evidence notebook, else its list
 // The detective's recorded sentence for a piece of evidence.
 function playEvidence(ref){
@@ -4678,14 +4703,6 @@ function bindDock(){
     evidenceOpen = button.dataset.evOpen; renderDock(); playEvidence(evidenceOpen);
   }));
   body.querySelectorAll('[data-ev-play]').forEach(button => button.addEventListener('click', () => playEvidence(button.dataset.evPlay)));
-  body.querySelectorAll('[data-item-open]').forEach(button => button.addEventListener('click', () => {
-    const key = `open:${button.dataset.itemOpen}`; if(S.flags.has(key)) S.flags.delete(key); else S.flags.add(key);
-    saveGame(); renderDock(); playEvidence(evidenceOpen);
-  }));
-  body.querySelectorAll('[data-item-compare]').forEach(button => button.addEventListener('click', () => {
-    const c = PACK.compare; S.flags.add(c.flag); saveGame(); checkThoughts(); renderDock(); updateAccuse();
-    detectiveSay(c.line.key, null, null, c.line.en);
-  }));
   body.querySelectorAll('[data-evidence-ko]').forEach(button => button.addEventListener('click', () => {
     const translation = button.closest('[data-evidence]').querySelector('.ko');
     translation.hidden = !translation.hidden;
@@ -4912,6 +4929,7 @@ function doAction(aid){
 function openInspect(id = PLACES.find(p => p.inspect)?.id){
   if(!id) return;
   S.unfolded = false;
+  if(placeOf(id).balance){ plates = [null, null]; weighFrom = 0; }
   enterPlace(id);
 }
 // the detective's recorded question: the picnic case keeps its lines in audio/picnic/; the library's three shared
@@ -5054,6 +5072,7 @@ function replaySentence(ref, idx){
 // an unfinished recording waits in the notebook until the player comes back.
 function setInvestigate(on){
   clearTimeout(greetingTimer); setGreeting(null);
+  if(drawerBrowse) closeDrawer();
   cancelCapture();
   document.querySelectorAll('.think-place').forEach(bubble => bubble.remove());
   S.investigate = on;
@@ -5236,12 +5255,14 @@ function setNotes(open){
   if(!open) clearWordFlights();
   cancelCapture();
   const changed = $('#app').classList.contains('notes-open') !== open;
+  if(open && drawerBrowse) closeDrawer();
   $('#app').classList.toggle('notes-open', open);
   if(!open){ $('#app').classList.remove('note-full'); noteRaised = false; per(S.cur).feedback = null; openPassages.clear(); openPassageKo.clear(); evidenceOpen = null; }
   $('#noteTab').setAttribute('aria-expanded', open);
   if(changed) focusCamera(null, true);
 }
 function openSheet(name){
+  if(name && drawerBrowse) closeDrawer();
   if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone();
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
@@ -5351,7 +5372,7 @@ function playBeats(){
     let shown = (beat.snap || []).length ? 1400 : 0;
     if(beat.give && !S.items.includes(beat.give) && !S.handoffRound){
       S.items.push(beat.give); syncBagAway(); saveGame();
-      setTimeout(() => toast('소지품을 노트에 넣었어요.'), 300);
+      setTimeout(gotItem, 300);
       shown = 2800;   // after the toast has gone
     }
     setTimeout(revealDiscoveries, shown);
@@ -5429,6 +5450,17 @@ $('#dockBody').addEventListener('keydown', e => {
 $('#listen').addEventListener('pointerdown', e => { if(e.target.closest('button')) e.preventDefault(); });
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
 function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
+// 소지품 in the bottom menu (user pick: satchel icon, 지도 · Note · 소지품, the drawer): in every case that has things to
+// carry, from its start (user decision); a dot like the map's when something new comes in
+function setItemsNew(on){ $('#itemsTab').classList.toggle('new', on); }
+function gotItem(){ setItemsNew(true); toast('소지품에 넣었어요.'); }
+$('#itemsTab').hidden = !Object.keys(ITEMS).length;
+$('#itemsTab').closest('.nav').classList.toggle('three', !$('#itemsTab').hidden);
+$('#itemsTab').onclick = () => {
+  if(drawerBrowse) return closeDrawer();
+  openSheet(null); setNotes(false); stopVoice();
+  openDrawer('item', true);
+};
 
 /* ---------- map (place picker) ---------- */
 // Only places a character has mentioned appear on the map.
@@ -5934,8 +5966,13 @@ function updateInterrogationGauge(round, feedback = ''){
 function itemButtons(id){
   const it = ITEMS[id], c = PACK?.compare;
   return (it.opened ? `<button class="pill sm" type="button" data-item-open="${id}" aria-pressed="${S.flags.has(`open:${id}`)}">${S.flags.has(`open:${id}`) ? '닫기' : '열기'}</button>` : '') +
-    (c?.items.includes(id) && c.when.every(cond) && !S.flags.has(c.flag) ? '<button class="pill sm green" type="button" data-item-compare>비교하기</button>' : '');
+    (c?.items.includes(id) && c.when.every(cond) && !S.flags.has(c.flag) ? '<button class="pill sm green" type="button" data-item-compare>비교하기</button>' : '') +
+    (itemUsable(id) ? `<button class="pill sm green" type="button" data-item-use="${id}">쓰기</button>` : '');
 }
+// a thing used where the detective stands (use: { at: place, when/unless, inspect: the close look it opens }), the
+// Christmas star case's scale on the sleigh's boxes
+const itemUsable = id => { const u = ITEMS[id].use;
+  return !!u && S.investigate && S.place === u.at && (u.when || []).every(cond) && !(u.unless || []).some(cond); };
 // One shape for a photo ('place-clue') and a thing in 소지품 ('@item'): what the notebook and the drawer show of it.
 const isItemRef = ref => ref?.startsWith('@');
 // a thing that opens (opened: its picture and sentence when open, S.flags 'open:<id>') as it is now
@@ -5966,7 +6003,8 @@ function evidenceEntry(ref){
   const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
   return { ref, label:clue.label, place:place.label, en:clue.en, ko:clue.ko, audio:clue.audio, photo:record.photo };
 }
-const evidenceEntries = () => [...S.items.map(id => evidenceEntry(`@${id}`)), ...[...S.evidence].reverse().map(record => evidenceEntry(evRef(record)))];
+// the notebook's evidence page holds the photos only; things carried are in 소지품 (the bottom menu's drawer)
+const evidenceEntries = () => [...S.evidence].reverse().map(record => evidenceEntry(evRef(record)));
 // The evidence drawer: every photo in a strip under her; one picked plays its sentence and can be held up (내밀기).
 // Its 진술 tab holds the statements instead (user pick A): what the player wrote for every checked question.
 let drawerPick = null, drawerTab = 'photo', drawerSizeAnimation = null, drawerTextAnimation = null;
@@ -5998,16 +6036,19 @@ function stopDrawerAnimations(){
   drawerSizeAnimation?.cancel(); drawerTextAnimation?.cancel();
   drawerSizeAnimation = drawerTextAnimation = null;
 }
-function openDrawer(tab = 'photo'){
+function openDrawer(tab = 'photo', browse = false){
   stopDrawerAnimations();
-  drawerPick = null; drawerTab = tab;
-  // handing a bag over shows 소지품 alone; the questioning has no 소지품
+  drawerPick = null; drawerTab = tab; drawerBrowse = browse;
+  // handing a bag over and the bottom menu's 소지품 show 소지품 alone; the questioning has no 소지품
   const handing = ending?.step === 'handoff';
   $('#drawer').querySelectorAll('[data-drawer-tab]').forEach(b => {
     b.setAttribute('aria-pressed', b.dataset.drawerTab === tab);
-    b.hidden = handing ? b.dataset.drawerTab !== 'item' : b.dataset.drawerTab === 'item' && !ending?.script;   // the violin case's questioning takes things too
+    b.hidden = browse || (handing ? b.dataset.drawerTab !== 'item' : b.dataset.drawerTab === 'item' && !ending?.script);   // the violin case's questioning takes things too
   });
-  $('#drawer h3').textContent = handing ? '소지품' : '증거';
+  $('#drawer h3').textContent = handing || browse ? '소지품' : '증거';
+  $('#drawer').setAttribute('aria-label', browse ? '소지품' : '증거 서랍');
+  $('#itemsTab').setAttribute('aria-expanded', browse);
+  if(browse) setItemsNew(false);
   $('#drawerStrip').innerHTML = drawerStripHTML();
   $('#drawerStrip').scrollLeft = 0;
   $('#drawerPick').innerHTML = '';
@@ -6017,6 +6058,7 @@ function openDrawer(tab = 'photo'){
 }
 function closeDrawer(){
   stopDrawerAnimations();
+  drawerBrowse = false; $('#itemsTab').setAttribute('aria-expanded', 'false');
   $('#drawer').classList.remove('open');
   $('#app').classList.remove('drawer-open');
   $('#evidenceVoice').pause();
@@ -6032,8 +6074,9 @@ function pickEvidence(ref){
     const [id, qid] = ref.split(':');
     detail.innerHTML = `<p><b class="who-says">${esc(spk(id).name)}:</b> “${esc(spk(id).answers[qid])}”</p>${drawerTools(ref, ANSWERS_KO[id]?.[qid])}`;
   } else if(isItemRef(ref)){
-    const entry = evidenceEntry(ref);
-    detail.innerHTML = `<p>${esc(entry.en)}</p>${drawerTools(ref, entry.ko)}`;
+    const entry = evidenceEntry(ref), id = ref.slice(1);
+    detail.innerHTML = (drawerBrowse ? `<figure class="evidence-photo item-big${ITEMS[id].bag && !S.flags.has(`open:${id}`) ? ' bag-pic' : ''}" aria-hidden="true">${S.flags.has(`open:${id}`) ? entry.photo : itemCardPic(id)}</figure>` : '') +
+      `<p>${esc(entry.en)}</p>${drawerTools(ref, entry.ko)}`;
   } else {
     const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
     detail.innerHTML = `<p>${esc(clue.en)}</p>${drawerTools(ref, clue.ko, !clue.audio)}`;
@@ -6054,8 +6097,8 @@ function pickEvidence(ref){
 // under a picked photo or statement: its Korean (hidden), ▶ and 해석, then 내밀기
 function drawerTools(ref, ko, mute){
   return `${ko ? `<p class="ko" hidden>${esc(ko)}</p>` : ''}<div class="drawer-row">${mute ? '' : `<button class="play-btn" type="button" data-pick-play="${ref}" aria-label="다시 듣기"></button>`}` +
-    `${ko ? '<button class="pill sm" type="button" data-drawer-ko aria-pressed="false">해석</button>' : ''}</div>
-    <button class="pill big" type="button" data-present="${ref}">${ending?.step === 'handoff' ? '건네주기' : '내밀기'}</button>`;
+    `${ko ? '<button class="pill sm" type="button" data-drawer-ko aria-pressed="false">해석</button>' : ''}${drawerBrowse ? itemButtons(ref.slice(1)) : ''}</div>` +
+    (drawerBrowse ? '' : `<button class="pill big" type="button" data-present="${ref}">${ending?.step === 'handoff' ? '건네주기' : '내밀기'}</button>`);
 }
 function playPick(ref){
   if(isItemRef(ref) || !isSayRef(ref)) return playEvidence(ref);
@@ -6094,6 +6137,19 @@ $('#drawer').addEventListener('click', e => {
   if(card) return pickEvidence(card.dataset.pick);
   const give = e.target.closest('[data-present]');
   if(give){ closeDrawer(); present(give.dataset.present); }
+  // 소지품's own buttons (itemButtons): open or shut it, hold the two up together, use it here
+  const opener = e.target.closest('[data-item-open]');
+  if(opener){
+    const id = opener.dataset.itemOpen, key = `open:${id}`;
+    if(S.flags.has(key)) S.flags.delete(key); else S.flags.add(key);
+    saveGame(); $('#drawerStrip').innerHTML = drawerStripHTML(); return pickEvidence(`@${id}`);
+  }
+  if(e.target.closest('[data-item-compare]')){
+    const c = PACK.compare; S.flags.add(c.flag); saveGame(); checkThoughts(); updateAccuse();
+    closeDrawer(); return detectiveSay(c.line.key, null, null, c.line.en);
+  }
+  const use = e.target.closest('[data-item-use]');
+  if(use){ closeDrawer(); openInspect(ITEMS[use.dataset.itemUse].use.inspect); }
 });
 
 function endingControls(){
@@ -6448,7 +6504,7 @@ function endingNext(){
     // the bag they hand back comes down to the detective before the camera goes on
     e.step = 'taking'; e.line = null; renderSay(null); renderAsk();
     if(ITEMS[round.take]?.bag) handBag(round.take, 'take');
-    endTimer = setTimeout(() => { toast('소지품을 노트에 넣었어요.'); next(); }, ITEMS[round.take]?.bag ? 1300 : 0);
+    endTimer = setTimeout(() => { gotItem(); next(); }, ITEMS[round.take]?.bag ? 1300 : 0);
   }
 }
 /* ---------- handing over (picnic case) ----------
@@ -6524,7 +6580,7 @@ function takeItem(id){
   if(S.items.includes(id)) return;
   S.items.push(id); syncBagAway(); saveGame();
   if(ITEMS[id]?.bag) handBag(id, 'take');
-  setTimeout(() => toast('소지품을 노트에 넣었어요.'), 1300);
+  setTimeout(gotItem, 1300);
 }
 function finishEnding(){
   clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
@@ -6889,6 +6945,36 @@ const xmasList = () => { const done = S.flags.has('table-seen') ? 4 : 2;
   return `<g transform="translate(686 302) rotate(-9)" font-family="Georgia,serif" fill="#3F3326"><text x="40" y="18" font-size="12" font-weight="700">Gifts for This Delivery</text>
     <text x="40" y="34" font-size="11">Toy gifts: 6</text>${['Lumi', 'Tilly', 'Bo', 'Nori', 'Kit', 'Poppy'].map((n, i) =>
       `<text x="${40 + (i % 2) * 64}" y="${50 + Math.floor(i / 2) * 13}" font-size="10">${n}${i < done ? ' ✓' : ''}</text>`).join('')}</g>`; };
+/* the scale in use (the Christmas star case's close look 'weigh', user pick: over the blurred sleigh, the scale low and
+   close to the row of five boxes): the one picture of the scale cut into its beam's two arms, its two pans with their
+   strings and the post with its foot; the beam turns about the post's top (heavier side down, level when the same) and
+   each pan hangs from its arm's end. A box tapped in the row goes onto a pan, tapped on a pan it comes back. */
+const WEIGH = { k:.42, tx:507, ty:254, pivot:[432, 136], hooks:[[178, 152], [686, 152]], tilt:8, box:[66, 61], rowY:562, gap:76 };
+let weighFrom = 0;   // the beam's last angle, so it swings from there
+function weighArt(){
+  const W = WEIGH, ws = placeOf('weigh').balance.weights, w = n => plates[n] === null ? 0 : ws[plates[n]];
+  const a = Math.sign(w(1) - w(0)) * W.tilt, from = weighFrom; weighFrom = a;
+  const [px, py] = W.pivot, hang = (deg, [x, y]) => { const r = deg * Math.PI / 180;
+    return [px + (x - px) * Math.cos(r) - (y - py) * Math.sin(r) - x, py + (x - px) * Math.sin(r) + (y - py) * Math.cos(r) - y]; };
+  const img = `<image href="${XM}scale.png" width="857" height="693"/>`, clip = (id, d) => `<clipPath id="${id}"><path d="${d}"/></clipPath>`;
+  const boxImg = (x, y, w, h) => `<image href="${XM}box-closed.png" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
+  const pan = n => { const [dx, dy] = hang(a, W.hooks[n]), [fx, fy] = hang(from, W.hooks[n]);
+    return `<g class="weigh-pan" style="--fx:${fx}px;--fy:${fy}px;transform:translate(${dx}px,${dy}px)"><g clip-path="url(#wPan${n})">${img}</g>` +
+      (plates[n] === null ? '' : boxImg(W.hooks[n][0] - 92, 300, 184, 170)) + '</g>'; };
+  return `<defs>${clip('wArmL', 'M120 100H412V154H120Z')}${clip('wArmR', 'M452 100H740V154H452Z')}${W.hooks.map(([x], n) => clip(`wPan${n}`, `M${x - 12} 157H${x + 12}L${x + 165} 400V525H${x - 165}V400Z`)).join('')}` +
+    `${clip('wPost', 'M396 15H470V555H585V693H280V555H396Z')}</defs>` +
+    `<g transform="translate(${W.tx} ${W.ty}) scale(${W.k})"><g class="weigh-beam" style="--from:${from}deg;transform:rotate(${a}deg);transform-origin:${px}px ${py}px">` +
+    `<g clip-path="url(#wArmL)">${img}</g><g clip-path="url(#wArmR)">${img}</g></g>${pan(0)}${pan(1)}<g clip-path="url(#wPost)">${img}</g></g>` +
+    ws.map((_, i) => plates.includes(i) ? '' : boxImg(688 + (i - 2) * W.gap - W.box[0] / 2, W.rowY, ...W.box)).join('');
+}
+// a tap in the close look: a box in the row onto the first empty pan (both full: it takes the right pan's place), a box
+// on a pan back to the row; the result is the picture only (the detective says nothing, design: the player concludes)
+function weighTap(clue){
+  if(clue.plate !== undefined) plates[clue.plate] = null;
+  else { const n = plates[0] === null ? 0 : 1; plates[n] = clue.weigh; }
+  const place = $('#wordPlace'); place.currentTime = 0; place.play().catch(() => {});
+  renderScene();
+}
 const ART = {
   /* the Christmas star case (assets/places/christmas/, scripts/cut-christmas-assets.py). The square at night is the day
      picture darkened, then lit (user plan); the scale leaves the storeroom once taken (the picture without it) and
@@ -6899,10 +6985,10 @@ const ART = {
   tent: () => `<image href="${XM}tent.jpg" width="1376" height="768"/>` +
     (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + xmasList(),
   sleigh: () => `<image href="${XM}sleigh.jpg" width="1376" height="768"/>` +
-    (S.items.includes('scale') ? `<image href="${XM}scale.png" x="1010" y="500" width="190" height="154"/>` : '') +
     (S.flags.has('box-open') ? `<image href="${XM}box-star.png" x="590" y="250" width="220" height="143"/>` : ''),
   toys: () => xmasLook('tent', `<svg x="176" y="0" width="1024" height="768" viewBox="150 190 760 570"><image href="${XM}tent.jpg" width="1376" height="768"/>` +
     (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + `${xmasList()}</svg>`),
+  weigh: () => xmasLook('sleigh', weighArt()),
   toystar: () => xmasLook('tent', `<image href="${XM}toy-star-back.png" x="396" y="104" width="583" height="560"/>`),
   starback: () => xmasLook('sleigh', `<image href="${XM}star-back.png" x="393" y="104" width="589" height="560"/>`),
   /* the umbrella case's places (scripts/cut-umbrella-places.py): one tall Higgsfield picture each with its floor. The
@@ -7061,7 +7147,7 @@ function renderScene(placeId = S.place){
   art.style.setProperty('--world-width', `${pl.artWidth || 900}px`);
   art.style.setProperty('--world-height', `${pl.artHeight || 600}px`);
   // what is carried and handed over is in it too: the hall's umbrella leaves its stand when Ella hands it over
-  const people = peopleAt(pl.id), signature = `${pl.id}:${people.map(spriteKey).join(',')}${pl.inspect ? `:${!!S.unfolded}` : ''}:${S.items.join('.')}:${S.handoffRound}:${[...S.flags].join('.')}:${pl.spots.map(s => +spotOn(s)).join('')}`;
+  const people = peopleAt(pl.id), signature = `${pl.id}:${people.map(spriteKey).join(',')}${pl.inspect ? `:${!!S.unfolded}` : ''}:${S.items.join('.')}:${S.handoffRound}:${[...S.flags].join('.')}:${pl.spots.map(s => +spotOn(s)).join('')}:${plates}`;
   if(art.dataset.scene === signature){
     art.querySelectorAll('.spot').forEach(spot => spot.classList.toggle('found', S.found[pl.id].has(+spot.dataset.clue)));
     return;
@@ -7169,7 +7255,8 @@ function sayProp(clue){
   voice.play().catch(() => {});
 }
 // a spot is there while its conditions hold (when) and none of its unless does
-const spotOn = s => (s.when || []).every(cond) && !(s.unless || []).some(cond);
+const spotOn = s => (s.when || []).every(cond) && !(s.unless || []).some(cond) &&
+  (s.box === undefined || !plates.includes(s.box)) && (s.plate === undefined || plates[s.plate] !== null);   // the scale's boxes (WEIGH)
 // A thing picked up where it lies (take, violin case: no photo): the detective's lines over the place, then it goes into
 // 소지품 ('!flag' instead: only marks it done, the curtain drawn aside), and any thought now due
 function takeFromPlace(pl, i){
@@ -7179,7 +7266,7 @@ function takeFromPlace(pl, i){
   S.found[pl.id].add(i);
   placeLines(clue.lines || [], () => {
     if(clue.take.startsWith('!')) S.flags.add(clue.take.slice(1));
-    else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); toast('소지품을 노트에 넣었어요.'); }
+    else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); gotItem(); }
     if(clue.flag) S.flags.add(clue.flag);
     saveGame(); renderScene(); renderSceneHead(); renderPlaces(); updateAccuse();
     checkThoughts(); if(thoughts.length) setTimeout(playThought, 2600);
@@ -7187,6 +7274,7 @@ function takeFromPlace(pl, i){
 }
 function examine(i){
   const pl = placeObj();
+  if(pl.balance) return weighTap(pl.clues[i]);
   if(pl.clues[i].inspect) return openInspect(pl.clues[i].inspect);
   if(pl.clues[i].take) return takeFromPlace(pl, i);
   if(pl.clues[i].prop){ sayProp(pl.clues[i]); if(pl.clues[i].peek) peekAt(pl.clues[i].peek); return; }
@@ -7265,6 +7353,8 @@ function enterPlace(id, fromConversation = false){
   if(!S.known.has(id) && !(fromConversation && id === cur().place) && !placeOf(id)?.inspect) return;
   const fromRect = !S.investigate && id === cur().place ? $('#art').getBoundingClientRect() : null;
   cameraMotion?.cancel();
+  if(drawerBrowse) closeDrawer();
+  $('#accuseFoot').hidden = true;   // updateAccuse() once the place is in (never over a close look)
   if(!S.investigate) setInvestigate(true);
   S.place = id;
   openSheet(null); setNotes(false);
@@ -7273,7 +7363,7 @@ function enterPlace(id, fromConversation = false){
   art.inert = false;
   art.removeAttribute('aria-hidden');
   art.style.transform = 'none';
-  renderSceneHead(); renderScene();
+  renderSceneHead(); renderScene(); updateAccuse();
   requestAnimationFrame(() => {
     if(!S.investigate || S.place !== id) return;
     artWrap.scrollLeft = sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
@@ -8098,7 +8188,7 @@ function loadGame(){
   if(!PACK) libraryMigrations();
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
-  S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop);
+  S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop && !placeOf(item.placeId)?.balance);
   // a photo with its own crop is framed as the crop is now (user request: the umbrella handle's moved down); only the
   // frame changes, the picture inside stays as it was taken (the umbrella folded or open)
   S.evidence.forEach(item => {
@@ -8588,7 +8678,7 @@ $('#devDone').onclick = () => {
 $('#devEvidence').onclick = () => {
   let n = 0;
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
-    if(clue.prop || !place.spots.some(spot => spot.clue === clueIndex)) return;
+    if(clue.prop || place.balance || !place.spots.some(spot => spot.clue === clueIndex)) return;   // the scale's boxes are no photos
     if(clue.take){
       S.found[place.id].add(clueIndex);
       if(clue.take.startsWith('!')) S.flags.add(clue.take.slice(1));
