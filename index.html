@@ -145,14 +145,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .bubble.say.det::after{display:none}
 /* a detective line in a conversation waits for a tap on the screen (tapWait): a small blinking mark under the face */
 .bubble.say.det.wait-tap::after{display:block;left:40px;bottom:24px;width:0;height:0;transform:none;background:none;border:7px solid transparent;border-bottom:0;border-top:9px solid #A0703A;animation:tap-cue 1s ease-in-out infinite}
+/* a person's line waiting for a tap: the same mark at the bubble's bottom left (its ::after is the tail) */
+.bubble.say .say-cue{display:none;position:absolute;left:22px;bottom:18px;width:0;height:0;border:7px solid transparent;border-bottom:0;border-top:9px solid #A0703A;animation:tap-cue 1s ease-in-out infinite}
+.bubble.say.wait-tap:not(.det) .say-cue{display:block}
 @keyframes tap-cue{0%,100%{opacity:.35;translate:0 0}50%{opacity:1;translate:0 3px}}
 .tap-cue{position:absolute;left:50%;bottom:calc(96px + env(safe-area-inset-bottom, 0px));z-index:6;width:0;height:0;margin-left:-9px;border:9px solid transparent;border-bottom:0;border-top:12px solid #A0703A;filter:drop-shadow(0 1px 0 #fff) drop-shadow(0 0 2px #fff);pointer-events:none;animation:tap-cue 1s ease-in-out infinite}
 .tap-cue[hidden]{display:none}
-@media (prefers-reduced-motion:reduce){.bubble.say.det.wait-tap::after,.tap-cue{animation:none}}
+@media (prefers-reduced-motion:reduce){.bubble.say.det.wait-tap::after,.tap-cue,.bubble.say .say-cue{animation:none}}
 /* the detective's bubble always sits just above the bottom tabs, as in the greeting (user request: one place for it).
    In a conversation the questions under it wait until the line is gone; in the ending a button that goes with the line
    (가방 건네주기, 증거 내밀기) stays, so there the bubble sits above it */
-.app:not(.ending):has(#sayBubble.det:not([hidden])) .ask-panel{visibility:hidden}
+.app:not(.ending):has(#sayBubble:not([hidden])) .ask-panel{visibility:hidden}
 .app.ending:has(.ask-panel:not(:empty)) .bubble.say.det{bottom:calc(92px + env(safe-area-inset-bottom, 0px))}
 .bubble.say .say-face{position:absolute;left:24px;top:24px;width:44px;height:44px;border-radius:50%;background:#F3E6CC;box-shadow:0 0 0 2px #fff}
 .bubble.say .say-ko{display:block;margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;line-height:1.45;color:var(--berry)}
@@ -4865,9 +4868,15 @@ function playLines(id, lines, onDone, i = 0){
   if(S.investigate || S.cur !== id) return;
   if(!line) return onDone?.();
   const next = () => { greetingTimer = setTimeout(() => playLines(id, lines, onDone, i + 1), 400); };
-  // a person's line, once said, waits for a tap too
-  const tapNext = () => waitTap(() => { if(S.investigate || S.cur !== id) return; next(); });
-  if(typeof line === 'string') return speak(line, 'hello', id, tapNext);
+  // a person's line, once said, waits for a tap too; it shows in the bubble at the top, its tail to them (user pick A,
+  // the words with the voice): lines that are not written down in the notebook
+  const tapNext = () => waitTap(() => { if(S.investigate || S.cur !== id) return; if(!ending) renderSay(null); next(); });
+  const theirs = (en, key, as) => {
+    const say = () => speak(en, key, id, tapNext, null, as);
+    if(!ending) renderSay({ who:id, en, ko:line.ko, replay:() => { dropTap(); say(); } });
+    say();
+  };
+  if(typeof line === 'string') return theirs(line, 'hello');
   if(line.intro && !per(id).introduced){
     per(id).introduced = true; renderWho(); renderChip(); renderPlaces();
     document.querySelectorAll(`.scene-npc[data-talk="${id}"] > span`).forEach(tag => { tag.textContent = spk(id).name; });
@@ -4879,7 +4888,7 @@ function playLines(id, lines, onDone, i = 0){
     const rec = line.face && PEOPLE[line.face]?.audio?.[line.key];
     return rec ? detectiveSay(rec, heard, null, line.en) : readOut(line.en, heard);
   }
-  if(!line.det){ if(!ending) renderSay(null); return speak(line.en, line.key, id, tapNext, null, line.as); }
+  if(!line.det) return theirs(line.en, line.key, line.as);
   const name = detectiveName(), named = text => text.replace(' {name}', name ? ` ${name}` : '');
   renderSay(detLine({ ...line, en:named(line.en), ko:named(line.ko) }));
   // the next line waits for a tap on the screen once this one has been said
@@ -5932,16 +5941,19 @@ function setMood(id, mood){
 }
 
 // The line being spoken in the ending, as a speech bubble (null hides it).
+// a conversation line's 다시 듣기 (outside the ending)
+let sayReplay = null;
 function renderSay(line){
   const b = $('#sayBubble');
   dropTap();   // a line that was waiting for a tap is gone (another line, or the conversation went on)
   if(!line){ b.hidden = true; return; }
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
-  const again = line === ending?.line && !line.think;   // the detective's thought is not said
+  const again = line === ending?.line && !line.think || !!line.replay;   // the detective's thought is not said
+  sayReplay = line.replay || null;
   // the detective (the player, never on screen) speaks from below, on honey paper with their face (user pick A)
   b.classList.toggle('det', !!line.det);
   // a line from below with someone else's face (face: the officer on the phone, violin case)
-  b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/detective.png'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' +
+  b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/detective.png'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' + (line.det ? '' : '<i class="say-cue"></i>') +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
 }
@@ -5949,6 +5961,7 @@ function renderSay(line){
 $('#sayBubble').addEventListener('click', e => {
   if(!e.target.closest('button') && tapGo()) return;   // the bubble is part of the screen (해석 stays a button)
   if(e.target.closest('[data-say-again]')){
+    if(sayReplay) return sayReplay();
     if(!ending?.line) return;
     clearTimeout(endTimer);
     if(ending.line.det) return detectiveSay(ending.line.key, ending.lineDone, null, ending.line.en);

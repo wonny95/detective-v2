@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>인물 말풍선 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ground:#B6BDA5;--paper:#FBF4E6;--paper-2:#F4EAD4;--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--berry:#C96F86;--moss:#8DB48E;--r-wobble:18px 22px 16px 24px / 22px 16px 24px 18px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Paperlogy",system-ui,sans-serif;line-height:1.55}
+main{max-width:1240px;margin:0 auto;padding:28px 16px 60px}
+h1{font-family:"Paperlogy Display",sans-serif;font-weight:400;font-size:26px;margin:0 0 6px}
+.lead{margin:0 0 22px;color:var(--ink-soft)}
+.opts{display:flex;flex-wrap:wrap;gap:18px}
+.opt{flex:1 1 280px;max-width:300px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:16px}
+.opt h2{font-family:"Paperlogy Display",sans-serif;font-weight:400;font-size:18px;margin:0 0 4px}
+.opt h2 b{display:inline-grid;place-items:center;min-width:28px;height:28px;margin-right:6px;border-radius:14px;background:var(--honey);border:2px solid var(--ink);font-size:14px}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;background:var(--moss);color:#fff;vertical-align:middle}
+.sum{margin:4px 0 12px;font-size:13.5px}
+.timing{margin-top:26px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:16px 18px}
+.timing h2{font-family:"Paperlogy Display",sans-serif;font-weight:400;font-size:18px;margin:0 0 6px}
+.timing li{margin:4px 0}
+
+/* phone: the Christmas square with Ella, as in a conversation */
+.phone{position:relative;width:260px;height:520px;margin:0 auto;border:3px solid var(--ink);border-radius:26px;overflow:hidden;background:var(--paper-2)}
+.scene{position:absolute;inset:0 0 64px;background:url(../assets/places/christmas/tree.jpg) 62% 0/auto 100% no-repeat}
+.npc{position:absolute;left:50%;bottom:64px;width:150px;transform:translateX(-50%)}
+.chip{position:absolute;top:10px;left:42px;font-family:"Paperlogy Display";font-size:11px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-wobble);padding:2px 8px}
+.back{position:absolute;top:10px;left:10px;width:26px;height:24px;display:grid;place-items:center;background:var(--paper);border:2px solid var(--ink);border-radius:9px;font-size:12px}
+.nav{position:absolute;left:0;right:0;bottom:0;height:64px;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;background:var(--paper-2);border-top:2px solid var(--ink);font-family:"Paperlogy Display";font-size:11px;color:var(--ink-soft);text-align:center}
+.nav img{display:block;width:28px;height:28px;margin:0 auto 2px;opacity:.85}
+
+/* the game's speech bubble: nine-slice paper, pencil tail (index.html .bubble) */
+.bubble{position:absolute;left:50%;transform:translateX(-50%);z-index:5;width:calc(100% - 24px);padding:18px 16px 14px;font-family:"Paperlogy";font-weight:700;font-size:14px;line-height:1.4;filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2))}
+.bubble::before{content:"";position:absolute;inset:0;z-index:-1;background-color:var(--bp,#FFF8E9);background-clip:padding-box;border:16px solid transparent;border-image:url(../assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch}
+.bubble::after{content:"";position:absolute;left:var(--tx,50%);bottom:-17px;width:38px;height:24px;transform:translateX(-50%);background:url(../assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat}
+.bubble.up::after{bottom:auto;top:-17px;transform:translateX(-50%) scaleY(-1)}
+.bubble.notail::after{display:none}
+.who{display:block;font-family:"Paperlogy Display";font-weight:400;font-size:10.5px;color:var(--berry);margin-bottom:3px}
+.foot{display:flex;justify-content:flex-end;gap:5px;margin-top:8px}
+.play,.pill{display:inline-grid;place-items:center;height:26px;border:2px solid var(--ink);background:#FFF8E9;border-radius:13px;font-family:"Paperlogy Display";font-size:11px;color:var(--ink)}
+.play{width:26px;color:#C9962E;font-size:10px}
+.pill{padding:0 9px}
+.face{position:absolute;left:14px;top:16px;width:40px;height:40px;border-radius:50%;background:#E8E0D0 url(../assets/characters/ella-higgsfield.png) -6px -2px/63px auto no-repeat;box-shadow:0 0 0 2px #fff}
+.cue{position:absolute;left:24px;bottom:16px;width:0;height:0;border:6px solid transparent;border-bottom:0;border-top:8px solid #A0703A}
+</style>
+</head>
+<body>
+<main>
+<h1>인물 말풍선 시안</h1>
+<p class="lead">받아 적지 않는 인물 대사(첫인사·행동의 대답·질문 뒤 장면·전화)에 말풍선을 띄운다. 받아 적는 대답은 지금처럼 글자 없이. 탐정 줄은 지금 그대로(아래 꿀색, 탐정 얼굴). 예시는 크리스마스 광장의 엘라 첫인사.</p>
+
+<div class="opts">
+  <section class="opt">
+    <h2><b>A</b>위쪽, 꼬리가 인물로 <span class="tag">추천</span></h2>
+    <p class="sum">심문·반환 장면의 말풍선과 같은 모양·자리. 이미 있는 것이라 새 모양이 없다. 탐정 줄은 아래, 인물 줄은 위라 누가 말하는지 바로 갈린다.</p>
+    <div class="phone">
+      <div class="scene"></div><img class="npc" src="../assets/characters/ella-higgsfield.png" alt="">
+      <div class="back">&lt;</div><div class="chip">Ella Deer</div>
+      <div class="bubble" style="top:44px"><span class="who">Ella Deer</span>Detective! Nice to see you again. I reported it.
+        <div class="foot"><span class="play">▶</span><span class="pill">해석</span></div></div>
+      <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="" onerror="this.style.visibility='hidden'">지도</span><span><img src="../assets/ui/nav/note.png" alt="" onerror="this.style.visibility='hidden'">Note</span><span><img src="../assets/ui/nav/bag-satchel.png" alt="">소지품</span></div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <h2><b>B</b>아래쪽, 얼굴 붙임</h2>
+    <p class="sum">탐정 말풍선 자리(아래 탭 위)에 흰 종이 + 인물 얼굴. 대화가 한자리에서 이어진다. 대신 인물 몸 아래쪽이 가리고, 색만으로 탐정 줄과 구분한다.</p>
+    <div class="phone">
+      <div class="scene"></div><img class="npc" src="../assets/characters/ella-higgsfield.png" alt="">
+      <div class="back">&lt;</div><div class="chip">Ella Deer</div>
+      <div class="bubble notail" style="bottom:80px;padding-left:64px"><span class="face"></span><span class="who">Ella Deer</span>Detective! Nice to see you again. I reported it.
+        <div class="foot"><span class="play">▶</span><span class="pill">해석</span></div><span class="cue"></span></div>
+      <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="" onerror="this.style.visibility='hidden'">지도</span><span><img src="../assets/ui/nav/note.png" alt="" onerror="this.style.visibility='hidden'">Note</span><span><img src="../assets/ui/nav/bag-satchel.png" alt="">소지품</span></div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <h2><b>C</b>머리 위 작은 말풍선</h2>
+    <p class="sum">인물 머리 바로 위에 글만 담은 작은 말풍선(▶·해석 없음). 만화처럼 가볍다. 긴 대사는 여러 줄이 되어 얼굴을 가릴 수 있고, 다시 듣기·해석을 못 한다.</p>
+    <div class="phone">
+      <div class="scene"></div><img class="npc" src="../assets/characters/ella-higgsfield.png" alt="">
+      <div class="back">&lt;</div><div class="chip">Ella Deer</div>
+      <div class="bubble" style="top:150px;width:200px;font-size:13px;padding:14px 14px 12px">Detective! Nice to see you again. I reported it.</div>
+      <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="" onerror="this.style.visibility='hidden'">지도</span><span><img src="../assets/ui/nav/note.png" alt="" onerror="this.style.visibility='hidden'">Note</span><span><img src="../assets/ui/nav/bag-satchel.png" alt="">소지품</span></div>
+    </div>
+  </section>
+
+  <section class="opt">
+    <h2><b>D</b>위쪽, 얼굴 붙임 · 꼬리 없음</h2>
+    <p class="sum">A 자리에 B처럼 얼굴을 붙이고 꼬리는 뺐다. 전화 줄(경사 얼굴 말풍선)과 같은 짜임. 여러 사람이 있는 장면(점등식)에서도 누가 말하는지 얼굴로 안다.</p>
+    <div class="phone">
+      <div class="scene"></div><img class="npc" src="../assets/characters/ella-higgsfield.png" alt="">
+      <div class="back">&lt;</div><div class="chip">Ella Deer</div>
+      <div class="bubble notail" style="top:44px;padding-left:64px"><span class="face"></span><span class="who">Ella Deer</span>Detective! Nice to see you again. I reported it.
+        <div class="foot"><span class="play">▶</span><span class="pill">해석</span></div></div>
+      <div class="nav"><span><img src="../assets/ui/nav/map.png" alt="" onerror="this.style.visibility='hidden'">지도</span><span><img src="../assets/ui/nav/note.png" alt="" onerror="this.style.visibility='hidden'">Note</span><span><img src="../assets/ui/nav/bag-satchel.png" alt="">소지품</span></div>
+    </div>
+  </section>
+</div>
+
+<section class="timing">
+  <h2>글자가 나오는 때</h2>
+  <ul>
+    <li><b>목소리와 함께</b>: 말풍선이 뜨면서 바로 읽힌다. 가장 편하다.</li>
+    <li><b>다 들은 뒤</b> (추천): 목소리 동안은 빈 말풍선(이름·▶만), 다 말하면 글이 떠오른다. 먼저 듣고 맞게 들었는지 확인하는 셈이라 듣기 연습이 남는다.</li>
+  </ul>
+  <p>어느 쪽이든 다 말한 뒤 ▼가 뜨고 화면을 눌러야 다음 줄로 넘어간다(지금과 같음).</p>
+</section>
+</main>
+</body>
+</html>
