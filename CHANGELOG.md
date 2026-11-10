@@ -13,6 +13,19 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-10 · Claude · (이 커밋) 크리스마스 별: 대사를 "테스는 아직 안 줌·메이는 넷을 넘김·상자 다섯"에 맞춤
+
+- 사용자 결정(점검 표): 썰매의 상자 다섯은 메이의 털장갑 상자 4개 + 니코가 별을 숨긴 상자 1개, 테스의 장난감 6개는 아직 포장 중이라 작업대에 있다. 이에 맞춰 대사를 고쳤다.
+  - holly:h3 "They're working in the gift tent."(빈칸 working, 보기 working·wrapping·sleeping), 복습 단어에 working 추가.
+  - nico:n3 "No, I'm not wrapping gifts. May and Tess wrap them."
+  - nico:n4 질문 "Did you see anything strange today?" / 대답 "No, not really. But I think I saw Tess taking the star."(빈칸 not·Tess·star). 탐정이 특정 상자를 가리키지 않는다. §8 부정형 실제 발화 예시는 n3로 옮겼다.
+  - nico:claim-gift "Tess gave me some of these gifts. I'm just loading them." / det:brief-badger "Nico said Tess gave him some gifts. Then he said they were all May's. Then he blamed Tess." / 추리 2번 맞장구 "That's what he says about the gifts." / 추리 9번 "about the boxes".
+  - 장면 5의 "that box는 같은 상자" 문장 삭제, n4 관련 설명·흐름(배송 목적 → 테스 탓)을 맞췄다.
+- §8 균형표의 배경 클릭 TTS(총 13)·비교 표 추리 수(9)를 고쳤다.
+- 확인: 옛 대사가 MD·HTML에 남지 않음, 설계서 미리보기에서 새 대사 확인·콘솔 오류 없음. 게임 코드 변경 없음.
+- 다시 점검해서 찾은 것(사용자에게 표로 보고): 부정형 열쇠 표현이 3회 → 2회로 줄어 기준 미달, e1·m3·n2의 빈칸이 4개(질문당 1–3 기준 초과), 이전 점검의 남은 항목(빈 상자 소품, 테스와 보관함 뚜껑, h1 party, 별 장난감 관찰 대사, 첫 방문의 금빛 별, n5 거짓말, 저울 크기, 옛 문장).
+- **다음**: 다시 점검한 표의 대안을 사용자와 정해 반영한다.
+
 ## 2026-11-10 · Claude · (이 커밋) 크리스마스 별: 저울은 창고 구석에 있던 것으로, 창고 물건 늘리기
 
 - 사용자 결정: 바로 앞 커밋(테스의 장난감 저울)을 되돌렸다. 테스의 장난감 자동차는 그대로 두고(장난감 종류가 한 가지만 남으면 어색함), 저울은 창고 구석에 있던 큰 양팔 저울로 한다. 장난감 저울이 아니다.
