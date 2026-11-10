@@ -148,6 +148,7 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - 사용처: 게임 메뉴(`.nav`, `.hn-ic`). 이 시트에서는 사건 돋보기·학습 책·마이 탐정 모자만 쓴다. 나무 문은 사용자가 직관적이지 않다고 해 집(아래 시트)으로 바꿨고, 다람쥐 얼굴·문 + 등불은 고르지 않았다(시트 원본에는 남아 있음).
 - `nav-icons-2-higgsfield-original.png` (1264×848, job `cd4840ad-c696-42db-bb34-9b5829edc4f6`): 3×2 시트 — 집, 굴뚝 오두막, 나무 집 / 지도, 수첩 + 연필, 덮인 공책. 위 시트를 화풍 참조로 붙여 같은 결로 그렸다(Nano Banana 2.1, 1.5크레딧). 쓰는 것: 집 `home-house`(홈), `map`·`note`(사건 안 `지도`·`Note`).
 - 자르기 문턱: 마젠타 정도 60–170 사이에서 알파가 줄고, 아이콘 범위는 알파 64 넘는 픽셀로 잡는다(시트 가장자리의 옅은 줄을 버리려고).
+- `nav-icons-3-higgsfield-original.png` (1264×848, job `d57134fe-6a13-4afa-a8ee-efe7a1888f8f`, 2026-11-10): 소지품 칸 아이콘 후보 3×2 — 어깨 가방, 손잡이 가방, 끈 주머니 / 나무 상자, 배낭, 돋보기 든 가방. 지도·노트 시트(`cd4840ad-…`)를 화풍 참조로, Nano Banana 2, 1K, 마젠타 배경, 1.5크레딧. `nav/bag-*.png`로 잘라 시안(`design/ui-items-tab-mockups.html`)에 씀. 고르지 않은 것은 시안이 들어간 뒤 지운다.
 
 ## 이번 사건의 열쇠 종이 (2026-10-26)
 

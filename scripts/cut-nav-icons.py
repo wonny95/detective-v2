@@ -7,6 +7,8 @@ from PIL import Image
 SHEETS = {
     'assets/ui/nav-icons-higgsfield-original.png': [[None, 'case-magnifier', 'study-book'], [None, 'my-hat', None]],
     'assets/ui/nav-icons-2-higgsfield-original.png': [['home-house', None, None], ['map', 'note', None]],
+    # 소지품 candidates (2026-11-10, mockup design/ui-items-tab-mockups.html); the one not picked is dropped from here
+    'assets/ui/nav-icons-3-higgsfield-original.png': [['bag-satchel', 'bag-doctor', 'bag-pouch'], ['bag-chest', 'bag-backpack', 'bag-open']],
 }
 
 def key(im):
