@@ -812,6 +812,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
    While recording, it must sit above the notebook scrim so a real tap can open the stop-talk dialog. */
 .top-back{position:absolute;top:10px;left:14px;z-index:9;box-sizing:border-box;width:44px;min-height:36px;padding:0;display:grid;place-items:center}
 .app.record-lock .top-back{z-index:12}
+.app.map-open .top-back{z-index:32}
 .top-back svg{width:20px;height:20px;display:block}
 .app.ending .top-back{display:none}
 .app.ending.questioning .top-back{display:grid}
@@ -5275,6 +5276,7 @@ function setNotes(open){
   if(changed) focusCamera(null, true);
 }
 function openSheet(name){
+  $('#app').classList.toggle('map-open', name === 'map');   // the < stays above the map (to the case list)
   if(name && drawerBrowse) closeDrawer();
   if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone();
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
@@ -5290,16 +5292,17 @@ function openSheet(name){
 }
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => openSheet(null));
 // opened by hand, the notebook rises as high as it can; while recording it stays low so the NPC is visible
-// The one way back, one level up (user decision): a conversation → its place;
-// a place → the case list (progress is saved and resumes).
+// The one way back, one level up (user decision): a conversation → its place; a place → the case's map (user request:
+// the map is where the places are picked); the map → the case list, asked first (progress is saved and resumes).
 $('#backTab').onclick = () => {
   if(!$('#deduce').hidden){ setNotes(false); return closeDeduce(); }
+  if($('#sheet-map').classList.contains('open')) return $('#leaveCase').hidden = false;
   if(ending?.step === 'call' || ending?.step === 'go' || ending?.step?.startsWith('handoff')) return leaveEnding();   // before the station nothing is lost; a bag handed over stays handed over
   if(ending) return requestLeaveInterrogation();
   if(talkLocked()){ setNotes(false); return askStopTalk(); }
   if(!S.investigate && !ending) return leaveTalk();
   if(placeObj()?.inspect){ setNotes(false); return placeObj().back ? enterPlace(placeObj().back) : talkTo(S.cur); }
-  setNotes(false); $('#leaveCase').hidden = false;
+  openSheet('map');
 };
 // 와/과 after an English name, as it is read in Korean: Badger(배저)·Fox(폭스) end on a vowel, Mole(몰)·Raccoon(래쿤) do not
 const withJosa = name => name + (/(er|or|ar|x|s|a|o|y|ie|ee|oo|ue|i|u|og|ug)$/i.test(name) ? '와' : '과');   // Dog(도그)·Hedgehog(헤지호그) as objectJosa
