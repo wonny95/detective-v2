@@ -2743,13 +2743,14 @@ Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give'
    among May's four boxes of mittens. Tess's six toy gifts are all still on her table and her gold toy star is a light
    toy; the glitter under the shelf is from it. The player counts the boxes, opens the heavy one and shows the leaf on
    the back; Ella gets her star back by the sleigh and the tree is lit in the square. Pictures: Higgsfield
-   (assets/places/christmas/, scripts/cut-christmas-assets.py); no recordings yet: the browser's voice (silent). */
+   (assets/places/christmas/, scripts/cut-christmas-assets.py). Recorded (audio/christmas/, scripts/christmas-voice-lines.js,
+   Higgsfield MiniMax): the detective (Grady), Sgt. Badger (Fraser) and Ella (Petra); the others are still read by the
+   browser's voice. */
 const CHRISTMAS_CASE = {
   start:'badger',
   leaveOpen:true,
   accused:'nico',
   hideEvidenceCount:true,
-  silent:true,
   // the officer and Ella come to the sleigh in the middle of the questioning (design 7절), not from its start
   lateJoin:true,
   people:{
@@ -3181,6 +3182,13 @@ const CHRISTMAS_CASE = {
     ]
   }
 };
+// the recordings (scripts/christmas-voice-lines.js): what the detective says of each thing looked at, of the things
+// carried, and the officer's and Ella's lines; everyone else is still the browser's voice
+CHRISTMAS_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take && c.en) c.audio = `audio/christmas/detective-${pl.id}-${i}.mp3`; }));
+Object.entries(CHRISTMAS_CASE.items).forEach(([id, it]) => { it.audio = `audio/christmas/detective-item-${id}.mp3`; });
+Object.entries({ badger:['hello', 'what-missing', 'check-in', 'reason-to-check', 'open-order', 'take'],
+  ella:['hello', 'e0', 'e1', 'e2', 'check-supplies', 'check-in', 'allow-open', 'confirm-owner', 'thanks', 'lighting-invite', 'countdown', 'merry'] })
+  .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : null;
 // a case that happens in one building has its own map picture (PACK.map, 9:16 as the village map)
 if(PACK?.map) document.querySelector('.map-art').src = PACK.map;
@@ -4533,9 +4541,10 @@ function detectiveSay(key, onDone, onBlocked, text){
   voice.onended = voice.onerror = null;
   if(text && (!key || PACK?.silent)){ readOut(text, onDone); return; }
   // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/, the umbrella case's all in
-  // audio/umbrella/, the violin case's in audio/violin/
+  // audio/umbrella/, the violin case's in audio/violin/, the Christmas star's in audio/christmas/
   voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3`
-    : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : VIOLIN ? `audio/violin/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
+    : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : VIOLIN ? `audio/violin/detective-${key}.mp3`
+    : CHRISTMAS ? `audio/christmas/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
