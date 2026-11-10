@@ -690,6 +690,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .wb-switch{display:flex;gap:8px}
 .blank.review{background-color:rgba(188,152,84,.2);box-shadow:inset 0 0 0 1.5px #BC9854}
 /* ruled like a notebook: a line under every 38px text line, also where a sentence wraps (user request) */
+.nline.memo{padding-left:14px;text-indent:-14px}
+.nline.memo::before{content:"•";display:inline-block;width:14px;color:var(--ink-soft);font-weight:700}
 .nline{font-family:var(--f-hand);font-size:17px;line-height:38px;min-height:38px;background:linear-gradient(to top,var(--line) 0 2px,transparent 2px) 0 0/100% 38px}
 .empty-note{font-size:13px;color:var(--ink-soft);line-height:1.6;padding-block:8px}
 /* written answers are in neutral pen ink. A blank is a faint rounded slot (user decision: no dashed underline) */
@@ -2789,9 +2791,9 @@ const CHRISTMAS_CASE = {
         e2:'I left it in its case on the storeroom shelf.'
       },
       notes:{
-        e0:['“I went to show the children around the festival. When I came back, the {{a|star}} was {{b|missing}}.”'],
-        e1:["“It's real {{c|gold}}, so it's very {{d|heavy}}. It has a small {{e|leaf}} pattern on the back.”"],
-        e2:['“I left it in its {{f|case}} on the {{g|storeroom}} {{h|shelf}}.”']
+        e0:['- showed the children around the festival', '- came back → the {{a|star}} was {{b|missing}}'],
+        e1:['- real {{c|gold}}, very {{d|heavy}}', '- small {{e|leaf}} pattern on the back'],
+        e2:['- left it in its {{f|case}}', '- on the {{g|storeroom}} {{h|shelf}}']
       },
       bank:{ e0:['star','string','start','missing','shining','moving'], e1:['gold','glass','silver','heavy','light','leaf','line'], e2:['case','box','storeroom','gift tent','shelf','table','floor'] },
       after:{ e2:{ lines:[ { key:'check-supplies', en:'You can check the festival supplies if it helps you find the star.', ko:'별을 찾는 데 필요하면 축제 물품도 확인해도 돼.' } ] } } },
@@ -2816,10 +2818,10 @@ const CHRISTMAS_CASE = {
         h4:'Yes. I took some decorations to the Tree Square in a handcart.'
       },
       notes:{
-        h1:["“Yes. I'm {{a|sorting}} {{b|decorations}} for the Christmas festival. I'm helping Ella.”"],
-        h2:['“I {{c|saw}} May and Tess go {{d|in}}. I went in, too.”'],
-        h3:["“They're {{e|working}} in the {{f|gift tent}}.”"],
-        h4:['“Yes. I took some decorations to the {{g|Tree Square}} in a {{h|handcart}}.”']
+        h1:['- {{a|sorting}} {{b|decorations}} for the festival', '- helping Ella'],
+        h2:['- {{c|saw}} May and Tess go {{d|in}}', '- went in, too'],
+        h3:['- May, Tess: {{e|working}} in the {{f|gift tent}}'],
+        h4:['- took decorations to the {{g|Tree Square}}', '- in a {{h|handcart}}']
       },
       bank:{ h1:['sorting','carrying','selling','decorations','gifts','mittens'], h2:['saw','see','sold','in','out','on'], h3:['working','wrapping','sleeping','gift tent','storeroom','Tree Square'],
         h4:['Tree Square','gift tent','storeroom','handcart','sleigh','basket'] } },
@@ -2841,9 +2843,9 @@ const CHRISTMAS_CASE = {
         m3:"No, I'm not wrapping now. I wrapped mittens in four boxes, and Nico took them."
       },
       notes:{
-        m0:["“I needed {{a|wrapping paper}} for the children's {{b|gifts}}.”"],
-        m1:["“I'm {{c|making}} {{d|snowflakes}} for the tree. I'm helping Holly.”"],
-        m3:["“No, I'm {{e|not}} wrapping now. I wrapped mittens in {{f|four}} boxes, and {{g|Nico}} took them.”"]
+        m0:["- needed {{a|wrapping paper}}", "- for the children's {{b|gifts}}"],
+        m1:['- {{c|making}} {{d|snowflakes}} for the tree', '- helping Holly'],
+        m3:['- {{e|not}} wrapping now', '- wrapped mittens in {{f|four}} boxes', '- {{g|Nico}} took them']
       },
       bank:{ m0:['wrapping paper','drawing paper','ribbons','gifts','toys','bags'], m1:['making','wrapping','cutting','snowflakes','mittens','stars'], m3:['not','now','four','five','Nico','Tess'] } },
     tess: { id:'tess', name:'Tess Tortoise', ko:'거북 테스', job:'자원봉사자', place:'tent', witness:true, required:true, pitch:1.0, voice:1, bg:'#E2E8D8',
@@ -2866,9 +2868,9 @@ const CHRISTMAS_CASE = {
         t4:"No, it's a toy star from Toy Nest. It's very light."
       },
       notes:{
-        t1:["“I'm {{a|wrapping}} {{b|toys}}. These are gifts for the children.”"],
-        t3:["“No, I'm {{c|still}} wrapping. Nico will take them when I {{d|finish}} wrapping. He's by the {{e|sleigh}}.”"],
-        t4:["“No, it's a {{f|toy}} star from Toy Nest. It's very {{g|light}}.”"]
+        t1:['- {{a|wrapping}} {{b|toys}}', '- gifts for the children'],
+        t3:['- {{c|still}} wrapping', '- {{d|finish}} wrapping → Nico takes them', '- Nico: by the {{e|sleigh}}'],
+        t4:['- a {{f|toy}} star from Toy Nest', '- very {{g|light}}']
       },
       bank:{ t1:['wrapping','carrying','fixing','toys','mittens','books'], t3:['still','already','finish','start','sleigh','tent','shelf'], t4:['toy','real','gold','light','heavy','long'] },
       actions:[
@@ -2903,11 +2905,11 @@ const CHRISTMAS_CASE = {
         n5:'No. It stayed right here all morning.'
       },
       notes:{
-        n1:["“I'm {{a|loading}} the gifts. I'm not {{b|delivering}} yet.”"],
-        n2:["“I'm loading some {{c|gifts}}. Other {{d|volunteers}} {{e|wrapped}} them.”"],
-        n3:["“No, I'm {{f|not}} {{g|wrapping}} {{h|gifts}}. May and Tess wrap them.”"],
-        n4:['“No, {{i|not}} really. But I think I saw {{j|Tess}} taking the {{k|star}}.”'],
-        n5:['“No. It {{l|stayed}} right here all {{m|morning}}.”']
+        n1:['- {{a|loading}} the gifts', '- not {{b|delivering}} yet'],
+        n2:['- loading some {{c|gifts}}', '- other {{d|volunteers}} {{e|wrapped}} them'],
+        n3:['- {{f|not}} {{g|wrapping}} {{h|gifts}}', '- May and Tess wrap them'],
+        n4:['- {{i|not}} really', '- thinks he saw {{j|Tess}} taking the {{k|star}}'],
+        n5:['- the sleigh {{l|stayed}} right here', '- all {{m|morning}}']
       },
       bank:{ n1:['loading','opening','reading','delivering','decorating','wrapping'], n2:['gifts','mittens','volunteers','children','wrapped','opened'],
         n3:['not','now','wrapping','loading','gifts','decorations','mittens'], n4:['not','now','Tess','May','Holly','star','box'], n5:['stayed','moved','started','morning','evening','night'] },
@@ -4389,7 +4391,12 @@ function togglePin(key){
   saveGame();
 }
 // what was written for a checked question, blanks filled
-const writtenLines = (id, qid) => spk(id).notes[qid].map(line => line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, bid, ans) => per(id).notes[bid] || ans));
+// A note line starting with "- " is a detective's memo line (user pick A: short memo lines, not the answer word for
+// word); it shows as a bullet. Its blanks are still words heard in the answer.
+const memoLine = line => line.startsWith('- '), noteText = line => memoLine(line) ? line.slice(2) : line;
+const writtenLines = (id, qid) => spk(id).notes[qid].map(line => noteText(line).replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, bid, ans) => per(id).notes[bid] || ans));
+// the note of one answer as one text (memo lines joined with a dot)
+const writtenText = (id, qid) => writtenLines(id, qid).join(spk(id).notes[qid].some(memoLine) ? ' · ' : ' ');
 function memoHTML(){
   const pins = S.memo.pins.map((key, i) => {
     const [kind, a, b] = key.split(':'), r = i % 2 ? .6 : -.6, x = `<button class="x" type="button" data-unpin="${key}" aria-label="떼기">×</button>`,
@@ -4397,7 +4404,7 @@ function memoHTML(){
     if(kind === 'say'){
       const s = spk(a), q = s && qs(s).find(y => y.id === b);
       if(!q) return '';
-      return `<div class="memo-pin" style="--r:${r}deg"><span class="mini" style="background:${s.bg}">${miniSVG(a)}</span><div><small>${esc(s.name)} · ${esc(q.en)}</small>${esc(writtenLines(a, b).join(' '))}${note}</div>${x}</div>`;
+      return `<div class="memo-pin" style="--r:${r}deg"><span class="mini" style="background:${s.bg}">${miniSVG(a)}</span><div><small>${esc(s.name)} · ${esc(q.en)}</small>${esc(writtenText(a, b))}${note}</div>${x}</div>`;
     }
     const record = S.evidence.find(y => `${y.placeId}-${y.clueIndex}` === a);
     if(!record) return '';
@@ -4482,15 +4489,16 @@ document.addEventListener('pointerdown', e => { if(!e.target.closest('.gw, .blan
 function blockHTML(sIdx, qid, now){
   const s = spk(sIdx), p = per(sIdx), q = qs(s).find(x => x.id === qid);
   let n = 0;   // blank order, for the one-by-one light-up of a fresh check
-  const lines = s.notes[qid].map(line => {
+  const lines = s.notes[qid].map(raw => {
     let html = '', last = 0;
+    const line = noteText(raw);
     line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans, idx) => {
       html += esc(line.slice(last, idx));
       const v = p.notes[id] || '', mk = p.marks[id] || '';
       html += `<input class="blank ${mk}" style="--i:${n++}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
       last = idx + m.length; return m;
     });
-    return `<div class="nline">${html}${esc(line.slice(last))}</div>`;
+    return `<div class="nline${memoLine(raw) ? ' memo' : ''}">${html}${esc(line.slice(last))}</div>`;
   }).join('');
   const status = p.questionChecks[qid], ref = `${s.id}:${qid}`, items = GRAMMAR_LINES[ref];
   const label = `${status === 'ok' && !now ? pinBtn(`say:${ref}`) : ''}Q. ${status === 'ok' ? markGrammar(q.en, items) : esc(q.en)}`;
@@ -6078,7 +6086,7 @@ function drawerStripHTML(){
   if(drawerTab === 'say'){
     const all = statements();
     return all.length ? all.map(ref => { const [id, qid] = ref.split(':');
-      return `<button class="scard" type="button" data-pick="${ref}" aria-pressed="false"><span class="who">${sayFace(id)}<span>${esc(spk(id).name)}</span></span><span class="say">${esc(writtenLines(id, qid).join(' '))}</span></button>`; }).join('')
+      return `<button class="scard" type="button" data-pick="${ref}" aria-pressed="false"><span class="who">${sayFace(id)}<span>${esc(spk(id).name)}</span></span><span class="say">${esc(writtenText(id, qid))}</span></button>`; }).join('')
       : '<p class="empty-note">아직 확인한 진술이 없어요.</p>';
   }
   return S.evidence.length ? [...S.evidence].reverse().map(record => {
@@ -6385,7 +6393,7 @@ function scriptAsk(){
 function presentFigure(ref){
   if(!isSayRef(ref)) return `<figure>${evidenceEntry(ref)?.photo || ''}</figure>`;
   const [id, qid] = ref.split(':');
-  return `<figure class="say"><span class="who">${sayFace(id)}${esc(spk(id).name)}</span><p>${esc(writtenLines(id, qid).join(' '))}</p></figure>`;
+  return `<figure class="say"><span class="who">${sayFace(id)}${esc(spk(id).name)}</span><p>${esc(writtenText(id, qid))}</p></figure>`;
 }
 function scriptPresent(ref){
   if(ending?.step !== 'confront') return;
@@ -6483,7 +6491,7 @@ function present(ref){
   let figure;
   if(isSayRef(ref)){
     const [id, qid] = ref.split(':');
-    figure = `<figure class="say"><span class="who">${sayFace(id)}${esc(spk(id).name)}</span><p>${esc(writtenLines(id, qid).join(' '))}</p></figure>`;
+    figure = `<figure class="say"><span class="who">${sayFace(id)}${esc(spk(id).name)}</span><p>${esc(writtenText(id, qid))}</p></figure>`;
   } else figure = `<figure>${S.evidence.find(r => `${r.placeId}-${r.clueIndex}` === ref).photo}</figure>`;
   shot.innerHTML = figure + (right ? '<span class="contra">모순!</span>' : '');
   $('.scene').appendChild(shot);
@@ -6730,8 +6738,9 @@ function renderReview(dir){
     // the blanks to write again: the ones wrong at first (all of the question's when an older save did not keep them);
     // only the note lines that have one
     const slots = Object.keys(wrong).length ? Object.keys(wrong) : blanksOf(id, [qid]).map(b => b.id);
-    const lines = s.notes[qid].map(line => {
+    const lines = s.notes[qid].map(raw => {
       let html = '', last = 0, has = false;
+      const line = noteText(raw);
       line.replace(BLANK_RE, (m, bid, ans, idx) => {
         has ||= slots.includes(bid);
         html += esc(line.slice(last, idx)) + (slots.includes(bid)
@@ -6739,7 +6748,7 @@ function renderReview(dir){
           : `<span class="got">${esc(ans.split('/')[0])}</span>`);
         last = idx + m.length; return m;
       });
-      return has ? `<div class="nline">${html}${esc(line.slice(last))}</div>` : '';
+      return has ? `<div class="nline${memoLine(raw) ? ' memo' : ''}">${html}${esc(line.slice(last))}</div>` : '';
     }).join('');
     body = `<h2 class="rv-title">다시 들을 문장 <small>${rv.card + 1} / ${rv.missed.length}</small></h2>
       <p class="rv-q">${esc(qs(s).find(q => q.id === qid).en)}</p>
