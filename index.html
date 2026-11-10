@@ -3173,10 +3173,10 @@ const CHRISTMAS_CASE = {
         ] },
       { to:'ella', go:{ det:true, key:'tree-thought', en:"Let's go to the Tree Square.", ko:'트리 광장으로 가 보자.' }, goLabel:'트리 광장으로 가기',
         flag:'night',
-        visit:{ ella:{ place:'tree', x:58, floor:97, height:44 }, holly:{ place:'tree', x:22, floor:97, height:42 }, mae:{ place:'tree', x:38, floor:98, height:32 }, tess:{ place:'tree', x:76, floor:97, height:38 } },
+        visit:{ ella:{ place:'tree', x:58, floor:97, height:44 }, holly:{ place:'tree', x:40, floor:97, height:42 }, mae:{ place:'tree', x:48.5, floor:98, height:32 }, tess:{ place:'tree', x:67, floor:97, height:38 } },
         open:{ who:'ella', key:'countdown', en:'Everyone, the star is back! Three, two, one!', ko:'여러분, 별이 돌아왔어요! 셋, 둘, 하나!' },
         lines:[
-          { key:'merry', flag:'lit', en:'Merry Christmas!', ko:'메리 크리스마스!' },
+          { key:'merry', flag:'lit', wide:{ x:53.5, w:41 }, en:'Merry Christmas!', ko:'메리 크리스마스!' },
           { det:true, key:'star-shining', en:'The star is shining on the tree!', ko:'트리 위에서 별이 빛나고 있어!' }
         ] }
     ]
@@ -4288,10 +4288,14 @@ function focusCamera(fromRect, glide = false){
   // (smaller then, with the feet where everyone else's are)
   const spriteWidth = npcBox(subject, place).width * worldWidth / 100;
   const near = height * share / (worldHeight * Math.max(44, position.height) / 100), fit = width * .94 / spriteWidth;
-  const scale = Math.max(minScale, Math.min(near, fit));
+  // a wide shot (ending.wide: a line's wide, { x, w }: the middle and the width it shows, in % of the picture) takes in
+  // everyone standing there, their feet low in the scene
+  const wide = ending?.wide;
+  const scale = wide ? Math.max(minScale, Math.min(near, width / (worldWidth * wide.w / 100))) : Math.max(minScale, Math.min(near, fit));
   // in the ending too the camera is on whoever speaks (Fiona while questioned, the partner for his closing line)
-  const centerX = position.x;
-  let top = fit < near ? height * (headTop + share) - worldHeight * position.floor / 100 * scale
+  const centerX = wide ? wide.x : position.x;
+  let top = wide ? height * .86 - worldHeight * position.floor / 100 * scale
+    : fit < near ? height * (headTop + share) - worldHeight * position.floor / 100 * scale
     : height * headTop - worldHeight * (position.floor - position.height) / 100 * scale;
   const left = Math.min(0, Math.max(width - worldWidth * scale, width / 2 - worldWidth * centerX / 100 * scale));
   top = Math.min(0, Math.max(height - fullHeight * scale, top));
@@ -6581,6 +6585,8 @@ function handoffLine(){
   const round = ENDING.handoff[ending.round], line = round.lines[ending.i];
   if(line.take) takeItem(line.take);
   if(line.flag && !S.flags.has(line.flag)){ S.flags.add(line.flag); renderScene(placeIdOf(round.to)); }
+  // the whole square from here on (user request: at the lighting, everyone by the lit tree, not Ella alone)
+  if(line.wide !== undefined && ending.wide === undefined){ ending.wide = line.wide; focusCamera(null, true); }
   if(!line.det) return endingSay({ who:round.to, ...line });
   sayHandoff(line);
 }
