@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-10 10:45 · Claude · (이 커밋) 크리스마스트리의 별: 경사의 의뢰 순서
+## 2026-11-10 10:52 · Claude · (이 커밋) 크리스마스트리의 별: 안내대 → 안내소
+
+- 사용자 요청(설계서 MD·HTML, HANDOFF): 한국어 '안내대'를 모두 '안내소'로(축제장에서 자연스러운 말, 영어 information desk는 그대로). 탐정 생각을 "Let's go see Ella at the information desk. / 안내소의 엘라에게 찾아가자."로.
+- 확인: 두 설계서에 '안내대' 0곳, HTML 구문·메타데이터, 미리보기 탭 장면 1(콘솔 오류 없음).
+- **다음**: 사용자의 설계서 검토. 그 뒤 그림·음성의 장면별 계획.
+
+## 2026-11-10 10:45 · Claude · 79f3b4d 크리스마스트리의 별: 경사의 의뢰 순서
 
 - 사용자 요청(설계서 MD·HTML): 장면 1 경사의 의뢰를 "Detective, I'd like you to look into a missing item. / 탐정, 이번 사건은 없어진 물건을 조사해 줬으면 좋겠어." → 탐정 선택 질문 "What's missing? / 뭐가 없어졌는데?" → "The town's Christmas star is missing. Ask Ella at the information desk for more details. / 마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내대의 엘라에게 들어 봐."로. "Can you look into it?"·"I'll look around the festival."·"Later, I'll come back with Ella …"(약속)은 뺌(사용자 결정: 우선 넣지 않음). 심문 중 경사와 엘라가 함께 와서 진행 상황을 묻는 장면은 그대로, "약속대로" 문구만 정리.
 - 확인: 남은 "약속" 문구 검색, HTML 구문·메타데이터, 미리보기 탭 장면 1(콘솔 오류 없음).
