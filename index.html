@@ -137,6 +137,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .spotlight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .9s ease;
   background:radial-gradient(ellipse 66% 48% at 50% 40%,rgba(255,236,190,.12) 0 30%,rgba(34,20,10,.42) 62%,rgba(24,14,8,.82) 100%)}
 .app.interrogate .spotlight{opacity:1}
+/* a person's line sits a little below the top chips (user request: it ran into them) */
+.bubble.say{--bubble-top:58px}
 /* Keep the speech bubble below the gauge only while she is questioned; confession uses the normal top spacing. */
 .app.questioning .bubble.say{--bubble-top:66px}
 /* the detective's own line: low on the screen with no tail (it comes from the player, off screen), honey paper and their
@@ -4288,7 +4290,8 @@ function focusCamera(fromRect, glide = false){
   const notes = $('#app').classList.contains('notes-open');
   // The interview room leaves more room above the speaker for dialogue, showing the face below the bubble.
   const interview = place.id === INTERVIEW_ROOM.id;
-  const share = notes ? .46 : interview ? .52 : .58, headTop = notes ? .07 : interview ? .35 : .16;
+  // (user request: the person stands lower, under the top bubble their lines now come in)
+  const share = notes ? .46 : interview ? .52 : .55, headTop = notes ? .07 : interview ? .35 : .31;
   const fullHeight = worldHeight + (ART_FLOOR[place.id]?.h || 0);
   const minScale = Math.max(width / worldWidth, height / fullHeight);
   // a wide sprite (Mia and Ollie side by side) is never cut by the edges: the camera stays far enough to show all of it
