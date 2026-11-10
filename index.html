@@ -64,7 +64,8 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .scene{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column}
 .stage-area{position:absolute;inset:0;overflow:hidden;background:var(--paper-2)}
 .stage-area .art{width:var(--world-width);height:var(--world-height);transform-origin:0 0;pointer-events:none}
-.art > .art-floor{display:none}
+.art > .art-floor,.art > .art-sky{display:none}
+.stage-area .art-sky{display:block;position:absolute;left:0;bottom:100%;width:100%;height:auto;pointer-events:none}
 .stage-area .art-floor,.art-wrap .art > .art-floor{display:block;position:absolute;left:0;top:100%;width:100%;height:auto;pointer-events:none}
 .art-wrap .art{height:calc(100% * var(--art-share, 1))}
 .stage-area .spot,.stage-area .scene-npc span{display:none}
@@ -3181,11 +3182,11 @@ const CHRISTMAS_CASE = {
           { key:'lighting-invite', en:'The lighting starts soon. Come to the Tree Square!', ko:'곧 점등식이 시작돼. 트리 광장으로 와!' }
         ] },
       { to:'ella', go:{ det:true, key:'tree-thought', en:"Let's go to the Tree Square.", ko:'트리 광장으로 가 보자.' }, goLabel:'트리 광장으로 가기',
-        flag:'night',
+        flag:'night', turn:'lit',
         visit:{ ella:{ place:'tree', x:58, floor:97, height:44 }, holly:{ place:'tree', x:40, floor:97, height:42 }, mae:{ place:'tree', x:48.5, floor:98, height:32 }, tess:{ place:'tree', x:67, floor:97, height:38 } },
         open:{ who:'ella', key:'countdown', en:'Everyone, the star is back! Three, two, one!', ko:'여러분, 별이 돌아왔어요! 셋, 둘, 하나!' },
         lines:[
-          { key:'merry', flag:'lit', wide:{ x:53.5, w:41 }, en:'Merry Christmas!', ko:'메리 크리스마스!' },
+          { key:'merry', flag:'lit', wide:{ x:53.5, w:41, top:300 }, peek:{ x:58, y:-259, w:36 }, en:'Merry Christmas!', ko:'메리 크리스마스!' },
           { det:true, key:'star-shining', en:'The star is shining on the tree!', ko:'트리 위에서 별이 빛나고 있어!' }
         ] }
     ]
@@ -3988,7 +3989,12 @@ Object.assign(SPRITES, {
   'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.png', w:470, h:700, anchor:.47},
   'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:471, h:700, anchor:.47},
   'nico:nervous':{src:'assets/characters/nico-nervous-higgsfield.png', w:439, h:700, anchor:.47},
-  'nico:sad':{src:'assets/characters/nico-nervous-higgsfield.png', w:439, h:700, anchor:.47}
+  'nico:sad':{src:'assets/characters/nico-nervous-higgsfield.png', w:439, h:700, anchor:.47},
+  // the Christmas lighting: the friends from behind, looking up at the lit tree (one sheet, scripts/cut-christmas-backs.py)
+  'holly:back':{src:'assets/characters/holly-back.png', w:447, h:700, anchor:.5},
+  'mae:back':{src:'assets/characters/mae-back.png', w:349, h:700, anchor:.5},
+  'ella:back':{src:'assets/characters/ella-back.png', w:428, h:700, anchor:.5},
+  'tess:back':{src:'assets/characters/tess-back.png', w:410, h:700, anchor:.5}
 });
 const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : id;
 // Each sprite's mouth pictures, [x, y, w, h] in sprite px: the drawn mouth painted over with the fur around it, and a
@@ -4265,17 +4271,18 @@ function speak(text, key, who = S.cur, onDone, range, as){
 
 /* ---------- stage ---------- */
 let cameraMotion;
-function animateCamera(art, from, to){
+function animateCamera(art, from, to, ms = 650){
   cameraMotion?.cancel();
   art.style.transform = to;
   if(from && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-    cameraMotion = art.animate([{transform:from}, {transform:to}], {duration:650, easing:'cubic-bezier(.22,.7,.25,1)'});
+    cameraMotion = art.animate([{transform:from}, {transform:to}], {duration:ms, easing:ms > 650 ? 'cubic-bezier(.45,0,.3,1)' : 'cubic-bezier(.22,.7,.25,1)'});
     cameraMotion.onfinish = () => { if(!S.investigate) focusCamera(); };
   }
 }
 // fromRect: the NPC's on-screen rect when coming from the place view. glide: move from the
 // current framing (the note opened or closed).
-function focusCamera(fromRect, glide = false){
+// ms: how long the move takes (a slow pan in the ending)
+function focusCamera(fromRect, glide = false, ms){
   if(S.investigate) return;
   const subject = S.cur;
   const viewport = $('#talkCamera'), art = $('#art'), place = placeOf(placeIdOf(subject));
@@ -4300,19 +4307,25 @@ function focusCamera(fromRect, glide = false){
   const near = height * share / (worldHeight * Math.max(44, position.height) / 100), fit = width * .94 / spriteWidth;
   // a wide shot (ending.wide: a line's wide, { x, w }: the middle and the width it shows, in % of the picture) takes in
   // everyone standing there, their feet low in the scene
-  const wide = ending?.wide;
-  const scale = wide ? Math.max(minScale, Math.min(near, width / (worldWidth * wide.w / 100))) : Math.max(minScale, Math.min(near, fit));
+  // wide.top: world px above the picture to keep in view too (the tree's star, in the sky above it)
+  // a peek (ending.peek, { x, y, w }: x in %, y in world px, w the width shown in %): the camera on one spot (the star)
+  const wide = ending?.wide, peek = ending?.peek;
+  const scale = peek ? Math.max(minScale, width / (worldWidth * peek.w / 100))
+    : wide ? Math.max(minScale, Math.min(near, width / (worldWidth * wide.w / 100), wide.top ? height * .86 / (worldHeight * position.floor / 100 + wide.top) : Infinity))
+    : Math.max(minScale, Math.min(near, fit));
   // in the ending too the camera is on whoever speaks (Fiona while questioned, the partner for his closing line)
-  const centerX = wide ? wide.x : position.x;
-  let top = wide ? height * .86 - worldHeight * position.floor / 100 * scale
+  const centerX = peek ? peek.x : wide ? wide.x : position.x;
+  let top = peek ? height * .3 - peek.y * scale
+    : wide ? height * .86 - worldHeight * position.floor / 100 * scale
     : fit < near ? height * (headTop + share) - worldHeight * position.floor / 100 * scale
     : height * headTop - worldHeight * (position.floor - position.height) / 100 * scale;
   const left = Math.min(0, Math.max(width - worldWidth * scale, width / 2 - worldWidth * centerX / 100 * scale));
-  top = Math.min(0, Math.max(height - fullHeight * scale, top));
+  const sky = ART_SKY[place.id]?.src ? ART_SKY[place.id].h : 0;
+  top = Math.min(sky * scale, Math.max(height - fullHeight * scale, top));
   const bounds = viewport.getBoundingClientRect();
   const from = fromRect?.width ? `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / worldWidth})`
     : glide ? getComputedStyle(art).transform : null;
-  animateCamera(art, from, `translate(${left}px, ${top}px) scale(${scale})`);
+  animateCamera(art, from, `translate(${left}px, ${top}px) scale(${scale})`, ms);
 }
 // the backpack on the picnic table is gone while the detective carries a bag (from Rosie handing it over until she has
 // hers back; user request)
@@ -6614,9 +6627,33 @@ function handoffLine(){
   if(line.take) takeItem(line.take);
   if(line.flag && !S.flags.has(line.flag)){ S.flags.add(line.flag); renderScene(placeIdOf(round.to)); }
   // the whole square from here on (user request: at the lighting, everyone by the lit tree, not Ella alone)
-  if(line.wide !== undefined && ending.wide === undefined){ ending.wide = line.wide; focusCamera(null, true); }
-  if(!line.det) return endingSay({ who:round.to, ...line });
-  sayHandoff(line);
+  // once the round's turn flag is up (the lighting), everyone there looks at the tree from behind but whoever speaks
+  // (user request: they all watch the tree)
+  const turn = speaker => {
+    if(!round.turn || !S.flags.has(round.turn)) return;
+    Object.keys(round.visit || {}).forEach(id => { if(id === speaker) delete S.mood[id]; else S.mood[id] = 'back'; });
+    renderScene(placeIdOf(round.to));
+  };
+  const say = () => { turn(line.det ? null : line.who || round.to); line.det ? sayHandoff(line) : endingSay({ who:round.to, ...line }); };
+  if(line.wide !== undefined && ending.wide === undefined){
+    ending.wide = line.wide;
+    // with a peek (user request: the camera runs up the lit tree to its star): no bubble or button meanwhile, up to the
+    // spot, a moment there, back out to everyone, then the line
+    if(line.peek && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      const e = ending;
+      ending.peek = line.peek; ending.line = null; renderSay(null); renderAsk(); turn(null);
+      focusCamera(null, true, 2600);
+      clearTimeout(endTimer);
+      endTimer = setTimeout(() => {
+        if(ending !== e) return;
+        ending.peek = null; focusCamera(null, true, 2200);
+        endTimer = setTimeout(() => { if(ending === e) say(); }, 2300);
+      }, 4000);
+      return;
+    }
+    focusCamera(null, true);
+  }
+  say();
 }
 // something handed to the detective in the ending (a line's take): it comes down to them and into 소지품
 function takeItem(id){
@@ -7138,6 +7175,11 @@ const ART = {
 };
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
+// The picture's continuation above its top edge, shown only in the conversation and ending camera: the lit square's
+// sky with the tree's top and its gold star (the Higgsfield picture's band above the place picture, user request)
+const ART_SKY = {
+  tree:{ get src(){ return S.flags?.has('lit') ? 'assets/places/christmas/tree-lit-sky.jpg' : null; }, h:330 }
+};
 const ART_FLOOR = {
   library:{ src:'assets/places/library-floor.jpg', h:506 },
   bakery: { src:'assets/places/bakery-floor.jpg', h:518 },
@@ -7202,6 +7244,7 @@ function renderScene(placeId = S.place){
   art.style.setProperty('--art-share', artHeight / (artHeight + (floor ? Math.min(floor.h, artHeight * .3) : 0)));
   art.innerHTML = `<svg viewBox="0 0 ${pl.artWidth || 900} ${pl.artHeight || 600}" aria-hidden="true">${ART[pl.id]()}</svg>` +
     (floor ? `<img class="art-floor" src="${floor.src}" alt=""${floor.overlap ? ` style="top:${100 - floor.overlap / artHeight * 100}%"` : ''}>` : '') +
+    (ART_SKY[pl.id]?.src ? `<img class="art-sky" src="${ART_SKY[pl.id].src}" alt="">` : '') +
     pl.spots.filter(s => !s.talk && !(s.folded && S.unfolded) && !(s.open && !S.unfolded) && spotOn(s)).map(s => `<button class="spot${S.found[pl.id].has(s.clue) ? ' found' : ''}" type="button" data-clue="${s.clue}"
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} 살펴보기"></button>`).join('') +
     people.map(id => {

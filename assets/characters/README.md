@@ -143,3 +143,7 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 
 - 홀리(양)·메이(생쥐, 앉아서 가위질)·니코(펭귄) 한 장 `b7571dd2-ea5c-4ea3-86bd-4f79f863a91f` → `holly-mae-nico-higgsfield-original.jpg`(16:9 2K, 2크레딧, 참조 엘라·핀과 테스·루비 시트 업로드 media `5ed35ee6-…`·`37934cf2-…`), 배경 제거 `a2a05aec-…`. 니코 당황 `8e15f2a7-c1f5-4829-be44-973fab4497d3` → `nico-nervous-original.jpg`(1K, 1.5크레딧), 배경 제거 `45c2e2c2-…`.
 - `scripts/cut-christmas-assets.py`로 인물마다 잘라 높이 700(`holly-`·`mae-`·`nico-`·`nico-nervous-higgsfield.png`). 말하는 입(`MOUTHS`)·얼굴 아이콘(`ui/icons-v2`)은 아직 만들지 않았다(얼굴은 `SPRITES[].face`로 그림에서 잘라 보임).
+
+## 크리스마스 점등: 뒷모습 넷
+
+- 사용자 요청(점등 때 모두 트리를 보게, 뒷모습은 한 장에만). Higgsfield Nano Banana 2.1, 16:9, 1K, thinking high, 참조 `ella-finn-`·`holly-mae-nico-`·`tess-ruby-higgsfield-original.jpg`, job `b5ff3ce7-2534-4964-a7e6-e1c6bd91b4c9`(약 1.5크레딧) → `xmas-backs-higgsfield-original.png`(마젠타 배경, 왼쪽부터 홀리·메이(의자 위)·엘라·테스). `scripts/cut-christmas-backs.py`가 `holly|mae|ella|tess-back.png`(높이 700)로 자른다.
