@@ -13,6 +13,17 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-10 · Claude · (이 커밋) 크리스마스 별: 저울을 테스의 장난감 저울(소지품)로
+
+- 사용자 결정(A1): 썰매 옆 배송 저울은 이야기에서 소개되지 않아 뜬금없으므로, 플레이어가 미리 보고 스스로 떠올려 빌려 오는 소지품으로 바꿨다.
+- 장면 4: 테스의 포장 전 장난감 자동차를 접시 둘 달린 장난감 양팔 저울로 바꿨다(선택 소품 tess:car → tess:scale, "A little toy scale!", c-toys 촬영 그림·미리보기 도형도). 선물 여섯 개 수는 그대로.
+- 장면 5: 썰매 옆 배송 저울 문장을 뺐다.
+- 장면 7: det:which-box를 "They all look the same. I need a way to check them."로(탐정은 저울·무게·테스를 말하지 않음). 새 줄 ask:borrow-scale "Can I borrow your toy scale?"·tess:lend-scale "Sure! Bring it back, okay?"(받아쓰기 없음)·item:toy-scale(소지품 설명 "A toy scale with two little plates."). 심문 멈춤 중 천막에 다녀올 수 있음. weigh:boxes는 소지품에 저울이 있을 때만.
+- 장면 9(기획 구체화, 사용자 확인 전): 빌렸다면 점등식 카운트다운 전에 det:return-scale "Tess, here's your scale. Thanks!"·tess:scale-back "You're welcome!".
+- 해금 표·흐름·그림 계획·§9 점검 표·HANDOFF 0절의 엔진 추가 목록(소지품을 현장 물건에 쓰기, 심문 멈춤 중 이동)을 맞췄다.
+- 확인: MD·HTML에 남은 "배송 저울"·"자동차"는 결정 기록뿐. 설계서 미리보기(5173)에서 장면 7 새 줄과 저울 도형이 보이고 콘솔 오류 없음. 게임 코드 변경 없음.
+- **다음**: 저울 반환 장면(장면 9)을 둘지 사용자 확인. 그 뒤 그림·음성 장면별 계획(새로 만들기·재사용, 크레딧), 엔진 추가와 사건 데이터 개발.
+
 ## 2026-11-10 · Claude · (이 커밋) 크리스마스 별: 메이 m1 질문을 "What are you doing now?"로
 
 - 사용자 결정: 메이 m1 질문 "What are you wrapping?"이 대답 "I'm making snowflakes for the tree. I'm helping Holly."와 맞지 않아 "What are you doing now? / 지금 뭐 하고 있어?"로 바꿨다. 대답·노트 빈칸·보기는 그대로다. 장면 3 설명도 "지금 무엇을 하는지 묻는다"로 맞췄다. 테스 t1의 같은 질문은 대답과 맞으므로 그대로 둔다.
