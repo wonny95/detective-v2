@@ -3048,7 +3048,7 @@ const CHRISTMAS_CASE = {
   ],
   positions:{
     badger:{x:28, floor:97, height:46},
-    ella:{x:69, floor:97, height:46},   // on the snow just left of the booth (user: she floated on its counter)
+    ella:{x:61, floor:97, height:46},   // on the snow clear of the booth (user: she floated on its counter)
     holly:{x:30, floor:97, height:46},
     mae:{x:78, floor:98, height:36},
     tess:{x:50, floor:97, height:40},
@@ -7163,7 +7163,8 @@ const ART_FLOOR = {
   stage:    { src:'assets/places/violin/stage-floor.jpg', h:775 },
   backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 },
   // the Christmas star case: one tall picture each
-  tree:     { src:'assets/places/christmas/tree-floor.jpg', h:745 },
+  // the night and the lit square have their own darker floor (user: a day floor under the night picture looked wrong)
+  tree:     { get src(){ return `assets/places/christmas/tree-floor${S.flags?.has('lit') ? '-lit' : S.flags?.has('night') ? '-night' : ''}.jpg`; }, h:745 },
   storeroom:{ src:'assets/places/christmas/storeroom-floor.jpg', h:695 },
   tent:     { src:'assets/places/christmas/tent-floor.jpg', h:555 },
   sleigh:   { src:'assets/places/christmas/sleigh-floor.jpg', h:815 }
