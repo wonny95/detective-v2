@@ -682,6 +682,7 @@ node server.js            # http://localhost:5173/
 - **도서관 사건 교육적 배치**: 앱에서는 도서관을 Case 02로 플레이한다. 내부 ID `case01`과 기존 저장은 유지한다. 교육용 36개 사건 순서에서는 Case 18(L2-03 B) 종합 사건 후보이며, 현재 앱 번호와 교육 순서는 다르다. `between`은 항상 한순간이라고 일반화하지 않고 동사·상황과 함께 설명해야 한다.
 - **학습 경험·훈련·보상**: `LEARNING_PLAN.md`. 예습 = **이번 사건의 열쇠 문법 카드**(적용됨, 3.2절), 사건 학습 고리, 제작 틀, 탐정 훈련(수첩 잉크 간격 반복), 도토리 경제·보상, 효과 측정. 기존 수사·추리·복습 외 확장안은 미구현·미확정이다.
 
+- **개발된 사건의 "결론은 플레이어가" 점검(사용자: 나중에 생각)**: 크리스마스 별만 고쳤다. 소풍·우산·바이올린에서 찾은 곳(아직 그대로, 고치면 탐정 음성을 다시 만들어야 함): 소풍 추리 8번 맞장구 "So the bag Ben brought to Nora is Rosie's bag."(9번 답을 먼저 말함), 바이올린 비교 대사 c3 "The piece looks the same as this broken string."(비교 결과를 탐정이 판정), 바이올린 생각 think-sleeves "I should look at everyone's sleeves."·think-compare "I should compare this piece with the broken strings."(다음 추리 단계를 정해 줌), 우산 생각 together1 "It rained at the toy bazaar. Maybe someone brought an umbrella. …"(비→우산 추론과 추리 1번 답을 먼저 말함). 도서관 사건은 점검하지 않았다.
 
 ## 11. 알려진 이슈와 주의점
 
