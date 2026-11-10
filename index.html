@@ -2726,10 +2726,8 @@ Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give'
    missing from the festival storeroom. Nico, who only carries and delivers the gifts, hid it in a gift box on his sleigh
    among May's four boxes of mittens. Tess's six toy gifts are all still on her table and her gold toy star is a light
    toy; the glitter under the shelf is from it. The player counts the boxes, opens the heavy one and shows the leaf on
-   the back; Ella gets her star back by the sleigh and the tree is lit in the square. No pictures or recordings yet:
-   placeholder places (ART.christmas*), the people's dashed cut-outs, the browser's voice (silent). */
-// a placeholder thing for 소지품 until the item sheet is drawn: a plain shape on paper, clearly not the real picture
-const xmasThing = shape => `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#F3EBDD"/><g fill="none" stroke="#8B7A66" stroke-width="5" stroke-dasharray="14 10">${shape}</g><text x="200" y="285" text-anchor="middle" font-size="18" fill="#8B7A66" font-family="sans-serif">그림 준비 중</text></svg>`)}`;
+   the back; Ella gets her star back by the sleigh and the tree is lit in the square. Pictures: Higgsfield
+   (assets/places/christmas/, scripts/cut-christmas-assets.py); no recordings yet: the browser's voice (silent). */
 const CHRISTMAS_CASE = {
   start:'badger',
   leaveOpen:true,
@@ -2919,13 +2917,13 @@ const CHRISTMAS_CASE = {
   /* the four festival places (design 5절 장면 배치표) and the close looks. A spot's when/unless: conditions for it to be
      there; take: picked up (or '!flag': only marked done) after its lines; inspect: opens that close look */
   places:[
-    { id:'tree', x:50, y:72, label:'Tree Square', artWidth:1376, artHeight:768,
+    { id:'tree', x:50, y:74, label:'Tree Square', artWidth:1376, artHeight:768,
       clues:[
         { label:'Big tree', prop:true, en:'What a tall tree!', ko:'정말 큰 트리네!' },
         { label:'Tiny bell', prop:true, en:'A tiny bell!', ko:'작은 종이네!' }
       ],
-      spots:[ { clue:0, x:38, y:4, w:24, h:62 }, { clue:1, x:44, y:70, w:6, h:9 } ] },
-    { id:'storeroom', x:24, y:30, label:'Storeroom', artWidth:1376, artHeight:768,
+      spots:[ { clue:0, x:40, y:4, w:30, h:52 }, { clue:1, x:39, y:58, w:5, h:9 } ] },
+    { id:'storeroom', x:26, y:20, label:'Storeroom', artWidth:1376, artHeight:768,
       clues:[
         { label:'Empty case', en:'The case is empty.', ko:'보관함이 비어 있어.' },
         { label:'Gold glitter', en:"There's gold glitter on the floor.", ko:'바닥에 금빛 반짝이가 있어.' },
@@ -2940,26 +2938,26 @@ const CHRISTMAS_CASE = {
         { label:'Wreath', prop:true, en:'What a big wreath!', ko:'화환이 정말 크네!' }
       ],
       spots:[
-        { clue:0, x:76, y:22, w:12, h:14, when:['ella:e2'] },
-        { clue:1, x:76, y:52, w:12, h:9, when:['storeroom-0'] },
-        { clue:2, x:60, y:56, w:12, h:24 },
-        { clue:3, x:30, y:46, w:14, h:20 },
-        { clue:4, x:90, y:30, w:9, h:40, when:['ella:e2'] },
-        { clue:5, x:16, y:12, w:7, h:56 },
-        { clue:6, x:46, y:62, w:10, h:14 },
-        { clue:7, x:4, y:18, w:9, h:20, unless:['!open-order'] },
-        { clue:8, x:4, y:18, w:9, h:20, when:['!open-order'], unless:['!took:scale'] },
-        { clue:9, x:46, y:40, w:10, h:12 },
-        { clue:10, x:24, y:8, w:10, h:16 }
+        { clue:0, x:82, y:14, w:15, h:17, when:['ella:e2'] },
+        { clue:1, x:84, y:33, w:14, h:9, when:['storeroom-0'] },
+        { clue:2, x:86, y:56, w:14, h:36 },
+        { clue:3, x:20, y:2, w:20, h:56 },
+        { clue:4, x:77, y:24, w:8, h:36, when:['ella:e2'] },
+        { clue:5, x:2, y:10, w:14, h:50 },
+        { clue:6, x:55, y:76, w:19, h:22 },
+        { clue:7, x:53, y:42, w:11, h:22, unless:['!open-order'] },
+        { clue:8, x:53, y:42, w:11, h:22, when:['!open-order'], unless:['!took:scale'] },
+        { clue:9, x:34, y:66, w:21, h:28 },
+        { clue:10, x:10, y:70, w:16, h:20 }
       ] },
-    { id:'tent', x:76, y:30, label:'Gift Tent', artWidth:1376, artHeight:768,
+    { id:'tent', x:82, y:20, label:'Gift Tent', artWidth:1376, artHeight:768,
       clues:[
         { label:'Long ribbon', prop:true, en:'What a long ribbon!', ko:'리본이 정말 기네!' },
         { label:'Snowflakes', prop:true, en:'So many snowflakes!', ko:'눈송이가 정말 많네!' },
         { label:'Bow', prop:true, en:'That one looks nice.', ko:'저거 예쁘네!' }
       ],
-      spots:[ { clue:0, x:70, y:60, w:10, h:10 }, { clue:1, x:80, y:52, w:12, h:12 }, { clue:2, x:22, y:52, w:8, h:10 } ] },
-    { id:'sleigh', x:52, y:36, label:'Delivery Sleigh', artWidth:1376, artHeight:768,
+      spots:[ { clue:0, x:76, y:86, w:9, h:12 }, { clue:1, x:86, y:72, w:14, h:26 }, { clue:2, x:13, y:44, w:9, h:12 } ] },
+    { id:'sleigh', x:58, y:33, label:'Delivery Sleigh', artWidth:1376, artHeight:768,
       clues:[
         { label:'Boxes on the sleigh', en:'The boxes look the same.', ko:'상자들이 똑같아 보여.' },
         { label:'Marks by the post', en:'More marks over here.', ko:'이쪽에도 자국이 있네.' },
@@ -2967,27 +2965,27 @@ const CHRISTMAS_CASE = {
         { label:'Empty box', prop:true, en:'Nothing in this one.', ko:'이 상자는 비었네.' },
         { label:"Tess's table", take:'!table-seen', lines:[ { key:'current-table-observation', en:"I can see Tess's table.", ko:'테스의 탁자가 보여.' } ] },
         // the five boxes once the officer says to open one (design 장면 7); the third holds the star
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.' },
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.' },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:424, y:150, w:170, h:130 } },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:528, y:180, w:170, h:130 } },
         { label:'Box', take:'star', flag:'box-open', lines:[] },
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.' },
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.' },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:740, y:200, w:170, h:130 } },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:870, y:200, w:170, h:130 } },
         { label:'Star in the box', en:'A star inside the box.', ko:'상자 안에 별이 있어.' },
         { label:'Back of the star', inspect:'starback' }
       ],
       spots:[
-        { clue:0, x:34, y:34, w:30, h:22, when:['met:nico'], unless:['!open-order'] },
-        { clue:1, x:6, y:62, w:16, h:22 },
-        { clue:2, x:70, y:40, w:9, h:20 },
-        { clue:3, x:58, y:66, w:9, h:12 },
-        { clue:4, x:82, y:20, w:16, h:30, when:['tess:t3', 'toys-0', 'nico:n4', 'nico:n5'], unless:['!table-seen'] },
-        { clue:5, x:34, y:36, w:6, h:16, when:['!open-order'], unless:['!box-open'] },
-        { clue:6, x:40, y:36, w:6, h:16, when:['!open-order'], unless:['!box-open'] },
-        { clue:7, x:46, y:36, w:6, h:16, when:['!open-order'], unless:['!box-open'] },
-        { clue:8, x:52, y:36, w:6, h:16, when:['!open-order'], unless:['!box-open'] },
-        { clue:9, x:58, y:36, w:6, h:16, when:['!open-order'], unless:['!box-open'] },
-        { clue:10, x:44, y:30, w:10, h:22, when:['!box-open'] },
-        { clue:11, x:44, y:30, w:10, h:22, when:['sleigh-10'] }
+        { clue:0, x:30, y:14, w:46, h:40, when:['met:nico'], unless:['!open-order'] },
+        { clue:1, x:0, y:30, w:12, h:62 },
+        { clue:2, x:33, y:63, w:18, h:33 },
+        { clue:3, x:16, y:60, w:17, h:30 },
+        { clue:4, x:66, y:2, w:27, h:30, when:['tess:t3', 'toys-0', 'nico:n4', 'nico:n5'], unless:['!table-seen'] },
+        { clue:5, x:31, y:17, w:8, h:20, when:['!open-order'], unless:['!box-open'] },
+        { clue:6, x:39, y:21, w:8, h:22, when:['!open-order'], unless:['!box-open'] },
+        { clue:7, x:47, y:31, w:8, h:21, when:['!open-order'], unless:['!box-open'] },
+        { clue:8, x:55, y:26, w:9, h:24, when:['!open-order'], unless:['!box-open'] },
+        { clue:9, x:64, y:29, w:10, h:16, when:['!open-order'], unless:['!box-open'] },
+        { clue:10, x:42, y:30, w:17, h:24, when:['!box-open'], photo:{ x:520, y:170, w:400, h:300 } },
+        { clue:11, x:42, y:30, w:17, h:24, when:['sleigh-10'] }
       ] },
     // never on the map: Tess's toys and the toy star's back (her actions), the real star's back (from the open box)
     { id:'toys', inspect:true, label:'Gift Tent', artWidth:1376, artHeight:768,
@@ -2995,13 +2993,13 @@ const CHRISTMAS_CASE = {
         { label:"Tess's toy gifts", en:'Some boxes are still open.', ko:'아직 열린 상자들이 있네.' },
         { label:'Toy car', prop:true, en:'A little toy car!', ko:'작은 장난감 자동차네!' }
       ],
-      spots:[ { clue:0, x:14, y:16, w:72, h:66, photo:{ x:188, y:120, w:1000, h:750 } }, { clue:1, x:60, y:60, w:10, h:12 } ] },
+      spots:[ { clue:0, x:13, y:0, w:74, h:100, photo:{ x:176, y:0, w:1024, h:768 } }, { clue:1, x:26, y:43, w:17, h:29 } ] },
     { id:'toystar', inspect:true, label:'Gift Tent', artWidth:1376, artHeight:768,
       clues:[ { label:'Back of the toy star', en:'The edge is peeling.', ko:'가장자리가 벗겨졌네.' } ],
-      spots:[ { clue:0, x:30, y:14, w:40, h:72, photo:{ x:288, y:84, w:800, h:600 } } ] },
+      spots:[ { clue:0, x:29, y:14, w:42, h:72, photo:{ x:288, y:84, w:800, h:600 } } ] },
     { id:'starback', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768,
       clues:[ { label:'Back of the star', en:'A small leaf pattern on the back of the star.', ko:'별 뒷면에 작은 잎사귀 모양이 있어.' } ],
-      spots:[ { clue:0, x:30, y:14, w:40, h:72, photo:{ x:288, y:84, w:800, h:600 } } ] }
+      spots:[ { clue:0, x:29, y:14, w:42, h:72, photo:{ x:288, y:84, w:800, h:600 } } ] }
   ],
   // design 6절: every talk (18 questions), the seven photos before the box is opened, the look at Tess's table
   needed:['storeroom-0', 'storeroom-1', 'toys-0', 'sleigh-0', 'toystar-0', 'storeroom-4', 'sleigh-1'],
@@ -3018,21 +3016,24 @@ const CHRISTMAS_CASE = {
     { when:['sleigh-10'], line:{ key:'box-contents', en:"You said this was a gift. There's a star inside.", ko:'선물이라고 했지. 안에는 별이 있어.' } }
   ],
   positions:{
-    badger:{x:36, floor:94, height:44},
-    ella:{x:70, floor:93, height:46},
-    holly:{x:20, floor:94, height:42},
-    mae:{x:76, floor:95, height:28},
-    tess:{x:30, floor:94, height:36},
-    nico:{x:24, floor:94, height:40}
+    badger:{x:28, floor:97, height:46},
+    ella:{x:84, floor:97, height:46},
+    holly:{x:30, floor:97, height:46},
+    mae:{x:78, floor:98, height:36},
+    tess:{x:50, floor:97, height:40},
+    nico:{x:84, floor:97, height:44}
   },
   // where the officer and Ella stand once they come to the sleigh, and everyone at the lighting (design 7·9절)
-  joinPositions:{ badger:{x:62, floor:94, height:44}, ella:{x:78, floor:93, height:46} },
+  joinPositions:{ badger:{x:14, floor:97, height:46}, ella:{x:64, floor:97, height:46} },
   items:{
     // titles say what the thing is, never whose (design)
-    star:{ label:'Gold star', en:'A star inside the box.', ko:'상자 안에 별이 있어.', img:xmasThing('<path d="M200 40 L232 120 L318 124 L250 176 L274 258 L200 210 L126 258 L150 176 L82 124 L168 120 Z"/>'), w:400, h:300, crop:[0, 0, 400, 300] },
-    scale:{ label:'Scale', en:'A scale with two plates.', ko:'접시 두 개 달린 저울이야.', img:xmasThing('<path d="M200 60 V230 M150 240 H250 M90 90 H310 M90 90 L60 150 M90 90 L120 150 M310 90 L280 150 M310 90 L340 150 M55 150 Q90 180 125 150 Z M275 150 Q310 180 345 150 Z"/>'), w:400, h:300, crop:[0, 0, 400, 300] }
+    star:{ label:'Gold star', en:'A star inside the box.', ko:'상자 안에 별이 있어.', img:'assets/places/christmas/box-star.png', w:1069, h:696, crop:[-100, -137, 1269, 952],
+      bag:'assets/places/christmas/box-star.png' },
+    scale:{ label:'Scale', en:'A scale with two plates.', ko:'접시 두 개 달린 저울이야.', img:'assets/places/christmas/scale.png', w:857, h:693, crop:[-50, -60, 957, 718] }
   },
   previewHandback:['star'],
+  // the festival ground from above (user plan 10번), its own map as the violin case's hall
+  map:'assets/places/christmas/map-festival.webp',
   deduce:{
     people:[['May Mouse', 'mae'], ['Tess Tortoise', 'tess'], ['Nico Penguin', 'nico'], ['Holly Sheep', 'holly']],
     places:[], things:[], colors:[], times:[],
@@ -3148,7 +3149,7 @@ const CHRISTMAS_CASE = {
         ] },
       { to:'ella', go:{ det:true, key:'tree-thought', en:"Let's go to the Tree Square.", ko:'트리 광장으로 가 보자.' }, goLabel:'트리 광장으로 가기',
         flag:'night',
-        visit:{ ella:{ place:'tree', x:50, floor:93, height:40 }, holly:{ place:'tree', x:24, floor:94, height:38 }, mae:{ place:'tree', x:38, floor:95, height:24 }, tess:{ place:'tree', x:66, floor:94, height:32 } },
+        visit:{ ella:{ place:'tree', x:58, floor:97, height:44 }, holly:{ place:'tree', x:22, floor:97, height:42 }, mae:{ place:'tree', x:38, floor:98, height:32 }, tess:{ place:'tree', x:76, floor:97, height:38 } },
         open:{ who:'ella', key:'countdown', en:'Everyone, the star is back! Three, two, one!', ko:'여러분, 별이 돌아왔어요! 셋, 둘, 하나!' },
         lines:[
           { key:'merry', flag:'lit', en:'Merry Christmas!', ko:'메리 크리스마스!' },
@@ -3933,7 +3934,11 @@ const SPRITES = {
   owen:{src:'assets/characters/owen-higgsfield.png', w:471, h:700, face:'68 0 336 336', anchor:.465},
   ivo:{src:'assets/characters/ivo-higgsfield.png', w:457, h:700, face:'46 0 364 364', anchor:.5},
   momo:{src:'assets/characters/momo-higgsfield.png', w:420, h:700, face:'35 14 350 350', anchor:.5},
-  pip:{src:'assets/characters/pip-higgsfield.png', w:480, h:700, face:'23 0 434 434', anchor:.5}
+  pip:{src:'assets/characters/pip-higgsfield.png', w:480, h:700, face:'23 0 434 434', anchor:.5},
+  // the Christmas star case (scripts/cut-christmas-assets.py): Holly, May (seated, as she works), Nico
+  holly:{src:'assets/characters/holly-higgsfield.png', w:443, h:700, face:'50 10 320 320', anchor:.5},
+  mae:{src:'assets/characters/mae-higgsfield.png', w:457, h:700, face:'40 0 360 360', anchor:.45},
+  nico:{src:'assets/characters/nico-higgsfield.png', w:486, h:700, face:'75 0 330 330', anchor:.47}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
@@ -3941,7 +3946,9 @@ Object.assign(SPRITES, {
   'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415},
   // Owen in the questioning (violin case): cornered from his second claim, sorry when he owns up
   'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.png', w:470, h:700, anchor:.47},
-  'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:471, h:700, anchor:.47}
+  'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:471, h:700, anchor:.47},
+  'nico:nervous':{src:'assets/characters/nico-nervous-higgsfield.png', w:439, h:700, anchor:.47},
+  'nico:sad':{src:'assets/characters/nico-nervous-higgsfield.png', w:439, h:700, anchor:.47}
 });
 const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : id;
 // Each sprite's mouth pictures, [x, y, w, h] in sprite px: the drawn mouth painted over with the fur around it, and a
@@ -6872,21 +6879,32 @@ function bookRows(){
   return s;
 }
 
-function xmasArt(id){
-  const pl = placeOf(id), W = pl.artWidth, H = pl.artHeight, night = id === 'tree' && S.flags.has('night'), lit = night && S.flags.has('lit');
-  const bg = night ? '#3B4258' : pl.inspect ? '#E9E1D2' : '#F1EADC', ink = night ? '#C9CEDC' : '#8B7A66';
-  let out = `<rect width="${W}" height="${H}" fill="${bg}"/>` + (pl.inspect ? '' : `<rect y="${H * .74}" width="${W}" height="${H * .26}" fill="${night ? '#2E3446' : '#E4DBCB'}"/>`);
-  if(id === 'tree') out += `<path d="M688 40 L560 520 L816 520 Z" fill="${night ? '#2F4A3A' : '#B9C9B0'}" stroke="${ink}" stroke-width="4"/>` +
-    (S.flags.has('night') ? `<path d="M688 16 l12 26 28 3 -21 19 6 28 -25 -14 -25 14 6 -28 -21 -19 28 -3z" fill="${lit ? '#F2C94C' : '#8C7A3C'}"/>` : '') +
-    (lit ? [...Array(18)].map((_, n) => `<circle cx="${600 + (n * 53) % 180}" cy="${150 + n * 20}" r="7" fill="#FCE38A"/>`).join('') : '');
-  out += pl.spots.filter(spotOn).map(sp => { const x = sp.x * W / 100, y = sp.y * H / 100, w = sp.w * W / 100, h = sp.h * H / 100, c = pl.clues[sp.clue];
-    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="none" stroke="${ink}" stroke-width="3" stroke-dasharray="12 9"/>` +
-      `<text x="${x + w / 2}" y="${y + h / 2}" text-anchor="middle" dominant-baseline="middle" font-size="22" fill="${ink}" font-family="sans-serif">${esc(c.label)}</text>`; }).join('');
-  return out + `<text x="24" y="44" font-size="26" fill="${ink}" font-family="sans-serif">그림 준비 중 · ${esc(pl.label)}</text>`;
-}
+const XM = 'assets/places/christmas/';
+// a close look over a dimmed, blurred place (as closeLook): the thing alone in the middle
+const xmasLook = (room, inner) => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+  <image href="${XM}${room}.jpg" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>${inner}`;
+// Tess's delivery list on her clipboard (AI pictures write poorly): the six names, the ticks for what is wrapped
+// (two at first, four once the table has moved on)
+const xmasList = () => { const done = S.flags.has('table-seen') ? 4 : 2;
+  return `<g transform="translate(686 302) rotate(-9)" font-family="Georgia,serif" fill="#3F3326"><text x="40" y="18" font-size="12" font-weight="700">Gifts for This Delivery</text>
+    <text x="40" y="34" font-size="11">Toy gifts: 6</text>${['Lumi', 'Tilly', 'Bo', 'Nori', 'Kit', 'Poppy'].map((n, i) =>
+      `<text x="${40 + (i % 2) * 64}" y="${50 + Math.floor(i / 2) * 13}" font-size="10">${n}${i < done ? ' ✓' : ''}</text>`).join('')}</g>`; };
 const ART = {
-  // the Christmas star case: placeholders until its pictures are made (xmasArt)
-  ...Object.fromEntries(['tree', 'storeroom', 'tent', 'sleigh', 'toys', 'toystar', 'starback'].map(id => [id, () => xmasArt(id)])),
+  /* the Christmas star case (assets/places/christmas/, scripts/cut-christmas-assets.py). The square at night is the day
+     picture darkened, then lit (user plan); the scale leaves the storeroom once taken (the picture without it) and
+     stands by the sleigh while carried; the opened box shows the star; the table moves on once looked at from the
+     sleigh (the car's box wrapped, two more ticks) */
+  tree: () => `<image href="${XM}${S.flags.has('lit') ? 'tree-lit' : S.flags.has('night') ? 'tree-night' : 'tree'}.jpg" width="1376" height="768"/>`,
+  storeroom: () => `<image href="${XM}${S.flags.has('took:scale') ? 'storeroom-noscale' : 'storeroom'}.jpg" width="1376" height="768"/>`,
+  tent: () => `<image href="${XM}tent.jpg" width="1376" height="768"/>` +
+    (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + xmasList(),
+  sleigh: () => `<image href="${XM}sleigh.jpg" width="1376" height="768"/>` +
+    (S.items.includes('scale') ? `<image href="${XM}scale.png" x="1010" y="500" width="190" height="154"/>` : '') +
+    (S.flags.has('box-open') ? `<image href="${XM}box-star.png" x="590" y="250" width="220" height="143"/>` : ''),
+  toys: () => xmasLook('tent', `<svg x="176" y="0" width="1024" height="768" viewBox="150 190 760 570"><image href="${XM}tent.jpg" width="1376" height="768"/>` +
+    (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + `${xmasList()}</svg>`),
+  toystar: () => xmasLook('tent', `<image href="${XM}toy-star-back.png" x="396" y="104" width="583" height="560"/>`),
+  starback: () => xmasLook('sleigh', `<image href="${XM}star-back.png" x="393" y="104" width="589" height="560"/>`),
   /* the umbrella case's places (scripts/cut-umbrella-places.py): one tall Higgsfield picture each with its floor. The
      banner's, the notice's and the sign's words are drawn over the picture (AI pictures write poorly), and so is the
      bazaar photo on the board, at full size for its evidence photo. The umbrella stands in the hall's stand (put in
@@ -7014,7 +7032,12 @@ const ART_FLOOR = {
   foyer:    { src:'assets/places/violin/lobby-floor.jpg', h:695 },
   waiting:  { src:'assets/places/violin/waiting-floor.jpg', h:935 },
   stage:    { src:'assets/places/violin/stage-floor.jpg', h:775 },
-  backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 }
+  backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 },
+  // the Christmas star case: one tall picture each
+  tree:     { src:'assets/places/christmas/tree-floor.jpg', h:745 },
+  storeroom:{ src:'assets/places/christmas/storeroom-floor.jpg', h:695 },
+  tent:     { src:'assets/places/christmas/tent-floor.jpg', h:555 },
+  sleigh:   { src:'assets/places/christmas/sleigh-floor.jpg', h:815 }
 };
 
 // a close look (violin case): the cut-out (w: its width at 300 tall) in the middle, 260 tall, over its room blurred and
@@ -7125,6 +7148,15 @@ function captureEvidence(place, clueIndex){
     else finishCapture();
   }, 1100);
 }
+// a thing opened for a moment where it is (peek, the Christmas star case's mitten boxes), then shut again
+function peekAt(p){
+  const svg = $('#art svg'); if(!svg) return;
+  svg.querySelectorAll('.peek').forEach(n => n.remove());
+  const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+  img.setAttribute('class', 'peek'); img.setAttribute('href', (p.img.includes('/') ? '' : 'assets/places/christmas/') + p.img);
+  ['x', 'y', 'width', 'height'].forEach((k, n) => img.setAttribute(k, [p.x, p.y, p.w, p.h][n]));
+  svg.appendChild(img); setTimeout(() => img.remove(), 1800);
+}
 // an ordinary object: only the detective's sentence, no photo
 function sayProp(clue){
   cancelCapture();
@@ -7157,7 +7189,7 @@ function examine(i){
   const pl = placeObj();
   if(pl.clues[i].inspect) return openInspect(pl.clues[i].inspect);
   if(pl.clues[i].take) return takeFromPlace(pl, i);
-  if(pl.clues[i].prop){ sayProp(pl.clues[i]); return; }
+  if(pl.clues[i].prop){ sayProp(pl.clues[i]); if(pl.clues[i].peek) peekAt(pl.clues[i].peek); return; }
   const fresh = !S.found[pl.id].has(i);
   S.found[pl.id].add(i);
   if(fresh){
@@ -7891,9 +7923,9 @@ const CASES = [
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   // the education plan's order (L1-05 B, handed over 2026-11-09): the Christmas star after the library; no pictures yet
-  { id:'christmas-star', no:'Case 05', title:'사라진 크리스마스트리의 별', art:'tree', cover:{ src:xmasThing('<path d="M200 40 L232 120 L318 124 L250 176 L274 258 L200 210 L126 258 L150 176 L82 124 L168 120 Z"/>'), alt:'금으로 만든 별' }, playable:true,
+  { id:'christmas-star', no:'Case 05', title:'사라진 크리스마스트리의 별', art:'tree', cover:{ src:'assets/places/christmas/box-star.png', alt:'선물 상자 속 금별' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
-    photo:{ img:xmasThing('<circle cx="200" cy="120" r="70"/><path d="M110 260 C110 200 150 180 200 180 C250 180 290 200 290 260"/>') },
+    photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.png', cx:50 },
     summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 메이가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 무거운 상자 속 별 뒷면의 잎사귀 무늬를 엘라가 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
   { id:'case04', no:'Case 06' }
 ];
