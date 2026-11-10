@@ -13,7 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-10 10:39 · Claude · (이 커밋) 크리스마스트리의 별: 니코의 핑계·경사와 엘라의 도착
+## 2026-11-10 10:45 · Claude · (이 커밋) 크리스마스트리의 별: 경사의 의뢰 순서
+
+- 사용자 요청(설계서 MD·HTML): 장면 1 경사의 의뢰를 "Detective, I'd like you to look into a missing item. / 탐정, 이번 사건은 없어진 물건을 조사해 줬으면 좋겠어." → 탐정 선택 질문 "What's missing? / 뭐가 없어졌는데?" → "The town's Christmas star is missing. Ask Ella at the information desk for more details. / 마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내대의 엘라에게 들어 봐."로. "Can you look into it?"·"I'll look around the festival."·"Later, I'll come back with Ella …"(약속)은 뺌(사용자 결정: 우선 넣지 않음). 심문 중 경사와 엘라가 함께 와서 진행 상황을 묻는 장면은 그대로, "약속대로" 문구만 정리.
+- 확인: 남은 "약속" 문구 검색, HTML 구문·메타데이터, 미리보기 탭 장면 1(콘솔 오류 없음).
+- **다음**: 사용자의 설계서 검토. 그 뒤 그림·음성의 장면별 계획.
+
+## 2026-11-10 10:39 · Claude · 9239bf3 크리스마스트리의 별: 니코의 핑계·경사와 엘라의 도착
 
 - 사용자 요청: 억지스러운 곳 세 군데(니코의 쉬운 거짓말, 경사의 우연한 도착, 보이지 않는 봉사자) 개선. 설계서 수정(사용자 결정, MD·HTML):
   - 니코의 핑계: 두 단계 말 바꾸기 + 남 탓하는 거짓 목격. n4 대답이 "I saw Holly taking a big box there."(빈칸 not·Holly, 홀리는 실제로 큰 장식 상자를 손수레로 옮겨 반쯤 사실). 심문 주장 넷: 테스(t3·c-toys) → 메이 쿠키(m3·c-cookies) → 홀리 탓(h4·c-track-yard) → 별(c-mark). 자백에 "I said Holly took it. That wasn't true." 복습 단어 delivery 뺌.
