@@ -13,6 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 크리스마스 광장: 누를 거리 여섯 추가
+
+- 사용자 요청("트리광장에 클릭해볼 요소가 별로 없네")·선택: 지팡이 사탕 "A candy cane!", 장난감 기차 "A little toy train!", 빨간 공 "A shiny red ball!", 문 화환 "There's a wreath on the door.", 안내지 "Festival leaflets!", 언덕길 "The path goes up the hill."(모두 `prop`, 단서 아님). 큰 트리 자리를 트리 위쪽으로 줄여 장식들을 따로 누를 수 있게 함. 설계서(MD·HTML) 탐정 관찰 표 두 곳에 줄 추가.
+- 음성: 탐정 Grady 6줄(`audio/christmas/detective-tree-2`…`7.mp3`, 약 1.3크레딧). `scripts/christmas-voice-lines.js` 기준 빠진 파일 없음.
+- 확인: 새 탭에서 여덟 자리 모두 다른 것에 가리지 않고 눌림(엘라 포함), 기차를 눌러 음성 재생.
+- 못 한 것: 폰 크기, 음성 직접 듣기. 비교 그림 `design/tree-decor-compare.jpg` 삭제 승인 대기.
+- **다음**: 사용자 플레이 확인. 밤·점등 트리를 새 트리에 맞출지 결정 대기.
+
 ## 2026-11-11 · Claude · (이 커밋) 크리스마스 광장: 낮 트리에 장식 추가
 
 - 사용자 요청: 트리를 더 꾸민 모습으로(계획 중 "낮 그림만 먼저"). Higgsfield nano_banana_2_1로 낮 광장 원본을 고침(공 장식·지팡이 사탕·리본·나무 장난감·꺼진 전구 줄, 꼭대기는 별 없음, 약 1.5크레딧) → `tree-decorated-higgsfield-original.png`(896×1200). 트리가 원래보다 낮게 그려져 띠를 400부터 잘라 `tree.jpg`·`tree-floor.jpg`(바닥 675, 엔진 `PLACE_FLOORS.tree.h`가 낮일 때 675)와 사건 목록 사진 `tree-cover.jpg`를 다시 만듦(`scripts/make-christmas-decorated-tree.py`).

@@ -2976,9 +2976,19 @@ const CHRISTMAS_CASE = {
     { id:'tree', x:50, y:74, label:'Tree Square', artWidth:1376, artHeight:768,
       clues:[
         { label:'Big tree', prop:true, en:'What a tall tree!', ko:'정말 큰 트리네!' },
-        { label:'Tiny bell', prop:true, en:'A tiny bell!', ko:'작은 종이네!' }
+        { label:'Tiny bell', prop:true, en:'A tiny bell!', ko:'작은 종이네!' },
+        // more things to tap on the decorated tree and around it (user pick); never clues
+        { label:'Candy cane', prop:true, en:'A candy cane!', ko:'지팡이 사탕이네!' },
+        { label:'Toy train', prop:true, en:'A little toy train!', ko:'작은 장난감 기차네!' },
+        { label:'Red ball', prop:true, en:'A shiny red ball!', ko:'반짝이는 빨간 공이네!' },
+        { label:'Wreath', prop:true, en:"There's a wreath on the door.", ko:'문에 화환이 걸려 있네.' },
+        { label:'Leaflets', prop:true, en:'Festival leaflets!', ko:'축제 안내지네!' },
+        { label:'Path', prop:true, en:'The path goes up the hill.', ko:'길이 언덕 위로 이어지네.' }
       ],
-      spots:[ { clue:0, x:40, y:4, w:30, h:52 }, { clue:1, x:39, y:58, w:5, h:9 } ] },
+      // the tall tree is its upper part, so the ornaments below stay tappable on their own
+      spots:[ { clue:0, x:40, y:2, w:30, h:22 }, { clue:1, x:39, y:58, w:5, h:9 }, { clue:2, x:42, y:25, w:4.5, h:11 },
+        { clue:3, x:48.5, y:25, w:5.5, h:9 }, { clue:4, x:44, y:70, w:4.5, h:10 }, { clue:5, x:0.5, y:51, w:6, h:12 },
+        { clue:6, x:77, y:67, w:9, h:15 }, { clue:7, x:18, y:45, w:12, h:25 } ] },
     { id:'storeroom', x:26, y:20, label:'Storeroom', artWidth:1376, artHeight:768,
       clues:[
         { label:'Empty case', en:'The case is empty.', ko:'보관함이 비어 있어.' },
