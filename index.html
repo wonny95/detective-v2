@@ -1060,8 +1060,19 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .pol-photo img{width:100%;height:100%;display:block;object-fit:cover}
 .pol-cap{display:block;padding:8px 2px 0}
 .pol-cap .case-title{font-size:17px;margin:1px 0 4px}
-.polaroid.current{width:64%}
-.polaroid.current .case-title{font-size:20px}
+.polaroid:not(.locked){width:60%}
+.polaroid .case-title{font-size:18px}
+/* a solved case: faded photo and a red rubber stamp over it (user pick) */
+.polaroid.solved .pol-photo{filter:sepia(.55) saturate(.7) brightness(.97)}
+.case-stamp{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%) rotate(-14deg);padding:2px 14px 3px;border:3px solid #B8323A;border-radius:8px;
+  font-family:var(--f-display);font-size:30px;letter-spacing:.12em;color:#B8323A;background:rgba(255,250,240,.18);opacity:.88;
+  box-shadow:inset 0 0 0 2px rgba(184,50,58,.35);mix-blend-mode:multiply;pointer-events:none;
+  -webkit-mask:radial-gradient(circle at 30% 40%,#000 55%,rgba(0,0,0,.75) 70%,#000 85%);mask:radial-gradient(circle at 30% 40%,#000 55%,rgba(0,0,0,.75) 70%,#000 85%)}
+/* the case to play next: a yellow sticky note on its outer top corner */
+.next-note{position:absolute;top:-10px;padding:7px 9px 9px;background:#F7E07C;color:var(--ink);font-family:var(--f-display);font-size:13px;line-height:1.1;
+  box-shadow:1px 3px 4px rgba(60,40,20,.3);pointer-events:none;z-index:3}
+.polaroid.l .next-note{right:-12px;transform:rotate(7deg)}
+.polaroid.r .next-note{left:-12px;transform:rotate(-7deg)}
 .polaroid.locked{width:42%;cursor:default;filter:saturate(.45) brightness(.94) drop-shadow(2px 4px 3px rgba(50,30,15,.3))}
 .polaroid.locked .pol-photo{display:grid;place-items:center;border-style:dashed;background:#5A4A3C;font-family:var(--f-display);font-size:38px;color:rgba(255,253,247,.45)}
 .polaroid.locked .case-no{color:var(--ink-soft)}
@@ -8196,6 +8207,7 @@ function renderCaseList(){
   const solved = solvedCases(), streak = studyStreak();
   $('#caseStreak').hidden = !streak;
   $('#caseStreak').innerHTML = `${FLAME_ICON}${streak}일`;
+  const nextId = CASES.find(c => c.playable && !solved.includes(c.id))?.id;
   $('#caseCards').innerHTML = CASES.map((c, i) => {
     const open = ALL_CASES_OPEN || i === 0 || solved.includes(CASES[i - 1].id);
     const look = `${i % 2 ? 'r' : 'l'}" style="--tilt:${TILTS[i % TILTS.length]}deg;--i:${i}`;
@@ -8204,11 +8216,14 @@ function renderCaseList(){
       <span class="pol-cap"><span class="case-no">${c.no}</span>
         <span class="case-lock">${LOCK_ICON}${open ? '준비 중이에요' : `${CASES[i - 1].no}${'2459'.includes(CASES[i - 1].no.slice(-1)) ? '를' : '을'} 해결하면 열려요`}</span></span></div>`;
     const inProgress = c.id === CASE_ID ? caseStarted : !!localStorage.getItem(caseSaveKey(c.id));
-    const [cls, label] = solved.includes(c.id) ? ['st-solved', '해결 ✓'] : inProgress ? ['st-going', '수사 중'] : ['st-new', '새 사건'];
-    const stars = solved.includes(c.id) && caseStats()[c.id]?.stars;
-    return `<button class="polaroid${solved.includes(c.id) ? '' : ' current'} ${look}" type="button" data-case="${c.id}">
+    // solved (user pick: stamp + faded photo + note): the photo fades, a red 해결 stamp sits on it and the stars stay;
+    // the case to play next gets a yellow note on its corner; every open card is the same size
+    const done = solved.includes(c.id), next = c.id === nextId;
+    const stars = done && caseStats()[c.id]?.stars;
+    return `<button class="polaroid${done ? ' solved' : ''}${next ? ' current' : ''} ${look}" type="button" data-case="${c.id}">
       <span class="pol-photo">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}">` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}</span>
-      <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}<span class="badge ${cls}">${label}</span>${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="">`).join('')}</span>` : ''}</span></button>`;
+      ${done ? '<span class="case-stamp" aria-label="해결">해결</span>' : ''}${next ? '<span class="next-note" aria-hidden="true">다음 사건!</span>' : ''}
+      <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? '' : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : '새 사건'}</span>`}${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="">`).join('')}</span>` : ''}</span></button>`;
   }).join('');
   requestAnimationFrame(() => {
     drawBoardString();
@@ -8235,7 +8250,7 @@ function boardTacks(photos){
     const add = q => { if(q.width && q.height) words.push([q.left - box.left - pad, q.top - box.top - pad, q.right - box.left + pad, q.bottom - box.top + pad]); };
     const walk = document.createTreeWalker(el.querySelector('.pol-cap'), NodeFilter.SHOW_TEXT);
     for(let t; (t = walk.nextNode());) if(t.textContent.trim()){ const r = document.createRange(); r.selectNodeContents(t); [...r.getClientRects()].forEach(add); }
-    el.querySelectorAll('.badge, .case-stars, .case-lock svg').forEach(e => add(e.getBoundingClientRect()));
+    el.querySelectorAll('.badge, .case-stars, .case-lock svg, .case-stamp, .next-note').forEach(e => add(e.getBoundingClientRect()));
     const a = parseFloat(el.style.getPropertyValue('--tilt')) * Math.PI / 180;
     return { el, a, w:el.offsetWidth, h:el.offsetHeight, cx:el.offsetLeft + el.offsetWidth / 2, cy:el.offsetTop + el.offsetHeight / 2,
       cap:el.querySelector('.pol-cap').offsetTop, words, locked:el.classList.contains('locked') };
