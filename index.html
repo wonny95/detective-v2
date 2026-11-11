@@ -4836,7 +4836,7 @@ function bindDock(){
     button.setAttribute('aria-pressed', !translation.hidden);
   }));
   body.querySelectorAll('[data-replay]').forEach(button => button.addEventListener('click', () => replayLine(button.dataset.replay)));
-  body.querySelectorAll('[data-grammar]').forEach(button => button.addEventListener('click', () => openGrammar(button.dataset.grammar)));
+  body.querySelectorAll('[data-grammar]').forEach(button => button.addEventListener('click', () => openGrammar(button.dataset.grammar, button.dataset.words)));
   body.querySelectorAll('[data-passage]').forEach(button => button.addEventListener('click', () => {
     const block = button.closest('.nblock'), text = block.querySelector('.npassage');
     block.classList.remove('fresh');   // the just-checked unfold is played once; showing the passage again is instant
@@ -7013,7 +7013,7 @@ function closeReview(){
 $('#review').addEventListener('click', e => {
   if(!rv) return;
   const grammar = e.target.closest('[data-grammar]');
-  if(grammar) return openGrammar(grammar.dataset.grammar);
+  if(grammar) return openGrammar(grammar.dataset.grammar, grammar.dataset.words);
   const sent = e.target.closest('[data-rv-sent]');
   if(sent) return replaySentence(sent.dataset.rvSent, +sent.dataset.sent);
   const question = e.target.closest('[data-rv-question]');
@@ -8515,7 +8515,7 @@ function markGrammar(text, items = []){
   let i = 0;
   ranges.forEach(r => {
     if(r.at < last) return;
-    html += esc(text.slice(last, r.at)) + `<button class="gmark" type="button" data-grammar="${r.g}" style="--i:${i++}">${esc(text.substr(r.at, r.len))}</button>`;
+    html += esc(text.slice(last, r.at)) + `<button class="gmark" type="button" data-grammar="${r.g}" data-words="${esc(text.substr(r.at, r.len))}" style="--i:${i++}">${esc(text.substr(r.at, r.len))}</button>`;
     last = r.at + r.len;
   });
   return html + esc(text.slice(last));
@@ -8545,10 +8545,21 @@ function gramEntry(id){
 }
 // The grammar book: what was saved with its bookmark in a review
 const bookGrammar = () => (keptGrammar() || []).filter(id => { const { gr, ex, head } = gramEntry(id); return gr && (!head || ex); });
-function openGrammar(id){
-  const { gr, ex, uses } = gramEntry(id);
+// The irregular past tenses in the game's lines, past → base: a card opened from one of them names that verb
+// (user: tapping "left" showed come → came, the grammar's general pattern)
+const IRREGULAR_PAST = { came:'come', left:'leave', saw:'see', went:'go', took:'take', found:'find', wrote:'write', bought:'buy',
+  taught:'teach', brought:'bring', lent:'lend', gave:'give', said:'say', got:'get', made:'make', told:'tell', ran:'run', sat:'sit',
+  stood:'stand', knew:'know', thought:'think', felt:'feel', heard:'hear', kept:'keep', lost:'lose', met:'meet', paid:'pay', sold:'sell',
+  sent:'send', spent:'spend', forgot:'forget', broke:'break', chose:'choose', fell:'fall', flew:'fly', ate:'eat', drank:'drink',
+  drove:'drive', began:'begin', wore:'wear', won:'win', hid:'hide', held:'hold', did:'do', had:'have', put:'put', read:'read' };
+const irregularIn = words => (words || '').toLowerCase().match(/[a-z]+/g)?.find(w => IRREGULAR_PAST[w]);
+function openGrammar(id, words){
+  const { gr, ex, uses:all } = gramEntry(id);
+  // from a word in a line: that verb in the title, its own lines first
+  const verb = !ex && id === 'past-irr' ? irregularIn(words) : null;
+  const uses = verb ? [...all.filter(u => irregularIn(u.words) === verb), ...all.filter(u => irregularIn(u.words) !== verb)] : all;
   $('#grammarCard').innerHTML = `<div class="gcard-head"><span class="eyebrow">문법 노트 · ${esc(gr.name)}</span><button class="close-button" type="button" data-gclose aria-label="문법 노트 닫기"></button></div>
-    <h2 class="gpattern" id="grammarTitle">${esc(ex ? ex.head : gr.pattern)}</h2>
+    <h2 class="gpattern" id="grammarTitle">${esc(ex ? ex.head : verb ? `${IRREGULAR_PAST[verb]} → ${verb}` : gr.pattern)}</h2>
     ${ex ? grammarExplain(ex.why || ex.ko, ex.more) : `<p class="gko">${esc(gr.ko)}</p>`}
     ${!uses.length && ex?.lines?.length ? `<div class="gex"><h3>예문</h3>${ex.lines.map(([en]) => `<div class="gline"><p>${markForm(en)}</p></div>`).join('')}</div>` : ''}
     ${uses.length ? `<div class="gex"><h3>이 문법이 나온 문장</h3>${uses.map(({ id, qid, words }) => {
@@ -8882,7 +8893,7 @@ $('#caseList').addEventListener('click', e => {
   const mode = e.target.closest('[data-study]');
   if(mode){ studyMode = mode.dataset.study; renderStudy(); $('#home-study').scrollTop = 0; return; }
   const grammar = e.target.closest('[data-grammar]');
-  if(grammar) return openGrammar(grammar.dataset.grammar);
+  if(grammar) return openGrammar(grammar.dataset.grammar, grammar.dataset.words);
   const toggle = e.target.closest('[data-wko], [data-wen]');
   if(toggle){
     const box = toggle.closest('.wcard').querySelector(toggle.hasAttribute('data-wko') ? '.wko' : '.wline');
