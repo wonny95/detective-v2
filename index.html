@@ -1065,7 +1065,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* a solved case: faded photo and a red rubber stamp over it (user pick) */
 .polaroid.solved .pol-photo{filter:sepia(.55) saturate(.7) brightness(.97)}
 .case-stamp{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%) rotate(-14deg);padding:2px 14px 3px;border:3px solid #B8323A;border-radius:8px;
-  font-family:var(--f-display);font-size:30px;letter-spacing:.12em;color:#B8323A;background:rgba(255,250,240,.18);opacity:.88;
+  font-family:var(--f-display);font-size:24px;letter-spacing:.1em;color:#B8323A;background:rgba(255,250,240,.18);opacity:.88;
   box-shadow:inset 0 0 0 2px rgba(184,50,58,.35);mix-blend-mode:multiply;pointer-events:none;
   -webkit-mask:radial-gradient(circle at 30% 40%,#000 55%,rgba(0,0,0,.75) 70%,#000 85%);mask:radial-gradient(circle at 30% 40%,#000 55%,rgba(0,0,0,.75) 70%,#000 85%)}
 /* the case to play next: a yellow sticky note on its outer top corner */
@@ -8222,7 +8222,7 @@ function renderCaseList(){
     const stars = done && caseStats()[c.id]?.stars;
     return `<button class="polaroid${done ? ' solved' : ''}${next ? ' current' : ''} ${look}" type="button" data-case="${c.id}">
       <span class="pol-photo">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}">` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}</span>
-      ${done ? '<span class="case-stamp" aria-label="해결">해결</span>' : ''}${next ? '<span class="next-note" aria-hidden="true">다음 사건!</span>' : ''}
+      ${done ? '<span class="case-stamp" aria-label="해결">SOLVED</span>' : ''}${next ? '<span class="next-note" aria-hidden="true">다음 사건!</span>' : ''}
       <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? '' : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : '새 사건'}</span>`}${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="">`).join('')}</span>` : ''}</span></button>`;
   }).join('');
   requestAnimationFrame(() => {
