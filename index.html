@@ -664,7 +664,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nblock .qlabel{display:block;font-family:var(--f-display);font-size:14px;color:var(--ink-soft);padding:6px 0 8px}
 .question-state{display:inline-flex;align-items:center;gap:4px;margin:6px 0 2px;padding:2px 8px;border-radius:12px;font-family:var(--f-display);font-size:12px;line-height:1.5}
 .question-state.ok{background:#E8EFDD;color:#466249}
-.question-state.review{background:#F8EAC4;color:#816124}
+/* to check again: no chip on screen (user request: the red blanks say it, and the button under the note reads 다시 확인);
+   still read out to screen readers */
+.question-state.review{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
 /* grammar chips under a checked question (note, review, word book) and the grammar card they open */
 .ptoggle{display:inline-flex;align-items:center;gap:4px;min-height:28px;margin:4px 0 2px;padding:0 2px;border:0;background:none;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
 .ptoggle::after{content:"▾";font-size:11px}
