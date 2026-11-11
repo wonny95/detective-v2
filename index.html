@@ -2774,6 +2774,8 @@ const CHRISTMAS_CASE = {
       questions:[ { id:'b0', en:"What's missing?", ko:'뭐가 없어졌는데?' } ],
       answers:{ b0:"The town's Christmas star is missing. Ask Ella at the information desk for more details." },
       notes:{ b0:["- the town's Christmas star is missing", '- ask {{a|Ella}} at the {{b|information desk}}'] },
+      // written down → Ella shows at the desk (no thought line: the note already says where to go, user pick C 2026-11-11)
+      unlocks:{ b0:{ people:['ella'] } },
       bank:{ b0:['Ella','Ellie','Emma','information desk','gift shop','front door'] } },
     ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'tree', witness:true, required:true, pitch:1.2, voice:2, bg:'#E8E0D0', openingQuestion:'e0',
       hello:[
@@ -3042,7 +3044,6 @@ const CHRISTMAS_CASE = {
   ready:['storeroom-0', 'storeroom-1', 'toys-0', 'sleigh-0', 'toystar-0', 'storeroom-4', 'sleigh-1', '!table-seen'],
   // the detective's thoughts, once each, when their conditions are met (design 2절)
   thoughts:[
-    { when:['badger:b0'], unlocks:{ people:['ella'] }, line:{ key:'information-desk-thought', en:"Let's go see Ella at the information desk.", ko:'안내소의 엘라에게 찾아가자.' } },
     { when:['ella:e2'], line:{ key:'storeroom-thought', en:'I should check the storeroom.', ko:'창고를 확인해야겠어.' } },
     { when:['holly:h3'], line:{ key:'gift-thought', en:'I should ask the friends in the gift tent.', ko:'포장 천막의 친구들에게 물어봐야겠어.' } },
     { when:['tess:t3'], line:{ key:'sleigh-thought', en:'Tess said Nico is by the sleigh. I should talk to him.', ko:'테스가 니코는 썰매 옆에 있다고 했어. 니코한테 가 봐야겠어.' } },
@@ -5374,6 +5375,8 @@ function closeNotes(){
   setNotes(false);
   renderDock();
   if(scriptResumeDue()) return setTimeout(resumeScript, 600);
+  // the person left once that answer was written down (Sgt. Badger on his round): back to the place they stood in
+  if(!S.investigate && !ending && S.cur && isAway(S.cur)) leaveTalk();
   // with a beat to say (Rosie handing her bag over), the new names wait for its end (user request: not over it)
   if(beats.length) playBeats(); else if(thoughts.length) playThought(); else revealDiscoveries();
 }

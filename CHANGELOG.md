@@ -13,6 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 크리스마스: 안내소 생각 대사 삭제, 경사가 떠나면 광장으로
+
+- 사용자 선택 C: 경사 앞에서 "Let's go see Ella at the information desk."가 나와 경사와 함께 가는 것처럼 보여 생각 대사를 없앰. 엘라 등장은 badger:b0 기록의 해금으로 옮김. 엔진: 노트를 닫을 때 대화 상대가 떠났으면(gone 조건 충족) 그 장소 화면으로 돌아감. 설계서 md·html 장면 1 반영.
+- 확인: 새 탭에서 경사 질문 → 노트 채점 → 닫기 → 트리 광장(경사 없음, 엘라 서 있음, "Ella Deer를 알게 되었어요" 알림).
+- 안 쓰게 된 파일: `audio/christmas/detective-information-desk-thought.mp3`(삭제는 사용자 승인 뒤).
+- **다음**: 사용자 지시 대기.
+
 ## 2026-11-11 · Claude · (이 커밋) 크리스마스: 경사의 의뢰도 노트에 받아 적기
 
 - 사용자 요청: 경사의 "What's missing?" 대답도 받아 적기로. 행동(`what-missing`)을 첫 질문 `badger:b0`으로 바꿈. 메모 노트 "the town's Christmas star is missing / ask {{Ella}} at the {{information desk}}", 보기 Ella·Ellie·Emma·information desk·gift shop·front door(빈칸은 누구·어디만, star·missing은 엘라 e0과 겹쳐 뺌 — 사용자 결정). 바르게 적으면 경사 퇴장·엘라 등장·안내소 생각 대사(전에는 듣기만 하면). 음성 파일 이름을 `badger-b0`·`detective-badger-b0`으로 옮김(새 음성 없음). 복습 단어에 information desk(안내소). 설계서 md·html 장면 1, 6절 표, 점검표 반영.
