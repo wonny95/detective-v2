@@ -13,6 +13,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 크리스마스: 오소리 경사 대답(b0) 해석
+
+- 사용자 제보: 노트에서 경사의 "What's missing?" 대답 지문의 해석 버튼을 눌러도 해석이 안 뜸. 사건의 `answersKo`에 `badger.b0`이 빠져 있었음 → 설계서 해석 "마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐." 추가.
+- 확인: 새 탭에서 노트 → 경사 → 지문 펼치기 → 해석에 그 문장이 보임.
+- **다음**: 사용자 플레이 확인. 밤·점등 트리 결정, 비교 그림 `design/tree-decor-compare.jpg` 삭제 승인 대기.
+
 ## 2026-11-11 · Claude · (이 커밋) 크리스마스 광장: 누를 거리 여섯 추가
 
 - 사용자 요청("트리광장에 클릭해볼 요소가 별로 없네")·선택: 지팡이 사탕 "A candy cane!", 장난감 기차 "A little toy train!", 빨간 공 "A shiny red ball!", 문 화환 "There's a wreath on the door.", 안내지 "Festival leaflets!", 언덕길 "The path goes up the hill."(모두 `prop`, 단서 아님). 큰 트리 자리를 트리 위쪽으로 줄여 장식들을 따로 누를 수 있게 함. 설계서(MD·HTML) 탐정 관찰 표 두 곳에 줄 추가.
