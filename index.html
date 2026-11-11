@@ -662,11 +662,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .note-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 30px,rgba(201,111,134,.45) 30px 32px,transparent 32px);border:2px solid var(--ink);border-radius:var(--r-wobble-2);padding:8px 12px 10px 42px;display:flex;flex-direction:column;gap:6px}
 .nblock{border-radius:10px;padding:2px 10px}
 .nblock .qlabel{display:block;font-family:var(--f-display);font-size:14px;color:var(--ink-soft);padding:6px 0 8px}
-.question-state{display:inline-flex;align-items:center;gap:4px;margin:6px 0 2px;padding:2px 8px;border-radius:12px;font-family:var(--f-display);font-size:12px;line-height:1.5}
-.question-state.ok{background:#E8EFDD;color:#466249}
-/* to check again: no chip on screen (user request: the red blanks say it, and the button under the note reads 다시 확인);
-   still read out to screen readers */
-.question-state.review{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
+/* the check result under a question (✓ 확인됨 / 다시 확인): no chip on screen (user request: the green or red blanks,
+   the chime and the passage say it); still read out to screen readers, and the note still finds checked questions by it */
+.question-state{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
 /* grammar chips under a checked question (note, review, word book) and the grammar card they open */
 .ptoggle{display:inline-flex;align-items:center;gap:4px;min-height:28px;margin:4px 0 2px;padding:0 2px;border:0;background:none;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
 .ptoggle::after{content:"▾";font-size:11px}
@@ -5124,7 +5122,7 @@ function finishRecord(){
   }
   const chime = $('#correctChime');   // a short two-note chime for a question written down right
   chime.currentTime = 0; chime.play().catch(() => {});
-  stampSound(340);
+  // no stamp thud: the ✓ 확인됨 stamp is no longer drawn (user request)
   p.recording = null;
   p.phase = qs(cur()).every(question => p.questionChecks[question.id] === 'ok') ? 'done' : 'choose';
   const beat = cur().after?.[qid] || (p.phase === 'done' && cur().after?.done);
