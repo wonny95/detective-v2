@@ -1435,6 +1435,12 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
   <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
   <audio id="stampThud" src="audio/stamp.mp3" preload="auto" hidden></audio>
+  <!-- any close button (an x, or one that reads 닫기): a soft click (user sample freesound_community-ui-click-43196, trimmed) -->
+  <audio id="closeClick" src="audio/ui-close.mp3" preload="auto" hidden></audio>
+  <!-- the discovery notice: one bubble pop per ribbon, each a little higher (user: like ui-pop-sound; scripts/make-discovery-sfx.py n-pop) -->
+  <audio class="discovery-pop" src="audio/discovery-pop1.wav" preload="auto" hidden></audio>
+  <audio class="discovery-pop" src="audio/discovery-pop2.wav" preload="auto" hidden></audio>
+  <audio class="discovery-pop" src="audio/discovery-pop3.wav" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <audio id="wordVoice" preload="none" hidden></audio>
   <div class="main">
@@ -4211,6 +4217,9 @@ function showDiscovery(items){
   const box = $('#discovery');
   box.innerHTML = items.map((it, i) => `<div class="dv" style="--i:${i}"><img${it.map ? ' class="map"' : ''} src="${it.img}" alt=""><span class="new">NEW</span><b>${esc(it.name)}</b><span class="rest">${esc(it.rest)}</span></div>`).join('');
   box.classList.remove('out'); box.hidden = false;
+  // a bubble pop as each ribbon pops in (.18 s apart, as dv-in), a little higher each time
+  const pops = document.querySelectorAll('.discovery-pop');
+  items.forEach((it, i) => setTimeout(() => { const a = pops[Math.min(i, pops.length - 1)]; a.currentTime = 0; a.play().catch(() => {}); }, 60 + i * 180));
   clearTimeout(discoveryT);
   discoveryT = setTimeout(() => { box.classList.add('out'); discoveryT = setTimeout(() => box.hidden = true, 300); }, 4200);
 }
@@ -4473,6 +4482,15 @@ function memoHTML(){
   }).join('');
   return `<div class="memo-page">${pins}<textarea class="memo-text" id="memoText" spellcheck="false" autocomplete="off" aria-label="내 메모">${esc(S.memo.text)}</textarea></div>`;
 }
+
+/* ---------- close sound ---------- */
+// every close button plays the same click (user request): the x buttons (.close-button), and buttons that read or are
+// labelled 닫기. Captured before the button's own handler, so it plays even when the button removes itself.
+document.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if(!b || !(b.classList.contains('close-button') || b.textContent.trim() === '닫기' || /닫기$/.test(b.getAttribute('aria-label') || ''))) return;
+  const s = $('#closeClick'); s.currentTime = 0; s.play().catch(() => {});
+}, true);
 
 /* ---------- word meanings on the note ---------- */
 // A word, or a phrase of two to four words, tapped on the note shows its meaning in a small bubble (user request).

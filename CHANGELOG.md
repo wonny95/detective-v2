@@ -13,6 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 효과음: 발견 알림 "뽁", 닫기 버튼 딸깍
+
+- 사용자 요청: 인물·장소 발견 알림에 귀여운 효과음. 시안(`design/sfx-discovery-mockups.html`, 합성 후보 A–N, 여러 개일 때 방식) 뒤 사용자가 보낸 샘플(ui-pop-sound, 0.04초 거품 소리) 느낌으로: 직접 합성한 "뽁"(낮은 음에서 높은 음으로 0.05초)을 띠가 튀어나올 때마다 하나씩, 띠마다 조금 높게(`audio/discovery-pop1–3.wav`, `showDiscovery()`).
+- 사용자 요청: 닫기 버튼에 사용자가 준 클릭 소리(freesound_community-ui-click-43196, 앞뒤 빈 곳을 잘라 0.2초 `audio/ui-close.mp3`). x 버튼(`.close-button`)과 "닫기"라고 쓰이거나 이름이 "…닫기"인 버튼 모두(문서 클릭 캡처 한 곳).
+- 확인: 새 탭에서 경사 b0 정답 → 노트 닫기 → 엘라 발견 알림과 함께 `discovery-pop1` 재생, 지도 닫기에서 `ui-close` 재생(재생 호출 기록으로 확인, 소리는 직접 듣지 못함).
+- 시안·후보 소리(`design/sfx-discovery-mockups.html`, `design/sfx-discovery/`)와 트리 비교 그림 `design/tree-decor-compare.jpg`는 삭제 승인 대기.
+- **다음**: 사용자 확인 뒤 시안 파일 삭제 승인. 밤·점등 트리 결정 대기.
+
 ## 2026-11-11 · Claude · (이 커밋) 노트 단어 뜻: 크리스마스 사건 단어 채움
 
 - 사용자 제보: 노트에서 정답을 맞춘 뒤 단어를 눌러도 뜻이 안 뜨는 경우가 있음. 크리스마스 사건의 질문·대답·노트·관찰 문장에서 `GLOSS`에 없는 단어 약 75개(christmas, town, details, sleigh, storeroom, mittens 등)와 구 11개(information desk, Christmas star, gift tent, look into, What brings you here 등), 바이올린 사건의 clothes·ok를 추가.
