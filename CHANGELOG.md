@@ -17,7 +17,7 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 - 사용자 선택 C: 경사 앞에서 "Let's go see Ella at the information desk."가 나와 경사와 함께 가는 것처럼 보여 생각 대사를 없앰. 엘라 등장은 badger:b0 기록의 해금으로 옮김. 엔진: 노트를 닫을 때 대화 상대가 떠났으면(gone 조건 충족) 그 장소 화면으로 돌아감. 설계서 md·html 장면 1 반영.
 - 확인: 새 탭에서 경사 질문 → 노트 채점 → 닫기 → 트리 광장(경사 없음, 엘라 서 있음, "Ella Deer를 알게 되었어요" 알림).
-- 안 쓰게 된 파일: `audio/christmas/detective-information-desk-thought.mp3`(삭제는 사용자 승인 뒤).
+- 안 쓰게 된 `audio/christmas/detective-information-desk-thought.mp3`는 사용자 승인으로 휴지통에 보냄.
 - **다음**: 사용자 지시 대기.
 
 ## 2026-11-11 · Claude · (이 커밋) 크리스마스: 경사의 의뢰도 노트에 받아 적기
