@@ -1,5 +1,5 @@
-// The Christmas star case's recorded lines: the detective (Higgsfield MiniMax Grady), Sgt. Badger (Fraser) and Ella
-// (Petra, no emotion); the others are still read by the browser's voice. Pulled from CHRISTMAS_CASE in index.html so the recordings and the
+// The Christmas star case's recorded lines: the detective (Higgsfield MiniMax Grady), Sgt. Badger (Fraser), Ella
+// (Petra), Holly (Mabel), May (Liza), Tess (Callan, as in the umbrella case) and Nico (Ian), all without emotion. Pulled from CHRISTMAS_CASE in index.html so the recordings and the
 // game cannot drift apart. Lines with the same words share one recording (copied per file).
 // Run from the project folder: node scripts/christmas-voice-lines.js  -> JSON [{ voice, file, en, files:[…] }] on stdout
 const fs = require('fs'), path = require('path'), os = require('os');
@@ -18,7 +18,7 @@ const DIR = 'audio/christmas/';
 const out = [];
 const add = (voice, file, en) => { if(en && /[a-z]/i.test(en)) out.push({ voice, file:DIR + file + '.mp3', en }); };
 // the people recorded so far and their voices (people[].audio: <id>-<key>.mp3)
-const VOICES = { badger:'Fraser', ella:'Petra' };
+const VOICES = { badger:'Fraser', ella:'Petra', holly:'Mabel', mae:'Liza', tess:'Callan', nico:'Ian' };
 // a line in a list: the detective's (det), or a recorded person's (who, else the list's own speaker)
 const line = (l, own) => {
   if(!l || l.think) return;

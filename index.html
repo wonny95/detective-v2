@@ -3198,11 +3198,15 @@ const CHRISTMAS_CASE = {
   }
 };
 // the recordings (scripts/christmas-voice-lines.js): what the detective says of each thing looked at, of the things
-// carried, and the officer's and Ella's lines; everyone else is still the browser's voice
+// carried, and everyone's lines (Holly Mabel, May Liza, Tess Callan as in the umbrella case, Nico Ian; no emotion)
 CHRISTMAS_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take && c.en) c.audio = `audio/christmas/detective-${pl.id}-${i}.mp3`; }));
 Object.entries(CHRISTMAS_CASE.items).forEach(([id, it]) => { it.audio = `audio/christmas/detective-item-${id}.mp3`; });
 Object.entries({ badger:['hello', 'b0', 'check-in', 'reason-to-check', 'open-order', 'take'],
-  ella:['hello', 'e0', 'e1', 'e2', 'check-supplies', 'check-in', 'allow-open', 'confirm-owner', 'thanks', 'lighting-invite', 'countdown', 'merry'] })
+  ella:['hello', 'e0', 'e1', 'e2', 'check-supplies', 'check-in', 'allow-open', 'confirm-owner', 'thanks', 'lighting-invite', 'countdown', 'merry'],
+  holly:['h1', 'h2', 'h3', 'h4', 'hello', 'ready'],
+  mae:['hello', 'm0', 'm1', 'm3', 'ready'],
+  tess:['hello', 'ready', 'star', 'storeroom', 't1', 't3', 't4', 'toy-star-back', 'toys'],
+  nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-may', 'claim-star', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : null;
 // a case that happens in one building has its own map picture (PACK.map, 9:16 as the village map)
