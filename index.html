@@ -1438,7 +1438,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="stampThud" src="audio/stamp.mp3" preload="auto" hidden></audio>
   <!-- any close button (an x, or one that reads 닫기): a soft click (user sample freesound_community-ui-click-43196, trimmed) -->
   <audio id="closeClick" src="audio/ui-close.mp3" preload="auto" hidden></audio>
-  <!-- the discovery notice: a low marimba, two notes a fifth apart, once per notice (user pick F of design/sfx-discovery-mockups.html; scripts/make-discovery-sfx.py f-marimba) -->
+  <!-- the discovery notice: a low marimba, two notes a fifth apart, once per notice (user pick F of the sound mockups; scripts/make-discovery-sfx.py f-marimba) -->
   <audio id="discoveryChime" src="audio/discovery-marimba.wav" preload="auto" hidden></audio>
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <audio id="wordVoice" preload="none" hidden></audio>
@@ -3230,7 +3230,7 @@ const CHRISTMAS_CASE = {
         visit:{ ella:{ place:'tree', x:58, floor:97, height:44 }, holly:{ place:'tree', x:40, floor:97, height:42 }, mae:{ place:'tree', x:48.5, floor:98, height:32 }, tess:{ place:'tree', x:67, floor:97, height:38 } },
         open:{ who:'ella', key:'countdown', en:'Everyone, the star is back! Three, two, one!', ko:'여러분, 별이 돌아왔어요! 셋, 둘, 하나!' },
         lines:[
-          { key:'merry', flag:'lit', wide:{ x:53.5, w:41, top:300 }, peek:{ x:58, y:-259, w:36 }, en:'Merry Christmas!', ko:'메리 크리스마스!' },
+          { key:'merry', flag:'lit', wide:{ x:53.5, w:41, top:590 }, peek:{ x:58, y:-510, w:36 }, en:'Merry Christmas!', ko:'메리 크리스마스!' },
           { det:true, key:'star-shining', en:'The star is shining on the tree!', ko:'트리 위에서 별이 빛나고 있어!' }
         ] }
     ]
@@ -7279,7 +7279,7 @@ const ART = {
 // The picture's continuation above its top edge, shown only in the conversation and ending camera: the lit square's
 // sky with the tree's top and its gold star (the Higgsfield picture's band above the place picture, user request)
 const ART_SKY = {
-  tree:{ get src(){ return S.flags?.has('lit') ? 'assets/places/christmas/tree-lit-sky.jpg' : null; }, h:330 }
+  tree:{ get src(){ return S.flags?.has('lit') ? 'assets/places/christmas/tree-lit-sky.jpg' : null; }, h:621 }   // the decorated lit picture's sky and gold star
 };
 const ART_FLOOR = {
   library:{ src:'assets/places/library-floor.jpg', h:506 },
@@ -7307,9 +7307,8 @@ const ART_FLOOR = {
   backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 },
   // the Christmas star case: one tall picture each
   // the night and the lit square have their own darker floor (user: a day floor under the night picture looked wrong)
-  // the day square is the decorated tree (user request), cut lower, so its floor is shorter than the night and lit ones
-  tree:     { get src(){ return `assets/places/christmas/tree-floor${S.flags?.has('lit') ? '-lit' : S.flags?.has('night') ? '-night' : ''}.jpg`; },
-              get h(){ return S.flags?.has('lit') || S.flags?.has('night') ? 745 : 675; } },
+  // the decorated tree (user request) by day, at night and lit, all cut alike (scripts/make-christmas-decorated-tree.py)
+  tree:     { get src(){ return `assets/places/christmas/tree-floor${S.flags?.has('lit') ? '-lit' : S.flags?.has('night') ? '-night' : ''}.jpg`; }, h:675 },
   storeroom:{ src:'assets/places/christmas/storeroom-floor.jpg', h:695 },
   tent:     { src:'assets/places/christmas/tent-floor.jpg', h:555 },
   sleigh:   { src:'assets/places/christmas/sleigh-floor.jpg', h:815 }

@@ -13,6 +13,17 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 밤·점등 트리도 장식한 트리로, 안 쓰는 파일 정리
+
+- 사용자 요청(남은 일 둘 다 진행):
+  - 정리(사용자 승인): `audio/discovery-pop1–3.wav`, `design/sfx-discovery-mockups.html`, `design/sfx-discovery/`, `design/tree-decor-compare.jpg`를 휴지통으로.
+  - 점등 그림: 장식한 낮 원본 위에 하늘 144px을 덧대(꼭대기 금별이 들어가게) Higgsfield nano_banana_2_1로 밤·불 켜진 전구·금별·창문 불빛으로 고침(약 1.5크레딧) → `tree-lit-decorated-higgsfield-original.png`. 1376×2064로 키워 낮과 같은 줄에서 자름: 하늘 `tree-lit-sky.jpg`(621), `tree-lit.jpg`, `tree-floor-lit.jpg`(675).
+  - 밤 그림: 새 낮 그림을 예전 낮→밤 색 변환(채널별 평균·퍼짐)으로 어둡게 → `tree-night.jpg`, `tree-floor-night.jpg`.
+  - 엔진: 광장 바닥 높이 낮·밤·점등 모두 675, 점등 하늘 높이 621, "Merry Christmas!" 카메라 `peek` y −510(별 위치), `wide.top` 590.
+  - `scripts/make-christmas-decorated-tree.py`가 모두 만듦(예전 `make-christmas-night-pieces.py`는 쓰지 않는다고 머리에 적음).
+- 확인: 새 탭 엔딩 미리보기: 별 건네주기(낮) → 트리 광장 밤(새 트리, 엘라·메이·테스) → 불 켜짐, 카메라가 금별까지 올라감 → 넓은 화면에 넷과 트리(별은 맨 위 말풍선 근처). 폰 크기는 보지 않음.
+- **다음**: 사용자 확인.
+
 ## 2026-11-11 · Claude · (이 커밋) 문법 카드: 누른 말의 형태로 열기(모든 문법)
 
 - 사용자 질문("다른 데도 이런 식인 거 아니야?"): 형태가 여럿인 문법(소유 my/your·his/her·mine/yours, 위치 there is·in/on/under·next to/behind, 현재진행 I'm -ing·I'm not -ing·Are you -ing?·What are you -ing?, 시간 at·from A to B·between A and B)도 지문에서 누르면 그 형태가 아니라 문법 전체 제목으로 열렸음. 이제 누른 말이 맞는 형태(가장 앞에서 맞는 것, 같으면 긴 것)의 카드로 열고, 누른 문장을 맨 위에. 형태가 하나뿐인 문법(be동사 과거·규칙 과거형 등)은 제목이 일반 패턴이라 그대로.

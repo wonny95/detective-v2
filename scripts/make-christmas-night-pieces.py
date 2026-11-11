@@ -1,3 +1,5 @@
+# NOT USED since the decorated tree (2026-11-11): scripts/make-christmas-decorated-tree.py cuts the day, night and lit
+# squares now. Running this would overwrite them with pieces of the old pictures.
 # The square's floor under the picture (tree-floor.jpg) for the night: each colour channel is mapped so the day
 # picture's bottom strip matches the night picture's (mean and spread), the way tree-night.jpg was darkened from the
 # day picture. The lit square's floor and sky come straight from its Higgsfield picture (the lit sky / floor block).
