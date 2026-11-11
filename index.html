@@ -4210,9 +4210,16 @@ function toast(msg){
   clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400);
 }
 // new people and places, one ribbon each: [{ img, map, name, rest }] (rest: the Korean that follows the name)
+// It waits a moment after the notebook closes (user: right away, the eye was still on the closing note), then pops in.
 let discoveryT;
+const DISCOVERY_DELAY = 700;
 function showDiscovery(items){
   const box = $('#discovery');
+  clearTimeout(discoveryT);
+  box.hidden = true;
+  discoveryT = setTimeout(() => popDiscovery(box, items), DISCOVERY_DELAY);
+}
+function popDiscovery(box, items){
   box.innerHTML = items.map((it, i) => `<div class="dv" style="--i:${i}"><img${it.map ? ' class="map"' : ''} src="${it.img}" alt=""><span class="new">NEW</span><b>${esc(it.name)}</b><span class="rest">${esc(it.rest)}</span></div>`).join('');
   box.classList.remove('out'); box.hidden = false;
   // one low marimba as the first ribbon pops in, however many there are
