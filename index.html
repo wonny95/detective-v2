@@ -3982,9 +3982,13 @@ const SPRITES = {
   momo:{src:'assets/characters/momo-higgsfield.png', w:420, h:700, face:'35 14 350 350', anchor:.5},
   pip:{src:'assets/characters/pip-higgsfield.png', w:480, h:700, face:'23 0 434 434', anchor:.5},
   // the Christmas star case (scripts/cut-christmas-assets.py): Holly, May (seated, as she works), Nico
-  holly:{src:'assets/characters/holly-higgsfield.png', w:443, h:700, face:'50 10 320 320', anchor:.5},
-  mae:{src:'assets/characters/mae-higgsfield.png', w:457, h:700, face:'40 0 360 360', anchor:.45},
-  nico:{src:'assets/characters/nico-higgsfield.png', w:486, h:700, face:'75 0 330 330', anchor:.47}
+  // Holly and May look at the detective while they talk (user request); at their own place, not talking, they work
+  // (the :work pose, spriteKey). Talk poses: one sheet, scripts/cut-christmas-talk.py
+  holly:{src:'assets/characters/holly-talk.png', w:567, h:700, face:'45 5 360 360', anchor:.42},
+  mae:{src:'assets/characters/mae-talk.png', w:449, h:700, face:'45 10 350 350', anchor:.45},
+  'holly:work':{src:'assets/characters/holly-higgsfield.png', w:412, h:700, anchor:.5},
+  'mae:work':{src:'assets/characters/mae-higgsfield.png', w:437, h:700, anchor:.45},
+  nico:{src:'assets/characters/nico-higgsfield.png', w:476, h:700, face:'60 0 357 357', anchor:.47}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
@@ -3993,15 +3997,17 @@ Object.assign(SPRITES, {
   // Owen in the questioning (violin case): cornered from his second claim, sorry when he owns up
   'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.png', w:470, h:700, anchor:.47},
   'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:471, h:700, anchor:.47},
-  'nico:nervous':{src:'assets/characters/nico-nervous-higgsfield.png', w:439, h:700, anchor:.47},
-  'nico:sad':{src:'assets/characters/nico-nervous-higgsfield.png', w:439, h:700, anchor:.47},
+  'nico:nervous':{src:'assets/characters/nico-nervous-higgsfield.png', w:428, h:700, anchor:.47},
+  'nico:sad':{src:'assets/characters/nico-nervous-higgsfield.png', w:428, h:700, anchor:.47},
   // the Christmas lighting: the friends from behind, looking up at the lit tree (one sheet, scripts/cut-christmas-backs.py)
   'holly:back':{src:'assets/characters/holly-back.png', w:447, h:700, anchor:.5},
   'mae:back':{src:'assets/characters/mae-back.png', w:349, h:700, anchor:.5},
   'ella:back':{src:'assets/characters/ella-back.png', w:428, h:700, anchor:.5},
   'tess:back':{src:'assets/characters/tess-back.png', w:410, h:700, anchor:.5}
 });
-const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : id;
+// a person with a :work pose works at their own place and turns to the detective only in their conversation
+const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}`
+  : SPRITES[`${id}:work`] && !S.visit?.[id] && (S.investigate || S.cur !== id || ending) ? `${id}:work` : id;
 // Each sprite's mouth pictures, [x, y, w, h] in sprite px: the drawn mouth painted over with the fur around it, and a
 // closed or an open mouth on top (one generated sheet of mouths, mouths/sheet-original.png; the duck's beak is replaced
 // whole). Made by a script from the drawn mouth's place; see assets/characters/README.md.

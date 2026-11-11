@@ -143,6 +143,8 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 
 - 홀리(양)·메이(생쥐, 앉아서 가위질)·니코(펭귄) 한 장 `b7571dd2-ea5c-4ea3-86bd-4f79f863a91f` → `holly-mae-nico-higgsfield-original.jpg`(16:9 2K, 2크레딧, 참조 엘라·핀과 테스·루비 시트 업로드 media `5ed35ee6-…`·`37934cf2-…`), 배경 제거 `a2a05aec-…`. 니코 당황 `8e15f2a7-c1f5-4829-be44-973fab4497d3` → `nico-nervous-original.jpg`(1K, 1.5크레딧), 배경 제거 `45c2e2c2-…`.
 - `scripts/cut-christmas-assets.py`로 인물마다 잘라 높이 700(`holly-`·`mae-`·`nico-`·`nico-nervous-higgsfield.png`). 말하는 입(`MOUTHS`)·얼굴 아이콘(`ui/icons-v2`)은 아직 만들지 않았다(얼굴은 `SPRITES[].face`로 그림에서 잘라 보임).
+- 흰 스티커 테두리는 `scripts/remove-sticker-border.py`로 지웠다(홀리 `200 6`, 메이·니코·니코 당황은 기본값; 잘라 낸 그림을 덮어씀, 높이 700). 위 자르기 스크립트를 다시 돌리면 그 뒤에 이것도 다시 돌린다.
+- **대화하는 모습**(사용자 요청: 일하다가 탐정을 보고 말하기): 홀리(리본을 늘어뜨리고 정면)·메이(의자에 앉은 채 가위·눈송이를 무릎에, 정면) 한 장 `c7030135-61c3-4009-8874-15aa5adb4b2f` → `holly-mae-talk-higgsfield-original.png`(16:9, 1.5크레딧, 참조 엘라 그림만, 마젠타 배경). `scripts/cut-christmas-talk.py` → `holly-talk.png`·`mae-talk.png`. 게임에서 이 그림이 기본(대화·얼굴·엔딩 방문), 자기 장소에서 대화하지 않을 때는 일하는 그림(`holly:work`·`mae:work`, `spriteKey`). 첫 시도 `47a3c1fd-…`(`holly-mae-talk-try1.png`)는 손일을 계속하는 자세라 쓰지 않음.
 
 ## 크리스마스 점등: 뒷모습 넷
 
