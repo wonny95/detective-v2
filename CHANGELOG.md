@@ -13,6 +13,13 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 문법 카드: 누른 말의 형태로 열기(모든 문법)
+
+- 사용자 질문("다른 데도 이런 식인 거 아니야?"): 형태가 여럿인 문법(소유 my/your·his/her·mine/yours, 위치 there is·in/on/under·next to/behind, 현재진행 I'm -ing·I'm not -ing·Are you -ing?·What are you -ing?, 시간 at·from A to B·between A and B)도 지문에서 누르면 그 형태가 아니라 문법 전체 제목으로 열렸음. 이제 누른 말이 맞는 형태(가장 앞에서 맞는 것, 같으면 긴 것)의 카드로 열고, 누른 문장을 맨 위에. 형태가 하나뿐인 문법(be동사 과거·규칙 과거형 등)은 제목이 일반 패턴이라 그대로.
+- 확인: 새 탭에서 홀리 지문의 모든 문법 표시: Are you sorting → Are you -ing?, I'm helping Ella → I'm -ing(첫 문장 I'm helping Ella.), saw → see → saw, went in → go → went, took → take → took, They're working → I'm -ing(첫 문장 They're working…).
+- 남은 점: They're working도 제목은 "I'm -ing"(그 형태의 대표 모양, 설명에 am·is·are가 바뀐다고 나옴).
+- **다음**: 안 쓰는 소리·시안 파일 삭제 승인, 밤·점등 트리 결정 대기.
+
 ## 2026-11-11 · Claude · (이 커밋) 문법 카드: 누른 불규칙 과거 동사로 제목
 
 - 사용자 제보: 지문의 "left"를 눌렀는데 문법 카드 제목이 "come → came". 불규칙 과거형(`past-irr`)은 예시가 따로 없어 대표 패턴을 제목으로 썼음. 이제 지문·복습에서 누른 말(`data-words`)에 든 불규칙 과거 동사로 제목을 만들고(`IRREGULAR_PAST`, 예: leave → left), 그 동사가 든 문장을 맨 위에. 문법책 카드처럼 말 없이 열면 예전대로 "come → came".

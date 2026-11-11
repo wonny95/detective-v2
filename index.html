@@ -8554,10 +8554,18 @@ const IRREGULAR_PAST = { came:'come', left:'leave', saw:'see', went:'go', took:'
   drove:'drive', began:'begin', wore:'wear', won:'win', hid:'hide', held:'hold', did:'do', had:'have', put:'put', read:'read' };
 const irregularIn = words => (words || '').toLowerCase().match(/[a-z]+/g)?.find(w => IRREGULAR_PAST[w]);
 function openGrammar(id, words){
+  // from a word in a line, a grammar with forms opens on the form that word is (her bag → his / her, not the whole
+  // grammar): the form found earliest in the words, the longer one on a tie (What are you -ing? over Are you -ing?)
+  if(words && !id.includes('#') && GRAMMAR[id]?.examples){
+    const form = GRAMMAR[id].examples.map(x => ({ x, at:exampleForm(x).exec(words)?.index ?? -1 })).filter(f => f.at >= 0)
+      .sort((a, b) => a.at - b.at || b.x.head.length - a.x.head.length)[0];
+    if(form) id = `${id}#${form.x.head}`;
+  }
   const { gr, ex, uses:all } = gramEntry(id);
-  // from a word in a line: that verb in the title, its own lines first
+  // from a word in a line: an irregular past names its verb in the title; the tapped words' own line(s) come first
   const verb = !ex && id === 'past-irr' ? irregularIn(words) : null;
-  const uses = verb ? [...all.filter(u => irregularIn(u.words) === verb), ...all.filter(u => irregularIn(u.words) !== verb)] : all;
+  const mine = u => u.words === words || (verb && irregularIn(u.words) === verb);
+  const uses = words ? [...all.filter(mine), ...all.filter(u => !mine(u))] : all;
   $('#grammarCard').innerHTML = `<div class="gcard-head"><span class="eyebrow">문법 노트 · ${esc(gr.name)}</span><button class="close-button" type="button" data-gclose aria-label="문법 노트 닫기"></button></div>
     <h2 class="gpattern" id="grammarTitle">${esc(ex ? ex.head : verb ? `${IRREGULAR_PAST[verb]} → ${verb}` : gr.pattern)}</h2>
     ${ex ? grammarExplain(ex.why || ex.ko, ex.more) : `<p class="gko">${esc(gr.ko)}</p>`}
