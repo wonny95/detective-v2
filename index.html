@@ -701,9 +701,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* in a ruled line the blank still takes the line's full height (so it sits on the ruling), but its slot is
    inset 5px top and bottom by transparent borders */
 .nline .blank{box-sizing:border-box;height:38px;vertical-align:bottom;border-block:5px solid transparent;background-clip:padding-box;border-radius:12px}
-/* in a ruled line the blank is a filled slot, the other blanks' faint brown (user pick A: not an underline): the next
+/* in a ruled line the blank is a filled pill (fully round ends, user request),  the other blanks' faint brown (user pick A: not an underline): the next
    one to fill is honey, the one being typed berry, a right one green, one to check again red text in a red ring (user request, was gold) */
-.nline .blank{border-radius:10px;background-color:rgba(125,106,88,.15);transition:background-color .2s,box-shadow .2s}
+.nline .blank{border-radius:999px;background-color:rgba(125,106,88,.15);transition:background-color .2s,box-shadow .2s}
 .nline .blank.next{background-color:rgba(242,207,115,.5)}
 .nline .blank:focus{background-color:rgba(201,111,134,.16)}
 .nline .blank.ok{background-color:rgba(94,138,99,.15)}
