@@ -13,6 +13,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 노트 단어 뜻: 크리스마스 사건 단어 채움
+
+- 사용자 제보: 노트에서 정답을 맞춘 뒤 단어를 눌러도 뜻이 안 뜨는 경우가 있음. 크리스마스 사건의 질문·대답·노트·관찰 문장에서 `GLOSS`에 없는 단어 약 75개(christmas, town, details, sleigh, storeroom, mittens 등)와 구 11개(information desk, Christmas star, gift tent, look into, What brings you here 등), 바이올린 사건의 clothes·ok를 추가.
+- 확인: 사건 데이터의 모든 단어를 `GLOSS`와 맞춰 보는 검사(소풍·우산·바이올린·크리스마스, 이름 제외)에서 빠진 단어 없음. 새 탭에서 경사 대답 지문의 단어 뜻(Christmas star·information desk·details 등)이 붙음.
+- **다음**: 사용자 플레이 확인. 밤·점등 트리 결정, 비교 그림 `design/tree-decor-compare.jpg` 삭제 승인 대기.
+
 ## 2026-11-11 · Claude · (이 커밋) 크리스마스: 오소리 경사 대답(b0) 해석
 
 - 사용자 제보: 노트에서 경사의 "What's missing?" 대답 지문의 해석 버튼을 눌러도 해석이 안 뜸. 사건의 `answersKo`에 `badger.b0`이 빠져 있었음 → 설계서 해석 "마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐." 추가.
