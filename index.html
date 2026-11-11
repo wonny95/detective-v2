@@ -7253,7 +7253,9 @@ const ART_FLOOR = {
   backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 },
   // the Christmas star case: one tall picture each
   // the night and the lit square have their own darker floor (user: a day floor under the night picture looked wrong)
-  tree:     { get src(){ return `assets/places/christmas/tree-floor${S.flags?.has('lit') ? '-lit' : S.flags?.has('night') ? '-night' : ''}.jpg`; }, h:745 },
+  // the day square is the decorated tree (user request), cut lower, so its floor is shorter than the night and lit ones
+  tree:     { get src(){ return `assets/places/christmas/tree-floor${S.flags?.has('lit') ? '-lit' : S.flags?.has('night') ? '-night' : ''}.jpg`; },
+              get h(){ return S.flags?.has('lit') || S.flags?.has('night') ? 745 : 675; } },
   storeroom:{ src:'assets/places/christmas/storeroom-floor.jpg', h:695 },
   tent:     { src:'assets/places/christmas/tent-floor.jpg', h:555 },
   sleigh:   { src:'assets/places/christmas/sleigh-floor.jpg', h:815 }
