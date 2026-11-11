@@ -5682,6 +5682,13 @@ function revealDiscoveries(){
   pendingPins = []; pendingPeople = [];
   freshPins = new Set([...places, ...people.map(id => spk(id).place)]);
   renderPlaces();
+  // a new person standing in the place on screen: the view turns to them, in the middle (entering the place: at once,
+  // under its zoom-out; already there: a smooth pan)
+  const here = S.investigate && people.find(id => spk(id).place === S.place && !isAway(id));
+  if(here){
+    sceneFocus = here;
+    requestAnimationFrame(() => { if(sceneFocus !== here) return; sceneFocus = null; if(S.investigate) artWrap.scrollTo({ left:sceneLeftFor(here), behavior:'smooth' }); });
+  }
   // user request: say what the name is ("Mr. Duck을 알게 됐어요", "Lake Cafe에 갈 수 있어요")
   showDiscovery([
     ...people.map(id => ({ img:faceSrc(id), name:spk(id).name, rest:`${objectJosa(spk(id).name)} 알게 됐어요` })),
@@ -7531,6 +7538,9 @@ setInterval(function nudgeTick(){
   if(npc) npc.insertAdjacentHTML('beforeend', '<img class="nudge" src="assets/ui/nudge-bang.png" alt="">');
 }, 1000);
 
+// the place view's scroll that puts a person in the middle (user: after Sgt. Badger, the view stopped part way to Ella)
+let sceneFocus = null;
+const sceneLeftFor = id => $('#art').offsetWidth * positionOf(id).x / 100 - artWrap.clientWidth / 2;
 function enterPlace(id, fromConversation = false){
   if(!S.known.has(id) && !(fromConversation && id === cur().place) && !placeOf(id)?.inspect) return;
   const fromRect = !S.investigate && id === cur().place ? $('#art').getBoundingClientRect() : null;
@@ -7548,7 +7558,9 @@ function enterPlace(id, fromConversation = false){
   renderSceneHead(); renderScene(); updateAccuse();
   requestAnimationFrame(() => {
     if(!S.investigate || S.place !== id) return;
-    artWrap.scrollLeft = sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
+    // someone just met here (revealDiscoveries) is put in the middle; else where the player left the place
+    artWrap.scrollLeft = sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
+    sceneFocus = null;
     $('#swipeHint').hidden = artWrap.scrollWidth <= artWrap.clientWidth + 4;
     if(fromRect?.width){
       const bounds = art.getBoundingClientRect();
