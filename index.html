@@ -1116,7 +1116,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
 .home-page[hidden]{display:none}
 .cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-/* a case with things to carry (PACK.items) has 소지품 as a third tab (user pick: 지도 · Note · 소지품) */
+/* a case with things to carry (PACK.items) has 소지품 as a third tab (user pick: 지도 · 노트 · 소지품; the tab read Note until the user asked for Korean) */
 .nav.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* the menus (user choice, option A; the app's 홈 · 사건 · 학습 · 마이 and a case's 지도 · Note alike): no box
    around each item — an illustrated icon and its name on the paper strip, whose top is a hand-drawn wavy line; the page
@@ -1538,7 +1538,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <span class="hn-ic"><img src="assets/ui/nav/map.png" alt="" draggable="false"></span>지도
     </button>
     <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
-      <span class="hn-ic"><img src="assets/ui/nav/note.png" alt="" draggable="false"></span>Note
+      <span class="hn-ic"><img src="assets/ui/nav/note.png" alt="" draggable="false"></span>노트
     </button>
     <button class="tab items-btn" type="button" id="itemsTab" aria-expanded="false" aria-controls="drawer" aria-label="소지품" hidden>
       <span class="hn-ic"><img src="assets/ui/nav/bag-satchel.png" alt="" draggable="false"></span>소지품
@@ -7617,8 +7617,8 @@ const TUT = [
   { title:'현장을 조사해요', demo:'place',
     text:'<b>지도</b>에서 열린 장소로 가요. 현장은 옆으로 밀어 둘러보고, 수상한 곳을 누르면 <b>사진이 증거</b>로 남아요. 인물과 대화를 시작하면 그 인물의 질문을 다 적을 때까지 이어져요.',
     img:'assets/ui/tutorial/tut-4.webp' },
-  { title:'Note를 펼쳐 봐요', demo:'note',
-    text:'아래 <b>Note</b>에서 <b>인물 · 증거 · 메모</b>를 봐요. <b>📌</b>를 누르면 진술과 증거가 <b>메모</b>에 붙어요.',
+  { title:'노트를 펼쳐 봐요', demo:'note',
+    text:'아래 <b>노트</b>에서 <b>인물 · 증거 · 메모</b>를 봐요. <b>📌</b>를 누르면 진술과 증거가 <b>메모</b>에 붙어요.',
     img:'assets/ui/tutorial/tut-5.webp' },
   // 추리 and 심문 one page each (user decision)
   { title:'추리해요', demo:'deduce',
