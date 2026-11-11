@@ -13,6 +13,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-11 · Claude · (이 커밋) 크리스마스: 경사의 의뢰도 노트에 받아 적기
+
+- 사용자 요청: 경사의 "What's missing?" 대답도 받아 적기로. 행동(`what-missing`)을 첫 질문 `badger:b0`으로 바꿈. 메모 노트 "the town's Christmas star is missing / ask {{Ella}} at the {{information desk}}", 보기 Ella·Ellie·Emma·information desk·gift shop·front door(빈칸은 누구·어디만, star·missing은 엘라 e0과 겹쳐 뺌 — 사용자 결정). 바르게 적으면 경사 퇴장·엘라 등장·안내소 생각 대사(전에는 듣기만 하면). 음성 파일 이름을 `badger-b0`·`detective-badger-b0`으로 옮김(새 음성 없음). 복습 단어에 information desk(안내소). 설계서 md·html 장면 1, 6절 표, 점검표 반영.
+- 확인: 새 탭에서 `?case=christmas&preview=talk` → 경사 인사 → 질문 → 노트 빈칸 두 개 → 채점 통과 → 경사 앞에서 "Let's go see Ella…" 생각 대사.
+- **다음**: 안내소 생각 대사 장면(경사가 아직 화면에 있어 함께 가야 할 것처럼 보임) 고칠 방법을 사용자가 고르기.
+
 ## 2026-11-11 · Claude · (이 커밋) 사건 목록: 크리스마스 썸네일을 트리로
 
 - 사용자 요청: 사건 목록의 「사라진 크리스마스트리의 별」 사진을 별 상자 대신 트리 모습으로. 낮 광장 원본(`tree-higgsfield-original.jpg`) 위쪽 4:3을 잘라 `assets/places/christmas/tree-cover.jpg`(800×600)로 만들어 `cover`에 연결. 트리 꼭대기(별 없는 끝)부터 밑동까지 보임.

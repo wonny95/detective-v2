@@ -2768,11 +2768,13 @@ const CHRISTMAS_CASE = {
   people:{
     // design 2절 장면 1: at the square's entrance; leaves on his round once he has said where Ella is
     badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'tree', witness:true, pitch:.9, voice:3, bg:'#DCE3F0',
-      gone:['!badger-briefed'],
+      // design 2절 장면 1: the request is written down (user decision 2026-11-11): who to ask and where, not star/missing (Ella's e0)
+      gone:['badger:b0'], openingQuestion:'b0',
       hello:[ { key:'hello', en:"Detective, I'd like you to look into a missing item.", ko:'탐정, 이번 사건은 없어진 물건을 조사해 줬으면 좋겠어.' } ],
-      questions:[], answers:{}, notes:{}, bank:{},
-      actions:[ { id:'what-missing', en:"What's missing?", ko:'뭐가 없어졌는데?', flag:'badger-briefed',
-        answer:"The town's Christmas star is missing. Ask Ella at the information desk for more details.", answerKo:'마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐.' } ] },
+      questions:[ { id:'b0', en:"What's missing?", ko:'뭐가 없어졌는데?' } ],
+      answers:{ b0:"The town's Christmas star is missing. Ask Ella at the information desk for more details." },
+      notes:{ b0:["- the town's Christmas star is missing", '- ask {{a|Ella}} at the {{b|information desk}}'] },
+      bank:{ b0:['Ella','Ellie','Emma','information desk','gift shop','front door'] } },
     ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'tree', witness:true, required:true, pitch:1.2, voice:2, bg:'#E8E0D0', openingQuestion:'e0',
       hello:[
         { det:true, key:'ella-greeting', en:"Hi, Ella! I'm looking into the missing star.", ko:'안녕, 엘라! 사라진 별을 조사하고 있어.' },
@@ -3040,7 +3042,7 @@ const CHRISTMAS_CASE = {
   ready:['storeroom-0', 'storeroom-1', 'toys-0', 'sleigh-0', 'toystar-0', 'storeroom-4', 'sleigh-1', '!table-seen'],
   // the detective's thoughts, once each, when their conditions are met (design 2절)
   thoughts:[
-    { when:['!badger-briefed'], unlocks:{ people:['ella'] }, line:{ key:'information-desk-thought', en:"Let's go see Ella at the information desk.", ko:'안내소의 엘라에게 찾아가자.' } },
+    { when:['badger:b0'], unlocks:{ people:['ella'] }, line:{ key:'information-desk-thought', en:"Let's go see Ella at the information desk.", ko:'안내소의 엘라에게 찾아가자.' } },
     { when:['ella:e2'], line:{ key:'storeroom-thought', en:'I should check the storeroom.', ko:'창고를 확인해야겠어.' } },
     { when:['holly:h3'], line:{ key:'gift-thought', en:'I should ask the friends in the gift tent.', ko:'포장 천막의 친구들에게 물어봐야겠어.' } },
     { when:['tess:t3'], line:{ key:'sleigh-thought', en:'Tess said Nico is by the sleigh. I should talk to him.', ko:'테스가 니코는 썰매 옆에 있다고 했어. 니코한테 가 봐야겠어.' } },
@@ -3198,7 +3200,7 @@ const CHRISTMAS_CASE = {
 // carried, and the officer's and Ella's lines; everyone else is still the browser's voice
 CHRISTMAS_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take && c.en) c.audio = `audio/christmas/detective-${pl.id}-${i}.mp3`; }));
 Object.entries(CHRISTMAS_CASE.items).forEach(([id, it]) => { it.audio = `audio/christmas/detective-item-${id}.mp3`; });
-Object.entries({ badger:['hello', 'what-missing', 'check-in', 'reason-to-check', 'open-order', 'take'],
+Object.entries({ badger:['hello', 'b0', 'check-in', 'reason-to-check', 'open-order', 'take'],
   ella:['hello', 'e0', 'e1', 'e2', 'check-supplies', 'check-in', 'allow-open', 'confirm-owner', 'thanks', 'lighting-invite', 'countdown', 'merry'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : null;
@@ -3508,9 +3510,9 @@ const GLOSS = {
   ['tree square',['n','트리 광장']], ['handcart',['w','손수레']], ['wrapping paper',['w','포장지']], ['gifts',['w','선물들']], ['making',['w','만들고 있는']],
   ['snowflakes',['w','눈송이들']], ['four',['t','넷']], ['toys',['w','장난감들']], ['wrapping',['w','감싸 포장하고 있는']], ['still',['w','아직 계속']], ['finish',['w','끝내다']],
   ['sleigh',['w','썰매']], ['loading',['w','싣고 있는']], ['delivering',['w','배달하고 있는']], ['volunteers',['w','자원봉사자들']], ['wrapped',['w','포장했다']],
-  ['stayed',['w','그대로 있었다']], ['toy',['w','장난감']], ['star',['w','별']]].forEach(([k, v]) => { if(!WORDS[k]) WORDS[k] = v; if(!GLOSS[k]) GLOSS[k] = v[1]; });
+  ['stayed',['w','그대로 있었다']], ['toy',['w','장난감']], ['star',['w','별']], ['information desk',['n','안내소']]].forEach(([k, v]) => { if(!WORDS[k]) WORDS[k] = v; if(!GLOSS[k]) GLOSS[k] = v[1]; });
 ['mittens:털장갑', 'boxes:상자들', 'helping:돕고 있는', 'festival:축제', 'ribbon:리본', 'tent:천막', 'tree:나무, 트리', 'square:광장', 'pattern:무늬', 'really:정말, 별로',
-  'strange:이상한', 'children:아이들', 'delivery:배송', 'ready:준비된', 'took:가져갔다'].forEach(e => { const [k, v] = e.split(':'); if(!GLOSS[k]) GLOSS[k] = v; });
+  'strange:이상한', 'ella:엘라', 'children:아이들', 'delivery:배송', 'ready:준비된', 'took:가져갔다'].forEach(e => { const [k, v] = e.split(':'); if(!GLOSS[k]) GLOSS[k] = v; });
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소'], ['x','표현']];
 // the other cases' words (note blanks that are in WORDS, and phrases), for 학습 on the main page
 const packWords = c => [...new Set([...Object.values(c.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))), ...c.phrases.map(([key]) => key)])].filter(k => WORDS[k]);

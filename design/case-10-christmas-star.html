@@ -447,8 +447,8 @@ body.christmas-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
 <article class="scene" id="scene-1"><div class="scene-head"><span class="scene-kicker">트리 광장 · 엘라 · 경사</span><h3>장면 1 · 트리 광장 — 경사의 의뢰와 엘라 면담</h3><p>경사에게 안내소에서 신고가 들어왔다는 말을 듣고 직접 찾아가 엘라에게 말을 건다.</p></div><div class="scene-body"><aside class="object-card" data-character-poses="1"><h4>일러스트 연출</h4><p><strong>엘라 · </strong>광장 안내소에서 펼쳐진 축제 안내지를 접는 중이야. 안내지를 내려놓고 탐정을 바라봐.</p><p><strong>오소리 경사 · </strong>광장 입구에서 신고를 적던 수첩을 덮어. 탐정에게 조사 의뢰를 전하고 순찰하러 떠나.</p></aside>
 
 <div class="turn" data-line="badger:hello"><span class="who">경사</span><p class="en">Detective, I&#x27;d like you to look into a missing item.</p><p class="ko">탐정, 이번 사건은 없어진 물건을 조사해 줬으면 좋겠어.</p></div>
-<div class="turn det" data-line="det:what-missing"><span class="who">탐정 · 선택 질문</span><p class="en">What&#x27;s missing?</p><p class="ko">뭐가 없어졌는데?</p></div>
-<div class="turn" data-line="badger:desk-lead"><span class="who">경사</span><p class="en">The town&#x27;s Christmas star is missing. Ask Ella at the information desk for more details.</p><p class="ko">마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐.</p></div>
+<div class="turn det" data-line="det:what-missing"><span class="who">탐정 · 질문 badger:b0</span><p class="en">What&#x27;s missing?</p><p class="ko">뭐가 없어졌는데?</p></div>
+<div class="turn" data-line="badger:desk-lead"><span class="who">경사 · 받아 적기(빈칸 Ella · information desk)</span><p class="en">The town&#x27;s Christmas star is missing. Ask Ella at the information desk for more details.</p><p class="ko">마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐.</p></div>
 <div class="turn det" data-line="det:information-desk-thought"><span class="who">탐정 · 생각</span><p class="en">Let&#x27;s go see Ella at the information desk.</p><p class="ko">안내소의 엘라에게 찾아가자.</p></div>
 <div class="turn det" data-line="det:ella-greeting"><span class="who">탐정 · 말 걸기 선택지</span><p class="en">Hi, Ella! I&#x27;m looking into the missing star.</p><p class="ko">안녕, 엘라! 사라진 별을 조사하고 있어.</p></div>
 <div class="turn" data-line="ella:hello"><span class="who">엘라</span><p class="en">Detective! Nice to see you again. I reported it.</p><p class="ko">탐정! 다시 만나서 반가워. 내가 신고했어.</p></div>
@@ -1352,7 +1352,7 @@ body.christmas-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
 <p>후속 사용자 승인으로 테스의 배송 준비 질문, 니코의 차분한 첫 주장·상자 행선지 질문, 식탁보 관찰 음성을 반영했다. n4는 배송 목적 확인으로 제한하고 개봉 뒤에는 n2의 장난감 선물 주장과 실제 별을 대조한다. 이전의 장식품 운반 부인 근거는 사용하지 않는다.</p>
 <p>사용자 요청으로 전반부 관찰 음성·선택 소품 반응을 반영한 뒤 사건 시작부터 보고까지 문서로 대조했다. 이 점검 당시에는 미인계였으며, 이후 인계 상태는 §10을 따른다. 기존 대본의 심문·자백·결말에는 새 소품 대사를 추가하지 않았다.</p>
 <div class="matrix"><table><thead><tr><th>점검 항목</th><th>판정</th><th>근거·남은 사항</th></tr></thead><tbody>
-<tr><td>의뢰·분실 이유·의뢰인 보고</td><td>지킴</td><td>badger:hello → det:what-missing → badger:desk-lead → 안내소의 엘라 → ella:e0. 아이들을 안내한 사이 별이 없어짐. 엘라가 심문 중 경사와 함께 와서 개봉과 뒷면 무늬를 직접 확인(ella:confirm-owner).</td></tr>
+<tr><td>의뢰·분실 이유·의뢰인 보고</td><td>지킴</td><td>badger:hello → badger:b0(받아 적기) → 안내소의 엘라 → ella:e0. 아이들을 안내한 사이 별이 없어짐. 엘라가 심문 중 경사와 함께 와서 개봉과 뒷면 무늬를 직접 확인(ella:confirm-owner).</td></tr>
 <tr><td>인물의 지식·정보 공개 순서</td><td>지킴</td><td>holly:h2는 출입만 목격. 가려진 선반은 c-door-view로 설명. 자기소개 뒤 이름 표시, 질문 기록·증거로 다음 장소 해금.</td></tr>
 <tr><td>선택 반응의 범위</td><td>지킴</td><td>장면 1·3·4·5 각 2개, 장면 2 창고 5개(사용자 요청: 저울이 눈에 띄지 않게 창고 물건을 늘림). 장면 6–9에는 추가 없음. 진행과 학습 반복의 필수 횟수에 넣지 않음.</td></tr>
 <tr><td>소품 때문에 단서가 미리 드러나는 문제</td><td>지킴</td><td>눈송이 반응은 단서가 아니다. 자동차는 기존 여섯 선물 중 하나. 열린 빈 상자는 썰매의 닫힌 상자 다섯과 별개. 별은 심문 개봉 전 보이지 않음.</td></tr>
