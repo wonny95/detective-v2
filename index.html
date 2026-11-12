@@ -996,14 +996,20 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-card.solved{animation:deduce-ok .35s ease-out}
 @keyframes deduce-ok{50%{transform:scale(1.04) rotate(-1deg)}}
 /* an O or X question (its only choices O and X): a yellow sticky note per statement, one under another like the other
-   cards, taped on, the speaker's face over the quote; the right side holds the O and X buttons while it is asked, then
+   cards, pinned on, the speaker's face over the quote; the right side holds the O and X buttons while it is asked, then
    the pick as a big red crayon O or X (user pick A of the O/X mockups, laid out one per row as E: an odd count looked
    lopsided in two columns) */
 .ded-notes{display:flex;flex-direction:column;gap:14px;padding-top:6px}
-.ded-note{position:relative;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 76px;align-items:center;gap:6px;min-height:90px;padding:14px 12px 10px 14px;
-  background:url(assets/ui/casekey/note-yellow.webp) center/100% 100% no-repeat;filter:drop-shadow(1px 3px 2px rgba(50,30,15,.3));transform:rotate(var(--tilt,0deg));
+.ded-note{position:relative;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 76px;align-items:center;gap:6px;min-height:92px;padding:16px 16px 16px 18px;
+  filter:drop-shadow(1px 3px 2px rgba(50,30,15,.3));transform:rotate(var(--tilt,0deg));
   font-family:var(--f-hand);font-weight:700;font-size:15px;line-height:1.3;color:var(--ink)}
-.ded-note::before{content:"";position:absolute;left:50%;top:-9px;width:54px;height:18px;margin-left:-27px;background:url(assets/ui/casekey/tape.webp) center/100% 100% no-repeat;transform:rotate(-4deg)}
+/* the paper: its own Higgsfield sticky note (assets/ui/deduce-note-3.webp, the bottom edge lifting off the board, user
+   pick 3), as a nine-slice behind the note so its outline, corners and the shade along the bottom keep their size when
+   해석 makes the note taller; only the middle stretches */
+.ded-note::after{content:"";position:absolute;inset:0;z-index:-1;border-style:solid;border-color:transparent;border-width:14px 20px 36px 20px;
+  border-image:url(assets/ui/deduce-note-3.webp) 32 50 90 50 fill / 14px 20px 36px 20px stretch}
+/* pinned with a red tack, as the other cards (user request: a tack, not tape) */
+.ded-note::before{content:"";position:absolute;left:50%;top:-16px;z-index:2;width:22px;height:30px;margin-left:-11px;background:url(assets/ui/tack-red.webp) center/100% no-repeat}
 .ded-note.cur{filter:drop-shadow(0 0 6px rgba(242,207,115,.95)) drop-shadow(1px 3px 2px rgba(50,30,15,.3))}
 .dn-text{min-width:0;display:flex;flex-direction:column}
 .dn-who{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-family:var(--f-display);font-weight:400;font-size:12px;color:var(--berry)}
