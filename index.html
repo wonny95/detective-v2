@@ -4047,7 +4047,8 @@ const SPRITES = {
   // (the :work pose, spriteKey). Talk poses: one sheet, scripts/cut-christmas-talk.py
   holly:{src:'assets/characters/holly-talk.png', w:567, h:700, face:'45 5 360 360', anchor:.42},
   mae:{src:'assets/characters/mae-talk.png', w:449, h:700, face:'45 10 350 350', anchor:.45},
-  'holly:work':{src:'assets/characters/holly-higgsfield.png', w:412, h:700, anchor:.5},
+  // flip: drawn mirrored (user request: working, Holly faces the table on her left in the storeroom)
+  'holly:work':{src:'assets/characters/holly-higgsfield.png', w:412, h:700, anchor:.5, flip:true},
   'mae:work':{src:'assets/characters/mae-higgsfield.png', w:437, h:700, anchor:.45},
   nico:{src:'assets/characters/nico-higgsfield.png', w:476, h:700, face:'60 0 357 357', anchor:.47}
 };
@@ -4135,7 +4136,7 @@ function setDetPose(box, i){
 const DRAWN = ['fiona', 'ray', 'badger', 'mole', 'rosie'];
 const pendingSVG = `<g class="body pending" stroke="${INK}" stroke-width="3" stroke-dasharray="9 7" fill="#EFE4D2"><circle cx="100" cy="96" r="54"/><path d="M38 300 C34 214 60 160 100 160 C140 160 166 214 162 300 L162 380 L38 380Z"/></g>`;
 const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
-  ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouths(k)}</g></g></svg>`
+  ? `<svg viewBox="0 0 ${sp.w} ${sp.h}" aria-hidden="true" style="--idle-delay:${-PEOPLE_ORDER.indexOf(id)*.83}s"><g class="npc-breathe"><g class="npc-gesture"><g${sp.flip ? ` transform="translate(${sp.w} 0) scale(-1 1)"` : ''}><image class="body" href="${sp.src}" width="${sp.w}" height="${sp.h}"/>${spriteMouths(k)}</g></g></g></svg>`
   : `<svg viewBox="0 0 200 400" aria-hidden="true">${DRAWN.includes(id) ? charSVG(id) : pendingSVG}</svg>`; };
 // small faces: hand-drawn head-and-shoulders icons (assets/ui/icons-v2, one Higgsfield sheet)
 // the last ones cut from their sprites (scripts/cut-picnic-characters.py, cut-umbrella-characters.py); mia-solo and
