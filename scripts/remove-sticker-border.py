@@ -1,7 +1,7 @@
-"""Remove the white sticker outline around a cut-out character (the Holly/May/Nico sheet was drawn as stickers).
+"""Remove the white sticker outline around a cut-out character (the Daisy/May/Nico sheet was drawn as stickers).
 
 usage: python scripts/remove-sticker-border.py <in.png> <out.png> [lightest-dark]
-  lightest-dark (default 150): pixels whose darkest channel is above it count as rim; Holly's outline-less wool
+  lightest-dark (default 150): pixels whose darkest channel is above it count as rim; Daisy's outline-less wool
   needs 200, then [rings] (default 0) more rings of the greyer rim.
   From the transparent outside, floods through light, unsaturated pixels (the white rim and its soft edge) and makes
   them transparent, trims and scales to 700 px high; it stops at the dark drawn outline, so white inside the figure (wool, belly, paper) stays.
@@ -31,7 +31,7 @@ while q:
     if not rim(px[x, y]): continue
     px[x, y] = (0, 0, 0, 0)
     q.extend(((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)))
-# then a few rings of the greyer rim only, for a figure flooded with the higher limit (Holly)
+# then a few rings of the greyer rim only, for a figure flooded with the higher limit (Daisy)
 for _ in range(int(sys.argv[4]) if len(sys.argv) > 4 else 0):
     clear = [(x, y) for y in range(1, h - 1) for x in range(1, w - 1)
              if px[x, y][3] and min(px[x, y][:3]) > 150 and max(px[x, y][:3]) - min(px[x, y][:3]) < 45

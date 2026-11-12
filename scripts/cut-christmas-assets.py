@@ -1,7 +1,7 @@
 """Cut the Christmas star case's Higgsfield pictures for the game (Pillow only).
 
 usage: python scripts/cut-christmas-assets.py <folder with the downloads>
-  the folder holds people-nobg.png (Holly·May·Nico sheet, background removed), nico-nervous-nobg.png,
+  the folder holds people-nobg.png (Daisy·May·Nico sheet, background removed), nico-nervous-nobg.png,
   items-nobg.png (item sheet, background removed), tree-lit.png, map.png
 and the repo has assets/places/christmas/{tree,storeroom,tent-fixed,sleigh,corner}-*-original.jpg.
 

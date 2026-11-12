@@ -1,4 +1,4 @@
-"""Cut the four back views (Holly, Mae, Ella, Tess looking up at the lit tree) out of their Higgsfield sheet.
+"""Cut the four back views (Daisy, Mae, Ella, Tess looking up at the lit tree) out of their Higgsfield sheet.
 
 usage: python scripts/cut-christmas-backs.py
   reads assets/characters/xmas-backs-higgsfield-original.png (flat magenta background), writes

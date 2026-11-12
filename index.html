@@ -1440,7 +1440,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
   <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
   <audio id="stampThud" src="audio/stamp.mp3" preload="auto" hidden></audio>
-  <!-- any close button (an x, or one that reads 닫기): a soft click (user sample freesound_community-ui-click-43196, trimmed) -->
+  <!-- any close button (an x, or one that reads 닫기) and the case key cards' 이전·다음·사건 시작: a soft wooden tap
+       (user pick E of the click mockups; scripts/make-ui-click-sfx.py) -->
   <audio id="closeClick" src="audio/ui-close.mp3" preload="auto" hidden></audio>
   <!-- the discovery notice: a low marimba, two notes a fifth apart, once per notice (user pick F of the sound mockups; scripts/make-discovery-sfx.py f-marimba) -->
   <audio id="discoveryChime" src="audio/discovery-marimba.wav" preload="auto" hidden></audio>
@@ -2835,9 +2836,9 @@ const CHRISTMAS_CASE = {
       },
       bank:{ e0:['star','string','start','missing','shining','moving'], e1:['gold','glass','silver','heavy','light','leaf','line'], e2:['case','box','storeroom','gift tent','shelf','table','floor'] },
       after:{ e2:{ lines:[ { key:'check-supplies', en:'You can check the festival supplies if it helps you find the star.', ko:'별을 찾는 데 필요하면 축제 물품도 확인해도 돼.' } ] } } },
-    holly: { id:'holly', name:'Holly Sheep', unnamed:'Sheep', ko:'양 홀리', job:'축제 준비', place:'storeroom', witness:true, required:true, pitch:1.15, voice:2, bg:'#EFEAE0', openingQuestion:'h1',
+    holly: { id:'holly', name:'Daisy Sheep', unnamed:'Sheep', ko:'양 데이지', job:'축제 준비', place:'storeroom', witness:true, required:true, pitch:1.15, voice:2, bg:'#EFEAE0', openingQuestion:'h1',
       hello:[
-        { key:'hello', intro:true, en:"Hi! I'm Holly. Come in.", ko:'안녕! 난 홀리야. 들어와.' },
+        { key:'hello', intro:true, en:"Hi! I'm Daisy. Come in.", ko:'안녕! 난 데이지야. 들어와.' },
         { det:true, key:'holly-intro', en:"I'm helping Ella find the missing star.", ko:'엘라가 없어진 별을 찾는 걸 돕고 있어.' },
         { key:'ready', en:"Oh! I'll answer what I can.", ko:'아! 내가 아는 건 말해 줄게.' }
       ],
@@ -2877,12 +2878,12 @@ const CHRISTMAS_CASE = {
       needs:{ m1:['mae:m0'], m3:['mae:m1'] },
       answers:{
         m0:"I needed wrapping paper for the children's gifts.",
-        m1:"I'm making snowflakes for the tree. I'm helping Holly.",
+        m1:"I'm making snowflakes for the tree. I'm helping Daisy.",
         m3:"No, I'm not wrapping now. I wrapped mittens in four boxes, and Nico took them."
       },
       notes:{
         m0:["- needed {{a|wrapping paper}}", "- for the children's {{b|gifts}}"],
-        m1:['- {{c|making}} {{d|snowflakes}} for the tree', '- helping Holly'],
+        m1:['- {{c|making}} {{d|snowflakes}} for the tree', '- helping Daisy'],
         m3:['- {{e|not}} wrapping now', '- wrapped mittens in {{f|four}} boxes', '- {{g|Nico}} took them']
       },
       bank:{ m0:['wrapping paper','drawing paper','ribbons','gifts','toys','bags'], m1:['making','wrapping','cutting','snowflakes','mittens','stars'], m3:['not','now','four','five','Nico','Tess'] } },
@@ -2950,7 +2951,7 @@ const CHRISTMAS_CASE = {
         n5:['- the sleigh {{l|stayed}} right here', '- all {{m|morning}}']
       },
       bank:{ n1:['loading','opening','reading','delivering','decorating','wrapping'], n2:['gifts','mittens','volunteers','children','wrapped','opened'],
-        n3:['not','now','wrapping','loading','gifts','decorations','mittens'], n4:['not','now','Tess','May','Holly','star','box'], n5:['stayed','moved','started','morning','evening','night'] },
+        n3:['not','now','wrapping','loading','gifts','decorations','mittens'], n4:['not','now','Tess','May','Daisy','star','box'], n5:['stayed','moved','started','morning','evening','night'] },
       actions:[ { id:'storeroom', en:'Did you go into the storeroom today?', ko:'오늘 창고에 들어갔어?', when:['nico:n2'], flag:'asked-nico-storeroom',
         answer:'Yes. I got some empty boxes for the gift tent.', answerKo:'응. 포장 천막에서 쓸 빈 상자를 가져왔어.' } ] }
   },
@@ -2963,7 +2964,7 @@ const CHRISTMAS_CASE = {
     'holly:h3':[['present-prog',"They're working"]],
     'holly:h4':[['past-irr','took']],
     'mae:m0':[['past-reg','needed']],
-    'mae:m1':[['present-prog','What are you doing'], ['present-prog',"I'm making snowflakes"], ['present-prog',"I'm helping Holly"]],
+    'mae:m1':[['present-prog','What are you doing'], ['present-prog',"I'm making snowflakes"], ['present-prog',"I'm helping Daisy"]],
     'mae:m3':[['present-prog','Are you still wrapping'], ['present-prog',"I'm not wrapping"], ['past-reg','wrapped']],
     'tess:t1':[['present-prog','What are you wrapping'], ['present-prog',"I'm wrapping toys"]],
     'tess:t3':[['present-prog',"I'm still wrapping"]],
@@ -2977,7 +2978,7 @@ const CHRISTMAS_CASE = {
     badger:{ b0:'마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐.' },
     ella:{ e0:'축제에 온 아이들을 안내하러 자리를 비웠어. 돌아와 보니 별이 사라졌더라.', e1:'진짜 금으로 만들어서 아주 무거워. 뒷면에 작은 잎사귀 무늬가 있어.', e2:'창고 선반의 보관함 안에 두었어.' },
     holly:{ h1:'응. 크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.', h2:'메이와 테스가 들어가는 걸 봤어. 나도 들어갔어.', h3:'선물 포장 천막에서 일하고 있어.', h4:'응. 손수레로 장식품을 트리 광장에 옮겼어.' },
-    mae:{ m0:'아이들 선물에 쓸 포장지가 필요했어.', m1:'트리에 달 눈송이를 만들고 있어. 홀리를 돕고 있어.', m3:'아니, 지금은 포장 안 해. 털장갑을 상자 넷에 포장했고, 니코가 가져갔어.' },
+    mae:{ m0:'아이들 선물에 쓸 포장지가 필요했어.', m1:'트리에 달 눈송이를 만들고 있어. 데이지를 돕고 있어.', m3:'아니, 지금은 포장 안 해. 털장갑을 상자 넷에 포장했고, 니코가 가져갔어.' },
     tess:{ t1:'장난감을 포장하고 있어. 어린 친구들에게 줄 선물이야.', t3:'아니, 아직 포장 중이야. 포장이 끝나면 니코가 가져갈 거야. 썰매 옆에 있어.', t4:'아니, 토이 네스트의 별 장난감이야. 아주 가벼워.' },
     nico:{ n1:'선물을 싣고 있어. 아직 배달하러 출발하지는 않았어.', n2:'선물 몇 개를 싣고 있어. 다른 봉사자들이 포장한 거야.', n3:'아니, 나는 선물을 포장하지 않아. 포장은 메이와 테스가 해.',
       n4:'아니, 별로. 그런데 테스가 별을 가져가는 걸 본 것 같아.', n5:'아니. 아침 내내 바로 여기 있었어.' }
@@ -3119,17 +3120,17 @@ const CHRISTMAS_CASE = {
   // the festival ground from above (user plan 10번), its own map as the violin case's hall
   map:'assets/places/christmas/map-festival.webp',
   deduce:{
-    people:[['May Mouse', 'mae'], ['Tess Tortoise', 'tess'], ['Nico Penguin', 'nico'], ['Holly Sheep', 'holly']],
+    people:[['May Mouse', 'mae'], ['Tess Tortoise', 'tess'], ['Nico Penguin', 'nico'], ['Daisy Sheep', 'holly']],
     places:[], things:[], colors:[], times:[],
     suspects:[['tess', 'Tess'], ['nico', 'Nico']],
     go:'니코 심문 시작',
     miss:{ en:"That doesn't match the notes. Let's listen again.", ko:'기록과 맞지 않아. 다시 들어 보자.' },
     qs:[
       { step:1, q:'What do the storeroom visits tell us?', qKo:'창고 출입 목격으로 무엇을 알 수 있어?',
-        card:'Holly saw {opt:May and Tess} go into the storeroom.', cardKo:'홀리는 메이와 테스가 창고에 들어가는 걸 봤어.',
+        card:'Daisy saw {opt:May and Tess} go into the storeroom.', cardKo:'데이지는 메이와 테스가 창고에 들어가는 걸 봤어.',
         opts:['May and Tess', 'only Nico', 'only May', 'only Tess', 'only Ella', 'no one'],
         right:'We still need to check the other information.', rightKo:'다른 정보도 확인해야 해.',
-        hint:"Listen to Holly's answer about the visitors.", hintKo:'홀리의 창고 방문자 대답을 들어 봐.' },
+        hint:"Listen to Daisy's answer about the visitors.", hintKo:'데이지의 창고 방문자 대답을 들어 봐.' },
       { step:2, q:'What does Nico say he is loading?', qKo:'니코는 무엇을 싣고 있다고 말해?',
         card:'Nico says he is loading {opt:gifts other volunteers wrapped}.', cardKo:'니코는 다른 봉사자들이 포장한 선물을 싣고 있다고 말해.',
         opts:['gifts other volunteers wrapped', "one of Tess's toy gifts", 'paper snowflakes', "Ella's empty case", 'his own clothes', 'an empty box'],
@@ -3157,7 +3158,7 @@ const CHRISTMAS_CASE = {
         hint:'Find the same wooden post in both photos and follow the marks from there.', hintKo:'두 사진에서 같은 나무 기둥을 찾고 그 자리에서 자국을 따라가 봐.' },
       { step:4, who:'tess', q:"Is the star on Tess's table the missing star?", qKo:'테스의 탁자에 있는 별이 사라진 별이야?',
         card:"No. Tess's star is {opt:a toy star from Toy Nest}.", cardKo:'아니. 테스의 별은 토이 네스트의 별 장난감이야.',
-        opts:['a toy star from Toy Nest', 'the gold star from the storeroom', 'a snowflake from May', 'a decoration from Holly', 'a gift for Lumi', 'a box from Nico'],
+        opts:['a toy star from Toy Nest', 'the gold star from the storeroom', 'a snowflake from May', 'a decoration from Daisy', 'a gift for Lumi', 'a box from Nico'],
         right:"Let's check the other clues, too.", rightKo:'다른 단서도 확인해 보자.',
         hint:"Listen to Tess's answer and look at the photo of the back.", hintKo:'테스의 대답을 듣고 뒷면 사진을 봐.', out:true },
       { step:4, q:'Where did the gold glitter under the shelf come from?', qKo:'선반 아래 금빛 반짝이는 어디서 떨어졌어?',
@@ -3168,13 +3169,15 @@ const CHRISTMAS_CASE = {
       // the ring is who to ask again (lie: the board's ring)
       { step:5, who:'nico', q:'Who should we ask about the boxes?', qKo:'누구에게 그 상자들에 관해 다시 물어봐야 할까?',
         card:'We should ask {opt:Nico} about the boxes.', cardKo:'니코에게 그 상자들에 관해 다시 물어봐야 해.',
-        opts:['May', 'Tess', 'Nico', 'Holly'],
+        opts:['May', 'Tess', 'Nico', 'Daisy'],
         right:"Let's check Nico's explanation.", rightKo:'니코의 설명을 확인하자.',
         hint:"Compare Nico's loading answer with Tess's answer and the gifts that are still being wrapped.", hintKo:'니코가 싣는다는 물건과 테스의 대답, 포장이 덜 끝난 장난감들을 비교해 봐.', lie:true }
     ]
   },
   ending:{
     intro:[],
+    // soft Christmas music from the lighting to the end (user request; the user's own download, 16.6 s, looped)
+    music:{ src:'audio/christmas/bgm-lighting.mp3', flag:'lit', volume:.18 },
     // design 장면 7: Nico's three excuses answered from the drawer (a wrong pick: the detective's line for that claim,
     // miss), the officer and Ella come (join), the questioning waits while the player opens the right box at the sleigh
     // and photographs the star's back (scene … until), then his last claim and the confession
@@ -3243,7 +3246,7 @@ const CHRISTMAS_CASE = {
   }
 };
 // the recordings (scripts/christmas-voice-lines.js): what the detective says of each thing looked at, of the things
-// carried, and everyone's lines (Holly Mabel, May Liza, Tess Callan as in the umbrella case, Nico Ian; no emotion)
+// carried, and everyone's lines (Daisy Mabel, May Liza, Tess Callan as in the umbrella case, Nico Ian; no emotion)
 CHRISTMAS_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take && c.en) c.audio = `audio/christmas/detective-${pl.id}-${i}.mp3`; }));
 Object.entries(CHRISTMAS_CASE.items).forEach(([id, it]) => { it.audio = `audio/christmas/detective-item-${id}.mp3`; });
 Object.entries({ badger:['hello', 'b0', 'check-in', 'reason-to-check', 'open-order', 'take'],
@@ -4043,13 +4046,13 @@ const SPRITES = {
   ivo:{src:'assets/characters/ivo-higgsfield.png', w:457, h:700, face:'46 0 364 364', anchor:.5},
   momo:{src:'assets/characters/momo-higgsfield.png', w:420, h:700, face:'35 14 350 350', anchor:.5},
   pip:{src:'assets/characters/pip-higgsfield.png', w:480, h:700, face:'23 0 434 434', anchor:.5},
-  // the Christmas star case (scripts/cut-christmas-assets.py): Holly, May (seated, as she works), Nico
-  // Holly and May look at the detective while they talk (user request); at their own place, not talking, they work
+  // the Christmas star case (scripts/cut-christmas-assets.py): Daisy, May (seated, as she works), Nico
+  // Daisy and May look at the detective while they talk (user request); at their own place, not talking, they work
   // (the :work pose, spriteKey). Talk poses: one sheet, scripts/cut-christmas-talk.py
   // redrawn as plump as her working pose (user: talking she turned too slim; scripts/cut-holly-talk.py)
   holly:{src:'assets/characters/holly-talk.png', w:483, h:700, face:'40 0 360 360', anchor:.45},
   mae:{src:'assets/characters/mae-talk.png', w:449, h:700, face:'45 10 350 350', anchor:.45},
-  // flip: drawn mirrored (user request: working, Holly faces the table on her left in the storeroom)
+  // flip: drawn mirrored (user request: working, Daisy faces the table on her left in the storeroom)
   'holly:work':{src:'assets/characters/holly-higgsfield.png', w:412, h:700, anchor:.5, flip:true},
   'mae:work':{src:'assets/characters/mae-higgsfield.png', w:437, h:700, anchor:.45},
   nico:{src:'assets/characters/nico-higgsfield.png', w:476, h:700, face:'60 0 357 357', anchor:.47}
@@ -4501,7 +4504,8 @@ function memoHTML(){
 // labelled 닫기. Captured before the button's own handler, so it plays even when the button removes itself.
 document.addEventListener('click', e => {
   const b = e.target.closest('button');
-  if(!b || !(b.classList.contains('close-button') || b.textContent.trim() === '닫기' || /닫기$/.test(b.getAttribute('aria-label') || ''))) return;
+  // and the case key cards' 이전·다음·사건 시작 (user request: 다음 should click too)
+  if(!b || !(b.classList.contains('close-button') || b.matches('[data-ck-next],[data-ck-prev]') || b.textContent.trim() === '닫기' || /닫기$/.test(b.getAttribute('aria-label') || ''))) return;
   const s = $('#closeClick'); s.currentTime = 0; s.play().catch(() => {});
 }, true);
 
@@ -6734,6 +6738,7 @@ function handoffLine(){
   const round = ENDING.handoff[ending.round], line = round.lines[ending.i];
   if(line.take) takeItem(line.take);
   if(line.flag && !S.flags.has(line.flag)){ S.flags.add(line.flag); renderScene(placeIdOf(round.to)); }
+  if(line.flag && line.flag === ENDING.music?.flag) endingMusic(true);
   // the whole square from here on (user request: at the lighting, everyone by the lit tree, not Ella alone)
   // once the round's turn flag is up (the lighting), everyone there looks at the tree from behind but whoever speaks
   // (user request: they all watch the tree)
@@ -6770,8 +6775,23 @@ function takeItem(id){
   if(ITEMS[id]?.bag) handBag(id, 'take');
   setTimeout(gotItem, 1300);
 }
+// An ending's music (ENDING.music): fades in under the voices when its flag goes up, loops, fades out as the ending
+// closes. Its own element, so stopVoice() leaves it playing.
+const music = new Audio(); music.loop = true; music.preload = 'none';
+let musicFade = 0;
+function endingMusic(on){
+  const m = ENDING.music;
+  if(!m || (!on && music.paused)) return;
+  clearInterval(musicFade);
+  if(on){ if(!music.src.endsWith(m.src)) music.src = m.src; music.volume = 0; music.currentTime = 0; music.play().catch(() => {}); }
+  const to = on ? m.volume : 0, step = (on ? m.volume : music.volume) / 20;
+  musicFade = setInterval(() => {
+    music.volume = Math.max(0, Math.min(1, on ? Math.min(to, music.volume + step) : Math.max(0, music.volume - step)));
+    if(music.volume === to){ clearInterval(musicFade); if(!on) music.pause(); }
+  }, on ? 75 : 100);
+}
 function finishEnding(){
-  clearTimeout(endTimer); stopVoice(); closeDrawer(); renderSay(null);
+  clearTimeout(endTimer); stopVoice(); endingMusic(false); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
   S.mood = {};
   // solved is saved before the review opens, so leaving the app during the review keeps the case solved
@@ -9100,8 +9120,9 @@ $('#devInterro').onclick = () => {
   endTimer = setTimeout(() => ending && endingSay(fionaLine(ENDING.confession[0]), 'sad'), 1400);
 };
 
-// 튜토리얼 초기화: forget that the tutorial was seen and start over.
-$('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); localStorage.removeItem(NAME_KEY); } catch(e){} location.reload(); };
+// 튜토리얼 초기화: forget that the tutorial was seen and start over. The detective's name stays: once named, only 리셋
+// asks for it again (user request).
+$('#devTut').onclick = () => { try { localStorage.removeItem(TUT_KEY); } catch(e){} location.reload(); };
 
 // 리셋: everything this game keeps on the device (case in progress, solved cases, records, study days, tutorial) is
 // forgotten and the app starts over. In a 미리보기 it is the device's records too (not the preview's copy in memory),
@@ -9187,7 +9208,7 @@ if(PACK){
   // another case's page: its review from 학습, else the case (a new one with its key); never the case cards
   $('#caseList').hidden = true;
   if(new URLSearchParams(location.search).get('review') === '1' && solvedCases().includes(CASE_ID)) openReview(true);
-  // without a detective name (튜토리얼 초기화 or 리셋 on this page) the first meeting is on 홈, as when the app opens,
+  // without a detective name (리셋 on this page) the first meeting is on 홈, as when the app opens,
   // not straight into this case after the name (user request: it went into the case at once)
   else if(!PREVIEW && !detectiveName()) location.replace(location.pathname);
   else if(!PREVIEW) startCase(false);

@@ -1,8 +1,8 @@
-"""Cut Holly's and May's talk poses (stopped working, looking at the detective) out of their Higgsfield sheet.
+"""Cut Daisy's and May's talk poses (stopped working, looking at the detective) out of their Higgsfield sheet.
 
 usage: python scripts/cut-christmas-talk.py
   reads assets/characters/holly-mae-talk-higgsfield-original.png (flat magenta background), writes
-  assets/characters/mae-talk.png (Holly's comes from scripts/cut-holly-talk.py now) the same way as cut-christmas-backs.py (magenta keyed out, each figure by its
+  assets/characters/mae-talk.png (Daisy's comes from scripts/cut-holly-talk.py now) the same way as cut-christmas-backs.py (magenta keyed out, each figure by its
   columns of opaque pixels, trimmed with a 3% margin, 700 px high).
 """
 import importlib.util, sys
@@ -25,7 +25,7 @@ for y in range(h):
             k = min(r, b) - max(g, 0)
             px[x, y] = (max(0, r - k // 2), g, max(0, b - k // 2), a)
 for name, (x0, x1) in zip(['holly', 'mae'], cut.opaque_runs(src, 0, 12)):
-    # Holly's talk pose was redrawn plumper (scripts/cut-holly-talk.py): only May's is cut from this sheet now
+    # Daisy's talk pose was redrawn plumper (scripts/cut-holly-talk.py): only May's is cut from this sheet now
     if name == 'holly': continue
     fig = cut.trim(src.crop((x0, 0, x1, h)), height=700)
     fig.save(f'assets/characters/{name}-talk.png')

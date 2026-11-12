@@ -1,4 +1,4 @@
-"""Cut Holly's talk pose (redrawn as plump as her working pose, user request) out of its Higgsfield picture.
+"""Cut Daisy's talk pose (redrawn as plump as her working pose, user request) out of its Higgsfield picture.
 
 usage: python scripts/cut-holly-talk.py
   reads assets/characters/holly-talk2-higgsfield-original.png (one figure on flat magenta), writes
