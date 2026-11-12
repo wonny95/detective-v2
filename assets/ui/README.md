@@ -168,6 +168,11 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - `scripts/cut-crayon-x.py`: 흰색에서 먼 정도로 투명도를 만들고(흰 기운을 뺀 색), 픽셀을 가까운 획에 나눈다. 첫 획(왼쪽 위 → 오른쪽 아래)은 교차점을 포함한 띠 전체를 가진다. 두 장을 같은 정사각 영역(원본 (70,66)–(962,958))에서 240×240으로 줄였다.
 - 게임에서는 두 장을 겹쳐 두고 `clip-path` 삼각형을 각 획 방향으로 넓혀 한 획씩 그린다(`.ded-x`).
 
+# 추리 보드 가는 크레용 X (`crayon-x-thin-1.png`, `crayon-x-thin-2.png`)
+
+- Claude Code 제작(2026-11-13, 사용자 요청: O·X 포스트잇의 X가 O보다 너무 두꺼움): Nano Banana 2 · 1:1 · 1K, 크레용 O 원본(job `6f432f4d-…`)을 참조로 같은 굵기의 X(job `c0249aa1-0efd-4de5-9b1e-424fc0a4a41d`, 원본 `crayon-x-thin-higgsfield-original.png`, 1.5크레딧).
+- `scripts/cut-crayon-x-thin.py`: `cut-crayon-x.py`와 같은 방식(획 중심선만 이 그림에 맞춤, 종이가 조금 회색이라 투명도 48 아래는 버림). 추리 보드 O·X 포스트잇(`.ded-mk.x`)에만 쓰고, 용의자 사진 위 X(`.ded-x`)는 예전 두꺼운 X 그대로.
+
 # 추리 보드 크레용 동그라미 (`crayon-o-1.png`, `crayon-o-2.png`)
 
 - Claude Code 제작(2026-10-28, 사용자 요청: X처럼 크레용 느낌, 아래에서 시작하는 획): Nano Banana 2.1 · 3:4 · 1K · thinking high. 첫 판(job `d31582f9-772c-413e-8eb7-90a7e3656ce8`)은 위에 X처럼 겹친 획이 생겨 버리고, 아래 왼쪽에서 시작해 아래에서 끝이 겹치는 한 획으로 다시 그림(job `6f432f4d-1cda-496e-aa3f-8e293246bf42`, 원본 `crayon-o-higgsfield-original.png`). 두 장 약 3크레딧.

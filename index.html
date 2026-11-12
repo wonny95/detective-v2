@@ -1013,13 +1013,18 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .dn-foot{display:flex;padding-top:6px}
 .ded-note .pill.sm.ded-ko{height:24px;min-height:24px;padding:0 8px;font-size:11px}
 .dn-side{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+/* answered: the text takes the whole note and the big mark lies over its right side (user: text and mark may overlap) */
+.ded-note:not(.cur){grid-template-columns:minmax(0,1fr)}
+.ded-note:not(.cur) .dn-side{position:absolute;right:8px;top:50%;width:84px;height:92px;margin-top:-46px;pointer-events:none}
+.ded-note:not(.cur) .ded-mk{width:84px;height:92px;margin:0}
 .dn-side .pill{min-width:52px;min-height:34px;padding:0 10px;font-family:var(--f-display);font-size:20px;color:#B8402F}
 .ded-mk{position:relative;width:72px;height:80px;margin:-6px 0;pointer-events:none}
 .ded-mk i{position:absolute;inset:0;background:center/100% 100% no-repeat}
 .ded-mk.o i{background-image:url(assets/ui/crayon-o-1.png)}
 .ded-mk.o i + i{background-image:url(assets/ui/crayon-o-2.png)}
-.ded-mk.x i{background-image:url(assets/ui/crayon-x-1.png)}
-.ded-mk.x i + i{background-image:url(assets/ui/crayon-x-2.png)}
+/* the thinner X, as thin as the O (user request; scripts/cut-crayon-x-thin.py) */
+.ded-mk.x i{background-image:url(assets/ui/crayon-x-thin-1.png)}
+.ded-mk.x i + i{background-image:url(assets/ui/crayon-x-thin-2.png)}
 /* the mark just picked is drawn: the first stroke, then the second */
 .ded-note.draw .ded-mk i{clip-path:inset(0 100% 0 0);animation:dn-stroke .3s ease-out forwards}
 .ded-note.draw .ded-mk i + i{animation-delay:.3s;animation-duration:.2s}
