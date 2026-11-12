@@ -2856,7 +2856,7 @@ const CHRISTMAS_CASE = {
         { key:'ready', en:"Oh! I'll answer what I can.", ko:'아! 내가 아는 건 말해 줄게.' }
       ],
       questions:[
-        { id:'h1', en:'Are you sorting decorations?', ko:'장식품을 정리하고 있어?' },
+        { id:'h1', en:'What are you doing?', ko:'무엇을 하고 있어?' },
         { id:'h2', en:'Who came into the storeroom?', ko:'창고에는 누가 들어왔어?' },
         { id:'h3', en:'Where are Coco and Tess now?', ko:'코코와 테스는 지금 어디 있어?' },
         { id:'h4', en:'Did you move any decorations today?', ko:'오늘 장식품을 옮겼어?' }
@@ -2864,7 +2864,7 @@ const CHRISTMAS_CASE = {
       needs:{ h2:['holly:h1'], h3:['holly:h2'], h4:['holly:h1', 'backyard-0'] },
       unlocks:{ h3:{ people:['mae', 'tess'] } },
       answers:{
-        h1:"Yes. I'm sorting decorations for the Christmas festival. I'm helping Ella.",
+        h1:"I'm sorting decorations for the Christmas festival. I'm helping Ella.",
         h2:'I saw Coco and Tess go in. I went in, too.',
         h3:"They're working in the gift tent.",
         h4:'Yes. I took some decorations to the Tree Square in a handcart.'
@@ -2987,7 +2987,7 @@ const CHRISTMAS_CASE = {
   grammarLines:{
     'ella:e0':[['past-irr','came back']],
     'ella:e2':[['past-irr','left']],
-    'holly:h1':[['present-prog','Are you sorting'], ['present-prog',"I'm sorting decorations"], ['present-prog',"I'm helping Ella"]],
+    'holly:h1':[['present-prog','What are you doing'], ['present-prog',"I'm sorting decorations"], ['present-prog',"I'm helping Ella"]],
     'holly:h2':[['past-irr','saw'], ['past-irr','went in']],
     'holly:h3':[['present-prog',"They're working"]],
     'holly:h4':[['past-irr','took']],
@@ -3009,7 +3009,7 @@ const CHRISTMAS_CASE = {
   answersKo:{
     badger:{ b0:'마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐.' },
     ella:{ e0:'축제에 온 아이들을 안내하러 자리를 비웠어. 돌아와 보니 별이 사라졌더라.', e1:'진짜 금으로 만들어서 아주 무거워. 뒷면에 작은 잎사귀 무늬가 있어.', e2:'창고 선반의 보관함 안에 두었어.' },
-    holly:{ h1:'응. 크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.', h2:'코코와 테스가 들어가는 걸 봤어. 나도 들어갔어.', h3:'선물 포장 천막에서 일하고 있어.', h4:'응. 손수레로 장식품을 트리 광장에 옮겼어.' },
+    holly:{ h1:'크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.', h2:'코코와 테스가 들어가는 걸 봤어. 나도 들어갔어.', h3:'선물 포장 천막에서 일하고 있어.', h4:'응. 손수레로 장식품을 트리 광장에 옮겼어.' },
     mae:{ m0:'아이들 선물에 쓸 포장지가 필요했어.', m1:'트리에 달 눈송이를 만들고 있어. 데이지를 돕고 있어.', m3:'아니, 지금은 포장 안 해. 털장갑을 상자 넷에 포장했고, 니코가 가져갔어.', m4:'니코도 자원봉사자야. 선물을 썰매로 가져가고 있어.' },
     tess:{ star:'아니, 못 봤어.', storeroom:'선물을 담을 빈 상자가 필요했어.', t1:'장난감을 포장하고 있어. 어린 친구들에게 줄 선물이야.', t3:'아니, 아직 포장 중이야. 포장이 끝나면 니코가 가져갈 거야. 썰매 옆에 있어.', t4:'아니, 토이 네스트의 별 장난감이야. 아주 가벼워.' },
     nico:{ n1:'선물을 싣고 있어. 아직 배달하러 출발하지는 않았어.', storeroom:'아니. 선물이 다 포장되길 기다리고 있었어.', n2:'선물 몇 개를 싣고 있어. 다른 봉사자들이 포장한 거야.', n3:'아니, 나는 선물을 포장하지 않아. 포장은 코코와 테스가 해.',

@@ -190,11 +190,11 @@ flowchart LR
 
 #### holly:h1 · 데이지
 
-- **질문 선택지**: Are you sorting decorations?
-- 해석: 장식품을 정리하고 있어?
-- **대답**: Yes. I'm sorting decorations for the Christmas festival. I'm helping Ella.
-- 해석: 응. 크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.
-- **노트**: “Yes. I'm [sorting] [decorations] for the Christmas festival. I'm helping Ella.”
+- **질문 선택지**: What are you doing?
+- 해석: 무엇을 하고 있어?
+- **대답**: I'm sorting decorations for the Christmas festival. I'm helping Ella.
+- 해석: 크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.
+- **노트**: “I'm [sorting] [decorations] for the Christmas festival. I'm helping Ella.”
 - **보기**: sorting · carrying · selling · decorations · gifts · mittens
 - 조건: 엘라 e2 기록·창고 도착·데이지 자기소개 뒤 첫 질문
 - 채점 뒤: h2. 출입 목격을 기록하면 h3가 열린다.
@@ -1240,7 +1240,7 @@ not을 놓치면 반대 행동으로 기록한다.
 
 상대의 현재 행동을 확인한다. Are you로 물으면 자기 행동을 I am으로 답한다.
 
-실제 발화: **Are you sorting decorations?** · holly:h1 질문
+실제 발화: **Are you still wrapping gifts?** · mae:m3 질문
 
 | 사건 밖 예문 | 반말 해석 |
 |---|---|

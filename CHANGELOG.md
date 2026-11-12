@@ -13,6 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-13 · Claude · (이 커밋) 크리스마스: 탐정이 데이지에게 하는 첫 질문을 "What are you doing?"으로
+
+- 사용자 요청: 데이지 첫 질문(holly:h1)을 "Are you sorting decorations? / 장식품을 정리하고 있어?"에서 "What are you doing? / 무엇을 하고 있어?"로 바꿈. 질문이 바뀌어 대답 앞의 "Yes."(해석 "응.")를 뺌: "I'm sorting decorations for the Christmas festival. I'm helping Ella." 노트 빈칸(sorting·decorations)과 보기는 그대로.
+- 녹음: 탐정 질문은 니코 n1과 같은 문장이라 `detective-nico-n1.mp3`를 `detective-holly-h1.mp3`로 복사(크레딧 없음). 데이지 대답은 Mabel로 다시 녹음(Higgsfield text2speech_v2 MiniMax, job `6047be85-0883-4b69-b2d7-7ee1154cd5af`, 감정 없음, 약 4.2초, 1크레딧 미만).
+- 문법 카드 'holly:h1'의 질문 줄을 'What are you doing'으로. 설계서 md·html의 holly:h1 절을 고치고, "확인 · be + 주어 + -ing?" 절의 실제 발화는 이제 Yes/No 질문이 아니므로 코코 m3 "Are you still wrapping gifts?"로 바꿈(사용자와 고친 설계서 내용).
+- 확인(새 탭): 데이지 노트 페이지에 "Q. What are you doing?"(문법 표시)과 "Yes." 없는 지문이 보이고, 두 녹음 모두 불러와짐(질문 0.98초, 대답 4.2초). 새 녹음을 귀로 듣지는 않음. `scripts/christmas-voice-lines.js`에서 빠진 녹음 없음.
+- **다음**: 앞 항목의 "다음"과 같음.
+
 ## 2026-11-13 · Claude · (이 커밋) 노트: 확인됨 도장이 압정 버튼과 겹치지 않음
 
 - 사용자 요청: 노트 페이지의 `확인됨` 도장이 첫 질문의 압정(메모에 붙이기) 버튼 위에 겹쳐 그려지던 것을 고침. 첫 질문에 압정이 있으면 도장을 그 왼쪽(`right:38px`)으로 옮김(CSS만).
