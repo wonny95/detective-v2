@@ -1025,7 +1025,14 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-note:not(.cur)::before{display:none}
 .ded-note:not(.cur) .dn-side{position:absolute;right:8px;top:50%;width:84px;height:92px;margin-top:-46px;pointer-events:none}
 .ded-note:not(.cur) .ded-mk{width:84px;height:92px;margin:0}
-.dn-side .pill{min-width:52px;min-height:34px;padding:0 10px;font-family:var(--f-display);font-size:20px;color:#B8402F}
+/* the O/X buttons: Higgsfield badges (assets/ui/deduce-ox-badge-o/-x.webp, butter rim, cream middle, red crayon letter,
+   user pick E of the button mockups); pressing pushes the badge down a little and its shadow shrinks */
+.dn-ox{width:48px;height:48px;border:0;padding:0;background:center/contain no-repeat;cursor:pointer;
+  filter:drop-shadow(1px 3px 1px rgba(50,30,15,.35));transition:transform .1s,filter .1s;-webkit-tap-highlight-color:transparent}
+.dn-ox.o{background-image:url(assets/ui/deduce-ox-badge-o.webp)}
+.dn-ox.x{background-image:url(assets/ui/deduce-ox-badge-x.webp)}
+.dn-ox:active{transform:translateY(2px) scale(.94);filter:drop-shadow(0 1px 0 rgba(50,30,15,.35))}
+.dn-ox:focus-visible{outline:3px solid var(--honey);outline-offset:2px;border-radius:50%}
 .ded-mk{position:relative;width:72px;height:80px;margin:-6px 0;pointer-events:none}
 .ded-mk i{position:absolute;inset:0;background:center/100% 100% no-repeat}
 .ded-mk.o i{background-image:url(assets/ui/crayon-o-1.png)}
@@ -6075,7 +6082,7 @@ function renderDeduce(){
       `<div class="dn-text"><span class="dn-who">${x.who ? `<i style="background-image:url(${faceSrc(x.who)})"></i>` : ''}${esc(name)}</span><p class="dn-say">${esc(quote)}</p>` +
       (ok ? `<p class="ko"${ko ? '' : ' hidden'}>${esc(quoteKo)}</p><span class="dn-foot"><button class="pill sm ded-ko" type="button" data-dko="${i}" aria-pressed="${ko}">해석</button></span>` : '') + '</div>' +
       `<div class="dn-side">${ok ? `<span class="ded-mk ${mark}" role="img" aria-label="${mark.toUpperCase()}"><i></i><i></i></span>`
-        : '<button class="pill" type="button" data-dox="O">O</button><button class="pill" type="button" data-dox="X">X</button>'}</div></div>`;
+        : '<button class="dn-ox o" type="button" data-dox="O" aria-label="O"></button><button class="dn-ox x" type="button" data-dox="X" aria-label="X"></button>'}</div></div>`;
   };
   const isOX = i => { const o = qs[i].opts; return !qs[i].opts2 && o?.length === 2 && o.includes('O') && o.includes('X'); };
   const list = $('#deduceCards'), before = list.querySelectorAll('.ded-card.done, .ded-note:not(.cur)').length;

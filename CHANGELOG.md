@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-13 · Claude · (이 커밋) 추리 O·X 포스트잇: 맞힌 것은 압정 없음
+## 2026-11-13 · Claude · (이 커밋) 추리 O·X 버튼: Higgsfield 노란 배지
+
+- 사용자 요청: O·X 버튼을 Higgsfield로 일러스트에 어울리게. 한 장에 4가지(나무 단추·종이 딱지·왁스 도장·노란 배지, 1.5크레딧)를 그려 지금 버튼과 나란히 시안으로 보여 주고, 사용자가 E 노란 배지를 고름. `assets/ui/deduce-ox-badge-o/-x.webp`(`scripts/cut-deduce-ox-buttons.py`, 가장자리 분홍 빼기·옆 버튼 조각 지우기), 원본 시트 `deduce-ox-buttons-higgsfield-original.png`. 버튼 48px, 누르면 2px 내려가며 작아지고 그림자가 줄어듦(CSS).
+- 확인(새 탭, 375px): 테스 포스트잇에 두 배지가 위아래로, X를 누르면 흔들리고 O를 누르면 맞힘·크레용 O가 그어짐.
+- 남은 것: 고르지 않은 후보 `deduce-ox-wood/paper/wax-o·x.webp`와 시안 `design/ui-deduce-ox-button-mockups.html`은 커밋하지 않음(삭제 승인 대기, 앞의 포스트잇 후보·시안 5개와 함께).
+- **다음**: 사용자 지시 대기(크리스마스 점검표 고칠 번호 선택).
+
+## 2026-11-13 · Claude · 59ab66a 추리 O·X 포스트잇: 맞힌 것은 압정 없음
 
 - 사용자 요청: 위 빈칸 채우기 카드처럼 정답을 맞혀 지나간 포스트잇은 압정이 사라지게. `.ded-note:not(.cur)::before{display:none}`.
 - 확인(새 탭, 375px): O 둘을 맞힌 뒤 맞힌 포스트잇 둘은 압정 없음, 지금 묻는 포스트잇에만 압정.
