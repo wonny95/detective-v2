@@ -13,6 +13,15 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-12 · Claude · (이 커밋) 홈: 탐정을 누르면 잡담 네 줄
+
+- 사용자 요청: 홈에서 탐정을 누를 때마다 같은 말만 해서 재미없음 → 후보 10줄 가운데 사용자가 넷을 고름.
+  - `DETECTIVE.chat1–4`: Listen carefully. Every word is a clue. / My notebook is my best friend. / Don't worry. We can solve it together. / Small clues can solve big cases.
+  - 탐정을 누르면 넷을 섞어 하나씩(넷을 다 말하기 전엔 되풀이 없음, 연달아 같은 줄 없음). 홈에 들어오거나 상황이 바뀔 때는 지금처럼 할 일 한 줄. 버튼(사건 시작 등)은 잡담 중에도 그대로, ▶는 떠 있는 줄을 다시 말함.
+  - 음성: Higgsfield MiniMax Grady·감정 없음 4줄(약 0.6크레딧) → `audio/detective-chat1–4.mp3`. 홈 녹음은 늘 `audio/` 바로 아래에서 읽게 경로를 고정.
+- 확인: 새 탭에서 탐정을 9번 눌러 네 줄이 섞여 돌고 음성 파일이 모두 열림, 버튼 `사건 시작`이 남음, `해석`·▶ 동작, 말풍선 모양. 폰 크기는 보지 않음.
+- **다음**: 사용자 확인. 그 전의 남은 일(크리스마스 별 밤·점등 장면 사용자 확인)도 그대로.
+
 ## 2026-11-11 · Claude · (이 커밋) 밤·점등 트리도 장식한 트리로, 안 쓰는 파일 정리
 
 - 사용자 요청(남은 일 둘 다 진행):

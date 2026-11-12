@@ -8012,8 +8012,24 @@ const DETECTIVE = {
   'home-going':{ en:"We left a case open. Let's finish it.", ko:'끝내지 못한 사건이 있어. 마무리하자.' },
   'home-new':{ en:"A new request just came in.\nLet's check the case board.", ko:'새로운 의뢰가 들어왔어.\n사건 보드를 살펴보자.' },
   'home-again':{ en:"Some words slipped past my ears. Let's check my notebook.", ko:'몇 마디가 내 귀를 빠져나갔어. 수첩을 확인해 보자.' },
-  'home-quiet':{ en:'A quiet day in Acorn Hollow.', ko:'도토리 골짜기의 조용한 하루야.' }
+  'home-quiet':{ en:'A quiet day in Acorn Hollow.', ko:'도토리 골짜기의 조용한 하루야.' },
+  // 홈, tapping the detective (user request: the same line every tap was dull; lines picked by the user)
+  chat1:{ en:'Listen carefully. Every word is a clue.', ko:'잘 들어 봐. 모든 말이 단서야.' },
+  chat2:{ en:'My notebook is my best friend.', ko:'내 수첩은 나의 가장 친한 친구야.' },
+  chat3:{ en:"Don't worry. We can solve it together.", ko:'걱정 마. 우리 함께 풀 수 있어.' },
+  chat4:{ en:'Small clues can solve big cases.', ko:'작은 단서가 큰 사건을 풀 수 있어.' }
 };
+// each tap on 홈's detective says the next of these, shuffled, all of them before any comes again (and never the
+// same line twice in a row); the moment's button stays under whichever line is said
+const HOME_CHAT = ['chat1', 'chat2', 'chat3', 'chat4'];
+let chatBag = [];
+function nextChat(){
+  if(!chatBag.length){
+    chatBag = [...HOME_CHAT].sort(() => Math.random() - .5);
+    if(chatBag[0] === $('#homeSay').dataset.key) chatBag.push(chatBag.shift());
+  }
+  return chatBag.shift();
+}
 const NAME_IDEAS = ['Hazel', 'Nutty', 'Maple', 'Pip', 'Acorn', 'Chestnut', 'Sunny', 'Juniper'];
 let nameMemo = '';   // the name for this visit when the device keeps nothing
 const detectiveName = () => { try { return localStorage.getItem(NAME_KEY) || nameMemo; } catch(e){ return nameMemo; } };
@@ -8167,9 +8183,9 @@ setDetPose($('#officeDetective'), 0); setDetPose($('.office-det'), 0);
 $('#officeDetective').onclick = () => {
   const box = $('#officeDetective'), others = DETECTIVE_POSES.map((p, i) => i).filter(i => i !== +box.dataset.pose);
   setDetPose(box, others[Math.floor(Math.random() * others.length)]);
-  sayHome(homeState().key);
+  sayHome(nextChat());
 };
-$('#homeReplay').onclick = () => sayHome(homeState().key, false);   // the bubble stays put under the finger; the detective hops
+$('#homeReplay').onclick = () => sayHome($('#homeSay').dataset.key || homeState().key, false);   // the bubble stays put under the finger; the detective hops
 $('#homeKoBtn').onclick = () => {
   const ko = $('#homeKo');
   ko.hidden = !ko.hidden; $('#homeKoBtn').setAttribute('aria-pressed', !ko.hidden);
@@ -8786,7 +8802,7 @@ window.addEventListener('pointermove', e => {
 window.addEventListener('pointerup', () => { if(homeDrag){ homeDragged = homeDrag.moved; homeDrag = null; } });
 homePan.addEventListener('wheel', e => { if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ homePan.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive:false });
 homePan.addEventListener('click', e => { if(homeDragged){ homeDragged = false; e.stopPropagation(); e.preventDefault(); } }, true);
-function sayHome(key, pop = true){ const was = !$('#homeSay').hidden; homeClosed = false; showHomeLine(key); popHomeSay(true, pop || !was); detectiveSay(key); }
+function sayHome(key, pop = true){ const was = !$('#homeSay').hidden; homeClosed = false; showHomeLine(key); popHomeSay(true, pop || !was); detectiveSay(`audio/detective-${key}.mp3`); }   // 홈's lines are the app's, not a case's: never from a case folder
 $('#homeSayClose').onclick = () => { stopVoice(); homeClosed = true; closeHomeSay(); };
 // 학습: one page with 단어 / 문법 / 복습 at the top
 function renderStudy(){
