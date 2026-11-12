@@ -1021,6 +1021,8 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .dn-side{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 /* answered: the text takes the whole note and the big mark lies over its right side (user: text and mark may overlap) */
 .ded-note:not(.cur){grid-template-columns:minmax(0,1fr)}
+/* a note already answered loses its tack, as the worked-out sentence cards do (user request) */
+.ded-note:not(.cur)::before{display:none}
 .ded-note:not(.cur) .dn-side{position:absolute;right:8px;top:50%;width:84px;height:92px;margin-top:-46px;pointer-events:none}
 .ded-note:not(.cur) .ded-mk{width:84px;height:92px;margin:0}
 .dn-side .pill{min-width:52px;min-height:34px;padding:0 10px;font-family:var(--f-display);font-size:20px;color:#B8402F}
