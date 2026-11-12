@@ -783,6 +783,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
 .badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
 .art-stage{position:relative;flex:1 1 auto;min-height:0;background:var(--paper-2)}
+/* falling snow over an outdoor place's picture (a place's snow:true, user request); never takes a tap */
+.snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none}
+.snow.on{display:block}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
 .art-wrap::-webkit-scrollbar{display:none}
 .art{position:relative;height:100%;aspect-ratio:3/2;transform-origin:0 0;user-select:none;-webkit-user-select:none}
@@ -1451,6 +1454,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <span class="chip l" id="orderChip" hidden></span>
       <div class="bubble" id="bubble" hidden role="status"></div>
       <div class="stage-area" id="talkCamera"></div>
+      <canvas class="snow" id="snowTalk" aria-hidden="true"></canvas>
       <div class="ask-panel" id="askPanel"></div>
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
@@ -1466,6 +1470,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       </div>
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
+        <canvas class="snow" id="snowInv" aria-hidden="true"></canvas>
         <div class="accuse-foot" id="accuseFoot" hidden><button class="pill big" type="button" data-accuse>추리하기</button></div>
         <div class="accuse-foot" id="foldFoot" hidden><button class="pill big" type="button" id="foldBtn">펼치기</button></div>
         <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
@@ -2979,7 +2984,7 @@ const CHRISTMAS_CASE = {
   /* the four festival places (design 5절 장면 배치표) and the close looks. A spot's when/unless: conditions for it to be
      there; take: picked up (or '!flag': only marked done) after its lines; inspect: opens that close look */
   places:[
-    { id:'tree', x:50, y:74, label:'Tree Square', artWidth:1376, artHeight:768,
+    { id:'tree', x:50, y:74, label:'Tree Square', artWidth:1376, artHeight:768, snow:true,
       clues:[
         { label:'Big tree', prop:true, en:'What a tall tree!', ko:'정말 큰 트리네!' },
         { label:'Tiny bell', prop:true, en:'A tiny bell!', ko:'작은 종이네!' },
@@ -3029,7 +3034,7 @@ const CHRISTMAS_CASE = {
         { label:'Bow', prop:true, en:'That one looks nice.', ko:'저거 예쁘네!' }
       ],
       spots:[ { clue:0, x:76, y:86, w:9, h:12 }, { clue:1, x:86, y:72, w:14, h:26 }, { clue:2, x:13, y:44, w:9, h:12 } ] },
-    { id:'sleigh', x:58, y:33, label:'Delivery Sleigh', artWidth:1376, artHeight:768,
+    { id:'sleigh', x:58, y:33, label:'Delivery Sleigh', artWidth:1376, artHeight:768, snow:true,
       clues:[
         { label:'Boxes on the sleigh', en:'The boxes look the same.', ko:'상자들이 똑같아 보여.' },
         { label:'Marks by the post', en:'More marks over here.', ko:'이쪽에도 자국이 있네.' },
@@ -7328,8 +7333,62 @@ function npcBox(id, pl){
   const left = position.x - width * (sprite?.anchor ?? .5);
   return { left, right:left + width, top:position.floor - height, width, height };
 }
+/* ---------- snow ----------
+   A place with snow:true (the Christmas square and the sleigh; the storeroom and the tent are indoors) has soft
+   round flakes falling over its picture, in the place view and in conversation and the ending alike (user request).
+   They fall in screen space, so the camera's moves never drag them; few and slow, so clues stay easy to see. Big near
+   flakes are softer and quicker, small far ones crisper and slower; each sways a little as it falls. Off with reduced
+   motion. Drawn on the canvas over whichever view is showing (#snowInv, #snowTalk); the loop stops when no snow shows. */
+let snowOn = false, snowFrame = 0, snowFlakes = [], snowLast = 0;
+const snowSprites = [1.8, 2.8, 4, 5.4].map((r, i) => {
+  const c = document.createElement('canvas'), size = Math.ceil(r * 2 + 4) * 2;
+  c.width = c.height = size;
+  const g = c.getContext('2d'), m = size / 2, rr = r * 2;
+  const grad = g.createRadialGradient(m, m, 0, m, m, rr + 2);
+  // the nearest flakes have the softest edge; a faint grey-blue rim keeps them seen over the white snow on the ground
+  grad.addColorStop(0, 'rgba(255,252,244,1)'); grad.addColorStop(i > 2 ? .45 : .62, 'rgba(255,252,244,.96)');
+  grad.addColorStop(.8, 'rgba(176,188,206,.35)'); grad.addColorStop(1, 'rgba(176,188,206,0)');
+  g.fillStyle = grad; g.beginPath(); g.arc(m, m, rr + 2, 0, Math.PI * 2); g.fill();
+  return { c, r, size:size / 4, speed:[16, 24, 34, 46][i], alpha:[.8, .88, .92, .85][i] };
+});
+function snowFlake(w, h, anywhere){
+  const kind = snowSprites[Math.random() < .45 ? 0 : Math.random() < .55 ? 1 : Math.random() < .6 ? 2 : 3];
+  return { kind, x:Math.random() * w, y:anywhere ? Math.random() * h : -kind.size, phase:Math.random() * Math.PI * 2,
+    sway:6 + Math.random() * 12, swaySpeed:.4 + Math.random() * .6, speed:kind.speed * (.8 + Math.random() * .4) };
+}
+function snowFor(pl){
+  const on = !!pl?.snow && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('#snowInv').classList.toggle('on', on); $('#snowTalk').classList.toggle('on', on);
+  if(on === snowOn) return;
+  snowOn = on; snowFlakes = [];
+  if(on){ snowLast = 0; snowFrame = requestAnimationFrame(snowTick); }
+  else { cancelAnimationFrame(snowFrame); document.querySelectorAll('.snow').forEach(c => c.getContext('2d').clearRect(0, 0, c.width, c.height)); }
+}
+function snowTick(now){
+  if(!snowOn) return;
+  snowFrame = requestAnimationFrame(snowTick);
+  const canvas = S.investigate ? $('#snowInv') : $('#snowTalk'), w = canvas.clientWidth, h = canvas.clientHeight;
+  if(!w || !h) return;
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  if(canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)){ canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); }
+  const dt = snowLast ? Math.min(.05, (now - snowLast) / 1000) : 0; snowLast = now;
+  // about one flake for every 5000 px² of the view: a light snowfall
+  const want = Math.round(w * h / 5000);
+  while(snowFlakes.length < want) snowFlakes.push(snowFlake(w, h, true));
+  if(snowFlakes.length > want) snowFlakes.length = want;
+  const g = canvas.getContext('2d');
+  g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+  snowFlakes.forEach((f, i) => {
+    f.y += f.speed * dt; f.phase += f.swaySpeed * dt;
+    if(f.y - f.kind.size > h){ snowFlakes[i] = f = snowFlake(w, h); }
+    const x = f.x + Math.sin(f.phase) * f.sway, k = f.kind;
+    g.globalAlpha = k.alpha; g.drawImage(k.c, x - k.size, f.y - k.size, k.size * 2, k.size * 2);
+  });
+  g.globalAlpha = 1;
+}
 function renderScene(placeId = S.place){
   const pl = placeOf(placeId), art = $('#art');
+  snowFor(pl);
   if(!pl){ art.innerHTML = ''; return; }
   art.style.aspectRatio = `${pl.artWidth || 900} / ${pl.artHeight || 600}`;
   art.style.setProperty('--world-width', `${pl.artWidth || 900}px`);
