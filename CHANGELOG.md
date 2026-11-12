@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-13 · Claude · (이 커밋) O 배지 자르기 고침, "수상해 보여" 카드의 니코 사진 없앰
+## 2026-11-13 · Claude · (이 커밋) 크리스마스: 코코의 장갑 인수증 단서
+
+- 사용자 지적·결정: 추리 5번 코코 "I gave Nico four boxes." O를 증명할 단서가 없었음(썰매에는 다섯). 카드는 그대로 두고 단서를 더함: 천막 코코 눈송이 작업대 옆 바닥의 인수증(Mittens · 4 boxes · Taken by: 니코의 파란 서명). Higgsfield가 빈 종이만 그림(1.5크레딧, 원래 그림 위에 그 부분만 `scripts/fix-christmas-tent-slip.py`), 글씨는 게임이 씀(`cocoSlip()`).
+- 단서 `tent-3` "Nico signed for four boxes."(코코 m3 뒤), 추리 전 필수(`needed`·`ready`). 추리 5번 맞장구 "Nico signed for four boxes on Coco's slip." 힌트 "Look at the photo of Coco's slip." 심문의 "다 코코 선물" 주장에도 정답으로 받음. 녹음 3줄(Grady). 설계서 c-slip·추리 5번 반영.
+- 확인: 글씨 자리는 같은 변환으로 그려 본 그림으로 확인. 미리보기 창이 숨겨져 있어 게임 화면 확인은 못 함(앞 커밋의 O 배지·9번 사진도 마찬가지).
+- **다음**: 미리보기 창을 열고 천막의 인수증·사진, 추리 5번, O 배지, 9번 카드 확인.
+
+## 2026-11-13 · Claude · 68bd043 O 배지 자르기 고침, "수상해 보여" 카드의 니코 사진 없앰
 
 - 사용자 지적: O 배지가 잘려 보임. 시트를 4×4 칸으로 잘라 칸을 넘는 배지 가장자리가 잘렸음 → 칸 가운데에서 이어진 그림을 시트 전체에서 찾아 자르게 `scripts/cut-deduce-ox-buttons.py` 고침(8개 다시 자름).
 - 사용자 지적: 추리 9번 "Who looks suspicious?" 카드 왼쪽에 니코 사진이 붙어 정답을 알려 줌 → 9번 문항의 `who`를 뺌(사진 묶음 없이 띠 카드만).

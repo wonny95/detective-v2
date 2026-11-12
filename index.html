@@ -3134,9 +3134,13 @@ const CHRISTMAS_CASE = {
       clues:[
         { label:'Long ribbon', prop:true, en:'What a long ribbon!', ko:'리본이 정말 기네!' },
         { label:'Snowflakes', prop:true, en:'So many snowflakes!', ko:'눈송이가 정말 많네!' },
-        { label:'Bow', prop:true, en:'That one looks nice.', ko:'저거 예쁘네!' }
+        { label:'Bow', prop:true, en:'That one looks nice.', ko:'저거 예쁘네!' },
+        // Coco's hand-over slip by her snowflake table, Nico's name signed for four boxes (user request: a clue that shows
+        // who tells the truth about the boxes, Coco or Nico); there once Coco has said she wrapped four boxes (m3)
+        { label:"Coco's slip", en:'Nico signed for four boxes.', ko:'니코가 상자 넷을 받았다고 서명했어.' }
       ],
-      spots:[ { clue:0, x:76, y:86, w:9, h:12 }, { clue:1, x:86, y:72, w:14, h:26 }, { clue:2, x:13, y:44, w:9, h:12 } ] },
+      spots:[ { clue:0, x:76, y:86, w:9, h:12 }, { clue:1, x:86, y:72, w:14, h:26 }, { clue:2, x:13, y:44, w:9, h:12 },
+        { clue:3, x:75, y:67, w:11.5, h:23, when:['mae:m3'], photo:{ x:960, y:445, w:320, h:240 } } ] },
     { id:'sleigh', x:58, y:33, label:'Delivery Sleigh', artWidth:1376, artHeight:1028, snow:true,   // taller: the storeroom far off shows (user pick, free)
       clues:[
         { label:'Boxes on the sleigh', en:'The boxes look the same.', ko:'상자들이 똑같아 보여.' },
@@ -3197,8 +3201,8 @@ const CHRISTMAS_CASE = {
       spots:[ { clue:0, x:29, y:14, w:42, h:72, photo:{ x:288, y:84, w:800, h:600 } } ] }
   ],
   // design 6절: every talk, the six photos before the box is opened, the look at Tess's table
-  needed:['storeroom-0', 'toys-0', 'sleigh-0', 'toystar-0', 'backyard-0', 'sleigh-1'],
-  ready:['storeroom-0', 'toys-0', 'sleigh-0', 'toystar-0', 'backyard-0', 'sleigh-1', '!table-seen'],
+  needed:['storeroom-0', 'toys-0', 'sleigh-0', 'toystar-0', 'backyard-0', 'sleigh-1', 'tent-3'],
+  ready:['storeroom-0', 'toys-0', 'sleigh-0', 'toystar-0', 'backyard-0', 'sleigh-1', 'tent-3', '!table-seen'],
   // the detective's thoughts, once each, when their conditions are met (design 2절)
   thoughts:[
     { when:['ella:e2'], line:{ key:'storeroom-thought', en:'I should check the storeroom.', ko:'창고를 확인해야겠어.' } },
@@ -3269,8 +3273,8 @@ const CHRISTMAS_CASE = {
       { step:5, who:'mae', q:"Does Coco's story match the clues? O or X?", qKo:'코코의 말이 단서와 맞아? O일까 X일까?',
         card:'Coco: "I gave Nico four boxes." {opt:O}', cardKo:'코코: "니코에게 상자 넷을 줬어." O',
         opts:['O', 'X'],
-        right:'No clue says something different.', rightKo:'다르게 말하는 단서는 없어.',
-        hint:"Listen to Coco's answer about the boxes. Does any clue say something different?", hintKo:'코코의 상자 대답을 듣고, 다르게 말하는 단서가 있는지 봐.' },
+        right:"Nico signed for four boxes on Coco's slip.", rightKo:'니코가 코코의 인수증에 상자 넷을 받았다고 서명했어.',
+        hint:"Look at the photo of Coco's slip.", hintKo:'코코의 인수증 사진을 봐.' },
       { step:6, who:'tess', q:"Does Tess's story match the clues? O or X?", qKo:'테스의 말이 단서와 맞아? O일까 X일까?',
         card:'Tess: "My gifts aren\'t ready yet." {opt:O}', cardKo:'테스: "내 선물은 아직 준비가 안 됐어." O',
         opts:['O', 'X'],
@@ -3313,7 +3317,7 @@ const CHRISTMAS_CASE = {
         miss:{ det:true, key:'miss-tess-gifts', en:"That doesn't show Tess's toy gifts.", ko:'그건 테스의 장난감 선물을 보여 주지 않잖아.' },
         lines:[ { who:'nico', key:'claim-gift', en:"Tess gave me some of these gifts. I'm just loading them.", ko:'테스가 이 선물 중 몇 개를 줬어. 난 싣고 있을 뿐이야.' } ],
         hit:[ { det:true, key:'open-q1', en:'Tess is still wrapping. All six gifts are still on her table.', ko:'테스는 아직 포장 중이야. 선물 여섯 개 다 아직 작업대에 있어.' } ] },
-      { claim:true, accept:['mae:m3'],
+      { claim:true, accept:['mae:m3', 'tent-3'],
         miss:{ det:true, key:'miss-may-gifts', en:"That doesn't show Coco's gifts.", ko:'그건 코코의 선물을 보여 주지 않잖아.' },
         lines:[ { who:'nico', key:'claim-may', mood:'nervous', en:"Oh, I mean they're all Coco's gifts. She gave them to me.", ko:'아, 내 말은 다 코코의 선물이라는 거야. 코코가 나한테 줬어.' } ],
         hit:[ { det:true, key:'may-boxes', en:'Coco said she gave you four boxes.', ko:'코코는 너한테 상자 넷을 줬다고 했어.' } ] },
@@ -3350,7 +3354,7 @@ const CHRISTMAS_CASE = {
         { who:'badger', key:'take', en:'Nico, come with me.', ko:'니코, 나와 같이 가자.' }
       ] }
     ],
-    confront:[ { accept:['tess:t3', 'toys-0'] }, { accept:['mae:m3'] }, { accept:['tess:t4', 'toystar-0'] }, { accept:['starback-0'] } ],
+    confront:[ { accept:['tess:t3', 'toys-0'] }, { accept:['mae:m3', 'tent-3'] }, { accept:['tess:t4', 'toystar-0'] }, { accept:['starback-0'] } ],
     miss:{ who:'nico', key:'wrong', en:"That doesn't explain anything.", ko:'그걸로는 아무것도 설명이 안 되잖아.' },
     // design 장면 9: the star to Ella by the sleigh (she is already there), then the lighting in the square at night
     handoff:[
@@ -7342,6 +7346,12 @@ const xmasLook = (room, inner) => `<defs><filter id="inspectBlur" x="-5%" y="-5%
   <image href="${XM}${room}.jpg" y="${-(XM_TOP[room] || 0)}" width="1376" height="${768 + (XM_TOP[room] || 0)}" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>${inner}`;
 // Tess's delivery list on her clipboard (AI pictures write poorly): the six names, the ticks for what is wrapped
 // (two at first, four once the table has moved on)
+// Coco's hand-over slip on the sheet beside her snowflake table (scripts/fix-christmas-tent-slip.py): her lines in
+// pencil, Nico's name signed in blue ink. The matrix lays a 100×136 card onto the sheet as drawn (turned and leaning)
+const cocoSlip = () => `<g transform="matrix(.98 .29 -.596 .8 1116 531)" font-family="Georgia,serif" fill="#3F3326">
+  <text x="12" y="28" font-size="15" font-weight="700">Mittens</text><text x="12" y="52" font-size="16" font-weight="700">4 boxes</text>
+  <text x="12" y="80" font-size="11">Taken by:</text>
+  <text x="14" y="106" font-size="19" font-style="italic" fill="#2F4F86" font-family="'Brush Script MT','Segoe Script',cursive">Nico</text></g>`;
 const xmasList = () => { const done = S.flags.has('table-seen') ? 4 : 2;
   return `<g transform="translate(686 302) rotate(-9)" font-family="Georgia,serif" fill="#3F3326"><text x="40" y="18" font-size="12" font-weight="700">Gifts for This Delivery</text>
     <text x="40" y="34" font-size="11">Toy gifts: 6</text>${['Lumi', 'Tilly', 'Bo', 'Nori', 'Kit', 'Poppy'].map((n, i) =>
@@ -7383,7 +7393,7 @@ const ART = {
      sleigh (the car's box wrapped, two more ticks) */
   tree: () => `<image href="${XM}${S.flags.has('lit') ? 'tree-lit' : S.flags.has('night') ? 'tree-night' : 'tree'}.jpg" width="1376" height="768"/>`,
   storeroom: () => `<image href="${XM}${S.flags.has('took:scale') ? 'storeroom-noscale' : 'storeroom'}.jpg" width="1376" height="768"/>`,
-  tent: () => `<image href="${XM}tent.jpg" width="1376" height="768"/>` +
+  tent: () => `<image href="${XM}tent.jpg" width="1376" height="768"/>` + cocoSlip() +
     (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + xmasList(),
   sleigh: () => `<image href="${XM}sleigh.jpg" width="1376" height="1028"/>` +
     (S.flags.has('box-open') ? `<image href="${XM}box-star.png" x="590" y="510" width="220" height="143"/>` : ''),
