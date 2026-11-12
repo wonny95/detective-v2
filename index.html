@@ -8019,16 +8019,18 @@ const DETECTIVE = {
   chat3:{ en:"Don't worry. We can solve it together.", ko:'걱정 마. 우리 함께 풀 수 있어.' },
   chat4:{ en:'Small clues can solve big cases.', ko:'작은 단서가 큰 사건을 풀 수 있어.' }
 };
-// each tap on 홈's detective says the next of these, shuffled, all of them before any comes again (and never the
-// same line twice in a row); the moment's button stays under whichever line is said
+// each tap on 홈's detective says the next of these and the moment's own line ('moment', user: it must still come up),
+// shuffled, all of them before any comes again (and never the same line twice in a row); the moment's button stays
+// under whichever line is said
 const HOME_CHAT = ['chat1', 'chat2', 'chat3', 'chat4'];
 let chatBag = [];
 function nextChat(){
+  const said = $('#homeSay').dataset.key, real = k => k === 'moment' ? homeState().key : k;
   if(!chatBag.length){
-    chatBag = [...HOME_CHAT].sort(() => Math.random() - .5);
-    if(chatBag[0] === $('#homeSay').dataset.key) chatBag.push(chatBag.shift());
+    chatBag = ['moment', ...HOME_CHAT].sort(() => Math.random() - .5);
+    if(real(chatBag[0]) === said) chatBag.push(chatBag.shift());
   }
-  return chatBag.shift();
+  return real(chatBag.shift());
 }
 const NAME_IDEAS = ['Hazel', 'Nutty', 'Maple', 'Pip', 'Acorn', 'Chestnut', 'Sunny', 'Juniper'];
 let nameMemo = '';   // the name for this visit when the device keeps nothing
