@@ -995,6 +995,42 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 @keyframes deduce-shake{20%,60%{transform:translateX(-6px) rotate(-1deg)}40%,80%{transform:translateX(6px) rotate(-1deg)}}
 .ded-card.solved{animation:deduce-ok .35s ease-out}
 @keyframes deduce-ok{50%{transform:scale(1.04) rotate(-1deg)}}
+/* an O or X question (its only choices O and X): a yellow sticky note per statement, one under another like the other
+   cards, taped on, the speaker's face over the quote; the right side holds the O and X buttons while it is asked, then
+   the pick as a big red crayon O or X (user pick A of the O/X mockups, laid out one per row as E: an odd count looked
+   lopsided in two columns) */
+.ded-notes{display:flex;flex-direction:column;gap:14px;padding-top:6px}
+.ded-note{position:relative;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 76px;align-items:center;gap:6px;min-height:90px;padding:14px 12px 10px 14px;
+  background:url(assets/ui/casekey/note-yellow.webp) center/100% 100% no-repeat;filter:drop-shadow(1px 3px 2px rgba(50,30,15,.3));transform:rotate(var(--tilt,0deg));
+  font-family:var(--f-hand);font-weight:700;font-size:15px;line-height:1.3;color:var(--ink)}
+.ded-note::before{content:"";position:absolute;left:50%;top:-9px;width:54px;height:18px;margin-left:-27px;background:url(assets/ui/casekey/tape.webp) center/100% 100% no-repeat;transform:rotate(-4deg)}
+.ded-note.cur{filter:drop-shadow(0 0 6px rgba(242,207,115,.95)) drop-shadow(1px 3px 2px rgba(50,30,15,.3))}
+.dn-text{min-width:0;display:flex;flex-direction:column}
+.dn-who{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-family:var(--f-display);font-weight:400;font-size:12px;color:var(--berry)}
+.dn-who i{flex:none;width:24px;height:24px;border-radius:50%;background:#fff center/cover no-repeat;box-shadow:0 0 0 1.5px var(--ink)}
+.dn-say{margin:0;overflow-wrap:anywhere}
+.ded-note .ko{margin:4px 0 0;font-family:var(--f-body);font-size:12px;font-weight:700;line-height:1.4;color:var(--berry)}
+.dn-foot{display:flex;padding-top:6px}
+.ded-note .pill.sm.ded-ko{height:24px;min-height:24px;padding:0 8px;font-size:11px}
+.dn-side{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.dn-side .pill{min-width:52px;min-height:34px;padding:0 10px;font-family:var(--f-display);font-size:20px;color:#B8402F}
+.ded-mk{position:relative;width:72px;height:80px;margin:-6px 0;pointer-events:none}
+.ded-mk i{position:absolute;inset:0;background:center/100% 100% no-repeat}
+.ded-mk.o i{background-image:url(assets/ui/crayon-o-1.png)}
+.ded-mk.o i + i{background-image:url(assets/ui/crayon-o-2.png)}
+.ded-mk.x i{background-image:url(assets/ui/crayon-x-1.png)}
+.ded-mk.x i + i{background-image:url(assets/ui/crayon-x-2.png)}
+/* the mark just picked is drawn: the first stroke, then the second */
+.ded-note.draw .ded-mk i{clip-path:inset(0 100% 0 0);animation:dn-stroke .3s ease-out forwards}
+.ded-note.draw .ded-mk i + i{animation-delay:.3s;animation-duration:.2s}
+.ded-note.draw .ded-mk.o i{clip-path:inset(0 0 100% 0)}
+@keyframes dn-stroke{to{clip-path:inset(0)}}
+/* a new note drops onto the board from a little above; a wrong pick shakes it */
+.ded-note.cur{animation:dn-drop .45s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes dn-drop{from{opacity:0;transform:translateY(-28px) rotate(-4deg) scale(1.04)}}
+.ded-note.cur.shake,.ded-note.shake{animation:deduce-shake .4s}
+.ded-note.solved{animation:deduce-ok .35s ease-out}
+@media(prefers-reduced-motion:reduce){.ded-note.cur,.ded-note.shake,.ded-note.solved,.ded-note.draw .ded-mk i{animation:none;clip-path:none}}
 .ded-slot{--c:#A9D79A;display:inline-flex;align-items:center;justify-content:center;min-width:76px;height:30px;padding:0 8px;
   /* centred on the sentence's letters, filled or empty (user request): middle sits on the x-height, a little low for this font */
   vertical-align:middle;position:relative;top:-2px;border-radius:5px;border:2px dashed var(--c);
@@ -6013,14 +6049,31 @@ function renderDeduce(){
     return `<div class="ded-line"><p>${esc(x.card.replace(/\{\w+:[^}]+\}/g, '\u0000')).replace(/\u0000/g, () => slot(blanks[k], k++))}</p>` +
       (filled ? `<button class="pill sm ded-ko" type="button" data-dko="${i}" aria-pressed="${ko}">해석</button></div><p class="ko"${ko ? '' : ' hidden'}>${esc(x.cardKo)}</p>` : '</div>');
   };
-  const list = $('#deduceCards'), before = list.querySelectorAll('.ded-card.done').length;
+  // an O or X question as a sticky note: who said it (from the card's "Name: " or the suspect), the quote, and once
+  // answered the red crayon mark (drawn the first time it shows) and its 해석
+  const note = (i, cur) => {
+    const x = qs[i], ok = st.done.has(i), ko = deduceKoCards.has(i), mark = ok && deduceBlanks(x)[0].answer.toLowerCase();
+    const said = x.card.match(/^([^:"]+):\s*(.*)$/), name = said ? said[1] : DEDUCE.suspects.find(([s]) => s === x.who)?.[1] || '';
+    const quote = (said ? said[2] : x.card).replace(/\s*\{opt:[^}]*\}\s*/g, ' ').trim();
+    const quoteKo = x.cardKo.replace(/^[^:]+:\s*/, '').replace(/\s*[OX]$/, '');
+    now[`n${i}`] = ok;
+    const draw = ok && !first && !was[`n${i}`];
+    return `<div class="ded-note${ok ? '' : ' cur'}${draw ? ' draw' : ''}"${cur ? ' id="deduceCard"' : ''} data-dcard="${i}" style="--tilt:${cur && !ok ? 0 : [-.6, .5, -.3, .4, -.5, .3][i % 6]}deg">` +
+      `<div class="dn-text"><span class="dn-who">${x.who ? `<i style="background-image:url(${faceSrc(x.who)})"></i>` : ''}${esc(name)}</span><p class="dn-say">${esc(quote)}</p>` +
+      (ok ? `<p class="ko"${ko ? '' : ' hidden'}>${esc(quoteKo)}</p><span class="dn-foot"><button class="pill sm ded-ko" type="button" data-dko="${i}" aria-pressed="${ko}">해석</button></span>` : '') + '</div>' +
+      `<div class="dn-side">${ok ? `<span class="ded-mk ${mark}" role="img" aria-label="${mark.toUpperCase()}"><i></i><i></i></span>`
+        : '<button class="pill" type="button" data-dox="O">O</button><button class="pill" type="button" data-dox="X">X</button>'}</div></div>`;
+  };
+  const isOX = i => { const o = qs[i].opts; return !qs[i].opts2 && o?.length === 2 && o.includes('O') && o.includes('X'); };
+  const list = $('#deduceCards'), before = list.querySelectorAll('.ded-card.done, .ded-note:not(.cur)').length;
   const done = qs.map((x, i) => i).filter(i => st.done.has(i) && i !== st.at);
-  const cards = [...done.map((i, n) => `<div class="ded-card done" data-dcard="${i}" style="--tilt:${n % 2 ? -.7 : .6}deg">${card(i, true)}</div>`),
-    `<div class="ded-card" id="deduceCard" data-dcard="${st.at}">${card(st.at, st.done.has(st.at))}</div>`];
-  // the cards in runs by whom they are about; a suspect's run has their photo on its left
+  const cards = [...done.map((i, n) => isOX(i) ? note(i, false) : `<div class="ded-card done" data-dcard="${i}" style="--tilt:${n % 2 ? -.7 : .6}deg">${card(i, true)}</div>`),
+    isOX(st.at) ? note(st.at, true) : `<div class="ded-card" id="deduceCard" data-dcard="${st.at}">${card(st.at, st.done.has(st.at))}</div>`];
+  // the cards in runs by whom they are about (a suspect's run has their photo on its left); the O or X notes in one grid
   const order = [...done, st.at], runs = [];
-  order.forEach((i, n) => { const who = qs[i].who || ''; if(runs.at(-1)?.who === who) runs.at(-1).cards.push(cards[n]); else runs.push({ who, cards:[cards[n]] }); });
-  list.innerHTML = runs.map(r => r.who ? `<div class="ded-group">${photo(r.who)}<div class="ded-gcards">${r.cards.join('')}</div></div>` : r.cards.join('')).join('');
+  order.forEach((i, n) => { const who = isOX(i) ? '\u0001ox' : qs[i].who || ''; if(runs.at(-1)?.who === who) runs.at(-1).cards.push(cards[n]); else runs.push({ who, cards:[cards[n]] }); });
+  list.innerHTML = runs.map(r => r.who === '\u0001ox' ? `<div class="ded-notes">${r.cards.join('')}</div>`
+    : r.who ? `<div class="ded-group">${photo(r.who)}<div class="ded-gcards">${r.cards.join('')}</div></div>` : r.cards.join('')).join('');
   deduceShown = now;
   // a new card under the others: the list slides down to it
   deduceToEnd(done.length > before && !first);
@@ -6116,9 +6169,12 @@ $('#deduceCards').addEventListener('click', e => {
   if(ko){
     const i = +ko.dataset.dko, open = !deduceKoCards.has(i);
     if(open) deduceKoCards.add(i); else deduceKoCards.delete(i);
-    ko.setAttribute('aria-pressed', open); ko.closest('.ded-card').querySelector('.ko').hidden = !open;
+    ko.setAttribute('aria-pressed', open); ko.closest('[data-dcard]').querySelector('.ko').hidden = !open;
     return;
   }
+  // an O or X note: the button under it is the pick (its only blank)
+  const ox = e.target.closest('[data-dox]');
+  if(ox){ if(!deduceWait && !deduceOut){ deduceSlot = 0; deducePick(ox.dataset.dox); } return; }
   const slot = e.target.closest('[data-dslot]'); if(slot && !deduceWait && !deduceOut) openDeduceDrop(slot);
 });
 $('#deduceCards').addEventListener('scroll', closeDeduceDrop, { passive:true });
