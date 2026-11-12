@@ -161,6 +161,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app:not(.ending):has(#sayBubble:not([hidden])) .ask-panel{visibility:hidden}
 .app.ending:has(.ask-panel:not(:empty)) .bubble.say.det{bottom:calc(92px + env(safe-area-inset-bottom, 0px))}
 .bubble.say .say-face{position:absolute;left:24px;top:24px;width:44px;height:44px;border-radius:50%;background:#F3E6CC;box-shadow:0 0 0 2px #fff}
+/* what the detective says of a thing tapped in a place (prop): a small honey bubble right under it, its tail to the
+   thing, or over it when the thing is low on the screen (user pick A of the prop-bubble mockups); sayProp places it */
+.bubble.say.det.prop-say{top:var(--py);bottom:auto;left:var(--px);transform:none;width:max-content;max-width:min(270px,calc(100% - 20px));max-height:none;padding:18px 16px 12px 60px;font-size:15px;line-height:1.35;transform-origin:var(--tx) 0;animation-name:bubble-pop-plain}
+.bubble.say.det.prop-say.above{transform-origin:var(--tx) 100%}
+.bubble.say.det.prop-say::after{display:block;left:var(--tx);top:-21px;bottom:auto;transform:translateX(-50%) scaleY(-1)}
+.bubble.say.det.prop-say.above::after{top:auto;bottom:-21px;transform:translateX(-50%)}
+.bubble.say.det.prop-say .say-face{left:18px;top:18px;width:32px;height:32px}
+.bubble.say.det.prop-say .say-foot{margin-top:6px;padding-top:4px}
+.bubble.say.det.prop-say .play-btn{width:28px;height:28px}
 .bubble.say .say-ko{display:block;margin-top:6px;padding-top:6px;font-family:var(--f-body);font-size:14px;font-weight:700;line-height:1.45;color:var(--berry)}
 .bubble.say .say-ko[hidden]{display:none}
 .bubble.say .say-foot{display:flex;flex:none;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:6px;margin-top:12px;padding-top:9px}
@@ -5305,6 +5314,7 @@ function setInvestigate(on){
   if(drawerBrowse) closeDrawer();
   cancelCapture();
   document.querySelectorAll('.think-place').forEach(bubble => bubble.remove());
+  closePropSay();
   S.investigate = on;
   stopVoice(); hideBubble(); clearSel();
   if(!ending) renderSay(null);
@@ -7517,6 +7527,7 @@ function snowTick(now){
 }
 function renderScene(placeId = S.place){
   const pl = placeOf(placeId), art = $('#art');
+  closePropSay();
   snowFor(pl);
   if(!pl){ art.innerHTML = ''; return; }
   art.style.aspectRatio = `${pl.artWidth || 900} / ${pl.artHeight || 600}`;
@@ -7620,17 +7631,56 @@ function peekAt(p){
   ['x', 'y', 'width', 'height'].forEach((k, n) => img.setAttribute(k, [p.x, p.y, p.w, p.h][n]));
   svg.appendChild(img); setTimeout(() => img.remove(), 1800);
 }
-// an ordinary object: only the detective's sentence, no photo
-function sayProp(clue){
+// an ordinary object: only the detective's sentence, no photo. The sentence also shows in a small bubble under the
+// thing (over it when the thing is low), with 다시 듣기 and 해석 (user pick A); it goes 2 s after the voice ends (not
+// while 해석 is open), or at once with a touch anywhere else, a swipe, or another view
+let propSay = null, propSayTimer = 0;
+function closePropSay(){ clearTimeout(propSayTimer); propSay?.remove(); propSay = null; }
+function sayProp(clue, spot){
   cancelCapture();
   stopVoice();
-  if(!clue.audio){ if(PACK?.silent) readOut(clue.en); return; }
+  closePropSay();
   const voice = $('#evidenceVoice');
-  if(!voice.src.endsWith(clue.audio)) voice.src = clue.audio;
-  voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
-  voice.currentTime = 0;
-  voice.play().catch(() => {});
+  const later = ms => { clearTimeout(propSayTimer); propSayTimer = setTimeout(() => { if(propSay?.querySelector('.say-ko')?.hidden !== false) closePropSay(); }, ms); };
+  const play = () => {
+    clearTimeout(propSayTimer);
+    if(!clue.audio){ if(PACK?.silent) readOut(clue.en, () => later(2000)); else later(4000); return; }
+    if(!voice.src.endsWith(clue.audio)) voice.src = clue.audio;
+    voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
+    voice.currentTime = 0;
+    voice.addEventListener('ended', () => { if(b === propSay) later(2000); }, { once:true });
+    voice.play().catch(() => later(4000));
+  };
+  const stage = $('.art-stage'), b = document.createElement('div');
+  if(spot && stage){
+    b.className = 'bubble say det prop-say'; b.setAttribute('role', 'status');
+    b.innerHTML = `<img class="say-face" src="assets/ui/icons-v2/detective.png" alt=""><div class="bubble-copy"><span class="say-en">${esc(clue.en)}</span>` +
+      (clue.ko ? `<span class="say-ko" hidden>${esc(clue.ko)}</span>` : '') + '</div><span class="say-foot">' +
+      (clue.audio ? '<button class="play-btn" type="button" data-prop-again aria-label="다시 듣기"></button>' : '') +
+      (clue.ko ? '<button class="pill sm" type="button" data-prop-ko aria-pressed="false">해석</button>' : '') + '</span>';
+    b.style.visibility = 'hidden';
+    stage.appendChild(b);
+    // under the thing; over it when there is no room above the buttons at the bottom (추리하기); the tail points at it
+    const st = stage.getBoundingClientRect(), s = spot.getBoundingClientRect(), bw = b.offsetWidth, bh = b.offsetHeight;
+    const cx = Math.min(Math.max(s.left + s.width / 2, st.left + 16), st.right - 16) - st.left;
+    const room = st.height - (stage.querySelector('.accuse-foot:not([hidden])') ? 96 : 24);
+    let top = s.bottom - st.top + 20, above = top + bh > room;
+    if(above) top = Math.max(8, s.top - st.top - bh - 20);
+    const left = Math.min(Math.max(cx - bw / 2, 10), st.width - bw - 10);
+    b.classList.toggle('above', above);
+    b.style.cssText = `--px:${left}px;--py:${top}px;--tx:${Math.min(Math.max(cx - left, 28), bw - 28)}px`;
+    b.addEventListener('click', e => {
+      if(e.target.closest('[data-prop-again]')){ stopVoice(); play(); return; }
+      const ko = e.target.closest('[data-prop-ko]'); if(!ko) return;
+      const text = b.querySelector('.say-ko'); text.hidden = !text.hidden; ko.setAttribute('aria-pressed', !text.hidden);
+      if(text.hidden && voice.paused) later(2000); else clearTimeout(propSayTimer);
+    });
+    propSay = b;
+  }
+  play();
 }
+// a touch anywhere but on the bubble, or a swipe of the place, takes it away
+addEventListener('pointerdown', e => { if(propSay && !e.target.closest('.prop-say')) closePropSay(); }, { capture:true });
 // a spot is there while its conditions hold (when) and none of its unless does
 const spotOn = s => (s.when || []).every(cond) && !(s.unless || []).some(cond) &&
   (s.box === undefined || !plates.includes(s.box)) && (s.plate === undefined || plates[s.plate] !== null);   // the scale's boxes (WEIGH)
@@ -7649,12 +7699,12 @@ function takeFromPlace(pl, i){
     checkThoughts(); if(thoughts.length) setTimeout(playThought, 2600);
   });
 }
-function examine(i){
+function examine(i, spot){
   const pl = placeObj();
   if(pl.balance) return weighTap(pl.clues[i]);
   if(pl.clues[i].inspect) return openInspect(pl.clues[i].inspect);
   if(pl.clues[i].take) return takeFromPlace(pl, i);
-  if(pl.clues[i].prop){ sayProp(pl.clues[i]); if(pl.clues[i].peek) peekAt(pl.clues[i].peek); return; }
+  if(pl.clues[i].prop){ sayProp(pl.clues[i], spot); if(pl.clues[i].peek) peekAt(pl.clues[i].peek); return; }
   const fresh = !S.found[pl.id].has(i);
   S.found[pl.id].add(i);
   if(fresh){
@@ -7705,7 +7755,7 @@ $('#art').addEventListener('click', e => {
   const spot = e.target.closest('.spot');
   let x = e.clientX - r.left, y = e.clientY - r.top;
   if(spot && e.detail === 0){ const b = spot.getBoundingClientRect(); x = b.left - r.left + b.width / 2; y = b.top - r.top + b.height / 2; }
-  if(spot){ spot.classList.add('found'); examine(+spot.dataset.clue); }
+  if(spot){ spot.classList.add('found'); examine(+spot.dataset.clue, spot); }
   else tapFx(x, y, 'miss', 'Nothing here.');
 });
 
