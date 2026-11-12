@@ -145,6 +145,7 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - `scripts/cut-christmas-assets.py`로 인물마다 잘라 높이 700(`holly-`·`mae-`·`nico-`·`nico-nervous-higgsfield.png`). 말하는 입(`MOUTHS`)·얼굴 아이콘(`ui/icons-v2`)은 아직 만들지 않았다(얼굴은 `SPRITES[].face`로 그림에서 잘라 보임).
 - 흰 스티커 테두리는 `scripts/remove-sticker-border.py`로 지웠다(홀리 `200 6`, 메이·니코·니코 당황은 기본값; 잘라 낸 그림을 덮어씀, 높이 700). 위 자르기 스크립트를 다시 돌리면 그 뒤에 이것도 다시 돌린다.
 - **대화하는 모습**(사용자 요청: 일하다가 탐정을 보고 말하기): 홀리(리본을 늘어뜨리고 정면)·메이(의자에 앉은 채 가위·눈송이를 무릎에, 정면) 한 장 `c7030135-61c3-4009-8874-15aa5adb4b2f` → `holly-mae-talk-higgsfield-original.png`(16:9, 1.5크레딧, 참조 엘라 그림만, 마젠타 배경). `scripts/cut-christmas-talk.py` → `holly-talk.png`·`mae-talk.png`. 게임에서 이 그림이 기본(대화·얼굴·엔딩 방문), 자기 장소에서 대화하지 않을 때는 일하는 그림(`holly:work`·`mae:work`, `spriteKey`). 첫 시도 `47a3c1fd-…`(`holly-mae-talk-try1.png`)는 손일을 계속하는 자세라 쓰지 않고 지움(사용자 승인).
+- **홀리 대화 모습 다시 그림**(사용자 요청: 말을 걸면 통통한 양털 몸이 너무 얄쌍해짐): 일하는 그림 `holly-higgsfield.png`를 참조로 올려(media `a7f387f6-…`) 같은 통통한 몸으로 정면·리본을 늘어뜨린 자세, Nano Banana 2.1 3:4 1K 마젠타 배경, job `5e30114d-7383-4472-9fb1-a9fb46f17e81`(1.5크레딧) → `holly-talk2-higgsfield-original.png`. `scripts/cut-holly-talk.py` → `holly-talk.png`(483×700). `cut-christmas-talk.py`는 이제 메이만 자른다.
 
 ## 크리스마스 점등: 뒷모습 넷
 
