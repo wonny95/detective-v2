@@ -8325,7 +8325,7 @@ function renderCaseList(){
     const stars = done && caseStats()[c.id]?.stars;
     return `<button class="polaroid${done ? ' solved' : ''}${next ? ' current' : ''} ${look}" type="button" data-case="${c.id}">
       <span class="pol-photo">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}">` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}</span>
-      ${done ? `<span class="case-stamp" aria-label="해결">SOLVED</span>${learnedNote(c, turn)}` : ''}${next ? '<span class="next-note" aria-hidden="true">다음 사건!</span>' : ''}
+      ${done ? `<span class="case-stamp" aria-label="해결">SOLVED</span>${learnedNote(c, turn)}` : ''}${next ? '<span class="next-note" aria-hidden="true">새로운 의뢰!</span>' : ''}
       <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? '' : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : '새 사건'}</span>`}${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="">`).join('')}</span>` : ''}</span></button>`;
   }).join('');
   requestAnimationFrame(() => {
