@@ -3083,7 +3083,9 @@ const CHRISTMAS_CASE = {
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:740, y:460, w:170, h:130 } },
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:870, y:460, w:170, h:130 } },
         { label:'Star in the box', en:'A star inside the box.', ko:'상자 안에 별이 있어.' },
-        { label:'Back of the star', inspect:'starback' }
+        { label:'Back of the star', inspect:'starback' },
+        // the storeroom far off (user request: tapping it, the detective says so)
+        { label:'Storeroom', prop:true, en:'I can see the storeroom far away.', ko:'저 멀리 창고가 보여.' }
       ],
       spots:[
         { clue:0, x:30, y:35.8, w:46, h:29.9, when:['met:nico'], unless:['!open-order'] },
@@ -3099,7 +3101,8 @@ const CHRISTMAS_CASE = {
         { clue:8, x:55, y:44.7, w:9, h:17.9, when:['!open-order'], unless:['!box-open'] },
         { clue:9, x:64, y:47.0, w:10, h:12.0, when:['!open-order'], unless:['!box-open'] },
         { clue:10, x:42, y:47.7, w:17, h:17.9, when:['!box-open'], photo:{ x:520, y:430, w:400, h:300 } },
-        { clue:11, x:42, y:47.7, w:17, h:17.9, when:['sleigh-10'] }
+        { clue:11, x:42, y:47.7, w:17, h:17.9, when:['sleigh-10'] },
+        { clue:12, x:1, y:2, w:21, h:24 }
       ] },
     // never on the map: Tess's toys and the toy star's back (her actions), the real star's back (from the open box)
     { id:'toys', inspect:true, label:'Gift Tent', artWidth:1376, artHeight:768,
