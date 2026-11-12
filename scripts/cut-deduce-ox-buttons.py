@@ -23,20 +23,21 @@ def key(im):
 
 sheet = key(Image.open('assets/ui/deduce-ox-buttons-higgsfield-original.png').convert('RGB'))
 W, H = sheet.size
+# each button is the drawn blob around its grid cell's centre, found on the whole sheet (a button can reach past
+# its quarter of the sheet; cutting by the grid clipped the badge O's edge)
+px = sheet.load()
 for row, style in enumerate(['wood', 'paper', 'wax', 'badge']):
     for col, mark in enumerate('ox'):
-        cell = sheet.crop((col * W // 4, row * H // 4, (col + 1) * W // 4, (row + 1) * H // 4))
-        # keep only the button in the middle of the cell (slivers of the neighbours reach into it)
-        cw, ch = cell.size; px = cell.load(); seen = set(); todo = [(cw // 2, ch // 2)]
+        seen = set(); todo = [(col * W // 4 + W // 8, row * H // 4 + H // 8)]
         while todo:
             x, y = todo.pop()
-            if (x, y) in seen or not (0 <= x < cw and 0 <= y < ch) or px[x, y][3] <= 8: continue
+            if (x, y) in seen or not (0 <= x < W and 0 <= y < H) or px[x, y][3] <= 8: continue
             seen.add((x, y)); todo += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
-        for y in range(ch):
-            for x in range(cw):
-                if (x, y) not in seen: px[x, y] = (0, 0, 0, 0)
-        l, t, r, b = cell.getchannel('A').point(lambda v: 255 if v > 48 else 0).getbbox()
-        part = cell.crop((max(l - 2, 0), max(t - 2, 0), r + 2, b + 2))
+        xs = [x for x, _ in seen]; ys = [y for _, y in seen]
+        box = (min(xs) - 2, min(ys) - 2, max(xs) + 3, max(ys) + 3)
+        part = Image.new('RGBA', (box[2] - box[0], box[3] - box[1]))
+        pp = part.load()
+        for x, y in seen: pp[x - box[0], y - box[1]] = px[x, y]
         part.thumbnail((160, 160), Image.LANCZOS)
         part.save(f'assets/ui/deduce-ox-{style}-{mark}.webp', quality=92)
         print(style, mark, part.size)

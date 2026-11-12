@@ -13,7 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-13 · Claude · (이 커밋) 크리스마스 점검표 11개 모두 반영
+## 2026-11-13 · Claude · (이 커밋) O 배지 자르기 고침, "수상해 보여" 카드의 니코 사진 없앰
+
+- 사용자 지적: O 배지가 잘려 보임. 시트를 4×4 칸으로 잘라 칸을 넘는 배지 가장자리가 잘렸음 → 칸 가운데에서 이어진 그림을 시트 전체에서 찾아 자르게 `scripts/cut-deduce-ox-buttons.py` 고침(8개 다시 자름).
+- 사용자 지적: 추리 9번 "Who looks suspicious?" 카드 왼쪽에 니코 사진이 붙어 정답을 알려 줌 → 9번 문항의 `who`를 뺌(사진 묶음 없이 띠 카드만).
+- 확인: 배지는 그림으로 확인. 브라우저 확인은 미리보기 창이 숨겨져 있어 못 함.
+- **다음**: 코코 카드("I gave Nico four boxes." O)를 무엇으로 증명할지 사용자 결정 대기.
+
+## 2026-11-13 · Claude · 430c2e6 크리스마스 점검표 11개 모두 반영
 
 - 사용자 요청: 크리스마스 스테이지 점검표(11개)의 해결 방안을 모두 적용. 설계서 `design/case-10-christmas-star.md`도 같이 고침(사용자와 고친 내용, 각 줄에 "점검 n"). `.html`은 같은 문장이 있는 곳만 바꿈.
   1. 추리 8번을 니코 n5로: "The sleigh stayed right here all morning." X, 질문 "What about Nico's sleigh story?", 맞장구 "The sleigh marks go from the storeroom past the post to his sleigh." 니코의 창고 대답은 받아 적기만 함(표의 방안대로 바꿈: 앞서 추천한 "11번째 카드 추가"는 하지 않음).
