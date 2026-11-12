@@ -403,6 +403,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .listen .hint:disabled{opacity:.45}
 .note-page{position:relative}
 .note-page.checked::after{content:"확인됨";position:absolute;top:2px;right:4px;transform:rotate(-10deg);border:3px solid var(--no);border-radius:8px;padding:1px 10px;color:var(--no);font-family:var(--f-display);font-size:18px;opacity:.8;pointer-events:none}
+/* the first question's pin button sits in the page's top-right corner: the stamp goes just left of it */
+.note-page.checked:has(> .nblock:first-child .qlabel .nb-pin)::after{right:38px}
 /* checking a finished conversation: the notebook rises to the top (tabs stay visible above it) */
 .app.note-full .dock{height:calc(100% - 50px)}
 /* typing a blank on a phone (.typing, only when the keyboard really covers the screen): the notebook sits on the
