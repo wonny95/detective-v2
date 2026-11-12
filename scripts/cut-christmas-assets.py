@@ -3,7 +3,7 @@
 usage: python scripts/cut-christmas-assets.py <folder with the downloads>
   the folder holds people-nobg.png (Daisy·May·Nico sheet, background removed), nico-nervous-nobg.png,
   items-nobg.png (item sheet, background removed), tree-lit.png, map.png
-and the repo has assets/places/christmas/{tree,storeroom,tent-fixed,sleigh,corner}-*-original.jpg.
+and the repo has assets/places/christmas/{tree,storeroom,tent-fixed,sleigh-side,corner-cart}-*-original.jpg.
 
 Places: one tall picture each (1792x2400, as the umbrella and violin cases) scaled to 1376x1843; a 768 band from
 `top` is the place picture, the rest its floor. People: each figure cut out of the sheet by its columns of
@@ -55,12 +55,13 @@ def trim(im, margin=.03, height=None):
 if __name__ == '__main__':
     floors = {}
     for name, src, top in [('tree', f'{PL}tree-higgsfield-original.jpg', 330), ('storeroom', f'{PL}storeroom-higgsfield-original.jpg', 380),
-                           ('tent', f'{PL}tent-fixed-original.jpg', 520), ('sleigh', f'{PL}sleigh-higgsfield-original.jpg', 260),
+                           ('tent', f'{PL}tent-fixed-original.jpg', 520), ('sleigh', f'{PL}sleigh-side-higgsfield-original.jpg', 260),  # then scripts/cut-sleigh-side.py (taller place)
                            ('tree-lit', f'{SRC}/tree-lit.png', 330)]:
         floors[name] = band(src, name, top, name != 'tree-lit')
     print('floors', floors)
-    # the storeroom corner photo (c-track-yard) and the map as they are
-    Image.open(f'{PL}corner-higgsfield-original.jpg').convert('RGB').save(f'{PL}corner.jpg', quality=88)
+    # the storeroom corner photo (c-track-yard; redrawn with Daisy's loaded handcart and its tracks to the tree, user
+    # request) and the map as they are
+    Image.open(f'{PL}corner-cart-higgsfield-original.jpg').convert('RGB').save(f'{PL}corner.jpg', quality=88)
     Image.open(f'{SRC}/map.png').convert('RGB').save(f'{PL}map-festival.webp', quality=86)
     # people
     sheet = Image.open(f'{SRC}/people-nobg.png').convert('RGBA')

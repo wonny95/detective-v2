@@ -49,13 +49,17 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'ivo':('ivo-higgsfield.png',228,260,63,13,'smile',3,259),
    'momo':('momo-higgsfield.png',210,213,85,22,'smile',4,211),
    'owen-nervous':('owen-nervous-higgsfield.png',221,223,90,14,'nervous',3,212),
-   'owen-sad':('owen-sad-higgsfield.png',221,225,52,16,'sad',3,216)}
+   'owen-sad':('owen-sad-higgsfield.png',221,225,52,16,'sad',3,216),
+   # the Christmas case (2026-11-12, user request: talking mouths, no new picture: the same sheet): Daisy (sheep) and
+   # May (koala) keep their drawn closed mouth, the open one is the sheet's open smile; Nico's beak in beak_mouth()
+   'holly':('holly-talk.png',231,220,54,13,'smile',3,216),
+   'mae':('mae-talk.png',205,241,66,16,'smile',3,238)}
 import sys
 if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
 NEAR=('mia-ollie','finn')   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
 # only cover within the recorded box (a few px around): on these pictures the crayon texture links the mouth to the
 # cheeks and whiskers
-LIMIT=('nora','mia','mia-ollie','tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
+LIMIT=('holly','mae','nora','mia','mia-ollie','tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 DARK={'mia':50}   # how much darker than the fur around a mark must be (default 22); Mia's white muzzle has crayon grain
 KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinking':(248,252,288,276),
       'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276),
@@ -65,7 +69,7 @@ KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinki
 # smile), only the open one is new
 # the violin case's too (the ferret's wavy line, the fox's and the goat's mouth under the nose, Owen's wobbly and sad
 # mouths)
-AS_DRAWN=('tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
+AS_DRAWN=('holly','mae','tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 SRC_LINE=6   # line weight of the closed mouths in the sheet (px)
 L=lambda im: im.convert('L')
 
@@ -211,6 +215,21 @@ def pip_mouth():
     out.save(M+'pip-open.png',optimize=True)
     meta['pip']={'closed':[box[0],box[1],W,H],'open':[box[0],box[1],W,H]}; print('pip',meta['pip'])
 if not sys.argv[1:] or 'pip' in sys.argv[1:]: pip_mouth()
+def beak_mouth(key, f, box, split, drop):
+    """a beak that opens as Pip's does: closed = as drawn; open = the part under the line across the beak (y split)
+    dropped, the gap the dark inside of the beak across the beak's own width at that line"""
+    im=Image.open(D+f).convert('RGBA'); reg=im.crop(box); reg.save(M+f'{key}-closed.png',optimize=True)
+    W,H=reg.size; s=split-box[1]; out=reg.copy()
+    out.paste(reg.crop((0,s,W,H-drop)),(0,s+drop))
+    row=[reg.getpixel((i,s)) for i in range(W)]; dark=[i for i,p in enumerate(row) if p[3]>200 and sum(p[:3])<420]
+    d=ImageDraw.Draw(out); d.rectangle((min(dark),s,max(dark),s+drop),fill=(70,38,36,255))
+    out.save(M+f'{key}-open.png',optimize=True)
+    meta[key]={'closed':[box[0],box[1],W,H],'open':[box[0],box[1],W,H]}; print(key,meta[key])
+# Nico the penguin (the Christmas case); his nervous face is also his sad one in the game (nico:sad -> same files)
+for key,f,box,split,drop in [('nico','nico-higgsfield.png',(170,176,238,210),194,5),('nico-nervous','nico-nervous-higgsfield.png',(135,170,214,222),205,4)]:
+    if not sys.argv[1:] or key in sys.argv[1:]: beak_mouth(key,f,box,split,drop)
+if 'nico-nervous' in meta:
+    for st in ('closed','open'): Image.open(M+f'nico-nervous-{st}.png').save(M+f'nico-sad-{st}.png',optimize=True)
 # duck: the generated beaks replace the drawn one (147..300 x 167..248)
 for state,name in [('closed','beak'),('open','beak-open')] if not sys.argv[1:] or 'duck' in sys.argv[1:] else []:
     m=CUT[name]; BW=166; th=int(m.size[1]*BW/m.size[0]*0.9)
@@ -229,6 +248,9 @@ if 'ben' in meta:
     for st in ['orig','closed','open']: tiles.append(prev('ben','ben-higgsfield.png',st))
 for key,v in S.items():
     for st in ['orig','closed','open']: tiles.append(prev(key,v[0],st))
+for key,f in [('nico','nico-higgsfield.png'),('nico-nervous','nico-nervous-higgsfield.png')]:
+    if key in meta:
+        for st in ['orig','closed','open']: tiles.append(prev(key,f,st))
 if 'duck' in meta:
     for st in ['orig','closed','open']: tiles.append(prev('duck','duck-higgsfield.png',st))
 sheet=Image.new('RGB',(600,200*len(tiles)//3),'white')
