@@ -2867,9 +2867,9 @@ Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give'
    among Coco's four boxes of mittens. Tess's six toy gifts are all still on her table and her gold toy star is a light
    toy. The player counts the boxes, opens the heavy one and shows the leaf on
    the back; Ella gets her star back by the sleigh and the tree is lit in the square. Pictures: Higgsfield
-   (assets/places/christmas/, scripts/cut-christmas-assets.py). Recorded (audio/christmas/, scripts/christmas-voice-lines.js,
-   Higgsfield MiniMax): the detective (Grady), Sgt. Badger (Fraser) and Ella (Petra); the others are still read by the
-   browser's voice. */
+   (assets/places/christmas/, scripts/cut-christmas-assets.py). Every line is recorded (audio/christmas/,
+   scripts/christmas-voice-lines.js, Higgsfield MiniMax): the detective (Grady), Sgt. Badger (Fraser), Ella (Petra),
+   Daisy (Mabel), Coco (Liza; her id is still mae), Tess (Callan) and Nico (Ian). */
 const CHRISTMAS_CASE = {
   start:'badger',
   leaveOpen:true,
@@ -2930,22 +2930,22 @@ const CHRISTMAS_CASE = {
       unlocks:{ h3:{ people:['mae', 'tess'] } },
       answers:{
         h1:"I'm sorting decorations for the Christmas festival. I'm helping Ella.",
-        h2:'I saw Coco and Tess go in. I went in, too.',
+        h2:'I saw Coco and Tess come in. I was here, too.',   // she works in the storeroom (review 5)
         h3:"They're working in the gift tent.",
-        h4:'Yes. I took some decorations to the Tree Square in a handcart.'
+        h4:"Yes. I'm taking decorations to the Tree Square in a handcart."   // the loaded handcart stands at the door (review 6)
       },
       notes:{
         h1:['- {{a|sorting}} {{b|decorations}} for the festival', '- helping Ella'],
-        h2:['- {{c|saw}} Coco and Tess go {{d|in}}', '- went in, too'],
+        h2:['- {{c|saw}} Coco and Tess come {{d|in}}', '- was here, too'],
         h3:['- Coco, Tess: {{e|working}} in the {{f|gift tent}}'],
-        h4:['- took decorations to the {{g|Tree Square}}', '- in a {{h|handcart}}']
+        h4:['- taking decorations to the {{g|Tree Square}}', '- in a {{h|handcart}}']
       },
       bank:{ h1:['sorting','carrying','selling','decorations','gifts','mittens'], h2:['saw','see','sold','in','out','on'], h3:['working','wrapping','sleeping','gift tent','storeroom','Tree Square'],
         h4:['Tree Square','gift tent','storeroom','handcart','sleigh','basket'] } },
     mae: { id:'mae', name:'Coco Koala', unnamed:'Koala', ko:'코알라 코코', job:'선물 포장', place:'tent', witness:true, required:true, pitch:1.4, voice:2, bg:'#EDE3DA', openingQuestion:'m0',
       hello:[
         { key:'hello', intro:true, en:"Welcome! I'm Coco.", ko:'어서 와! 난 코코야.' },
-        { det:true, key:'mae-intro', en:"I'm helping Ella find a missing star.", ko:'엘라가 없어진 별을 찾는 걸 돕고 있어.' },
+        { det:true, key:'mae-intro', en:"I'm helping Ella find the missing star.", ko:'엘라가 없어진 별을 찾는 걸 돕고 있어.' },
         { key:'ready', en:'Oh! What would you like to know?', ko:'아! 뭐가 궁금해?' }
       ],
       questions:[
@@ -3013,7 +3013,7 @@ const CHRISTMAS_CASE = {
       gone:['!confessed'],
       hello:[
         { key:'hello', intro:true, en:"Hi there. I'm Nico. What brings you here?", ko:'안녕. 난 니코야. 무슨 일이야?' },
-        { det:true, key:'nico-intro', en:"I'm helping Ella find a missing star.", ko:'엘라가 없어진 별을 찾는 걸 돕고 있어.' },
+        { det:true, key:'nico-intro', en:"I'm helping Ella find the missing star.", ko:'엘라가 없어진 별을 찾는 걸 돕고 있어.' },
         { key:'ready', en:"The star for the tree? I'll help if I can.", ko:'트리에 달 별 말이야? 도울 일이 있으면 말해 줘.' }
       ],
       questions:[
@@ -3027,7 +3027,7 @@ const CHRISTMAS_CASE = {
       ],
       needs:{ n2:['nico:n1'], storeroom:['nico:n2'], n3:['nico:n2', 'nico:storeroom'], n4:['nico:n3'], n5:['nico:n1', 'sleigh-1'] },
       answers:{
-        n1:"I'm loading the gifts. I'm not delivering yet.",
+        n1:"I'm getting ready for the delivery. I'm not delivering yet.",   // so n2 'What are you loading?' follows (review 4)
         n2:"I'm loading some gifts. Other volunteers wrapped them.",
         // a lie (user decision): the marks from the storeroom's back door run to his sleigh (deduce: O or X)
         storeroom:'No. I was waiting for all the gifts to be wrapped.',
@@ -3036,14 +3036,14 @@ const CHRISTMAS_CASE = {
         n5:'No. It stayed right here all morning.'
       },
       notes:{
-        n1:['- {{a|loading}} the gifts', '- not {{b|delivering}} yet'],
+        n1:['- {{a|getting ready}} for the delivery', '- not {{b|delivering}} yet'],
         n2:['- loading some {{c|gifts}}', '- other {{d|volunteers}} {{e|wrapped}} them'],
         storeroom:['- No. {{n|waiting}} for all the gifts', '- to be {{o|wrapped}}'],
         n3:['- {{f|not}} {{g|wrapping}} {{h|gifts}}', '- Coco and Tess wrap them'],
         n4:['- {{i|not}} really', '- thinks he saw {{j|Tess}} taking the {{k|star}}'],
         n5:['- the sleigh {{l|stayed}} right here', '- all {{m|morning}}']
       },
-      bank:{ n1:['loading','opening','reading','delivering','decorating','wrapping'], n2:['gifts','mittens','volunteers','children','wrapped','opened'],
+      bank:{ n1:['getting ready','loading','opening','delivering','decorating','wrapping'], n2:['gifts','mittens','volunteers','children','wrapped','opened'],
         storeroom:['waiting','wanting','working','wrapped','opened','sold'],
         n3:['not','now','wrapping','loading','gifts','decorations','mittens'], n4:['not','now','Tess','Coco','Daisy','star','box'], n5:['stayed','moved','started','morning','evening','night'] },
       actions:[] }
@@ -3053,9 +3053,9 @@ const CHRISTMAS_CASE = {
     'ella:e0':[['past-irr','came back']],
     'ella:e2':[['past-irr','left']],
     'holly:h1':[['present-prog','What are you doing'], ['present-prog',"I'm sorting decorations"], ['present-prog',"I'm helping Ella"]],
-    'holly:h2':[['past-irr','saw'], ['past-irr','went in']],
+    'holly:h2':[['past-irr','saw']],
     'holly:h3':[['present-prog',"They're working"]],
-    'holly:h4':[['past-irr','took']],
+    'holly:h4':[['present-prog',"I'm taking decorations"]],
     'mae:m0':[['past-reg','needed']],
     'mae:m1':[['present-prog','What are you doing'], ['present-prog',"I'm making snowflakes"], ['present-prog',"I'm helping Daisy"]],
     'mae:m3':[['present-prog','Are you still wrapping'], ['present-prog',"I'm not wrapping"], ['past-reg','wrapped']],
@@ -3064,7 +3064,7 @@ const CHRISTMAS_CASE = {
     'tess:storeroom':[['past-reg','needed']],
     'tess:t1':[['present-prog','What are you wrapping'], ['present-prog',"I'm wrapping toys"]],
     'tess:t3':[['present-prog',"I'm still wrapping"]],
-    'nico:n1':[['present-prog','What are you doing'], ['present-prog',"I'm loading the gifts"], ['present-prog',"I'm not delivering"]],
+    'nico:n1':[['present-prog','What are you doing'], ['present-prog',"I'm getting ready"], ['present-prog',"I'm not delivering"]],
     'nico:n2':[['present-prog','What are you loading'], ['present-prog',"I'm loading some gifts"], ['past-reg','wrapped']],
     'nico:storeroom':[['did-q','Did you go']],
     'nico:n3':[['present-prog','Are you wrapping'], ['present-prog',"I'm not wrapping gifts"]],
@@ -3074,10 +3074,10 @@ const CHRISTMAS_CASE = {
   answersKo:{
     badger:{ b0:'마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐.' },
     ella:{ e0:'축제에 온 아이들을 안내하러 자리를 비웠어. 돌아와 보니 별이 사라졌더라.', e1:'진짜 금으로 만들어서 아주 무거워. 뒷면에 작은 잎사귀 무늬가 있어.', e2:'창고 선반의 보관함 안에 두었어.' },
-    holly:{ h1:'크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.', h2:'코코와 테스가 들어가는 걸 봤어. 나도 들어갔어.', h3:'선물 포장 천막에서 일하고 있어.', h4:'응. 손수레로 장식품을 트리 광장에 옮겼어.' },
+    holly:{ h1:'크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.', h2:'코코와 테스가 들어오는 걸 봤어. 나도 여기 있었어.', h3:'선물 포장 천막에서 일하고 있어.', h4:'응. 손수레로 장식품을 트리 광장에 옮기는 중이야.' },
     mae:{ m0:'아이들 선물에 쓸 포장지가 필요했어.', m1:'트리에 달 눈송이를 만들고 있어. 데이지를 돕고 있어.', m3:'아니, 지금은 포장 안 해. 털장갑을 상자 넷에 포장했고, 니코가 가져갔어.', m4:'니코도 자원봉사자야. 선물을 썰매로 가져가고 있어.' },
     tess:{ star:'아니, 못 봤어.', storeroom:'선물을 담을 빈 상자가 필요했어.', t1:'장난감을 포장하고 있어. 어린 친구들에게 줄 선물이야.', t3:'아니, 아직 포장 중이야. 포장이 끝나면 니코가 가져갈 거야. 썰매 옆에 있어.', t4:'아니, 토이 네스트의 별 장난감이야. 아주 가벼워.' },
-    nico:{ n1:'선물을 싣고 있어. 아직 배달하러 출발하지는 않았어.', storeroom:'아니. 선물이 다 포장되길 기다리고 있었어.', n2:'선물 몇 개를 싣고 있어. 다른 봉사자들이 포장한 거야.', n3:'아니, 나는 선물을 포장하지 않아. 포장은 코코와 테스가 해.',
+    nico:{ n1:'배달 준비를 하고 있어. 아직 배달하러 출발하지는 않았어.', storeroom:'아니. 선물이 다 포장되길 기다리고 있었어.', n2:'선물 몇 개를 싣고 있어. 다른 봉사자들이 포장한 거야.', n3:'아니, 나는 선물을 포장하지 않아. 포장은 코코와 테스가 해.',
       n4:'아니, 별로. 그런데 테스가 별을 가져가는 걸 본 것 같아.', n5:'아니. 아침 내내 바로 여기 있었어.' }
   },
   /* the four festival places (design 5절 장면 배치표) and the close looks. A spot's when/unless: conditions for it to be
@@ -3105,8 +3105,9 @@ const CHRISTMAS_CASE = {
         // the gold glitter under the shelf was taken out of the story (user request); the slot stays so the clues after it
         // keep their numbers (recordings detective-storeroom-<n>, saved photos)
         { label:'(removed)' },
-        { label:'Wrapping shelf', en:'Wrapping paper and empty boxes on the shelf.', ko:'선반에 포장지랑 빈 상자가 있어.' },
-        { label:'Crates', en:'The crates block part of the shelf.', ko:'장식 상자들이 선반 일부를 가리고 있어.' },
+        // the wrapping shelf and the crates are only things to look at (review 7: their photos were never used)
+        { label:'Wrapping shelf', prop:true, en:'Wrapping paper and empty boxes on the shelf.', ko:'선반에 포장지랑 빈 상자가 있어.' },
+        { label:'Crates', prop:true, en:'So many crates!', ko:'장식 상자가 정말 많네!' },
         // the back door opens onto the snow behind the storeroom (close look 'backyard', user request: the marks were
         // photographed from inside, where no snow shows)
         { label:'Back door', inspect:'backyard' },
@@ -3189,7 +3190,7 @@ const CHRISTMAS_CASE = {
       clues:[ { label:'Marks outside', en:'There are marks in the snow.', ko:'눈 위에 자국이 있어.' } ],
       spots:[ { clue:0, x:0, y:45, w:100, h:55, photo:{ x:0, y:0, w:1195, h:896 } } ] },
     { id:'toystar', inspect:true, label:'Gift Tent', artWidth:1376, artHeight:768,
-      clues:[ { label:'Back of the toy star', en:'The edge is peeling.', ko:'가장자리가 벗겨졌네.' } ],
+      clues:[ { label:'Back of the toy star', en:"It's a toy star. There's no pattern on the back.", ko:'장난감 별이야. 뒷면에 무늬가 없어.' } ],
       spots:[ { clue:0, x:29, y:14, w:42, h:72, photo:{ x:288, y:84, w:800, h:600 } } ] },
     { id:'starback', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768,
       clues:[ { label:'Back of the star', en:'A small leaf pattern on the back of the star.', ko:'별 뒷면에 작은 잎사귀 모양이 있어.' } ],
@@ -3280,10 +3281,11 @@ const CHRISTMAS_CASE = {
         opts:['O', 'X'],
         right:'Coco gave him four boxes, and Tess gave him none. But there are five boxes on the sleigh.', rightKo:'코코는 상자 넷을 줬고, 테스는 하나도 안 줬어. 그런데 썰매에는 상자가 다섯 개야.',
         hint:"Count the boxes on the sleigh. Then listen to Coco's and Tess's answers again.", hintKo:'썰매 위 상자를 세어 보고, 코코와 테스의 대답을 다시 들어 봐.' },
-      { step:8, who:'nico', q:"What about Nico's storeroom story? O or X?", qKo:'니코의 창고 이야기는? O일까 X일까?',
-        card:'Nico: "I didn\'t go into the storeroom." {opt:X}', cardKo:'니코: "나는 창고에 안 들어갔어." X',
+      // his n5 (review 1): the sleigh marks are what the two photos show
+      { step:8, who:'nico', q:"What about Nico's sleigh story? O or X?", qKo:'니코의 썰매 이야기는? O일까 X일까?',
+        card:'Nico: "The sleigh stayed right here all morning." {opt:X}', cardKo:'니코: "썰매는 아침 내내 바로 여기 있었어." X',
         opts:['O', 'X'],
-        right:'The marks from the storeroom go past the post to his sleigh.', rightKo:'창고에서 나온 자국이 기둥 옆을 지나 니코의 썰매까지 이어져.',
+        right:'The sleigh marks go from the storeroom past the post to his sleigh.', rightKo:'썰매 자국이 창고에서 기둥 옆을 지나 니코의 썰매까지 이어져.',
         hint:'Look at the two photos of the marks. Find the same wooden post.', hintKo:'자국 사진 두 장을 보고 같은 나무 기둥을 찾아 봐.' },
       { step:9, who:'nico', q:'Who looks suspicious?', qKo:'누가 수상해 보여?',
         card:'{opt:Nico} looks suspicious.', cardKo:'니코가 수상해 보여.',
@@ -3342,8 +3344,8 @@ const CHRISTMAS_CASE = {
       { lines:[
         { who:'nico', key:'admit', mood:'sad', en:"I took it from the case on the storeroom shelf. I didn't ask.", ko:'창고 선반에 있는 보관함에서 가져왔어. 허락은 안 받았어.' },
         { who:'nico', key:'motive', mood:'sad', en:'I saw the open case and got greedy. I thought the gold would sell for a lot.', ko:'보관함이 열려 있는 걸 보고 욕심이 났어. 금별을 팔면 큰돈을 받을 수 있을 줄 알았어.' },
-        { who:'nico', key:'blame', mood:'sad', en:"I said Tess had the star. That wasn't true.", ko:'테스한테 별이 있다고 했지만 사실이 아니었어.' },
         { who:'nico', key:'weight', mood:'sad', en:'It was too heavy to carry far. I put it on the sleigh.', ko:'들고 멀리 가기엔 너무 무거웠어. 그래서 썰매에 실었어.' },
+        { who:'nico', key:'blame', mood:'sad', en:"I said Tess had the star. That wasn't true.", ko:'테스한테 별이 있다고 했지만 사실이 아니었어.' },
         { who:'badger', key:'take', en:'Nico, come with me.', ko:'니코, 나와 같이 가자.' }
       ] }
     ],
@@ -8810,6 +8812,10 @@ function loadGame(){
   // has the new one written right
   if(CASE_ID === 'christmas-star' && S.per.nico?.questionChecks.storeroom && S.per.nico.notes.n === 'got'){
     delete S.per.nico.notes.p; delete S.per.nico.marks.p; fillAnswers('nico', ['storeroom'], true);
+  }
+  // Nico's n1 became "getting ready for the delivery" (review 4): a save that wrote down "loading" has the new one right
+  if(CASE_ID === 'christmas-star' && S.per.nico?.questionChecks.n1 && S.per.nico.notes.a === 'loading'){
+    delete S.per.nico.notes.a; delete S.per.nico.marks.a; fillAnswers('nico', ['n1'], true);
   }
   // (Nico's storeroom question too: asked-nico-storeroom)
   if(CASE_ID === 'christmas-star') [['tess', 'asked-tess-storeroom', ['star', 'storeroom']], ['nico', 'asked-nico-storeroom', ['storeroom']]].forEach(([id, flag, qids]) => {

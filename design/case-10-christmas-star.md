@@ -203,9 +203,9 @@ flowchart LR
 
 - **질문 선택지**: Who came into the storeroom?
 - 해석: 창고에는 누가 들어왔어?
-- **대답**: I saw Coco and Tess go in. I went in, too.
-- 해석: 코코와 테스가 들어가는 걸 봤어. 나도 들어갔어.
-- **노트**: “I [saw] Coco and Tess go [in]. I went in, too.”
+- **대답**: I saw Coco and Tess come in. I was here, too.(점검 5, 사용자 결정: 데이지는 창고 안에서 일하므로)
+- 해석: 코코와 테스가 들어오는 걸 봤어. 나도 여기 있었어.
+- **노트**: “I [saw] Coco and Tess come [in]. I was here, too.”
 - **보기**: saw · see · sold · in · out · on
 - 조건: h1 기록 뒤
 - 채점 뒤: 여러 사람의 창고 출입 목격 기록·h3 해금. 목격은 출입 범위까지
@@ -227,9 +227,9 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
 
 - **질문 선택지**: Did you move any decorations today?
 - 해석: 오늘 장식품을 옮겼어?
-- **대답**: Yes. I took some decorations to the Tree Square in a handcart.
+- **대답**: Yes. I'm taking decorations to the Tree Square in a handcart.(점검 6, 사용자 결정: 손수레가 장식을 실은 채 창고 문 앞에 있으므로 옮기는 중)
 - 해석: 응. 손수레로 장식품을 트리 광장에 옮겼어.
-- **노트**: “Yes. I took some decorations to the [Tree Square] in a [handcart].”
+- **노트**: “Yes. I'm taking decorations to the [Tree Square] in a [handcart].”
 - **보기**: Tree Square · gift tent · storeroom · handcart · sleigh · basket
 - 조건: h1 기록·c-track-yard 촬영 뒤
 - 채점 뒤: 광장 쪽 자국은 데이지의 손수레라는 진술 기록. 자국 추리(tracks)의 근거
@@ -263,7 +263,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
   - 어서 와! 난 코코야.
 
 - **det:mae-intro · 탐정 · 자동**
-  - I'm helping Ella find a missing star.
+  - I'm helping Ella find the missing star.
   - 엘라가 없어진 별을 찾는 걸 돕고 있어.
 
 - **mae:ready · 코코 · 자동**
@@ -419,7 +419,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
   - 안녕. 난 니코야. 무슨 일이야?
 
 - **det:nico-intro · 탐정 · 자동**
-  - I'm helping Ella find a missing star.
+  - I'm helping Ella find the missing star.
   - 엘라가 없어진 별을 찾는 걸 돕고 있어.
 
 - **nico:ready · 니코 · 자동**
@@ -432,9 +432,9 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
 
 - **질문 선택지**: What are you doing?
 - 해석: 뭐 하고 있어?
-- **대답**: I'm loading the gifts. I'm not delivering yet.
+- **대답**: I'm getting ready for the delivery. I'm not delivering yet.(점검 4, 사용자 결정: n2 What are you loading?과 겹치지 않게)
 - 해석: 선물을 싣고 있어. 아직 배달하러 출발하지는 않았어.
-- **노트**: “I'm [loading] the gifts. I'm not [delivering] yet.”
+- **노트**: “I'm [getting ready] for the delivery. I'm not [delivering] yet.”
 - **보기**: loading · opening · reading · delivering · decorating · wrapping
 - 조건: 썰매 앞 발견·니코 인사 뒤 첫 질문
 - 채점 뒤: n2. 지금 싣는 물건부터 확인한다.
@@ -529,7 +529,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
   - Sure. Take a look.
   - 물론이지. 봐 봐.
 
-뒷면을 c-toy-star로 촬영한다. 관찰: **The edge is peeling. / 가장자리가 벗겨졌네.** 무늬가 있는지는 탐정이 말하지 않고 플레이어가 사진에서 본다(사용자 결정: 결론은 플레이어가).
+뒷면을 c-toy-star로 촬영한다. 관찰: **It's a toy star. There's no pattern on the back. / 장난감 별이야. 뒷면에 무늬가 없어.**(점검 10, 사용자 결정: 금가루 단서를 뺀 뒤 벗겨진 가장자리는 의미가 없어 본 것만 말함. 그림도 벗겨지지 않은 매끈한 금빛으로 고침) 잎사귀 무늬와 비교하는 것은 플레이어가 한다(사용자 결정: 결론은 플레이어가).
 
 - **det:back-to-sleigh-thought · 탐정 · 생각**
   - I should go back to the sleigh.
@@ -541,7 +541,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
 
 | 대상 | 영어 음성 | 해석 | 조건·연출 |
 |---|---|---|---|
-| 큰 선물 자루 | That's a big sack! | 정말 큰 자루네! | 장면 5 썰매 앞 탐색. 자루 안이나 주인·내용물은 추측하지 않는다. |
+| 큰 선물 자루 | That's a big sack! | 정말 큰 자루네! | 장면 5 썰매 앞 탐색. 자루는 입구를 끈으로 묶어 안이 보이지 않는다(점검 2, 사용자 결정: 상자 세기가 헷갈리지 않게). 내용물은 추측하지 않는다. |
 | 옆에 놓인 열린 빈 상자 | Nothing in this one. | 이 상자는 비었네. | 장면 5에서 열린 빈 상자 내부를 가까이 살펴볼 때. 니코가 천막에 빈 상자를 가져다주고 남은 하나다. 썰매 짐칸의 닫힌 상자 다섯과 떨어뜨려 배치한다. 짐칸의 상자는 심문 전에는 들거나 열지 않는다. |
 | 멀리 보이는 창고 | I can see the storeroom far away. | 저 멀리 창고가 보여. | 장면 5 썰매 앞 탐색. 그림 왼쪽 위 멀리 보이는 창고를 누를 때(사용자 요청). 창고에서 이어지는 자국은 따로 찍는 단서(c-track-sleigh)다. |
 
@@ -559,7 +559,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 촬영할 수 있다. 
   - I can see Tess's table.
   - 테스의 탁자가 보여.
 
-썰매 자리에서 천막의 열린 옆면 너머 테스의 작업대를 볼 수 있다. 카메라 구도 예시에서는 포장 완료 4개, 포장 중 1개, 포장 전 1개(금빛 별 장난감)가 보이며 클립보드에도 네 개가 체크되어 있다. 증거 노트의 c-toys는 첫 방문 때 찍은 사진이다. 관찰 장면에서는 상자 수를 대사나 정답 문구로 알려 주지 않는다. 플레이어가 현재 보이는 상자와 처음 기록한 배송 준비표, 테스의 포장 완료 후 수거 설명을 대조한다. 관찰을 마친 뒤에는 천막 안 배경도 같은 진행 상태(포장 완료 4·포장 중 1·포장 전 1, 준비표 체크 4)로 바뀐다. 썰매에서 보는 작업대 그림은 이 그림에서 잘라 쓴다(개발 점검 사용자 결정: 천막에 다시 가도 수량이 어긋나지 않게).
+썰매 자리에서 천막의 열린 옆면 너머 테스의 작업대를 볼 수 있다. (점검 3, 사용자 결정: 썰매 그림 속 작업대를 천막 안 그림처럼 크라프트지 선물·열린 상자·클립보드로 고침.) 카메라 구도 예시에서는 포장 완료 4개, 포장 중 1개, 포장 전 1개(금빛 별 장난감)가 보이며 클립보드에도 네 개가 체크되어 있다. 증거 노트의 c-toys는 첫 방문 때 찍은 사진이다. 관찰 장면에서는 상자 수를 대사나 정답 문구로 알려 주지 않는다. 플레이어가 현재 보이는 상자와 처음 기록한 배송 준비표, 테스의 포장 완료 후 수거 설명을 대조한다. 관찰을 마친 뒤에는 천막 안 배경도 같은 진행 상태(포장 완료 4·포장 중 1·포장 전 1, 준비표 체크 4)로 바뀐다. 썰매에서 보는 작업대 그림은 이 그림에서 잘라 쓴다(개발 점검 사용자 결정: 천막에 다시 가도 수량이 어긋나지 않게).
 
 - **det:compare-thought · 탐정 · 생각**
   - I should compare the notes and the photos.
@@ -741,13 +741,13 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
   - I saw the open case and got greedy. I thought the gold would sell for a lot.
   - 보관함이 열려 있는 걸 보고 욕심이 났어. 금별을 팔면 큰돈을 받을 수 있을 줄 알았어.
 
+- **nico:weight · 니코 · 자동**(점검 8, 사용자 결정: 가져감 → 욕심 → 썰매에 실음 → 테스 탓 사과 순서)
+  - It was too heavy to carry far. I put it on the sleigh.
+  - 들고 멀리 가기엔 너무 무거웠어. 그래서 썰매에 실었어.
+
 - **nico:blame · 니코 · 자동**
   - I said Tess had the star. That wasn't true.
   - 테스한테 별이 있다고 했지만 사실이 아니었어.
-
-- **nico:weight · 니코 · 자동**
-  - It was too heavy to carry far. I put it on the sleigh.
-  - 들고 멀리 가기엔 너무 무거웠어. 그래서 썰매에 실었어.
 
 - **badger:take · 경사 · 자동**
   - Nico, come with me.
@@ -810,9 +810,11 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 
 ### c-supplies · 공용 포장재 선반
 
+점검 7(사용자 결정): 사진으로 찍지 않고 멘트만 나오는 물건이다(사진이 추리·심문 어디에도 쓰이지 않음).
+
 | 항목 | 내용 |
 |---|---|
-| 필수/선택 | 선택 |
+| 필수/선택 | 멘트만 나오는 물건 |
 | 열리는 때 | 창고 안 선반 조사 |
 | 촬영 그림 | 출입문 가까운 선반에 포장지와 빈 상자를 나란히 둔다. 선반 칸에 Wrapping Paper와 Empty Boxes라고 붙어 있다. 물건에 이름이나 개별 배송 표시는 없다. |
 | 관찰 음성 | Wrapping paper and empty boxes on the shelf. |
@@ -826,8 +828,8 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 | 필수/선택 | 선택 |
 | 열리는 때 | 창고 안 문턱에서 안쪽 보기 |
 | 촬영 그림 | 문턱에서 안쪽을 찍는다. 가까운 장식 상자가 출입문 옆 작업대 방향에서 안쪽 선반 아래쪽을 가린다. 탐정이 통로로 한두 걸음 들어가면 안쪽 보관함을 볼 수 있다. |
-| 관찰 음성 | The crates block part of the shelf. |
-| 해석 | 장식 상자들이 선반 일부를 가리고 있어. |
+| 관찰 음성 | So many crates!(점검 7, 사용자 결정: 그림에서 상자가 선반을 가리지 않고 사진도 쓰이지 않아 멘트만 나오는 물건으로) |
+| 해석 | 장식 상자가 정말 많네! |
 | 쓰임 | 데이지가 드나드는 사람은 봤어도 안쪽에서 무얼 집었는지 못 본 이유를 현장 구조로 확인한다. 사진은 사건 당시의 행동을 보여 주지 않는다. |
 
 ### c-track-yard · 창고 모퉁이 바닥
@@ -871,9 +873,9 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 |---|---|
 | 필수/선택 | 필수 |
 | 열리는 때 | 니코 n4 기록 뒤 천막으로 돌아가 테스 t4 기록·뒷면을 봐도 되는지 묻는 행동 선택지·테스 허락 |
-| 촬영 그림 | 테스의 작업대에서 금빛 플라스틱 별 장난감을 뒤집어 뒷면을 가까이 찍는다. 매끈한 뒷면에 무늬가 없다. 가장자리의 금빛 반짝이가 군데군데 벗겨져 있다. 진짜 별보다 작고 얇다. 글자·주인 이름·범인 표시는 없다. |
-| 관찰 음성 | The edge is peeling. |
-| 해석 | 가장자리가 벗겨졌네. |
+| 촬영 그림 | 테스의 작업대에서 금빛 플라스틱 별 장난감을 뒤집어 뒷면을 가까이 찍는다. 매끈한 금빛 반짝이 뒷면에 무늬가 없다. 진짜 별보다 작고 얇다. 글자·주인 이름·범인 표시는 없다. |
+| 관찰 음성 | It's a toy star. There's no pattern on the back. |
+| 해석 | 장난감 별이야. 뒷면에 무늬가 없어. |
 | 쓰임 | 니코가 n4·심문에서 테스가 별을 가져갔다고 하면 테스 t4 대신 내밀어도 정답이다. 엘라 e1의 잎사귀 무늬와 대조해 사라진 별이 아님을 확인하고, 마지막의 진짜 별 뒷면 확인(c-mark)을 한 번 먼저 해 본다. |
 
 ### c-track-sleigh · 나무 기둥 너머 바닥
@@ -936,7 +938,7 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 | may:snowflakes | 포장 천막 · 코코 | 종이 눈송이 더미 | So many snowflakes! | 눈송이가 정말 많네! | 장면 3 코코 작업대 탐색. 트리에 달 종이 눈송이와 가위가 놓여 있다. 단서가 아니다. |
 | tess:car | 포장 천막 · 테스 | 포장 전 장난감 자동차 | A little toy car! | 작은 장난감 자동차네! | 장면 4 테스의 장난감 조사 허락 뒤. 기존 여섯 선물 중 포장 전 상자 하나에 자동차가 보인다. 일곱 번째 선물을 추가하지 않는다. |
 | tess:bow | 포장 천막 · 테스 | 선물에 붙일 리본 장식 | That one looks nice. | 저거 예쁘네! | 장면 4 작업대 탐색. 눈앞 탁자의 리본을 가리키며 손에 들지 않으므로 that을 쓴다. |
-| sleigh:sack | 썰매 앞 | 큰 선물 자루 | That's a big sack! | 정말 큰 자루네! | 장면 5 썰매 앞 탐색. 자루 안이나 주인·내용물은 추측하지 않는다. |
+| sleigh:sack | 썰매 앞 | 큰 선물 자루 | That's a big sack! | 정말 큰 자루네! | 장면 5 썰매 앞 탐색. 자루는 입구를 끈으로 묶어 안이 보이지 않는다(점검 2, 사용자 결정: 상자 세기가 헷갈리지 않게). 내용물은 추측하지 않는다. |
 | sleigh:empty-box | 썰매 앞 | 옆에 놓인 열린 빈 상자 | Nothing in this one. | 이 상자는 비었네. | 장면 5에서 열린 빈 상자 내부를 가까이 살펴볼 때. 니코가 천막에 빈 상자를 가져다주고 남은 하나다. 썰매 짐칸의 닫힌 상자 다섯과 떨어뜨려 배치한다. 짐칸의 상자는 심문 전에는 들거나 열지 않는다. |
 | sleigh:storeroom | 썰매 앞 | 멀리 보이는 창고 | I can see the storeroom far away. | 저 멀리 창고가 보여. | 장면 5 썰매 앞 탐색. 그림 왼쪽 위 멀리 보이는 창고를 누를 때(사용자 요청). 창고에서 이어지는 자국은 따로 찍는 단서(c-track-sleigh)다. |
 
@@ -1147,17 +1149,19 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 | 해석 | 썰매 위 상자를 세어 보고, 코코와 테스의 대답을 다시 들어 봐. |
 | 근거 | nico:n2·n3, mae:m3, tess:t3·c-toys, c-boxes. 가장 중요한 사실(넷 + 0 ≠ 다섯). |
 
-### deduction:ox-nico-storeroom
+### deduction:ox-nico-sleigh
+
+점검 1(사용자 결정): 자국 사진 두 장이 직접 반박하는 말은 n5 "썰매는 아침 내내 여기 있었어"라서 이 문항을 n5로 바꿨다. 니코의 창고 대답(storeroom)은 받아 적기만 하고 추리 문항에는 쓰지 않는다.
 
 | 항목 | 내용 |
 |---|---|
-| 질문 | What about Nico's storeroom story? O or X? |
-| 해석 | 니코의 창고 이야기는? O일까 X일까? |
-| 완성 | Nico: "I didn't go into the storeroom." [X] |
-| 해석 | 니코: "나는 창고에 안 들어갔어." X |
+| 질문 | What about Nico's sleigh story? O or X? |
+| 해석 | 니코의 썰매 이야기는? O일까 X일까? |
+| 완성 | Nico: "The sleigh stayed right here all morning." [X] |
+| 해석 | 니코: "썰매는 아침 내내 바로 여기 있었어." X |
 | 보기 | O · X |
-| 맞장구 | The marks from the storeroom go past the post to his sleigh. |
-| 해석 | 창고에서 나온 자국이 기둥 옆을 지나 니코의 썰매까지 이어져. |
+| 맞장구 | The sleigh marks go from the storeroom past the post to his sleigh. |
+| 해석 | 썰매 자국이 창고에서 기둥 옆을 지나 니코의 썰매까지 이어져. |
 | 힌트 | Look at the two photos of the marks. Find the same wooden post. |
 | 해석 | 자국 사진 두 장을 보고 같은 나무 기둥을 찾아 봐. |
 | 근거 | nico:storeroom, c-track-yard·c-track-sleigh(같은 나무 기둥). |
@@ -1201,7 +1205,7 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 | 들어야 하는 말 | 가능한 판단 |
 |---|---|
 | 데이지 h1 sorting decorations·helping Ella / h3 working·gift tent | 장식 준비와 선물 포장을 구별. 새 인물도 창고 사용자임을 조사 |
-| 데이지 h2 I saw Coco and Tess go in. I went in, too. | 여러 사람의 출입을 알지만 그중 누가 별을 가져갔는지는 모름 |
+| 데이지 h2 I saw Coco and Tess come in. I was here, too. | 여러 사람의 출입을 알지만 그중 누가 별을 가져갔는지는 모름 |
 | 데이지 h4 Tree Square·handcart / 니코 n5 stayed·all morning | 광장 쪽 자국은 손수레, 썰매는 옮기지 않았다는 주장을 기록하고 두 자국 사진과 대조. 시점은 알 수 없음 |
 | 니코 n2 loading some gifts·other volunteers wrapped / 테스 t3 still wrapping·when I finish wrapping / 코코 m3 not wrapping now·four boxes | 흐린 운반 주장과 포장 완료 후 수거 방식, 아직 포장 중이며 전량이 남은 테스의 작업대, 코코가 건넨 상자 수와 썰매의 상자 수를 대조 |
 | 니코의 창고 방문 이유 / n3 not wrapping gifts | 천막에 가져다줄 빈 상자를 가져왔다는 설명과 현재 포장 역할 부인을 구분. 닫힌 상자의 내용은 아직 모름 |

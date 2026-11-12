@@ -13,7 +13,25 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-13 · Claude · (이 커밋) 추리 O·X 버튼: Higgsfield 노란 배지
+## 2026-11-13 · Claude · (이 커밋) 크리스마스 점검표 11개 모두 반영
+
+- 사용자 요청: 크리스마스 스테이지 점검표(11개)의 해결 방안을 모두 적용. 설계서 `design/case-10-christmas-star.md`도 같이 고침(사용자와 고친 내용, 각 줄에 "점검 n"). `.html`은 같은 문장이 있는 곳만 바꿈.
+  1. 추리 8번을 니코 n5로: "The sleigh stayed right here all morning." X, 질문 "What about Nico's sleigh story?", 맞장구 "The sleigh marks go from the storeroom past the post to his sleigh." 니코의 창고 대답은 받아 적기만 함(표의 방안대로 바꿈: 앞서 추천한 "11번째 카드 추가"는 하지 않음).
+  2·3. 썰매 그림: 자루 입구를 끈으로 묶어 선물이 안 보이게, 천막 속 작업대를 크라프트지 선물·열린 상자·클립보드로. Higgsfield 편집(1.5크레딧) 뒤 두 곳만 원래 그림에 붙임(`scripts/fix-christmas-sleigh.py`), 누르는 곳·사진 자리 그대로. 작업대에 보이는 선물은 넷(천막 안 그림은 여섯).
+  4. 니코 n1: "I'm getting ready for the delivery. I'm not delivering yet." 빈칸 getting ready·delivering. 예전 저장의 "loading"은 불러올 때 바르게 고침.
+  5. 데이지 h2: "I saw Coco and Tess come in. I was here, too."
+  6. 데이지 h4: "Yes. I'm taking decorations to the Tree Square in a handcart." 문법 표시 현재진행형.
+  7. 창고 포장재 선반·장식 상자는 멘트만 나오는 물건(장식 상자 "So many crates!"). 예전 저장의 두 사진은 기존 규칙(물건 사진은 불러올 때 뺌)으로 빠짐.
+  8. 자백 순서: 가져감 → 욕심 → 무거워서 썰매에 실음 → 테스 탓 사과 → 경사.
+  9. 코코·니코에게도 "I'm helping Ella find the missing star."(데이지 녹음 복사).
+  10. 별 장난감 뒷면: "It's a toy star. There's no pattern on the back." 그림도 벗겨진 곳 없는 매끈한 금빛(Higgsfield 1.5크레딧, `scripts/cut-toy-star-back.py`).
+  11. 코드 맨 위 사건 주석을 지금 상태로.
+- 녹음(MiniMax, 감정 없음): 니코 n1(Ian), 데이지 h2·h4(Mabel), 탐정 storeroom-3·toystar-0·추리 q8·r8(Grady). `scripts/christmas-voice-lines.js` 기준 빠진 파일 없음. 이번 작업 크레딧: 그림 3, 녹음 1 미만.
+- 확인(새 탭, 375px): 추리 보드 8번이 n5 문장·새 질문·맞장구로 나오고 X로 맞음, 썰매 장면에 묶인 자루가 보임. 못 한 것: 처음부터 끝까지 한 번에 플레이(대화·창고·별 장난감 확대·자백 순서는 데이터와 그림 파일로만 확인).
+- 남은 것: 미사용 후보·시안 12개 삭제 승인 대기(커밋 안 함).
+- **다음**: 사용자 지시 대기.
+
+## 2026-11-13 · Claude · 3e64034 추리 O·X 버튼: Higgsfield 노란 배지
 
 - 사용자 요청: O·X 버튼을 Higgsfield로 일러스트에 어울리게. 한 장에 4가지(나무 단추·종이 딱지·왁스 도장·노란 배지, 1.5크레딧)를 그려 지금 버튼과 나란히 시안으로 보여 주고, 사용자가 E 노란 배지를 고름. `assets/ui/deduce-ox-badge-o/-x.webp`(`scripts/cut-deduce-ox-buttons.py`, 가장자리 분홍 빼기·옆 버튼 조각 지우기), 원본 시트 `deduce-ox-buttons-higgsfield-original.png`. 버튼 48px, 누르면 2px 내려가며 작아지고 그림자가 줄어듦(CSS).
 - 확인(새 탭, 375px): 테스 포스트잇에 두 배지가 위아래로, X를 누르면 흔들리고 O를 누르면 맞힘·크레용 O가 그어짐.
