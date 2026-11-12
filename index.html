@@ -7342,14 +7342,16 @@ function npcBox(id, pl){
    motion. Drawn on the canvas over whichever view is showing (#snowInv, #snowTalk); the loop stops when no snow shows. */
 let snowOn = false, snowFrame = 0, snowFlakes = [], snowLast = 0;
 const snowSprites = [1.8, 2.8, 4, 5.4].map((r, i) => {
-  const c = document.createElement('canvas'), size = Math.ceil(r * 2 + 4) * 2;
+  // drawn at twice the size; the edge fades out over nearly as far again as the flake itself (user request: blurrier
+  // edges), the nearest flakes softest
+  const rr = r * 2, out = rr * (i > 2 ? 2.1 : 1.8), c = document.createElement('canvas'), size = Math.ceil(out + 2) * 2;
   c.width = c.height = size;
-  const g = c.getContext('2d'), m = size / 2, rr = r * 2;
-  const grad = g.createRadialGradient(m, m, 0, m, m, rr + 2);
-  // the nearest flakes have the softest edge; a faint grey-blue rim keeps them seen over the white snow on the ground
-  grad.addColorStop(0, 'rgba(255,252,244,1)'); grad.addColorStop(i > 2 ? .45 : .62, 'rgba(255,252,244,.96)');
-  grad.addColorStop(.8, 'rgba(176,188,206,.35)'); grad.addColorStop(1, 'rgba(176,188,206,0)');
-  g.fillStyle = grad; g.beginPath(); g.arc(m, m, rr + 2, 0, Math.PI * 2); g.fill();
+  const g = c.getContext('2d'), m = size / 2;
+  const grad = g.createRadialGradient(m, m, 0, m, m, out);
+  // a faint grey-blue in the fade keeps them seen over the white snow on the ground
+  grad.addColorStop(0, 'rgba(255,252,244,1)'); grad.addColorStop(i > 2 ? .16 : .26, 'rgba(255,252,244,.95)');
+  grad.addColorStop(.5, 'rgba(250,250,248,.58)'); grad.addColorStop(.74, 'rgba(196,205,220,.24)'); grad.addColorStop(1, 'rgba(196,205,220,0)');
+  g.fillStyle = grad; g.beginPath(); g.arc(m, m, out, 0, Math.PI * 2); g.fill();
   return { c, r, size:size / 4, speed:[16, 24, 34, 46][i], alpha:[.8, .88, .92, .85][i] };
 });
 function snowFlake(w, h, anywhere){
