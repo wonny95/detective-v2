@@ -1,0 +1,1188 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>같은 얼굴의 운전자 · 상세 기획</title><style id="case-plan-common" data-version="1">
+:root { --ink:#44362c; --muted:#786b5d; --paper:#fffaf0; --line:#dfd2bc; --honey:#f1ce75; --rose:#b65f79; --sage:#e5ede0; --green:#456f54; --shadow:0 12px 36px rgba(66,49,30,.09); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#e9eddf; color:var(--ink); font:16px/1.6 system-ui,"Malgun Gothic",sans-serif; }
+    a { color:inherit; }
+    .wrap { width:min(1120px,calc(100% - 36px)); margin:auto; }
+    .topbar { position:sticky; top:0; z-index:10; background:rgba(255,250,240,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .top-inner { display:flex; justify-content:space-between; align-items:center; gap:22px; min-height:66px; }
+    .back { flex:none; display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:800; letter-spacing:-.03em; }
+    .back-mark { display:grid; place-items:center; width:32px; height:32px; border:2px solid var(--ink); border-radius:50%; background:var(--honey); line-height:1; }
+    .nav { display:flex; gap:18px; overflow-x:auto; white-space:nowrap; scrollbar-width:none; font-size:13px; font-weight:750; }
+    .nav::-webkit-scrollbar { display:none; }
+    .nav a { padding:13px 0; text-decoration:none; }
+    .nav a:hover,.back:hover,.text-link:hover { color:var(--rose); }
+    main { padding:28px 0 80px; }
+    section { scroll-margin-top:94px; margin-top:58px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(240px,.7fr); gap:20px; margin-top:0; }
+    .hero-copy,.hero-art,.panel,.story-card,.place-card,.person-card,.clue-card,.flow-card,.learning-card,.script-card,.end-card,.status-card { background:var(--paper); border:1.5px solid var(--line); border-radius:26px; box-shadow:var(--shadow); }
+    .hero-copy { padding:40px 42px; background:radial-gradient(circle at 92% 10%,#faeab8 0 12%,transparent 12.5%),var(--paper); }
+    .eyebrow { display:inline-block; color:var(--rose); font-size:12px; font-weight:900; letter-spacing:.1em; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin:14px 0 13px; font-size:clamp(34px,4.5vw,57px); line-height:1.13; letter-spacing:-.075em; }
+    .lead { max-width:670px; color:#605347; font-size:19px; }
+    .hero-art { display:flex; flex-direction:column; justify-content:flex-end; align-items:center; overflow:hidden; margin:0; background:#f4ead2; }
+    .hero-art img { width:min(100%,250px); max-height:290px; object-fit:contain; object-position:bottom; }
+    .hero-art figcaption { width:100%; padding:10px 16px; border-top:1px dashed #d8c5a4; text-align:center; font-size:12px; font-weight:750; color:#725c3d; background:#fff9e9; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:24px; }
+    .chip { padding:7px 11px; border:1px solid #d9c8aa; border-radius:999px; background:#fffdf8; font-size:12px; font-weight:800; }
+    .chip.status { background:#fff0cc; color:#946116; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:18px; }
+    .section-head h2 { margin:0; font-size:clamp(26px,3vw,35px); line-height:1.2; letter-spacing:-.06em; }
+    .section-head p { max-width:540px; margin:0; color:var(--muted); font-size:14px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .story-card,.place-card,.person-card,.clue-card,.learning-card,.end-card,.status-card { min-width:0; padding:23px; }
+    .story-card { border-top:6px solid var(--honey); }
+    .story-card:nth-child(2) { border-top-color:#a9bea3; }
+    .story-card:nth-child(3) { border-top-color:#d8a2b1; }
+    .step-no { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:11px; background:#f8e7ba; color:#76552c; font-size:13px; font-weight:900; }
+    .story-card:nth-child(2) .step-no { background:#e3eddd; color:#4e7356; }
+    .story-card:nth-child(3) .step-no { background:#f3dfe4; color:#9d5368; }
+    h3 { margin:13px 0 7px; font-size:20px; line-height:1.3; letter-spacing:-.04em; }
+    .story-card p,.person-card p,.place-card p,.learning-card p,.end-card p,.status-card p { margin:0; color:#675a4e; font-size:14px; }
+    .keyline { margin-top:14px!important; color:var(--green)!important; font-weight:750; }
+    .callout { margin-top:14px; padding:16px 19px; border:1px dashed #ccbda6; border-radius:16px; background:#fff8e9; color:#695a45; font-size:13px; }
+    .callout strong { color:#9d566c; }
+    .person-card { display:flex; gap:14px; align-items:flex-start; }
+    .avatar { display:grid; place-items:center; flex:none; width:50px; height:50px; border:2px solid #7b6653; border-radius:50%; background:#f8e4b5; font-weight:900; }
+    .person-card:nth-child(2) .avatar { background:#e8eee0; }
+    .person-card:nth-child(3) .avatar { background:#f4e0e4; }
+    .person-card:nth-child(4) .avatar { background:#dce8eb; }
+    .person-card h3,.place-card h3 { margin:0 0 4px; }
+    .role { display:block; margin-bottom:6px; color:var(--rose); font-size:12px; font-weight:850; }
+    .place-tag,.clue-tag { display:inline-block; margin-top:12px; padding:4px 9px; border-radius:8px; background:#f4eddf; color:#7d6443; font-size:11px; font-weight:800; }
+    .place-card { border-left:6px solid #b7caa9; }
+    .place-card:nth-child(2) { border-left-color:var(--honey); }
+    .place-card:nth-child(3) { border-left-color:#e1b0b8; }
+    .evidence-board { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    .clue-card { border-top:6px solid var(--honey); }
+    .clue-card:nth-child(2) { border-top-color:#b6cba8; }
+    .clue-card h3 { margin:0 0 8px; }
+    .items { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+    .item { display:inline-flex; align-items:center; gap:7px; padding:9px 11px; border:1px solid #ddcfb9; border-radius:11px; background:#fffdf8; font-size:13px; font-weight:800; }
+    .swatch { width:15px; height:15px; border:1px solid rgba(0,0,0,.16); border-radius:50%; background:var(--color); }
+    .clue-card p { margin:0; color:#675a4e; font-size:14px; }
+    .deduction { margin-top:15px; padding:17px 20px; border:1.5px solid #b8c9ae; border-radius:17px; background:#f3f8ef; color:#45684d; font-size:14px; }
+    .deduction strong { color:#345d3e; }
+    .matrix { overflow-x:auto; border:1.5px solid var(--line); border-radius:19px; background:var(--paper); box-shadow:var(--shadow); }
+    table { width:100%; border-collapse:collapse; min-width:540px; }
+    th,td { padding:12px 17px; text-align:left; border-bottom:1px solid #e8decc; font-size:13px; }
+    tr:last-child td { border-bottom:0; }
+    th { background:#f5ecd9; color:#715a3d; font-size:12px; }
+    td:first-child { font-weight:850; }
+    tr.winner { background:#edf4e8; }
+    .flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+    .flow-card { min-width:0; padding:18px; }
+    .flow-card b { display:block; margin-bottom:9px; color:var(--rose); font-size:12px; }
+    .flow-card strong { display:block; margin-bottom:5px; font-size:15px; }
+    .flow-card p { margin:0; color:var(--muted); font-size:12px; }
+    .learning-card { background:#f4f8ef; border-color:#bdcfb7; }
+    .learning-card h3 { margin:0 0 8px; }
+    .learning-card code { font-family:inherit; font-weight:800; color:#476b50; }
+    .end-card { background:#fff7e7; }
+    .end-card:nth-child(2) { background:#eff5eb; }
+    .end-card:nth-child(3) { background:#f9eef0; }
+    .end-card .quote { margin:12px 0 3px; font-size:15px; font-weight:800; line-height:1.5; }
+    .end-card .ko { color:#796959; font-size:13px; }
+    .status-card { background:#f7f5ef; }
+    .status-card ul { margin:5px 0 0; padding-left:19px; color:#675a4e; font-size:14px; }
+    .text-link { display:inline-block; margin-top:12px; color:#9e526c; font-size:13px; font-weight:800; text-decoration:none; }
+    .fine { margin:18px 0 0; color:var(--muted); font-size:12px; }
+    .storyboard { display:grid; gap:18px; }
+    .scene { overflow:hidden; scroll-margin-top:110px; border:1.5px solid var(--line); border-radius:25px; background:var(--paper); box-shadow:var(--shadow); }
+    .scene-index { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+    .scene-index a { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border:1px solid #cfbda4; border-radius:999px; background:#fffaf0; color:#735c42; font-size:12px; font-weight:800; text-decoration:none; }
+    .scene-index a:hover { background:#f8e8bd; }
+    .scene-head { padding:23px 27px; background:#f4ebd8; border-bottom:1px dashed #d1bea3; }
+    .scene:nth-child(even) .scene-head { background:#eaf0e5; }
+    .scene-kicker { display:block; color:#9d566c; font-size:12px; font-weight:900; letter-spacing:.06em; }
+    .scene-head h3 { margin:7px 0 4px; font-size:24px; }
+    .scene-head p { margin:0; color:#67594a; font-size:13px; }
+    .scene-art { margin:0; border-bottom:1px solid #dfd1b9; background:#e9e4d4; }
+    .scene-art img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .scene-body { display:grid; gap:15px; padding:23px 27px 26px; }
+    .scene-note { margin:0; color:#66594c; font-size:13px; }
+    .scene-note strong { color:#9c536b; }
+    .handoff-panel { padding:17px 19px; border:1.5px solid #c4d4b7; border-radius:17px; background:#f3f8ee; }
+    .handoff-panel h4 { margin:0 0 10px; color:#4f7354; font-size:15px; }
+    .handoff-panel .handoff-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+    .handoff-panel .handoff-item { padding:10px 13px; border:1px solid #b6c9aa; border-radius:11px; background:#fffdf6; font-size:13px; font-weight:800; }
+    .handoff-panel .handoff-button { padding:10px 16px; border-radius:11px; background:#91b493; color:#253b2d; font-size:13px; font-weight:900; }
+    .handoff-panel p { margin:10px 0 0; color:#5b705b; font-size:12px; }
+    .key-plan { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .key-card { margin-top:0; padding:18px; border:1px solid #dec9a5; border-radius:18px; background:#fff9eb; }
+    .key-card:nth-child(2) { background:#f1f5ed; border-color:#c8d5bb; }
+    .key-card:nth-child(3) { background:#f9eef1; border-color:#e0c3cb; }
+    .key-card .key-page { color:#a4576d; font-size:11px; font-weight:900; }
+    .key-card h4 { margin:7px 0 5px; color:#4c3a2d; font-size:20px; }
+    .key-card .key-why { min-height:38px; margin:0 0 12px; color:#695949; font-size:12px; }
+    .key-example { padding:9px 0; border-top:1px dashed #ddcdb7; }
+    .key-example summary { display:flex; justify-content:space-between; align-items:baseline; gap:8px; cursor:pointer; color:#493b30; font-size:13px; font-weight:750; list-style:none; }
+    .key-example summary::-webkit-details-marker { display:none; }
+    .key-example summary span { flex:none; color:#9a536c; font-size:11px; font-weight:800; }
+    .key-example p { margin:5px 0 0; color:#796a58; font-size:12px; }
+    .turn { padding:13px 16px; border:1px solid #e4d6be; border-radius:16px; background:#fffdf7; }
+    .turn.det { background:#f2f6ec; border-color:#c7d9bc; }
+    .turn .who { display:block; margin-bottom:4px; color:#a5576e; font-size:11px; font-weight:900; }
+    .turn.det .who { color:#4d7856; }
+    .turn .en { margin:0; font-size:14px; font-weight:750; }
+    .turn .ko { margin:4px 0 0; color:#74675a; font-size:12px; }
+    .choice-group { display:grid; gap:11px; }
+    .choice-heading { margin:4px 0 0; font-size:15px; }
+    .question-choice { padding:16px; border:1px solid #dbcab1; border-radius:17px; background:#fbf6eb; }
+    .question-choice .choice-no { display:inline-block; margin-bottom:5px; color:#9d5369; font-size:11px; font-weight:900; }
+    .question-choice .ask { margin:0 0 9px; font-weight:850; font-size:14px; }
+    .question-choice .translation { margin:-6px 0 10px; color:var(--muted); font-size:12px; }
+    .question-choice .reply { margin:0; padding:11px 12px; border-left:4px solid #b2c7a9; border-radius:0 9px 9px 0; background:#f0f5ea; font-size:13px; }
+    .question-choice .reply em { display:block; margin-top:3px; color:#718064; font-size:12px; font-style:normal; }
+    .note-task { margin-top:10px; padding:10px 12px; border:1px dashed #c9a8a6; border-radius:10px; background:#fffaf5; font-size:12px; }
+    .note-task b { color:#a55870; }
+    .bank { display:block; margin-top:5px; color:#786550; }
+    .result-tag { display:inline-block; margin-top:10px; padding:4px 8px; border-radius:8px; background:#e5eee0; color:#496f52; font-size:11px; font-weight:850; }
+    .scene-next { padding:11px 14px; border-radius:12px; background:#e7efe0; color:#456b4d; font-size:12px; font-weight:800; }
+    .scene-next strong { color:#35583f; }
+    .object-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .object-card { padding:12px 14px; border:1px solid #dfd2bc; border-radius:13px; background:#fffdf6; }
+    .object-card strong { display:block; font-size:13px; }
+    .object-card p { margin:3px 0 0; color:#675b4d; font-size:12px; }
+    .object-card small { color:#a55970; font-size:11px; font-weight:850; }
+    .field-label { margin:27px 0 12px; color:#755b3f; font-size:17px; }
+    .evidence-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .evidence-card { padding:15px; border:1px solid #ddcfb7; border-radius:18px; background:#fffdf7; }
+    .evidence-card small { color:#a2546b; font-size:11px; font-weight:850; }
+    .evidence-card h4 { margin:4px 0 8px; font-size:17px; }
+    .evidence-card p { margin:6px 0 0; color:#64584b; font-size:12px; }
+    .evidence-preview { height:165px; margin-bottom:10px; border:1px solid #decdb1; border-radius:11px; background-color:#e9e3d3; background-repeat:no-repeat; background-size:380% auto; }
+    .sound-zone { padding:18px; border:1px solid #ddcfb7; border-radius:18px; background:#fffaf0; }
+    .sound-zone h4 { margin:0 0 9px; font-size:16px; }
+    .sound-zone ul { margin:0; padding:0; list-style:none; }
+    .sound-zone li { padding:9px 0; border-top:1px dashed #dccdb8; font-size:12px; }
+    .sound-zone li:first-child { border-top:0; }
+    .sound-zone b { display:block; margin-bottom:3px; }
+    .sound-zone span { color:#776959; }
+    .ded-question { padding:15px 17px; border:1px solid #dcd0ba; border-radius:16px; background:#fffbf2; }
+    .ded-question b { display:block; color:#a2546b; font-size:12px; }
+    .ded-question .prompt { margin:5px 0 0; font-size:14px; font-weight:800; }
+    .ded-question .prompt-ko { margin:2px 0 8px; color:var(--muted); font-size:12px; }
+    .ded-question .answer-line { margin:0; padding:8px 10px; border-radius:9px; background:#edf3e7; font-size:13px; }
+    .ded-question .options { margin:6px 0 0; color:#665847; font-size:12px; }
+    .ded-question .reaction { margin:7px 0 0; color:#4e7153; font-size:12px; }
+    .ded-question .source { margin:5px 0 0; color:#8a7763; font-size:11px; }
+    .subhead { margin:5px 0 0; color:#755b3f; font-size:15px; }
+    .choice-guide { margin:0; padding-left:19px; color:#66594c; font-size:12px; }
+    .choice-guide li+li { margin-top:5px; }
+    .story-jump { display:inline-flex; margin-top:17px; padding:10px 14px; border-radius:12px; background:#f6e5b8; color:#674b27; text-decoration:none; font-size:13px; font-weight:850; }
+    @media (max-width:900px) { .flow { grid-template-columns:repeat(2,minmax(0,1fr)); } .grid-3 { grid-template-columns:repeat(2,minmax(0,1fr)); } .key-plan { grid-template-columns:minmax(0,1fr); } .key-card .key-why { min-height:0; } }
+    @media (max-width:650px) { .wrap { width:min(550px,calc(100% - 24px)); } .top-inner { display:block; padding:10px 0; } .nav { gap:16px; } .hero,.grid-2,.grid-3,.evidence-board,.evidence-grid,.object-grid { grid-template-columns:minmax(0,1fr); } .hero-copy { padding:29px 25px; } .hero-art { min-height:210px; } .hero-art img { max-height:190px; } .section-head { display:block; } .section-head p { margin-top:7px; } .scene-head,.scene-body { padding-left:19px; padding-right:19px; } section { margin-top:46px; scroll-margin-top:111px; } }
+    @media (max-width:390px) { .flow { grid-template-columns:minmax(0,1fr); } }
+    .hero-art img { display:block; width:100%; max-height:none; aspect-ratio:16/9; object-fit:cover; }
+    .scene-art.dialogue-art { position:relative; overflow:hidden; }
+    .scene-art.dialogue-art .scene-character { position:absolute; left:8%; bottom:0; width:19%; height:84%; aspect-ratio:auto; object-fit:contain; object-position:center bottom; filter:drop-shadow(0 4px 3px rgba(71,54,29,.22)); }
+.plan-art-defs { position:absolute; overflow:hidden; pointer-events:none; }
+    .plan-photo-art { display:block; width:100%; height:auto; border:1px solid #d9c8ac; border-radius:12px; background:#f4ecdd; }
+    .plan-photo { min-width:0; margin:0; }
+    .plan-photo figcaption { margin:9px 0 0; color:#766653; font-size:12px; line-height:1.6; }
+    .plan-photo-wide { max-width:680px; margin:0 auto 18px; }
+    .plan-photo-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-bottom:18px; }
+    .evidence-card .evidence-preview.plan-photo-preview { height:auto; display:block; border:0; background:transparent; }
+    @media(max-width:650px) { .plan-photo-pair { grid-template-columns:minmax(0,1fr); } }
+      .place-plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
+    .place-clue-plan h4 { margin:19px 0 8px; font-size:15px; }
+    .place-clue-plan .room-sketch { grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:16px; }
+    .place-clue-plan .sketch-cell { min-width:0; padding:10px 8px; }
+    .place-clue-plan .sketch-cell small { max-width:100%; overflow-wrap:anywhere; }
+    .place-photo-plan { margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+    .place-photo-plan dl { display:grid; grid-template-columns:65px minmax(0,1fr); gap:7px 10px; margin:0; font-size:12px; line-height:1.65; }
+    .place-photo-plan dt { color:var(--green); font-weight:800; }
+    .place-photo-plan dd { margin:0; color:var(--muted); }
+    .place-clue-plan .place-clue-flow { margin-top:18px; padding-top:12px; border-top:1px dashed var(--line); color:var(--green); font-size:12px; }
+    @media(max-width:900px) { .place-plan-grid { grid-template-columns:minmax(0,1fr); } }
+    .scene-sketch { margin:0; padding:20px; min-height:210px; border-bottom:1px solid var(--line); background:linear-gradient(125deg,#e9ece0,#f7efda); }
+    .scene-sketch figcaption { margin-top:12px; color:#766653; font-size:12px; }
+    .room-sketch { display:grid; grid-template-columns:1fr 1fr 1fr; gap:11px; max-width:730px; margin:auto; }
+    .sketch-cell { min-height:108px; display:flex; flex-direction:column; justify-content:center; align-items:center; border:2px dashed #c6b897; border-radius:16px; background:#fffaf0; text-align:center; font-size:13px; font-weight:800; }
+    .sketch-cell strong { font-size:23px; line-height:1.3; }
+    .sketch-cell small { color:#776858; font-size:11px; }
+    .sketch-cell.missing { border-color:#dcaab5; background:#fff3f3; }
+    .sketch-cell.photo { border-color:#b8caa9; background:#f1f7ee; }
+    .sketch-cell.curtain { background:#e7e8e1; }
+    .mini-route { display:flex; align-items:stretch; gap:9px; flex-wrap:wrap; }
+    .mini-route span { flex:1 1 130px; padding:12px; border:1px solid #d9c9ac; border-radius:12px; background:#fffaf0; color:#705c43; font-size:12px; font-weight:800; text-align:center; }
+    .mini-route .arrow { flex:0 0 auto; display:grid; place-items:center; border:0; background:none; }
+    .expression-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .expression-card { padding:17px; border:1px solid #cbd9c3; border-radius:16px; background:#f6faf2; }
+    .expression-card h3 { margin:0 0 6px; font-size:18px; }
+    .expression-card p { margin:0; color:#5f705d; font-size:12px; }
+    .expression-card b { display:inline-block; margin-top:8px; color:#3b6847; font-size:12px; }
+    .interrogation { padding:17px; border:1.5px solid #d6b7bd; border-radius:17px; background:#fff8f8; }
+    .interrogation h4 { margin:0 0 10px; color:#945368; }
+    .interrogation .turn + .turn { margin-top:9px; }
+    .producer-only { padding:18px 20px; border:1px dashed #c7b18c; border-radius:16px; background:#fff5df; color:#725a39; font-size:13px; }
+    .producer-only strong { color:#9c526a; }
+
+    .plan-cover { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .plan-art-pending { display:grid; place-items:center; width:100%; min-height:210px; aspect-ratio:16/9; background:var(--sage); color:var(--muted); font-size:14px; }
+    .plan-anchor { display:block; scroll-margin-top:94px; }
+    .background-plan h3 { margin:0 0 12px; }
+    .background-copy { margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.8; }
+    .prop-tts + .prop-tts { margin-top:11px; }
+    .prop-tts .prop-when { margin:9px 0 0; font-size:12px; color:var(--muted); }
+    .prop-id { overflow-wrap:anywhere; }
+    @media(max-width:650px) { .room-sketch,.expression-grid { grid-template-columns:minmax(0,1fr); } .scene-sketch { padding:16px; } .plan-anchor { scroll-margin-top:111px; } }
+</style><style id="twins-reader-layout">/* User-requested hierarchy for this planning reader; shared case-plan-common stays unchanged. */
+body.twins-reader { height:100dvh; overflow:hidden; background:#f0f1ec; }
+#plan-reader { height:100dvh; display:flex; flex-direction:column; padding:0; width:min(1460px,calc(100% - 48px)); margin:auto; }
+#plan-reader *,#plan-reader *::before,#plan-reader *::after { box-sizing:border-box; }
+#plan-reader [hidden] { display:none !important; }
+#plan-reader button,#plan-reader select { font:inherit; color:inherit; }
+#plan-reader button { cursor:pointer; }
+#plan-reader button:disabled { opacity:.35; cursor:default; }
+#plan-reader button:focus-visible,#plan-reader select:focus-visible,#plan-reader a:focus-visible,#plan-reader summary:focus-visible { outline:2px solid var(--green); outline-offset:4px; }
+#plan-reader .reader-header { display:flex; align-items:center; gap:28px; min-height:88px; flex:none; padding:14px 0; }
+#plan-reader .reader-brand { flex:1; min-width:0; }
+#plan-reader .reader-brand a { color:var(--muted); font-size:11px; text-decoration:none; }
+#plan-reader h1 { margin:3px 0 0; font-size:17px; font-weight:650; line-height:1.4; letter-spacing:-.04em; }
+#plan-reader .reader-modebar { display:flex; align-items:center; gap:24px; }
+#plan-reader .reader-modebar button { padding:10px 0; border:0; border-bottom:2px solid transparent; background:transparent; font-size:13px; color:var(--muted); white-space:nowrap; }
+#plan-reader .reader-modebar button[aria-pressed="true"] { color:var(--green); border-bottom-color:var(--green); font-weight:800; }
+#plan-reader .reader-status { padding-left:24px; border-left:1px solid #d7dbd0; color:var(--muted); font-size:10px; line-height:1.8; white-space:nowrap; }
+#plan-reader .reader-layout { display:grid; grid-template-columns:172px minmax(0,1fr) 260px; gap:24px; flex:1; min-height:0; padding-bottom:24px; }
+#plan-reader .reader-panel { min-width:0; min-height:0; }
+#plan-reader .reader-sidebar { display:flex; flex-direction:column; padding:17px 0 0; }
+#plan-reader .reader-sidebar h2 { margin:0 12px 15px; color:var(--muted); font-size:10px; font-weight:650; letter-spacing:.06em; }
+#plan-reader .reader-list { display:grid; align-content:start; gap:3px; min-height:0; overflow:auto; scrollbar-width:thin; }
+#plan-reader .reader-list button { display:flex; align-items:baseline; gap:11px; min-height:42px; padding:11px 12px; border:0; border-radius:7px; background:transparent; text-align:left; font-size:12px; line-height:1.5; color:var(--muted); }
+#plan-reader .reader-list button:hover { color:var(--ink); background:#e8ebe2; }
+#plan-reader .reader-list button[aria-current="true"] { background:#e1e7d9; color:var(--green); font-weight:800; }
+#plan-reader .reader-item-number { flex:none; color:var(--muted); font-size:10px; font-variant-numeric:tabular-nums; font-weight:500; }
+#plan-reader .reader-list button[aria-current="true"] .reader-item-number { color:var(--green); }
+#plan-reader .reader-item-label { min-width:0; }
+#plan-reader .reader-stage { display:flex; flex-direction:column; overflow:hidden; border:1px solid #dedfd4; border-radius:14px; background:var(--paper); box-shadow:0 8px 24px #44362c06; }
+#plan-reader .reader-scene-head { flex:none; padding:25px 34px 20px; border-bottom:1px solid #e9e5d9; }
+#plan-reader .reader-scene-head .scene-kicker { color:var(--green); font-size:10px; font-weight:700; letter-spacing:.03em; }
+#plan-reader .reader-scene-head h2 { margin:9px 0 6px; font-size:27px; line-height:1.3; font-weight:750; letter-spacing:-.06em; }
+#plan-reader .reader-scene-head p { margin:0; color:var(--muted); font-size:12px; line-height:1.6; }
+#plan-reader .reader-jump { flex:none; display:flex; align-items:center; gap:10px; padding:10px 34px; background:#f8f7ef; }
+#plan-reader .reader-jump label { color:var(--muted); font-size:10px; flex:none; }
+#plan-reader select { width:100%; min-width:0; border:0; border-radius:4px; padding:6px 18px 6px 0; background:transparent; color:var(--muted); font-size:11px; text-overflow:ellipsis; }
+#plan-reader .reader-canvas { position:relative; flex:1; min-height:0; overflow:auto; padding:30px 34px; overscroll-behavior:contain; scrollbar-width:thin; }
+#plan-reader .reader-scene-tools { display:none; }
+#plan-reader .reader-dialogue-block { padding-bottom:26px; margin-bottom:26px; border-bottom:1px solid #e8e5da; }
+#plan-reader .reader-dialogue-block:last-child { padding-bottom:0; margin-bottom:0; border-bottom:0; }
+#plan-reader .reader-inspector-group { display:grid; gap:10px; }
+#plan-reader .reader-inspector-group h4 { margin:0; color:var(--green); font-size:11px; font-weight:650; line-height:1.7; }
+#plan-reader .reader-page { display:grid; align-content:start; gap:0; max-width:700px; margin:auto; }
+#plan-reader .reader-learning-expression { color:#a6535b; font-weight:700; }
+#plan-reader .reader-page > h4 { margin:0 0 15px; font-size:13px; color:var(--muted); }
+#plan-reader .reader-page .turn { padding:18px 0 22px; border:0; border-radius:0; background:transparent; }
+#plan-reader .reader-page .turn + .turn { border-top:1px solid #e8e5da; }
+#plan-reader .reader-page .turn .who { color:var(--green); margin-bottom:10px; font-size:11px; font-weight:750; }
+#plan-reader .reader-page .turn .en { color:var(--ink); font-size:23px; line-height:1.55; font-weight:650; letter-spacing:-.02em; }
+#plan-reader .reader-page .turn .ko { color:var(--muted); margin-top:10px; font-size:13px; line-height:1.7; }
+#plan-reader .reader-page .turn.det .who { color:var(--muted); }
+#plan-reader .reader-page .turn.det .en { color:#6c705e; font-size:18px; font-weight:500; }
+#plan-reader .reader-page .question-choice { padding:10px 0; border:0; border-radius:0; background:transparent; }
+#plan-reader .reader-page .question-choice .choice-no { display:block; margin:0 0 10px; color:var(--muted); font-size:10px; font-weight:650; }
+#plan-reader .reader-page .question-choice .ask { margin:0 0 7px; color:#666b5e; font-size:18px; line-height:1.6; font-weight:500; }
+#plan-reader .reader-page .question-choice .translation { margin:0; color:var(--muted); font-size:12px; line-height:1.7; }
+#plan-reader .reader-page .question-choice .reply { margin-top:30px; padding:0 0 0 22px; border-left:3px solid var(--green); border-radius:0; background:transparent; color:var(--ink); font-size:23px; line-height:1.6; font-weight:650; letter-spacing:-.02em; }
+#plan-reader .reader-page .question-choice .reply::before { content:"대답"; display:block; margin-bottom:10px; color:var(--green); font-size:10px; font-weight:750; letter-spacing:.08em; }
+#plan-reader .reader-page .question-choice[data-deduction] .reply::before { content:"완성 문장"; }
+#plan-reader .reader-page .question-choice .reply em { display:block; margin-top:12px; color:var(--muted); font-size:13px; font-weight:400; line-height:1.7; letter-spacing:0; }
+#plan-reader .reader-page .object-card { padding:20px 0; border:0; border-radius:0; background:transparent; }
+#plan-reader .reader-page .object-card > .en { font-size:23px; font-weight:650; line-height:1.6; }
+#plan-reader .reader-page .object-card > .ko { color:var(--muted); font-size:13px; margin-top:12px; }
+#plan-reader .result-tag { color:var(--green); background:#e8eddf; font-size:10px; border-radius:4px; padding:4px 7px; }
+#plan-reader .reader-pager { flex:none; display:flex; justify-content:space-between; align-items:center; gap:12px; min-height:70px; padding:13px 26px; border-top:1px solid #e9e5d9; }
+#plan-reader .reader-pager button,#plan-reader .reader-mini { border:0; border-radius:6px; padding:10px 13px; background:transparent; color:var(--muted); font-size:12px; font-weight:600; }
+#plan-reader .reader-pager button:last-child { padding:11px 20px; background:var(--green); color:#fffdf6; font-weight:750; }
+#plan-reader .reader-page-position { color:var(--muted); font-size:10px; font-variant-numeric:tabular-nums; }
+#plan-reader .reader-inspector { display:flex; flex-direction:column; padding-top:8px; overflow:hidden; }
+#plan-reader .reader-tabs { flex:none; display:flex; gap:17px; padding:0; border-bottom:1px solid #d7dbd0; }
+#plan-reader .reader-tabs button { border:0; border-bottom:2px solid transparent; padding:12px 0; background:transparent; color:var(--muted); font-size:11px; white-space:nowrap; }
+#plan-reader .reader-tabs button[aria-selected="true"] { color:var(--green); border-bottom-color:var(--green); font-weight:800; }
+#plan-reader .reader-inspector-content { display:grid; align-content:start; gap:20px; flex:1; min-height:0; overflow:auto; padding:24px 0; scrollbar-width:thin; }
+#plan-reader .reader-inspector-content h3 { margin:0; color:var(--muted); font-size:10px; font-weight:650; }
+#plan-reader .reader-inspector-content p,#plan-reader .reader-inspector-content li { margin:0; color:var(--muted); font-size:12px; line-height:1.9; overflow-wrap:anywhere; }
+#plan-reader .reader-inspector-content .scene-next { padding:0; border-radius:0; background:transparent; color:#6e7864; font-size:12px; font-weight:400; }
+#plan-reader .reader-inspector-content .scene-next strong { color:var(--green); font-size:11px; font-weight:750; }
+#plan-reader .reader-inspector-content .scene-next p { margin-top:9px; }
+#plan-reader .reader-inspector-content .scene-next p:last-child { padding-top:13px; margin-top:15px !important; border-top:1px solid #dce0d5; font-size:11px; }
+#plan-reader .reader-inspector-content .note-task { margin:0; padding:15px 0; border:0; border-top:1px solid #d7dbd0; border-bottom:1px solid #d7dbd0; border-radius:0; background:transparent; color:#68725d; font-size:12px; line-height:1.9; }
+#plan-reader .reader-inspector-content .note-task b { color:var(--green); font-size:11px; }
+#plan-reader .reader-inspector-content ul { margin:0; padding-left:17px; }
+#plan-reader .reader-inspector-content .object-card { padding:16px 0 0; border:0; border-radius:0; background:transparent; }
+#plan-reader .reader-inspector-content details { color:var(--muted); font-size:11px; }
+#plan-reader .reader-evidence { padding:13px 0; border-top:1px solid #d7dbd0; }
+#plan-reader .reader-evidence > summary { cursor:pointer; font-size:11px; font-weight:650; color:var(--muted); }
+#plan-reader .reader-wide { grid-column:2 / -1; }
+#plan-reader .reader-flow { display:flex; flex-direction:column; height:100%; min-height:0; }
+#plan-reader .reader-flow-toolbar { display:flex; align-items:center; gap:12px; padding-bottom:14px; font-size:11px; color:var(--muted); }
+#plan-reader .reader-flow-toolbar .reader-mini { background:var(--sage); color:var(--green); }
+#plan-reader .reader-flow-paper { flex:1; min-height:0; overflow:auto; }
+#plan-reader .reader-flow figure { display:flex; flex-direction:column; height:100%; margin:0 !important; gap:10px; }
+#plan-reader .reader-flow figure > div { flex:1; min-height:0; overflow:hidden !important; }
+#plan-reader .reader-flow svg { min-width:0 !important; width:100% !important; height:100% !important; }
+#plan-reader .reader-flow figcaption { flex:none; margin:0 !important; font-size:11px !important; }
+#plan-reader .reader-flow.is-zoomed figure { height:auto; }
+#plan-reader .reader-flow.is-zoomed figure > div { flex:none; overflow:visible !important; }
+#plan-reader .reader-flow.is-zoomed svg { min-width:1100px !important; height:auto !important; }
+#plan-reader .reader-summary { display:grid; gap:22px; }
+#plan-reader .reader-summary h3 { margin:0 0 10px; font-size:19px; }
+#plan-reader .reader-summary p { margin:0; font-size:14px; line-height:1.9; }
+#plan-reader .reader-summary .object-card { padding:8px 20px 12px 0; border:0; border-radius:0; background:transparent; }
+#plan-reader .reader-summary .object-card + .object-card { border-left:1px solid var(--line); padding-left:20px; }
+#plan-reader .reader-summary .chips { margin:0; }
+#plan-reader .reader-summary .chip { font-size:10px; background:#f0f1e8; border:0; }
+#plan-reader .reader-summary .chip.status { background:var(--sage); color:var(--green); }
+#plan-reader .reader-summary figcaption { color:var(--muted); font-size:11px; }
+#plan-reader .reader-reference { display:grid; gap:18px; }
+#plan-reader .reader-reference .story-card { padding:0; border:0; box-shadow:none; background:transparent; }
+#plan-reader .reader-reference .section-head h2 { font-size:22px; }
+#plan-reader .reader-reference .matrix { max-width:100%; overflow:auto; }
+#plan-reader .reader-reference h3 { margin:10px 0; font-size:17px; }
+#plan-reader .reader-reference p,#plan-reader .reader-reference li { font-size:13px; }
+#plan-reader .reader-mobile-controls,#plan-reader .reader-detail-close { display:none; }
+@media(max-width:1150px) {
+ #plan-reader { width:calc(100% - 32px); }
+ #plan-reader .reader-layout { grid-template-columns:148px minmax(0,1fr) 232px; gap:16px; }
+ #plan-reader .reader-status { display:none; }
+ #plan-reader .reader-scene-head,#plan-reader .reader-jump,#plan-reader .reader-canvas { padding-left:26px; padding-right:26px; }
+ #plan-reader .reader-tabs { gap:13px; }
+}
+@media(max-width:950px) {
+ #plan-reader .reader-scene-tools { display:flex; justify-content:flex-end; padding-top:4px; padding-bottom:4px; }
+ #plan-reader .reader-layout { grid-template-columns:145px minmax(0,1fr); position:relative; }
+ #plan-reader .reader-inspector { display:none; }
+ #plan-reader[data-details="open"] .reader-inspector { display:flex; position:absolute; z-index:15; right:0; top:0; bottom:24px; width:min(330px,100%); padding:12px 22px; border:1px solid var(--line); border-radius:12px; background:#f0f1ec; box-shadow:-8px 0 30px #44362c14; }
+ #plan-reader .reader-detail-close { display:block; border:0; padding:8px 0; background:transparent; color:var(--muted); text-align:right; font-size:11px; }
+ #plan-reader .reader-detail-toggle { display:inline-block; padding:5px 8px; }
+}
+@media(min-width:951px) { #plan-reader .reader-detail-toggle { display:none; } }
+@media(max-width:650px) {
+ #plan-reader { width:calc(100% - 20px); }
+ #plan-reader .reader-header { display:block; padding:10px 2px 12px; min-height:0; }
+ #plan-reader h1 { font-size:15px; }
+ #plan-reader .reader-brand a { font-size:10px; }
+ #plan-reader .reader-modebar { gap:23px; margin-top:4px; }
+ #plan-reader .reader-modebar button { font-size:12px; padding:7px 0; }
+ #plan-reader .reader-layout { grid-template-columns:minmax(0,1fr); padding-bottom:12px; }
+ #plan-reader .reader-sidebar { display:none; }
+ #plan-reader .reader-wide { grid-column:auto; }
+ #plan-reader .reader-mobile-controls { display:flex; gap:8px; margin-bottom:9px; }
+ #plan-reader .reader-mobile-controls label { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+ #plan-reader .reader-mobile-controls select { font-size:10px; padding:3px 0; }
+ #plan-reader .reader-scene-head { padding:16px 21px 14px; }
+ #plan-reader .reader-scene-head h2 { font-size:23px; }
+ #plan-reader .reader-scene-head p { font-size:11px; }
+ #plan-reader .reader-jump { padding:7px 21px; }
+ #plan-reader .reader-canvas { padding:20px 21px; }
+ #plan-reader .reader-page .turn { padding:12px 0 16px; }
+ #plan-reader .reader-page .turn .en,#plan-reader .reader-page .question-choice .reply { font-size:20px; }
+ #plan-reader .reader-page .turn.det .en,#plan-reader .reader-page .question-choice .ask { font-size:16px; }
+ #plan-reader .reader-page .turn .ko,#plan-reader .reader-page .question-choice .reply em { font-size:12px; }
+ #plan-reader .reader-page .question-choice .reply { margin-top:24px; padding-left:16px; }
+ #plan-reader .reader-pager { padding:10px 15px; min-height:62px; }
+ #plan-reader .reader-pager button { font-size:11px; }
+ #plan-reader .reader-pager button:last-child { padding:10px 14px; }
+ #plan-reader .reader-summary .grid-3 { grid-template-columns:1fr; }
+ #plan-reader .reader-summary .object-card + .object-card { padding-left:0; padding-top:16px; border-left:0; border-top:1px solid var(--line); }
+}
+</style><style id="twins-flow-prep-layout">
+#plan-reader .reader-flow { height:100%; }
+#plan-reader .reader-flow-paper { overflow:auto; }
+#plan-reader .twins-diagram { display:flex; flex-direction:column; height:100%; margin:0; }
+#plan-reader .twins-diagram-scroll { flex:1; min-height:0; display:grid; place-items:center; overflow:auto; border:1px solid var(--line); border-radius:15px; background:#fffdf8; }
+#plan-reader .twins-diagram svg { display:block; width:100%; min-width:780px; height:auto; max-height:100%; }
+#plan-reader .twins-diagram a { cursor:pointer; }
+#plan-reader .twins-diagram a:hover rect,#plan-reader .twins-diagram a:focus rect { stroke-width:4; }
+#plan-reader .twins-diagram figcaption { padding:8px 0; font-size:11px; color:var(--muted); }
+#plan-reader .twins-prep-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; width:100%; }
+#plan-reader .twins-prep-card { min-width:0; padding:22px; border:1px solid var(--line); border-radius:17px; background:#fffdf8; }
+#plan-reader .twins-prep-card h3 { margin:0 0 9px; font-size:18px; line-height:1.35; }
+#plan-reader .twins-prep-card p { margin:0; color:var(--muted); font-size:12px; line-height:1.6; }
+#plan-reader .twins-prep-card ul { margin:16px 0 0; padding-left:23px; }
+#plan-reader .twins-prep-card li { padding:3px 0; font-size:12px; }
+#plan-reader .twins-prep-card li b,#plan-reader .twins-prep-card li span { display:block; line-height:1.5; }
+#plan-reader .twins-prep-card li span { color:var(--muted); }
+#plan-reader .reader-flow.is-zoomed .twins-diagram svg { min-width:1360px !important; max-height:none; }
+@media(max-width:700px) { #plan-reader .twins-prep-grid { grid-template-columns:1fr; } }
+</style><style id="twins-update">
+body.twins-reader{background:#eef0e9}#plan-reader .reader-layout{grid-template-columns:220px minmax(0,1fr) 220px}#plan-reader .reader-stage{background:#fffaf0}#plan-reader .reader-canvas{padding:26px 30px}#plan-reader .page{margin:0;max-width:none;display:block}#plan-reader .page[hidden]{display:none}#plan-reader .page .reader-page{max-width:100%;margin:0}#plan-reader .reader-page h4{color:#44362c;font-size:18px;margin:22px 0 8px}#plan-reader .reader-page h4+ul{list-style:none;margin:0 0 20px;padding:18px 22px;border:1px solid #dfd2bc;border-radius:15px;background:#fffdf8}#plan-reader .reader-page h4+ul li{padding:3px 0;color:#514439}#plan-reader .reader-page h4+ul li:first-child{font-size:17px;font-weight:700}#plan-reader .reader-page p,#plan-reader .reader-page li{font-size:14px;line-height:1.85}#plan-reader .reader-page table{min-width:680px}#plan-reader .reader-page table td,#plan-reader .reader-page table th{font-size:12px;vertical-align:top}#plan-reader .reader-page table td:first-child{white-space:nowrap}#plan-reader .reader-page p code,#plan-reader .reader-page li code{color:#456f54;background:#edf2e9;padding:2px 5px;border-radius:4px}#plan-reader .reader-modebar button{font-size:14px}#plan-reader .flow-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:6px 0 25px}#plan-reader .flow-cards a{display:flex;flex-direction:column;gap:13px;min-height:122px;padding:17px;border:1.5px solid #d5c1ad;border-radius:15px;background:#f8e7e1;text-decoration:none}#plan-reader .flow-cards a:nth-child(2){background:#eee8f4;border-color:#bea9cf}#plan-reader .flow-cards a:nth-child(3){background:#e5ede0;border-color:#9db69c}#plan-reader .flow-cards a:nth-child(4){background:#e3edf4;border-color:#a7c3d5}#plan-reader .flow-cards b{font-size:15px;line-height:1.4}#plan-reader .flow-cards span{font-size:12px;color:#655b50}#plan-reader .prep-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:0 0 25px}#plan-reader .prep-grid article{min-height:150px;border:1px solid #dfd2bc;border-radius:15px;padding:17px;background:#fffdf8}#plan-reader .prep-grid h3{font-size:17px;margin:0 0 12px}#plan-reader .prep-grid p{font-weight:700;margin:0 0 6px}#plan-reader .prep-grid small{color:#786b5d;font-size:12px}#plan-reader .reader-inspector-content{display:block}#plan-reader .reader-inspector-content p{margin:0 0 14px}#plan-reader .reader-sidebar{min-height:0}#plan-reader .reader-list{overflow:auto}#plan-reader .reader-pager{min-height:55px}#plan-reader .reader-scene-head{padding:23px 30px 18px}#plan-reader .reader-brand h1{font-size:18px}#plan-reader .reader-status{font-size:10px}@media(max-width:1150px){#plan-reader .reader-layout{grid-template-columns:180px minmax(0,1fr)}#plan-reader .reader-inspector{display:none}}@media(max-width:700px){#plan-reader{width:calc(100% - 22px)}#plan-reader .reader-layout{grid-template-columns:minmax(0,1fr)}#plan-reader .reader-sidebar{display:none}#plan-reader .reader-header{flex-wrap:wrap;gap:4px;min-height:auto}#plan-reader .reader-modebar{order:3;width:100%;justify-content:space-between;gap:7px}#plan-reader .reader-status{display:none}#plan-reader .reader-scene-head{padding:15px 20px}#plan-reader .reader-scene-head h2{font-size:21px}#plan-reader .reader-canvas{padding:19px}#plan-reader .flow-cards,#plan-reader .prep-grid{grid-template-columns:1fr 1fr}#plan-reader .flow-cards a{min-height:100px;padding:10px}#plan-reader .flow-cards b{font-size:12px}#plan-reader .flow-cards span{font-size:10px}}@media(max-width:430px){#plan-reader .flow-cards,#plan-reader .prep-grid{grid-template-columns:1fr}}
+#plan-reader .reader-page h4+ul{border:0;background:transparent;padding:0;display:grid;gap:8px}#plan-reader .reader-page h4+ul li{padding:0}#plan-reader .reader-page h4+ul .qa-question,#plan-reader .reader-page h4+ul .qa-answer{display:grid;gap:5px;padding:18px 21px;border-radius:14px;cursor:pointer;line-height:1.5}#plan-reader .reader-page h4+ul .qa-question{background:#e9efe4;border:1px solid #b9cbb5;color:#365a3e}#plan-reader .reader-page h4+ul .qa-answer{background:#fff3df;border:1px solid #dcc49c;color:#44362c}#plan-reader .qa-label{font-size:11px;font-weight:800;letter-spacing:.06em}#plan-reader .qa-en{font-size:21px;font-weight:700;line-height:1.5}#plan-reader .qa-ko{font-size:13px;font-weight:400;color:#586b55}#plan-reader .qa-answer+.qa-answer{margin-top:0}#plan-reader .qa-answer+li{padding:0 21px 9px!important;color:#786b5d;font-size:13px!important}#plan-reader .qa-question:hover,#plan-reader .qa-answer:hover{filter:brightness(.97)}#plan-reader .qa-question:focus-visible,#plan-reader .qa-answer:focus-visible{outline:2px solid #456f54;outline-offset:3px}#plan-reader .prep-grid article ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}#plan-reader .prep-grid article li{display:grid;gap:2px;padding:0 0 9px;border-bottom:1px solid #ede5d9}#plan-reader .prep-grid article li:last-child{border-bottom:0;padding-bottom:0}#plan-reader .prep-grid article li b{font-size:13px;line-height:1.5}#plan-reader .prep-grid article li span{font-size:11px;color:#786b5d;line-height:1.5}#plan-reader .prep-grid article li .reader-learning-expression{color:#a6535b;font-weight:700}</style></head><body class="twins-reader"><main id="plan-reader"><header class="reader-header"><div class="reader-brand"><a href="learning-plan.html">← 학습 기획</a><h1>같은 얼굴의 운전자</h1></div><nav class="reader-modebar" aria-label="기획 탭"><button type="button" data-group="flow">사건 흐름</button><button type="button" data-group="prep">예습</button><button type="button" data-group="script">대본</button><button type="button" data-group="check">학습 점검</button></nav><div class="reader-status">L3-02 추가 사건 후보 · 번호 미정<br>사용자 검토 중 · 개발 미인계</div></header><div class="reader-layout"><aside class="reader-panel reader-sidebar"><h2>항목 선택</h2><nav id="reader-list" class="reader-list"></nav></aside><div class="reader-panel reader-stage"><header class="reader-scene-head"><span class="scene-kicker" id="reader-context">제작자용 기획</span><h2 id="reader-title"></h2><p id="reader-purpose"></p></header><div class="reader-canvas" id="reader-canvas" tabindex="0"><section class="page" id="page-0" data-group="flow" data-title="기획의 중심" hidden><div class="reader-page"><p>빅터는 파란 밴에 치여 팔과 다리를 다쳤고 병원에 입원했다. 생명에는 지장이 없다. 운전자는 잠시 차에서 내려 빅터를 살핀 뒤 다시 차를 몰고 달아났다. 아이리스는 운전석의 얼굴을 보고 쌍둥이 중 한 사람이라고 확인했으나 어느 형제인지는 모른다. 빅터는 사고 직전 운전석에서 어두운 모자를 쓴 미어캣을 잠깐 봤지만 형제와 아는 사이가 아니며 쌍둥이라는 사실도 모른다. 경찰은 밴을 함께 쓰는 에반과 오웬을 경찰서의 별도 면담실로 데려왔다. 두 사람은 모두 자신이 빅터를 치지 않았고 상대가 열쇠 인계에 관해 거짓말한다고 주장한다. 경사는 탐정에게 <strong>누가 운전해 빅터를 친 뒤 달아났는지</strong> 밝혀 달라고 의뢰한다.</p>
+<p><strong>이번 스테이지의 한 가지 학습 주제는 사람을 설명하는 주격 관계대명사 <code>who</code>다.</strong> <code>the twin <span class="reader-learning-expression">who stayed with Ada</span></code>처럼 <code>사람 + <span class="reader-learning-expression">who</span> + 동사…</code>를 듣고, 뒤의 설명이 두 형제 중 누구를 가리키는지 찾는다. 서로를 거짓말한다고 하는 진술, 손 사용과 상처, 차량 흔적은 이 문법을 실제 추리에 쓰게 하는 사건 단서다. <code>says</code>·<code>saw</code>·시간·과거형은 앞선 학습의 재사용이며 이번 스테이지의 새 문법 목표가 아니다. 한 장면의 손동작이나 상처 하나로 운전자를 확정하지 않고 열쇠 인계, 작업실 체류, 차량 대응, 당사자 재질문과 인정을 함께 확인한다. 자체 학습 기획의 <strong>L3-02 ‘정확히 누구를 말할까?’ 추가 사건 후보</strong>이며 기존 27 A·28 B를 교체하거나 번호를 확정한 것은 아니다. 이 번호는 국가가 지정한 학년별 문법 단원이 아니다.</p>
+<h2>등장인물 · 동물 종</h2>
+<table>
+<thead>
+<tr>
+<th>인물</th>
+<th>동물</th>
+<th>사건에서의 역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>탐정</td>
+<td>다람쥐</td>
+<td>플레이어가 질문과 증거 선택을 이끄는 기존 주인공</td>
+</tr>
+<tr>
+<td>오소리 경사</td>
+<td>오소리</td>
+<td>경찰서에서 사건 의뢰, 두 면담실에서 서명하는 모습의 직접 관찰 허용</td>
+</tr>
+<tr>
+<td>에반·오웬</td>
+<td>서로 닮은 미어캣 쌍둥이</td>
+<td>공동 밴을 쓰는 용의자. 손 사용과 작은 상처가 다름</td>
+</tr>
+<tr>
+<td>아이리스</td>
+<td>까치</td>
+<td>가게 직원이자 사고 목격자. 얼굴은 봤지만 형제를 구별하지 못함</td>
+</tr>
+<tr>
+<td>빅터</td>
+<td>악어</td>
+<td>다쳐 입원한 가게 주인·피해자 목격자</td>
+</tr>
+<tr>
+<td>에이다</td>
+<td>스컹크</td>
+<td>작업실에서 열쇠 인계와 한 형제의 연속 체류를 본 참고인</td>
+</tr>
+</tbody>
+</table>
+<p>종·털색·복장만으로 범인을 판정하지 않는다. 두 미어캣의 얼굴과 체격은 같다. 각 면담실에서 플레이어가 서명하는 모습을 직접 본다. 두 형제 모두 다친 손으로 펜을 쥐고 잠시 멈칫하지만, 관찰 기록의 글은 어느 손인지 설명하지 않는다. 작업실에 남은 형제의 손 사용·상처 경위는 에이다의 직접 목격으로 듣는다. 연결과 판단은 플레이어가 한다.</p></div></section><section class="page" id="page-1" data-group="flow" data-title="사건 한눈에 · 제작자용 진실" hidden><div class="reader-page"><div class="flow-cards">
+<a href="#page-6"><b>01 · 서로 반대되는 주장</b><span>두 미어캣 형제가 열쇠 인계를 두고 서로 거짓말이라고 말함</span></a>
+<a href="#page-3"><b>02 · 면담실 직접 관찰</b><span>각 형제가 서명하는 손과 원인 모를 작은 상처를 살핌</span></a>
+<a href="#page-8"><b>03 · 두 목격자의 말</b><span>에이다는 작업 중 상처, 아이리스는 운전자의 손목 동작을 봄</span></a>
+<a href="#page-10"><b>04 · 단서 대조</b><span>앞범퍼 조각과 진술·사진을 연결해 다시 질문</span></a>
+</div><table>
+<thead>
+<tr>
+<th>시각</th>
+<th>실제 행동</th>
+<th>얻는 근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14:50</td>
+<td>오웬은 큰 오르골을 싣기 위해 공동 밴을 몰고 에이다의 작업실에 온다.</td>
+<td>o2, a1</td>
+</tr>
+<tr>
+<td>15:05</td>
+<td>오웬이 밴 열쇠를 에반에게 건넨다. 에이다는 열쇠를 건넨 형제가 작업실에 남는 모습을 본다.</td>
+<td>o3, a2</td>
+</tr>
+<tr>
+<td>15:10–15:35</td>
+<td>오웬과 에이다가 같은 작업대에서 오르골을 수리한다. 오웬은 왼손으로 기록을 쓰고 오르골 부품에 왼손가락을 긁힌다.</td>
+<td>a1·a3·a4, c-work·obs-sign-2</td>
+</tr>
+<tr>
+<td>15:25</td>
+<td>에반이 가게 쪽으로 밴을 몰다가 빅터를 친다. 앞범퍼가 깨지고 충격으로 에반의 오른쪽 손목이 운전석 안쪽에 긁힌다. 에반은 차를 세우고 내려 빅터를 살핀 뒤 다시 타고 달아난다.</td>
+<td>m1·m3, c-road·c-van·obs-sign-1, 후반 인정</td>
+</tr>
+<tr>
+<td>15:26</td>
+<td>아이리스가 신고한다. 빅터는 팔과 다리를 다쳐 병원으로 옮겨진다.</td>
+<td>m3, b1(병원), v1(부상)</td>
+</tr>
+<tr>
+<td>15:40</td>
+<td>경찰이 가게 근처에서 앞범퍼가 깨진 공동 밴을 찾는다.</td>
+<td>b2, c-van</td>
+</tr>
+</tbody>
+</table>
+<p>에반은 가게로 가던 중 빅터를 늦게 보고 충돌했다. 차에서 내려 확인했을 때 빅터가 움직이지 않아 죽었다고 생각했고, 겁이 나서 다시 타고 도주했다. 실제로 에반은 오른손, 오웬은 왼손으로 글을 쓴다. 경찰서에서 플레이어가 두 형제의 서명을 직접 볼 때 에반의 오른쪽 손목과 오웬의 왼손가락에 작은 상처가 보이지만 원인은 알 수 없다. 새 직원인 에이다는 최근 알게 된 형제들의 얼굴과 이름을 아직 정확히 연결하지 못하지만 작업실에 남은 사람이 오르골을 고치다 왼손가락을 긁힌 것을 말하고, 아이리스는 운전자가 사고 직후 오른쪽 손목을 감싸 쥔 것을 말한다. 이것들은 가능성을 좁히는 근거이지 각각 단독 확증은 아니다. 에반은 자신이 열쇠를 받지 않았고 오웬이 밴을 몰고 떠났다고 거짓말한다. 오웬은 자신이 에반에게 열쇠를 줬고 에반이 밴을 몰고 떠났다고 주장한다. 두 주장은 같은 인계 장면을 다르게 말하므로 에이다의 직접 목격으로 대조할 수 있다. 과실·상처 원인·도주 경위는 마지막 직접 진술로 확인하며 교통 법규·의학 지식을 풀이 조건으로 삼지 않는다.</p></div></section><section class="page" id="page-2" data-group="prep" data-title="장면 0 · 사건 전 예습" hidden><div class="reader-page"><p><strong>학습 주제 · 사람을 특정하는 주격 관계대명사 <span class="reader-learning-expression">who</span></strong> · <code>사람 + who + 동사…</code>에서 뒤의 설명이 바로 앞의 사람을 꾸민다. 비슷한 두 사람을 설명으로 구별한다.</p><div class="prep-grid">
+<article><h3>01 · 기본 형태</h3><p>사람 + <span class="reader-learning-expression">who</span> + 동사…</p><ul><li><b>The student <span class="reader-learning-expression">who wrote the note</span> stayed.</b><span>쪽지를 쓴 학생이 남았어.</span></li></ul><small>who 뒤의 행동은 바로 앞의 student를 설명한다.</small></article>
+<article><h3>02 · 둘 중 한 사람</h3><p>같은 종류의 두 사람을 행동으로 구별한다.</p><ul><li><b>The boy <span class="reader-learning-expression">who carried a red bag</span> left.</b><span>빨간 가방을 든 소년이 떠났어.</span></li><li><b>The boy <span class="reader-learning-expression">who carried a blue bag</span> stayed.</b><span>파란 가방을 든 소년이 남았어.</span></li></ul></article>
+<article><h3>03 · 문장에서 대상 찾기</h3><p>who 뒤 설명을 읽고 누구인지 정한다.</p><ul><li><b>The person <span class="reader-learning-expression">who opened the box</span> is Mina.</b><span>상자를 연 사람이 미나야.</span></li></ul><small>who opened the box → the person</small></article>
+<article><h3>04 · 중요 단어</h3><p>문법을 실제 사건에서 이해하는 데 쓰는 어휘다.</p><ul><li><b>left / right</b><span>왼쪽 / 오른쪽</span></li><li><b>finger / wrist</b><span>손가락 / 손목</span></li><li><b>scratch</b><span>긁히다, 긁힌 상처</span></li><li><b>front bumper</b><span>차량의 앞범퍼</span></li></ul></article>
+</div><p><code>says</code>·<code>saw</code>·시간·과거형은 앞서 배운 표현을 재사용한다. 실제 사건의 운전자와 상처 원인은 예습에서 공개하지 않는다.</p></div></section><section class="page" id="page-3" data-group="script" data-title="장면 1 · 경찰서 — 의뢰" hidden><div class="reader-page"><p>탐정은 경사를 만난다. 두 쌍둥이는 입실 때 열쇠 문제로 서로 거짓말한다고 언쟁한 뒤 별도 면담실에 있다. 서로가 어떤 주장을 하는지 이미 알고 있다. 첫 답변에는 사고·도주·용의자만 담는다. 아이리스와 빅터의 목격 내용은 직접 면담에서 밝힌다. b0 뒤 형제에게 바로 질문할 수 있다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>badger:hello</td>
+<td>경사 · 자동</td>
+<td>Detective, I'm glad you're here.</td>
+<td>탐정, 와 줘서 다행이야.</td>
+</tr>
+<tr>
+<td>det:hello</td>
+<td>탐정 · 자동</td>
+<td>I'm ready to help.</td>
+<td>도울 준비가 됐어.</td>
+</tr>
+</tbody>
+</table>
+<h4>badger:b0 · 의뢰</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="What happened?"><span class="qa-label">질문</span><span class="qa-en">What happened?</span><span class="qa-ko">무슨 일이 있었어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="Victor was hit by a van. The driver left. The twins who share the van are suspects."><span class="qa-label">대답</span><span class="qa-en">Victor was hit by a van. The driver left. The twins <span class="reader-learning-expression">who share the van</span> are suspects.</span></li>
+<li>해석 · 빅터가 밴에 치였어. 운전자는 달아났어. 그 밴을 함께 쓰는 쌍둥이가 용의자야.</li>
+<li>노트 · Victor was [hit] by a van. The driver [left]. The twins [who] share the van are suspects.</li>
+<li>보기 · hit / left / who / helped / stayed / which / saw</li>
+<li>조건·역할 · 첫 질문. 목격자를 언급하지 않는다.</li>
+</ul>
+<h4>badger:b1 · 피해자</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Where is Victor now?"><span class="qa-label">질문</span><span class="qa-en">Where is Victor now?</span><span class="qa-ko">빅터는 지금 어디 있어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="He&#x27;s in the hospital. He&#x27;s awake and can talk."><span class="qa-label">대답</span><span class="qa-en">He's in the hospital. He's awake and can talk.</span></li>
+<li>해석 · 병원에 입원 중이야. 의식이 있고 이야기할 수 있어.</li>
+<li>노트 · He's in the [hospital]. He's [awake] and can [talk].</li>
+<li>보기 · hospital / awake / talk / station / asleep / walk / home</li>
+<li>조건·역할 · b0 뒤. 병원 면담 해금. 생존·입원 사실을 분명히 한다.</li>
+</ul>
+<h4>badger:b2 · 공동 밴</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Whose van is it?"><span class="qa-label">질문</span><span class="qa-en">Whose van is it?</span><span class="qa-ko">밴은 누구 것이야?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="Evan and Owen share the blue van. We found it near their shop."><span class="qa-label">대답</span><span class="qa-en">Evan and Owen share the blue van. We found it near their shop.</span></li>
+<li>해석 · 에반과 오웬이 파란 밴을 함께 써. 그들의 가게 근처에서 찾았어.</li>
+<li>노트 · Evan and Owen [share] the blue [van]. We found it near their [shop].</li>
+<li>보기 · share / van / shop / sold / bike / hospital / house</li>
+<li>조건·역할 · b0 뒤. 차량 조사 해금. 소유 정보는 운전자를 알려 주지 않는다.</li>
+</ul>
+<h4>badger:b3 · 면담실 직접 관찰</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did they write anything during questioning?"><span class="qa-label">질문</span><span class="qa-en">Did they write anything during questioning?</span><span class="qa-ko">심문 중에 두 형제에게 뭔가 쓰게 했어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="Yes. Both had trouble writing because their hands were hurt. They still need to sign their statements. You can watch them."><span class="qa-label">대답</span><span class="qa-en">Yes. Both had trouble writing because their hands were hurt. They still need to sign their statements. You can watch them.</span></li>
+<li>해석 · 응. 둘 다 손이 아파서 쓰기 어려워했어. 아직 진술서에 서명해야 해. 네가 직접 봐도 돼.</li>
+<li>노트 · Yes. Both had [trouble writing] because their [hands] were hurt. They still need to [sign] their statements. You can watch them.</li>
+<li>보기 · trouble writing / hands / sign / trouble reading / feet / leave / drive</li>
+<li>조건·역할 · b0 뒤. 경사가 각 형제에게 자기 면담실에서 진술서에 서명하게 한다. obs-sign-1·obs-sign-2 직접 관찰을 해금한다. 경사는 다친 손 때문에 쓰기 어려웠다는 사실만 말하고 어느 형제가 어느 손을 쓰거나 다쳤는지는 말하지 않는다.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>badger:access</td>
+<td>경사 · 자동</td>
+<td>You can speak with them and look at the van.</td>
+<td>두 사람과 이야기하고 밴을 살펴봐도 돼.</td>
+</tr>
+</tbody>
+</table></div></section><section class="page" id="page-4" data-group="script" data-title="장면 2 · 사고 현장 — 아이리스의 목격" hidden><div class="reader-page"><p>아이리스는 빅터의 가게에서 일하는 성인 까치다. 운전석의 얼굴을 잠깐 봤고, 충돌 뒤 운전자가 밴에서 내렸다가 다시 타는 모습도 봤다. 쌍둥이 중 하나라는 사실은 알지만 어느 쪽인지 구별하지 못한다. 경사 b0 뒤 접근한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iris:hello</td>
+<td>아이리스 · 자동</td>
+<td>I'm Iris. I called for help.</td>
+<td>난 아이리스야. 도움을 요청했어.</td>
+</tr>
+<tr>
+<td>det:iris</td>
+<td>탐정 · 자동</td>
+<td>I'd like to ask what you saw.</td>
+<td>네가 본 것을 묻고 싶어.</td>
+</tr>
+</tbody>
+</table>
+<h4>iris:m1 · 충돌</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="What did you see on the road?"><span class="qa-label">질문</span><span class="qa-en">What did you see on the road?</span><span class="qa-ko">도로에서 무엇을 봤어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="At three twenty-five, a blue van hit Victor. The driver stopped and got out."><span class="qa-label">대답</span><span class="qa-en">At three twenty-five, a blue van hit Victor. The driver stopped and got out.</span></li>
+<li>해석 · 세 시 이십오 분에 파란 밴이 빅터를 쳤어. 운전자가 차를 세우고 내렸어.</li>
+<li>노트 · At [three twenty-five], a blue van [hit] Victor. The driver stopped and [got out].</li>
+<li>보기 · three twenty-five / hit / got out / three fifty / passed / drove past / stayed inside</li>
+<li>조건·역할 · 첫 질문. 시각은 현장 시계와 신고 기록으로 경찰이 확인한다.</li>
+</ul>
+<h4>iris:m2 · 운전자</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did you see the driver?"><span class="qa-label">질문</span><span class="qa-en">Did you see the driver?</span><span class="qa-ko">운전자를 봤어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="I saw the twin who got out of the van. I couldn&#x27;t tell which one it was."><span class="qa-label">대답</span><span class="qa-en">I saw the twin <span class="reader-learning-expression">who got out of the van</span>. I couldn't tell which one it was.</span></li>
+<li>해석 · 밴에서 내린 쌍둥이를 봤어. 하지만 둘 중 누구인지는 구별할 수 없었어.</li>
+<li>노트 · I saw the [twin] [who] got out of the van. I [couldn't] tell which one it was.</li>
+<li>보기 · twin / who / couldn't / driver / which / could / stayed</li>
+<li>조건·역할 · m1 뒤. 운전자는 얼굴을 가리지 않았다. 형제 구별은 불가능하다.</li>
+</ul>
+<h4>iris:m3 · 사고 직후</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="What happened after the crash?"><span class="qa-label">질문</span><span class="qa-en">What happened after the crash?</span><span class="qa-ko">사고 뒤에는 어떻게 했어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="A piece of the front bumper fell. The driver held his right wrist while he looked at Victor. Then he got back in and drove away. I called the police."><span class="qa-label">대답</span><span class="qa-en">A piece of the front bumper fell. The driver held his right wrist while he looked at Victor. Then he got back in and drove away. I called the police.</span></li>
+<li>해석 · 앞범퍼 조각이 떨어졌어. 운전자는 빅터를 살피며 오른쪽 손목을 감싸 쥐었어. 다시 차에 타서 달아났고, 나는 경찰에 신고했어.</li>
+<li>노트 · A piece of the [front bumper] fell. The driver held his [right wrist] while he looked at Victor. Then he got back in and [drove away]. I called the police.</li>
+<li>보기 · front bumper / right wrist / drove away / mirror / left wrist / stayed / window</li>
+<li>조건·역할 · m1 뒤. 아이리스는 운전자가 내려 빅터를 살피며 손목을 감싸 쥔 동작만 봤다. 상처 자체나 형제 이름은 확인하지 못했다. 빅터의 병원 입원은 b1에서 확인한다.</li>
+</ul>
+<p>현장 사진 c-road에는 <strong>도로 위 떨어진 앞범퍼 조각</strong>이 있다. 사진 제목에 파란 밴이나 운전자 이름을 넣지 않는다.</p></div></section><section class="page" id="page-5" data-group="script" data-title="장면 3 · 병원 — 빅터도 목격자" hidden><div class="reader-page"><p>빅터는 성인 악어로, 팔과 다리를 다쳐 병원에 입원해 있다. 운전석의 미어캣과 어두운 모자는 잠깐 봤지만 얼굴의 세부 특징은 기억하지 못한다. 형제와 아는 사이가 아니어서 쌍둥이의 존재도 모른다. 밴이 가게 쪽으로 도는 모습도 기억하며, 모자와 동물 종은 두 형제 중 누구인지 알려 주지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>victor:hello</td>
+<td>빅터 · 자동</td>
+<td>I'm Victor. My arm and leg hurt, but I can talk.</td>
+<td>난 빅터야. 팔과 다리가 아프지만 이야기할 수 있어.</td>
+</tr>
+<tr>
+<td>det:victor</td>
+<td>탐정 · 자동</td>
+<td>I'll keep my questions short.</td>
+<td>질문을 짧게 할게.</td>
+</tr>
+</tbody>
+</table>
+<h4>victor:v1 · 기억</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did you see the driver?"><span class="qa-label">질문</span><span class="qa-en">Did you see the driver?</span><span class="qa-ko">운전자를 봤어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="Only for a moment. I saw a meerkat in a dark cap."><span class="qa-label">대답</span><span class="qa-en">Only for a moment. I saw a meerkat in a dark cap.</span></li>
+<li>해석 · 잠깐 봤어. 어두운 모자를 쓴 미어캣이었어.</li>
+<li>노트 · Only for a [moment]. I saw a [meerkat] in a [dark cap].</li>
+<li>보기 · moment / meerkat / dark cap / hour / rabbit / blue coat / sunglasses</li>
+<li>조건·역할 · b1 뒤. 피해자도 운전석을 본 목격자다. 미어캣과 모자는 기억하지만 쌍둥이라는 사실은 모른다. 모자는 공용 밴에 있던 것이어서 형제 중 한 사람의 신원 단서가 아니다.</li>
+</ul>
+<h4>victor:v2 · 한계</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="What else do you remember?"><span class="qa-label">질문</span><span class="qa-en">What else do you remember?</span><span class="qa-ko">또 무엇이 기억나?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="I can&#x27;t remember the driver&#x27;s face clearly, but the van turned toward the shop before it hit me."><span class="qa-label">대답</span><span class="qa-en">I can't remember the driver's face clearly, but the van turned toward the shop before it hit me.</span></li>
+<li>해석 · 운전자 얼굴은 흐릿해서 기억나지 않아. 하지만 밴이 나를 치기 전에 가게 쪽으로 도는 건 봤어.</li>
+<li>노트 · I [can't] remember the driver's face clearly, but the van [turned] toward the [shop] before it hit me.</li>
+<li>보기 · can't / turned / shop / can / stopped / hospital / workshop</li>
+<li>조건·역할 · v1 뒤. 얼굴의 세부 특징은 기억하지 못하지만 차량의 진행 방향은 기억한다. 쌍둥이라는 사실은 모른다. 도주 자체는 아이리스가 직접 보았다.</li>
+</ul></div></section><section class="page" id="page-6" data-group="script" data-title="장면 4 · 경찰서 — 에반의 주장" hidden><div class="reader-page"><p>에반과 오웬은 서로 닮은 성인 미어캣 쌍둥이다. 얼굴·체격은 같으며 변장이나 복면은 없다. 현재 면담실과 자기소개로 대화 상대를 구별한다. 에반은 자신이 열쇠를 받지 않았고 오웬이 밴을 몰고 떠났다고 주장한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>evan:hello</td>
+<td>에반 · 자동</td>
+<td>I'm Evan. I'll tell you what I know.</td>
+<td>난 에반이야. 내가 아는 걸 말할게.</td>
+</tr>
+<tr>
+<td>det:evan</td>
+<td>탐정 · 자동</td>
+<td>I need to ask about Victor.</td>
+<td>빅터에 관해 물을게.</td>
+</tr>
+</tbody>
+</table>
+<h4>evan:e1 · 결백 주장과 오웬의 말에 대한 반박</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did you hit Victor?"><span class="qa-label">질문</span><span class="qa-en">Did you hit Victor?</span><span class="qa-ko">네가 빅터를 쳤어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="No, I didn&#x27;t. Owen says he gave me the van key, but that&#x27;s a lie. He&#x27;s the one who drove away with it."><span class="qa-label">대답</span><span class="qa-en">No, I didn't. Owen says he gave me the van key, but that's a lie. He's the one <span class="reader-learning-expression">who drove away with it</span>.</span></li>
+<li>해석 · 아니, 나는 치지 않았어. 오웬은 내게 밴 열쇠를 줬다고 말하지만 그건 거짓말이야. 그가 바로 열쇠를 갖고 차를 몰고 떠난 사람이야.</li>
+<li>노트 · No, I didn't. Owen [says] he gave me the van [key], but that's a lie. He's the one [who] drove away with it.</li>
+<li>보기 · says / key / who / saw / mirror / which / stayed</li>
+<li>조건·역할 · 자기소개 뒤. 결백을 주장하는 과정에서 자연스럽게 상대를 거짓말한다고 지목한다. 에반의 열쇠·운전 주장은 거짓이다.</li>
+</ul>
+<h4>evan:e2 · 오늘</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did you drive it today?"><span class="qa-label">질문</span><span class="qa-en">Did you drive it today?</span><span class="qa-ko">오늘도 밴을 운전했어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="No. I walked to the shop today. I didn&#x27;t drive the van."><span class="qa-label">대답</span><span class="qa-en">No. I walked to the shop today. I didn't drive the van.</span></li>
+<li>해석 · 아니. 오늘은 걸어서 가게에 갔어. 밴을 운전하지 않았어.</li>
+<li>노트 · No. I [walked] to the shop [today]. I [didn't] drive the van.</li>
+<li>보기 · walked / today / didn't / drove / usually / did / ran</li>
+<li>조건·역할 · e1 뒤. 에반의 운전 부인도 당사자 주장으로 기록한다.</li>
+</ul>
+<h4>evan:e3 · 사고 시각</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Where were you at three twenty-five?"><span class="qa-label">질문</span><span class="qa-en">Where were you at three twenty-five?</span><span class="qa-ko">세 시 이십오 분에는 어디 있었어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="I was on my way to the shop. I didn&#x27;t see Victor."><span class="qa-label">대답</span><span class="qa-en">I was on my way to the shop. I didn't see Victor.</span></li>
+<li>해석 · 가게로 가는 길이었어. 빅터를 보지 못했어.</li>
+<li>노트 · I was on my [way] to the [shop]. I [didn't] see Victor.</li>
+<li>보기 · way / shop / didn't / road / workshop / did / hospital</li>
+<li>조건·역할 · e2 뒤. 이동 경로와 교통수단을 재확인해야 한다.</li>
+</ul></div></section><section class="page" id="page-7" data-group="script" data-title="장면 5 · 경찰서 — 오웬의 반박" hidden><div class="reader-page"><p>오웬도 사고를 부인한다. 자신이 에반에게 열쇠를 건넸고 에반이 밴을 몰고 떠났다고 주장한다. 오웬이 사고 전에 밴을 운전해 작업실에 온 사실은 숨기지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>owen:hello</td>
+<td>오웬 · 자동</td>
+<td>I'm Owen. I'll answer your questions.</td>
+<td>난 오웬이야. 질문에 답할게.</td>
+</tr>
+<tr>
+<td>det:owen</td>
+<td>탐정 · 자동</td>
+<td>I need to ask about Victor.</td>
+<td>빅터에 관해 물을게.</td>
+</tr>
+</tbody>
+</table>
+<h4>owen:o1 · 결백 주장과 에반의 말에 대한 반박</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did you hit Victor?"><span class="qa-label">질문</span><span class="qa-en">Did you hit Victor?</span><span class="qa-ko">네가 빅터를 쳤어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="No, I didn&#x27;t. I gave Evan the key and saw him drive away. He says he walked, but that&#x27;s a lie."><span class="qa-label">대답</span><span class="qa-en">No, I didn't. I gave Evan the key and saw him drive away. He says he walked, but that's a lie.</span></li>
+<li>해석 · 아니, 나는 치지 않았어. 에반에게 열쇠를 주고 그가 차를 몰고 떠나는 걸 봤어. 그는 걸어갔다고 말하지만 그건 거짓말이야.</li>
+<li>노트 · No, I didn't. I [gave] Evan the key and [saw] him drive away. He [says] he walked, but that's a lie.</li>
+<li>보기 · gave / saw / says / kept / heard / thinks / stayed</li>
+<li>조건·역할 · 자기소개 뒤. 결백을 주장하는 과정에서 자연스럽게 상대를 거짓말한다고 지목한다. 에반 e2와 충돌하지만 제삼자 확인 전에는 오웬의 주장이다.</li>
+</ul>
+<h4>owen:o2 · 작업실</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did you drive the van today?"><span class="qa-label">질문</span><span class="qa-en">Did you drive the van today?</span><span class="qa-ko">오늘 밴을 운전했어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="Yes. I drove it to Ada&#x27;s workshop to carry Victor&#x27;s large music box."><span class="qa-label">대답</span><span class="qa-en">Yes. I drove it to Ada's workshop to carry Victor's large music box.</span></li>
+<li>해석 · 응. 빅터의 큰 오르골을 옮기려고 에이다의 작업실까지 몰았어.</li>
+<li>노트 · Yes. I [drove] it to Ada's [workshop] to carry Victor's large music box.</li>
+<li>보기 · drove / workshop / walked / shop / bike / mirror</li>
+<li>조건·역할 · o1 뒤. 작업실과 에이다를 발견한다.</li>
+</ul>
+<h4>owen:o3 · 열쇠</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="What did you do with the van key?"><span class="qa-label">질문</span><span class="qa-en">What did you do with the van key?</span><span class="qa-ko">밴 열쇠는 어떻게 했어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="I gave the key to Evan at three five. Then I worked with Ada."><span class="qa-label">대답</span><span class="qa-en">I gave the key to Evan at three five. Then I worked with Ada.</span></li>
+<li>해석 · 세 시 오 분에 열쇠를 에반에게 줬어. 그다음 에이다와 일했어.</li>
+<li>노트 · I [gave] the key to [Evan] at [three five]. Then I worked with Ada.</li>
+<li>보기 · gave / Evan / three five / kept / Victor / three thirty / borrowed</li>
+<li>조건·역할 · o2 뒤. e1의 인계 부인과 충돌하며, 제삼자 확인 전에는 자기 진술일 뿐이다.</li>
+</ul></div></section><section class="page" id="page-8" data-group="script" data-title="장면 6 · 작업실 — 목격과 손 사용" hidden><div class="reader-page"><p>에이다는 작업실에 온 지 얼마 안 된 성인 스컹크 직원이다. 에반과 오웬을 만난 지 오래되지 않아 얼굴에 이름을 정확히 연결하지 못한다. 그러나 열쇠를 건넨 사람이 그대로 작업실에 남아 함께 일한 것은 직접 봤다. 그 사람이 오르골 부품에 왼손가락을 긁히고 왼손으로 수리 기록을 썼다. 밴이 떠나는 순간은 보지 못했다. 에이다는 이름이나 평소 손잡이를 추측하지 않는다. 플레이어가 경찰서에서 직접 본 서명 장면과 목격담을 대조한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ada:hello</td>
+<td>에이다 · 자동</td>
+<td>I'm Ada. I'm new at this workshop. One of the twins stayed to work with me today.</td>
+<td>난 에이다야. 이 작업실에 온 지 얼마 안 됐어. 오늘 쌍둥이 중 한 명이 남아서 나와 일했어.</td>
+</tr>
+<tr>
+<td>det:ada</td>
+<td>탐정 · 자동</td>
+<td>I'd like to check the time.</td>
+<td>시간을 확인하고 싶어.</td>
+</tr>
+</tbody>
+</table>
+<h4>ada:a1 · 시간</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="When did he work with you?"><span class="qa-label">질문</span><span class="qa-en">When did he work with you?</span><span class="qa-ko">그 형제는 언제 너와 일했어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="We worked together from three ten to three thirty-five."><span class="qa-label">대답</span><span class="qa-en">We worked together from three ten to three thirty-five.</span></li>
+<li>해석 · 세 시 십 분부터 세 시 삼십오 분까지 함께 일했어.</li>
+<li>노트 · We worked [together] from [three ten] to [three thirty-five].</li>
+<li>보기 · together / three ten / three thirty-five / alone / three twenty-five / three fifty / outside</li>
+<li>조건·역할 · 첫 질문. 사고 시각을 포함하는 연속 구간이다.</li>
+</ul>
+<h4>ada:a2 · 인계</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did you see the van key?"><span class="qa-label">질문</span><span class="qa-en">Did you see the van key?</span><span class="qa-ko">밴 열쇠를 봤어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="Yes. I saw the twin who stayed with me give the key to his brother at three five."><span class="qa-label">대답</span><span class="qa-en">Yes. I saw the twin <span class="reader-learning-expression">who stayed with me</span> give the key to his brother at three five.</span></li>
+<li>해석 · 응. 나와 함께 남은 형제가 세 시 오 분에 다른 형제에게 열쇠를 줬어.</li>
+<li>노트 · Yes. I saw the twin [who] stayed with me [give] the key to his [brother] at three five.</li>
+<li>보기 · who / give / brother / left / kept / Victor / driver</li>
+<li>조건·역할 · a1 뒤. 두 쌍둥이의 상반된 인계 진술 중 인계 행동을 직접 확인한다. 이름은 손 사용을 확인한 뒤 연결한다.</li>
+</ul>
+<h4>ada:a3 · 작업 중의 상처</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Did anything happen while you worked?"><span class="qa-label">질문</span><span class="qa-en">Did anything happen while you worked?</span><span class="qa-ko">함께 일하는 동안 무슨 일이 있었어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="The music box spring scratched his left finger. He stayed beside me the whole time."><span class="qa-label">대답</span><span class="qa-en">The music box spring scratched his left finger. He stayed beside me the whole time.</span></li>
+<li>해석 · 오르골 태엽이 그 형제의 왼손가락을 긁었어. 그는 내 옆에 계속 있었어.</li>
+<li>노트 · The music box [spring] scratched his [left finger]. He [stayed] beside me the whole time.</li>
+<li>보기 · spring / left finger / stayed / bumper / right wrist / left / drove</li>
+<li>조건·역할 · a1 뒤. 에이다가 상처가 나는 순간을 직접 봤다. 누구의 손가락인지 이름은 말하지 않는다.</li>
+</ul>
+<h4>ada:a4 · 수리 기록</h4>
+<ul>
+<li class="qa-question" role="button" tabindex="0" data-say="Which twin wrote the repair notes?"><span class="qa-label">질문</span><span class="qa-en">Which twin wrote the repair notes?</span><span class="qa-ko">어느 형제가 수리 기록을 썼어?</span></li>
+<li class="qa-answer" role="button" tabindex="0" data-say="The twin who stayed with me wrote them with his left hand. I watched him."><span class="qa-label">대답</span><span class="qa-en">The twin <span class="reader-learning-expression">who stayed with me</span> wrote them with his left hand. I watched him.</span></li>
+<li>해석 · 나와 함께 남은 형제가 왼손으로 기록을 썼어. 내가 직접 봤어.</li>
+<li>노트 · The twin [who] stayed with me wrote them with his [left hand]. I watched him.</li>
+<li>보기 · who / left hand / right hand / watched / finger / guessed</li>
+<li>조건·역할 · a3 뒤. 에이다가 직접 본 손 사용이며 형제 이름은 밝히지 않는다. c-work의 기록과 경찰서에서 직접 본 두 서명 장면을 플레이어가 연결한다.</li>
+</ul>
+<p>작업대 기록 c-work는 오르골 점검의 시작 15:10과 종료 15:35, 수리 메모의 글씨가 보이는 물체 사진이다. a3·a4 없이 기록만으로 누가 썼는지 또는 연속 체류를 증명하지 않는다.</p></div></section><section class="page" id="page-9" data-group="script" data-title="장면 7 · 차량과 플레이어 추리" hidden><div class="reader-page"><p>경사가 찾은 파란 밴의 앞범퍼가 깨져 있다. c-van을 직접 확대·촬영한다. c-road 조각과 범퍼 결손부의 굴곡·안쪽 고정 구멍이 이어진다. 색만으로 동일 차량이라고 판정하지 않는다. 차량을 확인해도 운전자 신원은 별도로 추리해야 한다. b3 뒤 플레이어는 각 형제가 자기 면담실에서 진술서에 서명하는 모습을 직접 본다. 두 사람 모두 다친 손으로 펜을 잡다 잠시 멈칫한다. 펜을 쥔 손과 원인 모를 작은 상처는 장면에서 보이지만, 관찰 기록과 탐정의 대사는 손의 방향이나 상처의 주인을 풀이하지 않는다. 관찰은 노트에 저장되고 각 방에서 다시 볼 수 있다. 모든 비교와 선택은 플레이어가 한다.</p></div></section><section class="page" id="page-10" data-group="script" data-title="장면 8 · 경찰서 — 재질문과 인정" hidden><div class="reader-page"><p>플레이어는 e1·o3의 정반대 열쇠 인계 진술을 a2와 대조한다. 두 면담실에서 직접 본 서명 동작과 상처 위치를 스스로 읽고, a3·a4의 작업실 목격과 m3의 사고 직후 행동에 연결한다. c-road·c-van의 앞범퍼 대응, e2의 운전 부인, o1의 목격 주장, v2의 차량 진행 방향까지 확인한 뒤 재질문 대상을 고른다. 틀린 자료를 내밀면 에반은 “I don't understand your question.”이라고만 답한다. 단계와 확보 기록은 유지한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>det:c1</td>
+<td>탐정 · 선택</td>
+<td>Ada saw the twin <span class="reader-learning-expression">who stayed with her</span> give you the key. Why did you say he kept it?</td>
+<td>에이다는 자기와 함께 남은 형제가 네게 열쇠를 주는 걸 봤어. 왜 그가 갖고 있었다고 했어?</td>
+</tr>
+<tr>
+<td>evan:c1</td>
+<td>에반 · 자동</td>
+<td>I lied about the key. Owen gave it to me.</td>
+<td>열쇠에 관해 거짓말했어. 오웬이 내게 줬어.</td>
+</tr>
+<tr>
+<td>det:c2</td>
+<td>탐정 · 선택</td>
+<td>Iris saw the driver hold his right wrist after he got out. You have a scrape there. What happened?</td>
+<td>아이리스는 운전자가 내린 뒤 오른쪽 손목을 감싸 쥔 걸 봤어. 너도 그곳에 긁힌 상처가 있어. 무슨 일이 있었어?</td>
+</tr>
+<tr>
+<td>evan:c2</td>
+<td>에반 · 자동</td>
+<td>My wrist hit the inside of the van when I hit Victor. The front bumper broke.</td>
+<td>빅터를 칠 때 손목이 밴 안쪽에 부딪혔어. 앞범퍼도 깨졌어.</td>
+</tr>
+<tr>
+<td>det:c3</td>
+<td>탐정 · 선택</td>
+<td>Why did you drive away?</td>
+<td>왜 차를 몰고 달아났어?</td>
+</tr>
+<tr>
+<td>evan:c3</td>
+<td>에반 · 자동</td>
+<td>I was shocked, so I got out to check on Victor. He wasn't moving. I thought he was dead, so I drove away.</td>
+<td>놀라서 내려 빅터를 살폈어. 움직이지 않았어. 죽은 줄 알고 차를 몰고 달아났어.</td>
+</tr>
+<tr>
+<td>badger:close</td>
+<td>경사 · 자동</td>
+<td>I'll check your statement with the evidence.</td>
+<td>네 진술을 증거와 대조할게.</td>
+</tr>
+</tbody>
+</table>
+<p>손 사용·작은 상처·열쇠 소지 하나로 에반의 유죄를 자동 판정하지 않는다. 플레이어가 두 형제의 충돌하는 주장, 아이리스와 에이다의 서로 다른 목격, 면담실 직접 관찰과 사고 차량을 대조하고 직접 묻는다. 에반의 마지막 인정으로 사고와 도주를 확인한다. 경사는 후속 수사를 계속한다.</p></div></section><section class="page" id="page-11" data-group="script" data-title="장면 9 · 경찰서 — 보고" hidden><div class="reader-page"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>화자·형태</th>
+<th>영어</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>act:report</td>
+<td>행동</td>
+<td>Report to the sergeant.</td>
+<td>경사에게 보고하기</td>
+</tr>
+<tr>
+<td>det:report1</td>
+<td>탐정 · 자동</td>
+<td>Evan said Owen kept the key. Owen said he gave it to Evan.</td>
+<td>에반은 오웬이 열쇠를 갖고 있었다고 했고, 오웬은 에반에게 줬다고 했어.</td>
+</tr>
+<tr>
+<td>det:report2</td>
+<td>탐정 · 자동</td>
+<td>Ada saw a finger get scratched at work. Iris saw the driver hold his right wrist.</td>
+<td>에이다는 일하다 손가락이 긁히는 걸 봤어. 아이리스는 운전자가 오른쪽 손목을 감싸 쥔 걸 봤어.</td>
+</tr>
+<tr>
+<td>det:report3</td>
+<td>탐정 · 자동</td>
+<td>Evan said he drove the van, hit Victor, got out to check on him, and left because he thought Victor was dead.</td>
+<td>에반은 밴을 몰아 빅터를 친 뒤 내려서 살폈지만, 죽었다고 생각해 달아났다고 말했어.</td>
+</tr>
+<tr>
+<td>badger:report</td>
+<td>경사 · 자동</td>
+<td>Thank you. Victor is safe in the hospital.</td>
+<td>고마워. 빅터는 병원에서 안전해.</td>
+</tr>
+<tr>
+<td>victor:end</td>
+<td>빅터 · 전화</td>
+<td>Thank you for finding out what happened.</td>
+<td>무슨 일이 있었는지 밝혀 줘서 고마워.</td>
+</tr>
+<tr>
+<td>det:end</td>
+<td>탐정 · 자동</td>
+<td>I hope you get well soon.</td>
+<td>빨리 낫길 바라.</td>
+</tr>
+</tbody>
+</table>
+<p>빅터는 병원에서 전화로 결과를 듣는다. 보고는 플레이어가 심문을 마친 뒤에만 열린다.</p></div></section><section class="page" id="page-12" data-group="flow" data-title="조사물·장소" hidden><div class="reader-page"><table>
+<thead>
+<tr>
+<th>ID·중립 제목</th>
+<th>확인 내용</th>
+<th>획득</th>
+<th>판단 한계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>c-road · 도로 위 조각</td>
+<td>떨어진 앞범퍼 조각의 굴곡과 고정 구멍</td>
+<td>현장 직접 촬영</td>
+<td>출처·운전자 단독 확정 불가</td>
+</tr>
+<tr>
+<td>c-van · 깨진 앞범퍼</td>
+<td>공동 밴 앞범퍼의 결손과 안쪽 고정 구멍</td>
+<td>b2 뒤 직접 촬영</td>
+<td>조각 대응으로 차량 확인, 운전자 불명</td>
+</tr>
+<tr>
+<td>c-work · 작업대 기록</td>
+<td>오르골 점검 15:10 시작·15:35 종료와 수리 메모</td>
+<td>o2 뒤 직접 촬영</td>
+<td>a3·a4 없이 작성자·연속 체류 확정 불가</td>
+</tr>
+<tr>
+<td>obs-sign-1 · 첫 면담실 서명 관찰</td>
+<td>에반이 직접 서명하다 펜을 쥔 손 때문에 멈칫한다. 작은 손목 상처가 보인다. 관찰 기록은 손의 방향·상처 원인을 말로 표시하지 않음</td>
+<td>b3 뒤 에반의 면담실에서 직접 관찰·노트 기록</td>
+<td>한 번의 손 사용·상처만으로 운전자 단정 불가</td>
+</tr>
+<tr>
+<td>obs-sign-2 · 둘째 면담실 서명 관찰</td>
+<td>오웬이 직접 서명하다 펜을 쥔 손 때문에 멈칫한다. 작은 손가락 상처가 보인다. 관찰 기록은 손의 방향·상처 원인을 말로 표시하지 않음</td>
+<td>b3 뒤 오웬의 면담실에서 직접 관찰·노트 기록</td>
+<td>한 번의 손 사용·상처만으로 운전자 단정 불가</td>
+</tr>
+</tbody>
+</table>
+<p>장소는 <strong>경찰서, 사고 현장, 병원, 작업실, 밴 주차장</strong> 다섯 곳이다. 경사는 경찰서, 형제는 각 면담실, 아이리스는 사고 현장, 빅터는 병원, 에이다는 작업실에 있다. 선택 관찰은 횡단보도·상점 창문·병원 물컵·오르골·공구함·번호판 등 물체 사실만 말한다. 번호판이나 색깔은 c-road와 c-van의 물리적 대조를 대신하지 않는다. 서명은 각 형제의 면담실에서 플레이어가 직접 지켜본다. 관찰 기록은 그 방의 인물과 연결되지만, 손의 방향이나 상처 원인을 정답 문장으로 적지 않는다.</p></div></section><section class="page" id="page-13" data-group="check" data-title="추리 문항 · 제작자용 정답" hidden><div class="reader-page"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>질문</th>
+<th>정답 완성 문장</th>
+<th>보기</th>
+<th>근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q1</td>
+<td>아이리스가 확인한 운전자의 신원 범위는?</td>
+<td>Iris saw [one of the twins], but could not name him.</td>
+<td>one of the twins / Evan / Owen / Ada / a stranger / Victor</td>
+<td>m2</td>
+</tr>
+<tr>
+<td>q2</td>
+<td>두 형제는 열쇠에 관해 각각 무엇을 주장하나?</td>
+<td>Evan says [Owen kept the key], but Owen says [he gave it to Evan].</td>
+<td>Owen kept the key / he gave it to Evan / Iris took the key / Ada drove the van / nobody had the key / Victor found it</td>
+<td>e1·o3</td>
+</tr>
+<tr>
+<td>q3</td>
+<td>사고 차량을 무엇으로 확인하나?</td>
+<td>The road piece matches [the van's broken front bumper].</td>
+<td>the van's broken front bumper / a bike bell / the right door / the shop window / a wheel / a hospital mirror</td>
+<td>m3·c-road·c-van</td>
+</tr>
+<tr>
+<td>q4</td>
+<td>작업실에 남아 왼손으로 기록을 쓴 형제는 누구인가?</td>
+<td>The twin <span class="reader-learning-expression">who wrote with his left hand</span> is [Owen].</td>
+<td>Owen / Evan / Victor / the sergeant / Iris / Ada</td>
+<td>a4·obs-sign-1·obs-sign-2</td>
+</tr>
+<tr>
+<td>q5</td>
+<td>에이다가 직접 본 작은 상처의 원인은?</td>
+<td>The [music box spring] scratched the worker's left finger.</td>
+<td>music box spring / van's bumper / station pen / road piece / bike bell / shop door</td>
+<td>a3·q4·obs-sign-2</td>
+</tr>
+<tr>
+<td>q6</td>
+<td>사고 직후 오른쪽 손목을 감싸 쥔 운전자와 같은 부위에 상처가 보이는 형제는?</td>
+<td>The twin <span class="reader-learning-expression">who has a scrape on his right wrist</span> is [Evan].</td>
+<td>Evan / Owen / Victor / Iris / Ada / the sergeant</td>
+<td>m3·obs-sign-1·obs-sign-2</td>
+</tr>
+<tr>
+<td>q7</td>
+<td>어느 주장과 에이다의 목격이 충돌하는가?</td>
+<td>Evan's claim that [Owen kept the key] conflicts with Ada's account.</td>
+<td>Owen kept the key / Evan took the key / one twin stayed with Ada / the van had a broken bumper / Victor was in the hospital / Iris called the police</td>
+<td>e1·a2·q4·q5</td>
+</tr>
+<tr>
+<td>q8</td>
+<td>이제 누구에게 사고·도주를 물어야 하나?</td>
+<td>Ask [Evan] about the crash.</td>
+<td>Evan / Owen / Iris / Ada / Victor / the nurse</td>
+<td>q1–q7. 이후 c1–c3 해금</td>
+</tr>
+</tbody>
+</table>
+<p>q1은 얼굴 목격을 인정하되 형제 구별을 보류한다. q2는 두 형제의 상반된 주장을 각각의 화자에게 연결한다. q3은 사고 차량, q4는 면담실 서명 직접 관찰과 에이다의 목격을 보고 작업실 인물을 플레이어가 직접 식별한다. q5는 작업 중 난 상처, q6은 사고 직후 목격한 손목 동작과 직접 본 상처를 연결한다. q7은 열쇠 인계에 관한 거짓 주장을 고른다. q8은 범인 자동 선언이 아니라 재질문 대상 선택이다. q4·q6의 손 사용과 상처는 한 사람을 의심할 근거이지 단독으로 사고를 확정하지 않는다.</p></div></section><section class="page" id="page-14" data-group="check" data-title="해금·재진입" hidden><div class="reader-page"><table>
+<thead>
+<tr>
+<th>행동</th>
+<th>선행</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>형제 면담·현장</td>
+<td>b0 기록</td>
+<td>소개와 아이리스·현장 사진</td>
+</tr>
+<tr>
+<td>면담실 서명 직접 관찰</td>
+<td>b3 기록·각 형제 인사</td>
+<td>각 방에서 obs-sign-1·obs-sign-2 직접 관찰·노트 기록</td>
+</tr>
+<tr>
+<td>병원</td>
+<td>b1 기록</td>
+<td>빅터 면담</td>
+</tr>
+<tr>
+<td>밴 주차장</td>
+<td>b2 기록</td>
+<td>c-van</td>
+</tr>
+<tr>
+<td>작업실</td>
+<td>o2 기록</td>
+<td>에이다·c-work</td>
+</tr>
+<tr>
+<td>후속 질문</td>
+<td>각 소개와 앞 질문 기록</td>
+<td>e1→e2→e3, o1→o2→o3, m1→m2·m3, v1→v2, a1→a2·a3→a4, b0→b1·b2·b3</td>
+</tr>
+<tr>
+<td>q1–q7</td>
+<td>각 근거 획득</td>
+<td>문항별 저장·재진입 가능</td>
+</tr>
+<tr>
+<td>q8·재질문</td>
+<td>q1–q7 완료</td>
+<td>에반 선택, 근거 제출, c1–c3</td>
+</tr>
+<tr>
+<td>보고</td>
+<td>c1–c3 완료</td>
+<td>경사 보고와 복습</td>
+</tr>
+</tbody>
+</table>
+<p>인물·장소·증거는 기록으로 발견할 때만 연다. 잠긴 질문 때문에 이동을 막지 않는다. 오답을 고쳐도 기존 기록을 보존한다. 탐정은 자료 사실만 말하고 비교 결과는 플레이어가 결정한다.</p></div></section><section class="page" id="page-15" data-group="prep" data-title="학습·복습" hidden><div class="reader-page"><p><strong>새로 배우는 문법은 하나: 주격 관계대명사 <code>who</code>.</strong> 바로 앞의 사람을 <code>who + 동사…</code>로 설명하고, 그 설명에 맞는 인물을 찾는다. 프로젝트 내부 커리큘럼의 L3-02에 놓는다. <code>says</code>, <code>saw</code>, 시각·과거형은 사건 대화를 이해할 때 재사용하며 별도 예습·평가 목표로 늘리지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th><code>who</code>의 쓰임</th>
+<th>학습 확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사건 밖 예습</td>
+<td><code>The student who wrote the note stayed.</code></td>
+<td><code>who wrote the note</code>가 <code>the student</code>를 가리킴을 확인</td>
+</tr>
+<tr>
+<td>초반 대화 b0·m2·e1</td>
+<td><code>the twins <span class="reader-learning-expression">who share the van</span></code> / <code>the twin <span class="reader-learning-expression">who got out of the van</span></code> / <code>the one <span class="reader-learning-expression">who drove away with it</span></code></td>
+<td>경사는 용의자 범위를, 아이리스는 본 사람을 설명한다. 에반의 말은 확인되지 않은 주장으로 듣는다.</td>
+</tr>
+<tr>
+<td>에이다의 목격 a2·a4</td>
+<td><code>the twin who stayed with me</code></td>
+<td>작업실에 남은 형제에게 인계 행동·글쓰기를 연결. 에이다는 이름을 말하지 않음</td>
+</tr>
+<tr>
+<td>플레이어 추리 q4·q6</td>
+<td><code>The twin <span class="reader-learning-expression">who wrote…</span></code> / <code>The twin <span class="reader-learning-expression">who has…</span></code></td>
+<td>관계절이 가리키는 형제를 직접 관찰·목격담으로 특정</td>
+</tr>
+<tr>
+<td>새 상황 복습</td>
+<td><code>The student who carried a red folder…</code></td>
+<td>사건 정보를 외우지 않고 다른 두 학생 중 대상 선택</td>
+</tr>
+</tbody>
+</table>
+<p>재청취는 b0·m2·m3·v1·v2·e1·e2·o1·o3·a2·a3·a4이다. b0·m2·e1·a2·a4에서는 <code>who</code>가 꾸미는 사람을 듣고 표시하되, 목격과 당사자의 주장을 구별한다. 중요 어휘는 <code>left/right</code>, <code>finger</code>, <code>wrist</code>, <code>scratch</code>, <code>front bumper</code>, <code>key</code>다. 사건·병원·시각 어휘 중 나머지는 문맥 도움말로 제공한다.</p>
+<p>새 상황 음성은 “The student <span class="reader-learning-expression">who carried a red folder</span> stayed in the library. Mina carried the red folder. Joon carried a blue bag.”이다. 질문은 “Who stayed in the library?”이고 정답은 <strong>Mina</strong>다. <code>who carried a red folder</code>가 어느 학생을 가리키는지 새 상황에서 적용하는지 확인한다.</p></div></section><section class="page" id="page-16" data-group="check" data-title="분량·제작·점검" hidden><div class="reader-page"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>초안</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>받아쓰기</td>
+<td>19개·빈칸 55개: 경사 4, 아이리스 3, 빅터 2, 에반 3, 오웬 3, 에이다 4</td>
+</tr>
+<tr>
+<td>필수 사진·관찰·추리</td>
+<td>사진 3장·서명 관찰 2장면·8문항</td>
+</tr>
+<tr>
+<td>면담 인물·장소</td>
+<td>6명·5곳. 탐정은 별도</td>
+</tr>
+<tr>
+<td>그림</td>
+<td>경찰서·사고 현장·병원·작업실·주차장, 미어캣 쌍둥이 공통 얼굴 기반 두 전신, 까치 아이리스·악어 빅터·스컹크 에이다, 기존 다람쥐 탐정·오소리 경사, 필수 사진 3장(앞범퍼 2·작업대 1)·서명 직접 관찰 연출 2장면</td>
+</tr>
+<tr>
+<td>음성</td>
+<td>질문 답변 19개와 인사·심문·보고 별도. 생성 비용은 제작 전 계획</td>
+</tr>
+</tbody>
+</table>
+<p>원화에서는 아이리스가 운전석 얼굴과, 운전자가 잠깐 내려 빅터를 살피며 오른쪽 손목을 감싸 쥐는 동작을 볼 수 있어야 한다. 밴의 진행 방향과 앞범퍼 조각 위치도 맞아야 한다. 어두운 모자는 공용 밴의 물건이며 한 형제만의 표식이나 변장이 아니다. 빅터의 기억은 아이리스보다 좁다. 두 면담실에서는 플레이어가 같은 얼굴의 미어캣들이 진술서에 서명하다 멈칫하는 모습을 직접 본다. 각자의 펜 쥔 손과 작은 상처의 부위가 분명해야 하며, 화면의 좌우를 인물 자신의 손 방향과 혼동하지 않게 연출한다. 관찰 기록·설명은 이름과 손 방향·상처 원인을 대신 풀이하지 않는다. 경찰이 둘을 데려온 것은 조사 목적이며 유죄 확정은 아니다. 사고 차량 확인과 운전자 식별은 별개다. 누구나 반대 손을 쓰거나 우연히 상처를 입을 수 있으므로 손 사용·상처 하나로 범행을 판정하지 않는다. 종·털색·복장도 신원 증거가 아니다. 실제 플레이 난도, 원화 대조 가독성, 음성 호흡, 엔진의 단계 저장은 개발 전 점검한다. <strong>사용자가 정한 뺑소니, 살아 있는 입원 피해자, 불완전한 목격, 쌍둥이의 상호 고발, 앞범퍼 손상과 서로 다른 원인의 작은 상처를 반영했고 개발 인계는 아직 하지 않았다.</strong></p></div></section></div><footer class="reader-pager"><button id="reader-prev" type="button">← 이전</button><span id="reader-position" class="reader-page-position"></span><button id="reader-next" type="button">다음 →</button></footer></div><aside class="reader-panel reader-inspector"><div class="reader-tabs"><button type="button" aria-selected="true">기획 메모</button></div><div class="reader-inspector-content"><h3>사건의 핵심</h3><p>미어캣 쌍둥이는 서로가 열쇠에 관해 거짓말한다고 주장한다.</p><p>직접 본 서명 동작과 두 목격자의 말을 플레이어가 연결한다.</p><p>손 사용·상처·차량 흔적 하나로 운전자를 확정하지 않는다.</p><h3>피해자 상태</h3><p>빅터는 팔과 다리를 다쳐 병원에 입원 중이며, 사고 순간을 자세히 기억하지 못한다.</p></div></aside></div></main><script>(()=>{const all=[...document.querySelectorAll('.page')];const labels={flow:'사건 흐름',prep:'예습',script:'대본',check:'학습 점검'};let group='flow',index=0;const list=document.getElementById('reader-list'),canvas=document.getElementById('reader-canvas');function show(){const visible=all.filter(p=>p.dataset.group===group);index=Math.max(0,Math.min(index,visible.length-1));all.forEach(p=>p.hidden=true);const page=visible[index];page.hidden=false;canvas.scrollTop=0;document.getElementById('reader-title').textContent=page.dataset.title;document.getElementById('reader-context').textContent=labels[group]+' · 제작자용';document.getElementById('reader-purpose').textContent=group==='script'?'질문과 답, 노트 빈칸, 해금 조건을 한 장면씩 확인하세요.':group==='flow'?'사건의 순서와 근거를 확인하세요.':group==='prep'?'관계대명사 who로 사람을 특정하는 표현을 배웁니다.':'추리·복습·제작 조건을 확인하세요.';document.getElementById('reader-position').textContent=(index+1)+' / '+visible.length;document.getElementById('reader-prev').disabled=index===0;document.getElementById('reader-next').disabled=index===visible.length-1;document.querySelectorAll('[data-group]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',String(b.dataset.group===group))});list.replaceChildren();visible.forEach((p,j)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-current',String(j===index));b.innerHTML='<span class="reader-item-number">'+String(j+1).padStart(2,'0')+'</span><span class="reader-item-label"></span>';b.querySelector('.reader-item-label').textContent=p.dataset.title;b.onclick=()=>{index=j;show()};list.append(b)})}document.querySelectorAll('.reader-modebar button').forEach(b=>b.onclick=()=>{group=b.dataset.group;index=0;show()});document.getElementById('reader-prev').onclick=()=>{index--;show()};document.getElementById('reader-next').onclick=()=>{index++;show()};document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#page-"]');if(!a)return;const p=document.querySelector(a.getAttribute('href'));if(!p)return;e.preventDefault();group=p.dataset.group;index=all.filter(x=>x.dataset.group===group).indexOf(p);show()});document.addEventListener('click',e=>{const item=e.target.closest('[data-say]');if(item&&'speechSynthesis' in window){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(item.dataset.say);u.lang='en-US';speechSynthesis.speak(u)}});document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-say]')){e.preventDefault();e.target.click()}});show()})();</script></body></html>
