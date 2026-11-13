@@ -6,7 +6,7 @@
 
 ## 기획의 중심
 
-빅터는 파란 밴에 치여 팔과 다리를 다쳤고 병원에 입원했다. 생명에는 지장이 없다. 운전자는 잠시 차에서 내려 빅터를 살핀 뒤 다시 차를 몰고 달아났다. 아이리스는 운전석의 얼굴을 보고 쌍둥이 중 한 사람이라고 확인했으나 어느 형제인지는 모른다. 빅터는 사고 직전 운전석에서 어두운 모자를 쓴 미어캣을 잠깐 봤지만 형제와 아는 사이가 아니며 쌍둥이라는 사실도 모른다. 경찰은 밴을 함께 쓰는 에반과 오웬을 경찰서의 별도 면담실로 데려왔다. 두 사람은 모두 자신이 빅터를 치지 않았고 상대가 열쇠 인계에 관해 거짓말한다고 주장한다. 경사는 탐정에게 **누가 운전해 빅터를 친 뒤 달아났는지** 밝혀 달라고 의뢰한다.
+빅터는 파란 밴에 치여 팔과 다리를 다쳤고 병원에 입원했다. 생명에는 지장이 없다. 운전자는 잠시 차에서 내려 빅터를 살핀 뒤 다시 차를 몰고 달아났다. 아이리스는 운전석의 얼굴을 보고 쌍둥이 중 한 사람이라고 확인했으나 어느 형제인지는 모른다. 빅터는 사고 직전 운전석에서 어두운 모자를 쓴 미어캣을 잠깐 봤지만 형제와 아는 사이가 아니며 쌍둥이라는 사실도 모른다. 경찰은 밴을 함께 쓰는 에반과 마일로을 경찰서의 별도 면담실로 데려왔다. 두 사람은 모두 자신이 빅터를 치지 않았고 상대가 열쇠 인계에 관해 거짓말한다고 주장한다. 경사는 탐정에게 **누가 운전해 빅터를 친 뒤 달아났는지** 밝혀 달라고 의뢰한다.
 
 **이번 스테이지의 한 가지 학습 주제는 사람을 설명하는 주격 관계대명사 `who`다.** `the twin who stayed with Ada`처럼 `사람 + who + 동사…`를 듣고, 뒤의 설명이 두 형제 중 누구를 가리키는지 찾는다. 서로를 거짓말한다고 하는 진술, 손 사용과 상처, 차량 흔적은 이 문법을 실제 추리에 쓰게 하는 사건 단서다. `says`·`saw`·시간·과거형은 앞선 학습의 재사용이며 이번 스테이지의 새 문법 목표가 아니다. 한 장면의 손동작이나 상처 하나로 운전자를 확정하지 않고 열쇠 인계, 작업실 체류, 차량 대응, 당사자 재질문과 인정을 함께 확인한다. 자체 학습 기획의 **L3-02 ‘정확히 누구를 말할까?’ 추가 사건 후보**이며 기존 27 A·28 B를 교체하거나 번호를 확정한 것은 아니다. 이 번호는 국가가 지정한 학년별 문법 단원이 아니다.
 
@@ -16,7 +16,7 @@
 |---|---|---|
 | 탐정 | 다람쥐 | 플레이어가 질문과 증거 선택을 이끄는 기존 주인공 |
 | 오소리 경사 | 오소리 | 경찰서에서 사건 의뢰, 두 면담실에서 서명하는 모습의 직접 관찰 허용 |
-| 에반·오웬 | 서로 닮은 미어캣 쌍둥이 | 공동 밴을 쓰는 용의자. 손 사용과 작은 상처가 다름 |
+| 에반·마일로 | 서로 닮은 미어캣 쌍둥이 | 공동 밴을 쓰는 용의자. 손 사용과 작은 상처가 다름 |
 | 아이리스 | 까치 | 가게 직원이자 사고 목격자. 얼굴은 봤지만 형제를 구별하지 못함 |
 | 빅터 | 악어 | 다쳐 입원한 가게 주인·피해자 목격자 |
 | 에이다 | 스컹크 | 작업실에서 열쇠 인계와 한 형제의 연속 체류를 본 참고인 |
@@ -27,14 +27,14 @@
 
 | 시각 | 실제 행동 | 얻는 근거 |
 |---|---|---|
-| 14:50 | 오웬은 큰 오르골을 싣기 위해 공동 밴을 몰고 에이다의 작업실에 온다. | o2, a1 |
-| 15:05 | 오웬이 밴 열쇠를 에반에게 건넨다. 에이다는 열쇠를 건넨 형제가 작업실에 남는 모습을 본다. | o3, a2 |
-| 15:10–15:35 | 오웬과 에이다가 같은 작업대에서 오르골을 수리한다. 오웬은 왼손으로 기록을 쓰고 오르골 부품에 왼손가락을 긁힌다. | a1·a3·a4, c-work·obs-sign-2 |
+| 14:50 | 마일로은 큰 오르골을 싣기 위해 공동 밴을 몰고 에이다의 작업실에 온다. | o2, a1 |
+| 15:05 | 마일로이 밴 열쇠를 에반에게 건넨다. 에이다는 열쇠를 건넨 형제가 작업실에 남는 모습을 본다. | o3, a2 |
+| 15:10–15:35 | 마일로과 에이다가 같은 작업대에서 오르골을 수리한다. 마일로은 왼손으로 기록을 쓰고 오르골 부품에 왼손가락을 긁힌다. | a1·a3·a4, c-work·obs-sign-2 |
 | 15:25 | 에반이 가게 쪽으로 밴을 몰다가 빅터를 친다. 앞범퍼가 깨지고 충격으로 에반의 오른쪽 손목이 운전석 안쪽에 긁힌다. 에반은 차를 세우고 내려 빅터를 살핀 뒤 다시 타고 달아난다. | m1·m3, c-road·c-van·obs-sign-1, 후반 인정 |
 | 15:26 | 아이리스가 신고한다. 빅터는 팔과 다리를 다쳐 병원으로 옮겨진다. | m3, b1(병원), v1(부상) |
 | 15:40 | 경찰이 가게 근처에서 앞범퍼가 깨진 공동 밴을 찾는다. | b2, c-van |
 
-에반은 가게로 가던 중 빅터를 늦게 보고 충돌했다. 차에서 내려 확인했을 때 빅터가 움직이지 않아 죽었다고 생각했고, 겁이 나서 다시 타고 도주했다. 실제로 에반은 오른손, 오웬은 왼손으로 글을 쓴다. 경찰서에서 플레이어가 두 형제의 서명을 직접 볼 때 에반의 오른쪽 손목과 오웬의 왼손가락에 작은 상처가 보이지만 원인은 알 수 없다. 새 직원인 에이다는 최근 알게 된 형제들의 얼굴과 이름을 아직 정확히 연결하지 못하지만 작업실에 남은 사람이 오르골을 고치다 왼손가락을 긁힌 것을 말하고, 아이리스는 운전자가 사고 직후 오른쪽 손목을 감싸 쥔 것을 말한다. 이것들은 가능성을 좁히는 근거이지 각각 단독 확증은 아니다. 에반은 자신이 열쇠를 받지 않았고 오웬이 밴을 몰고 떠났다고 거짓말한다. 오웬은 자신이 에반에게 열쇠를 줬고 에반이 밴을 몰고 떠났다고 주장한다. 두 주장은 같은 인계 장면을 다르게 말하므로 에이다의 직접 목격으로 대조할 수 있다. 과실·상처 원인·도주 경위는 마지막 직접 진술로 확인하며 교통 법규·의학 지식을 풀이 조건으로 삼지 않는다.
+에반은 가게로 가던 중 빅터를 늦게 보고 충돌했다. 차에서 내려 확인했을 때 빅터가 움직이지 않아 죽었다고 생각했고, 겁이 나서 다시 타고 도주했다. 실제로 에반은 오른손, 마일로은 왼손으로 글을 쓴다. 경찰서에서 플레이어가 두 형제의 서명을 직접 볼 때 에반의 오른쪽 손목과 마일로의 왼손가락에 작은 상처가 보이지만 원인은 알 수 없다. 새 직원인 에이다는 최근 알게 된 형제들의 얼굴과 이름을 아직 정확히 연결하지 못하지만 작업실에 남은 사람이 오르골을 고치다 왼손가락을 긁힌 것을 말하고, 아이리스는 운전자가 사고 직후 오른쪽 손목을 감싸 쥔 것을 말한다. 이것들은 가능성을 좁히는 근거이지 각각 단독 확증은 아니다. 에반은 자신이 열쇠를 받지 않았고 마일로이 밴을 몰고 떠났다고 거짓말한다. 마일로은 자신이 에반에게 열쇠를 줬고 에반이 밴을 몰고 떠났다고 주장한다. 두 주장은 같은 인계 장면을 다르게 말하므로 에이다의 직접 목격으로 대조할 수 있다. 과실·상처 원인·도주 경위는 마지막 직접 진술로 확인하며 교통 법규·의학 지식을 풀이 조건으로 삼지 않는다.
 
 ## 장면별 스토리보드와 대본
 
@@ -78,9 +78,9 @@
 
 #### badger:b2 · 공동 밴
 - **질문** · Whose van is it? / 밴은 누구 것이야?
-- **대답** · Evan and Owen share the blue van. We found it near their shop.
-- 해석 · 에반과 오웬이 파란 밴을 함께 써. 그들의 가게 근처에서 찾았어.
-- 노트 · Evan and Owen [share] the blue [van]. We found it near their [shop].
+- **대답** · Evan and Milo share the blue van. We found it near their shop.
+- 해석 · 에반과 마일로이 파란 밴을 함께 써. 그들의 가게 근처에서 찾았어.
+- 노트 · Evan and Milo [share] the blue [van]. We found it near their [shop].
 - 보기 · share / van / shop / sold / bike / hospital / house
 - 조건·역할 · b0 뒤. 차량 조사 해금. 소유 정보는 운전자를 알려 주지 않는다.
 
@@ -158,18 +158,18 @@
 
 ### 장면 4 · 경찰서 — 에반의 주장
 
-에반과 오웬은 서로 닮은 성인 미어캣 쌍둥이다. 얼굴·체격은 같으며 변장이나 복면은 없다. 현재 면담실과 자기소개로 대화 상대를 구별한다. 에반은 자신이 열쇠를 받지 않았고 오웬이 밴을 몰고 떠났다고 주장한다.
+에반과 마일로은 서로 닮은 성인 미어캣 쌍둥이다. 얼굴·체격은 같으며 변장이나 복면은 없다. 현재 면담실과 자기소개로 대화 상대를 구별한다. 에반은 자신이 열쇠를 받지 않았고 마일로이 밴을 몰고 떠났다고 주장한다.
 
 | ID | 화자·형태 | 영어 | 한국어 |
 |---|---|---|---|
 | evan:hello | 에반 · 자동 | I'm Evan. I'll tell you what I know. | 난 에반이야. 내가 아는 걸 말할게. |
 | det:evan | 탐정 · 자동 | I need to ask about Victor. | 빅터에 관해 물을게. |
 
-#### evan:e1 · 결백 주장과 오웬의 말에 대한 반박
+#### evan:e1 · 결백 주장과 마일로의 말에 대한 반박
 - **질문** · Did you hit Victor? / 네가 빅터를 쳤어?
-- **대답** · No, I didn't. Owen says he gave me the van key, but that's a lie. He's the one who drove away with it.
-- 해석 · 아니, 나는 치지 않았어. 오웬은 내게 밴 열쇠를 줬다고 말하지만 그건 거짓말이야. 그가 바로 열쇠를 갖고 차를 몰고 떠난 사람이야.
-- 노트 · No, I didn't. Owen [says] he gave me the van [key], but that's a lie. He's the one [who] drove away with it.
+- **대답** · No, I didn't. Milo says he gave me the van key, but that's a lie. He's the one who drove away with it.
+- 해석 · 아니, 나는 치지 않았어. 마일로은 내게 밴 열쇠를 줬다고 말하지만 그건 거짓말이야. 그가 바로 열쇠를 갖고 차를 몰고 떠난 사람이야.
+- 노트 · No, I didn't. Milo [says] he gave me the van [key], but that's a lie. He's the one [who] drove away with it.
 - 보기 · says / key / who / saw / mirror / which / stayed
 - 조건·역할 · 자기소개 뒤. 결백을 주장하는 과정에서 자연스럽게 상대를 거짓말한다고 지목한다. 에반의 열쇠·운전 주장은 거짓이다.
 
@@ -189,24 +189,24 @@
 - 보기 · way / shop / didn't / road / workshop / did / hospital
 - 조건·역할 · e2 뒤. 이동 경로와 교통수단을 재확인해야 한다.
 
-### 장면 5 · 경찰서 — 오웬의 반박
+### 장면 5 · 경찰서 — 마일로의 반박
 
-오웬도 사고를 부인한다. 자신이 에반에게 열쇠를 건넸고 에반이 밴을 몰고 떠났다고 주장한다. 오웬이 사고 전에 밴을 운전해 작업실에 온 사실은 숨기지 않는다.
+마일로도 사고를 부인한다. 자신이 에반에게 열쇠를 건넸고 에반이 밴을 몰고 떠났다고 주장한다. 마일로이 사고 전에 밴을 운전해 작업실에 온 사실은 숨기지 않는다.
 
 | ID | 화자·형태 | 영어 | 한국어 |
 |---|---|---|---|
-| owen:hello | 오웬 · 자동 | I'm Owen. I'll answer your questions. | 난 오웬이야. 질문에 답할게. |
-| det:owen | 탐정 · 자동 | I need to ask about Victor. | 빅터에 관해 물을게. |
+| milo:hello | 마일로 · 자동 | I'm Milo. I'll answer your questions. | 난 마일로이야. 질문에 답할게. |
+| det:milo | 탐정 · 자동 | I need to ask about Victor. | 빅터에 관해 물을게. |
 
-#### owen:o1 · 결백 주장과 에반의 말에 대한 반박
+#### milo:o1 · 결백 주장과 에반의 말에 대한 반박
 - **질문** · Did you hit Victor? / 네가 빅터를 쳤어?
 - **대답** · No, I didn't. I gave Evan the key and saw him drive away. He says he walked, but that's a lie.
 - 해석 · 아니, 나는 치지 않았어. 에반에게 열쇠를 주고 그가 차를 몰고 떠나는 걸 봤어. 그는 걸어갔다고 말하지만 그건 거짓말이야.
 - 노트 · No, I didn't. I [gave] Evan the key and [saw] him drive away. He [says] he walked, but that's a lie.
 - 보기 · gave / saw / says / kept / heard / thinks / stayed
-- 조건·역할 · 자기소개 뒤. 결백을 주장하는 과정에서 자연스럽게 상대를 거짓말한다고 지목한다. 에반 e2와 충돌하지만 제삼자 확인 전에는 오웬의 주장이다.
+- 조건·역할 · 자기소개 뒤. 결백을 주장하는 과정에서 자연스럽게 상대를 거짓말한다고 지목한다. 에반 e2와 충돌하지만 제삼자 확인 전에는 마일로의 주장이다.
 
-#### owen:o2 · 작업실
+#### milo:o2 · 작업실
 - **질문** · Did you drive the van today? / 오늘 밴을 운전했어?
 - **대답** · Yes. I drove it to Ada's workshop to carry Victor's large music box.
 - 해석 · 응. 빅터의 큰 오르골을 옮기려고 에이다의 작업실까지 몰았어.
@@ -214,7 +214,7 @@
 - 보기 · drove / workshop / walked / shop / bike / mirror
 - 조건·역할 · o1 뒤. 작업실과 에이다를 발견한다.
 
-#### owen:o3 · 열쇠
+#### milo:o3 · 열쇠
 - **질문** · What did you do with the van key? / 밴 열쇠는 어떻게 했어?
 - **대답** · I gave the key to Evan at three five. Then I worked with Ada.
 - 해석 · 세 시 오 분에 열쇠를 에반에게 줬어. 그다음 에이다와 일했어.
@@ -224,7 +224,7 @@
 
 ### 장면 6 · 작업실 — 연속 목격
 
-에이다는 작업실에 온 지 얼마 안 된 성인 스컹크 직원이다. 에반과 오웬을 만난 지 오래되지 않아 얼굴에 이름을 정확히 연결하지 못한다. 그러나 열쇠를 건넨 사람이 그대로 작업실에 남아 함께 일한 것은 직접 봤다. 그 사람이 오르골 부품에 왼손가락을 긁히고 왼손으로 수리 기록을 썼다. 밴이 떠나는 순간은 보지 못했다. 에이다는 이름이나 평소 손잡이를 추측하지 않는다. 플레이어가 경찰서에서 직접 본 서명 장면과 목격담을 대조한다.
+에이다는 작업실에 온 지 얼마 안 된 성인 스컹크 직원이다. 에반과 마일로을 만난 지 오래되지 않아 얼굴에 이름을 정확히 연결하지 못한다. 그러나 열쇠를 건넨 사람이 그대로 작업실에 남아 함께 일한 것은 직접 봤다. 그 사람이 오르골 부품에 왼손가락을 긁히고 왼손으로 수리 기록을 썼다. 밴이 떠나는 순간은 보지 못했다. 에이다는 이름이나 평소 손잡이를 추측하지 않는다. 플레이어가 경찰서에서 직접 본 서명 장면과 목격담을 대조한다.
 
 | ID | 화자·형태 | 영어 | 한국어 |
 |---|---|---|---|
@@ -276,7 +276,7 @@
 | ID | 화자·형태 | 영어 | 한국어 |
 |---|---|---|---|
 | det:c1 | 탐정 · 선택 | Ada saw the twin who stayed with her give you the key. Why did you say he kept it? | 에이다는 자기와 함께 남은 형제가 네게 열쇠를 주는 걸 봤어. 왜 그가 갖고 있었다고 했어? |
-| evan:c1 | 에반 · 자동 | I lied about the key. Owen gave it to me. | 열쇠에 관해 거짓말했어. 오웬이 내게 줬어. |
+| evan:c1 | 에반 · 자동 | I lied about the key. Milo gave it to me. | 열쇠에 관해 거짓말했어. 마일로이 내게 줬어. |
 | det:c2 | 탐정 · 선택 | Iris saw the driver hold his right wrist after he got out. You have a scrape there. What happened? | 아이리스는 운전자가 내린 뒤 오른쪽 손목을 감싸 쥔 걸 봤어. 너도 그곳에 긁힌 상처가 있어. 무슨 일이 있었어? |
 | evan:c2 | 에반 · 자동 | My wrist hit the inside of the van when I hit Victor. The front bumper broke. | 빅터를 칠 때 손목이 밴 안쪽에 부딪혔어. 앞범퍼도 깨졌어. |
 | det:c3 | 탐정 · 선택 | Why did you drive away? | 왜 차를 몰고 달아났어? |
@@ -290,7 +290,7 @@
 | ID | 화자·형태 | 영어 | 한국어 |
 |---|---|---|---|
 | act:report | 행동 | Report to the sergeant. | 경사에게 보고하기 |
-| det:report1 | 탐정 · 자동 | Evan said Owen kept the key. Owen said he gave it to Evan. | 에반은 오웬이 열쇠를 갖고 있었다고 했고, 오웬은 에반에게 줬다고 했어. |
+| det:report1 | 탐정 · 자동 | Evan said Milo kept the key. Milo said he gave it to Evan. | 에반은 마일로이 열쇠를 갖고 있었다고 했고, 마일로은 에반에게 줬다고 했어. |
 | det:report2 | 탐정 · 자동 | Ada saw a finger get scratched at work. Iris saw the driver hold his right wrist. | 에이다는 일하다 손가락이 긁히는 걸 봤어. 아이리스는 운전자가 오른쪽 손목을 감싸 쥔 걸 봤어. |
 | det:report3 | 탐정 · 자동 | Evan said he drove the van, hit Victor, got out to check on him, and left because he thought Victor was dead. | 에반은 밴을 몰아 빅터를 친 뒤 내려서 살폈지만, 죽었다고 생각해 달아났다고 말했어. |
 | badger:report | 경사 · 자동 | Thank you. Victor is safe in the hospital. | 고마워. 빅터는 병원에서 안전해. |
@@ -307,7 +307,7 @@
 | c-van · 깨진 앞범퍼 | 공동 밴 앞범퍼의 결손과 안쪽 고정 구멍 | b2 뒤 직접 촬영 | 조각 대응으로 차량 확인, 운전자 불명 |
 | c-work · 작업대 기록 | 오르골 점검 15:10 시작·15:35 종료와 수리 메모 | o2 뒤 직접 촬영 | a3·a4 없이 작성자·연속 체류 확정 불가 |
 | obs-sign-1 · 첫 면담실 서명 관찰 | 에반이 직접 서명하다 펜을 쥔 손 때문에 멈칫한다. 작은 손목 상처가 보인다. 관찰 기록은 손의 방향·상처 원인을 말로 표시하지 않음 | b3 뒤 에반의 면담실에서 직접 관찰·노트 기록 | 한 번의 손 사용·상처만으로 운전자 단정 불가 |
-| obs-sign-2 · 둘째 면담실 서명 관찰 | 오웬이 직접 서명하다 펜을 쥔 손 때문에 멈칫한다. 작은 손가락 상처가 보인다. 관찰 기록은 손의 방향·상처 원인을 말로 표시하지 않음 | b3 뒤 오웬의 면담실에서 직접 관찰·노트 기록 | 한 번의 손 사용·상처만으로 운전자 단정 불가 |
+| obs-sign-2 · 둘째 면담실 서명 관찰 | 마일로이 직접 서명하다 펜을 쥔 손 때문에 멈칫한다. 작은 손가락 상처가 보인다. 관찰 기록은 손의 방향·상처 원인을 말로 표시하지 않음 | b3 뒤 마일로의 면담실에서 직접 관찰·노트 기록 | 한 번의 손 사용·상처만으로 운전자 단정 불가 |
 
 장소는 **경찰서, 사고 현장, 병원, 작업실, 밴 주차장** 다섯 곳이다. 경사는 경찰서, 형제는 각 면담실, 아이리스는 사고 현장, 빅터는 병원, 에이다는 작업실에 있다. 선택 관찰은 횡단보도·상점 창문·병원 물컵·오르골·공구함·번호판 등 물체 사실만 말한다. 번호판이나 색깔은 c-road와 c-van의 물리적 대조를 대신하지 않는다. 서명은 각 형제의 면담실에서 플레이어가 직접 지켜본다. 관찰 기록은 그 방의 인물과 연결되지만, 손의 방향이나 상처 원인을 정답 문장으로 적지 않는다.
 
@@ -315,14 +315,14 @@
 
 | ID | 질문 | 정답 완성 문장 | 보기 | 근거 |
 |---|---|---|---|---|
-| q1 | 아이리스가 확인한 운전자의 신원 범위는? | Iris saw [one of the twins], but could not name him. | one of the twins / Evan / Owen / Ada / a stranger / Victor | m2 |
-| q2 | 두 형제는 열쇠에 관해 각각 무엇을 주장하나? | Evan says [Owen kept the key], but Owen says [he gave it to Evan]. | Owen kept the key / he gave it to Evan / Iris took the key / Ada drove the van / nobody had the key / Victor found it | e1·o3 |
+| q1 | 아이리스가 확인한 운전자의 신원 범위는? | Iris saw [one of the twins], but could not name him. | one of the twins / Evan / Milo / Ada / a stranger / Victor | m2 |
+| q2 | 두 형제는 열쇠에 관해 각각 무엇을 주장하나? | Evan says [Milo kept the key], but Milo says [he gave it to Evan]. | Milo kept the key / he gave it to Evan / Iris took the key / Ada drove the van / nobody had the key / Victor found it | e1·o3 |
 | q3 | 사고 차량을 무엇으로 확인하나? | The road piece matches [the van's broken front bumper]. | the van's broken front bumper / a bike bell / the right door / the shop window / a wheel / a hospital mirror | m3·c-road·c-van |
-| q4 | 작업실에 남아 왼손으로 기록을 쓴 형제는 누구인가? | The twin who wrote with his left hand is [Owen]. | Owen / Evan / Victor / the sergeant / Iris / Ada | a4·obs-sign-1·obs-sign-2 |
+| q4 | 작업실에 남아 왼손으로 기록을 쓴 형제는 누구인가? | The twin who wrote with his left hand is [Milo]. | Milo / Evan / Victor / the sergeant / Iris / Ada | a4·obs-sign-1·obs-sign-2 |
 | q5 | 에이다가 직접 본 작은 상처의 원인은? | The [music box spring] scratched the worker's left finger. | music box spring / van's bumper / station pen / road piece / bike bell / shop door | a3·q4·obs-sign-2 |
-| q6 | 사고 직후 오른쪽 손목을 감싸 쥔 운전자와 같은 부위에 상처가 보이는 형제는? | The twin who has a scrape on his right wrist is [Evan]. | Evan / Owen / Victor / Iris / Ada / the sergeant | m3·obs-sign-1·obs-sign-2 |
-| q7 | 어느 주장과 에이다의 목격이 충돌하는가? | Evan's claim that [Owen kept the key] conflicts with Ada's account. | Owen kept the key / Evan took the key / one twin stayed with Ada / the van had a broken bumper / Victor was in the hospital / Iris called the police | e1·a2·q4·q5 |
-| q8 | 이제 누구에게 사고·도주를 물어야 하나? | Ask [Evan] about the crash. | Evan / Owen / Iris / Ada / Victor / the nurse | q1–q7. 이후 c1–c3 해금 |
+| q6 | 사고 직후 오른쪽 손목을 감싸 쥔 운전자와 같은 부위에 상처가 보이는 형제는? | The twin who has a scrape on his right wrist is [Evan]. | Evan / Milo / Victor / Iris / Ada / the sergeant | m3·obs-sign-1·obs-sign-2 |
+| q7 | 어느 주장과 에이다의 목격이 충돌하는가? | Evan's claim that [Milo kept the key] conflicts with Ada's account. | Milo kept the key / Evan took the key / one twin stayed with Ada / the van had a broken bumper / Victor was in the hospital / Iris called the police | e1·a2·q4·q5 |
+| q8 | 이제 누구에게 사고·도주를 물어야 하나? | Ask [Evan] about the crash. | Evan / Milo / Iris / Ada / Victor / the nurse | q1–q7. 이후 c1–c3 해금 |
 
 q1은 얼굴 목격을 인정하되 형제 구별을 보류한다. q2는 두 형제의 상반된 주장을 각각의 화자에게 연결한다. q3은 사고 차량, q4는 면담실 서명 직접 관찰과 에이다의 목격을 보고 작업실 인물을 플레이어가 직접 식별한다. q5는 작업 중 난 상처, q6은 사고 직후 목격한 손목 동작과 직접 본 상처를 연결한다. q7은 열쇠 인계에 관한 거짓 주장을 고른다. q8은 범인 자동 선언이 아니라 재질문 대상 선택이다. q4·q6의 손 사용과 상처는 한 사람을 의심할 근거이지 단독으로 사고를 확정하지 않는다.
 
@@ -362,7 +362,7 @@ q1은 얼굴 목격을 인정하되 형제 구별을 보류한다. q2는 두 형
 
 | 항목 | 초안 |
 |---|---|
-| 받아쓰기 | 19개·빈칸 55개: 경사 4, 아이리스 3, 빅터 2, 에반 3, 오웬 3, 에이다 4 |
+| 받아쓰기 | 19개·빈칸 55개: 경사 4, 아이리스 3, 빅터 2, 에반 3, 마일로 3, 에이다 4 |
 | 필수 사진·관찰·추리 | 사진 3장·서명 관찰 2장면·8문항 |
 | 면담 인물·장소 | 6명·5곳. 탐정은 별도 |
 | 그림 | 경찰서·사고 현장·병원·작업실·주차장, 미어캣 쌍둥이 공통 얼굴 기반 두 전신, 까치 아이리스·악어 빅터·스컹크 에이다, 기존 다람쥐 탐정·오소리 경사, 필수 사진 3장(앞범퍼 2·작업대 1)·서명 직접 관찰 연출 2장면 |
