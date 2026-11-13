@@ -252,13 +252,19 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .scene-npc.flinch svg{animation:flinch .5s ease-out}
 @keyframes flinch{20%{translate:6px 0;scale:.96 1.03}45%{translate:-4px 0}100%{translate:0 0;scale:1}}
 @media(prefers-reduced-motion:reduce){.presented .contra,.presented.miss figure,.scene.jolt #talkCamera,.scene-npc.flinch svg,.interrogation-gauge.hit .gauge-track{animation:none}.drawer,.gauge-fill{transition:none}}
-.stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(74,54,40,.38);pointer-events:none;animation:stage-card 1.9s ease forwards}
+/* the case's title as it starts (user picked C of design/ui-case-title-mockups.html): a case-file folder, its tab the
+   case number, the English title large on the label with the Korean one small under it */
+.stage-card{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(40,28,20,.45);pointer-events:none;animation:stage-card 2.2s ease forwards}
 /* the back button sits outside the scene, above it: under the card's dimming while it shows, like the rest */
 .main:has(.stage-card) .top-back{z-index:7}
-.stage-card div{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r-wobble);padding:12px 22px;text-align:center;box-shadow:4px 5px 0 rgba(74,54,40,.25)}
-.stage-card small{display:block;font-size:12px;color:var(--ink-soft)}
-.stage-card b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px}
-@keyframes stage-card{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
+.stage-card .folder{position:relative;width:min(250px,78%);background:#E3C48E;border:3px solid var(--ink);border-radius:4px 12px 12px 12px;padding:20px 14px 16px;text-align:center;box-shadow:4px 6px 0 rgba(0,0,0,.22);animation:stage-folder 2.2s cubic-bezier(.2,.9,.3,1.2) forwards}
+.stage-card .folder-tab{position:absolute;left:-3px;top:-30px;background:#E3C48E;border:3px solid var(--ink);border-bottom:none;border-radius:10px 10px 0 0;padding:4px 14px 6px;font-family:var(--f-display);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.stage-card .label{background:var(--paper);border:2px dashed var(--ink-soft);border-radius:6px;padding:10px 6px}
+.stage-card b{display:block;font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1.15}
+.stage-card small{display:block;font-size:12px;color:var(--ink-soft);margin-top:4px}
+@keyframes stage-card{0%{opacity:0}12%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@keyframes stage-folder{0%{transform:translateY(30px);opacity:0}18%{transform:none;opacity:1}100%{transform:none}}
+@media(prefers-reduced-motion:reduce){.stage-card .folder{animation:none}}
 .pill.blue{background:var(--sky);color:var(--ink)}
 
 /* Reusable illustrated skin: nine-slice body, independent tail, live text and controls.
@@ -1274,7 +1280,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
    gauge at the top, the speech bubble, 증거 내밀기 at the bottom, the evidence drawer coming up from it */
 .tdemo .t7-cam{position:absolute;left:0;top:0;width:390px;height:844px}
 .tdemo .t7-cam.jolt{animation:jolt .42s ease-out}
-.tdemo .t7-room{position:absolute;inset:0 -400px;background:url(assets/places/station-interview-room.png) 50% 50%/cover #9C7A55}
+.tdemo .t7-room{position:absolute;inset:0 -400px;background:url(assets/places/station-interview-room.png) 50% 50%/cover #B9C3CC}
 .tdemo .t7-npc{position:absolute;left:50%;bottom:11%;height:54%;transform:translateX(-50%)}
 .tdemo .t7-npc.flinch{animation:flinch .5s ease-out}
 .tdemo .t7-claim{--bubble-top:66px}
@@ -5041,12 +5047,12 @@ function bindDock(){
 }
 
 /* ---------- interrogation flow ---------- */
-function stageCard(title, sub){
+function stageCard(c){
   const d = document.createElement('div');
   d.className = 'stage-card';
-  d.innerHTML = `<div><small>${esc(sub)}</small><b>${esc(title)}</b></div>`;
+  d.innerHTML = `<div class="folder"><span class="folder-tab">${esc(c.no)}</span><div class="label"><b>${esc(c.en || c.title)}</b>${c.en ? `<small>${esc(c.title)}</small>` : ''}</div></div>`;
   $('.scene').appendChild(d);
-  setTimeout(() => d.remove(), 1900);
+  setTimeout(() => d.remove(), 2200);
 }
 // Start or resume a conversation. The first meeting plays the greeting.
 let greetingTimer;
@@ -5111,7 +5117,7 @@ function talkTo(id){
     if(heard && missing && !beats.some(b => b.id === id)){ beats.push({ id, ...beat }); greetingTimer = setTimeout(playBeats, 700); }
   });
   if(first){
-    if(id === START && !met) stageCard(CASE.title, CASE.no);
+    if(id === START && !met) stageCard(CASE);
     greetingTimer = setTimeout(() => playGreeting(id), id === START ? 1200 : 600);
   }
 }
@@ -8532,27 +8538,27 @@ function homeKoShift(){
 // testing stage (user decision): every playable case is open in the list; false brings the order back
 const ALL_CASES_OPEN = true;
 const CASES = [
-  { id:'picnic-bag', no:'Case 01', title:'바뀐 소풍 가방', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+  { id:'picnic-bag', no:'Case 01', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
     summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 벤의 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   // the education plan's order (user decision): the umbrella case (L1-01 B) before the library
-  { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet-original.png', alt:'별무늬 우산' }, playable:true,
+  { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet-original.png', alt:'별무늬 우산' }, playable:true,
     focus:'누구의 것인지 듣기', keys:['whose'],
     photo:{ img:'assets/places/umbrella/umbrella-sheet-original.png' },
     summary:'마을회관에 일주일째 남은 별무늬 우산의 주인을 찾았다. 장난감 바자회 날 비가 와서 바자회가 회관 안에서 열렸고, 바자회를 연 토이 네스트의 테스와 루비, 우산을 찾던 핀의 설명을 대조했다. 겉모습은 테스와 루비의 우산이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
-  { id:'missing-violin', no:'Case 03', title:'사라진 음악 대회 바이올린', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스' }, playable:true,
+  { id:'missing-violin', no:'Case 03', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
     photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.png', cx:40 },
     summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 준비실 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
-  { id:'case01', no:'Case 04', title:'도서관 살인사건', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
+  { id:'case01', no:'Case 04', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
     victimPhoto:'assets/characters/hoot-higgsfield.png',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   // the education plan's order (L1-05 B, handed over 2026-11-09): the Christmas star after the library; no pictures yet
-  { id:'christmas-star', no:'Case 05', title:'사라진 크리스마스트리의 별', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
+  { id:'christmas-star', no:'Case 05', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
     photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.png', cx:50 },
     summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 무거운 상자 속 별 뒷면의 잎사귀 무늬를 엘라가 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
@@ -9452,7 +9458,8 @@ const PREVIEW_RUN = {
   interview:() => { previewCase(); previewDeduced(); openSheet(null); accusedId = CULPRIT; startEnding(); },
   confession:() => { previewCase(); $('#devInterro').click(); },
   questioning:() => { previewCase(); previewDeduced(); openSheet(null); startScript(); },
-  return:() => { previewCase(); previewDeduced(); openSheet(null); S.flags.add('confessed'); startScript(); },
+  // what the detective carries by then (the star, the violin case): without it the hand-over's 소지품 is empty
+  return:() => { previewCase(); previewDeduced(); openSheet(null); S.flags.add('confessed'); if(PACK?.previewHandback) S.items = [...PACK.previewHandback]; startScript(); },
   review:() => { previewCase(); previewDeduced(); openSheet(null); openReview(); }
 };
 const PREVIEW_PARTS = PREVIEW_OF[CASE_ID].map(([id, label]) => [id, label, PREVIEW_RUN[id]]);

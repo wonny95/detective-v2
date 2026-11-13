@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>타이틀 폴더 연출 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"PD";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"PD";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+:root{--paper:#FBF4E6;--ink:#4A3628;--ink-soft:#7D6A58;--folder:#E3C48E}
+body{margin:0;background:#A9B79C;font-family:"Paperlogy",sans-serif;color:var(--ink)}
+header{padding:16px 20px 4px}
+h1{font-family:PD;font-weight:400;font-size:20px;margin:0 0 4px}
+header p{margin:0;font-size:13px;color:#3d3328}
+.replay{margin-top:8px;font:inherit;font-family:PD;padding:7px 14px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);cursor:pointer}
+.grid{display:flex;flex-wrap:wrap;gap:18px;padding:12px 20px 30px}
+figure{margin:0}
+figcaption{font-family:PD;font-size:15px;margin:0 0 6px}
+figcaption span{display:block;font-family:Paperlogy;font-size:12px;color:#3d3328;max-width:280px;line-height:1.4;min-height:50px}
+.phone{position:relative;width:280px;height:500px;border-radius:26px;overflow:hidden;background:url("../assets/places/picnic-storyboard/picnic-wide.png") 40% 50%/auto 100%;box-shadow:0 4px 14px #0003}
+.phone .who{position:absolute;left:50%;bottom:40px;height:330px;transform:translateX(-50%)}
+.phone::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;background:var(--paper)}
+
+/* the folder, as in the game */
+.card{position:absolute;inset:0;z-index:3;display:grid;place-items:center;pointer-events:none;background:rgba(40,28,20,.45);animation:dim var(--t) ease forwards}
+.folder{position:relative;width:230px;background:var(--folder);border:3px solid var(--ink);border-radius:4px 12px 12px 12px;padding:20px 14px 16px;text-align:center;box-shadow:4px 6px 0 rgba(0,0,0,.22)}
+.ftab{position:absolute;left:-3px;top:-30px;background:var(--folder);border:3px solid var(--ink);border-bottom:none;border-radius:10px 10px 0 0;padding:4px 14px 6px;font-family:PD;font-size:13px;letter-spacing:.12em}
+.label{background:var(--paper);border:2px dashed var(--ink-soft);border-radius:6px;padding:10px 6px;min-height:52px}
+.label b{display:block;font-family:PD;font-weight:700;font-size:25px;line-height:1.15;white-space:nowrap}
+.label small{display:block;font-size:12px;color:var(--ink-soft);margin-top:4px}
+@keyframes dim{0%{opacity:0}8%{opacity:1}86%{opacity:1}100%{opacity:0}}
+@keyframes out{0%,86%{transform:scale(1);opacity:1}100%{transform:scale(.92);opacity:0}}
+
+/* 1 — 폴더 탁: drops from above, bounces like set down on a desk; tab text, then the label */
+.v1{--t:2.6s}
+.v1 .folder{animation:drop1 var(--t) linear forwards}
+.v1 .ftab{animation:show var(--t) linear forwards;--at:14%}
+.v1 .label b,.v1 .label small{opacity:0;animation:show var(--t) linear forwards}
+.v1 .label b{--at:20%}.v1 .label small{--at:26%}
+@keyframes drop1{0%{transform:translateY(-320px) rotate(-6deg)}11%{transform:translateY(0) rotate(0)}14%{transform:translateY(-14px)}17%{transform:translateY(0)}86%{transform:none;opacity:1}100%{transform:scale(.92);opacity:0}}
+
+/* 2 — 탭 먼저: the tab peeks up alone, then the folder follows as if pulled out of a drawer, the label last */
+.v2{--t:2.8s}
+.v2 .wrap{animation:pull2 var(--t) cubic-bezier(.3,.8,.3,1) forwards}
+.v2 .label{animation:show var(--t) linear forwards;--at:24%;opacity:0}
+@keyframes pull2{0%{transform:translateY(330px)}10%{transform:translateY(178px)}16%{transform:translateY(178px)}24%{transform:translateY(0)}86%{transform:none;opacity:1}100%{transform:scale(.92);opacity:0}}
+
+/* 3 — 도장 쾅: the folder rises with an empty label, then the English title is stamped on, the Korean one after */
+.v3{--t:2.8s}
+.v3 .folder{animation:rise3 var(--t) ease forwards}
+.v3 .label b{opacity:0;animation:stamp3 var(--t) linear forwards}
+.v3 .label small{opacity:0;animation:show var(--t) linear forwards;--at:30%}
+@keyframes rise3{0%{transform:translateY(40px);opacity:0}10%{transform:none;opacity:1}18%{transform:none}20%{transform:translate(-2px,2px)}22%{transform:translate(2px,-1px)}24%,86%{transform:none;opacity:1}100%{transform:scale(.92);opacity:0}}
+@keyframes stamp3{0%,15%{opacity:0;transform:scale(2.2)}19%{opacity:1;transform:scale(.94)}22%{transform:scale(1.03)}25%,100%{opacity:1;transform:scale(1)}}
+
+/* 4 — 표지 넘김: a closed folder (CASE 01 on the cover) opens, its cover flipping up, the title inside */
+.v4{--t:3s}
+.v4 .folder{perspective:700px;animation:rise4 var(--t) ease forwards}
+.v4 .cover{position:absolute;inset:-3px;background:var(--folder);border:3px solid var(--ink);border-radius:4px 12px 12px 12px;display:grid;place-items:center;font-family:PD;font-size:18px;letter-spacing:.14em;transform-origin:50% 0;backface-visibility:hidden;animation:flip4 var(--t) ease-in-out forwards;box-shadow:inset 0 0 0 6px rgba(255,255,255,.18)}
+.v4 .cover::after{content:"";position:absolute;left:18px;right:18px;bottom:16px;height:2px;background:rgba(74,54,40,.35)}
+@keyframes rise4{0%{transform:translateY(40px);opacity:0}10%{transform:none;opacity:1}86%{transform:none;opacity:1}100%{transform:scale(.92);opacity:0}}
+@keyframes flip4{0%,24%{transform:rotateX(0)}40%,100%{transform:rotateX(-178deg);opacity:0}}
+
+@keyframes show{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:none}}
+/* show starts at --at: emulate with a delay-shaped keyframe set */
+.v1 .ftab,.v1 .label b,.v1 .label small,.v2 .label,.v3 .label small{animation-name:none;opacity:0}
+.go .v1 .ftab{animation:fadein .25s ease forwards .35s}
+.go .v1 .label b{animation:fadein .25s ease forwards .55s}
+.go .v1 .label small{animation:fadein .25s ease forwards .7s}
+.go .v2 .label{animation:fadein .3s ease forwards .7s}
+.go .v3 .label small{animation:fadein .3s ease forwards .85s}
+@keyframes fadein{to{opacity:1}}
+</style></head>
+<body>
+<header>
+  <h1>타이틀 폴더 연출 시안 4개</h1>
+  <p>게임에 들어간 C안 폴더가 나오는 방식만 다르게 했어요. 자동으로 계속 반복돼요.</p>
+  <button class="replay" type="button" onclick="play()">▶ 처음부터 다시</button>
+</header>
+<div class="grid" id="grid">
+  <figure><figcaption>1 · 폴더 탁<span>폴더가 위에서 떨어져 책상에 놓이듯 탁 튀었다 멈추고, 제목이 이어서 나타나요.</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/rosie-higgsfield.png" alt=""><div class="slot" data-v="v1"></div></div></figure>
+  <figure><figcaption>2 · 탭 먼저<span>탭(CASE 01)만 아래에서 쏙 올라왔다가, 서랍에서 꺼내듯 폴더 몸통이 따라 올라와요.</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/rosie-higgsfield.png" alt=""><div class="slot" data-v="v2"></div></div></figure>
+  <figure><figcaption>3 · 도장 쾅<span>빈 이름표가 있는 폴더가 올라오고, 영어 제목이 도장 찍히듯 쾅 찍혀요(폴더가 살짝 흔들림).</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/rosie-higgsfield.png" alt=""><div class="slot" data-v="v3"></div></div></figure>
+  <figure><figcaption>4 · 표지 넘김<span>닫힌 폴더(표지에 CASE 01)가 나오고, 표지가 위로 넘어가며 안쪽 이름표의 제목이 보여요.</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/rosie-higgsfield.png" alt=""><div class="slot" data-v="v4"></div></div></figure>
+</div>
+<script>
+const inner = v => v === 'v4'
+  ? '<div class="folder"><span class="ftab">CASE 01</span><div class="label"><b>Mixed-Up Bags</b><small>바뀐 소풍 가방</small></div><div class="cover">CASE 01</div></div>'
+  : v === 'v2'
+  ? '<div class="wrap"><div class="folder"><span class="ftab">CASE 01</span><div class="label"><b>Mixed-Up Bags</b><small>바뀐 소풍 가방</small></div></div></div>'
+  : '<div class="folder"><span class="ftab">CASE 01</span><div class="label"><b>Mixed-Up Bags</b><small>바뀐 소풍 가방</small></div></div>';
+function play(){
+  document.querySelectorAll('.slot').forEach(s => { const v = s.dataset.v; s.innerHTML = `<div class="card ${v} go">${inner(v)}</div>`; });
+}
+play();
+setInterval(play, 3800);
+</script>
+</body></html>

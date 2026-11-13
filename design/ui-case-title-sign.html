@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>나무 간판 타이틀 시안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Lilita+One&family=Chewy&family=Baloo+2:wght@800&family=Sniglet:wght@800&family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"PD";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"PD";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+:root{--paper:#FBF4E6;--ink:#4A3628}
+body{margin:0;background:#A9B79C;font-family:"Paperlogy",sans-serif;color:var(--ink)}
+header{padding:16px 20px 4px}
+h1{font-family:PD;font-weight:400;font-size:20px;margin:0 0 4px}
+header p{margin:0;font-size:13px;color:#3d3328;max-width:900px}
+.replay{margin-top:8px;font:inherit;font-family:PD;padding:7px 14px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);cursor:pointer}
+.grid{display:flex;flex-wrap:wrap;gap:18px;padding:12px 20px 30px}
+figure{margin:0}
+figcaption{font-family:PD;font-size:15px;margin:0 0 6px}
+figcaption span{display:block;font-family:Paperlogy;font-size:12px;color:#3d3328;max-width:280px;line-height:1.4;min-height:52px}
+.phone{position:relative;width:280px;height:500px;border-radius:26px;overflow:hidden;background:url("../assets/places/christmas/tree.jpg") 50% 50%/auto 100%;box-shadow:0 4px 14px #0003}
+.phone .who{position:absolute;left:50%;bottom:40px;height:330px;transform:translateX(-50%)}
+.phone::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;background:var(--paper)}
+.card{position:absolute;inset:0;z-index:3;pointer-events:none;background:rgba(30,22,16,.4);animation:fade 3s ease forwards}
+.hang{position:absolute;left:50%;top:0;width:264px;margin-left:-132px;transform-origin:50% 0;animation:swing 3s ease-out forwards}
+.hang svg{display:block;width:100%;overflow:visible}
+.title{position:absolute;left:0;right:0;text-align:center;font-family:var(--tf,PD);font-weight:var(--tw,700);white-space:nowrap;letter-spacing:.01em}
+.tag,.korean{font-family:var(--kf,Paperlogy)!important}
+.fonts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.fonts button{font:13px Paperlogy;padding:5px 10px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);cursor:pointer}.fonts button[aria-pressed=true]{background:#F2CF73}
+.tagwrap{position:absolute;left:0;right:0;text-align:center}
+.tag{display:inline-block;background:#F7EEDC;border:2px solid #7D6A58;border-radius:3px 10px 10px 3px;padding:4px 14px 4px 10px;font-family:Paperlogy;font-size:12px;color:#5b4632;transform:rotate(-2deg);box-shadow:1px 2px 0 rgba(0,0,0,.2)}
+.korean{position:absolute;font-family:Paperlogy;font-size:12px;color:#5b4632;text-align:center}
+.plate{position:absolute;font-family:PD;font-size:11px;letter-spacing:.14em;color:#3b2a1c;text-align:center}
+/* no ropes: it drops from above and settles with a small bounce instead of swinging */
+.hang.drop{animation-name:drop}
+@keyframes drop{0%{transform:translateY(-330px)}14%{transform:translateY(0)}20%{transform:translateY(-16px)}26%{transform:translateY(0)}31%{transform:translateY(-5px)}36%,100%{transform:translateY(0)}}
+@keyframes fade{0%{opacity:0}8%{opacity:1}86%{opacity:1}100%{opacity:0}}
+@keyframes swing{0%{transform:translateY(-330px) rotate(0)}14%{transform:translateY(0) rotate(5deg)}24%{transform:rotate(-3.5deg)}33%{transform:rotate(2deg)}41%{transform:rotate(-1deg)}48%,100%{transform:rotate(0)}}
+.still .card,.still .hang{animation-delay:-1.6s!important;animation-play-state:paused!important}
+</style></head>
+<body>
+<header>
+  <h1>나무 간판 타이틀 시안 4개 (장식 정도만 다름)</h1>
+  <p>모두 같은 간판: 밧줄에 매달려 위에서 내려와 흔들리다 멈춰요. 영어 제목 크게, 한국어 제목은 작게. 느낌만 보는 시안이라 CSS·SVG로만 그렸어요(크레딧 없음). 고르면 Higgsfield로 진짜 그림(글씨 없는 빈 간판)을 그리고 글씨는 게임이 써요.</p>
+  <button class="replay" type="button" onclick="play()">▶ 다시 보기</button>
+  <button class="replay" type="button" onclick="hold()">⏸ 멈춘 화면</button>
+  <div class="fonts" id="ef"><b style="font:13px PD;align-self:center">영어 제목 폰트</b>
+    <button data-f="PD" data-w="700">지금(Paperlogy)</button><button data-f="Fredoka" data-w="600">Fredoka</button><button data-f="'Lilita One'" data-w="400">Lilita One</button><button data-f="Chewy" data-w="400">Chewy</button><button data-f="'Baloo 2'" data-w="800">Baloo 2</button><button data-f="Sniglet" data-w="800">Sniglet</button></div>
+  <div class="fonts" id="kf"><b style="font:13px PD;align-self:center">한국어 제목 폰트</b>
+    <button data-k="Paperlogy">지금(Paperlogy)</button><button data-k="Jua">주아</button><button data-k="Gaegu">개구</button></div>
+</header>
+<div class="grid">
+  <figure><figcaption>1 · 기본<span>꼰 밧줄 + 판자 두 장 + 못. 사건 번호는 간판 안의 금속 번호판. 제목이 가장 잘 보여요.</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/ella-higgsfield.png" alt=""><div class="slot" data-v="1"></div></div></figure>
+  <figure><figcaption>4 · 줄 없음<span>기본에서 밧줄을 뺀 간판. 위에서 떨어져 통통 튀었다 멈춰요. 가장 단순해요.</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/ella-higgsfield.png" alt=""><div class="slot" data-v="4"></div></div></figure>
+  <figure><figcaption>2 · 추천<span>기본 + 줄에 감긴 나뭇잎 몇 장, 도토리 하나, 금속 번호판(사건 번호), 한국어 제목은 아래 종이 꼬리표.</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/ella-higgsfield.png" alt=""><div class="slot" data-v="2"></div></div></figure>
+  <figure><figcaption>3 · 풍성<span>추천 + 위에 나뭇가지가 보이고, 양쪽 줄에 잎이 더 감기고 작은 꽃. 숲속 느낌이 가장 강하지만 화면이 복잡해요.</span></figcaption>
+    <div class="phone"><img class="who" src="../assets/characters/ella-higgsfield.png" alt=""><div class="slot" data-v="3"></div></div></figure>
+</div>
+<script>
+const EN = 'Missing Christmas Star', KO = '사라진 크리스마스트리의 별', NO = 'CASE 05';
+const rope = (x, y1, y2) => `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="#3E2A1A" stroke-width="11" stroke-linecap="round"/>
+  <line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="#E2C48F" stroke-width="7" stroke-linecap="round"/>
+  <line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="#9C7340" stroke-width="7" stroke-dasharray="3 5" stroke-linecap="round"/>`;
+const leaf = (x, y, r, s = 1, c = '#7FA653') => `<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})"><path d="M0 0 C 8 -10 22 -10 28 0 C 22 10 8 10 0 0Z" fill="${c}" stroke="#4E6B2F" stroke-width="1.4"/><path d="M2 0 L24 0" stroke="#4E6B2F" stroke-width="1"/></g>`;
+const acorn = (x, y) => `<g transform="translate(${x} ${y})"><line x1="0" y1="-12" x2="0" y2="0" stroke="#7E5A31" stroke-width="2"/><ellipse cx="0" cy="11" rx="8" ry="10" fill="#B9773A" stroke="#5E3B1C" stroke-width="1.5"/><path d="M-9 4 Q0 -6 9 4 Q0 8 -9 4Z" fill="#7E5A31" stroke="#5E3B1C" stroke-width="1.5"/><line x1="0" y1="-5" x2="2" y2="-9" stroke="#5E3B1C" stroke-width="2"/></g>`;
+const flower = (x, y) => `<g transform="translate(${x} ${y})">${[0,72,144,216,288].map(a => `<ellipse cx="0" cy="-5" rx="3.2" ry="5" fill="#F6E7EE" stroke="#C96F86" stroke-width="1" transform="rotate(${a})"/>`).join('')}<circle r="2.6" fill="#F2CF73"/></g>`;
+function board(top){
+  const y = top, h = 92;
+  return `<g filter="drop-shadow(3px 6px 0 rgba(0,0,0,.28))">
+    <rect x="10" y="${y}" width="244" height="${h / 2}" rx="7" fill="#A8743F" stroke="#5E3B1C" stroke-width="3"/>
+    <rect x="12" y="${y + h / 2 - 2}" width="240" height="${h / 2}" rx="7" fill="#9A6A38" stroke="#5E3B1C" stroke-width="3"/>
+    ${[12, 26, 36].map(o => `<path d="M24 ${y + o} Q90 ${y + o - 4} 150 ${y + o + 1} T240 ${y + o - 1}" stroke="#86592E" stroke-width="1.4" fill="none" opacity=".7"/>`).join('')}
+    ${[56, 70, 82].map(o => `<path d="M24 ${y + o} Q100 ${y + o + 3} 160 ${y + o - 2} T240 ${y + o + 1}" stroke="#7A5129" stroke-width="1.4" fill="none" opacity=".7"/>`).join('')}
+    ${[[22, y + 11], [242, y + 11], [24, y + h - 12], [240, y + h - 12]].map(([cx, cy]) => `<circle cx="${cx}" cy="${cy}" r="3.4" fill="#C9C2B4" stroke="#5E5040" stroke-width="1.2"/>`).join('')}
+  </g>`;
+}
+function sign(v){
+  const top = 116, rl = 52, rr = 212;
+  let svg = '', html = '';
+  if(v === 3) svg += `<path d="M-30 6 Q60 -2 132 8 T300 2" stroke="#6E4A2A" stroke-width="12" fill="none" stroke-linecap="round"/>
+    ${leaf(30, 2, -30, 1.2)}${leaf(110, 10, 20, 1.1, '#8BB45E')}${leaf(200, 4, -15, 1.2)}${leaf(250, 6, 25, 1, '#8BB45E')}`;
+  if(v !== 4) svg += rope(rl, v === 3 ? 6 : -10, top + 8) + rope(rr, v === 3 ? 6 : -10, top + 8);
+  const plate = y => `<rect x="94" y="${y}" width="76" height="22" rx="4" fill="#D9D2C2" stroke="#5E5040" stroke-width="2"/><circle cx="99" cy="${y + 11}" r="1.8" fill="#5E5040"/><circle cx="165" cy="${y + 11}" r="1.8" fill="#5E5040"/>`;
+  if(v === 2 || v === 3){
+    svg += leaf(rl - 2, 54, -40) + leaf(rl + 2, 74, 210, .9, '#8BB45E') + leaf(rr + 2, 84, 220, .95);
+    if(v === 3) svg += leaf(rl, 30, 200, .9) + leaf(rr, 40, -35, .9, '#8BB45E') + leaf(rr - 2, 64, 25) + flower(rl + 6, 92) + flower(rr - 4, 58);
+  }
+  svg += board(top);
+  if(v === 1 || v === 4) svg += plate(top + 8);
+  if(v === 2 || v === 3){
+    svg += plate(top - 13);
+    svg += acorn(238, top + 92);
+    svg += `<line x1="132" y1="${top + 92}" x2="132" y2="${top + 108}" stroke="#7E5A31" stroke-width="2"/>`;
+  }
+  const titleY = top + 26, noTop = v === 1 ? top + 12 : null;
+  html += v === 1 || v === 4
+    ? `<div class="plate" style="left:94px;width:76px;top:${top + 12}px">${NO}</div><div class="title" style="top:${top + 36}px;font-size:28px;color:#FFF6E2;text-shadow:0 2px 0 #5E3B1C">${EN}</div><div class="korean" style="left:0;right:0;top:${top + 70}px;color:#F4E3C4">${KO}</div>`
+    : `<div class="plate" style="left:94px;width:76px;top:${top - 9}px">${NO}</div><div class="title" style="top:${titleY}px;font-size:29px;color:#FFF6E2;text-shadow:0 2px 0 #5E3B1C">${EN}</div><div class="tagwrap" style="top:${top + 106}px"><span class="tag">${KO}</span></div>`;
+  return `<div class="card"><div class="hang${v === 4 ? ' drop' : ''}"><svg viewBox="0 0 264 280" height="280">${svg}</svg>${html}</div></div>`;
+}
+function fit(){ document.querySelectorAll('.title').forEach(t => { const r = document.createRange(); r.selectNodeContents(t); const box = t.closest('.hang'), sc = box.getBoundingClientRect().width / 264; let f = parseFloat(t.style.fontSize); while(r.getBoundingClientRect().width / sc > 226 && f > 14){ f -= .5; t.style.fontSize = f + 'px'; } }); }
+function play(){ document.querySelectorAll('.grid').forEach(g => g.classList.remove('still')); document.querySelectorAll('.slot').forEach(s => s.innerHTML = sign(+s.dataset.v)); fit(); }
+function hold(){ play(); document.querySelector('.grid').classList.add('still'); }
+function pick(){ document.querySelectorAll('#ef button').forEach(b => b.onclick = () => { document.documentElement.style.setProperty('--tf', b.dataset.f); document.documentElement.style.setProperty('--tw', b.dataset.w); mark('#ef', b); hold(); });
+  document.querySelectorAll('#kf button').forEach(b => b.onclick = () => { document.documentElement.style.setProperty('--kf', b.dataset.k); mark('#kf', b); }); }
+function mark(id, b){ document.querySelectorAll(id + ' button').forEach(x => x.setAttribute('aria-pressed', x === b)); }
+pick(); mark('#ef', document.querySelector('#ef button[data-f="Fredoka"]')); mark('#kf', document.querySelector('#kf button[data-k="Jua"]'));
+document.documentElement.style.setProperty('--tf', 'Fredoka'); document.documentElement.style.setProperty('--tw', '600'); document.documentElement.style.setProperty('--kf', 'Jua');
+document.fonts.ready.then(() => setTimeout(hold, 300));
+</script>
+</body></html>

@@ -13,13 +13,77 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-13 · Claude · (이 커밋) 작업 규칙: 커밋은 하루 마무리 때만
+## 2026-11-13 · Claude · (이 커밋) 사건 타이틀 시안 4개
+- 사용자 요청: 사건 시작 때 잠깐 나오는 제목 카드(`stageCard()`, `.stage-card`)가 허술하고 눈에 잘 안 띔 → 시안 4개 `design/ui-case-title-mockups.html`(A 리본 띠, B 쪽지+도장, C 사건 파일 폴더, D 영화 자막). CSS만, 크레딧 없음. 사용자 결정: 영어 제목을 크게(The 없이, 예: Mixed-Up Bags), 한국어 제목을 작게. 영어 제목 후보: Mixed-Up Bags · Whose Umbrella? · Missing Violin · Library Mystery · Missing Christmas Star(미확정).
+- 사용자: 네 시안 모두 마음에 안 듦 → 새 시안 4개 `design/ui-case-title-mockups-2.html`(E 돋보기, F 마을 신문, G 나무 간판, H 동화책 첫 장).
+- 확인: 개발 서버 새 탭에서 여덟 시안이 보이는 것(가운데 멈춘 화면).
+- 사용자 결정: **C안(사건 파일 폴더)**. `.stage-card`를 폴더(탭에 사건 번호, 이름표에 영어 제목 크게·한국어 제목 작게)로 바꿈, 2.2초. `CASES[].en` 영어 제목 추가: Mixed-Up Bags · Whose Umbrella? · Missing Violin · Library Mystery · Missing Christmas Star. `stageCard(CASE)`. 탭 클래스는 아래 메뉴 `.tab`과 겹쳐 깨져서 `.folder-tab`.
+- 확인: 소풍 미리보기(첫 대화)에서 폴더 카드가 나오고 탭이 제대로 보임. 인라인 스크립트 구문 검사 통과.
+- 정정: 사용자가 고른 "C안"은 시안 2의 세 번째 **나무 간판(G)**이었음(Claude가 시안 1의 C 폴더로 잘못 알아들어 폴더를 넣음). 폴더 연출 시안 `design/ui-case-title-motion.html`은 쓰지 않음. 나무 간판 그래픽 시안 3개 `design/ui-case-title-sign.html`(기본 / 추천: 줄의 나뭇잎·도토리·금속 번호판·한국어 종이 꼬리표 / 풍성: 나뭇가지·꽃 추가), CSS·SVG만. 사용자 요청으로 배경을 크리스마스 트리 광장·엘라·Case 05로 바꿈(긴 제목은 간판 폭에 맞춰 줄고, 꼬리표는 글자만큼 늘어남), 제목이 딱딱하다는 의견에 영어·한국어 제목 폰트 바꿔 보기 버튼 추가(Fredoka·Lilita One·Chewy·Baloo 2·Sniglet / 주아·개구, 시안에서만 Google Fonts; 게임에 넣을 때는 `assets/fonts`에 OFL 폰트 파일로 넣음).
+- 사용자 요청: 줄 없는 간판(4) 추가, 기본 간판의 사건 번호를 금속 번호판으로. 줄 없는 간판 디벨롭 `design/ui-case-title-sign-2.html`: 위아래 여백 늘림, 번호판이 간판 위 가장자리에 걸쳐 튀어나옴, 영어 제목을 꾸미는 말(Missing) 작게·핵심 말(Christmas Star) 크게(A 두 줄 / B 한 줄 / C 같은 크기), 로고처럼 디자인한 제목(D 진한 테두리+입체 / E 아치형 / F 사건 색 포인트, 사용자: 나중에 제목만 Higgsfield로 뽑더라도 디자인된 타이틀 느낌). "너무 정직하다" → G 글자 통통+필기체 / H 리본+금빛 글씨 / I 붓글씨+눈 쌓인 글자 추가. "꽉 차 보인다" → 간판 안 좌우 여백 늘림(제목 0.86배). 제목이 잘 보이게 간판 색 고르기 버튼 추가(지금 밝은 갈색 / 진한 호두나무(기본) / 아주 진한 나무 / 초록 칠 / 빨강 칠, 나뭇결은 어두울수록 옅게).
+- **다음**: 사용자가 간판 장식 정도와 폰트를 고르면 Higgsfield로 글씨 없는 빈 간판(약 1.5크레딧, 계획·비용 알린 뒤)을 그리고, `.stage-card`를 폴더에서 간판으로 바꾼다(영어 제목 `CASES[].en`은 그대로). 시안 파일 네 개(`ui-case-title-mockups.html`, `-2.html`, `-motion.html`, `-sign.html`)는 반영 뒤 삭제 승인.
+
+## 2026-11-13 · Claude · (이 커밋) 크리스마스 마무리 확인 + 미리보기 반환 고침
+- 사용자 결정: 쌍둥이 사건 미리 만들기는 여기서 멈추고 크리스마스 사건을 마무리한다(목소리는 마일로 Reid만 정함, 나머지는 나중에).
+- 게임 화면 확인(127.0.0.1:5173 새 탭, 미리보기): 천막 바닥의 코코 인수증(Mittens · 4 boxes · Taken by 서명)과 그 사진, 추리 4번 O·X 배지(잘림 없음), 5번 코코 카드 O → 맞장구 "Nico signed for four boxes on Coco's slip.", 9번 "Nico looks suspicious." 카드에 사진 없음, 별 반환 → 트리 광장 밤·불 켜진 트리·눈 → 복습까지 이어짐.
+- 고침: 미리보기 "엘라에게 반환"(`PREVIEW_RUN.return`)에서 소지품이 비어 별을 건넬 수 없었음 → 그 사건의 `previewHandback`을 소지품에 넣음(바이올린 반환 미리보기도 같음). 실제 플레이에는 영향 없음.
+- 못 한 것: 미리보기 창이 숨겨져 있어 음성이 나오는지, 마지막 넓은 화면(카메라가 뒤로 빠지는 것)은 장면을 빨리 넘겨 따로 보지 못함.
+- **다음**: 사용자가 크리스마스를 처음부터 끝까지 플레이하며 확인. 쌍둥이 사건은 남은 목소리(에반·빅터·아이리스·에이다) 고르기부터, `design/voice-samples-twins/`는 다 고른 뒤 삭제 여부를 묻는다.
+
+## 2026-11-13 11:15 · Claude · (이 커밋)
+- 쌍둥이 사건 목소리 고르기(사용자 요청, 스토리 인계 전에 미리): 다른 사건과 겹쳐도 된다는 사용자 결정에 따라 인물마다 후보 두 개로 첫인사 샘플 10줄을 만들었다(Higgsfield MiniMax, 약 1.5크레딧), 사용자 요청으로 에반용 Reid 비슷한 후보 5줄 추가(Reid·Dylan·Evan·Jasper·Miles, 약 0.75크레딧). 비교 페이지 `design/voice-samples-twins/`(임시, 다 고르면 지울 것).
+- 정한 목소리: **마일로 = Reid**(사용자 결정). 나머지 후보: 에반 Emmett/Cody/Reid/Dylan/Evan/Jasper/Miles, 빅터 Harrison/Desmond, 아이리스 Nadine/Maeve, 에이다 Giselle/Maeve. 경사 Fraser·탐정 Grady는 그대로.
+- 확인: 개발 서버(127.0.0.1:5173) 새 탭에서 10개 모두 불러와짐. 샘플은 게임에 넣지 않았다(대본 확정 뒤 녹음).
+- **다음**: 남은 네 인물의 목소리를 사용자가 고르면 기록하고, 고르기가 끝나면 `design/voice-samples-twins/` 삭제를 묻는다.
+
+## 2026-11-13 · Claude · (이 커밋) 쌍둥이 사건 인물 자르기 + 말하는 입
+
+- 사용자 요청: 각 인물의 말하는 입 모양. 크레딧 없이 기존 입 시트(`mouths/sheet-original.png`)로.
+- 인물 자르기 `scripts/cut-twins-characters.py`(새로): 마젠타를 빼고 시드 점의 인물만, 3% 여백, 높이 700 → `evan`·`milo`·`ada`·`iris`·`victor-bed`(앉아서 말함)·`victor-bed-lying`(누움)`-higgsfield.png`.
+- 입: 처음엔 공용 입 시트로 만들었으나 사용자 요청(인물마다 자기 입)으로 다시: 다섯 얼굴을 한 장에 모아 Higgsfield에서 입만 고침(`acbc7e4a-…`, 1.5크레딧) → `scripts/make-npc-mouths.py`의 새 `face_sheet_mouths()`가 바뀐 입만 각 인물 그림에 얹음. 에반·에이다·아이리스·빅터 벌린 입 새로, 마일로 닫은 입 새로. 결과 `assets/characters/mouths/<키>-closed/open.png`, 좌표는 `assets/characters/README.md`(아직 `MOUTHS`에는 안 넣음). 스크립트 전체 실행이 예전 입 몇 개(오소리·피오나·두더지·레이)를 조금 다르게 다시 만들어 되돌림(Pillow 판 차이로 보임).
+- 확인: 입 미리보기(원래/닫음/벌림)로 다섯 모두 봄. 게임 화면에서는 아직 못 봄(사건 데이터 없음).
+- 사용자 요청: 말할 때 플레이어를 보게(안 보는 인물은 보는 버전도), 에이다는 고글을 손으로 잡아 올리게. 에이다 대화 그림 새로(2번, 각 1.5; 첫 그림은 손이 고글에 없어 다시), 쌍둥이 눈·에이다 입 한 장 고침(1.5) → `scripts/make-twins-talk-faces.py`로 `evan-talk`·`milo-talk`(눈동자 정면)·`ada-talk` 입. 말 걸기 전/대화 그림 짝은 `assets/characters/README.md`. 공용 시트로 만든 `mouths/ada-closed/open.png`는 이제 안 씀(삭제 후보). 오늘 그림 크레딧 합계 27.
+- **다음**: 사용자 지시 대기(쌍둥이 사건은 Codex 인계 뒤 점검부터).
+
+## 2026-11-13 · Claude · (이 커밋) 심문실 배경 새 그림 3안
+
+- 사용자 요청: 심문실(도서관 심문·튜토리얼·쌍둥이 면담실이 같이 씀)이 나무색 실내라 다른 장소와 구분이 안 됨 → 3안 모두 그리기(사용자 결정, 4.5크레딧). 지금 그림을 구도 참조(media `237c7e94-…`), Nano Banana 2.1 1:1.
+  - A 청회색 타일 조사실·형광등·어두운 유리창·철제 책상 `74fd7944-5b4b-41f2-9b27-eb216dd561ff` → `design/interview-room-a.png`
+  - B 남색 벽·노란 스탠드 `f12506cc-4563-4eeb-9694-02edb038ff27` → `design/interview-room-b.png`
+  - C 밝은 키 눈금 벽 `09e62e99-3b5e-4644-9530-47963c398b18` → `design/interview-room-c.png`
+  - 비교(경사를 가운데 세움) `design/interview-room-compare.png`
+- 사용자 선택: **A안**. 원본 `assets/places/interview-room-higgsfield-original.png`(1024), 1536으로 키워 `station-interview-room.png`를 교체(코드 경로 그대로, 도서관 심문·튜토리얼 7쪽·앞으로 쌍둥이 면담실). 튜토리얼 방 빈 배경색 #9C7A55 → #B9C3CC. `assets/places/README.md` 갱신, HANDOFF 7절 표(1254×1254 나무색 설명)는 하루 마무리 때 고침.
+- 확인: 새 탭(127.0.0.1) 도서관 심문 미리보기에서 경사가 청회색 방에 섬. 튜토리얼 7쪽은 보지 않음.
+- 후보·비교 파일 `design/interview-room-a/b/c.png`·`interview-room-compare.png`는 휴지통으로(사용자 승인).
+- **다음**: 사용자 지시 대기(쌍둥이 사건은 Codex 인계 뒤 점검부터).
+
+## 2026-11-13 · Claude · (이 커밋) 쌍둥이 사건 인물 시트(대화 모습) 미리 만들기
+
+- 사용자 요청: 스토리는 Codex가 다듬는 중이지만 종은 바뀌지 않을 것이라 인물 시트만 먼저. 기획 브랜치 머지(오웬 → 마일로 이름 변경).
+- 대화 모습 한 장: 에반(팔짱, 초조)·마일로(같은 얼굴·같은 옷, 두 손바닥을 펴 "난 아니야")·아이리스(까치, 앞치마, 휴대폰)·빅터(악어, 환자복+카디건, 팔걸이·다리 깁스·목발)·에이다(스컹크, 가죽 앞치마, 고글, 작은 드라이버). 쌍둥이는 옷 완전히 똑같이(사용자 결정), 손·손목에 상처·밴드 없음, 모자 없음(단서 보호). 참조 `holly-mae-talk-higgsfield-original.png`·`ella-finn-higgsfield-original.jpg`(media `4c0acaf2-…`·`73934992-…`), Nano Banana 2.1 16:9, job `e6e3eeab-e191-4a64-b611-7b0e75de9263`(1.5크레딧) → `assets/characters/twins-cast-talk-higgsfield-original.png`. 아직 자르지 않음(사건 데이터가 생길 때).
+- 확인: 그림만 봄. 마일로 조끼 가슴의 작은 사각형(주머니/명찰처럼 보임)이 에반은 팔짱에 가려 같은지 알 수 없음, 에이다 꼬리가 오른쪽 끝에 닿음.
+- 이어서(사용자 요청): 아이리스 휴대폰 지우기 `2364634b-…`(1.5) → 성공. 캐릭터 다리가 길다(사용자) → 비율 고치기 편집 `565ce0fd-…`(1.5)는 거의 안 바뀌고 발밑 그림자 생김, 쌍둥이·아이리스만 새로 `04cdb90a-…`(1.5): 아이리스는 통통해졌으나 쌍둥이 다리는 여전히 김. 여기까지 모두 6크레딧, 그림은 scratchpad에만(저장소에는 첫 시트만).
+- 사용자 추가 요청: 꼬리가 잘리지 않게, 에이다는 앉아서 고글을 쓰고 작업 → 쌍둥이+에이다 한 장 `a9374f4e-288e-4f33-a72d-466c815bd259`(1.5, 넓은 여백 지정) → `twins-ada-higgsfield-original.png`. 에이다: 의자에 앉아 고글을 쓰고 무릎 위 오르골을 드라이버로 손봄, 꼬리 다 보임. 쌍둥이는 다리가 그대로 길어 `scripts/shorten-twins-legs.py`로 무릎~발목 띠를 55%로 줄임 → `twins-ada-short.png`(무료).
+- 지금 쓸 그림: 쌍둥이·에이다 `twins-ada-short.png`, 아이리스 `twins-iris-higgsfield-original.png`(04cdb90a, 통통한 새 그림), 빅터 `twins-cast-talk-higgsfield-original.png`(첫 시트). 그림 크레딧 모두 7.5.
+- 사용자 요청: 빅터 병원 침대 버전. 첫 시트의 빅터를 참조로, 베개에 기대 상체를 세우고 깁스 다리를 이불 위에, 철제 침대까지 한 그림 `90e4c880-445a-4035-ae83-8afe86fcc850`(1.5) → `assets/characters/victor-bed-higgsfield-original.png`. 이불 아래 끝이 그림 아래쪽 가장자리에 가까움.
+- 사용자 요청: 조금 더 눕게 + 말을 걸면 허리를 펴고 탐정을 보는 그림도. 고치기 편집 `14e20ccb-…`(1.5)는 자세가 그대로라 버림(파일은 덮어씀). 새로 두 장(각 1.5): 평소 거의 누워 눈을 감고 쉼 `a6a1b785-e1ee-4e90-822a-e7c3dcf7525c` → `victor-bed-lying-higgsfield-original.png`, 대화 허리를 세우고 정면을 봄 `b3dae877-9b3c-4831-8c55-df00ca8a334a` → `victor-bed-talk-higgsfield-original.png`. 두 그림의 침대 위치가 조금 달라 자를 때 침대 기준으로 맞춰야 함. 첫 침대 그림 `victor-bed-higgsfield-original.png`는 이제 안 씀(삭제 후보). 오늘 그림 크레딧 합계 18.
+- 사용자 지적: 사고 피해자인데 편안하게 웃으면 안 됨 → 두 장 표정만 고침(각 1.5, 같은 파일 이름에 덮어씀): 누운 모습은 미간을 찌푸리고 눈을 감은 채 아파함 `66d1a073-5db1-4c1a-ac08-d7b0b751f7a4`, 대화 모습은 웃음 없이 지치고 걱정스러운 눈으로 정면 `51379adb-05e4-4805-8a65-105e1decc14a`. 오늘 그림 크레딧 합계 21.
+- 사용자 결정: 빅터는 침대 그림만 씀(누운 모습 = 평소, 허리를 편 모습 = 대화). 모음 시트 `twins-cast-sheet.png`에서 서 있는 빅터를 빼고 네 명(에반·마일로·아이리스·에이다)으로 다시 만듦. 첫 침대 그림 `victor-bed-higgsfield-original.png`와 첫 시트의 서 있는 빅터는 안 씀(첫 시트는 원본이라 남김).
+- 사용자 요청(한 장으로): 고른 다섯을 마젠타 배경 한 장에 모음 → `assets/characters/twins-cast-sheet.png`(2194×768, 왼쪽부터 에반·마일로·아이리스·빅터·에이다, 발 기준선 같게, 각자 플러드필로 이웃 조각 없이 잘라 붙임, 무료). 게임에 넣을 때는 이 한 장에서 자른다.
+- **다음**: 사용자 확인(쌍둥이 줄인 다리), 심문실 배경 새로 그리기(사용자 요청, 그림 계획부터).
+
+## 2026-11-13 · Claude · (이 커밋) 삭제 후보 11개 휴지통으로
+
+- 사용자 승인: 11-12 항목의 커밋 안 된 삭제 후보를 휴지통으로(`mae-quokka-talk-higgsfield-original.png`, `audio/christmas/deduce/unused-*.mp3` 6개, `design/sleigh-band-preview.png`·`sleigh-tracks-before-after.png`, `scripts/darken-sleigh-tracks.py`·`fix-mae-cutout.py`). 저장소에 없던 파일이라 커밋할 것은 이 항목뿐.
+- **다음**: 천막의 인수증 사진, 추리 5번, O 배지, 9번 카드를 게임 화면에서 확인.
+
+## 2026-11-13 · Claude · b76ffb2 작업 규칙: 커밋은 하루 마무리 때만
 
 - 사용자 결정(이 컴퓨터에 커밋하지 않고 남아 있던 변경을 사용자 요청으로 커밋): 작업 하나가 끝나면 확인 + CHANGELOG `(미커밋)` 항목만, HANDOFF 갱신과 `main` 커밋은 하루를 마무리하거나 커밋하라고 할 때(또는 "깃허브에 올려줘" 전에) 한 번. `AGENTS.md` 마무리 절차, `.claude/skills/wrap-up/SKILL.md`.
 - GitHub에서 받은 `main` 13커밋·`story`와 충돌 없이 합침. 추적 안 된 삭제 후보 11개(11-12 항목에 적은 것)는 그대로 둠.
 - **다음**: 천막의 인수증 사진, 추리 5번, O 배지, 9번 카드를 게임 화면에서 확인(이전 항목의 "다음").
 
-## 2026-11-13 · Claude · (이 커밋) 크리스마스: 코코의 장갑 인수증 단서
+## 2026-11-13 · Claude · d26c1cc 크리스마스: 코코의 장갑 인수증 단서
 
 - 사용자 지적·결정: 추리 5번 코코 "I gave Nico four boxes." O를 증명할 단서가 없었음(썰매에는 다섯). 카드는 그대로 두고 단서를 더함: 천막 코코 눈송이 작업대 옆 바닥의 인수증(Mittens · 4 boxes · Taken by: 니코의 파란 서명). Higgsfield가 빈 종이만 그림(1.5크레딧, 원래 그림 위에 그 부분만 `scripts/fix-christmas-tent-slip.py`), 글씨는 게임이 씀(`cocoSlip()`).
 - 단서 `tent-3` "Nico signed for four boxes."(코코 m3 뒤), 추리 전 필수(`needed`·`ready`). 추리 5번 맞장구 "Nico signed for four boxes on Coco's slip." 힌트 "Look at the photo of Coco's slip." 심문의 "다 코코 선물" 주장에도 정답으로 받음. 녹음 3줄(Grady). 설계서 c-slip·추리 5번 반영.

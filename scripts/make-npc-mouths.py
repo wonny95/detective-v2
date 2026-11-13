@@ -54,6 +54,7 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    # May (koala) keep their drawn closed mouth, the open one is the sheet's open smile; Nico's beak in beak_mouth()
    'holly':('holly-talk.png',231,220,54,13,'smile',3,216),
    'mae':('mae-talk.png',205,241,66,16,'smile',3,238)}
+   # the twin hit-and-run case: each face's own drawn mouth, in face_sheet_mouths()
 import sys
 if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
 NEAR=('mia-ollie','finn')   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
@@ -228,6 +229,38 @@ def beak_mouth(key, f, box, split, drop):
 # Nico the penguin (the Christmas case); his nervous face is also his sad one in the game (nico:sad -> same files)
 for key,f,box,split,drop in [('nico','nico-higgsfield.png',(170,176,238,210),194,5),('nico-nervous','nico-nervous-higgsfield.png',(135,170,214,222),205,4)]:
     if not sys.argv[1:] or key in sys.argv[1:]: beak_mouth(key,f,box,split,drop)
+def face_sheet_mouths():
+    """the twin case (2026-11-13, user: each character's own mouth, not the shared sheet): five faces cut from the
+    sprites (FACES, 240 px squares) were put on one 3x2 sheet (mouths/twins-faces-before.png) and edited once on
+    Higgsfield (mouths/twins-faces-higgsfield-original.png): open talking mouths for Evan, Ada, Iris and Victor, a
+    closed wavy mouth for Milo (drawn open). Each edited face is scaled back, its colours matched to the drawing on
+    the untouched upper face, and only where it differs inside the mouth area (KEEPM) is laid on the sprite, edges
+    blended, as Ben's. The other state is the picture as drawn over the same box. The twins' mouths are the same on
+    their talking sprites (evan-talk, milo-talk: only the eyes differ, above these boxes)."""
+    FACES={'evan':(126,60,366,300),'milo':(122,65,362,305),'ada':(40,70,280,310),'iris':(90,30,330,270),'victor-bed':(430,0,670,240)}
+    KEEPM={'evan':(62,92,182,168),'milo':(62,92,178,168),'ada':(66,120,190,200),'iris':(52,66,192,190),'victor-bed':(0,96,218,222)}
+    NEW={'evan':'open','milo':'closed','ada':'open','iris':'open','victor-bed':'open'}
+    ed_sheet=Image.open(M+'twins-faces-higgsfield-original.png').convert('RGB'); cw=ed_sheet.width/3; chh=ed_sheet.height/2
+    for i,(key,face) in enumerate(FACES.items()):
+        if key=='ada': continue   # her seated working picture never talks; ada-talk's mouth: scripts/make-twins-talk-faces.py
+        if sys.argv[1:] and key not in sys.argv[1:]: continue
+        im=Image.open(D+key+'-higgsfield.png').convert('RGBA'); src=Image.new('RGBA',im.size,(255,255,255,255)); src.alpha_composite(im)
+        src=src.crop(face).convert('RGB'); n=src.size[0]
+        ed=ed_sheet.crop((round((i%3)*cw),round((i//3)*chh),round((i%3+1)*cw),round((i//3+1)*chh))).resize(src.size,Image.LANCZOS)
+        up=(20,8,n-20,int(n*.35)); ms=[sum(c)/len(c) for c in zip(*src.crop(up).getdata())]; me=[sum(c)/len(c) for c in zip(*ed.crop(up).getdata())]
+        ed=Image.merge('RGB',[ch.point(lambda v,g=ms[j]/max(me[j],1):min(255,round(v*g))) for j,ch in enumerate(ed.split())])
+        hit=ImageChops.difference(src,ed).convert('L').point(lambda v:255 if v>30 else 0)
+        keep=Image.new('L',src.size,0); ImageDraw.Draw(keep).rectangle(KEEPM[key],fill=255); hit=ImageChops.multiply(hit,keep)
+        hit=hit.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.MaxFilter(11))   # drop speckle, then grow over the mouth
+        mask=ImageChops.multiply(hit.filter(ImageFilter.GaussianBlur(2.5)),keep.filter(ImageFilter.GaussianBlur(3)))
+        layer=ed.convert('RGBA'); layer.putalpha(ImageChops.multiply(mask,im.crop(face).getchannel('A')))
+        tb=layer.getchannel('A').point(lambda v:255 if v>2 else 0).getbbox()
+        box=[face[0]+tb[0],face[1]+tb[1],tb[2]-tb[0],tb[3]-tb[1]]
+        layer.crop(tb).save(M+f'{key}-{NEW[key]}.png',optimize=True)
+        other='closed' if NEW[key]=='open' else 'open'
+        im.crop((box[0],box[1],box[0]+box[2],box[1]+box[3])).save(M+f'{key}-{other}.png',optimize=True)
+        meta[key]={'closed':box,'open':box}; print(key,meta[key])
+if not sys.argv[1:] or any(k in sys.argv[1:] for k in ('evan','milo','ada','iris','victor-bed')): face_sheet_mouths()
 if 'nico-nervous' in meta:
     for st in ('closed','open'): Image.open(M+f'nico-nervous-{st}.png').save(M+f'nico-sad-{st}.png',optimize=True)
 # duck: the generated beaks replace the drawn one (147..300 x 167..248)
@@ -253,6 +286,9 @@ for key,f in [('nico','nico-higgsfield.png'),('nico-nervous','nico-nervous-higgs
         for st in ['orig','closed','open']: tiles.append(prev(key,f,st))
 if 'duck' in meta:
     for st in ['orig','closed','open']: tiles.append(prev('duck','duck-higgsfield.png',st))
+for key in ('evan','milo','iris','victor-bed'):
+    if key in meta:
+        for st in ['orig','closed','open']: tiles.append(prev(key,key+'-higgsfield.png',st))
 sheet=Image.new('RGB',(600,200*len(tiles)//3),'white')
 for i,t in enumerate(tiles): sheet.paste(t.convert('RGB'),((i%3)*200,(i//3)*200))
 sheet.save(os.path.join(os.environ.get("TEMP","."),"mouth-preview.png"))   # orig | closed | open, row per sprite

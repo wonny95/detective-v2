@@ -4,6 +4,8 @@
 
 ## 파출소 조사실
 
+- **2026-11-13 교체(사용자 요청: 나무색 실내라 다른 장소와 구분이 안 됨, 3안 중 A 선택)**: 청회색 타일 벽·회색 바닥·형광등·왼쪽 어두운 유리창·벽시계·배지·오른쪽 철제 책상과 의자 둘. Higgsfield Nano Banana 2.1 1:1, 예전 그림을 구도 참조(media `237c7e94-…`), job `74fd7944-5b4b-41f2-9b27-eb216dd561ff`(1.5크레딧, 3안 합계 4.5) → 원본 `interview-room-higgsfield-original.png`(1024), 1536으로 키워 `station-interview-room.png`. 아래는 예전(나무색) 그림의 기록이다.
+
 - 적용 파일: `station-interview-room.png` (1254×1254, 불투명 PNG). Codex가 기본 내장 `image_gen` 도구로 생성했으며 Higgsfield·CLI는 사용하지 않았다. 원본 출력 `exec-775099ed-d51e-4f18-aad7-1536ec5e74d1.png`를 후처리·크롭 없이 복사했다.
 - `library-higgsfield-v2.png`와 `bakery-higgsfield.png`는 화풍 참조다. 크림색 벽·목재 바닥·황토색 램프·청록색 창틀·밤 숲과 달·빈 메모 코르크판·별 배지로 기존 색연필/과슈 그림책 분위기를 맞췄다. 인물·글자·사건 증거는 없다.
 - 지목한 모든 인물과 오소리 경사가 공통으로 사용하는 대화 전용 방이다. 지도 탐색 장소에 추가하지 않는다. 배경과 캐릭터·말풍선·증거 UI는 분리돼 있다.
