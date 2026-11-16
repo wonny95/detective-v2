@@ -2932,7 +2932,7 @@ const CHRISTMAS_CASE = {
   start:'badger',
   leaveOpen:true,
   accused:'nico',
-  // evidence chip shown (user decision 2026-11-15): 4, one photo for each of Nico's claims
+  // evidence chip shown (user decision 2026-11-15): the photos the questioning holds up (seven, evidenceNeed)
   // the officer and Ella come to the sleigh in the middle of the questioning (design 7절), not from its start
   lateJoin:true,
   people:{
@@ -3260,7 +3260,9 @@ const CHRISTMAS_CASE = {
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:419, y:392, w:230, h:176 } },
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:515, y:432, w:230, h:176 } },
         // the box opens first (flagFirst), then the detective says what is in it (user request 2026-11-16)
-        { label:'Box', take:'star', flag:'box-open', flagFirst:true, lines:[ { key:'take-star', en:"There's a gold star in this box!", ko:'이 상자 안에 금별이 있어!' } ] },
+        // the box only opens here; the star goes into 소지품 once its back is photographed (starback, give), and the box
+        // is drawn empty from then (user requests 2026-11-16)
+        { label:'Box', take:'!box-open', flag:'box-open', flagFirst:true, lines:[ { key:'take-star', en:"There's a gold star in this box!", ko:'이 상자 안에 금별이 있어!' } ] },
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:752, y:462, w:230, h:176 } },
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:870, y:480, w:230, h:176 } },
         { label:'Star in the box', prop:true, seen:true, en:'A star inside the box.', ko:'상자 안에 별이 있어.' },
@@ -3283,8 +3285,9 @@ const CHRISTMAS_CASE = {
         { clue:7, x:46.4, y:49.8, w:11, h:15.4, when:['!open-order'], unless:['!box-open'] },
         { clue:8, x:57.4, y:45.7, w:8.9, h:12.6, when:['!open-order'], unless:['!box-open'] },
         { clue:9, x:66.3, y:49.1, w:8.7, h:8.3, when:['!open-order'], unless:['!box-open'] },
-        { clue:10, x:42.5, y:49, w:19.5, h:17, when:['!box-open'], photo:{ x:514, y:441, w:400, h:300 } },
-        { clue:11, x:42.5, y:49, w:19.5, h:17, when:['sleigh-10'] },
+        // nothing more to tap once the star is taken out: the box is empty (sleigh-nobox.jpg + box-empty.png)
+        { clue:10, x:42.5, y:49, w:19.5, h:17, when:['!box-open'], unless:['!took:star'], photo:{ x:514, y:441, w:400, h:300 } },
+        { clue:11, x:42.5, y:49, w:19.5, h:17, when:['sleigh-10'], unless:['!took:star'] },
         { clue:12, x:1, y:2, w:21, h:24 }
       ] },
     // never on the map: the toy star (from the tent), the real star's back (from the open box)
@@ -3329,11 +3332,13 @@ const CHRISTMAS_CASE = {
       spots:[ { clue:0, x:37.6, y:16.1, w:24.7, h:64.7, photo:{ x:335, y:107, w:707, h:530 } } ] },
     // the gold star's back fits the close look's visible width (~400 around x 688, user request), as the gift list does
     { id:'starback', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768,
-      clues:[ { label:'Back of the star', en:'A small leaf pattern on the back of the star.', ko:'별 뒷면에 작은 잎사귀 모양이 있어.' } ],
+      // give: photographed, the star goes into 소지품 (user request 2026-11-16: the star is taken once it is checked);
+      // flag: the box it came out of is open (the previews that start with the star carried)
+      clues:[ { label:'Back of the star', give:'star', flag:'box-open', en:'A small leaf pattern on the back of the star.', ko:'별 뒷면에 작은 잎사귀 모양이 있어.' } ],
       spots:[ { clue:0, x:36.2, y:25, w:27.6, h:47, photo:{ x:408, y:162, w:560, h:420 } } ] }
   ],
-  // design 6절: every talk, the six photos before the box is opened, the look at Tess's table
-  // photos in the evidence notebook; the case is only looked at (seen), in ready
+  // design 6절: every talk, the photos before the box is opened, the look at Tess's table (ready; the case is only
+  // looked at, seen); needed: those that must be in the evidence notebook
   needed:['giftlist-0', 'toystar-0', 'cocoslip-0'],
   ready:['storeroom-0', 'tent-5', 'giftlist-0', 'sleigh-0', 'toystar-0', 'backyard-0', 'sleigh-1', 'cocoslip-0', '!table-seen'],
   // the detective's thoughts, once each, when their conditions are met (design 2절)
@@ -3374,12 +3379,16 @@ const CHRISTMAS_CASE = {
     // off (user request 2026-11-16: no line about Tess naming Nico); kept so saved thought numbers keep their place
     { off:true, when:['tess:t3', 'mae:m4'], line:{ key:'sleigh-thought', en:'Tess said Nico is by the sleigh. I should talk to him.', ko:'테스가 니코는 썰매 옆에 있다고 했어. 니코한테 가 봐야겠어.' } },
     { when:['nico:n4'], line:{ key:'toy-star-thought', en:'Tess took the star? I should go back and check.', ko:'테스가 별을 가져갔다고? 돌아가서 확인해 봐야겠어.' } },
-    { when:['toystar-0'], line:{ key:'back-to-sleigh-thought', en:'I should go back to the sleigh.', ko:'썰매로 돌아가 봐야겠어.' } },
+    // only once Nico's n4 sent the detective back (review 2026-11-16: the star can be photographed before the sleigh is known)
+    { when:['toystar-0', 'nico:n4'], line:{ key:'back-to-sleigh-thought', en:'I should go back to the sleigh.', ko:'썰매로 돌아가 봐야겠어.' } },
     { when:['!table-seen'], line:{ key:'compare-thought', en:'I should compare the notes and the photos.', ko:'기록과 사진을 비교해 봐야겠어.' } },
-    { when:['sleigh-10'], line:{ key:'box-contents', en:"You said this was a gift. There's a star inside.", ko:'선물이라고 했지. 안에는 별이 있어.' } },
+    { when:['sleigh-10'], line:{ key:'box-contents', en:"Nico said this was a gift. There's a star inside.", ko:'니코는 선물이라고 했지. 안에는 별이 있어.' } },   // a thought: of Nico, not to him (review 2026-11-16)
     // last, so saved thought numbers keep their place; once the officer says to open a box and the scale is not yet taken (review 3: nothing led back to it; the scale
     // stays optional, design 상자 고르기): the storeroom line again, where to go only
     { when:['!open-order'], unless:['!took:scale', '!box-open'], line:{ key:'storeroom-thought', en:'I should check the storeroom.', ko:'창고를 확인해야겠어.' } },
+    // Ella's e3 opens with Daisy's h4 and the deduction waits for it (review 2026-11-16: nothing led back to her); who to
+    // ask only
+    { when:['holly:h4'], unless:['ella:e3'], line:{ key:'ella-daisy-thought', en:'I should ask Ella about Daisy.', ko:'엘라에게 데이지에 대해 물어봐야겠어.' } },
   ],
   positions:{
     badger:{x:28, floor:97, height:46},
@@ -3520,12 +3529,15 @@ const CHRISTMAS_CASE = {
         miss:{ det:true, key:'miss-may-gifts', en:"That doesn't show Coco's gifts.", ko:'그건 코코의 선물을 보여 주지 않잖아.' },
         lines:[ { who:'nico', key:'claim-may', mood:'nervous', en:"They're all Coco's gifts. She gave them to me.", ko:'다 코코의 선물이야. 코코가 나한테 줬어.' } ],
         // then the box too many (user request 2026-11-16: the detective asks about it, after the two held up together)
-        hit:[ { det:true, key:'may-boxes', en:'Coco said she gave you four boxes.', ko:'코코는 너한테 상자 넷을 줬다고 했어.' },
+        // what the slip held up shows (review 2026-11-16: it said "Coco said")
+        hit:[ { det:true, key:'may-boxes', en:"Coco's slip says you took four boxes.", ko:'코코의 인수증에는 네가 상자 넷을 받았다고 되어 있어.' },
           { det:true, key:'one-more-box', en:"But there's one more box on your sleigh. What's that box?", ko:'그런데 네 썰매 위에 상자가 하나 더 있어. 저 상자는 뭐야?' },
           { who:'nico', key:'dont-know', mood:'nervous', en:"I... I don't know.", ko:'나… 나도 몰라.' },
           // the last word of the questioning before the officer comes (user decision 2026-11-16)
           { det:true, key:'story-changing', en:'Your story keeps changing, Nico.', ko:'니코, 네 설명이 자꾸 바뀌어.' } ] },
-      { join:['badger', 'ella'], flag:'open-order',
+      // leave: only the officer goes off with Nico once he owns up; Ella stays at the sleigh for the star (user report
+      // 2026-11-16: she was gone at the hand-over)
+      { join:['badger', 'ella'], leave:['badger'], flag:'open-order',
         lines:[
           { who:'badger', key:'check-in', en:'Detective, how is it going?', ko:'탐정, 어떻게 돼 가니?' },
           { who:'ella', key:'check-in', en:'Did you find anything?', ko:'뭐라도 찾았어?' },
@@ -3549,7 +3561,10 @@ const CHRISTMAS_CASE = {
         hit:[ { det:true, key:'found-star', en:"Look at the back. There's a leaf pattern.", ko:'뒷면을 봐. 잎사귀 무늬가 있어.' },
           { who:'ella', key:'confirm-owner', en:"That's our star. It has the leaf pattern on the back.", ko:'우리 별이야. 뒷면에 잎사귀 무늬가 있어.' } ] },
       { lines:[
-        { who:'nico', key:'admit', mood:'sad', en:"I took it from the case on the storeroom shelf. I didn't ask.", ko:'창고 선반에 있는 보관함에서 가져왔어. 허락은 안 받았어.' },
+        // owning up first, then where, then why when the detective asks (user request 2026-11-16: it all came out at once)
+        { who:'nico', key:'stole', mood:'sad', en:'Okay... I stole it.', ko:'그래… 내가 훔쳤어.' },
+        { who:'nico', key:'admit', mood:'sad', en:'It was in the case on the storeroom shelf.', ko:'창고 선반 보관함에 있었어.' },
+        { det:true, key:'why-take', en:'Why did you take it?', ko:'왜 가져갔어?' },
         { who:'nico', key:'motive', mood:'sad', en:'I saw the open case and got greedy. I thought the gold would sell for a lot.', ko:'보관함이 열려 있는 걸 보고 욕심이 났어. 금별을 팔면 큰돈을 받을 수 있을 줄 알았어.' },
         { who:'nico', key:'weight', mood:'sad', en:'It was too heavy to carry far. I put it on the sleigh.', ko:'들고 멀리 가기엔 너무 무거웠어. 그래서 썰매에 실었어.' },
         { who:'nico', key:'blame', mood:'sad', en:"I said Tess had the star. That wasn't true.", ko:'테스한테 별이 있다고 했지만 사실이 아니었어.' },
@@ -3589,7 +3604,7 @@ Object.entries({ badger:['hello', 'b0', 'check-in', 'suspicious', 'reason-to-che
   holly:['h1', 'h2', 'h3', 'h4', 'hello', 'ready'],
   mae:['hello', 'm0', 'm1', 'm3', 'm4', 'ready', 'star'],
   tess:['hello', 'ready', 'star', 'storeroom', 't5', 't1', 't3'],
-  nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-storeroom', 'dont-know', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight'] })
+  nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-storeroom', 'dont-know', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight', 'stole'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : null;
 // a case that happens in one building has its own map picture (PACK.map, 9:16 as the village map)
@@ -6906,9 +6921,10 @@ function scriptGo(i){
   if(item.ask){ Object.assign(ending, { step:'ask', line:null, lineDone:null }); renderSay(null); endingFocus(accusedId); return renderAsk(); }
   if(item.scene) return pauseScript(i);
   if(item.flag && !S.flags.has(item.flag)){ S.flags.add(item.flag); saveGame(); }
-  // they come to where the questioning is and stay until the end (gone: once the accused owns up)
+  // they come to where the questioning is and stay until the end (gone: once the accused owns up, those in leave, or
+  // everyone without one)
   (item.join || []).forEach(id => {
-    S.visit[id] = { place:spk(accusedId).place, ...PACK.joinPositions[id], gone:['!confessed'] };
+    S.visit[id] = { place:spk(accusedId).place, ...PACK.joinPositions[id], ...(!item.leave || item.leave.includes(id) ? { gone:['!confessed'] } : {}) };
     if(!S.met.includes(id)) S.met.push(id);
   });
   if(item.join) renderScene(placeIdOf(accusedId));
@@ -7662,8 +7678,10 @@ const ART = {
   storeroom: () => `<image href="${XM}${S.flags.has('took:scale') ? 'storeroom-noscale' : 'storeroom'}.jpg" width="1376" height="768"/>`,
   tent: () => `<image href="${XM}tent.jpg" width="1376" height="768"/>` +
     (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + xmasList(),
-  sleigh: () => `<image href="${XM}sleigh.jpg" width="1376" height="1028"/>` +
-    (S.flags.has('box-open') ? `<image href="${XM}box-star.png" x="574" y="500" width="279" height="182"/>` : ''),
+  // the opened box over the sleigh without its closed box (user report 2026-11-16: the closed one showed under it), the
+  // star in it until it is taken out (scripts/fix-sleigh-open-box.py)
+  sleigh: () => `<image href="${XM}${S.flags.has('box-open') ? 'sleigh-nobox' : 'sleigh'}.jpg" width="1376" height="1028"/>` +
+    (S.flags.has('box-open') ? `<image href="${XM}${S.flags.has('took:star') ? 'box-empty' : 'box-star'}.png" x="574" y="500" width="279" height="182"/>` : ''),
   weigh: () => xmasLook('sleigh', weighArt()),
   backyard: () => `<image href="${XM}corner.jpg" width="1200" height="896"/>`,
   // front and back the same glitter picture (a toy has no pattern on either side), the back mirrored so the turn shows
@@ -7957,9 +7975,13 @@ function captureEvidence(place, clueIndex){
     if(!S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)){
       S.evidence.push({ placeId:place.id, clueIndex, photo });
     }
+    // give: the thing photographed goes into 소지품 too (the gold star's back)
+    const give = place.clues[clueIndex].give;
+    const gave = give && !S.flags.has(`took:${give}`);
+    if(gave){ S.items.push(give); S.flags.add(`took:${give}`); setItemsNew(true); saveGame(); }
     S.view = 'evidence'; setNotes(true);
     evidenceOpen = `${place.id}-${clueIndex}`; renderDock();
-    toast('증거를 노트에 기록했어요.');
+    toast(gave ? '증거를 기록하고 소지품에 넣었어요.' : '증거를 노트에 기록했어요.');
   };
   captureShotTimer = setTimeout(() => {
     if(!preview.isConnected) return;
@@ -9201,6 +9223,8 @@ function loadGame(){
   });
   // Tess's toys were a close look of their own ('toys', its toy gifts looked at as toys-0) until her table only says one
   // line (tent-5, user decision 2026-11-16): looked at there is looked at here; a save left in that close look is in the tent
+  // Ella stays at the sleigh after Nico owns up (user report 2026-11-16): a save from the questioning forgets her gone
+  if(CASE_ID === 'christmas-star' && S.visit?.ella?.gone) delete S.visit.ella.gone;
   // Tess's t4 (the star in her box) was taken out (user decision 2026-11-16): a save that asked it forgets it
   if(CASE_ID === 'christmas-star' && S.per.tess){
     const t = S.per.tess;
@@ -9767,7 +9791,7 @@ $('#devDone').onclick = () => {
 $('#devEvidence').onclick = () => {
   let n = 0;
   const later = new Set((ENDING.script || []).filter(item => item.flag).map(item => item.flag));
-  PLACES.forEach(pl => pl.clues.forEach(c => { if(c.take && c.flag && !c.take.startsWith('!') && !(PACK?.ready || []).includes('@' + c.take)) later.add(c.flag); }));
+  PLACES.forEach(pl => pl.clues.forEach(c => { if(c.take && c.flag && (c.flagFirst || !c.take.startsWith('!')) && !(PACK?.ready || []).includes('@' + c.take)) later.add(c.flag); }));
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
     // only once the questioning has come so far (a flag it sets, or the opened box's): found there in play
     if(place.spots.some(spot => spot.clue === clueIndex) && place.spots.filter(spot => spot.clue === clueIndex).every(spot => (spot.when || []).some(k => k.startsWith('!') && later.has(k.slice(1))))) return;
@@ -9924,20 +9948,24 @@ const PREVIEW_RUN = {
     const at = ENDING.script.findLastIndex(item => item.lines && !item.claim && !item.join && !item.ask && !item.scene);
     ENDING.script.slice(0, at).forEach(item => (item.until || []).forEach(ref => { const cut = ref.lastIndexOf('-'), pl = placeOf(ref.slice(0, cut)), i = +ref.slice(cut + 1);
       (S.found[pl.id] ||= new Set()).add(i); if(!S.evidence.some(r => evRef(r) === ref)) S.evidence.push({ placeId:pl.id, clueIndex:i, photo:evidencePhoto(pl, i) }); }));
-    PLACES.forEach(pl => pl.clues.forEach(c => { if(c.take && c.flag && PACK?.previewHandback?.includes(c.take)) S.flags.add(c.flag); }));
+    PLACES.forEach(pl => pl.clues.forEach(c => { if((c.take || c.give) && c.flag && PACK?.previewHandback?.includes(c.take || c.give)) S.flags.add(c.flag); }));
     if(PACK?.previewHandback) PACK.previewHandback.forEach(id => { if(!S.items.includes(id)){ S.items.push(id); S.flags.add(`took:${id}`); } });
     startScript();
     clearTimeout(endTimer); stopVoice();
     ENDING.script.slice(0, at).forEach(item => {
       if(item.flag) S.flags.add(item.flag);
-      (item.join || []).forEach(id => { S.visit[id] = { place:spk(accusedId).place, ...PACK.joinPositions[id], gone:['!confessed'] }; if(!S.met.includes(id)) S.met.push(id); });
+      (item.join || []).forEach(id => { S.visit[id] = { place:spk(accusedId).place, ...PACK.joinPositions[id], ...(!item.leave || item.leave.includes(id) ? { gone:['!confessed'] } : {}) }; if(!S.met.includes(id)) S.met.push(id); });
     });
     endingRound = ENDING.confront.length; S.mood[accusedId] = 'sad';
     renderScene(placeIdOf(accusedId)); renderInterrogationGauge();
     scriptGo(at);
   },
   // what the detective carries by then (the star, the violin case): without it the hand-over's 소지품 is empty
-  return:() => { previewCase(); previewDeduced(); openSheet(null); S.flags.add('confessed'); if(PACK?.previewHandback) S.items = [...PACK.previewHandback]; startScript(); },
+  // the box it came out of shown open and empty as well (its flag, took:)
+  return:() => { previewCase(); previewDeduced(); openSheet(null); S.flags.add('confessed');
+    if(PACK?.previewHandback){ S.items = [...PACK.previewHandback]; S.items.forEach(id => S.flags.add(`took:${id}`));
+      PLACES.forEach(pl => pl.clues.forEach(c => { if((c.take || c.give) && c.flag && PACK.previewHandback.includes(c.take || c.give)) S.flags.add(c.flag); })); }
+    startScript(); },
   review:() => { previewCase(); previewDeduced(); openSheet(null); openReview(); }
 };
 const PREVIEW_PARTS = PREVIEW_OF[CASE_ID].map(([id, label]) => [id, label, PREVIEW_RUN[id]]);
