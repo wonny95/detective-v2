@@ -41,6 +41,8 @@ for(const [id, p] of Object.entries(P.people)){
 P.places.forEach(pl => pl.clues.forEach((c, i) => c.take ? (c.lines || []).forEach(l => line(l)) : add('Grady', `detective-${pl.id}-${i}`, c.en)));
 Object.entries(P.items).forEach(([id, it]) => add('Grady', `detective-item-${id}`, it.en));
 P.thoughts.forEach(t => line({ det:true, ...t.line }));
+// the 단서 찾기 힌트 lines (hints: where to look, said with the sparkle)
+Object.entries(P.hints || {}).forEach(([k, l]) => add('Grady', `detective-hint-${k}`, l.en));
 // the deduction board, by question number (DEDUCE_RECORDED): question, the reply when right, the hint; one miss
 P.deduce.qs.forEach((q, i) => { add('Grady', `deduce/q${i + 1}`, q.q); add('Grady', `deduce/r${i + 1}`, q.right); add('Grady', `deduce/h${i + 1}`, q.hint); });
 add('Grady', 'deduce/miss', P.deduce.miss.en);
