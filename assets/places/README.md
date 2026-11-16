@@ -4,6 +4,8 @@
 
 ## 파출소 조사실
 
+- **2026-11-13 교체(사용자 요청: 나무색 실내라 다른 장소와 구분이 안 됨, 3안 중 A 선택)**: 청회색 타일 벽·회색 바닥·형광등·왼쪽 어두운 유리창·벽시계·배지·오른쪽 철제 책상과 의자 둘. Higgsfield Nano Banana 2.1 1:1, 예전 그림을 구도 참조(media `237c7e94-…`), job `74fd7944-5b4b-41f2-9b27-eb216dd561ff`(1.5크레딧, 3안 합계 4.5) → 원본 `interview-room-higgsfield-original.png`(1024), 1536으로 키워 `station-interview-room.png`. 아래는 예전(나무색) 그림의 기록이다.
+
 - 적용 파일: `station-interview-room.png` (1254×1254, 불투명 PNG). Codex가 기본 내장 `image_gen` 도구로 생성했으며 Higgsfield·CLI는 사용하지 않았다. 원본 출력 `exec-775099ed-d51e-4f18-aad7-1536ec5e74d1.png`를 후처리·크롭 없이 복사했다.
 - `library-higgsfield-v2.png`와 `bakery-higgsfield.png`는 화풍 참조다. 크림색 벽·목재 바닥·황토색 램프·청록색 창틀·밤 숲과 달·빈 메모 코르크판·별 배지로 기존 색연필/과슈 그림책 분위기를 맞췄다. 인물·글자·사건 증거는 없다.
 - 지목한 모든 인물과 오소리 경사가 공통으로 사용하는 대화 전용 방이다. 지도 탐색 장소에 추가하지 않는다. 배경과 캐릭터·말풍선·증거 UI는 분리돼 있다.
@@ -116,3 +118,20 @@ Use case: illustration-story. Create ONE empty background illustration for the w
 - 적용(2026-11-08, 앞 사건들처럼 Python으로 다시 자름): `scripts/cut-violin-places.py <배경 제거 폴더>`(Pillow). 장소는 1376×1843으로 줄여 띠 시작(로비 380: 벤치 밑 안내지가 들어가게·대기실 140·무대 300·준비실과 커튼을 연 판 250)부터 768을 `<id>.jpg`, 그 아래를 `<id>-floor.jpg`(로비 695·대기실 935·무대 775·준비실 825). 게임의 장소 id는 로비만 `foyer`(소풍 사건의 `lobby`와 겹치지 않게). 소지품은 배경 제거한 시트(`remove_background` `3f42bb9c-…`, 저장소에 넣지 않음)에서 남은 흰 스티커 테두리를 바깥에서 깎고(옅은 회백색만, 갈색 선에서 멈춤) 물건마다 잘라 `case-closed.png` 293×640·`case-open.png` 416×640·`gold-button.png` 240×240·`cutters.png` 302×460. 니퍼는 대기실 오른쪽 의자 아래, 케이스는 커튼을 연 준비실 선반 앞에 눕혀, 단추는 커튼 자락 아래에 `ART`로 얹는다. 소매는 시트의 세 칸에서 종이를 가장자리부터 지우고(사용자 요청: 종이 없이) 큰 조각만 남겨 높이 300 PNG로(`sleeves-owen.png` 442·`-ivo` 427·`-momo` 385 폭), 확대 조사에서는 방 그림을 흐리게 깐 위 가운데에 높이 260으로 놓는다(`closeLook()`). 타라의 사진은 1024×765 `tara-photo.jpg`.
 - **사건 지도(2026-11-09, 사용자 요청: 대회장 안에서만 일어나는 사건이라 마을 전체가 필요 없음)**: 음악회관을 지붕을 걷고 위에서 본 그림책 지도 `cb7a0679-efeb-45be-84b5-8a4790b21ede` → `map-hall-higgsfield-original.jpg`(9:16 2K, 2크레딧, 참조 마을 지도 편집본·무대 그림). 아래 로비(포스터·프로그램 탁자·벤치·안내판), 가운데 객석, 위 무대, 왼쪽 대기실(의자 둘·거울·물병), 왼쪽 위 준비실(사다리·작업등·붉은 커튼·전구 선반·공구함). 글자 없음. 1080×1935 `map-hall.webp`(품질 86). 핀: 로비 50,78·대기실 22,46·무대 68,39·준비실 30,18.
 - 마을 지도(처음 판): 편집본의 (540,410) 228×200에서 낮 지도와 달라진 곳만 가장자리를 흐려 `village-map-day-higgsfield.webp`에 붙였다(우산 사건 때와 같은 방식, 모든 사건의 지도). 핀: 로비 87,41·대기실 74,38·무대 91,33·준비실 76,29(한 건물의 네 방이라 둘레에 나눔).
+
+# 크리스마스 별 사건 장소 (`christmas/`, Claude 제작, 2026-11-10)
+
+- 사용자 결정(그림 계획 약 19크레딧, 실제 27크레딧: 천막 상자 수 수정·창고 저울 지우기·배경 제거 포함). Higgsfield Nano Banana 2(`nano_banana_2`), 장소는 3:4 2K 바닥까지 한 장(1792×2400), 화풍 참조는 바이올린 로비·준비실 job(`7b6d317d-…`·`4c7728ea-…`)과 첫 광장 그림.
+  - 트리 광장 `5f133213-ab30-41c8-a659-5d77f85cddf0` → `tree-higgsfield-original.jpg`: 큰 트리(별 없음, 낮은 가지의 종·리본), 오른쪽 줄무늬 차양 안내소, 왼쪽 위로 올라가는 눈길.
+  - 밤 광장: 위 그림을 어둡고 푸르게(Python, 크레딧 없음, `tree-night.jpg`). 불 켜진 트리는 그 어둡게 한 판을 참조로 편집 `0f4a3ae2-3b33-4029-96b5-ee11ee207a82` → `tree-lit-higgsfield-original.jpg`(전구·꼭대기 금별·창문 불빛, 2크레딧).
+  - 창고 `848bb86b-5992-4051-8fb3-46d7d9ffe795` → `storeroom-higgsfield-original.jpg`: 왼쪽 앞 장식 작업대, 장식 상자 더미, 벽 화환·사다리, 접이식 의자 앞 양팔 저울, 전구 줄 상자·식탁보 바구니, 오른쪽 뒷문과 별 받침이 빈 보관함 선반·선반 아래 반짝이, 포장지 선반. 저울을 지운 판 `9bf23ead-3b69-4f33-9adb-21b58013cf52` → `storeroom-noscale-original.jpg`(2크레딧), 저울 자리만 섞어 `storeroom-noscale.jpg`(저울을 가져간 뒤의 창고).
+  - 창고 모퉁이 사진 c-track-yard: 처음 그림 `c22d4912-0409-479f-88c7-2a578feca526` → `corner-higgsfield-original.jpg`(4:3 1K, 1.5크레딧, 이제 안 씀: 오른쪽 자국이 창고에서 시작하지 않고 손수레가 없었음). 지금 그림은 이것을 고친 `80cdd3ed-5fde-46bd-b596-c8953243afee` → `corner-cart-higgsfield-original.jpg`(nano_banana_2 편집, 1.5크레딧, 사용자 요청): 문 옆에 트리 장식(공 장식·갈랜드·화환·전구 줄·종)을 가득 실은 데이지의 손수레, 손수레에서 시작해 트리까지 굽는 바퀴 자국, 문에서 나와 나무 기둥 옆을 지나 왼쪽 아래로 가는 썰매 자국, 멀리 트리. 창고 뒷문을 누르면 열리는 확대 화면 `backyard`(창고 뒤 눈밭)의 그림이고, 거기서 찍는 `Marks outside` 증거 사진도 이 그림 전체다.
+  - 천막 `6469c9fa-09d8-4963-aa2d-1f21f309fee1` → `tent-higgsfield-original.jpg`: 상자가 다섯이라(자동차와 별 장난감이 한 상자) 전체 편집 `597d611d-…`(실패, 2크레딧) 뒤 작업대 부분만 잘라 편집 `522fa594-eb33-4aac-b385-13b75464b6e0`(4:3 1K, 1.5크레딧)으로 여섯 상자(자동차 상자·별 장난감 상자 따로)를 만들어 붙임 → `tent-fixed-original.jpg`. 진행된 천막은 빨간 리본 상자를 오려(`tent-wrapped.png`) 자동차 상자 위에 덮고 클립보드 체크를 넷으로(`ART.tent`, `xmasList()`).
+  - 썰매 `25c189bc-3204-4b7e-ac01-6832755e132a` → `sleigh-higgsfield-original.jpg`: 똑같은 빨간 상자 다섯(가운데가 조금 낮음), 옆의 빈 상자·선물 자루, 왼쪽 나무 기둥과 썰매 밑으로 드는 자국, 뒤 오른쪽 천막. (지금은 쓰지 않음: 아래 천막 옆 썰매로 바꿈.)
+  - 천막 옆 썰매 `d2a69ace-01b9-4c8d-af3c-f353423d4c89` → `sleigh-side-higgsfield-original.jpg`(3:4, 896×1200, 1.5크레딧, 위 썰매 원본과 창고 모퉁이 사진을 참고로): 같은 썰매·상자·자루·기둥 자리, 오른쪽 천막의 열린 옆면과 작업대, 뒤쪽 마을 대신 나무, 왼쪽 멀리 창고와 그 문에서 기둥 옆을 지나 썰매 밑으로 드는 자국(사용자 요청: 천막 앞은 너무 눈에 띔, 창고에서 이어지는 자국). `scripts/cut-sleigh-side.py`가 위 1028을 장소 그림(이 장소만 더 김), 아래를 바닥으로 자르고 자국을 연하게 함(사용자: 너무 진함). 앞서 자국만 고친 Higgsfield 수정(1.5크레딧)은 자국이 더 흐려져 쓰지 않음.
+  - 물건 시트 `7ff573b5-8062-4c09-a671-9e9f1afa154d` → `items-sheet-original.jpg`(16:9 2K, 2크레딧, 참조 바이올린 물건 시트·썰매), 배경 제거 `f80127de-…`: 별 장난감 뒷면 `toy-star-back.png`, 상자 속 금별 `box-star.png`, 금별 뒷면 잎사귀 `star-back.png`, 털장갑 상자 `box-mittens.png`, 닫힌 상자 `box-closed.png`, 저울 `scale.png`.
+  - 소지품 금별(정면) `f72a6bd0-…` → `star-front-higgsfield-original.png`(gpt_image_2_6, 상자 속 금별을 참고로 별만), 마젠타를 빼 `star-front.png`(700×662): 소지품 칸·가방 그림.
+  - 테스의 선물 목록 클립보드(정면) `5e46d6df-ed0c-4aec-a227-58c82aef1a73` → `gift-list-higgsfield-original.png`(gpt_image_2_6, 3:4, 0.25크레딧, 천막 그림의 클립보드를 참고로 빈 종이). `scripts/make-christmas-gift-list.py`가 마젠타를 빼고 손글씨 글꼴(Windows Ink Free)로 목록(Gifts for This Delivery · Toy gifts: 6 · 여섯 이름과 체크 칸)을 써 `gift-list-2.png`(체크 둘)·`gift-list-4.png`(체크 넷, 779×1138, 종이 64,172–716,1066)를 만듦.
+  - 코코의 인수증: 바닥에 붙였던 빈 종이(`tent-slip-higgsfield-original.png`)를 `scripts/fix-christmas-tent-slip-table.py`가 예전 천막 그림(git e096264)의 바닥으로 덮음. 인수증은 게임이 눈송이 탁자 위에 그림.
+  - 축제장 지도 `e40f2a1f-38aa-4585-904e-10ac1d0cfdd3` → `map-higgsfield-original.jpg`(9:16 1K, 1.5크레딧) → `map-festival.webp`. 핀: 광장 50,74·창고 26,20·천막 82,20·썰매 58,33.
+- 적용: `scripts/cut-christmas-assets.py <받은 파일 폴더>`(Pillow). 장소는 1376×1843으로 줄여 띠 시작(광장 330·창고 380·천막 520·썰매 260)부터 768을 `<id>.jpg`, 그 아래를 `<id>-floor.jpg`(745·695·555·815).

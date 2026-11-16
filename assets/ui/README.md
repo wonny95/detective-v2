@@ -148,6 +148,7 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - 사용처: 게임 메뉴(`.nav`, `.hn-ic`). 이 시트에서는 사건 돋보기·학습 책·마이 탐정 모자만 쓴다. 나무 문은 사용자가 직관적이지 않다고 해 집(아래 시트)으로 바꿨고, 다람쥐 얼굴·문 + 등불은 고르지 않았다(시트 원본에는 남아 있음).
 - `nav-icons-2-higgsfield-original.png` (1264×848, job `cd4840ad-c696-42db-bb34-9b5829edc4f6`): 3×2 시트 — 집, 굴뚝 오두막, 나무 집 / 지도, 수첩 + 연필, 덮인 공책. 위 시트를 화풍 참조로 붙여 같은 결로 그렸다(Nano Banana 2.1, 1.5크레딧). 쓰는 것: 집 `home-house`(홈), `map`·`note`(사건 안 `지도`·`Note`).
 - 자르기 문턱: 마젠타 정도 60–170 사이에서 알파가 줄고, 아이콘 범위는 알파 64 넘는 픽셀로 잡는다(시트 가장자리의 옅은 줄을 버리려고).
+- `nav-icons-3-higgsfield-original.png` (1264×848, job `d57134fe-6a13-4afa-a8ee-efe7a1888f8f`, 2026-11-10): 소지품 칸 아이콘 후보 3×2 — 어깨 가방, 손잡이 가방, 끈 주머니 / 나무 상자, 배낭, 돋보기 든 가방. 지도·노트 시트(`cd4840ad-…`)를 화풍 참조로, Nano Banana 2, 1K, 마젠타 배경, 1.5크레딧. 어깨 가방만 `nav/bag-satchel.png`로 잘라 소지품 칸에 쓴다(나머지 후보와 시안은 지움).
 
 ## 이번 사건의 열쇠 종이 (2026-10-26)
 
@@ -166,6 +167,16 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - Claude Code 제작(2026-10-28, 사용자 요청: 크레용으로 그린 듯한 X, 1장만): Nano Banana 2.1 · 1:1 · 1K · thinking high, 흰 종이 위 벽돌색(#A4352C) 크레용 X 두 획(job `09da62d6-a999-49fe-9352-16ba2cc866e2`, 원본 `crayon-x-higgsfield-original.png`, 약 1.5크레딧).
 - `scripts/cut-crayon-x.py`: 흰색에서 먼 정도로 투명도를 만들고(흰 기운을 뺀 색), 픽셀을 가까운 획에 나눈다. 첫 획(왼쪽 위 → 오른쪽 아래)은 교차점을 포함한 띠 전체를 가진다. 두 장을 같은 정사각 영역(원본 (70,66)–(962,958))에서 240×240으로 줄였다.
 - 게임에서는 두 장을 겹쳐 두고 `clip-path` 삼각형을 각 획 방향으로 넓혀 한 획씩 그린다(`.ded-x`).
+
+# 추리 보드 O·X 포스트잇 (`deduce-note-3.webp`)
+
+- Claude Code 제작(2026-11-13, 사용자 요청: 이 화면에서만 쓸 포스트잇): Nano Banana 2 · 3:4 · 1K, 열쇠 카드 조각(job `b824d795-…`) 참조, 마젠타 위 빈 노란 포스트잇 4가지(job `a13e98e2-c659-427b-9c18-f7df4cb67649`, 원본 `deduce-notes-higgsfield-original.png`, 1.5크레딧): 1 접착 띠 · 2 말린 귀퉁이 · 3 아래가 들뜬 그늘 · 4 물결 테두리. 사용자가 3번 고름.
+- `scripts/cut-deduce-notes.py`로 잘라 냄(마젠타 빼기는 `cut-casekey-pieces.py`와 같음). 게임은 3번만 쓰고, 9분할 32 50 90 50(원본 px) → 14 20 36 20px.
+
+# 추리 보드 가는 크레용 X (`crayon-x-thin-1.png`, `crayon-x-thin-2.png`)
+
+- Claude Code 제작(2026-11-13, 사용자 요청: O·X 포스트잇의 X가 O보다 너무 두꺼움): Nano Banana 2 · 1:1 · 1K, 크레용 O 원본(job `6f432f4d-…`)을 참조로 같은 굵기의 X(job `c0249aa1-0efd-4de5-9b1e-424fc0a4a41d`, 원본 `crayon-x-thin-higgsfield-original.png`, 1.5크레딧).
+- `scripts/cut-crayon-x-thin.py`: `cut-crayon-x.py`와 같은 방식(획 중심선만 이 그림에 맞춤, 종이가 조금 회색이라 투명도 48 아래는 버림). 추리 보드 O·X 포스트잇(`.ded-mk.x`)에만 쓰고, 용의자 사진 위 X(`.ded-x`)는 예전 두꺼운 X 그대로.
 
 # 추리 보드 크레용 동그라미 (`crayon-o-1.png`, `crayon-o-2.png`)
 
