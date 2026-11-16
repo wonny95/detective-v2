@@ -85,7 +85,7 @@
 | rosie:r1 | Did your bag get mixed up with someone else's? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. | She is not [sure]. Her bag is [blue], just like this one. |
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | Her bag has a [red] [lunch box] and a [yellow] [bottle]. |
 | rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | She does not [know] whose bag this is. She wants me to [find out]. |
-| rosie:r4 | Who did you see today? / 오늘 누구를 봤어? | I can't remember who I saw. But I went to the Lake Cafe before I came here. Maybe the bags got mixed up there. / 누구를 봤는지 기억 안 나. 그런데 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She can't [remember] who she saw. She went to the [cafe]. Maybe the bags got [mixed up] there. |
+| rosie:r4 | Where did you go today? / 오늘 어디에 갔었어? | I went to the Lake Cafe before I came here. Maybe the bags got mixed up there. / 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | She went to the [cafe]. Maybe the bags got [mixed up] there. |
 | duck:v2 · 첫 질문 | Did anyone leave a blue bag here? / 여기 파란 가방을 두고 간 사람이 있어? | No. Nobody left a bag here today. / 아니. 오늘 가방을 두고 간 손님은 없어. | [Nobody] [left] a bag at the cafe. |
 | duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔어? | Rosie, Ben, Mia, and Ollie came today. / 오늘 로지, 벤, 미아, 올리가 왔어. | Rosie, [Ben], Mia, and Ollie came to the cafe. |
 | duck:v3 | Where are they now? / 다들 지금 어디 있어? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어. | Ben went [home]. Mia and Ollie went to the [garden]. |

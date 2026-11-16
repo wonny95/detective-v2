@@ -1872,7 +1872,7 @@ const PICNIC_CASE = {
         { id:'r1', en:"Did your bag get mixed up with someone else's?", ko:'다른 사람과 가방이 바뀐 거야?' },
         { id:'r2', en:'What is in your bag?', ko:'네 가방 안에는 뭐가 들어 있니?' },
         { id:'r3', en:'Do you know whose bag this is?', ko:'이 가방이 누구 것인지 알아?' },
-        { id:'r4', en:'Who did you see today?', ko:'오늘 누구를 봤어?' }
+        { id:'r4', en:'Where did you go today?', ko:'오늘 어디에 갔었어?' }   // review 2026-11-17: "Who did you see today?" → "I can't remember who I saw." read oddly
       ],
       unlocks:{ r4:{ people:['duck'] } },
       after:{ done:{ lines:[
@@ -1884,7 +1884,7 @@ const PICNIC_CASE = {
         r1:"I'm not sure. My bag is blue, just like this one.",
         r2:'My bag has a red lunch box and a yellow bottle.',
         r3:"I don't know. Please find out for me.",
-        r4:"I can't remember who I saw. But I went to the Lake Cafe before I came here. Maybe the bags got mixed up there."
+        r4:'I went to the Lake Cafe before I came here. Maybe the bags got mixed up there.'
       },
       // blanks: only words said in the answer, the ones that are clues or worth learning (user request)
       notes:{
@@ -1892,13 +1892,13 @@ const PICNIC_CASE = {
         r1:['She is not {{a|sure}}.', 'Her bag is {{b|blue}}, just like this one.'],
         r2:['Her bag has a {{c|red}} {{d|lunch box}} and a {{e|yellow}} {{f|bottle}}.'],
         r3:['She does not {{g|know}} whose bag this is.', 'She wants me to {{h|find out}}.'],
-        r4:["She can't {{i|remember}} who she saw.", 'She went to the {{j|cafe/lake cafe}}.', 'Maybe the bags got {{k|mixed up}} there.']
+        r4:['She went to the {{j|cafe/lake cafe}}.', 'Maybe the bags got {{k|mixed up}} there.']
       },
       // word banks: about three wrong cards per blank, answers not first in their group (user request: two choices were too easy)
       bank:{ r0:['your','my','his','her','yours','mine','hers'], r1:['sorry','happy','sure','sad','red','green','blue','yellow'],
         r2:['green','red','blue','yellow','book','lunch box','cup','bottle','sandwich'],
         r3:['see','know','hear','look out','give up','find out','pick up'],
-        r4:['forget','see','remember','garden','library','cafe','bakery','lost','mixed up','picked up'] }
+        r4:['garden','library','cafe','bakery','lost','mixed up','picked up'] }
     },
     duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:['v2', 'v1'],
       // Mr. Duck's recorded voice: Higgsfield · MiniMax · Alden (hello made by the user), as in the library case
@@ -2028,7 +2028,7 @@ const PICNIC_CASE = {
   },
   // [WORDS key, where it is heard, the words to highlight in that sentence]
   phrases:[
-    ["i'm not sure.",'rosie:r1',"I'm not sure"], ['just like','rosie:r1','just like'], ["i don't know.",'rosie:r3',"I don't know"], ["i can't remember",'rosie:r4',"I can't remember"],
+    ["i'm not sure.",'rosie:r1',"I'm not sure"], ['just like','rosie:r1','just like'], ["i don't know.",'rosie:r3',"I don't know"],
     ['stop at','ben:b1','stopped at'], ['go home','duck:v3','went home'], ['after that','ben:b1','After that'], ['all morning','nora:n3','all morning'],
     ['let me look.','nora:n3','Let me look'], ["that's strange.",'nora:n3',"That's strange"]
   ],
@@ -2037,7 +2037,7 @@ const PICNIC_CASE = {
     'rosie:r1':[['ownership','My bag']],
     'rosie:r2':[['wh-q','What is in your bag'], ['ownership','My bag']],
     'rosie:r3':[['negative',"I don't know"], ['imperative','Please find out']],
-    'rosie:r4':[['wh-q','Who did you see'], ['modal',"can't remember"], ['past-irr','I went']],
+    'rosie:r4':[['wh-q','Where did you go'], ['past-irr','I went']],
     'duck:v1':[['wh-q','Who came'], ['past-irr','came today']],
     'duck:v2':[['negative','Nobody left'], ['past-irr','left a bag']],
     'duck:v3':[['wh-q','Where are they'], ['past-irr','Ben went home']],
@@ -2051,7 +2051,7 @@ const PICNIC_CASE = {
   },
   answersKo:{
     rosie:{ r0:'이건 내 가방이 아니야. 내 가방을 찾아줄래?', r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
-      r4:'누구를 봤는지 기억이 안 나. 그런데 여기 오기 전에 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
+      r4:'여기 오기 전에 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
     duck:{ v1:'오늘 로지, 벤, 미아, 올리가 왔어.', v2:'아니. 오늘 가방을 두고 간 손님은 없어.',
       v3:'다들 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어.' },
     ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어.', b2:'몰라. 가방을 열어 보지 않았어.' },
@@ -2244,16 +2244,16 @@ const UMBRELLA_CASE = {
       ],
       answers:{
         // she points at the umbrella stand by the door: far off, so "that" (design 2절)
-        e0:'Someone left that umbrella here. Can you help me find its owner?',
+        e0:'Someone left that umbrella here. Can you help me?',   // review 2026-11-17: no "find its owner" here, so e1 "Whose umbrella is that?" follows naturally
         e1:"I don't know. No one came back for it.",
         e2:"It's been here for a week."
       },
       notes:{
-        e0:['“Someone {{d|left}} that umbrella here. Can you help me find its {{e|owner}}?”'],
+        e0:['“Someone {{d|left}} that umbrella here. Can you help me?”'],
         e1:["“I don't {{a|know}}. No one came {{b|back}} for it.”"],
         e2:["“It's been here for a {{c|week}}.”"]
       },
-      bank:{ e0:['lost','left','lent','felt','friend','owner','order','other'], e1:['see','know','now','think','here','back','bag','home'], e2:['day','week','month','year','hour','weekend'] }
+      bank:{ e0:['lost','left','lent','felt'], e1:['see','know','now','think','here','back','bag','home'], e2:['day','week','month','year','hour','weekend'] }
     },
     // nameless until she says who she is (design: no name on her tag, map or notes before "I'm Tess")
     tess: { id:'tess', name:'Tess Tortoise', unnamed:'Tortoise', ko:'거북 테스', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:.95, voice:0, bg:'#DDE8D5', openingQuestion:'t0',
@@ -2364,7 +2364,7 @@ const UMBRELLA_CASE = {
     'finn:f2':[['wh-q','What pattern'], ['ownership','Mine has no pattern']]
   },
   answersKo:{
-    ella:{ e0:'누가 저 우산을 여기 두고 갔어. 주인 찾는 걸 도와줄래?', e1:'몰라. 아무도 찾으러 오지 않았어.', e2:'일주일째 여기 있어.' },
+    ella:{ e0:'누가 저 우산을 여기 두고 갔어. 좀 도와줄래?', e1:'몰라. 아무도 찾으러 오지 않았어.', e2:'일주일째 여기 있어.' },
     tess:{ t0:'응. 그런데 친구들에게 우산을 자주 빌려줘서, 지금 어디 있는지 잘 모르겠어.', t1:'내 거는 남색이야. 파란 손잡이가 있어.', t2:'내 거에는 금빛 별무늬가 있어.',
       t3:'내 거는 안쪽이 남색이야.', t4:'루비한테도 물어봐. 여기서 일하는 친구야. 그날 바자회에 함께 있었어.', t5:'핀이 자기 우산을 찾고 있어. 풍차 언덕에서 만날 수 있어.' },
     ruby:{ r1:'내 거는 남색이야. 파란 손잡이가 있어.', r2:'내 거에는 금빛 별무늬가 있어.', r3:'내 거는 안쪽이 금빛이야.' },
@@ -2995,7 +2995,7 @@ const CHRISTMAS_CASE = {
         { id:'h1', en:'What are you doing?', ko:'무엇을 하고 있어?' },
         { id:'h2', en:'Who came into the storeroom?', ko:'창고에는 누가 들어왔어?' },
         { id:'h3', en:'Where are Coco and Tess now?', ko:'코코와 테스는 지금 어디 있어?' },
-        { id:'h4', en:'Did you move any decorations today?', ko:'오늘 장식품을 옮겼어?' }
+        { id:'h4', en:'Are you moving any decorations today?', ko:'오늘 장식품을 옮기고 있어?' }
       ],
       needs:{ h2:['holly:h1'], h3:['holly:h2'], h4:['holly:h1', 'backyard-0'] },
       unlocks:{ h3:{ people:['mae', 'tess'] } },
@@ -3118,7 +3118,7 @@ const CHRISTMAS_CASE = {
         // deduce card (review 1: step 8 takes his n5, which the two photos of the marks answer)
         storeroom:'No. I was waiting for all the gifts to be wrapped.',
         n3:"No, I'm not wrapping gifts. I only deliver them.",
-        n4:"No, I didn't. But I think I saw Tess taking the star.",
+        n4:"I'm not sure. But I think I saw Tess taking a star.",   // review 2026-11-17: "No, I didn't." beside "I saw Tess taking the star" contradicted itself
         n5:'No. It stayed right here all morning.'
       },
       notes:{
@@ -3126,12 +3126,12 @@ const CHRISTMAS_CASE = {
         n2:['- loading some {{c|gifts}}', '- {{d|Coco}} and {{p|Tess}} {{e|wrapped}} them'],
         storeroom:['- No. {{n|waiting}} for all the gifts', '- to be {{o|wrapped}}'],
         n3:['- {{f|not}} {{g|wrapping}} {{h|gifts}}', '- only delivers them'],
-        n4:["- {{i|didn't}} see the star", '- thinks he saw {{j|Tess}} taking the {{k|star}}'],
+        n4:['- not {{i|sure}}', '- thinks he saw {{j|Tess}} taking a {{k|star}}'],
         n5:['- the sleigh {{l|stayed}} right here', '- all {{m|morning}}']
       },
       bank:{ n1:['getting ready','loading','opening','delivering','decorating','wrapping'], n2:['gifts','mittens','Coco','Tess','Daisy','wrapped','opened'],
         storeroom:['waiting','wanting','working','wrapped','opened','sold'],
-        n3:['not','now','wrapping','loading','gifts','decorations','mittens'], n4:["didn't",'did','Tess','Coco','Daisy','star','box'], n5:['stayed','moved','started','morning','evening','night'] },
+        n3:['not','now','wrapping','loading','gifts','decorations','mittens'], n4:['sorry','sure','happy','Tess','Coco','Daisy','star','box'], n5:['stayed','moved','started','morning','evening','night'] },
       actions:[] }
   },
   phrases:[],
@@ -3167,7 +3167,7 @@ const CHRISTMAS_CASE = {
     mae:{ star:'아니, 못 봤어.', m0:'아이들 선물에 쓸 포장지가 필요했어.', m1:'트리에 달 눈송이를 만들고 있어. 데이지를 돕고 있어.', m3:'아니, 지금은 포장 안 해. 털장갑을 상자 넷에 포장했고, 니코가 가져갔어.', m4:'니코도 자원봉사자야. 선물을 썰매로 가져가고 있어.' },
     tess:{ star:'아니, 못 봤어.', storeroom:'선물을 담을 빈 상자가 필요했어.', t5:'코코랑 같이 다녀왔어. 그 뒤로는 둘이 아침 내내 여기 있었어.', t1:'장난감을 포장하고 있어. 어린 친구들에게 줄 선물이야.', t3:'아니, 아직 포장 중이야. 아직 준비가 안 됐어.' },
     nico:{ n1:'배달 준비를 하고 있어. 아직 배달하러 출발하지는 않았어.', storeroom:'아니. 선물이 다 포장되길 기다리고 있었어.', n2:'선물 몇 개를 싣고 있어. 코코와 테스가 포장한 거야.', n3:'아니, 나는 선물을 포장하지 않아. 배달만 해.',
-      n4:'아니, 못 봤어. 그런데 테스가 별을 가져가는 걸 본 것 같아.', n5:'아니. 아침 내내 바로 여기 있었어.' }
+      n4:'잘 모르겠어. 그런데 테스가 별을 가져가는 걸 본 것 같아.', n5:'아니. 아침 내내 바로 여기 있었어.' }
   },
   /* the four festival places (design 5절 장면 배치표) and the close looks. A spot's when/unless: conditions for it to be
      there; take: picked up (or '!flag': only marked done) after its lines; inspect: opens that close look */
@@ -3522,7 +3522,7 @@ const CHRISTMAS_CASE = {
       // was never in the storeroom alone (the detective says only what Daisy said)
       // user decision 2026-11-16: Daisy's h2 (the storeroom) and Tess's t5 (the rest of the morning) together
       { claim:true, accept:['holly:h2', 'tess:t5'], together:true,
-        miss:{ det:true, key:'miss-tess-alone', en:"That doesn't show Tess was alone.", ko:'그건 테스가 혼자였다는 걸 보여 주지 않잖아.' },
+        miss:{ det:true, key:'miss-tess-alone', en:"That doesn't show who Tess was with.", ko:'그건 테스가 누구와 있었는지 보여 주지 않잖아.' },
         lines:[ { who:'nico', key:'claim-tess-hid', mood:'nervous', en:"Not that star! I saw him take the tree's star. He hid it somewhere!", ko:'그 별 말고! 테스가 트리의 별을 가져가는 걸 봤어. 어딘가 숨겼겠지!' } ],
         hit:[ { det:true, key:'together', en:'Daisy said Coco and Tess came in together and left together.', ko:'데이지는 코코와 테스가 같이 들어왔다가 같이 나갔다고 했어.' },
           { det:true, key:'tess-stayed', en:'And Tess said he stayed here with Coco all morning.', ko:'그리고 테스는 아침 내내 코코와 여기 있었다고 했어.' } ] },
@@ -3559,9 +3559,9 @@ const CHRISTMAS_CASE = {
           { who:'badger', key:'suspicious', en:"Hmm, that's a little suspicious.", ko:'흠, 그거 좀 수상한걸.' },
           { det:true, key:'five-boxes', en:'Something is bothering me. There are five gift boxes on the sleigh.', ko:'마음에 걸리는 게 있어. 썰매 위 선물 상자가 다섯 개야.' },
           { who:'badger', key:'reason-to-check', en:"Then we need to check what's inside.", ko:'그럼 안에 무엇이 있는지 확인해야겠네.' },
-          { who:'nico', key:'refuse-open', mood:'nervous', en:"It's a festival gift. Don't open it.", ko:'축제 선물이야. 열지 마.' },
-          { who:'badger', key:'open-order', en:'Detective, open the box.', ko:'탐정, 상자를 열어 봐.' },
-          { who:'nico', key:'any-box', mood:'nervous', en:"Open any box. They're just mittens!", ko:'아무거나 열어 봐. 다 장갑이야!' },
+          { who:'nico', key:'refuse-open', mood:'nervous', en:"They're festival gifts. Don't open them.", ko:'축제 선물들이야. 열지 마.' },
+          { who:'badger', key:'open-order', en:'Detective, open the boxes.', ko:'탐정, 상자들을 열어 봐.' },
+          { who:'nico', key:'any-box', mood:'nervous', en:"Fine! Open them. They're just mittens!", ko:'좋아! 열어 봐. 다 장갑이야!' },
           { det:true, key:'which-box', en:'They all look the same. I need a way to check them.', ko:'다 똑같아 보여. 확인할 방법이 필요해.' },
           // Ella's hint toward the scale, in place of her "You can check it." (user request 2026-11-16)
           { who:'ella', key:'weigh-hint', en:'There must be a way to check them by weight.', ko:'무게를 재서 확인할 방법이 있을 거야.' }
@@ -4105,13 +4105,13 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 const SENTENCE_TIMES = VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
   'tara:t4':[[0, 4.35], [4.55, 5.9]], 'ivo:i4':[[0, 1.4], [2.4, 4.05]], 'ivo:i2':[[0, 2.35], [2.8, 3.95]],
   'momo:m1':[[0, 1.9], [2.35, 3.9]], 'momo:m3':[[0, .7], [1.05, 4], [4.55, 5.45]], 'momo:m4':[[0, 1.4], [2.05, 4.45]], 'momo:m2':[[0, 1.75], [2, 3.2]],
-  'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .65], [.75, 5.1]] } : UMBRELLA ? { 'ella:e0':[[0, 1.8], [2.24, 3.56]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
+  'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .65], [.75, 5.1]] } : UMBRELLA ? { 'ella:e0':[[0, 1.98], [2.32, 3.14]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
   'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
   'rosie:r0':[[0,1.18],[1.47,2.72]],
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
-  'rosie:r4':[[0,1.65],[2.04,4.44],[4.98,6.69]],
+  'rosie:r4':[[0,2.02],[2.48,4.18]],
   'ben:b1':[[0,2.08],[2.4,4.9],[5.46,7.18]],
   'ben:b2':[[0,0.87],[0.98,1.92]],
   'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]],
@@ -9057,7 +9057,7 @@ const CASES = [
   { id:'missing-violin', no:'Case 03', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
     photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.png', cx:40 },
-    summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 준비실 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
+    summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 무대 뒤 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
   { id:'case01', no:'Case 04', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
@@ -9068,7 +9068,7 @@ const CASES = [
   { id:'christmas-star', no:'Case 05', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
     photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.png', cx:50, w:56, b:-38 },
-    summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 무거운 상자 속 별 뒷면의 잎사귀 무늬를 엘라가 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
+    summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 탐정이 무거운 상자 속 별 뒷면의 잎사귀 무늬를 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
   { id:'case04', no:'Case 06' }
 ];
 // the case this page plays (CASE_ID)

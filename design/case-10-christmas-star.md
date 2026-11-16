@@ -237,8 +237,8 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 
 #### holly:h4 · 데이지
 
-- **질문 선택지**: Did you move any decorations today?
-- 해석: 오늘 장식품을 옮겼어?
+- **질문 선택지**: Are you moving any decorations today?(2026-11-17 점검, 사용자 결정: 대답의 현재진행형과 시제를 맞춤)
+- 해석: 오늘 장식품을 옮기고 있어?
 - **대답**: Yes. I'm taking decorations to the Tree Square in a handcart.(점검 6, 사용자 결정: 손수레가 장식을 실은 채 창고 문 앞에 있으므로 옮기는 중)
 - 해석: 응. 손수레로 장식품을 트리 광장에 옮겼어.
 - **노트**: “Yes. I'm taking decorations to the [Tree Square] in a [handcart].”
@@ -504,10 +504,10 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 
 - **질문 선택지**: Did you see the star today?
 - 해석: 오늘 그 별을 봤어?
-- **대답**: No, I didn't. But I think I saw Tess taking the star.
-- 해석: 아니, 못 봤어. 그런데 테스가 별을 가져가는 걸 본 것 같아.
-- **노트**: “- [didn't] see the star / - thinks he saw [Tess] taking the [star]”(코코·테스 star와 같은 메모)
-- **보기**: didn't · did · Tess · Coco · Daisy · star · box
+- **대답**: I'm not sure. But I think I saw Tess taking a star.(2026-11-17 점검, 사용자 결정: 못 봤다면서 봤다고 하는 모순을 없앰)
+- 해석: 잘 모르겠어. 그런데 테스가 별을 가져가는 걸 본 것 같아.
+- **노트**: “- not [sure] / - thinks he saw [Tess] taking a [star]”
+- **보기**: sorry · sure · happy · Tess · Coco · Daisy · star · box
 - 조건: n3 기록 뒤
 - 채점 뒤: 테스가 별을 가져가는 걸 본 것 같다며 혐의를 돌리는 니코의 말 기록. 반쯤 사실(테스는 아침에 금빛 별 장난감을 들고 작업대로 왔음)이며 천막으로 돌아가 상자 속 별 뒷면(c-toy-star)으로 확인한다. 심문에서 니코가 다시 꺼낸다
 
@@ -675,7 +675,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 
 두 번째 핑계로 니코는 "선물 얘기는 됐고!"라며 n4에서 했던 말을 다시 꺼내 테스에게 혐의를 돌린다. 테스가 실제로 금빛 별 장난감을 들고 작업대로 왔으므로 반쯤 사실인 말이다. 정답은 사진 탭의 c-toy-star다(t4는 뺌). 탐정은 뒷면에 잎사귀 무늬가 없다는 사진의 사실만 다시 말한다. 바닥 자국 사진(c-track-yard·c-track-sleigh)은 네 번째 핑계에서 함께 내민다(2026-11-16 사용자 결정). 데이지 h4·니코 n5는 추리의 자국 문항에서만 쓴다. 오답 반응: **That doesn't show Tess's star. / 그건 테스의 별을 보여 주지 않잖아.** 같은 주장에 머물며 다시 고른다.
 
-세 번째 핑계로 니코는 그 별 말고 트리의 별을 테스가 가져가 어딘가 숨겼다고 우긴다(2026-11-16 사용자 요청, A안: 새 면담 없이 있는 증거로). 정답은 진술 탭의 데이지 h2와 테스 t5를 함께 내미는 것이다(2026-11-16 사용자 결정). 탐정은 데이지가 코코와 테스가 같이 들어왔다가 같이 나갔다고 했다는 사실과, 테스가 아침 내내 코코와 여기 있었다고 했다는 사실만 다시 말한다. 테스가 창고에 혼자 있지 않았다는 판단은 플레이어가 한다. 오답 반응: **That doesn't show Tess was alone. / 그건 테스가 혼자였다는 걸 보여 주지 않잖아.** 같은 주장에 머물며 다시 고른다. 반박당하면 니코는 창고 근처에도 안 갔다고 우긴다.
+세 번째 핑계로 니코는 그 별 말고 트리의 별을 테스가 가져가 어딘가 숨겼다고 우긴다(2026-11-16 사용자 요청, A안: 새 면담 없이 있는 증거로). 정답은 진술 탭의 데이지 h2와 테스 t5를 함께 내미는 것이다(2026-11-16 사용자 결정). 탐정은 데이지가 코코와 테스가 같이 들어왔다가 같이 나갔다고 했다는 사실과, 테스가 아침 내내 코코와 여기 있었다고 했다는 사실만 다시 말한다. 테스가 창고에 혼자 있지 않았다는 판단은 플레이어가 한다. 오답 반응: **That doesn't show who Tess was with. / 그건 테스가 누구와 있었는지 보여 주지 않잖아.** 같은 주장에 머물며 다시 고른다. 반박당하면 니코는 창고 근처에도 안 갔다고 우긴다.
 
 네 번째 핑계(2026-11-16 사용자 결정)의 정답은 창고 뒤 자국 사진(c-track-yard)과 썰매 옆 자국 사진(c-track-sleigh)을 **함께** 내미는 것이다. 탐정은 사진마다 보이는 사실만 말한다(이 자국은 창고 뒷문에서 나와 / 이 자국은 네 썰매 밑으로 이어져). 같은 나무 기둥으로 두 자국이 이어진다는 판단은 플레이어가 두 장을 함께 내미는 것으로 한다. 오답 반응: **That doesn't show where you went. / 그건 네가 어디 갔는지 보여 주지 않잖아.** 반박당하면 니코가 "그래도… 난 아무것도 안 가져갔어."라고 하고, 탐정이 상자가 어디서 났는지 다시 묻는다.
 
@@ -732,16 +732,16 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
   - 그럼 안에 무엇이 있는지 확인해야겠네.
 
 - **nico:refuse-open · 니코 · 자동**
-  - It's a festival gift. Don't open it.
-  - 축제 선물이야. 열지 마.
+  - They're festival gifts. Don't open them.
+  - 축제 선물들이야. 열지 마.
 
 - **badger:open-order · 경사 · 자동**
-  - Detective, open the box.
-  - 탐정, 상자를 열어 봐.
+  - Detective, open the boxes.
+  - 탐정, 상자들을 열어 봐.
 
 - **nico:any-box · 니코 · 자동**
-  - Open any box. They're just mittens!
-  - 아무거나 열어 봐. 다 장갑이야!
+  - Fine! Open them. They're just mittens!
+  - 좋아! 열어 봐. 다 장갑이야!
 
 - **det:which-box · 탐정 · 생각**
   - They all look the same. I need a way to check them.
@@ -1316,7 +1316,7 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 | 데이지 h4 Tree Square·handcart / 니코 n5 stayed·all morning | 광장 쪽 자국은 손수레, 썰매는 옮기지 않았다는 주장을 기록하고 두 자국 사진과 대조. 시점은 알 수 없음 |
 | 니코 n2 loading some gifts·Coco and Tess wrapped / 테스 t3 still wrapping·not ready yet / 코코 m3 not wrapping now·four boxes | 니코의 운반 주장과 포장 완료 후 수거 방식, 아직 포장 중이며 전량이 남은 테스의 작업대, 코코가 건넨 상자 수와 썰매의 상자 수를 대조 |
 | 니코의 창고 방문 이유 / n3 not wrapping gifts | 천막에 가져다줄 빈 상자를 가져왔다는 설명과 현재 포장 역할 부인을 구분. 닫힌 상자의 내용은 아직 모름 |
-| 니코 n4 didn't / saw Tess taking the star | didn't를 듣고 니코의 부인을, Tess·star를 듣고 혐의를 돌리는 말을 기록. 천막으로 돌아가 테스 t4와 별 장난감 뒷면으로 확인 |
+| 니코 n4 not sure / saw Tess taking a star | sure를 듣고 니코의 얼버무림을, Tess·star를 듣고 혐의를 돌리는 말을 기록. 천막으로 돌아가 테스 t4와 별 장난감 뒷면으로 확인 |
 | 엘라 e1 gold·heavy·leaf·back / e2 case·storeroom·shelf | 별의 실물 식별·무게·원래 보관 위치를 알게 됨 |
 | 니코의 storeroom shelf / without asking / sell | 무늬·빈 보관 위치와 함께 출처·허락·목적을 확인 |
 

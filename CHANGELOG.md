@@ -13,7 +13,31 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-16 19:25 · Claude · (이 커밋) 엘라의 개봉 허락 대신 저울 힌트
+## 2026-11-17 · Claude · (이 커밋) 점검 6·9번: 우산 엘라의 의뢰, 소풍 로지 r4
+- 사용자 요청: 점검 표의 6번과 9번을 고침.
+  - **소풍 로지 r4**(9번): 질문 "Who did you see today?" → "Where did you go today?"(오늘 어디에 갔었어?), 대답에서 "I can't remember who I saw. But"를 빼 "I went to the Lake Cafe before I came here. Maybe the bags got mixed up there." 노트는 두 줄(빈칸 `remember` 빠짐, 소풍 빈칸 39 → 38칸), 보기에서 forget·see·remember 뺌, 표현 목록의 "I can't remember" 뺌, 문법 연결은 wh-q "Where did you go"·past-irr "I went". `SENTENCE_TIMES`의 `rosie:r4`는 새 녹음에서 다시 잼(브라우저에서 소리를 풀어 쉬는 곳을 찾음): `[[0,2.02],[2.48,4.18]]`.
+  - **우산 엘라 e0**(6번, 사용자 선택: Whose 질문은 그대로 두고 의뢰를 바꿈): "Someone left that umbrella here. Can you help me find its owner?" → "Someone left that umbrella here. Can you help me?"(주인을 모른다는 말이 먼저 나와 다음 질문 "Whose umbrella is that?"이 어색했음. e1은 이 사건 열쇠 문법 Whose의 유일한 받아쓰기 질문이라 남김). 노트 빈칸 `owner` 빠짐(우산 빈칸 33 → 32칸), 보기 lost·left·lent·felt, 해석 "좀 도와줄래?".
+- 설계서 수정: `design/case-01-picnic-bag.md`·`.html`(r4 행), `design/case-02-unclaimed-umbrella.md`·`.html`·`-recording.md`(e0 대답·노트·보기, 33칸 → 32칸).
+- 녹음: 소풍 2줄을 Higgsfield MCP `text2speech_v2` MiniMax, 감정 없음으로 다시 녹음해 덮어씀(약 0.3크레딧): Grady `audio/picnic/detective-rosie-r4.mp3`(job `8aae2779`), Evie `audio/picnic/rosie-r4.mp3`(job `b4599cb6`). 예전 파일은 스크래치패드 `old-audio/picnic/`.
+- 엘라 e0 녹음: Claude in Chrome으로 Higgsfield 웹에서 만듦(Petra, MiniMax Speech 2.8 HD, 감정 happy, 0.15크레딧, job `db377057-6c47-4df2-ade0-947678a0dbe6`; `show_generations`에서 `emotion: happy` 확인) → `audio/umbrella/ella-e0.mp3`(예전 파일은 스크래치패드 `old-audio/umbrella/`). `SENTENCE_TIMES`의 `ella:e0`를 새 녹음에서 다시 잼: `[[0, 1.98], [2.32, 3.14]]`.
+- **못 한 것**: 새 녹음 세 줄의 소리를 직접 듣는 확인, 게임에서 두 대화를 끝까지 해 보는 확인. 로지 r4의 예전 녹음에 감정이 있었는지는 확인하지 않고 감정 없이 만듦. `HANDOFF.md`의 빈칸 수(소풍 39칸·우산 33칸)는 하루 마무리 때 고친다.
+- 확인: 구문 검사 통과, 새 탭에서 소풍·우산 첫 대화가 오류 없이 열림.
+- **다음**: 사용자 지시 대기(새 녹음은 사용자가 들어 보고 확인).
+
+## 2026-11-17 · Claude · (이 커밋) 전체 점검에서 고른 크리스마스 대사 4곳 수정
+- 사용자 요청: 다섯 사건 대본을 점검해 표(12건)로 보여 주고, 사용자가 고른 1~4번을 고침. 모두 크리스마스 사건.
+  - 니코 n4 대답: "No, I didn't. But I think I saw Tess taking the star." → "I'm not sure. But I think I saw Tess taking a star."(못 봤다면서 봤다고 하는 모순). 노트 "- not [sure] / - thinks he saw [Tess] taking a [star]", 보기 sorry·sure·happy·Tess·Coco·Daisy·star·box. 빈칸 수는 그대로(i 칸의 답이 didn't → sure). 예전 저장에서 이 질문을 이미 확인한 기록은 예전 답(didn't)이 그대로 보일 수 있음(옮기는 처리 없음).
+  - 심문 세 번째 주장의 오답 줄 `miss-tess-alone`: "That doesn't show Tess was alone." → "That doesn't show who Tess was with."(내밀 증거는 테스가 혼자가 아니었다는 것이라 뜻이 거꾸로였음).
+  - 상자 개봉 장면: 니코 `refuse-open` "They're festival gifts. Don't open them.", 경사 `open-order` "Detective, open the boxes.", 니코 `any-box` "Fine! Open them. They're just mittens!"(막다가 바로 아무거나 열라고 뒤집히던 것, 상자 다섯에 단수).
+  - 데이지 h4 질문: "Did you move any decorations today?" → "Are you moving any decorations today?"(대답의 현재진행형과 시제 맞춤).
+- 설계서 수정: `design/case-10-christmas-star.md`·`.html`의 같은 줄(h4 질문, n4 대답·노트·보기, 세 번째 주장 오답 반응, 개봉 장면 세 줄, 학습 표의 n4 행).
+- 녹음(사용자 승인): 바뀐 6줄을 같은 목소리로 다시 녹음해 `audio/christmas/`의 같은 이름에 덮어씀(Higgsfield MCP `text2speech_v2` MiniMax, 감정 없음, 약 0.9크레딧): Grady `detective-holly-h4`(job `8773f713`)·`detective-miss-tess-alone`(`956eeb99`), Ian `nico-n4`(`9f6d6655`)·`nico-refuse-open`(`1c3446f7`)·`nico-any-box`(`b2fcf35c`), Fraser `badger-open-order`(`b0c09f39`). 예전 파일은 스크래치패드 `old-audio/`. 소리를 직접 들어 보는 확인은 못 함(사용자 청취 필요).
+- 확인: 구문 검사 통과, 새 탭 심문 미리보기에서 니코 n4 노트가 새 문장으로 나오고 콘솔 오류 없음. 못 한 것: 개봉 장면·오답 줄을 게임에서 직접 보기.
+- 사용자 요청으로 5·12번도 고침(글자만, `CASES`의 `summary`: 사건 목록·복습의 사건 요약): 크리스마스 "별 뒷면의 잎사귀 무늬를 엘라가 확인했다" → "탐정이 무거운 상자 속 별 뒷면의 잎사귀 무늬를 확인했다"(게임에서는 탐정이 뒷면을 찍어 니코에게 내밂), 바이올린 "준비실 커튼 뒤" → "무대 뒤 커튼 뒤"(케이스가 나온 곳은 Backstage).
+- 점검 표의 나머지(6~11번: 우산 e1·t5, 소풍 노라 인사·로지 r4·오리 v3, 바이올린 오웬 o9)는 고치지 않음.
+- **다음**: 사용자 지시 대기(새 녹음 6줄은 사용자가 들어 보고 확인).
+
+## 2026-11-16 19:25 · Claude · e531c3a 엘라의 개봉 허락 대신 저울 힌트
 - 사용자 요청: 상자를 열어 봐도 된다는 엘라의 말 대신, 무게를 재서 확인할 방법이 있다는 힌트를 엘라가 줌.
   - 뺀 줄: `ella:allow-open` "It's for the festival. You can check it."(녹음 `ella-allow-open.mp3`는 사용자 승인으로 휴지통에 보냄).
   - 새 줄: 탐정 "They all look the same. I need a way to check them." 바로 뒤에 엘라 `weigh-hint` "There must be a way to check them by weight." / "무게를 재서 확인할 방법이 있을 거야."(Higgsfield MiniMax Petra, 감정 없음, job `6fb33b4e-8066-46bc-8258-2bcf7f4a07de`, `audio/christmas/ella-weigh-hint.mp3`).
