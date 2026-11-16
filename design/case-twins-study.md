@@ -6,11 +6,11 @@
 
 ## 기획의 중심
 
-빅터는 파란 밴에 치여 팔과 다리를 다쳤고 병원에 입원했다. 생명에는 지장이 없다. 운전자는 잠시 차에서 내려 빅터를 살핀 뒤 다시 차를 몰고 달아났다. 아이리스는 밴에서 내린 미어캣의 얼굴을 봤지만 처음 보는 사람이었다. 에반과 마일로를 모르고, 그 운전자에게 형제가 있다는 사실도 모른다. 빅터는 오르골을 가지러 온 마일로와 이날 처음 만났다. 사고 직전 운전석에서 에반을 잠깐 봤지만 쌍둥이가 있다는 사실을 몰라, 같은 얼굴과 같은 밴을 보고 오르골을 가져간 사람이 돌아왔다고 믿는다. 빅터의 ‘같은 사람’이라는 진술은 고의적인 거짓말이 아닌 잘못된 인물 연결이다. 이 설명은 제작자용이며 플레이 중에는 진술과 그 판단 근거만 들려준다. 경찰은 밴을 함께 쓰는 에반과 마일로를 경찰서의 별도 면담실로 데려왔다. 두 사람은 모두 자신이 빅터를 치지 않았고 상대가 열쇠 인계에 관해 거짓말한다고 주장한다. 경사는 탐정에게 **누가 운전해 빅터를 친 뒤 달아났는지** 밝혀 달라고 의뢰한다.
+빅터는 파란 밴에 치여 팔과 다리를 다쳤고 병원에 입원했다. 생명에는 지장이 없다. 운전자는 잠시 차에서 내려 빅터를 살핀 뒤 다시 차를 몰고 달아났다. 아이리스는 밴에서 내린 미어캣의 얼굴을 봤지만 처음 보는 사람이었다. 에반과 마일로를 모르고, 그 운전자에게 형제가 있다는 사실도 모른다. 에반은 작업실의 수리 재료를 사러 먼저 떠났다. 빅터는 그 뒤 직접 작업실을 찾아와 마일로에게 오르골을 맡기고 나갔다. 자재점에서 돌아오던 에반이 작업실 앞에서 빅터를 친다. 빅터는 운전석에서 에반을 잠깐 봤지만 쌍둥이가 있다는 사실을 몰라, 방금 오르골을 받아 준 사람이 운전하고 있다고 믿는다. 빅터의 ‘같은 사람’이라는 진술은 고의적인 거짓말이 아닌 잘못된 인물 연결이다. 이 설명은 제작자용이며 플레이 중에는 진술과 그 판단 근거만 들려준다. 경찰은 밴을 함께 쓰는 에반과 마일로를 경찰서의 별도 면담실로 데려왔다. 두 사람은 모두 자신이 빅터를 치지 않았고 상대가 열쇠 인계에 관해 거짓말한다고 주장한다. 경사는 탐정에게 **누가 운전해 빅터를 친 뒤 달아났는지** 밝혀 달라고 의뢰한다.
 
 에이다는 처음에는 수리한 물건·역할 분담과 열린 창밖에서 들은 충돌 소리만 말한다. 손의 정확한 상처 부위와 소리가 들린 순간 누구와 함께 있었는지는 먼저 알려 주지 않는다. 에반은 양손으로, 마일로는 왼손으로 글을 쓰므로 왼손 글쓰기에도 둘 다 해당한다. 플레이어는 두 형제의 작업 답변과 다친 경위 주장을 듣고, 확인할 진술을 직접 골라 에이다에게 작업 중 부상과 소리가 들린 순간의 행동을 다시 묻는다. 그 답과 직접 본 상처, 아이리스가 목격한 충돌을 연결해야 사고 순간 작업실에 있던 형제를 판단할 수 있다.
 
-아이리스는 운전석에서 내린 사람이 빅터를 살핀 뒤 같은 자리로 돌아가 밴을 몰고 자재점 옆 골목으로 들어간 것을 봤다. 플레이어는 아이리스가 본 충돌과 에이다가 들은 소리, 그 순간 누가 무엇을 했는지를 직접 연결하고, 아이리스의 행동·방향 목격과 경찰의 발견 위치·현장 길의 연결·범퍼 대응을 골라 사고 차량의 이동을 확인한다. 에이다의 작업 확인만으로 충돌·도주를 입증하거나, 아이리스의 방향 목격만으로 에반을 특정하지 않는다. 빅터의 오르골 운반자 지목은 마일로의 o2와 연결되어 작업실 증언과 충돌한다. 플레이어가 관련 기록을 골라 빅터에게 같은 사람이라고 생각한 근거를 다시 묻고, 직접 인물 연결을 검토해야 한다. 마지막에는 세 사람의 진술과 물증을 함께 검토해 에반에게 열쇠 인계·운전·충돌을 다시 묻는다.
+아이리스는 운전석에서 내린 사람이 빅터를 살핀 뒤 같은 자리로 돌아가 밴을 몰고 자재점 옆 골목으로 들어간 것을 봤다. 플레이어는 아이리스가 본 충돌과 에이다가 들은 소리, 그 순간 누가 무엇을 했는지를 직접 연결하고, 아이리스의 행동·방향 목격과 경찰의 발견 위치·현장 길의 연결·범퍼 대응을 골라 사고 차량의 이동을 확인한다. 에이다의 작업 확인만으로 충돌·도주를 입증하거나, 아이리스의 방향 목격만으로 에반을 특정하지 않는다. 빅터가 오르골을 받아 준 사람을 지목한 진술은 마일로의 o2와 연결되어 작업실 증언과 충돌한다. 플레이어가 관련 기록을 골라 빅터에게 같은 사람이라고 생각한 근거를 다시 묻고, 직접 인물 연결을 검토해야 한다. 마지막에는 세 사람의 진술과 물증을 함께 검토해 에반에게 열쇠 인계·운전·충돌을 다시 묻는다.
 
 **이번 스테이지의 한 가지 학습 주제는 사람을 설명하는 주격 관계대명사 `who`다.** `the twin who held the spring`처럼 `사람 + who + 동사…`를 듣고, 뒤의 설명이 두 형제 중 누구를 가리키는지 찾는다. 서로를 거짓말한다고 하는 진술, 손 사용과 상처, 차량 흔적은 이 문법을 실제 추리에 쓰게 하는 사건 단서다. `says`·`saw`·`when`·과거형은 앞선 학습의 재사용이며 이번 스테이지의 새 문법 목표가 아니다. 한 장면의 손동작이나 상처 하나로 운전자를 확정하지 않고 열쇠 인계, 사고 소리가 들린 순간의 행동, 차량 대응, 당사자 재질문과 인정을 함께 확인한다. 자체 학습 기획의 **L3-02 ‘정확히 누구를 말할까?’ 추가 사건 후보**이며 기존 27 A·28 B를 교체하거나 번호를 확정한 것은 아니다. 이 번호는 국가가 지정한 학년별 문법 단원이 아니다.
 
@@ -22,29 +22,31 @@
 | 오소리 경사 | 오소리 | 경찰서에서 사건 의뢰, 두 면담실에서 서명하는 모습의 직접 관찰 허용 |
 | 에반·마일로 | 서로 닮은 미어캣 쌍둥이 | 공동 밴을 쓰는 용의자. 에반은 양손잡이, 마일로는 왼손잡이. 둘 다 손을 다침 |
 | 아이리스 | 까치 | 가게 직원이자 사고 목격자. 운전석에서 내려 피해자를 살피고 다시 운전한 동일인의 행동과 자재점 옆 골목으로 향한 밴을 봄 |
-| 빅터 | 악어 | 다쳐 입원한 가게 주인. 오르골 운반자와 사고 운전자를 같은 사람으로 믿는 목격자 |
+| 빅터 | 악어 | 다쳐 입원한 가게 주인. 오르골을 받아 준 사람과 사고 운전자를 같은 사람으로 믿는 목격자 |
 | 에이다 | 스컹크 | 작업실에서 열쇠 인계와 충돌 소리가 들린 순간의 작업자를 본 참고인 |
 
 종·털색·복장만으로 범인을 판정하지 않는다. 두 미어캣의 얼굴과 체격은 같다. 각 면담실에서 플레이어가 서명하는 모습을 직접 본다. 에반은 오른손으로 쓰다가 손목이 아파 왼손으로 펜을 옮겨 자연스럽게 서명을 마친다. 마일로는 왼손 검지를 다쳐 잠시 멈췄다가 같은 손으로 서명을 마친다. 에반의 양손 사용은 처음 관찰부터 끝까지 보여 주며 재질문 뒤에 새 설정으로 공개하지 않는다. 관찰 기록은 보이는 동작을 보존하고 어느 쪽이 운전자라고 풀이하지 않는다. 에이다의 초기 목격에는 정확한 상처 부위가 없다. 작업 답변·상처 경위 주장을 직접 골라 추가 질문한 뒤에야 작업 중 부상과 소리가 들린 순간의 행동을 확인한다. 연결과 판단은 플레이어가 한다.
 
 ## 사건 한눈에 · 제작자용 진실
 
-**아래 시각은 제작자의 앞뒤 검산용이다. 플레이 대사·노트·증거 그림·추리·복습에는 표시하거나 읽어 주지 않는다. 플레이어는 충돌 소리가 들린 순간의 행동을 연결한다.**
+**아래는 제작자의 앞뒤 검산용 순서다. 플레이어에게 순서표를 제공하지 않으며, 정확한 시각은 대사·노트·증거 그림·추리·복습에 넣지 않는다. 사건 순서는 대화와 관찰을 연결해 알아낸다.**
 
-| 시각 | 실제 행동 | 얻는 근거 |
+| 순서 | 실제 행동 | 얻는 근거 |
 |---|---|---|
-| 14:50 | 마일로는 빅터에게서 큰 오르골을 직접 인수하고 밴으로 형제의 수리 작업실에 가져온다. 빅터는 인수 때 마일로와 대화했지만 쌍둥이가 있다는 사실은 모른다. 새 직원 에이다와 오르골을 작업대에 내려놓는다. | v1·v2의 인수 기억, o2 |
-| 15:05 | 수리를 마친 오르골을 싣고 돌아갈 때 쓸 고정끈이 부족하다. 에반이 자재점에서 사 오기로 하고 마일로가 밴 열쇠를 건넨다. 마일로는 에이다와 수리하러 남는다. | o1·o3, a2, 후반 인정 |
-| 15:10–15:35 | 마일로와 에이다가 같은 작업대에서 오르골을 수리한다. 마일로가 태엽을 잡고 에이다가 나사를 돌린다. 태엽이 미끄러져 마일로의 왼손 검지가 긁힌다. 에이다는 손가락이 긁히는 것은 봤지만 어느 쪽 몇 번째 손가락인지는 기억하지 못한다. 충돌 소리가 들릴 때도 마일로는 에이다 곁에서 태엽을 잡고 있다. 이후 수리를 마치고 왼손으로 기록을 쓴다. | a1·a3·a4·a5, o5, c-work·obs-sign-2 |
-| 15:25 | 자재점으로 가던 에반이 빅터의 가게 앞 모퉁이에서 밴을 돌다가 빅터를 친다. 앞범퍼가 깨지고 에반의 오른쪽 손목이 운전석 안쪽에 긁힌다. 빅터는 충돌 직전 운전석의 에반을 잠깐 보고 앞서 오르골을 가져간 사람이라고 생각한다. 에반은 운전석에서 내려 빅터를 살핀 뒤 같은 자리에 다시 타고 자재점 옆 골목으로 달아난다. | m1·m3·m4, v1·v2, c-road·c-van·obs-sign-1, 후반 인정 |
-| 15:26 | 아이리스가 신고한다. 빅터는 팔과 다리를 다쳐 병원으로 옮겨진다. | m4, b1, victor:hello |
-| 사고 직후~15:38 | 에반은 자재점 옆 골목을 지나 뒤편에 밴을 세운다. 사고를 숨기고 평소 심부름을 한 것처럼 돌아가려고 자재점에 들어가 고정끈을 산다. 구매는 이 내부 시간표상 15:38에 해당한다. 손으로 쓴 영수증에는 상호·품목·결제 표시만 있고 시각은 없다. | e3, c-receipt, evan:c5 |
-| 15:38 이후 | 에반은 눈에 띄는 깨진 범퍼 때문에 밴을 두고, 산 고정끈과 영수증을 챙겨 작업실로 걸어 돌아간다. 자재점까지 걸어갔다는 첫 진술은 거짓이며 돌아올 때 걸은 것은 사실이다. | e2, evan:c2·c5b |
-| 15:40 이후 | 경찰이 신고받은 주변을 확인하다 자재점 뒤편에서 앞범퍼가 깨진 밴을 발견한다. 번호판을 조회해 밴을 함께 쓰는 형제의 작업실을 찾아간다. 형제는 서로 상대가 밴을 몰았다고 말한다. 경찰은 두 사람을 따로 조사하기 위해 경찰서로 데려온다. | b2·b5, c-van |
+| 에반의 출발 | 작업실의 다른 수리에 쓸 접착제와 사포가 부족하다. 마일로가 에반에게 밴 열쇠를 건네고, 에반은 자재점으로 출발한다. 에이다는 열쇠를 건네는 모습을 본다. | o1·o3, a2, 후반 인정 |
+| 빅터의 방문 | 에반이 떠난 뒤 빅터가 직접 오르골을 들고 수리 작업실에 온다. 마일로가 오르골을 받아 점검대에 놓는다. 빅터는 마일로하고만 이야기하며 형제나 밴을 함께 보지 못한다. 에이다는 작업대 쪽에서 접수된 오르골을 받는다. | o2, v1·v2, a1·a5 |
+| 수리 접수와 점검 | 마일로가 빅터에게 오르골을 맡겨 두라고 안내하고 에이다와 점검을 시작한다. 빅터는 접수를 마치고 나가 맞은편 자기 가게로 돌아가려 한다. 마일로가 태엽을 잡고 에이다가 나사를 돌린다. 태엽이 미끄러져 마일로의 왼손 검지가 긁힌다. 에이다는 손가락 부상은 보지만 좌우·몇 번째 손가락인지는 기억하지 못한다. | o2·o4·o5, a3·a5, 두 서명 관찰 |
+| 구매와 귀환 | 에반은 자재점에서 접착제와 사포를 산 뒤 밴을 몰고 작업실로 돌아온다. 구매는 사고 전이며 빅터의 방문과 오르골 접수·수리에는 참여하지 않았다. 영수증에는 상호·Glue·Sandpaper·Paid만 있고 이름·시각은 없다. | e3, c-receipt, evan:c2·c5 |
+| 충돌 | 작업실 앞에서 밴을 돌려 진입하려던 에반이 밖으로 나온 빅터를 늦게 보고 친다. 앞범퍼가 깨지고 에반의 오른쪽 손목이 운전석 안쪽에 긁힌다. 빅터는 운전석의 얼굴을 잠깐 보고 방금 오르골을 받아 준 사람이라고 믿는다. 충돌 소리가 들릴 때 마일로는 에이다 곁에서 태엽을 잡고 있다. | m1·m3, v1·v2, a1·a3, c-road·c-van·obs-sign-1, 후반 인정 |
+| 사고 직후와 도주 | 에반은 운전석에서 내려 움직이지 않는 빅터를 살핀 뒤 죽었다고 생각하고 겁을 먹는다. 다시 운전석에 타서 차를 돌리고 자재점 방향으로 되돌아가 옆 골목으로 들어간다. 아이리스는 이 행동과 골목 진입까지 본 뒤 신고한다. | m3·m4, evan:c4 |
+| 밴을 두고 귀환 | 에반은 자재점 뒤편에 밴을 세운다. 깨진 범퍼를 보이고 싶지 않아 밴을 두고, 이미 산 재료와 영수증을 챙겨 자재점 뒤편에서 작업실 뒷문으로 이어지는 뒷길로 걸어 돌아온다. 자재점에서 다시 구매하지 않는다. 마일로와 에이다는 수리를 마치고 기록을 남긴다. | a4·c-work, evan:c5·c5b |
+| 경찰 조사 | 빅터는 병원으로 옮겨진다. 경찰은 주변을 확인하다 자재점 뒤편의 밴을 찾고 번호판을 조회해 공동 사용자인 형제를 확인한다. 작업실에서 서로 열쇠 문제로 다투는 형제를 각각 면담실로 데려온다. | b1·b2·b5 |
 
-빅터의 가게는 오르골을 맡긴 손님의 상점이다. 자재점은 같은 길을 더 가면 나오는 별도 가게다. 형제의 수리 작업실은 두 사람의 일터이며 에이다가 일한다. 고정끈은 수리 뒤 오르골이 밴 안에서 움직이지 않게 고정하는 데 필요했다. 작업실은 빅터 가게 맞은편 짧은 골목 입구에 있다. 작업대 옆 창은 사고가 난 도로 쪽으로 열려 있고 수리는 손도구로 조용히 진행한다. 에이다는 작업대를 향해 있어 사고와 운전자를 보지는 못했지만 도로의 큰 충돌 소리를 바로 듣는다. 이 수리 중 밖에서 난 큰 충돌 소리는 한 번이며 다른 사고나 비슷한 소리를 숨은 반전으로 넣지 않는다. 위치와 열린 창은 현장에서 보이고 a1에서도 언급된다. 빅터 가게 문가에서는 사고 지점과 조금 앞 자재점 옆 골목의 입구가 보인다. 골목은 자재점 모퉁이를 돌아 뒤편 주차 공간으로 이어지며, 모퉁이 뒤는 아이리스의 시야에서 가려진다. 플레이어는 자재점 뒤편에서 골목을 직접 살펴 연결을 확인한다. 방향만으로 실제 주차 장면까지 목격한 것으로 처리하지 않는다.
+**장소와 시야** — 형제의 수리 작업실과 빅터의 가게는 길을 사이에 두고 마주 본다. 자재점은 같은 길을 따라 조금 더 가면 나오는 별도 가게다. 사고 지점은 수리 작업실 앞의 차량 진입로와 보행 동선이 만나는 곳이다. 작업대 옆 열린 창은 그 도로를 향하며 수리는 손도구로 조용히 진행한다. 에이다는 작업대를 향해 있어 사고와 운전자를 보지 못하지만 큰 충돌 소리를 바로 듣는다. 수리 중 밖에서 난 큰 충돌 소리는 한 번이며 비슷한 다른 소리를 숨은 반전으로 넣지 않는다. 빅터의 가게 문가에 있던 아이리스는 맞은편 사고 지점, 운전자의 하차·확인·재승차, 차를 돌려 자재점 방향으로 이동하는 모습과 옆 골목 진입까지 볼 수 있다. 자재점 모퉁이 뒤 주차 공간은 가려져 보이지 않는다. 플레이어는 골목과 뒤편의 연결을 현장에서 확인한다. 도주 때 자재점 쪽으로 다시 향한 이동을, 사고 전 자재점에서 돌아온 이동과 섞지 않는다. 뒤편 주차 공간에서 작업실 뒷문으로 이어지는 뒷길이 있어 에반은 피해자와 아이리스가 있는 앞 도로를 다시 지나지 않고 돌아온다. 이 길은 기존 주차장·작업실 배경에서 볼 수 있는 길이며 숨겨진 통로나 새로운 퍼즐이 아니다. 길이 있다는 사실만으로 누가 걸었는지는 알 수 없다.
 
-에반은 빅터를 늦게 보고 충돌했다. 내려서 살폈을 때 빅터가 움직이지 않아 죽었다고 생각했고, 겁이 나 다시 차를 몰았다. 에반은 양손으로 능숙하게 글을 쓰고, 마일로는 평소 왼손으로만 글을 쓴다. 새 직원인 에이다는 두 형제의 얼굴과 이름을 아직 잘 연결하지 못한다. 다만 열쇠를 건넨 형제가 태엽을 잡았고, 태엽이 미끄러져 손가락이 긁힌 뒤에도 작업대에 남아 함께 일을 끝낸 것은 직접 봤다. 정확한 좌우·손가락 번호는 말하지 않는다. 이 경위와 충돌 소리가 들린 순간의 행동은 플레이어가 두 형제의 진술에서 확인할 작업 내용을 골라 재질문한 뒤에만 말한다. 빅터는 오르골 인수 때 마일로와 대화했지만 사고 때는 에반의 얼굴을 잠깐 보았을 뿐이다. 이름이나 형제 관계는 모르며 같은 얼굴·같은 밴을 같은 사람의 근거로 삼았다. 아이리스는 오르골 인수 장면을 보지 못했고, 사고 직후 피해자를 살핀 사람이 다시 운전석에 타고 자재점 옆 골목으로 밴을 모는 것을 봤다. 골목 안의 주차나 구매는 보지 못했다. 에반의 거짓말은 열쇠를 받지 않았다는 말, 자재점까지 걸었다는 말, 짐을 나르다 손목을 다쳤다는 말이다. 에이다와 한 일을 물으면 오르골 안쪽의 무언가를 만졌을 것처럼 얼버무리고 에이다가 거의 다 했다고 말한다. 에반은 오르골을 수리할 예정이라는 것만 알며, 태엽을 잡는 일과 나사를 돌리는 실제 역할 분담은 보지 못했다. 이 모호함은 다시 확인할 이유이며 거짓말·범행의 독립적인 증거가 아니다. 고정끈을 샀다는 말과 영수증은 사실이다. 실제 심부름 목적과 동선을 확인하는 자료이며 사고 순간의 알리바이로 내세우지 않는다. 영수증에 구매자 이름은 없으므로 그 자체로 구매자 신원이나 사고 당시 위치를 증명하지 않는다. 플레이어는 열쇠 인계, 충돌 소리가 들릴 때의 작업, 공동 밴의 손상과 두 목격을 연결해 다시 물을 근거를 만든다. 충돌과 도주 경위는 에반이 직접 인정한다.
+**인물별로 아는 범위** — 빅터는 수리를 맡기려고 처음 방문했으며 마일로와만 직접 이야기했다. 도착 전에 에반과 밴은 떠나 있었으므로 ‘같은 밴을 봤다’는 기억은 없다. 운전석에서 본 얼굴과 응대한 얼굴이 같아 한 사람이라고 생각하지만 이름·쌍둥이의 존재는 모른다. 아이리스는 작업실 안의 접수를 보지 못해 운전자를 처음 보는 사람으로 기억한다. 에이다는 열쇠를 건넨 형제가 나중에 자신과 수리한 사실과 사고 소리가 들릴 때 곁에 있던 행동을 기억하지만 이름과 얼굴을 잘 연결하지 못한다. 접수부터 수리까지 밖으로 나간 모습을 보지 않았다는 사실을 초기 대사에서 대신 결론으로 설명하지 않는다.
+
+**거짓말과 후반 확인** — 에반은 빅터가 오기 전에 출발했고, 오르골 접수·수리와 역할 분담을 보지 못했다. 열쇠를 받지 않았다는 말, 자재점까지 걸었다는 말, 짐을 나르다 손목을 다쳤다는 말과 에이다를 도왔다는 주장은 거짓이다. 두 형제에게 작업 내용을 묻는 질문은 플레이어가 이미 들은 에이다 a5의 수리 대상을 인용한다. 에반이 질문에서 ‘오르골’을 듣고 그 안쪽의 무언가였을 것처럼 둘러대므로 사전에 그 수리를 알고 있을 필요는 없다. 구체적인 역할은 질문에 넣지 않는다. 후반에는 ‘에이다와 작업한 사람은 내가 아니야. 네가 나를 의심하지 않게 하려고 지어낸 말이었어’라고 인정한다. 애매한 말투 자체는 범행 증거로 채점하지 않는다. 접착제·사포 구매와 영수증은 사실이지만 구매 시각·구매자 신원을 단독으로 증명하지 않는다. 구매가 사고 전이었다는 순서는 에반의 후반 진술로 확인한다. 빅터의 인물 착각은 별도로 플레이어가 대조하며 탐정이나 빅터가 대신 설명하지 않는다.
 
 ## 장면별 스토리보드와 대본
 
@@ -84,11 +86,11 @@
 
 #### badger:b4 · 신고자
 - **질문** · Who called the police? / 누가 경찰에 신고했어?
-- **대답** · Iris called us. She's still outside Victor's shop.
-- 해석 · 아이리스가 신고했어. 아직 빅터의 가게 앞에 있어.
-- 노트 · [Iris] called us. She's still [outside] Victor's [shop].
-- 보기 · Iris / outside / shop / Ada / inside / workshop / hospital
-- 조건·역할 · b0 뒤 선택. 신고자의 위치를 기록하면 빅터의 가게 앞 사고 현장이 열린다. 목격 내용은 아이리스가 직접 말한다.
+- **대답** · Iris called us. She's on the road outside the workshop.
+- 해석 · 아이리스가 신고했어. 작업실 밖 도로에 있어.
+- 노트 · [Iris] called us. She's on the [road] outside the [workshop].
+- 보기 · Iris / road / workshop / Ada / roof / hospital / station
+- 조건·역할 · b0 뒤. 신고자의 위치를 기록하면 작업실 앞 사고 현장과 언급된 수리 작업실이 발견된다. 아이리스의 목격과 작업실 안 에이다의 진술은 각각 직접 방문해 듣는다.
 
 #### badger:b1 · 피해자
 - **질문** · Where is Victor now? / 빅터는 지금 어디 있어?
@@ -112,7 +114,7 @@
 - 해석 · 번호판을 조회했어. 그걸로 형제의 작업실을 찾아갔고, 거기에 두 사람 다 있었어.
 - 노트 · We checked the [plate]. It led us to their [workshop], where we found [both] brothers.
 - 보기 · plate / workshop / both / mirror / hospital / one / shop
-- 조건·역할 · b2 뒤 선택 면담. 경찰이 두 사람을 데려온 경위를 알려 준다. b5나 o2를 먼저 기록하면 작업실이 발견된다. 현장에서 에이다에게 말을 걸고 작업대 기록을 촬영할 수 있다.
+- 조건·역할 · b2 뒤 선택 면담. 경찰이 두 사람을 데려온 경위를 알려 준다. b4·b5·o2 중 하나를 기록하면 작업실이 발견된다. 현장에서 에이다에게 말을 걸고 작업대 기록을 촬영할 수 있다.
 
 #### badger:b3 · 면담실 직접 관찰
 - **질문** · Did they write anything during questioning? / 심문 중에 두 형제에게 뭔가 쓰게 했어?
@@ -124,7 +126,7 @@
 
 ### 장면 2 · 사고 현장 — 아이리스의 목격
 
-아이리스는 빅터의 가게에서 일한다. 가게 문가에서 밴이 멈추는 모습을 봤다. 운전자가 내려 빅터 옆에 섰을 때 얼굴이 보였으나 처음 보는 미어캣이었다. 아이리스는 두 형제를 만난 적이 없고, 운전자에게 형제가 있으리라고 생각할 이유도 없다. 경사 b4 기록 뒤 사고 현장에서 직접 말을 건다.
+아이리스는 길 맞은편 빅터의 가게에서 일한다. 자기 가게 문가에서 작업실 쪽으로 돌던 밴이 빅터를 치고 멈추는 모습을 봤다. 신고 뒤 길을 건너 현재 사고 현장에 있다. 작업실 안의 접수나 에반의 사고 전 구매는 보지 못했다. 운전자가 내려 빅터 옆에 섰을 때 얼굴이 보였으나 처음 보는 미어캣이었다. 아이리스는 두 형제를 만난 적이 없고, 운전자에게 형제가 있으리라고 생각할 이유도 없다. 경사 b4 기록 뒤 사고 현장에서 직접 말을 건다.
 
 | ID | 화자·형태 | 영어 | 한국어 |
 |---|---|---|---|
@@ -133,11 +135,11 @@
 
 #### iris:m1 · 충돌과 소리
 - **질문** · What did you see on the road? / 도로에서 무엇을 봤어?
-- **대답** · A blue van hit Victor with a loud crash. Part of its front bumper fell onto the road.
-- 해석 · 파란 밴이 큰 충돌 소리를 내며 빅터를 쳤어. 앞범퍼 일부가 도로에 떨어졌어.
-- 노트 · A blue van [hit] Victor with a loud [crash]. Part of its [front bumper] fell onto the road.
+- **대답** · A blue van turned toward the workshop and hit Victor with a loud crash. Part of its front bumper fell onto the road.
+- 해석 · 파란 밴이 작업실 쪽으로 돌다가 큰 충돌 소리를 내며 빅터를 쳤어. 앞범퍼 일부가 도로에 떨어졌어.
+- 노트 · A blue van turned toward the workshop and [hit] Victor with a loud [crash]. Part of its [front bumper] fell onto the road.
 - 보기 · hit / crash / front bumper / passed / whisper / mirror / right door
-- 조건·역할 · 첫 질문. 아이리스가 충돌을 보며 들은 소리와 범퍼 탈락을 말한다. 시계를 확인하거나 사고 시각을 기록하지 않는다. 에이다 a1의 소리와 같은 사건인지는 플레이어가 q5에서 직접 연결한다.
+- 조건·역할 · b4 뒤. 작업실 진입 방향의 충돌과 소리·범퍼 탈락을 본다. 사고 전 구매나 자재점에서 출발하는 모습은 보지 못했다. 에이다 a1의 소리와 같은 사건인지는 플레이어가 q5에서 연결한다.
 
 #### iris:m2 · 운전자
 - **질문** · Did you see the driver? / 운전자를 봤어?
@@ -155,19 +157,19 @@
 - 보기 · who / driver's seat / checked on / which / back seat / called / looked for
 - 조건·역할 · m2 뒤. 아이리스는 하차→빅터를 살핌→같은 운전석에 다시 타는 행동을 이어서 봤다. 신원·상처·생각은 말하지 않는다. q6에서 플레이어가 동일인의 행동을 연결하고 c3·c4의 근거로 선택한다.
 
-#### iris:m4 · 도주 방향과 신고
+#### iris:m4 · 되돌아간 방향과 신고
 - **질문** · What did he do next? / 그다음에는 뭘 했어?
-- **대답** · He drove into the lane beside the supply shop. I called the police.
-- 해석 · 자재점 옆 골목으로 차를 몰고 들어갔어. 나는 경찰에 신고했어.
-- 노트 · He [drove] into the [lane] beside the [supply shop]. I called the [police].
-- 보기 · drove / lane / supply shop / police / walked / square / workshop / hospital
-- 조건·역할 · m3 뒤. 가게 문가에서 보이는 골목 입구까지만 봤다. 골목 안에서 주차·구매·운전자 교대가 있었는지는 모른다. b2의 발견 위치와 현장 obs-lane을 플레이어가 직접 대조한다. 목격만으로 에반의 이름이나 뒤편 주차까지 확정하지 않는다.
+- **대답** · He turned around and drove into the lane beside the supply shop. I called the police.
+- 해석 · 차를 돌려 자재점 옆 골목으로 몰고 들어갔어. 나는 경찰에 신고했어.
+- 노트 · He [turned around] and drove into the [lane] beside the [supply shop]. I called the [police].
+- 보기 · turned around / lane / supply shop / police / parked / square / workshop / hospital
+- 조건·역할 · m3 뒤. 빅터 가게 문가에서 운전자가 차를 돌리고 자재점 방향으로 되돌아가 옆 골목에 진입하는 모습을 본다. 골목 뒤 주차·구매·운전자 교대는 보지 못했다. b2·obs-lane과 연결하되 사고 전 구매 순서를 이 목격으로 확정하지 않는다.
 
 현장 사진 c-road에는 **도로 위 떨어진 앞범퍼 조각**이 있다. 사진 제목에 파란 밴이나 운전자 이름을 넣지 않는다.
 
 ### 장면 3 · 병원 — 빅터의 운전자 지목
 
-빅터는 팔과 다리를 다쳐 병원에 입원해 있다. 오르골을 맡긴 작업실에 쌍둥이가 있다는 사실을 모른다. 앞서 오르골을 인수한 마일로와는 직접 이야기했지만, 사고 때 운전석의 에반은 잠깐 봤다. 같은 얼굴·같은 밴을 같은 사람의 근거로 삼아 확신한다. 이름을 아는 척하거나 의도적으로 거짓말하지 않는다. 이것은 제작자용 설명이며 첫 대화·노트 제목·알림에 ‘착각’, ‘잘못된 목격’ 같은 표시는 없다.
+빅터는 팔과 다리를 다쳐 병원에 입원해 있다. 오르골을 맡긴 작업실에 쌍둥이가 있다는 사실을 모른다. 직접 작업실에 찾아와 마일로에게 오르골을 건네며 이야기했지만, 나오다 사고를 당할 때 운전석의 에반은 잠깐 봤다. 같은 얼굴을 같은 사람의 근거로 삼아 확신한다. 방문 전에 에반과 밴이 떠나 있어 같은 밴을 두 번 본 기억은 없다. 이름을 아는 척하거나 의도적으로 거짓말하지 않는다. 이것은 제작자용 설명이며 첫 대화·노트 제목·알림에 ‘착각’, ‘잘못된 목격’ 같은 표시는 없다.
 
 병원은 b1을 기록하면 처음부터 갈 수 있다. 빅터의 지목과 후속 확인은 이번 사건의 필수 조사이며, 다른 인물과의 면담 순서는 자유다. 먼저 방문하면 마일로를 의심할 기록을 얻고, 작업실 조사를 먼저 마쳤다면 이미 들은 목격과 충돌하는 기록을 얻는다. 어느 순서든 비교와 재질문 선택은 플레이어가 한다.
 
@@ -178,19 +180,19 @@
 
 #### victor:v1 · 운전자에 대한 진술
 - **질문** · Did you recognize the driver? / 운전자를 알아봤어?
-- **대답** · Yes. The man who collected my music box was driving the van.
-- 해석 · 응. 내 오르골을 가져간 사람이 밴을 운전하고 있었어.
-- 노트 · Yes. The man [who] [collected] my [music box] was driving the van.
-- 보기 · who / collected / music box / which / repaired / toolbox / van
-- 조건·역할 · b1 뒤. 빅터의 주장으로 원문을 보존한다. 받아쓰기 정답은 들은 표현의 확인이지 운전자 신원의 사실 판정이 아니다. o2와 대조하면 빅터가 지목하는 인물을 플레이어가 생각할 수 있지만 노트에 ‘마일로가 범인’이라고 바꿔 적지 않는다. 이름·쌍둥이·착각·목격의 짧은 시간은 이 답에서 먼저 공개하지 않는다.
+- **대답** · Yes. The man who took my music box for repair was driving the van.
+- 해석 · 응. 내 오르골을 수리하려고 받아 준 사람이 밴을 운전하고 있었어.
+- 노트 · Yes. The man [who] [took] my [music box] for repair was driving the van.
+- 보기 · who / took / music box / which / sold / toolbox / van
+- 조건·역할 · b1 뒤. 빅터가 수리점에서 응대한 사람을 지목하는 주장이다. 이름·쌍둥이·착각을 먼저 공개하지 않는다. o2와 대조해 지목 대상을 플레이어가 판단하며, 받아쓰기 정답은 운전자 신원의 사실 판정이 아니다.
 
 #### victor:v2 · 같은 사람이라고 생각한 근거
 - **질문** · What made you think it was the same man? / 무엇을 보고 같은 사람이라고 생각했어?
-- **대답** · The same face and the same van. We talked when he collected the box. I saw the driver only for a moment before the crash.
-- 해석 · 같은 얼굴에 같은 밴이었어. 오르골을 가져갈 때는 이야기를 나눴어. 충돌 직전 운전자는 잠깐 봤고.
-- 노트 · The [same face] and the [same van]. We talked when he collected the box. I saw the driver only for a [moment] before the crash.
-- 보기 · same face / same van / moment / same name / same voice / long time / whole trip
-- 조건·역할 · v1·o2와 플레이어가 완성한 q5를 확보한 뒤, 플레이어가 빅터 v1·마일로 o2·에이다 a3를 직접 골라 제시(victor-check)하면 이 질문이 열린다. q5의 충돌 소리·작업자 연결에 사용한 출처도 함께 다시 볼 수 있다. 빅터는 두 번의 만남에서 직접 본 범위와 판단 근거만 말한다. ‘쌍둥이였구나’, ‘내가 착각했네’, ‘운전자는 다른 사람이네’라고 정정하지 않는다. 직접 내밀기·질문 선택 없이 답을 자동 재생하지 않으며, 그 의미는 q8에서 플레이어가 판단한다.
+- **대답** · He had the same face. We talked inside the workshop. I saw the driver only for a moment before the crash.
+- 해석 · 얼굴이 같았어. 작업실 안에서는 이야기를 나눴어. 충돌 직전 운전자는 잠깐 봤고.
+- 노트 · He had the [same face]. We talked [inside the workshop]. I saw the driver only for a [moment] before the crash.
+- 보기 · same face / inside the workshop / moment / same voice / outside the hospital / long time / whole trip
+- 조건·역할 · v1·o2·q5 뒤 플레이어가 v1·o2·a3를 직접 제시(victor-check)하면 열린다. 작업실 안의 대화와 도로의 짧은 목격, 얼굴이 같다는 판단 근거만 설명한다. 같은 밴을 봤다는 진술은 없고 이름·쌍둥이·착각 결론도 말하지 않는다. 의미는 q8에서 플레이어가 판단한다.
 
 v1과 v2는 나란히 보존한다. v2를 들었다고 v1을 자동으로 지우거나 거짓 표시를 붙이지 않는다. 노트·발견 알림에는 새 인물이나 정답을 덧붙이지 않는다. 기존의 어두운 모자 단서는 사용하지 않는다.
 
@@ -219,13 +221,13 @@ v1과 v2는 나란히 보존한다. v2를 들었다고 v1을 자동으로 지우
 - 보기 · walked / supply shop / didn't / drove / workshop / did / ran
 - 조건·역할 · e1 뒤. 에반의 운전 부인도 당사자 주장으로 기록한다.
 
-#### evan:e3 · 구매한 물건
+#### evan:e3 · 구매한 재료
 - **질문** · What did you get at the supply shop? / 자재점에서 무엇을 샀어?
-- **대답** · I bought straps at the supply shop. I have the receipt. You can look at it.
-- 해석 · 자재점에서 고정끈을 샀어. 영수증도 있어. 봐도 돼.
-- 노트 · I [bought] [straps] at the supply shop. I have the [receipt]. You can look at it.
-- 보기 · bought / straps / receipt / brought / tools / repair notes / key
-- 조건·역할 · e2 뒤. 앞서 본인이 말한 자재점 방문의 목적을 묻는다. m1보다 먼저 질문할 수 있다. 구매는 사실이다. 가게에서 손으로 쓴 영수증을 테이블에 펼쳐 보여 주며 직접 촬영을 해금한다. 상호·품목·결제 표시만 있고 구매자 이름·시각은 없다. 사고 순간의 위치를 증명하는 자료로 처리하지 않는다.
+- **대답** · I bought glue and sandpaper. Here's the receipt from the supply shop.
+- 해석 · 접착제와 사포를 샀어. 여기 자재점 영수증이 있어.
+- 노트 · I bought [glue] and [sandpaper]. Here's the [receipt] from the supply shop.
+- 보기 · glue / sandpaper / receipt / paint / cloth / key / repair notes
+- 조건·역할 · e2 뒤. 일반 수리용 재료의 구매는 사실이다. 손으로 쓴 영수증을 펼쳐 주며 직접 촬영을 해금한다. 상호·Glue·Sandpaper·Paid만 있고 이름·시각은 없다. 사고 전 구매라는 순서는 이 질문이나 영수증이 아니라 후반 c5에서 확인한다.
 
 #### evan:e4 · 손목과 글쓰기
 - **질문** · Why did you switch hands? / 왜 손을 바꿔 썼어?
@@ -236,16 +238,16 @@ v1과 v2는 나란히 보존한다. v2를 들었다고 v1을 자동으로 지우
 - 조건·역할 · e1과 obs-sign-1 뒤. 양손으로 글을 쓴다는 사실은 직접 관찰과 일치한다. 다친 경위는 거짓이다. e3보다 먼저 물을 수 있다. 관찰을 마치고 직접 질문하며 자동 설명·비교는 없다.
 
 #### evan:e5 · 에이다와 한 작업
-- **질문** · What did you do with Ada during the repair? / 그 수리 작업에서 에이다와 무슨 일을 했어?
+- **질문** · Ada said she repaired a music box. What did you do with her? / 에이다가 오르골을 고쳤다고 했어. 너는 함께 무슨 일을 했어?
 - **대답** · Something inside the music box, I think. Ada did most of the work.
 - 해석 · 아마 오르골 안쪽의 뭔가였을걸. 에이다가 거의 다 했어.
 - 노트 · Something [inside] the music box, [I think]. Ada did [most] of the work.
 - 보기 · inside / I think / most / outside / I know / none / all
-- 조건·역할 · 에이다 a5를 바르게 기록하고 에반 e1을 기록한 뒤. 두 형제에게 같은 질문이 각각 열린다. 구체적인 역할을 말하지 않고 에이다에게 설명을 떠넘기는 답이다. 얼버무리는 말투나 빈칸 정답 확인으로 거짓말 표시·범인 표시를 하지 않는다. 탐정은 태엽·나사·왼손을 질문에 넣어 답을 알려 주지 않는다. e3·e4와 독립적으로 질문 가능하며, 플레이어가 직접 돌아와 질문한다.
+- 조건·역할 · 에이다 a5를 바르게 기록하고 에반 e1을 기록한 뒤. 두 형제에게 같은 질문이 각각 열린다. 구체적인 역할을 말하지 않고 에이다에게 설명을 떠넘기는 답이다. 얼버무리는 말투나 빈칸 정답 확인으로 거짓말 표시·범인 표시를 하지 않는다. 질문의 오르골 언급은 이미 들은 a5의 사실만 인용한다. 에반은 이 질문에서 수리 대상을 알게 된 뒤 둘러댄다. 탐정은 태엽·나사·왼손을 질문에 넣어 답을 알려 주지 않는다. e3·e4와 독립적으로 질문 가능하며, 플레이어가 직접 돌아와 질문한다.
 
 ### 장면 5 · 경찰서 — 마일로의 반박
 
-마일로도 사고를 부인한다. 자신이 에반에게 열쇠를 건넸고 에반이 밴을 몰고 떠났다고 주장한다. 마일로가 사고 전에 밴을 운전해 작업실에 온 사실은 숨기지 않는다.
+마일로도 사고를 부인한다. 자신이 에반에게 열쇠를 건넸고 에반이 밴을 몰고 떠났다고 주장한다. 빅터가 직접 찾아와 오르골을 맡겼고 자신이 받았다고 말한다. 에반이 떠난 뒤 방문이었다는 순서를 함께 설명하지만 자기 진술만으로 결백을 확정하지 않는다.
 
 | ID | 화자·형태 | 영어 | 한국어 |
 |---|---|---|---|
@@ -260,29 +262,29 @@ v1과 v2는 나란히 보존한다. v2를 들었다고 v1을 자동으로 지우
 - 보기 · kept / gave / saw / took / showed / heard / stayed
 - 조건·역할 · 자기소개 뒤. 경찰이 작업실에 왔을 때 들은 에반의 열쇠 주장을 반박한다. 탐정의 e1·e2 면담이 먼저 열릴 필요는 없다.
 
-#### milo:o2 · 작업실
-- **질문** · Did you drive the van today? / 오늘 밴을 운전했어?
-- **대답** · Yes. I brought Victor's music box to our workshop. Ada helped me unload it.
-- 해석 · 응. 빅터의 오르골을 우리 작업실로 가져왔어. 에이다가 내리는 걸 도와줬어.
-- 노트 · Yes. I [brought] Victor's [music box] to our [workshop]. Ada helped me unload it.
-- 보기 · brought / music box / workshop / bought / toolbox / supply shop / station
-- 조건·역할 · o1 뒤. 밴은 오르골을 작업실에 내려놓을 때까지 마일로가 운전했다. b5를 먼저 기록하지 않았다면 이 답변으로 작업실이 발견된다.
+#### milo:o2 · 빅터의 방문과 수리 접수
+- **질문** · What did you do after Evan left? / 에반이 떠난 뒤 뭘 했어?
+- **대답** · Victor brought his music box to our workshop. I took it from him and put it on the workbench.
+- 해석 · 빅터가 우리 작업실로 오르골을 가져왔어. 내가 그에게서 받아 작업대에 놓았어.
+- 노트 · Victor [brought] his [music box] to our workshop. I [took it from him] and put it on the workbench.
+- 보기 · brought / music box / took it from him / bought / toolbox / gave it to him / drove it away
+- 조건·역할 · o1 뒤. 에반의 출발 뒤 빅터가 직접 방문했고 자신이 오르골을 받은 사람이라고 말한다. 방문 순서와 접수 역할은 자기 진술로 보존하며, v1·v2 및 작업 목격과 플레이어가 대조한다. b4나 b5보다 먼저 기록하면 작업실을 발견한다.
 
 #### milo:o3 · 열쇠를 건넨 이유
 - **질문** · Why did you give Evan the key? / 왜 에반에게 열쇠를 줬어?
-- **대답** · He needed straps to secure the music box in the van.
-- 해석 · 밴 안에서 오르골을 고정할 고정끈이 필요했거든.
-- 노트 · He needed [straps] to [secure] the music box in the [van].
-- 보기 · straps / secure / van / tools / repair / workshop / key
-- 조건·역할 · o2 뒤. 수리한 오르골을 돌려줄 때 사용할 고정끈 구매가 밴을 맡긴 이유다. 인계의 정확한 시각은 묻거나 말하지 않는다. 인계 사실은 o1·a2와 연결한다.
+- **대답** · We needed glue and sandpaper for other repairs. He went to buy them.
+- 해석 · 다른 수리에 쓸 접착제와 사포가 필요했어. 에반이 그걸 사러 갔어.
+- 노트 · We needed [glue] and [sandpaper] for [other repairs]. He went to buy them.
+- 보기 · glue / sandpaper / other repairs / paint / cloth / the music box / the van
+- 조건·역할 · o2 뒤. 빅터가 오기 전에 예정된 일반 재료 구매다. 오르골 운반이나 그 오르골의 수리 때문에 생긴 외출로 설명하지 않는다. 인계 사실은 o1·a2, 산 품목은 e3·c-receipt와 대조한다.
 
 #### milo:o5 · 에이다와 한 작업
-- **질문** · What did you do with Ada during the repair? / 그 수리 작업에서 에이다와 무슨 일을 했어?
+- **질문** · Ada said she repaired a music box. What did you do with her? / 에이다가 오르골을 고쳤다고 했어. 너는 함께 무슨 일을 했어?
 - **대답** · I held the spring while Ada turned the screw.
 - 해석 · 에이다가 나사를 돌리는 동안 내가 태엽을 잡고 있었어.
 - 노트 · I [held] the [spring] while Ada turned the [screw].
 - 보기 · held / spring / screw / turned / bumper / key / box
-- 조건·역할 · 에이다 a5를 바르게 기록하고 마일로 o1을 기록한 뒤. 에반 e5를 먼저 물을 필요는 없다. 실제 역할을 구체적으로 답하지만 자기 진술로 기록하며, 정답 문장·결백 표시를 붙이지 않는다. 에이다의 말을 탐정이 전달하거나 질문에 역할을 넣지 않는다. o2·o3과 독립적으로 질문 가능하다. o2와 서명 관찰까지 확보하면 o4를 물을 수 있다.
+- 조건·역할 · 에이다 a5를 바르게 기록하고 마일로 o1을 기록한 뒤. 에반 e5를 먼저 물을 필요는 없다. 실제 역할을 구체적으로 답하지만 자기 진술로 기록하며, 정답 문장·결백 표시를 붙이지 않는다. 에이다가 오르골을 고쳤다고 한 사실만 질문에서 인용하고 역할 분담은 전달하지 않는다. o2·o3과 독립적으로 질문 가능하다. o2와 서명 관찰까지 확보하면 o4를 물을 수 있다.
 
 #### milo:o4 · 손가락과 글쓰기
 - **질문** · What happened to your finger? / 손가락은 어쩌다 다쳤어?
@@ -307,7 +309,7 @@ v1과 v2는 나란히 보존한다. v2를 들었다고 v1을 자동으로 지우
 - 해석 · 열린 창가에서 오르골을 수리하고 있었어. 밖에서 큰 충돌 소리가 들렸어.
 - 노트 · We were repairing a [music box] by the [open window]. I heard a loud [crash] outside.
 - 보기 · music box / open window / crash / toolbox / closed door / whisper / bell
-- 조건·역할 · 첫 질문. 작업한 물건·열린 창·밖에서 들은 소리만 말한다. 어느 사고인지, 그 순간 어느 형제가 무슨 일을 했는지는 아직 확인하지 않는다. 창이 빅터 가게 앞 도로를 향한 위치는 현장에서 직접 볼 수 있다. 형제의 이름·상처 부위는 알려 주지 않는다.
+- 조건·역할 · 첫 질문. 작업한 물건·열린 창·밖에서 들은 소리만 말한다. 어느 사고인지, 그 순간 어느 형제가 무슨 일을 했는지는 아직 확인하지 않는다. 창이 수리 작업실 앞 사고 지점을 향한 위치는 현장에서 직접 볼 수 있다. 형제의 이름·상처 부위는 알려 주지 않는다.
 
 #### ada:a2 · 인계
 - **질문** · Did you see the van key? / 밴 열쇠를 봤어?
@@ -315,7 +317,7 @@ v1과 v2는 나란히 보존한다. v2를 들었다고 v1을 자동으로 지우
 - 해석 · 응. 나와 함께 작업한 형제가 다른 형제에게 열쇠를 줬어.
 - 노트 · Yes. The twin [who] worked with me [gave] it to his [brother].
 - 보기 · who / gave / brother / which / kept / Victor / driver
-- 조건·역할 · a1 뒤. 두 쌍둥이의 상반된 인계 진술 중 인계 행동을 직접 확인한다. 이름은 작업 진술의 대조와 후속 확인 a3를 플레이어가 q5에서 연결한 뒤 확인한다. 왼손 사용만으로 이름을 정하지 않는다.
+- 조건·역할 · a1 뒤. 에이다는 빅터 방문 전에 본 열쇠 인계와 그 뒤 함께 수리한 형제를 연결해 말한다. 시간 순서를 초기 대사에서 따로 설명하거나 이름을 붙이지 않는다. 두 쌍둥이의 상반된 인계 진술 중 인계 행동을 직접 확인한다. 이름은 작업 진술의 대조와 후속 확인 a3를 플레이어가 q5에서 연결한 뒤 확인한다. 왼손 사용만으로 이름을 정하지 않는다.
 
 #### ada:a5 · 함께한 작업과 역할
 - **질문** · What did you do together? / 둘이 함께 무슨 일을 했어?
@@ -341,7 +343,7 @@ v1과 v2는 나란히 보존한다. v2를 들었다고 v1을 자동으로 지우
 - 보기 · who / left hand / right hand / watched / finger / guessed
 - 조건·역할 · a5와 c-work 직접 촬영 뒤. 눈앞의 수리 기록을 두고 묻는다. 두 형제 모두 왼손으로 쓸 수 있으므로 이름·사고 순간의 위치를 확정하지 않는다. a3보다 먼저 질문할 수 있다.
 
-작업대 기록 c-work에는 오르골 수리 메모와 `Spring`·`Screw`의 손글씨가 보인다. 시작·종료 시각, 출입 기록, 작업자 이름은 없다. 수리 대상과 기록을 확인하고 a4의 글쓰기 목격을 물을 자료다. 사진에는 도로 쪽으로 열린 작업대 옆 창도 보인다. 창밖 배경은 빅터 가게 앞 도로와 연결되지만 충돌 장면이나 범인은 담겨 있지 않다. 글씨와 창만으로 작업자나 사고 순간의 위치를 확정하지 않는다.
+작업대 기록 c-work에는 오르골 수리 메모와 `Spring`·`Screw`의 손글씨가 보인다. 시작·종료 시각, 출입 기록, 작업자 이름은 없다. 수리 대상과 기록을 확인하고 a4의 글쓰기 목격을 물을 자료다. 사진에는 도로 쪽으로 열린 작업대 옆 창도 보인다. 창밖 배경은 작업실 앞 도로와 연결되지만 충돌 장면이나 범인은 담겨 있지 않다. 글씨와 창만으로 작업자나 사고 순간의 위치를 확정하지 않는다.
 
 ### 장면 7 · 차량과 플레이어 추리
 
@@ -355,11 +357,11 @@ b3 뒤 플레이어는 각 형제가 자기 면담실에서 서명하는 모습�
 
 이어서 a3의 ‘그 소리를 들었을 때 태엽을 잡은 형제가 곁에 있었다’를 a5·e5·o5의 역할 진술, o4의 상처 주장과 두 서명 관찰에 연결한다. 에반과 마일로 모두 왼손으로 쓸 수 있으므로 손 사용만으로 고르지 않는다. 자세한 답변이라는 이유만으로 참이라고 판정하지 않고 제삼자의 역할·부상 목격과 실제 관찰을 대조한다. 제작자용 정답은 태엽을 잡은 형제가 마일로이고, 아이리스가 본 충돌이 일어난 순간 에이다 곁에 있었다는 것이다. 숫자 시각·작업 구간·분 단위 계산은 없다. who의 설명이 가리키는 인물, 소리가 가리키는 사건, 그 순간의 행동을 플레이어가 정한다.
 
-**사고 직후 행동과 차량 동선 대조(q6)** — 플레이어가 m3에서 운전석 하차→빅터를 살핌→같은 운전석 복귀의 순서를 고르고 m4에서 밴이 들어간 곳을 고른다. b2의 발견 위치, 직접 살펴본 옆길 obs-lane, 조각·범퍼를 대조한 사고 차량 q3를 함께 제시해 골목과 뒤편의 연결을 판단한다. 아이리스가 본 범위는 골목 진입까지이며 주차·구매·골목 안 운전자 교대는 보지 못했다. 올바른 동선 연결 뒤에도 이름을 자동으로 표시하지 않는다.
+**사고 직후 행동과 차량 동선 대조(q6)** — 플레이어가 m3에서 운전석 하차→빅터를 살핌→같은 운전석 복귀의 순서를 고르고 m4에서 차를 돌린 행동과 밴이 들어간 곳을 고른다. b2의 발견 위치, 직접 살펴본 옆길 obs-lane, 조각·범퍼를 대조한 사고 차량 q3를 함께 제시해 골목과 뒤편의 연결을 판단한다. 아이리스가 본 범위는 골목 진입까지이며 주차·구매·골목 안 운전자 교대는 보지 못했다. 올바른 동선 연결 뒤에도 이름을 자동으로 표시하지 않는다.
 
-**구매 기록의 역할** — e3 뒤 직접 촬영하는 c-receipt는 가게에서 손으로 쓴 영수증이다. 자재점 상호·Straps·Paid만 있고 구매자 이름과 시각은 없다. e3의 구매 주장과 o3의 고정끈 구매 목적, 자재점으로 향한 차량 경로를 확인할 때 사용한다. 영수증으로 사고 전후 구매 순서나 사고 순간의 위치를 추정하는 문항은 없다. 실제 구매 순서는 후반 c5의 본인 진술에서 확인한다.
+**구매 기록의 역할** — e3 뒤 직접 촬영하는 c-receipt는 가게에서 손으로 쓴 영수증이다. 자재점 상호·Glue·Sandpaper·Paid만 있고 구매자 이름과 시각은 없다. e3의 구매 주장과 o3의 일반 수리 재료 구매 목적을 확인할 때 사용한다. 사고 전 구매 방문과 사고 뒤 밴을 두러 되돌아간 이동은 별개이며, 영수증만으로 순서를 정하지 않는다. 영수증으로 사고 전후 구매 순서나 사고 순간의 위치를 추정하는 문항은 없다. 실제 구매 순서는 후반 c5의 본인 진술에서 확인한다.
 
-**빅터에게 목격 근거 확인(victor-check)** — v1의 ‘오르골을 가져간 사람이 운전자’라는 진술과 마일로 o2의 ‘내가 오르골을 가져왔다’를 대조하면 마일로에게 의심이 향한다. q5에서 사고 소리가 들릴 때의 작업자를 직접 연결한 뒤, 플레이어가 v1·o2·a3를 골라 빅터에게 내민다. 비교 결과를 탐정이 설명하지 않고 v2의 질문만 선택한다. 빅터가 두 번의 만남과 판단 근거를 답하면 q8에서 인수자·사고 순간 위치·같은 사람이라고 본 근거·두 만남의 인물 연결을 플레이어가 정한다. 쌍둥이가 있다는 설정만 듣고 목격 전체를 무시하는 것도 정답으로 처리하지 않는다. 오르골 인수와 얼굴·차량의 관찰은 보존하고, 동일인이라고 연결한 부분을 대조한다. 잘못된 자료 조합에는 “I don't understand your question.”이라고만 답하며 기록과 진행을 보존한다.
+**빅터에게 목격 근거 확인(victor-check)** — v1의 ‘오르골을 받아 준 사람이 운전자’라는 진술과 마일로 o2의 ‘빅터가 가져온 오르골을 내가 받았다’를 대조하면 마일로에게 의심이 향한다. q5에서 사고 소리가 들릴 때의 작업자를 직접 연결한 뒤, 플레이어가 v1·o2·a3를 골라 빅터에게 내민다. 비교 결과를 탐정이 설명하지 않고 v2의 질문만 선택한다. 빅터가 두 번의 만남과 판단 근거를 답하면 q8에서 수리 접수자·사고 순간 위치·같은 사람이라고 본 근거·두 만남의 인물 연결을 플레이어가 정한다. 쌍둥이가 있다는 설정만 듣고 목격 전체를 무시하는 것도 정답으로 처리하지 않는다. 오르골 접수와 얼굴의 관찰은 보존하고, 동일인이라고 연결한 부분을 대조한다. 잘못된 자료 조합에는 “I don't understand your question.”이라고만 답하며 기록과 진행을 보존한다.
 
 **세 사람의 진술 결합** — q5의 ‘같은 충돌 소리와 작업자’ 연결, q6의 ‘사고 직후 행동과 차량 동선’ 연결, q8의 ‘빅터가 연결한 두 만남’ 검토를 완성한 뒤 q9에서 재질문 대상을 고른다. 에이다의 소리만으로 사고 장면을 목격했다고 하거나 아이리스의 방향만으로 에반을 지목하면 통과하지 않는다. c2·c3에서도 양쪽 목격 계열의 자료를 직접 선택한다. 시각 비교 문항은 삭제했다. 열쇠 주장 문항은 q7, 빅터의 인물 연결 검토는 q8, 대상 선택은 q9이며 재질문은 c1부터 시작한다.
 
@@ -372,10 +374,10 @@ b3 뒤 플레이어는 각 형제가 자기 면담실에서 서명하는 모습�
 | 차례 | 플레이어가 고를 말 | 플레이어가 고를 근거 | 질문 뒤 확인되는 범위 |
 |---|---|---|---|
 | c1 · 열쇠 | e1의 “Milo kept the key.” | a2와 q5의 인물 연결. q5에 선택한 작업 확인 a3·a5·e5·o5·o4·두 서명 관찰·c-work 출처도 다시 제시 가능 | 에반이 열쇠를 받았다고 인정 |
-| c2 · 운전 | e2의 “I walked to the supply shop.” 또는 “I didn't drive the van.” | o1, q5의 충돌 소리·그 순간 작업자 연결, q6의 m3·m4·b2·obs-lane, c1의 인계 인정 | 에반이 빅터 가게 앞을 지나 자재점 옆 골목으로 밴을 몰았다고 인정 |
+| c2 · 운전 | e2의 “I walked to the supply shop.” 또는 “I didn't drive the van.” | o1, q5의 충돌 소리·그 순간 작업자 연결, q6의 m3·m4·b2·obs-lane, c1의 인계 인정 | 에반이 자재점에서 밴으로 돌아왔고 차를 돌려 자재점 옆 골목으로 다시 향했다고 인정 |
 | c3 · 충돌 | e1의 충돌 부인 “No.” | q3의 조각·범퍼 대응(c-road·c-van), m1·m3의 충돌·피해자 확인 목격, q6의 도주 경로, c2의 운전·경로 인정, q5의 사고 소리를 들을 때 작업자 위치 연결, q8의 빅터 진술 검토 | 에반이 충돌과 손목 상처의 원인을 말함. 에이다 증언만 또는 아이리스 목격만으로는 통과하지 않음. 빅터 v1의 동일인 주장을 검토 없이 운전자 신원의 확정 근거로 쓰지 않음 |
 | c4 · 도주 이유 | c3 뒤 사고 직후 행동 재질문 | m3의 피해자 확인·재승차와 m4의 운전·도주 목격 | 에반이 빅터를 살핀 뒤 도망친 이유를 말함 |
-| c5 · 구매와 귀환 | c4 답변 뒤 동선 질문 | e3·c-receipt와 m4·b2·obs-lane의 도주 방향·밴 발견 위치 | 사고 뒤 실제로 구매한 이유와 밴을 두고 걸어 돌아온 이유를 확인 |
+| c5 · 구매와 주차 | c4 답변 뒤 자재점에서 한 행동 질문 | e3·c-receipt와 m4·b2·obs-lane의 도주 방향·밴 발견 위치 | 구매는 사고 전, 사고 뒤에는 뒤편 주차만 했다는 순서를 본인에게 확인. c5b에서 밴을 두고 뒷길로 걸어온 이유·경로를 확인 |
 
 탐정은 플레이어가 선택한 자료에 적힌 사실을 짧게 인용하거나 질문한다. ‘같은 사고 소리다’, ‘마일로는 범인이 아니다’, ‘그러므로 에반이다’라는 비교·배제·결론을 대신 말하지 않는다.
 
@@ -383,17 +385,17 @@ b3 뒤 플레이어는 각 형제가 자기 면담실에서 서명하는 모습�
 |---|---|---|---|
 | det:c1 | 탐정 · 선택 | Ada saw the twin who worked with her hand over the key. Did Milo give it to you? | 에이다는 함께 작업한 형제가 열쇠를 건네는 걸 봤어. 마일로가 네게 열쇠를 줬어? |
 | evan:c1 | 에반 · 자동 | Yes. I lied about the key. Milo gave it to me. | 응. 열쇠에 대해 거짓말했어. 마일로가 내게 줬어. |
-| det:c2 | 탐정 · 선택 | Iris saw the van enter the lane beside the supply shop. How did you get to the shop? | 아이리스는 밴이 자재점 옆 골목으로 들어가는 걸 봤어. 너는 가게까지 어떻게 갔어? |
-| evan:c2 | 에반 · 자동 | I drove the van past Victor's shop and into that lane. | 밴을 몰고 빅터의 가게 앞을 지나 그 골목으로 들어갔어. |
-| evan:c2b | 에반 · 자동 | I wasn't the one who worked with Ada. I only knew the music box needed fixing. | 에이다와 작업한 사람은 내가 아니야. 오르골을 고쳐야 한다는 것만 알고 있었어. |
-| det:c3 | 탐정 · 선택 | Iris saw a blue van hit Victor. What happened when you passed his shop? | 아이리스는 파란 밴이 빅터를 치는 걸 봤어. 네가 그 가게 앞을 지날 때 무슨 일이 있었어? |
+| det:c2 | 탐정 · 선택 | Iris saw the van turn around and enter the lane beside the supply shop. Which way did you drive? | 아이리스는 밴이 차를 돌려 자재점 옆 골목으로 들어가는 걸 봤어. 너는 어디로 운전했어? |
+| evan:c2 | 에반 · 자동 | I drove back from the supply shop. Then I turned around and drove into that lane. | 자재점에서 돌아왔어. 그러고는 차를 돌려 그 골목으로 들어갔어. |
+| evan:c2b | 에반 · 자동 | I wasn't the one who worked with Ada. I made that up so you wouldn't suspect me. | 에이다와 작업한 사람은 내가 아니야. 네가 나를 의심하지 않게 하려고 지어낸 말이었어. |
+| det:c3 | 탐정 · 선택 | Iris saw the van turn toward the workshop and hit Victor. What happened as you came back? | 아이리스는 밴이 작업실 쪽으로 돌다가 빅터를 치는 걸 봤어. 돌아올 때 무슨 일이 있었어? |
 | evan:c3 | 에반 · 자동 | I saw Victor too late. I hit him, and my wrist scraped against the inside of the van. | 빅터를 너무 늦게 봤어. 빅터를 쳤고 손목이 밴 안쪽에 긁혔어. |
 | det:c4 | 탐정 · 선택 | Iris saw the driver check on Victor and drive away. Why did you leave? | 아이리스는 운전자가 빅터를 살핀 뒤 차를 몰고 떠나는 걸 봤어. 왜 떠났어? |
 | evan:c4 | 에반 · 자동 | I got out to check on him. He wasn't moving. I thought he was dead, so I drove off. | 빅터를 살피러 내렸어. 움직이지 않았어. 죽은 줄 알고 차를 몰고 달아났어. |
-| det:c5 | 탐정 · 선택 | What did you do after you drove away? | 차를 몰고 떠난 뒤 뭘 했어? |
-| evan:c5 | 에반 · 자동 | I parked behind the supply shop and bought the straps. I wanted it to look like a normal trip. | 자재점 뒤편에 주차하고 고정끈을 샀어. 평범한 심부름처럼 보이게 하고 싶었어. |
+| det:c5 | 탐정 · 선택 | What did you do at the supply shop? | 자재점에서는 뭘 했어? |
+| evan:c5 | 에반 · 자동 | I bought the materials before the crash. After the crash, I only parked behind the shop. | 재료는 사고 전에 샀어. 사고 뒤에는 가게 뒤편에 주차만 했어. |
 | det:c5b | 탐정 · 선택 | Why did you leave the van there? | 밴은 왜 거기 두고 왔어? |
-| evan:c5b | 에반 · 자동 | I didn't want anyone to see the broken bumper. I took the straps and walked back to the workshop. | 깨진 범퍼를 누가 보는 게 싫었어. 고정끈을 챙겨 작업실로 걸어 돌아갔어. |
+| evan:c5b | 에반 · 자동 | I didn't want anyone to see the broken bumper. I took the materials and walked back along the rear path. | 깨진 범퍼를 누가 보는 게 싫었어. 재료를 챙겨 뒷길로 걸어 돌아갔어. |
 | badger:close | 경사 · 자동 | I'll check your statement with the evidence. | 네 진술을 증거와 대조할게. |
 
 최초 진술과 재질문 답변을 별도로 보존한다. e4의 짐을 나르다 다쳤다는 주장과 e5의 애매한 작업 답변도 지우지 않는다. c2의 운전 인정에 이어 c2b로 에이다와 작업하지 않았음을 직접 인정한다. c2b는 c2에 이어지는 답변이며 별도 제출 단계가 아니다. c3의 충돌 상처 인정과 나란히 다시 들을 수 있다. 경사는 c5b 뒤 진술을 인계받아 후속 수사를 계속한다. 플레이어가 직접 보고를 시작하면 올바르게 확보한 진술과 에반이 인정한 사실만 전달한다.
@@ -405,7 +407,7 @@ b3 뒤 플레이어는 각 형제가 자기 면담실에서 서명하는 모습�
 | act:report | 행동 | Report to the sergeant. | 경사에게 보고하기 |
 | det:report1 | 탐정 · 자동 | Evan said Milo gave him the key. He said he drove the van and hit Victor. | 에반은 마일로에게서 열쇠를 받았다고 했어. 밴을 몰다가 빅터를 쳤다고 했어. |
 | det:report2 | 탐정 · 자동 | He said he checked on Victor and drove off because he thought Victor was dead. | 빅터를 살펴봤고, 죽은 줄 알고 차를 몰고 달아났다고 했어. |
-| det:report3 | 탐정 · 자동 | He said he bought the straps, left the van behind the supply shop, and walked back to the workshop. | 고정끈을 사고 자재점 뒤편에 밴을 두고 작업실로 걸어 돌아갔다고 했어. |
+| det:report3 | 탐정 · 자동 | He said he bought the materials before the crash. Later, he left the van behind the supply shop and walked back along the rear path. | 재료는 사고 전에 샀다고 했어. 나중에 자재점 뒤편에 밴을 두고 뒷길로 걸어 돌아왔다고 했어. |
 | badger:report | 경사 · 자동 | Thank you. I'll call Victor at the hospital and tell him what we found. | 고마워. 병원에 있는 빅터에게 전화해서 확인한 내용을 전할게. |
 | victor:end | 빅터 · 전화 | Thank you for finding out what happened. | 무슨 일이 있었는지 밝혀 줘서 고마워. |
 | det:end | 탐정 · 자동 | I hope you get well soon. | 빨리 낫길 바라. |
@@ -418,13 +420,13 @@ b3 뒤 플레이어는 각 형제가 자기 면담실에서 서명하는 모습�
 |---|---|---|---|
 | c-road · 도로 위 조각 | 떨어진 앞범퍼 조각의 굴곡과 고정 구멍 | b4 뒤 현장 직접 촬영 | 출처·운전자 단독 확정 불가 |
 | c-van · 깨진 앞범퍼 | 공동 밴 앞범퍼의 결손과 안쪽 고정 구멍 | b2 뒤 자재점 뒤편에서 직접 촬영 | 조각 대응으로 차량 확인, 운전자 불명 |
-| c-work · 작업대 기록 | 오르골 수리 메모의 Spring·Screw 손글씨와 도로 쪽 열린 창. 시각·출입 기록·이름 없음 | o2 또는 b5 기록 뒤 작업실에서 직접 촬영 | 수리 내용·기록과 창의 위치만 확인. 사고 순간 작업자 위치는 a3·m1 등의 진술과 연결해야 함 |
-| obs-lane · 자재점 옆길 | 옆 골목 입구에서 자재점 모퉁이를 돌아 뒤편 주차 공간으로 이어지는 길. 플레이어가 현장에서 직접 살펴봄 | b2 뒤 자재점 뒤편에서 직접 관찰·노트 기록 | 길이 연결됨을 볼 수 있으나 과거 주차·구매·운전자 교대를 목격한 것은 아님 |
-| c-receipt · 영수증 | 손으로 쓴 자재점 상호·Straps·Paid. 구매자 이름·시각 없음 | e3 기록 뒤 에반이 테이블에 펼친 종이를 직접 촬영 | 에반이 자기 구매 기록이라고 제시했으나 사고 당시 위치·구매자 신원을 단독 증명하지 않음 |
+| c-work · 작업대 기록 | 오르골 수리 메모의 Spring·Screw 손글씨와 도로 쪽 열린 창. 시각·출입 기록·이름 없음 | b4·o2·b5 중 하나 기록 뒤 작업실에서 직접 촬영 | 수리 내용·기록과 창의 위치만 확인. 사고 순간 작업자 위치는 a3·m1 등의 진술과 연결해야 함 |
+| obs-lane · 자재점 옆길 | 옆 골목 입구에서 자재점 모퉁이를 돌아 뒤편 주차 공간으로 이어지는 길. 뒤편에서는 작업실 뒷문 쪽으로 이어지는 뒷길도 보임. 플레이어가 현장에서 직접 살펴봄 | b2 뒤 자재점 뒤편에서 직접 관찰·노트 기록 | 길이 연결됨을 볼 수 있으나 과거 주차·구매·운전자 교대를 목격한 것은 아님 |
+| c-receipt · 영수증 | 손으로 쓴 자재점 상호·Glue·Sandpaper·Paid. 구매자 이름·시각 없음 | e3 기록 뒤 에반이 테이블에 펼친 종이를 직접 촬영 | 에반이 자기 구매 기록이라고 제시했으나 사고 당시 위치·구매자 신원을 단독 증명하지 않음 |
 | obs-sign-1 · 첫 면담실 서명 관찰 | 에반이 오른손으로 쓰다가 왼손으로 펜을 옮겨 자연스럽게 서명을 마친다. 오른손목에 작은 긁힌 상처가 있고 왼손 검지에는 상처가 없다. 관찰 기록은 상처 원인·판단을 말하지 않음 | b3 뒤 에반의 면담실에서 직접 관찰·노트 기록 | 손 사용·상처만으로 운전자 단정 불가 |
 | obs-sign-2 · 둘째 면담실 서명 관찰 | 마일로가 직접 서명하다 펜을 쥔 손 때문에 멈칫한다. 왼손 검지에 작은 긁힌 상처가 있고 오른손목에는 상처가 없다. 관찰 기록은 상처 원인·판단을 말하지 않음 | b3 뒤 마일로의 면담실에서 직접 관찰·노트 기록 | 손 사용·상처만으로 운전자 단정 불가 |
 
-장소는 **경찰서, 사고 현장(빅터의 가게 앞), 병원, 형제의 수리 작업실, 밴이 발견된 자재점 뒤편** 다섯 곳이다. 자재점 안에는 들어가지 않는다. 경사는 경찰서, 형제는 각 면담실, 아이리스는 사고 현장, 빅터는 병원, 에이다는 작업실에 있다. 선택 관찰은 횡단보도·상점 창문·병원 물컵·오르골·공구함·번호판 등 보이는 사실만 말한다. 번호판은 경찰이 작업실을 찾아간 경위에 쓰이고, 사고 차량을 확인하는 플레이어의 근거는 c-road와 c-van의 물리적 대조다. 자재점 뒤편에는 옆 골목을 직접 살펴보는 obs-lane이 있다. 길의 연결만 관찰로 남기며 “이 길로 도망쳤다”는 설명은 없다. 아이리스의 시야는 골목 입구에서 끝난다. 두 서명 관찰은 같은 방향에서 보이게 구성한다. 플레이어는 각 방에서 다시 보고 자신의 왼쪽과 인물의 왼손을 구별할 수 있다.
+장소는 **경찰서, 사고 현장(수리 작업실 앞 도로), 병원, 형제의 수리 작업실, 밴이 발견된 자재점 뒤편** 다섯 곳이다. 자재점 안에는 들어가지 않는다. 경사는 경찰서, 형제는 각 면담실, 아이리스는 사고 현장, 빅터는 병원, 에이다는 작업실에 있다. 선택 관찰은 횡단보도·상점 창문·병원 물컵·오르골·공구함·번호판 등 보이는 사실만 말한다. 번호판은 경찰이 작업실을 찾아간 경위에 쓰이고, 사고 차량을 확인하는 플레이어의 근거는 c-road와 c-van의 물리적 대조다. 자재점 뒤편에는 옆 골목을 직접 살펴보는 obs-lane이 있다. 길의 연결만 관찰로 남기며 “이 길로 도망쳤다”는 설명은 없다. 아이리스의 시야는 골목 입구에서 끝난다. 두 서명 관찰은 같은 방향에서 보이게 구성한다. 플레이어는 각 방에서 다시 보고 자신의 왼쪽과 인물의 왼손을 구별할 수 있다.
 
 ## 추리 문항 · 제작자용 정답
 
@@ -434,10 +436,10 @@ b3 뒤 플레이어는 각 형제가 자기 면담실에서 서명하는 모습�
 | q2 | 두 형제는 열쇠에 관해 각각 무엇을 주장하나? | Evan says [Milo kept the key], but Milo says [he gave it to Evan]. | Milo kept the key / he gave it to Evan / Iris took the key / Ada drove the van / nobody had the key / Victor found it | e1·o1 |
 | q3 | 사고 차량을 무엇으로 확인하나? | The road piece matches [the van's broken front bumper]. | the van's broken front bumper / a bike bell / the right door / the shop window / a wheel / a hospital mirror | m1·c-road·c-van |
 | q4 | 에이다의 ‘왼손으로 썼다’는 목격만 놓고 보면 누구에게 해당할 수 있나? | The twin who wrote with his left hand could be [either brother]. | Evan only / Milo only / either brother / neither brother | a4·e4·o4·obs-sign-1·obs-sign-2. 양손 사용을 직접 관찰한 뒤 목격의 범위를 판단 |
-| q5 | 두 사람이 들은 소리를 연결하면 그 순간 태엽을 잡고 있던 형제는 어디 있었나? | The crash Ada heard came from [the van hitting Victor]. The twin who [held the spring] was [Milo]. He was [beside Ada] when they heard the crash. | 소리의 사건: the van hitting Victor / the music box playing / a door closing<br>형제의 행동: held the spring / turned the screw / drove the van<br>형제: Evan / Milo<br>위치: beside Ada / outside Victor's shop / at the supply shop | m1·a1·a3·a5·e5·o5·o4·c-work·obs-sign-1·obs-sign-2·q4. 플레이어가 소리의 두 출처와 창의 위치, who의 역할 설명, 부상 목격과 실제 관찰을 직접 골라 사건·인물·행동을 연결 |
-| q6 | 사고 뒤 운전자의 행동과 밴의 이동은 어디까지 연결되는가? | The man who checked on Victor [got back into the driver's seat]. Iris saw the van enter [the lane beside the supply shop]. The police found it [behind the supply shop]. The lane [leads to the rear parking area]. | 행동: got back into the driver's seat / got into the back seat / walked to the hospital<br>목격 방향: the lane beside the supply shop / the workshop / the hospital<br>발견 위치: behind the supply shop / outside Victor's shop / at the workshop<br>길의 연결: leads to the rear parking area / ends at the workshop / ends at the hospital<br>목격 범위: 골목 진입까지 / 뒤편 주차까지 / 가게 안 구매까지. 정답: 골목 진입까지 | m3·m4·b2·obs-lane·q3. 플레이어가 동일인의 행동, 각 출처의 장소, 골목과 뒤편의 연결·목격 한계를 직접 선택. 에반의 이름은 이 문항에서 정하지 않음 |
+| q5 | 두 사람이 들은 소리를 연결하면 그 순간 태엽을 잡고 있던 형제는 어디 있었나? | The crash Ada heard came from [the van hitting Victor]. The twin who [held the spring] was [Milo]. He was [beside Ada] when they heard the crash. | 소리의 사건: the van hitting Victor / the music box playing / a door closing<br>형제의 행동: held the spring / turned the screw / drove the van<br>형제: Evan / Milo<br>위치: beside Ada / on the road outside the workshop / at the supply shop | m1·a1·a3·a5·e5·o5·o4·c-work·obs-sign-1·obs-sign-2·q4. 플레이어가 소리의 두 출처와 창의 위치, who의 역할 설명, 부상 목격과 실제 관찰을 직접 골라 사건·인물·행동을 연결 |
+| q6 | 사고 뒤 운전자의 행동과 밴의 이동은 어디까지 연결되는가? | The man who checked on Victor [got back into the driver's seat]. Iris saw the van [turn around] and enter [the lane beside the supply shop]. The police found it [behind the supply shop]. The lane [leads to the rear parking area]. | 행동: got back into the driver's seat / got into the back seat / walked to the hospital<br>방향 전환: turn around / stop at the workshop / continue straight<br>목격 방향: the lane beside the supply shop / the workshop / the hospital<br>발견 위치: behind the supply shop / on the road outside the workshop / at the workshop<br>길의 연결: leads to the rear parking area / ends at the workshop / ends at the hospital<br>목격 범위: 골목 진입까지 / 뒤편 주차까지 / 가게 안 구매까지. 정답: 골목 진입까지 | m3·m4·b2·obs-lane·q3. 플레이어가 동일인의 행동, 각 출처의 장소, 골목과 뒤편의 연결·목격 한계를 직접 선택. 에반의 이름은 이 문항에서 정하지 않음 |
 | q7 | 어느 주장과 에이다의 목격이 충돌하는가? | Evan's claim that [Milo kept the key] conflicts with Ada's account. | Milo kept the key / Evan took the key / one twin stayed with Ada / the van had a broken bumper / Victor was in the hospital / Iris called the police | e1·a2·q5. 작업 답변·후속 확인 a3·사고 소리로 인물을 연결한 뒤 열쇠 진술을 대조 |
-| q8 | 빅터가 같은 사람이라고 한 두 만남을 어떻게 연결할까? | The man who collected the music box was [Milo]. When the crash happened, he was [beside Ada]. Victor identified the driver by [the face and the van]. The collector and the driver were [different people]. | 인수자: Evan / Milo<br>사고 순간 위치: beside Ada / inside the van / at the supply shop<br>판단 근거: the face and the van / the name and voice / the receipt<br>인물 연결: the same person / different people / not enough information | v1·v2·o2·b0·b2·q5·obs-sign-1·obs-sign-2. 플레이어가 실제 인수자와 사고 순간 위치, 빅터가 같은 사람이라고 본 근거, 직접 만난 두 형제의 닮은 얼굴과 공동 차량을 대조해 연결을 수정. 목격과 잘못된 인물 연결을 구분하며 빅터의 고의적인 거짓말로 채점하지 않음 |
+| q8 | 빅터가 같은 사람이라고 한 두 만남을 어떻게 연결할까? | The man who took the music box for repair was [Milo]. When the crash happened, he was [beside Ada]. Victor identified the driver by [his face]. The man at the workshop and the driver were [different people]. | 수리 접수자: Evan / Milo<br>사고 순간 위치: beside Ada / inside the van / at the supply shop<br>판단 근거: his face / his voice / the van's number plate<br>인물 연결: the same person / different people / not enough information | v1·v2·o2·b0·q5·obs-sign-1·obs-sign-2. 플레이어가 실제 수리 접수자와 사고 순간 위치, 빅터가 같은 사람이라고 본 근거, 직접 만난 두 형제의 닮은 얼굴을 대조해 연결을 수정. 목격과 잘못된 인물 연결을 구분하며 빅터의 고의적인 거짓말로 채점하지 않음 |
 | q9 | 두 형제 중 누구에게 열쇠와 운전·사고를 다시 물을까? | Ask [Evan] about the van. | Evan / Milo | q1–q8 완료, o3·e3·e4·e5·o4·o5·m4·c-receipt 기록. 충돌 소리와 작업자 q5, 사고 직후·도주 목격 q6, 빅터의 인물 연결 q8을 검토한 뒤 직접 돌아가 c1 시작 |
 
 q4에서 왼손 글쓰기만으로 둘 다 가능하다는 판단을 플레이어가 한다. q5는 아이리스가 본 충돌과 에이다가 들은 소리, 그 순간의 작업자·행동을 연결한다. q6은 사고 직후 행동과 도주 방향·현장 길·발견 위치를 대조한다. q7은 열쇠 주장의 충돌, q8은 빅터가 같은 사람으로 연결한 두 만남의 검토, q9은 재질문 대상 선택이다. 모든 출처·인물·행동은 플레이어가 직접 고르며 정답·배제 표시·비교 독백·자동 이동은 없다. 사고 소리를 확인하는 일과 범인을 특정하는 일은 별도 판단이다.
@@ -451,13 +453,13 @@ q4에서 왼손 글쓰기만으로 둘 다 가능하다는 판단을 플레이�
 | 면담실 서명 직접 관찰 | b3 기록·각 형제 인사 | 각 방에서 obs-sign-1·obs-sign-2 직접 관찰·노트 기록 |
 | 병원 | b1 기록 | 빅터 면담 v1. v2는 자료 제시 뒤 열리는 필수 후속 확인. 방문 순서는 자유 |
 | 밴 주차장 | b2 기록 | c-van 촬영·obs-lane 직접 관찰 |
-| 작업실 | o2 또는 b5 기록 | 에이다에게 말 걸기·c-work 촬영 |
+| 작업실 | b4·o2·b5 중 하나 기록 | 에이다에게 말 걸기·c-work 촬영 |
 | 후속 질문 | 각 소개와 앞 질문 기록 | e1→e2, e2→e3, e1+obs-sign-1→e4, o1→o2→o3, o2+o5+obs-sign-2→o4, m1→m2→m3→m4, b1→v1, victor-check→v2, a1→a2·a5, a5+c-work→a4, work-check→a3, b0→b1·b2·b3·b4, b2→b5 |
 | 작업 질문 | a5 기록과 각 형제의 첫 질문 기록 | a5+e1→e5, a5+o1→o5. 각자 직접 방문·질문. 두 답을 확보한 뒤 q5 진술 대조 제출 가능 |
 | 에이다 후속 확인 | a1·a5·e5·o5·o4 기록 | 플레이어가 a5·o5·o4·a1을 직접 골라 제시(work-check) → a3 질문. 자동 제출·답변 없음 |
 | 빅터 후속 확인 | v1·o2·q5 완료 | 플레이어가 v1·o2·a3를 직접 골라 제시(victor-check) → v2 질문. 빅터는 판단 근거만 설명 |
 | 영수증 조사 | e3 기록 | 에반 면담실의 종이 살펴보기·직접 촬영으로 c-receipt 획득. 자동 수집 없음 |
-| q1–q8 | 각 문항의 근거 획득 | 문항별 저장·재진입 가능. q5는 직접 연 a3와 q4·e5·o5 등 모든 근거 뒤, q6은 m3·m4·b2·obs-lane·q3 뒤, q7은 e1·a2·q5 뒤, q8은 v1·v2·o2·b0·b2·q5·두 서명 관찰 뒤 |
+| q1–q8 | 각 문항의 근거 획득 | 문항별 저장·재진입 가능. q5는 직접 연 a3와 q4·e5·o5 등 모든 근거 뒤, q6은 m3·m4·b2·obs-lane·q3 뒤, q7은 e1·a2·q5 뒤, q8은 v1·v2·o2·b0·q5·두 서명 관찰 뒤 |
 | q9·재질문 | q1–q8 완료와 o3·e3·e4·e5·o4·o5·m4·c-receipt 기록 | 에반 선택·직접 방문. c1→c2→c3→c4→c5→c5b. c1–c5는 각 차례의 주장·근거를 직접 선택, c5b는 후속 질문 |
 | 보고 | c5b 완료·플레이어의 보고 선택 | 경사 보고, 빅터와 통화, 복습 |
 
@@ -472,12 +474,12 @@ q4에서 왼손 글쓰기만으로 둘 다 가능하다는 판단을 플레이�
 | 사건 밖 예습 | `The student who wrote the note stayed.` | `who wrote the note`가 `the student`를 가리킴을 확인 |
 | 초반 대화 b0·m2·e1 | `the twins who share the van` / `the driver who got out` / `the one who drove away from the workshop` | 경사는 공동 밴과 연결된 용의자를 말하고, 아이리스는 차에서 내리는 걸 본 운전자를 설명한다. 에반의 말은 확인되지 않은 주장으로 듣는다. |
 | 에이다의 목격 a2·a3·a4·a5 | `the twin who worked with me` / `the twin who wrote these notes` / `the twin who held the spring` | 작업한 형제에게 인계·글쓰기·태엽을 잡은 행동을 연결. a3 후속 질문에서 소리가 들린 순간의 작업자 위치를 확인하며 이름은 말하지 않음 |
-| 빅터의 지목 v1·후속 확인 v2·q8 | `The man who collected my music box…` | who가 설명하는 인수자를 찾고, 빅터가 그 인수를 사고 운전자에게 연결한 근거를 다른 진술과 대조. 문장을 정확히 받아쓰는 것과 그 주장을 사실로 인정하는 것을 구분 |
+| 빅터의 지목 v1·후속 확인 v2·q8 | `The man who took my music box for repair…` | who가 설명하는 수리 접수자를 찾고, 빅터가 그 접수자를 사고 운전자와 같은 사람이라고 연결한 근거를 다른 진술과 대조. 문장을 정확히 받아쓰는 것과 그 주장을 사실로 인정하는 것을 구분 |
 | 형제의 작업 답변 e5·o5와 q5 | `The twin who held the spring…` | 같은 질문의 두 답을 듣고 에이다의 역할 설명이 누구를 가리키는지 관찰·사고 소리 때의 행동 목격과 대조. 자세함·모호함 자체로 참과 거짓을 채점하지 않음 |
 | 플레이어 추리 q4–q6 | `The twin who wrote…` / `The twin who held the spring…` / `The man who checked on Victor…` | 글쓰기만으로 둘 다 가능한 경우, 작업 확인과 충돌 소리를 연결해 인물을 정하는 경우, 사고 직후 같은 사람의 행동을 잇는 경우를 플레이어가 구분 |
 | 새 상황 복습 | `The student who carried a red folder…` | 사건 정보를 외우지 않고 다른 두 학생 중 대상 선택 |
 
-재청취는 b0·m1–m4·v1·v2·e1–e5·o1·o3–o5·a1–a5를 쓴다. v1의 원래 주장과 v2의 목격 근거를 모두 다시 들을 수 있으며 정정된 문장으로 덮어쓰지 않는다. b0·m2·m3·v1·e1·a2·a3·a4·a5에서는 `who`가 꾸미는 사람을 듣고 표시하며, 목격과 당사자의 주장을 구별한다. 중요 어휘는 `left/right`, `finger`, `index finger`, `wrist`, `scratch`, `front bumper`, `key`, `straps`, `receipt`, `either hand`, `spring`, `screw`, `held`, `lane`, `driver's seat`, `crash`, `beside`, `collected`, `same`이다. `either hand`는 양손잡이 진술을 이해하는 어휘이며 새 문법 단원으로 늘리지 않는다. 사건·병원 어휘 중 나머지는 문맥 도움말로 제공한다.
+재청취는 b0·m1–m4·v1·v2·e1–e5·o1·o3–o5·a1–a5를 쓴다. v1의 원래 주장과 v2의 목격 근거를 모두 다시 들을 수 있으며 정정된 문장으로 덮어쓰지 않는다. b0·m2·m3·v1·e1·a2·a3·a4·a5에서는 `who`가 꾸미는 사람을 듣고 표시하며, 목격과 당사자의 주장을 구별한다. 중요 어휘는 `left/right`, `finger`, `index finger`, `wrist`, `scratch`, `front bumper`, `key`, `glue`, `sandpaper`, `receipt`, `either hand`, `spring`, `screw`, `held`, `lane`, `driver's seat`, `crash`, `beside`, `took … for repair`, `same`이다. `either hand`는 양손잡이 진술을 이해하는 어휘이며 새 문법 단원으로 늘리지 않는다. 사건·병원 어휘 중 나머지는 문맥 도움말로 제공한다.
 
 새 상황 음성은 “The student who carried a red folder stayed in the library. Mina carried the red folder. Joon carried a blue bag.”이다. 질문은 “Who stayed in the library?”이고 정답은 **Mina**다. `who carried a red folder`가 어느 학생을 가리키는지 새 상황에서 적용하는지 확인한다.
 
@@ -493,6 +495,8 @@ q4에서 왼손 글쓰기만으로 둘 다 가능하다는 판단을 플레이�
 
 공통 추리 보드와 증거 제출 화면을 사용한다. 소리의 두 출처와 작업자 진술·관찰, 사고 직후 행동·도주 방향·발견 위치를 플레이어가 직접 골라 연결한다. 작업 내용 확인과 빅터의 인물 판단 근거 확인을 위해 진술을 골라 다시 질문하는 동작과 복수 근거 제출은 기존 화면 안에서 지원할 수 있는지 개발 전 확인한다. 숫자 시각을 비교하는 문항은 없다.
 
-원화에서는 빅터 가게 문가에서 운전석 하차·피해자를 살피는 행동·재승차와 자재점 옆 골목 입구가 보이게 한다. 자재점 모퉁이가 뒤편을 가려 아이리스가 주차와 구매를 보지 못하는 시야를 지킨다. 옆길 관찰에서는 골목과 뒤편 주차 공간의 연결을 플레이어가 직접 볼 수 있게 한다. 이름·범인·과거 이동 경로를 그림 설명에 적지 않는다. 두 면담실은 기존 양손잡이 에반·왼손잡이 마일로와 실제 상처를 유지한다. 에이다의 초기 연출·자막에는 어느 손가락이 다쳤는지 표시하지 않는다. 태엽에 손가락이 긁힌 일은 작업 진술을 골라 a3를 물은 뒤에만 말한다. 개발 인계 전 실제 시야·관찰 가독성·음성 호흡·학습 난도는 확인해야 한다. 빅터의 회상 그림을 넣더라도 첫 진술 때 마일로·에반의 이름표를 달거나 같은 인물로 확정하는 연출을 하지 않는다. **사용자가 승인한 빅터의 동일인 착각과 플레이어의 목격 근거 확인, 충돌 소리·작업 행동 연결, 에이다의 조기 정답 노출 조정과 아이리스의 사고 직후 행동·도주 방향 보강을 반영했으며 개발 미인계다.**
+원화에서는 빅터 가게 문가에서 맞은편 작업실 진입로의 사고, 운전석 하차·피해자를 살피는 행동·재승차·방향 전환과 자재점 옆 골목 입구가 보이게 한다. 자재점 모퉁이가 뒤편을 가려 아이리스가 주차와 구매를 보지 못하는 시야를 지킨다. 옆길 관찰에서는 골목과 뒤편 주차 공간의 연결을 플레이어가 직접 볼 수 있게 한다. 이름·범인·과거 이동 경로를 그림 설명에 적지 않는다. 두 면담실은 기존 양손잡이 에반·왼손잡이 마일로와 실제 상처를 유지한다. 에이다의 초기 연출·자막에는 어느 손가락이 다쳤는지 표시하지 않는다. 태엽에 손가락이 긁힌 일은 작업 진술을 골라 a3를 물은 뒤에만 말한다. 개발 인계 전 실제 시야·관찰 가독성·음성 호흡·학습 난도는 확인해야 한다. 빅터의 회상 그림을 넣더라도 첫 진술 때 마일로·에반의 이름표를 달거나 같은 인물로 확정하는 연출을 하지 않는다. **사용자가 승인한 에반 선출발·빅터의 직접 수리 접수·재료 구매 뒤 귀환 중 사고와 빅터의 동일인 착각, 플레이어의 목격 근거 확인, 충돌 소리·작업 행동 연결, 에이다의 조기 정답 노출 조정과 아이리스의 사고 직후 행동·도주 방향 보강을 반영했으며 개발 미인계다.**
 
-**수정본 점검 기준** — 정확한 시각은 위 제작자용 시간표에만 남긴다. 플레이용 질문·답·해석·빈칸·보기·증거 그림·복습에는 시각·시계·시간 구간이 없다. 초기 에이다 대화는 작업과 소리만 말하며 그 순간의 인물 위치를 확정하지 않는다. 두 형제의 답을 듣고 직접 근거를 제시해야 a3가 열린다. q5에서 아이리스의 충돌 목격과 에이다의 청각 경험, 작업자의 역할·위치를 플레이어가 연결해야 한다. 열린 창과 가까운 도로라는 청취 조건을 실제 장면으로 확인할 수 있어야 한다. 에이다가 사고를 직접 봤다고 말하지 않는다. m3·m4의 목격은 골목 진입까지이며 주차·구매·운전자 교대는 포함하지 않는다. q5·q6을 함께 완성해야 하며 c2·c3에 양쪽 증언이 필요하다. 영수증은 구매 장소·품목만 확인하고 사고 전후 순서를 증명하지 않는다. 사진 네 장은 c1–c5 근거로 사용한다. 선택 면담 b5를 생략해도 보고까지 이어져야 한다. 빅터 v1·v2는 필수이며 q5→자료 직접 제시→v2→q8→q9에 순환이 없어야 한다. v1의 채점·이름표·알림으로 착각을 먼저 알려 주지 않는다. v2에서도 빅터가 쌍둥이·오인 결론을 말하지 않는다. q8은 빅터의 목격을 전부 거짓으로 지우는 판단이 아니라 관찰과 인물 연결을 구분하는 판단이다.
+**수정본 점검 기준** — 제작자용 정리도 숫자 시각 대신 사건 순서로 맞춘다. 플레이용 질문·답·해석·빈칸·보기·증거 그림·복습에는 시각·시계·시간 구간이 없다. 초기 에이다 대화는 작업과 소리만 말하며 그 순간의 인물 위치를 확정하지 않는다. 두 형제의 답을 듣고 직접 근거를 제시해야 a3가 열린다. q5에서 아이리스의 충돌 목격과 에이다의 청각 경험, 작업자의 역할·위치를 플레이어가 연결해야 한다. 열린 창과 가까운 도로라는 청취 조건을 실제 장면으로 확인할 수 있어야 한다. 에이다가 사고를 직접 봤다고 말하지 않는다. m3·m4의 목격은 골목 진입까지이며 주차·구매·운전자 교대는 포함하지 않는다. q5·q6을 함께 완성해야 하며 c2·c3에 양쪽 증언이 필요하다. 영수증은 구매 장소·품목만 확인하고 사고 전후 순서를 증명하지 않는다. 사진 네 장은 c1–c5 근거로 사용한다. 선택 면담 b5를 생략해도 보고까지 이어져야 한다. 빅터 v1·v2는 필수이며 q5→자료 직접 제시→v2→q8→q9에 순환이 없어야 한다. v1의 채점·이름표·알림으로 착각을 먼저 알려 주지 않는다. v2에서도 빅터가 쌍둥이·오인 결론을 말하지 않는다. q8은 빅터의 목격을 전부 거짓으로 지우는 판단이 아니라 관찰과 인물 연결을 구분하는 판단이다.
+
+**이번 수정의 순서·지식 점검** — 에반의 출발이 빅터 방문보다 먼저다. 구매는 사고 전이며 사고 뒤 자재점에는 밴을 두러 되돌아간다. 빅터는 방문 때 밴을 보지 않아 동일 차량을 인물 판단 근거로 말하지 않는다. o2는 운반이 아니라 직접 접수를 말하며 빅터 v1·v2와 대조한다. 두 작업 질문은 이미 들은 a5의 수리 대상만 인용하고 에반의 사전 지식을 가정하지 않는다. c2b는 지어낸 작업 주장을 인정하며 오르골 수리를 미리 알았다는 설명은 없다. 아이리스는 사고 이후 차를 돌린 방향과 골목 진입까지만 보며 사고 전 구매를 목격했다고 하지 않는다. 작업실 앞 도로와 실내는 각각 조사하되 b4에서 작업실이 언급되면 둘 다 방문 가능하다.
