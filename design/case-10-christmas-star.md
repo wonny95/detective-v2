@@ -150,6 +150,7 @@ flowchart LR
 - **보기**: decorating · sorting · wrapping · tree · storeroom · sleigh
 - 조건: 데이지 h4(손수레로 트리 광장에 장식을 옮김) 기록 뒤(2026-11-16 사용자 요청: 데이지의 결백을 엘라의 말로)
 - 채점 뒤: 엘라가 자리를 비운 동안 데이지는 트리 광장에서 트리를 꾸몄다는 진술 기록. 그동안 창고가 비어 있었다(니코가 뒷문으로 들어갈 틈)
+- **det:ella-daisy-thought · 탐정 · 생각**(데이지 h4를 기록하고 e3를 아직 묻지 않았을 때, 2026-11-16 점검: 엘라에게 돌아갈 안내가 없었음): **I should ask Ella about Daisy. / 엘라에게 데이지에 대해 물어봐야겠어.**
 
 - **ella:check-supplies · 엘라 · 자동**
   - You can check the festival supplies if it helps you find the star.
@@ -552,7 +553,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 
 뒷면을 c-toy-star로 촬영한다. 관찰: **There's no pattern on the back. / 뒷면에 무늬가 없어.**(2026-11-16 사용자 결정: "It's a toy star."는 결론이라 뺌) 증거 카드 이름은 **Back of Tess's star**(테스의 별 뒷면; 선물 목록·인수증처럼 누구의 것인지 적고, 결론인 toy는 뺌, 사용자 요청).(점검 10, 사용자 결정: 금가루 단서를 뺀 뒤 벗겨진 가장자리는 의미가 없어 본 것만 말함. 그림도 벗겨지지 않은 매끈한 금빛으로 고침) 잎사귀 무늬와 비교하는 것은 플레이어가 한다(사용자 결정: 결론은 플레이어가).
 
-- **det:back-to-sleigh-thought · 탐정 · 생각**
+- **det:back-to-sleigh-thought · 탐정 · 생각**(니코 n4를 기록한 뒤에만. 2026-11-16 점검: 니코를 만나기 전에 별을 찍어도 아직 모르는 썰매로 가라고 했음)
   - I should go back to the sleigh.
   - 썰매로 돌아가 봐야겠어.
 
@@ -686,9 +687,9 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
   - Present the boxes on the sleigh and Coco's slip together.
   - 썰매 위 상자 사진과 코코의 인수증을 함께 내밀기(2026-11-16 사용자 요청: 두 장을 동시에)
 
-- **det:may-boxes · 탐정 · 정답을 내민 뒤 대사**
-  - Coco said she gave you four boxes.
-  - 코코는 너한테 상자 넷을 줬다고 했어.
+- **det:may-boxes · 탐정 · 정답을 내민 뒤 대사**(2026-11-16 점검: 내민 것은 인수증이라 인수증의 사실만)
+  - Coco's slip says you took four boxes.
+  - 코코의 인수증에는 네가 상자 넷을 받았다고 되어 있어.
 
 - **det:one-more-box · 탐정 · 이어서**(2026-11-16 사용자 요청: 남는 상자를 니코에게 직접 물음)
   - But there's one more box on your sleigh. What's that box?
@@ -774,11 +775,11 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 
 #### 별 자체를 자세히 확인
 
-별 전체를 촬영한 뒤 뒷면을 가까이 조사한다. 별은 조사하는 동안 상자에 둔다. 뒷면은 기존 확대 조사(우산 사건의 우산처럼 지도에 없는 장소)로 본다.
+별 전체를 촬영한 뒤 뒷면을 가까이 조사한다. 별은 조사하는 동안 상자에 둔다. 뒷면 사진(c-mark)을 찍는 순간 별이 소지품에 들어가고, 썰매로 돌아오면 상자는 비어 있다(2026-11-16 사용자 요청: 별을 확인하면 바로 습득, 꺼낸 뒤 빈 상자). 뒷면은 기존 확대 조사(우산 사건의 우산처럼 지도에 없는 장소)로 본다.
 
-- **det:box-contents · 탐정 · 실물 확인 뒤 선택 대사**
-  - You said this was a gift. There's a star inside.
-  - 선물이라고 했지. 안에는 별이 있어.
+- **det:box-contents · 탐정 · 생각**(2026-11-16 점검: 생각이라 니코에게 말하듯 You라고 하지 않음)
+  - Nico said this was a gift. There's a star inside.
+  - 니코는 선물이라고 했지. 안에는 별이 있어.
 
 - **look:star-back · 행동 · 조사 행동**
   - Look at the back of the star.
@@ -808,11 +809,19 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 
 ### 장면 8 · 니코의 자백 — 별의 출처와 목적
 
-심문이 끝난 뒤 니코는 별을 가져온 곳과 허락 여부를 스스로 말한다. 열린 보관함의 금별을 보고 욕심이 났고, 별을 팔아 큰돈을 벌 생각이었다고 털어놓는다. 테스 탓이 거짓이었다는 것도 인정하고, 무거운 별을 썰매에 실은 이유도 이어서 밝힌다.
+심문이 끝난 뒤 니코는 먼저 훔쳤다고 인정하고, 별이 있던 곳을 말한다(2026-11-16 사용자 요청: 한꺼번에 다 털어놓는 느낌이라 인정 → 장소 → 탐정이 이유를 묻고 → 이유 순서로). 탐정이 왜 가져갔는지 묻자 열린 보관함의 금별을 보고 욕심이 났고, 별을 팔아 큰돈을 벌 생각이었다고 털어놓는다. 무거운 별을 썰매에 실은 이유와 테스 탓이 거짓이었다는 것도 이어서 밝힌다.
+
+- **nico:stole · 니코 · 자동**(2026-11-16 사용자 요청: 자백의 첫마디)
+  - Okay... I stole it.
+  - 그래… 내가 훔쳤어.
 
 - **nico:admit · 니코 · 자동**
-  - I took it from the case on the storeroom shelf. I didn't ask.
-  - 창고 선반에 있는 보관함에서 가져왔어. 허락은 안 받았어.
+  - It was in the case on the storeroom shelf.
+  - 창고 선반 보관함에 있었어.
+
+- **det:why-take · 탐정 · 자동**(2026-11-16 사용자 요청: 이유는 묻는 말의 대답으로)
+  - Why did you take it?
+  - 왜 가져갔어?
 
 - **nico:motive · 니코 · 자동**
   - I saw the open case and got greedy. I thought the gold would sell for a lot.
