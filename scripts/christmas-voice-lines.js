@@ -38,7 +38,9 @@ for(const [id, p] of Object.entries(P.people)){
   if(VOICES[id]) Object.entries(p.answers || {}).forEach(([q, en]) => add(VOICES[id], `${id}-${q}`, en));
 }
 // what the detective says of each thing looked at or picked up (clue.audio: detective-<place>-<n>)
-P.places.forEach(pl => pl.clues.forEach((c, i) => c.take ? (c.lines || []).forEach(l => line(l)) : add('Grady', `detective-${pl.id}-${i}`, c.en)));
+// (a take's lines are the detective's over the place: placeLines says them in the detective's voice)
+P.places.forEach(pl => pl.clues.forEach((c, i) => c.take ? (c.lines || []).forEach(l => line({ det:true, ...l })) : add('Grady', `detective-${pl.id}-${i}`, c.en)));
+P.places.forEach(pl => { if(pl.enter) line({ det:true, ...pl.enter }); });   // a close look's first line (enter)
 Object.entries(P.items).forEach(([id, it]) => add('Grady', `detective-item-${id}`, it.en));
 P.thoughts.forEach(t => line({ det:true, ...t.line }));
 // the 단서 찾기 힌트 lines (hints: where to look, said with the sparkle)

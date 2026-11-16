@@ -145,7 +145,7 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 | 화자 | 영어 | 한국어 |
 |---|---|---|
 | 루비 | Hi, I'm Ruby. Nice to meet you. | 안녕, 난 루비야. 만나서 반가워. |
-| 탐정 | Tess said you were at the bazaar with her. I'm looking for the owner of an umbrella at the village hall. | 테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어. |
+| 탐정 | Tess said you were at the bazaar with him. I'm looking for the owner of an umbrella at the village hall. | 테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어. |
 | 루비 | I can't find my umbrella. I don't know where I left it. Could it be mine? | 내 우산을 못 찾고 있어. 어디에 두고 왔는지 모르겠어. 혹시 내 거일까? |
 
 루비가 먼저 자기 것일 수 있다고 말하므로 탐정은 따로 묻지 않는다. “I don't know where I left it.”은 결말의 “So I left it at the bazaar!”로 이어진다.
@@ -304,7 +304,7 @@ t5는 우산을 찾는 핀에게 문의할 이유와 만날 장소를 알려 준
 | 1 | Right. It rained that day. That's why we asked at Toy Nest. / 맞아. 그날 비가 왔어. 그래서 토이 네스트에 물어보러 갔지. | Look at the notice in the village hall. / 회관의 안내문을 봐. |
 | 2 | No, it can't. All three are the same. The handle isn't enough. / 아니, 알 수 없어. 셋 다 똑같아. 손잡이만으로는 부족해. | Look at the handle photo. What did Finn, Tess, and Ruby say? / 손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지? |
 | 3 | No, it isn't. Finn's umbrella has no pattern. / 아니야. 핀의 우산에는 무늬가 없어. | What did Finn say about the pattern? / 핀이 무늬에 대해 뭐라고 했지? |
-| 4 | No, it isn't. The outside is the same, but the inside is not. / 아니야. 겉은 같지만 안쪽이 달라. | Look at the photo of the inside. What did Tess say about hers? / 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
+| 4 | No, it isn't. The outside is the same, but the inside is not. / 아니야. 겉은 같지만 안쪽이 달라. | Look at the photo of the inside. What did Tess say about his? / 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
 | 5 | It's Ruby's umbrella. Let's tell Ella. / 루비의 우산이야. 엘라에게 알려 주자. | Whose umbrella is gold inside? / 안쪽이 금빛인 우산은 누구 거지? |
 
 Q1은 비 때문에 실내로 옮긴 바자회를 확인해 토이 네스트를 찾아간 근거를 복습한다. Q3·Q4는 “Is this umbrella …'s?”로 묻고 Q5는 “Whose umbrella is this?”로 묻는다. Q3·Q4에서 서로 다른 후보를 제외한다. 주인 확정 근거는 각자의 독립적인 설명과 우산 사진 3장이다. 겉무늬 사진만으로 루비를 확정하지 않는다. 오답은 같은 문항에서 다시 선택하며 앞서 맞힌 진척을 유지한다.

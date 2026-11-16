@@ -121,6 +121,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .presented{position:absolute;inset:0;z-index:7;display:grid;place-items:center;pointer-events:none}
 .presented figure{margin:0;width:64%;aspect-ratio:4/3;overflow:hidden;background:#FFFDF7;border:7px solid #FFFDF7;box-shadow:0 10px 24px rgba(40,30,24,.4);animation:present-in 1.3s ease forwards}
 .presented svg{display:block;width:100%;height:100%}
+/* two held up together (a claim answered only by both, ENDING.script together): side by side, a little smaller */
+.presented.two{display:flex;justify-content:center;align-items:center;gap:3%}
+.presented.two figure{width:44%}
 .rosiebag{transition:opacity .8s ease}
 .app.bag-away .rosiebag{opacity:0}
 /* handing a bag over (picnic case): the bag itself, not a photo of it (user request), from below (the detective's hands)
@@ -218,6 +221,16 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* photos or statements (user pick A): two tabs beside the title */
 .drawer-tabs{display:flex;gap:6px;margin-left:12px}
 .drawer-tabs .pill.sm{box-sizing:border-box;min-height:30px;height:30px;padding:0 12px;font-size:13px}
+/* a claim answered only by two together (user pick 2026-11-16: two empty places filled from the cards, then 내밀기):
+   each place shows the card put in it (a photo, or the face of who said it), tapped again it empties */
+.drawer-slots{display:flex;align-items:center;gap:8px;padding:0 16px;flex-shrink:0}
+.drawer-slots[hidden]{display:none}
+.dslot{flex:none;width:64px;aspect-ratio:4/3;display:grid;place-items:center;padding:0;overflow:hidden;box-sizing:border-box;
+  font-family:var(--f-display);font-size:18px;color:var(--ink-soft);background:#FFFDF7;border:2px dashed var(--ink-soft);border-radius:5px}
+.dslot.full{border:2px solid var(--berry);box-shadow:0 0 0 2px var(--berry)}
+.dslot svg{display:block;width:100%;height:100%}
+.dslot .say-face{width:34px;height:34px}
+.drawer-slots .pill.big{margin-left:auto}
 /* a statement: what the player wrote down for a checked question, on a lined slip with the speaker's face */
 .scard{flex:none;width:118px;display:flex;flex-direction:column;gap:4px;padding:8px 8px 9px;text-align:left;scroll-snap-align:start;color:var(--ink);
   background:#FFFDF2 repeating-linear-gradient(transparent 0 17px,rgba(120,150,190,.35) 17px 18px) 0 34px/100% auto no-repeat;
@@ -1601,6 +1614,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
          a conversation and a place alike) -->
     <section class="drawer" id="drawer" aria-label="증거 서랍">
       <div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" data-drawer-tab="photo" aria-pressed="true">사진</button><button class="pill sm" type="button" data-drawer-tab="say" aria-pressed="false">진술</button><button class="pill sm" type="button" data-drawer-tab="item" aria-pressed="false" hidden>소지품</button></div><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
+      <div class="drawer-slots" id="drawerSlots" hidden></div>
       <div class="drawer-strip" id="drawerStrip"></div>
       <div class="drawer-pick" id="drawerPick" hidden></div>
     </section>
@@ -1790,6 +1804,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <button class="devbtn" type="button" id="devFill">노트 자동 채우기</button>
   <button class="devbtn" type="button" id="devDone">전체 대화 완료</button>
   <button class="devbtn" type="button" id="devEvidence">증거 모두 수집</button>
+  <button class="devbtn" type="button" id="devItems">소지품 모두 받기</button>
   <button class="devbtn" type="button" id="devDeduce">추리 완성</button>
   <button class="devbtn" type="button" id="devInterro">심문 완료</button>
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
@@ -2280,7 +2295,7 @@ const UMBRELLA_CASE = {
       audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'end1', 'end2'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi, I'm Ruby. Nice to meet you.", ko:'안녕, 난 루비야. 만나서 반가워.' },
-        { det:true, key:'hello-ruby', en:"Tess said you were at the bazaar with her. I'm looking for the owner of an umbrella at the village hall.", ko:'테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어.' },
+        { det:true, key:'hello-ruby', en:"Tess said you were at the bazaar with him. I'm looking for the owner of an umbrella at the village hall.", ko:'테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어.' },
         { key:'hello2', en:"I can't find my umbrella. I don't know where I left it. Could it be mine?", ko:'내 우산을 못 찾고 있어. 어디에 두고 왔는지 모르겠어. 혹시 내 거일까?' }
       ],
       questions:[
@@ -2447,7 +2462,7 @@ const UMBRELLA_CASE = {
       { step:4, who:'tess', q:"Is this umbrella Tess's?", qKo:'이 우산은 테스의 것일까?',
         card:"Tess's umbrella is {opt:dark blue} inside. This one is gold inside.", cardKo:'테스의 우산은 안쪽이 남색이다. 이 우산은 안쪽이 금빛이다.', opts:['dark blue', 'gold', 'red', 'white', 'green', 'silver'],
         right:"No, it isn't. The outside is the same, but the inside is not.", rightKo:'아니야. 겉은 같지만 안쪽이 달라.',
-        hint:'Look at the photo of the inside. What did Tess say about hers?', hintKo:'안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지?', out:true },
+        hint:'Look at the photo of the inside. What did Tess say about his?', hintKo:'안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지?', out:true },
       // the ring is the owner's here (lie: the board's ring)
       { step:5, who:'ruby', q:'Whose umbrella is this?', qKo:'그럼 이 우산은 누구 것일까?',
         card:"This umbrella is {person:Ruby Cat}'s. It has a blue handle and gold stars, and it is gold inside.", cardKo:'이 우산은 루비의 것이다. 파란 손잡이와 금빛 별무늬가 있고, 안쪽이 금빛이다.',
@@ -2911,6 +2926,8 @@ Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give'
    (assets/places/christmas/, scripts/cut-christmas-assets.py). Every line is recorded (audio/christmas/,
    scripts/christmas-voice-lines.js, Higgsfield MiniMax): the detective (Grady), Sgt. Badger (Fraser), Ella (Petra),
    Daisy (Mabel), Coco (Liza; her id is still mae), Tess (Callan) and Nico (Ian). */
+// a sleigh box tapped before the scale has shown the heavy one: the detective's line from the officer scene (which-box)
+const BOX_WAIT = { until:['!weighed'], en:'They all look the same. I need a way to check them.', ko:'다 똑같아 보여. 확인할 방법이 필요해.', audio:'audio/christmas/detective-which-box.mp3' };
 const CHRISTMAS_CASE = {
   start:'badger',
   leaveOpen:true,
@@ -3038,17 +3055,20 @@ const CHRISTMAS_CASE = {
         // user request: the star and the storeroom questions are written down too (they were heard-only choices)
         { id:'star', en:'Did you see the star today?', ko:'오늘 그 별을 봤어?' },
         { id:'storeroom', en:'I heard you went into the storeroom. Why did you go in?', ko:'창고에 들어갔다고 들었어. 왜 갔어?' },
+        // user request 2026-11-16: where Tess was after the storeroom (with Coco, then here all morning: not at the shelf)
+        { id:'t5', en:'Where were you after you went to the storeroom?', ko:'창고에 다녀온 뒤에는 어디 있었어?' },
         { id:'t1', en:'What are you wrapping?', ko:'뭘 포장하고 있어?' },
         { id:'t3', en:'Are these gifts ready for delivery?', ko:'이 선물들은 배송할 준비가 됐어?' }
         // (t4 "Is that the star from the storeroom?" was taken out, user decision 2026-11-16: the player turns the star in
         // her box over and sees its back; the questioning takes that photo, toystar-0)
       ],
       // design 장면 4: the star, then why she went into the storeroom, then t1
-      needs:{ storeroom:['tess:star'], t1:['tess:storeroom'], t3:['tess:t1'] },
+      needs:{ storeroom:['tess:star'], t5:['tess:storeroom'], t1:['tess:storeroom'], t3:['tess:t1'] },
       // Nico turns up only from Coco's m4 (user request: not from Tess's t3 too)
       answers:{
         star:"No, I didn't.",
         storeroom:'I needed some empty boxes for the gifts.',
+        t5:'I went there with Coco. Then we stayed here all morning.',
         t1:"I'm wrapping toys. These are gifts for the children.",
         // no word of Nico (user request 2026-11-16): Nico turns up from Coco's m4 only
         t3:"No, I'm still wrapping. They're not ready yet."
@@ -3056,10 +3076,12 @@ const CHRISTMAS_CASE = {
       notes:{
         star:["- {{h|didn't}} see the star"],   // a memo, as the others (user request: "No, I didn't." read oddly)
         storeroom:['- {{i|needed}} some {{j|empty}} {{k|boxes}}', '- for the gifts'],
+        t5:['- went with {{l|Coco}}', '- then we {{m|stayed}} here all {{n|morning}}'],
         t1:['- {{a|wrapping}} {{b|toys}}', '- gifts for the children'],
         t3:['- {{c|still}} wrapping', '- {{d|not}} ready yet']
       },
       bank:{ star:["didn't",'did',"don't",'do'], storeroom:['needed','wanted','empty','full','boxes','bags','ribbons'],
+        t5:['Coco','Nico','Daisy','stayed','left','morning','night'],
         t1:['wrapping','carrying','fixing','toys','mittens','books'], t3:['still','already','not','now'] },
       // (no actions: the toys are looked at on her table, the star in her box turned over by the player, no asking:
       // user decisions 2026-11-16)
@@ -3124,6 +3146,7 @@ const CHRISTMAS_CASE = {
     'mae:m4':[['present-prog',"He's taking"]],
     'tess:star':[['did-q','Did you see']],
     'tess:storeroom':[['past-reg','needed']],
+    'tess:t5':[['past-reg','stayed']],
     'tess:t1':[['present-prog','What are you wrapping'], ['present-prog',"I'm wrapping toys"]],
     'tess:t3':[['present-prog',"I'm still wrapping"]],
     'nico:n1':[['present-prog','What are you doing'], ['present-prog',"I'm getting ready"], ['present-prog',"I'm not delivering"]],
@@ -3138,7 +3161,7 @@ const CHRISTMAS_CASE = {
     ella:{ e3:'응. 내가 아이들과 있는 동안 트리를 꾸미고 있었어.', e0:'축제에 온 아이들을 안내하러 자리를 비웠어. 돌아와 보니 별이 사라졌더라.', e1:'진짜 금으로 만들어서 아주 무거워. 뒷면에 작은 잎사귀 무늬가 있어.', e2:'창고 선반의 보관함 안에 두었어.' },
     holly:{ h1:'크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.', h2:'코코와 테스가 포장 재료를 가지러 같이 들어왔어. 그러고 나서 나갔어.', h3:'선물 포장 천막에서 일하고 있어.', h4:'응. 손수레로 장식품을 트리 광장에 옮기는 중이야.' },
     mae:{ star:'아니, 못 봤어.', m0:'아이들 선물에 쓸 포장지가 필요했어.', m1:'트리에 달 눈송이를 만들고 있어. 데이지를 돕고 있어.', m3:'아니, 지금은 포장 안 해. 털장갑을 상자 넷에 포장했고, 니코가 가져갔어.', m4:'니코도 자원봉사자야. 선물을 썰매로 가져가고 있어.' },
-    tess:{ star:'아니, 못 봤어.', storeroom:'선물을 담을 빈 상자가 필요했어.', t1:'장난감을 포장하고 있어. 어린 친구들에게 줄 선물이야.', t3:'아니, 아직 포장 중이야. 아직 준비가 안 됐어.' },
+    tess:{ star:'아니, 못 봤어.', storeroom:'선물을 담을 빈 상자가 필요했어.', t5:'코코랑 같이 다녀왔어. 그 뒤로는 둘이 아침 내내 여기 있었어.', t1:'장난감을 포장하고 있어. 어린 친구들에게 줄 선물이야.', t3:'아니, 아직 포장 중이야. 아직 준비가 안 됐어.' },
     nico:{ n1:'배달 준비를 하고 있어. 아직 배달하러 출발하지는 않았어.', storeroom:'아니. 선물이 다 포장되길 기다리고 있었어.', n2:'선물 몇 개를 싣고 있어. 코코와 테스가 포장한 거야.', n3:'아니, 나는 선물을 포장하지 않아. 배달만 해.',
       n4:'아니, 못 봤어. 그런데 테스가 별을 가져가는 걸 본 것 같아.', n5:'아니. 아침 내내 바로 여기 있었어.' }
   },
@@ -3177,7 +3200,8 @@ const CHRISTMAS_CASE = {
         { label:'Ladder', prop:true, en:"That's a tall ladder.", ko:'저 사다리 높네.' },
         { label:'Tablecloths', prop:true, en:"They're neatly folded.", ko:'가지런히 접혀 있네.' },
         { label:'Scale', prop:true, en:"There's a scale in the corner.", ko:'구석에 저울이 있네.' },
-        { label:'Scale', take:'scale', lines:[] },
+        // picked up with a line of the detective's (user request 2026-11-16: something is said when a thing is taken)
+        { label:'Scale', take:'scale', lines:[ { key:'take-scale', en:"I'll take this scale with me.", ko:'이 저울을 가져가야겠어.' } ] },
         { label:'Lights', prop:true, en:'The lights are all tangled.', ko:'전구 줄이 다 엉켜 있네.' },
         { label:'Wreath', prop:true, en:'What a big wreath!', ko:'화환이 정말 크네!' }
       ],
@@ -3222,16 +3246,21 @@ const CHRISTMAS_CASE = {
         { clue:6, x:36.5, y:49, w:7, h:11, front:true } ] },   // left of Tess's head, over her picture's empty corner
     { id:'sleigh', x:58, y:33, label:'Delivery Sleigh', artWidth:1376, artHeight:1028, snow:true,   // taller: the storeroom far off shows (user pick, free)
       clues:[
-        // looked at, no photo (seen, user decision): the boxes are counted and the marks compared by going back to look
-        { label:'Boxes on the sleigh', prop:true, seen:true, en:'The boxes look the same.', ko:'상자들이 똑같아 보여.' },
-        { label:'Marks by the post', prop:true, seen:true, en:'More marks over here.', ko:'이쪽에도 자국이 있네.' },
+        // the boxes photographed (user request 2026-11-16: held up together with Coco's slip, claim-may; the player counts
+        // them, the line does not); the marks photographed again (user decision 2026-11-16: held up with the storeroom's
+        // marks when Nico says he never went near the storeroom)
+        { label:'Boxes on the sleigh', en:'The boxes look the same.', ko:'상자들이 똑같아 보여.' },
+        { label:'Marks by the post', en:'More marks over here.', ko:'이쪽에도 자국이 있네.' },
         { label:'Big sack', prop:true, en:"That's a big sack!", ko:'정말 큰 자루네!' },
         { label:'Empty box', prop:true, en:'Nothing in this one.', ko:'이 상자는 비었네.' },
         { label:"Tess's table", take:'!table-seen', lines:[ { key:'current-table-observation', en:"I can see Tess's table.", ko:'테스의 탁자가 보여.' } ] },
-        // the five boxes once the officer says to open one (design 장면 7); the third holds the star
+        // the five boxes once the officer says to open one (design 장면 7); the third holds the star. None opens before the
+        // scale has shown the heavy one (user report 2026-11-16: the star's box opened with nothing weighed): until then the
+        // detective says the officer-scene line again (wait, BOX_WAIT, set after the pack)
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:419, y:392, w:230, h:176 } },
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:515, y:432, w:230, h:176 } },
-        { label:'Box', take:'star', flag:'box-open', lines:[] },
+        // the box opens first (flagFirst), then the detective says what is in it (user request 2026-11-16)
+        { label:'Box', take:'star', flag:'box-open', flagFirst:true, lines:[ { key:'take-star', en:"There's a gold star in this box!", ko:'이 상자 안에 금별이 있어!' } ] },
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:752, y:462, w:230, h:176 } },
         { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:870, y:480, w:230, h:176 } },
         { label:'Star in the box', prop:true, seen:true, en:'A star inside the box.', ko:'상자 안에 별이 있어.' },
@@ -3240,7 +3269,7 @@ const CHRISTMAS_CASE = {
         { label:'Storeroom', prop:true, en:'I can see the storeroom far away.', ko:'저 멀리 창고가 보여.' }
       ],
       spots:[
-        { clue:0, x:30, y:35.8, w:46, h:29.9, when:['met:nico'], unless:['!open-order'] },
+        { clue:0, x:30, y:35.8, w:46, h:29.9, when:['met:nico'], unless:['!open-order'], photo:{ x:370, y:270, w:680, h:510 } },
         // the photo takes the storeroom far off, the marks from it past the post and the sleigh's rear runner in one
         // frame (deduce step 3, user request)
         { clue:1, x:0, y:47.7, w:12, h:46.3, photo:{ x:0, y:60, w:1200, h:900 } },
@@ -3260,7 +3289,8 @@ const CHRISTMAS_CASE = {
       ] },
     // never on the map: the toy star (from the tent), the real star's back (from the open box)
     // the scale in use over the sleigh (WEIGH): the five boxes in the sleigh's order (the third holds the star), the pans
-    { id:'weigh', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768, balance:{ weights:[1, 1, 3, 1, 1] },
+    { id:'weigh', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768, balance:{ weights:[1, 1, 3, 1, 1], flag:'weighed' },   // flag: once two different weights have been on the pans
+      enter:{ key:'which-box-star', en:'Which box has the Christmas star in it?', ko:'어떤 상자에 크리스마스 별이 들어 있을까?' },   // said the first time it opens
       clues:[0, 1, 2, 3, 4].map(n => ({ label:'Box', weigh:n })).concat([{ label:'Left plate', plate:0 }, { label:'Right plate', plate:1 }]),
       spots:[0, 1, 2, 3, 4].map(n => ({ clue:n, box:n, x:(688 + (n - 2) * 76 - 33) / 13.76, y:73, w:4.8, h:8.5 }))
         .concat([{ clue:5, plate:0, x:37.5, y:44, w:9.5, h:19 }, { clue:6, plate:1, x:53, y:44, w:9.5, h:19 }]) },
@@ -3269,7 +3299,8 @@ const CHRISTMAS_CASE = {
     { id:'backyard', inspect:true, back:'storeroom', label:'Storeroom', artWidth:1200, artHeight:896, snow:true,
       // the back door again: back inside (user request), the storeroom's own door button (door:true, go)
       // Daisy's handcart by the door: looked at only (user request 2026-11-16), what is in it, nothing more
-      clues:[ { label:'Marks outside', prop:true, seen:true, en:'There are marks in the snow.', ko:'눈 위에 자국이 있어.' }, { label:'Back door', go:'storeroom' },
+      // the marks a photo again (user decision 2026-11-16: the questioning holds them up with the sleigh's)
+      clues:[ { label:'Marks outside', en:'There are marks in the snow.', ko:'눈 위에 자국이 있어.' }, { label:'Back door', go:'storeroom' },
         { label:'Handcart', prop:true, en:'Just decorations in the handcart.', ko:'손수레에는 장식품뿐이야.' } ],
       spots:[ { clue:0, x:0, y:45, w:100, h:55, photo:{ x:0, y:0, w:1195, h:896 } }, { clue:1, x:29, y:22, w:9, h:23, door:true, arrow:'down' },
         { clue:2, x:37, y:37, w:24, h:25 } ] },
@@ -3302,7 +3333,7 @@ const CHRISTMAS_CASE = {
       spots:[ { clue:0, x:36.2, y:25, w:27.6, h:47, photo:{ x:408, y:162, w:560, h:420 } } ] }
   ],
   // design 6절: every talk, the six photos before the box is opened, the look at Tess's table
-  // photos in the evidence notebook; the case, the sleigh's boxes and the two marks are only looked at (seen), in ready
+  // photos in the evidence notebook; the case is only looked at (seen), in ready
   needed:['giftlist-0', 'toystar-0', 'cocoslip-0'],
   ready:['storeroom-0', 'tent-5', 'giftlist-0', 'sleigh-0', 'toystar-0', 'backyard-0', 'sleigh-1', 'cocoslip-0', '!table-seen'],
   // the detective's thoughts, once each, when their conditions are met (design 2절)
@@ -3418,7 +3449,7 @@ const CHRISTMAS_CASE = {
       { step:6, who:'tess', q:"Does Tess's story match the clues? O or X?", qKo:'테스의 말이 단서와 맞아? O일까 X일까?',
         card:'Tess: "My gifts aren\'t ready yet." {opt:O}', cardKo:'테스: "내 선물은 아직 준비가 안 됐어." O',
         opts:['O', 'X'],
-        right:'All six toy gifts are still on her table.', rightKo:'장난감 선물 여섯 개가 다 작업대에 있어.',
+        right:'All six toy gifts are still on his table.', rightKo:'장난감 선물 여섯 개가 다 작업대에 있어.',
         hint:"Look at the photo of Tess's gift list.", hintKo:'테스의 선물 목록 사진을 봐.' },   // recorded h6 (2026-11-16)
       { step:7, who:'nico', q:"Does Nico's story match the clues? O or X?", qKo:'니코의 말이 단서와 맞아? O일까 X일까?',
         card:'Nico: "Coco and Tess wrapped these gifts." {opt:X}', cardKo:'니코: "코코와 테스가 이 선물들을 포장했어." X',
@@ -3430,8 +3461,8 @@ const CHRISTMAS_CASE = {
         card:'Nico: "The sleigh stayed right here all morning." {opt:X}', cardKo:'니코: "썰매는 아침 내내 바로 여기 있었어." X',
         opts:['O', 'X'],
         right:'The sleigh marks go from the storeroom past the post to his sleigh.', rightKo:'썰매 자국이 창고에서 기둥 옆을 지나 니코의 썰매까지 이어져.',
-        // the marks are only looked at now (no photos, user decision 나안): go back and look (recorded h8)
-        hint:'Go back and look at the marks behind the storeroom and by the sleigh. Find the same wooden post.', hintKo:'창고 뒤와 썰매 옆의 자국을 다시 가서 봐. 같은 나무 기둥을 찾아 봐.' },
+        // the marks are photos again (user decision 2026-11-16, the questioning holds them up): the two photos (recorded h8)
+        hint:'Look at the two photos of the marks. Find the same wooden post.', hintKo:'자국 사진 두 장을 보고 같은 나무 기둥을 찾아 봐.' },
       // no who: a photo beside this card would show the answer (user request)
       { step:9, q:'Who looks suspicious?', qKo:'누가 수상해 보여?',
         card:'{opt:Nico} looks suspicious.', cardKo:'니코가 수상해 보여.',
@@ -3453,33 +3484,56 @@ const CHRISTMAS_CASE = {
     // miss), the officer and Ella come (join), the questioning waits while the player opens the right box at the sleigh
     // and photographs the star's back (scene … until), then his last claim and the confession
     script:[
-      // user request 2026-11-16: the questioning starts from the boxes (deduction 10), and he answers as in his n2
+      // user request 2026-11-16: the questioning starts from the boxes (deduction 10); he names Tess first, then Coco
       { ask:true, key:'challenge', en:'Nico, where did the boxes on your sleigh come from?', ko:'니코, 썰매 위 상자들은 어디서 났어?' },
-      { claim:true, accept:['tess:t3', 'giftlist-0'],
+      // Tess only (user request 2026-11-16: the evidence here is all Tess's), answered by his gift list and his t3 together
+      { claim:true, accept:['tess:t3', 'giftlist-0'], together:true,
         miss:{ det:true, key:'miss-tess-gifts', en:"That doesn't show Tess's toy gifts.", ko:'그건 테스의 장난감 선물을 보여 주지 않잖아.' },
-        lines:[ { who:'nico', key:'claim-gift', en:"Coco and Tess gave them to me. I'm just loading them.", ko:'코코와 테스가 줬어. 난 싣고 있을 뿐이야.' } ],
-        hit:[ { det:true, key:'open-q1', en:'Tess is still wrapping. All six gifts are still on her table.', ko:'테스는 아직 포장 중이야. 선물 여섯 개 다 아직 작업대에 있어.' } ] },
-      { claim:true, accept:['mae:m3', 'cocoslip-0'],
-        miss:{ det:true, key:'miss-may-gifts', en:"That doesn't show Coco's gifts.", ko:'그건 코코의 선물을 보여 주지 않잖아.' },
-        lines:[ { who:'nico', key:'claim-may', mood:'nervous', en:"Oh, I mean they're all Coco's gifts. She gave them to me.", ko:'아, 내 말은 다 코코의 선물이라는 거야. 코코가 나한테 줬어.' } ],
-        hit:[ { det:true, key:'may-boxes', en:'Coco said she gave you four boxes.', ko:'코코는 너한테 상자 넷을 줬다고 했어.' } ] },
+        lines:[ { who:'nico', key:'claim-gift', en:"Tess gave me some of them. I'm just loading them.", ko:'테스가 그중 몇 개를 줬어. 난 싣고 있을 뿐이야.' } ],
+        hit:[ { det:true, key:'open-q1', en:'Tess is still wrapping. All six gifts are still on his table.', ko:'테스는 아직 포장 중이야. 선물 여섯 개 다 아직 작업대에 있어.' } ] },
       { claim:true, accept:['toystar-0'],   // Tess's t4 was taken out (user decision 2026-11-16): the star's back only
         miss:{ det:true, key:'miss-tess-star', en:"That doesn't show Tess's star.", ko:'그건 테스의 별을 보여 주지 않잖아.' },
-        lines:[ { who:'nico', key:'claim-tess-star', mood:'nervous', en:'Why me? I saw Tess taking the star. Ask her!', ko:'왜 나야? 테스가 별을 가져가는 걸 봤다니까. 테스한테 물어봐!' } ],
-        hit:[ { det:true, key:'toy-star', en:"Look. There's no leaf pattern on the back.", ko:'봐. 뒷면에 잎사귀 무늬가 없어.' } ] },
+        lines:[ { who:'nico', key:'claim-tess-star', mood:'nervous', en:"Forget the gifts! I saw Tess taking the star. Ask him!", ko:'선물 얘기는 됐고! 테스가 별을 가져가는 걸 봤다니까. 테스한테 물어봐!' } ],
+        // whose star it is first (user request 2026-11-16), then what the photo shows
+        hit:[ { det:true, key:'tess-had-star', en:'This is the star Tess had.', ko:'이게 테스가 가지고 있던 별이야.' },
+          { det:true, key:'toy-star', en:"Look. There's no leaf pattern on the back.", ko:'봐. 뒷면에 잎사귀 무늬가 없어.' } ] },
       // one more excuse (user request 2026-11-16, pick A): Tess took the tree's star and hid it; Daisy's h2 shows Tess
       // was never in the storeroom alone (the detective says only what Daisy said)
-      { claim:true, accept:['holly:h2'],
+      // user decision 2026-11-16: Daisy's h2 (the storeroom) and Tess's t5 (the rest of the morning) together
+      { claim:true, accept:['holly:h2', 'tess:t5'], together:true,
         miss:{ det:true, key:'miss-tess-alone', en:"That doesn't show Tess was alone.", ko:'그건 테스가 혼자였다는 걸 보여 주지 않잖아.' },
-        lines:[ { who:'nico', key:'claim-tess-hid', mood:'nervous', en:"Not that star! I saw her take the tree's star. She hid it somewhere!", ko:'그 별 말고! 테스가 트리의 별을 가져가는 걸 봤어. 어딘가 숨겼겠지!' } ],
+        lines:[ { who:'nico', key:'claim-tess-hid', mood:'nervous', en:"Not that star! I saw him take the tree's star. He hid it somewhere!", ko:'그 별 말고! 테스가 트리의 별을 가져가는 걸 봤어. 어딘가 숨겼겠지!' } ],
         hit:[ { det:true, key:'together', en:'Daisy said Coco and Tess came in together and left together.', ko:'데이지는 코코와 테스가 같이 들어왔다가 같이 나갔다고 했어.' },
+          { det:true, key:'tess-stayed', en:'And Tess said he stayed here with Coco all morning.', ko:'그리고 테스는 아침 내내 코코와 여기 있었다고 했어.' } ] },
+      // user decision 2026-11-16: the two photos of the marks together (the player joins them by the post; the detective
+      // says only what each photo shows)
+      { claim:true, accept:['backyard-0', 'sleigh-1'], together:true,
+        miss:{ det:true, key:'miss-storeroom', en:"That doesn't show where you went.", ko:'그건 네가 어디 갔는지 보여 주지 않잖아.' },
+        lines:[ { who:'nico', key:'claim-storeroom', mood:'nervous', en:"So what? I didn't even go near the storeroom!", ko:'그래서 뭐? 난 창고 근처에도 안 갔어!' } ],
+        hit:[ { det:true, key:'marks-door', en:"These marks come out of the storeroom's back door.", ko:'이 자국은 창고 뒷문에서 나와.' },
+          { det:true, key:'marks-sleigh', en:'And these marks go under your sleigh.', ko:'그리고 이 자국은 네 썰매 밑으로 이어져.' },
           { who:'nico', key:'toy-reply', mood:'nervous', en:"Well... I still didn't take anything.", ko:'그래도… 난 아무것도 안 가져갔어.' },
+          // back to the boxes (user decision 2026-11-16: the box too many comes last, right before the officer comes)
+          { det:true, key:'boxes-again', en:'So where did the boxes on your sleigh come from?', ko:'그럼 썰매 위 상자들은 어디서 났어?' } ] },
+      // the sleigh's boxes and Coco's slip held up together (user request 2026-11-16; together: both, nothing else)
+      { claim:true, accept:['sleigh-0', 'cocoslip-0'], together:true,
+        miss:{ det:true, key:'miss-may-gifts', en:"That doesn't show Coco's gifts.", ko:'그건 코코의 선물을 보여 주지 않잖아.' },
+        lines:[ { who:'nico', key:'claim-may', mood:'nervous', en:"They're all Coco's gifts. She gave them to me.", ko:'다 코코의 선물이야. 코코가 나한테 줬어.' } ],
+        // then the box too many (user request 2026-11-16: the detective asks about it, after the two held up together)
+        hit:[ { det:true, key:'may-boxes', en:'Coco said she gave you four boxes.', ko:'코코는 너한테 상자 넷을 줬다고 했어.' },
+          { det:true, key:'one-more-box', en:"But there's one more box on your sleigh. What's that box?", ko:'그런데 네 썰매 위에 상자가 하나 더 있어. 저 상자는 뭐야?' },
+          { who:'nico', key:'dont-know', mood:'nervous', en:"I... I don't know.", ko:'나… 나도 몰라.' },
+          // the last word of the questioning before the officer comes (user decision 2026-11-16)
           { det:true, key:'story-changing', en:'Your story keeps changing, Nico.', ko:'니코, 네 설명이 자꾸 바뀌어.' } ] },
       { join:['badger', 'ella'], flag:'open-order',
         lines:[
           { who:'badger', key:'check-in', en:'Detective, how is it going?', ko:'탐정, 어떻게 돼 가니?' },
           { who:'ella', key:'check-in', en:'Did you find anything?', ko:'뭐라도 찾았어?' },
-          { det:true, key:'brief-badger', en:"Nico said Tess gave him some gifts. Then he said they were all Coco's. Then he blamed Tess.", ko:'니코는 테스가 선물을 줬다고 했어. 그다음엔 다 코코 거라고 했고. 그러고는 테스 탓을 했어.' },
+          { det:true, key:'brief-badger', en:"Nico said Tess gave him some gifts. Then he blamed Tess. Then he said they were all Coco's.", ko:'니코는 테스가 선물을 줬다고 했어. 그다음엔 테스 탓을 했고. 그러고는 다 코코 거라고 했어.' },
+          // user request 2026-11-16: the officer answers the report and the detective names what bothers them before the
+          // officer asks to look inside (the five boxes: what the player already counted, deduction 7)
+          { who:'badger', key:'suspicious', en:"Hmm, that's a little suspicious.", ko:'흠, 그거 좀 수상한걸.' },
+          { det:true, key:'five-boxes', en:'Something is bothering me. There are five gift boxes on the sleigh.', ko:'마음에 걸리는 게 있어. 썰매 위 선물 상자가 다섯 개야.' },
           { who:'badger', key:'reason-to-check', en:"Then we need to check what's inside.", ko:'그럼 안에 무엇이 있는지 확인해야겠네.' },
           { who:'nico', key:'refuse-open', mood:'nervous', en:"It's a festival gift. Don't open it.", ko:'축제 선물이야. 열지 마.' },
           { who:'ella', key:'allow-open', en:"It's for the festival. You can check it.", ko:'축제 물건이야. 확인해도 돼.' },
@@ -3502,7 +3556,7 @@ const CHRISTMAS_CASE = {
         { who:'badger', key:'take', en:'Nico, come with me.', ko:'니코, 나와 같이 가자.' }
       ] }
     ],
-    confront:[ { accept:['tess:t3', 'giftlist-0'] }, { accept:['mae:m3', 'cocoslip-0'] }, { accept:['toystar-0'] }, { accept:['holly:h2'] }, { accept:['starback-0'] } ],
+    confront:[ { accept:['tess:t3', 'giftlist-0'], together:true }, { accept:['toystar-0'] }, { accept:['holly:h2', 'tess:t5'], together:true }, { accept:['backyard-0', 'sleigh-1'], together:true }, { accept:['sleigh-0', 'cocoslip-0'], together:true }, { accept:['starback-0'] } ],
     miss:{ who:'nico', key:'wrong', en:"That doesn't explain anything.", ko:'그걸로는 아무것도 설명이 안 되잖아.' },
     // design 장면 9: the star to Ella by the sleigh (she is already there), then the lighting in the square at night
     handoff:[
@@ -3514,10 +3568,12 @@ const CHRISTMAS_CASE = {
         ] },
       { to:'ella', go:{ det:true, key:'tree-thought', en:"Let's go to the Tree Square.", ko:'트리 광장으로 가 보자.' }, goLabel:'트리 광장으로 가기',
         flag:'night', turn:'lit',
-        visit:{ ella:{ place:'tree', x:58, floor:97, height:44 }, holly:{ place:'tree', x:40, floor:97, height:42 }, mae:{ place:'tree', x:48.5, floor:98, height:32, mood:'back' }, tess:{ place:'tree', x:67, floor:97, height:38 } },
+        // Ella alone for the countdown; Daisy, Coco and Tess stand round her once the camera pulls back from the star (from,
+        // user request 2026-11-16: not everyone there all at once), all four from behind (turn)
+        visit:{ ella:{ place:'tree', x:58, floor:97, height:44 }, holly:{ place:'tree', x:40, floor:97, height:42, from:'gathered' }, mae:{ place:'tree', x:48.5, floor:98, height:32, mood:'back', from:'gathered' }, tess:{ place:'tree', x:67, floor:97, height:38, from:'gathered' } },
         open:{ who:'ella', key:'countdown', en:'Everyone, the star is back! Three, two, one!', ko:'여러분, 별이 돌아왔어요! 셋, 둘, 하나!' },
         lines:[
-          { key:'merry', flag:'lit', wide:{ x:53.5, w:41, top:590 }, peek:{ x:58, y:-510, w:36 }, en:'Merry Christmas!', ko:'메리 크리스마스!' },
+          { key:'merry', flag:'lit', gather:'gathered', wide:{ x:53.5, w:41, top:590 }, peek:{ x:58, y:-510, w:36 }, en:'Merry Christmas!', ko:'메리 크리스마스!' },
           { det:true, key:'star-shining', en:'The star is shining on the tree!', ko:'트리 위에서 별이 빛나고 있어!' }
         ] }
     ]
@@ -3526,13 +3582,14 @@ const CHRISTMAS_CASE = {
 // the recordings (scripts/christmas-voice-lines.js): what the detective says of each thing looked at, of the things
 // carried, and everyone's lines (Daisy Mabel, Coco Liza, Tess Callan as in the umbrella case, Nico Ian; no emotion)
 CHRISTMAS_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take && c.en) c.audio = `audio/christmas/detective-${pl.id}-${i}.mp3`; }));
+CHRISTMAS_CASE.places.find(pl => pl.id === 'sleigh').clues.forEach(c => { if(c.label === 'Box') c.wait = BOX_WAIT; });
 Object.entries(CHRISTMAS_CASE.items).forEach(([id, it]) => { it.audio = `audio/christmas/detective-item-${id}.mp3`; });
-Object.entries({ badger:['hello', 'b0', 'check-in', 'reason-to-check', 'open-order', 'take'],
+Object.entries({ badger:['hello', 'b0', 'check-in', 'suspicious', 'reason-to-check', 'open-order', 'take'],
   ella:['hello', 'e0', 'e1', 'e2', 'e3', 'check-supplies', 'check-in', 'allow-open', 'confirm-owner', 'thanks', 'lighting-invite', 'countdown', 'merry'],
   holly:['h1', 'h2', 'h3', 'h4', 'hello', 'ready'],
   mae:['hello', 'm0', 'm1', 'm3', 'm4', 'ready', 'star'],
-  tess:['hello', 'ready', 'star', 'storeroom', 't1', 't3'],
-  nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight'] })
+  tess:['hello', 'ready', 'star', 'storeroom', 't5', 't1', 't3'],
+  nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-storeroom', 'dont-know', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
 const PACK = PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : null;
 // a case that happens in one building has its own map picture (PACK.map, 9:16 as the village map)
@@ -5036,7 +5093,7 @@ function renderDock(){
         <span class="place">${esc(open.place)}</span>
         <h4>${esc(open.label)}<button class="replay-q" type="button" data-ev-play="${open.ref}" aria-label="다시 듣기">${playIcon}</button></h4>
         <p>${esc(open.en)}</p><p class="ko" hidden>${esc(open.ko)}</p>
-        <span class="ev-btns">${open.item ? itemButtons(open.ref.slice(1)) : pinBtn(`ev:${open.ref}`)}<button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' ? `<button class="pill sm green" type="button" data-present="${open.ref}">내밀기</button>` : ''}</span></div></div>`;
+        <span class="ev-btns">${open.item ? itemButtons(open.ref.slice(1)) : pinBtn(`ev:${open.ref}`)}<button class="pill sm" type="button" data-evidence-ko aria-pressed="false">해석</button>${ending?.step === 'confront' && !pairClaim() ? `<button class="pill sm green" type="button" data-present="${open.ref}">내밀기</button>` : ''}</span></div></div>`;
     } else {
       evidenceOpen = null;
       const all = evidenceEntries();
@@ -5385,6 +5442,10 @@ function openInspect(id = PLACES.find(p => p.inspect)?.id, from = null){
   enterPlace(id);
   // a close look with its own sound as it opens (sound: Coco's slip unfolding, user request)
   if(placeOf(id).sound){ const s = $('#lookSound'); s.src = placeOf(id).sound; s.currentTime = 0; s.play().catch(() => {}); }
+  // a close look's first line, said the first time it opens (enter: the scale, "Which box has the Christmas star in
+  // it?", user request 2026-11-16); only what to find, never which
+  const first = placeOf(id).enter;
+  if(first && !S.flags.has(`entered:${id}`)){ S.flags.add(`entered:${id}`); saveGame(); setTimeout(() => { if(S.place === id) placeLines([first]); }, 500); }
 }
 // the detective's recorded question: the picnic case keeps its lines in audio/picnic/; the library's three shared
 // questions (QUESTIONS) have one file each
@@ -5729,7 +5790,7 @@ function setNotes(open){
 function openSheet(name){
   $('#app').classList.toggle('map-open', name === 'map');   // the < stays above the map (to the case list)
   if(name && drawerBrowse) closeDrawer();
-  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone();
+  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone() || !!S.scriptPause || S.flags.has('confessed');
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
@@ -5979,7 +6040,8 @@ window.addEventListener('pointerup', () => { if(mapDrag) setTimeout(() => { mapD
 $('.map-stage').addEventListener('click', e => { if(mapDrag?.moved){ e.stopPropagation(); e.preventDefault(); } }, true);
 const placeIdOf = id => S.visit[id]?.place || spk(id).place;
 const positionOf = id => S.visit[id] || NPC_POSITIONS[id];
-const isAway = id => ((S.visit[id] ? S.visit[id].gone : spk(id).gone) || []).some(cond);
+// a visit with from: not there until that flag is up (the lighting: the others come round Ella as the camera pulls back)
+const isAway = id => !!S.visit[id]?.from && !S.flags.has(S.visit[id].from) || ((S.visit[id] ? S.visit[id].gone : spk(id).gone) || []).some(cond);
 const peopleAt = placeId => S.met.filter(id => placeIdOf(id) === placeId && !isAway(id));
 // Hearing a line or finding a clue can reveal places and people ({ places:[…], people:[…], names:[…] }).
 // A newly known person brings their place onto the map; one only named (names) waits for their place to open.
@@ -6037,7 +6099,9 @@ function allConversationsDone(){
 }
 // The place view's 추리하기 (the conversation's is drawn by renderAsk, the map's in openSheet): all three open the
 // deduction board, and the accusation is made only there (user decision).
-function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!ending || !!(S.investigate && placeObj()?.inspect); }
+// not while the questioning waits at a place (it goes on by itself once what it waits for is found) nor once the culprit
+// has owned up (user report 2026-11-16: 추리하기 still showed at the storeroom in the middle of Nico's questioning)
+function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!ending || !!S.scriptPause || S.flags.has('confessed') || !!(S.investigate && placeObj()?.inspect); }
 $('#foldBtn').onclick = () => { cancelCapture(); stopVoice(); S.unfolded = !S.unfolded; if(!placeObj()?.flip) playUmbrella(S.unfolded); renderScene(); renderSceneHead(); saveGame(); };
 // the umbrella opening / folding (user request; user-given freesound clip, audio/umbrella-open.mp3, the fold its first rustle)
 function playUmbrella(open){
@@ -6556,9 +6620,25 @@ function stopDrawerAnimations(){
   drawerSizeAnimation?.cancel(); drawerTextAnimation?.cancel();
   drawerSizeAnimation = drawerTextAnimation = null;
 }
-function openDrawer(tab = 'photo', browse = false){
+// a claim answered by two together: the empty places above the cards, filled by tapping cards, then 내밀기 holds them up
+let drawerSlots = [];
+function slotFace(ref){
+  if(isSayRef(ref)) return sayFace(ref.split(':')[0]);
+  return isItemRef(ref) ? itemCardPic(ref.slice(1)) : S.evidence.find(item => evRef(item) === ref)?.photo || '';
+}
+function renderSlots(){
+  const pair = !drawerBrowse && pairClaim(), box = $('#drawerSlots');
+  box.hidden = !pair;
+  if(!pair) return;
+  box.innerHTML = pair.accept.map((_, i) => { const ref = drawerSlots[i];
+    return `<button class="dslot${ref ? ' full' : ''}" type="button" data-slot="${i}" aria-label="${ref ? `${i + 1}번 칸 비우기` : `${i + 1}번 칸`}">${ref ? slotFace(ref) : i + 1}</button>`; }).join('') +
+    `<button class="pill big green" type="button" data-present-pair${drawerSlots.length < pair.accept.length ? ' disabled' : ''}>내밀기</button>`;
+  $('#drawerStrip').querySelectorAll('[data-pick]').forEach(card => card.setAttribute('aria-pressed', drawerSlots.includes(card.dataset.pick)));
+}
+function openDrawer(tab = 'photo', browse = false, keepSlots = false){
   stopDrawerAnimations();
   drawerPick = null; drawerTab = tab; drawerBrowse = browse;
+  if(!keepSlots) drawerSlots = [];
   // handing a bag over and the bottom menu's 소지품 show 소지품 alone; the questioning has no 소지품
   const handing = ending?.step === 'handoff';
   $('#drawer').querySelectorAll('[data-drawer-tab]').forEach(b => {
@@ -6573,6 +6653,7 @@ function openDrawer(tab = 'photo', browse = false){
   $('#drawerStrip').scrollLeft = 0;
   $('#drawerPick').innerHTML = '';
   $('#drawerPick').hidden = true;
+  renderSlots();
   $('#drawer').classList.add('open');
   $('#app').classList.add('drawer-open');
 }
@@ -6589,13 +6670,23 @@ function pickEvidence(ref){
   stopDrawerAnimations();
   drawerPick = ref;
   $('#drawerStrip').querySelectorAll('[data-pick]').forEach(card => card.setAttribute('aria-pressed', card.dataset.pick === ref));
+  // two together: the card goes into the next empty place (out again if it is in one; a full pair swaps the last)
+  const pair = !drawerBrowse && pairClaim();
+  if(pair){
+    if(drawerSlots.includes(ref)) drawerSlots = drawerSlots.filter(r => r !== ref);
+    else if(drawerSlots.length < pair.accept.length) drawerSlots.push(ref);
+    else drawerSlots[drawerSlots.length - 1] = ref;
+    renderSlots();
+  }
   if(isSayRef(ref)){
     // a statement: who said it and what they said (their own recording again), then 내밀기
     const [id, qid] = ref.split(':');
     detail.innerHTML = `<p><b class="who-says">${esc(spk(id).name)}:</b> “${esc(spk(id).answers[qid])}”</p>${drawerTools(ref, ANSWERS_KO[id]?.[qid])}`;
   } else if(isItemRef(ref)){
     const entry = evidenceEntry(ref), id = ref.slice(1);
-    detail.innerHTML = (drawerBrowse ? `<figure class="evidence-photo item-big${ITEMS[id].bag && !S.flags.has(`open:${id}`) ? ' bag-pic' : ''}" aria-hidden="true">${S.flags.has(`open:${id}`) ? entry.photo : itemCardPic(id)}</figure>` : '') +
+    // the big picture only when it shows more than the card: the inside of a thing opened (user request 2026-11-16: the
+    // scale twice, card and big picture, looked odd)
+    detail.innerHTML = (drawerBrowse && S.flags.has(`open:${id}`) ? `<figure class="evidence-photo item-big" aria-hidden="true">${entry.photo}</figure>` : '') +
       `<p>${esc(entry.en)}</p>${drawerTools(ref, entry.ko)}`;
   } else {
     const record = S.evidence.find(item => evRef(item) === ref), clue = placeOf(record.placeId).clues[record.clueIndex];
@@ -6618,7 +6709,7 @@ function pickEvidence(ref){
 function drawerTools(ref, ko, mute){
   return `${ko ? `<p class="ko" hidden>${esc(ko)}</p>` : ''}<div class="drawer-row">${mute ? '' : `<button class="play-btn" type="button" data-pick-play="${ref}" aria-label="다시 듣기"></button>`}` +
     `${ko ? '<button class="pill sm" type="button" data-drawer-ko aria-pressed="false">해석</button>' : ''}${drawerBrowse ? itemButtons(ref.slice(1)) : ''}</div>` +
-    (drawerBrowse ? '' : `<button class="pill big" type="button" data-present="${ref}">${ending?.step === 'handoff' ? '건네주기' : '내밀기'}</button>`);
+    (drawerBrowse || pairClaim() ? '' : `<button class="pill big" type="button" data-present="${ref}">${ending?.step === 'handoff' ? '건네주기' : '내밀기'}</button>`);
 }
 function playPick(ref){
   if(isItemRef(ref) || !isSayRef(ref)) return playEvidence(ref);
@@ -6648,7 +6739,11 @@ function playPick(ref){
 $('#drawer').addEventListener('click', e => {
   if(e.target.closest('[data-drawer-close]')) return closeDrawer();
   const tab = e.target.closest('[data-drawer-tab]');
-  if(tab){ if(tab.dataset.drawerTab !== drawerTab){ stopVoice(); $('#evidenceVoice').pause(); openDrawer(tab.dataset.drawerTab); } return; }
+  if(tab){ if(tab.dataset.drawerTab !== drawerTab){ stopVoice(); $('#evidenceVoice').pause(); openDrawer(tab.dataset.drawerTab, false, true); } return; }
+  const slot = e.target.closest('[data-slot]');
+  if(slot){ drawerSlots.splice(+slot.dataset.slot, 1); return renderSlots(); }
+  const pairGo = e.target.closest('[data-present-pair]');
+  if(pairGo){ const refs = drawerSlots.slice(); closeDrawer(); return present(refs); }
   const again = e.target.closest('[data-pick-play]');
   if(again) return playPick(again.dataset.pickPlay);
   const ko = e.target.closest('[data-drawer-ko]');
@@ -6760,7 +6855,7 @@ function callAnswer(){
   const name = detectiveName(), line = CALL.answer(id);
   renderSay({ ...line, name:name ? `Detective ${name}` : 'Detective', det:true });
   const go = () => { if(ending?.step === 'call'){ ending.i = 1; ending.ready = performance.now() + 600; endingSay(CALL.go(id)); } };
-  detectiveSay(line.key, () => { endTimer = setTimeout(go, 500); });
+  detectiveSay(line.key, () => waitTap(go));
 }
 function callGo(){
   if(ending?.step !== 'call' || !ending.i || performance.now() < ending.ready) return;
@@ -6786,13 +6881,16 @@ function startScript(){
   endingFocus(accusedId); renderInterrogationGauge();
   scriptLines(ENDING.intro, () => scriptGo(0));
 }
-// lines in turn: the detective's in their bubble, the others' by them (mood: their face from then on)
-function scriptLines(lines, onDone, i = 0){
+// lines in turn: the detective's in their bubble, the others' by them (mood: their face from then on). Each goes on only
+// when the screen is tapped once it has been said (user decision 2026-11-16: every line waits for the player), but a
+// claim's last line (tapLast false): its 증거 내밀기 is the way on
+function scriptLines(lines, onDone, i = 0, tapLast = true){
   if(!ending?.script) return;
   const line = lines[i];
   if(!line) return onDone();
   let went = false;
-  const next = () => { if(went) return; went = true; endTimer = setTimeout(() => scriptLines(lines, onDone, i + 1), 500); };
+  const on = () => { endTimer = setTimeout(() => scriptLines(lines, onDone, i + 1, tapLast), 150); };
+  const next = () => { if(went) return; went = true; if(!ending?.script) return; if(lines[i + 1] || tapLast) waitTap(on); else on(); };
   if(!line.det) return endingSay(line, line.mood, next);
   clearTimeout(endTimer);
   ending.line = detLine(line); ending.lineDone = next;
@@ -6818,7 +6916,7 @@ function scriptGo(i){
   scriptLines(item.lines, () => {
     if(!item.claim) return scriptGo(i + 1);
     ending.step = 'confront'; renderAsk(); renderInterrogationGauge();
-  });
+  }, 0, !item.claim);
 }
 // The questioning waits (scene): the place itself, to look, take and photograph as anywhere; the map is open. Once what
 // it waits for is found (until) and the notebook is put away, it goes on from the next step, the gauge where it was.
@@ -6854,14 +6952,17 @@ function presentFigure(ref){
   const [id, qid] = ref.split(':');
   return `<figure class="say"><span class="who">${sayFace(id)}${esc(spk(id).name)}</span><p>${esc(writtenText(id, qid))}</p></figure>`;
 }
+// a claim answered only by two held up together (together: every one of accept, nothing else, in any order)
+const pairClaim = () => ending?.script && ending.step === 'confront' && ENDING.script[ending.si]?.together ? ENDING.script[ending.si] : null;
+const presentRight = (item, ref) => item.together ? Array.isArray(ref) && ref.length === item.accept.length && item.accept.every(key => ref.includes(key)) : item.accept.includes(ref);
 function scriptPresent(ref){
   if(ending?.step !== 'confront') return;
-  const item = ENDING.script[ending.si], right = item.accept.includes(ref);
+  const item = ENDING.script[ending.si], right = presentRight(item, ref), refs = [].concat(ref);
   clearTimeout(endTimer); stopVoice(); setNotes(false); renderDock(); renderSay(null);
   ending.step = 'say'; ending.line = null; renderAsk();
   const shot = document.createElement('div');
-  shot.className = `presented ${right ? 'hit' : 'miss'}`;
-  shot.innerHTML = presentFigure(ref) + (right ? '<span class="contra">모순!</span>' : '');
+  shot.className = `presented ${right ? 'hit' : 'miss'}${refs.length > 1 ? ' two' : ''}`;
+  shot.innerHTML = refs.map(presentFigure).join('') + (right ? '<span class="contra">모순!</span>' : '');
   $('.scene').appendChild(shot);
   $('#backTab').disabled = true;
   setTimeout(() => {
@@ -6877,7 +6978,7 @@ function scriptPresent(ref){
   setTimeout(() => { shot.remove(); $('.scene').classList.remove('jolt'); if(ending?.script) renderInterrogationGauge(); }, 1300);
   endTimer = setTimeout(() => {
     if(!ending?.script) return;
-    if(!right) return scriptLines([item.miss || ENDING.miss], () => { endTimer = setTimeout(() => scriptGo(ending.si), 700); });
+    if(!right) return scriptLines([item.miss || ENDING.miss], () => scriptGo(ending.si));
     scriptLines(item.hit, () => scriptGo(ending.si + 1));
   }, 1300);
 }
@@ -6896,9 +6997,7 @@ function startEnding(){
 function playInterrogationOpening(){
   endingSay(ENDING.opening, null, () => {
     if(ending?.step !== 'confront' || ending.line !== ENDING.opening) return;
-    endTimer = setTimeout(() => {
-      if(ending?.step === 'confront' && ending.line === ENDING.opening) endingSay(fionaLine(ENDING.confront[0]), null);
-    }, 500);
+    waitTap(() => { if(ending?.step === 'confront' && ending.line === ENDING.opening) endingSay(fionaLine(ENDING.confront[0]), null); });
   });
 }
 function requestLeaveInterrogation(){
@@ -6976,7 +7075,7 @@ function present(ref){
       ending.line = null; renderAsk();
       renderSay({ who:'fiona', en:ENDING.miss.en, ko:ENDING.miss.ko });
       speak(ENDING.miss.en, ENDING.miss.key, 'fiona', () => {
-        endTimer = setTimeout(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[retryRound]), confrontMood(retryRound)), 700);
+        waitTap(() => ending?.step === 'confront' && endingSay(fionaLine(ENDING.confront[retryRound]), confrontMood(retryRound)));
       });
       return;
     }
@@ -6995,7 +7094,7 @@ function present(ref){
     const name = detectiveName();
     ending.line = null; renderAsk();
     renderSay({ ...det, name:name ? `Detective ${name}` : 'Detective', det:true });
-    detectiveSay(det.key, () => { endTimer = setTimeout(next, 500); });
+    detectiveSay(det.key, () => waitTap(next));
   }, 1300);
 }
 function endingNext(){
@@ -7097,31 +7196,33 @@ function handoffLine(){
   if(line.flag && !S.flags.has(line.flag)){ S.flags.add(line.flag); renderScene(placeIdOf(round.to)); }
   if(line.flag && line.flag === ENDING.music?.flag) endingMusic(true);
   // the whole square from here on (user request: at the lighting, everyone by the lit tree, not Ella alone)
-  // once the round's turn flag is up (the lighting), everyone there looks at the tree from behind but whoever speaks
-  // (user request: they all watch the tree)
-  const turn = speaker => {
+  // once the round's turn flag is up (the lighting), everyone there looks at the tree from behind, the one speaking too
+  // (user request 2026-11-16: Ella as well, once the camera pulls back)
+  const turn = () => {
     if(!round.turn || !S.flags.has(round.turn)) return;
-    Object.keys(round.visit || {}).forEach(id => { if(id === speaker) delete S.mood[id]; else S.mood[id] = 'back'; });
+    Object.keys(round.visit || {}).forEach(id => { S.mood[id] = 'back'; });
     renderScene(placeIdOf(round.to));
   };
-  const say = () => { turn(line.det ? null : line.who || round.to); line.det ? sayHandoff(line) : endingSay({ who:round.to, ...line }); };
+  // gather: the flag that brings the round's later visitors (from) as the camera pulls back
+  const gather = () => { if(line.gather) S.flags.add(line.gather); turn(); };
+  const say = () => { turn(); line.det ? sayHandoff(line) : endingSay({ who:round.to, ...line }); };
   if(line.wide !== undefined && ending.wide === undefined){
     ending.wide = line.wide;
     // with a peek (user request: the camera runs up the lit tree to its star): no bubble or button meanwhile, up to the
     // spot, a moment there, back out to everyone, then the line
     if(line.peek && !matchMedia('(prefers-reduced-motion: reduce)').matches){
       const e = ending;
-      ending.peek = line.peek; ending.line = null; renderSay(null); renderAsk(); turn(null);
+      ending.peek = line.peek; ending.line = null; renderSay(null); renderAsk();
       focusCamera(null, true, 2600);
       clearTimeout(endTimer);
       endTimer = setTimeout(() => {
         if(ending !== e) return;
-        ending.peek = null; focusCamera(null, true, 2200);
+        ending.peek = null; gather(); focusCamera(null, true, 2200);
         endTimer = setTimeout(() => { if(ending === e) say(); }, 2300);
       }, 4000);
       return;
     }
-    focusCamera(null, true);
+    gather(); focusCamera(null, true);
   }
   say();
 }
@@ -7546,6 +7647,9 @@ function weighArt(){
 function weighTap(clue){
   if(clue.plate !== undefined) plates[clue.plate] = null;
   else { const n = plates[0] === null ? 0 : 1; plates[n] = clue.weigh; }
+  // the scale tipped (two different weights on it): what the sleigh's boxes wait for (balance.flag)
+  const bal = placeObj().balance, ws = bal.weights;
+  if(bal.flag && plates.every(n => n !== null) && ws[plates[0]] !== ws[plates[1]] && !S.flags.has(bal.flag)){ S.flags.add(bal.flag); saveGame(); }
   const place = $('#wordPlace'); place.currentTime = 0; place.play().catch(() => {});
   renderScene();
 }
@@ -7949,6 +8053,8 @@ function takeFromPlace(pl, i){
   if($('.art-stage .think-place')) return;   // already saying something here
   cancelCapture(); stopVoice();
   S.found[pl.id].add(i);
+  // flagFirst: what the flag shows is seen before the lines (the opened box with the star in it)
+  if(clue.flagFirst && clue.flag && !S.flags.has(clue.flag)){ S.flags.add(clue.flag); renderScene(); }
   placeLines(clue.lines || [], () => {
     if(clue.take.startsWith('!')) S.flags.add(clue.take.slice(1));
     else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); gotItem(); }
@@ -7963,6 +8069,8 @@ function examine(i, spot){
   if(pl.clues[i].inspect) return openInspect(pl.clues[i].inspect, pl.id);
   // a door out of a close look into a place (as 〈 leaves one)
   if(pl.clues[i].go){ setNotes(false); inspectFrom = null; return enterPlace(pl.clues[i].go); }
+  // not yet (wait: until its conditions hold the detective says why, the sleigh's boxes before the scale)
+  if(pl.clues[i].wait && !pl.clues[i].wait.until.every(cond)) return sayProp(pl.clues[i].wait, spot);
   if(pl.clues[i].take) return takeFromPlace(pl, i);
   if(pl.clues[i].prop){
     sayProp(pl.clues[i], spot); if(pl.clues[i].peek) peekAt(pl.clues[i].peek);
@@ -8079,14 +8187,17 @@ function enterPlace(id, fromConversation = false){
     }
   });
 }
-// The interrogation's evidence found so far: a step of ENDING.confront counts once any photo it accepts is found.
+// The interrogation's evidence found so far: a step of ENDING.confront counts once any photo it accepts is found; a
+// step answered by photos held up together (together) counts each of them.
 // Only steps a photo answers (user decision: a statement comes anyway, every talk has to be finished): the library's
 // Mrs. Bear step is left out, 4. The picnic case has no interrogation, so no chip.
 function evidenceNeed(){
   if(!ENDING.confront || PACK?.hideEvidenceCount) return { got:0, of:0 };
   const steps = ENDING.confront.filter(step => step.accept.some(key => !isSayRef(key)));
   const found = key => { if(isSayRef(key)) return false; const at = key.lastIndexOf('-'); return !!S.found[key.slice(0, at)]?.has(+key.slice(at + 1)); };
-  return { got:steps.filter(step => step.accept.some(found)).length, of:steps.length };
+  const photos = step => step.accept.filter(key => !isSayRef(key));
+  return steps.reduce((n, step) => step.together ? { got:n.got + photos(step).filter(found).length, of:n.of + photos(step).length }
+    : { got:n.got + +step.accept.some(found), of:n.of + 1 }, { got:0, of:0 });
 }
 let evShown = null;
 function renderSceneHead(){
@@ -8120,7 +8231,8 @@ function stillNeeded(){
   const refs = new Set();
   (ENDING.confront || []).forEach(step => {
     const photos = step.accept.filter(key => !isSayRef(key));
-    if(photos.length && !photos.some(cond)) photos.forEach(key => refs.add(key));
+    if(step.together) photos.filter(key => !cond(key)).forEach(key => refs.add(key));
+    else if(photos.length && !photos.some(cond)) photos.forEach(key => refs.add(key));
   });
   [...(PACK?.needed || []), ...(PACK?.ready || [])].filter(clueRefOnly).forEach(key => { if(!cond(key)) refs.add(key); });
   // a flag the deduction waits for that a tap does (take '!flag': Tess's table seen from the sleigh)
@@ -9107,6 +9219,17 @@ function loadGame(){
   // photos are the questioning's evidence only): their old photos leave the evidence notebook, still counted as seen
   // (and a button into a close look is no photo either: 증거 모두 수집 used to put those in)
   S.evidence = S.evidence.filter(item => { const c = placeOf(item.placeId)?.clues[item.clueIndex]; return !c?.seen && !c?.inspect; });
+  // the star's back is photographed only once the box is open, in the questioning: an older 증거 모두 수집 put it in
+  // before, and the questioning then went on past the sleigh by itself (user report 2026-11-16)
+  if(CASE_ID === 'christmas-star' && !S.flags.has('box-open') && !S.flags.has('confessed')){
+    S.evidence = S.evidence.filter(item => !(item.placeId === 'starback' && item.clueIndex === 0)); S.found.starback?.delete(0);
+  }
+  // the sleigh's boxes and the two marks became photos again (user requests 2026-11-16: held up in the questioning):
+  // looked at is photographed
+  if(CASE_ID === 'christmas-star') [['sleigh', 0], ['sleigh', 1], ['backyard', 0]].forEach(([id, i]) => {
+    if(S.found[id]?.has(i) && !S.evidence.some(item => item.placeId === id && item.clueIndex === i))
+      S.evidence.push({ placeId:id, clueIndex:i, photo:evidencePhoto(placeOf(id), i) });
+  });
   if(S.memo?.pins) S.memo.pins = S.memo.pins.filter(k => !k.startsWith('ev:') || S.evidence.some(item => `ev:${item.placeId}-${item.clueIndex}` === k));
   // Nico's storeroom answer became a lie (user decision): a save that wrote down the old one ("got some empty boxes")
   // has the new one written right
@@ -9643,11 +9766,18 @@ $('#devDone').onclick = () => {
 // 증거 모두 수집: every clue of every place is found and saved in the evidence notebook (no photo sequence).
 $('#devEvidence').onclick = () => {
   let n = 0;
+  const later = new Set((ENDING.script || []).filter(item => item.flag).map(item => item.flag));
+  PLACES.forEach(pl => pl.clues.forEach(c => { if(c.take && c.flag && !c.take.startsWith('!') && !(PACK?.ready || []).includes('@' + c.take)) later.add(c.flag); }));
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
+    // only once the questioning has come so far (a flag it sets, or the opened box's): found there in play
+    if(place.spots.some(spot => spot.clue === clueIndex) && place.spots.filter(spot => spot.clue === clueIndex).every(spot => (spot.when || []).some(k => k.startsWith('!') && later.has(k.slice(1))))) return;
     // a thing only looked at (seen) counts as seen, with no photo
     if(clue.seen && place.spots.some(spot => spot.clue === clueIndex)){ S.found[place.id].add(clueIndex); return; }
     // the scale's boxes, doors and the buttons into close looks (inspect) are no photos
     if(clue.prop || clue.go || clue.inspect || place.balance || !place.spots.some(spot => spot.clue === clueIndex)) return;
+    // what a questioning waits for at a place (ENDING.script until: the star's back, once the box is opened) is found
+    // there in play (user report: the questioning went on by itself, with nothing to do at the sleigh)
+    if((ENDING.script || []).some(item => item.until?.includes(`${place.id}-${clueIndex}`))) return;
     // only the things the deduction needs (PACK.ready '@item', the violin case's) are picked up; the rest stay where
     // they are, to be found and picked up in play (user report: after 추리 완성 the Christmas scale was gone from the
     // storeroom with no picking up, and the box on the sleigh was already open with the star in the bag)
@@ -9667,6 +9797,26 @@ $('#devEvidence').onclick = () => {
   renderPlaces(); renderDock();
   if(S.investigate && S.place){ renderSceneHead(); renderScene(); }
   toast(n ? `증거 ${n}개를 노트에 기록했어요.` : '이미 모든 증거를 모았어요.');
+};
+
+// 소지품 모두 받기 (user request 2026-11-16): every thing of this case not carried yet goes into 소지품, as if picked up
+// where it lies (its spot found, took:<id> and the clue's flag: the scale leaves the storeroom, the opened box shows the
+// star gone) or handed over by someone. A case without things has no button.
+$('#devItems').hidden = !Object.keys(ITEMS).length;
+$('#devItems').onclick = () => {
+  const missing = Object.keys(ITEMS).filter(id => !S.items.includes(id));
+  missing.forEach(id => {
+    PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
+      if(clue.take !== id) return;
+      S.found[place.id].add(clueIndex);
+      if(clue.flag) S.flags.add(clue.flag);
+    }));
+    S.items.push(id); S.flags.add(`took:${id}`);
+  });
+  syncBagAway(); saveGame(); renderPlaces(); renderDock();
+  if(S.investigate && S.place){ renderSceneHead(); renderScene(); }
+  if(missing.length) setItemsNew(true);
+  toast(missing.length ? `소지품 ${missing.length}개를 넣었어요.` : '이미 모든 소지품을 가지고 있어요.');
 };
 
 // 추리 완성: from wherever it is pressed, every conversation and clue done first (the dropdowns offer only words the
@@ -9727,7 +9877,13 @@ $('#devReset').onclick = () => {
    A button reloads the page as ?preview=<part>: a fresh case on a copy of the records in memory (previewStorage, at the
    top), taken straight to that part with the test tools above. The real case in progress, records and word book are
    never written; 미리보기 끝 goes back to them. */
-const previewCase = () => { $('#devDone').click(); $('#devEvidence').click(); };
+// with every talk and clue done, the detective's thoughts due by then count as heard (user report 2026-11-16: in 니코
+// 심문 they all came at once at the sleigh, where the questioning waits)
+const previewCase = () => {
+  $('#devDone').click(); $('#devEvidence').click();
+  (PACK?.thoughts || []).forEach((t, n) => { if(!t.off && t.when.every(cond) && !(t.unless || []).some(cond) && !(S.thought ||= []).includes(n)) S.thought.push(n); });
+  thoughts.length = 0;
+};
 const previewDeduced = () => {
   const st = deduceState();
   DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1;
@@ -9735,7 +9891,7 @@ const previewDeduced = () => {
 // [id, label] of each case's parts; a part of another case opens that case's page
 const PREVIEW_OF = {
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
-    ['questioning', '니코 심문'], ['return', '엘라에게 반환'], ['review', '복습']],
+    ['questioning', '니코 심문'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
   'picnic-bag':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['handoff', '노라에게 전달'], ['handback', '로지에게 전달'], ['review', '복습']],
   'missing-violin':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
@@ -9761,6 +9917,25 @@ const PREVIEW_RUN = {
   interview:() => { previewCase(); previewDeduced(); openSheet(null); accusedId = CULPRIT; startEnding(); },
   confession:() => { previewCase(); $('#devInterro').click(); },
   questioning:() => { previewCase(); previewDeduced(); openSheet(null); startScript(); },
+  // the questioning from its last lines (the owning up, user request 2026-11-16): everything before it as done (its
+  // flags, who joined, the gauge full, the thing found carried), then that step
+  confess:() => {
+    previewCase(); previewDeduced(); openSheet(null);
+    const at = ENDING.script.findLastIndex(item => item.lines && !item.claim && !item.join && !item.ask && !item.scene);
+    ENDING.script.slice(0, at).forEach(item => (item.until || []).forEach(ref => { const cut = ref.lastIndexOf('-'), pl = placeOf(ref.slice(0, cut)), i = +ref.slice(cut + 1);
+      (S.found[pl.id] ||= new Set()).add(i); if(!S.evidence.some(r => evRef(r) === ref)) S.evidence.push({ placeId:pl.id, clueIndex:i, photo:evidencePhoto(pl, i) }); }));
+    PLACES.forEach(pl => pl.clues.forEach(c => { if(c.take && c.flag && PACK?.previewHandback?.includes(c.take)) S.flags.add(c.flag); }));
+    if(PACK?.previewHandback) PACK.previewHandback.forEach(id => { if(!S.items.includes(id)){ S.items.push(id); S.flags.add(`took:${id}`); } });
+    startScript();
+    clearTimeout(endTimer); stopVoice();
+    ENDING.script.slice(0, at).forEach(item => {
+      if(item.flag) S.flags.add(item.flag);
+      (item.join || []).forEach(id => { S.visit[id] = { place:spk(accusedId).place, ...PACK.joinPositions[id], gone:['!confessed'] }; if(!S.met.includes(id)) S.met.push(id); });
+    });
+    endingRound = ENDING.confront.length; S.mood[accusedId] = 'sad';
+    renderScene(placeIdOf(accusedId)); renderInterrogationGauge();
+    scriptGo(at);
+  },
   // what the detective carries by then (the star, the violin case): without it the hand-over's 소지품 is empty
   return:() => { previewCase(); previewDeduced(); openSheet(null); S.flags.add('confessed'); if(PACK?.previewHandback) S.items = [...PACK.previewHandback]; startScript(); },
   review:() => { previewCase(); previewDeduced(); openSheet(null); openReview(); }
