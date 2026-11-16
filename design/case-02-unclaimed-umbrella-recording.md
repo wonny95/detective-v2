@@ -79,7 +79,7 @@
 | 10 | `detective-tess-t3.mp3` | 테스에게 질문 t3 | What color is your umbrella inside? | 네 우산 안쪽은 무슨 색이야? |
 | 11 | `detective-tess-t4.mp3` | 테스에게 질문 t4 | Who else was at the bazaar? | 바자회에 또 누가 있었어? |
 | 12 | `detective-tess-t5.mp3` | 테스에게 질문 t5 | Do you know anyone who lost an umbrella? | 우산을 잃어버린 친구를 알아? |
-| 13 | `detective-hello-ruby.mp3` | 루비 첫 인사 | Tess said you were at the bazaar with her. I'm looking for the owner of an umbrella at the village hall. | 테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어. |
+| 13 | `detective-hello-ruby.mp3` | 루비 첫 인사 | Tess said you were at the bazaar with him. I'm looking for the owner of an umbrella at the village hall. | 테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어. |
 | 14 | `detective-ruby-r1.mp3` | 루비에게 질문 r1 | What is your umbrella like?<br>**같은 녹음**: 8번 | 네 우산은 어떻게 생겼어? |
 | 15 | `detective-ruby-r2.mp3` | 루비에게 질문 r2 | What pattern is on your umbrella?<br>**같은 녹음**: 9번 | 네 우산에는 어떤 무늬가 있어? |
 | 16 | `detective-ruby-r3.mp3` | 루비에게 질문 r3 | What color is your umbrella inside?<br>**같은 녹음**: 10번 | 네 우산 안쪽은 무슨 색이야? |
@@ -113,7 +113,7 @@
 | 44 | `deduce/h3.mp3` | 추리 Q3 힌트 | What did Finn say about the pattern? | 핀이 무늬에 대해 뭐라고 했지? |
 | 45 | `deduce/q4.mp3` | 추리 Q4 질문 | Is this umbrella Tess's? | 이 우산은 테스의 것일까? |
 | 46 | `deduce/r4.mp3` | 추리 Q4 맞았을 때 (완성 문장: Tess's umbrella is dark blue inside. This one is gold inside.) | No, it isn't. The outside is the same, but the inside is not. | 아니야. 겉은 같지만 안쪽이 달라. |
-| 47 | `deduce/h4.mp3` | 추리 Q4 힌트 | Look at the photo of the inside. What did Tess say about hers? | 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
+| 47 | `deduce/h4.mp3` | 추리 Q4 힌트 | Look at the photo of the inside. What did Tess say about his? | 안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지? |
 | 48 | `deduce/q5.mp3` | 추리 Q5 질문 | Whose umbrella is this? | 그럼 이 우산은 누구 것일까? |
 | 49 | `deduce/r5.mp3` | 추리 Q5 맞았을 때 (완성 문장: This umbrella is Ruby Cat's. It has a blue handle and gold stars, and it is gold inside.) | It's Ruby's umbrella. Let's tell Ella. | 루비의 우산이야. 엘라에게 알려 주자. |
 | 50 | `deduce/h5.mp3` | 추리 Q5 힌트 | Whose umbrella is gold inside? | 안쪽이 금빛인 우산은 누구 거지? |
