@@ -149,6 +149,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
    face, as on the deduction board (user pick A, no tail) */
 .bubble.say.det{top:auto;bottom:calc(20px + env(safe-area-inset-bottom, 0px));max-height:calc(100% - 180px);padding-left:76px;--bubble-paper:#FFF0BF;transform-origin:50% 100%}
 .bubble.say.det::after{display:none}
+/* over the scale, the detective's line stands at the top, clear of the row of boxes (user request 2026-11-16) */
+.bubble.say.det.think-place.top{top:58px;bottom:auto;transform-origin:50% 0}
 /* a detective line in a conversation waits for a tap on the screen (tapWait): a small blinking mark under the face */
 .bubble.say.det.wait-tap::after{display:block;left:40px;bottom:24px;width:0;height:0;transform:none;background:none;border:7px solid transparent;border-bottom:0;border-top:9px solid #A0703A;animation:tap-cue 1s ease-in-out infinite}
 /* a person's line waiting for a tap: the same mark at the bubble's bottom left (its ::after is the tail) */
@@ -845,6 +847,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none}
 .snow.on{display:block}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
+/* a place with fixed:true stays put in the middle (no swiping round it) */
+.art-wrap.fixed{overflow-x:hidden}
 .art-wrap::-webkit-scrollbar{display:none}
 .art{position:relative;height:100%;aspect-ratio:3/2;transform-origin:0 0;user-select:none;-webkit-user-select:none}
 .art > svg{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -3257,14 +3261,14 @@ const CHRISTMAS_CASE = {
         // the five boxes once the officer says to open one (design 장면 7); the third holds the star. None opens before the
         // scale has shown the heavy one (user report 2026-11-16: the star's box opened with nothing weighed): until then the
         // detective says the officer-scene line again (wait, BOX_WAIT, set after the pack)
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:419, y:392, w:230, h:176 } },
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:515, y:432, w:230, h:176 } },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ slot:0 } },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ slot:1 } },
         // the box opens first (flagFirst), then the detective says what is in it (user request 2026-11-16)
         // the box only opens here; the star goes into 소지품 once its back is photographed (starback, give), and the box
         // is drawn empty from then (user requests 2026-11-16)
-        { label:'Box', take:'!box-open', flag:'box-open', flagFirst:true, lines:[ { key:'take-star', en:"There's a gold star in this box!", ko:'이 상자 안에 금별이 있어!' } ] },
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:752, y:462, w:230, h:176 } },
-        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ img:'box-mittens.png', x:870, y:480, w:230, h:176 } },
+        { label:'Box', take:'!box-open', flag:'box-open', flagFirst:true, next:'starback', lines:[ { key:'take-star', en:"There's a gold star in this box!", ko:'이 상자 안에 금별이 있어!' } ] },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ slot:3 } },
+        { label:'Box', prop:true, en:'Just mittens in this one.', ko:'이 상자엔 장갑뿐이네.', peek:{ slot:4 } },
         { label:'Star in the box', prop:true, seen:true, en:'A star inside the box.', ko:'상자 안에 별이 있어.' },
         { label:'Back of the star', inspect:'starback' },
         // the storeroom far off (user request: tapping it, the detective says so)
@@ -3286,17 +3290,22 @@ const CHRISTMAS_CASE = {
         { clue:8, x:57.4, y:45.7, w:8.9, h:12.6, when:['!open-order'], unless:['!box-open'] },
         { clue:9, x:66.3, y:49.1, w:8.7, h:8.3, when:['!open-order'], unless:['!box-open'] },
         // nothing more to tap once the star is taken out: the box is empty (sleigh-nobox.jpg + box-empty.png)
-        { clue:10, x:42.5, y:49, w:19.5, h:17, when:['!box-open'], unless:['!took:star'], photo:{ x:514, y:441, w:400, h:300 } },
-        { clue:11, x:42.5, y:49, w:19.5, h:17, when:['sleigh-10'], unless:['!took:star'] },
+        // (clue 10 "A star inside the box." is no longer tapped: the star's back opens with the box, user request
+        // 2026-11-16; back at the sleigh before its photo, the open box opens it again)
+        { clue:11, x:42.5, y:49, w:19.5, h:17, when:['!box-open'], unless:['!took:star'] },
         { clue:12, x:1, y:2, w:21, h:24 }
       ] },
     // never on the map: the toy star (from the tent), the real star's back (from the open box)
     // the scale in use over the sleigh (WEIGH): the five boxes in the sleigh's order (the third holds the star), the pans
-    { id:'weigh', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768, balance:{ weights:[1, 1, 3, 1, 1], flag:'weighed' },   // flag: once two different weights have been on the pans
+    { id:'weigh', inspect:true, fixed:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768, balance:{ weights:[1, 1, 3, 1, 1], flag:'weighed', open:[5, 6, 7, 8, 9] },   // flag: once two different weights have been on the pans; open: each box's clue at the sleigh (its 열기 under a pan)
       enter:{ key:'which-box-star', en:'Which box has the Christmas star in it?', ko:'어떤 상자에 크리스마스 별이 들어 있을까?' },   // said the first time it opens
-      clues:[0, 1, 2, 3, 4].map(n => ({ label:'Box', weigh:n })).concat([{ label:'Left plate', plate:0 }, { label:'Right plate', plate:1 }]),
+      // 열기 under a pan with a box on it (user request 2026-11-16: the box can be chosen here too): back at the sleigh, that
+      // box is opened as if tapped there (weighArt draws the buttons, the spots over them reach the tilted pans)
+      clues:[0, 1, 2, 3, 4].map(n => ({ label:'Box', weigh:n })).concat([{ label:'Left plate', plate:0 }, { label:'Right plate', plate:1 },
+        { label:'Open', openPlate:0 }, { label:'Open', openPlate:1 }]),
       spots:[0, 1, 2, 3, 4].map(n => ({ clue:n, box:n, x:(688 + (n - 2) * 76 - 33) / 13.76, y:73, w:4.8, h:8.5 }))
-        .concat([{ clue:5, plate:0, x:37.5, y:44, w:9.5, h:19 }, { clue:6, plate:1, x:53, y:44, w:9.5, h:19 }]) },
+        .concat([{ clue:5, plate:0, x:37.5, y:44, w:9.5, h:19 }, { clue:6, plate:1, x:53, y:44, w:9.5, h:19 },
+          { clue:7, plate:0, x:39, y:61, w:6.5, h:8 }, { clue:8, plate:1, x:54.5, y:61, w:6.5, h:8 }]) },
     // outside the storeroom's back door (corner.jpg): the marks by the wooden post and the ones toward the Tree Square,
     // matched with the sleigh's photo by the same post (deduce step 3)
     { id:'backyard', inspect:true, back:'storeroom', label:'Storeroom', artWidth:1200, artHeight:896, snow:true,
@@ -3331,11 +3340,14 @@ const CHRISTMAS_CASE = {
       clues:[ { label:"Tess's gift list", en:"It's Tess's list for the delivery.", ko:'테스의 배송 목록이야.' } ],
       spots:[ { clue:0, x:37.6, y:16.1, w:24.7, h:64.7, photo:{ x:335, y:107, w:707, h:530 } } ] },
     // the gold star's back fits the close look's visible width (~400 around x 688, user request), as the gift list does
-    { id:'starback', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768,
+    // front first, 뒤집기 turns it over to its back (flip, as Tess's star; user request 2026-11-16: the player checks the back)
+    { id:'starback', inspect:true, back:'sleigh', flip:'뒤집기', label:'Delivery Sleigh', artWidth:1376, artHeight:768,
       // give: photographed, the star goes into 소지품 (user request 2026-11-16: the star is taken once it is checked);
       // flag: the box it came out of is open (the previews that start with the star carried)
-      clues:[ { label:'Back of the star', give:'star', flag:'box-open', en:'A small leaf pattern on the back of the star.', ko:'별 뒷면에 작은 잎사귀 모양이 있어.' } ],
-      spots:[ { clue:0, x:36.2, y:25, w:27.6, h:47, photo:{ x:408, y:162, w:560, h:420 } } ] }
+      clues:[ { label:'Back of the star', give:'star', flag:'box-open', en:'A small leaf pattern on the back of the star.', ko:'별 뒷면에 작은 잎사귀 모양이 있어.' },
+        { label:'Front of the star', prop:true, en:'A heavy gold star.', ko:'무거운 금별이야.' } ],   // the 소지품 line (detective-item-star, copied)
+      spots:[ { clue:0, x:36.2, y:25, w:27.6, h:47, open:true, photo:{ x:408, y:162, w:560, h:420 } },
+        { clue:1, x:36.2, y:25, w:27.6, h:47, folded:true } ] }
   ],
   // design 6절: every talk, the photos before the box is opened, the look at Tess's table (ready; the case is only
   // looked at, seen); needed: those that must be in the evidence notebook
@@ -3382,7 +3394,7 @@ const CHRISTMAS_CASE = {
     // only once Nico's n4 sent the detective back (review 2026-11-16: the star can be photographed before the sleigh is known)
     { when:['toystar-0', 'nico:n4'], line:{ key:'back-to-sleigh-thought', en:'I should go back to the sleigh.', ko:'썰매로 돌아가 봐야겠어.' } },
     { when:['!table-seen'], line:{ key:'compare-thought', en:'I should compare the notes and the photos.', ko:'기록과 사진을 비교해 봐야겠어.' } },
-    { when:['sleigh-10'], line:{ key:'box-contents', en:"Nico said this was a gift. There's a star inside.", ko:'니코는 선물이라고 했지. 안에는 별이 있어.' } },   // a thought: of Nico, not to him (review 2026-11-16)
+    { off:true, when:['sleigh-10'], line:{ key:'box-contents', en:"Nico said this was a gift. There's a star inside.", ko:'니코는 선물이라고 했지. 안에는 별이 있어.' } },   // a thought: of Nico, not to him (review 2026-11-16)
     // last, so saved thought numbers keep their place; once the officer says to open a box and the scale is not yet taken (review 3: nothing led back to it; the scale
     // stays optional, design 상자 고르기): the storeroom line again, where to go only
     { when:['!open-order'], unless:['!took:scale', '!box-open'], line:{ key:'storeroom-thought', en:'I should check the storeroom.', ko:'창고를 확인해야겠어.' } },
@@ -5885,13 +5897,25 @@ function placeLines(lines, onDone, n = 0){
   const line = lines[n]; if(!line) return onDone?.();
   renderSay(detLine(line));
   const say = $('#sayBubble'), think = document.createElement('div');
-  think.className = say.className + ' think-place'; think.setAttribute('role', 'status'); think.innerHTML = say.innerHTML;
+  think.className = say.className + ' think-place' + (placeObj()?.balance ? ' top' : ''); think.setAttribute('role', 'status'); think.innerHTML = say.innerHTML;
   renderSay(null);
-  $('.art-stage').appendChild(think);
+  const stage = $('.art-stage');
+  stage.appendChild(think);
+  const next = () => { stage.removeEventListener('click', outside, true); think.remove(); placeLines(lines, onDone, n + 1); };
+  // a tap anywhere else on the place takes the line away and goes on, even while it is still being said (user requests
+  // 2026-11-16: the scale's first line stayed over the boxes), and does nothing else (no box, door or closing of a
+  // close look under it)
+  function outside(e){
+    if(!think.isConnected){ stage.removeEventListener('click', outside, true); return; }
+    if(think.contains(e.target)) return;
+    e.stopPropagation(); e.preventDefault();
+    stopVoice(); next();
+  }
+  stage.addEventListener('click', outside, true);
   think.addEventListener('click', e => {
     const ko = e.target.closest('[data-say-ko]');
     if(ko){ const text = think.querySelector('.say-ko'); text.hidden = !text.hidden; ko.setAttribute('aria-pressed', !text.hidden); return; }
-    if(!e.target.closest('button') && think.classList.contains('wait-tap')){ think.remove(); placeLines(lines, onDone, n + 1); }
+    if(!e.target.closest('button') && think.classList.contains('wait-tap')) next();
   });
   detectiveSay(line.key, () => { if(think.isConnected) think.classList.add('wait-tap'); }, null, line.en);
 }
@@ -7639,7 +7663,9 @@ const xmasList = () => `<defs><clipPath id="giftPaper"><rect x="86" y="198" widt
 /* the scale in use (the Christmas star case's close look 'weigh', user pick: over the blurred sleigh, the scale low and
    close to the row of five boxes): the one picture of the scale cut into its beam's two arms, its two pans with their
    strings and the post with its foot; the beam turns about the post's top (heavier side down, level when the same) and
-   each pan hangs from its arm's end. A box tapped in the row goes onto a pan, tapped on a pan it comes back. */
+   each pan hangs from its arm's end. Each arm ends just under the post's outline (412 / 448) and the post keeps only its
+   own column (409–452, the knob above wider), so a tipped beam meets the post with no cut edge or level stub (user report
+   2026-11-16). A box tapped in the row goes onto a pan, tapped on a pan it comes back. */
 const WEIGH = { k:.42, tx:507, ty:254, pivot:[432, 136], hooks:[[178, 152], [686, 152]], tilt:8, box:[66, 61], rowY:562, gap:76 };
 let weighFrom = 0;   // the beam's last angle, so it swings from there
 function weighArt(){
@@ -7648,26 +7674,102 @@ function weighArt(){
   const [px, py] = W.pivot, hang = (deg, [x, y]) => { const r = deg * Math.PI / 180;
     return [px + (x - px) * Math.cos(r) - (y - py) * Math.sin(r) - x, py + (x - px) * Math.sin(r) + (y - py) * Math.cos(r) - y]; };
   const img = `<image href="${XM}scale.png" width="857" height="693"/>`, clip = (id, d) => `<clipPath id="${id}"><path d="${d}"/></clipPath>`;
-  const boxImg = (x, y, w, h) => `<image href="${XM}box-closed.png" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
+  // data-box: which box it is, so a box that changes place can be shown moving there (weighMoves)
+  const boxImg = (x, y, w, h, id) => `<image href="${XM}box-closed.png" x="${x}" y="${y}" width="${w}" height="${h}"${id === undefined ? '' : ` data-box="${id}"`}/>`;
+  // 열기 under a pan with a box (the paper buttons' cream and brown)
+  const openBtn = x => `<g class="weigh-open"><rect x="${x - 85}" y="540" width="170" height="64" rx="32" fill="#FBF3E2" stroke="#4A3426" stroke-width="5"/>` +
+    `<text x="${x}" y="584" text-anchor="middle" font-size="38" font-weight="700" fill="#4A3426">열기</text></g>`;
+  // a box already opened (its clue's flag at the sleigh: the star's box) lies open on its pan, with no 열기
+  const bal = placeOf('weigh').balance, back = placeOf(placeOf('weigh').back);
+  const opened = box => { const c = back.clues[bal.open?.[box]]; return !!(c?.flag && S.flags.has(c.flag)); };
+  const openImg = x => `<image href="${XM}${S.flags.has('took:star') ? 'box-empty' : 'box-star'}.png" x="${x - 150}" y="296" width="290" height="189"/>`;
   const pan = n => { const [dx, dy] = hang(a, W.hooks[n]), [fx, fy] = hang(from, W.hooks[n]);
     return `<g class="weigh-pan" style="--fx:${fx}px;--fy:${fy}px;transform:translate(${dx}px,${dy}px)"><g clip-path="url(#wPan${n})">${img}</g>` +
-      (plates[n] === null ? '' : boxImg(W.hooks[n][0] - 92, 300, 184, 170)) + '</g>'; };
-  return `<defs>${clip('wArmL', 'M120 100H412V154H120Z')}${clip('wArmR', 'M452 100H740V154H452Z')}${W.hooks.map(([x], n) => clip(`wPan${n}`, `M${x - 12} 157H${x + 12}L${x + 165} 400V525H${x - 165}V400Z`)).join('')}` +
-    `${clip('wPost', 'M396 15H470V555H585V693H280V555H396Z')}</defs>` +
+      (plates[n] === null ? '' : opened(plates[n]) ? openImg(W.hooks[n][0]) : boxImg(W.hooks[n][0] - 92, 300, 184, 172, plates[n]) + openBtn(W.hooks[n][0])) + '</g>'; };
+  return `<defs>${clip('wArmL', 'M120 100H412V154H120Z')}${clip('wArmR', 'M448 100H740V154H448Z')}${W.hooks.map(([x], n) => clip(`wPan${n}`, `M${x - 12} 157H${x + 12}L${x + 165} 400V525H${x - 165}V400Z`)).join('')}` +
+    `${clip('wPost', 'M405 15H456V118H452V555H585V693H280V555H409V118H405Z')}</defs>` +
     `<g transform="translate(${W.tx} ${W.ty}) scale(${W.k})"><g class="weigh-beam" style="--from:${from}deg;transform:rotate(${a}deg);transform-origin:${px}px ${py}px">` +
     `<g clip-path="url(#wArmL)">${img}</g><g clip-path="url(#wArmR)">${img}</g></g>${pan(0)}${pan(1)}<g clip-path="url(#wPost)">${img}</g></g>` +
-    ws.map((_, i) => plates.includes(i) ? '' : boxImg(688 + (i - 2) * W.gap - W.box[0] / 2, W.rowY, ...W.box)).join('');
+    ws.map((_, i) => plates.includes(i) ? '' : boxImg(688 + (i - 2) * W.gap - W.box[0] / 2, W.rowY, ...W.box, i)).join('');
 }
 // a tap in the close look: a box in the row onto the first empty pan (both full: it takes the right pan's place), a box
 // on a pan back to the row; the result is the picture only (the detective says nothing, design: the player concludes)
 function weighTap(clue){
+  if(clue.openPlate !== undefined) return openFromScale(plates[clue.openPlate]);
   if(clue.plate !== undefined) plates[clue.plate] = null;
   else { const n = plates[0] === null ? 0 : 1; plates[n] = clue.weigh; }
   // the scale tipped (two different weights on it): what the sleigh's boxes wait for (balance.flag)
   const bal = placeObj().balance, ws = bal.weights;
   if(bal.flag && plates.every(n => n !== null) && ws[plates[0]] !== ws[plates[1]] && !S.flags.has(bal.flag)){ S.flags.add(bal.flag); saveGame(); }
   const place = $('#wordPlace'); place.currentTime = 0; place.play().catch(() => {});
+  const before = weighBoxes();
   renderScene();
+  weighMoves(before);
+}
+// Each box that changed place glides from where it was (user request 2026-11-16: with both pans full, which box went up
+// and which came down was not clear): where each box is on screen before the tap, then each one drawn somewhere else
+// starts there and moves to its new place (a pan box is bigger, so it grows or shrinks on the way)
+function weighBoxes(){
+  const at = {};
+  $('#art').querySelectorAll('[data-box]').forEach(el => { const r = el.getBoundingClientRect(); at[el.dataset.box] = { x:r.left + r.width / 2, y:r.top + r.height / 2, w:r.width }; });
+  return at;
+}
+function weighMoves(before){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  $('#art').querySelectorAll('[data-box]').forEach(el => {
+    const was = before[el.dataset.box], r = el.getBoundingClientRect(), m = el.getScreenCTM();
+    if(!was || !m) return;
+    const dx = was.x - (r.left + r.width / 2), dy = was.y - (r.top + r.height / 2);
+    if(Math.hypot(dx, dy) < 3) return;
+    Object.assign(el.style, { transformBox:'fill-box', transformOrigin:'center', transition:'none',
+      transform:`translate(${dx / m.a}px, ${dy / m.d}px) scale(${was.w / r.width})` });
+    el.getBoundingClientRect();
+    Object.assign(el.style, { transition:'transform .55s cubic-bezier(.3, 1.15, .5, 1)', transform:'' });
+  });
+}
+// 열기 under a pan: back at the place the scale is used over, that box is opened as a tap there does (its own lines, the
+// wait before anything is weighed, the star's box)
+function openFromScale(box){
+  const pl = placeObj(), i = pl.balance.open?.[box];
+  if(box === null || i === undefined) return;
+  // opened from the scale, the scale has been used: the boxes' wait (until weighed) does not hold it back
+  if(pl.balance.flag && !S.flags.has(pl.balance.flag)){ S.flags.add(pl.balance.flag); saveGame(); }
+  // a box that only shows what is in it (the mittens) opens on its pan and the scale stays open (user request 2026-11-16:
+  // after a wrong box the scale was gone, to be set up again); the detective's line under the 열기
+  const clue = placeOf(pl.back).clues[i];
+  if(clue.peek){
+    const el = $(`#art [data-box="${box}"]`), n = plates.indexOf(box), x = WEIGH.hooks[n][0];
+    peekOpen(el, { src:'box-mittens.png', x:x - 150, y:296, w:290, h:189 }, { src:'box-closed.png', x:x - 92, y:300, w:184, h:172 });
+    return sayProp(clue, $(`#art .spot[data-clue="${pl.clues.findIndex(c => c.openPlate === n)}"]`));
+  }
+  // the box that holds something to take (the star's): it opens on its pan as well, with its line, and stays open (weighArt);
+  // once the line is tapped away the sleigh shows again, where it is looked into (user request 2026-11-16: the opening
+  // seen on the scale)
+  if(clue.take && clue.flag && S.flags.has(clue.flag)) return;   // already open
+  if(clue.take) return takeFromPlace(placeOf(pl.back), i);   // then its next (the star's back) as at the sleigh
+  setNotes(false); inspectFrom = null; enterPlace(pl.back);
+  setTimeout(() => { const el = $(`#art .spot[data-clue="${i}"]`); if(el && S.place === pl.back){ el.classList.add('found'); examine(i, el); } }, 350);
+}
+// the sleigh's five boxes as drawn in sleigh.jpg (scripts/make-sleigh-box-slots.py): each one's left edge, bottom and width,
+// the piece of the empty sleigh that takes its place (gap, less the boxes in front of it), the box cut out (cut: those
+// that stand in front of another), and which stand in front of it; the third holds the star. Opened, a box is taken away
+// and the open box (one picture for all: box-mittens / box-star / box-empty, its lid leaning out to the left) drawn on
+// the same bottom, then what stands in front again: the boxes in front, the left wall and the front rail (front).
+const XMAS_BOXES = { star:2, front:[410, 486, 701, 235], at:[[434, 545, 146], [530, 600, 148], [640, 670, 150], [765, 622, 148], [881, 640, 150]],
+  gap:[[425, 386, 163, 168], [521, 430, 165, 178], [631, 497, 162, 182], [757, 463, 162, 175], [906, 488, 142, 120]],
+  cut:[null, [524, 433, 159, 172], [634, 500, 156, 176], [760, 466, 156, 169], null], inFront:[[1], [2], [], [2], [3]] };
+const xmasImg = (src, [x, y, w, h]) => `<image href="${XM}${src}" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
+function xmasOpen(k, look){
+  const [x, b, w] = XMAS_BOXES.at[k], ow = Math.round(w * 1.835), oh = Math.round(ow * 696 / 1069);
+  return `<g data-open="${k}">` + xmasImg(`box-gap-${k}.png`, XMAS_BOXES.gap[k]) + xmasImg(`box-${look}.png`, [x - Math.round(w * .42), b + 12 - oh, ow, oh]) +
+    XMAS_BOXES.inFront[k].map(j => xmasImg(`box-cut-${j}.png`, XMAS_BOXES.cut[j])).join('') + xmasImg('sleigh-front.png', XMAS_BOXES.front) + '</g>';
+}
+// a box opened for a moment where it is drawn (a mittens box: on the sleigh its slot, on the scale's pan the box), then
+// shut again
+function peekOpen(el, geom, back){
+  if(!el) return;
+  const set = g => { el.setAttribute('href', XM + g.src); ['x', 'y', 'width', 'height'].forEach((a, n) => el.setAttribute(a, [g.x, g.y, g.w, g.h][n])); };
+  set(geom); setTimeout(() => { if(el.isConnected) set(back); }, 1800);
 }
 const ART = {
   /* the Christmas star case (assets/places/christmas/, scripts/cut-christmas-assets.py). The square at night is the day
@@ -7678,15 +7780,19 @@ const ART = {
   storeroom: () => `<image href="${XM}${S.flags.has('took:scale') ? 'storeroom-noscale' : 'storeroom'}.jpg" width="1376" height="768"/>`,
   tent: () => `<image href="${XM}tent.jpg" width="1376" height="768"/>` +
     (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + xmasList(),
-  // the opened box over the sleigh without its closed box (user report 2026-11-16: the closed one showed under it), the
-  // star in it until it is taken out (scripts/fix-sleigh-open-box.py)
-  sleigh: () => `<image href="${XM}${S.flags.has('box-open') ? 'sleigh-nobox' : 'sleigh'}.jpg" width="1376" height="1028"/>` +
-    (S.flags.has('box-open') ? `<image href="${XM}${S.flags.has('took:star') ? 'box-empty' : 'box-star'}.png" x="574" y="500" width="279" height="182"/>` : ''),
-  weigh: () => xmasLook('sleigh', weighArt()),
+  // the sleigh as drawn, its own boxes; the opened one (the third) taken away and drawn open, the star in it until it is
+  // taken out (user requests 2026-11-16: no closed box under it, the boxes as natural as in the picture)
+  sleigh: () => `<image href="${XM}sleigh.jpg" width="1376" height="1028"/>` +
+    (S.flags.has('box-open') ? xmasOpen(XMAS_BOXES.star, S.flags.has('took:star') ? 'empty' : 'star') : ''),
+  // over a plain Christmas pattern, not the blurred sleigh (user request 2026-11-16; weigh-pattern.jpg repeats seamlessly,
+  // scripts/make-weigh-pattern.py), a soft light behind the scale and the boxes
+  weigh: () => `<defs><pattern id="weighPattern" patternUnits="userSpaceOnUse" width="420" height="420"><image href="${XM}weigh-pattern.jpg" width="420" height="420"/></pattern>` +
+    `<radialGradient id="weighGlow" cx="50%" cy="58%" r="45%"><stop offset="0" stop-color="#FBF3E2" stop-opacity=".22"/><stop offset="1" stop-color="#FBF3E2" stop-opacity="0"/></radialGradient></defs>` +
+    `<rect x="-400" y="-400" width="2176" height="1568" fill="url(#weighPattern)"/><rect width="1376" height="768" fill="url(#weighGlow)"/>${weighArt()}`,
   backyard: () => `<image href="${XM}corner.jpg" width="1200" height="896"/>`,
   // front and back the same glitter picture (a toy has no pattern on either side), the back mirrored so the turn shows
   toystar: () => xmasLook('tent', `<image href="${XM}toy-star-back.png" x="498" y="190" width="380" height="365"${S.unfolded ? ' transform="translate(1376 0) scale(-1 1)"' : ''}/>`),
-  starback: () => xmasLook('sleigh', `<image href="${XM}star-back.png" x="498" y="192" width="380" height="361"/>`),
+  starback: () => xmasLook('sleigh', S.unfolded ? `<image href="${XM}star-back.png" x="498" y="192" width="380" height="361"/>` : `<image href="${XM}star-front.png" x="498" y="192" width="380" height="359"/>`),
   // the papers inside the phone's frame (user request: they filled it, cut at the sides and under the tabs): the close
   // look shows about 400 wide around x 688, between the top buttons and the tabs, so 340 wide in the middle
   giftlist: () => xmasLook('tent', `<image href="${xmasListImg()}" x="518" y="124" width="340" height="497"/>`),
@@ -7979,6 +8085,9 @@ function captureEvidence(place, clueIndex){
     const give = place.clues[clueIndex].give;
     const gave = give && !S.flags.has(`took:${give}`);
     if(gave){ S.items.push(give); S.flags.add(`took:${give}`); setItemsNew(true); saveGame(); }
+    // the photo the paused questioning waits for (the star's back): it goes on at once, without the notebook opening
+    // and having to be put away (user request 2026-11-16: the box to the confession felt broken up)
+    if(scriptResumeDue()){ preview.remove(); toast(gave ? '증거를 기록하고 소지품에 넣었어요.' : '증거를 노트에 기록했어요.'); saveGame(); return setTimeout(resumeScript, 900); }
     S.view = 'evidence'; setNotes(true);
     evidenceOpen = `${place.id}-${clueIndex}`; renderDock();
     toast(gave ? '증거를 기록하고 소지품에 넣었어요.' : '증거를 노트에 기록했어요.');
@@ -8006,6 +8115,12 @@ function captureEvidence(place, clueIndex){
 // a thing opened for a moment where it is (peek, the Christmas star case's mitten boxes), then shut again
 function peekAt(p){
   const svg = $('#art svg'); if(!svg) return;
+  if(p.slot !== undefined){
+    svg.querySelectorAll(`[data-open="${p.slot}"]`).forEach(n => n.remove());
+    svg.insertAdjacentHTML('beforeend', xmasOpen(p.slot, 'mittens'));
+    const g = svg.lastElementChild; setTimeout(() => g.remove(), 1800);
+    return;
+  }
   svg.querySelectorAll('.peek').forEach(n => n.remove());
   const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
   img.setAttribute('class', 'peek'); img.setAttribute('href', (p.img.includes('/') ? '' : 'assets/places/christmas/') + p.img);
@@ -8082,6 +8197,8 @@ function takeFromPlace(pl, i){
     else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); gotItem(); }
     if(clue.flag) S.flags.add(clue.flag);
     saveGame(); renderScene(); renderSceneHead(); renderPlaces(); updateAccuse();
+    // next: a close look opened at once (the star's box: its star's back, user request 2026-11-16)
+    if(clue.next) return openInspect(clue.next, pl.id);
     checkThoughts(); if(thoughts.length) setTimeout(playThought, 2600);
   });
 }
@@ -8132,7 +8249,7 @@ const artWrap = $('#artWrap');
 let pan = null, panMoved = false;
 artWrap.addEventListener('pointerdown', e => {
   $('#swipeHint').hidden = true;
-  if(e.pointerType === 'mouse') pan = { x:e.clientX, s:artWrap.scrollLeft, moved:false };
+  if(e.pointerType === 'mouse' && !artWrap.classList.contains('fixed')) pan = { x:e.clientX, s:artWrap.scrollLeft, moved:false };
 });
 window.addEventListener('pointermove', e => {
   if(!pan) return;
@@ -8142,6 +8259,7 @@ window.addEventListener('pointermove', e => {
 });
 window.addEventListener('pointerup', () => { if(pan){ panMoved = pan.moved; pan = null; } });
 artWrap.addEventListener('wheel', e => {
+  if(artWrap.classList.contains('fixed')) return;
   if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ artWrap.scrollLeft += e.deltaY; e.preventDefault(); }
   $('#swipeHint').hidden = true;
 }, { passive:false });
@@ -8196,13 +8314,14 @@ function enterPlace(id, fromConversation = false){
   art.inert = false;
   art.removeAttribute('aria-hidden');
   art.style.transform = 'none';
+  artWrap.classList.toggle('fixed', !!placeOf(id).fixed);
   renderSceneHead(); renderScene(); updateAccuse();
   requestAnimationFrame(() => {
     if(!S.investigate || S.place !== id) return;
     // someone just met here (revealDiscoveries) is put in the middle; else where the player left the place
-    artWrap.scrollLeft = sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
+    artWrap.scrollLeft = placeOf(id).fixed ? (artWrap.scrollWidth - artWrap.clientWidth) / 2 : sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
     sceneFocus = null;
-    $('#swipeHint').hidden = artWrap.scrollWidth <= artWrap.clientWidth + 4;
+    $('#swipeHint').hidden = !!placeOf(id).fixed || artWrap.scrollWidth <= artWrap.clientWidth + 4;
     if(fromRect?.width){
       const bounds = art.getBoundingClientRect();
       animateCamera(art, `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / bounds.width})`, 'none');
@@ -9915,7 +10034,7 @@ const previewDeduced = () => {
 // [id, label] of each case's parts; a part of another case opens that case's page
 const PREVIEW_OF = {
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
-    ['questioning', '니코 심문'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
+    ['questioning', '니코 심문'], ['weigh', '저울'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
   'picnic-bag':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['handoff', '노라에게 전달'], ['handback', '로지에게 전달'], ['review', '복습']],
   'missing-violin':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
@@ -9959,6 +10078,22 @@ const PREVIEW_RUN = {
     endingRound = ENDING.confront.length; S.mood[accusedId] = 'sad';
     renderScene(placeIdOf(accusedId)); renderInterrogationGauge();
     scriptGo(at);
+  },
+  // the scale in use (user request 2026-11-16): the questioning paused at the sleigh after the officer's order to open a
+  // box, everything before it done (its flags, who joined, the gauge so far), the scale carried, its close look open
+  weigh:() => {
+    previewCase(); previewDeduced(); openSheet(null);
+    const at = ENDING.script.findIndex(item => item.scene);
+    startScript(); clearTimeout(endTimer); stopVoice();
+    ENDING.script.slice(0, at).forEach(item => {
+      if(item.flag) S.flags.add(item.flag);
+      (item.join || []).forEach(id => { S.visit[id] = { place:spk(accusedId).place, ...PACK.joinPositions[id], ...(!item.leave || item.leave.includes(id) ? { gone:['!confessed'] } : {}) }; if(!S.met.includes(id)) S.met.push(id); });
+    });
+    endingRound = ENDING.script.slice(0, at).filter(item => item.claim).length; S.mood[accusedId] = 'nervous';
+    if(!S.items.includes('scale')) S.items.push('scale');
+    S.flags.add('took:scale');
+    pauseScript(at);
+    openInspect('weigh', 'sleigh');
   },
   // what the detective carries by then (the star, the violin case): without it the hand-over's 소지품 is empty
   // the box it came out of shown open and empty as well (its flag, took:)
