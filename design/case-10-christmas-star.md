@@ -735,10 +735,6 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
   - It's a festival gift. Don't open it.
   - 축제 선물이야. 열지 마.
 
-- **ella:allow-open · 엘라 · 자동**
-  - It's for the festival. You can check it.
-  - 축제 물건이야. 확인해도 돼.
-
 - **badger:open-order · 경사 · 자동**
   - Detective, open the box.
   - 탐정, 상자를 열어 봐.
@@ -750,6 +746,10 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - **det:which-box · 탐정 · 생각**
   - They all look the same. I need a way to check them.
   - 다 똑같아 보여. 확인할 방법이 필요해.
+
+- **ella:weigh-hint · 엘라 · 자동**(저울로 이끄는 힌트, 사용자 요청 2026-11-16: 예전 "It's for the festival. You can check it." 자리를 대신함)
+  - There must be a way to check them by weight.
+  - 무게를 재서 확인할 방법이 있을 거야.
 
 - **take:scale · 행동 · 창고 구석 · 개봉 지시 뒤**
   - Take the scale.

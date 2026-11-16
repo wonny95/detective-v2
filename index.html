@@ -3560,10 +3560,11 @@ const CHRISTMAS_CASE = {
           { det:true, key:'five-boxes', en:'Something is bothering me. There are five gift boxes on the sleigh.', ko:'마음에 걸리는 게 있어. 썰매 위 선물 상자가 다섯 개야.' },
           { who:'badger', key:'reason-to-check', en:"Then we need to check what's inside.", ko:'그럼 안에 무엇이 있는지 확인해야겠네.' },
           { who:'nico', key:'refuse-open', mood:'nervous', en:"It's a festival gift. Don't open it.", ko:'축제 선물이야. 열지 마.' },
-          { who:'ella', key:'allow-open', en:"It's for the festival. You can check it.", ko:'축제 물건이야. 확인해도 돼.' },
           { who:'badger', key:'open-order', en:'Detective, open the box.', ko:'탐정, 상자를 열어 봐.' },
           { who:'nico', key:'any-box', mood:'nervous', en:"Open any box. They're just mittens!", ko:'아무거나 열어 봐. 다 장갑이야!' },
-          { det:true, key:'which-box', en:'They all look the same. I need a way to check them.', ko:'다 똑같아 보여. 확인할 방법이 필요해.' }
+          { det:true, key:'which-box', en:'They all look the same. I need a way to check them.', ko:'다 똑같아 보여. 확인할 방법이 필요해.' },
+          // Ella's hint toward the scale, in place of her "You can check it." (user request 2026-11-16)
+          { who:'ella', key:'weigh-hint', en:'There must be a way to check them by weight.', ko:'무게를 재서 확인할 방법이 있을 거야.' }
         ] },
       // the questioning waits at the sleigh until the star's back is photographed
       { scene:'sleigh', until:['starback-0'] },
@@ -3612,7 +3613,7 @@ CHRISTMAS_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take && c
 CHRISTMAS_CASE.places.find(pl => pl.id === 'sleigh').clues.forEach(c => { if(c.label === 'Box') c.wait = BOX_WAIT; });
 Object.entries(CHRISTMAS_CASE.items).forEach(([id, it]) => { it.audio = `audio/christmas/detective-item-${id}.mp3`; });
 Object.entries({ badger:['hello', 'b0', 'check-in', 'suspicious', 'reason-to-check', 'open-order', 'take'],
-  ella:['hello', 'e0', 'e1', 'e2', 'e3', 'check-supplies', 'check-in', 'allow-open', 'confirm-owner', 'thanks', 'lighting-invite', 'countdown', 'merry'],
+  ella:['hello', 'e0', 'e1', 'e2', 'e3', 'check-supplies', 'check-in', 'weigh-hint', 'confirm-owner', 'thanks', 'lighting-invite', 'countdown', 'merry'],
   holly:['h1', 'h2', 'h3', 'h4', 'hello', 'ready'],
   mae:['hello', 'm0', 'm1', 'm3', 'm4', 'ready', 'star'],
   tess:['hello', 'ready', 'star', 'storeroom', 't5', 't1', 't3'],

@@ -13,7 +13,16 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-16 19:20 · Claude · (이 커밋) 저울 화면: 크리스마스 무늬 배경, 좌우로 밀리지 않음, 기운 팔과 기둥 이음새
+## 2026-11-16 19:25 · Claude · (이 커밋) 엘라의 개봉 허락 대신 저울 힌트
+- 사용자 요청: 상자를 열어 봐도 된다는 엘라의 말 대신, 무게를 재서 확인할 방법이 있다는 힌트를 엘라가 줌.
+  - 뺀 줄: `ella:allow-open` "It's for the festival. You can check it."(녹음 `ella-allow-open.mp3`는 사용자 승인으로 휴지통에 보냄).
+  - 새 줄: 탐정 "They all look the same. I need a way to check them." 바로 뒤에 엘라 `weigh-hint` "There must be a way to check them by weight." / "무게를 재서 확인할 방법이 있을 거야."(Higgsfield MiniMax Petra, 감정 없음, job `6fb33b4e-8066-46bc-8258-2bcf7f4a07de`, `audio/christmas/ella-weigh-hint.mp3`).
+- 설계서 수정: md·html 장면 7 대본에서 allow-open을 빼고 which-box 뒤에 ella:weigh-hint.
+- 크레딧: 녹음 1줄(아주 적음).
+- 확인: 구문 검사 통과, 녹음 목록 215줄 빠진 것 없음. 못 한 것: 게임에서 이 장면까지 진행해 듣기(심문 중간이라 미리보기로 바로 가지 못함).
+- **다음**: 사용자 지시 대기.
+
+## 2026-11-16 19:20 · Claude · 9df6d00 저울 화면: 크리스마스 무늬 배경, 좌우로 밀리지 않음, 기운 팔과 기둥 이음새
 - 사용자 요청: 저울 화면을 좌우로 밀어 둘러보는 화면으로 두지 말고, 흐린 썰매 대신 크리스마스 무늬 배경. 사용자 선택 "손그림 무늬 한 장을 반복", 저울·상자 색과 겹치지 않고 단순하게.
   - `weigh-pattern.jpg`: 짙은 소나무색 바탕에 크림색 눈송이·작은 별, 연두 호랑가시잎(Higgsfield 원본 `weigh-pattern-higgsfield-original.png`, `scripts/make-weigh-pattern.py`로 이음새 없이 이어지게). `ART.weigh`가 이 무늬를 SVG pattern으로 깔고 저울·상자 뒤에 은은한 밝은 빛.
   - 엔진: 장소에 `fixed:true`면 가운데에 고정되어 좌우로 밀리지 않고 "옆으로 밀어서 둘러보기" 안내도 뜨지 않음(`.art-wrap.fixed`, 모든 사건에서 쓸 수 있음). 저울 장소 `weigh`에 적용.
