@@ -847,6 +847,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .snow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none}
 .snow.on{display:block}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
+/* a place with fixed:true stays put in the middle (no swiping round it) */
+.art-wrap.fixed{overflow-x:hidden}
 .art-wrap::-webkit-scrollbar{display:none}
 .art{position:relative;height:100%;aspect-ratio:3/2;transform-origin:0 0;user-select:none;-webkit-user-select:none}
 .art > svg{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -3295,7 +3297,7 @@ const CHRISTMAS_CASE = {
       ] },
     // never on the map: the toy star (from the tent), the real star's back (from the open box)
     // the scale in use over the sleigh (WEIGH): the five boxes in the sleigh's order (the third holds the star), the pans
-    { id:'weigh', inspect:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768, balance:{ weights:[1, 1, 3, 1, 1], flag:'weighed', open:[5, 6, 7, 8, 9] },   // flag: once two different weights have been on the pans; open: each box's clue at the sleigh (its 열기 under a pan)
+    { id:'weigh', inspect:true, fixed:true, back:'sleigh', label:'Delivery Sleigh', artWidth:1376, artHeight:768, balance:{ weights:[1, 1, 3, 1, 1], flag:'weighed', open:[5, 6, 7, 8, 9] },   // flag: once two different weights have been on the pans; open: each box's clue at the sleigh (its 열기 under a pan)
       enter:{ key:'which-box-star', en:'Which box has the Christmas star in it?', ko:'어떤 상자에 크리스마스 별이 들어 있을까?' },   // said the first time it opens
       // 열기 under a pan with a box on it (user request 2026-11-16: the box can be chosen here too): back at the sleigh, that
       // box is opened as if tapped there (weighArt draws the buttons, the spots over them reach the tilted pans)
@@ -7661,7 +7663,9 @@ const xmasList = () => `<defs><clipPath id="giftPaper"><rect x="86" y="198" widt
 /* the scale in use (the Christmas star case's close look 'weigh', user pick: over the blurred sleigh, the scale low and
    close to the row of five boxes): the one picture of the scale cut into its beam's two arms, its two pans with their
    strings and the post with its foot; the beam turns about the post's top (heavier side down, level when the same) and
-   each pan hangs from its arm's end. A box tapped in the row goes onto a pan, tapped on a pan it comes back. */
+   each pan hangs from its arm's end. Each arm ends just under the post's outline (412 / 448) and the post keeps only its
+   own column (409–452, the knob above wider), so a tipped beam meets the post with no cut edge or level stub (user report
+   2026-11-16). A box tapped in the row goes onto a pan, tapped on a pan it comes back. */
 const WEIGH = { k:.42, tx:507, ty:254, pivot:[432, 136], hooks:[[178, 152], [686, 152]], tilt:8, box:[66, 61], rowY:562, gap:76 };
 let weighFrom = 0;   // the beam's last angle, so it swings from there
 function weighArt(){
@@ -7682,8 +7686,8 @@ function weighArt(){
   const pan = n => { const [dx, dy] = hang(a, W.hooks[n]), [fx, fy] = hang(from, W.hooks[n]);
     return `<g class="weigh-pan" style="--fx:${fx}px;--fy:${fy}px;transform:translate(${dx}px,${dy}px)"><g clip-path="url(#wPan${n})">${img}</g>` +
       (plates[n] === null ? '' : opened(plates[n]) ? openImg(W.hooks[n][0]) : boxImg(W.hooks[n][0] - 92, 300, 184, 172, plates[n]) + openBtn(W.hooks[n][0])) + '</g>'; };
-  return `<defs>${clip('wArmL', 'M120 100H412V154H120Z')}${clip('wArmR', 'M452 100H740V154H452Z')}${W.hooks.map(([x], n) => clip(`wPan${n}`, `M${x - 12} 157H${x + 12}L${x + 165} 400V525H${x - 165}V400Z`)).join('')}` +
-    `${clip('wPost', 'M396 15H470V555H585V693H280V555H396Z')}</defs>` +
+  return `<defs>${clip('wArmL', 'M120 100H412V154H120Z')}${clip('wArmR', 'M448 100H740V154H448Z')}${W.hooks.map(([x], n) => clip(`wPan${n}`, `M${x - 12} 157H${x + 12}L${x + 165} 400V525H${x - 165}V400Z`)).join('')}` +
+    `${clip('wPost', 'M405 15H456V118H452V555H585V693H280V555H409V118H405Z')}</defs>` +
     `<g transform="translate(${W.tx} ${W.ty}) scale(${W.k})"><g class="weigh-beam" style="--from:${from}deg;transform:rotate(${a}deg);transform-origin:${px}px ${py}px">` +
     `<g clip-path="url(#wArmL)">${img}</g><g clip-path="url(#wArmR)">${img}</g></g>${pan(0)}${pan(1)}<g clip-path="url(#wPost)">${img}</g></g>` +
     ws.map((_, i) => plates.includes(i) ? '' : boxImg(688 + (i - 2) * W.gap - W.box[0] / 2, W.rowY, ...W.box, i)).join('');
@@ -7780,7 +7784,11 @@ const ART = {
   // taken out (user requests 2026-11-16: no closed box under it, the boxes as natural as in the picture)
   sleigh: () => `<image href="${XM}sleigh.jpg" width="1376" height="1028"/>` +
     (S.flags.has('box-open') ? xmasOpen(XMAS_BOXES.star, S.flags.has('took:star') ? 'empty' : 'star') : ''),
-  weigh: () => xmasLook('sleigh', weighArt()),
+  // over a plain Christmas pattern, not the blurred sleigh (user request 2026-11-16; weigh-pattern.jpg repeats seamlessly,
+  // scripts/make-weigh-pattern.py), a soft light behind the scale and the boxes
+  weigh: () => `<defs><pattern id="weighPattern" patternUnits="userSpaceOnUse" width="420" height="420"><image href="${XM}weigh-pattern.jpg" width="420" height="420"/></pattern>` +
+    `<radialGradient id="weighGlow" cx="50%" cy="58%" r="45%"><stop offset="0" stop-color="#FBF3E2" stop-opacity=".22"/><stop offset="1" stop-color="#FBF3E2" stop-opacity="0"/></radialGradient></defs>` +
+    `<rect x="-400" y="-400" width="2176" height="1568" fill="url(#weighPattern)"/><rect width="1376" height="768" fill="url(#weighGlow)"/>${weighArt()}`,
   backyard: () => `<image href="${XM}corner.jpg" width="1200" height="896"/>`,
   // front and back the same glitter picture (a toy has no pattern on either side), the back mirrored so the turn shows
   toystar: () => xmasLook('tent', `<image href="${XM}toy-star-back.png" x="498" y="190" width="380" height="365"${S.unfolded ? ' transform="translate(1376 0) scale(-1 1)"' : ''}/>`),
@@ -8241,7 +8249,7 @@ const artWrap = $('#artWrap');
 let pan = null, panMoved = false;
 artWrap.addEventListener('pointerdown', e => {
   $('#swipeHint').hidden = true;
-  if(e.pointerType === 'mouse') pan = { x:e.clientX, s:artWrap.scrollLeft, moved:false };
+  if(e.pointerType === 'mouse' && !artWrap.classList.contains('fixed')) pan = { x:e.clientX, s:artWrap.scrollLeft, moved:false };
 });
 window.addEventListener('pointermove', e => {
   if(!pan) return;
@@ -8251,6 +8259,7 @@ window.addEventListener('pointermove', e => {
 });
 window.addEventListener('pointerup', () => { if(pan){ panMoved = pan.moved; pan = null; } });
 artWrap.addEventListener('wheel', e => {
+  if(artWrap.classList.contains('fixed')) return;
   if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ artWrap.scrollLeft += e.deltaY; e.preventDefault(); }
   $('#swipeHint').hidden = true;
 }, { passive:false });
@@ -8305,13 +8314,14 @@ function enterPlace(id, fromConversation = false){
   art.inert = false;
   art.removeAttribute('aria-hidden');
   art.style.transform = 'none';
+  artWrap.classList.toggle('fixed', !!placeOf(id).fixed);
   renderSceneHead(); renderScene(); updateAccuse();
   requestAnimationFrame(() => {
     if(!S.investigate || S.place !== id) return;
     // someone just met here (revealDiscoveries) is put in the middle; else where the player left the place
-    artWrap.scrollLeft = sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
+    artWrap.scrollLeft = placeOf(id).fixed ? (artWrap.scrollWidth - artWrap.clientWidth) / 2 : sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
     sceneFocus = null;
-    $('#swipeHint').hidden = artWrap.scrollWidth <= artWrap.clientWidth + 4;
+    $('#swipeHint').hidden = !!placeOf(id).fixed || artWrap.scrollWidth <= artWrap.clientWidth + 4;
     if(fromRect?.width){
       const bounds = art.getBoundingClientRect();
       animateCamera(art, `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / bounds.width})`, 'none');
