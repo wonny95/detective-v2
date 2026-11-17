@@ -70,6 +70,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .art-wrap .art{height:calc(100% * var(--art-share, 1))}
 .stage-area .spot,.stage-area .scene-npc span{display:none}
 .stage-area .scene-npc{pointer-events:none}
+.stage-area .scene-npc.edge-cut{visibility:hidden}
 .ask-panel{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;flex-direction:column;gap:8px;padding:4px 16px 16px}
 .ask-panel:empty{display:none}
 .ask-top{display:flex;justify-content:flex-end}
@@ -128,7 +129,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.bag-away .rosiebag{opacity:0}
 /* handing a bag over (picnic case): the bag itself, not a photo of it (user request), from below (the detective's hands)
    up to the person and smaller, a little wobble as they take it; one handed back comes down from them and grows */
-.handed{position:absolute;left:50%;bottom:32%;z-index:7;width:44%;max-width:210px;pointer-events:none;filter:drop-shadow(0 8px 8px rgba(40,30,24,.35))}
+.handed{position:absolute;left:50%;bottom:17%;z-index:7;width:auto;max-width:44%;max-height:27%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 8px rgba(40,30,24,.35))}
 .handed.give{animation:bag-give 1.3s cubic-bezier(.25,.7,.3,1) forwards}
 .handed.take{animation:bag-take 1.3s ease-in forwards}
 @keyframes bag-give{0%{opacity:0;transform:translate(-50%,120%) scale(1.25) rotate(-8deg)}20%{opacity:1}62%{transform:translate(-50%,0) scale(.8) rotate(4deg)}74%{transform:translate(-50%,0) scale(.8) rotate(-3deg)}84%{opacity:1;transform:translate(-50%,0) scale(.8) rotate(0)}100%{opacity:0;transform:translate(-50%,4%) scale(.72)}}
@@ -150,6 +151,8 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .bubble.say.det{top:auto;bottom:calc(20px + env(safe-area-inset-bottom, 0px));max-height:calc(100% - 180px);padding-left:76px;--bubble-paper:#FFF0BF;transform-origin:50% 100%}
 .bubble.say.det::after{display:none}
 /* over the scale, the detective's line stands at the top, clear of the row of boxes (user request 2026-11-16) */
+.art-stage:has(.think-place) #accuseFoot{visibility:hidden}
+#app:has(#drawer.open) #sayBubble.det{visibility:hidden}
 .bubble.say.det.think-place.top{top:58px;bottom:auto;transform-origin:50% 0}
 /* a detective line in a conversation waits for a tap on the screen (tapWait): a small blinking mark under the face */
 .bubble.say.det.wait-tap::after{display:block;left:40px;bottom:24px;width:0;height:0;transform:none;background:none;border:7px solid transparent;border-bottom:0;border-top:9px solid #A0703A;animation:tap-cue 1s ease-in-out infinite}
@@ -222,6 +225,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .drawer .empty-note{padding:0 16px}
 /* photos or statements (user pick A): two tabs beside the title */
 .drawer-tabs{display:flex;gap:6px;margin-left:12px}
+.drawer-who{display:flex;flex-shrink:0;gap:6px;overflow-x:auto;padding:2px 16px 0}
+.who-chip{flex:none;padding:3px;border:2px solid transparent;border-radius:50%;background:none;cursor:pointer}
+.who-chip[aria-pressed="true"]{border-color:var(--honey);background:#FFF6DA}
+.who-chip .say-face{display:block;width:34px;height:34px}
 .drawer-tabs .pill.sm{box-sizing:border-box;min-height:30px;height:30px;padding:0 12px;font-size:13px}
 /* a claim answered only by two together (user pick 2026-11-16: two empty places filled from the cards, then 내밀기):
    each place shows the card put in it (a photo, or the face of who said it), tapped again it empties */
@@ -1238,7 +1245,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 @keyframes fade-in{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.polaroid,.board-string{animation:none}}
 .case-no{display:block;font-family:var(--f-display);font-size:12px;color:var(--berry)}
-.case-title{display:block;font-family:var(--f-hand);font-weight:700;font-size:21px;line-height:1.1;margin:2px 0 8px}
+.case-title{display:block;font-family:var(--f-hand);font-weight:700;font-size:21px;line-height:1.1;margin:2px 0 8px;text-wrap:balance;word-break:keep-all}
 .badge.st-new{background:var(--honey)}
 .badge.st-going{background:var(--sky)}
 .badge.st-solved{background:var(--moss)}
@@ -1619,6 +1626,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <section class="drawer" id="drawer" aria-label="증거 서랍">
       <div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" data-drawer-tab="photo" aria-pressed="true">사진</button><button class="pill sm" type="button" data-drawer-tab="say" aria-pressed="false">진술</button><button class="pill sm" type="button" data-drawer-tab="item" aria-pressed="false" hidden>소지품</button></div><button class="x close-button" type="button" data-drawer-close aria-label="증거 서랍 닫기"></button></div>
       <div class="drawer-slots" id="drawerSlots" hidden></div>
+      <div class="drawer-who" id="drawerWho" hidden></div>
       <div class="drawer-strip" id="drawerStrip"></div>
       <div class="drawer-pick" id="drawerPick" hidden></div>
     </section>
@@ -2485,7 +2493,7 @@ const UMBRELLA_CASE = {
         { key:'end2', en:'Then please take it to her. Here you go.', ko:'그럼 루비에게 가져다줘. 여기 있어.', take:'umbrella' },
         { det:true, key:'end-ella2', en:'I will.', ko:'그럴게.' }
       ] },
-    { to:'ruby', go:{ think:true, en:'루비에게 우산을 가져다주자.' }, goLabel:'토이 네스트로 가기', give:'umbrella', giveLabel:'우산 건네주기',
+    { to:'ruby', go:{ think:true, en:'루비에게 우산을 가져다주자.' }, goLabel:'Toy Nest로 가기', give:'umbrella', giveLabel:'우산 건네주기',
       open:{ who:'tess', key:'end1', en:'Oh! Whose umbrella is that? Is it mine?', ko:'어! 저건 누구 우산이야? 내 거야?' },
       before:[
         { det:true, key:'end-tess', en:'No. Yours is dark blue inside. This one is gold inside.', ko:'아니. 네 우산은 안쪽이 남색이야. 이건 안쪽이 금빛이야.' },
@@ -2494,7 +2502,7 @@ const UMBRELLA_CASE = {
         { det:true, key:'end-ruby2', en:'Here you go.', ko:'여기 있어.' }
       ],
       lines:[ { key:'end2', en:'So I left it at the bazaar! Thank you, Detective.', ko:'바자회에 두고 왔구나! 고마워, 탐정.' } ] },
-    { to:'ella', go:{ think:true, en:'엘라에게 알려 주자.' }, goLabel:'회관으로 가기',
+    { to:'ella', go:{ think:true, en:'엘라에게 알려 주자.' }, goLabel:'Village Hall로 가기',
       open:{ det:true, key:'end-ella3', en:'I gave the umbrella back to Ruby.', ko:'루비에게 우산을 돌려줬어.' },
       lines:[ { key:'end3', en:'Wonderful! Thank you for your help, Detective.', ko:'잘됐다! 도와줘서 고마워, 탐정.' } ] }
   ] }
@@ -2770,16 +2778,16 @@ const VIOLIN_CASE = {
         { clue:5, x:59, y:67, w:14.5, h:15, when:['!curtain'] },
         { clue:6, x:57, y:44, w:11, h:7, when:['!curtain'] } ] },
     // never on the map: Tara's photo (taken in her talk), each person's sleeves (their action's close look)
-    { id:'taraphoto', inspect:true, label:'Lobby', artWidth:1024, artHeight:765,
+    { id:'taraphoto', inspect:true, label:'Photo', artWidth:1024, artHeight:765,
       clues:[ { label:'Case photo from Tara', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.' } ],
       spots:[ { clue:0, x:0, y:0, w:100, h:100, photo:{x:0,y:0,w:1020,h:765} } ] },
-    { id:'sleeves-owen', inspect:true, label:'Waiting Room', artWidth:1376, artHeight:768,
+    { id:'sleeves-owen', inspect:true, label:'Sleeves', artWidth:1376, artHeight:768,
       clues:[ { label:'Sleeves', en:'One sleeve has a gold button. The button on the other sleeve is missing.', ko:'한쪽 소매에는 금색 단추가 있어. 다른 쪽 소매의 단추는 없어졌네.' } ],
       spots:[ { clue:0, x:35.5, y:23, w:29, h:36, photo:{x:488,y:174,w:400,h:300} } ] },
-    { id:'sleeves-ivo', inspect:true, label:'Stage', artWidth:1376, artHeight:768,
+    { id:'sleeves-ivo', inspect:true, label:'Sleeves', artWidth:1376, artHeight:768,
       clues:[ { label:'Sleeves', prop:true, en:'There are dark buttons on both sleeves.', ko:'양쪽 소매에 어두운 단추가 있어.' } ],
       spots:[ { clue:0, x:35.5, y:23, w:29, h:36 } ] },
-    { id:'sleeves-momo', inspect:true, label:'Backstage', artWidth:1376, artHeight:768,
+    { id:'sleeves-momo', inspect:true, label:'Sleeves', artWidth:1376, artHeight:768,
       clues:[ { label:'Sleeves', prop:true, en:'There are small silver buttons on both sleeves.', ko:'양쪽 소매에 작은 은색 단추가 있어.' } ],
       spots:[ { clue:0, x:35.5, y:23, w:29, h:36 } ] }
   ],
@@ -2809,7 +2817,7 @@ const VIOLIN_CASE = {
     'violin-case':{ label:'Black violin case', en:'The yellow moon is on the case. The violin is in it.', ko:'케이스에 노란 달이 있고 바이올린은 안에 있어.',
       img:'assets/places/violin/case-closed.png', w:293, h:640, crop:[-280, 0, 853, 640], bag:'assets/places/violin/case-closed.png',
       opened:{ img:'assets/places/violin/case-open.png', w:416, h:640, crop:[-218, 0, 853, 640], en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } },
-    'gold-button':{ label:'Gold button', en:'There is a gold button under the curtain.', ko:'커튼 아래에 금색 단추가 있어.',
+    'gold-button':{ label:'Gold button', en:'A small gold button.', ko:'작은 금색 단추야.',
       img:'assets/places/violin/gold-button.png', w:240, h:240, crop:[-80, -30, 400, 300] },
     'wire-cutters':{ label:'Small cutters', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.',
       img:'assets/places/violin/cutters.png', w:302, h:460, crop:[-169, -10, 640, 480] }
@@ -2898,7 +2906,7 @@ const VIOLIN_CASE = {
     miss:{ who:'owen', key:'wrong', en:"That doesn't explain anything.", ko:'그걸로는 아무것도 설명이 안 되잖아.' },
     // then the violin back to Tara in the lobby (design 9절 end)
     handoff:[
-      { to:'tara', go:{ think:true, en:'타라에게 알려 주자.' }, goLabel:'로비로 가기', give:'violin-case', giveLabel:'바이올린 건네주기',
+      { to:'tara', go:{ think:true, en:'타라에게 알려 주자.' }, goLabel:'Lobby로 가기', give:'violin-case', giveLabel:'바이올린 건네주기',
         open:{ det:true, key:'end1', en:'Owen hid your case behind the curtain. He cut the strings.', ko:'오웬이 네 케이스를 커튼 뒤에 숨겼어. 현도 오웬이 끊었어.' },
         before:[ { det:true, key:'end2', en:'Here is your violin.', ko:'여기 네 바이올린이야.' } ],
         lines:[
@@ -2911,7 +2919,7 @@ const VIOLIN_CASE = {
 // the detective's sentence for each thing looked at (audio/violin/detective-<place>-<n>.mp3; things picked up say their
 // own lines), and for the things carried: what was said when picking each up (s2, s4 open, s3, c2)
 VIOLIN_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take) c.audio = `audio/violin/detective-${pl.id}-${i}.mp3`; }));
-Object.entries({ 'violin-case':'s2', 'gold-button':'s3', 'wire-cutters':'c2' }).forEach(([id, key]) => { VIOLIN_CASE.items[id].audio = `audio/violin/detective-${key}.mp3`; });
+Object.entries({ 'violin-case':'s2', 'gold-button':'item-gold-button', 'wire-cutters':'c2' }).forEach(([id, key]) => { VIOLIN_CASE.items[id].audio = `audio/violin/detective-${key}.mp3`; });
 VIOLIN_CASE.items['violin-case'].opened.audio = 'audio/violin/detective-s4.mp3';
 // the people's recordings (audio/violin/<id>-<key>.mp3, design/case-04-missing-violin-recording.md): Tara (Higgsfield
 // MiniMax Evie; her hello is the user's own with emotion sad, the rest without emotion, user decision), Owen (Miles),
@@ -3594,7 +3602,7 @@ const CHRISTMAS_CASE = {
           { key:'thanks', en:'Thank you for finding it!', ko:'찾아줘서 고마워!' },
           { key:'lighting-invite', en:'The lighting starts soon. Come to the Tree Square!', ko:'곧 점등식이 시작돼. 트리 광장으로 와!' }
         ] },
-      { to:'ella', go:{ det:true, key:'tree-thought', en:"Let's go to the Tree Square.", ko:'트리 광장으로 가 보자.' }, goLabel:'트리 광장으로 가기',
+      { to:'ella', go:{ det:true, key:'tree-thought', en:"Let's go to the Tree Square.", ko:'트리 광장으로 가 보자.' }, goLabel:'Tree Square로 가기',
         flag:'night', turn:'lit',
         // Ella alone for the countdown; Daisy, Coco and Tess stand round her once the camera pulls back from the star (from,
         // user request 2026-11-16: not everyone there all at once), all four from behind (turn)
@@ -4791,6 +4799,14 @@ function focusCamera(fromRect, glide = false, ms){
   const from = fromRect?.width ? `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / worldWidth})`
     : glide ? getComputedStyle(art).transform : null;
   animateCamera(art, from, `translate(${left}px, ${top}px) scale(${scale})`, ms);
+  // someone else cut by the shot's edge (an arm, half a face) is left out of it; whoever is all in or all out stays
+  const k = scale * worldWidth / (art.offsetWidth || worldWidth);
+  art.querySelectorAll('.scene-npc').forEach(el => {
+    const shift = +(el.style.transform.match(/translateX\(-([\d.]+)%\)/)?.[1] ?? 50) / 100;
+    const x0 = left + (el.offsetLeft - shift * el.offsetWidth) * k, x1 = x0 + el.offsetWidth * k;
+    const seen = Math.max(0, Math.min(width, x1) - Math.max(0, x0)) / Math.max(1, x1 - x0);
+    el.classList.toggle('edge-cut', !wide && !peek && el.dataset.talk !== subject && seen > 0 && seen < .85);
+  });
 }
 // the backpack on the picnic table is gone while the detective carries a bag (from Rosie handing it over until she has
 // hers back; user request)
@@ -5000,8 +5016,9 @@ function renderAsk(){
   const acts = (s.actions || []).filter(actionOpen).map(a => `<button class="q" type="button" data-act="${a.id}"><span class="en">${esc(a.en)}</span><span class="ko">${esc(a.ko)}</span></button>`).join('');
   if(p.phase === 'choose'){
     const left = availableQuestions(s);
-    html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` +
-      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('') + (openingAsked(s) ? acts : '');
+    const more = openingAsked(s) ? acts : '';
+    html = (left.length || more ? `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` : '') +
+      left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('') + more;
   } else if(p.phase === 'done' && acts) html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` + acts;
   // a finished conversation has no button of its own: the top chip and a tap on the scene lead back to the place
   if(allConversationsDone()) html += `<button class="pill big" type="button" data-accuse>추리하기</button>`;
@@ -6335,11 +6352,12 @@ function renderDeduce(){
   // the cards: the ones worked out before, in order, then the question's own (its blank, or filled once answered)
   const card = (i, filled) => {
     const x = qs[i], blanks = deduceBlanks(x), part = st.part[i] || {}, ko = deduceKoCards.has(i);
-    const slot = ({ kind, answer }, k) => filled || part[k] ? `<span class="ded-slot ${kind} full">${esc(filled ? part[k] || answer : part[k])}</span>`
-      : `<button class="ded-slot ${kind}" type="button" data-dslot="${k}" aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>`;
+    // own: the blank is followed by 's (Rosie Rabbit's): written inside the filled chip, so no gap shows before it
+    const slot = ({ kind, answer }, k, own) => filled || part[k] ? `<span class="ded-slot ${kind} full">${esc(filled ? part[k] || answer : part[k])}${own ? '&#39;s' : ''}</span>`
+      : `<button class="ded-slot ${kind}" type="button" data-dslot="${k}" aria-label="${KIND_KO[kind]} 빈칸" aria-expanded="false"></button>${own ? '&#39;s' : ''}`;
     let k = 0;
     // the Korean only once it is answered: it holds the answer (user request), and the question's own 해석 says what is asked
-    return `<div class="ded-line"><p>${esc(x.card.replace(/\{\w+:[^}]+\}/g, '\u0000')).replace(/\u0000/g, () => slot(blanks[k], k++))}</p>` +
+    return `<div class="ded-line"><p>${esc(x.card.replace(/\{\w+:[^}]+\}('s)?/g, (m, own) => '\u0000' + (own ? '\u0001' : ''))).replace(/\u0000(\u0001)?/g, (m, own) => slot(blanks[k], k++, own))}</p>` +
       (filled ? `<button class="pill sm ded-ko" type="button" data-dko="${i}" aria-pressed="${ko}">해석</button></div><p class="ko"${ko ? '' : ' hidden'}>${esc(x.cardKo)}</p>` : '</div>');
   };
   // an O or X question as a sticky note: who said it (from the card's "Name: " or the suspect), the quote, and once
@@ -6646,7 +6664,10 @@ function drawerStripHTML(){
       : '<p class="empty-note">가진 물건이 없어요.</p>';
   }
   if(drawerTab === 'say'){
-    const all = statements();
+    // one person's statements at a time (drawerWho, picked on the row of faces): all of them in one row were hard to find
+    const ids = sayWhos();
+    if(!ids.includes(drawerWho)) drawerWho = ids[0];
+    const all = statements().filter(ref => ids.length < 2 || ref.split(':')[0] === drawerWho);
     return all.length ? all.map(ref => { const [id, qid] = ref.split(':');
       return `<button class="scard" type="button" data-pick="${ref}" aria-pressed="false"><span class="who">${sayFace(id)}<span>${esc(spk(id).name)}</span></span><span class="say">${esc(writtenText(id, qid))}</span></button>`; }).join('')
       : '<p class="empty-note">아직 확인한 진술이 없어요.</p>';
@@ -6655,6 +6676,13 @@ function drawerStripHTML(){
     const place = placeOf(record.placeId), clue = place.clues[record.clueIndex];
     return `<button class="dcard" type="button" data-pick="${evRef(record)}" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${record.photo}</span><span class="dlabel">${esc(clue.label)}</span><span class="dplace">${esc(place.label)}</span></button>`;
   }).join('') : '<p class="empty-note">아직 수집한 증거가 없어요.</p>';
+}
+let drawerWho = null;
+const sayWhos = () => [...new Set(statements().map(ref => ref.split(':')[0]))];
+function renderWho(){
+  const box = $('#drawerWho'), ids = sayWhos();
+  box.hidden = drawerTab !== 'say' || ids.length < 2;
+  box.innerHTML = box.hidden ? '' : ids.map(id => `<button class="who-chip" type="button" data-who="${id}" aria-pressed="${id === drawerWho}" aria-label="${esc(spk(id).name)}의 진술">${sayFace(id)}</button>`).join('');
 }
 function stopDrawerAnimations(){
   drawerSizeAnimation?.cancel(); drawerTextAnimation?.cancel();
@@ -6683,7 +6711,7 @@ function openDrawer(tab = 'photo', browse = false, keepSlots = false){
   const handing = ending?.step === 'handoff';
   $('#drawer').querySelectorAll('[data-drawer-tab]').forEach(b => {
     b.setAttribute('aria-pressed', b.dataset.drawerTab === tab);
-    b.hidden = browse || (handing ? b.dataset.drawerTab !== 'item' : b.dataset.drawerTab === 'item' && !ending?.script);   // the violin case's questioning takes things too
+    b.hidden = browse || handing || (b.dataset.drawerTab === 'item' && !ending?.script);   // the violin case's questioning takes things too
   });
   $('#drawer h3').textContent = handing || browse ? '소지품' : '증거';
   $('#drawer').setAttribute('aria-label', browse ? '소지품' : '증거 서랍');
@@ -6691,6 +6719,7 @@ function openDrawer(tab = 'photo', browse = false, keepSlots = false){
   if(browse) setItemsNew(false);
   $('#drawerStrip').innerHTML = drawerStripHTML();
   $('#drawerStrip').scrollLeft = 0;
+  renderWho();
   $('#drawerPick').innerHTML = '';
   $('#drawerPick').hidden = true;
   renderSlots();
@@ -6780,6 +6809,8 @@ $('#drawer').addEventListener('click', e => {
   if(e.target.closest('[data-drawer-close]')) return closeDrawer();
   const tab = e.target.closest('[data-drawer-tab]');
   if(tab){ if(tab.dataset.drawerTab !== drawerTab){ stopVoice(); $('#evidenceVoice').pause(); openDrawer(tab.dataset.drawerTab, false, true); } return; }
+  const who = e.target.closest('[data-who]');
+  if(who){ drawerWho = who.dataset.who; $('#drawerStrip').innerHTML = drawerStripHTML(); $('#drawerStrip').scrollLeft = 0; renderWho(); return renderSlots(); }
   const slot = e.target.closest('[data-slot]');
   if(slot){ drawerSlots.splice(+slot.dataset.slot, 1); return renderSlots(); }
   const pairGo = e.target.closest('[data-present-pair]');
@@ -6801,7 +6832,10 @@ $('#drawer').addEventListener('click', e => {
   }
   if(e.target.closest('[data-item-compare]')){
     const c = PACK.compare; S.flags.add(c.flag); saveGame(); checkThoughts(); updateAccuse();
-    closeDrawer(); return detectiveSay(c.line.key, null, null, c.line.en);
+    closeDrawer();
+    if(S.investigate) return placeLines([c.line]);
+    renderSay(detLine(c.line));
+    return detectiveSay(c.line.key, () => waitTap(() => renderSay(null)), null, c.line.en);
   }
   const use = e.target.closest('[data-item-use]');
   if(use){ closeDrawer(); openInspect(ITEMS[use.dataset.itemUse].use.inspect); }
@@ -7898,7 +7932,7 @@ const ART = {
   taraphoto: () => `<image href="assets/places/violin/tara-photo.jpg" width="1024" height="765"/>`,
   'sleeves-owen': () => closeLook('waiting', 'sleeves-owen', 442),
   'sleeves-ivo': () => closeLook('stage', 'sleeves-ivo', 427),
-  'sleeves-momo': () => closeLook('backstage', 'sleeves-momo', 385)
+  'sleeves-momo': () => closeLook('backstage-open', 'sleeves-momo', 385)
 };
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
@@ -8077,8 +8111,10 @@ function captureEvidence(place, clueIndex){
   preview.className = 'capture-view'; preview.setAttribute('aria-hidden', 'true');
   preview.innerHTML = `<div class="capture-frame">${photo}</div>`;
   $('.art-stage').appendChild(preview);
+  let captured = false;
   const finishCapture = () => {
-    if(!preview.isConnected || !S.investigate || S.place !== place.id) return;
+    if(captured || !preview.isConnected || !S.investigate || S.place !== place.id) return;
+    captured = true;
     if(!S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)){
       S.evidence.push({ placeId:place.id, clueIndex, photo });
     }
@@ -8093,9 +8129,14 @@ function captureEvidence(place, clueIndex){
     evidenceOpen = `${place.id}-${clueIndex}`; renderDock();
     toast(gave ? '증거를 기록하고 소지품에 넣었어요.' : '증거를 노트에 기록했어요.');
   };
+  // a tap on the photo once it is taken: on to the notebook, the sentence cut short (it can be heard again there)
+  preview.addEventListener('click', () => {
+    if(captured || !preview.querySelector('.capture-flash, .shot-done')) return;
+    clearTimeout(captureTimer); const voice = $('#evidenceVoice'); voice.onended = voice.onerror = null; voice.pause(); finishCapture();
+  });
   captureShotTimer = setTimeout(() => {
     if(!preview.isConnected) return;
-    playShutter();
+    playShutter(); preview.firstElementChild.classList.add('shot-done');
     const flash = document.createElement('div');
     flash.className = 'capture-flash'; flash.setAttribute('aria-hidden', 'true');
     preview.appendChild(flash);
@@ -8322,7 +8363,15 @@ function enterPlace(id, fromConversation = false){
     // someone just met here (revealDiscoveries) is put in the middle; else where the player left the place
     artWrap.scrollLeft = placeOf(id).fixed ? (artWrap.scrollWidth - artWrap.clientWidth) / 2 : sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
     sceneFocus = null;
-    $('#swipeHint').hidden = !!placeOf(id).fixed || artWrap.scrollWidth <= artWrap.clientWidth + 4;
+    if(!placeOf(id).fixed){
+      const view = artWrap.getBoundingClientRect();
+      for(const el of art.querySelectorAll('.scene-npc')){
+        const r = el.getBoundingClientRect(); if(r.width > view.width * .9) continue;
+        if(r.left < view.left && r.right > view.left + 8){ artWrap.scrollLeft -= view.left - r.left + 8; break; }
+        if(r.right > view.right && r.left < view.right - 8){ artWrap.scrollLeft += r.right - view.right + 8; break; }
+      }
+    }
+    $('#swipeHint').hidden = !!placeOf(id).fixed || !!placeOf(id).inspect || artWrap.scrollWidth <= artWrap.clientWidth + 4;
     if(fromRect?.width){
       const bounds = art.getBoundingClientRect();
       animateCamera(art, `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / bounds.width})`, 'none');
@@ -9621,7 +9670,8 @@ function learnedWords(){
       if(!knownQuestion(id, q.id)) return;
       (s.notes[q.id] || []).forEach(line => line.replace(BLANK_RE, (m, bid, ans) => {
         const key = ans.split('/')[0].toLowerCase();
-        if(WORDS[key] && !seen.has(key)) seen.set(key, { word:ans.split('/')[0], key, line, bid, ref:`${id}:${q.id}`, sent:sentenceFor(s.answers[q.id], ans, line) });
+        const first = ans.split('/')[0], starts = /^(-\s*)?\{\{/.test(line) && line.indexOf(m) === line.indexOf('{{');
+        if(WORDS[key] && !seen.has(key)) seen.set(key, { word:starts && first === first[0].toUpperCase() + key.slice(1) ? key : first, key, line, bid, ref:`${id}:${q.id}`, sent:sentenceFor(s.answers[q.id], ans, line) });
         return m;
       }));
     });

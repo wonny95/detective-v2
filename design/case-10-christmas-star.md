@@ -863,7 +863,7 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 
 - **move:tree-lighting · 이동 · 이동 버튼**
   - Go to the Tree Square.
-  - 트리 광장으로 가기
+  - Tree Square로 가기
 
 #### 트리 광장 · 점등식
 

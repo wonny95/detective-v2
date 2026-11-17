@@ -115,7 +115,7 @@
 |---|---|---|
 | owen:o1 | **Where were you after rehearsal?** / 리허설 뒤 어디에 있었니?<br>오웬: **I stayed next to the door the whole time.** / 난 줄곧 문 옆에 있었어. | “I stayed [next to] the door the [whole time].” → 첫 방문 · 채점 뒤 o8 해금 |
 | owen:o8 | **Why were you there?** / 왜 거기 있었니?<br>오웬: **I waited for my turn.** / 내 차례를 기다렸어. | “I waited for my [turn].” → o1 채점 뒤 · 기다린 이유 |
-| owen:o2 | **When did you last see Tara's case?** / 타라의 케이스를 마지막으로 언제 봤니?<br>오웬: **Next to the chair, before Tara went to the lobby.** / 타라가 로비로 가기 전, 의자 옆에서 봤어. | “Next to the chair, before Tara went to the [lobby].” → 첫 방문 · 타라가 자리를 비우기 전 위치 |
+| owen:o2 | **When did you last see Tara's case?** / 타라의 케이스를 마지막으로 언제 봤니?<br>오웬: **Next to the chair, before Tara went to the lobby.** / 타라가 Lobby로 가기 전, 의자 옆에서 봤어. | “Next to the chair, before Tara went to the [lobby].” → 첫 방문 · 타라가 자리를 비우기 전 위치 |
 | owen:o9 | **Did you see anything strange?** / 이상한 걸 봤니?<br>오웬: **Momo, the stage helper, carried a black toolbox behind the curtain.** / 무대 일을 돕는 모모가 검은 공구함을 들고 커튼 뒤로 갔어. | “Momo, the stage helper, carried a [black toolbox] [behind] the curtain.” → 첫 방문 · 모모 m3·m4 후속 질문의 선행 정보 |
 
 ### 이보 — 대회 무대 · 조사 질문 4개
@@ -429,7 +429,7 @@ waiting:c3은 케이스·니퍼를 모두 소지하고 현 파손을 관찰한 �
 |---|---|
 | 장소 | Lobby · Waiting Room · Stage · Backstage |
 | 사진 | Case photo from Tara(tara-photo) · Sleeves(sleeve-photo) |
-| 소지품 | Black violin case(violin-case) · Gold button(gold-button) · Small cutters(wire-cutters) |
+| 소지품 | Black violin case(violin-case) · Gold button(gold-button, 설명 "A small gold button." / 작은 금색 단추야.) · Small cutters(wire-cutters) |
 | 소지품 설명 | 케이스는 stage:s2, 단추는 stage:s3, 니퍼는 waiting:c2 대사를 다시 쓴다 |
 
 단추 실물 습득으로 의복 비교가 열린다. 소지품의 단추와 현재 소매 사진을 비교해 은닉을 추궁한다. 현 파손의 범인은 자백 전까지 확정하지 않는다. 케이스를 타라에게 보여 줘도 심문 동안 계속 소지하며, 마지막 건네주기에서만 소지품에서 빠진다. 타라는 파손된 바이올린으로 바로 연주하지 않는다.
