@@ -6,6 +6,8 @@
 
 별은 속까지 꽉 찬 실제 금으로 만든 장식 하나뿐이다. 밖으로 별 끝이나 금빛이 보이는 설정은 없다. 별 뒷면의 작은 잎사귀 음각 무늬가 실제 물건 확인에 쓰인다. 새 인물 이름·종(양 데이지)과 무늬·구체 대사는 기획자 제안이며 사용자 결정으로 적지 않는다. 새 인물·창고 보관·추가 근거를 넣는 방향은 사용자 승인 사항이다. 그림·음성 생성이나 게임 구현은 하지 않는다.
 
+노트는 탐정이 들은 사실을 정리하는 짧은 메모다. NPC의 대답 전체를 따옴표로 옮기지 않는다. 빈칸의 ID·정답·순서는 유지하며, 대명사·장소 표현의 원형이 빈칸인 경우에만 화자를 명시하고 해당 표현을 짧게 인용한다. 실제 대답과 음성은 지문 보기에서 그대로 확인한다.
+
 ## 1. 제작자용 진실·행동 이유
 
 1. 별은 마을이 해마다 쓰는 귀중품이며 창고 선반의 전용 보관함에 둔다. 뒷면에는 작은 잎사귀 무늬가 새겨져 있다. 몸체는 속까지 꽉 차 있고 전기 부품·빈 내부·연결 관은 없다. 가까운 곳까지 잠깐 들어 옮길 수는 있지만, 계속 들고 마을길을 걷기에는 무겁다. 순도·정확한 무게·크기·트리 고정 방식은 미정이다.
@@ -93,7 +95,7 @@ flowchart LR
 - 해석: 뭐가 없어졌는데?
 - **대답**: The town's Christmas star is missing. Ask Ella at the information desk for more details.
 - 해석: 마을의 크리스마스 별이 사라졌대. 자세한 내용은 안내소의 엘라에게 들어 봐.
-- **노트**(메모): the town's Christmas star is missing / ask [Ella] at the [information desk]
+- **노트**: • the town's Christmas star is missing / • ask [Ella] at the [information desk]
 - **보기**: Ella · Ellie · Emma · information desk · gift shop · front door
 - 빈칸은 누구·어디만 둔다. star·missing은 바로 뒤 ella:e0의 빈칸이라 겹치지 않게 했다(사용자 결정).
 - 조건: 경사의 인사 뒤 첫 질문
@@ -113,7 +115,7 @@ flowchart LR
 - 해석: 무슨 일이 있었어?
 - **대답**: I went to show the children around the festival. When I came back, the star was missing.
 - 해석: 축제에 온 아이들을 안내하러 자리를 비웠어. 돌아와 보니 별이 사라졌더라.
-- **노트**: “I went to show the children around the festival. When I came back, the [star] was [missing].”
+- **노트**: • showed the children around the festival / • came back → the [star] was [missing]
 - **보기**: star · string · start · missing · shining · moving
 - 조건: 경사가 떠난 뒤 안내소에 나타난 엘라에게 탐정이 인사하고 엘라가 답한 뒤 첫 질문으로 표시
 - 채점 뒤: 엘라가 축제에 온 아이들을 안내하고 돌아와 분실을 발견했다는 경위 기록. e1·e2 해금
@@ -124,7 +126,7 @@ flowchart LR
 - 해석: 별은 어떻게 생겼어?
 - **대답**: It's real gold, so it's very heavy. It has a small leaf pattern on the back.
 - 해석: 진짜 금으로 만들어서 아주 무거워. 뒷면에 작은 잎사귀 무늬가 있어.
-- **노트**: “It's real [gold], so it's very [heavy]. It has a small [leaf] pattern on the back.”
+- **노트**: • real [gold], very [heavy] / • small [leaf] pattern on the back
 - **보기**: gold · glass · silver · heavy · light · leaf · line
 - 조건: e0 기록 뒤
 - 채점 뒤: 금 재질·아주 무겁다는 점·별 뒷면의 잎사귀 모양 기록. 실물 식별과 상자 고르기에 사용
@@ -135,7 +137,7 @@ flowchart LR
 - 해석: 어디에 두었어?
 - **대답**: I left it in its case on the storeroom shelf.
 - 해석: 창고 선반의 보관함 안에 두었어.
-- **노트**: “I left it in its [case] on the [storeroom] [shelf].”
+- **노트**: • left it in its [case] / • on the [storeroom] [shelf]
 - **보기**: case · box · storeroom · gift tent · shelf · table · floor
 - 조건: e0 기록 뒤
 - 채점 뒤: 축제 창고·이름 없는 양. 보관함 관찰·c-case 촬영
@@ -146,7 +148,7 @@ flowchart LR
 - 해석: 오늘 아침에 데이지를 봤어?
 - **대답**: Yes. She was decorating the tree while I was with the children.
 - 해석: 응. 내가 아이들과 있는 동안 트리를 꾸미고 있었어.
-- **노트**: “- Daisy was [decorating] the [tree] / - while Ella was with the children”
+- **노트**: • Daisy was [decorating] the [tree] / • while Ella was with the children
 - **보기**: decorating · sorting · wrapping · tree · storeroom · sleigh
 - 조건: 데이지 h4(손수레로 트리 광장에 장식을 옮김) 기록 뒤(2026-11-16 사용자 요청: 데이지의 결백을 엘라의 말로)
 - 채점 뒤: 엘라가 자리를 비운 동안 데이지는 트리 광장에서 트리를 꾸몄다는 진술 기록. 그동안 창고가 비어 있었다(니코가 뒷문으로 들어갈 틈)
@@ -206,7 +208,7 @@ flowchart LR
 - 해석: 무엇을 하고 있어?
 - **대답**: I'm sorting decorations for the Christmas festival. I'm helping Ella.
 - 해석: 크리스마스 축제 장식품을 정리하고 있어. 엘라를 돕고 있어.
-- **노트**: “I'm [sorting] [decorations] for the Christmas festival. I'm helping Ella.”
+- **노트**: • [sorting] [decorations] for the festival / • helping Ella
 - **보기**: sorting · carrying · selling · decorations · gifts · mittens
 - 조건: 엘라 e2 기록·창고 도착·데이지 자기소개 뒤 첫 질문
 - 채점 뒤: h2. 출입 목격을 기록하면 h3가 열린다.
@@ -217,7 +219,7 @@ flowchart LR
 - 해석: 창고에는 누가 들어왔어?
 - **대답**: Coco and Tess came in together for wrapping supplies. Then they left.(2026-11-16 사용자 결정 A안: 둘이 같이 들어왔다가 나감. 같은 날 사용자 요청: 포장 재료를 가지러 왔다는 말로 코코·테스를 보강하고, 트리를 꾸미러 오가는 데이지에게 맞지 않는 "I was here, too"는 뺌)
 - 해석: 코코와 테스가 포장 재료를 가지러 같이 들어왔어. 그러고 나서 나갔어.
-- **노트**: “- Coco and Tess [came] in [together] / - for wrapping [supplies] / - then they [left]”
+- **노트**: • Coco and Tess [came] in [together] / • for wrapping [supplies] / • then they [left]
 - **보기**: came · come · together · alone · supplies · snacks · left · leave
 - 조건: h1 기록 뒤
 - 채점 뒤: 여러 사람의 창고 출입 목격 기록·h3 해금. 목격은 출입 범위까지
@@ -228,7 +230,7 @@ flowchart LR
 - 해석: 코코와 테스는 지금 어디 있어?
 - **대답**: They're working in the gift tent.
 - 해석: 선물 포장 천막에서 일하고 있어.
-- **노트**: “They're [working] in the [gift tent].”
+- **노트**: • Coco, Tess: [working] in the [gift tent]
 - **보기**: working · wrapping · sleeping · gift tent · storeroom · Tree Square
 - 조건: h2의 출입 목격 기록 뒤
 - 채점 뒤: 포장 천막·코코·테스 면담. 이름 표시는 본인 소개 뒤
@@ -241,7 +243,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 오늘 장식품을 옮기고 있어?
 - **대답**: Yes. I'm taking decorations to the Tree Square in a handcart.(점검 6, 사용자 결정: 손수레가 장식을 실은 채 창고 문 앞에 있으므로 옮기는 중)
 - 해석: 응. 손수레로 장식품을 트리 광장에 옮겼어.
-- **노트**: “Yes. I'm taking decorations to the [Tree Square] in a [handcart].”
+- **노트**: • taking decorations to the [Tree Square] / • in a [handcart]
 - **보기**: Tree Square · gift tent · storeroom · handcart · sleigh · basket
 - 조건: h1 기록·c-track-yard 촬영 뒤
 - 채점 뒤: 광장 쪽 자국은 데이지의 손수레라는 진술 기록. 자국 추리(tracks)의 근거
@@ -288,7 +290,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 오늘 그 별을 봤어?
 - **대답**: No, I didn't.
 - 해석: 아니, 못 봤어.
-- **노트**: “- [didn't] see the star”(테스 star와 같은 메모)
+- **노트**: • [didn't] see the star
 - **보기**: didn't · did · don't · do
 - 조건: 코코 자기소개와 조사 목적 설명 뒤 첫 질문(2026-11-16 사용자 요청: 창고에 들어간 코코에게도 별을 봤는지 묻기, 테스와 같은 순서)
 - 채점 뒤: m0 해금
@@ -299,7 +301,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 창고에 들어갔다고 들었어. 왜 갔어?
 - **대답**: I needed wrapping paper for the children's gifts.
 - 해석: 아이들 선물에 쓸 포장지가 필요했어.
-- **노트**: “I needed [wrapping paper] for the children's [gifts].”
+- **노트**: • needed [wrapping paper] / • for the children's [gifts]
 - **보기**: wrapping paper · drawing paper · ribbons · gifts · toys · bags
 - 조건: mae:star 기록 뒤
 - 채점 뒤: 코코가 창고에 간 이유 기록·m1 해금. 과거 무죄를 확정하지 않음
@@ -310,7 +312,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 지금 뭐 하고 있어?
 - **대답**: I'm making snowflakes for the tree. I'm helping Daisy.
 - 해석: 트리에 달 눈송이를 만들고 있어. 데이지를 돕고 있어.
-- **노트**: “I'm [making] [snowflakes] for the tree. I'm helping Daisy.”
+- **노트**: • [making] [snowflakes] for the tree / • helping Daisy
 - **보기**: making · wrapping · cutting · snowflakes · mittens · stars
 - 조건: m0에서 선물에 쓸 포장지를 가지러 갔다고 답한 뒤
 - 채점 뒤: m3
@@ -321,7 +323,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 아직 선물을 포장하고 있어?
 - **대답**: No, I'm not wrapping now. I wrapped mittens in four boxes, and Nico took them.
 - 해석: 아니, 지금은 포장 안 해. 털장갑을 상자 넷에 포장했고, 니코가 가져갔어.
-- **노트**: “No, I'm [not] wrapping now. I wrapped mittens in [four] boxes, and [Nico] took them.”
+- **노트**: • [not] wrapping now / • wrapped mittens in [four] boxes / • [Nico] took them
 - **보기**: not · now · four · five · Nico · Tess
 - 조건: m1 기록 뒤
 - 채점 뒤: 코코가 털장갑 상자 넷을 끝내 니코에게 건넸다는 진술 기록. 상자 수 추리(추리 7)와 심문의 코코 핑계 반박에 쓴다. m4가 열린다
@@ -332,7 +334,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 니코가 누구야?
 - **대답**: He's a volunteer, too. He's taking the gifts to the sleigh.
 - 해석: 니코도 자원봉사자야. 선물을 썰매로 가져가고 있어.
-- **노트**: “He's a [volunteer], too. He's [taking] the gifts to the [sleigh].”
+- **노트**: • Nico: a [volunteer], too / • [taking] the gifts to the [sleigh]
 - **보기**: volunteer · visitor · taking · making · sleigh · tent
 - 조건: m3 기록 뒤(사용자 요청: m3에서 이름이 나온 니코를 한 번 더 묻기)
 - 채점 뒤: 니코와 썰매가 나타난다(테스 t3로도 나타남, 먼저 들은 쪽으로)
@@ -370,7 +372,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 오늘 그 별을 봤어?
 - **대답**: No, I didn't.
 - 해석: 아니, 못 봤어.
-- **노트**: “- [didn't] see the star”(2026-11-16 사용자 요청: 다른 노트처럼 메모로)
+- **노트**: • [didn't] see the star
 - **보기**: didn't · did · don't · do
 - 조건: 테스 첫 인사 뒤 첫 질문(사용자 결정: 예전에는 받아쓰기 없는 선택 질문)
 
@@ -380,7 +382,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 창고에 들어갔다고 들었어. 왜 갔어?
 - **대답**: I needed some empty boxes for the gifts.
 - 해석: 선물을 담을 빈 상자가 필요했어.
-- **노트**: “I [needed] some [empty] [boxes] for the gifts.”
+- **노트**: • [needed] some [empty] [boxes] / • for the gifts
 - **보기**: needed · wanted · empty · full · boxes · bags · ribbons
 - 조건: tess:star 기록 뒤(사용자 결정: 예전에는 받아쓰기 없는 선택 질문)
 
@@ -390,7 +392,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 창고에 다녀온 뒤에는 어디 있었어?
 - **대답**: I went there with Coco. Then we stayed here all morning.
 - 해석: 코코랑 같이 다녀왔어. 그 뒤로는 둘이 아침 내내 여기 있었어.
-- **노트**: “- went with [Coco]” “- then we [stayed] here all [morning]”
+- **노트**: • went with [Coco] / • Tess and Coco [stayed] in the tent all [morning]
 - **보기**: Coco · Nico · Daisy · stayed · left · morning · night
 - 조건: tess:storeroom 기록 뒤(2026-11-16 사용자 요청: 테스가 창고에 다녀온 뒤 계속 천막에 있었다는 결백 근거. 데이지 h2와 맞음)
 
@@ -400,7 +402,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 뭘 포장하고 있어?
 - **대답**: I'm wrapping toys. These are gifts for the children.
 - 해석: 장난감을 포장하고 있어. 어린 친구들에게 줄 선물이야.
-- **노트**: “I'm [wrapping] [toys]. These are gifts for the children.”
+- **노트**: • [wrapping] [toys] / • gifts for the children
 - **보기**: wrapping · carrying · fixing · toys · mittens · books
 - 조건: 데이지 h3로 포장 천막 발견·테스가 창고에 간 이유를 답한 뒤
 - 채점 뒤: t3와 장난감을 보여 달라는 행동 선택지
@@ -411,7 +413,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 이 선물들은 배송할 준비가 됐어?
 - **대답**: No, I'm still wrapping. They're not ready yet.
 - 해석: 아니, 아직 포장 중이야. 아직 준비가 안 됐어.
-- **노트**: “- [still] wrapping / - [not] ready yet”(2026-11-16 사용자 요청: 테스가 니코를 언급하는 말을 뺌. 니코는 코코 m4로만 나타난다)
+- **노트**: • [still] wrapping / • [not] ready yet
 - **보기**: still · already · not · now
 - 조건: t1 기록 뒤
 - 채점 뒤: 아직 포장 중이고 선물이 준비되지 않았다는 기록(니코는 코코 m4로만 나타남)
@@ -462,7 +464,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 뭐 하고 있어?
 - **대답**: I'm getting ready for the delivery. I'm not delivering yet.(점검 4, 사용자 결정: n2 What are you loading?과 겹치지 않게)
 - 해석: 선물을 싣고 있어. 아직 배달하러 출발하지는 않았어.
-- **노트**: “I'm [getting ready] for the delivery. I'm not [delivering] yet.”
+- **노트**: • [getting ready] for the delivery / • not [delivering] yet
 - **보기**: loading · opening · reading · delivering · decorating · wrapping
 - 조건: 썰매 앞 발견·니코 인사 뒤 첫 질문
 - 채점 뒤: n2. 지금 싣는 물건부터 확인한다.
@@ -473,7 +475,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 무엇을 싣고 있어?
 - **대답**: I'm loading some gifts. Coco and Tess wrapped them.
 - 해석: 선물 몇 개를 싣고 있어. 코코와 테스가 포장한 거야.
-- **노트**: “- loading some [gifts] / - [Coco] and [Tess] [wrapped] them”
+- **노트**: • loading some [gifts] / • [Coco] and [Tess] [wrapped] them
 - **보기**: gifts · mittens · Coco · Tess · Daisy · wrapped · opened
 - 조건: n1 기록 뒤
 - 채점 뒤: 코코와 테스가 포장한 선물이라는 니코의 주장 기록(테스는 아직 하나도 주지 않았고, 코코는 상자 넷만 줬음). 창고에 들어갔는지 묻는 질문(nico:storeroom)이 열린다.
@@ -484,7 +486,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 오늘 창고에 들어갔어?
 - **대답**: No. I was waiting for all the gifts to be wrapped.
 - 해석: 아니. 선물이 다 포장되길 기다리고 있었어.
-- **노트**: “No. I was [waiting] for all the gifts to be [wrapped].”
+- **노트**: • Nico denies entering the storeroom / • [waiting] for all the gifts to be [wrapped]
 - **보기**: waiting · wanting · working · wrapped · opened · sold
 - 거짓말(사용자 결정 2026-11-12): 실제로는 짐 싣는 뒷문으로 창고에 들어갔다. 창고 뒷문에서 나온 썰매 자국이 나무 기둥 옆을 지나 썰매 밑까지 이어진다(c-track-yard·c-track-sleigh). 단, 추리 문항에는 쓰지 않고 받아 적기만 한다(점검 1 사용자 결정: 자국 사진이 직접 반박하는 n5 "썰매는 아침 내내 여기 있었어"를 추리 8번에 씀).
 - 조건: n2 기록 뒤(사용자 결정: 예전에는 받아쓰기 없는 선택 질문)
@@ -495,7 +497,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 선물 포장도 하고 있어?
 - **대답**: No, I'm not wrapping gifts. I only deliver them.
 - 해석: 아니, 나는 선물을 포장하지 않아. 배달만 해.
-- **노트**: “- [not] [wrapping] [gifts] / - only delivers them”
+- **노트**: • [not] [wrapping] [gifts] / • only delivers them
 - **보기**: not · now · wrapping · loading · gifts · decorations · mittens
 - 조건: n2 기록·창고 방문 이유에 대한 현장 답변 뒤
 - 채점 뒤: 자기는 포장하지 않고 배달만 한다는 니코의 역할 설명 기록·n4 해금
@@ -506,7 +508,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 오늘 그 별을 봤어?
 - **대답**: I'm not sure. But I think I saw Tess taking a star.(2026-11-17 점검, 사용자 결정: 못 봤다면서 봤다고 하는 모순을 없앰)
 - 해석: 잘 모르겠어. 그런데 테스가 별을 가져가는 걸 본 것 같아.
-- **노트**: “- not [sure] / - thinks he saw [Tess] taking a [star]”
+- **노트**: • not [sure] / • thinks he saw [Tess] taking a [star]
 - **보기**: sorry · sure · happy · Tess · Coco · Daisy · star · box
 - 조건: n3 기록 뒤
 - 채점 뒤: 테스가 별을 가져가는 걸 본 것 같다며 혐의를 돌리는 니코의 말 기록. 반쯤 사실(테스는 아침에 금빛 별 장난감을 들고 작업대로 왔음)이며 천막으로 돌아가 상자 속 별 뒷면(c-toy-star)으로 확인한다. 심문에서 니코가 다시 꺼낸다
@@ -521,7 +523,7 @@ e2 기록 뒤 창고 선반의 빈 보관함을 c-case로 살펴볼 수 있다(�
 - 해석: 오늘 아침에 썰매를 옮겼어?
 - **대답**: No. It stayed right here all morning.
 - 해석: 아니. 아침 내내 바로 여기 있었어.
-- **노트**: “No. It [stayed] right here all [morning].”
+- **노트**: • Nico says the sleigh [stayed] in the same place / • all [morning]
 - **보기**: stayed · moved · started · morning · evening · night
 - 조건: n1 기록·c-track-sleigh 촬영 뒤
 - 채점 뒤: 썰매를 옮기지 않았다는 니코의 주장 기록. 자국 추리의 근거이며 이동 시점은 증명하지 않음

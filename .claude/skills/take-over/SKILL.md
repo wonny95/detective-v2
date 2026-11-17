@@ -36,8 +36,10 @@ git log --oneline main..story                              # 기획 쪽 새 커�
 
 ## 3. 최신 미리보기 띄우기
 
-- `preview_start`로 `.claude/launch.json`의 `detective-dev`를 띄운다(`http://localhost:5173/`, 이미 떠 있으면 재사용).
+- 사용자 확인용은 `.claude/launch.json`의 `detective-review`(`http://localhost:5176/`)다. 이미 떠 있으면 그대로 재사용하며, `.preview/review/index.html`이 없을 때만 먼저 `node scripts/update-review.js`로 복사본을 만든다. 작업 중인 파일을 이어받았다는 이유만으로 확인용에 덮어쓰지 않는다.
+- AI 테스트용은 별도 `detective-test`(`http://localhost:5177/`)를 쓴다. 이후 화면 검증은 반드시 5177의 새 탭에서 한다. 5176은 자동 새로고침이 없는 복사본, 5177은 작업 파일과 자동 새로고침을 쓰며 저장 기록도 분리된다(AGENTS.md "사용자 확인과 AI 테스트 분리").
 - 이 탭은 **사용자가 볼 화면**이다. 스크립트를 돌리거나 테스트 버튼을 누르지 않는다. 사용자의 `localStorage` 진행을 바꾸지 않는다.
+- 검증을 마친 게임을 확인용에 반영할 때만 `node scripts/update-review.js`를 실행하고 “확인용 반영 완료, 원할 때 새로고침”이라고 알린다. 사용자 탭을 강제로 새로고침·이동하지 않는다.
 - 최근 작업이 특정 사건·파트에 있으면 들어가는 주소를 보고에 적는다(예: 소풍 사건 `?case=picnic`, 파트 `?preview=map|place|deduce|interview`). 사용자가 보여 달라고 하면 그때 이동한다.
 - 스크린샷을 한 장 찍어 화면이 뜬 것을 확인한다. 콘솔 오류가 있으면 `read_console_messages`(onlyErrors)로 보고 알린다.
 

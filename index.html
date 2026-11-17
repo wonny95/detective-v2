@@ -671,6 +671,9 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .capture-view{position:absolute;inset:0;z-index:6;display:grid;place-items:center;background:rgba(30,28,24,.72);overflow:hidden}
 .capture-frame{width:calc(100% - 32px);max-width:520px;aspect-ratio:4/3;border:3px solid #FFFDF7;border-radius:6px;overflow:hidden;box-shadow:0 8px 28px #0005;animation:evidence-zoom .45s ease-out both}
 .capture-frame svg{display:block;width:100%;height:100%;background:var(--paper)}
+/* A photo shown during a conversation uses the same frame, with room for the current speech bubble. */
+.capture-view.talk-photo{z-index:4;pointer-events:none;padding:12px 16px;box-sizing:border-box}
+.talk-photo .capture-frame{width:auto;height:auto;max-width:100%;max-height:100%;aspect-ratio:4/3;margin:0;box-sizing:border-box}
 @keyframes evidence-zoom{from{transform:scale(.6);opacity:.3}to{transform:scale(1);opacity:1}}
 @keyframes shutter-flash{0%{opacity:0}15%{opacity:.78}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.capture-flash{animation:none;opacity:0}}
@@ -855,11 +858,13 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .snow.on{display:block}
 .art-wrap{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
 /* a place with fixed:true stays put in the middle (no swiping round it) */
-.art-wrap.fixed{overflow-x:hidden}
+.art-wrap.fixed{overflow-x:hidden;touch-action:none}
 .art-wrap::-webkit-scrollbar{display:none}
 .art{position:relative;height:100%;aspect-ratio:3/2;transform-origin:0 0;user-select:none;-webkit-user-select:none}
 .art > svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .scene-npc{position:absolute;z-index:2;padding:0;border:0;background:transparent;transform:translateX(-50%);cursor:pointer}
+.scene-npc.grounded::before{content:"";position:absolute;left:50%;bottom:-1%;width:64%;height:6%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(57,35,21,.32),rgba(57,35,21,.12) 42%,transparent 72%);pointer-events:none}
+.scene-npc.grounded > svg{position:relative}
 .scene-npc svg{display:block;width:100%;height:100%;overflow:visible}
 .scene-npc span{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);padding:2px 8px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-family:var(--f-hand);font-size:13px;font-weight:700;white-space:nowrap}
 .scene-npc:hover span,.scene-npc:focus-visible span{background:var(--honey)}
@@ -1896,11 +1901,11 @@ const PICNIC_CASE = {
       },
       // blanks: only words said in the answer, the ones that are clues or worth learning (user request)
       notes:{
-        r0:['“This isn\'t {{l|my}} bag. Can you help me find {{m|mine}}?”'],
-        r1:['She is not {{a|sure}}.', 'Her bag is {{b|blue}}, just like this one.'],
-        r2:['Her bag has a {{c|red}} {{d|lunch box}} and a {{e|yellow}} {{f|bottle}}.'],
-        r3:['She does not {{g|know}} whose bag this is.', 'She wants me to {{h|find out}}.'],
-        r4:['She went to the {{j|cafe/lake cafe}}.', 'Maybe the bags got {{k|mixed up}} there.']
+        r0:["- not Rosie's bag (“{{l|my}}”)","- find her bag (“{{m|mine}}”)"],
+        r1:["- She is not {{a|sure}}.","- Her bag is {{b|blue}}, just like this one."],
+        r2:["- Her bag has a {{c|red}} {{d|lunch box}} and a {{e|yellow}} {{f|bottle}}."],
+        r3:["- She does not {{g|know}} whose bag this is.","- She wants me to {{h|find out}}."],
+        r4:["- She went to the {{j|cafe/lake cafe}}.","- Maybe the bags got {{k|mixed up}} there."]
       },
       // word banks: about three wrong cards per blank, answers not first in their group (user request: two choices were too easy)
       bank:{ r0:['your','my','his','her','yours','mine','hers'], r1:['sorry','happy','sure','sad','red','green','blue','yellow'],
@@ -1929,9 +1934,9 @@ const PICNIC_CASE = {
         v3:'They told me their plans. Ben went home. Mia and Ollie went to the garden.'
       },
       notes:{
-        v1:['Rosie, {{a|Ben/ben beaver}}, Mia, and Ollie came to the cafe.'],
-        v2:['{{c|Nobody/no one}} {{d|left}} a bag at the cafe.'],
-        v3:['Ben went {{g|home}}.', 'Mia and Ollie went to the {{h|garden}}.']
+        v1:["- Rosie, {{a|Ben/ben beaver}}, Mia, and Ollie came to the cafe."],
+        v2:["- {{c|Nobody/no one}} {{d|left}} a bag at the cafe."],
+        v3:["- Ben went {{g|home}}.","- Mia and Ollie went to the {{h|garden}}."]
       },
       bank:{ v1:['Ray','Betty','Ben','Fiona','Hoot','Rosie'], v2:['Nobody','Everyone','Ben','left','took','brought'],
         v3:['office','home','cafe','library','garden','bakery'] }
@@ -1958,8 +1963,8 @@ const PICNIC_CASE = {
         b2:"I don't know. I didn't open it."
       },
       notes:{
-        b1:["Nora left {{a|her}} blue bag at Ben's {{b|house}}.", 'Ben stopped at the {{c|cafe}}.', 'Then he {{d|took}} it to her {{e|office}}.', 'After that, he came home.'],
-        b2:['He does not {{f|know}} what was inside.', 'He did not {{g|open}} it.']
+        b1:["- Nora left {{a|her}} blue bag at Ben's {{b|house}}.","- Ben stopped at the {{c|cafe}}.","- Then he {{d|took}} it to her {{e|office}}.","- After that, he came home."],
+        b2:["- He does not {{f|know}} what was inside.","- He did not {{g|open}} it."]
       },
       bank:{ b1:['his','my','her','garden','house','library','cafe','made','took','brought','bakery','office'],
         b2:['remember','know','find','carry','close','open'] }
@@ -2001,8 +2006,8 @@ const PICNIC_CASE = {
         g2:"Yes, it's mine. I opened it. My picnic things are inside."
       },
       notes:{
-        g1:["Ollie's bag is {{a|red}}.", "Mia's bag is {{b|blue}}."],
-        g2:["The blue bag is Mia's.", 'She {{c|opened}} it.', 'Her {{d|picnic}} things are {{e|inside}}.']
+        g1:["- Ollie's bag is {{a|red}}.","- Mia's bag is {{b|blue}}."],
+        g2:["- The blue bag is Mia's.","- She {{c|opened}} it.","- Her {{d|picnic}} things are {{e|inside}}."]
       },
       bank:{ g1:['yellow','red','green','blue','pink','black','white'], g2:['closed','lost','opened','office','picnic','school','outside','under','inside'] }
     },
@@ -2026,9 +2031,9 @@ const PICNIC_CASE = {
         n3:"I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange."
       },
       notes:{
-        n1:["Nora {{a|left}} her bag at Ben's house.", 'Ben {{b|brought}} it to her.'],
-        n2:['Her bag had a {{c|green}} {{d|folder}} and a {{e|blue}} {{f|pen}}.'],
-        n3:['She was in a {{g|meeting}}, so she did not open it.', 'Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.', 'She thinks that is strange.']
+        n1:["- Nora {{a|left}} her bag at Ben's house.","- Ben {{b|brought}} it to her."],
+        n2:["- Her bag had a {{c|green}} {{d|folder}} and a {{e|blue}} {{f|pen}}."],
+        n3:["- She was in a {{g|meeting}}, so she did not open it.","- Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle.","- She thinks that is strange."]
       },
       bank:{ n1:['lost','left','found','bought','took','brought'], n2:['red','green','yellow','blue','book','folder','bag','pencil','pen','cup'],
         n3:['meeting','class','party','green','red','blue','yellow','pink'] }
@@ -2257,9 +2262,9 @@ const UMBRELLA_CASE = {
         e2:"It's been here for a week."
       },
       notes:{
-        e0:['“Someone {{d|left}} that umbrella here. Can you help me?”'],
-        e1:["“I don't {{a|know}}. No one came {{b|back}} for it.”"],
-        e2:["“It's been here for a {{c|week}}.”"]
+        e0:["- someone {{d|left}} the umbrella at the village hall","- Ella asked for my help"],
+        e1:["- Ella does not {{a|know}} the owner","- no one came {{b|back}} for the umbrella"],
+        e2:["- umbrella at the hall for a {{c|week}}"]
       },
       bank:{ e0:['lost','left','lent','felt'], e1:['see','know','now','think','here','back','bag','home'], e2:['day','week','month','year','hour','weekend'] }
     },
@@ -2291,12 +2296,12 @@ const UMBRELLA_CASE = {
         t5:'Finn is looking for his umbrella. You can find him on Windmill Hill.'
       },
       notes:{
-        t0:["“Yes. But I often {{a|lend}} mine to friends. I'm not sure {{b|where}} it is now.”"],
-        t1:['“Mine is {{c|dark blue}}. It has a {{d|blue}} {{e|handle}}.”'],
-        t2:['“Mine has {{f|gold}} {{g|stars}}.”'],
-        t3:['“Mine is {{h|dark blue}} {{i|inside}}.”'],
-        t4:['“Ask {{j|Ruby}}, too. She works {{k|here}}. We were at the bazaar {{l|together}}.”'],
-        t5:['“{{m|Finn}} is looking for his {{n|umbrella}}. You can find him on {{o|Windmill Hill}}.”']
+        t0:["- Tess brought his umbrella that day","- Tess's habit: to {{a|lend}} his umbrella to friends","- not sure {{b|where}} his umbrella is now"],
+        t1:["- Tess's umbrella: {{c|dark blue}}","- {{d|blue}} {{e|handle}}"],
+        t2:["- Tess's umbrella: {{f|gold}} {{g|stars}}"],
+        t3:["- Tess's umbrella: {{h|dark blue}} {{i|inside}}"],
+        t4:["- ask {{j|Ruby}}","- Ruby works at Toy Nest (“{{k|here}}”)","- Tess and Ruby were at the bazaar {{l|together}}"],
+        t5:["- {{m|Finn}} is looking for his {{n|umbrella}}","- find Finn on {{o|Windmill Hill}}"]
       },
       bank:{ t0:['borrow','lend','land','send','when','where','what','who'], t1:['black','dark blue','red','blue','green','bottle','handle','strap'], t2:['silver','gold','cold','white','stripes','stars','stairs','dots'],
         t3:['gold','dark blue','silver','dark green','outside','inside','under','behind'], t4:['Finn','Ruby','there','here','near','alone','together'],
@@ -2321,9 +2326,9 @@ const UMBRELLA_CASE = {
         r3:'Mine is gold inside.'
       },
       notes:{
-        r1:['“Mine is {{a|dark blue}}. It has a {{b|blue}} {{c|handle}}.”'],
-        r2:['“Mine has {{d|gold}} {{e|stars}}.”'],
-        r3:['“Mine is {{f|gold}} {{g|inside}}.”']
+        r1:["- Ruby's umbrella: {{a|dark blue}}","- {{b|blue}} {{c|handle}}"],
+        r2:["- Ruby's umbrella: {{d|gold}} {{e|stars}}"],
+        r3:["- Ruby's umbrella: {{f|gold}} {{g|inside}}"]
       },
       bank:{ r1:['black','dark blue','red','blue','green','star','handle'], r2:['silver','gold','cold','white','stripes','stars','stairs','dots'], r3:['dark blue','gold','silver','cold','outside','inside','under','behind'] }
     },
@@ -2345,8 +2350,8 @@ const UMBRELLA_CASE = {
         f2:"Mine has no pattern. It's plain."
       },
       notes:{
-        f1:['“Mine is {{a|dark blue}}. It has a {{b|blue}} {{c|handle}}.”'],
-        f2:["“Mine has {{d|no}} {{e|pattern}}. It's {{f|plain}}.”"]
+        f1:["- Finn's umbrella: {{a|dark blue}}","- {{b|blue}} {{c|handle}}"],
+        f2:["- Finn's umbrella: {{d|no}} {{e|pattern}}","- {{f|plain}}"]
       },
       bank:{ f1:['white','dark blue','red','blue','green','star','handle'], f2:['gold','no','stars','stripes','pattern','small','plain'] }
     }
@@ -2416,7 +2421,7 @@ const UMBRELLA_CASE = {
         { clue:1, x:31, y:59, w:6.5, h:15 }
       ]},
     // the close look (inspect): the umbrella alone, folded or open (S.unfolded); never on the map
-    { id:'umbrella', inspect:true, label:'Umbrella', artWidth:1376, artHeight:768,
+    { id:'umbrella', inspect:true, fixed:true, label:'Umbrella', artWidth:1376, artHeight:768,
       clues:[
         { label:'Umbrella handle', en:'This handle is blue.', ko:'이 손잡이는 파란색이야.' },
         { label:'Umbrella pattern', en:'This umbrella has gold stars on dark blue fabric.', ko:'이 우산은 남색 천에 금빛 별무늬가 있어.' },
@@ -2424,7 +2429,7 @@ const UMBRELLA_CASE = {
       ],
       spots:[
         { clue:0, folded:true, x:44.9, y:68.7, w:6.8, h:18.5, photo:{x:566,y:548,w:176,h:132} },
-        { clue:1, folded:true, x:43.2, y:31.3, w:14.4, h:31.4, photo:{x:579,y:253,w:230,h:173} },
+        { clue:1, folded:true, x:43.2, y:31.3, w:14.4, h:31.4, photo:{x:579,y:320,w:230,h:173} },
         { clue:2, open:true, x:40.5, y:34.1, w:17.5, h:20.0, photo:{x:564,y:252,w:220,h:165} }
       ]}
   ],
@@ -2554,19 +2559,19 @@ const VIOLIN_CASE = {
         t4:"A dog in the waiting room, a goat on stage, a mole backstage. I don't know their names."
       },
       notes:{
-        t0:['“My violin is {{a|missing}}. Can you {{b|find}} it before the contest?”'],
-        t5:['“I played it at {{c|rehearsal}}. It was gone when I came back from the {{d|lobby}}.”'],
-        t1:['“I left it {{e|in}} its case, {{f|next to}} the left chair in the {{g|waiting room}}.”'],
-        t2:['“{{n|There is}} a {{h|yellow moon}} sticker {{i|on}} my black case.”'],
-        t3:["“{{o|There are}} two chairs by the door. I looked {{j|under}} both, but the case wasn't there.”"],
-        t4:["“A {{k|dog}} in the waiting room, a {{l|goat}} on stage, a {{m|mole}} backstage. I don't know their names.”"]
+        t0:["- Tara's violin is {{a|missing}}","- asked me to {{b|find}} it before the contest"],
+        t5:["- Tara played it at {{c|rehearsal}}","- gone when she returned from the {{d|lobby}}"],
+        t1:["- Tara left it {{e|in}} its case","- {{f|next to}} the left chair in the {{g|waiting room}}"],
+        t2:["- {{n|There is}} a {{h|yellow moon}} sticker {{i|on}} Tara's black case"],
+        t3:["- {{o|There are}} two chairs by the door","- Tara looked {{j|under}} both; no case"],
+        t4:["- {{k|dog}}: waiting room","- {{l|goat}}: stage","- {{m|mole}}: backstage","- Tara does not know their names"]
       },
       bank:{ t0:['missing','find','broken','leave','mixing','fine'], t5:['rehearsal','lobby','contest','stage','hobby','library'], t1:['in','next to','waiting room','on','behind','lobby','under'],
         t2:['There is','yellow moon','on','There are','They are','yellow star','under','yellow spoon','in'], t3:['There are','under','There is','They are','on','behind','next to','in'], t4:['dog','goat','mole','deer','bear','rabbit','fox'] },
       // design 4절: her photo of the case, taken once t2 is written down
       after:{ t2:{ lines:[
-        { key:'photo-give', en:"Here's a photo of my case.", ko:'내 케이스 사진이야.' },
-        { det:true, key:'photo', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.' }
+        { key:'photo-give', en:"Here's a photo of my case.", ko:'내 케이스 사진이야.', photo:'taraphoto-0' },
+        { det:true, key:'photo', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.', photo:'taraphoto-0' }
       ], snap:['taraphoto-0'] } },
       // design 7절: the violin shown to her once found and its strings seen; then the call to the officer, from the lobby
       actions:[
@@ -2606,10 +2611,10 @@ const VIOLIN_CASE = {
         o9:'Momo, the stage helper, carried a black toolbox behind the curtain.'
       },
       notes:{
-        o1:['“I stayed {{a|next to}} the door the {{b|whole time}}.”'],
-        o8:['“I waited for my {{c|turn}}.”'],
-        o2:['“Next to the chair, before Tara went to the {{d|lobby}}.”'],
-        o9:['“Momo, the stage helper, carried a {{e|black toolbox}} {{f|behind}} the curtain.”']
+        o1:["- Owen stayed {{a|next to}} the door the {{b|whole time}}"],
+        o8:["- Owen waited for his {{c|turn}}"],
+        o2:["- Tara's case: next to the chair","- before Tara went to the {{d|lobby}}"],
+        o9:["- Momo carried a {{e|black toolbox}}","- {{f|behind}} the curtain"]
       },
       bank:{ o1:['next to','whole time','behind','last time','under','whole day'], o8:['turn','tool','train','tune','time','town'], o2:['lobby','ladder','library','hobby','lady','hallway'], o9:['black toolbox','behind','black case','next to','black box','under'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'My sleeves? OK.', answerKo:'내 소매? 그래.', inspect:'sleeves-owen' } ]
@@ -2634,10 +2639,10 @@ const VIOLIN_CASE = {
         i2:'Momo was on the ladder, next to the light. I was still on the stage.'
       },
       notes:{
-        i1:['“I was {{a|next to}} the {{b|music stand}} {{c|on}} the {{d|stage}}.”'],
-        i3:['“I wanted to {{e|practice}} the {{f|last part}} once more before the contest.”'],
-        i4:['“The {{g|side curtain}} was {{h|open}}. I could see the {{i|ladder}} {{j|next to}} the light.”'],
-        i2:['“Momo was {{k|on}} the {{l|ladder}}, {{m|next to}} the light. I was still {{n|on}} the {{o|stage}}.”']
+        i1:["- Ivo: {{a|next to}} the {{b|music stand}}","- {{c|on}} the {{d|stage}}"],
+        i3:["- Ivo wanted to {{e|practice}} the {{f|last part}}","- once more before the contest"],
+        i4:["- {{g|side curtain}} was {{h|open}}","- Ivo could see the {{i|ladder}} {{j|next to}} the light"],
+        i2:["- when the light came back on:","- Momo {{k|on}} the {{l|ladder}}, {{m|next to}} the light","- Ivo still {{n|on}} the {{o|stage}}"]
       },
       bank:{ i1:['next to','music stand','on','stage','behind','toolbox','under','lobby'], i3:['practice','last part','protect','first part','play','fast part'],
         i4:['side curtain','open','ladder','next to','floor','closed','mirror','behind'], i2:['on','ladder','next to','stage','on','under','chair','behind','lobby'] },
@@ -2668,11 +2673,11 @@ const VIOLIN_CASE = {
         m5:"They're mine. I lent them to Owen."
       },
       notes:{
-        m1:['“I {{a|fixed}} the light {{b|next to}} the ladder. It went out after rehearsal.”'],
-        m3:['“Yes. {{k|There are}} spare {{c|bulbs}} on the shelf {{d|behind}} the curtain. I needed one.”'],
-        m4:['“My {{e|black toolbox}}. I put it {{f|under}} the shelf before climbing the ladder.”'],
-        m2:['“{{g|Pip}} was by the side passage. I was busy with the {{h|light}}.”'],
-        m5:["“They're mine. I {{i|lent}} them to {{j|Owen}}.”"]
+        m1:["- Momo {{a|fixed}} the light {{b|next to}} the ladder","- light went out after rehearsal"],
+        m3:["- {{k|There are}} spare {{c|bulbs}} on the shelf {{d|behind}} the curtain","- Momo needed one and went behind the curtain"],
+        m4:["- Momo's {{e|black toolbox}}","- put it {{f|under}} the shelf before climbing the ladder"],
+        m2:["- {{g|Pip}}: by the side passage","- Momo was busy with the {{h|light}}"],
+        m5:["- cutters: Momo's","- Momo {{i|lent}} them to {{j|Owen}}"]
       },
       bank:{ m1:['fixed','next to','found','behind','mixed','under'], m3:['There are','bulbs','behind','There is','They are','buttons','next to','bells','under'], m4:['black toolbox','under','black case','on','black box','behind'],
         m2:['Pip','light','Ivo','night','Tara','right'], m5:['lent','Owen','left','Ivo','sent','Tara'] },
@@ -2690,8 +2695,8 @@ const VIOLIN_CASE = {
         p2:"No. I only saw the case through the door, and I couldn't see a sticker."
       },
       notes:{
-        p1:['“No, but someone carried a {{a|black case}} {{b|behind}} the curtain when the light came back on.”'],
-        p2:["“No. I only saw the case through the {{c|door}}, and I couldn't see a sticker.”"]
+        p1:["- Pip did not see a violin","- someone carried a {{a|black case}} {{b|behind}} the curtain","- when the light came back on"],
+        p2:["- Pip only saw the case through the {{c|door}}","- could not see a sticker"]
       },
       bank:{ p1:['black case','behind','black toolbox','next to','black bag','under'], p2:['door','floor','case','window','four','wall'] }
     },
@@ -2809,7 +2814,8 @@ const VIOLIN_CASE = {
     owen:{x:24, floor:94, height:44},
     ivo:{x:70, floor:94, height:46},
     momo:{x:46, floor:95, height:42},
-    pip:{x:7, floor:88, height:25},
+    // outside the side passage, on the preparation-room floor: clear of the door frame and Momo
+    pip:{x:32, floor:91, height:34, grounded:true},
     badger:{x:66, floor:94, height:44}
   },
   items:{
@@ -2955,7 +2961,9 @@ const CHRISTMAS_CASE = {
       hello:[ { key:'hello', en:"Detective, I'd like you to look into a missing item.", ko:'탐정, 이번 사건은 없어진 물건을 조사해 줬으면 좋겠어.' } ],
       questions:[ { id:'b0', en:"What's missing?", ko:'뭐가 없어졌는데?' } ],
       answers:{ b0:"The town's Christmas star is missing. Ask Ella at the information desk for more details." },
-      notes:{ b0:["- the town's Christmas star is missing", '- ask {{a|Ella}} at the {{b|information desk}}'] },
+      notes:{
+        b0:["- the town's Christmas star is missing","- ask {{a|Ella}} at the {{b|information desk}}"]
+      },
       // written down → Ella shows at the desk (no thought line: the note already says where to go, user pick C 2026-11-11)
       unlocks:{ b0:{ people:['ella'] } },
       bank:{ b0:['Ella','Ellie','Emma','information desk','gift shop','front door'] } },
@@ -2983,10 +2991,10 @@ const CHRISTMAS_CASE = {
         e3:'Yes. She was decorating the tree while I was with the children.'
       },
       notes:{
-        e0:['- showed the children around the festival', '- came back → the {{a|star}} was {{b|missing}}'],
-        e1:['- real {{c|gold}}, very {{d|heavy}}', '- small {{e|leaf}} pattern on the back'],
-        e2:['- left it in its {{f|case}}', '- on the {{g|storeroom}} {{h|shelf}}'],
-        e3:['- Daisy was {{i|decorating}} the {{j|tree}}', '- while Ella was with the children']
+        e0:["- showed the children around the festival","- came back → the {{a|star}} was {{b|missing}}"],
+        e1:["- real {{c|gold}}, very {{d|heavy}}","- small {{e|leaf}} pattern on the back"],
+        e2:["- left it in its {{f|case}}","- on the {{g|storeroom}} {{h|shelf}}"],
+        e3:["- Daisy was {{i|decorating}} the {{j|tree}}","- while Ella was with the children"]
       },
       bank:{ e0:['star','string','start','missing','shining','moving'], e1:['gold','glass','silver','heavy','light','leaf','line'], e2:['case','box','storeroom','gift tent','shelf','table','floor'],
         e3:['decorating','sorting','wrapping','tree','storeroom','sleigh'] },
@@ -3016,10 +3024,10 @@ const CHRISTMAS_CASE = {
         h4:"Yes. I'm taking decorations to the Tree Square in a handcart."   // the loaded handcart stands at the door (review 6)
       },
       notes:{
-        h1:['- {{a|sorting}} {{b|decorations}} for the festival', '- helping Ella'],
-        h2:['- Coco and Tess {{c|came}} in {{d|together}}', '- for wrapping {{j|supplies}}', '- then they {{i|left}}'],
-        h3:['- Coco, Tess: {{e|working}} in the {{f|gift tent}}'],
-        h4:['- taking decorations to the {{g|Tree Square}}', '- in a {{h|handcart}}']
+        h1:["- {{a|sorting}} {{b|decorations}} for the festival","- helping Ella"],
+        h2:["- Coco and Tess {{c|came}} in {{d|together}}","- for wrapping {{j|supplies}}","- then they {{i|left}}"],
+        h3:["- Coco, Tess: {{e|working}} in the {{f|gift tent}}"],
+        h4:["- taking decorations to the {{g|Tree Square}}","- in a {{h|handcart}}"]
       },
       bank:{ h1:['sorting','carrying','selling','decorations','gifts','mittens'], h2:['came','come','together','alone','supplies','snacks','left','leave'], h3:['working','wrapping','sleeping','gift tent','storeroom','Tree Square'],
         h4:['Tree Square','gift tent','storeroom','handcart','sleigh','basket'] } },
@@ -3049,10 +3057,10 @@ const CHRISTMAS_CASE = {
       },
       notes:{
         star:["- {{k|didn't}} see the star"],
-        m0:["- needed {{a|wrapping paper}}", "- for the children's {{b|gifts}}"],
-        m1:['- {{c|making}} {{d|snowflakes}} for the tree', '- helping Daisy'],
-        m3:['- {{e|not}} wrapping now', '- wrapped mittens in {{f|four}} boxes', '- {{g|Nico}} took them'],
-        m4:['- Nico: a {{h|volunteer}}, too', '- {{i|taking}} the gifts to the {{j|sleigh}}']
+        m0:["- needed {{a|wrapping paper}}","- for the children's {{b|gifts}}"],
+        m1:["- {{c|making}} {{d|snowflakes}} for the tree","- helping Daisy"],
+        m3:["- {{e|not}} wrapping now","- wrapped mittens in {{f|four}} boxes","- {{g|Nico}} took them"],
+        m4:["- Nico: a {{h|volunteer}}, too","- {{i|taking}} the gifts to the {{j|sleigh}}"]
       },
       bank:{ star:["didn't",'did',"don't",'do'], m0:['wrapping paper','drawing paper','ribbons','gifts','toys','bags'], m1:['making','wrapping','cutting','snowflakes','mittens','stars'], m3:['not','now','four','five','Nico','Tess'], m4:['volunteer','visitor','taking','making','sleigh','tent'] } },
     tess: { id:'tess', name:'Tess Tortoise', ko:'거북 테스', job:'자원봉사자', place:'tent', witness:true, required:true, pitch:1.0, voice:1, bg:'#E2E8D8',
@@ -3086,11 +3094,11 @@ const CHRISTMAS_CASE = {
         t3:"No, I'm still wrapping. They're not ready yet."
       },
       notes:{
-        star:["- {{h|didn't}} see the star"],   // a memo, as the others (user request: "No, I didn't." read oddly)
-        storeroom:['- {{i|needed}} some {{j|empty}} {{k|boxes}}', '- for the gifts'],
-        t5:['- went with {{l|Coco}}', '- then we {{m|stayed}} here all {{n|morning}}'],
-        t1:['- {{a|wrapping}} {{b|toys}}', '- gifts for the children'],
-        t3:['- {{c|still}} wrapping', '- {{d|not}} ready yet']
+        star:["- {{h|didn't}} see the star"],
+        storeroom:["- {{i|needed}} some {{j|empty}} {{k|boxes}}","- for the gifts"],
+        t5:["- went with {{l|Coco}}","- Tess and Coco {{m|stayed}} in the tent all {{n|morning}}"],
+        t1:["- {{a|wrapping}} {{b|toys}}","- gifts for the children"],
+        t3:["- {{c|still}} wrapping","- {{d|not}} ready yet"]
       },
       bank:{ star:["didn't",'did',"don't",'do'], storeroom:['needed','wanted','empty','full','boxes','bags','ribbons'],
         t5:['Coco','Nico','Daisy','stayed','left','morning','night'],
@@ -3130,12 +3138,12 @@ const CHRISTMAS_CASE = {
         n5:'No. It stayed right here all morning.'
       },
       notes:{
-        n1:['- {{a|getting ready}} for the delivery', '- not {{b|delivering}} yet'],
-        n2:['- loading some {{c|gifts}}', '- {{d|Coco}} and {{p|Tess}} {{e|wrapped}} them'],
-        storeroom:['- No. {{n|waiting}} for all the gifts', '- to be {{o|wrapped}}'],
-        n3:['- {{f|not}} {{g|wrapping}} {{h|gifts}}', '- only delivers them'],
-        n4:['- not {{i|sure}}', '- thinks he saw {{j|Tess}} taking a {{k|star}}'],
-        n5:['- the sleigh {{l|stayed}} right here', '- all {{m|morning}}']
+        n1:["- {{a|getting ready}} for the delivery","- not {{b|delivering}} yet"],
+        n2:["- loading some {{c|gifts}}","- {{d|Coco}} and {{p|Tess}} {{e|wrapped}} them"],
+        storeroom:["- Nico denies entering the storeroom","- {{n|waiting}} for all the gifts to be {{o|wrapped}}"],
+        n3:["- {{f|not}} {{g|wrapping}} {{h|gifts}}","- only delivers them"],
+        n4:["- not {{i|sure}}","- thinks he saw {{j|Tess}} taking a {{k|star}}"],
+        n5:["- Nico says the sleigh {{l|stayed}} in the same place","- all {{m|morning}}"]
       },
       bank:{ n1:['getting ready','loading','opening','delivering','decorating','wrapping'], n2:['gifts','mittens','Coco','Tess','Daisy','wrapped','opened'],
         storeroom:['waiting','wanting','working','wrapped','opened','sold'],
@@ -3651,9 +3659,9 @@ const PEOPLE = PACK ? PACK.people : {
       b3:"Look around the library carefully. When you know who did it, come and tell me."
     },
     notes:{
-      b1:["Victim: Professor {{a|Hoot}}.","Place: the Old {{b|Library}}.","He was found at {{c|9 PM/9/nine}}."],
-      b2:["{{d|Mrs. Mole/mrs mole}} found him. She is the {{e|librarian}}.","It happened between {{f|8 PM/8/eight}} and {{g|9 PM/9/nine}}."],
-      b3:["Look around the {{h|library}} carefully.","When I know who did it, I come and {{i|tell}} him."]
+      b1:["- Victim: Professor {{a|Hoot}}.","- Place: the Old {{b|Library}}.","- He was found at {{c|9 PM/9/nine}}."],
+      b2:["- {{d|Mrs. Mole/mrs mole}} found him. She is the {{e|librarian}}.","- It happened between {{f|8 PM/8/eight}} and {{g|9 PM/9/nine}}."],
+      b3:["- check the {{h|library}} carefully","- {{i|tell}} Sgt. Badger when I know who did it"]
     },
     bank:{
       b1:['Hoot','Mole','Library','Bakery','8 PM','9 PM','10 PM'],
@@ -3677,9 +3685,9 @@ const PEOPLE = PACK ? PACK.people : {
       m3:"Today, he wrote in the newspaper that Fiona Fox's pies were too sweet. Fiona was very angry about it."
     },
     notes:{
-      m1:["She asked the professor to look after the {{b|library}} and went home to get a {{k|book}}.","She came back at {{a|9 PM/9/nine}}.","He was on the floor."],
-      m2:["{{c|Ray Raccoon/ray raccoon}} came at 7:30 to borrow a {{d|music}} book.","{{e|Rosie Rabbit/rosie rabbit}} came at {{f|7 PM/7/seven}} to return a book about {{g|stars}}."],
-      m3:["Hoot wrote in the {{l|newspaper}} that {{h|Fiona Fox/fiona fox}}'s pies were too {{i|sweet}}.","Fiona was very {{j|angry}}."]
+      m1:["- She asked the professor to look after the {{b|library}} and went home to get a {{k|book}}.","- She came back at {{a|9 PM/9/nine}}.","- He was on the floor."],
+      m2:["- {{c|Ray Raccoon/ray raccoon}} came at 7:30 to borrow a {{d|music}} book.","- {{e|Rosie Rabbit/rosie rabbit}} came at {{f|7 PM/7/seven}} to return a book about {{g|stars}}."],
+      m3:["- Hoot wrote in the {{l|newspaper}} that {{h|Fiona Fox/fiona fox}}'s pies were too {{i|sweet}}.","- Fiona was very {{j|angry}}."]
     },
     bank:{
       m1:['8 PM','9 PM','10 PM','library','book','dinner','door','window'],
@@ -3702,9 +3710,9 @@ const PEOPLE = PACK ? PACK.people : {
       q3:"He was a regular customer who bought bread from me every morning."
     },
     notes:{
-      q1:["Fiona was at the {{a|bakery}} from {{b|7 PM/7/seven}} to {{c|10 PM/10/ten}}.","She was baking {{d|blueberry pies/blueberry pie}}."],
-      q2:["She was {{e|alone}} in her kitchen.","Baking pies takes all {{f|evening}}."],
-      q3:["Hoot was a {{k|regular customer}} who bought {{l|bread}} from Fiona every {{m|morning}}."]
+      q1:["- Fiona was at the {{a|bakery}} from {{b|7 PM/7/seven}} to {{c|10 PM/10/ten}}.","- She was baking {{d|blueberry pies/blueberry pie}}."],
+      q2:["- She was {{e|alone}} in her kitchen.","- Baking pies takes all {{f|evening}}."],
+      q3:["- Hoot was a {{k|regular customer}} who bought {{l|bread}} from Fiona every {{m|morning}}."]
     },
     bank:{
       q1:['bakery','library','7 PM','9 PM','10 PM','blueberry pies','apple cakes','cookies'],
@@ -3722,9 +3730,9 @@ const PEOPLE = PACK ? PACK.people : {
       q3:"He borrowed my lantern last month and never gave it back. But he was a kind old owl."
     },
     notes:{
-      q1:["Ray was at the {{a|Lake Cafe/lake cafe}}.","He played the {{b|guitar}} from {{c|8 PM/8/eight}} to {{d|9:30 PM/9:30/nine thirty}}."],
-      q2:["The whole {{e|cafe}} saw him.","Witness: {{f|Mr. Duck/mr duck}}, the cafe owner."],
-      q3:["Hoot borrowed his {{g|lantern}} and never gave it back.","He was a kind old {{h|owl}}."]
+      q1:["- Ray was at the {{a|Lake Cafe/lake cafe}}.","- He played the {{b|guitar}} from {{c|8 PM/8/eight}} to {{d|9:30 PM/9:30/nine thirty}}."],
+      q2:["- The whole {{e|cafe}} saw him.","- Witness: {{f|Mr. Duck/mr duck}}, the cafe owner."],
+      q3:["- Hoot borrowed his {{g|lantern}} and never gave it back.","- He was a kind old {{h|owl}}."]
     },
     bank:{
       q1:['Lake Cafe','Moon Hill','guitar','drum','piano','8 PM','9 PM','9:30 PM'],
@@ -3743,9 +3751,9 @@ const PEOPLE = PACK ? PACK.people : {
       q3:"Professor Hoot taught me the names of the stars. I'm going to miss him so much."
     },
     notes:{
-      q1:["Rosie was on {{a|Moon Hill/moon hill}} with her {{b|telescope}}.","She was there from {{c|8 PM/8/eight}} to {{d|10 PM/10/ten}}."],
-      q2:["{{e|Nobody/no one}} was with her.","She saw a {{f|shooting star}} at {{g|8:45/eight forty-five/eight forty five}}.","She wrote it in the {{h|Star Club/star club}} notebook."],
-      q3:["Hoot taught her the names of the {{i|stars}}."]
+      q1:["- Rosie was on {{a|Moon Hill/moon hill}} with her {{b|telescope}}.","- She was there from {{c|8 PM/8/eight}} to {{d|10 PM/10/ten}}."],
+      q2:["- {{e|Nobody/no one}} was with her.","- She saw a {{f|shooting star}} at {{g|8:45/eight forty-five/eight forty five}}.","- She wrote it in the {{h|Star Club/star club}} notebook."],
+      q3:["- Hoot taught her the names of the {{i|stars}}."]
     },
     bank:{
       q1:['Moon Hill','Lake Cafe','telescope','camera','blanket','8 PM','9 PM','10 PM'],
@@ -3766,8 +3774,8 @@ const PEOPLE = PACK ? PACK.people : {
       d2:"No, never. I was behind the counter all night, and I watched him. He played twelve songs!"
     },
     notes:{
-      d1:["Ray played his guitar on the {{a|stage}}.","He played from {{b|8 PM/8/eight}} to {{c|9:30 PM/9:30/nine thirty}}."],
-      d2:["Ray {{d|never}} left the stage.","Mr. Duck was behind the {{e|counter}} all night.","Ray played {{f|twelve/12}} songs."]
+      d1:["- Ray played his guitar on the {{a|stage}}.","- He played from {{b|8 PM/8/eight}} to {{c|9:30 PM/9:30/nine thirty}}."],
+      d2:["- Ray {{d|never}} left the stage.","- Mr. Duck was behind the {{e|counter}} all night.","- Ray played {{f|twelve/12}} songs."]
     },
     bank:{
       d1:['stage','counter','kitchen','8 PM','9 PM','9:30 PM','10 PM'],
@@ -3788,8 +3796,8 @@ const PEOPLE = PACK ? PACK.people : {
       b2:"I waited and waited, but I got tired. So I went home with no bread."
     },
     notes:{
-      b1:["She went to the bakery at {{a|8:30/eight thirty}}.","She ordered a {{b|loaf}} of bread.","She knocked, but she never saw {{c|Fiona/fiona}}."],
-      b2:["She {{d|waited}} for a long time.","She went {{e|home}} with no bread."]
+      b1:["- She went to the bakery at {{a|8:30/eight thirty}}.","- She ordered a {{b|loaf}} of bread.","- She knocked, but she never saw {{c|Fiona/fiona}}."],
+      b2:["- She {{d|waited}} for a long time.","- She went {{e|home}} with no bread."]
     },
     bank:{
       b1:['8:30','8:40','9 PM','loaf','cake','Fiona','Mr. Duck'],
@@ -5393,7 +5401,7 @@ function playLines(id, lines, onDone, i = 0){
   const tapNext = () => waitTap(() => { if(S.investigate || S.cur !== id) return; if(!ending) renderSay(null); next(); });
   const theirs = (en, key, as) => {
     const say = () => speak(en, key, id, tapNext, null, as);
-    if(!ending) renderSay({ who:id, en, ko:line.ko, replay:() => { dropTap(); say(); } });
+    if(!ending) renderSay({ who:id, en, ko:line.ko, photo:line.photo, replay:() => { dropTap(); say(); } });
     say();
   };
   if(typeof line === 'string') return theirs(line, 'hello');
@@ -6550,6 +6558,7 @@ let sayReplay = null;
 function renderSay(line){
   const b = $('#sayBubble');
   dropTap();   // a line that was waiting for a tap is gone (another line, or the conversation went on)
+  renderTalkPhoto(line?.photo);
   if(!line){ b.hidden = true; return; }
   // 다시 듣기 only for the line the ending is on (her quick answer to a wrong photo leads straight on to her first claim)
   const again = line === ending?.line && !line.think || !!line.replay;   // the detective's thought is not said
@@ -6560,7 +6569,31 @@ function renderSay(line){
   b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/detective.png'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' + (line.det ? '' : '<i class="say-cue"></i>') +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
+  fitTalkPhoto();
 }
+// Conversation photos are visible while their line waits for a tap; recording still happens in the beat's snap.
+function renderTalkPhoto(ref){
+  const shown = $('.talk-photo');
+  if(shown?.dataset.ref === ref) return;
+  shown?.remove();
+  if(!ref) return;
+  const at = ref.lastIndexOf('-'), place = placeOf(ref.slice(0, at)), clueIndex = +ref.slice(at + 1);
+  const view = document.createElement('div');
+  view.className = 'capture-view talk-photo'; view.dataset.ref = ref;
+  view.innerHTML = `<figure class="capture-frame" role="img" aria-label="${esc(place.clues[clueIndex].label)}">${evidencePhoto(place, clueIndex)}</figure>`;
+  $('.scene').appendChild(view);
+}
+function fitTalkPhoto(){
+  const view = $('.talk-photo'), bubble = $('#sayBubble');
+  if(!view || bubble.hidden) return;
+  const scene = $('.scene'), det = bubble.classList.contains('det');
+  const top = det ? 58 : bubble.offsetTop + bubble.offsetHeight + 22;
+  const bottom = det ? scene.clientHeight - bubble.offsetTop + 12 : 20;
+  view.style.paddingTop = `${top + 12}px`; view.style.paddingBottom = `${bottom + 12}px`;
+  // Fit both narrow phones and short desktop previews without cropping the image or covering the words.
+  view.querySelector('.capture-frame').style.width = `${Math.max(0, Math.min(scene.clientWidth - 32, (scene.clientHeight - top - bottom - 24) * 4 / 3, 520))}px`;
+}
+new ResizeObserver(fitTalkPhoto).observe($('#sayBubble'));
 // 해석 in the bubble: the Korean of the line under the English (user decision: in every part of the ending)
 $('#sayBubble').addEventListener('click', e => {
   if(!e.target.closest('button') && tapGo()) return;   // the bubble is part of the screen (해석 stays a button)
@@ -8068,7 +8101,7 @@ function renderScene(placeId = S.place){
       style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%" aria-label="${esc(pl.clues[s.clue].label)} ${s.door ? '열기' : '살펴보기'}">${s.door ? `<span class="spot-door"><i${s.arrow ? ` class="to-${s.arrow}"` : ''}>›</i></span>` : ''}</button>`).join('') +
     people.map(id => {
       const position = positionOf(id), sprite = SPRITES[spriteKey(id)], { width, height } = npcBox(id, pl);
-      return `<button class="scene-npc" type="button" data-talk="${id}" style="left:${position.x}%;bottom:${100 - position.floor}%;height:${height}%;width:${width}%;transform:translateX(-${(sprite?.anchor ?? .5) * 100}%)" aria-label="${esc(spk(id).name)}와 대화">${fullSVG(id)}<span>${esc(spk(id).name)}</span></button>`;
+      return `<button class="scene-npc${position.grounded ? ' grounded' : ''}" type="button" data-talk="${id}" style="left:${position.x}%;bottom:${100 - position.floor}%;height:${height}%;width:${width}%;transform:translateX(-${(sprite?.anchor ?? .5) * 100}%)" aria-label="${esc(spk(id).name)}와 대화">${fullSVG(id)}<span>${esc(spk(id).name)}</span></button>`;
     }).join('');
 }
 function tapFx(x, y, kind, text){
@@ -8291,15 +8324,17 @@ const artWrap = $('#artWrap');
 let pan = null, panMoved = false;
 artWrap.addEventListener('pointerdown', e => {
   $('#swipeHint').hidden = true;
-  if(e.pointerType === 'mouse' && !artWrap.classList.contains('fixed')) pan = { x:e.clientX, s:artWrap.scrollLeft, moved:false };
+  const fixed = artWrap.classList.contains('fixed');
+  // A fixed close look tracks a swipe only to stop its release being treated as a tap (which would close it).
+  if(e.pointerType === 'mouse' || fixed) pan = { x:e.clientX, s:artWrap.scrollLeft, moved:false, fixed };
 });
 window.addEventListener('pointermove', e => {
   if(!pan) return;
   const dx = e.clientX - pan.x;
   if(Math.abs(dx) > 5) pan.moved = true;
-  if(pan.moved) artWrap.scrollLeft = pan.s - dx;
+  if(pan.moved && !pan.fixed) artWrap.scrollLeft = pan.s - dx;
 });
-window.addEventListener('pointerup', () => { if(pan){ panMoved = pan.moved; pan = null; } });
+['pointerup', 'pointercancel'].forEach(type => window.addEventListener(type, () => { if(pan){ panMoved = pan.moved; pan = null; } }));
 artWrap.addEventListener('wheel', e => {
   if(artWrap.classList.contains('fixed')) return;
   if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){ artWrap.scrollLeft += e.deltaY; e.preventDefault(); }

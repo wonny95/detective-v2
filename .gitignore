@@ -4,3 +4,4 @@ Thumbs.db
 *.log
 /sites/detective-demo/
 /scripts/tutorial-shots/shots/
+/.preview/

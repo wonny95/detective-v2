@@ -14,6 +14,8 @@
 - 한국어 해석은 모두 반말이다(소풍 사건과 같은 규칙: 숲속 이웃끼리의 그림책 말투, 영어에 없는 높임 차이를 해석에 만들지 않음).
 - 엘라의 “Hello. How can I help?”는 자동으로 넘어가는 인사말이 아니라 인사 뒤 혼자 나오는 첫 질문 e0이다. 엘라의 의뢰가 그 대답이고 노트에 받아 적는다. e1·e2·조사 선택지는 e0 뒤에 나온다(2026-11-04 사용자 결정).
 
+노트는 탐정이 들은 사실을 정리하는 짧은 메모다. NPC의 대답 전체를 따옴표로 옮기지 않는다. 빈칸의 ID·정답·순서는 유지하며, 대명사·장소 표현의 원형이 빈칸인 경우에만 화자를 명시하고 해당 표현을 짧게 인용한다. 실제 대답과 음성은 지문 보기에서 그대로 확인한다.
+
 ## 1. 사건의 뼈대와 진실 — 제작자용
 
 - **의뢰인**: 마을회관 일을 돕는 사슴 엘라. 일주일째 아무도 찾아가지 않는 비싼 우산을 보관하다가 주인을 찾아 달라고 부탁한다. 엘라는 행사와 우산의 연결·행사 때 날씨·후보 이름·행선지를 알려 주지 않는다(사용자 결정).
@@ -159,6 +161,8 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 
 사용자 결정: “Can I take a closer look at that umbrella?”는 엘라의 질문 목록에 표시하는 선택지(ella:inspect)다. 첫 질문 e0 뒤 e1·e2 질문과 함께 표시하며 선택 순서는 자유다. 선택하면 질문 음성과 엘라의 “Of course. Here you go.”를 듣고, 엘라가 우산꽂이에서 우산을 가져와 건넨 뒤 우산 확대 조사를 시작한다. 자동 전환 대화로 재생하지 않는다. 이 선택지는 받아쓰기·단어 카드·채점 없이 조사를 여는 질문이다. 우산만 화면 가운데 크게 나타난다. 손이나 손에 든 인물 그래픽은 필요 없다. 접기·펴기를 자유롭게 바꾸며 부분 촬영한다. 이때 소지품에는 등록하지 않는다. 조사를 마치면 사진은 증거 노트에 남고 우산은 다시 우산꽂이에 꽂혀 엘라가 보관한다.
 
+우산 확대 화면은 접힌 상태·펼친 상태 모두 가운데에 고정하며 좌우로 밀리지 않는다. 드래그를 끝내도 조사 화면이 닫히거나 물건을 누른 것으로 처리하지 않는다. 겉무늬 사진은 아래쪽 별무늬가 잘리지 않도록 촬영 시점을 조금 낮춘다. 손잡이·안감 사진은 같은 구도를 유지한다.
+
 **우산 일러스트 — 사용자 확정 (2026-10-30)**
 
 ![접힌 우산과 펼친 우산 한 장: 남색 겉감·금빛 별·파란 손잡이·금빛 안감](https://d8j0ntlcm91z4.cloudfront.net/user_3GQcP8akZKK6UYHE3DZOw7Yns30/hf_20261030_075043_0e9a6716-5dcf-4000-b20d-dcbdab288f26.png)
@@ -169,15 +173,15 @@ L1-01 A의 소유 표현을 우산이라는 다른 상황에 적용한다. 주�
 
 ## 5. 전체 탐문 대본·노트·단어 카드
 
-질문 선택지는 **15개**(받아쓰기 **14개** + 조사 시작 **1개**), 노트 빈칸은 **32칸**이다. 아래 수치는 제작용이며 게임 화면에서 질문·증거 개수를 알려 주지 않는다. 이름과 장소 철자는 고정한다. 노트에 인용 부호로 표시한 문장은 모두 해당 NPC의 말이다. 토이 네스트는 현수막과 장소 변경 안내문을 함께 살핀 뒤, 테스의 이름은 가게에서 인사와 자기소개 뒤, 핀·풍차 언덕은 테스 t5에서, 루비는 테스 t4의 노트 채점 통과로 발견한다. 엘라의 질문은 인물을 해금하지 않는다.
+질문 선택지는 **15개**(받아쓰기 **14개** + 조사 시작 **1개**), 노트 빈칸은 **32칸**이다. 아래 수치는 제작용이며 게임 화면에서 질문·증거 개수를 알려 주지 않는다. 이름과 장소 철자는 고정한다. 노트는 탐정 시점의 메모이며 NPC의 대답 전체를 인용하지 않는다. 토이 네스트는 현수막과 장소 변경 안내문을 함께 살핀 뒤, 테스의 이름은 가게에서 인사와 자기소개 뒤, 핀·풍차 언덕은 테스 t5에서, 루비는 테스 t4의 노트 채점 통과로 발견한다. 엘라의 질문은 인물을 해금하지 않는다.
 
 ### 엘라 — 선택지 4개 · 받아쓰기 3개 · 빈칸 5칸
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| ella:e0 | Hello. How can I help? / 안녕. 무슨 일이야? | Someone left that umbrella here. Can you help me? / 누가 저 우산을 여기 두고 갔어. 좀 도와줄래? | “Someone [left] that umbrella here. Can you help me?” | left · lost · lent · felt | 없음 · 채점 뒤 e1·e2·inspect 표시 |
-| ella:e1 | Whose umbrella is that? / 저건 누구 우산이야? | I don't know. No one came back for it. / 몰라. 아무도 찾으러 오지 않았어. | “I don't [know]. No one came [back] for it.” | know · see · back · here | 없음 |
-| ella:e2 | How long has it been here? / 얼마나 오래 여기 있었어? | It's been here for a week. / 일주일째 여기 있어. | “It's been here for a [week].” | week · day · month | 없음 |
+| ella:e0 | Hello. How can I help? / 안녕. 무슨 일이야? | Someone left that umbrella here. Can you help me? / 누가 저 우산을 여기 두고 갔어. 좀 도와줄래? | • someone [left] the umbrella at the village hall<br>• Ella asked for my help | left · lost · lent · felt | 없음 · 채점 뒤 e1·e2·inspect 표시 |
+| ella:e1 | Whose umbrella is that? / 저건 누구 우산이야? | I don't know. No one came back for it. / 몰라. 아무도 찾으러 오지 않았어. | • Ella does not [know] the owner<br>• no one came [back] for the umbrella | know · see · back · here | 없음 |
+| ella:e2 | How long has it been here? / 얼마나 오래 여기 있었어? | It's been here for a week. / 일주일째 여기 있어. | • umbrella at the hall for a [week] | week · day · month | 없음 |
 | ella:inspect | Can I take a closer look at that umbrella? / 저 우산 좀 자세히 봐도 될까? | Of course. Here you go. / 물론이지. 여기 있어. | 없음 · 조사 시작 선택지 | 없음 | 채점 없이 답변 뒤 우산 확대 조사 시작 · 소지품 등록 없음 |
 
 e2는 조사 전에도 물을 수 있으므로 this/that 대신 it으로 묻는다. e0 뒤 조사부터 선택해도 e1·e2는 남는다. 확대 조사를 닫으면 엘라의 대화로 돌아와 미완료 질문을 선택할 수 있다. 다시 조사하기를 선택하면 같은 우산을 살펴보며 이미 촬영한 증거는 중복 추가하지 않는다.
@@ -186,8 +190,8 @@ e2는 조사 전에도 물을 수 있으므로 this/that 대신 it으로 묻는�
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| finn:f1 | What is your umbrella like? / 네 우산은 어떻게 생겼어? | Mine is dark blue. It has a blue handle. / 내 거는 남색이야. 파란 손잡이가 있어. | “Mine is [dark blue]. It has a [blue] [handle].” | dark blue · white · blue · red · handle · star | 없음 |
-| finn:f2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있어? | Mine has no pattern. It's plain. / 내 거는 무늬가 없어. 민무늬야. | “Mine has [no] [pattern]. It's [plain].” | no · gold · pattern · stars · plain · small | 없음 |
+| finn:f1 | What is your umbrella like? / 네 우산은 어떻게 생겼어? | Mine is dark blue. It has a blue handle. / 내 거는 남색이야. 파란 손잡이가 있어. | • Finn's umbrella: [dark blue]<br>• [blue] [handle] | dark blue · white · blue · red · handle · star | 없음 |
+| finn:f2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있어? | Mine has no pattern. It's plain. / 내 거는 무늬가 없어. 민무늬야. | • Finn's umbrella: [no] [pattern]<br>• [plain] | no · gold · pattern · stars · plain · small | 없음 |
 
 사용자 결정: 핀에게도 테스·루비와 같은 무늬 질문을 한다(탐정이 실물의 별무늬를 먼저 말하지 않게).
 
@@ -195,12 +199,12 @@ e2는 조사 전에도 물을 수 있으므로 this/that 대신 it으로 묻는�
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| tess:t0 | It rained that day. Did you bring an umbrella? / 그날 비가 왔잖아. 우산 가져왔어? | Yes. But I often lend mine to friends. I'm not sure where it is now. / 응. 그런데 친구들에게 우산을 자주 빌려줘서, 지금 어디 있는지 잘 모르겠어. | “Yes. But I often [lend] mine to friends. I'm not sure [where] it is now.” | lend · borrow · where · when | 없음 · 채점 뒤 t1–t5 표시 |
-| tess:t1 | What is your umbrella like? / 네 우산은 어떻게 생겼어? | Mine is dark blue. It has a blue handle. / 내 거는 남색이야. 파란 손잡이가 있어. | “Mine is [dark blue]. It has a [blue] [handle].” | dark blue · black · blue · red · handle · bottle | 없음 |
-| tess:t2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있어? | Mine has gold stars. / 내 거에는 금빛 별무늬가 있어. | “Mine has [gold] [stars].” | gold · silver · stars · stripes | 없음 |
-| tess:t3 | What color is your umbrella inside? / 네 우산 안쪽은 무슨 색이야? | Mine is dark blue inside. / 내 거는 안쪽이 남색이야. | “Mine is [dark blue] [inside].” | dark blue · gold · inside · outside | 없음 |
-| tess:t4 | Who else was at the bazaar? / 바자회에 또 누가 있었어? | Ask Ruby, too. She works here. We were at the bazaar together. / 루비한테도 물어봐. 여기서 일하는 친구야. 그날 바자회에 함께 있었어. | “Ask [Ruby], too. She works [here]. We were at the bazaar [together].” | Ruby · Finn · here · there · together · alone | 루비 발견 · 토이 네스트의 새 대화 상대 |
-| tess:t5 | Do you know anyone who lost an umbrella? / 우산을 잃어버린 친구를 알아? | Finn is looking for his umbrella. You can find him on Windmill Hill. / 핀이 자기 우산을 찾고 있어. 풍차 언덕에서 만날 수 있어. | “[Finn] is looking for his [umbrella]. You can find him on [Windmill Hill].” | Finn · Ruby · umbrella · bag · Windmill Hill · Toy Nest | 핀·풍차 언덕 발견 |
+| tess:t0 | It rained that day. Did you bring an umbrella? / 그날 비가 왔잖아. 우산 가져왔어? | Yes. But I often lend mine to friends. I'm not sure where it is now. / 응. 그런데 친구들에게 우산을 자주 빌려줘서, 지금 어디 있는지 잘 모르겠어. | • Tess brought his umbrella that day<br>• Tess's habit: to [lend] his umbrella to friends<br>• not sure [where] his umbrella is now | lend · borrow · where · when | 없음 · 채점 뒤 t1–t5 표시 |
+| tess:t1 | What is your umbrella like? / 네 우산은 어떻게 생겼어? | Mine is dark blue. It has a blue handle. / 내 거는 남색이야. 파란 손잡이가 있어. | • Tess's umbrella: [dark blue]<br>• [blue] [handle] | dark blue · black · blue · red · handle · bottle | 없음 |
+| tess:t2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있어? | Mine has gold stars. / 내 거에는 금빛 별무늬가 있어. | • Tess's umbrella: [gold] [stars] | gold · silver · stars · stripes | 없음 |
+| tess:t3 | What color is your umbrella inside? / 네 우산 안쪽은 무슨 색이야? | Mine is dark blue inside. / 내 거는 안쪽이 남색이야. | • Tess's umbrella: [dark blue] [inside] | dark blue · gold · inside · outside | 없음 |
+| tess:t4 | Who else was at the bazaar? / 바자회에 또 누가 있었어? | Ask Ruby, too. She works here. We were at the bazaar together. / 루비한테도 물어봐. 여기서 일하는 친구야. 그날 바자회에 함께 있었어. | • ask [Ruby]<br>• Ruby works at Toy Nest (“[here]”)<br>• Tess and Ruby were at the bazaar [together] | Ruby · Finn · here · there · together · alone | 루비 발견 · 토이 네스트의 새 대화 상대 |
+| tess:t5 | Do you know anyone who lost an umbrella? / 우산을 잃어버린 친구를 알아? | Finn is looking for his umbrella. You can find him on Windmill Hill. / 핀이 자기 우산을 찾고 있어. 풍차 언덕에서 만날 수 있어. | • [Finn] is looking for his [umbrella]<br>• find Finn on [Windmill Hill] | Finn · Ruby · umbrella · bag · Windmill Hill · Toy Nest | 핀·풍차 언덕 발견 |
 
 처음에는 t0만 보이고, t0을 바르게 적으면 t1–t5가 나온다(소풍의 벤 b1과 같은 방식). “우산 가져왔어?”를 먼저 물어야 “어떻게 생겼어?”가 자연스럽다. 빈칸에서 mine은 뺐다(mine은 이미 충분히 들림).
 
@@ -212,9 +216,9 @@ t5는 우산을 찾는 핀에게 문의할 이유와 만날 장소를 알려 준
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 | 단어 카드 | 채점 뒤 해금 |
 |---|---|---|---|---|---|
-| ruby:r1 | What is your umbrella like? / 네 우산은 어떻게 생겼어? | Mine is dark blue. It has a blue handle. / 내 거는 남색이야. 파란 손잡이가 있어. | “Mine is [dark blue]. It has a [blue] [handle].” | dark blue · black · blue · red · handle · star | 없음 |
-| ruby:r2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있어? | Mine has gold stars. / 내 거에는 금빛 별무늬가 있어. | “Mine has [gold] [stars].” | gold · silver · stars · stripes | 없음 |
-| ruby:r3 | What color is your umbrella inside? / 네 우산 안쪽은 무슨 색이야? | Mine is gold inside. / 내 거는 안쪽이 금빛이야. | “Mine is [gold] [inside].” | gold · dark blue · inside · outside | 없음 |
+| ruby:r1 | What is your umbrella like? / 네 우산은 어떻게 생겼어? | Mine is dark blue. It has a blue handle. / 내 거는 남색이야. 파란 손잡이가 있어. | • Ruby's umbrella: [dark blue]<br>• [blue] [handle] | dark blue · black · blue · red · handle · star | 없음 |
+| ruby:r2 | What pattern is on your umbrella? / 네 우산에는 어떤 무늬가 있어? | Mine has gold stars. / 내 거에는 금빛 별무늬가 있어. | • Ruby's umbrella: [gold] [stars] | gold · silver · stars · stripes | 없음 |
+| ruby:r3 | What color is your umbrella inside? / 네 우산 안쪽은 무슨 색이야? | Mine is gold inside. / 내 거는 안쪽이 금빛이야. | • Ruby's umbrella: [gold] [inside] | gold · dark blue · inside · outside | 없음 |
 
 ## 6. 현장 사진·소지품·주변 물건
 

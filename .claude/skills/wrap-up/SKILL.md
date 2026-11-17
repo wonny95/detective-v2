@@ -32,12 +32,13 @@ git diff --stat
   node -e "const h=require('fs').readFileSync('index.html','utf8');[...h.matchAll(/<script>([\s\S]*?)<\/script>/g)].forEach(x=>new Function(x[1]));console.log('syntax ok')"
   ```
 
-- 화면에 영향이 있으면 브라우저 **새 탭**에서 확인한다(`tabs_create` → `navigate http://localhost:5173/`). 사용자가 보고 있는 미리보기 탭은 건드리지 않는다.
+- 화면에 영향이 있으면 **AI 테스트 서버 5177의 새 탭**에서 확인한다(`detective-test`, `http://localhost:5177/`). 사용자 확인 서버 5176(`detective-review`)에서는 테스트하지 않는다. 사용자가 보고 있는 탭은 건드리지 않는다.
   - 테스트 버튼(폰 프레임 밖)을 쓰면 빠르다: 노트 자동 채우기, 전체 대화 완료, 증거 모두 수집, 추리 완성, 튜토리얼 초기화.
   - 콘솔 오류를 본다(`read_console_messages`, onlyErrors).
-  - **localStorage는 탭끼리 공유된다.** 시험 중 생긴 `detective.solvedCases`(해결 기록) 같은 값은 지우고, 지웠다고 보고한다.
+  - **localStorage는 같은 포트의 탭끼리 공유된다.** 가능하면 `?preview=...`의 메모리 기록을 쓴다. 시험용 기록을 정리할 때는 5177만 다루고 사용자 5176의 기록을 지우지 않는다.
   - 확인이 끝나면 그 탭을 닫는다.
 - 확인하지 못한 것은 숨기지 않고 적어 둔다(CHANGELOG와 보고에 쓴다).
+- 검증을 마친 게임 변경은 `node scripts/update-review.js`로 사용자 확인용 복사본에 반영한다(문서만 고친 작업은 제외, 사용자가 현재 버전 유지를 원하면 갱신하지 않음). 반영은 사용자 탭을 새로고침하지 않는다. 보고에 “확인용 반영 완료, 원할 때 새로고침”이라고 적고 사용자가 직접 새 버전을 보게 한다.
 
 ## 3. HANDOFF.md를 지금 상태로 고쳐 쓰기
 

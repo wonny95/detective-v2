@@ -2,6 +2,18 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "detective-review",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js", "--review"],
+      "port": 5176
+    },
+    {
+      "name": "detective-test",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js", "--test"],
+      "port": 5177
+    },
+    {
       "name": "detective-dev",
       "runtimeExecutable": "node",
       "runtimeArgs": ["server.js"],
