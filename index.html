@@ -86,6 +86,10 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .map-btn:active{transform:translateY(2px);box-shadow:none}
 /* a conversation under way is finished before anything else (talkLocked): the map waits, dimmed */
 .app.talk-locked :is(#mapTab,#itemsTab){opacity:.45}
+/* a thing going into 소지품 flies into the satchel, which bounces when it lands (flyToBag) */
+.bag-fly{position:fixed;z-index:60;object-fit:contain;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(46,34,25,.35))}
+.bag-bump{animation:bagBump .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bagBump{0%{transform:scale(1)}35%{transform:scale(1.28,.86)}65%{transform:scale(.92,1.1)}100%{transform:scale(1)}}
 .items-btn.new .hn-ic::after,.map-btn.new .hn-ic::after{content:"";position:absolute;z-index:2;top:0;right:6px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
 button.chip{color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
 button.chip:disabled{cursor:default;box-shadow:none}
@@ -2570,18 +2574,9 @@ const VIOLIN_CASE = {
       after:{ t2:{ lines:[
         { key:'photo-give', en:"Here's a photo of my case.", ko:'내 케이스 사진이야.', photo:'taraphoto-0' },
         { det:true, key:'photo', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.', photo:'taraphoto-0' }
-      ], give:'tara-photo' } },
-      // design 7절: the violin shown to her once found and its strings seen (no officer in this case, user decision
-      // 2026-11-17: he only called and watched)
-      actions:[
-        { id:'check', en:'Can you check this violin?', ko:'이 바이올린을 확인해 줄래?', when:['@violin-case', '!seen-strings'], flag:'tara-check',
-          lines:[
-            { det:true, key:'r1', en:'I found this behind the curtain. The violin is in it.', ko:'커튼 뒤에서 찾았어. 바이올린은 안에 있어.' },
-            { key:'r2', en:'My moon sticker! This is my violin. But the strings are broken.', ko:'내 달 스티커네! 내 바이올린이야. 그런데 현이 끊어져 있어.' },
-            { key:'r3', en:"I can't play it. Please find out what happened.", ko:'이걸로는 연주할 수 없어. 무슨 일이 있었는지 알아봐 줘.' },
-            { det:true, key:'r4', en:"I'll keep it safe for now.", ko:'일단 내가 잘 보관할게.' }
-          ] }
-      ]
+      ], give:'tara-photo' } }
+      // no showing her the violin before the end (user decision 2026-11-17: telling her of the strings midway tangled
+      // the story): she first hears what happened when it is given back (design 7·9절)
     },
     // hidden until Tara's t4 (unlocks), standing by the door to the corridor
     owen: { id:'owen', name:'Owen Dog', ko:'강아지 오웬', job:'출연자', place:'waiting', witness:true, required:true, pitch:1.0, voice:1, bg:'#F3DFCC',
@@ -2728,14 +2723,20 @@ const VIOLIN_CASE = {
   // four rooms of the music hall (one building on the map); the detective's sentences from design 6·7·10절. A spot's
   // when/unless: conditions for it to be there; a clue's take: picked up into 소지품 after its lines (no photo)
   places:[
-    { id:'foyer', x:50, y:78, label:'Lobby', artWidth:1376, artHeight:768,
+    { id:'foyer', x:52, y:72, label:'Lobby', artWidth:1376, artHeight:1056, sizeRef:768,   // taller: one tall picture cut to band + floor (user request 2026-11-17)
       clues:[
         { label:'Contest poster', prop:true, en:'There is a contest poster on the wall.', ko:'벽에 대회 포스터가 있어.' },
         { label:'Programs', prop:true, en:'There are programs on the table.', ko:'탁자 위에 안내지가 있어.' },
-        { label:'Dropped program', prop:true, en:'A contest program under the bench. Someone dropped it.', ko:'벤치 아래에 대회 안내지가 있네. 누가 떨어뜨렸나 봐.' }
+        { label:'Dropped program', prop:true, en:'A contest program under the bench. Someone dropped it.', ko:'벤치 아래에 대회 안내지가 있네. 누가 떨어뜨렸나 봐.' },
+        // the restyled lobby (user request 2026-11-17): the notice board opens close up (last year's winners, as the
+        // umbrella), the cabinet and the photo are only looked at
+        { label:'Notice board', inspect:'winners' },
+        { label:'Glass cabinet', prop:true, en:'A gold trophy and some instruments are in the cabinet.', ko:'진열장에 금색 트로피와 악기들이 있어.' },
+        { label:'Orchestra photo', prop:true, en:'There is a photo of an orchestra on the wall.', ko:'벽에 오케스트라 사진이 있어.' }
       ],
-      spots:[ { clue:0, x:3, y:0, w:18, h:38 }, { clue:1, x:85.5, y:30, w:10, h:10 }, { clue:2, x:16, y:87, w:9.5, h:11 } ] },
-    { id:'waiting', x:22, y:46, label:'Waiting Room', artWidth:1376, artHeight:768,
+      spots:[ { clue:0, x:3, y:3, w:18, h:46 }, { clue:1, x:86, y:42, w:9, h:7 }, { clue:2, x:16, y:86, w:10, h:9 },
+        { clue:3, x:30, y:24, w:15, h:28 }, { clue:4, x:71, y:36, w:12, h:22 }, { clue:5, x:73.5, y:27, w:7, h:7 } ] },
+    { id:'waiting', x:24, y:48, label:'Waiting Room', artWidth:1376, artHeight:768,
       clues:[
         { label:'Two chairs', prop:true, en:"There are two chairs next to the door. The case isn't there.", ko:'문 옆에 의자가 두 개 있어. 케이스는 없네.' },
         { label:'Mirror', prop:true, en:'A big mirror. My hat looks fine.', ko:'커다란 거울이네. 모자는 잘 쓰고 있어.' },
@@ -2744,23 +2745,33 @@ const VIOLIN_CASE = {
           { key:'c1', en:'There is a pair of cutters under the right chair.', ko:'오른쪽 의자 아래에 니퍼가 있어.' },
           { key:'c2', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.' },
           // picked up: said as it is taken (user decision 2026-11-17, as the Christmas scale)
-          { key:'take-cutters', en:"I'll take these cutters with me.", ko:'이 니퍼를 가져가야겠어.' } ] }
+          { key:'take-cutters', en:"I'll take these cutters with me.", ko:'이 니퍼를 가져가야겠어.' } ] },
+        // the restyled waiting room (user request 2026-11-17): only looked at
+        { label:'Coat hooks', prop:true, en:'A bow tie and a scarf hang on the hooks.', ko:'고리에 나비넥타이와 목도리가 걸려 있어.' },
+        { label:'Trumpet', prop:true, en:'A trumpet stands next to the music stand.', ko:'보면대 옆에 트럼펫이 세워져 있어.' },
+        { label:'Cello', prop:true, en:'A cello stands in the corner.', ko:'구석에 첼로가 세워져 있어.' }
       ],
       spots:[ { clue:0, x:39, y:50, w:16, h:30 }, { clue:1, x:79, y:22, w:17, h:68 }, { clue:2, x:95.5, y:63, w:4.5, h:14 },
-        { clue:3, x:57, y:83, w:8, h:8, unless:['!took:wire-cutters'] } ] },
-    { id:'stage', x:68, y:39, label:'Stage', artWidth:1376, artHeight:768,
+        { clue:3, x:57, y:83, w:8, h:8, unless:['!took:wire-cutters'] },
+        { clue:4, x:43, y:22, w:15, h:26 }, { clue:5, x:67, y:46, w:9, h:38 }, { clue:6, x:96, y:30, w:4, h:31 } ] },
+    { id:'stage', x:72, y:27, label:'Stage', artWidth:1376, artHeight:768,
       clues:[
         { label:'Sheet music', prop:true, en:'There is sheet music on the stand.', ko:'악보대에 악보가 있어.' },
         { label:'Stool', prop:true, en:'There is a stool next to the music stand.', ko:'악보대 옆에 작은 의자가 있어.' },
-        { label:'Side curtain', prop:true, en:'The side curtain is open. I can see a ladder.', ko:'옆 가림막이 열려 있어. 사다리가 보이네.' }
+        { label:'Side curtain', prop:true, en:'The side curtain is open. I can see a ladder.', ko:'옆 가림막이 열려 있어. 사다리가 보이네.' },
+        // the restyled stage (user request 2026-11-17): only looked at
+        { label:'Grand piano', prop:true, en:'A big black piano is on the stage.', ko:'무대 위에 커다란 검은 피아노가 있어.' },
+        { label:'Banner', prop:true, en:'A long banner hangs over the stage.', ko:'무대 위에 긴 현수막이 걸려 있어.' }
       ],
-      spots:[ { clue:0, x:81, y:33, w:14, h:20 }, { clue:1, x:88, y:72, w:11, h:28 }, { clue:2, x:0, y:2, w:30, h:80 } ] },
+      spots:[ { clue:0, x:81, y:33, w:14, h:20 }, { clue:1, x:88, y:72, w:11, h:28 }, { clue:2, x:0, y:2, w:21, h:80 },   // side curtain: stops before the grand piano's keys
+        { clue:3, x:22, y:28, w:27, h:58 }, { clue:4, x:44, y:0, w:38, h:12 } ] },
     // the curtain opens once Pip has told what he saw (design 6절); the case and the button lie in front of it until taken
-    { id:'backstage', x:30, y:18, label:'Backstage', artWidth:1376, artHeight:768,
+    { id:'backstage', x:30, y:17, label:'Backstage', artWidth:1376, artHeight:768,
       clues:[
         { label:'Ladder', prop:true, en:'The ladder is next to the light.', ko:'사다리가 조명 옆에 있어.' },
         { label:'Curtain', prop:true, en:'There is a long curtain here. I should ask more first.', ko:'긴 커튼이 있네. 먼저 더 물어봐야겠어.' },
-        { label:'Curtain', take:'!curtain', lines:[ { key:'s1', en:'There is a case behind the curtain.', ko:'커튼 뒤에 케이스가 있어.' } ] },
+        // drawn aside with its sound first, then the line (user request 2026-11-17: the user's clip curtain-closing-323254)
+        { label:'Curtain', take:'!curtain', flag:'curtain', flagFirst:true, sound:'audio/violin/curtain.mp3', lines:[ { key:'s1', en:'There is a case behind the curtain.', ko:'커튼 뒤에 케이스가 있어.' } ] },
         // the case opens in its own close look, filling the screen (user decision 2026-11-17, as the umbrella)
         { label:'Black violin case', inspect:'violincase' },
         { label:'Gold button', take:'gold-button', lines:[ { key:'s3', en:'There is a gold button under the curtain.', ko:'커튼 아래에 금색 단추가 있어.' },
@@ -2768,7 +2779,10 @@ const VIOLIN_CASE = {
         { label:'Toolbox', prop:true, en:'A black toolbox under the shelf.', ko:'선반 아래에 검은 공구함이 있네.' },
         { label:'Spare bulbs', prop:true, en:'There are spare bulbs on the shelf.', ko:'선반 위에 예비 전구들이 있어.' },
         // the left doorway: to the side passage, once Momo has said Pip was there (user decision 2026-11-17)
-        { label:'Side passage', go:'passage' }
+        { label:'Side passage', go:'passage' },
+        // the restyled backstage room (user request 2026-11-17): only looked at, in both pictures
+        { label:'Cork board', prop:true, en:'There are photos and a schedule on the board.', ko:'게시판에 사진과 일정표가 있어.' },
+        { label:'Gold star', prop:true, en:'There is a gold star on the door.', ko:'문에 금색 별이 있어.' }
       ],
       spots:[ { clue:0, x:17, y:16, w:15, h:76 },
         { clue:1, x:50, y:0, w:34, h:92, unless:['pip:p1'] },
@@ -2777,7 +2791,8 @@ const VIOLIN_CASE = {
         { clue:4, x:78, y:83, w:4.5, h:6.5, when:['!curtain'], unless:['!took:gold-button'] },
         { clue:5, x:59, y:67, w:14.5, h:15, when:['!curtain'] },
         { clue:6, x:57, y:44, w:11, h:7, when:['!curtain'] },
-        { clue:7, x:4, y:36, w:8, h:42, when:['momo:m2'], door:true, arrow:'left' } ] },
+        { clue:7, x:4, y:36, w:8, h:42, when:['momo:m2'], door:true, arrow:'left' },
+        { clue:8, x:33, y:12, w:16, h:26 }, { clue:9, x:92, y:20, w:7.5, h:16 } ] },
     // the side passage next to the backstage room, where Pip stands (user decision 2026-11-17: he looked out of place
     // in the room): never on the map (doorOnly), in and out through the doorways; the right one looks into the backstage
     // room, the red curtain behind it
@@ -2785,11 +2800,21 @@ const VIOLIN_CASE = {
       clues:[
         { label:'Backstage door', go:'backstage' },
         { label:'Mop bucket', prop:true, en:'There is a mop bucket by the wall.', ko:'벽 옆에 대걸레 양동이가 있어.' },
-        { label:'Scarf', prop:true, en:'A long scarf hangs on the hook.', ko:'긴 목도리가 고리에 걸려 있어.' }
+        { label:'Scarf', prop:true, en:'A long scarf hangs on the hook.', ko:'긴 목도리가 고리에 걸려 있어.' },
+        { label:'Concert photos', prop:true, en:'There are concert photos on the wall.', ko:'벽에 공연 사진들이 걸려 있어.' }
       ],
-      spots:[ { clue:0, x:66, y:30, w:18, h:50, door:true },
-        { clue:1, x:45, y:56, w:8, h:20 },
-        { clue:2, x:89, y:17, w:10, h:42 } ] },
+      // one tall picture with its floor (passage-tall-higgsfield-original.png, user request 2026-11-17: no short picture
+      // with a floor from another drawing), the band from y 260 at 1376 wide
+      spots:[ { clue:0, x:65, y:6, w:22, h:88, door:true },
+        { clue:1, x:45, y:62, w:8, h:19 },
+        { clue:2, x:89, y:21, w:10, h:63 },
+        { clue:3, x:0, y:10, w:13, h:47 }, { clue:3, x:31, y:30, w:31, h:21 } ] },
+    // last year's winners on the lobby's notice board, close up over the whole screen (user request 2026-11-17, as the
+    // umbrella): Tara 1st (violin), Ivo 2nd (flute), Owen 3rd (cello); the detective says only what it is
+    { id:'winners', inspect:true, fixed:true, back:'foyer', label:'Lobby', artWidth:1376, artHeight:768,
+      enter:{ key:'winners', en:"These are last year's winners.", ko:'작년 수상자들이야.' },
+      clues:[ { label:'Notice board', prop:true, en:"These are last year's winners.", ko:'작년 수상자들이야.' } ],
+      spots:[ { clue:0, x:35, y:7, w:30, h:80 } ] },
     // the black case found behind the curtain, close up (user decision 2026-11-17: as the umbrella, the screen full): shut
     // first, 열기 opens it and the broken strings are seen big; the violin is taken from there (no photo)
     { id:'violincase', inspect:true, back:'backstage', flip:['열기', '닫기'], label:'Backstage', artWidth:1376, artHeight:768,
@@ -2818,7 +2843,7 @@ const VIOLIN_CASE = {
   ],
   // the photos and the things the deduction needs (design 8절, user decision 2026-11-07)
   needed:['sleeves-owen-0'],
-  ready:['@violin-case', '@gold-button', '@wire-cutters', '!seen-strings', '!tara-check'],
+  ready:['@violin-case', '@gold-button', '@wire-cutters', '!seen-strings'],
   // the detective's thoughts, once each, when their conditions are met (design 8절; the cutters' once m5 opens, user
   // decision 2026-11-07)
   thoughts:[
@@ -2828,7 +2853,7 @@ const VIOLIN_CASE = {
   // no 비교하기 (user decision 2026-11-17: the detective said the piece matched, the player's to decide): the player looks
   // at the cutters and the open case in 소지품 and answers it on the deduction board
   positions:{
-    tara:{x:57, floor:93, height:44},
+    tara:{x:57, floor:90, height:32},   // the lobby's picture is taller (artHeight 1056)
     owen:{x:24, floor:94, height:44},
     ivo:{x:70, floor:94, height:46},
     momo:{x:46, floor:95, height:42},
@@ -2938,12 +2963,12 @@ const VIOLIN_CASE = {
     handoff:[
       { to:'tara', go:{ think:true, en:'타라에게 알려 주자.' }, goLabel:'Lobby로 가기', give:'violin-case', giveLabel:'바이올린 건네주기',
         open:{ det:true, key:'end1', en:'Owen hid your case behind the curtain. He cut the strings.', ko:'오웬이 네 케이스를 커튼 뒤에 숨겼어. 현도 오웬이 끊었어.' },
-        // user decision 2026-11-17: the detective feels for her, and she already knew the strings were broken (r2)
+        // user decision 2026-11-17: the detective feels for her; she hears of the strings only now (end1)
         before:[ { det:true, key:'end-sorry', en:"I'm sorry about your strings.", ko:'현이 그렇게 돼서 안타까워.' },
           { det:true, key:'end2', en:'Here is your violin.', ko:'여기 네 바이올린이야.' } ],
         lines:[
           { key:'end1', en:'Thank you for finding my violin and telling me what happened.', ko:'바이올린을 찾아 주고 무슨 일이 있었는지 알려 줘서 고마워.' },
-          { key:'end2', en:"I knew the strings were broken. Now I know why. I'll get new strings.", ko:'현이 끊어진 건 알았는데, 이제 이유를 알았어. 현을 새로 갈 거야.' }
+          { key:'end2', en:"My poor strings... I'll get new strings before the contest.", ko:'불쌍한 내 현… 대회 전에 현을 새로 갈 거야.' }
         ] }
     ]
   }
@@ -2956,7 +2981,7 @@ VIOLIN_CASE.items['violin-case'].opened.audio = 'audio/violin/detective-s4.mp3';
 // the people's recordings (audio/violin/<id>-<key>.mp3, design/case-04-missing-violin-recording.md): Tara (Higgsfield
 // MiniMax Evie; her hello is the user's own with emotion sad, the rest without emotion, user decision), Owen (Miles),
 // Ivo (Jasper), Momo (Barrett), Pip (Pixie), all without emotion (user decision)
-Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give', 'r2', 'r3', 'end1', 'end2'],
+Object.entries({ tara:['hello', 't0', 't5', 't1', 't2', 't3', 't4', 'photo-give', 'end1', 'end2'],
   owen:['hello', 'hello2', 'o1', 'o8', 'o2', 'o9', 'sleeves', 'o3', 'o4', 'o6', 'o11', 'o12', 'o10', 'o7', 'wrong'],
   ivo:['hello', 'hello2', 'i1', 'i3', 'i4', 'i2', 'sleeves'], momo:['hello', 'hello2', 'm1', 'm3', 'm4', 'm2', 'm5', 'sleeves'],
   pip:['hello', 'p1', 'p2'] }).forEach(([id, keys]) => {
@@ -4811,7 +4836,10 @@ function focusCamera(fromRect, glide = false, ms){
   // a wide sprite (Mia and Ollie side by side) is never cut by the edges: the camera stays far enough to show all of it
   // (smaller then, with the feet where everyone else's are)
   const spriteWidth = npcBox(subject, place).width * worldWidth / 100;
-  const near = height * share / (worldHeight * Math.max(44, position.height) / 100), fit = width * .94 / spriteWidth;
+  // sizeRef: a taller picture (one tall picture cut to band + floor) sizes the talk view by the usual 768 band, so the
+  // person shows as big as in every other room
+  const sizeRef = place.sizeRef || worldHeight;
+  const near = height * share / Math.max(sizeRef * .44, worldHeight * position.height / 100), fit = width * .94 / spriteWidth;
   // a wide shot (ending.wide: a line's wide, { x, w }: the middle and the width it shows, in % of the picture) takes in
   // everyone standing there, their feet low in the scene
   // wide.top: world px above the picture to keep in view too (the tree's star, in the sky above it)
@@ -5993,7 +6021,7 @@ function playBeats(){
     let shown = (beat.snap || []).length ? 1400 : 0;
     if(beat.give && !S.items.includes(beat.give) && !S.handoffRound){
       S.items.push(beat.give); syncBagAway(); saveGame();
-      setTimeout(gotItem, 300);
+      setTimeout(() => gotItem(beat.give), 300);
       shown = 2800;   // after the toast has gone
     }
     setTimeout(revealDiscoveries, shown);
@@ -6074,7 +6102,32 @@ function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.cla
 // 소지품 in the bottom menu (user pick: satchel icon, 지도 · Note · 소지품, the drawer): in every case that has things to
 // carry, from its start (user decision); a dot like the map's when something new comes in
 function setItemsNew(on){ $('#itemsTab').classList.toggle('new', on); }
-function gotItem(){ setItemsNew(true); toast('소지품에 넣었어요.'); }
+function gotItem(id){ setItemsNew(true); toast('소지품에 넣었어요.'); if(id) flyToBag(id); }
+// the thing just put into 소지품 flies from the middle of the scene into the satchel in the bottom menu, which then bounces
+// (user request 2026-11-17: an interaction for things going into the bag; every case)
+function flyToBag(id){
+  const item = ITEMS[id], tab = $('#itemsTab'), icon = tab?.querySelector('.hn-ic') || tab;
+  if(!item?.img || !tab || tab.hidden) return;
+  const bump = () => { icon.classList.remove('bag-bump'); void icon.offsetWidth; icon.classList.add('bag-bump'); };
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return bump();
+  const stage = ($('.art-stage') || $('.app')).getBoundingClientRect(), to = icon.getBoundingClientRect();
+  const size = Math.min(140, stage.width * .32), wide = item.w / item.h;
+  const w = wide >= 1 ? size : size * wide, h = wide >= 1 ? size / wide : size;
+  const x0 = stage.left + stage.width / 2 - w / 2, y0 = stage.top + stage.height * .42 - h / 2;
+  const dx = to.left + to.width / 2 - (x0 + w / 2), dy = to.top + to.height / 2 - (y0 + h / 2);
+  const pic = document.createElement('img');
+  pic.src = item.bag || item.img; pic.alt = ''; pic.className = 'bag-fly';
+  Object.assign(pic.style, { left:`${x0}px`, top:`${y0}px`, width:`${w}px`, height:`${h}px` });
+  document.body.append(pic);
+  const fly = pic.animate([
+    { transform:'translate(0,0) scale(.6)', opacity:0 },
+    { transform:'translate(0,-14px) scale(1)', opacity:1, offset:.22 },
+    { transform:`translate(${dx * .55}px,${dy * .35 - 60}px) scale(.62) rotate(-8deg)`, opacity:1, offset:.6 },
+    { transform:`translate(${dx}px,${dy}px) scale(.12) rotate(-14deg)`, opacity:.5 }
+  ], { duration:900, easing:'cubic-bezier(.45,.05,.55,.95)' });
+  fly.onfinish = () => { pic.remove(); bump(); };
+  fly.oncancel = () => pic.remove();
+}
 $('#itemsTab').hidden = !Object.keys(ITEMS).length;
 $('#itemsTab').closest('.nav').classList.toggle('three', !$('#itemsTab').hidden);
 $('#itemsTab').onclick = () => {
@@ -7281,7 +7334,7 @@ function endingNext(){
     // the bag they hand back comes down to the detective before the camera goes on
     e.step = 'taking'; e.line = null; renderSay(null); renderAsk();
     if(ITEMS[round.take]?.bag) handBag(round.take, 'take');
-    endTimer = setTimeout(() => { gotItem(); next(); }, ITEMS[round.take]?.bag ? 1300 : 0);
+    endTimer = setTimeout(() => { gotItem(round.take); next(); }, ITEMS[round.take]?.bag ? 1300 : 0);
   }
 }
 /* ---------- handing over (picnic case) ----------
@@ -7388,7 +7441,7 @@ function takeItem(id){
   if(S.items.includes(id)) return;
   S.items.push(id); syncBagAway(); saveGame();
   if(ITEMS[id]?.bag) handBag(id, 'take');
-  setTimeout(gotItem, 1300);
+  setTimeout(() => gotItem(id), 1300);
 }
 // An ending's music (ENDING.music): fades in under the voices when its flag goes up, loops, fades out as the ending
 // closes. Its own element, so stopVoice() leaves it playing.
@@ -8005,7 +8058,7 @@ const ART = {
   // the violin case (assets/places/violin/, scripts/cut-violin-places.py): the cutters lie under the right chair, the case
   // and the button in front of the curtain once it is drawn aside, each until picked up; the close looks: Tara's photo,
   // the sleeves
-  foyer: () => `<image href="assets/places/violin/lobby.jpg" width="1376" height="768"/>`,
+  foyer: () => `<image href="assets/places/violin/lobby.jpg" width="1376" height="1056"/>`,
   waiting: () => `<image href="assets/places/violin/waiting.jpg" width="1376" height="768"/>` + (S.flags.has('took:wire-cutters') ? '' :
     `<g transform="translate(832 668) rotate(-65) scale(.17)"><image href="assets/places/violin/cutters.png" x="-151" y="-230" width="302" height="460"/></g>`),
   stage: () => `<image href="assets/places/violin/stage.jpg" width="1376" height="768"/>`,
@@ -8018,6 +8071,8 @@ const ART = {
   // the side passage (assets/places/violin/passage.jpg, Higgsfield Nano Banana 2.1 from the backstage picture's style):
   // its doorway on the right looks into the backstage room, the red curtain behind it
   passage: () => `<image href="assets/places/violin/passage.jpg" width="1376" height="768"/>`,
+  // the board alone (cut from winners.jpg, the Higgsfield close-up) in the close look's visible width, over the lobby blurred
+  winners: () => closeLookBg('lobby') + '<image href="assets/places/violin/winners-board.jpg" x="483" y="50" width="410" height="619"/>',
   taraphoto: () => `<image href="assets/places/violin/tara-photo.jpg" width="1024" height="765"/>`,
   // the case found behind the curtain, close up over the backstage room blurred: shut, then open (the broken strings)
   violincase: () => closeLookBg('backstage-open') + (S.unfolded
@@ -8054,12 +8109,11 @@ const ART_FLOOR = {
   toynest: { src:'assets/places/umbrella/toynest-floor.jpg', h:1015 },
   windmill:{ src:'assets/places/umbrella/windmill-floor.jpg', h:1025 },
   // the violin case: one tall picture each as well
-  foyer:    { src:'assets/places/violin/lobby-floor.jpg', h:695 },
+  foyer:    { src:'assets/places/violin/lobby-floor.jpg', h:627 },
   waiting:  { src:'assets/places/violin/waiting-floor.jpg', h:935 },
   stage:    { src:'assets/places/violin/stage-floor.jpg', h:775 },
   backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 },
-  // the outpaint redrew the corridor (its walls elsewhere): the floor fades in over the picture's last 150 px
-  passage:  { src:'assets/places/violin/passage-floor.webp', h:450, overlap:150 },
+  passage:  { src:'assets/places/violin/passage-floor.jpg', h:814 },
   // the Christmas star case: one tall picture each
   // the night and the lit square have their own darker floor (user: a day floor under the night picture looked wrong)
   // the decorated tree (user request) by day, at night and lit, all cut alike (scripts/make-christmas-decorated-tree.py)
@@ -8072,7 +8126,7 @@ const ART_FLOOR = {
 // a close look (violin case): the cut-out (w: its width at 300 tall) in the middle, 260 tall, over its room blurred and
 // dimmed
 const closeLookBg = room => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
-  <image href="assets/places/violin/${room}.jpg" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>`;
+  <image href="assets/places/violin/${room}.jpg" width="1376" height="768" preserveAspectRatio="xMidYMid slice" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>`;
 const closeLook = (room, pic, w) => `${closeLookBg(room)}
   <image href="assets/places/violin/${pic}.png" x="${688 - w * 13 / 30}" y="200" width="${w * 13 / 15}" height="260"/>`;
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
@@ -8331,11 +8385,13 @@ function takeFromPlace(pl, i){
   if($('.art-stage .think-place')) return;   // already saying something here
   cancelCapture(); stopVoice();
   S.found[pl.id].add(i);
+  // sound: played as it is picked up or drawn aside (the violin's curtain)
+  if(clue.sound){ const s = $('#lookSound'); s.src = clue.sound; s.currentTime = 0; s.play().catch(() => {}); }
   // flagFirst: what the flag shows is seen before the lines (the opened box with the star in it)
   if(clue.flagFirst && clue.flag && !S.flags.has(clue.flag)){ S.flags.add(clue.flag); renderScene(); }
   placeLines(clue.lines || [], () => {
     if(clue.take.startsWith('!')) S.flags.add(clue.take.slice(1));
-    else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); gotItem(); }
+    else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); gotItem(clue.take); }
     if(clue.flag) S.flags.add(clue.flag);
     saveGame(); renderScene(); renderSceneHead(); renderPlaces(); updateAccuse();
     // next: a close look opened at once (the star's box: its star's back, user request 2026-11-16)
@@ -8451,6 +8507,8 @@ function enterPlace(id, fromConversation = false){
   if(!S.known.has(id) && !(fromConversation && id === cur().place) && !placeOf(id)?.inspect && !placeOf(id)?.doorOnly) return;
   const fromRect = !S.investigate && id === cur().place ? $('#art').getBoundingClientRect() : null;
   cameraMotion?.cancel();
+  // a detective's line left over the last place (a close look left by 〈 while its line was up) goes with it
+  if(S.place !== id) document.querySelectorAll('.art-stage .think-place').forEach(t => { t.remove(); stopVoice(); });
   if(drawerBrowse) closeDrawer();
   $('#accuseFoot').hidden = true;   // updateAccuse() once the place is in (never over a close look)
   if(!S.investigate) setInvestigate(true);
@@ -8567,7 +8625,12 @@ function useFindHint(){
   const pl = placeObj();
   if(!S.investigate || !pl || pl.balance || ending || S.findHints <= 0 || $('#art .hinted, #foldBtn.hinted, .find-edge, .art-stage .think-place')) return;
   const target = findHintTarget();
-  if(!target){ wiggle(pl.inspect ? $('#backTab') : $('#mapTab')); sayFindHint('none'); return; }
+  // nothing to find here: the way out wiggles, a short note says where to try (user request 2026-11-17), no hint spent
+  if(!target){
+    wiggle(pl.inspect ? $('#backTab') : $('#mapTab')); sayFindHint('none');
+    toast(pl.inspect ? '여기서는 찾을 게 없어요. 돌아가서 써 보세요.' : '여기서는 찾을 게 없어요. 다른 장소에 가서 써 보세요.');
+    return;
+  }
   const { el, key } = target;
   S.findHints--; saveGame(); renderSceneHead();
   closePropSay(); cancelCapture();
@@ -9200,9 +9263,9 @@ const CASES = [
     photo:{ img:'assets/places/umbrella/umbrella-sheet-original.png' },
     summary:'마을회관에 일주일째 남은 별무늬 우산의 주인을 찾았다. 장난감 바자회 날 비가 와서 바자회가 회관 안에서 열렸고, 바자회를 연 토이 네스트의 테스와 루비, 우산을 찾던 핀의 설명을 대조했다. 겉모습은 테스와 루비의 우산이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
-  { id:'missing-violin', no:'Case 03', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스' }, playable:true,
+  { id:'missing-violin', no:'Case 03', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
-    photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.png', cx:40 },
+    photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.png', cx:40, w:52, b:-29 },   // smaller, his face in the picture (user request 2026-11-17)
     summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 무대 뒤 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
   { id:'case01', no:'Case 04', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
@@ -9310,7 +9373,7 @@ function renderCaseList(){
     const done = solved.includes(c.id), next = c.id === nextId;
     const stars = done && caseStats()[c.id]?.stars;
     return `<button class="polaroid${done ? ' solved' : ''}${next ? ' current' : ''} ${look}" type="button" data-case="${c.id}">
-      <span class="pol-photo">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}">` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}</span>
+      <span class="pol-photo">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}"${c.cover.bg || c.cover.fit ? ` style="${c.cover.bg ? `background:${c.cover.bg};` : ''}${c.cover.fit ? `object-fit:${c.cover.fit};padding:6px 0;box-sizing:border-box` : ''}"` : ''}>` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}</span>
       ${done ? `<span class="case-stamp" aria-label="해결">SOLVED</span>${learnedNote(c, turn)}` : ''}${next ? '<span class="next-note" aria-hidden="true">새로운 의뢰!</span>' : ''}
       <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? '' : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : '새 사건'}</span>`}${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="">`).join('')}</span>` : ''}</span></button>`;
   }).join('');
@@ -10059,8 +10122,16 @@ $('#devDone').onclick = () => {
 // 증거 모두 수집: every clue of every place is found and saved in the evidence notebook (no photo sequence).
 $('#devEvidence').onclick = () => {
   let n = 0;
-  const later = new Set((ENDING.script || []).filter(item => item.flag).map(item => item.flag));
-  PLACES.forEach(pl => pl.clues.forEach(c => { if(c.take && c.flag && (c.flagFirst || !c.take.startsWith('!')) && !(PACK?.ready || []).includes('@' + c.take)) later.add(c.flag); }));
+  const later = new Set((ENDING.script || []).filter(item => item.flag).map(item => item.flag)), questioning = new Set(later);
+  const gatedBy = (pl, i, flags) => pl.spots.filter(spot => spot.clue === i).every(spot => (spot.when || []).some(k => k.startsWith('!') && flags.has(k.slice(1))));
+  PLACES.forEach(pl => pl.clues.forEach((c, i) => {
+    if(!c.take || !c.flag || (PACK?.ready || []).includes('@' + c.take)) return;
+    if(!c.take.startsWith('!')) later.add(c.flag);
+    // something opened first (flagFirst) is left for play only when it is not tapped here: the Christmas box opens on
+    // the scale. The violin's curtain is drawn like before, so the button under it is picked up (user report
+    // 2026-11-17: no deduction board in 미리보기 after the curtain got its sound)
+    else if(c.flagFirst && gatedBy(pl, i, questioning)) later.add(c.flag);
+  }));
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
     // only once the questioning has come so far (a flag it sets, or the opened box's): found there in play
     if(place.spots.some(spot => spot.clue === clueIndex) && place.spots.filter(spot => spot.clue === clueIndex).every(spot => (spot.when || []).some(k => k.startsWith('!') && later.has(k.slice(1))))) return;
