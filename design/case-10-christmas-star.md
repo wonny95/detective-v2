@@ -1252,8 +1252,8 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 | 완성 | Nico: "Coco and Tess wrapped these gifts." [X] |
 | 해석 | 니코: "코코와 테스가 이 선물들을 포장했어." X |
 | 보기 | O · X |
-| 맞장구 | Coco gave him four boxes, and Tess gave him none. But there are five boxes on the sleigh. |
-| 해석 | 코코는 상자 넷을 줬고, 테스는 하나도 안 줬어. 그런데 썰매에는 상자가 다섯 개야. |
+| 맞장구 | Coco gave him four boxes, and Tess gave him none. There are five boxes on the sleigh. |
+| 해석 | 코코는 상자 넷을 줬고, 테스는 하나도 안 줬어. 썰매에는 상자가 다섯 개 있어. |
 | 힌트 | Count the boxes on the sleigh. Then listen to Coco's and Tess's answers again. |
 | 해석 | 썰매 위 상자를 세어 보고, 코코와 테스의 대답을 다시 들어 봐. |
 | 근거 | nico:n2·n3, mae:m3, tess:t3·c-toys, c-boxes. 가장 중요한 사실(넷 + 0 ≠ 다섯). |
@@ -1284,8 +1284,8 @@ c-open·c-mark 조사 뒤 심문이 다시 열리고 니코가 상자 속 장식
 | 완성 | [Nico] looks suspicious. |
 | 해석 | 니코가 수상해 보여. |
 | 보기 | Coco · Tess · Daisy · Nico |
-| 맞장구 | Two of his stories don't match the clues. |
-| 해석 | 니코의 말 두 가지가 단서와 맞지 않아. |
+| 맞장구 | Nico said Coco and Tess wrapped the gifts. He also said his sleigh never moved. |
+| 해석 | 니코는 코코와 테스가 선물을 포장했다고 했어. 썰매도 한 번도 안 움직였다고 했지. |
 | 힌트 | Which stories got an X? |
 | 해석 | 어느 말에 X를 골랐지? |
 | 근거 | 앞의 O·X(플레이어가 고른 X 둘). 범인 확정이 아니라 수상한 사람. |

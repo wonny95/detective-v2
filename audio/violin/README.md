@@ -187,3 +187,21 @@ MiniMax 프리셋 **Pixie `0178ef57-…`**, 감정 없음(사용자 결정, 2026
 | `d0fce8d1` | Hi there! I'm Pip. | pip-hello.mp3 |
 | `dbbd6217` | No, but someone carried a black case behind the curtain when the light came back on. | pip-p1.mp3 |
 | `7289b453` | No. I only saw the case through the door, and I couldn't see a sticker. | pip-p2.mp3 |
+
+## 옆 통로 (2026-11-17)
+
+탐정 MiniMax **Grady**, 감정 없음. 그림: 옆 통로 배경 Nano Banana 2.1 16:9 1K(준비실 원본을 참고 그림으로, 1.5크레딧, job `a0b72a2d`) → `assets/places/violin/passage.jpg`, 원본 `passage-higgsfield-original.jpg`. 대화용 바닥 outpaint 3:4(2크레딧, job `e767181a`, 원본 `passage-outpaint-original.jpg`) → `scripts/cut-picnic-floors.py passage`로 `passage-floor.webp`(원본 아래 150px에 겹쳐 서서히 나타남). 핍 실루엣 `pip-silhouette.png`는 핍 그림을 어둡게 칠해 준비실 문간에 맞춰 자른 것(크레딧 없음).
+
+| job | 문장 | 파일 |
+|---|---|---|
+| `ddc78fd9` | There is a mop bucket by the wall. | detective-passage-1.mp3 |
+| `18e5e97b` | A long scarf hangs on the hook. | detective-passage-2.mp3 |
+
+## 바이올린 의견 반영 (2026-11-17)
+
+Higgsfield MCP `text2speech_v2` · MiniMax, 감정 없음, 줄당 약 0.15크레딧(11줄 약 1.65).
+
+- 탐정 **Grady**: `detective-ivo-i4.mp3`(How could you see Momo from the stage?, job `07abe72d`), `detective-take-cutters.mp3`(`0af5969a`), `detective-take-button.mp3`(`386f773a`), `detective-take-case.mp3`(`e8299420`), `detective-violincase-0.mp3`(There is a yellow moon on the case., `9d6a4954`), `detective-end-sorry.mp3`(`64b8e7f2`), 추리 `deduce/q6.mp3`(`816c4b33`)·`r6.mp3`(`193929c7`)·`h6.mp3`(`6a873dde`). 예전 추리 6·7번은 7·8번으로 이름을 바꿈.
+- 핍 **Pixie** `0178ef57-ada4-43d9-992b-8d9221045bb4`: `pip-p2.mp3`(No. I only saw the case through the door. I couldn't see who carried it., `fae1eb60`). 문장 구간은 `SENTENCE_TIMES`.
+- 타라 **Evie**: `tara-end2.mp3`(I knew the strings were broken. Now I know why. I'll get new strings., `4bf901ac`). 설계서는 감정 sad인데 Claude in Chrome이 연결되지 않아 **감정 없이** 만듦. 사용자가 Higgsfield 웹에서 sad로 만들면 `show_generations`로 찾아 바꾼다.
+- 쓰지 않게 된 녹음(경사 없음, 비교하기 없음): `badger-b1·b2·b3`, `detective-call`, `detective-call2`, `detective-contact-thought`, `detective-c3`, `detective-think-compare`. 지우기는 사용자 승인 뒤.

@@ -1324,13 +1324,14 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 @media(prefers-reduced-motion:reduce){.tut-fig > img{animation:none}}
 /* the tutorial's pages move (user decision, design/tutorial-motion.html applied): each page plays the game's own screens
    with sample lines that are not the case's, the detective's right paw tapping, over and over (TUT_DEMO). With 동작 줄이기
-   the page shows its still picture instead (assets/ui/tutorial/tut-1…7.webp). */
+   the page holds still on its first frame. The pages are drawn in the first case's places and people (user decision
+   2026-11-17: the tutorial is seen once, before Case 01): the Lake Cafe and Mr. Duck, the picnic table and Rosie. */
 .tdemo{position:relative;aspect-ratio:5 / 4;overflow:hidden;background:#F3ECDD}
 /* the camera (user request: no wobble): the screen's camera and the place's own move together, the same time and a gentle
    start and stop */
 .tdemo-stage{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;transition:transform .8s cubic-bezier(.45,0,.2,1);pointer-events:none}
-.tdemo-art{position:absolute;inset:0;background:url(assets/places/library-higgsfield-v2.png) 46% 0/auto 62% no-repeat,url(assets/places/library-floor.jpg) 46% 0/auto 100% #9C7A55}
-.tdemo-art::after{content:"";position:absolute;left:0;right:0;top:62%;bottom:0;background:url(assets/places/library-floor.jpg) 46% 0/auto 100%}
+.tdemo-art{position:absolute;inset:0;background:url(assets/places/picnic-storyboard/cafe-day.png) 40% 0/auto 59% no-repeat,url(assets/places/picnic-storyboard/daycafe-floor.jpg) 40% 0/auto 100% #B08A5E}
+.tdemo-art::after{content:"";position:absolute;left:0;right:0;top:59%;bottom:0;background:url(assets/places/picnic-storyboard/daycafe-floor.jpg) 40% 0/auto 100%}
 .tdemo-npc{position:absolute;left:50%;top:16%;height:58%;transform:translateX(-50%);transform-origin:50% 0;transition:top .65s cubic-bezier(.3,.8,.3,1),height .65s cubic-bezier(.3,.8,.3,1)}
 .tdemo.talking .tdemo-npc{top:7%;height:46%}
 .tdemo .ask-panel{transition:opacity .25s}
@@ -1338,16 +1339,13 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .tdemo.note .dock{transform:translateY(0)}
 /* a press nudges with the translate property, on top of the button's own transform (a map pin is centred with translate(-50%,-50%)) */
 .tdemo .ask-panel .q.press,.tdemo .press{translate:0 2px;filter:brightness(.94)}
-/* 7장: the game's questioning screen as it is (390 × 844 under the camera): the room, the person standing, ‹ and the
-   gauge at the top, the speech bubble, 증거 내밀기 at the bottom, the evidence drawer coming up from it */
+/* 7장: the game's hand-over screen as it is (390 × 844 under the camera): the picnic table, the person standing, their
+   speech bubble, 가방 건네주기 at the bottom, the 소지품 drawer coming up from it */
 .tdemo .t7-cam{position:absolute;left:0;top:0;width:390px;height:844px}
-.tdemo .t7-cam.jolt{animation:jolt .42s ease-out}
-.tdemo .t7-room{position:absolute;inset:0 -400px;background:url(assets/places/station-interview-room.png) 50% 50%/cover #B9C3CC}
-.tdemo .t7-npc{position:absolute;left:50%;bottom:11%;height:54%;transform:translateX(-50%)}
-.tdemo .t7-npc.flinch{animation:flinch .5s ease-out}
-.tdemo .t7-claim{--bubble-top:66px}
-.tdemo .interrogation-gauge .gauge-fill{--q:.34}
-.tdemo .interrogation-gauge.up .gauge-fill{--q:.67}
+.tdemo .t7-room{position:absolute;inset:0 -400px;background:url(assets/places/picnic-storyboard/picnic-wide.png) 50% 0/auto 75% no-repeat,url(assets/places/picnic-storyboard/picnic-floor.jpg) 50% 100%/auto 40% #8DAA5E}
+/* Rosie's face is low in her tall picture (her ears): a little smaller, and the bubble lower, so her face shows under it */
+.tdemo .t7-npc{position:absolute;left:50%;bottom:14%;height:50%;transform:translateX(-50%)}
+.tdemo .t7-claim{--bubble-top:120px}
 /* 4–6장 */
 .tdemo-mapv{position:absolute;left:0;top:0;width:390px;height:844px;z-index:3;overflow:hidden;background:#7FA06A;transition:opacity .45s}
 .tdemo-mapv.off{opacity:0}
@@ -2523,12 +2521,11 @@ UMBRELLA_CASE.places.forEach(pl => pl.clues.forEach((c, i) => c.audio = `audio/u
    before the contest. The same engine as the other cases, with what this case adds (case-04-review.md 엔진 점검):
    - needs: a question waits for conditions (cond()): another answer written down, a thing carried, something done
      (!flag), someone met (met:); a conversation can be left once its open questions are written (PACK.leaveOpen)
-   - actions with lines, conditions (when) and a flag they set once said (Tara's check, the call to the officer, the
-     sleeves); spots that come and go (when/unless), things picked up from the place (take) with the detective's lines
-   - things in 소지품 opened and closed (opened), two compared (compare), the detective's thoughts when their
-     conditions are met (thoughts)
-   - the questioning in the waiting room (ending.script): the detective's questions, Owen's claims answered with a
-     statement or a thing held up, then the violin back to Tara (handoff)
+   - actions with lines, conditions (when) and a flag they set once said (Tara's check, the sleeves); spots that come
+     and go (when/unless), things picked up from the place (take) with the detective's lines, the case from its close look
+   - things in 소지품 opened and closed (opened), the detective's thoughts when their conditions are met (thoughts)
+   - the questioning in the waiting room (ending.script, no officer): the detective's questions, Owen's claims answered
+     with a statement or a thing held up, then the violin back to Tara (handoff)
    The detective's lines are recorded (audio/violin/, scripts/violin-detective-lines.js); the others are still read by
    the browser's voice (speak with no recording). */
 const VIOLIN_CASE = {
@@ -2568,25 +2565,21 @@ const VIOLIN_CASE = {
       },
       bank:{ t0:['missing','find','broken','leave','mixing','fine'], t5:['rehearsal','lobby','contest','stage','hobby','library'], t1:['in','next to','waiting room','on','behind','lobby','under'],
         t2:['There is','yellow moon','on','There are','They are','yellow star','under','yellow spoon','in'], t3:['There are','under','There is','They are','on','behind','next to','in'], t4:['dog','goat','mole','deer','bear','rabbit','fox'] },
-      // design 4절: her photo of the case, taken once t2 is written down
+      // design 4절: her photo of the case, handed over once t2 is written down: it goes into 소지품 (user decision
+      // 2026-11-17: the questioning never holds it up, so it is not an evidence photo)
       after:{ t2:{ lines:[
         { key:'photo-give', en:"Here's a photo of my case.", ko:'내 케이스 사진이야.', photo:'taraphoto-0' },
         { det:true, key:'photo', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.', photo:'taraphoto-0' }
-      ], snap:['taraphoto-0'] } },
-      // design 7절: the violin shown to her once found and its strings seen; then the call to the officer, from the lobby
+      ], give:'tara-photo' } },
+      // design 7절: the violin shown to her once found and its strings seen (no officer in this case, user decision
+      // 2026-11-17: he only called and watched)
       actions:[
         { id:'check', en:'Can you check this violin?', ko:'이 바이올린을 확인해 줄래?', when:['@violin-case', '!seen-strings'], flag:'tara-check',
           lines:[
             { det:true, key:'r1', en:'I found this behind the curtain. The violin is in it.', ko:'커튼 뒤에서 찾았어. 바이올린은 안에 있어.' },
             { key:'r2', en:'My moon sticker! This is my violin. But the strings are broken.', ko:'내 달 스티커네! 내 바이올린이야. 그런데 현이 끊어져 있어.' },
             { key:'r3', en:"I can't play it. Please find out what happened.", ko:'이걸로는 연주할 수 없어. 무슨 일이 있었는지 알아봐 줘.' },
-            { det:true, key:'r4', en:"I'll keep it safe for now.", ko:'일단 내가 잘 보관할게.' },
-            { det:true, key:'contact-thought', en:'The strings are broken. I should tell the officer.', ko:'현이 끊어져 있어. 경사에게 알려야겠어.' }
-          ] },
-        { id:'call', en:'Call the officer.', ko:'경사에게 알리기', say:false, when:['!tara-check'], flag:'called',
-          lines:[
-            { det:true, key:'call', en:'Officer, I found Tara\'s violin. All four strings are broken.', ko:'경사, 타라의 바이올린을 찾았어. 현 네 줄이 모두 끊어져 있어.' },
-            { phone:'Sgt. Badger', face:'badger', key:'b1', en:"Keep the violin safe. Call me when you're ready.", ko:'바이올린을 잘 보관해 둬. 준비되면 불러 줘.', as:{ pitch:.9, voice:3 } }
+            { det:true, key:'r4', en:"I'll keep it safe for now.", ko:'일단 내가 잘 보관할게.' }
           ] }
       ]
     },
@@ -2628,10 +2621,11 @@ const VIOLIN_CASE = {
       questions:[
         { id:'i1', en:'Where were you after rehearsal?', ko:'리허설 뒤 어디에 있었니?' },
         { id:'i3', en:'Why did you stay on stage?', ko:'왜 무대에 남아 있었니?' },
-        { id:'i4', en:'What could you see from the stage?', ko:'무대에서 무엇이 보였니?' },
-        { id:'i2', en:'What did you see when the light came back on?', ko:'조명이 다시 켜졌을 때 무엇을 봤니?' }
+        { id:'i2', en:'What did you see when the light came back on?', ko:'조명이 다시 켜졌을 때 무엇을 봤니?' },
+        // after i2: how he could see Momo on the ladder (user decision 2026-11-17: asked first, it had no reason)
+        { id:'i4', en:'How could you see Momo from the stage?', ko:'무대에서 모모를 어떻게 봤니?' }
       ],
-      needs:{ i3:['ivo:i1'], i4:['ivo:i1'], i2:['pip:p1'] },
+      needs:{ i3:['ivo:i1'], i2:['pip:p1'], i4:['ivo:i2'] },
       answers:{
         i1:'I was next to the music stand on the stage.',
         i3:'I wanted to practice the last part once more before the contest.',
@@ -2683,7 +2677,7 @@ const VIOLIN_CASE = {
         m2:['Pip','light','Ivo','night','Tara','right'], m5:['lent','Owen','left','Ivo','sent','Tara'] },
       actions:[ { id:'sleeves', en:'Can I look at your sleeves?', ko:'소매 좀 봐도 될까?', when:['@gold-button'], answer:'OK. These are my work clothes.', answerKo:'그래. 이건 내 작업복이야.', inspect:'sleeves-momo' } ]
     },
-    pip: { id:'pip', name:'Pip Sparrow', ko:'참새 핍', job:'자원봉사자', place:'backstage', witness:true, required:true, pitch:1.5, voice:2, bg:'#DCEBF3',
+    pip: { id:'pip', name:'Pip Sparrow', ko:'참새 핍', job:'자원봉사자', place:'passage', witness:true, required:true, pitch:1.5, voice:2, bg:'#DCEBF3',
       hello:[ { key:'hello', en:"Hi there! I'm Pip.", ko:'안녕! 난 핍이야.' } ],
       questions:[
         { id:'p1', en:'Did you see a violin?', ko:'바이올린을 봤니?' },
@@ -2692,18 +2686,15 @@ const VIOLIN_CASE = {
       needs:{ p2:['pip:p1'] },
       answers:{
         p1:'No, but someone carried a black case behind the curtain when the light came back on.',
-        p2:"No. I only saw the case through the door, and I couldn't see a sticker."
+        // user decision 2026-11-17: asked who it was, he says he could not see who (not a sticker)
+        p2:"No. I only saw the case through the door. I couldn't see who carried it."
       },
       notes:{
         p1:["- Pip did not see a violin","- someone carried a {{a|black case}} {{b|behind}} the curtain","- when the light came back on"],
-        p2:["- Pip only saw the case through the {{c|door}}","- could not see a sticker"]
+        p2:["- Pip only saw the case through the {{c|door}}","- Pip {{d|couldn't}} see who carried it"]
       },
-      bank:{ p1:['black case','behind','black toolbox','next to','black bag','under'], p2:['door','floor','case','window','four','wall'] }
-    },
-    // the officer joins only for the questioning (ending.script puts him in the waiting room, S.met while it lasts)
-    // the same voice as the library case's officer (Higgsfield · MiniMax · Fraser): b1 on the phone, b2·b3 at the questioning
-    badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'waiting', witness:true, joins:true, pitch:.9, voice:3, bg:'#DCE3F0', questions:[], answers:{}, notes:{}, bank:{},
-      audio:{ b1:'audio/violin/badger-b1.mp3', b2:'audio/violin/badger-b2.mp3', b3:'audio/violin/badger-b3.mp3' } }
+      bank:{ p1:['black case','behind','black toolbox','next to','black bag','under'], p2:['door',"couldn't",'floor','could','window',"didn't",'wall'] }
+    }
   },
   phrases:[
     ['the whole time','owen:o1','the whole time'], ['come back','tara:t5','came back'], ['go out','momo:m1','went out'], ['come back on','pip:p1','came back on']
@@ -2732,7 +2723,7 @@ const VIOLIN_CASE = {
     ivo:{ i1:'무대 위 악보대 옆에 있었어.', i3:'대회 전에 마지막 부분을 한 번 더 연습하고 싶었어.', i4:'옆 가림막이 열려 있었어. 조명 옆 사다리가 보였어.', i2:'모모는 조명 옆 사다리 위에 있었어. 나는 여전히 무대 위에 있었고.' },
     momo:{ m1:'사다리 옆 조명을 고쳤어. 리허설 뒤에 꺼졌거든.', m3:'응. 커튼 뒤 선반에 예비 전구들이 있어. 하나 필요했어.', m4:'내 검은 공구함이야. 사다리에 올라가기 전에 선반 아래에 두었어.',
       m2:'핍이 옆 통로에 있었어. 난 조명 일로 바빴어.', m5:'내 거야. 오웬에게 빌려줬어.' },
-    pip:{ p1:'아니. 하지만 조명이 다시 켜졌을 때 누군가 검은 케이스를 커튼 뒤로 가져갔어.', p2:'아니. 문 너머로 케이스만 봤고, 스티커도 보지 못했어.' }
+    pip:{ p1:'아니. 하지만 조명이 다시 켜졌을 때 누군가 검은 케이스를 커튼 뒤로 가져갔어.', p2:'아니. 문 너머로 케이스만 봤어. 누가 들고 갔는지는 못 봤어.' }
   },
   // four rooms of the music hall (one building on the map); the detective's sentences from design 6·7·10절. A spot's
   // when/unless: conditions for it to be there; a clue's take: picked up into 소지품 after its lines (no photo)
@@ -2751,7 +2742,9 @@ const VIOLIN_CASE = {
         { label:'Water bottle', prop:true, en:'There is a water bottle on the table.', ko:'탁자 위에 물병이 있어.' },
         { label:'Small cutters', take:'wire-cutters', lines:[
           { key:'c1', en:'There is a pair of cutters under the right chair.', ko:'오른쪽 의자 아래에 니퍼가 있어.' },
-          { key:'c2', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.' } ] }
+          { key:'c2', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.' },
+          // picked up: said as it is taken (user decision 2026-11-17, as the Christmas scale)
+          { key:'take-cutters', en:"I'll take these cutters with me.", ko:'이 니퍼를 가져가야겠어.' } ] }
       ],
       spots:[ { clue:0, x:39, y:50, w:16, h:30 }, { clue:1, x:79, y:22, w:17, h:68 }, { clue:2, x:95.5, y:63, w:4.5, h:14 },
         { clue:3, x:57, y:83, w:8, h:8, unless:['!took:wire-cutters'] } ] },
@@ -2768,12 +2761,14 @@ const VIOLIN_CASE = {
         { label:'Ladder', prop:true, en:'The ladder is next to the light.', ko:'사다리가 조명 옆에 있어.' },
         { label:'Curtain', prop:true, en:'There is a long curtain here. I should ask more first.', ko:'긴 커튼이 있네. 먼저 더 물어봐야겠어.' },
         { label:'Curtain', take:'!curtain', lines:[ { key:'s1', en:'There is a case behind the curtain.', ko:'커튼 뒤에 케이스가 있어.' } ] },
-        { label:'Black violin case', take:'violin-case', flag:'seen-strings', lines:[
-          { key:'s2', en:'The yellow moon is on the case. The violin is in it.', ko:'케이스에 노란 달이 있고 바이올린은 안에 있어.' },
-          { key:'s4', en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } ] },
-        { label:'Gold button', take:'gold-button', lines:[ { key:'s3', en:'There is a gold button under the curtain.', ko:'커튼 아래에 금색 단추가 있어.' } ] },
+        // the case opens in its own close look, filling the screen (user decision 2026-11-17, as the umbrella)
+        { label:'Black violin case', inspect:'violincase' },
+        { label:'Gold button', take:'gold-button', lines:[ { key:'s3', en:'There is a gold button under the curtain.', ko:'커튼 아래에 금색 단추가 있어.' },
+          { key:'take-button', en:"I'll take this button with me.", ko:'이 단추를 가져가야겠어.' } ] },
         { label:'Toolbox', prop:true, en:'A black toolbox under the shelf.', ko:'선반 아래에 검은 공구함이 있네.' },
-        { label:'Spare bulbs', prop:true, en:'There are spare bulbs on the shelf.', ko:'선반 위에 예비 전구들이 있어.' }
+        { label:'Spare bulbs', prop:true, en:'There are spare bulbs on the shelf.', ko:'선반 위에 예비 전구들이 있어.' },
+        // the left doorway: to the side passage, once Momo has said Pip was there (user decision 2026-11-17)
+        { label:'Side passage', go:'passage' }
       ],
       spots:[ { clue:0, x:17, y:16, w:15, h:76 },
         { clue:1, x:50, y:0, w:34, h:92, unless:['pip:p1'] },
@@ -2781,42 +2776,64 @@ const VIOLIN_CASE = {
         { clue:3, x:55, y:81, w:21, h:18, when:['!curtain'], unless:['!took:violin-case'] },
         { clue:4, x:78, y:83, w:4.5, h:6.5, when:['!curtain'], unless:['!took:gold-button'] },
         { clue:5, x:59, y:67, w:14.5, h:15, when:['!curtain'] },
-        { clue:6, x:57, y:44, w:11, h:7, when:['!curtain'] } ] },
-    // never on the map: Tara's photo (taken in her talk), each person's sleeves (their action's close look)
+        { clue:6, x:57, y:44, w:11, h:7, when:['!curtain'] },
+        { clue:7, x:4, y:36, w:8, h:42, when:['momo:m2'], door:true, arrow:'left' } ] },
+    // the side passage next to the backstage room, where Pip stands (user decision 2026-11-17: he looked out of place
+    // in the room): never on the map (doorOnly), in and out through the doorways; the right one looks into the backstage
+    // room, the red curtain behind it
+    { id:'passage', doorOnly:true, label:'Side Passage', artWidth:1376, artHeight:768,
+      clues:[
+        { label:'Backstage door', go:'backstage' },
+        { label:'Mop bucket', prop:true, en:'There is a mop bucket by the wall.', ko:'벽 옆에 대걸레 양동이가 있어.' },
+        { label:'Scarf', prop:true, en:'A long scarf hangs on the hook.', ko:'긴 목도리가 고리에 걸려 있어.' }
+      ],
+      spots:[ { clue:0, x:66, y:30, w:18, h:50, door:true },
+        { clue:1, x:45, y:56, w:8, h:20 },
+        { clue:2, x:89, y:17, w:10, h:42 } ] },
+    // the black case found behind the curtain, close up (user decision 2026-11-17: as the umbrella, the screen full): shut
+    // first, 열기 opens it and the broken strings are seen big; the violin is taken from there (no photo)
+    { id:'violincase', inspect:true, back:'backstage', flip:['열기', '닫기'], label:'Backstage', artWidth:1376, artHeight:768,
+      clues:[ { label:'Black violin case', prop:true, en:'There is a yellow moon on the case.', ko:'케이스에 노란 달이 있어.' },
+        { label:'Violin', take:'violin-case', flag:'seen-strings', lines:[
+          { key:'s2', en:'The yellow moon is on the case. The violin is in it.', ko:'케이스에 노란 달이 있고 바이올린은 안에 있어.' },
+          { key:'s4', en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' },
+          { key:'take-case', en:"I'll take the case with me.", ko:'케이스를 가져가야겠어.' } ] } ],
+      spots:[ { clue:0, x:41, y:13, w:18, h:72, folded:true },
+        { clue:1, x:38, y:13, w:24, h:72, open:true, unless:['!took:violin-case'] } ] },
+    // never on the map: Tara's photo (shown in her talk; she hands it over, 소지품 'tara-photo'), each person's sleeves
+    // (their action's close look)
     { id:'taraphoto', inspect:true, label:'Photo', artWidth:1024, artHeight:765,
-      clues:[ { label:'Case photo from Tara', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.' } ],
+      clues:[ { label:'Case photo from Tara', prop:true, en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.' } ],
       spots:[ { clue:0, x:0, y:0, w:100, h:100, photo:{x:0,y:0,w:1020,h:765} } ] },
     { id:'sleeves-owen', inspect:true, label:'Sleeves', artWidth:1376, artHeight:768,
-      clues:[ { label:'Sleeves', en:'One sleeve has a gold button. The button on the other sleeve is missing.', ko:'한쪽 소매에는 금색 단추가 있어. 다른 쪽 소매의 단추는 없어졌네.' } ],
+      clues:[ { label:"Owen's sleeves", en:'One sleeve has a gold button. The button on the other sleeve is missing.', ko:'한쪽 소매에는 금색 단추가 있어. 다른 쪽 소매의 단추는 없어졌네.' } ],
       spots:[ { clue:0, x:35.5, y:23, w:29, h:36, photo:{x:488,y:174,w:400,h:300} } ] },
+    // every sleeve is photographed (user request 2026-11-17: only Owen's being taken gave him away)
     { id:'sleeves-ivo', inspect:true, label:'Sleeves', artWidth:1376, artHeight:768,
-      clues:[ { label:'Sleeves', prop:true, en:'There are dark buttons on both sleeves.', ko:'양쪽 소매에 어두운 단추가 있어.' } ],
-      spots:[ { clue:0, x:35.5, y:23, w:29, h:36 } ] },
+      clues:[ { label:"Ivo's sleeves", en:'There are dark buttons on both sleeves.', ko:'양쪽 소매에 어두운 단추가 있어.' } ],
+      spots:[ { clue:0, x:35.5, y:23, w:29, h:36, photo:{x:488,y:174,w:400,h:300} } ] },
     { id:'sleeves-momo', inspect:true, label:'Sleeves', artWidth:1376, artHeight:768,
-      clues:[ { label:'Sleeves', prop:true, en:'There are small silver buttons on both sleeves.', ko:'양쪽 소매에 작은 은색 단추가 있어.' } ],
-      spots:[ { clue:0, x:35.5, y:23, w:29, h:36 } ] }
+      clues:[ { label:"Momo's sleeves", en:'There are small silver buttons on both sleeves.', ko:'양쪽 소매에 작은 은색 단추가 있어.' } ],
+      spots:[ { clue:0, x:35.5, y:23, w:29, h:36, photo:{x:488,y:174,w:400,h:300} } ] }
   ],
   // the photos and the things the deduction needs (design 8절, user decision 2026-11-07)
-  needed:['taraphoto-0', 'sleeves-owen-0'],
-  ready:['@violin-case', '@gold-button', '@wire-cutters', '!seen-strings', '!tara-check', '!compared', '!called'],
+  needed:['sleeves-owen-0'],
+  ready:['@violin-case', '@gold-button', '@wire-cutters', '!seen-strings', '!tara-check'],
   // the detective's thoughts, once each, when their conditions are met (design 8절; the cutters' once m5 opens, user
   // decision 2026-11-07)
   thoughts:[
     { when:['@gold-button'], line:{ key:'think-sleeves', en:"I should look at everyone's sleeves.", ko:'다들 소매를 살펴봐야겠어.' } },
-    { when:['@wire-cutters', '!seen-strings', 'momo:m4', 'met:owen'], line:{ key:'think-cutters', en:'I should ask who owns these cutters.', ko:'이 니퍼가 누구 건지 물어봐야겠어.' } },
-    { when:['@violin-case', '@wire-cutters', '!seen-strings'], unless:['!compared'], line:{ key:'think-compare', en:'I should compare this piece with the broken strings.', ko:'이 조각을 끊어진 현과 비교해 봐야겠어.' } }
+    { when:['@wire-cutters', '!seen-strings', 'momo:m4', 'met:owen'], line:{ key:'think-cutters', en:'I should ask who owns these cutters.', ko:'이 니퍼가 누구 건지 물어봐야겠어.' } }
   ],
-  // the piece on the cutters' blades held against the broken strings (design 7절 waiting:c3)
-  compare:{ items:['wire-cutters', 'violin-case'], when:['@violin-case', '@wire-cutters', '!seen-strings'], flag:'compared',
-    line:{ key:'c3', en:'The piece looks the same as this broken string.', ko:'이 조각은 이 끊어진 현과 똑같아 보여.' } },
+  // no 비교하기 (user decision 2026-11-17: the detective said the piece matched, the player's to decide): the player looks
+  // at the cutters and the open case in 소지품 and answers it on the deduction board
   positions:{
     tara:{x:57, floor:93, height:44},
     owen:{x:24, floor:94, height:44},
     ivo:{x:70, floor:94, height:46},
     momo:{x:46, floor:95, height:42},
-    // outside the side passage, on the preparation-room floor: clear of the door frame and Momo
-    pip:{x:32, floor:91, height:34, grounded:true},
-    badger:{x:66, floor:94, height:44}
+    // in the side passage (its own place), left of the doorway into the backstage room
+    pip:{x:30, floor:93, height:40, grounded:true}
   },
   items:{
     // titles say what the thing is, never whose (design 10절)
@@ -2826,7 +2843,10 @@ const VIOLIN_CASE = {
     'gold-button':{ label:'Gold button', en:'A small gold button.', ko:'작은 금색 단추야.',
       img:'assets/places/violin/gold-button.png', w:240, h:240, crop:[-80, -30, 400, 300] },
     'wire-cutters':{ label:'Small cutters', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.',
-      img:'assets/places/violin/cutters.png', w:302, h:460, crop:[-169, -10, 640, 480] }
+      img:'assets/places/violin/cutters.png', w:302, h:460, crop:[-169, -10, 640, 480] },
+    // handed over by Tara after t2 (her photo's line)
+    'tara-photo':{ label:'Photo from Tara', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.',
+      img:'assets/places/violin/tara-photo.jpg', w:1024, h:765, crop:[0, 0, 1024, 765] }
   },
   previewHandback:['violin-case'],
   // the whole case happens in the music hall (user request): its own map, the hall from above, instead of the village
@@ -2864,6 +2884,13 @@ const VIOLIN_CASE = {
         opts:["Owen's jacket", "Ivo's jacket", "Momo's work clothes"],
         right:'Yes. A matching button remains on the other sleeve.', rightKo:'맞아. 반대쪽 소매에는 같은 단추가 남아 있어.',
         hint:'Look at the button. Then look at the sleeve photo.', hintKo:'단추를 봐. 그런 다음 소매 사진을 봐.' },
+      // the piece on the cutters held against the broken strings: the player's to tell (user decision 2026-11-17, in
+      // place of the detective's 비교하기 line); the cutters and the open case are in 소지품
+      { step:4, who:'owen', q:'What is the piece on the cutters?', qKo:'니퍼에 붙은 조각은 무엇일까?',
+        card:'The piece on the cutters looks like {opt:a violin string}.', cardKo:'니퍼에 붙은 조각은 바이올린 현처럼 보인다.',
+        opts:['a violin string', 'a shoelace', 'a ribbon', 'a piece of paper', 'a hair', 'a leaf'],
+        right:'Yes. All four strings on the violin are broken.', rightKo:'맞아. 바이올린의 현 네 줄이 모두 끊어져 있어.',
+        hint:'Look at the cutters. Then open the violin case.', hintKo:'니퍼를 봐. 그런 다음 바이올린 케이스를 열어 봐.' },
       { step:4, who:'owen', q:'According to Momo, who borrowed the cutters?', qKo:'모모는 누구에게 니퍼를 빌려줬다고 했을까?',
         card:'Momo said he lent the cutters to {opt:Owen}.', cardKo:'모모는 니퍼를 오웬에게 빌려줬다고 했다.',
         opts:['Owen', 'Ivo', 'Tara', 'Pip'],
@@ -2881,9 +2908,7 @@ const VIOLIN_CASE = {
     // design 9절: in the waiting room, the officer beside them; the detective asks (ask: the one question to pick), Owen
     // claims (claim: answered with what accept takes, then hit), the lines in turn (lines)
     intro:[
-      { det:true, key:'question-thought', en:'I should ask Owen about the button and the cutters.', ko:'오웬에게 단추와 니퍼에 관해 물어봐야겠어.' },
-      { det:true, key:'call2', en:"Officer, I'm ready.", ko:'경사, 준비됐어.' },
-      { who:'badger', key:'b2', en:"I'm here, Detective. You can begin.", ko:'왔어, 탐정. 시작해도 돼.' }
+      { det:true, key:'question-thought', en:'I should ask Owen about the button and the cutters.', ko:'오웬에게 단추와 니퍼에 관해 물어봐야겠어.' }
     ],
     script:[
       { ask:true, key:'d0', en:"Owen, did you move Tara's case?", ko:'오웬, 네가 타라의 케이스를 옮겼니?' },
@@ -2904,8 +2929,7 @@ const VIOLIN_CASE = {
       { ask:true, key:'d4', en:'Did you cut the strings?', ko:'네가 현을 끊었니?' },
       { lines:[ { who:'owen', key:'o10', mood:'sad', en:'Yes. I cut them.', ko:'응. 내가 끊었어.' } ] },
       { ask:true, key:'d5', en:'Why did you do that?', ko:'왜 그랬니?' },
-      { lines:[ { who:'owen', key:'o7', mood:'sad', en:"I wanted to win. I'm sorry.", ko:'내가 이기고 싶었어. 미안해.' },
-        { who:'badger', key:'b3', en:"I'll talk to Owen. Please tell Tara what happened.", ko:'난 오웬과 이야기할게. 타라에게 무슨 일이 있었는지 알려 줘.' } ] }
+      { lines:[ { who:'owen', key:'o7', mood:'sad', en:"I wanted to win. I'm sorry.", ko:'내가 이기고 싶었어. 미안해.' } ] }
     ],
     // the gauge: one step per claim
     confront:[ { accept:['ivo:i2'] }, { accept:['@gold-button', 'sleeves-owen-0'] }, { accept:['@wire-cutters', 'momo:m5'] } ],
@@ -2914,10 +2938,12 @@ const VIOLIN_CASE = {
     handoff:[
       { to:'tara', go:{ think:true, en:'타라에게 알려 주자.' }, goLabel:'Lobby로 가기', give:'violin-case', giveLabel:'바이올린 건네주기',
         open:{ det:true, key:'end1', en:'Owen hid your case behind the curtain. He cut the strings.', ko:'오웬이 네 케이스를 커튼 뒤에 숨겼어. 현도 오웬이 끊었어.' },
-        before:[ { det:true, key:'end2', en:'Here is your violin.', ko:'여기 네 바이올린이야.' } ],
+        // user decision 2026-11-17: the detective feels for her, and she already knew the strings were broken (r2)
+        before:[ { det:true, key:'end-sorry', en:"I'm sorry about your strings.", ko:'현이 그렇게 돼서 안타까워.' },
+          { det:true, key:'end2', en:'Here is your violin.', ko:'여기 네 바이올린이야.' } ],
         lines:[
           { key:'end1', en:'Thank you for finding my violin and telling me what happened.', ko:'바이올린을 찾아 주고 무슨 일이 있었는지 알려 줘서 고마워.' },
-          { key:'end2', en:"I can't play today. I'm sad, but I'll get new strings.", ko:'오늘은 연주할 수 없어. 속상하지만 현을 새로 갈 거야.' }
+          { key:'end2', en:"I knew the strings were broken. Now I know why. I'll get new strings.", ko:'현이 끊어진 건 알았는데, 이제 이유를 알았어. 현을 새로 갈 거야.' }
         ] }
     ]
   }
@@ -2925,7 +2951,7 @@ const VIOLIN_CASE = {
 // the detective's sentence for each thing looked at (audio/violin/detective-<place>-<n>.mp3; things picked up say their
 // own lines), and for the things carried: what was said when picking each up (s2, s4 open, s3, c2)
 VIOLIN_CASE.places.forEach(pl => pl.clues.forEach((c, i) => { if(!c.take) c.audio = `audio/violin/detective-${pl.id}-${i}.mp3`; }));
-Object.entries({ 'violin-case':'s2', 'gold-button':'item-gold-button', 'wire-cutters':'c2' }).forEach(([id, key]) => { VIOLIN_CASE.items[id].audio = `audio/violin/detective-${key}.mp3`; });
+Object.entries({ 'violin-case':'s2', 'gold-button':'item-gold-button', 'wire-cutters':'c2', 'tara-photo':'photo' }).forEach(([id, key]) => { VIOLIN_CASE.items[id].audio = `audio/violin/detective-${key}.mp3`; });
 VIOLIN_CASE.items['violin-case'].opened.audio = 'audio/violin/detective-s4.mp3';
 // the people's recordings (audio/violin/<id>-<key>.mp3, design/case-04-missing-violin-recording.md): Tara (Higgsfield
 // MiniMax Evie; her hello is the user's own with emotion sad, the rest without emotion, user decision), Owen (Miles),
@@ -3491,7 +3517,7 @@ const CHRISTMAS_CASE = {
       { step:7, who:'nico', q:"Does Nico's story match the clues? O or X?", qKo:'니코의 말이 단서와 맞아? O일까 X일까?',
         card:'Nico: "Coco and Tess wrapped these gifts." {opt:X}', cardKo:'니코: "코코와 테스가 이 선물들을 포장했어." X',
         opts:['O', 'X'],
-        right:'Coco gave him four boxes, and Tess gave him none. But there are five boxes on the sleigh.', rightKo:'코코는 상자 넷을 줬고, 테스는 하나도 안 줬어. 그런데 썰매에는 상자가 다섯 개야.',
+        right:'Coco gave him four boxes, and Tess gave him none. There are five boxes on the sleigh.', rightKo:'코코는 상자 넷을 줬고, 테스는 하나도 안 줬어. 썰매에는 상자가 다섯 개 있어.',
         hint:"Count the boxes on the sleigh. Then listen to Coco's and Tess's answers again.", hintKo:'썰매 위 상자를 세어 보고, 코코와 테스의 대답을 다시 들어 봐.' },
       // his n5 (review 1): the sleigh marks are what the two photos show
       { step:8, who:'nico', q:"What about Nico's sleigh story? O or X?", qKo:'니코의 썰매 이야기는? O일까 X일까?',
@@ -3504,7 +3530,7 @@ const CHRISTMAS_CASE = {
       { step:9, q:'Who looks suspicious?', qKo:'누가 수상해 보여?',
         card:'{opt:Nico} looks suspicious.', cardKo:'니코가 수상해 보여.',
         opts:['Coco', 'Tess', 'Daisy', 'Nico'],
-        right:"Two of his stories don't match the clues.", rightKo:'니코의 말 두 가지가 단서와 맞지 않아.',
+        right:'Nico said Coco and Tess wrapped the gifts. He also said his sleigh never moved.', rightKo:'니코는 코코와 테스가 선물을 포장했다고 했어. 썰매도 한 번도 안 움직였다고 했지.',
         hint:'Which stories got an X?', hintKo:'어느 말에 X를 골랐지?' },
       { step:10, q:'What should we check next?', qKo:'다음에 무엇을 확인해야 할까?',
         card:'We should check {opt:the boxes on the sleigh}.', cardKo:'썰매 위 상자들을 확인해야 해.',
@@ -4121,7 +4147,7 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 const SENTENCE_TIMES = VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
   'tara:t4':[[0, 4.35], [4.55, 5.9]], 'ivo:i4':[[0, 1.4], [2.4, 4.05]], 'ivo:i2':[[0, 2.35], [2.8, 3.95]],
   'momo:m1':[[0, 1.9], [2.35, 3.9]], 'momo:m3':[[0, .7], [1.05, 4], [4.55, 5.45]], 'momo:m4':[[0, 1.4], [2.05, 4.45]], 'momo:m2':[[0, 1.75], [2, 3.2]],
-  'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .65], [.75, 5.1]] } : UMBRELLA ? { 'ella:e0':[[0, 1.98], [2.32, 3.14]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
+  'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .75], [.9, 3.15], [3.3, 5.07]] } : UMBRELLA ? { 'ella:e0':[[0, 1.98], [2.32, 3.14]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
   'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
   'rosie:r0':[[0,1.18],[1.47,2.72]],
@@ -6060,11 +6086,14 @@ $('#itemsTab').onclick = () => {
 
 /* ---------- map (place picker) ---------- */
 // Only places a character has mentioned appear on the map.
+// A door-only place (doorOnly: the violin case's side passage, user decision 2026-11-17) is never on the map: it is
+// reached through a door button in the next place (a clue's go), as the storeroom's back door
+const onMap = pl => S.known.has(pl.id) && !pl.doorOnly;
 function renderPlaces(){
   updateAccuse();
   const map = $('#map');
   map.querySelectorAll('.pin').forEach(p => p.remove());
-  const known = PLACES.filter(pl => S.known.has(pl.id));
+  const known = PLACES.filter(onMap);
   $('#mapEmpty').hidden = known.length > 0;
   known.forEach(pl => {
     // no clue counts or "all found" marks anywhere: how many things are worth photographing is the player's to find out
@@ -6083,7 +6112,7 @@ function renderPlaces(){
 }
 // the map opens on the newest pins, else on the place the detective is at, else on the middle of the known places
 function centerMap(){
-  const stage = $('.map-stage'), map = $('#map'), known = PLACES.filter(pl => S.known.has(pl.id));
+  const stage = $('.map-stage'), map = $('#map'), known = PLACES.filter(onMap);
   const fresh = known.filter(pl => freshPins.has(pl.id)), here = known.filter(pl => pl.id === S.place);
   const look = fresh.length ? fresh : here.length ? here : known;
   const mid = k => look.length ? look.reduce((t, pl) => t + pl[k], 0) / look.length : 50;
@@ -6402,11 +6431,24 @@ function deduceToEnd(smooth){
   const go = () => { const list = $('#deduceCards'); list.scrollTo({ top:list.scrollHeight, behavior:smooth ? 'smooth' : 'auto' }); };
   go(); requestAnimationFrame(go);
 }
+// a question's own choices (opts), mixed (user request 2026-11-17: the answer was always first, as the data lists it):
+// the same order every time the list opens (seeded by the question), O / X left as they are
+function mixOpts(list, seed){
+  if(list.length === 2 && list.includes('O') && list.includes('X')) return list;
+  let h = 0; for(const ch of seed) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const out = [...list];
+  // mulberry32 from the seed
+  const rnd = () => { h = (h + 0x6D2B79F5) >>> 0; let t = Math.imul(h ^ h >>> 15, 1 | h); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  for(let i = out.length - 1; i > 0; i--){ const j = Math.floor(rnd() * (i + 1)); [out[i], out[j]] = [out[j], out[i]]; }
+  // never the answer first again
+  if(out[0] === list[0]) out.push(out.shift());
+  return out;
+}
 function openDeduceDrop(slot){
   setNotes(false);
   deduceSlot = +slot.dataset.dslot || 0;
   const st = deduceState(), { kind } = deduceBlanks(DEDUCE.qs[st.at])[deduceSlot], tried = st.tried[st.at] || new Set(), drop = $('#deduceDrop');
-  const faces = kind === 'person', words = kind === 'opt' ? DEDUCE.qs[st.at].opts : kind === 'opt2' ? DEDUCE.qs[st.at].opts2 : deduceWords(kind);
+  const faces = kind === 'person', q = DEDUCE.qs[st.at], words = kind === 'opt' || kind === 'opt2' ? mixOpts(q[kind === 'opt' ? 'opts' : 'opts2'], q.q + kind) : deduceWords(kind);
   drop.className = `deduce-drop ${kind}${kind === 'place' ? '' : ' wide'}`;
   drop.innerHTML = `<div class="dz-list" style="--cols:${faces ? 4 : kind === 'time' ? 3 : 2}">` + words.map(word =>
     `<button class="dz-opt${faces ? ' face' : ''}${tried.has(word) ? ' tried' : ''}" type="button" role="option" data-dword="${esc(word)}">${deducePic(kind, word)}${esc(word)}</button>`).join('') + '</div>';
@@ -6438,7 +6480,12 @@ function deducePick(word){
     // detective thinks it over; the cards already answered stay, and the count starts again
     st.wrong = (st.wrong || 0) + 1;
     if(st.wrong >= DEDUCE_GIVE_UP){ st.wrong = 0; saveGame(); return deduceGiveUp(); }
-    if(n === 1) deduceShow(DEDUCE.miss, 'miss', 'wrong'); else deduceShow({ en:q.hint, ko:q.hintKo }, `h${i + 1}`, 'wrong');
+    // the first miss: "Check the records again.", then the question again (user request 2026-11-17: the bubble stayed on
+    // the miss line, the question gone); a hint stays up, it is what to look at
+    if(n === 1) deduceShow(DEDUCE.miss, 'miss', 'wrong', () => setTimeout(() => {
+      if(!$('#deduce').hidden && deduceLine?.key === 'miss' && deduceState().at === i && !deduceWait) deduceAsk();
+    }, 600));
+    else deduceShow({ en:q.hint, ko:q.hintKo }, `h${i + 1}`, 'wrong');
     return saveGame();
   }
   part[k] = word;
@@ -6981,9 +7028,11 @@ function startScript(){
   accusedId = PACK.accused;
   ending = { step:'say', script:true, si:0, returnPlace:S.place || cur().place };
   endingRound = 0; S.mood = {};
-  // the officer beside them from the start (violin case), or coming in the middle (lateJoin: a step's join)
-  S.visit = PACK.lateJoin ? {} : { badger:{ place:spk(accusedId).place, ...NPC_POSITIONS.badger } };
-  if(!PACK.lateJoin && !S.met.includes('badger')){ S.met.push('badger'); ending.joined = 'badger'; }
+  // the officer beside them from the start (a case with him and no lateJoin), coming in the middle (lateJoin: a step's
+  // join), or not at all (the violin case, user decision 2026-11-17)
+  const officer = !PACK.lateJoin && PACK.people.badger;
+  S.visit = officer ? { badger:{ place:spk(accusedId).place, ...NPC_POSITIONS.badger } } : {};
+  if(officer && !S.met.includes('badger')){ S.met.push('badger'); ending.joined = 'badger'; }
   $('#app').classList.add('ending');
   endingFocus(accusedId); renderInterrogationGauge();
   scriptLines(ENDING.intro, () => scriptGo(0));
@@ -7839,6 +7888,8 @@ function peekOpen(el, geom, back){
   const set = g => { el.setAttribute('href', XM + g.src); ['x', 'y', 'width', 'height'].forEach((a, n) => el.setAttribute(a, [g.x, g.y, g.w, g.h][n])); };
   set(geom); setTimeout(() => { if(el.isConnected) set(back); }, 1800);
 }
+// Pip's shadow in the backstage room's left doorway (only the opening, between its two posts)
+const PIP_SHADOW = '<image href="assets/places/violin/pip-silhouette.png" x="57" y="402" width="108" height="190"/>';
 const ART = {
   /* the Christmas star case (assets/places/christmas/, scripts/cut-christmas-assets.py). The square at night is the day
      picture darkened, then lit (user plan); the scale leaves the storeroom once taken (the picture without it) and
@@ -7958,11 +8009,20 @@ const ART = {
   waiting: () => `<image href="assets/places/violin/waiting.jpg" width="1376" height="768"/>` + (S.flags.has('took:wire-cutters') ? '' :
     `<g transform="translate(832 668) rotate(-65) scale(.17)"><image href="assets/places/violin/cutters.png" x="-151" y="-230" width="302" height="460"/></g>`),
   stage: () => `<image href="assets/places/violin/stage.jpg" width="1376" height="768"/>`,
-  backstage: () => !S.flags.has('curtain') ? `<image href="assets/places/violin/backstage.jpg" width="1376" height="768"/>`
-    : `<image href="assets/places/violin/backstage-open.jpg" width="1376" height="768"/>` +
+  // Pip's silhouette in the side passage's doorway, cut from his picture and clipped to the opening (user request
+  // 2026-11-17: in the backstage room only his shadow shows; he stands in the passage)
+  backstage: () => !S.flags.has('curtain') ? `<image href="assets/places/violin/backstage.jpg" width="1376" height="768"/>${PIP_SHADOW}`
+    : `<image href="assets/places/violin/backstage-open.jpg" width="1376" height="768"/>${PIP_SHADOW}` +
       (S.flags.has('took:violin-case') ? '' : `<g transform="translate(902 694) rotate(-86) scale(.44)"><image href="assets/places/violin/case-closed.png" x="-146" y="-320" width="293" height="640"/></g>`) +
       (S.flags.has('took:gold-button') ? '' : `<image href="assets/places/violin/gold-button.png" x="1088" y="650" width="30" height="30"/>`),
+  // the side passage (assets/places/violin/passage.jpg, Higgsfield Nano Banana 2.1 from the backstage picture's style):
+  // its doorway on the right looks into the backstage room, the red curtain behind it
+  passage: () => `<image href="assets/places/violin/passage.jpg" width="1376" height="768"/>`,
   taraphoto: () => `<image href="assets/places/violin/tara-photo.jpg" width="1024" height="765"/>`,
+  // the case found behind the curtain, close up over the backstage room blurred: shut, then open (the broken strings)
+  violincase: () => closeLookBg('backstage-open') + (S.unfolded
+    ? '<image href="assets/places/violin/case-open.png" x="526" y="110" width="325" height="500"/>'
+    : '<image href="assets/places/violin/case-closed.png" x="574" y="110" width="229" height="500"/>'),
   'sleeves-owen': () => closeLook('waiting', 'sleeves-owen', 442),
   'sleeves-ivo': () => closeLook('stage', 'sleeves-ivo', 427),
   'sleeves-momo': () => closeLook('backstage-open', 'sleeves-momo', 385)
@@ -7998,6 +8058,8 @@ const ART_FLOOR = {
   waiting:  { src:'assets/places/violin/waiting-floor.jpg', h:935 },
   stage:    { src:'assets/places/violin/stage-floor.jpg', h:775 },
   backstage:{ src:'assets/places/violin/backstage-floor.jpg', h:825 },
+  // the outpaint redrew the corridor (its walls elsewhere): the floor fades in over the picture's last 150 px
+  passage:  { src:'assets/places/violin/passage-floor.webp', h:450, overlap:150 },
   // the Christmas star case: one tall picture each
   // the night and the lit square have their own darker floor (user: a day floor under the night picture looked wrong)
   // the decorated tree (user request) by day, at night and lit, all cut alike (scripts/make-christmas-decorated-tree.py)
@@ -8009,8 +8071,9 @@ const ART_FLOOR = {
 
 // a close look (violin case): the cut-out (w: its width at 300 tall) in the middle, 260 tall, over its room blurred and
 // dimmed
-const closeLook = (room, pic, w) => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
-  <image href="assets/places/violin/${room}.jpg" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>
+const closeLookBg = room => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+  <image href="assets/places/violin/${room}.jpg" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>`;
+const closeLook = (room, pic, w) => `${closeLookBg(room)}
   <image href="assets/places/violin/${pic}.png" x="${688 - w * 13 / 30}" y="200" width="${w * 13 / 15}" height="260"/>`;
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
 
@@ -8151,6 +8214,9 @@ function captureEvidence(place, clueIndex){
     if(!S.evidence.some(item => item.placeId === place.id && item.clueIndex === clueIndex)){
       S.evidence.push({ placeId:place.id, clueIndex, photo });
     }
+    // a thought this photo makes due (the toy star's back: back to the sleigh) is said once the notebook is put away,
+    // not later at the next thing tapped (it was only checked for things looked at; cond() needs the photo saved)
+    checkThoughts();
     // give: the thing photographed goes into 소지품 too (the gold star's back)
     const give = place.clues[clueIndex].give;
     const gave = give && !S.flags.has(`took:${give}`);
@@ -8359,7 +8425,11 @@ $('#art').addEventListener('click', e => {
 
 // The nudge: after NUDGE_AFTER ms with no touch, key or wheel, while a place is showing and nothing covers it (no
 // notebook, map, drawer, pop-up or tutorial: the head point must be the person's own), the first person there who
-// still has questions (phase not 'done') gets the ! (.nudge). Any input takes it away and starts the count again.
+// has something to ask now gets the ! (.nudge). Any input takes it away and starts the count again.
+// Something to ask now (user request 2026-11-17: the ! stayed over Momo with his other questions still locked): a
+// question open now, or an action not done yet (one with a flag not set, or a close look not taken yet)
+const hasNext = sp => availableQuestions(sp).length > 0 ||
+  (sp.actions || []).some(a => actionOpen(a) && (a.flag || (a.inspect && !S.found[a.inspect]?.size)));
 const NUDGE_AFTER = 8000;
 let lastInput = Date.now();
 function clearNudge(){ document.querySelectorAll('#art .nudge').forEach(n => n.remove()); }
@@ -8367,7 +8437,7 @@ function clearNudge(){ document.querySelectorAll('#art .nudge').forEach(n => n.r
 setInterval(function nudgeTick(){
   if(Date.now() - lastInput < NUDGE_AFTER || !S.investigate || ending || document.hidden || $('#art .nudge')) return;
   const npc = [...$('#art').querySelectorAll('.scene-npc')].find(b => {
-    if(per(b.dataset.talk).phase === 'done') return false;
+    if(per(b.dataset.talk).phase === 'done' || !hasNext(spk(b.dataset.talk))) return false;
     const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height * .25;
     return x > 0 && x < innerWidth && document.elementFromPoint(x, y)?.closest('.scene-npc') === b;
   });
@@ -8378,7 +8448,7 @@ setInterval(function nudgeTick(){
 let sceneFocus = null;
 const sceneLeftFor = id => $('#art').offsetWidth * positionOf(id).x / 100 - artWrap.clientWidth / 2;
 function enterPlace(id, fromConversation = false){
-  if(!S.known.has(id) && !(fromConversation && id === cur().place) && !placeOf(id)?.inspect) return;
+  if(!S.known.has(id) && !(fromConversation && id === cur().place) && !placeOf(id)?.inspect && !placeOf(id)?.doorOnly) return;
   const fromRect = !S.investigate && id === cur().place ? $('#art').getBoundingClientRect() : null;
   cameraMotion?.cancel();
   if(drawerBrowse) closeDrawer();
@@ -8430,7 +8500,8 @@ function renderSceneHead(){
   const pl = placeObj(), { got, of } = evidenceNeed(), chip = $('#evCount');
   $('#sceneTitle').textContent = pl ? pl.label : '';
   $('#foldFoot').hidden = !(S.investigate && pl?.inspect && pl.spots.some(s => s.folded || s.open));
-  $('#foldBtn').textContent = pl?.flip || (S.unfolded ? '접기' : '펼치기');   // flip: one word both ways (the toy star)
+  // flip: one word both ways (the toy star), or [shut, open] (the violin case: 열기, 닫기)
+  $('#foldBtn').textContent = Array.isArray(pl?.flip) ? pl.flip[+S.unfolded] : pl?.flip || (S.unfolded ? '접기' : '펼치기');
   chip.innerHTML = `<img src="assets/ui/icons/magnifier.png" alt="">${got} <small>/ ${of}</small>`;
   chip.setAttribute('aria-label', `심문 증거 ${of}개 중 ${got}개`);
   chip.classList.toggle('all', got === of);
@@ -8515,37 +8586,31 @@ function useFindHint(){
 $('#findHint').addEventListener('click', useFindHint);
 
 /* ---------- how-to-play tutorial ----------
-   Seven steps, one at a time, each a moving demo of the game's own screens (TUT_DEMO; a still picture with 동작 줄이기). Shown automatically only the first
-   time on this device; later cases start from the case card. Pictures are crops of the real game
-   screens (user decision) but never show an answer, the culprit or a key clue. */
+   Seven steps, one at a time, each a moving demo of the game's own screens (TUT_DEMO; held on its first frame with
+   동작 줄이기). Shown automatically only the first time on this device, so it follows the first case, the picnic bag (user
+   decision 2026-11-17): its places and people (the last page, 사건을 마무리해요, is worded for every case's end). Later
+   cases start from the case card. Never an answer, the culprit or a key clue. */
 const TUT_KEY = 'detective.tutorialSeen';
 const tutSeen = () => { try { return localStorage.getItem(TUT_KEY) === '1'; } catch(e){ return false; } };
 const markTutSeen = () => { try { localStorage.setItem(TUT_KEY, '1'); } catch(e){} };
-// Each page's picture: crops of the real game screens (user decision), cut before any answer, the culprit or a key clue
-// (assets/ui/tutorial/README.md).
+// Each page's text follows the picnic case's own steps (user decision 2026-11-17)
 const TUT = [
   { title:'말을 걸고 질문해요', demo:'talk',
-    text:'현장의 <b>동물 친구</b>를 누르면 말을 걸 수 있어요. <b>질문</b>을 고르면 노트가 올라오고 영어 대답이 들려요.',
-    img:'assets/ui/tutorial/tut-1.webp' },
+    text:'현장의 <b>동물 친구</b>를 누르면 말을 걸 수 있어요. <b>질문</b>을 고르면 노트가 올라오고 영어 대답이 들려요.' },
   { title:'빈칸을 채워요', demo:'blanks',
-    text:'<b>단어 카드</b>를 누르면 앞 빈칸부터 들어가요. 끌어다 놓거나 직접 써도 돼요. 막히면 <b>도토리</b>로 한 칸을 채워요. 도토리는 사건마다 3개예요.',
-    img:'assets/ui/tutorial/tut-2.webp' },
+    text:'<b>단어 카드</b>를 누르면 앞 빈칸부터 들어가요. 끌어다 놓거나 직접 써도 돼요. 막히면 <b>도토리</b>로 한 칸을 채워요. 도토리는 사건마다 3개예요.' },
   { title:'기록 완료로 확인해요', demo:'check',
-    text:'빈칸을 다 채우고 <b>기록 완료</b>를 눌러요. 틀린 칸은 흔들려요. 다시 듣고 고쳐서 또 확인해요. 바르게 적으면 <b>새 장소나 인물</b>이 열려요.',
-    img:'assets/ui/tutorial/tut-3.webp' },
+    text:'빈칸을 다 채우고 <b>기록 완료</b>를 눌러요. 틀린 칸은 흔들려요. 다시 듣고 고쳐서 또 확인해요. 바르게 적으면 <b>새 장소나 인물</b>이 열려요.' },
   { title:'현장을 조사해요', demo:'place',
-    text:'<b>지도</b>에서 열린 장소로 가요. 현장은 옆으로 밀어 둘러보고, 수상한 곳을 누르면 <b>사진이 증거</b>로 남아요. 인물과 대화를 시작하면 그 인물의 질문을 다 적을 때까지 이어져요.',
-    img:'assets/ui/tutorial/tut-4.webp' },
+    text:'<b>지도</b>에서 열린 장소로 가요. 현장은 옆으로 밀어 둘러보고, 눈에 띄는 곳을 누르면 탐정이 살펴봐요. 중요한 물건은 <b>사진</b>으로 남아요. 인물과 대화를 시작하면 그 인물의 질문을 다 적을 때까지 이어져요.' },
   { title:'노트를 펼쳐 봐요', demo:'note',
-    text:'아래 <b>노트</b>에서 <b>인물 · 증거 · 메모</b>를 봐요. <b>📌</b>를 누르면 진술과 증거가 <b>메모</b>에 붙어요.',
-    img:'assets/ui/tutorial/tut-5.webp' },
-  // 추리 and 심문 one page each (user decision)
+    text:'아래 <b>노트</b>에서 <b>인물 · 증거 · 메모</b>를 봐요. <b>📌</b>를 누르면 진술과 증거가 <b>메모</b>에 붙어요.' },
   { title:'추리해요', demo:'deduce',
-    text:'대화를 모두 마치면 <b>추리하기</b>가 열려요. 탐정의 질문에 답하며 빈칸을 채워 범인을 찾아요. 다 찾으면 <b>경찰에게 알리기</b>를 눌러요.',
-    img:'assets/ui/tutorial/tut-6.webp' },
-  { title:'심문해요', demo:'question',
-    text:'심문에서는 거짓말에 맞는 <b>증거를 내밀어요</b>. 틀린 증거를 내밀면 같은 주장에 다시 도전해요.',
-    img:'assets/ui/tutorial/tut-7.webp' }
+    text:'대화를 모두 마치면 <b>추리하기</b>가 열려요. 탐정의 질문에 답하며 빈칸을 채워 사건을 풀어요. 다 풀면 아래 버튼을 눌러 다음 사람에게 가요.' },
+  // the end of every case, in words that fit both (user decision 2026-11-17): things handed over (picnic, umbrella) or
+  // evidence held up in the questioning (the others) use the same drawer; the moving page shows the picnic's hand-over
+  { title:'사건을 마무리해요', demo:'give',
+    text:'추리를 마치면 사건을 마무리해요. 아래 <b>서랍</b>에서 맞는 <b>물건이나 증거</b>를 골라 건네거나 내밀어요. 틀리면 다시 골라요.' }
 ];
 // The tutorial's moving pages (user decision): the mockup design/tutorial-motion.html, applied. Each page builds the game's
 // own markup with sample lines (never the case's answer, culprit or key clue) and plays it over and over, the detective's
@@ -8562,53 +8627,56 @@ const NOTE = (lines, words) => `<section class="dock" aria-hidden="true"><div cl
 
 // a person as the place draws one (renderPlaces: .scene-npc, the body, the closed and open mouths)
 const NPC = (id, name, style, box, w, h, [mx, my, mw, mhc, mho]) => `<button class="scene-npc" type="button" data-talk="${id}" style="${style}"><svg viewBox="${box}" aria-hidden="true"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="assets/characters/${id === 'badger' ? 'sgt-badger' : id}-higgsfield.png" width="${w}" height="${h}"/><image class="npc-mouth closed" href="assets/characters/mouths/${id}-closed.png" x="${mx}" y="${my}" width="${mw}" height="${mhc}"/><image class="npc-mouth open" href="assets/characters/mouths/${id}-open.png" x="${mx}" y="${my}" width="${mw}" height="${mho}"/></g></g></svg><span>${name}</span></button>`;
-// 4–6장 helpers: a photo cut from the Old Library picture (as the game's evidence photos), the Note's three tabs, its pages
-const PHOTO = (x, y, w, h) => `<svg viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMid slice"><image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/></svg>`;
+// 4–6장 helpers: a photo cut from the Lake Cafe picture (as the game's evidence photos; things that are not clues), the
+// Note's three tabs, its pages
+const PHOTO = (x, y, w, h) => `<svg viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMid slice"><image href="assets/places/picnic-storyboard/cafe-day.png" width="1679" height="937"/></svg>`;
+const GUITAR = PHOTO(1299, 408, 380, 285), CUPS = PHOTO(499, 39, 320, 240), WINDOW = PHOTO(35, 122, 400, 300);
+// the Lake Cafe as the world draws it (the picture 1376 wide, as the library's was; its floor under it) and Mr. Duck
+// where the case stands him (positions.duck: x 42, floor 93, height 44)
+const DUCK = NPC('duck', 'Mr. Duck', 'left:42%;bottom:7%;height:44%;width:15.82%;transform:translateX(-50%)', '0 0 447 694', 447, 694, [140, 160, 166, 99, 117]);
+const CAFE = `<img class="tw-art" src="assets/places/picnic-storyboard/cafe-day.png" alt=""><img class="tw-floor" src="assets/places/picnic-storyboard/daycafe-floor.jpg" alt="" style="height:537px">`;
 const CATS = [['people', 'M5 3.5h8.4a3 3 0 0 1 3 3v4.8a3 3 0 0 1-3 3H8.8l-3.6 3v-3H5a3 3 0 0 1-3-3V6.5a3 3 0 0 1 3-3z'], ['evidence', 'M4.5 7h3l1.6-2.5h5.8L16.5 7h3a2.5 2.5 0 0 1 2.5 2.5v8.3a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 17.8V9.5A2.5 2.5 0 0 1 4.5 7z'], ['memo', 'M12 2.5a4.6 4.6 0 0 1 2.9 8.2l.4 1.5h1.6a1.8 1.8 0 0 1 0 3.6h-3.6v4.6a1.3 1.3 0 0 1-2.6 0v-4.6H7.1a1.8 1.8 0 0 1 0-3.6h1.6l.4-1.5A4.6 4.6 0 0 1 12 2.5z']];
 const PIN = on => `<button class="nb-pin${on ? ' on' : ''}" type="button" aria-pressed="${!!on}"><svg aria-hidden="true"><use href="#pinIcon"/></svg></button>`;
 const PLAY = '<button class="replay-q" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5Z" fill="#4A3628"/></svg></button>';
-const PLANT = PHOTO(208, 315, 120, 90);
 const NOTE5 = {
   tab(t, k){ t.all('.ncat').forEach(b => b.setAttribute('aria-pressed', b.dataset.cat === k)); },
   page(t, k, title, body){ NOTE5.tab(t, k); t.q('.t5-title').innerHTML = title; t.q('.t5-body').innerHTML = body; },
-  people: t => NOTE5.page(t, 'people', '<span class="mini" style="background:#DCE3F0"><img src="assets/ui/icons-v2/badger.png" alt=""></span><span>Sgt. Badger의 진술</span>',
+  people: t => NOTE5.page(t, 'people', '<span class="mini" style="background:#DCEBD9"><img src="assets/ui/icons-v2/duck.png" alt=""></span><span>Mr. Duck의 진술</span>',
     `<div class="note-page checked"><div class="nblock"><span class="qlabel">${PIN()}Q. What did you see?</span><span class="question-state ok">✓ 확인됨</span><div class="nline">“I saw a <input class="blank ok" value="cat" size="5" tabindex="-1" readonly> on the <input class="blank ok" value="desk" size="5" tabindex="-1" readonly>.”</div></div></div>`),
-  list: t => NOTE5.page(t, 'evidence', '증거 기록', `<div class="evidence-page">${[['Plant', PLANT], ['Lamp', PHOTO(590, 0, 160, 120)], ['Open book', PHOTO(420, 350, 160, 120)]].map(([l, ph]) =>
-    `<div class="ev-cell"><button class="ev-card" type="button"><span class="evidence-photo" aria-hidden="true">${ph}</span><span class="ev-title">${l}</span><span class="place">Old Library</span></button>${PIN()}</div>`).join('')}</div>`),
-  detail: t => NOTE5.page(t, 'evidence', '<button class="ev-back" type="button">‹ 증거 기록</button>', `<div class="evidence-page"><div class="evidence-detail"><figure class="evidence-photo">${PLANT}</figure><span class="place">Old Library</span>
-    <h4>Plant${PLAY}</h4><p>A small plant sits by the window.</p><p class="ko" hidden>창가에 작은 화분이 놓여 있다.</p><span class="ev-btns">${PIN()}<button class="pill sm" type="button" data-t5-ko aria-pressed="false">해석</button></span></div></div>`),
-  memo: t => { NOTE5.page(t, 'memo', '<img src="assets/ui/icons/note.png" alt="">내 메모', `<div class="memo-page"><div class="memo-pin" style="--r:-1.2deg"><span class="evidence-photo" aria-hidden="true">${PLANT}</span><div><small>Old Library</small>Plant</div><button class="x" type="button">×</button></div><textarea class="memo-text" tabindex="-1" readonly></textarea></div>`); t.q('[data-cat="memo"] .badge')?.remove(); }
+  list: t => NOTE5.page(t, 'evidence', '증거 기록', `<div class="evidence-page">${[['Guitar', GUITAR], ['Cups', CUPS], ['Window', WINDOW]].map(([l, ph]) =>
+    `<div class="ev-cell"><button class="ev-card" type="button"><span class="evidence-photo" aria-hidden="true">${ph}</span><span class="ev-title">${l}</span><span class="place">Lake Cafe</span></button>${PIN()}</div>`).join('')}</div>`),
+  detail: t => NOTE5.page(t, 'evidence', '<button class="ev-back" type="button">‹ 증거 기록</button>', `<div class="evidence-page"><div class="evidence-detail"><figure class="evidence-photo">${GUITAR}</figure><span class="place">Lake Cafe</span>
+    <h4>Guitar${PLAY}</h4><p>A guitar leans on the stage.</p><p class="ko" hidden>기타 한 대가 무대에 기대어 있다.</p><span class="ev-btns">${PIN()}<button class="pill sm" type="button" data-t5-ko aria-pressed="false">해석</button></span></div></div>`),
+  memo: t => { NOTE5.page(t, 'memo', '<img src="assets/ui/icons/note.png" alt="">내 메모', `<div class="memo-page"><div class="memo-pin" style="--r:-1.2deg"><span class="evidence-photo" aria-hidden="true">${GUITAR}</span><div><small>Lake Cafe</small>Guitar</div><button class="x" type="button">×</button></div><textarea class="memo-text" tabindex="-1" readonly></textarea></div>`); t.q('[data-cat="memo"] .badge')?.remove(); }
 };
-// the camera on the place picture (1376 × 768 and its floor): the place, talking to Sgt. Badger, and with the note up
-// talk and note keep Sgt. Badger's head and body in sight above the questions and the note (user request: the head was cut off)
-const CAMS = { place:[.776, -339, 0], talk:[.7, -287, -143], note:[.7, -287, -143] };
+// the camera on the place picture (1376 × 768 and its floor): the place, talking to Mr. Duck, and with the note up
+// talk and note keep his head and body in sight above the questions and the note (user request: the head was cut off).
+// look / lookR: 4장, stepped back (the cafe's guitar is far to his right), Mr. Duck at the left, then slid to the guitar
+const CAMS = { place:[.776, -254, 0], talk:[.7, -210, -143], note:[.7, -210, -143], look:[.6, -279, 120], lookR:[.6, -429, 120] };
 // 7장's camera: z steps back (1 = the phone's width); x keeps the 390-wide screen in the middle
 const T7 = (() => { const z = .68, dz = .8, side = k => -(390 / k - 390) / 2;
-  return { z, dz, talk:[side(z), 48], held:[side(z), 192], drawer:[side(dz), 454] }; })();
+  return { z, dz, talk:[side(z), 110], held:[side(z), 192], drawer:[side(dz), 454] }; })();
 const DEMOS = {
   talk: {
-    html: () => `<div class="tdemo-world">
-        <img class="tw-art" src="assets/places/library-higgsfield-v2.png" alt=""><img class="tw-floor" src="assets/places/library-floor.jpg" alt="">
-        <div class="tw-box">${NPC('badger', 'Sgt. Badger', 'left:50%;bottom:7%;height:44%;width:17.54%;transform:translateX(-50%)', '0 0 1060 1484', 1060, 1484, [438, 613, 208, 67, 95])}${NPC('mole', 'Mrs. Mole', 'left:66%;bottom:7%;height:40%;width:14.69%;transform:translateX(-48.77%)', '0 0 408 620', 408, 620, [156, 197, 96, 34, 41])}</div>
-      </div>
+    html: () => `<div class="tdemo-world">${CAFE}<div class="tw-box">${DUCK}</div></div>
       <div class="ask-panel" style="opacity:0;top:262px;bottom:auto"><div class="ask-top"><button class="pill sm" type="button">해석</button></div><button class="q" type="button"><span class="en">What did you see?</span></button><button class="q" type="button"><span class="en">Where did you go?</span></button></div>
       ${NOTE({ q:'What did you see?', rows:['I saw a _ .', 'It was on the _ .'] }, ['cat', 'dog', 'desk', 'roof'])}`,
     // the first picture, set before the page fades in (so a repeat never shows the picture's corner first)
     setup(t){ t.cam('place', true); t.view(0, 280, true); },
     async run(t){
       await t.wait(1100);
-      await t.tap('.scene-npc[data-talk="badger"]');
+      await t.tap('.scene-npc[data-talk="duck"]');
       t.el.classList.add('talk'); t.cam('talk'); t.view(0, 110);
       await t.wait(500); t.q('.ask-panel').style.opacity = 1; await t.wait(900);
       await t.tap('.ask-panel .q');
       t.q('.ask-panel').style.opacity = 0;
       t.el.classList.add('note');
-      await t.wait(500); t.q('.scene-npc[data-talk="badger"]').classList.add('talking'); await t.wait(2600);
-      t.q('.scene-npc[data-talk="badger"]').classList.remove('talking'); await t.wait(700);
+      await t.wait(500); t.q('.scene-npc[data-talk="duck"]').classList.add('talking'); await t.wait(2600);
+      t.q('.scene-npc[data-talk="duck"]').classList.remove('talking'); await t.wait(700);
     }
   },
   blanks: {
-    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/sgt-badger-higgsfield.png" alt="">
+    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.png" alt="">
       ${NOTE({ q:'What did you find?', rows:['I found a _ .', 'It was under the _ .', 'I saw it at _ .'] }, ['book', 'bag', 'desk', 'door', 'noon', 'night'])}`,
     setup(t){ t.el.classList.add('note', 'talking'); t.view(0, 362, true); },
     async run(t){
@@ -8628,7 +8696,7 @@ const DEMOS = {
   // the game's own check: a wrong blank shakes and 다시 확인 jolts (.nblock.miss), listen again, fix it, check again
   // (.nblock.fresh: the blanks light up green, ✓ 확인됨 is stamped), then 닫기 and the new place's ribbon
   check: {
-    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/sgt-badger-higgsfield.png" alt="">
+    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.png" alt="">
       ${NOTE({ q:'Where were you?', rows:['I was at the _ .', 'I went home at _ .'] }, ['bakery', 'library', 'nine', 'noon'])}
       <div class="discovery" hidden></div>`,
     setup(t){
@@ -8664,40 +8732,37 @@ const DEMOS = {
       t.el.classList.remove('note'); t.view(0, 0);
       await t.wait(650);
       const box = t.q('.discovery');
-      box.innerHTML = '<div class="dv" style="--i:0"><img class="map" src="assets/ui/nav/map.png" alt=""><span class="new">NEW</span><b>Bakery</b><span class="rest">에 갈 수 있어요</span></div>';
+      box.innerHTML = '<div class="dv" style="--i:0"><img class="map" src="assets/ui/nav/map.png" alt=""><span class="new">NEW</span><b>Garden</b><span class="rest">에 갈 수 있어요</span></div>';
       box.hidden = false;
       await t.wait(2400);
     }
   },
-  // 4장: the map's pin → the place → slide it sideways → tap something odd: the shutter, the photo, kept as evidence
-  // (an Old Library thing that is not a clue to the case: the open book)
+  // 4장: the map's pin → the place → slide it sideways → tap something: the shutter, the photo, kept as evidence
+  // (a Lake Cafe thing that is not a clue to the case: the guitar)
   place: {
-    html: () => `<div class="tdemo-world">
-        <img class="tw-art" src="assets/places/library-higgsfield-v2.png" alt=""><img class="tw-floor" src="assets/places/library-floor.jpg" alt="">
-        <div class="tw-box">${NPC('badger', 'Sgt. Badger', 'left:50%;bottom:7%;height:44%;width:17.54%;transform:translateX(-50%)', '0 0 1060 1484', 1060, 1484, [438, 613, 208, 67, 95])}${NPC('mole', 'Mrs. Mole', 'left:66%;bottom:7%;height:40%;width:14.69%;transform:translateX(-48.77%)', '0 0 408 620', 408, 620, [156, 197, 96, 34, 41])}
-          <button class="spot t4-book" type="button" style="left:32.5%;top:49%;width:8%;height:7%"></button></div>
+    html: () => `<div class="tdemo-world">${CAFE}<div class="tw-box">${DUCK}
+          <button class="spot t4-book" type="button" style="left:85.5%;top:44%;width:8%;height:29.5%"></button></div>
       </div>
-      <div class="tdemo-mapv"><div class="map"><img class="map-art" src="assets/places/village-map-day-higgsfield.webp" alt="">
-        <button class="pin crime" type="button" style="left:27%;top:47%"><span class="pin-label">Old Library</span><span class="pin-people"><span class="mini" style="background:#DCE3F0"><img src="assets/ui/icons-v2/badger.png" alt=""></span></span></button></div></div>
+      <div class="tdemo-mapv"><div class="map" style="transform:translate(-234px,-99px)"><img class="map-art" src="assets/places/village-map-day-higgsfield.webp" alt="">
+        <button class="pin" type="button" style="left:82%;top:47%"><span class="pin-label">Lake Cafe</span><span class="pin-people"><span class="mini" style="background:#DCEBD9"><img src="assets/ui/icons-v2/duck.png" alt=""></span></span></button></div></div>
       <section class="dock" aria-hidden="true"><div class="note-cats">${CATS.map(([k, d]) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${k === 'evidence'}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
         <div class="note-edge"></div><div class="dock-head"><button class="ev-back" type="button">‹ 증거 기록</button></div>
-        <div class="dock-body"><div class="evidence-page"><div class="evidence-detail"><figure class="evidence-photo">${PHOTO(420, 350, 160, 120)}</figure><span class="place">Old Library</span>
-          <h4>Open book${PLAY}</h4><p>An open book on the table: 'The Moon and the Stars.'</p><span class="ev-btns">${PIN()}<button class="pill sm" type="button">해석</button></span></div></div></div></section>
+        <div class="dock-body"><div class="evidence-page"><div class="evidence-detail"><figure class="evidence-photo">${GUITAR}</figure><span class="place">Lake Cafe</span>
+          <h4>Guitar${PLAY}</h4><p>A guitar leans on the stage.</p><span class="ev-btns">${PIN()}<button class="pill sm" type="button">해석</button></span></div></div></div></section>
       <div class="toast t4-toast" hidden>증거를 노트에 기록했어요.</div>`,
-    setup(t){ t.cam('place', true); t.view(0, 280, true); },
+    setup(t){ t.cam('look', true); t.view(0, 280, true); },
     async run(t){
       await t.wait(1100);
       // the map: its pin opens the place
       await t.tap('.pin'); t.q('.tdemo-mapv').classList.add('off'); await t.wait(1100);
-      // slide the place sideways (the camera follows the paw)
-      // on the empty bookshelf at the left (user request: over a person it looked like tapping them); the place moves
-      // with the paw, so the paw stays on the shelf
-      await t.swipe([28, 70], [120, 0], () => t.camTo(.776, -219, 0));
+      // slide the place sideways (the camera follows the paw), on the empty floor right of Mr. Duck (user request: over a
+      // person it looked like tapping them); the place moves with the paw
+      await t.swipe([300, 60], [-150, 0], () => t.camTo(...CAMS.lookR));
       await t.wait(700);
-      // something odd, as the game takes it (captureEvidence): the photo zooms up, the shutter flashes at 0.5 s, the
+      // something, as the game takes it (captureEvidence): the photo zooms up, the shutter flashes at 0.5 s, the
       // detective reads it out, then the Note opens on its evidence page
       await t.tap('.t4-book');
-      t.photo(PHOTO(420, 350, 160, 120)); await t.wait(500);
+      t.photo(GUITAR); await t.wait(500);
       t.flash(t.q('.t4-cap')); await t.wait(2100);
       t.q('.t4-cap').remove(); t.el.classList.add('note'); t.view(0, 300);
       const toast = t.q('.t4-toast'); toast.style.top = '372px'; toast.hidden = false;
@@ -8706,7 +8771,7 @@ const DEMOS = {
   },
   // 5장: Note's 증거 tab → a photo → 📌 → 메모 tab, where it is pinned (user decision: no 해석 step)
   note: {
-    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/sgt-badger-higgsfield.png" alt="">
+    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.png" alt="">
       <section class="dock" aria-hidden="true"><div class="note-cats">${CATS.map(([k, d], i) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${i === 0}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
         <div class="note-edge"></div><div class="dock-head"><h2 class="t5-title"></h2></div><div class="dock-body t5-body"></div></section>`,
     setup(t){ t.el.classList.add('note', 'talking'); t.view(0, 300, true); NOTE5.people(t); },
@@ -8722,12 +8787,13 @@ const DEMOS = {
       await t.tap('[data-cat="memo"]'); NOTE5.memo(t); await t.wait(2200);
     }
   },
-  // 6장 추리해요: the detective's question, a blank filled from its list (the game's deduce drop) → 경찰에게 알리기
+  // 6장 추리해요: the detective's question, a blank filled from its list (the game's deduce drop) → the button on to the
+  // next person (the picnic case's own goes to someone not met yet, so Rosie's here)
   deduce: {
     html: () => `<section class="deduce t6-deduce"><div class="deduce-head"><h2>Deduction</h2></div>
         <div class="deduce-q"><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-q-txt"><p>Where was the cat?</p><div class="deduce-q-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div></div></div>
         <div class="deduce-board"><div class="ded-cards"><div class="ded-card t6-card"><div class="ded-line"><p>The cat was on the <button class="ded-slot place" type="button"></button>.</p></div></div></div></div>
-        <div class="deduce-go" hidden><button class="pill big" type="button">경찰에게 알리기</button></div>
+        <div class="deduce-go" hidden><button class="pill big" type="button">로지에게 가기</button></div>
         <div class="deduce-drop place t6-drop" hidden><div class="dz-list" style="--cols:2">${['desk', 'roof', 'door', 'bag'].map(w => `<button class="dz-opt" type="button" data-w="${w}">${w}</button>`).join('')}</div></div></section>`,
     setup(t){ t.view(0, 0, true); },
     async run(t){
@@ -8748,50 +8814,46 @@ const DEMOS = {
       await t.tap('.deduce-go .pill'); await t.wait(900);
     }
   },
-  // 7장 심문해요: the game's questioning screen (a made-up claim, not the case's): the claim → 증거 내밀기 → the drawer → a
-  // photo → 내밀기 → it flies up with 모순!, the room jolts, they flinch, the gauge fills → their answer. The camera follows.
-  question: {
-    html: () => `<div class="t7-cam"><div class="t7-room"></div><img class="t7-npc" src="assets/characters/ben-higgsfield.png" alt=""></div>
-      <button class="pill top-back" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <div class="interrogation-gauge"><span class="gauge-track"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt=""><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
-      <div class="bubble say t7-claim"><div class="bubble-copy"><span class="tag">Ben Beaver</span><span class="say-en">I turned off all the lamps when I left the library.</span></div><span class="say-foot"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></span></div>
-      <div class="ask-panel t7-ask"><button class="pill big green" type="button">증거 내밀기</button></div>
-      <section class="drawer"><div class="drawer-head"><h3>증거</h3><div class="drawer-tabs"><button class="pill sm" type="button" aria-pressed="true">사진</button><button class="pill sm" type="button" aria-pressed="false">진술</button></div><button class="x close-button" type="button"></button></div>
-        <div class="drawer-strip">${[['Open book', 420, 350, 160, 120], ['Lamp', 590, 0, 160, 120], ['Plant', 208, 315, 120, 90]].map(([l, ...b]) => `<button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo" aria-hidden="true">${PHOTO(...b)}</span><span class="dlabel">${l}</span><span class="dplace">Old Library</span></button>`).join('')}</div>
-        <div class="drawer-pick" hidden><p>The lamps are still on.</p><div class="drawer-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div><button class="pill big" type="button">내밀기</button></div></section>`,
-    // the claim and their answer: stepped back a little, so the bubble and the person are seen together (the room fills
-    // the sides; user request: not too much of it)
+  // 7장 사건을 마무리해요: the game's hand-over screen (made-up lines, not the case's): their line → 가방 건네주기 → the 소지품
+  // drawer (its title only, as the game's) → the bag → 건네주기 → the bag goes over to them (handBag) → their thanks.
+  // The camera follows.
+  give: {
+    html: () => `<div class="t7-cam"><div class="t7-room"></div><img class="t7-npc" src="assets/characters/rosie-higgsfield.png" alt=""></div>
+      <div class="bubble say t7-claim"><div class="bubble-copy"><span class="tag">Rosie Rabbit</span><span class="say-en">Did you find it?</span></div><span class="say-foot"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></span></div>
+      <div class="ask-panel t7-ask"><button class="pill big green" type="button">가방 건네주기</button></div>
+      <section class="drawer"><div class="drawer-head"><h3>소지품</h3><button class="x close-button" type="button"></button></div>
+        <div class="drawer-strip"><button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo bag-pic" aria-hidden="true"><img src="assets/places/picnic-storyboard/bag-blue.png" alt=""></span><span class="dlabel">Blue bag</span><span class="dplace">소지품</span></button></div>
+        <div class="drawer-pick" hidden><p>A blue bag.</p><div class="drawer-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div><button class="pill big" type="button">건네주기</button></div></section>`,
+    // their lines: stepped back a little, so the bubble and the person are seen together (the place fills the sides)
     setup(t){ t.view(...T7.talk, true, T7.z); },
     async run(t){
-      // the claim, read out
+      // their line, read out
       await t.wait(2200);
-      // down to 증거 내밀기, in one move to where the button, the drawer, its cards and 내밀기 are all in sight: the camera
-      // then stays put while a photo is picked and held up (user request: it bounced up to the card and back)
+      // down to 가방 건네주기, in one move to where the button, the drawer, its card and 건네주기 are all in sight: the
+      // camera then stays put while the bag is picked and handed over (user request: it bounced up to the card and back)
       t.view(...T7.drawer, false, T7.dz); await t.wait(1000);
       await t.tap('.t7-ask .pill'); t.q('.drawer').classList.add('open'); await t.wait(1000);
-      // a photo picked: its sentence and 내밀기 under it, the drawer growing to them (pickEvidence)
-      await t.tap('.dcard:nth-child(2)'); t.q('.dcard:nth-child(2)').setAttribute('aria-pressed', 'true');
+      // the bag picked: its sentence and 건네주기 under it, the drawer growing to them (pickEvidence)
+      await t.tap('.dcard'); t.q('.dcard').setAttribute('aria-pressed', 'true');
       const drawer = t.q('.drawer'), from = drawer.offsetHeight; t.q('.drawer-pick').hidden = false;
       drawer.animate([{ height:from + 'px' }, { height:drawer.offsetHeight + 'px' }], { duration:320, easing:'cubic-bezier(.2,.9,.3,1)' });
       await t.wait(1600);
       await t.tap('.drawer-pick .pill.big');
-      // 내밀기 (present): the drawer goes down, the photo flies up in the middle and 모순! is stamped on it; at 0.48 s the room
-      // jolts, they flinch and the gauge fills; the photo is gone at 1.3 s, then their answer
+      // 건네주기 (handOver): the drawer goes down and the bag itself goes over to them (1.3 s), then their thanks
       drawer.classList.remove('open'); t.view(...T7.held, false, T7.z);
       t.q('.t7-claim').hidden = true;
-      t.el.querySelector('.tdemo-stage').insertAdjacentHTML('beforeend', `<div class="presented hit"><figure>${PHOTO(590, 0, 160, 120)}</figure><span class="contra">모순!</span></div>`);
-      await t.wait(480);
-      t.q('.t7-cam').classList.add('jolt'); t.q('.t7-npc').classList.add('flinch'); t.q('.interrogation-gauge').classList.add('up', 'hit');
-      await t.wait(820);
-      t.q('.presented').remove(); t.q('.t7-cam').classList.remove('jolt'); t.q('.t7-npc').classList.remove('flinch');
-      // their answer, back up at the bubble
+      t.el.querySelector('.tdemo-stage').insertAdjacentHTML('beforeend', '<img class="handed give" src="assets/places/picnic-storyboard/bag-blue.png" alt="">');
+      await t.wait(1300);
+      t.q('.handed')?.remove();
+      // their thanks, back up at the bubble
       t.view(...T7.talk, false, T7.z); await t.wait(500);
-      t.q('.t7-claim .say-en').textContent = 'Oh... they were on.'; t.q('.t7-claim').hidden = false; await t.wait(2400);
+      t.q('.t7-claim .say-en').textContent = 'Thank you, Detective!'; t.q('.t7-claim').hidden = false; await t.wait(2400);
     }
   }
 };
 let runId = 0;
-function mount(fig, id){
+// still: with 동작 줄이기, the page's first frame only (no paw, no loop)
+function mount(fig, id, still){
   const my = ++runId, demo = DEMOS[id];
   fig.innerHTML = `<div class="tdemo"><div class="tdemo-stage">${demo.html()}</div><div class="tdemo-tap hand"><img src="assets/ui/tutorial-paw.png" alt="" style="--tip:${PAW_TIP * 100}%"></div></div>`;
   const box = fig.querySelector('.tdemo'), stage = box.querySelector('.tdemo-stage'), tap = box.querySelector('.tdemo-tap');
@@ -8868,6 +8930,7 @@ function mount(fig, id){
     }
   };
   demo.setup?.(t);
+  if(still) return;
   (async () => {
     try {
       for(;;){
@@ -8894,14 +8957,13 @@ function openTutorial(thenStart){
 }
 function renderTut(){
   const t = TUT[tutStep], last = tutStep === TUT.length - 1;
-  // the page's moving demo; its still picture with 동작 줄이기
-  if(TUT_DEMO.has(t.demo) && !matchMedia('(prefers-reduced-motion: reduce)').matches) TUT_DEMO.mount($('#tutFig'), t.demo);
-  else { TUT_DEMO.stop(); $('#tutFig').innerHTML = `<img src="${t.img}" alt="" draggable="false">`; }
+  // the page's moving demo; held on its first frame with 동작 줄이기
+  TUT_DEMO.mount($('#tutFig'), t.demo, matchMedia('(prefers-reduced-motion: reduce)').matches);
   $('#tutTitle').textContent = t.title;
   $('#tutText').innerHTML = t.text;
   $('#tutDots').innerHTML = TUT.map((_, i) => `<i${i === tutStep ? ' class="now"' : ''}></i>`).join('');
   $('#tutPrev').hidden = tutStep === 0;
-  $('#tutNext').textContent = !last ? '다음' : tutThenStart ? '브리핑 시작' : '닫기';
+  $('#tutNext').textContent = !last ? '다음' : tutThenStart ? '사건 시작' : '닫기';
 }
 function closeTutorial(){
   TUT_DEMO.stop();
@@ -9392,8 +9454,10 @@ function loadGame(){
   if(!(S.named instanceof Set)) S.named = new Set();
   if(!PACK) libraryMigrations();
   PLACES.forEach(place => { if(!(S.found[place.id] instanceof Set)) S.found[place.id] = new Set(); });
+  // the violin case: Tara's case photo was an evidence photo until she handed it over into 소지품 (user decision 2026-11-17)
+  if(CASE_ID === 'missing-violin' && (S.evidence || []).some(item => item.placeId === 'taraphoto') && !S.items.includes('tara-photo')) S.items.push('tara-photo');
   // ordinary objects are no longer photographed: an older save's photos of them are dropped
-  S.evidence = (S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop && !placeOf(item.placeId)?.balance);
+  S.evidence =(S.evidence || []).filter(item => !placeOf(item.placeId)?.clues[item.clueIndex]?.prop && !placeOf(item.placeId)?.balance);
   // a photo with its own crop is framed as the crop is now (user request: the umbrella handle's moved down); only the
   // frame changes, the picture inside stays as it was taken (the umbrella folded or open)
   S.evidence.forEach(item => {

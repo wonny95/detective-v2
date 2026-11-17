@@ -1,4 +1,5 @@
-# Cuts the talk floors (ART_FLOOR) for the picnic case's five places out of their Higgsfield outpaints.
+# Cuts the talk floors (ART_FLOOR) for the picnic case's five places (and the violin case's side passage) out of
+# their Higgsfield outpaints.
 # The outpaint (3:4, 1792x2400) holds the original picture somewhere across its full width; this finds its
 # height by comparing a small copy at every offset, keeps everything below it, scales that strip to the
 # original's width and saves assets/places/picnic-storyboard/<id>-floor.jpg. The outpaints are kept as
@@ -7,21 +8,24 @@ import sys
 from PIL import Image, ImageChops, ImageStat
 
 DIR = 'assets/places/picnic-storyboard/'
-PLACES = {   # place id: the picture the game draws
+PLACES = {   # place id: the picture the game draws (in DIR, or its own folder)
     'picnic': 'picnic-wide.png',
     'daycafe': 'cafe-day.png',
     'benhome': 'ben-home.png',
     'garden': 'garden.webp',
     'lobby': 'lobby-higgsfield.webp',
+    'passage': 'assets/places/violin/passage.jpg',
 }
 # where the outpaint redrew the floor differently (the lobby's planks run the other way), the floor starts this
 # many picture px higher and fades in over the picture's bottom: saved as <id>-floor.webp with alpha, and
 # ART_FLOOR gets the same `overlap`
-OVERLAP = {'lobby': 110}
+OVERLAP = {'lobby': 110, 'passage': 150}   # passage: the outpaint redrew the corridor (its walls and door elsewhere)
 SMALL = 256   # search width
 
 for pid in sys.argv[1:] or PLACES:
-    art = Image.open(DIR + PLACES[pid]).convert('RGB')
+    src = PLACES[pid] if '/' in PLACES[pid] else DIR + PLACES[pid]
+    DIR = src[:src.rindex('/') + 1]
+    art = Image.open(src).convert('RGB')
     out = Image.open(f'{DIR}{pid}-outpaint-original.jpg').convert('RGB')
     w, h = art.size
     scale = out.width / w
