@@ -13,6 +13,14 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-17 13:10 · Claude · (이 커밋) Codex 임시 개발 권한
+- 사용자 결정(Claude 사용량 절약): `AGENTS.md` 분업 절에 **임시 예외**를 넣음. 사용자가 시키는 동안 Codex도 개발 폴더(`main`)에서 개발 파일을 고친다. 동시 작업 금지, 개발 규칙(CHANGELOG `(미커밋)`·작업자 Codex·새 탭 확인·구문 검사) 그대로, Higgsfield 녹음·그림은 Claude Code에 넘김. 끝내라고 하면 Claude Code가 그 단락을 지운다.
+- 코드 변경 없음.
+- **다음**(Codex든 Claude든 이어받는 쪽): 사용자 지시가 우선. 지시가 없으면 아래 순서로 제안한다.
+  1. A2 보완: 물건 설명 말풍선(`.bubble.say.det.prop-say`)이 장소 위에 떠 있을 때도 `#accuseFoot`(추리하기)를 숨긴다. 지금 CSS는 `.art-stage:has(.think-place) #accuseFoot{visibility:hidden}`뿐이다. 우산 Village Hall에서 Clock을 눌러 확인한다.
+  2. 화면에서 못 본 수정 확인: 12:30 항목의 A5·A6·A7·A13·A14·A15.
+  3. 크리스마스 점검 표(11:20 항목) B1–B10 가운데 사용자가 고르는 번호를 고친다.
+
 ## 2026-11-17 12:30 · Claude · (이 커밋) 플레이 점검 A2–A15 고침 (소풍·우산·바이올린 점검 표의 2–15번)
 - 사용자 요청: 02:40 점검 표의 2번부터 15번까지 모두 고침(1번 튜토리얼은 그대로).
   - **2** 장소 위 탐정 말풍선(`.think-place`)이 떠 있는 동안 `추리하기`를 숨김(CSS `.art-stage:has(.think-place) #accuseFoot`).
