@@ -31,13 +31,16 @@ refs = set(re.findall(r'(?:assets|audio)/[\w./-]+?' + EXT, code))
 # paths built in a template: a choice between quoted words (`tack-${locked ? 'grey' : 'red'}.webp`) gives those
 # files; a plain variable (`audio/words/${file}.wav`) gives every file in that folder that fits the fixed start and end
 for head, expr, tail in re.findall(r'((?:assets|audio)/[\w./-]*)\$\{([^}`]*)\}([\w./-]*?' + EXT + ')', code):
-    words = re.findall(r"'([\w./-]*)'", expr)
+    # only the words a choice gives (after ? or :), not the ones it tests (`has('lit') ? '-lit' : ''`,
+    # `id === 'badger' ? 'sgt-badger' : id`)
+    words = re.findall(r"[?:]\s*'([\w./-]*)'", expr) if '?' in expr else re.findall(r"'([\w./-]*)'", expr)
     if words:
         refs.update(head + w + tail for w in words)
         continue
     folder, start = head.rsplit('/', 1)
     names = os.listdir(os.path.join(project, *folder.split('/')))
-    refs.update(f'{folder}/{f}' for f in names if f.startswith(start) and f.endswith(tail) and '/' not in tail)
+    # Higgsfield originals sit beside the pictures in the same folders but the page never shows them
+    refs.update(f'{folder}/{f}' for f in names if f.startswith(start) and f.endswith(tail) and '/' not in tail and 'original' not in f)
 refs = sorted(refs)
 files, missing, total = {}, [], len(html.encode('utf-8'))
 for ref in refs:
@@ -52,12 +55,69 @@ for ref in refs:
     total += size
 if missing:
     sys.exit('referenced but missing: ' + ', '.join(missing))
-if len(files) > 255 or total > 64 * 1024 * 1024:
-    sys.exit(f'too much for one publish: {len(files)} files, {total} bytes (split it over several publishes)')
 
+# An artifact version holds at most 511 files and one publish at most 255 files / 64MB. The game has hundreds of short
+# recordings, so those set from script (not an <audio src> in the markup) go into a few packs of data: URIs, and a
+# small script at the top of the page swaps a pack's data in when the game sets an <audio>'s src to one of them
+# (the getter still returns the path the game set, and play() waits for a pack still loading).
 os.makedirs(out, exist_ok=True)
+markup = set(re.findall(r'<audio[^>]*\ssrc="([^"]+)"', html))
+packable = [r for r in files if r.startswith('audio/') and r not in markup]
+MIME = {'.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.ogg': 'audio/ogg'}
+packs, index, cur, cur_size = [], {}, {}, 0
+def flush():
+    global cur, cur_size
+    if cur: packs.append(cur)
+    cur, cur_size = {}, 0
+import base64
+for ref in sorted(packable):
+    raw = open(files[ref], 'rb').read()
+    if cur_size + len(raw) > 6 * 1024 * 1024: flush()
+    cur[ref] = f'data:{MIME[os.path.splitext(ref)[1]]};base64,' + base64.b64encode(raw).decode()
+    cur_size += len(raw)
+    index[ref] = len(packs)
+flush()
+os.makedirs(os.path.join(out, 'audio-pack'), exist_ok=True)
+for n, pack in enumerate(packs):
+    path = os.path.join(out, 'audio-pack', f'{n}.json')
+    json.dump(pack, open(path, 'w', encoding='utf-8'), separators=(',', ':'))
+for ref in packable: del files[ref]
+for n in range(len(packs)): files[f'audio-pack/{n}.json'] = os.path.abspath(os.path.join(out, 'audio-pack', f'{n}.json')).replace(chr(92), '/')
+shim = """<script>(() => {
+const INDEX = %s, loaded = {}, loading = {}, set = new WeakMap(), wait = new WeakMap();
+const load = n => loading[n] ||= fetch(`audio-pack/${n}.json`).then(r => r.json()).then(j => loaded[n] = j);
+const M = HTMLMediaElement.prototype, src = Object.getOwnPropertyDescriptor(M, 'src'), play = M.play;
+Object.defineProperty(M, 'src', { configurable:true, enumerable:true,
+  get(){ return set.has(this) ? set.get(this) : src.get.call(this); },
+  set(v){
+    const n = INDEX[v];
+    if(n === undefined){ set.delete(this); wait.delete(this); return src.set.call(this, v); }
+    set.set(this, v);
+    if(loaded[n]){ wait.delete(this); return src.set.call(this, loaded[n][v]); }
+    wait.set(this, load(n).then(j => { if(set.get(this) === v) src.set.call(this, j[v]); }));
+  } });
+M.play = function(){ const w = wait.get(this); if(w){ wait.delete(this); return w.then(() => play.call(this)); } return play.call(this); };
+})();</script>
+""" % json.dumps(index, separators=(',', ':'))
+html = html.replace('<script>', shim + '<script>', 1)
+
+total = len(html.encode('utf-8')) + sum(os.path.getsize(v) for v in files.values())
+if len(files) > 511 or total > 256 * 1024 * 1024:
+    sys.exit(f'too much for one artifact: {len(files)} files, {total} bytes')
+# split into publishes of at most 255 files / 60MB each (later publishes to the same url add to the files already there)
+chunks, chunk, size = [], {}, 0
+for ref, path in files.items():
+    n = os.path.getsize(path)
+    if chunk and (len(chunk) >= 250 or size + n > 60 * 1024 * 1024):
+        chunks.append(chunk); chunk, size = {}, 0
+    chunk[ref] = path; size += n
+if chunk: chunks.append(chunk)
+
 page = os.path.join(out, 'index.html')
 open(page, 'w', encoding='utf-8').write(html)
 json.dump(files, open(os.path.join(out, 'files.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-print(json.dumps({'page': page.replace('\\', '/'), 'files': len(files), 'total_mb': round(total / 1048576, 1),
+for n, c in enumerate(chunks, 1):
+    json.dump(c, open(os.path.join(out, f'files-{n}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+print(json.dumps({'page': page.replace(chr(92), '/'), 'files': len(files), 'audio_packed': len(packable), 'packs': len(packs),
+                  'publishes': len(chunks), 'total_mb': round(total / 1048576, 1),
                   'dev_buttons': 'shown' if keep_dev else 'hidden'}, ensure_ascii=False))

@@ -41,8 +41,10 @@ python -I .claude/skills/publish-artifact/build.py . "$OUT" "영어듣기 추리
   - 페이지가 쓰는 `assets/…`·`audio/…` 파일을 모두 찾아 `files.json`에 `{게시 경로: 원본 경로}`로 적는다.
   - 빠진 파일이나 용량 한도(파일당 15MB, 한 번에 255개·64MB)를 넘으면 멈춘다.
   - 템플릿으로 만든 경로(`tack-${…}`, `audio/words/${file}` 등)도 찾는다. 주석 속 경로는 무시한다.
-  - 지금 기준으로 약 150개 파일, 32MB다.
-- 출력에 나온 `page`(배포할 페이지)와 `files.json`을 쓴다.
+  - 아티팩트 한 버전은 파일 511개, 한 번 올리기는 255개·64MB까지다. 그래서 스크립트에서 바꾸는 짧은 녹음(`<audio src>`로 마크업에 박힌 것 제외)은 `audio-pack/<n>.json` 몇 개(각 약 6MB, data: URI)로 묶고, 페이지 맨 앞의 작은 스크립트가 게임이 그 경로를 `<audio>`의 src로 넣을 때 묶음에서 꺼내 넣는다(src를 읽으면 원래 경로, 묶음을 받는 중이면 `play()`가 기다림). 게임 소스는 그대로다.
+  - 폴더째 찾는 템플릿 경로에서는 Higgsfield 원본(`*original*`)을 뺀다. 조건식 템플릿은 결과 단어만 쓴다(`has('lit') ? '-lit' : ''`의 `lit`은 파일이 아님).
+  - 2026-11-17 기준 268개 파일(녹음 679개를 묶음 7개로), 약 110MB, 두 번에 나눠 올림.
+- 출력에 나온 `page`(배포할 페이지)와 `files-1.json`, `files-2.json`…(한 번에 올릴 묶음, `publishes` 수만큼)을 쓴다. `files.json`은 전체 목록이다.
 
 ## 3. 배포
 
@@ -53,8 +55,7 @@ python -I .claude/skills/publish-artifact/build.py . "$OUT" "영어듣기 추리
   - `title`: 1단계의 제목.
   - `icon`: `game`.
   - `description`: 예) "영어로 듣고 받아 적은 노트로 범인을 찾는 숲속 추리 게임 프로토타입."
-  - `files`: `files.json`의 내용 그대로.
-  - 한 번에 너무 많으면 같은 `url`로 나눠 올린다.
+  - `files`: `files-1.json`의 내용. 이어서 같은 `file_path`(이번 대화) 또는 같은 `url`로 `files-2.json`… 을 올린다(뒤의 올리기는 앞의 파일에 더해진다). 저장소 안 파일은 상대 경로로 넣어도 된다.
 - 결과로 받은 URL을 기록해 둔다.
 
 ## 4. 공개 범위: 링크가 있는 사람만

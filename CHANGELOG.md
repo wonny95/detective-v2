@@ -13,6 +13,12 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-17 19:55 · Claude · (미커밋) 아티팩트 배포 `영어듣기 추리 게임 앱_261117`
+- 사용자 요청(`/publish-artifact`): 기준 커밋 `e2d9af8`, https://claude.ai/artifact/Dfri7wy455nF3seGPHLqte (테스트 버튼 포함, 공유: 링크가 있는 사람으로 이미 설정됨).
+- 배포 스크립트 `build.py` 고침: ① 조건식 템플릿 경로에서 비교 단어까지 파일로 읽던 것(`tree-floorlit`, `badger-higgsfield`)을 결과 단어만 읽게, ② 폴더째 찾을 때 Higgsfield 원본 제외, ③ 파일이 962개로 늘어 아티팩트 한도(버전당 511개)를 넘어 스크립트에서 쓰는 녹음 679개를 `audio-pack/<n>.json` 7개(data: URI)로 묶고 페이지 맨 앞에 `<audio>` src를 묶음에서 꺼내 넣는 작은 스크립트를 넣음(게임 소스는 그대로), ④ 255개·60MB씩 `files-<n>.json`으로 나눔. 결과 268개·약 110MB, 두 번에 올림. `SKILL.md` 반영.
+- 확인: 배포 파일 목록 269개(페이지 포함) 확인. 아티팩트 안쪽은 다른 출처라 도구로 조작하지 못해, 같은 배포본을 `.preview/artifact-test/`(Git 제외)에 두고 5177에서 `타라에게 반환`을 열어 탐정 음성이 묶음(`audio-pack/4.json`)에서 data: URI로 실려 오류 없이 읽힘을 확인. 실제 아티팩트에서의 소리 재생은 사용자가 확인 필요.
+- **다음**: 사용자 확인(아티팩트에서 음성이 나오는지).
+
 ## 2026-11-17 19:35 · Claude · (이 커밋) 타라 새 결말 대사 녹음
 - 사용자 승인("이대로 녹음"): tara:end2 "My poor strings... I'll get new strings before the contest."를 Higgsfield 웹(Claude in Chrome)에서 Evie·감정 sad로 만듦(job `c6ef462c`, `emotion: sad` 확인, 0.3크레딧). `audio/violin/tara-end2.mp3`를 바꾸고 음성 연결을 되살림. 예전 판(I knew the strings were broken...)은 scratchpad `old-audio/tara-end2-knew-sad.mp3`. README·녹음 목록 반영.
 - 확인: 테스트 서버 5177 `타라에게 반환` 미리보기에서 end2에 `tara-end2.mp3` 재생 요청(200), 구문 검사. 확인용 5176에 반영.
