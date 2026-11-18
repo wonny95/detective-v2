@@ -141,6 +141,25 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* handing a bag over (picnic case): the bag itself, not a photo of it (user request), from below (the detective's hands)
    up to the person and smaller, a little wobble as they take it; one handed back comes down from them and grows */
 .handed{position:absolute;left:50%;bottom:17%;z-index:7;width:auto;max-width:44%;max-height:27%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 8px rgba(40,30,24,.35))}
+/* the kite case's close look: what hides a kite sways a little (the phase set on each, kitesArt) */
+.kite-look image[data-cover]{transform-box:fill-box;transform-origin:50% 90%;animation:cover-sway 2.6s ease-in-out infinite}
+.kite-look .bed-rest .bunch:not(.part):not(.back){animation:bunch-sway 2.8s ease-in-out infinite}
+.kite-look .bed-rest .bunch:nth-child(3n+1){animation-delay:-.9s}.kite-look .bed-rest .bunch:nth-child(3n+2){animation-delay:-1.8s}
+@keyframes bunch-sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes cover-sway{0%,100%{transform:rotate(-1.6deg) translateX(-1px)}50%{transform:rotate(1.6deg) translateX(1px)}}
+/* the flower bed's bunches turn from their base: apart (--a, bedArt) when tapped, back up once the kite is taken */
+.bed-bunches .bunch{transform-box:fill-box;transform-origin:50% 100%}
+.bed-bunches .bunch.part{animation:bunch-part .75s cubic-bezier(.3,1.5,.5,1) both}
+.bed-bunches .bunch.back{animation:bunch-back .9s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes bunch-part{from{transform:none}to{transform:translateX(var(--x)) rotate(var(--a))}}
+@keyframes bunch-back{from{transform:translateX(var(--x)) rotate(var(--a))}to{transform:none}}
+/* the ball rolling off the kite (ballArt): the ball and its shadow along, the ball turning, a small bounce back */
+.ball-wrap.roll{animation:ball-go 1s cubic-bezier(.25,.7,.35,1) both}
+.ball-wrap .ball{transform-box:fill-box;transform-origin:50% 50%}
+.ball-wrap .ball.spin{animation:ball-spin 1s cubic-bezier(.25,.7,.35,1) both}
+@keyframes ball-go{0%{transform:translate(calc(var(--dx) * -1), calc(var(--dy) * -1))}12%{transform:translate(calc(var(--dx) * -.97), calc(var(--dy) * -.97))}80%{transform:translate(calc(var(--dx) * .05), calc(var(--dy) * .05))}100%{transform:none}}
+@keyframes ball-spin{0%{transform:rotate(0)}80%{transform:rotate(calc(var(--turn) + 12deg))}100%{transform:rotate(var(--turn))}}
+@media(prefers-reduced-motion:reduce){.kite-look image[data-cover],.bed-bunches .bunch,.ball-wrap,.ball-wrap .ball{animation:none}}
 .handed.give{animation:bag-give 1.3s cubic-bezier(.25,.7,.3,1) forwards}
 .handed.take{animation:bag-take 1.3s ease-in forwards}
 @keyframes bag-give{0%{opacity:0;transform:translate(-50%,120%) scale(1.25) rotate(-8deg)}20%{opacity:1}62%{transform:translate(-50%,0) scale(.8) rotate(4deg)}74%{transform:translate(-50%,0) scale(.8) rotate(-3deg)}84%{opacity:1;transform:translate(-50%,0) scale(.8) rotate(0)}100%{opacity:0;transform:translate(-50%,4%) scale(.72)}}
@@ -2256,94 +2275,191 @@ const PICNIC_CASE = {
    Recorded lines are in audio/umbrella/ (script: design/case-02-unclaimed-umbrella-recording.md); a line with no file yet
    would have no `audio` entry and play with the browser's voice (all recorded, 2026-11-18).
    `actions`: something asked that is not written down (the close look, the give). */
-// the kites in the park's trees (ART.park, the spots): which kite (assets/places/kite/kite-<n>.png), its middle and top in
-// the picture (px), its tilt; h: its drawn height at 70 px wide (kite-5's tail is short)
-const KITE_SLOTS = [{ n:4, x:175, y:70, r:-10, h:215 }, { n:2, x:440, y:150, r:8, h:215 }, { n:5, x:700, y:60, r:-6, h:148 },
-  { n:1, x:1040, y:120, r:10, h:215 }, { n:3, x:1250, y:70, r:-8, h:215 }];
-/* Case 01 사라진 연 (?case=kite, user request 2026-11-18): the easiest case, before the umbrella. One person (Betty, the
-   client), one place (the park), nothing carried. A gust took Betty's kite into the park's trees, where other kites are
-   caught too; the player hears what hers looks like (is / has), looks at the kites and asks her about one ("Is that your
-   kite?"). The story comes from the feedback mock-up's missing-cat case (Betty's pet), made a kite (a pet cat in a village of
-   animals felt odd, user decision); its way of solving is not used.
-   Engine: a thing in a place can be asked about (clue.pick: who, action, when) — after the detective's line a button
-   asks that person; the answer is one of their hidden actions (hidden: no button), the right one ending the case. */
+// the six kites hidden in the park (user requests 2026-11-18: kites of different shapes, the shape a clue; not in plain
+// sight, a tree or the flower bed looked at close, its leaves or flowers cleared away, then the kite taken into 소지품;
+// not all in the trees: some in the flower bed, one lying on the path in plain sight). n: the kite
+// (assets/places/kite/kite2-<n>.png, scripts/cut-kites-v2.py; kite-<n> in 소지품), x / y: its middle and top in the
+// park picture (px of 1376x768), r: its tilt around just under its top (lying ones about -75), s: its size against
+// KITE_K, at: tree / bed / ground, cover: what hides it (px; the leaf clumps in the trees, the flower bunches in the
+// flower bed, bedSlot), the leaves cleared and the flowers parted by a tap in the close look.
+// The kite on the ground has no cover and no close look: a tap in the park takes it.
+const KITE_K = 110 / 426;
+const KITE_PICS = { 1:[425, 1082], 2:[425, 1084], 3:[425, 691], 4:[425, 1082], 5:[441, 1080], 6:[318, 1082] };
+// the leaf clumps (Higgsfield, drawn after the park's own crowns, scripts/cut-kite-leaf-sheet.py: leafclump-1..4.png,
+// picture px) and the small puffs that fly when one is cleared (leaf-1..8.png)
+const KITE_CLUMPS = { 'leafclump-1':[422, 262], 'leafclump-2':[267, 289], 'leafclump-3':[304, 337], 'leafclump-4':[227, 411] };
+// a clump is drawn in its own shape, about 1.3 times the area of its box and on the same middle (the box is then that)
+const coverBox = c => { const pic = KITE_CLUMPS[c.img]; if(!pic) return c;
+  const sc = Math.sqrt(c.w * c.h * 1.3 / (pic[0] * pic[1])), w = pic[0] * sc, h = pic[1] * sc;
+  return { img:c.img, x:c.x + c.w / 2 - w / 2, y:c.y + c.h / 2 - h / 2, w, h }; };
+// The flower bed's kites (user request 2026-11-18, with sketches): stuck upright in the bed, its top just over the
+// flowers; a tap parts the flowers to both sides (each bunch turned from its base, the ones nearest the kite most) and
+// they stand back once the kite is taken. The bunches: Higgsfield, scripts/cut-kite-flower-sheet.py (flower-1..6.png,
+// picture px); five each side of the kite on the bed's soil line (KITE_BED, park px), one box round them all (the cover
+// the tap is on, 'n-0'). The painted flowers are out of the bed (scripts/cut-kite-places.py), so the rest of the bed
+// has the same bunches, standing (KITE_BED_REST: right of the kite's own, the bed's inside is x 457-941).
+const KITE_BED = 552, KITE_BUNCH_H = 54;
+const KITE_FLOWERS = [[231, 169], [200, 155], [219, 153], [211, 159], [206, 154], [209, 155]];
+const kiteBunch = (cx, i, seed, a = 0, sx = 0) => { const f = (i * 5 + seed) % 6, [fw, fh] = KITE_FLOWERS[f];
+  const bh = KITE_BUNCH_H * (.92 + ((i * 7 + seed) % 4) * .04), bw = fw * bh / fh;
+  return { f:f + 1, x:cx - bw / 2, y:KITE_BED + 2 - bh, w:bw, h:bh, a, sx }; };
+const KITE_BED_REST = Array.from({ length:7 }, (_, i) => kiteBunch(672 + i * 38, i, 4));
+const bedSlot = k => {
+  // the clumps are low and wide: they lean out and slide aside (sx) as they part
+  const bunches = [-82, -50, -20, 20, 50, 82].map((d, i) => kiteBunch(k.x + d, i, k.n, Math.sign(d) * (22 - Math.abs(d) * .12), Math.sign(d) * (34 - Math.abs(d) * .2)));
+  // the kite's top just over the flowers
+  return { ...k, y:KITE_BED - KITE_BUNCH_H - 6, part:true, bunches, cover:[{ x:k.x - 100, y:KITE_BED - KITE_BUNCH_H - 8, w:200, h:KITE_BUNCH_H + 10 }] }; };
+// The kite under a ball on the lawn (user idea 2026-11-18: a park, so a ball on it): the soccer ball (assets/props,
+// scripts/cut-balls.py) lies on the kite's body, its tails out; a tap in the close look rolls the ball off (dx, dy: up
+// the lawn and a little aside, so it stays on the narrow phone screen; turning as it goes, a bounce at the end) and it
+// stays where it stopped. The cover is the ball's box; the close look takes in where it stops too (extra).
+const ballSlot = k => { const b = k.ball, box = (x, y) => ({ x:x - b.d / 2, y:y - b.d / 2, w:b.d, h:b.d });
+  return { ...k, cover:[box(b.cx, b.cy)], extra:[box(b.cx + b.dx, b.cy + b.dy)] }; };
+const KITE_SLOTS = [
+  { n:4, at:'tree', x:150, y:60, r:-8, cover:[['leafclump-2', 52, 38, 136, 137], ['leafclump-3', 112, 48, 136, 133]] },
+  { n:2, at:'tree', x:385, y:95, r:6, cover:[['leafclump-1', 287, 73, 136, 137], ['leafclump-2', 347, 83, 136, 133]] },
+  { n:1, at:'bed', x:560, s:.24, r:-4, cover:[] },
+  { n:3, at:'ball', x:633, y:670, r:84, s:.6, ball:{ cx:628, cy:690, d:84, dx:16, dy:-96 }, cover:[] },
+  { n:6, at:'ground', x:930, y:615, r:-80, cover:[] },
+  { n:5, at:'tree', x:1110, y:35, r:-6, cover:[['leafclump-3', 1012, 13, 136, 137], ['leafclump-4', 1072, 23, 136, 133]] }
+].map(k => k.at === 'bed' ? bedSlot(k) : k.ball ? ballSlot(k) : ({ ...k, cover:k.cover.map(([img, x, y, w, h]) => coverBox({ img, x, y, w, h })) }));
+// where a kite is drawn (px of the park picture), turned as it is drawn: the box around it
+const kiteBox = k => { const [w, h] = KITE_PICS[k.n], s = KITE_K * (k.s || 1), cx = k.x, cy = k.y + 20, a = k.r * Math.PI / 180;
+  const pts = [[k.x - w * s / 2, k.y], [k.x + w * s / 2, k.y], [k.x - w * s / 2, k.y + h * s], [k.x + w * s / 2, k.y + h * s]]
+    .map(([x, y]) => [cx + (x - cx) * Math.cos(a) - (y - cy) * Math.sin(a), cy + (x - cx) * Math.sin(a) + (y - cy) * Math.cos(a)]);
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]), x = Math.min(...xs) - 10, y = Math.min(...ys) - 10;
+  return { x, y, w:Math.max(...xs) + 10 - x, h:Math.max(...ys) + 10 - y }; };
+// the kite and what hides it, as one box (its spot in the park)
+const kiteArea = k => { const bs = [kiteBox(k), ...k.cover, ...(k.extra || [])], x = Math.min(...bs.map(b => b.x)), y = Math.min(...bs.map(b => b.y));
+  return { x, y, w:Math.max(...bs.map(b => b.x + b.w)) - x, h:Math.max(...bs.map(b => b.y + b.h)) - y }; };
+// a close look: the part of the park around a kite, KITE_ZOOM times larger (a tree's from just over the kite's top, so
+// its tail hangs down the screen; the flower bed's around the middle of it)
+const KITE_ZOOM = 2.6;
+const kiteView = k => { const w = 1376 / KITE_ZOOM, h = 768 / KITE_ZOOM, b = kiteArea(k);
+  // centred on what hides it (the phone shows only the middle of the picture)
+  const cx = k.cover.reduce((t, c) => t + c.x + c.w / 2, 0) / (k.cover.length || 1) || b.x + b.w / 2;
+  const x = cx - w / 2, y = k.at === 'tree' ? k.y - 70 : b.y + b.h / 2 - h / 2;
+  return { x:Math.min(Math.max(x, 0), 1376 - w), y:Math.min(Math.max(y, 0), 768 - h), w, h }; };
+// a box in the park picture as a spot (% of the picture), or as a spot of the close look (view)
+const kiteSpot = (b, v = { x:0, y:0, w:1376, h:768 }) => ({ x:(b.x - v.x) / v.w * 100, y:(b.y - v.y) / v.h * 100, w:b.w / v.w * 100, h:b.h / v.h * 100 });
+// what the detective says of each kite (only what it looks like); 1 is Toby's, each other differs in one thing
+const KITE_LOOKS = {
+  1:{ en:'A red and yellow bird kite. It has two long tails.', ko:'빨간색과 노란색 새 연. 긴 꼬리가 두 개 있어.' },
+  2:{ en:'A red and yellow bird kite. It has one long tail.', ko:'빨간색과 노란색 새 연. 긴 꼬리가 하나 있어.' },
+  3:{ en:'A red and yellow bird kite. It has two short tails.', ko:'빨간색과 노란색 새 연. 짧은 꼬리가 두 개 있어.' },
+  4:{ en:'A blue and green bird kite. It has two long tails.', ko:'파란색과 초록색 새 연. 긴 꼬리가 두 개 있어.' },
+  5:{ en:'A purple and pink butterfly kite. It has two long tails.', ko:'보라색과 분홍색 나비 연. 긴 꼬리가 두 개 있어.' },
+  6:{ en:'An orange fish kite with blue stripes. It has one long tail.', ko:'파란 줄무늬가 있는 주황색 물고기 연. 긴 꼬리가 하나 있어.' }
+};
+/* Case 01 사라진 연 (?case=kite, user request 2026-11-18): the easiest case, before the umbrella. One person (Toby Bear, a
+   boy cub, the client; Betty Bear until 2026-11-18, user decision), one place (the park). A gust took Toby's kite into
+   the park's trees, where other kites are caught too; the player hears what his looks like (is / has: shape, colour,
+   tail), finds the kites in the trees (a tree looked at close, its leaves cleared away, the kite taken into 소지품) and
+   hands Toby the one he described from 소지품; a wrong one, he says what is not like his. The story comes from the
+   feedback mock-up's missing-cat case (Betty's pet there), made a kite (a pet cat in a village of animals felt odd, user
+   decision); its way of solving is not used. */
 const KITE_CASE = {
-  start:'betty',
+  start:'toby',
   noBoard:true,   // no deduction board: picking the kite is the solving
   people:{
-    betty: { id:'betty', name:'Betty Bear', ko:'곰 베티', job:'의뢰인', place:'park', witness:true, required:true, pitch:.9, voice:4, bg:'#F0DCCB', openingQuestion:'b0',
-      // MiniMax Vera, as in the library case (made with the Higgsfield tools, 2026-11-18)
-      audio:Object.fromEntries(['hello', 'b0', 'b1', 'b2', 'b3', 'pick1', 'pick2', 'pick3', 'pick4', 'pick5', 'end1'].map(key => [key, `audio/kite/betty-${key}.mp3`])),
+    toby: { id:'toby', name:'Toby Bear', ko:'곰 토비', job:'의뢰인', place:'park', witness:true, required:true, pitch:1.3, voice:4, bg:'#F3E2B8', openingQuestion:'b0',
+      // MiniMax Bram (young male, user pick 2026-11-18), emotion happy, made on the Higgsfield web
+      audio:Object.fromEntries(['hello', 'b0', 'b1', 'b2', 'b3', 'give', 'end1', 'end2', 'no-one', 'no-short', 'no-color', 'no-bird'].map(key => [key, `audio/kite/toby-${key}.mp3`])),
       hello:[
-        { key:'hello', en:"Oh, Detective! I'm Betty. I need your help.", ko:'아, 탐정! 난 베티야. 네 도움이 필요해.' }
+        { key:'hello', en:"Oh, Detective! I'm Toby. I need your help.", ko:'아, 탐정! 난 토비야. 네 도움이 필요해.' }
       ],
       questions:[
-        { id:'b0', en:"Hi, Betty. What's wrong?", ko:'안녕, 베티. 무슨 일이야?' },
+        { id:'b0', en:"Hi, Toby. What's wrong?", ko:'안녕, 토비. 무슨 일이야?' },
         { id:'b1', en:'What does your kite look like?', ko:'네 연은 어떻게 생겼어?' },
-        { id:'b2', en:'Does it have a tail?', ko:'꼬리가 있어?' },
-        { id:'b3', en:'What color is the tail?', ko:'꼬리는 무슨 색이야?' }
+        { id:'b2', en:'What color is it?', ko:'무슨 색이야?' },
+        { id:'b3', en:'Does it have a tail?', ko:'꼬리가 있어?' }
       ],
-      // Is that your kite?: asked from a kite in the park (its pick), never a button here; pick1 is hers
+      // the kites from the trees, shown to him (once all he said is written down and a kite is in 소지품): the hand-over
+      // (ending) starts, where one is picked from 소지품
       actions:[
-        { id:'pick1', hidden:true, en:'Is that your kite?', ko:'저게 네 연이야?', ending:true,
-          lines:[ { key:'pick1', en:"Yes! That's my kite!", ko:'응! 저게 내 연이야!' } ] },
-        { id:'pick2', hidden:true, en:'Is that your kite?', ko:'저게 네 연이야?', lines:[ { key:'pick2', en:'No. My kite is red.', ko:'아니. 내 연은 빨간색이야.' } ] },
-        { id:'pick3', hidden:true, en:'Is that your kite?', ko:'저게 네 연이야?', lines:[ { key:'pick3', en:'No. My kite has stripes, not spots.', ko:'아니. 내 연은 점무늬가 아니라 줄무늬야.' } ] },
-        { id:'pick4', hidden:true, en:'Is that your kite?', ko:'저게 네 연이야?', lines:[ { key:'pick4', en:'No. My kite has a yellow tail.', ko:'아니. 내 연은 꼬리가 노란색이야.' } ] },
-        { id:'pick5', hidden:true, en:'Is that your kite?', ko:'저게 네 연이야?', lines:[ { key:'pick5', en:'No. My kite has a long tail.', ko:'아니. 내 연은 꼬리가 길어.' } ] }
+        { id:'give', button:'Toby에게 연 주기', en:'I found some kites in the trees.', ko:'나무에서 연들을 찾았어.', ending:true,
+          when:['toby:b1', 'toby:b2', 'toby:b3', '@kite-1|@kite-2|@kite-3|@kite-4|@kite-5|@kite-6'],
+          lines:[ { key:'give', en:'Is my kite there?', ko:'내 연이 있어?' } ] }
       ],
       answers:{
         b0:'The wind took my kite. It flew into the trees.',
-        b1:'It is red. It has white stripes.',
-        b2:'Yes. It has a long tail.',
-        b3:'The tail is yellow.'
+        b1:"It's a bird kite.",
+        b2:'It is red and yellow.',
+        b3:'Yes. It has two long tails.'
       },
       notes:{
-        b0:["- the {{a|wind}} took her kite","- it flew into the {{b|trees}}"],
-        b1:["- her kite: {{c|red}}","- white {{d|stripes}}"],
-        b2:["- a {{e|long}} tail"],
-        b3:["- the tail: {{f|yellow}}"]
+        b0:["- the {{a|wind}} took his kite","- it flew into the {{b|trees}}"],
+        b1:["- a {{c|bird}} kite"],
+        b2:["- {{d|red}} and {{e|yellow}}"],
+        b3:["- {{f|two}} {{g|long}} tails"]
       },
-      bank:{ b0:['rain','wind','snow','trees','flowers','pond'], b1:['blue','red','green','spots','stripes','stars'],
-        b2:['short','long','big','small'], b3:['green','yellow','red','blue'] }
+      bank:{ b0:['rain','wind','snow','trees','flowers','pond'], b1:['fish','bird','butterfly','star'],
+        b2:['blue','red','green','yellow','purple','orange'], b3:['one','two','three','short','long','big'] }
     }
   },
   phrases:[],
   grammarLines:{
-    'betty:b1':[['is-has','It is red'], ['is-has','It has white stripes']],
-    'betty:b2':[['is-has','It has a long tail']],
-    'betty:b3':[['wh-q','What color'], ['is-has','The tail is yellow']]
+    'toby:b1':[['is-has',"It's a bird kite"]],
+    'toby:b2':[['wh-q','What color'], ['is-has','It is red and yellow']],
+    'toby:b3':[['is-has','It has two long tails']]
   },
   answersKo:{
-    betty:{ b0:'바람이 내 연을 날려 버렸어. 나무 쪽으로 날아갔어.', b1:'빨간색이야. 하얀 줄무늬가 있어.', b2:'응. 꼬리가 길어.', b3:'꼬리는 노란색이야.' }
+    toby:{ b0:'바람이 내 연을 날려 버렸어. 나무 쪽으로 날아갔어.', b1:'새 모양 연이야.', b2:'빨간색과 노란색이야.', b3:'응. 긴 꼬리가 두 개 있어.' }
   },
   places:[
+    // the park: a tree or the flower bed with a kite opens its close look (the kite's tail shows under the leaves or
+    // flowers); the kite on the path is taken right there
     { id:'park', x:50, y:50, label:'Park', artWidth:1376, artHeight:768,
-      // five kites caught in the trees (ART.park); the detective says what each looks like, then Betty can be asked once
-      // all four answers are written down (pick.when). kite-1 is hers; the others each differ in one thing
-      clues:[
-        { label:'Kite', prop:true, en:'A red kite with white stripes. It has a long green tail.', ko:'하얀 줄무늬가 있는 빨간 연. 초록색 긴 꼬리가 있어.', pick:{ who:'betty', action:'pick4' } },
-        { label:'Kite', prop:true, en:'A blue kite with white stripes. It has a long yellow tail.', ko:'하얀 줄무늬가 있는 파란 연. 노란색 긴 꼬리가 있어.', pick:{ who:'betty', action:'pick2' } },
-        { label:'Kite', prop:true, en:'A red kite with white stripes. It has a short yellow tail.', ko:'하얀 줄무늬가 있는 빨간 연. 노란색 짧은 꼬리가 있어.', pick:{ who:'betty', action:'pick5' } },
-        { label:'Kite', prop:true, en:'A red kite with white stripes. It has a long yellow tail.', ko:'하얀 줄무늬가 있는 빨간 연. 노란색 긴 꼬리가 있어.', pick:{ who:'betty', action:'pick1' } },
-        { label:'Kite', prop:true, en:'A red kite with white spots. It has a long yellow tail.', ko:'하얀 점무늬가 있는 빨간 연. 노란색 긴 꼬리가 있어.', pick:{ who:'betty', action:'pick3' } }
-      ],
-      spots:KITE_SLOTS.map((k, i) => ({ clue:i, x:(k.x - 55) / 13.76, y:(k.y - 12) / 7.68, w:110 / 13.76, h:(k.h + 24) / 7.68 }))}
+      clues:KITE_SLOTS.map(k => k.at === 'ground' ? { label:'Kite', take:`kite-${k.n}`, lines:[ { key:`kite-${k.n}`, ...KITE_LOOKS[k.n] } ] }
+        : { label:k.at === 'bed' ? 'Flower bed' : k.ball ? 'Ball' : 'Tree', inspect:`look-${k.n}` }),
+      spots:KITE_SLOTS.map((k, i) => ({ clue:i, unless:[`!took:kite-${k.n}`], ...kiteSpot(kiteArea(k)) })) },
+    // the close looks: each clump of leaves or flowers cleared by a tap (take '!flag', left for play in 미리보기), then
+    // the kite to take
+    ...KITE_SLOTS.filter(k => k.cover.length).map(k => { const v = kiteView(k), covers = k.cover.map((c, i) => `cover-${k.n}-${i}`);
+      // focusX: the phone shows the middle of the close look; it is scrolled to the kite instead (user report: one by
+      // the park's edge was off to the side, the view held inside the picture)
+      const a = kiteArea(k);
+      return { id:`look-${k.n}`, inspect:true, fixed:true, back:'park', label:'Park', artWidth:1376, artHeight:768,
+        focusX:(a.x + a.w / 2 - v.x) / v.w,
+        clues:[
+          // cover / side / flowers: which clump is swept away, to which side, leaves or petals flying (clearCover)
+          ...k.cover.map((c, i) => ({ label:k.at === 'bed' ? 'Flowers' : k.ball ? 'Ball' : 'Leaves', take:`!${covers[i]}`, lines:[], play:true,
+            cover:`${k.n}-${i}`, side:i ? 1 : -1, part:!!k.part, roll:!!k.ball })),
+          { label:'Kite', take:`kite-${k.n}`, lines:[ { key:`kite-${k.n}`, ...KITE_LOOKS[k.n] } ] }
+        ],
+        spots:[
+          ...k.cover.map((c, i) => ({ clue:i, unless:[`!${covers[i]}`], ...kiteSpot(c, v) })),
+          { clue:k.cover.length, when:covers.map(c => `!${c}`), unless:[`!took:kite-${k.n}`], ...kiteSpot(kiteBox(k), v) }
+        ] }; })
   ],
   thoughts:[
-    { when:['betty:b1', 'betty:b2', 'betty:b3'], line:{ key:'think-look', en:"Let's look at the kites in the trees.", ko:'나무에 걸린 연들을 살펴보자.' } }
+    { when:['toby:b1', 'toby:b2', 'toby:b3'], line:{ key:'think-find', en:"Let's look for kites in the park.", ko:'공원에서 연들을 찾아보자.' } }
   ],
   needed:[],
-  positions:{ betty:{ x:24, floor:94, height:46 } },
-  items:{},
+  positions:{ toby:{ x:24, floor:94, height:40 } },
+  // the kites taken from the trees: the title never says whose (as every case), the picture the whole kite cut out
+  // and nothing round it (user request 2026-11-18: as the umbrella, big in 소지품 and handed over as itself)
+  items:Object.fromEntries(KITE_SLOTS.map(k => { const [w, h] = KITE_PICS[k.n];
+    // audio: the detective's line on it, the one said when it was found (user request 2026-11-18: heard in 소지품 too)
+    return [`kite-${k.n}`, { label:'Kite', ...KITE_LOOKS[k.n], audio:`audio/kite/detective-kite-${k.n}.mp3`, img:`assets/places/kite/kite2-${k.n}.png`, w, h, crop:[-30, -20, w + 60, h + 40],
+      bag:`assets/places/kite/kite2-${k.n}.png` }]; })),
+  previewHandback:['kite-1', 'kite-2', 'kite-3', 'kite-4', 'kite-5', 'kite-6'],
   deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
-  // Betty's yes (pick1) starts this: the detective gets it down, Betty thanks him
+  // his "Is my kite there?" starts this: a kite picked from 소지품 (건네주기); a wrong one, he says what his is like
+  // (wrong) and another can be picked; his own, he thanks the detective
   ending:{ handoff:[
-    { to:'betty', open:{ det:true, key:'end-get', en:"Wait here. I'll get it down for you.", ko:'여기서 기다려. 내가 내려 줄게.' },
-      lines:[ { key:'end1', en:'Thank you so much, Detective!', ko:'정말 고마워, 탐정!' } ] }
+    { to:'toby', open:{ think:true, en:'토비의 연을 골라 건네주자.' }, give:'kite-1', giveLabel:'연 건네주기',
+      wrong:{
+        'kite-2':{ key:'no-one', en:'No. My kite has two tails.', ko:'아니. 내 연은 꼬리가 두 개야.' },
+        'kite-3':{ key:'no-short', en:'No. My kite has long tails.', ko:'아니. 내 연은 꼬리가 길어.' },
+        'kite-4':{ key:'no-color', en:'No. My kite is red and yellow.', ko:'아니. 내 연은 빨간색과 노란색이야.' },
+        'kite-5':{ key:'no-bird', en:'No. My kite is a bird.', ko:'아니. 내 연은 새 모양이야.' },
+        'kite-6':{ key:'no-bird', en:'No. My kite is a bird.', ko:'아니. 내 연은 새 모양이야.' }
+      },
+      lines:[ { key:'end1', en:"Yes! That's my kite!", ko:'응! 그게 내 연이야!' },
+        { key:'end2', en:'Thank you so much, Detective!', ko:'정말 고마워, 탐정!' } ] }
   ] }
 };
-KITE_CASE.places.forEach(pl => pl.clues.forEach((c, i) => c.audio = `audio/kite/detective-${pl.id}-${i}.mp3`));
 
 const UMBRELLA_CASE = {
   start:'ella',
@@ -3943,6 +4059,8 @@ const WORDS = {
 // and wins over its single words (next to, waiting room). The meaning is the one the game's own lines use. People's
 // names come from the case's people (spk().ko), not from here; X's adds 의.
 const GLOSS = {
+  // the kite case (2026-11-18)
+  kite:'연', bird:'새', butterfly:'나비', pink:'분홍색', tail:'꼬리', tails:'꼬리 (tail 여러 개)', fish:'물고기', wind:'바람', stripes:'줄무늬',
   // phrases
   // the Christmas star case (user: some words on its note showed no meaning)
   'information desk':'안내소', 'gift tent':'선물 포장 천막', 'tree square':'트리 광장', 'candy cane':'지팡이 사탕', 'look into':'조사하다',
@@ -4233,7 +4351,7 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = KITE ? { 'betty:b0':[[0, 1.48], [1.89, 3.25]], 'betty:b1':[[0, .92], [1.2, 3.48]], 'betty:b2':[[0, .7], [.98, 3.15]] } : VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
+const SENTENCE_TIMES = KITE ? {} : VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
   'tara:t4':[[0, 4.35], [4.55, 5.9]], 'ivo:i4':[[0, 1.4], [2.4, 4.05]], 'ivo:i2':[[0, 2.35], [2.8, 3.95]],
   'momo:m1':[[0, 1.9], [2.35, 3.9]], 'momo:m3':[[0, .7], [1.05, 4], [4.55, 5.45]], 'momo:m4':[[0, 1.4], [2.05, 4.45]], 'momo:m2':[[0, 1.75], [2, 3.2]],
   'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .75], [.9, 3.15], [3.3, 5.07]] } : UMBRELLA ? { 'ella:e0':[[0, 2.04], [2.41, 3.19]], 'ella:e1':[[0, 1.07], [1.42, 2.85]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
@@ -4527,6 +4645,7 @@ const SPRITES = {
   rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316},
   duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5},
   betty:{src:'assets/characters/betty-higgsfield.png', w:445, h:680, face:'52 -5 340 340', anchor:.5},
+  toby:{src:'assets/characters/toby-higgsfield.png', w:393, h:700, face:'21 14 350 350', anchor:.5},   // the kite case (scripts/cut-toby.py)
   // the picnic case: two per Higgsfield sheet (scripts/cut-picnic-characters.py); Mia & Ollie are one figure
   ben:{src:'assets/characters/ben-higgsfield.png', w:542, h:700, face:'134 0 350 350', anchor:.57},
   nora:{src:'assets/characters/nora-higgsfield.png', w:475, h:700, face:'38 0 399 399', anchor:.5},
@@ -4587,6 +4706,7 @@ const MOUTHS = {
   rosie:{closed:[140,333,45,19], open:[140,333,45,19]},
   duck:{closed:[140,160,166,99], open:[140,160,166,117]},
   betty:{closed:[183,205,82,29], open:[183,205,82,34]},
+  toby:{closed:[168,240,59,22], open:[168,240,59,22]},
   // Ben's mouth stays as drawn (his front teeth); the open one is cut from a Higgsfield edit of his face (the chin drops)
   ben:{closed:[236,222,160,70], open:[272,249,92,70]},
   nora:{closed:[189,281,73,22], open:[189,281,73,28]},
@@ -4656,7 +4776,7 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
 // the last ones cut from their sprites (scripts/cut-picnic-characters.py, cut-umbrella-characters.py); mia-solo and
 // ollie are PEOPLE.mia.faces
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia', 'mia-solo', 'ollie',
-  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico'];   // Christmas: scripts/make-christmas-face-icons.py
+  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby'];   // Christmas: scripts/make-christmas-face-icons.py
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
 const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.png`;
 const miniSVG = id => FACE_ICONS.includes(id) || !SPRITES[id] && !DRAWN.includes(id) ? `<img class="face" src="${faceSrc(id)}" alt="" draggable="false">`
@@ -4704,6 +4824,7 @@ const availableQuestions = speaker => {
 // A condition in a case's data (needs, when, unless, ready): a photo 'place-clue', a statement written down right
 // 'person:question', a thing carried '@item', something done '!flag', someone met (greeting heard) 'met:person'
 function cond(c){
+  if(c.includes('|')) return c.split('|').some(cond);   // either (the kite case: any kite in 소지품)
   if(c.startsWith('@')) return S.items.includes(c.slice(1));
   if(c.startsWith('!')) return S.flags.has(c.slice(1));
   if(c.startsWith('met:')){ const p = per(c.slice(4)); return p.phase !== 'wait' && !p.helloCut; }
@@ -6956,7 +7077,7 @@ const statements = () => PEOPLE_ORDER.flatMap(id => S.per[id] && id !== accusedI
 const sayFace = id => `<i class="say-face" style="background-image:url(${faceSrc(id)});background-color:${spk(id).bg}"></i>`;
 function drawerStripHTML(){
   if(drawerTab === 'item'){
-    return S.items.length ? S.items.map(id => `<button class="dcard" type="button" data-pick="@${id}" aria-pressed="false"><span class="evidence-photo${ITEMS[id].bag ? ' bag-pic' : ''}" aria-hidden="true">${itemCardPic(id)}</span><span class="dlabel">${esc(ITEMS[id].label)}</span><span class="dplace">소지품</span></button>`).join('')
+    return S.items.length ? S.items.map(id => `<button class="dcard" type="button" data-pick="@${id}" aria-pressed="false"><span class="evidence-photo${ITEMS[id].bag ? ' bag-pic' : ''}" aria-hidden="true">${itemCardPic(id)}</span><span class="dlabel">${esc(ITEMS[id].label)}</span></button>`).join('')
       : '<p class="empty-note">가진 물건이 없어요.</p>';
   }
   if(drawerTab === 'say'){
@@ -7063,7 +7184,8 @@ function pickEvidence(ref){
   detail.scrollTop = 0;
   const toHeight = drawer.getBoundingClientRect().height;
   // 소지품: the thing itself big over the scene (its whole picture, item.big or the card's crop)
-  if(drawerBrowse && isItemRef(ref)) showItemBig(ref.slice(1), toHeight); else hideItemShow();
+  // and while picking one to hand over (user request 2026-11-18: the kites, to see which is which)
+  if((drawerBrowse || ending?.step === 'handoff') && isItemRef(ref)) showItemBig(ref.slice(1), toHeight); else hideItemShow();
   // Animate the measured height rather than a fixed maximum: longer descriptions and rapid picks stay smooth.
   // The natural height takes over at the end, so resizing and text wrapping still work afterwards.
   if(drawer.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches){
@@ -7559,7 +7681,9 @@ function handOver(ref){
   clearTimeout(endTimer); stopVoice(); closeDrawer();
   renderSay(null); ending.line = null; renderAsk();
   // the bag itself goes over (user request: not a photo of it); a wrong pick is held up and drops as a photo
-  if(right && ITEMS[round.give]?.bag) handBag(round.give, 'give');
+  // a thing with a picture of its own goes over as itself, a wrong one too (user request 2026-11-18: the kites)
+  const giveId = ref.slice(1);
+  if(isItemRef(ref) && ITEMS[giveId]?.bag && (right || round.wrong)) handBag(giveId, 'give');
   else {
     const shot = document.createElement('div');
     shot.className = `presented given${right ? '' : ' miss'}`;
@@ -7570,7 +7694,9 @@ function handOver(ref){
   setTimeout(() => { const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {}); }, 480);
   endTimer = setTimeout(() => {
     if(ending?.step !== 'handoff') return;
-    if(!right) return handoffOpen(true);
+    // a wrong one: their line on what is not like theirs (wrong, the kite case), then pick again
+    if(!right){ const w = round.wrong?.[ref.slice(1)];
+      return w ? endingSay({ ...w, who:round.to }, undefined, () => handoffOpen(true)) : handoffOpen(true); }
     // the last bag is back: Rosie's backpack is by her again as she says thanks (S.items follows with her line)
     if(!round.take) $('#app').classList.remove('bag-away');
     ending.step = 'handoffTalk'; ending.i = 0;
@@ -8123,6 +8249,34 @@ function peekOpen(el, geom, back){
 }
 // Pip's shadow in the backstage room's left doorway (only the opening, between its two posts)
 const PIP_SHADOW = '<image href="assets/places/violin/pip-silhouette.png" x="57" y="402" width="108" height="190"/>';
+// the kite case's kites not taken yet, each under what still hides it (KITE_SLOTS)
+// (one in 소지품 is gone from the park too: the previews hand them over without the took flag)
+// kiteMoving: the bed's flowers parting or standing back just now ({ n, way:'part'|'back', until }), drawn moving once
+let kiteMoving = null;
+const kiteGone = k => S.flags.has(`took:kite-${k.n}`) || S.items.includes(`kite-${k.n}`);
+const bedArt = k => { const gone = kiteGone(k), parted = !gone && S.flags.has(`cover-${k.n}-0`);
+  const moving = kiteMoving?.n === k.n && Date.now() < kiteMoving.until ? kiteMoving.way : '';
+  const kite = gone ? '' : kitePic(k);
+  return kite + `<g ${parted || gone ? '' : `data-cover="${k.n}-0" `}class="bed-bunches${parted ? '' : ' bed-rest'}">` + k.bunches.map(b =>
+    bunchPic(b, moving ? ` ${moving}` : '', parted ? `;transform:translateX(${b.sx.toFixed(0)}px) rotate(${b.a.toFixed(1)}deg)` : '')).join('') + '</g>'; };
+const kitePic = k => { const [w, h] = KITE_PICS[k.n], sc = KITE_K * (k.s || 1);
+  return `<image href="assets/places/kite/kite2-${k.n}.png" x="${k.x - w * sc / 2}" y="${k.y}" width="${w * sc}" height="${h * sc}" transform="rotate(${k.r} ${k.x} ${k.y + 20})"/>`; };
+const bunchPic = (b, cls = '', style = '') => `<image class="bunch${cls}" style="--a:${b.a.toFixed(1)}deg;--x:${(b.sx || 0).toFixed(0)}px${style}" href="assets/places/kite/flower-${b.f}.png" x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}"/>`;
+// the ball, where it lies or where it rolled to (the shadow goes along, the ball turns)
+const ballArt = k => { const b = k.ball, rolled = S.flags.has(`cover-${k.n}-0`), x = b.cx + (rolled ? b.dx : 0), y = b.cy + (rolled ? b.dy : 0);
+  const moving = kiteMoving?.n === k.n && Date.now() < kiteMoving.until, turn = Math.hypot(b.dx, b.dy) / (Math.PI * b.d) * 360;
+  return (kiteGone(k) ? '' : kitePic(k)) + `<g ${rolled ? '' : `data-cover="${k.n}-0" `}class="ball-wrap${moving ? ' roll' : ''}" style="--dx:${b.dx}px;--dy:${b.dy}px">` +
+    `<ellipse cx="${x}" cy="${y + b.d * .46}" rx="${b.d * .42}" ry="${b.d * .1}" fill="rgba(60,48,20,.22)"/>` +
+    `<image class="ball${moving ? ' spin' : ''}" style="--turn:${turn.toFixed(0)}deg${rolled ? `;transform:rotate(${turn.toFixed(0)}deg)` : ''}" href="assets/props/ball-soccer.png" x="${x - b.d / 2}" y="${y - b.d / 2}" width="${b.d}" height="${b.d}"/></g>`; };
+const kitesArt = () => `<g class="bed-bunches bed-rest">${KITE_BED_REST.map(b => bunchPic(b)).join('')}</g>` + KITE_SLOTS.filter(k => k.part || k.ball || !kiteGone(k)).map(k => {
+  if(k.part) return bedArt(k);
+  if(k.ball) return ballArt(k);
+  const [w, h] = KITE_PICS[k.n], sc = KITE_K * (k.s || 1);
+  return `<image href="assets/places/kite/kite2-${k.n}.png" x="${k.x - w * sc / 2}" y="${k.y}" width="${w * sc}" height="${h * sc}" transform="rotate(${k.r} ${k.x} ${k.y + 20})"/>` +
+    // data-cover: the one a tap clears away (clearCover)
+    k.cover.map((c, i) => S.flags.has(`cover-${k.n}-${i}`) ? ''
+      : `<image data-cover="${k.n}-${i}" style="animation-delay:-${((k.n * 7 + i * 5) % 10) / 4}s" href="assets/places/kite/${c.img}.png" x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}" preserveAspectRatio="none"/>`).join('');
+}).join('');
 const ART = {
   /* the Christmas star case (assets/places/christmas/, scripts/cut-christmas-assets.py). The square at night is the day
      picture darkened, then lit (user plan); the scale leaves the storeroom once taken (the picture without it) and
@@ -8155,9 +8309,8 @@ const ART = {
      upside down, handle up; the stand's front laid over it) until Ella hands it over at the end */
   // the redrawn hall (2026-11-18, user pick A): nothing drawn over it (no stand, no bazaar photo, notice or banner words)
   hall: () => `<image href="assets/places/umbrella/hall.webp" width="1376" height="768"/>`,
-  // the kite case's park and the five kites caught in its trees (KITE_SLOTS)
-  park: () => `<image href="assets/places/kite/park.webp" width="1376" height="768"/>` + KITE_SLOTS.map(k =>
-    `<image href="assets/places/kite/kite-${k.n}.png" x="${k.x - 35}" y="${k.y}" width="70" height="${k.h}" transform="rotate(${k.r} ${k.x} ${k.y + 40})"/>`).join(''),
+  // the kite case's park (the full-size band, park-hi.webp, so the close looks stay sharp) and its six hidden kites
+  park: () => `<image href="assets/places/kite/park-hi.webp" width="1376" height="768"/>` + kitesArt(),
   toynest: () => `<image href="assets/places/umbrella/toynest.webp" width="1376" height="768"/>
     <text x="1013" y="234" text-anchor="middle" font-size="40" font-weight="700" fill="#FFF8E6" stroke="#5E4630" stroke-width="1.5" paint-order="stroke" font-family="Georgia,serif" transform="rotate(1 1013 220)">Toy Nest</text>`,
   windmill: () => `<image href="assets/places/umbrella/windmill.webp" width="1376" height="768"/>`,
@@ -8243,6 +8396,10 @@ const ART = {
   'sleeves-ivo': () => closeLook('stage', 'sleeves-ivo', 427),
   'sleeves-momo': () => closeLook('backstage-open', 'sleeves-momo', 385)
 };
+// the kite case's close looks: the park around one kite, KITE_ZOOM times larger (kiteView)
+KITE_SLOTS.forEach(k => { const v = kiteView(k);
+  // kite-look: in the close look the covers sway a little (user request 2026-11-18), not in the park itself
+  ART[`look-${k.n}`] = () => `<g class="kite-look" transform="scale(${KITE_ZOOM}) translate(${-v.x} ${-v.y})">${ART.park()}</g>`; });
 // Floor below each picture's bottom edge (Higgsfield outpaint, cut at the seam). Only the
 // conversation camera shows it, behind the question buttons; investigation keeps the original frame.
 // The picture's continuation above its top edge, shown only in the conversation and ending camera: the lit square's
@@ -8267,7 +8424,7 @@ const ART_FLOOR = {
   lobby:   { src:'assets/places/picnic-storyboard/lobby-floor.webp', h:531, overlap:110 },
   // the umbrella case: one tall picture each, as Betty's home
   hall:    { src:'assets/places/umbrella/hall-floor.jpg', h:975 },
-  park:    { src:'assets/places/kite/park-floor.jpg', h:745 },
+  park:    { src:'assets/places/kite/park-floor.jpg', h:900 },
   toynest: { src:'assets/places/umbrella/toynest-floor.jpg', h:1015 },
   windmill:{ src:'assets/places/umbrella/windmill-floor.jpg', h:1025 },
   // the violin case: one tall picture each as well
@@ -8549,7 +8706,60 @@ const spotShown = s => !s.talk && !(s.folded && S.unfolded) && !(s.open && !S.un
 // 소지품 ('!flag' instead: only marks it done, the curtain drawn aside), and any thought now due
 function takeFromPlace(pl, i){
   const clue = pl.clues[i];
-  if($('.art-stage .think-place')) return;   // already saying something here
+  if($('.art-stage .think-place') || clearingCover) return;   // already saying something here, or a clump going
+  // a clump of leaves or flowers over a kite (cover, the kite case): it shakes and is swept away first, leaves flying
+  const el = clue.cover && $(`.art-stage [data-cover="${clue.cover}"]`);
+  // the flower bed's: the flowers part to the sides (bedArt, drawn so with the flag) and stay so; the ball on the lawn
+  // rolls off (ballArt; Higgsfield Mirelo SFX, job 2680bce0)
+  if(el && (clue.part || clue.roll)){
+    const sound = $('#lookSound'); sound.src = `audio/kite/${clue.roll ? 'ball-roll' : 'leaves-rustle'}.mp3`; sound.currentTime = 0; sound.play().catch(() => {});
+    kiteMoving = { n:+clue.cover.split('-')[0], way:'part', until:Date.now() + 1100 };
+    return takeAfterClear(pl, i);
+  }
+  if(el && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    clearingCover = true; clearCover(el, clue.side, clue.flowers);
+    return setTimeout(() => { clearingCover = false; delete el.dataset.cover; takeAfterClear(pl, i); }, 640);
+  }
+  takeAfterClear(pl, i);
+}
+// The kite case's clumps (user request 2026-11-18: a fitting interaction when they are cleared): the clump rustles
+// (a quick shake), then is swept off to its side, tipping and fading, while a few leaves (or petals) fly out of it and
+// flutter down. Drawn in the picture's own units, so it is the same size in the park and in a close look.
+let clearingCover = false;
+function clearCover(el, side = 1, flowers = false){
+  // a soft rustle (Higgsfield Mirelo SFX, job c5e93788), leaves and flowers alike
+  const rustle = $('#lookSound'); rustle.src = 'audio/kite/leaves-rustle.mp3'; rustle.currentTime = 0; rustle.play().catch(() => {});
+  const svgNS = 'http://www.w3.org/2000/svg', box = el.getBBox(), g = el.parentNode;
+  Object.assign(el.style, { transformBox:'fill-box', transformOrigin:'50% 85%' });
+  el.animate([
+    { transform:'none', opacity:1 },
+    { transform:'rotate(-5deg)', offset:.12 }, { transform:'rotate(4deg)', offset:.24 }, { transform:'rotate(-2deg)', offset:.34 },
+    { transform:'none', opacity:1, offset:.42 },
+    { transform:`translate(${side * box.width * .9}px, ${box.height * .35}px) rotate(${side * 28}deg) scale(.8)`, opacity:0 }
+  ], { duration:640, easing:'ease-in', fill:'forwards' });
+  const colors = flowers ? ['#F2A7B8', '#F7D25E', '#E7837E', '#7FAE5B'] : ['#7FAE5B', '#5E9145', '#9CC46A', '#6F9F4E'];
+  const size = Math.max(box.width, box.height) / 18;
+  for(let k = 0; k < 9; k++){
+    // the trees: the small drawn puffs (leaf-1..8.png); the flower bed: little petals
+    const wrap = document.createElementNS(svgNS, 'g'), leaf = document.createElementNS(svgNS, flowers ? 'path' : 'image');
+    const x = box.x + box.width * (.2 + Math.random() * .6), y = box.y + box.height * (.2 + Math.random() * .5);
+    wrap.setAttribute('transform', `translate(${x} ${y}) scale(${size / 8})`);
+    if(flowers){
+      leaf.setAttribute('d', 'M0,-6 C4,-6 6,-2 0,6 C-6,-2 -4,-6 0,-6Z');
+      leaf.setAttribute('fill', colors[k % colors.length]); leaf.setAttribute('stroke', '#5C4A2E'); leaf.setAttribute('stroke-width', '.9');
+    } else Object.entries({ href:`assets/places/kite/leaf-${k % 8 + 1}.png`, x:-8, y:-7, width:16, height:14 }).forEach(([a, v]) => leaf.setAttribute(a, v));
+    wrap.appendChild(leaf); g.appendChild(wrap);
+    const dx = (side * (20 + Math.random() * 50) + (Math.random() - .5) * 60), up = 20 + Math.random() * 30, turn = (Math.random() - .5) * 540;
+    const fly = leaf.animate([
+      { transform:'translate(0,0) rotate(0deg)', opacity:1 },
+      { transform:`translate(${dx * .5}px, ${-up}px) rotate(${turn * .4}deg)`, opacity:1, offset:.3 },
+      { transform:`translate(${dx}px, ${up * 2.5}px) rotate(${turn}deg)`, opacity:0 }
+    ], { duration:900 + Math.random() * 400, delay:180 + k * 25, easing:'cubic-bezier(.3,.6,.5,1)', fill:'forwards' });
+    fly.onfinish = () => wrap.remove();
+  }
+}
+function takeAfterClear(pl, i){
+  const clue = pl.clues[i];
   cancelCapture(); stopVoice();
   S.found[pl.id].add(i);
   // sound: played as it is picked up or drawn aside (the violin's curtain)
@@ -8558,7 +8768,11 @@ function takeFromPlace(pl, i){
   if(clue.flagFirst && clue.flag && !S.flags.has(clue.flag)){ S.flags.add(clue.flag); renderScene(); }
   placeLines(clue.lines || [], () => {
     if(clue.take.startsWith('!')) S.flags.add(clue.take.slice(1));
-    else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){ S.items.push(clue.take); S.flags.add(`took:${clue.take}`); gotItem(clue.take); }
+    else if(!S.items.includes(clue.take) && !S.flags.has(`took:${clue.take}`)){
+      // a kite out of the flower bed: its flowers stand back (bedArt)
+      const bed = KITE && KITE_SLOTS.find(k => k.part && clue.take === `kite-${k.n}`);
+      if(bed) kiteMoving = { n:bed.n, way:'back', until:Date.now() + 1000 };
+      S.items.push(clue.take); S.flags.add(`took:${clue.take}`); gotItem(clue.take); }
     if(clue.flag) S.flags.add(clue.flag);
     saveGame(); renderScene(); renderSceneHead(); renderPlaces(); updateAccuse();
     // next: a close look opened at once (the star's box: its star's back, user request 2026-11-16)
@@ -8692,7 +8906,8 @@ function enterPlace(id, fromConversation = false){
   requestAnimationFrame(() => {
     if(!S.investigate || S.place !== id) return;
     // someone just met here (revealDiscoveries) is put in the middle; else where the player left the place
-    artWrap.scrollLeft = placeOf(id).fixed ? (artWrap.scrollWidth - artWrap.clientWidth) / 2 : sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
+    const fx = placeOf(id).focusX, room = artWrap.scrollWidth - artWrap.clientWidth;
+    artWrap.scrollLeft = placeOf(id).fixed ? (fx == null ? room / 2 : Math.min(Math.max(fx * artWrap.scrollWidth - artWrap.clientWidth / 2, 0), room)) : sceneFocus ? sceneLeftFor(sceneFocus) : sceneScroll[id] ?? (artWrap.scrollWidth - artWrap.clientWidth) / 2;
     sceneFocus = null;
     if(!placeOf(id).fixed){
       const view = artWrap.getBoundingClientRect();
@@ -9053,7 +9268,7 @@ const DEMOS = {
       <div class="bubble say t7-claim"><div class="bubble-copy"><span class="tag">Rosie Rabbit</span><span class="say-en">Did you find it?</span></div><span class="say-foot"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></span></div>
       <div class="ask-panel t7-ask"><button class="pill big green" type="button">가방 건네주기</button></div>
       <section class="drawer"><div class="drawer-head"><h3>소지품</h3><button class="x close-button" type="button"></button></div>
-        <div class="drawer-strip"><button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo bag-pic" aria-hidden="true"><img src="assets/places/picnic-storyboard/bag-blue.png" alt=""></span><span class="dlabel">Blue bag</span><span class="dplace">소지품</span></button></div>
+        <div class="drawer-strip"><button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo bag-pic" aria-hidden="true"><img src="assets/places/picnic-storyboard/bag-blue.png" alt=""></span><span class="dlabel">Blue bag</span></button></div>
         <div class="drawer-pick" hidden><p>A blue bag.</p><div class="drawer-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div><button class="pill big" type="button">건네주기</button></div></section>`,
     // their lines: stepped back a little, so the bubble and the person are seen together (the place fills the sides)
     setup(t){ t.view(...T7.talk, true, T7.z); },
@@ -9232,7 +9447,7 @@ const DETECTIVE = {
   'home-quiet':{ en:'A quiet day in Acorn Hollow.', ko:'도토리 골짜기의 조용한 하루야.' },
   // 홈, right after a case's review: the detective's line for that case (key clear-<case id>; user request 2026-11-18,
   // after the feedback mock-up: a finished case goes back to 홈, not the case cards, and the detective says it)
-  'clear-missing-kite':{ en:"We found Betty's kite together!", ko:'베티의 연을 함께 찾았어!' },
+  'clear-missing-kite':{ en:"We found Toby's kite together!", ko:'토비의 연을 함께 찾았어!' },
   'clear-unclaimed-umbrella':{ en:"We found the umbrella's owner together!", ko:'우산 주인을 함께 찾았어!' },
   'clear-picnic-bag':{ en:'We found the right bags together!', ko:'맞는 가방을 함께 찾았어!' },
   'clear-missing-violin':{ en:'We found the violin together!', ko:'바이올린을 함께 찾았어!' },
@@ -9435,8 +9650,8 @@ const CASES = [
   // cover: the park with its kites (ART.park is the kite page's; the main page has no park place to draw)
   { id:'missing-kite', no:'Case 01', title:'사라진 연', en:'Missing Kite', art:'park', cover:{ src:'assets/places/kite/kite-cover.jpg', alt:'나무에 걸린 연들' }, playable:true,
     focus:'생김새 듣기', keys:['is-has'],
-    photo:{ img:'assets/places/kite/kite-1.png' },
-    summary:'바람에 날아간 베티의 연이 공원 나무에 걸렸다. 나무에는 비슷한 연들이 여러 개 걸려 있었다. 베티에게 연의 색과 무늬, 꼬리의 길이와 색을 듣고, 하얀 줄무늬가 있는 빨간 연에 길고 노란 꼬리가 달린 연을 찾아 주었다.' },
+    photo:{ img:'assets/places/kite/kite2-1.png' },
+    summary:'바람에 날아간 토비의 연이 공원 나무에 걸렸다. 공원에는 여러 모양의 연들이 나무와 화단에 가려져 있거나 길에 떨어져 있었다. 토비에게 연의 모양과 색, 꼬리를 듣고, 잎과 꽃을 치워 연들을 모은 뒤 긴 꼬리가 두 개 달린 빨간색과 노란색 새 연을 찾아 주었다.' },
   { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet-original.png', alt:'별무늬 우산' }, playable:true,
     focus:'누구의 것인지 듣기', keys:['mine'],
     photo:{ img:'assets/places/umbrella/umbrella-sheet-original.png' },
@@ -9689,6 +9904,8 @@ function loadGame(){
   try { data = JSON.parse(localStorage.getItem(SAVE_KEY), (key, value) => value && Array.isArray(value.$set) ? new Set(value.$set) : value); }
   catch(e){ return; }
   if(data?.v !== 1 || !data.S?.per) return;
+  // the kite case's client was Betty until 2026-11-18 (now Toby): a save from then starts the case over
+  if(KITE && data.S.per.betty) return;
   const saved = data.S.per;
   Object.assign(S, data.S, { sel:null, mood:{}, visit:{} });
   S.memo = { text:'', pins:[], notes:{}, ...data.S.memo };
@@ -10320,6 +10537,8 @@ $('#devEvidence').onclick = () => {
     else if(c.flagFirst && gatedBy(pl, i, questioning)) later.add(c.flag);
   }));
   PLACES.forEach(place => place.clues.forEach((clue, clueIndex) => {
+    // left for play (play: the kite case's leaves, cleared by hand in a tree's close look)
+    if(clue.play) return;
     // only once the questioning has come so far (a flag it sets, or the opened box's): found there in play
     if(place.spots.some(spot => spot.clue === clueIndex) && place.spots.filter(spot => spot.clue === clueIndex).every(spot => (spot.when || []).some(k => k.startsWith('!') && later.has(k.slice(1))))) return;
     // a thing only looked at (seen) counts as seen, with no photo
@@ -10441,7 +10660,7 @@ const previewDeduced = () => {
 };
 // [id, label] of each case's parts; a part of another case opens that case's page
 const PREVIEW_OF = {
-  'missing-kite':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '베티에게 연 찾아 주기'], ['review', '복습']],
+  'missing-kite':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '토비에게 연 찾아 주기'], ['review', '복습']],
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '니코 심문'], ['weigh', '저울'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
   'picnic-bag':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
@@ -10463,7 +10682,12 @@ const PREVIEW_RUN = {
   place:() => { previewCase(); openSheet(null); },
   inspect:() => { previewCase(); openSheet(null); openInspect(); },
   deduce:() => { previewCase(); openDeduce(); },
-  handoff:() => { previewCase(); previewDeduced(); openSheet(null); startHandoff(); },
+  // the first hand-over's thing in 소지품 if the preview gave none (the kite case: all the kites, taken from the park)
+  handoff:() => { previewCase(); previewDeduced(); openSheet(null);
+    const first = ENDING.handoff[0]?.give;
+    if(first && !S.items.includes(first) && PACK?.previewHandback?.includes(first))
+      PACK.previewHandback.forEach(id => { if(!S.items.includes(id)) S.items.push(id); S.flags.add(`took:${id}`); });
+    startHandoff(); },
   handback:() => { previewCase(); previewDeduced(); openSheet(null); S.handoffRound = 1; S.items = [...PACK.previewHandback]; startHandoff(); },
   call:() => { previewCase(); previewDeduced(); openSheet(null); startCall(); },
   interview:() => { previewCase(); previewDeduced(); openSheet(null); accusedId = CULPRIT; startEnding(); },

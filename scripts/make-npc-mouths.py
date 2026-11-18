@@ -29,6 +29,8 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'ray':('ray-higgsfield.png',192,205,49,24,'smile',4,194),
    'rosie':('rosie-higgsfield.png',161,339,24,17,'smile',2.6,333),
    'betty':('betty-higgsfield.png',224,210,66,16,'smile',2.6,205),
+   # Toby Bear, the kite case's client (2026-11-18); the line from the nose stays
+   'toby':('toby-higgsfield.png',197,242,46,13,'smile',3,240),
    'fiona-nervous':('fiona-nervous.png',200,230,52,22,'nervous',3,222),
    'fiona-sad':('fiona-sad.png',236,215,36,16,'sad',3,212),
    'detective':('detective-higgsfield.png',279,279,60,20,'smile',3.3,269),
@@ -62,7 +64,7 @@ if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
 NEAR=('mia-ollie','finn')   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
 # only cover within the recorded box (a few px around): on these pictures the crayon texture links the mouth to the
 # cheeks and whiskers
-LIMIT=('holly','mae','nora','mia','mia-ollie','tess','ruby','ella','ella-give','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
+LIMIT=('toby','holly','mae','nora','mia','mia-ollie','tess','ruby','ella','ella-give','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 DARK={'mia':50}   # how much darker than the fur around a mark must be (default 22); Mia's white muzzle has crayon grain
 KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinking':(248,252,288,276),
       'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276),
@@ -72,7 +74,7 @@ KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinki
 # smile), only the open one is new
 # the violin case's too (the ferret's wavy line, the fox's and the goat's mouth under the nose, Owen's wobbly and sad
 # mouths)
-AS_DRAWN=('holly','mae','tess','ruby','ella','ella-give','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
+AS_DRAWN=('toby','holly','mae','tess','ruby','ella','ella-give','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 SRC_LINE=6   # line weight of the closed mouths in the sheet (px)
 L=lambda im: im.convert('L')
 
