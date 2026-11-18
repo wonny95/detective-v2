@@ -38,6 +38,8 @@ for(const [id, p] of Object.entries(P.people)){
 }
 // the detective's thought after the banner and the notice
 (P.together || []).forEach((t, i) => add('detective', `detective-together${i + 1}`, '현수막·안내문을 찍은 뒤 생각', t.line.en, t.line.ko));
+// the detective's thoughts once their conditions hold (thoughts[].line, played as detective-<key>)
+(P.thoughts || []).forEach(t => add('detective', `detective-${t.line.key}`, '생각(조건이 맞을 때)', t.line.en, t.line.ko));
 // photos and things looked at: the detective reads each one's sentence
 P.places.forEach(pl => pl.clues.forEach((c, i) =>
   add('detective', `detective-${pl.id}-${i}`, `${pl.label} · ${c.label}${c.prop ? ' (소품)' : ''}`, c.en, c.ko)));

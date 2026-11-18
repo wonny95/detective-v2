@@ -21,6 +21,15 @@
 - **건네기 알림과 버튼(2026-11-18 사용자 요청)**: 세 사람의 특징 질문을 모두 적고 우산을 가지고 있으면 탐정 생각 **Let's give the umbrella back to its owner.** / 우산을 주인에게 돌려주자. (어디로 갈지만 말하고 주인은 말하지 않음). 세 사람에게 다시 말을 걸면 질문 대신 초록 버튼 **Finn에게 우산 주기 · Tess에게 우산 주기 · Ruby에게 우산 주기**가 나오고, 누르면 탐정이 "Is this umbrella yours?"라고 묻는다(그 뒤는 위와 같음). 탐정 생각 녹음(`detective-think-give.mp3`)은 아직 없음.
 - **새 녹음 5줄**(감정 happy, Higgsfield 웹): ella-e1, tess-hello3, tess-give, finn-give, ruby-end2v. 목록은 `case-02-unclaimed-umbrella-recording.md`의 **녹음 필요**. 탐정의 "Is this umbrella yours?"는 기존 녹음(`detective-end-ruby1-yours.mp3`)을 복사해 쓴다.
 - **튜토리얼**: 소풍 그림 그대로 둔다(사용자 결정: 튜토리얼 팝업은 나중에 다시 정함).
+- **장소 한 곳 — 마을회관(2026-11-18 사용자 결정: 장소가 너무 많음)**: 우산을 잃어버린 세 친구가 회관에 찾아와 있다. 토이 네스트·풍차 언덕은 사건에서 뺐다(그림 파일은 남김). 위 항목과 다르면 이 항목을 따른다.
+  - **엘라 e1**: 탐정 **Did anyone come for it?** / 누가 이 우산 찾으러 왔어? → 엘라 **Three friends came here. They said they lost their umbrellas.** / 친구 세 명이 우산을 잃어버렸다고 찾아왔어. 노트: three friends [lost] their umbrellas. 엘라는 세 사람의 이름을 말하지 않는다(사용자 결정).
+  - **이름**: 세 친구는 각자 인사하기 전까지 Frog · Tortoise · Cat으로 보이고(발견 알림도 같음), 첫 인사에서 이름을 말하면 이름으로 바뀐다.
+  - **첫 인사**: 탐정 **I have an umbrella here. Is it yours?** / 여기 우산이 하나 있어. 네 거야?(세 사람 공통) → 대답은 그대로(Maybe! …). 테스 인사는 **Hi! I'm Tess.** / 안녕! 난 테스야.(기존 녹음에서 Welcome to Toy Nest를 잘라 씀)
+  - **배치**: 회관 그림 안에 왼쪽부터 테스·핀·루비·엘라. 입구 우산꽂이는 가리지 않는다.
+  - **결말**: 루비 **So I left it here! Thank you, Detective.** / 여기 두고 왔구나! 고마워, 탐정. → 이동 없이 `다음` → 엘라에게 보고(대사 그대로).
+  - **회관 소품**: 바자회 현수막 하나만 살펴볼 수 있다(장소 변경 안내문·바자회 사진·시계·의자·창문은 그림으로만 남음).
+  - **새 녹음 4줄**: ella-e1, ruby-end2h, detective-ella-e1, detective-hello-found. 녹음 전까지 엘라·루비 줄은 브라우저 음성, 탐정 줄은 소리 없음.
+- **이번 사건의 열쇠 — 한 장(2026-11-18 사용자 결정)**: v2 대사에서 Whose…?는 탐정의 e1 질문 한 번뿐이고, 실제로 계속 들리는 표현은 세 친구의 **Mine is… / Mine has…**와 **Is it yours? / Is this umbrella yours?**, **No, it's not mine. / Yes, it's mine!**이다. 그래서 열쇠(예습)를 세 장(Whose is this? · Is this yours? · my/mine)에서 **mine / yours 한 장**으로 줄였다. 예문: This pencil is mine. / 이 연필은 내 거야. · Is this ruler yours? / 이 자 네 거야? · This book is not mine. / 이 책은 내 거 아니야.(기존 녹음 재사용) 복습의 핵심 문법도 이 한 장이며, 사건 대사 예문은 Mine is dark blue.가 붙는다. Whose…?는 e1 질문으로만 들리고 열쇠·핵심 문법에서 뺀다. 2절·10절의 열쇠 설명은 v1 기록이다.
 
 **2차 수정 요약 — 2026-11-03 사용자 결정**
 

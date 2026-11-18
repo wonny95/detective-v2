@@ -13,6 +13,109 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-18 19:50 · Claude · 새 Case 01 사라진 연 (진행 중), 우산은 Case 02로
+- 사용자 요청: 우산 앞에 가장 쉬운 사건을 넣는다. 피드백 시안의 고양이 찾기 이야기(베티의 반려동물)를 가져오되 풀이 방식은 쓰지 않고, 동물 마을에서 고양이를 찾는 건 어색해 "베티의 연"으로 바꿨다(사용자 결정). 의뢰인 1명(곰 베티), 장소 1곳(공원), 소지품 없음, 나무에 걸린 연 5개 중 베티가 말한 연을 찾는다.
+- 사건 순서: 연 01, 우산 02, 소풍 03, 바이올린 04, 도서관 05, 크리스마스 06, case04 07(`CASES`). 열쇠 표현 `is-has`(생김새 말하기) 새로 추가, 예문 녹음은 `scripts/generate-example-audio.ps1 -Missing`.
+- 데이터 `KITE_CASE`(?case=kite, id missing-kite): 베티 질문 b0–b3과 노트, 연 5개(KITE_SLOTS, 하나씩 한 가지만 다름: 파란색/점무늬/초록 꼬리/짧은 꼬리), 정답 pick1 → 결말(탐정이 연을 내려 줌) → 복습 → 홈 클리어 멘트 "We found Betty's kite together!".
+- 엔진: 장소의 물건에 `pick`(누구에게 어떤 행동으로 물을지)을 달면, 탐정의 관찰 말풍선에 "베티에게 물어보기"가 나온다(그 인물의 질문을 다 받아 적은 뒤). 누르면 그 인물에게 가서 숨은 행동(`hidden:true`, 버튼 없음)을 한다. 숨은 행동은 질문 목록에 버튼으로 나오지 않는다.
+- 그림: Higgsfield nano_banana_2(회관 그림을 화풍 참고), 공원 `assets/places/kite/park-higgsfield-original.png`(job bcf37434, `scripts/cut-kite-places.py`로 park.webp·park-floor.jpg), 연 5개 한 장(job 8b6a428e, 흰 바탕 지워 kite-1..5.png). 녹음: 베티 11줄(Vera), 탐정 15줄(Grady), `audio/kite/`, 클리어 멘트 `audio/detective-clear-missing-kite.mp3`. 일부는 Higgsfield 요청 한도(429)로 다시 보냈다.
+- 확인: 문법 검사, 테스트 서버 `?case=kite&preview=place`에서 공원·베티·연 5개·지도 버튼 숨김. **처음부터 끝까지 플레이는 아직 안 함**(사용량 한도로 커밋 먼저).
+- 참고: Higgsfield MCP 도구는 감정 값을 넘기지 않는다(엘라 주석). 오늘 MCP로 만든 친구들·엘라·루비 녹음에 "감정 행복"은 실제로 적용되지 않았을 수 있다.
+- **다음**: 연 사건 끝까지 플레이 점검(연을 고르는 버튼, 틀린 연 대답, 결말, 복습, 홈 멘트), 연 그림 크기·위치 조정, 설계서(design/case-01-missing-kite.md) 작성, HANDOFF 갱신.
+
+## 2026-11-18 19:10 · Claude · (미커밋) 우산 점검 후 수정: 복습 단어 lost, 엘라의 "that umbrella"
+- 점검(사용자 요청): 테스트 서버에서 이름 짓기 → 열쇠 → 엘라 → 우산 조사 → 세 친구 → 핀 오답 → 루비 전달 → 엘라 → 복습 → 홈 클리어 멘트까지 한 번 진행. 오류·404 없음.
+- 사용자 결정으로 수정: `WORDS`에 'lost'(잃어버렸다)를 넣어 엘라 e1의 빈칸 단어가 복습 단어 목록에 나온다(모든 사건 공통 단어장).
+- 엘라 e0 "Someone left that umbrella here." → "Someone left an umbrella here.", 조사 질문 "…at that umbrella?" → "…at the umbrella?"(우산이 보이지 않는 때라서). 한국어도 맞췄다. Higgsfield로 다시 녹음(엘라 Petra, 탐정 Grady), 이전 파일은 `-that`을 붙여 남김.
+- `SENTENCE_TIMES`의 ella:e0과, 앞서 다시 녹음했던 ella:e1의 문장 구간을 새 녹음에 맞춰 다시 쟀다.
+- 확인: 문법 검사, 복습 미리보기 단어 목록에 lost 표시. 새 녹음은 귀로 듣지 않았다.
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 18:45 · Claude · (미커밋) 소지품 카드를 누르면 물건을 크게 / 우산: 친구들 첫인사 "Have you seen my umbrella?"
+- 사용자 요청: 하단 메뉴 소지품에서 카드를 누르면 서랍 위 장면에 그 물건 그림이 크게 뜬다(`#itemShow`, 어두운 바탕 위에 튀어나오듯). 그림을 누르거나 다른 카드를 고르거나 서랍을 닫으면 사라진다. 소지품(browse)에서만, 모든 사건 공통. 그림은 카드와 같은 `itemPhoto`.
+- 사용자 요청: 세 친구가 먼저 "내 우산 봤니?"로 인사한다. 테스 "Hi! I'm Tess. Have you seen my umbrella?", 루비 "Hi, I'm Ruby. Have you seen my umbrella?" + "Maybe! I don't know where I left it.", 핀 "Hi! I'm Finn. Have you seen my umbrella? I lost it." 탐정의 "I have an umbrella here. Is it yours?"와 테스·핀의 대답은 그대로, 테스 앞의 탐정 "Hello."는 뺐다.
+- 녹음: Higgsfield MiniMax(테스 Callan, 루비 Gracie, 핀 Dylan, 감정 행복 요청) `tess-hello-v3`, `ruby-hello-v2`, `ruby-hello2-v2`, `finn-hello-v2`. 이전 파일은 남겨 둠. 녹음 대본 다시 뽑음, 빠진 파일 없음.
+- 확인: 테스트 서버에서 소지품 우산 카드 → 큰 그림, 탭하면 닫힘. 새 인사는 화면으로 끝까지 돌려 보지 않았다(문법 검사·녹음 파일 확인).
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 18:20 · Claude · (미커밋) 우산: 엘라가 내민 우산은 빛 대신 커졌다 작아지기
+- 사용자 요청: 눌러야 하는 물건이 빛나는 효과가 어색하니 그 물건이 확대되는 효과로. 엘라의 우산은 ella-give.png에 그려져 있어, 우산만 오려 낸 `assets/characters/ella-give-umbrella.png`(발이 앞에 오도록 손 부분은 비움)를 그림 위 같은 자리(artBox)에 겹치고 1.0↔1.09배로 1.4초마다 커졌다 작아지게 했다. 옅은 그림자만 두고 빛은 없앴다. 움직임 줄이기 설정이면 1.05배로 멈춰 있다.
+- `.held-item`의 빛 애니메이션 삭제, hold에 `art`·`artBox`(선택)를 더했다. 장소 화면의 힌트 반짝임(find-glow)은 이번에 바꾸지 않았다.
+- 확인: 테스트 서버에서 엘라에게 "Can I take a closer look…"을 묻고 우산이 커졌다 작아지는 것을 확인(크기 1.00~1.08).
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 18:00 · Claude · (미커밋) 우산: 루비 좌우 반전
+- 사용자 결정: 맨 왼쪽의 루비를 좌우로 뒤집어 꼬리가 바깥(왼쪽)을 향하게 했다. 스프라이트 `flip:true`(크리스마스 홀리와 같은 방식), 발 기준 anchor .39 → .61. 정면 그림이라 얼굴은 그대로, 루비가 나오는 모든 화면에 적용.
+- 확인: 테스트 서버 결말 미리보기에서 루비가 뒤집혀 가운데에 서는 것을 확인.
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 17:50 · Claude · (미커밋) 우산: 주기 버튼만 있을 때 해석 숨김, 루비 맨 왼쪽
+- 사용자 요청: "Finn에게 우산 주기"처럼 큰 주기 버튼만 남았을 때는 해석 버튼을 숨긴다. 해석은 남은 질문이나 한국어가 있는 행동(질문형 버튼)이 있을 때만 나온다(모든 사건 공통 규칙).
+- 사용자 요청: 회관 배치를 루비 34 · 테스 49 · 핀 65 · 엘라 84로 바꿨다(루비가 맨 왼쪽).
+- 확인: 문법 검사, 테스트 서버 결말 미리보기에서 위치 값과 루비 화면 확인. 주기 버튼만 남는 장면은 화면으로 직접 띄우지 못했다(코드로 확인).
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 17:35 · Claude · (미커밋) 우산: 빠진 탐정 녹음 1줄
+- 사용자 요청: 우산 사건의 탐정 녹음 누락 확인. 대본 속 파일은 모두 있었고, 대본이 뽑지 않던 생각 줄 "Let's give the umbrella back to its owner."(think-give)만 녹음이 없어 소리 없이 지나갔다.
+- Higgsfield MiniMax Grady로 `audio/umbrella/detective-think-give.mp3`(2.0초)를 만들었다. `scripts/umbrella-recording-script.js`가 thoughts도 뽑게 고치고 녹음 대본을 다시 뽑았다. 대본의 모든 파일이 있는 것을 확인했다.
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 17:20 · Claude · (미커밋) 대화 화면 가장자리에 다른 인물이 걸려 보이던 문제
+- 사용자 제보: 우산 사건에서 엘라가 우산을 건넨 장면에 루비(고양이) 꼬리가 화면 왼쪽에 보였다.
+- 원인: 대화 카메라는 화면 가장자리에 걸린 다른 인물을 숨기는데(edge-cut), 우산을 건네면 소지품이 바뀌어 장면이 다시 그려지면서 숨김 표시가 없는 새 인물들로 바뀌었다. 카메라는 그대로라 다시 계산되지 않았다.
+- 수정: 마지막 카메라 구도를 `edgeShot`에 두고 `markEdgeCut()`으로 분리해, 카메라를 맞출 때와 `renderScene`이 장면을 새로 그린 뒤에 모두 다시 계산한다. 모든 사건에 같이 적용된다.
+- 확인: 문법 검사. 네 친구가 다 있는 상태를 테스트 탭에서 만들지 못해 화면으로는 확인하지 못했다(코드 경로로만 확인).
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 17:00 · Claude · (미커밋) 소풍 가방: 불필요한 노트 줄 삭제 / 우산: 남은 녹음 2줄
+- 사용자 요청: 소풍 가방 사건에서 단서가 아닌 노트 줄을 뺐다. 로지 r1 "not sure", r3 "find out", 벤 b1 "After that, he came home."(오리 아저씨가 이미 말함), b2 "does not know what was inside", 미아 g2 "She opened it.", 노라 n3 "in a meeting"과 "thinks that is strange". 질문마다 한 줄 이상은 남겼다(엔진이 질문마다 노트를 읽는다). 빈칸이 빠진 단어 카드는 bank에서도 뺐다.
+- 사용자 요청: 우산 사건의 녹음이 없던 두 줄을 Higgsfield MiniMax로 만들었다. 엘라 e1(Petra) `ella-e1.mp3`, 루비 end2h(Gracie) `ruby-end2h.mp3`. 감정 행복을 요청 값으로 넣었지만 도구에 공식 항목이 없어 적용됐는지는 들어 봐야 안다. 녹음 대본에 "녹음 필요" 줄 없음.
+- 확인: 문법 검사, 테스트 서버에서 소풍 페이지 오류 없음, 두 녹음 파일 200. 소풍 노트 작성 화면을 끝까지 직접 풀어 보지는 않았다.
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 16:40 · Claude · (미커밋) 사건을 마치면 홈으로, 탐정의 사건 클리어 멘트
+- 사용자 요청(피드백 시안 moonsoo7.github.io/mystery 참고): 사건 복습의 완료를 누르면 사건 목록이 아니라 홈으로 돌아가고, 탐정이 그 사건의 클리어 멘트를 한 번 말한다. 말풍선 버튼은 그때의 홈 상태(다음 사건이면 "사건 시작")를 그대로 쓴다.
+- 대본(사용자가 고른 짧은 판): 01 "We found the umbrella's owner together!", 02 "We found the right bags together!", 03 "We found the violin together!", 04 "We solved the library case together!", 05 "We found the gold star together!". `DETECTIVE['clear-<사건 id>']`.
+- 녹음: Higgsfield text2speech_v2 minimax, 탐정 Grady 프리셋, 5줄 `audio/detective-clear-<사건 id>.mp3`(1.9~2.8초).
+- 구현: `closeReview`가 sessionStorage `detective.clearLine`에 사건 id를 남기고 `openCaseList('home')`. `renderHomeOffice`가 그것을 한 번 읽어 말하고(`homeShown`), 탐정을 탭하거나 홈 상태가 바뀌면 원래 멘트로 돌아간다. 학습의 복습에서 연 복습은 그대로.
+- 확인: 테스트 서버에서 우산 복습 완료 → 홈, 말풍선 "We found the umbrella's owner together!" + 사건 시작, 녹음 파일 200. 다른 사건의 끝까지는 직접 돌려 보지 않았다(같은 함수를 지나감).
+- **다음**: 사용자 확인 대기
+
+## 2026-11-18 16:10 · Claude · (미커밋) 우산: 회관 새 그림(A안) 반영
+- 사용자 선택 A: `hall-v2-a-higgsfield-original.png`(job c04c4ce3)을 `scripts/cut-umbrella-places.py`로 `hall.webp`·`hall-floor.jpg`에 다시 자름(회관만 자르도록 스크립트 정리). ART.hall은 그림 한 장만(우산꽂이 앞면·꽂힌 우산·바자회 사진·안내문 글자·바닥 현수막 글자 겹침 삭제). 회관 살펴보기 소품 없음(현수막 삭제). 첫 회관 그림·stand-front·bazaar-photo·후보 B는 파일로 남김.
+- 확인: 5179 — 회관 왼쪽(문·화분)·가운데(게시판·포스터)·오른쪽(창·의자)에 네 사람 배치. 구문 검사. 확인용에 반영.
+- 남은 것: 엘라 e0("that umbrella")·조사 질문의 that — 우산꽂이가 없어 가리킬 우산이 화면에 없음(사용자 결정 필요).
+- **다음**: 사건 클리어 뒤 홈으로 돌아가 탐정 한마디(시안 moonsoo7.github.io/mystery 참고) — 대본 사용자 확인 뒤 구현·녹음.
+
+## 2026-11-18 15:40 · Claude · (미커밋) 장소가 하나인 사건은 지도 버튼 없음
+- 사용자 요청: 우산 사건(회관 한 곳)은 지도가 필요 없음. 엔진 `ONE_PLACE`(확대 조사를 뺀 장소가 하나): 아래 메뉴의 지도 버튼 숨김(노트·소지품 두 칸), `openSheet('map')`은 아무것도 열지 않음, 장소에서 뒤로 가기는 바로 사건 나가기 확인창, 찾기 힌트가 없을 때 지도 버튼을 흔들지 않고 "여기서는 찾을 게 없어요."만.
+- 확인: 5179 — 우산 지도 버튼 숨김·두 칸 메뉴·뒤로 가기 → 나가기 확인창, 소풍·바이올린·크리스마스·도서관은 지도 버튼 그대로. 구문 검사. 확인용에 반영.
+- **다음**: 회관 그림 선택 → 게임 반영, 엘라 e0·조사 질문의 that 결정, 엘라·루비 녹음.
+
+## 2026-11-18 15:20 · Claude · (미커밋) 우산: 녹음 2줄, 회관 그림 후보, 우산을 받은 뒤 엘라 조사 질문 숨김
+- 사용자 요청 녹음: 탐정 `detective-ella-e1.mp3`(Did anyone come for it?, job c31235dd)·`detective-hello-found.mp3`(I have an umbrella here. Is it yours?, job 9dff40c1), Grady text2speech_v2 MiniMax. 엘라 ella-e1·루비 ruby-end2h(감정 happy)는 Claude in Chrome 연결 안 됨으로 못 만듦(녹음 목록에 녹음 필요로 남음).
+- 사용자 요청 그림: 회관 새 그림 후보 2장(Nano Banana 2, 3:4 2K, 원본 참조 media 4be3da7b, 4크레딧) `assets/places/umbrella/hall-v2-a-higgsfield-original.png`(c04c4ce3)·`hall-v2-b-higgsfield-original.png`(1f8de72c): 깔개·우산꽂이 빼고 화분, 글자 없는 게시물·포스터. 사용자 선택 대기.
+- 사용자 요청: 우산을 받은 뒤에는 엘라의 "Can I take a closer look at that umbrella?"를 묻지 않는다. 엔진 `actionOpen`: `hold`로 물건을 건네는 행동은 그 물건을 가졌거나 건넨 뒤 사라짐. 우산은 회관에서 소지품의 `살펴보기`(ITEMS.umbrella.use, 버튼 이름 `use.label`)로 다시 확대 조사, 뒤로 가면 회관으로(openInspect에 S.place).
+- 확인: 5179 — 소지품 살펴보기 → 확대 조사(펼치기) → 뒤로, 엘라에게 조사 질문 없음, 구문 검사. 확인용에 반영.
+- **다음**: 회관 그림 선택 → 게임 반영(그림 위 글자·사진·우산꽂이 겹침 지우기, hall-floor 다시 자르기), 엘라 e0·조사 질문의 that 결정, 지도 버튼 처리(사용자와 정함), 엘라·루비 녹음.
+
+## 2026-11-18 14:40 · Claude · (미커밋) 우산: 장소를 마을회관 한 곳으로, 엘라 e1 새 질문·대답
+- 사용자 결정(장소가 너무 많음): 우산을 잃어버린 세 친구가 회관에 찾아와 있다. 엘라 e1 탐정 질문 Did anyone come for it? → 대답 Three friends came here. They said they lost their umbrellas.(이름을 말하지 않음, 노트 three friends [lost] their umbrellas). 테스·루비·핀 `place:'hall'`, 회관 배치(테스 34·핀 49·루비 65·엘라 84, 우산꽂이 오른쪽), 세 사람 `unnamed`(Tortoise·Cat·Frog)와 인사 `intro`(이름을 들으면 이름으로). 탐정 인사 I have an umbrella here. Is it yours?(새 키 hello-found). 테스 인사 Hi! I'm Tess.(`tess-hello-v2.mp3`: 기존 녹음에서 Welcome to Toy Nest를 ffmpeg로 잘라냄). 결말 루비 So I left it here!(end2h), 엘라 보고는 이동 없이 `다음`. 토이 네스트·풍차 언덕을 사건 장소에서 뺌(ART·그림 파일은 남김). 회관 소품은 현수막 하나. phrases·grammarLines의 e1 항목 정리. 옛 `detective-ella-e1.mp3`(Whose…)는 `detective-ella-e1-whose.mp3`로 이름만 바꿔 둠. 설계서 md v2 절, 녹음 목록 다시 뽑음.
+- 지도 버튼은 남김(뒤로 가기 → 지도 → 사건 나가기 흐름이 지도를 씀). 지도에는 회관 하나만 나온다.
+- 확인: 5179 새 탭 — 엘라 e1 질문·노트, 발견 알림 Frog·Tortoise·Cat, 테스 인사 뒤 이름, 회관 배치 스크롤, 루비 건네기 → 엘라 보고(다음), 구문 검사. 미리보기 `루비에게 전달`의 소지품이 비는 것은 변경 전에도 같음(이번 변경과 무관). 확인용에 반영.
+- **녹음 필요 4줄**(사용자 확인 뒤, Higgsfield 웹): ella-e1, ruby-end2h(감정 happy), detective-ella-e1, detective-hello-found(탐정 Grady, 감정 없음). 녹음 전까지 엘라·루비는 브라우저 음성, 탐정 줄은 소리 없음.
+- **다음**: 새 녹음 4줄 + 탐정 생각 녹음(사용자 확인 뒤) → 사용자 확인.
+
+## 2026-11-18 13:50 · Claude · (미커밋) 우산: 이번 사건의 열쇠를 mine / yours 한 장으로
+- 사용자 결정: v2 대사에서 whose는 탐정 e1 질문 한 번뿐이고 실제로 계속 들리는 건 Mine is…·Is it yours?·It's not mine이라, 열쇠(예습)를 세 장(whose)에서 mine / yours 한 장으로. 엔진: `GRAMMAR.mine`(예문 3개, `ownership` 셋째 묶음의 녹음을 `audio/examples/mine-1*.wav`로 복사), 우산 `keys:['mine']`, 열쇠가 한 장이면 쪽 표시 점 숨김. 복습 핵심 문법도 mine / yours 한 줄(사건 예문 Mine is dark blue.). `GRAMMAR.whose`와 우산 `formLines`('Is this yours?')는 그대로 둠(지금은 안 쓰임). 설계서 md v2 절에 기록(2·10절은 v1 기록).
+- 확인: 5179 새 탭 — 열쇠 한 장·사건 시작 버튼·점 숨김·해석 열기·예문 녹음 4개 200, 복습 핵심 문법. 구문 검사. 확인용에 반영.
+- **다음**: 탐정 생각 녹음(사용자 확인 뒤) → 사용자 확인.
+
+## 2026-11-18 13:30 · Claude · (미커밋) 이번 사건의 열쇠: 2·3쪽 쪽지의 해석 버튼 글자가 안 보이던 문제
+- 사용자 요청: 해석 버튼이 빈 칸으로 보이는 곳 원인 분석 후 수정. 원인: 쪽지(`.ck-note`)의 그림자 `filter` 안에서, 등장 애니메이션 없이 그려지는 2·3쪽 쪽지는 크로뮴이 해석 버튼 글자와 해석 줄(`.ko`)을 그리지 않음(글자·색·글꼴은 정상, filter를 끄거나 자식에 `position:relative`를 주면 보임). 1쪽은 애니메이션 레이어 덕에 정상이었음. 수정: `.ck-note > *{position:relative}`.
+- 확인: 5177(이번엔 5179로 뜸) 새 탭 — 우산 열쇠 1·2·3쪽 버튼 글자, 2·3쪽 해석 열기. 확인용에 반영.
+- **다음**: 탐정 생각 녹음(사용자 확인 뒤) → 사용자 확인.
+
 ## 2026-11-18 12:55 · Claude · (이 커밋) 우산: 엘라 손에서 소지품 칸으로 들어가는 연출
 - 사용자 요청: 소지품에 우산이 들어가는 자연스러운 인터랙션. 엘라 손 위 우산을 누르면 엘라는 바로 원래 모습이 되고, 그 자리에 같은 크기·방향(가로, 끝이 왼쪽)·같은 두께의 우산이 남아 살짝 들렸다가 곡선을 그리며 세워지면서 아래 소지품 탭으로 들어가고 탭이 통통 튐(약 1.1초). 그 뒤 확대 조사가 열림(0.9초 → 1.5초 뒤로). 엔진: `gotItem(id, from)`·`flyToBag(id, from)`의 출발 정보 `from:{ x, y, len, rot, thin }`, `flyFromHands()`. 동작 줄이기 설정이면 탭만 튐. 다른 사건의 소지품 연출(화면 가운데서 날아감)은 그대로.
 - 확인: 5177 새 탭 — 누른 직후·날아가는 중 화면, 구문 검사. 확인용 5176에 반영.
