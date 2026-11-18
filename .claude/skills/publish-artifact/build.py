@@ -27,16 +27,25 @@ if not keep_dev:
 # comments can name files loosely (e.g. "tack-red/-grey.webp"), so only the code is scanned
 code = re.sub(r'/\*.*?\*/|<!--.*?-->|^[ \t]*//[^\n]*', '', html, flags=re.S | re.M)
 EXT = r'\.(?:png|jpe?g|webp|svg|mp3|wav|ogg|woff2)'
-refs = set(re.findall(r'(?:assets|audio)/[\w./-]+?' + EXT, code))
+refs = set()
+# a folder kept in a constant (`const XM = 'assets/places/christmas/'`, then `${XM}tree.jpg`, `XM + g.src`): its uses are
+# read with the folder written in, and every file in that folder goes along (some names come from data)
+for name, folder in re.findall(r"const ([A-Z_][A-Z0-9_]*) = '((?:assets|audio)/[\w./-]*/)'", code):
+    code = code.replace('${%s}' % name, folder)
+    base = os.path.join(project, *folder.strip('/').split('/'))
+    refs.update(folder + f for f in os.listdir(base) if re.search(EXT + '$', f) and 'original' not in f)
+refs.update(re.findall(r'(?:assets|audio)/[\w./-]+?' + EXT, code))
 # paths built in a template: a choice between quoted words (`tack-${locked ? 'grey' : 'red'}.webp`) gives those
 # files; a plain variable (`audio/words/${file}.wav`) gives every file in that folder that fits the fixed start and end
 for head, expr, tail in re.findall(r'((?:assets|audio)/[\w./-]*)\$\{([^}`]*)\}([\w./-]*?' + EXT + ')', code):
     # only the words a choice gives (after ? or :), not the ones it tests (`has('lit') ? '-lit' : ''`,
     # `id === 'badger' ? 'sgt-badger' : id`)
+    # a choice can also give a variable (`FACE_ICONS.includes(id) ? id : 'pending'`): then the folder is searched too
     words = re.findall(r"[?:]\s*'([\w./-]*)'", expr) if '?' in expr else re.findall(r"'([\w./-]*)'", expr)
+    variable = '?' in expr and re.search(r"[?:]\s*[A-Za-z_$][\w$.]*\s*(?=:|$)", expr)
     if words:
         refs.update(head + w + tail for w in words)
-        continue
+        if not variable: continue
     folder, start = head.rsplit('/', 1)
     names = os.listdir(os.path.join(project, *folder.split('/')))
     # Higgsfield originals sit beside the pictures in the same folders but the page never shows them

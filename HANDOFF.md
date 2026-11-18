@@ -667,7 +667,7 @@ node server.js --test         # Claude·Codex 테스트: http://localhost:5177/,
 - **아티팩트 배포**(사용자 결정): 사용자가 요청할 때만 한다. **날짜마다 아티팩트 하나**, 제목은 `영어듣기 추리 게임 앱_YYMMDD`(한국 시간). 같은 날 다시 배포하면 그 아티팩트를 덮어쓴다. 먼저 작업 마무리(커밋)를 하고 배포한다. 절차는 `.claude/skills/publish-artifact/SKILL.md`(Claude Code에서 `/publish-artifact`). 그림·음성은 `build.py`가 찾아 `files`로 함께 올린다(짧은 녹음은 파일 수 한도 때문에 `audio-pack` 묶음으로). 테스트 버튼은 기본으로 보인다.
   - 공유 범위 "링크가 있는 사람"은 Artifact 도구로 바꿀 수 없어 사용자가 공유 메뉴에서 직접 바꾼다.
   - 배포 기록(새 날짜가 위). 배포본은 저장소와 자동 동기화되지 않는다. 최신 기준은 로컬 소스와 이 문서다.
-    - `영어듣기 추리 게임 앱_261117` — https://claude.ai/artifact/Dfri7wy455nF3seGPHLqte — 기준 커밋 `e2d9af8`, 테스트 버튼 포함, 파일 268개(녹음 679개는 `audio-pack` 묶음 7개, 약 110MB, 두 번에 나눠 올림), 공유: 링크가 있는 사람
+    - `영어듣기 추리 게임 앱_261117` — https://claude.ai/artifact/Dfri7wy455nF3seGPHLqte — 기준 커밋 `e2d9af8`, 테스트 버튼 포함, 파일 334개(녹음 679개는 `audio-pack` 묶음 7개, 약 126MB, 나눠 올림; 2026-11-18 빠졌던 얼굴 아이콘·크리스마스 그림 66개 덧붙임), 공유: 링크가 있는 사람
     - `영어듣기 추리 게임 앱_261020` — https://claude.ai/artifact/3RHp96YQ4ZadjNoTjhYuui — 기준 커밋 `2d80e36`, 테스트 버튼 포함, 파일 150개(약 32MB), 공유: 링크가 있는 사람
     - `영어듣기 추리 게임 앱_261016` — https://claude.ai/artifact/CwgyEH4tqLa4kNJaxHyRi6
 
