@@ -35,21 +35,29 @@ for name, folder in re.findall(r"const ([A-Z_][A-Z0-9_]*) = '((?:assets|audio)/[
     base = os.path.join(project, *folder.strip('/').split('/'))
     refs.update(folder + f for f in os.listdir(base) if re.search(EXT + '$', f) and 'original' not in f)
 refs.update(re.findall(r'(?:assets|audio)/[\w./-]+?' + EXT, code))
-# paths built in a template: a choice between quoted words (`tack-${locked ? 'grey' : 'red'}.webp`) gives those
-# files; a plain variable (`audio/words/${file}.wav`) gives every file in that folder that fits the fixed start and end
-for head, expr, tail in re.findall(r'((?:assets|audio)/[\w./-]*)\$\{([^}`]*)\}([\w./-]*?' + EXT + ')', code):
-    # only the words a choice gives (after ? or :), not the ones it tests (`has('lit') ? '-lit' : ''`,
-    # `id === 'badger' ? 'sgt-badger' : id`)
-    # a choice can also give a variable (`FACE_ICONS.includes(id) ? id : 'pending'`): then the folder is searched too
-    words = re.findall(r"[?:]\s*'([\w./-]*)'", expr) if '?' in expr else re.findall(r"'([\w./-]*)'", expr)
-    variable = '?' in expr and re.search(r"[?:]\s*[A-Za-z_$][\w$.]*\s*(?=:|$)", expr)
-    if words:
-        refs.update(head + w + tail for w in words)
-        if not variable: continue
-    folder, start = head.rsplit('/', 1)
-    names = os.listdir(os.path.join(project, *folder.split('/')))
-    # Higgsfield originals sit beside the pictures in the same folders but the page never shows them
-    refs.update(f'{folder}/{f}' for f in names if f.startswith(start) and f.endswith(tail) and '/' not in tail and 'original' not in f)
+# paths built in a template, with any number of ${...} (`audio/violin/${id}-${k}.mp3`): the template becomes a pattern
+# and every file under its folder that fits goes along. A choice between quoted words (`tack-${locked ? 'grey' :
+# 'red'}.webp`) fits only those words, never the ones it tests (`has('lit') ? '-lit' : ''`, `id === 'badger' ?
+# 'sgt-badger' : id`); a choice that can also give a variable (`FACE_ICONS.includes(id) ? id : 'pending'`) or a plain
+# variable fits any name. Higgsfield originals sit beside the pictures in the same folders but the page never shows them.
+def choice(expr):
+    words = re.findall(r"[?:]\s*'([\w./-]*)'", expr) if '?' in expr else re.findall(r"^\s*'([\w./-]*)'\s*$", expr)
+    variable = not words or ('?' in expr and re.search(r"[?:]\s*[A-Za-z_$][\w$.]*\s*(?=:|$)", expr))
+    return '(?:' + '|'.join([re.escape(w) for w in words] + ([r'[\w.-]*'] if variable else [])) + ')'
+for lit in re.findall(r'`([^`]*)`', code):
+    for t in re.findall(r'((?:assets|audio)/(?:[\w./-]|\$\{[^}]*\})*?' + EXT + ')', lit):
+        if '${' not in t: continue
+        parts = re.split(r'\$\{([^}]*)\}', t)
+        pattern = re.compile(''.join(re.escape(p) if i % 2 == 0 else choice(p) for i, p in enumerate(parts)))
+        folder = parts[0].rsplit('/', 1)[0]
+        for root, _, names in os.walk(os.path.join(project, *folder.split('/'))):
+            rel = os.path.relpath(root, project).replace(os.sep, '/')
+            refs.update(f'{rel}/{f}' for f in names if 'original' not in f and pattern.fullmatch(f'{rel}/{f}'))
+# recordings are packed (below), so every one in audio/ goes along: some paths come from folders chosen at run time
+# (`${DEDUCE_DIR}${key}.mp3`), and a recording left out would be a silent line
+for root, _, names in os.walk(os.path.join(project, 'audio')):
+    rel = os.path.relpath(root, project).replace(os.sep, '/')
+    refs.update(f'{rel}/{f}' for f in names if re.search(EXT + '$', f) and 'original' not in f)
 refs = sorted(refs)
 files, missing, total = {}, [], len(html.encode('utf-8'))
 for ref in refs:
@@ -66,46 +74,82 @@ if missing:
     sys.exit('referenced but missing: ' + ', '.join(missing))
 
 # An artifact version holds at most 511 files and one publish at most 255 files / 64MB. The game has hundreds of short
-# recordings, so those set from script (not an <audio src> in the markup) go into a few packs of data: URIs, and a
-# small script at the top of the page swaps a pack's data in when the game sets an <audio>'s src to one of them
-# (the getter still returns the path the game set, and play() waits for a pack still loading).
+# recordings, so those set from script (not an <audio src> in the markup) go into a few packs: the recordings' bytes
+# one after another (published as .mp3 so the host serves them; the page reads the bytes, not the type). A small script
+# at the top of the page cuts a pack into blob: URLs and swaps one in when the game sets an <audio>'s src to its path
+# (the getter still returns the path the game set, play() waits for a pack still loading, and fetch() of a packed path
+# answers from the pack). All packs load in the background once the page is up.
 os.makedirs(out, exist_ok=True)
 markup = set(re.findall(r'<audio[^>]*\ssrc="([^"]+)"', html))
 packable = [r for r in files if r.startswith('audio/') and r not in markup]
 MIME = {'.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.ogg': 'audio/ogg'}
-packs, index, cur, cur_size = [], {}, {}, 0
-def flush():
-    global cur, cur_size
-    if cur: packs.append(cur)
-    cur, cur_size = {}, 0
-import base64
+packs, index, cur = [], {}, bytearray()
 for ref in sorted(packable):
     raw = open(files[ref], 'rb').read()
-    if cur_size + len(raw) > 6 * 1024 * 1024: flush()
-    cur[ref] = f'data:{MIME[os.path.splitext(ref)[1]]};base64,' + base64.b64encode(raw).decode()
-    cur_size += len(raw)
-    index[ref] = len(packs)
-flush()
+    if cur and len(cur) + len(raw) > 6 * 1024 * 1024:
+        packs.append(cur); cur = bytearray()
+    index[ref] = [len(packs), len(cur), len(raw), MIME[os.path.splitext(ref)[1]]]
+    cur += raw
+if cur: packs.append(cur)
 os.makedirs(os.path.join(out, 'audio-pack'), exist_ok=True)
 for n, pack in enumerate(packs):
-    path = os.path.join(out, 'audio-pack', f'{n}.json')
-    json.dump(pack, open(path, 'w', encoding='utf-8'), separators=(',', ':'))
+    open(os.path.join(out, 'audio-pack', f'{n}.mp3'), 'wb').write(pack)
 for ref in packable: del files[ref]
-for n in range(len(packs)): files[f'audio-pack/{n}.json'] = os.path.abspath(os.path.join(out, 'audio-pack', f'{n}.json')).replace(chr(92), '/')
+for n in range(len(packs)): files[f'audio-pack/{n}.mp3'] = os.path.abspath(os.path.join(out, 'audio-pack', f'{n}.mp3')).replace(chr(92), '/')
 shim = """<script>(() => {
-const INDEX = %s, loaded = {}, loading = {}, set = new WeakMap(), wait = new WeakMap();
-const load = n => loading[n] ||= fetch(`audio-pack/${n}.json`).then(r => r.json()).then(j => loaded[n] = j);
+const INDEX = %s, urls = {}, loading = {}, set = new WeakMap(), wait = new WeakMap();
+// #audiodebug on the artifact link shows what each sound did, at the bottom of the page. The host hands the hash over
+// after the page has started and the test buttons reload the page, so it is checked at each line and kept for the tab.
+const t0 = performance.now(), lines = [];
+let on = false;
+try { on = sessionStorage.getItem('audiodebug') === '1'; } catch {}
+const show = () => { if(!on && location.hash === '#audiodebug'){ on = true; try { sessionStorage.setItem('audiodebug', '1'); } catch {} }
+  if(!on || !document.body) return;
+  const box = document.getElementById('audioDebug') || document.body.appendChild(Object.assign(document.createElement('pre'), { id:'audioDebug',
+    style:'position:fixed;left:0;right:0;bottom:0;z-index:99999;margin:0;max-height:40vh;overflow:auto;font:11px/1.3 monospace;background:#000c;color:#9f9;padding:6px;white-space:pre-wrap;pointer-events:none' }));
+  box.textContent = lines.join('\\n'); };
+addEventListener('hashchange', show);
+const log = (...a) => { lines.push(`${((performance.now() - t0) / 1000).toFixed(1)}s ${a.join(' ')}`); if(lines.length > 25) lines.shift(); show(); };
+// a pack's recordings become blob: URLs (the game seeks in them and plays one sentence with #t=start,end)
+const realFetch = window.fetch.bind(window);
+const load = n => loading[n] ||= (log('pack', n, 'loading'), realFetch(`audio-pack/${n}.mp3`)
+  .then(r => { if(!r.ok) throw new Error('http ' + r.status); return r.arrayBuffer(); })
+  .then(b => { for(const k in INDEX){ const [p, at, len, type] = INDEX[k];
+      if(p === n) urls[k] = URL.createObjectURL(new Blob([b.slice(at, at + len)], { type })); }
+    log('pack', n, 'ready'); },
+    e => { log('pack', n, 'FAILED', e); delete loading[n]; throw e; }));
+const base = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+const parse = v => { let s = String(v); if(s.startsWith(base)) s = s.slice(base.length);
+  const i = s.indexOf('#'); return i < 0 ? [s, ''] : [s.slice(0, i), s.slice(i)]; };
 const M = HTMLMediaElement.prototype, src = Object.getOwnPropertyDescriptor(M, 'src'), play = M.play;
 Object.defineProperty(M, 'src', { configurable:true, enumerable:true,
   get(){ return set.has(this) ? set.get(this) : src.get.call(this); },
   set(v){
-    const n = INDEX[v];
+    const [path, frag] = parse(v), n = INDEX[path]?.[0];
     if(n === undefined){ set.delete(this); wait.delete(this); return src.set.call(this, v); }
     set.set(this, v);
-    if(loaded[n]){ wait.delete(this); return src.set.call(this, loaded[n][v]); }
-    wait.set(this, load(n).then(j => { if(set.get(this) === v) src.set.call(this, j[v]); }));
+    if(urls[path]){ wait.delete(this); return src.set.call(this, urls[path] + frag); }
+    wait.set(this, load(n).then(() => { if(set.get(this) === v) src.set.call(this, urls[path] + frag); }));
   } });
-M.play = function(){ const w = wait.get(this); if(w){ wait.delete(this); return w.then(() => play.call(this)); } return play.call(this); };
+M.play = function(){
+  const name = String(this.src).split('/').pop(), w = wait.get(this);
+  log('play', name, navigator.userActivation?.isActive ? 'in tap' : 'later', w ? 'waits for pack' : '');
+  const p = w ? (wait.delete(this), w.then(() => play.call(this))) : play.call(this);
+  Promise.resolve(p).then(() => log('playing', name), e => log('play FAILED', name, e?.name, e?.message));
+  return p;
+};
+// the game also fetches a recording to play one sentence of it
+window.fetch = function(input, init){
+  const [path] = parse(typeof input === 'string' ? input : input?.url ?? ''), n = INDEX[path]?.[0];
+  if(n === undefined) return realFetch(input, init);
+  return load(n).then(() => realFetch(urls[path]));
+};
+for(const ev of ['error', 'ended']) document.addEventListener(ev, e => e.target instanceof HTMLMediaElement &&
+  log(ev, String(e.target.src).split('/').pop(), e.target.error?.code ?? ''), true);
+// load every pack once the page is up, one at a time, so a sound starts right on the tap that asks for it (a browser
+// may refuse a sound that starts seconds after the tap, while its pack was still downloading)
+addEventListener('load', () => setTimeout(() => [...new Set(Object.values(INDEX).map(e => e[0]))]
+  .reduce((p, n) => p.then(() => load(n).catch(() => {})), Promise.resolve()), 1500));
 })();</script>
 """ % json.dumps(index, separators=(',', ':'))
 html = html.replace('<script>', shim + '<script>', 1)
