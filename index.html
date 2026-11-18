@@ -9432,7 +9432,8 @@ const ALL_CASES_OPEN = true;
 const CASES = [
   // v2 (user decision 2026-11-18): the umbrella case first, made easy (one way of solving per case: listen and give it back)
   // the kite case first (user request 2026-11-18): the easiest, one person and one place; the umbrella second
-  { id:'missing-kite', no:'Case 01', title:'사라진 연', en:'Missing Kite', art:'park', playable:true,
+  // cover: the park with its kites (ART.park is the kite page's; the main page has no park place to draw)
+  { id:'missing-kite', no:'Case 01', title:'사라진 연', en:'Missing Kite', art:'park', cover:{ src:'assets/places/kite/kite-cover.jpg', alt:'나무에 걸린 연들' }, playable:true,
     focus:'생김새 듣기', keys:['is-has'],
     photo:{ img:'assets/places/kite/kite-1.png' },
     summary:'바람에 날아간 베티의 연이 공원 나무에 걸렸다. 나무에는 비슷한 연들이 여러 개 걸려 있었다. 베티에게 연의 색과 무늬, 꼬리의 길이와 색을 듣고, 하얀 줄무늬가 있는 빨간 연에 길고 노란 꼬리가 달린 연을 찾아 주었다.' },
