@@ -13,6 +13,41 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-18 12:55 · Claude · (이 커밋) 우산: 엘라 손에서 소지품 칸으로 들어가는 연출
+- 사용자 요청: 소지품에 우산이 들어가는 자연스러운 인터랙션. 엘라 손 위 우산을 누르면 엘라는 바로 원래 모습이 되고, 그 자리에 같은 크기·방향(가로, 끝이 왼쪽)·같은 두께의 우산이 남아 살짝 들렸다가 곡선을 그리며 세워지면서 아래 소지품 탭으로 들어가고 탭이 통통 튐(약 1.1초). 그 뒤 확대 조사가 열림(0.9초 → 1.5초 뒤로). 엔진: `gotItem(id, from)`·`flyToBag(id, from)`의 출발 정보 `from:{ x, y, len, rot, thin }`, `flyFromHands()`. 동작 줄이기 설정이면 탭만 튐. 다른 사건의 소지품 연출(화면 가운데서 날아감)은 그대로.
+- 확인: 5177 새 탭 — 누른 직후·날아가는 중 화면, 구문 검사. 확인용 5176에 반영.
+- **다음**: 탐정 생각 녹음(사용자 확인 뒤) → 사용자 확인.
+
+## 2026-11-18 12:45 · Claude · (이 커밋) 우산: 모두와 대화를 마치면 탐정 생각, "~에게 우산 주기" 버튼
+- 사용자 요청: 모든 동물 친구와 대화가 끝나면 탐정의 멘트(사용자 초안 "우산의 주인이라고 생각하는 친구에게 가서 우산을 돌려주자"를 다듬음) → `PACK.thoughts`에 "Let's give the umbrella back to its owner. / 우산을 주인에게 돌려주자."(조건 `@umbrella`·finn:f2·tess:t3·ruby:r3; 노트를 닫을 때, 또는 우산을 마지막에 받으면 확대 조사 위에 나옴). 각 인물을 다시 누르면 "~에게 우산 주기" 버튼 → 건네기 행동에 `button` 라벨(Finn/Tess/Ruby에게 우산 주기), 버튼이 있는 행동은 질문 아래 초록 큰 버튼으로 그림(`renderAsk`), 누르면 탐정이 "Is this umbrella yours?"를 말하고 기존 흐름대로.
+- 녹음: 탐정 생각 `detective-think-give.mp3`(Grady·감정 없음, MCP 약 0.15크레딧)은 크레딧 사용 확인을 받지 못해 아직 안 만듦 → 지금은 소리 없이 글만.
+- 확인: 5177 새 탭 — 테스 대화에서 "Tess에게 우산 주기" 버튼 → "Is this umbrella yours?", 대화를 마친 상태에서 엘라 손 위 우산을 받으면 확대 조사 위에 탐정 생각, 구문 검사. 노트를 닫을 때 생각이 나오는 경로는 직접 플레이하지 않음(바이올린·크리스마스와 같은 엔진 경로).
+- **다음**: 탐정 생각 녹음(사용자 확인 뒤) → 사용자 확인.
+
+## 2026-11-18 12:30 · Claude · (이 커밋) 우산: 엘라 손 위 우산을 눌러 받기, 핀의 우산을 접이식으로
+- 사용자 요청 ①: 우산이 저절로 소지품에 들어가는 것이 어색함 → 엘라가 접힌 우산을 양손에 들고 내미는 그림을 Higgsfield로 만들고(Nano Banana 2.1, job `56109bd9`, 1.5크레딧, 사용자 승인), `scripts/cut-ella-give.py`로 `assets/characters/ella-give.png`, 입은 `make-npc-mouths.py`의 `ella-give`. 엔진: 행동의 `hold:{ item, mood, box }`(대답 줄과 함께 그 자세 `mood`로 바뀌고, 그림 속 물건 위에 은은히 빛나는 버튼 `#heldItem`을 매 프레임 맞춰 둠; 누르면 소지품에 넣고 날아가는 연출 → 원래 모습 → 확대 조사, 떠나면 취소되어 다시 물을 수 있음), `playLines` 줄의 `mood`, 팩의 `sprites`에 `ella:give`, `MOUTHS`에 `ella:give`. 엘라가 들고 있는 동안 회관 우산꽂이는 비어 보임. 예전 `take`(답 뒤 바로 소지품)는 엔진에 남김.
+- 사용자 요청 ②(세 우산이 다 비슷함, 사용자 결정: 핀): 핀의 우산을 접이식으로. f1 "Mine is a small folding umbrella. It's dark blue."(노트 a small [folding] umbrella · [dark blue], 보기 folding·long·dark blue·white·red·green, 단어 뜻 folding 추가), 건네기 거절 "No, it's not mine. Mine is a folding umbrella." Higgsfield 웹 Dylan·happy로 다시 녹음(job `9f92ef5b`, `5db564d0`, `emotion: happy` 확인, 약 0.3크레딧), 예전 녹음은 scratchpad `old-audio/`. f1 문장 구간 0–2.12·2.51–3.58. 설계서 v2 절·`assets/characters/README.md`·녹음 대본 반영.
+- 확인: 5177 새 탭 — e0 → "Can I take a closer look…" → 엘라가 우산을 든 모습 → 우산 끝을 눌러도 받아짐(누르는 칸을 우산 끝까지 넓힘) → "소지품에 넣었어요" → 원래 모습 → 확대 조사, 핀 노트의 새 줄, 구문 검사. 핀의 새 녹음이 게임에서 재생되는지는 직접 듣지 못함(파일·연결만 확인).
+- **다음**: 사용자 확인. 우산 개선 후보 1–3(조사 없이 막힘, 펼치지 않아도 건네기, 건네기 알림)은 사용자 지시 대기.
+
+## 2026-11-18 12:00 · Claude · (이 커밋) 우산 노트에서 쓸데없는 줄 빼기
+- 사용자 요청: "Ella does not know the owner"처럼 단서가 아닌 줄은 노트에 적지 않는다. 엘라 e1 노트를 "Finn, Tess, and Ruby [lost] their umbrellas" 한 줄로, e0의 빈칸 없는 "Ella asked for my help"도 뺌. e1 보기 단어 lose·lost·left·lent. 이어서 핀 f2의 겹치는 "[plain]" 줄도 뺌(사용자 승인, 보기에서 plain 제외). 빈칸 23→21칸. 설계서 v2 절 반영.
+- 확인: 구문 검사. 화면은 데이터만 바뀌어 다시 보지 않음.
+- **다음**: 사용자 확인. 당분간 우산 사건만 다듬는다(사용자 결정 2026-11-18: 다른 사건은 나중에).
+
+## 2026-11-18 11:55 · Claude · (이 커밋) 우산 v2 새 녹음 5줄
+- 사용자 승인("녹음 진행"): Higgsfield 웹(Claude in Chrome)에서 MiniMax·감정 happy로 만들고 `show_generations`로 `emotion: happy` 확인(약 1.2크레딧): ella-e1 Petra(job `1f74a50a`, 예전 v1 녹음을 덮어씀, 예전 것은 scratchpad `old-audio/ella-e1-v1.mp3`), tess-hello3 Callan(`4018f829`), tess-give Callan(`b38090a1`), finn-give Dylan(`03ca3fe1`), ruby-end2v Gracie(`4bed617f`). 인물 `audio`에 연결, ella:e1 문장 구간(`SENTENCE_TIMES` 0–0.85·1.41–5.11) 넣음. 녹음 대본 다시 뽑음(녹음 필요 없음).
+- 확인: 5177에서 다섯 파일 200, 구문 검사. 게임 안에서 새 녹음이 재생되는 것은 직접 듣지 못함(테스트 탭을 사용자가 쓰는 중이었음). 실수: 테스트 버튼 3개(전체 대화 완료·증거 모두 수집·소지품 모두 받기)가 확인용 탭 5176의 우산 사건에 눌림 → 사용자 요청으로 5176의 `detective.save.umbrella`만 지우고 홈으로 다시 엶(탐정 이름·튜토리얼 본 기록 등 다른 기록은 그대로).
+- **다음**: 사용자 확인(우산 처음부터 플레이) → 다음 사건(소풍) 쉬운 판 방향 정하기.
+
+## 2026-11-18 11:45 · Claude · (이 커밋) v2 시작: 우산 사건을 Case 01 쉬운 판으로(한 사건에 풀이 방식 하나)
+- 사용자 결정(피드백: 다섯 사건이 모두 길고 처음부터 어렵다): v2에서는 한 사건에 풀이 방식 하나만 쓴다. 우산을 맨 앞(Case 01)으로, 소풍은 Case 02(나머지 번호 그대로). 홈의 "다음 사건"·이어서 수사도 목록 순서를 따르게 고침(예전엔 소풍 고정).
+- 우산 쉬운 판(`UMBRELLA_CASE`, 설계서 `case-02-unclaimed-umbrella.md` 머리의 "v2 쉬운 판" 절): 의뢰 → 우산 확대 조사(사진 3장, 조사하면 우산이 소지품에) → 엘라 e1 새 대답으로 핀·테스·루비·두 장소 해금 → 각자 우산 특징 → 행동 "Is this umbrella yours?"로 아무에게나 건네기(핀·테스는 아니라고 답함, 루비의 yes로 결말) → 루비에게 건네기 → 엘라 보고 → 복습. 뺀 것: 현수막·안내문 사진과 두 장 해금(살펴보기로만 남김), 테스 t0·t4·t5, 엘라 e2, 테스 이름 숨김, 추리 보드, 결말의 엘라 1차례·테스 질문. 받아쓰기 14→10개, 빈칸 32→23칸.
+- 엔진: 행동에 `take`(답 뒤 소지품에 넣기)·`ending`(답 뒤 결말 시작), 팩의 `noBoard`(추리하기·추리 보드 없음). 사건 요약 문구 고침. `scripts/umbrella-recording-script.js`가 녹음 안 된 줄을 **녹음 필요**로 표시하게 고치고 녹음 대본을 다시 뽑음.
+- 녹음: 탐정 "Is this umbrella yours?"는 `detective-end-ruby1-yours.mp3`를 `detective-{finn,tess,ruby}-act-give.mp3`로 복사. **새로 녹음할 인물 줄 5개**(ella-e1, tess-hello3, tess-give, finn-give, ruby-end2v, 감정 happy) — 지금은 브라우저 음성. 쓰지 않게 된 녹음(ella-e1·e2·end1·end2, tess-t0·t4·t5·hello2, ruby-end2, 탐정 hello-tess2·hello-ruby·hello-finn·together1·end-ella1·end-ella2·end-tess·end-ruby1, deduce/)은 그대로 둠(지우려면 승인).
+- 확인: 테스트 서버 5177(세션 폴더에 `../.claude/launch.json` 만듦) — 사건 목록 순서, 엘라 e0 → 조사(소지품에 들어옴) → e1(다섯 이름 발견 알림), 전체 대화 완료 뒤 추리하기 없음, 테스 "아니야" 대답, 루비 yes → 건네주기 → 엘라 보고 → 복습(빈칸 23/23), 콘솔 오류 없음, 구문 검사. 핀의 대답과 새 처음 플레이(테스트 버튼 없이) 전체는 직접 안 해 봄. 설계서 `.html`판은 아직 v1 그대로.
+- **다음**: 새 녹음 5줄 → 11:55에 함.
+
 ## 2026-11-18 · Claude · (이 커밋) 아티팩트 소리 고침(녹음 242개 빠짐, 한 문장 다시 듣기 안 됨)
 - 사용자 보고: 아티팩트에서 사운드 재생이 안 됨. 원인(배포 스크립트 `build.py`): ① `${…}`가 두 개 이상인 경로(`audio/violin/${id}-${k}.mp3` 인물 대답 전부, `detective-${id}-${qid}`)와 실행 중에 폴더를 고르는 경로(`${DEDUCE_DIR}${key}.mp3` 추리 보드 음성)를 못 찾아 녹음 242개(바이올린 인물·크리스마스·각 사건 추리 보드)가 아예 안 올라감, ② 한 문장 다시 듣기(노트·복습·단어)는 녹음을 `fetch()`하는데 묶음에 든 녹음은 파일로 없어 404.
 - 고침: 템플릿 경로를 `${…}` 개수와 상관없이 패턴으로 바꿔 찾고, 녹음은 `audio/` 아래 전부 넣음. 묶음을 data: URI JSON에서 녹음 바이트를 이어 붙인 `audio-pack/<n>.mp3`(9개, 약 25% 작음)로 바꾸고, 페이지 맨 앞 스크립트가 blob: URL로 잘라 src(`#t=` 포함)·`fetch()`에 답하고 페이지가 뜬 뒤 묶음을 모두 미리 받음. 링크 끝 `#audiodebug`로 소리 기록을 화면 아래에 보이게 함(평소엔 안 보임).

@@ -42,6 +42,8 @@ S={'badger':('sgt-badger-higgsfield.png',538,643,156,64,'smile',7,612),
    'tess':('tess-higgsfield.png',266,212,100,20,'smile',4,203),
    'ruby':('ruby-higgsfield.png',202,230,78,20,'smile',3,226),
    'ella':('ella-higgsfield.png',238,248,58,14,'smile',3,244),
+   # Ella holding the umbrella out (umbrella case v2, 2026-11-18): the same face 73 px further right
+   'ella-give':('ella-give.png',311,248,58,14,'smile',3,244),
    'finn':('finn-higgsfield.png',209,155,175,35,'smile',4.5,145),
    # the violin case (2026-11-08); search tops just under the nose, so the line from it stays
    'tara':('tara-higgsfield.png',277,220,80,14,'smile',3.5,212),
@@ -60,17 +62,17 @@ if sys.argv[1:]: S={k:v for k,v in S.items() if k in sys.argv[1:]}
 NEAR=('mia-ollie','finn')   # mouths whose curled ends break off; the others are one line, and the box would also take in fur texture
 # only cover within the recorded box (a few px around): on these pictures the crayon texture links the mouth to the
 # cheeks and whiskers
-LIMIT=('holly','mae','nora','mia','mia-ollie','tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
+LIMIT=('holly','mae','nora','mia','mia-ollie','tess','ruby','ella','ella-give','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 DARK={'mia':50}   # how much darker than the fur around a mark must be (default 22); Mia's white muzzle has crayon grain
 KEEP={'badger':(466,600,604,627),'detective':(256,250,298,274),'detective-thinking':(248,252,288,276),
       'detective-point':(245,250,284,274),'detective-lens':(160,270,196,295),'detective-wave':(251,250,291,276),
-      'mia-ollie':(290,150,356,205),'mia':(629,318,637,341),'ruby':(185,200,220,226),'ella':(212,212,262,244)}
+      'mia-ollie':(290,150,356,205),'mia':(629,318,637,341),'ruby':(185,200,220,226),'ella':(212,212,262,244),'ella-give':(285,212,335,244)}
 # areas never covered (sprite px): the badger's nose sits right above the curled mouth ends; Ollie's nose, Mia's line from the nose
 # the umbrella case: the closed mouth stays as drawn (the cat's and the deer's mouth under the nose, Tess's and Finn's
 # smile), only the open one is new
 # the violin case's too (the ferret's wavy line, the fox's and the goat's mouth under the nose, Owen's wobbly and sad
 # mouths)
-AS_DRAWN=('holly','mae','tess','ruby','ella','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
+AS_DRAWN=('holly','mae','tess','ruby','ella','ella-give','finn','tara','owen','ivo','momo','owen-nervous','owen-sad')
 SRC_LINE=6   # line weight of the closed mouths in the sheet (px)
 L=lambda im: im.convert('L')
 

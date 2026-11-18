@@ -1,6 +1,26 @@
 # 주인 없는 우산 — L1-01 B 상세 기획
 
-**1차 기획 완료 · 2026-11-02 사용자 결정으로 Claude Code에 개발 인계 · 2026-11-03 개발 점검 뒤 사용자와 2차 수정.** 교육 순서 Case 02의 사건이다. 현재 앱의 Case 02 도서관과 번호를 혼동하지 않는다. 사건 식별 이름 제안은 `unclaimed-umbrella`이며 실제 앱 표시 번호·선택 주소는 개발에서 정한다. [장면별 기획 화면](case-02-unclaimed-umbrella.html)을 함께 본다.
+**1차 기획 완료 · 2026-11-02 사용자 결정으로 Claude Code에 개발 인계 · 2026-11-03 개발 점검 뒤 사용자와 2차 수정 · 2026-11-18 v2 쉬운 판(아래).** v1에서는 교육 순서 Case 02, v2에서는 Case 01의 사건이다. 현재 앱의 Case 02 도서관과 번호를 혼동하지 않는다. 사건 식별 이름 제안은 `unclaimed-umbrella`이며 실제 앱 표시 번호·선택 주소는 개발에서 정한다. [장면별 기획 화면](case-02-unclaimed-umbrella.html)을 함께 본다.
+
+**v2 쉬운 판 — 2026-11-18 사용자 결정 (아래 1–9절보다 우선)**
+
+피드백: 다섯 사건 모두 너무 길고, 첫 사건부터 난도가 높다. v2에서는 **한 사건에 풀이 방식 하나**만 쓴다. 우산 사건은 **Case 01**(맨 앞)이 되고 풀이 방식은 **듣고 비교해서 맞는 사람에게 우산을 건네주기**다. 아래 1–9절은 v1 기록으로 남기며, 이 절과 다르면 이 절을 따른다.
+
+- **흐름**: 의뢰(엘라 e0) → 우산 확대 조사(접기·펴기, 손잡이·겉무늬·안감 사진 3장, 조사하면 우산이 소지품에 들어옴) → 엘라 e1로 우산을 잃어버린 세 사람을 알게 됨 → 핀·테스·루비에게 각자 우산 특징 듣기 → 아무에게나 "Is this umbrella yours?"(행동 선택지)로 우산 건네기 → 루비에게 반환 → 엘라에게 보고 → 복습.
+- **뺀 것**: 현수막·장소 변경 안내문 촬영과 두 장 해금(날씨 단서, 탐정 생각 together1), 테스 t0·t4·t5(소개 단계), 엘라 e2, 테스의 이름 숨김, 추리 보드 5문항(맞장구·힌트 포함), 결말 1차례(엘라가 주인을 묻고 우산을 줌), 테스의 결말 질문. 회관의 현수막·안내문·게시판 사진은 그림에 남기고 **살펴보기**(관찰 한 줄, 사진 없음)로만 둔다.
+- **엘라 e1 대답(바뀜)**: I don't know. But Finn, Tess, and Ruby lost their umbrellas. / 몰라. 그런데 핀, 테스, 루비가 우산을 잃어버렸어. 노트: Finn, Tess, and Ruby [lost] their umbrellas(사용자 결정: "Ella does not know the owner"·e0의 "Ella asked for my help"처럼 단서가 아닌 줄은 노트에 적지 않음). 바르게 적으면 핀·테스·루비와 토이 네스트·풍차 언덕이 열린다.
+- **첫인사(바뀜)**: 세 사람 모두 탐정이 "There's an umbrella at the village hall. Is it yours?"(기존 녹음)로 온 이유를 말한다. 테스: Hello. → Hi! Welcome to Toy Nest. I'm Tess. → (탐정) → **Maybe! I can't find mine.** / 그럴지도! 내 우산을 못 찾고 있거든. 루비·핀은 기존 대답 그대로. "Tess said…"로 시작하던 탐정 줄은 뺐다.
+- **질문**: 엘라 e0·e1, 핀 f1·f2, 테스 t1·t2·t3, 루비 r1·r2·r3 — 받아쓰기 10개·빈칸 21칸(대사·빈칸은 5절 그대로, 엘라 노트는 위처럼 줄이고 핀 f2의 겹치는 [plain] 줄은 뺌).
+- **우산 건네기(풀이)**: 세 사람의 특징 질문을 모두 적고 우산을 가지고 있으면 세 사람에게 행동 "Is this umbrella yours? / 이 우산 네 거야?"가 나온다(받아쓰지 않음, 몇 번이고 고를 수 있음). 탐정은 결론을 말하지 않고 인물이 답한다.
+  - 핀: No, it's not mine. Mine is plain. / 아니, 내 거 아니야. 내 건 민무늬야.
+  - 테스: No, it's not mine. Mine is dark blue inside. / 아니, 내 거 아니야. 내 건 안쪽이 남색이야.
+  - 루비: Yes, it's mine! Gold stars, and it's gold inside too. (기존 녹음) → 결말 시작.
+- **결말**: (토이 네스트) 탐정 Here you go. → `우산 건네주기` → 루비 **So I left it at the village hall! Thank you, Detective.** / 회관에 두고 왔구나! 고마워, 탐정. → 생각 "엘라에게 알려 주자." · `Village Hall로 가기` → 탐정 I gave the umbrella back to Ruby. → 엘라 Wonderful! Thank you for your help, Detective. → 복습.
+- **우산 건네받기(2026-11-18 사용자 요청)**: 엘라의 "Of course. Here you go."와 함께 엘라가 접힌 우산을 양손에 들고 내미는 그림(`ella-give.png`)으로 바뀌고, 엘라 손 위의 우산을 눌러야 소지품에 들어온다(그때까지 질문은 숨음). 누르면 원래 모습으로 돌아오고 우산 확대 조사가 열린다. 회관 우산꽂이의 우산은 엘라가 들고 있는 동안 비어 보인다.
+- **핀의 우산은 접이식(2026-11-18 사용자 결정: 세 우산이 다 비슷함)**: f1 대답 **Mine is a small folding umbrella. It's dark blue.** / 내 거는 작은 접이식 우산이야. 남색이야. 노트: Finn's umbrella: a small [folding] umbrella · [dark blue]. 건네기 거절 **No, it's not mine. Mine is a folding umbrella.** / 아니, 내 거 아니야. 내 건 접이식 우산이야. f2(무늬 없음)는 그대로. 테스·루비는 그대로라 안감 색으로 가르는 단서는 유지된다.
+- **건네기 알림과 버튼(2026-11-18 사용자 요청)**: 세 사람의 특징 질문을 모두 적고 우산을 가지고 있으면 탐정 생각 **Let's give the umbrella back to its owner.** / 우산을 주인에게 돌려주자. (어디로 갈지만 말하고 주인은 말하지 않음). 세 사람에게 다시 말을 걸면 질문 대신 초록 버튼 **Finn에게 우산 주기 · Tess에게 우산 주기 · Ruby에게 우산 주기**가 나오고, 누르면 탐정이 "Is this umbrella yours?"라고 묻는다(그 뒤는 위와 같음). 탐정 생각 녹음(`detective-think-give.mp3`)은 아직 없음.
+- **새 녹음 5줄**(감정 happy, Higgsfield 웹): ella-e1, tess-hello3, tess-give, finn-give, ruby-end2v. 목록은 `case-02-unclaimed-umbrella-recording.md`의 **녹음 필요**. 탐정의 "Is this umbrella yours?"는 기존 녹음(`detective-end-ruby1-yours.mp3`)을 복사해 쓴다.
+- **튜토리얼**: 소풍 그림 그대로 둔다(사용자 결정: 튜토리얼 팝업은 나중에 다시 정함).
 
 **2차 수정 요약 — 2026-11-03 사용자 결정**
 

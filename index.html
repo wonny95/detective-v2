@@ -63,6 +63,10 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 /* ---------- stage ---------- */
 .scene{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column}
 .stage-area{position:absolute;inset:0;overflow:hidden;background:var(--paper-2)}
+/* something held out in a conversation (Ella's umbrella): tap it to take it; a soft glow says it can be taken */
+.held-item{position:absolute;z-index:3;padding:0;border:0;border-radius:45%;background:radial-gradient(closest-side,rgba(255,240,190,.35),rgba(255,240,190,0));cursor:pointer;animation:held-glow 1.6s ease-in-out infinite}
+@keyframes held-glow{0%,100%{box-shadow:0 0 0 0 rgba(255,232,160,0)}50%{box-shadow:0 0 22px 8px rgba(255,232,160,.7)}}
+@media(prefers-reduced-motion:reduce){.held-item{animation:none;box-shadow:0 0 14px 5px rgba(255,232,160,.6)}}
 .stage-area .art{width:var(--world-width);height:var(--world-height);transform-origin:0 0;pointer-events:none}
 .art > .art-floor,.art > .art-sky{display:none}
 .stage-area .art-sky{display:block;position:absolute;left:0;bottom:100%;width:100%;height:auto;pointer-events:none}
@@ -1604,6 +1608,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <span class="chip l" id="orderChip" hidden></span>
       <div class="bubble" id="bubble" hidden role="status"></div>
       <div class="stage-area" id="talkCamera"></div>
+      <button class="held-item" id="heldItem" type="button" hidden></button>
       <canvas class="snow" id="snowTalk" aria-hidden="true"></canvas>
       <div class="ask-panel" id="askPanel"></div>
       <div class="spotlight" aria-hidden="true"></div>
@@ -2231,96 +2236,102 @@ const PICNIC_CASE = {
   ] }
 };
 
-/* Case 02 주인 없는 우산 (?case=umbrella): design/case-02-unclaimed-umbrella.md, on the same screens. Ella asks who owns the
-   umbrella left at the village hall a week ago; the toy bazaar's banner and its rain notice lead to Toy Nest, where Tess
-   (nameless until she says who she is: nameAfter) sends the detective on to Ruby and Finn. Their own words about their
-   umbrellas and the photos of the real one (folded and open, `inspect`) show it is Ruby's. Every line is recorded in
-   audio/umbrella/ (script: design/case-02-unclaimed-umbrella-recording.md): the people's in `people[].audio`, the
-   detective's (MiniMax Grady, no emotion) as detective-<key>.mp3, deduce/<key>.mp3 and each clue's `audio`.
-   `actions`: something asked that is not written down (the close look). */
+/* Case 01 주인 없는 우산 (?case=umbrella): design/case-02-unclaimed-umbrella.md, on the same screens. v2 easy version
+   (user decision 2026-11-18: one way of solving per case; this one is listening and giving it back): Ella asks who owns
+   the umbrella left at the village hall; the close look (folded and open, `inspect`) shows it and puts it in 소지품; Ella
+   names Finn, Tess and Ruby, who lost theirs; each says what theirs is like; then the player asks one of them "Is this
+   umbrella yours?" (an action, `ending` on the owner's): Finn and Tess say no, Ruby's yes starts the hand-over. No board.
+   Recorded lines are in audio/umbrella/ (script: design/case-02-unclaimed-umbrella-recording.md); a line with no file yet
+   would have no `audio` entry and play with the browser's voice (all recorded, 2026-11-18).
+   `actions`: something asked that is not written down (the close look, the give). */
 const UMBRELLA_CASE = {
   start:'ella',
+  noBoard:true,   // no deduction board: the give is the solving (v2)
   people:{
     ella: { id:'ella', name:'Ella Deer', ko:'사슴 엘라', job:'의뢰인', place:'hall', witness:true, required:true, pitch:1.2, voice:2, bg:'#F1E4D2', openingQuestion:'e0',
       // MiniMax Petra, emotion happy (the user's recording of e0 set the voice; the rest made on the Higgsfield site,
-      // since its MCP tool drops the emotion)
-      audio:Object.fromEntries(['hello', 'e0', 'e1', 'e2', 'inspect', 'end1', 'end2', 'end3'].map(key => [key, `audio/umbrella/ella-${key}.mp3`])),
+      // since its MCP tool drops the emotion); e1's new answer (v2) made there 2026-11-18
+      audio:Object.fromEntries(['hello', 'e0', 'e1', 'inspect', 'end3'].map(key => [key, `audio/umbrella/ella-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hello. I'm Ella. I help at the village hall.", ko:'안녕. 난 엘라야. 마을회관 일을 돕고 있어.' }
       ],
       questions:[
         { id:'e0', en:'Hello. How can I help?', ko:'안녕. 무슨 일이야?' },
-        { id:'e1', en:'Whose umbrella is that?', ko:'저건 누구 우산이야?' },
-        { id:'e2', en:'How long has it been here?', ko:'얼마나 오래 여기 있었어?' }
+        { id:'e1', en:'Whose umbrella is that?', ko:'저건 누구 우산이야?' }
       ],
-      // the close look at the umbrella: asked as often as the player likes, never written down (design: ella:inspect)
+      // e1 names the three who lost umbrellas (v2: no banner, no Tess sending the detective on)
+      unlocks:{ e1:{ people:['finn', 'tess', 'ruby'] } },
+      // the close look at the umbrella: asked as often as the player likes, never written down (design: ella:inspect);
+      // the first time, the umbrella goes into 소지품 (take) and stays with the detective
       actions:[
-        { id:'inspect', en:'Can I take a closer look at that umbrella?', ko:'저 우산 좀 자세히 봐도 될까?', answer:'Of course. Here you go.', answerKo:'물론이지. 여기 있어.', inspect:'umbrella' }
+        { id:'inspect', en:'Can I take a closer look at that umbrella?', ko:'저 우산 좀 자세히 봐도 될까?', answer:'Of course. Here you go.', answerKo:'물론이지. 여기 있어.', inspect:'umbrella',
+          // she holds it out on both hands (ella:give); a tap on it in her hands puts it in 소지품, then the close look
+          // opens (user request 2026-11-18); box: the umbrella in the sprite, px
+          hold:{ item:'umbrella', mood:'give', box:[8, 356, 606, 495] } }
       ],
       answers:{
         // she points at the umbrella stand by the door: far off, so "that" (design 2절)
-        e0:'Someone left that umbrella here. Can you help me?',   // review 2026-11-17: no "find its owner" here, so e1 "Whose umbrella is that?" follows naturally
-        e1:"I don't know. No one came back for it.",
-        e2:"It's been here for a week."
+        e0:'Someone left that umbrella here. Can you help me?',
+        e1:"I don't know. But Finn, Tess, and Ruby lost their umbrellas."
       },
       notes:{
-        e0:["- someone {{d|left}} the umbrella at the village hall","- Ella asked for my help"],
-        e1:["- Ella does not {{a|know}} the owner","- no one came {{b|back}} for the umbrella"],
-        e2:["- umbrella at the hall for a {{c|week}}"]
+        // only what helps (user request 2026-11-18: no filler lines such as "Ella does not know the owner")
+        e0:["- someone {{d|left}} the umbrella at the village hall"],
+        e1:["- Finn, Tess, and Ruby {{b|lost}} their umbrellas"]
       },
-      bank:{ e0:['lost','left','lent','felt'], e1:['see','know','now','think','here','back','bag','home'], e2:['day','week','month','year','hour','weekend'] }
+      bank:{ e0:['lost','left','lent','felt'], e1:['lose','lost','left','lent'] }
     },
-    // nameless until she says who she is (design: no name on her tag, map or notes before "I'm Tess")
-    tess: { id:'tess', name:'Tess Tortoise', unnamed:'Tortoise', ko:'거북 테스', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:.95, voice:0, bg:'#DDE8D5', openingQuestion:'t0',
-      // MiniMax Callan, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site)
-      audio:Object.fromEntries(['hello', 'hello2', 't0', 't1', 't2', 't3', 't4', 't5', 'end1'].map(key => [key, `audio/umbrella/tess-${key}.mp3`])),
+    tess: { id:'tess', name:'Tess Tortoise', ko:'거북 테스', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:.95, voice:0, bg:'#DDE8D5',
+      // MiniMax Callan, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site).
+      // hello3 and give (v2) made there 2026-11-18
+      audio:Object.fromEntries(['hello', 'hello3', 't1', 't2', 't3', 'give', 'end1'].map(key => [key, `audio/umbrella/tess-${key}.mp3`])),
       hello:[
         { det:true, key:'hello-tess', en:'Hello.', ko:'안녕.' },
-        { key:'hello', intro:true, en:"Hi! Welcome to Toy Nest. I'm Tess.", ko:'안녕! 토이 네스트에 온 걸 환영해. 난 테스야.' },
-        { det:true, key:'hello-tess2', en:"I saw Toy Nest on the bazaar banner. I'm looking for the owner of an umbrella at the village hall.", ko:'바자회 현수막에서 토이 네스트를 봤어. 회관에 있는 우산의 주인을 찾고 있어.' },
-        { key:'hello2', en:'Oh, the toy bazaar! I worked there that day.', ko:'아, 장난감 바자회! 그날 내가 거기서 일했어.' }
+        { key:'hello', en:"Hi! Welcome to Toy Nest. I'm Tess.", ko:'안녕! 토이 네스트에 온 걸 환영해. 난 테스야.' },
+        { det:true, key:'hello-finn2', en:"There's an umbrella at the village hall. Is it yours?", ko:'회관에 우산이 하나 있어. 네 거야?' },
+        { key:'hello3', en:"Maybe! I can't find mine.", ko:'그럴지도! 내 우산을 못 찾고 있거든.' }
       ],
       questions:[
-        { id:'t0', en:'It rained that day. Did you bring an umbrella?', ko:'그날 비가 왔잖아. 우산 가져왔어?' },
         { id:'t1', en:'What is your umbrella like?', ko:'네 우산은 어떻게 생겼어?' },
         { id:'t2', en:'What pattern is on your umbrella?', ko:'네 우산에는 어떤 무늬가 있어?' },
-        { id:'t3', en:'What color is your umbrella inside?', ko:'네 우산 안쪽은 무슨 색이야?' },
-        { id:'t4', en:'Who else was at the bazaar?', ko:'바자회에 또 누가 있었어?' },
-        { id:'t5', en:'Do you know anyone who lost an umbrella?', ko:'우산을 잃어버린 친구를 알아?' }
+        { id:'t3', en:'What color is your umbrella inside?', ko:'네 우산 안쪽은 무슨 색이야?' }
       ],
-      unlocks:{ t4:{ people:['ruby'] }, t5:{ people:['finn'] } },
+      // the give (v2): once every candidate has told what theirs is like and the umbrella is with the detective
+      actions:[
+        { id:'give', button:'Tess에게 우산 주기', en:'Is this umbrella yours?', ko:'이 우산 네 거야?', when:['@umbrella', 'finn:f2', 'tess:t3', 'ruby:r3'],
+          answer:"No, it's not mine. Mine is dark blue inside.", answerKo:'아니, 내 거 아니야. 내 건 안쪽이 남색이야.' }
+      ],
       answers:{
-        t0:"Yes. But I often lend mine to friends. I'm not sure where it is now.",
         t1:'Mine is dark blue. It has a blue handle.',
         t2:'Mine has gold stars.',
-        t3:'Mine is dark blue inside.',
-        t4:'Ask Ruby, too. She works here. We were at the bazaar together.',
-        t5:'Finn is looking for his umbrella. You can find him on Windmill Hill.'
+        t3:'Mine is dark blue inside.'
       },
       notes:{
-        t0:["- Tess brought his umbrella that day","- Tess's habit: to {{a|lend}} his umbrella to friends","- not sure {{b|where}} his umbrella is now"],
         t1:["- Tess's umbrella: {{c|dark blue}}","- {{d|blue}} {{e|handle}}"],
         t2:["- Tess's umbrella: {{f|gold}} {{g|stars}}"],
-        t3:["- Tess's umbrella: {{h|dark blue}} {{i|inside}}"],
-        t4:["- ask {{j|Ruby}}","- Ruby works at Toy Nest (“{{k|here}}”)","- Tess and Ruby were at the bazaar {{l|together}}"],
-        t5:["- {{m|Finn}} is looking for his {{n|umbrella}}","- find Finn on {{o|Windmill Hill}}"]
+        t3:["- Tess's umbrella: {{h|dark blue}} {{i|inside}}"]
       },
-      bank:{ t0:['borrow','lend','land','send','when','where','what','who'], t1:['black','dark blue','red','blue','green','bottle','handle','strap'], t2:['silver','gold','cold','white','stripes','stars','stairs','dots'],
-        t3:['gold','dark blue','silver','dark green','outside','inside','under','behind'], t4:['Finn','Ruby','there','here','near','alone','together'],
-        t5:['Ruby','Finn','bag','umbrella','hat','Toy Nest','Windmill Hill'] }
+      bank:{ t1:['black','dark blue','red','blue','green','bottle','handle','strap'], t2:['silver','gold','cold','white','stripes','stars','stairs','dots'],
+        t3:['gold','dark blue','silver','dark green','outside','inside','under','behind'] }
     },
     ruby: { id:'ruby', name:'Ruby Cat', ko:'고양이 루비', job:'토이 네스트 직원', place:'toynest', witness:true, required:true, pitch:1.35, voice:2, bg:'#F3DDE2',
-      // MiniMax Gracie, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site)
-      audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'end1', 'end2'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
+      // MiniMax Gracie, emotion happy (the user's recording of hello set the voice; the rest made on the Higgsfield site).
+      // end2v (v2) made there 2026-11-18
+      audio:Object.fromEntries(['hello', 'hello2', 'r1', 'r2', 'r3', 'end1', 'end2v'].map(key => [key, `audio/umbrella/ruby-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi, I'm Ruby. Nice to meet you.", ko:'안녕, 난 루비야. 만나서 반가워.' },
-        { det:true, key:'hello-ruby', en:"Tess said you were at the bazaar with him. I'm looking for the owner of an umbrella at the village hall.", ko:'테스가 너도 바자회에 같이 있었다고 했어. 회관에 있는 우산의 주인을 찾고 있어.' },
+        { det:true, key:'hello-finn2', en:"There's an umbrella at the village hall. Is it yours?", ko:'회관에 우산이 하나 있어. 네 거야?' },
         { key:'hello2', en:"I can't find my umbrella. I don't know where I left it. Could it be mine?", ko:'내 우산을 못 찾고 있어. 어디에 두고 왔는지 모르겠어. 혹시 내 거일까?' }
       ],
       questions:[
         { id:'r1', en:'What is your umbrella like?', ko:'네 우산은 어떻게 생겼어?' },
         { id:'r2', en:'What pattern is on your umbrella?', ko:'네 우산에는 어떤 무늬가 있어?' },
         { id:'r3', en:'What color is your umbrella inside?', ko:'네 우산 안쪽은 무슨 색이야?' }
+      ],
+      // the owner: her yes starts the hand-over (ending)
+      actions:[
+        { id:'give', button:'Ruby에게 우산 주기', en:'Is this umbrella yours?', ko:'이 우산 네 거야?', when:['@umbrella', 'finn:f2', 'tess:t3', 'ruby:r3'], ending:true,
+          lines:[ { key:'end1', en:"Yes, it's mine! Gold stars, and it's gold inside too.", ko:'응, 내 거야! 금빛 별에 안쪽도 금빛이야.' } ] }
       ],
       answers:{
         r1:'Mine is dark blue. It has a blue handle.',
@@ -2335,11 +2346,11 @@ const UMBRELLA_CASE = {
       bank:{ r1:['black','dark blue','red','blue','green','star','handle'], r2:['silver','gold','cold','white','stripes','stars','stairs','dots'], r3:['dark blue','gold','silver','cold','outside','inside','under','behind'] }
     },
     finn: { id:'finn', name:'Finn Frog', ko:'개구리 핀', job:'우산을 잃어버린 친구', place:'windmill', witness:true, required:true, pitch:1.1, voice:1, bg:'#DDEBD3',
-      // MiniMax Dylan, emotion happy (the user's pick; made on the Higgsfield site)
-      audio:Object.fromEntries(['hello', 'hello2', 'f1', 'f2'].map(key => [key, `audio/umbrella/finn-${key}.mp3`])),
+      // MiniMax Dylan, emotion happy (the user's pick; made on the Higgsfield site). His is a folding umbrella (user
+      // request 2026-11-18: the three umbrellas felt alike): f1 and give re-said and re-made there the same day
+      audio:Object.fromEntries(['hello', 'hello2', 'f1', 'f2', 'give'].map(key => [key, `audio/umbrella/finn-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Hi! I'm Finn. Can I help you?", ko:'안녕! 난 핀이야. 무슨 일이야?' },
-        { det:true, key:'hello-finn', en:'Tess said you were looking for your umbrella.', ko:'테스가 네가 우산을 찾고 있다고 했어.' },
         { det:true, key:'hello-finn2', en:"There's an umbrella at the village hall. Is it yours?", ko:'회관에 우산이 하나 있어. 네 거야?' },
         { key:'hello2', en:"Maybe! I'm still looking for mine.", ko:'그럴지도! 아직 내 우산을 찾고 있거든.' }
       ],
@@ -2347,59 +2358,58 @@ const UMBRELLA_CASE = {
         { id:'f1', en:'What is your umbrella like?', ko:'네 우산은 어떻게 생겼어?' },
         { id:'f2', en:'What pattern is on your umbrella?', ko:'네 우산에는 어떤 무늬가 있어?' }
       ],
+      actions:[
+        { id:'give', button:'Finn에게 우산 주기', en:'Is this umbrella yours?', ko:'이 우산 네 거야?', when:['@umbrella', 'finn:f2', 'tess:t3', 'ruby:r3'],
+          answer:"No, it's not mine. Mine is a folding umbrella.", answerKo:'아니, 내 거 아니야. 내 건 접이식 우산이야.' }
+      ],
       answers:{
-        f1:'Mine is dark blue. It has a blue handle.',
+        f1:"Mine is a small folding umbrella. It's dark blue.",
         f2:"Mine has no pattern. It's plain."
       },
       notes:{
-        f1:["- Finn's umbrella: {{a|dark blue}}","- {{b|blue}} {{c|handle}}"],
-        f2:["- Finn's umbrella: {{d|no}} {{e|pattern}}","- {{f|plain}}"]
+        f1:["- Finn's umbrella: a small {{a|folding}} umbrella","- {{b|dark blue}}"],
+        f2:["- Finn's umbrella: {{d|no}} {{e|pattern}}"]   // "plain" said the same again (user request 2026-11-18)
       },
-      bank:{ f1:['white','dark blue','red','blue','green','star','handle'], f2:['gold','no','stars','stripes','pattern','small','plain'] }
+      bank:{ f1:['folding','long','dark blue','white','red','green'], f2:['gold','no','stars','stripes','pattern','small'] }
     }
   },
   phrases:[
-    ["i don't know.",'ella:e1',"I don't know"], ['come back for','ella:e1','came back for'], ['for a week','ella:e2','for a week'], ["i'm not sure where",'tess:t0',"I'm not sure where"],
-    ['look for','tess:t5','looking for'], ['what is it like?','tess:t1','What is your umbrella like'], ['who else','tess:t4','Who else']
+    ["i don't know.",'ella:e1',"I don't know"], ['what is it like?','tess:t1','What is your umbrella like']
   ],
   // a key form heard only outside the questions and answers: the sentence, cut from its recording (detective-end-ruby1)
   formLines:{ 'Is this yours?':{ en:'Is this umbrella yours?', words:'yours', ko:'이 우산 네 거야?', audio:'audio/umbrella/detective-end-ruby1-yours.mp3' } },
   grammarLines:{
-    'ella:e1':[['whose','Whose umbrella is that'], ['negative',"I don't know"], ['past-irr','came back']],
-    'tess:t0':[['did-q','Did you bring'], ['ownership','lend mine']],
+    'ella:e1':[['whose','Whose umbrella is that'], ['negative',"I don't know"], ['ownership','their umbrellas']],
     'tess:t1':[['ownership','Mine is dark blue']],
     'tess:t2':[['wh-q','What pattern'], ['ownership','Mine has gold stars']],
     'tess:t3':[['wh-q','What color'], ['ownership','Mine is dark blue inside']],
-    'tess:t4':[['imperative','Ask Ruby'], ['be-past','We were at the bazaar']],
-    'tess:t5':[['ownership','his umbrella']],
     'ruby:r1':[['ownership','Mine is dark blue']],
     'ruby:r2':[['wh-q','What pattern'], ['ownership','Mine has gold stars']],
     'ruby:r3':[['wh-q','What color'], ['ownership','Mine is gold inside']],
-    'finn:f1':[['ownership','Mine is dark blue']],
+    'finn:f1':[['ownership','Mine is a small folding umbrella']],
     'finn:f2':[['wh-q','What pattern'], ['ownership','Mine has no pattern']]
   },
   answersKo:{
-    ella:{ e0:'누가 저 우산을 여기 두고 갔어. 좀 도와줄래?', e1:'몰라. 아무도 찾으러 오지 않았어.', e2:'일주일째 여기 있어.' },
-    tess:{ t0:'응. 그런데 친구들에게 우산을 자주 빌려줘서, 지금 어디 있는지 잘 모르겠어.', t1:'내 거는 남색이야. 파란 손잡이가 있어.', t2:'내 거에는 금빛 별무늬가 있어.',
-      t3:'내 거는 안쪽이 남색이야.', t4:'루비한테도 물어봐. 여기서 일하는 친구야. 그날 바자회에 함께 있었어.', t5:'핀이 자기 우산을 찾고 있어. 풍차 언덕에서 만날 수 있어.' },
+    ella:{ e0:'누가 저 우산을 여기 두고 갔어. 좀 도와줄래?', e1:'몰라. 그런데 핀, 테스, 루비가 우산을 잃어버렸어.' },
+    tess:{ t1:'내 거는 남색이야. 파란 손잡이가 있어.', t2:'내 거에는 금빛 별무늬가 있어.', t3:'내 거는 안쪽이 남색이야.' },
     ruby:{ r1:'내 거는 남색이야. 파란 손잡이가 있어.', r2:'내 거에는 금빛 별무늬가 있어.', r3:'내 거는 안쪽이 금빛이야.' },
-    finn:{ f1:'내 거는 남색이야. 파란 손잡이가 있어.', f2:'내 거는 무늬가 없어. 민무늬야.' }
+    finn:{ f1:'내 거는 작은 접이식 우산이야. 남색이야.', f2:'내 거는 무늬가 없어. 민무늬야.' }
   },
-  // the banner's and the notice's words are drawn over the hall's picture (ART.hall)
+  // the banner's and the notice's words are drawn over the hall's picture (ART.hall); v2: only looked at (no photos)
   places:[
     { id:'hall', x:84, y:28, label:'Village Hall', artWidth:1376, artHeight:768,
       clues:[
-        { label:'Toy bazaar banner', en:'A toy bazaar banner. October 24. Hosted by Toy Nest.', ko:'장난감 바자회 현수막이야. 10월 24일. 토이 네스트에서 열었네.' },
-        { label:'Venue change notice', en:'A venue change notice. "The toy bazaar is indoors because of rain."', ko:'장소 변경 안내문이야. "비가 와서 장난감 바자회를 실내에서 진행합니다."' },
-        { label:'Toy bazaar photo', en:'A toy bazaar inside the village hall. October 24.', ko:'마을회관 안에서 열린 장난감 바자회야. 10월 24일이네.' },
+        { label:'Toy bazaar banner', prop:true, en:'A toy bazaar banner. October 24. Hosted by Toy Nest.', ko:'장난감 바자회 현수막이야. 10월 24일. 토이 네스트에서 열었네.' },
+        { label:'Venue change notice', prop:true, en:'A venue change notice. "The toy bazaar is indoors because of rain."', ko:'장소 변경 안내문이야. "비가 와서 장난감 바자회를 실내에서 진행합니다."' },
+        { label:'Toy bazaar photo', prop:true, en:'A toy bazaar inside the village hall. October 24.', ko:'마을회관 안에서 열린 장난감 바자회야. 10월 24일이네.' },
         { label:'Clock', prop:true, en:'A clock on the wall.', ko:'벽에 걸린 시계야.' },
         { label:'Chair', prop:true, en:'An empty chair.', ko:'빈 의자야.' },
         { label:'Window', prop:true, en:'Sunlight through the window.', ko:'창문으로 햇빛이 들어와.' }
       ],
       spots:[
-        { clue:0, x:22, y:85, w:53, h:13, photo:{x:290,y:640,w:760,h:125} },
-        { clue:1, x:52, y:27, w:10, h:24, photo:{x:700,y:200,w:175,h:200} },
-        { clue:2, x:23.5, y:25.5, w:10.5, h:15.5, photo:{x:316,y:188,w:156,h:134} },
+        { clue:0, x:22, y:85, w:53, h:13 },
+        { clue:1, x:52, y:27, w:10, h:24 },
+        { clue:2, x:23.5, y:25.5, w:10.5, h:15.5 },
         { clue:3, x:51.5, y:2, w:10.5, h:19 },
         { clue:4, x:86, y:53, w:13, h:43 },
         { clue:5, x:66, y:8.5, w:21, h:42 }
@@ -2435,15 +2445,13 @@ const UMBRELLA_CASE = {
         { clue:2, open:true, x:40.5, y:34.1, w:17.5, h:20.0, photo:{x:564,y:252,w:220,h:165} }
       ]}
   ],
-  // the toy bazaar's banner and its notice found: the rain at the bazaar, and the shop that held it (design 6절 날씨에서
-  // 탐문으로): the detective's thought once the notebook is put away, then Toy Nest on the map (Tess there, still nameless)
-  together:[
-    { refs:['hall-0', 'hall-1'], line:{ key:'together1', en:"It rained at the toy bazaar. Maybe someone brought an umbrella. Let's ask at Toy Nest.",
-      ko:'장난감 바자회 날 비가 왔어. 우산을 가져온 사람이 있을지도 몰라. 토이 네스트에 가서 물어보자.' },
-      unlocks:{ places:['toynest'], quiet:['tess'] } }
+  // once everyone has told what theirs is like and the umbrella is with the detective: where to go, never whose it is
+  // (user request 2026-11-18; the give buttons are on each of them)
+  thoughts:[
+    { when:['@umbrella', 'finn:f2', 'tess:t3', 'ruby:r3'], line:{ key:'think-give', en:"Let's give the umbrella back to its owner.", ko:'우산을 주인에게 돌려주자.' } }
   ],
-  // the photos the deduction needs (design: the bazaar photo on the board is optional)
-  needed:['umbrella-0', 'umbrella-1', 'umbrella-2', 'hall-0', 'hall-1'],
+  // the umbrella's three photos (kept in the evidence notebook to compare with what each one said, v2)
+  needed:['umbrella-0', 'umbrella-1', 'umbrella-2'],
   positions:{
     ella:{x:80, floor:94, height:46},
     tess:{x:44, floor:93, height:43},
@@ -2458,57 +2466,15 @@ const UMBRELLA_CASE = {
       bag:'assets/places/umbrella/umbrella-folded.png' }
   },
   previewHandback:['umbrella'],
-  deduce:{
-    people:[['Ella Deer', 'ella'], ['Tess Tortoise', 'tess'], ['Ruby Cat', 'ruby'], ['Finn Frog', 'finn']],
-    places:[], things:[], colors:[], times:[],
-    suspects:[['finn', 'Finn'], ['tess', 'Tess'], ['ruby', 'Ruby']],
-    go:'엘라에게 가기',
-    miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' },
-    // {opt:…}: a blank whose choices are the question's own (opts)
-    qs:[
-      { step:1, q:'Why did the toy bazaar move indoors?', qKo:'장난감 바자회는 왜 실내로 옮겼지?',
-        card:'The toy bazaar moved indoors because of {opt:rain}.', cardKo:'장난감 바자회는 비 때문에 실내로 옮겼다.', opts:['rain', 'wind', 'snow', 'fog', 'thunder', 'sun'],
-        right:"Right. It rained that day. That's why we asked at Toy Nest.", rightKo:'맞아. 그날 비가 왔어. 그래서 토이 네스트에 물어보러 갔지.',
-        hint:'Look at the notice in the village hall.', hintKo:'회관의 안내문을 봐.' },
-      { step:2, q:'Can the handle tell us the owner?', qKo:'손잡이로 주인을 알 수 있을까?',
-        card:'Finn, Tess, and Ruby all lost umbrellas with {opt:blue} handles.', cardKo:'핀, 테스, 루비가 잃어버린 우산은 모두 손잡이가 파란색이다.', opts:['blue', 'red', 'yellow', 'green', 'white', 'black'],
-        right:"No, it can't. All three are the same. The handle isn't enough.", rightKo:'아니, 알 수 없어. 셋 다 똑같아. 손잡이만으로는 부족해.',
-        hint:'Look at the handle photo. What did Finn, Tess, and Ruby say?', hintKo:'손잡이 사진을 봐. 핀, 테스, 루비는 뭐라고 했지?' },
-      { step:3, who:'finn', q:"Is this umbrella Finn's?", qKo:'이 우산은 핀의 것일까?',
-        card:"Finn's umbrella is {opt:plain}. This one has gold stars.", cardKo:'핀의 우산은 민무늬다. 이 우산에는 금빛 별무늬가 있다.', opts:['plain', 'striped', 'spotted', 'red', 'white', 'green'],
-        right:"No, it isn't. Finn's umbrella has no pattern.", rightKo:'아니야. 핀의 우산에는 무늬가 없어.',
-        hint:'What did Finn say about the pattern?', hintKo:'핀이 무늬에 대해 뭐라고 했지?', out:true },
-      { step:4, who:'tess', q:"Is this umbrella Tess's?", qKo:'이 우산은 테스의 것일까?',
-        card:"Tess's umbrella is {opt:dark blue} inside. This one is gold inside.", cardKo:'테스의 우산은 안쪽이 남색이다. 이 우산은 안쪽이 금빛이다.', opts:['dark blue', 'gold', 'red', 'white', 'green', 'silver'],
-        right:"No, it isn't. The outside is the same, but the inside is not.", rightKo:'아니야. 겉은 같지만 안쪽이 달라.',
-        hint:'Look at the photo of the inside. What did Tess say about his?', hintKo:'안쪽 사진을 봐. 테스는 자기 우산에 대해 뭐라고 했지?', out:true },
-      // the ring is the owner's here (lie: the board's ring)
-      { step:5, who:'ruby', q:'Whose umbrella is this?', qKo:'그럼 이 우산은 누구 것일까?',
-        card:"This umbrella is {person:Ruby Cat}'s. It has a blue handle and gold stars, and it is gold inside.", cardKo:'이 우산은 루비의 것이다. 파란 손잡이와 금빛 별무늬가 있고, 안쪽이 금빛이다.',
-        right:"It's Ruby's umbrella. Let's tell Ella.", rightKo:'루비의 우산이야. 엘라에게 알려 주자.',
-        hint:'Whose umbrella is gold inside?', hintKo:'안쪽이 금빛인 우산은 누구 거지?', lie:true }
-    ]
-  },
-  // design 9절: Ella asks whose it is and gives it to the detective (take, in a line); at Toy Nest Tess asks, then Ruby
-  // checks it and it is handed over; then back to Ella. open/before/lines may be someone else's (who) or turn the camera
-  // (focus); a round with no give has no hand-over
+  // Ella holding the umbrella out (scripts/cut-ella-give.py; her face where it is in the plain sprite, 73 px in)
+  sprites:{ 'ella:give':{ src:'assets/characters/ella-give.png', w:620, h:700, face:'127 14 364 364', anchor:.5 } },
+  // no board (noBoard): an empty one so the shared deduction code has something to read
+  deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
+  // v2: Ruby's yes (her give action) starts this; she has the umbrella handed over, then back to Ella
   ending:{ handoff:[
-    { to:'ella', open:{ think:true, en:'엘라에게 우산 주인을 알려 주자.' },
-      lines:[
-        { key:'end1', en:'So, whose umbrella is that?', ko:'그래서, 저건 누구 우산이야?' },
-        { det:true, key:'end-ella1', en:"That umbrella is Ruby's. Hers has gold stars, and it's gold inside.", ko:'저 우산은 루비 거야. 루비 우산에는 금빛 별이 있고, 안쪽도 금빛이야.' },
-        { key:'end2', en:'Then please take it to her. Here you go.', ko:'그럼 루비에게 가져다줘. 여기 있어.', take:'umbrella' },
-        { det:true, key:'end-ella2', en:'I will.', ko:'그럴게.' }
-      ] },
-    { to:'ruby', go:{ think:true, en:'루비에게 우산을 가져다주자.' }, goLabel:'Toy Nest로 가기', give:'umbrella', giveLabel:'우산 건네주기',
-      open:{ who:'tess', key:'end1', en:'Oh! Whose umbrella is that? Is it mine?', ko:'어! 저건 누구 우산이야? 내 거야?' },
-      before:[
-        { det:true, key:'end-tess', en:'No. Yours is dark blue inside. This one is gold inside.', ko:'아니. 네 우산은 안쪽이 남색이야. 이건 안쪽이 금빛이야.' },
-        { det:true, focus:'ruby', key:'end-ruby1', en:'Ruby, I found this at the village hall. Is this umbrella yours?', ko:'루비, 회관에서 이걸 찾았어. 이 우산 네 거야?' },
-        { who:'ruby', key:'end1', en:"Yes, it's mine! Gold stars, and it's gold inside too.", ko:'응, 내 거야! 금빛 별에 안쪽도 금빛이야.' },
-        { det:true, key:'end-ruby2', en:'Here you go.', ko:'여기 있어.' }
-      ],
-      lines:[ { key:'end2', en:'So I left it at the bazaar! Thank you, Detective.', ko:'바자회에 두고 왔구나! 고마워, 탐정.' } ] },
+    { to:'ruby', give:'umbrella', giveLabel:'우산 건네주기',
+      open:{ det:true, key:'end-ruby2', en:'Here you go.', ko:'여기 있어.' },
+      lines:[ { key:'end2v', en:'So I left it at the village hall! Thank you, Detective.', ko:'회관에 두고 왔구나! 고마워, 탐정.' } ] },
     { to:'ella', go:{ think:true, en:'엘라에게 알려 주자.' }, goLabel:'Village Hall로 가기',
       open:{ det:true, key:'end-ella3', en:'I gave the umbrella back to Ruby.', ko:'루비에게 우산을 돌려줬어.' },
       lines:[ { key:'end3', en:'Wonderful! Thank you for your help, Detective.', ko:'잘됐다! 도와줘서 고마워, 탐정.' } ] }
@@ -3947,7 +3913,7 @@ const GLOSS = {
   cut:'자르다, 잘린', cutters:'커터 (자르는 도구)', dark:'어두운, 짙은', day:'날, 하루', detective:'탐정', did:'했다 (do의 과거)', "didn't":'~하지 않았다 (did not)',
   do:'하다', does:'하다 (do, 그·그녀)', "doesn't":'~하지 않는다 (does not)', dog:'강아지, 개', "don't":'~하지 않다 (do not)', door:'문', dropped:'떨어뜨렸다',
   duck:'오리', ears:'귀', eight:'8, 여덟', either:'(둘 중) 어느 쪽', else:'그 밖의, 다른', empty:'빈, 비어 있는', enjoy:'즐기다', evening:'저녁',
-  every:'모든, 매', "everyone's":'모두의', everything:'모든 것', everywhere:'모든 곳', explain:'설명하다', fabric:'천, 옷감', fence:'울타리', festival:'축제',
+  every:'모든, 매', "everyone's":'모두의', everything:'모든 것', everywhere:'모든 곳', explain:'설명하다', fabric:'천, 옷감', fence:'울타리', festival:'축제', folding:'접이식의, 접는',
   find:'찾다', finding:'찾기', fine:'괜찮은, 좋아', finish:'끝내다', first:'첫 번째, 먼저', fit:'맞다', five:'5, 다섯', fixed:'고쳤다', flies:'날다', floor:'바닥',
   flowers:'꽃들', folder:'폴더, 서류철', footprints:'발자국들', for:'~을 위해, ~ 동안', forty:'40, 마흔', found:'찾았다, 발견했다 (find의 과거)', four:'4, 넷',
   fox:'여우', friends:'친구들', from:'~부터, ~에서', full:'가득 찬', fur:'털', garden:'정원', gate:'문, 대문', gave:'줬다 (give의 과거)', get:'가져오다, 받다',
@@ -4172,9 +4138,9 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 const SENTENCE_TIMES = VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
   'tara:t4':[[0, 4.35], [4.55, 5.9]], 'ivo:i4':[[0, 1.4], [2.4, 4.05]], 'ivo:i2':[[0, 2.35], [2.8, 3.95]],
   'momo:m1':[[0, 1.9], [2.35, 3.9]], 'momo:m3':[[0, .7], [1.05, 4], [4.55, 5.45]], 'momo:m4':[[0, 1.4], [2.05, 4.45]], 'momo:m2':[[0, 1.75], [2, 3.2]],
-  'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .75], [.9, 3.15], [3.3, 5.07]] } : UMBRELLA ? { 'ella:e0':[[0, 1.98], [2.32, 3.14]], 'ella:e1':[[0, .84], [.98, 2.32]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
+  'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .75], [.9, 3.15], [3.3, 5.07]] } : UMBRELLA ? { 'ella:e0':[[0, 1.98], [2.32, 3.14]], 'ella:e1':[[0, .85], [1.41, 5.11]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
-  'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 1.42], [1.78, 2.78]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
+  'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 2.12], [2.51, 3.58]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
   'rosie:r0':[[0,1.18],[1.47,2.72]],
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
@@ -4529,6 +4495,7 @@ const MOUTHS = {
   tess:{closed:[208,203,119,33], open:[208,203,119,50]},
   ruby:{closed:[158,226,89,32], open:[158,226,89,39]},
   ella:{closed:[203,244,72,25], open:[203,244,72,28]},
+  'ella:give':{closed:[277,244,71,25], open:[277,244,71,28]},
   finn:{closed:[114,145,189,50], open:[114,145,189,80]},
   'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
   'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]},
@@ -5075,7 +5042,11 @@ function renderAsk(){
   if(S.investigate || greetingId === s.id){ box.innerHTML = ''; return; }
   let html = '';
   // actions: asked as often as the player likes and never written down (the umbrella case's close look), also once done
-  const acts = (s.actions || []).filter(actionOpen).map(a => `<button class="q" type="button" data-act="${a.id}"><span class="en">${esc(a.en)}</span><span class="ko">${esc(a.ko)}</span></button>`).join('');
+  // an action with a button label (the umbrella case's give, user request 2026-11-18: "~에게 우산 주기") is a big pill
+  // under the questions, its spoken line (en) said when pressed
+  const acts = (s.actions || []).filter(actionOpen).map(a => a.button
+    ? `<button class="pill big green act-btn" type="button" data-act="${a.id}">${esc(a.button)}</button>`
+    : `<button class="q" type="button" data-act="${a.id}"><span class="en">${esc(a.en)}</span><span class="ko">${esc(a.ko)}</span></button>`).join('');
   if(p.phase === 'choose'){
     const left = availableQuestions(s);
     const more = openingAsked(s) ? acts : '';
@@ -5083,7 +5054,7 @@ function renderAsk(){
       left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('') + more;
   } else if(p.phase === 'done' && acts) html = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>` + acts;
   // a finished conversation has no button of its own: the top chip and a tap on the scene lead back to the place
-  if(allConversationsDone()) html += `<button class="pill big" type="button" data-accuse>추리하기</button>`;
+  if(allConversationsDone() && !PACK?.noBoard) html += `<button class="pill big" type="button" data-accuse>추리하기</button>`;
   box.innerHTML = html;
 }
 $('#askPanel').addEventListener('click', e => {
@@ -5459,6 +5430,7 @@ function playLines(id, lines, onDone, i = 0){
     say();
   };
   if(typeof line === 'string') return theirs(line, 'hello');
+  if(line.mood !== undefined) setMood(id, line.mood);   // a pose with the line (Ella holding the umbrella out)
   if(line.intro && !per(id).introduced){
     per(id).introduced = true; renderWho(); renderChip(); renderPlaces();
     document.querySelectorAll(`.scene-npc[data-talk="${id}"] > span`).forEach(tag => { tag.textContent = spk(id).name; });
@@ -5527,11 +5499,19 @@ function doAction(aid){
   clearTimeout(greetingTimer); hideBubble();
   // the questions stay away while the action is said and answered, as in a greeting (user request: they came back at
   // once under the detective's line)
-  const lines = [...(a.say === false ? [] : [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }]), ...(a.lines || [{ key:aid, en:a.answer, ko:a.answerKo }])];
+  // hold: they hold the thing out with their answer (a pose, hold.mood) until the player taps it (holdOut), once
+  const hold = a.hold && !S.items.includes(a.hold.item) && !S.handoffRound ? a.hold : null;
+  const lines = [...(a.say === false ? [] : [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }]), ...(a.lines || [{ key:aid, en:a.answer, ko:a.answerKo, ...(hold ? { mood:hold.mood } : {}) }])];
   const done = () => {
     if(greetingId !== who) return;
+    // the thing stays in their hands until it is tapped; the questions stay away meanwhile (the greeting goes on)
+    if(hold){ holdOut = { who, ...hold, then:a.inspect }; placeHeld(); return; }
     setGreeting(null);
     if(a.flag && !S.flags.has(a.flag)){ S.flags.add(a.flag); saveGame(); checkThoughts(); }
+    // something handed over with the answer (take: the umbrella after Ella's "Here you go.", v2), once
+    if(a.take && !S.items.includes(a.take) && !S.handoffRound){ S.items.push(a.take); syncBagAway(); saveGame(); setTimeout(() => gotItem(a.take), 300); }
+    // the owner's yes (ending, v2 umbrella case): the hand-over starts right here
+    if(a.ending){ openSheet(null); return startHandoff(); }
     if(a.inspect && S.cur === who && !S.investigate) openInspect(a.inspect);
     else { renderAsk(); if(thoughts.length) playThought(); }
   };
@@ -5539,6 +5519,43 @@ function doAction(aid){
   playLines(who, lines, done);
   greetingCut = linesCut(lines.reduce((t, l) => t + l.en.length * 95 + 2500, 1000), done);
 }
+// Something held out in a conversation (an action's hold, umbrella case v2): a glowing button over the thing in their
+// hands, kept on it every frame while the camera settles and they breathe. A tap puts it in 소지품 (it flies to the
+// bag), they stand as before, and the action goes on (its close look). Leaving drops it: the action can be asked again.
+let holdOut = null, holdFrame = 0;
+function placeHeld(){
+  cancelAnimationFrame(holdFrame);
+  const btn = $('#heldItem'), svg = holdOut && !S.investigate && S.cur === holdOut.who && $(`#talkCamera .scene-npc[data-talk="${holdOut.who}"] svg`);
+  if(!svg){ btn.hidden = true; return; }
+  const sp = SPRITES[spriteKey(holdOut.who)], r = svg.getBoundingClientRect(), host = $('.scene').getBoundingClientRect();
+  const k = Math.min(r.width / sp.w, r.height / sp.h), ox = r.left + (r.width - sp.w * k) / 2, oy = r.top + (r.height - sp.h * k) / 2;
+  const [x0, y0, x1, y1] = holdOut.box;
+  Object.assign(btn.style, { left:`${ox + x0 * k - host.left}px`, top:`${oy + y0 * k - host.top}px`, width:`${(x1 - x0) * k}px`, height:`${(y1 - y0) * k}px` });
+  btn.setAttribute('aria-label', `${ITEMS[holdOut.item]?.label || ''} 받기`);
+  btn.hidden = false;
+  holdFrame = requestAnimationFrame(placeHeld);
+}
+function dropHold(){
+  if(!holdOut) return;
+  const { who } = holdOut;
+  holdOut = null; cancelAnimationFrame(holdFrame); $('#heldItem').hidden = true;
+  if(greetingId === who) setGreeting(null);
+  setMood(who, null);
+}
+$('#heldItem').addEventListener('click', () => {
+  if(!holdOut) return;
+  const { who, item, then, box } = holdOut;
+  // where the umbrella is drawn in their hands (the button covers it, a few px around): its middle and its length; it
+  // lies across the hands, tip to the left (the upright picture turned -90°)
+  const b = $('#heldItem').getBoundingClientRect(), from = { x:b.left + b.width / 2, y:b.top + b.height / 2, len:b.width * .95, rot:-90, thin:.5 };
+  holdOut = null; cancelAnimationFrame(holdFrame); $('#heldItem').hidden = true;
+  if(!S.items.includes(item)){ S.items.push(item); syncBagAway(); saveGame(); gotItem(item, from); }
+  checkThoughts();   // the umbrella taken last of all: the thought plays over the close look
+  setMood(who, null); setGreeting(null);
+  // the close look once the umbrella has landed in 소지품
+  if(then && S.cur === who && !S.investigate) setTimeout(() => { if(S.cur === who && !S.investigate && !greetingId){ openInspect(then); if(thoughts.length) setTimeout(playThought, 800); } }, 1500);
+  else renderAsk();
+});
 // the close look (a place with inspect: never on the map): folded first; 〈 goes back to the person who handed it over
 let inspectFrom = null;   // the place a close look was opened from (a clue there), where 〈 goes back to
 function openInspect(id = PLACES.find(p => p.inspect)?.id, from = null){
@@ -5897,7 +5914,7 @@ function setNotes(open){
 function openSheet(name){
   $('#app').classList.toggle('map-open', name === 'map');   // the < stays above the map (to the case list)
   if(name && drawerBrowse) closeDrawer();
-  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone() || !!S.scriptPause || S.flags.has('confessed');
+  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone() || !!PACK?.noBoard || !!S.scriptPause || S.flags.has('confessed');
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
@@ -6102,14 +6119,16 @@ function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.cla
 // 소지품 in the bottom menu (user pick: satchel icon, 지도 · Note · 소지품, the drawer): in every case that has things to
 // carry, from its start (user decision); a dot like the map's when something new comes in
 function setItemsNew(on){ $('#itemsTab').classList.toggle('new', on); }
-function gotItem(id){ setItemsNew(true); toast('소지품에 넣었어요.'); if(id) flyToBag(id); }
+// from: where the thing starts its flight (flyToBag), when it is taken out of someone's hands
+function gotItem(id, from){ setItemsNew(true); toast('소지품에 넣었어요.'); if(id) flyToBag(id, from); }
 // the thing just put into 소지품 flies from the middle of the scene into the satchel in the bottom menu, which then bounces
 // (user request 2026-11-17: an interaction for things going into the bag; every case)
-function flyToBag(id){
+function flyToBag(id, from){
   const item = ITEMS[id], tab = $('#itemsTab'), icon = tab?.querySelector('.hn-ic') || tab;
   if(!item?.img || !tab || tab.hidden) return;
   const bump = () => { icon.classList.remove('bag-bump'); void icon.offsetWidth; icon.classList.add('bag-bump'); };
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return bump();
+  if(from) return flyFromHands(item, from, icon, bump);
   const stage = ($('.art-stage') || $('.app')).getBoundingClientRect(), to = icon.getBoundingClientRect();
   const size = Math.min(140, stage.width * .32), wide = item.w / item.h;
   const w = wide >= 1 ? size : size * wide, h = wide >= 1 ? size / wide : size;
@@ -6125,6 +6144,28 @@ function flyToBag(id){
     { transform:`translate(${dx * .55}px,${dy * .35 - 60}px) scale(.62) rotate(-8deg)`, opacity:1, offset:.6 },
     { transform:`translate(${dx}px,${dy}px) scale(.12) rotate(-14deg)`, opacity:.5 }
   ], { duration:900, easing:'cubic-bezier(.45,.05,.55,.95)' });
+  fly.onfinish = () => { pic.remove(); bump(); };
+  fly.oncancel = () => pic.remove();
+}
+// Taken out of someone's hands (Ella's umbrella, user request 2026-11-18: a natural way into 소지품): the thing starts
+// exactly where it was drawn in their hands (from: its middle, its length, its turn), lifts a little as the detective
+// takes it, swings upright on a soft arc and drops into the 소지품 tab, which bounces.
+function flyFromHands(item, from, icon, bump){
+  const to = icon.getBoundingClientRect(), ratio = item.w / item.h;   // the picture stands upright (the folded umbrella)
+  const h = from.len, w = h * ratio;
+  const pic = document.createElement('img');
+  pic.src = item.bag || item.img; pic.alt = ''; pic.className = 'bag-fly';
+  Object.assign(pic.style, { left:`${from.x - w / 2}px`, top:`${from.y - h / 2}px`, width:`${w}px`, height:`${h}px` });
+  document.body.append(pic);
+  // thin: the drawn one in their hands is slimmer than the 소지품 picture; it starts as slim and fills out on the way
+  const dx = to.left + to.width / 2 - from.x, dy = to.top + to.height / 2 - from.y, r = from.rot, t = from.thin || 1;
+  const fly = pic.animate([
+    { transform:`translate(0,0) rotate(${r}deg) scale(${t},1)` },
+    { transform:`translate(0,-26px) rotate(${r + 6}deg) scale(${t * 1.06},1.06)`, offset:.2 },
+    { transform:`translate(${dx * .35}px,${Math.min(-40, dy * .2 - 70)}px) rotate(${r * .4}deg) scale(.7)`, offset:.55 },
+    { transform:`translate(${dx * .85}px,${dy * .8}px) rotate(-6deg) scale(.24)`, opacity:1, offset:.88 },
+    { transform:`translate(${dx}px,${dy}px) rotate(0deg) scale(.1)`, opacity:0 }
+  ], { duration:1100, easing:'cubic-bezier(.4,.05,.45,1)' });
   fly.onfinish = () => { pic.remove(); bump(); };
   fly.oncancel = () => pic.remove();
 }
@@ -6248,7 +6289,7 @@ function allConversationsDone(){
 // deduction board, and the accusation is made only there (user decision).
 // not while the questioning waits at a place (it goes on by itself once what it waits for is found) nor once the culprit
 // has owned up (user report 2026-11-16: 추리하기 still showed at the storeroom in the middle of Nico's questioning)
-function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!ending || !!S.scriptPause || S.flags.has('confessed') || !!(S.investigate && placeObj()?.inspect); }
+function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!PACK?.noBoard || !!ending || !!S.scriptPause || S.flags.has('confessed') || !!(S.investigate && placeObj()?.inspect); }
 $('#foldBtn').onclick = () => { cancelCapture(); stopVoice(); S.unfolded = !S.unfolded; if(!placeObj()?.flip) playUmbrella(S.unfolded); renderScene(); renderSceneHead(); saveGame(); };
 // the umbrella opening / folding (user request; user-given freesound clip, audio/umbrella-open.mp3, the fold its first rustle)
 function playUmbrella(open){
@@ -6355,7 +6396,7 @@ function deducePic(kind, word){
   return id ? `<i class="fc" style="background-image:url(${faceSrc(id)})"></i>` : '<i class="fc unknown">?</i>';
 }
 function openDeduce(){
-  if(!allConversationsDone()) return;
+  if(!allConversationsDone() || PACK?.noBoard) return;
   openSheet(null); setNotes(false);
   $('#deduce').hidden = false; $('#app').classList.add('deducing');
   const st = deduceState(); deduceShown = null; deduceWait = false; deduceKoCards.clear(); deduceRelease(false);
@@ -7974,7 +8015,7 @@ const ART = {
      bazaar photo on the board, at full size for its evidence photo. The umbrella stands in the hall's stand (put in
      upside down, handle up; the stand's front laid over it) until Ella hands it over at the end */
   hall: () => `<image href="assets/places/umbrella/hall.webp" width="1376" height="768"/>` +
-    (S.items.includes('umbrella') || S.handoffRound ? '' : `
+    (S.items.includes('umbrella') || S.handoffRound || S.mood.ella === 'give' ? '' : `
     <g transform="rotate(4 256 675)"><image href="assets/places/umbrella/umbrella-folded.png" x="192" y="345" width="127" height="330" transform="matrix(1 0 0 -1 0 1020)"/></g>
     <image href="assets/places/umbrella/stand-front.png" x="204" y="517" width="100" height="173"/>`) + `
     <defs><filter id="hallPencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="4"/>
@@ -8504,6 +8545,7 @@ setInterval(function nudgeTick(){
 let sceneFocus = null;
 const sceneLeftFor = id => $('#art').offsetWidth * positionOf(id).x / 100 - artWrap.clientWidth / 2;
 function enterPlace(id, fromConversation = false){
+  dropHold();
   if(!S.known.has(id) && !(fromConversation && id === cur().place) && !placeOf(id)?.inspect && !placeOf(id)?.doorOnly) return;
   const fromRect = !S.investigate && id === cur().place ? $('#art').getBoundingClientRect() : null;
   cameraMotion?.cancel();
@@ -9254,14 +9296,14 @@ function homeKoShift(){
 // testing stage (user decision): every playable case is open in the list; false brings the order back
 const ALL_CASES_OPEN = true;
 const CASES = [
-  { id:'picnic-bag', no:'Case 01', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
-    photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
-    summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 벤의 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
-  // the education plan's order (user decision): the umbrella case (L1-01 B) before the library
-  { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet-original.png', alt:'별무늬 우산' }, playable:true,
+  // v2 (user decision 2026-11-18): the umbrella case first, made easy (one way of solving per case: listen and give it back)
+  { id:'unclaimed-umbrella', no:'Case 01', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet-original.png', alt:'별무늬 우산' }, playable:true,
     focus:'누구의 것인지 듣기', keys:['whose'],
     photo:{ img:'assets/places/umbrella/umbrella-sheet-original.png' },
-    summary:'마을회관에 일주일째 남은 별무늬 우산의 주인을 찾았다. 장난감 바자회 날 비가 와서 바자회가 회관 안에서 열렸고, 바자회를 연 토이 네스트의 테스와 루비, 우산을 찾던 핀의 설명을 대조했다. 겉모습은 테스와 루비의 우산이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
+    summary:'마을회관에 남은 별무늬 우산의 주인을 찾았다. 우산을 잃어버린 핀, 테스, 루비에게 각자의 우산이 어떻게 생겼는지 듣고 비교했다. 핀의 우산은 무늬가 없었고, 테스와 루비의 우산은 겉모습이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
+  { id:'picnic-bag', no:'Case 02', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+    photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
+    summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 벤의 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
   { id:'missing-violin', no:'Case 03', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
@@ -9882,7 +9924,7 @@ function bookWords(){
 function homeState(){
   const solved = solvedCases(), c = CASES.find((x, i) => x.playable && !solved.includes(x.id) && (i === 0 || solved.includes(CASES[i - 1].id)));
   const again = CASES.filter(x => solved.includes(x.id)).flatMap(x => caseStats()[x.id]?.missed || []).length;
-  if(c) return (caseStarted && c.id === CASE.id) || (c.id === 'picnic-bag' && localStorage.getItem('detective.save.picnic')) ? { key:'home-going', button:'이어서 수사', go:'case' } : { key:'home-new', button:'사건 시작', go:'case' };
+  if(c) return (caseStarted && c.id === CASE.id) || !!localStorage.getItem(caseSaveKey(c.id)) ? { key:'home-going', button:'이어서 수사', go:'case' } : { key:'home-new', button:'사건 시작', go:'case' };
   if(again) return { key:'home-again', button:'복습하기', go:'again' };
   return { key:'home-quiet' };
 }
@@ -10051,7 +10093,7 @@ $('#caseList').addEventListener('click', e => {
     if(note.dataset.note === 'case') {
       const solved = solvedCases();
       const next = CASES.find((c, i) => c.playable && !solved.includes(c.id) && (i === 0 || solved.includes(CASES[i - 1].id)));
-      return startCase(false, next?.id || 'picnic-bag');
+      return startCase(false, next?.id || CASES[0].id);
     }
     homeTab = 'study'; studyMode = 'review'; renderHome(); return;
   }
@@ -10261,7 +10303,7 @@ const PREVIEW_OF = {
   'missing-violin':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '오웬 심문'], ['return', '타라에게 반환'], ['review', '복습']],
   'unclaimed-umbrella':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['inspect', '우산 조사'],
-    ['deduce', '추리 보드'], ['handoff', '엘라에게 알리기'], ['handback', '루비에게 전달'], ['review', '복습']],
+    ['handoff', '루비에게 전달'], ['handback', '엘라에게 보고'], ['review', '복습']],
   case01:[['home', '홈'], ['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['call', '경찰에게 알리기'], ['interview', '심문'], ['confession', '자백'], ['review', '복습']]
 };

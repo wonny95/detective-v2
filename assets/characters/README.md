@@ -120,6 +120,7 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
   - 사슴 엘라 + 개구리 핀: job `af3a0080-e3d5-48bb-8e22-48589d3a5393` → `ella-finn-higgsfield-original.jpg`
 - 배경 제거: Higgsfield `remove_background`(테스·루비 `d5fc2a32-…`, 엘라·핀 `d62816f2-…`) → `tess-ruby-cutout.webp`, `ella-finn-cutout.webp`. 배경 제거가 크림 종이와 비슷한 밝은 부분(테스의 소매, 루비의 스타킹, 엘라의 주둥이, 핀의 밑창)을 비우거나 반투명하게 만들어, `scripts/cut-umbrella-characters.py`가 윤곽 안쪽을 원본 시트 색으로 다시 채운다.
 - 같은 스크립트가 반으로 나눠 알파 경계 + 3% 여백, 높이 700px로 맞추고 얼굴 아이콘(`assets/ui/icons-v2/<id>.png`, 160px, 흰 테두리)을 자른다. 적용본: `tess-higgsfield.png` 459×700, `ruby-higgsfield.png` 517×700, `ella-higgsfield.png` 472×700, `finn-higgsfield.png` 420×700. 화면 높이(`positions`)는 시트 안의 키 비율로(엘라·루비 46, 테스 43, 핀 37).
+- 엘라가 우산을 양손에 들고 내미는 모습(우산 v2, 사용자 요청 2026-11-18): Higgsfield Nano Banana 2.1, 16:9, 참조 `ella-finn-higgsfield-original.jpg`(job `af3a0080`)·확정 우산 그림(job `0e9a6716`), 마젠타 배경, job `56109bd9-fe5f-4a43-8746-2d9c50e695d1`(1.5크레딧) → `ella-give-higgsfield-original.png`. `scripts/cut-ella-give.py`가 배경을 빼고 높이 700, 얼굴이 가운데 오게 좌우를 맞춰 `ella-give.png`(620×700, 얼굴은 기본 그림보다 73px 오른쪽)로 자른다. 입은 `make-npc-mouths.py`의 `ella-give`.
 - 입: `scripts/make-npc-mouths.py`의 `tess`·`ruby`·`ella`·`finn`. 닫은 입은 그림 그대로(`AS_DRAWN`: 고양이·사슴의 코 밑 입 모양을 살림), 벌린 입만 시트의 미소 벌림.
 - 프롬프트 요지: 참조와 같은 크레용·색연필 화풍·비율로 두 인물을 나란히, 크림 종이 배경, 빈손, 우산 없음, **남색·금색 없음**(우산 특징과 겹치지 않게, 설계서 3절). 테스 — 올리브색 피부, 갈색 등딱지, 크림 셔츠에 민트색 가게 앞치마. 루비 — 회색 줄무늬 고양이, 흰 둥근 깃의 루비색 원피스·검정 벨트·크림 스타킹·검정 메리제인. 엘라 — 황갈색 사슴(뿔 없음), 테라코타 니트 가디건·흰 블라우스·베이지 치마. 핀 — 연두색 개구리, 주황 줄무늬 티셔츠·황갈색 반바지·빨간 운동화.
 

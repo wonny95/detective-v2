@@ -16,7 +16,9 @@ const P = require(tmp);
 const DIR = 'audio/umbrella/';
 const NAMES = { ella:'엘라', tess:'테스', ruby:'루비', finn:'핀', detective:'탐정' };
 const lines = { ella:[], tess:[], ruby:[], finn:[], detective:[] };
-const add = (who, file, scene, en, ko) => lines[who].push({ file:DIR + file + '.mp3', scene, en, ko });
+// todo: not recorded yet (v2): a person's line whose key is not linked in their audio, or a detective file that is missing
+const linked = (who, file) => who === 'detective' ? fs.existsSync(DIR + file + '.mp3') : Object.values(P.people[who].audio || {}).includes(DIR + file + '.mp3');
+const add = (who, file, scene, en, ko) => lines[who].push({ file:DIR + file + '.mp3', scene, en, ko, todo:!linked(who, file) });
 // what the voice reads where the screen's words would be read oddly (dates)
 const spoken = en => en.replace(/October 24/g, 'October twenty-fourth');
 
@@ -30,12 +32,12 @@ for(const [id, p] of Object.entries(P.people)){
     add(id, `${id}-${q.id}`, `대답 ${q.id}`, p.answers[q.id], P.answersKo[id][q.id]);
   });
   (p.actions || []).forEach(a => {
-    add('detective', `detective-${id}-act-${a.id}`, `${NAMES[id]}에게 행동(우산 조사)`, a.en, a.ko);
-    add(id, `${id}-${a.id}`, '행동의 대답', a.answer, a.answerKo);
+    add('detective', `detective-${id}-act-${a.id}`, `${NAMES[id]}에게 행동(${a.id === 'give' ? '우산 건네기' : '우산 조사'})`, a.en, a.ko);
+    (a.lines || [{ key:a.id, en:a.answer, ko:a.answerKo }]).forEach(l => add(id, `${id}-${l.key}`, '행동의 대답', l.en, l.ko));
   });
 }
 // the detective's thought after the banner and the notice
-P.together.forEach((t, i) => add('detective', `detective-together${i + 1}`, '현수막·안내문을 찍은 뒤 생각', t.line.en, t.line.ko));
+(P.together || []).forEach((t, i) => add('detective', `detective-together${i + 1}`, '현수막·안내문을 찍은 뒤 생각', t.line.en, t.line.ko));
 // photos and things looked at: the detective reads each one's sentence
 P.places.forEach(pl => pl.clues.forEach((c, i) =>
   add('detective', `detective-${pl.id}-${i}`, `${pl.label} · ${c.label}${c.prop ? ' (소품)' : ''}`, c.en, c.ko)));
@@ -62,7 +64,7 @@ const esc = s => String(s).replace(/\|/g, '\\|');
 const unique = l => new Set(l.map(x => x.en)).size;
 let out = `# 주인 없는 우산 — 녹음 대본
 
-\`scripts/umbrella-recording-script.js\`가 게임 데이터(\`index.html\`의 \`UMBRELLA_CASE\`)에서 뽑은 목록이다. 대사를 고치면 이 파일도 다시 뽑는다. 파일 이름은 게임이 재생하는 녹음 파일이다(모두 녹음됨, Higgsfield MiniMax).
+\`scripts/umbrella-recording-script.js\`가 게임 데이터(\`index.html\`의 \`UMBRELLA_CASE\`)에서 뽑은 목록이다. 대사를 고치면 이 파일도 다시 뽑는다. 파일 이름은 게임이 재생하는 녹음 파일이다(Higgsfield MiniMax). **녹음 필요**는 v2 쉬운 판에서 새로 생겼거나 바뀐 줄이다(그전까지 인물 줄은 브라우저 음성, 탐정 줄은 소리 없음).
 
 - 목소리(사용자 결정): 엘라 Petra, 테스 Callan, 루비 Gracie, 핀 Dylan, 모두 감정 행복(Higgsfield 웹에서 만듦). 탐정은 소풍·도서관 사건과 같은 Grady, 감정 중립(감정 값 없음).
 - 읽기용 문장이 따로 있는 줄은 **읽기**에 적었다(화면 글은 그대로).
@@ -78,7 +80,7 @@ for(const [who, l] of Object.entries(lines)){
   l.forEach((x, i) => {
     const read = spoken(x.en) !== x.en ? `<br>**읽기**: ${esc(spoken(x.en))}` : '';
     const first = l.findIndex(y => y.en === x.en), same = first < i ? `<br>**같은 녹음**: ${first + 1}번` : '';
-    out += `| ${i + 1} | \`${x.file.replace(DIR, '')}\` | ${esc(x.scene)} | ${esc(x.en)}${read}${same} | ${esc(x.ko)} |\n`;
+    out += `| ${i + 1} | \`${x.file.replace(DIR, '')}\`${x.todo ? '<br>**녹음 필요**' : ''} | ${esc(x.scene)} | ${esc(x.en)}${read}${same} | ${esc(x.ko)} |\n`;
   });
 }
 fs.writeFileSync('design/case-02-unclaimed-umbrella-recording.md', out.replace(/\n/g, '\r\n'));
