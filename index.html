@@ -2306,9 +2306,11 @@ const kiteBunch = (cx, i, seed, a = 0, sx = 0) => { const f = (i * 5 + seed) % 6
 const KITE_BED_REST = Array.from({ length:7 }, (_, i) => kiteBunch(672 + i * 38, i, 4));
 const bedSlot = k => {
   // the clumps are low and wide: they lean out and slide aside (sx) as they part
-  const bunches = [-82, -50, -20, 20, 50, 82].map((d, i) => kiteBunch(k.x + d, i, k.n, Math.sign(d) * (22 - Math.abs(d) * .12), Math.sign(d) * (34 - Math.abs(d) * .2)));
-  // the kite's top just over the flowers
-  return { ...k, y:KITE_BED - KITE_BUNCH_H - 6, part:true, bunches, cover:[{ x:k.x - 100, y:KITE_BED - KITE_BUNCH_H - 8, w:200, h:KITE_BUNCH_H + 10 }] }; };
+  const bunches = [-82, -50, -20, 20, 50, 82].map((d, i) => kiteBunch(k.x + d, i, k.n, Math.sign(d) * (22 - Math.abs(d) * .12), Math.sign(d) * (56 - Math.abs(d) * .2)));
+  // the kite lying across the bed behind the flowers (user request 2026-11-18: not upright, bigger), its middle where
+  // it is asked (x) and its upper edge a little over the flowers
+  const box = kiteBox({ ...k, y:0 }), y = KITE_BED - 30 - (box.y + box.h / 2), dx = k.x - (box.x + box.w / 2);
+  return { ...k, x:k.x + dx, y, part:true, bunches, cover:[{ x:k.x - 100, y:KITE_BED - KITE_BUNCH_H - 8, w:200, h:KITE_BUNCH_H + 10 }] }; };
 // The kite under a ball on the lawn (user idea 2026-11-18: a park, so a ball on it): the soccer ball (assets/props,
 // scripts/cut-balls.py) lies on the kite's body, its tails out; a tap in the close look rolls the ball off (dx, dy: up
 // the lawn and a little aside, so it stays on the narrow phone screen; turning as it goes, a bounce at the end) and it
@@ -2318,17 +2320,18 @@ const ballSlot = k => { const b = k.ball, box = (x, y) => ({ x:x - b.d / 2, y:y 
 const KITE_SLOTS = [
   { n:4, at:'tree', x:150, y:60, r:-8, cover:[['leafclump-2', 52, 38, 136, 137], ['leafclump-3', 112, 48, 136, 133]] },
   { n:2, at:'tree', x:385, y:95, r:6, cover:[['leafclump-1', 287, 73, 136, 137], ['leafclump-2', 347, 83, 136, 133]] },
-  { n:1, at:'bed', x:560, s:.24, r:-4, cover:[] },
+  { n:1, at:'bed', x:560, s:.42, r:-72, cover:[] },
   { n:3, at:'ball', x:633, y:670, r:84, s:.6, ball:{ cx:628, cy:690, d:84, dx:16, dy:-96 }, cover:[] },
   { n:6, at:'ground', x:930, y:615, r:-80, cover:[] },
   { n:5, at:'tree', x:1110, y:35, r:-6, cover:[['leafclump-3', 1012, 13, 136, 137], ['leafclump-4', 1072, 23, 136, 133]] }
 ].map(k => k.at === 'bed' ? bedSlot(k) : k.ball ? ballSlot(k) : ({ ...k, cover:k.cover.map(([img, x, y, w, h]) => coverBox({ img, x, y, w, h })) }));
 // where a kite is drawn (px of the park picture), turned as it is drawn: the box around it
-const kiteBox = k => { const [w, h] = KITE_PICS[k.n], s = KITE_K * (k.s || 1), cx = k.x, cy = k.y + 20, a = k.r * Math.PI / 180;
+// (a function: bedSlot uses it while KITE_SLOTS is made)
+function kiteBox(k){ const [w, h] = KITE_PICS[k.n], s = KITE_K * (k.s || 1), cx = k.x, cy = k.y + 20, a = k.r * Math.PI / 180;
   const pts = [[k.x - w * s / 2, k.y], [k.x + w * s / 2, k.y], [k.x - w * s / 2, k.y + h * s], [k.x + w * s / 2, k.y + h * s]]
     .map(([x, y]) => [cx + (x - cx) * Math.cos(a) - (y - cy) * Math.sin(a), cy + (x - cx) * Math.sin(a) + (y - cy) * Math.cos(a)]);
   const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]), x = Math.min(...xs) - 10, y = Math.min(...ys) - 10;
-  return { x, y, w:Math.max(...xs) + 10 - x, h:Math.max(...ys) + 10 - y }; };
+  return { x, y, w:Math.max(...xs) + 10 - x, h:Math.max(...ys) + 10 - y }; }
 // the kite and what hides it, as one box (its spot in the park)
 const kiteArea = k => { const bs = [kiteBox(k), ...k.cover, ...(k.extra || [])], x = Math.min(...bs.map(b => b.x)), y = Math.min(...bs.map(b => b.y));
   return { x, y, w:Math.max(...bs.map(b => b.x + b.w)) - x, h:Math.max(...bs.map(b => b.y + b.h)) - y }; };
