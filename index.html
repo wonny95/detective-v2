@@ -232,6 +232,30 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .item-show svg{display:block;width:82%;height:100%;filter:drop-shadow(0 10px 18px rgba(20,10,4,.45));animation:item-show-in .32s cubic-bezier(.2,.9,.3,1.15) both}
 @keyframes item-show-in{from{opacity:0;transform:scale(.55) rotate(-6deg)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.item-show svg{animation:none}}
+/* the robbery case's sketch (montage): paper under the witness's bubble; the part being matched pulses, the rest faint
+   until heard, dark once matched */
+.montage{position:absolute;left:0;right:0;top:58px;bottom:0;z-index:4;display:flex;justify-content:center;padding:0 14px 16px;box-sizing:border-box}
+.montage[hidden]{display:none}
+.montage.view{bottom:150px;pointer-events:none}
+.mt-paper{position:relative;display:flex;flex-direction:column;width:min(100%,380px);height:100%;padding:12px 12px 14px;box-sizing:border-box;background:#F6EEDC;border:3px solid #5E4630;border-radius:8px;box-shadow:0 10px 22px rgba(40,26,16,.38);animation:item-show-in .3s cubic-bezier(.2,.9,.3,1.15) both}
+.mt-paper.shake{animation:mt-shake .35s ease}
+@keyframes mt-shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.mt-close{position:absolute;top:-14px;right:-12px;z-index:2}
+.montage.view .mt-close,.montage.view .mt-arrow,.montage.view .mt-foot{display:none}
+.mt-frame{position:relative;flex:1;min-height:0;display:flex;justify-content:center;align-items:center;background:#F8F1E5;border:2px solid #CDB89A;border-radius:4px}
+.mt-frame > svg{width:100%;height:100%;display:block}
+.mt-arrow{position:absolute;top:50%;z-index:1;width:56px;height:60px;margin-top:-30px;padding:0;border:0;background:none;cursor:pointer}
+.mt-arrow img{display:block;width:100%;height:100%;object-fit:contain;transition:transform .1s}
+.mt-arrow:active img{transform:scale(.88)}
+.mt-arrow.l{left:-8px}.mt-arrow.r{right:-8px}
+.mt-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.mt-foot .pill{flex:1}
+.mt-foot .pill:disabled{opacity:.45}
+.mt-layer{transition:opacity .25s}
+.mt-layer.faint{opacity:0}   /* not heard yet: not shown at all (user request 2026-11-19) */
+.mt-layer.on{animation:mt-on 1.1s ease-in-out infinite alternate}
+@keyframes mt-on{from{opacity:.62}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.mt-layer.on,.mt-paper,.mt-paper.shake{animation:none}}
 .drawer{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;gap:8px;box-sizing:border-box;max-height:calc(100% - 70px);overflow:hidden;padding:12px 0 16px;background:var(--paper);
   border-top:3px solid var(--ink);border-radius:24px 26px 0 0/20px 22px 0 0;box-shadow:0 -6px 18px rgba(34,20,10,.35);
   transform:translateY(105%);visibility:hidden;transition:transform .38s cubic-bezier(.2,.9,.3,1.05),visibility 0s linear .38s}
@@ -1301,6 +1325,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 /* a case with things to carry (PACK.items) has 소지품 as a third tab (user pick: 지도 · 노트 · 소지품; the tab read Note until the user asked for Korean) */
 .nav.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.nav.one{grid-template-columns:minmax(0,1fr)}
+.nav[hidden]{display:none}
 /* the menus (user choice, option A; the app's 홈 · 사건 · 학습 · 마이 and a case's 지도 · Note alike): no box
    around each item — an illustrated icon and its name on the paper strip, whose top is a hand-drawn wavy line; the page
    shown (or the sheet open) has a honey colored-pencil patch behind its icon and a darker name. Icons: assets/ui/nav. */
@@ -1641,6 +1667,18 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <button class="held-item" id="heldItem" type="button" hidden></button>
       <canvas class="snow" id="snowTalk" aria-hidden="true"></canvas>
       <div class="ask-panel" id="askPanel"></div>
+      <!-- the robbery case's sketch (montage): under the witness's bubble, the part their line is about changed with ‹ › -->
+      <div class="montage" id="montage" hidden>
+        <div class="mt-paper">
+          <button class="x close-button mt-close" type="button" data-mt-close aria-label="몽타주 닫기"></button>
+          <div class="mt-frame">
+            <svg id="mtArt" viewBox="0 0 896 1120" aria-label="몽타주"></svg>
+            <button class="mt-arrow l" type="button" data-mt="-1" aria-label="이전 모습"><img src="assets/montage/arrow-l.png" alt="" draggable="false"></button>
+            <button class="mt-arrow r" type="button" data-mt="1" aria-label="다음 모습"><img src="assets/montage/arrow-r.png" alt="" draggable="false"></button>
+          </div>
+          <div class="mt-foot"><button class="pill big green" type="button" id="mtOk">이 모습이에요</button></div>
+        </div>
+      </div>
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
       <div class="tap-cue" id="tapCue" hidden></div>
@@ -1864,6 +1902,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <button class="devbtn" type="button" id="devInterro">심문 완료</button>
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
   <button class="devbtn" type="button" id="devReset">리셋</button>
+  <button class="devbtn" type="button" id="devBgm">BGM 끄기</button>
 </div>
 <div class="devtools devpreview" id="devPreview" aria-label="미리보기"></div>
 
@@ -1875,9 +1914,9 @@ const PREVIEW = new URLSearchParams(location.search).get('preview');
 // the case this page plays (user decision: one engine, each case its own data): ?case=picnic is Case 01 바뀐 소풍 가방,
 // ?case=umbrella Case 02 주인 없는 우산, without it the library case. Each case keeps its own save; going back to the case
 // cards opens the main page.
-const CASE_PARAMS = { 'missing-kite':'kite', 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella', 'missing-violin':'violin', 'christmas-star':'christmas' };
+const CASE_PARAMS = { 'missing-kite':'kite', 'honey-robber':'montage', 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella', 'missing-violin':'violin', 'christmas-star':'christmas' };
 const CASE_ID = Object.keys(CASE_PARAMS).find(id => CASE_PARAMS[id] === new URLSearchParams(location.search).get('case')) || 'case01';
-const KITE = CASE_ID === 'missing-kite', PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella', VIOLIN = CASE_ID === 'missing-violin', CHRISTMAS = CASE_ID === 'christmas-star';
+const KITE = CASE_ID === 'missing-kite', MONTAGE_ON = CASE_ID === 'honey-robber', PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella', VIOLIN = CASE_ID === 'missing-violin', CHRISTMAS = CASE_ID === 'christmas-star';
 // a case page's address and save, by case id
 const caseHref = id => CASE_PARAMS[id] ? `?case=${CASE_PARAMS[id]}` : location.pathname;
 const caseSaveKey = id => id === 'case01' ? 'detective.save' : id === 'picnic-bag' ? 'detective.save.picnic' : `detective.save.${CASE_PARAMS[id]}`;
@@ -2367,6 +2406,7 @@ const KITE_CASE = {
   people:{
     toby: { id:'toby', name:'Toby Bear', ko:'곰 토비', job:'의뢰인', place:'park', witness:true, required:true, pitch:1.3, voice:4, bg:'#F3E2B8', openingQuestion:'b0',
       // MiniMax Bram (young male, user pick 2026-11-18), emotion happy, made on the Higgsfield web
+      // b0 re-recorded 2026-11-18 ("It fell somewhere in the park.", Bram happy, Higgsfield web); the old one is toby-b0-trees.mp3
       audio:Object.fromEntries(['hello', 'b0', 'b1', 'b2', 'b3', 'give', 'end1', 'end2', 'no-one', 'no-short', 'no-color', 'no-bird'].map(key => [key, `audio/kite/toby-${key}.mp3`])),
       hello:[
         { key:'hello', en:"Oh, Detective! I'm Toby. I need your help.", ko:'아, 탐정! 난 토비야. 네 도움이 필요해.' }
@@ -2385,18 +2425,18 @@ const KITE_CASE = {
           lines:[ { key:'give', en:'Is my kite there?', ko:'내 연이 있어?' } ] }
       ],
       answers:{
-        b0:'The wind took my kite. It flew into the trees.',
+        b0:'The wind took my kite. It fell somewhere in the park.',
         b1:"It's a bird kite.",
         b2:'It is red and yellow.',
         b3:'Yes. It has two long tails.'
       },
       notes:{
-        b0:["- the {{a|wind}} took his kite","- it flew into the {{b|trees}}"],
+        b0:["- the {{a|wind}} took his kite","- it fell somewhere in the {{b|park}}"],
         b1:["- a {{c|bird}} kite"],
         b2:["- {{d|red}} and {{e|yellow}}"],
         b3:["- {{f|two}} {{g|long}} tails"]
       },
-      bank:{ b0:['rain','wind','snow','trees','flowers','pond'], b1:['fish','bird','butterfly','star'],
+      bank:{ b0:['rain','wind','snow','park','pond','school'], b1:['fish','bird','butterfly','star'],
         b2:['blue','red','green','yellow','purple','orange'], b3:['one','two','three','short','long','big'] }
     }
   },
@@ -2407,7 +2447,7 @@ const KITE_CASE = {
     'toby:b3':[['is-has','It has two long tails']]
   },
   answersKo:{
-    toby:{ b0:'바람이 내 연을 날려 버렸어. 나무 쪽으로 날아갔어.', b1:'새 모양 연이야.', b2:'빨간색과 노란색이야.', b3:'응. 긴 꼬리가 두 개 있어.' }
+    toby:{ b0:'바람이 내 연을 날려 버렸어. 공원 어딘가에 떨어졌어.', b1:'새 모양 연이야.', b2:'빨간색과 노란색이야.', b3:'응. 긴 꼬리가 두 개 있어.' }
   },
   places:[
     // the park: a tree or the flower bed with a kite opens its close look (the kite's tail shows under the leaves or
@@ -2461,6 +2501,112 @@ const KITE_CASE = {
       },
       lines:[ { key:'end1', en:"Yes! That's my kite!", ko:'응! 그게 내 연이야!' },
         { key:'end2', en:'Thank you so much, Detective!', ko:'정말 고마워, 탐정!' } ] }
+  ] }
+};
+
+// The robbery case (Case 03, design/case-03-bear-town-montage.md): no notebook; each witness says what they saw, one
+// line at a time, and the player matches it on the sketch, part by part (◀ ▶, 이 모습이에요). The sketch is pictures
+// (Higgsfield, 2026-11-18, scripts/cut-montage-parts.py): each layer is a picture the size of the frame
+// (assets/montage/<part>-<id>.webp, 896x1120; second set drawn after the wanted poster), stacked; the answer of each part in `answer`.
+const MONTAGE_ART = (() => {
+  const W = 896, H = 1120, img = name => `<image href="assets/montage/${name}.webp" width="${W}" height="${H}"/>`;
+  const P = (name, ko, answer, opts) => ({ ko, answer, opts:opts.map(([id, oko]) => ({ id, ko:oko, src:`assets/montage/${name}-${id}.webp`, svg:img(`${name}-${id}`) })) });
+  return {
+    view:`0 0 ${W} ${H}`,
+    // what is always there, by name in `layers`: the bear in its shirt, and its head again over the scarf and vest
+    base:{ body:img('base'), head:img('head') },
+    // back to front; a name in base, else a part
+    layers:['body', 'vest', 'scarf', 'ears', 'head', 'eyes', 'teeth', 'hat', 'scar'],   // the scar over the cap's peak
+    // five looks each (user request 2026-11-18)
+    parts:{
+      eyes:P('eyes', '눈·눈썹', 'small-thick', [['big-thin', '큰 눈, 가는 눈썹'], ['sleepy-thick', '졸린 눈, 굵은 눈썹'],
+        ['big-thick', '큰 눈, 굵은 눈썹'], ['small-thin', '작은 눈, 가는 눈썹'], ['small-thick', '작은 눈, 굵은 눈썹']]),
+      scar:P('scar', '흉터', 'above', [['below', '눈 아래'], ['nose', '코 위'], ['cheek', '뺨'], ['above', '눈 위'], ['mouth', '입 옆']]),
+      teeth:P('teeth', '이', 'gold', [['plain', '보통 이'], ['silver', '은니 하나'], ['gap', '빠진 이'], ['gold', '금니 하나'], ['two-gold', '금니 둘']]),
+      hat:P('hat', '모자', 'green-yellow', [['red-yellow', '빨간 모자, 노란 별'], ['green-white', '초록 모자, 흰 별'],
+        ['blue-yellow', '파란 모자, 노란 별'], ['green-plain', '초록 모자, 별 없음'], ['green-yellow', '초록 모자, 노란 별']]),
+      ears:P('ears', '귀', 'one', [['plain', '보통 귀'], ['torn', '찢어진 귀'], ['both', '양쪽 귀에 반창고'], ['earring', '귀걸이'], ['one', '한쪽 귀에 반창고']]),
+      scarf:P('scarf', '목도리', 'red-dots', [['blue-dots', '파랑, 흰 물방울'], ['red-stripes', '빨강, 흰 줄무늬'],
+        ['red-plain', '빨강, 무늬 없음'], ['green-dots', '초록, 흰 물방울'], ['red-dots', '빨강, 흰 물방울']]),
+      vest:P('vest', '조끼', 'two', [['none', '주머니 없는 조끼'], ['one', '주머니 하나'], ['jacket', '재킷, 주머니 둘'], ['two', '조끼, 주머니 둘'], ['three', '주머니 셋']])
+    }
+  };
+})();
+
+const MONTAGE_CASE = {
+  start:'badger',
+  autoAsk:true,   // nothing written down: the detective's questions are asked on their own, not chosen (user decision)
+  noBoard:true,   // no deduction board: the sketch is the solving
+  // recorded 2026-11-18 (Higgsfield MiniMax, no emotion): Sgt. Badger Fraser, Bruno Barrett, Toby Bram, Betty Vera,
+  // the detective Grady (audio/montage/)
+  people:{
+    // design 1: the request, at the shop's door (actions, nothing written down: the design has no notebook)
+    badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'shop', witness:true, pitch:.9, voice:3, bg:'#DCE3F0',
+      audio:Object.fromEntries(['hello', 'what', 'see', 'end1', 'end-know'].map(key => [key, `audio/montage/badger-${key}.mp3`])),
+      hello:[ { key:'hello', en:'Detective! Someone robbed the honey shop.', ko:'탐정! 누가 꿀 가게를 털었어.' } ],
+      questions:[], answers:{}, notes:{}, bank:{},
+      actions:[
+        { id:'what', en:'What happened?', ko:'무슨 일이야?', flag:'heard-what',
+          lines:[ { key:'what', en:'A bear took the money box and ran away.', ko:'어떤 곰이 돈통을 들고 달아났어.' } ] },
+        { id:'see', en:'Did anyone see him?', ko:'그 곰을 본 사람 있어?', flag:'heard-see', when:['!heard-what'],
+          lines:[ { key:'see', en:'Three bears saw him. Can you make a picture of him?', ko:'곰 셋이 봤어. 그 곰 그림을 만들어 줄 수 있어?' } ] },
+        { id:'give', button:'경사에게 몽타주 건네기', say:false, lines:[], ending:true, when:['!mtdone:bruno', '!mtdone:toby', '!mtdone:betty'] }
+      ] },
+    // design 2: the witnesses; each one's question opens the sketch (montage), their features said one by one
+    bruno: { id:'bruno', name:'Bruno Bear', ko:'곰 브루노', job:'꿀 가게 주인', place:'shop', witness:true, pitch:.8, voice:1, bg:'#F2E0B8',
+      // teeth / no-teeth recorded again 2026-11-19 ("only one gold tooth"; the first take kept as *-v1)
+      audio:Object.fromEntries(['hello', 'eyes', 'scar', 'teeth', 'yes', 'end', 'no-eyes', 'no-scar', 'no-teeth'].map(key => [key, `audio/montage/bruno-${key}.mp3`])),
+      hello:[ { key:'hello', en:'Oh, Detective! I saw him at the counter.', ko:'아, 탐정! 계산대에서 그 곰을 봤어.' } ],
+      questions:[], answers:{}, notes:{}, bank:{},
+      actions:[ { id:'face', en:'What did his face look like?', ko:'얼굴이 어땠어?', montage:true, flag:'mtdone:bruno', lines:[] } ] },
+    toby: { id:'toby', name:'Toby Bear', ko:'곰 토비', job:'아이', place:'shop', witness:true, pitch:1.3, voice:4, bg:'#F3E2B8',
+      audio:Object.fromEntries(['hello', 'past', 'hat', 'ears', 'yes', 'end', 'no-hat', 'no-ears'].map(key => [key, `audio/montage/toby-${key}.mp3`])),
+      hello:[ { key:'hello', en:'Hi, Detective! I saw him run away.', ko:'안녕, 탐정! 그 곰이 도망가는 거 봤어.' } ],
+      questions:[], answers:{}, notes:{}, bank:{},
+      // user pick A 2026-11-19: no word of his face (he saw the cap and the ear as the bear ran past him)
+      actions:[ { id:'face', en:'Did you see him?', ko:'그 곰 봤어?', montage:true, flag:'mtdone:toby',
+        lines:[ { key:'past', en:'He ran right past me!', ko:'내 옆을 휙 지나갔어!' } ] } ] },
+    betty: { id:'betty', name:'Betty Bear', ko:'곰 베티', job:'사서', place:'shop', witness:true, pitch:1.1, voice:2, bg:'#E9DCC8',
+      audio:Object.fromEntries(['hello', 'scarf', 'vest', 'yes', 'end', 'no-scarf', 'no-vest'].map(key => [key, `audio/montage/betty-${key}.mp3`])),
+      hello:[ { key:'hello', en:'I saw him from the library window.', ko:'도서관 창문에서 그 곰을 봤어.' } ],
+      questions:[], answers:{}, notes:{}, bank:{},
+      actions:[ { id:'wear', en:'What was he wearing?', ko:'뭘 입고 있었어?', montage:true, flag:'mtdone:betty', lines:[] } ] }
+  },
+  // the sketch: the art above, and what each witness says (part: the part it is about; no: said again after a wrong pick)
+  montage:{ ...MONTAGE_ART,
+    lines:{
+      bruno:[
+        { part:'eyes', key:'eyes', en:'He has small eyes and thick eyebrows.', ko:'눈이 작고 눈썹이 굵어.' },
+        { part:'scar', key:'scar', en:'He has a scar above his eye.', ko:'눈 위에 흉터가 있어.' },
+        { part:'teeth', key:'teeth', en:'He has only one gold tooth.', ko:'금니가 딱 하나 있어.' }],   // user request 2026-11-19: one, not two (금니 둘 is a choice)
+      toby:[
+        { part:'hat', key:'hat', en:'He was wearing a green cap with a yellow star.', ko:'노란 별이 달린 초록 모자를 쓰고 있었어.' },
+        { part:'ears', key:'ears', en:'He has a bandage on one ear.', ko:'귀 한쪽에 반창고가 붙어 있어.' }],
+      betty:[
+        { part:'scarf', key:'scarf', en:'He was wearing a red scarf with white dots.', ko:'흰 물방울무늬 빨간 목도리를 하고 있었어.' },
+        { part:'vest', key:'vest', en:'He was wearing a vest with two pockets.', ko:'주머니 두 개 달린 조끼를 입고 있었어.' }]
+    },
+    yes:{ bruno:{ key:'yes', en:"Yes! That's right.", ko:'응! 맞아.' }, toby:{ key:'yes', en:'Yes! Just like that!', ko:'응! 딱 그래!' }, betty:{ key:'yes', en:"Yes, that's it.", ko:'응, 그거야.' } },
+    end:{ bruno:{ key:'end', en:"That's the bear!", ko:'바로 그 곰이야!' }, toby:{ key:'end', en:"That's all I saw.", ko:'내가 본 건 그게 다야.' },
+      betty:{ key:'end', en:"I couldn't see his face.", ko:'얼굴은 못 봤어.' } }
+  },
+  phrases:[],
+  grammarLines:{},
+  answersKo:{},
+  places:[ { id:'shop', x:50, y:50, label:'Honey Shop', artWidth:1376, artHeight:768, clues:[], spots:[] } ],
+  thoughts:[
+    { when:['!heard-see'], unlocks:{ people:['bruno', 'toby', 'betty'] }, line:{ key:'think-witness', en:"Let's talk to the witnesses.", ko:'목격자들과 이야기해 보자.' } },
+    { when:['!mtdone:bruno', '!mtdone:toby', '!mtdone:betty'], line:{ key:'think-badger', en:"Let's show the picture to Sgt. Badger.", ko:'경사님께 그림을 보여 드리자.' } }
+  ],
+  needed:[],
+  positions:{ badger:{ x:14, floor:96, height:46 }, bruno:{ x:38, floor:96, height:46 }, toby:{ x:62, floor:96, height:36 }, betty:{ x:84, floor:96, height:44 } },
+  items:{},
+  deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
+  // design 3: the finished sketch handed to the officer (shown big while he looks at it)
+  ending:{ handoff:[
+    { to:'badger', open:{ key:'give-pic', en:'Here is his picture.', ko:'그 곰 그림이야.' },
+      // user request 2026-11-19: the sergeant knows him from the sketch, and thanks the detective; then the ending
+      lines:[ { key:'end-know', en:'I think I know who he is. Thank you, Detective!', ko:'누군지 알 것 같아. 고마워, 탐정!' } ] }
   ] }
 };
 
@@ -3850,7 +3996,7 @@ Object.entries({ badger:['hello', 'b0', 'check-in', 'suspicious', 'reason-to-che
   tess:['hello', 'ready', 'star', 'storeroom', 't5', 't1', 't3'],
   nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-storeroom', 'dont-know', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight', 'stole'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
-const PACK = KITE ? KITE_CASE : PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : null;
+const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : null;
 // a case that happens in one building has its own map picture (PACK.map, 9:16 as the village map)
 if(PACK?.map) document.querySelector('.map-art').src = PACK.map;
 const PEOPLE = PACK ? PACK.people : {
@@ -4063,7 +4209,7 @@ const WORDS = {
 // names come from the case's people (spk().ko), not from here; X's adds 의.
 const GLOSS = {
   // the kite case (2026-11-18)
-  kite:'연', bird:'새', butterfly:'나비', pink:'분홍색', tail:'꼬리', tails:'꼬리 (tail 여러 개)', fish:'물고기', wind:'바람', stripes:'줄무늬',
+  kite:'연', park:'공원', somewhere:'어딘가에', fell:'떨어졌다 (fall의 과거)', bird:'새', butterfly:'나비', pink:'분홍색', tail:'꼬리', tails:'꼬리 (tail 여러 개)', fish:'물고기', wind:'바람', stripes:'줄무늬',
   // phrases
   // the Christmas star case (user: some words on its note showed no meaning)
   'information desk':'안내소', 'gift tent':'선물 포장 천막', 'tree square':'트리 광장', 'candy cane':'지팡이 사탕', 'look into':'조사하다',
@@ -4178,7 +4324,7 @@ const GLOSS = {
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소'], ['x','표현']];
 // the other cases' words (note blanks that are in WORDS, and phrases), for 학습 on the main page
 const packWords = c => [...new Set([...Object.values(c.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))), ...c.phrases.map(([key]) => key)])].filter(k => WORDS[k]);
-const PACK_WORDS = [['missing-kite', '사라진 연', packWords(KITE_CASE)], ['picnic-bag', '바뀐 소풍 가방', packWords(PICNIC_CASE)], ['unclaimed-umbrella', '주인 없는 우산', packWords(UMBRELLA_CASE)],
+const PACK_WORDS = [['missing-kite', '사라진 연', packWords(KITE_CASE)], ['honey-robber', '꿀 가게 강도', packWords(MONTAGE_CASE)], ['picnic-bag', '바뀐 소풍 가방', packWords(PICNIC_CASE)], ['unclaimed-umbrella', '주인 없는 우산', packWords(UMBRELLA_CASE)],
   ['missing-violin', '사라진 음악 대회 바이올린', packWords(VIOLIN_CASE)], ['christmas-star', '사라진 크리스마스트리의 별', packWords(CHRISTMAS_CASE)]];
 // Grammar notes, opened from the grammar links in a passage. name/pattern/ko: the card (Korean shown as soon as the
 // card is opened — the player opened it on purpose). Examples inside ko stay outside the case so nothing unheard leaks.
@@ -4235,6 +4381,15 @@ const GRAMMAR = {
           'has 뒤에는 a tail, stripes 같은 물건 이름이 와요. It has two wheels.',
           'I·you 뒤에서는 have를 써요. I have a red cap.'],
         lines:[['My bag {is} green.', '내 가방은 초록색이야.'], ['The dog {has} a long tail.', '그 개는 꼬리가 길어.'], ['This cup {has} white dots.', '이 컵에는 하얀 점무늬가 있어.']] }
+    ] },
+  // the robbery case's key (Case 03): what someone looks like (has: a part of them) and what they had on (was wearing)
+  'has-wearing':{ name:'생김새와 옷차림', pattern:'He has ~ / He was wearing ~', ko:'has 뒤에는 눈·귀 같은 생김새를, was wearing 뒤에는 그때 입거나 쓰고 있던 옷·모자를 말해요.',
+    examples:[
+      { head:'has / was wearing', ko:'~이 있다 / ~을 입고 있었다', mean:[['has','~이 있다 (생김새)'],['was wearing','~을 입고(쓰고) 있었다 (옷차림)']], why:'He has small eyes.는 생김새, He was wearing a cap.은 그때의 옷차림이에요.', match:"\\b(has|was wearing|wasn't wearing)\\b",
+        more:['has 뒤에는 eyes, a scar 같은 몸의 부분이 와요. She has long hair.',
+          'was wearing 뒤에는 옷·모자·목도리가 와요. 모자에도 wear를 써요. He was wearing a hat.',
+          'with로 꾸밈을 더해요. a cap with a star (별이 달린 모자)'],
+        lines:[['My cat {has} green eyes.', '우리 고양이는 눈이 초록색이야.'], ['She {was wearing} a yellow coat.', '그녀는 노란 코트를 입고 있었어.'], ['The dog {has} long ears.', '그 개는 귀가 길어.']] }
     ] },
   // the violin case's key (L1-02 B): where things are
   'place-prep':{ name:'위치 표현', pattern:'there is / there are · in / on / under · next to / behind', ko:'there is/are로 무엇이 있는지 말하고, in·on·under·next to·behind로 어디에 있는지 말해요.',
@@ -4354,7 +4509,7 @@ const PHRASE_LINES = PACK ? PACK.phrases : [
 // Each answer recording cut into its sentences: [start, end] seconds per sentence (sentencesOf order), found from the
 // pauses between sentences (ffmpeg silencedetect; ray:q3 and duck:d2 fixed by hand where a comma pause looked like a break).
 // Re-measure when a recording is replaced. Used where a learning screen shows one sentence (grammar card, word book).
-const SENTENCE_TIMES = KITE ? {} : VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
+const SENTENCE_TIMES = KITE ? { 'toby:b0':[[0, 1.9], [2.15, 4.26]] } : MONTAGE_ON ? {} : VIOLIN ? { 'tara:t0':[[0, 1.6], [1.8, 3.6]], 'tara:t5':[[0, 1.3], [1.55, 3.4]], 'tara:t3':[[0, 1.95], [2.15, 4.85]],
   'tara:t4':[[0, 4.35], [4.55, 5.9]], 'ivo:i4':[[0, 1.4], [2.4, 4.05]], 'ivo:i2':[[0, 2.35], [2.8, 3.95]],
   'momo:m1':[[0, 1.9], [2.35, 3.9]], 'momo:m3':[[0, .7], [1.05, 4], [4.55, 5.45]], 'momo:m4':[[0, 1.4], [2.05, 4.45]], 'momo:m2':[[0, 1.75], [2, 3.2]],
   'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .75], [.9, 3.15], [3.3, 5.07]] } : UMBRELLA ? { 'ella:e0':[[0, 2.04], [2.41, 3.19]], 'ella:e1':[[0, 1.07], [1.42, 2.85]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
@@ -4648,6 +4803,7 @@ const SPRITES = {
   rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316},
   duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5},
   betty:{src:'assets/characters/betty-higgsfield.png', w:445, h:680, face:'52 -5 340 340', anchor:.5},
+  bruno:{src:'assets/characters/bruno-higgsfield.png', w:452, h:700, face:'51 14 350 350', anchor:.5},   // the robbery case's honey shop owner (scripts/cut-bruno.py)
   toby:{src:'assets/characters/toby-higgsfield.png', w:393, h:700, face:'21 14 350 350', anchor:.5},   // the kite case (scripts/cut-toby.py)
   // the picnic case: two per Higgsfield sheet (scripts/cut-picnic-characters.py); Mia & Ollie are one figure
   ben:{src:'assets/characters/ben-higgsfield.png', w:542, h:700, face:'134 0 350 350', anchor:.57},
@@ -4710,6 +4866,7 @@ const MOUTHS = {
   duck:{closed:[140,160,166,99], open:[140,160,166,117]},
   betty:{closed:[183,205,82,29], open:[183,205,82,34]},
   toby:{closed:[168,240,59,22], open:[168,240,59,22]},
+  bruno:{closed:[185,201,83,31], open:[185,201,83,34]},
   // Ben's mouth stays as drawn (his front teeth); the open one is cut from a Higgsfield edit of his face (the chin drops)
   ben:{closed:[236,222,160,70], open:[272,249,92,70]},
   nora:{closed:[189,281,73,22], open:[189,281,73,28]},
@@ -5267,6 +5424,7 @@ function blockHTML(sIdx, qid, now){
 
 // Under the person: question buttons (choose), nothing while recording (the notebook stays out), or the way to the
 // deduction (done). Hidden while the notebook is out.
+let autoHeld = null, autoTimer = 0;
 function renderAsk(){
   const box = $('#askPanel'), p = st(), s = cur();
   box.classList.remove('show-ko');
@@ -5279,6 +5437,16 @@ function renderAsk(){
   // an action with a button label (the umbrella case's give, user request 2026-11-18: "~에게 우산 주기") is a big pill
   // under the questions, its spoken line (en) said when pressed
   const open = (s.actions || []).filter(a => !a.hidden && actionOpen(a)), actKo = open.some(a => !a.button);
+  // a case with nothing written down (PACK.autoAsk, the robbery case): the detective's questions are not buttons (a
+  // button is how the player gets ready to write, user decision 2026-11-18); the next one is asked on its own. Not
+  // again after the player put the sketch away (autoHeld) until they come back to the person.
+  const auto = PACK?.autoAsk && (p.phase === 'choose' || p.phase === 'done') && open.find(a => !a.button);
+  if(auto){
+    box.innerHTML = '';
+    if(autoHeld !== s.id && !autoTimer) autoTimer = setTimeout(() => { autoTimer = 0;
+      if(S.cur === s.id && !S.investigate && greetingId !== s.id && !mt) doAction(auto.id); }, 600);
+    return;
+  }
   // 해석 only when something under it has Korean to show: a give pill alone has none (user request 2026-11-18)
   const koTop = `<div class="ask-top"><button class="pill sm" type="button" id="qKo" aria-pressed="false">해석</button></div>`;
   const acts = open.map(a => a.button
@@ -5340,7 +5508,7 @@ function detectiveSay(key, onDone, onBlocked, text){
   // a key may be a whole path (askAudio); the picnic case's own lines are in audio/picnic/, the umbrella case's all in
   // audio/umbrella/, the violin case's in audio/violin/, the Christmas star's in audio/christmas/
   voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3`
-    : KITE ? `audio/kite/detective-${key}.mp3` : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : VIOLIN ? `audio/violin/detective-${key}.mp3`
+    : KITE ? `audio/kite/detective-${key}.mp3` : MONTAGE_ON ? `audio/montage/detective-${key}.mp3` : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : VIOLIN ? `audio/violin/detective-${key}.mp3`
     : CHRISTMAS ? `audio/christmas/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
@@ -5620,6 +5788,7 @@ function talkTo(id){
   // the first meeting, or one whose greeting was cut off (user request: leaving in the middle must not lose it, e.g.
   // Rosie's request): helloCut stays until the greeting has been said to the end
   const met = per(id).phase !== 'wait', first = !met || !!per(id).helloCut;
+  autoHeld = null;
   S.cur = id; S.view = id; S.sel = null;
   if(!ending) renderSay(null);
   if(!S.met.includes(id)) S.met.push(id);
@@ -5697,6 +5866,48 @@ function leaveTalk(){ enterPlace(cur().place, true); }
 // an `after` beat, any voice playing. The top chip still leaves.
 const linesPlaying = () => !!greetingId || beatOn === S.cur || !clip.paused || !$('#evidenceVoice').paused ||
   ('speechSynthesis' in window && speechSynthesis.speaking);
+/* ---------- BGM (test, 2026-11-18: one Suno piece, audio/bgm/) ---------- */
+// The background music on the home screens only (user request 2026-11-19: none while a case is played), low, and lower
+// still while anyone speaks (a listening game: the lines first); it fades out going into a case and back in on return. Starts on the first tap (browsers play no sound before one). It loops with a short crossfade: two copies,
+// the next fading in over the last BGM_FADE seconds (the piece ends at full sound). 끄기 is kept on this device.
+const BGM_SRC = 'audio/bgm/missing-acorn.mp3', BGM_VOL = .32, BGM_DUCK = .08, BGM_FADE = 1.6;
+// src set after new Audio(), not passed to it: the artifact build serves recordings from packs by catching src being set
+const bgmEl = () => { const a = new Audio(); a.src = BGM_SRC; return a; };
+const bgm = { els:[bgmEl(), bgmEl()], i:0, on:true, started:false, level:0 };
+bgm.els.forEach(a => { a.preload = 'auto'; a.volume = 0; });
+try { bgm.on = window.localStorage.getItem('detective.bgm') !== 'off'; } catch(e){}
+const voicePlaying = () => !clip.paused || !$('#evidenceVoice').paused || !$('#wordVoice').paused ||
+  ('speechSynthesis' in window && speechSynthesis.speaking);
+function bgmStart(){
+  if(bgm.started || !bgm.on) return;
+  bgm.started = true; const a = bgm.els[bgm.i]; a.currentTime = 0; a.play().catch(() => { bgm.started = false; });
+}
+function bgmStop(){ bgm.started = false; bgm.els.forEach(a => { a.pause(); a.volume = 0; }); bgm.level = 0; }
+function bgmTick(){
+  if(!bgm.started) return;
+  const home = !$('#caseList').hidden;
+  const target = (document.hidden || !home ? 0 : voicePlaying() ? BGM_DUCK : BGM_VOL);
+  bgm.level += (target - bgm.level) * (target < bgm.level ? .45 : .12);   // quick down under a voice, slow back up
+  const a = bgm.els[bgm.i], b = bgm.els[1 - bgm.i];
+  // in a case: once faded out, paused where it was; back home it goes on from there
+  if(!home && bgm.level < .004){ bgm.els.forEach(x => { x.volume = 0; x.pause(); }); bgm.level = 0; return; }
+  if(home && a.paused && !a.ended) a.play().catch(() => {});
+  const left = (a.duration || 99) - a.currentTime;
+  if(left < BGM_FADE && b.paused){ b.currentTime = 0; b.play().catch(() => {}); }
+  const fade = Math.max(0, Math.min(1, left / BGM_FADE));
+  a.volume = Math.max(0, Math.min(1, bgm.level * fade));
+  if(!b.paused) b.volume = Math.max(0, Math.min(1, bgm.level * (1 - fade)));
+  if(a.ended || left <= .05){ a.pause(); bgm.i = 1 - bgm.i; }
+}
+setInterval(bgmTick, 80);
+document.addEventListener('pointerdown', bgmStart, { capture:true });
+document.addEventListener('keydown', bgmStart, { capture:true });
+function renderBgm(){ $('#devBgm').textContent = bgm.on ? 'BGM 끄기' : 'BGM 켜기'; }
+$('#devBgm').onclick = () => {
+  bgm.on = !bgm.on; try { window.localStorage.setItem('detective.bgm', bgm.on ? 'on' : 'off'); } catch(e){}
+  bgm.on ? bgmStart() : bgmStop(); renderBgm();
+};
+renderBgm();
 $('#talkCamera').addEventListener('click', e => {
   if(!S.investigate && tapGo()) return;   // a tap on the screen goes on from a detective line, the person too
   if(S.investigate || ending || talkLocked() || linesPlaying() || $('#app').classList.contains('notes-open')) return;
@@ -5744,6 +5955,8 @@ function doAction(aid){
   const lines = [...(a.say === false ? [] : [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }]), ...(a.lines || [{ key:aid, en:a.answer, ko:a.answerKo, ...(hold ? { mood:hold.mood } : {}) }])];
   const done = () => {
     if(greetingId !== who) return;
+    // a witness's sketch (montage): it opens under their bubble, the greeting held until it closes
+    if(a.montage) return openMontage(who, a);
     // the thing stays in their hands until it is tapped; the questions stay away meanwhile (the greeting goes on)
     if(hold){ holdOut = { who, ...hold, then:a.inspect }; placeHeld(); return; }
     setGreeting(null);
@@ -5797,6 +6010,103 @@ $('#heldItem').addEventListener('click', () => {
   if(then && S.cur === who && !S.investigate) setTimeout(() => { if(S.cur === who && !S.investigate && !greetingId){ openInspect(then); if(thoughts.length) setTimeout(playThought, 800); } }, 1500);
   else renderAsk();
 });
+/* ---------- montage: a witness's lines matched on a pencil sketch (PACK.montage, the robbery case) ---------- */
+// A witness's action with `montage` opens the sketch under their bubble. They say what they saw one line at a time;
+// the part that line is about is the one the arrows change (the rest faint until heard, dark once matched). 이 모습이에요:
+// right, they say so and go on; wrong, they say the line again. A matched part is a flag (mt:<part>), kept in the save.
+const MT = PACK?.montage || null;
+let mt = null;   // { who, i, a }: the witness, the line being matched, the action that opened it; { view:true } in the ending
+const mtPick = {};   // part → the option shown now (a part not matched yet)
+const mtDone = part => S.flags.has(`mt:${part}`);
+const mtShown = part => { const p = MT.parts[part];
+  if(mtDone(part)) return p.opts.findIndex(o => o.id === p.answer);
+  if(mtPick[part] === undefined) mtPick[part] = 0;
+  return mtPick[part]; };
+const mtLine = () => mt && !mt.view ? MT.lines[mt.who][mt.i] : null;
+function montageSVG(active){
+  return MT.layers.map(l => MT.base[l] !== undefined ? MT.base[l]
+    : `<g class="mt-layer ${mtDone(l) ? 'set' : l === active ? 'on' : 'faint'}" data-part="${l}">${MT.parts[l].opts[mtShown(l)].svg}</g>`).join('');
+}
+function renderMontage(){
+  const box = $('#montage'), f = mtLine();
+  if(!mt){ box.hidden = true; return; }
+  box.hidden = false;
+  box.classList.toggle('view', !!mt.view);
+  $('#mtArt').innerHTML = montageSVG(f?.part);
+  $('#mtOk').disabled = !f || mtDone(f.part);
+  fitMontage();
+}
+// under the bubble (its height changes with the line), down to the bottom of the screen
+function fitMontage(){
+  const box = $('#montage'), bubble = $('#sayBubble');
+  if(box.hidden) return;
+  box.style.top = `${bubble.hidden || bubble.classList.contains('det') ? 58 : bubble.offsetTop + bubble.offsetHeight + 16}px`;
+}
+new ResizeObserver(fitMontage).observe($('#sayBubble'));
+let mtLoaded = false;
+function openMontage(who, a){
+  // every look loaded now, so ◀ ▶ change the picture at once
+  if(!mtLoaded){ mtLoaded = true; Object.values(MT.parts).forEach(p => p.opts.forEach(o => { new Image().src = o.src; })); }
+  mt = { who, a, i:MT.lines[who].findIndex(f => !mtDone(f.part)) };
+  if(mt.i < 0) return closeMontage(true);
+  renderMontage();
+  mtSay();
+}
+// the witness says the line being matched (again: after a wrong pick, "No." first)
+function mtSay(again){
+  const f = mtLine(); if(!f) return;
+  const who = mt.who, en = again ? `No. ${f.en}` : f.en, key = again ? `no-${f.key}` : f.key;
+  const say = () => speak(en, key, who);
+  renderSay({ who, en, ko:again ? `아니. ${f.ko}` : f.ko, replay:() => { dropTap(); say(); } });
+  say();
+}
+function mtTurn(d){
+  const f = mtLine(); if(!f || mtDone(f.part)) return;
+  const n = MT.parts[f.part].opts.length;
+  mtPick[f.part] = (mtShown(f.part) + d + n) % n;
+  const tap = $('#closeClick'); tap.currentTime = 0; tap.play().catch(() => {});   // the soft wooden tap (user request)
+  renderMontage();
+  const g = $(`#mtArt [data-part="${f.part}"]`); g?.classList.add('pop');
+}
+function mtCheck(){
+  const f = mtLine(); if(!f || mtDone(f.part)) return;
+  const p = MT.parts[f.part], right = p.opts[mtShown(f.part)].id === p.answer, who = mt.who;
+  const sound = $(right ? '#correctChime' : '#retryBuzz'); sound.currentTime = 0; sound.play().catch(() => {});
+  if(!right){ S.flags.add(`mtmiss:${f.part}`); $('#montage .mt-paper').classList.remove('shake'); void $('#montage').offsetWidth; $('#montage .mt-paper').classList.add('shake'); return setTimeout(() => { if(mtLine() === f) mtSay(true); }, 350); }
+  S.flags.add(`mt:${f.part}`); saveGame();
+  renderMontage();
+  const yes = MT.yes[who], next = () => { if(mt?.who !== who) return;
+    mt.i = MT.lines[who].findIndex(x => !mtDone(x.part));
+    if(mt.i >= 0){ renderMontage(); return mtSay(); }
+    // their last one: their own closing line, then (a tap) the sketch goes and they are done
+    const end = MT.end[who];
+    renderMontage();
+    renderSay({ who, en:end.en, ko:end.ko, replay:() => { dropTap(); speak(end.en, end.key, who); } });
+    speak(end.en, end.key, who, () => waitTap(() => closeMontage(true)));
+  };
+  renderSay({ who, en:yes.en, ko:yes.ko });
+  speak(yes.en, yes.key, who, () => setTimeout(next, 300));
+}
+// done: the action's flag (the witness has said all); else left in the middle (the action stays, matched parts kept)
+function closeMontage(done){
+  if(!mt) return;
+  const { who, a } = mt;
+  if(!done) autoHeld = who;   // put away by the player: not asked again until they come back (autoAsk)
+  mt = null; renderMontage();
+  if(done && a?.flag && !S.flags.has(a.flag)){ S.flags.add(a.flag); saveGame(); }
+  stopVoice(); renderSay(null);
+  if(greetingId === who) setGreeting(null);
+  if(S.cur === who && !S.investigate){ renderAsk(); checkThoughts(); if(thoughts.length) playThought(); }
+}
+// the finished sketch, big, while the officer looks at it (the ending)
+function showMontage(on){ mt = on ? { view:true } : null; renderMontage(); }
+$('#montage').addEventListener('click', e => {
+  const turn = e.target.closest('[data-mt]');
+  if(turn) return mtTurn(+turn.dataset.mt);
+  if(e.target.closest('#mtOk')) return mtCheck();
+  if(e.target.closest('[data-mt-close]')) return closeMontage(false);
+  tapGo();   // a tap on the sketch goes on from a line waiting for it, as anywhere on the screen
+});
 // the close look (a place with inspect: never on the map): folded first; 〈 goes back to the person who handed it over
 let inspectFrom = null;   // the place a close look was opened from (a clue there), where 〈 goes back to
 function openInspect(id = PLACES.find(p => p.inspect)?.id, from = null){
@@ -5817,6 +6127,7 @@ function openInspect(id = PLACES.find(p => p.inspect)?.id, from = null){
 function askAudio(id, qid){
   if(PICNIC) return `audio/picnic/detective-${id}-${qid}.mp3`;
   if(KITE) return `audio/kite/detective-${id}-${qid}.mp3`;
+  if(MONTAGE_ON) return `audio/montage/detective-${id}-${qid}.mp3`;
   if(UMBRELLA) return `audio/umbrella/detective-${id}-${qid}.mp3`;
   if(VIOLIN) return `audio/violin/detective-${id}-${qid}.mp3`;
   if(CHRISTMAS) return `audio/christmas/detective-${id}-${qid}.mp3`;
@@ -6416,7 +6727,14 @@ function flyFromHands(item, from, icon, bump){
 $('#itemsTab').hidden = !Object.keys(ITEMS).length;
 // a case played in one place has no map button (user request 2026-11-18: the umbrella case is all in the village hall)
 $('#mapTab').hidden = ONE_PLACE;
-$('#itemsTab').closest('.nav').classList.toggle('three', !$('#itemsTab').hidden && !$('#mapTab').hidden);
+// the robbery case writes nothing down (the sketch instead): no 노트 (user request 2026-11-18)
+$('#noteTab').hidden = !!MT;
+{ // the menu shows only the buttons this case has; none (the robbery case: one place, no notebook, nothing to hand
+  // over) → no menu strip at all (user request 2026-11-18: an empty strip at the bottom looked unfinished)
+  const nav = $('#itemsTab').closest('.nav'), shown = [...nav.querySelectorAll('.tab')].filter(t => !t.hidden).length;
+  nav.classList.toggle('three', shown === 3);
+  nav.classList.toggle('one', shown === 1);
+  nav.hidden = !shown; }
 $('#itemsTab').onclick = () => {
   if(drawerBrowse) return closeDrawer();
   if(talkLocked()) return;
@@ -6614,7 +6932,7 @@ const DEDUCE = PACK ? PACK.deduce : {
 // replies, h1… hints, miss; the detective's voice, Higgsfield MiniMax Grady); a line missing here is read by the
 // browser's voice (a question marked unrecorded, all three of its lines)
 const DEDUCE_RECORDED = PACK?.silent ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => q.unrecorded ? [] : [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const DEDUCE_DIR = KITE ? 'audio/kite/deduce/' : PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : VIOLIN ? 'audio/violin/deduce/' : CHRISTMAS ? 'audio/christmas/deduce/' : 'audio/deduce/';
+const DEDUCE_DIR = KITE ? 'audio/kite/deduce/' : MONTAGE_ON ? 'audio/montage/deduce/' : PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : VIOLIN ? 'audio/violin/deduce/' : CHRISTMAS ? 'audio/christmas/deduce/' : 'audio/deduce/';
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답', opt2:'답' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
@@ -7645,6 +7963,7 @@ function endingNext(){
    them; then the next bag, until each is back with its owner. */
 const detLine = line => { const name = detectiveName(); return { ...line, name:name ? `Detective ${name}` : 'Detective', det:true }; };
 function startHandoff(){
+  if(MT) showMontage(true);   // the finished sketch, big, while it is handed over
   ending = { step:'handoff', round:S.handoffRound || 0, returnPlace:S.place || cur().place };
   $('#app').classList.add('ending');
   handoffOpen();
@@ -7765,6 +8084,7 @@ function endingMusic(on){
   }, on ? 75 : 100);
 }
 function finishEnding(){
+  if(MT) showMontage(false);
   clearTimeout(endTimer); stopVoice(); endingMusic(false); closeDrawer(); renderSay(null);
   ending = null; $('#app').classList.remove('ending'); renderInterrogationGauge();
   S.mood = {};
@@ -7777,6 +8097,9 @@ function finishEnding(){
 /* ---------- review: after the case, the full lines, Korean, and the blanks missed at the first check ---------- */
 // First-check results of the case just solved in this visit: totals, stars, and the questions missed at first.
 function liveStats(){
+  // the robbery case: the sketch's parts, matched at the first pick or not (mtmiss: a wrong pick first)
+  if(MT){ const parts = Object.keys(MT.parts), ok = parts.filter(p => !S.flags.has(`mtmiss:${p}`)).length, rate = ok / parts.length;
+    return { ok, total:parts.length, stars:rate >= .9 ? 3 : rate >= .7 ? 2 : 1, missed:[], wrong:{} }; }
   const people = S.met.filter(id => per(id).order.length);
   people.forEach(id => recordFirst(id));
   const ok = people.reduce((n, id) => n + per(id).first.ok, 0), total = people.reduce((n, id) => n + per(id).first.total, 0);
@@ -7821,7 +8144,7 @@ function renderReview(dir){
       <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div>
       ${CASE.summary ? `<div class="rv-story"><h3>사건 요약</h3>${CASE.victimPhoto ? `<img class="rv-victim" src="${esc(CASE.victimPhoto)}" alt="후트 교수">` : ''}<p>${esc(CASE.summary)}</p></div>` : ''}
       <div class="rv-tiles">
-        <div>처음에 맞힌 빈칸<b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b></div>
+        <div>처음에 맞힌 ${MT ? '특징' : '빈칸'}<b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b></div>
         <div${rv.missed.length ? ' class="hot"' : ''}>다시 들을 문장<b>${rv.missed.length || '없음'}</b></div>
         <div>사건에 나온 단어<b>${rv.words.length}</b></div>
       </div>`;
@@ -8313,6 +8636,8 @@ const ART = {
   // the redrawn hall (2026-11-18, user pick A): nothing drawn over it (no stand, no bazaar photo, notice or banner words)
   hall: () => `<image href="assets/places/umbrella/hall.webp" width="1376" height="768"/>`,
   // the kite case's park (the full-size band, park-hi.webp, so the close looks stay sharp) and its six hidden kites
+  // the robbery case's street by the honey shop (scripts/cut-montage-places.py)
+  shop: () => `<image href="assets/places/montage/shop.webp" width="1376" height="768"/>`,
   park: () => `<image href="assets/places/kite/park-hi.webp" width="1376" height="768"/>` + kitesArt(),
   toynest: () => `<image href="assets/places/umbrella/toynest.webp" width="1376" height="768"/>
     <text x="1013" y="234" text-anchor="middle" font-size="40" font-weight="700" fill="#FFF8E6" stroke="#5E4630" stroke-width="1.5" paint-order="stroke" font-family="Georgia,serif" transform="rotate(1 1013 220)">Toy Nest</text>`,
@@ -8428,6 +8753,7 @@ const ART_FLOOR = {
   // the umbrella case: one tall picture each, as Betty's home
   hall:    { src:'assets/places/umbrella/hall-floor.jpg', h:975 },
   park:    { src:'assets/places/kite/park-floor.jpg', h:900 },
+  shop:    { src:'assets/places/montage/shop-floor.jpg', h:900 },
   toynest: { src:'assets/places/umbrella/toynest-floor.jpg', h:1015 },
   windmill:{ src:'assets/places/umbrella/windmill-floor.jpg', h:1025 },
   // the violin case: one tall picture each as well
@@ -8888,6 +9214,7 @@ setInterval(function nudgeTick(){
 let sceneFocus = null;
 const sceneLeftFor = id => $('#art').offsetWidth * positionOf(id).x / 100 - artWrap.clientWidth / 2;
 function enterPlace(id, fromConversation = false){
+  if(mt && !mt.view) closeMontage(false);   // the sketch goes with the conversation (matched parts kept)
   dropHold();
   if(!S.known.has(id) && !(fromConversation && id === cur().place) && !placeOf(id)?.inspect && !placeOf(id)?.doorOnly) return;
   const fromRect = !S.investigate && id === cur().place ? $('#art').getBoundingClientRect() : null;
@@ -9451,6 +9778,7 @@ const DETECTIVE = {
   // 홈, right after a case's review: the detective's line for that case (key clear-<case id>; user request 2026-11-18,
   // after the feedback mock-up: a finished case goes back to 홈, not the case cards, and the detective says it)
   'clear-missing-kite':{ en:"We found Toby's kite together!", ko:'토비의 연을 함께 찾았어!' },
+  'clear-honey-robber':{ en:"We made the robber's picture together!", ko:'우리가 같이 범인 그림을 완성했어!' },
   'clear-unclaimed-umbrella':{ en:"We found the umbrella's owner together!", ko:'우산 주인을 함께 찾았어!' },
   'clear-picnic-bag':{ en:'We found the right bags together!', ko:'맞는 가방을 함께 찾았어!' },
   'clear-missing-violin':{ en:'We found the violin together!', ko:'바이올린을 함께 찾았어!' },
@@ -9659,26 +9987,30 @@ const CASES = [
     focus:'누구의 것인지 듣기', keys:['mine'],
     photo:{ img:'assets/places/umbrella/umbrella-sheet-original.png' },
     summary:'마을회관에 남은 별무늬 우산의 주인을 찾았다. 우산을 잃어버린 핀, 테스, 루비에게 각자의 우산이 어떻게 생겼는지 듣고 비교했다. 핀의 우산은 무늬가 없었고, 테스와 루비의 우산은 겉모습이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
-  { id:'picnic-bag', no:'Case 03', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+  { id:'honey-robber', no:'Case 03', title:'꿀 가게 강도', en:'The Honey Shop Robber', art:'shop', cover:{ src:'assets/places/montage/cover.jpg', alt:'얼굴이 가려진 수배 전단', bg:'#B98A5E', fit:'contain' }, playable:true,
+    focus:'생김새·옷차림 듣기', keys:['has-wearing'],
+    photo:{ img:'assets/places/montage/wanted.jpg' },
+    summary:'꿀 가게에서 돈통을 들고 달아난 곰의 몽타주를 만들었다. 가게 주인 브루노는 얼굴을, 토비는 뒷모습을, 베티는 도서관 창문에서 옷차림을 봤다. 세 목격자의 말을 하나씩 그림으로 맞춰 오소리 경사에게 건넸다.' },
+  { id:'picnic-bag', no:'Case 04', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
     summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 벤의 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
-  { id:'missing-violin', no:'Case 04', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
+  { id:'missing-violin', no:'Case 05', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
     photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.png', cx:40, w:52, b:-29 },   // smaller, his face in the picture (user request 2026-11-17)
     summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 무대 뒤 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
-  { id:'case01', no:'Case 05', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
+  { id:'case01', no:'Case 06', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
     victimPhoto:'assets/characters/hoot-higgsfield.png',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   // the education plan's order (L1-05 B, handed over 2026-11-09): the Christmas star after the library; no pictures yet
-  { id:'christmas-star', no:'Case 06', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
+  { id:'christmas-star', no:'Case 07', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
     photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.png', cx:50, w:56, b:-38 },
     summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 탐정이 무거운 상자 속 별 뒷면의 잎사귀 무늬를 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
-  { id:'case04', no:'Case 07' }
+  { id:'case04', no:'Case 08' }
 ];
 // the case this page plays (CASE_ID)
 const CASE = CASES.find(c => c.id === CASE_ID);
@@ -10518,6 +10850,8 @@ $('#devDone').onclick = () => {
     fillAnswers(id, p.order, false);
   });
   S.met = PEOPLE_ORDER.filter(id => !spk(id).joins);
+  // the robbery case: every part of the sketch matched, every action (the request, each witness) done
+  if(MT){ Object.keys(MT.parts).forEach(part => S.flags.add(`mt:${part}`)); PEOPLE_ORDER.forEach(id => (spk(id).actions || []).forEach(a => { if(a.flag) S.flags.add(a.flag); })); }
   PLACES.forEach(pl => { if(!pl.inspect) S.known.add(pl.id); });
   PEOPLE_ORDER.forEach(id => Object.values(spk(id).after || {}).forEach(beat => { if(beat.give && !S.items.includes(beat.give) && !S.handoffRound) S.items.push(beat.give); }));
   renderPlaces();
@@ -10614,7 +10948,7 @@ $('#devInterro').onclick = () => {
     if(ending) leaveEnding();
     if(!allConversationsDone()) $('#devDone').click();
     S.handoffRound = ENDING.handoff.length - 1;
-    S.items = [ENDING.handoff.at(-1).give];
+    S.items = [ENDING.handoff.at(-1).give].filter(Boolean);
     startHandoff(); ending.step = 'handoffTalk'; ending.i = 0; handoffLine();
     return;
   }
@@ -10663,6 +10997,7 @@ const previewDeduced = () => {
 };
 // [id, label] of each case's parts; a part of another case opens that case's page
 const PREVIEW_OF = {
+  'honey-robber':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '경사에게 건네기'], ['review', '복습']],
   'missing-kite':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '토비에게 연 찾아 주기'], ['review', '복습']],
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '니코 심문'], ['weigh', '저울'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
