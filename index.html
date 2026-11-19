@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>숲속 탐정</title>
 <link rel="preload" href="assets/fonts/Paperlogy-4Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/ui/complete-stamp.png" as="image">
+<link rel="preload" href="assets/ui/complete-stamp.webp" as="image">
 <style>
 /* Paperlogy (SIL OFL 1.1), bundled in assets/fonts. "Paperlogy Display" = the SemiBold cut for titles, buttons and stamps,
    so those rules can keep font-weight:400. */
@@ -218,10 +218,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* Use the same flat paper artwork as the back/replay buttons. The matte pencil icon sits inside the paper;
    a separate clipped channel fills without repainting or stretching the icon and outer outline. */
 .gauge-track{position:relative;flex:1;box-sizing:border-box;height:36px}
-.gauge-track::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper) url(assets/ui/buttons/cream-flat.png) center/calc(100% + 64px) 400% no-repeat}
+.gauge-track::before{content:"";position:absolute;inset:0;border:2px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper) url(assets/ui/buttons/cream-flat.webp) center/calc(100% + 64px) 400% no-repeat}
 .gauge-symbol{position:absolute;left:5px;top:50%;width:34px;height:34px;object-fit:contain;transform:translateY(-50%)}
 .gauge-meter{position:absolute;left:45px;right:12px;top:10px;bottom:10px;overflow:hidden;border-radius:8px 10px 7px 9px;background:#E8DCC3}
-.gauge-fill{position:absolute;inset:0;background:#F2CF73 url(assets/ui/buttons/honey-flat.png) center/calc(100% + 64px) 400% no-repeat;clip-path:inset(0 calc(100% * (1 - var(--q,0))) 0 0);transition:clip-path .6s cubic-bezier(.2,.8,.3,1)}
+.gauge-fill{position:absolute;inset:0;background:#F2CF73 url(assets/ui/buttons/honey-flat.webp) center/calc(100% + 64px) 400% no-repeat;clip-path:inset(0 calc(100% * (1 - var(--q,0))) 0 0);transition:clip-path .6s cubic-bezier(.2,.8,.3,1)}
 .interrogation-gauge.hit .gauge-track{animation:gauge-hit .65s ease-out}
 @keyframes gauge-hit{35%{transform:scale(1.025)}}
 /* the evidence drawer: a strip of photos under her; picking one plays its sentence, 내밀기 holds it up */
@@ -354,7 +354,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 
 /* Reusable illustrated skin: nine-slice body, independent tail, live text and controls.
    Keep corner pixels fixed as dialogue grows; long copy scrolls while the controls stay visible. */
-.bubble{--bubble-top:44px;--bubble-frame:url(assets/ui/speech-paper-frame.png);--bubble-tail:url(assets/ui/speech-paper-tail-pencil.png);position:absolute;left:50%;top:var(--bubble-top);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;box-sizing:border-box;width:min(88%,380px);max-width:calc(100% - 32px);max-height:calc(100% - var(--bubble-top) - 112px);padding:24px 20px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px);animation:bubble-pop .42s cubic-bezier(.3,1.45,.5,1) both}
+.bubble{--bubble-top:44px;--bubble-frame:url(assets/ui/speech-paper-frame.webp);--bubble-tail:url(assets/ui/speech-paper-tail-pencil.webp);position:absolute;left:50%;top:var(--bubble-top);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;box-sizing:border-box;width:min(88%,380px);max-width:calc(100% - 32px);max-height:calc(100% - var(--bubble-top) - 112px);padding:24px 20px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px);animation:bubble-pop .42s cubic-bezier(.3,1.45,.5,1) both}
 /* Opaque paper behind the translucent image slices prevents hairline seams inside the frame. */
 .bubble::before{content:"";position:absolute;inset:0;z-index:-1;background-color:var(--bubble-paper,#FFF8E9);background-clip:padding-box;border:20px solid transparent;border-image:var(--bubble-frame) 150 190 fill / 33px 42px / 0 stretch;pointer-events:none}
 /* Keep the tail asset's transparent safety margin and aspect ratio, including the complete pencil-drawn V tip. Its open
@@ -417,19 +417,19 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* three fixed tabs — 인물 · 증거 · 메모 (user decision: one tab per person overflowed as the cast grew). A stamp each (the row
    is narrow): brown ink when closed, the memo's blue ink with a little tilt when open (user decision).
    Divider sheets behind the note's page (user decision: tabs on the folder's blue band looked apart from the paper):
-   every tab comes out from under the page's top edge, the open one is the page itself. The closed ones are kraft paper, a shade darker each one further back; the page's own top edge (assets/ui/casefile-paper-edge.png, cut from the
+   every tab comes out from under the page's top edge, the open one is the page itself. The closed ones are kraft paper, a shade darker each one further back; the page's own top edge (assets/ui/casefile-paper-edge.webp, cut from the
    picture: the paper and only the last two rows of its pencil line, so a closed tab meets the paper at a thin line, not the
    thick edge drawn against the folder (user request: no gap under the tabs); .note-edge) is laid again over their feet
-   with a faint shadow up onto them. The open one sits above that strip, open at the bottom (tab-N.png, its slightly grey last
+   with a faint shadow up onto them. The open one sits above that strip, open at the bottom (tab-N.webp, its slightly grey last
    rows pushed below) and fading into the cream past the pencil line, so the page's edge runs into its sides with no seam.
    Layers inside the dock: picture < closed tabs < .note-edge < open tab < head and body. The PNG masks the tab's face and
    is multiplied over its colour, keeping the pencil outline; the button carries the shadow. The foot is at 9.5% of the
    dock's width (margin %): the picture's pencil line runs at 6.7–7.6%, the strip from 5.5% to 11.5%. */
 .note-cats{position:absolute;bottom:100%;margin-bottom:-9.5%;left:7%;display:flex;gap:5px;align-items:flex-end;transition:opacity .25s}
 .app.record-lock .note-cats{opacity:0;pointer-events:none}
-.ncat{--tab:url(assets/ui/tab-1.png);position:relative;flex:none;display:block;width:58px;height:44px;padding:0;border:0;background:none;filter:drop-shadow(0 1px 1.2px rgba(30,24,20,.3))}
-.ncat:nth-child(2){--tab:url(assets/ui/tab-2.png)}
-.ncat:nth-child(3){--tab:url(assets/ui/tab-3.png)}
+.ncat{--tab:url(assets/ui/tab-1.webp);position:relative;flex:none;display:block;width:58px;height:44px;padding:0;border:0;background:none;filter:drop-shadow(0 1px 1.2px rgba(30,24,20,.3))}
+.ncat:nth-child(2){--tab:url(assets/ui/tab-2.webp)}
+.ncat:nth-child(3){--tab:url(assets/ui/tab-3.webp)}
 .ncat .face{position:absolute;inset:0;display:grid;place-items:center;padding-bottom:6px;background:#DCCCA8;
   -webkit-mask:var(--tab) center/100% 100% no-repeat;mask:var(--tab) center/100% 100% no-repeat}
 .ncat:nth-child(2) .face{background:#D5C39C}
@@ -444,7 +444,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ncat[aria-pressed="true"] .face::before{background-position:top;background-size:100% 112%;
   -webkit-mask:linear-gradient(#000 calc(100% - 2.2cqw),transparent 0);mask:linear-gradient(#000 calc(100% - 2.2cqw),transparent 0)}
 .ncat[aria-pressed="true"] .stamp{color:#34506E;opacity:.92;transform:rotate(-6deg)}
-.note-edge{position:absolute;left:0;right:0;top:0;margin-top:5.4945%;aspect-ratio:728 / 44;background:url(assets/ui/casefile-paper-edge.png) 0 0/100% 100% no-repeat;
+.note-edge{position:absolute;left:0;right:0;top:0;margin-top:5.4945%;aspect-ratio:728 / 44;background:url(assets/ui/casefile-paper-edge.webp) 0 0/100% 100% no-repeat;
   filter:drop-shadow(0 -.5px .8px rgba(40,28,18,.22));pointer-events:none}
 .ncat .badge{position:absolute;top:3px;right:4px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--berry);color:#fff;font-size:10px;line-height:16px;text-align:center;animation:ncat-pop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes ncat-pop{from{transform:scale(0)}}
@@ -457,7 +457,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nface .mini{display:block;width:42px;height:42px}
 .nface .pic i{position:absolute;right:-6px;bottom:-3px;display:grid;place-items:center;min-width:19px;height:19px;padding:0 3px;box-sizing:border-box;border-radius:10px;background:#FFFDF7;border:1.5px solid var(--ink);font-style:normal;font-size:9.5px;color:var(--ink)}
 .nface .pic i.done{background:var(--ok);border-color:var(--ok);color:#fff}
-.nface[aria-pressed="true"]{border-image:url(assets/ui/buttons/honey-flat.png) 60 62 62 62 fill / 12px 12.4px stretch;color:var(--ink)}
+.nface[aria-pressed="true"]{border-image:url(assets/ui/buttons/honey-flat.webp) 60 62 62 62 fill / 12px 12.4px stretch;color:var(--ink)}
 /* 📌: a checked statement or a piece of evidence pinned to the memo */
 .nb-pin{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#FFFDF7;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink-soft);vertical-align:middle;transition:background .2s,box-shadow .2s,transform .1s}
 /* the pin icon (#pinIcon): a round head, a short needle (user request: a long needle wasn't cute). Off: grey outline lying
@@ -494,7 +494,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .dock-head .listen[hidden]{display:none}
 .dock-head .listen .pill{white-space:nowrap}
 /* its ▶: the round play button's own picture, small (user request: the same icon as the other pages) */
-.play-ico{flex:none;width:24px;height:24px;background:url(assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(assets/ui/buttons/round-cream.png) center/100% no-repeat}
+.play-ico{flex:none;width:24px;height:24px;background:url(assets/ui/icons/play.webp) 58% 50%/46% auto no-repeat,url(assets/ui/buttons/round-cream.webp) center/100% no-repeat}
 .spd{flex:none;height:32px;min-width:48px;padding:0 10px;border:1.5px solid #CDBFA4;border-radius:16px;background:none;font-family:var(--f-display);font-size:13px;color:var(--ink-soft)}
 .spd[aria-pressed="true"]{border-color:var(--ink);background:var(--honey);color:var(--ink)}
 .listen .hint{position:relative;flex:none;display:grid;place-items:center;width:36px;height:36px;margin-left:auto;padding:0;border:0;border-radius:50%;background:none}
@@ -632,7 +632,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ck-note mark{background:linear-gradient(transparent 55%,rgba(201,111,134,.35) 55%);color:inherit}
 .ck-note .replay-q{grid-row:1;grid-column:2;width:32px;height:32px;margin:0}
 /* all replay controls use the case key's round cream button, including notebook, grammar and study cards */
-.replay-q,.play-btn{border:0;border-radius:0;background:url(assets/ui/icons/play.png) 58% 50%/46% auto no-repeat,url(assets/ui/buttons/round-cream.png) center/100% no-repeat}
+.replay-q,.play-btn{border:0;border-radius:0;background:url(assets/ui/icons/play.webp) 58% 50%/46% auto no-repeat,url(assets/ui/buttons/round-cream.webp) center/100% no-repeat}
 .replay-q:active,.play-btn:active{transform:translateY(1px)}
 .replay-q svg{display:none}
 .play-btn{flex:none;width:32px;height:32px;padding:0}
@@ -871,17 +871,17 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* the place name floats over the picture as a paper chip, like the top-left chip of a conversation
    (user decision: no header band or rule above the place) */
 .inv-head{position:absolute;top:10px;left:66px;right:12px;z-index:4;display:flex;pointer-events:none}
-.inv-head h2{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;max-width:100%;margin:0;padding:0 14px;border:2px solid transparent;
+.inv-head h2{--btn:url(assets/ui/buttons/cream-flat.webp);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;max-width:100%;margin:0;padding:0 14px;border:2px solid transparent;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-weight:400;font-size:15px;line-height:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inv-head h2:empty{display:none}
 /* the evidence the interrogation needs, found so far (user decision: option A, only that evidence,
    not every clue): magnifier + n / N on the cream paper chip; it gives a little bump when it goes up and turns honey when
    all are found; it opens the notebook's evidence page (evidenceNeed, renderSceneHead) */
 .ev-count{pointer-events:auto;margin-left:auto;display:inline-flex;align-items:center;gap:5px;flex:none;min-height:36px;padding:0 11px 0 6px;border:2px solid transparent;background:none;
-  border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch;font-family:var(--f-display);font-size:16px;line-height:1;color:var(--ink);white-space:nowrap}
+  border-image:url(assets/ui/buttons/cream-flat.webp) 60 62 62 62 fill / 15px 15.5px stretch;font-family:var(--f-display);font-size:16px;line-height:1;color:var(--ink);white-space:nowrap}
 .ev-count img{width:24px;height:24px}
 .ev-count small{font-size:12px;color:var(--ink-soft)}
-.ev-count.all{border-image-source:url(assets/ui/buttons/honey-flat.png)}
+.ev-count.all{border-image-source:url(assets/ui/buttons/honey-flat.webp)}
 .ev-count.all small{color:var(--ink)}
 .ev-count.bump{animation:ev-bump .4s cubic-bezier(.3,1.6,.5,1)}
 @keyframes ev-bump{40%{transform:scale(1.15)}}
@@ -892,7 +892,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
    It makes one thing still needed here sparkle for a moment (.hinted), never says what it is; the camera stays, an arrow
    at the edge (.find-edge) when that thing is off the screen; nothing left here, no hint spent: the map (or 〈) wiggles */
 .find-hint{pointer-events:auto;position:relative;flex:none;display:grid;place-items:center;width:36px;height:36px;margin-left:8px;padding:0;border:0;border-radius:50%;
-  background:url(assets/ui/buttons/round-cream.png) center/100% no-repeat}
+  background:url(assets/ui/buttons/round-cream.webp) center/100% no-repeat}
 .ev-count[hidden] + .find-hint{margin-left:auto}
 .find-hint img{width:24px;height:24px;display:block}
 .find-hint .n{position:absolute;right:-3px;bottom:-1px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--ink);color:#FFFDF7;font-family:var(--f-display);font-size:10px;line-height:16px;text-align:center}
@@ -913,7 +913,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .find-edge.right{right:8px;--dx:5px}
 @keyframes find-edge{50%{translate:var(--dx) 0}}
 @media(prefers-reduced-motion:reduce){#art .hinted,#art .scene-npc.hinted svg,#foldBtn.hinted,.wiggle,.find-edge{animation-duration:.01s}}
-.deduce-head h2{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;margin:0;padding:0 14px;border:2px solid transparent;
+.deduce-head h2{--btn:url(assets/ui/buttons/cream-flat.webp);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;margin:0;padding:0 14px;border:2px solid transparent;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-weight:400;font-size:18px;line-height:1.4;color:var(--ink);white-space:nowrap}
 
 .badge{display:inline-block;font-family:var(--f-display);font-size:12px;border:1.5px solid var(--ink);border-radius:10px;padding:1px 8px;background:var(--paper);white-space:nowrap}
@@ -935,7 +935,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .scene-npc:hover span,.scene-npc:focus-visible span{background:var(--honey)}
 .scene-npc:focus-visible{outline:3px dashed var(--berry);outline-offset:4px;border-radius:18px}
 /* a quiet while in a place: someone with questions left calls the player with a hand-drawn ! in a speech bubble over
-   their head (user decision: 느낌표 2, assets/ui/nudge-bang.png); it pops up, gives a little
+   their head (user decision: 느낌표 2, assets/ui/nudge-bang.webp); it pops up, gives a little
    jump every few seconds, and goes with the next touch (nudgeTick) */
 .scene-npc .nudge{position:absolute;left:50%;bottom:100%;height:44px;width:auto;margin-bottom:2px;pointer-events:none;transform:translateX(-50%);transform-origin:50% 100%;filter:drop-shadow(1px 2px 1px rgba(52,32,17,.25));animation:nudge-in .45s cubic-bezier(.3,1.6,.5,1) both,nudge-hop 2.4s ease-in-out .5s infinite}
 @keyframes nudge-in{from{opacity:0;transform:translateX(-50%) scale(.2)}}
@@ -985,19 +985,19 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.ending.questioning .top-back{display:grid}
 .tab[aria-expanded="true"]{background:var(--honey)}
 
-/* Paper buttons: flat hand-drawn button art (assets/ui/buttons/*-flat.png, no raised edge).
+/* Paper buttons: flat hand-drawn button art (assets/ui/buttons/*-flat.webp, no raised edge).
    border-image keeps the rounded ends unstretched; only the straight middle stretches. --bw = drawn corner size. */
-.pill,.tab{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;border:2px solid transparent;border-radius:0;box-shadow:none!important;background:none!important;
+.pill,.tab{--btn:url(assets/ui/buttons/cream-flat.webp);--bw:15px;border:2px solid transparent;border-radius:0;box-shadow:none!important;background:none!important;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch}
 .pill.sm{--bw:12px}
 .pill.big,.tab{--bw:20px}
-.pill.big{--btn:url(assets/ui/buttons/berry-flat.png)}
-.pill.green,.dock-foot .finish{--btn:url(assets/ui/buttons/sage-flat.png)}
-.pill.hint,.tab[aria-expanded="true"]{--btn:url(assets/ui/buttons/honey-flat.png)}
-.pill[aria-pressed="true"],.pill.blue{--btn:url(assets/ui/buttons/sky-flat.png)}
+.pill.big{--btn:url(assets/ui/buttons/berry-flat.webp)}
+.pill.green,.dock-foot .finish{--btn:url(assets/ui/buttons/sage-flat.webp)}
+.pill.hint,.tab[aria-expanded="true"]{--btn:url(assets/ui/buttons/honey-flat.webp)}
+.pill[aria-pressed="true"],.pill.blue{--btn:url(assets/ui/buttons/sky-flat.webp)}
 .pill:active,.tab:active{transform:translateY(1px);filter:brightness(.94)}
 /* The top-left way back and 다시 듣기 share one paper look and one size: 36px tall, 14px text. */
-.chip{--btn:url(assets/ui/buttons/cream-flat.png);--bw:15px;border:2px solid transparent;border-radius:0;background:none;
+.chip{--btn:url(assets/ui/buttons/cream-flat.webp);--bw:15px;border:2px solid transparent;border-radius:0;background:none;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch}
 button.chip{box-shadow:none}
 button.chip:active{transform:translateY(1px);filter:brightness(.94)}
@@ -1031,7 +1031,7 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
    squeezed into the phone); the title and the footer float over it */
 /* nothing but the hand-drawn close button over the top of the map (user decision: no title, no white fade) */
 .map-head{position:absolute;top:10px;right:12px;z-index:1}
-.close-button{display:block;flex:none;box-sizing:border-box;width:42px;height:42px;padding:0;border:0;background:url(assets/ui/close-button.png) center/contain no-repeat;filter:drop-shadow(0 3px 0 rgba(74,54,40,.3))}
+.close-button{display:block;flex:none;box-sizing:border-box;width:42px;height:42px;padding:0;border:0;background:url(assets/ui/close-button.webp) center/contain no-repeat;filter:drop-shadow(0 3px 0 rgba(74,54,40,.3))}
 .close-button:active{transform:translateY(1px)}
 .map-stage{position:absolute;inset:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;container-type:size;background:#7FA06A}
 .map-stage::-webkit-scrollbar{display:none}
@@ -1055,7 +1055,7 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .app.deducing:not(.note-full) .top-back{z-index:12}
 .deduce-head{position:absolute;top:10px;left:66px;right:14px;z-index:2;display:flex;align-items:center;gap:8px}
 .deduce-q{position:relative;z-index:4;flex:none;display:flex;gap:10px;margin:0 12px;padding:8px 12px 6px;min-height:110px;border:20px solid transparent;
-  border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;background:#FFF8E9;background-clip:padding-box;transition:background-color .3s}
+  border-image:url(assets/ui/speech-paper-frame.webp) 150 190 fill / 33px 42px / 0 stretch;background:#FFF8E9;background-clip:padding-box;transition:background-color .3s}
 .deduce-q.read{background-color:#FFF0BF}
 .deduce-q.wrong{background-color:#FBE6DF}
 .deduce-q > img{flex:none;width:44px;height:44px;border-radius:50%;background:#F3E6CC;box-shadow:0 0 0 2px #fff}
@@ -1082,24 +1082,24 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .ded-sus:nth-child(1) .ded-pol{transform:rotate(-3deg)}.ded-sus:nth-child(2) .ded-pol{transform:rotate(2.5deg)}.ded-sus:nth-child(3) .ded-pol{transform:rotate(-1.5deg)}
 .ded-pol i{display:block;width:54px;height:54px;margin:0 auto 1px;border-radius:50%;background:#FFF8E9 center/88% no-repeat}
 .ded-sus.out .ded-pol{filter:grayscale(.7) brightness(.9)}
-/* a suspect ruled out: a red crayon X (assets/ui/crayon-x-1/2.png, user request) drawn over the photo stroke by stroke as
+/* a suspect ruled out: a red crayon X (assets/ui/crayon-x-1/2.webp, user request) drawn over the photo stroke by stroke as
    the detective says they couldn't do it, each stroke uncovered along its own direction; still afterwards */
 .ded-x{position:absolute;left:50%;top:3px;width:62px;height:62px;margin-left:-31px;pointer-events:none}
-.ded-x i{position:absolute;inset:0;background:url(assets/ui/crayon-x-1.png) center/100% no-repeat}
-.ded-x i + i{background-image:url(assets/ui/crayon-x-2.png)}
+.ded-x i{position:absolute;inset:0;background:url(assets/ui/crayon-x-1.webp) center/100% no-repeat}
+.ded-x i + i{background-image:url(assets/ui/crayon-x-2.webp)}
 .ded-sus.draw .ded-x i{clip-path:polygon(0 0,0 0,0 0);animation:ded-x-a .3s ease-in forwards}
 .ded-sus.draw .ded-x i + i{clip-path:polygon(100% 0,100% 0,100% 0);animation:ded-x-b .3s ease-in .38s forwards}
 @keyframes ded-x-a{to{clip-path:polygon(0 0,200% 0,0 200%)}}
 @keyframes ded-x-b{to{clip-path:polygon(100% 0,-100% 0,100% 200%)}}
 @media(prefers-reduced-motion:reduce){.ded-sus.draw .ded-x i,.ded-sus.draw .ded-x i + i{clip-path:none;animation:none}}
-/* the culprit: a red crayon loop (assets/ui/crayon-o-1/2.png, user request) drawn round the photo as the detective says she
+/* the culprit: a red crayon loop (assets/ui/crayon-o-1/2.webp, user request) drawn round the photo as the detective says she
    lied, started at the bottom and run counter-clockwise, then its end over the start; still afterwards. The masks sweep
    back from the start angle in this box (205deg, the end from 211deg) */
 @property --o1{syntax:'<angle>';inherits:false;initial-value:360deg}
 @property --o2{syntax:'<angle>';inherits:false;initial-value:62deg}
 .ded-o{position:absolute;left:50%;top:-12px;width:80px;height:100px;margin-left:-40px;pointer-events:none;transform:rotate(-5deg)}
-.ded-o i{position:absolute;inset:0;background:url(assets/ui/crayon-o-1.png) 0 0/100% 100% no-repeat}
-.ded-o i + i{background-image:url(assets/ui/crayon-o-2.png)}
+.ded-o i{position:absolute;inset:0;background:url(assets/ui/crayon-o-1.webp) 0 0/100% 100% no-repeat}
+.ded-o i + i{background-image:url(assets/ui/crayon-o-2.webp)}
 .ded-sus.draw .ded-o i{--o1:0deg;-webkit-mask:conic-gradient(from 205deg,transparent calc(360deg - var(--o1)),#000 0);mask:conic-gradient(from 205deg,transparent calc(360deg - var(--o1)),#000 0);animation:ded-o-a .6s ease-in-out forwards}
 .ded-sus.draw .ded-o i + i{--o2:0deg;-webkit-mask:conic-gradient(from 211deg,transparent calc(360deg - var(--o2)),#000 0);mask:conic-gradient(from 211deg,transparent calc(360deg - var(--o2)),#000 0);animation:ded-o-b .14s linear .6s forwards}
 @keyframes ded-o-a{to{--o1:360deg}}
@@ -1168,11 +1168,11 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .dn-ox:focus-visible{outline:3px solid var(--honey);outline-offset:2px;border-radius:50%}
 .ded-mk{position:relative;width:72px;height:80px;margin:-6px 0;pointer-events:none}
 .ded-mk i{position:absolute;inset:0;background:center/100% 100% no-repeat}
-.ded-mk.o i{background-image:url(assets/ui/crayon-o-1.png)}
-.ded-mk.o i + i{background-image:url(assets/ui/crayon-o-2.png)}
+.ded-mk.o i{background-image:url(assets/ui/crayon-o-1.webp)}
+.ded-mk.o i + i{background-image:url(assets/ui/crayon-o-2.webp)}
 /* the thinner X, as thin as the O (user request; scripts/cut-crayon-x-thin.py) */
-.ded-mk.x i{background-image:url(assets/ui/crayon-x-thin-1.png)}
-.ded-mk.x i + i{background-image:url(assets/ui/crayon-x-thin-2.png)}
+.ded-mk.x i{background-image:url(assets/ui/crayon-x-thin-1.webp)}
+.ded-mk.x i + i{background-image:url(assets/ui/crayon-x-thin-2.webp)}
 /* the mark just picked is drawn: the first stroke, then the second */
 .ded-note.draw .ded-mk i{clip-path:inset(0 100% 0 0);animation:dn-stroke .3s ease-out forwards}
 .ded-note.draw .ded-mk i + i{animation-delay:.3s;animation-duration:.2s}
@@ -1199,8 +1199,8 @@ button.ded-slot[aria-expanded="true"]{animation:none;box-shadow:0 0 0 3px rgba(2
 .deduce-drop{position:absolute;z-index:6;min-width:160px;max-width:236px;filter:drop-shadow(2px 5px 3px rgba(0,0,0,.35));animation:deduce-drop .2s ease-out;transform-origin:var(--ox,0) 0;color:var(--ink)}
 .deduce-drop[hidden]{display:none}
 .deduce-drop.up{transform-origin:var(--ox,0) 100%}
-.deduce-drop::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 26px 33px / 0 stretch;pointer-events:none}
-.deduce-drop::after{content:"";position:absolute;left:var(--ox,30px);top:-17px;width:36px;height:23px;transform:translateX(-50%) rotate(180deg);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
+.deduce-drop::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:16px solid transparent;border-image:url(assets/ui/speech-paper-frame.webp) 150 190 fill / 26px 33px / 0 stretch;pointer-events:none}
+.deduce-drop::after{content:"";position:absolute;left:var(--ox,30px);top:-17px;width:36px;height:23px;transform:translateX(-50%) rotate(180deg);background:url(assets/ui/speech-paper-tail-pencil.webp) center/contain no-repeat;pointer-events:none}
 .deduce-drop.up::after{top:auto;bottom:-17px;transform:translateX(-50%)}
 @keyframes deduce-drop{from{opacity:0;transform:scale(.9)}}
 /* long choices (violin case: "next to the left chair") wrap inside their column instead of running off the paper */
@@ -1397,7 +1397,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the camera (user request: no wobble): the screen's camera and the place's own move together, the same time and a gentle
    start and stop */
 .tdemo-stage{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;transition:transform .8s cubic-bezier(.45,0,.2,1);pointer-events:none}
-.tdemo-art{position:absolute;inset:0;background:url(assets/places/picnic-storyboard/cafe-day.png) 40% 0/auto 59% no-repeat,url(assets/places/picnic-storyboard/daycafe-floor.jpg) 40% 0/auto 100% #B08A5E}
+.tdemo-art{position:absolute;inset:0;background:url(assets/places/picnic-storyboard/cafe-day.webp) 40% 0/auto 59% no-repeat,url(assets/places/picnic-storyboard/daycafe-floor.jpg) 40% 0/auto 100% #B08A5E}
 .tdemo-art::after{content:"";position:absolute;left:0;right:0;top:59%;bottom:0;background:url(assets/places/picnic-storyboard/daycafe-floor.jpg) 40% 0/auto 100%}
 .tdemo-npc{position:absolute;left:50%;top:16%;height:58%;transform:translateX(-50%);transform-origin:50% 0;transition:top .65s cubic-bezier(.3,.8,.3,1),height .65s cubic-bezier(.3,.8,.3,1)}
 .tdemo.talking .tdemo-npc{top:7%;height:46%}
@@ -1409,7 +1409,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* 7장: the game's hand-over screen as it is (390 × 844 under the camera): the picnic table, the person standing, their
    speech bubble, 가방 건네주기 at the bottom, the 소지품 drawer coming up from it */
 .tdemo .t7-cam{position:absolute;left:0;top:0;width:390px;height:844px}
-.tdemo .t7-room{position:absolute;inset:0 -400px;background:url(assets/places/picnic-storyboard/picnic-wide.png) 50% 0/auto 75% no-repeat,url(assets/places/picnic-storyboard/picnic-floor.jpg) 50% 100%/auto 40% #8DAA5E}
+.tdemo .t7-room{position:absolute;inset:0 -400px;background:url(assets/places/picnic-storyboard/picnic-wide.webp) 50% 0/auto 75% no-repeat,url(assets/places/picnic-storyboard/picnic-floor.jpg) 50% 100%/auto 40% #8DAA5E}
 /* Rosie's face is low in her tall picture (her ears): a little smaller, and the bubble lower, so her face shows under it */
 .tdemo .t7-npc{position:absolute;left:50%;bottom:14%;height:50%;transform:translateX(-50%)}
 .tdemo .t7-claim{--bubble-top:120px}
@@ -1478,8 +1478,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .office.naming .office-det{opacity:0}
 .office-say{position:absolute;left:50%;top:7%;z-index:2;box-sizing:border-box;width:min(88%,360px);transform:translateX(-50%);padding:20px 18px 14px;font-family:var(--f-hand);font-size:17px;line-height:1.42;color:var(--ink);filter:drop-shadow(2px 4px 2px rgba(52,32,17,.2));transform-origin:50% calc(100% + 21px);animation:bubble-pop .42s cubic-bezier(.3,1.45,.5,1) both}
 .office-say[hidden]{display:none}
-.office-say::before,.oh-say::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(assets/ui/speech-paper-frame.png) 150 190 fill / 33px 42px / 0 stretch;pointer-events:none}
-.office-say::after,.oh-say::after{content:"";position:absolute;left:50%;bottom:-21px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.png) center/contain no-repeat;pointer-events:none}
+.office-say::before,.oh-say::before{content:"";position:absolute;inset:0;z-index:-1;background-color:#FFF8E9;background-clip:padding-box;border:20px solid transparent;border-image:url(assets/ui/speech-paper-frame.webp) 150 190 fill / 33px 42px / 0 stretch;pointer-events:none}
+.office-say::after,.oh-say::after{content:"";position:absolute;left:50%;bottom:-21px;width:48px;height:30px;transform:translateX(-50%);background:url(assets/ui/speech-paper-tail-pencil.webp) center/contain no-repeat;pointer-events:none}
 .office.naming .office-say{top:auto;bottom:17%}
 .office.naming .office-say::after{display:none}
 .office.naming .office-say{transform-origin:50% 100%}
@@ -1501,10 +1501,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .id-wrap[hidden]{display:none}
 /* Center the card and its buttons in the space above the preview keyboard. */
 .office:has(.vkb:not([hidden])) .id-wrap{top:0;bottom:336px;justify-content:safe center;padding-block:16px;box-sizing:border-box}
-/* the ID card picture (assets/ui/detective-id-card.png); boxes in % of the picture: photo, three lines, stamp circle */
-.id-card{position:relative;flex-shrink:0;width:min(90%,350px);aspect-ratio:1143/747;background:url(assets/ui/detective-id-card.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35));transform:rotate(-2deg);animation:id-in .4s cubic-bezier(.2,1.2,.4,1) both}
+/* the ID card picture (assets/ui/detective-id-card.webp); boxes in % of the picture: photo, three lines, stamp circle */
+.id-card{position:relative;flex-shrink:0;width:min(90%,350px);aspect-ratio:1143/747;background:url(assets/ui/detective-id-card.webp) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35));transform:rotate(-2deg);animation:id-in .4s cubic-bezier(.2,1.2,.4,1) both}
 @keyframes id-in{from{opacity:0;transform:translateY(60px) rotate(-6deg)}}
-.id-photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(assets/ui/icons-v2/detective.png) center/94% no-repeat}
+.id-photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(assets/ui/icons-v2/detective.webp) center/94% no-repeat}
 .id-name{position:absolute;left:47.5%;top:37.1%;width:42.5%;box-sizing:border-box;margin:0;padding:0 0 2px;transform:translateY(-100%);border:0;border-radius:0;background:transparent;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.15;color:var(--ink);caret-color:transparent;outline:none}
 .id-name:focus-visible{outline:none}
 .id-line{position:absolute;left:47.5%;transform:translateY(-100%);padding-bottom:3px;font-family:var(--f-display);font-size:11px;letter-spacing:.06em;color:var(--ink);opacity:.75}
@@ -1580,7 +1580,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .oh-go{margin-right:auto}
 .oh-go[hidden]{display:none}
 .oh-top{position:absolute;top:16px;left:16px;right:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.oh-plate{box-sizing:border-box;max-width:100%;min-width:0;margin:0;padding:5px 14px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.png) 60 62 62 62 fill / 15px 15.5px stretch;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.4;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oh-plate{box-sizing:border-box;max-width:100%;min-width:0;margin:0;padding:5px 14px;border:2px solid transparent;border-image:url(assets/ui/buttons/cream-flat.webp) 60 62 62 62 fill / 15px 15.5px stretch;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.4;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 
 /* test tool outside the frame: only on screens wide enough to keep it left of the phone; hidden at phone/tablet widths */
@@ -1676,8 +1676,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
           <button class="x close-button mt-close" type="button" data-mt-close aria-label="몽타주 닫기"></button>
           <div class="mt-frame">
             <svg id="mtArt" viewBox="0 0 896 1120" aria-label="몽타주"></svg>
-            <button class="mt-arrow l" type="button" data-mt="-1" aria-label="이전 모습"><img src="assets/montage/arrow-l.png" alt="" draggable="false"></button>
-            <button class="mt-arrow r" type="button" data-mt="1" aria-label="다음 모습"><img src="assets/montage/arrow-r.png" alt="" draggable="false"></button>
+            <button class="mt-arrow l" type="button" data-mt="-1" aria-label="이전 모습"><img src="assets/montage/arrow-l.webp" alt="" draggable="false"></button>
+            <button class="mt-arrow r" type="button" data-mt="1" aria-label="다음 모습"><img src="assets/montage/arrow-r.webp" alt="" draggable="false"></button>
           </div>
           <div class="mt-foot"><button class="pill big green" type="button" id="mtOk">이 모습이에요</button></div>
         </div>
@@ -1685,7 +1685,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
       <div class="tap-cue" id="tapCue" hidden></div>
-      <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><img class="gauge-symbol" src="assets/ui/magnifier-paper.png" alt="" draggable="false"><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
+      <div class="interrogation-gauge" id="interrogationGauge" role="progressbar" aria-label="심문 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span class="gauge-track" aria-hidden="true"><img class="gauge-symbol" src="assets/ui/magnifier-paper.webp" alt="" draggable="false"><span class="gauge-meter"><span class="gauge-fill"></span></span></span></div>
     </section>
 
     <!-- PART 2: investigation — a large illustration per place; tap suspicious things to find clues -->
@@ -1718,7 +1718,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <!-- Deduction: the cork board where the detective works it out, one question at a time (DEDUCE) -->
     <section class="deduce" id="deduce" aria-label="추리" hidden>
       <div class="deduce-head"><h2>Deduction</h2></div>
-      <div class="deduce-q" id="deduceQ" role="status"><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-q-txt"><p id="deduceEn"></p><p class="ko" id="deduceKoText" hidden></p>
+      <div class="deduce-q" id="deduceQ" role="status"><img src="assets/ui/icons-v2/detective.webp" alt=""><div class="deduce-q-txt"><p id="deduceEn"></p><p class="ko" id="deduceKoText" hidden></p>
         <div class="deduce-q-row"><button class="play-btn" type="button" id="deduceReplay" aria-label="다시 듣기"></button><button class="pill sm" type="button" id="deduceKo" aria-pressed="false">해석</button></div></div></div>
       <div class="deduce-board" id="deduceBoard">
         <div class="ded-cards" id="deduceCards"></div>
@@ -1735,7 +1735,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="dock-head">
         <h2 id="evidenceTitle" hidden>증거 기록</h2>
         <h2 id="personTitle" hidden></h2>
-        <h2 id="memoTitle" hidden><img src="assets/ui/icons/note.png" alt="" draggable="false">내 메모</h2>
+        <h2 id="memoTitle" hidden><img src="assets/ui/icons/note.webp" alt="" draggable="false">내 메모</h2>
         <button class="ev-back" id="evidenceBack" type="button" hidden>‹ 증거 기록</button>
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
@@ -1768,13 +1768,13 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <nav class="nav" aria-label="메뉴">
     <button class="tab map-btn" type="button" id="mapTab" aria-expanded="false" aria-controls="sheet-map" aria-label="사건 지도 열기">
-      <span class="hn-ic"><img src="assets/ui/nav/map.png" alt="" draggable="false"></span>지도
+      <span class="hn-ic"><img src="assets/ui/nav/map.webp" alt="" draggable="false"></span>지도
     </button>
     <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
-      <span class="hn-ic"><img src="assets/ui/nav/note.png" alt="" draggable="false"></span>노트
+      <span class="hn-ic"><img src="assets/ui/nav/note.webp" alt="" draggable="false"></span>노트
     </button>
     <button class="tab items-btn" type="button" id="itemsTab" aria-expanded="false" aria-controls="drawer" aria-label="소지품" hidden>
-      <span class="hn-ic"><img src="assets/ui/nav/bag-satchel.png" alt="" draggable="false"></span>소지품
+      <span class="hn-ic"><img src="assets/ui/nav/bag-satchel.webp" alt="" draggable="false"></span>소지품
     </button>
   </nav>
 
@@ -1819,10 +1819,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <div class="home-page" id="home-study" hidden></div>
     <div class="home-page" id="home-me" hidden></div>
     <nav class="nav" aria-label="앱 메뉴">
-      <button class="tab" type="button" data-home="home" aria-current="page"><span class="hn-ic"><img src="assets/ui/nav/home-house.png" alt="" draggable="false"></span>홈</button>
-      <button class="tab" type="button" data-home="cases"><span class="hn-ic"><img src="assets/ui/nav/case-magnifier.png" alt="" draggable="false"></span>사건</button>
-      <button class="tab" type="button" data-home="study"><span class="hn-ic"><img src="assets/ui/nav/study-book.png" alt="" draggable="false"></span>학습</button>
-      <button class="tab" type="button" data-home="me"><span class="hn-ic"><img src="assets/ui/nav/my-hat.png" alt="" draggable="false"></span>마이</button>
+      <button class="tab" type="button" data-home="home" aria-current="page"><span class="hn-ic"><img src="assets/ui/nav/home-house.webp" alt="" draggable="false"></span>홈</button>
+      <button class="tab" type="button" data-home="cases"><span class="hn-ic"><img src="assets/ui/nav/case-magnifier.webp" alt="" draggable="false"></span>사건</button>
+      <button class="tab" type="button" data-home="study"><span class="hn-ic"><img src="assets/ui/nav/study-book.webp" alt="" draggable="false"></span>학습</button>
+      <button class="tab" type="button" data-home="me"><span class="hn-ic"><img src="assets/ui/nav/my-hat.webp" alt="" draggable="false"></span>마이</button>
     </nav>
   </section>
 
@@ -1876,7 +1876,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <input class="id-name" id="idName" maxlength="12" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="done" aria-label="탐정 이름">
         <span class="id-line id-title" aria-hidden="true">DETECTIVE</span>
         <span class="id-line id-town" aria-hidden="true">ACORN HOLLOW</span>
-        <span class="id-stamp" id="idStamp" hidden aria-hidden="true"><img src="assets/ui/icons-v2/acorn.png" alt=""></span>
+        <span class="id-stamp" id="idStamp" hidden aria-hidden="true"><img src="assets/ui/icons-v2/acorn.webp" alt=""></span>
       </div>
       <div class="id-actions" id="idActions"><button class="pill" type="button" id="idDice">다른 이름</button><button class="pill hint" type="button" id="idStampBtn">도장 찍기</button></div>
     </div>
@@ -2216,12 +2216,12 @@ const PICNIC_CASE = {
   items:{
     // the title says who gave it and its colour, never whose it is (design)
     'bag-nora':{ label:'Blue bag from Rosie', en:'There is a green folder and a blue pen inside.', ko:'안에 초록 폴더와 파란 펜이 들어 있어.',
-      audio:'audio/picnic/detective-item-bag-nora.mp3', img:'assets/places/picnic-storyboard/picnic-documents.png', w:1679, h:937, crop:[930, 330, 560, 420],
-      bag:'assets/places/picnic-storyboard/bag-blue.png' },
+      audio:'audio/picnic/detective-item-bag-nora.mp3', img:'assets/places/picnic-storyboard/picnic-documents.webp', w:1679, h:937, crop:[930, 330, 560, 420],
+      bag:'assets/places/picnic-storyboard/bag-blue.webp' },
     'bag-rosie':{ label:'Blue bag', en:'The blue bag Nora gave me. Inside, there is a red lunch box and a yellow bottle.', ko:'노라가 건넨 파란 가방. 안에 빨간 도시락과 노란 물병이 들어 있다.',
       audio:'audio/picnic/detective-item-bag-rosie.mp3',
       img:'assets/places/picnic-storyboard/picnic-rosie-bag.webp', w:1376, h:768, crop:[800, 300, 400, 300],
-      bag:'assets/places/picnic-storyboard/bag-blue.png' }
+      bag:'assets/places/picnic-storyboard/bag-blue.webp' }
   },
   deduce:{
     people:[['Rosie Rabbit', 'rosie'], ['Mr. Duck', 'duck'], ['Ben Beaver', 'ben'], ['Mia', 'mia'], ['Ollie', 'mia'], ['Nora Hedgehog', 'nora']],
@@ -2308,15 +2308,15 @@ const PICNIC_CASE = {
 // the six kites hidden in the park (user requests 2026-11-18: kites of different shapes, the shape a clue; not in plain
 // sight, a tree or the flower bed looked at close, its leaves or flowers cleared away, then the kite taken into 소지품;
 // not all in the trees: some in the flower bed, one lying on the path in plain sight). n: the kite
-// (assets/places/kite/kite2-<n>.png, scripts/cut-kites-v2.py; kite-<n> in 소지품), x / y: its middle and top in the
+// (assets/places/kite/kite2-<n>.webp, scripts/cut-kites-v2.py; kite-<n> in 소지품), x / y: its middle and top in the
 // park picture (px of 1376x768), r: its tilt around just under its top (lying ones about -75), s: its size against
 // KITE_K, at: tree / bed / ground, cover: what hides it (px; the leaf clumps in the trees, the flower bunches in the
 // flower bed, bedSlot), the leaves cleared and the flowers parted by a tap in the close look.
 // The kite on the ground has no cover and no close look: a tap in the park takes it.
 const KITE_K = 110 / 426;
 const KITE_PICS = { 1:[425, 1082], 2:[425, 1084], 3:[425, 691], 4:[425, 1082], 5:[441, 1080], 6:[318, 1082] };
-// the leaf clumps (Higgsfield, drawn after the park's own crowns, scripts/cut-kite-leaf-sheet.py: leafclump-1..4.png,
-// picture px) and the small puffs that fly when one is cleared (leaf-1..8.png)
+// the leaf clumps (Higgsfield, drawn after the park's own crowns, scripts/cut-kite-leaf-sheet.py: leafclump-1..4.webp,
+// picture px) and the small puffs that fly when one is cleared (leaf-1..8.webp)
 const KITE_CLUMPS = { 'leafclump-1':[422, 262], 'leafclump-2':[267, 289], 'leafclump-3':[304, 337], 'leafclump-4':[227, 411] };
 // a clump is drawn in its own shape, about 1.3 times the area of its box and on the same middle (the box is then that)
 const coverBox = c => { const pic = KITE_CLUMPS[c.img]; if(!pic) return c;
@@ -2324,7 +2324,7 @@ const coverBox = c => { const pic = KITE_CLUMPS[c.img]; if(!pic) return c;
   return { img:c.img, x:c.x + c.w / 2 - w / 2, y:c.y + c.h / 2 - h / 2, w, h }; };
 // The flower bed's kites (user request 2026-11-18, with sketches): stuck upright in the bed, its top just over the
 // flowers; a tap parts the flowers to both sides (each bunch turned from its base, the ones nearest the kite most) and
-// they stand back once the kite is taken. The bunches: Higgsfield, scripts/cut-kite-flower-sheet.py (flower-1..6.png,
+// they stand back once the kite is taken. The bunches: Higgsfield, scripts/cut-kite-flower-sheet.py (flower-1..6.webp,
 // picture px); five each side of the kite on the bed's soil line (KITE_BED, park px), one box round them all (the cover
 // the tap is on, 'n-0'). The painted flowers are out of the bed (scripts/cut-kite-places.py), so the rest of the bed
 // has the same bunches, standing (KITE_BED_REST: right of the kite's own, the bed's inside is x 457-941).
@@ -2478,8 +2478,8 @@ const KITE_CASE = {
   // and nothing round it (user request 2026-11-18: as the umbrella, big in 소지품 and handed over as itself)
   items:Object.fromEntries(KITE_SLOTS.map(k => { const [w, h] = KITE_PICS[k.n];
     // audio: the detective's line on it, the one said when it was found (user request 2026-11-18: heard in 소지품 too)
-    return [`kite-${k.n}`, { label:'Kite', ...KITE_LOOKS[k.n], audio:`audio/kite/detective-kite-${k.n}.mp3`, img:`assets/places/kite/kite2-${k.n}.png`, w, h, crop:[-30, -20, w + 60, h + 40],
-      bag:`assets/places/kite/kite2-${k.n}.png` }]; })),
+    return [`kite-${k.n}`, { label:'Kite', ...KITE_LOOKS[k.n], audio:`audio/kite/detective-kite-${k.n}.mp3`, img:`assets/places/kite/kite2-${k.n}.webp`, w, h, crop:[-30, -20, w + 60, h + 40],
+      bag:`assets/places/kite/kite2-${k.n}.webp` }]; })),
   previewHandback:['kite-1', 'kite-2', 'kite-3', 'kite-4', 'kite-5', 'kite-6'],
   deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
   // his "Is my kite there?" starts this: a kite picked from 소지품 (건네주기); a wrong one, he says what his is like
@@ -2506,11 +2506,12 @@ const MONTAGE_ART = (() => {
   const W = 896, H = 1120, img = name => `<image href="assets/montage/${name}.webp" width="${W}" height="${H}"/>`;
   const P = (name, ko, answer, opts) => ({ ko, answer, opts:opts.map(([id, oko]) => ({ id, ko:oko, src:`assets/montage/${name}-${id}.webp`, svg:img(`${name}-${id}`) })) });
   return {
-    view:`0 0 ${W} ${H}`,
-    // what is always there, by name in `layers`: the bear in its shirt, and its head again over the scarf and vest
-    base:{ body:img('base'), head:img('head') },
+    view:`0 0 ${W} ${H}`,   // a bust: the body (the vest, third set) cut off by the frame (user request 2026-11-19)
+    // what is always there, by name in `layers`: the head alone (no ears, mouth or body: user plan 2026-11-19, so no
+    // part doubles them); the body comes with the vest
+    base:{ head:img('head') },
     // back to front; a name in base, else a part
-    layers:['body', 'vest', 'scarf', 'ears', 'head', 'eyes', 'teeth', 'hat', 'scar'],   // the scar over the cap's peak
+    layers:['vest', 'scarf', 'ears', 'head', 'eyes', 'teeth', 'hat', 'scar'],   // the scar over the cap's peak
     // five looks each (user request 2026-11-18)
     parts:{
       eyes:P('eyes', '눈·눈썹', 'small-thick', [['big-thin', '큰 눈, 가는 눈썹'], ['sleepy-thick', '졸린 눈, 굵은 눈썹'],
@@ -2522,7 +2523,9 @@ const MONTAGE_ART = (() => {
       ears:P('ears', '귀', 'one', [['plain', '보통 귀'], ['torn', '찢어진 귀'], ['both', '양쪽 귀에 반창고'], ['earring', '귀걸이'], ['one', '한쪽 귀에 반창고']]),
       scarf:P('scarf', '목도리', 'red-dots', [['blue-dots', '파랑, 흰 물방울'], ['red-stripes', '빨강, 흰 줄무늬'],
         ['red-plain', '빨강, 무늬 없음'], ['green-dots', '초록, 흰 물방울'], ['red-dots', '빨강, 흰 물방울']]),
-      vest:P('vest', '조끼', 'two', [['none', '주머니 없는 조끼'], ['one', '주머니 하나'], ['jacket', '재킷, 주머니 둘'], ['two', '조끼, 주머니 둘'], ['three', '주머니 셋']])
+      // a different garment and colours each, the pockets on the chest (vest4, user request 2026-11-19): only the navy
+      // one is a vest with two pockets
+      vest:P('vest', '조끼', 'two', [['none', '마름모무늬 니트 조끼, 주머니 없음'], ['one', '초록 조끼, 주머니 하나'], ['jacket', '빨간 재킷, 주머니 둘'], ['two', '남색 조끼, 주머니 둘'], ['three', '겨자색 조끼, 주머니 셋']])
     }
   };
 })();
@@ -2576,9 +2579,10 @@ const MONTAGE_CASE = {
       toby:[
         { part:'hat', key:'hat', en:'He was wearing a green cap with a yellow star.', ko:'노란 별이 달린 초록 모자를 쓰고 있었어.' },
         { part:'ears', key:'ears', en:'He has a bandage on one ear.', ko:'귀 한쪽에 반창고가 붙어 있어.' }],
+      // vest first (user request 2026-11-19): the vest brings the body, and the scarf goes on over it
       betty:[
-        { part:'scarf', key:'scarf', en:'He was wearing a red scarf with white dots.', ko:'흰 물방울무늬 빨간 목도리를 하고 있었어.' },
-        { part:'vest', key:'vest', en:'He was wearing a vest with two pockets.', ko:'주머니 두 개 달린 조끼를 입고 있었어.' }]
+        { part:'vest', key:'vest', en:'He was wearing a vest with two pockets.', ko:'주머니 두 개 달린 조끼를 입고 있었어.' },
+        { part:'scarf', key:'scarf', en:'He was wearing a red scarf with white dots.', ko:'흰 물방울무늬 빨간 목도리를 하고 있었어.' }]
     },
     yes:{ bruno:{ key:'yes', en:"Yes! That's right.", ko:'응! 맞아.' }, toby:{ key:'yes', en:'Yes! Just like that!', ko:'응! 딱 그래!' }, betty:{ key:'yes', en:"Yes, that's it.", ko:'응, 그거야.' } },
     end:{ bruno:{ key:'end', en:"That's the bear!", ko:'바로 그 곰이야!' }, toby:{ key:'end', en:"That's all I saw.", ko:'내가 본 건 그게 다야.' },
@@ -2629,8 +2633,8 @@ const UMBRELLA_CASE = {
         { id:'inspect', en:'Can I take a closer look at the umbrella?', ko:'그 우산 좀 자세히 봐도 될까?', answer:'Of course. Here you go.', answerKo:'물론이지. 여기 있어.', inspect:'umbrella',
           // she holds it out on both hands (ella:give); a tap on it in her hands puts it in 소지품, then the close look
           // opens (user request 2026-11-18); box: the umbrella in the sprite, px
-          // art: the umbrella cut out of ella-give.png (its paws left as holes), laid over it at artBox and grown to say "tap"
-          hold:{ item:'umbrella', mood:'give', box:[8, 356, 606, 495], art:'assets/characters/ella-give-umbrella.png', artBox:[24, 362, 591, 488] } }
+          // art: the umbrella cut out of ella-give.webp (its paws left as holes), laid over it at artBox and grown to say "tap"
+          hold:{ item:'umbrella', mood:'give', box:[8, 356, 606, 495], art:'assets/characters/ella-give-umbrella.webp', artBox:[24, 362, 591, 488] } }
       ],
       answers:{
         // she points at the umbrella stand by the door: far off, so "that" (design 2절)
@@ -2797,14 +2801,14 @@ const UMBRELLA_CASE = {
     // the title says who gave it, never whose it is (design)
     umbrella:{ label:'Umbrella from Ella', en:'The umbrella Ella gave me.', ko:'엘라가 맡긴 우산.', audio:'audio/umbrella/detective-item-umbrella.mp3',
       // the whole folded umbrella cut out, no paper behind it (user request)
-      img:'assets/places/umbrella/umbrella-folded.png', w:260, h:675, crop:[-20, -16, 300, 707],
-      bag:'assets/places/umbrella/umbrella-folded.png',
+      img:'assets/places/umbrella/umbrella-folded.webp', w:260, h:675, crop:[-20, -16, 300, 707],
+      bag:'assets/places/umbrella/umbrella-folded.webp',
       // once taken, the close look opens from 소지품 in the hall (Ella is not asked again)
-      use:{ at:'hall', inspect:'umbrella', label:'살펴보기' } }
+      use:{ at:'hall', anywhere:true, inspect:'umbrella', label:'살펴보기' } }
   },
   previewHandback:['umbrella'],
   // Ella holding the umbrella out (scripts/cut-ella-give.py; her face where it is in the plain sprite, 73 px in)
-  sprites:{ 'ella:give':{ src:'assets/characters/ella-give.png', w:620, h:700, face:'127 14 364 364', anchor:.5 } },
+  sprites:{ 'ella:give':{ src:'assets/characters/ella-give.webp', w:620, h:700, face:'127 14 364 364', anchor:.5 } },
   // no board (noBoard): an empty one so the shared deduction code has something to read
   deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
   // v2: Ruby's yes (her give action) starts this; she has the umbrella handed over, then back to Ella
@@ -3167,12 +3171,12 @@ const VIOLIN_CASE = {
   items:{
     // titles say what the thing is, never whose (design 10절)
     'violin-case':{ label:'Black violin case', en:'The yellow moon is on the case. The violin is in it.', ko:'케이스에 노란 달이 있고 바이올린은 안에 있어.',
-      img:'assets/places/violin/case-closed.png', w:293, h:640, crop:[-280, 0, 853, 640], bag:'assets/places/violin/case-closed.png',
-      opened:{ img:'assets/places/violin/case-open.png', w:416, h:640, crop:[-218, 0, 853, 640], en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } },
+      img:'assets/places/violin/case-closed.webp', w:293, h:640, crop:[-280, 0, 853, 640], bag:'assets/places/violin/case-closed.webp',
+      opened:{ img:'assets/places/violin/case-open.webp', w:416, h:640, crop:[-218, 0, 853, 640], en:'There are four strings. All four are broken.', ko:'현이 네 줄 있어. 네 줄 모두 끊어져 있어.' } },
     'gold-button':{ label:'Gold button', en:'A small gold button.', ko:'작은 금색 단추야.',
-      img:'assets/places/violin/gold-button.png', w:240, h:240, crop:[-80, -30, 400, 300] },
+      img:'assets/places/violin/gold-button.webp', w:240, h:240, crop:[-80, -30, 400, 300] },
     'wire-cutters':{ label:'Small cutters', en:'There is a short piece of string on the blades.', ko:'날에 짧은 줄 조각이 붙어 있어.',
-      img:'assets/places/violin/cutters.png', w:302, h:460, crop:[-169, -10, 640, 480] },
+      img:'assets/places/violin/cutters.webp', w:302, h:460, crop:[-169, -10, 640, 480] },
     // handed over by Tara after t2 (her photo's line)
     'tara-photo':{ label:'Photo from Tara', en:'There is a yellow moon sticker on this case.', ko:'이 케이스에는 노란 달 스티커가 있네.',
       img:'assets/places/violin/tara-photo.jpg', w:1024, h:765, crop:[0, 0, 1024, 765] }
@@ -3660,7 +3664,7 @@ const CHRISTMAS_CASE = {
         { clue:7, x:46.4, y:49.8, w:11, h:15.4, when:['!open-order'], unless:['!box-open'] },
         { clue:8, x:57.4, y:45.7, w:8.9, h:12.6, when:['!open-order'], unless:['!box-open'] },
         { clue:9, x:66.3, y:49.1, w:8.7, h:8.3, when:['!open-order'], unless:['!box-open'] },
-        // nothing more to tap once the star is taken out: the box is empty (sleigh-nobox.jpg + box-empty.png)
+        // nothing more to tap once the star is taken out: the box is empty (sleigh-nobox.jpg + box-empty.webp)
         // (clue 10 "A star inside the box." is no longer tapped: the star's back opens with the box, user request
         // 2026-11-16; back at the sleigh before its photo, the open box opens it again)
         { clue:11, x:42.5, y:49, w:19.5, h:17, when:['!box-open'], unless:['!took:star'] },
@@ -3783,18 +3787,18 @@ const CHRISTMAS_CASE = {
   },
   // this case's own pictures over the shared ones: Tess turned to the gift table while she works (user request; the
   // umbrella case keeps her front-on). scripts/cut-tess-work.py
-  sprites:{ 'tess:work':{src:'assets/characters/tess-work.png', w:524, h:700, anchor:.57} },
+  sprites:{ 'tess:work':{src:'assets/characters/tess-work.webp', w:524, h:700, anchor:.57} },
   // where the officer and Ella stand once they come to the sleigh, and everyone at the lighting (design 7·9절)
   joinPositions:{ badger:{x:14, floor:97.8, height:34.4}, ella:{x:64, floor:97.8, height:34.4} },
   items:{
     // titles say what the thing is, never whose (design)
     // the star by itself once taken from the box (user request: the box picture read "inside the box" in the bag);
-    // star-front.png, star-back.png and box-star.png are cut from their -higgsfield-original.png (a faceted tree-topper star,
+    // star-front.webp, star-back.webp and box-star.webp are cut from their -higgsfield-original.png (a faceted tree-topper star,
     // no white border) by scripts/cut-christmas-stars.py
-    star:{ label:'Gold star', en:'A heavy gold star.', ko:'무거운 금별이야.', img:'assets/places/christmas/star-front.png', w:700, h:662, crop:[-183, -69, 1067, 800],
-      bag:'assets/places/christmas/star-front.png' },
+    star:{ label:'Gold star', en:'A heavy gold star.', ko:'무거운 금별이야.', img:'assets/places/christmas/star-front.webp', w:700, h:662, crop:[-183, -69, 1067, 800],
+      bag:'assets/places/christmas/star-front.webp' },
     // used at the sleigh once the officer says to open a box, until it is opened: the close look 'weigh' (design 장면 7)
-    scale:{ label:'Scale', en:'A scale with two plates.', ko:'접시 두 개 달린 저울이야.', img:'assets/places/christmas/scale.png', w:857, h:693, crop:[-50, -60, 957, 718],
+    scale:{ label:'Scale', en:'A scale with two plates.', ko:'접시 두 개 달린 저울이야.', img:'assets/places/christmas/scale.webp', w:857, h:693, crop:[-50, -60, 957, 718],
       use:{ at:'sleigh', when:['!open-order'], unless:['!box-open'], inspect:'weigh' } }
   },
   previewHandback:['star'],
@@ -4789,60 +4793,60 @@ function charSVG(id){
     ${back}${torso}${front}<path d="M88 146 L90 136 M112 146 L110 136" fill="none"/>${ears}${head}${face}</g>`;
 }
 const SPRITES = {
-  badger:{src:'assets/characters/sgt-badger-higgsfield.png', w:1060, h:1484, face:'180 80 700 700', anchor:.5},
+  badger:{src:'assets/characters/sgt-badger-higgsfield.webp', w:1060, h:1484, face:'180 80 700 700', anchor:.5},
   // mole/fiona/ray/rosie: white sticker border peeled off and re-cropped (2026-10-16); coordinates shifted to match
-  mole:{src:'assets/characters/mole-higgsfield.png', w:408, h:620, face:'37 -5 340 340', anchor:199/408},
-  fiona:{src:'assets/characters/fiona-higgsfield.png', w:439, h:621, face:'12 -4 340 340', anchor:182/439},
-  ray:{src:'assets/characters/ray-higgsfield.png', w:509, h:628, face:'24 -5 340 340', anchor:194/509},
-  rosie:{src:'assets/characters/rosie-higgsfield.png', w:316, h:661, face:'9 118 300 300', anchor:161.5/316},
-  duck:{src:'assets/characters/duck-higgsfield.png', w:447, h:694, face:'52 0 340 340', anchor:.5},
-  betty:{src:'assets/characters/betty-higgsfield.png', w:445, h:680, face:'52 -5 340 340', anchor:.5},
-  bruno:{src:'assets/characters/bruno-higgsfield.png', w:452, h:700, face:'51 14 350 350', anchor:.5},   // the robbery case's honey shop owner (scripts/cut-bruno.py)
-  toby:{src:'assets/characters/toby-higgsfield.png', w:393, h:700, face:'21 14 350 350', anchor:.5},   // the kite case (scripts/cut-toby.py)
+  mole:{src:'assets/characters/mole-higgsfield.webp', w:408, h:620, face:'37 -5 340 340', anchor:199/408},
+  fiona:{src:'assets/characters/fiona-higgsfield.webp', w:439, h:621, face:'12 -4 340 340', anchor:182/439},
+  ray:{src:'assets/characters/ray-higgsfield.webp', w:509, h:628, face:'24 -5 340 340', anchor:194/509},
+  rosie:{src:'assets/characters/rosie-higgsfield.webp', w:316, h:661, face:'9 118 300 300', anchor:161.5/316},
+  duck:{src:'assets/characters/duck-higgsfield.webp', w:447, h:694, face:'52 0 340 340', anchor:.5},
+  betty:{src:'assets/characters/betty-higgsfield.webp', w:445, h:680, face:'52 -5 340 340', anchor:.5},
+  bruno:{src:'assets/characters/bruno-higgsfield.webp', w:452, h:700, face:'51 14 350 350', anchor:.5},   // the robbery case's honey shop owner (scripts/cut-bruno.py)
+  toby:{src:'assets/characters/toby-higgsfield.webp', w:393, h:700, face:'21 14 350 350', anchor:.5},   // the kite case (scripts/cut-toby.py)
   // the picnic case: two per Higgsfield sheet (scripts/cut-picnic-characters.py); Mia & Ollie are one figure
-  ben:{src:'assets/characters/ben-higgsfield.png', w:542, h:700, face:'134 0 350 350', anchor:.57},
-  nora:{src:'assets/characters/nora-higgsfield.png', w:475, h:700, face:'38 0 399 399', anchor:.5},
+  ben:{src:'assets/characters/ben-higgsfield.webp', w:542, h:700, face:'134 0 350 350', anchor:.57},
+  nora:{src:'assets/characters/nora-higgsfield.webp', w:475, h:700, face:'38 0 399 399', anchor:.5},
   // parts: the others in the picture who speak with their own mouth (a line's `as.mouth`, or "Ollie: …" in it)
-  mia:{src:'assets/characters/mia-higgsfield.png', w:909, h:700, face:'146 -7 308 308', anchor:.5, parts:{ ollie:'mia:ollie' }},
+  mia:{src:'assets/characters/mia-higgsfield.webp', w:909, h:700, face:'146 -7 308 308', anchor:.5, parts:{ ollie:'mia:ollie' }},
   // the umbrella case: two per Higgsfield sheet (scripts/cut-umbrella-characters.py)
-  tess:{src:'assets/characters/tess-higgsfield.png', w:459, h:700, face:'73 0 350 350', anchor:.54},
+  tess:{src:'assets/characters/tess-higgsfield.webp', w:459, h:700, face:'73 0 350 350', anchor:.54},
   // flip: tail to the left, away from the others, on the hall's far left (user request 2026-11-18); anchor mirrored (.39 → .61)
-  ruby:{src:'assets/characters/ruby-higgsfield.png', w:517, h:700, face:'16 7 371 371', anchor:.61, flip:true},
-  ella:{src:'assets/characters/ella-higgsfield.png', w:472, h:700, face:'54 14 364 364', anchor:.5},
-  finn:{src:'assets/characters/finn-higgsfield.png', w:420, h:700, face:'14 0 385 385', anchor:.5},
+  ruby:{src:'assets/characters/ruby-higgsfield.webp', w:517, h:700, face:'16 7 371 371', anchor:.61, flip:true},
+  ella:{src:'assets/characters/ella-higgsfield.webp', w:472, h:700, face:'54 14 364 364', anchor:.5},
+  finn:{src:'assets/characters/finn-higgsfield.webp', w:420, h:700, face:'14 0 385 385', anchor:.5},
   // the violin case (scripts/cut-violin-characters.py); the officer is the library case's Sgt. Badger
-  tara:{src:'assets/characters/tara-higgsfield.png', w:470, h:700, face:'60 14 350 350', anchor:.55},
-  owen:{src:'assets/characters/owen-higgsfield.png', w:471, h:700, face:'68 0 336 336', anchor:.465},
-  ivo:{src:'assets/characters/ivo-higgsfield.png', w:457, h:700, face:'46 0 364 364', anchor:.5},
-  momo:{src:'assets/characters/momo-higgsfield.png', w:420, h:700, face:'35 14 350 350', anchor:.5},
-  pip:{src:'assets/characters/pip-higgsfield.png', w:480, h:700, face:'23 0 434 434', anchor:.5},
+  tara:{src:'assets/characters/tara-higgsfield.webp', w:470, h:700, face:'60 14 350 350', anchor:.55},
+  owen:{src:'assets/characters/owen-higgsfield.webp', w:471, h:700, face:'68 0 336 336', anchor:.465},
+  ivo:{src:'assets/characters/ivo-higgsfield.webp', w:457, h:700, face:'46 0 364 364', anchor:.5},
+  momo:{src:'assets/characters/momo-higgsfield.webp', w:420, h:700, face:'35 14 350 350', anchor:.5},
+  pip:{src:'assets/characters/pip-higgsfield.webp', w:480, h:700, face:'23 0 434 434', anchor:.5},
   // the Christmas star case (scripts/cut-christmas-assets.py): Daisy, Coco (seated, as she works), Nico
   // Daisy and Coco look at the detective while they talk (user request); at their own place, not talking, they work
   // (the :work pose, spriteKey). Talk poses: one sheet, scripts/cut-christmas-talk.py
   // redrawn as plump as her working pose (user: talking she turned too slim; scripts/cut-holly-talk.py)
-  holly:{src:'assets/characters/holly-talk.png', w:483, h:700, face:'40 0 360 360', anchor:.45},
+  holly:{src:'assets/characters/holly-talk.webp', w:483, h:700, face:'40 0 360 360', anchor:.45},
   // a koala (user decision: as a mouse she looked like the moles of earlier cases); both poses from one sheet, scripts/cut-mae-koala.py
-  mae:{src:'assets/characters/mae-talk.png', w:447, h:700, face:'38 0 372 372', anchor:.5},
+  mae:{src:'assets/characters/mae-talk.webp', w:447, h:700, face:'38 0 372 372', anchor:.5},
   // flip: drawn mirrored (user request: working, Daisy faces the table on her left in the storeroom)
-  'holly:work':{src:'assets/characters/holly-higgsfield.png', w:412, h:700, anchor:.5, flip:true},
-  'mae:work':{src:'assets/characters/mae-higgsfield.png', w:444, h:700, anchor:.45},
-  nico:{src:'assets/characters/nico-higgsfield.png', w:476, h:700, face:'60 0 357 357', anchor:.47}
+  'holly:work':{src:'assets/characters/holly-higgsfield.webp', w:412, h:700, anchor:.5, flip:true},
+  'mae:work':{src:'assets/characters/mae-higgsfield.webp', w:444, h:700, anchor:.45},
+  nico:{src:'assets/characters/nico-higgsfield.webp', w:476, h:700, face:'60 0 357 357', anchor:.47}
 };
 // Fiona's ending expressions: S.mood.fiona = 'nervous' | 'sad'. `height` is relative to the base sprite.
 Object.assign(SPRITES, {
-  'fiona:nervous':{src:'assets/characters/fiona-nervous.png', w:477, h:641, height:641/621, anchor:.42},
-  'fiona:sad':{src:'assets/characters/fiona-sad.png', w:569, h:624, height:624/621, anchor:.415},
+  'fiona:nervous':{src:'assets/characters/fiona-nervous.webp', w:477, h:641, height:641/621, anchor:.42},
+  'fiona:sad':{src:'assets/characters/fiona-sad.webp', w:569, h:624, height:624/621, anchor:.415},
   // Owen in the questioning (violin case): cornered from his second claim, sorry when he owns up
-  'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.png', w:470, h:700, anchor:.47},
-  'owen:sad':{src:'assets/characters/owen-sad-higgsfield.png', w:471, h:700, anchor:.47},
-  'nico:nervous':{src:'assets/characters/nico-nervous-higgsfield.png', w:428, h:700, anchor:.47},
-  'nico:sad':{src:'assets/characters/nico-nervous-higgsfield.png', w:428, h:700, anchor:.47},
+  'owen:nervous':{src:'assets/characters/owen-nervous-higgsfield.webp', w:470, h:700, anchor:.47},
+  'owen:sad':{src:'assets/characters/owen-sad-higgsfield.webp', w:471, h:700, anchor:.47},
+  'nico:nervous':{src:'assets/characters/nico-nervous-higgsfield.webp', w:428, h:700, anchor:.47},
+  'nico:sad':{src:'assets/characters/nico-nervous-higgsfield.webp', w:428, h:700, anchor:.47},
   // the Christmas lighting: the friends from behind, looking up at the lit tree (one sheet, scripts/cut-christmas-backs.py)
-  'holly:back':{src:'assets/characters/holly-back.png', w:447, h:700, anchor:.5},
+  'holly:back':{src:'assets/characters/holly-back.webp', w:447, h:700, anchor:.5},
   // the koala from behind, standing on the snow (user: no stool outdoors; scripts/cut-mae-koala-back.py)
-  'mae:back':{src:'assets/characters/mae-back.png', w:456, h:700, anchor:.5},
-  'ella:back':{src:'assets/characters/ella-back.png', w:428, h:700, anchor:.5},
-  'tess:back':{src:'assets/characters/tess-back.png', w:410, h:700, anchor:.5}
+  'mae:back':{src:'assets/characters/mae-back.webp', w:456, h:700, anchor:.5},
+  'ella:back':{src:'assets/characters/ella-back.webp', w:428, h:700, anchor:.5},
+  'tess:back':{src:'assets/characters/tess-back.webp', w:410, h:700, anchor:.5}
 });
 Object.assign(SPRITES, PACK?.sprites || {});
 // a person with a :work pose works at their own place and turns to the detective only in their conversation
@@ -4900,20 +4904,20 @@ function spriteMouth(id, part){
   const m = MOUTHS[id]; if(!m) return '';
   const file = id.replace(':', '-');
   return ['closed', 'open'].map(state => { const [x, y, w, h] = m[state];
-    return `<image class="npc-mouth ${state}"${part ? ` data-part="${part}"` : ''} href="assets/characters/mouths/${file}-${state}.png" x="${x}" y="${y}" width="${w}" height="${h}"/>`; }).join('');
+    return `<image class="npc-mouth ${state}"${part ? ` data-part="${part}"` : ''} href="assets/characters/mouths/${file}-${state}.webp" x="${x}" y="${y}" width="${w}" height="${h}"/>`; }).join('');
 }
 const spriteMouths = k => { const parts = SPRITES[k]?.parts;
   return parts ? spriteMouth(k, 'main') + Object.entries(parts).map(([part, id]) => spriteMouth(id, part)).join('') : spriteMouth(k); };
 // The detective's poses (user request: a new one on every tap at 홈), each with the NPCs' talking mouth; ax: where the
 // body's middle is across the picture, kept on the same spot whichever pose it is
 const DETECTIVE_POSES = [
-  { src:'assets/characters/detective-higgsfield.png', w:627, h:700, ax:.44, mouth:'detective' },
-  { src:'assets/characters/detective-thinking.png', w:611, h:700, ax:.44, mouth:'detective:thinking' },
-  { src:'assets/characters/detective-point.png', w:614, h:700, ax:.43, mouth:'detective:point' },
-  { src:'assets/characters/detective-lens.png', w:606, h:700, ax:.41, mouth:'detective:lens' },
-  { src:'assets/characters/detective-wave.png', w:614, h:700, ax:.44, mouth:'detective:wave' }
+  { src:'assets/characters/detective-higgsfield.webp', w:627, h:700, ax:.44, mouth:'detective' },
+  { src:'assets/characters/detective-thinking.webp', w:611, h:700, ax:.44, mouth:'detective:thinking' },
+  { src:'assets/characters/detective-point.webp', w:614, h:700, ax:.43, mouth:'detective:point' },
+  { src:'assets/characters/detective-lens.webp', w:606, h:700, ax:.41, mouth:'detective:lens' },
+  { src:'assets/characters/detective-wave.webp', w:614, h:700, ax:.44, mouth:'detective:wave' }
 ];
-DETECTIVE_POSES.forEach(p => [p.src, ...['closed', 'open'].map(st => `assets/characters/mouths/${p.mouth.replace(':', '-')}-${st}.png`)].forEach(src => { new Image().src = src; }));
+DETECTIVE_POSES.forEach(p => [p.src, ...['closed', 'open'].map(st => `assets/characters/mouths/${p.mouth.replace(':', '-')}-${st}.webp`)].forEach(src => { new Image().src = src; }));
 const detSVG = p => `<svg viewBox="0 0 ${p.w} ${p.h}" aria-hidden="true"><image href="${p.src}" width="${p.w}" height="${p.h}"/>${spriteMouth(p.mouth)}</svg>`;
 function setDetPose(box, i){
   const p = DETECTIVE_POSES[i];
@@ -4930,9 +4934,9 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
 // the last ones cut from their sprites (scripts/cut-picnic-characters.py, cut-umbrella-characters.py); mia-solo and
 // ollie are PEOPLE.mia.faces
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia', 'mia-solo', 'ollie',
-  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby'];   // Christmas: scripts/make-christmas-face-icons.py
+  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby', 'bruno'];   // Christmas: scripts/make-christmas-face-icons.py; bruno: scripts/cut-bruno.py
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
-const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.png`;
+const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.webp`;
 const miniSVG = id => FACE_ICONS.includes(id) || !SPRITES[id] && !DRAWN.includes(id) ? `<img class="face" src="${faceSrc(id)}" alt="" draggable="false">`
   : SPRITES[id]
   ? `<svg viewBox="${SPRITES[id].face}" aria-hidden="true"><image href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/></svg>`
@@ -5254,7 +5258,7 @@ const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L1
 
 function renderHint(){
   const p = st(), button = $('#hint'), qid = p.recording;
-  button.innerHTML = `<img src="assets/ui/icons-v2/acorn.png" alt="" draggable="false"><span class="n">${S.hints}</span>`;
+  button.innerHTML = `<img src="assets/ui/icons-v2/acorn.webp" alt="" draggable="false"><span class="n">${S.hints}</span>`;
   button.disabled = S.investigate || p.phase !== 'record' || !qid || S.hints <= 0;
   button.setAttribute('aria-label', `힌트 ${S.hints}번 남음`);
 }
@@ -5441,7 +5445,7 @@ function renderAsk(){
   if(auto){
     box.innerHTML = '';
     if(autoHeld !== s.id && !autoTimer) autoTimer = setTimeout(() => { autoTimer = 0;
-      if(S.cur === s.id && !S.investigate && greetingId !== s.id && !mt) doAction(auto.id); }, 600);
+      if(S.cur === s.id && !S.investigate && greetingId !== s.id && !mt) doAction(auto.id); }, 0);   // no wait of its own: the 0.4s after the tap (playLines) is the gap, as between lines (user request 2026-11-19: the detective came in late, 1s)
     return;
   }
   // 해석 only when something under it has Korean to show: a give pill alone has none (user request 2026-11-18)
@@ -5950,8 +5954,12 @@ function doAction(aid){
   // hold: they hold the thing out with their answer (a pose, hold.mood) until the player taps it (holdOut), once
   const hold = a.hold && !S.items.includes(a.hold.item) && !S.handoffRound ? a.hold : null;
   const lines = [...(a.say === false ? [] : [{ det:true, key:`${who}-act-${aid}`, en:a.en, ko:a.ko }]), ...(a.lines || [{ key:aid, en:a.answer, ko:a.answerKo, ...(hold ? { mood:hold.mood } : {}) }])];
+  let ran = false;
   const done = () => {
-    if(greetingId !== who) return;
+    if(greetingId !== who || ran) return;
+    // once: the fallback (greetingCut) is stopped here, since the sketch and a held thing keep the greeting on (user
+    // request 2026-11-19: it opened the sketch a second time a few seconds on, the witness's line said twice)
+    ran = true; greetingCut?.stop();
     // a witness's sketch (montage): it opens under their bubble, the greeting held until it closes
     if(a.montage) return openMontage(who, a);
     // the thing stays in their hands until it is tapped; the questions stay away meanwhile (the greeting goes on)
@@ -6029,6 +6037,7 @@ function renderMontage(){
   if(!mt){ box.hidden = true; return; }
   box.hidden = false;
   box.classList.toggle('view', !!mt.view);
+  $('#mtArt').setAttribute('viewBox', MT.view);
   $('#mtArt').innerHTML = montageSVG(f?.part);
   $('#mtOk').disabled = !f || mtDone(f.part);
   fitMontage();
@@ -6488,7 +6497,11 @@ $('#backTab').onclick = () => {
   if(ending) return requestLeaveInterrogation();
   if(talkLocked()){ setNotes(false); return askStopTalk(); }
   if(!S.investigate && !ending) return leaveTalk();
-  if(placeObj()?.inspect){ setNotes(false); const to = inspectFrom || placeObj().back; inspectFrom = null; return to ? enterPlace(to) : talkTo(S.cur); }
+  if(placeObj()?.inspect){ setNotes(false); const to = inspectFrom || placeObj().back; inspectFrom = null;
+    // opened from 소지품 on the map or in a conversation (ITEMS[].use.anywhere): back there
+    if(to === '#map') return openSheet('map');
+    if(to === '#talk') return talkTo(S.cur);
+    return to ? enterPlace(to) : talkTo(S.cur); }
   if(ONE_PLACE) return $('#leaveCase').hidden = false;   // no map to go back to: ask to leave the case
   openSheet('map');
 };
@@ -6831,7 +6844,7 @@ function revealDiscoveries(){
   // user request: say what the name is ("Mr. Duck을 알게 됐어요", "Lake Cafe에 갈 수 있어요")
   showDiscovery([
     ...people.map(id => ({ img:faceSrc(id), name:spk(id).name, rest:`${objectJosa(spk(id).name)} 알게 됐어요` })),
-    ...places.map(id => ({ img:'assets/ui/nav/map.png', map:true, name:placeOf(id).label, rest:'에 갈 수 있어요' }))
+    ...places.map(id => ({ img:'assets/ui/nav/map.webp', map:true, name:placeOf(id).label, rest:'에 갈 수 있어요' }))
   ]);
 }
 // 을/를 after an English name, by how its last word sounds in Korean: Duck(덕)·Rabbit(래빗)·Mole(몰) take 을,
@@ -7268,7 +7281,7 @@ function renderSay(line){
   // the detective (the player, never on screen) speaks from below, on honey paper with their face (user pick A)
   b.classList.toggle('det', !!line.det);
   // a line from below with someone else's face (face: the officer on the phone, violin case)
-  b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/detective.png'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' + (line.det ? '' : '<i class="say-cue"></i>') +
+  b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/detective.webp'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' + (line.det ? '' : '<i class="say-cue"></i>') +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
   fitTalkPhoto();
@@ -7348,8 +7361,10 @@ function itemButtons(id){
 }
 // a thing used where the detective stands (use: { at: place, when/unless, inspect: the close look it opens }), the
 // Christmas star case's scale on the sleigh's boxes
+// anywhere: from 소지품 wherever the detective is (the umbrella's close look, user request 2026-11-19: with only the big
+// picture its inside could not be seen again once the close look was shut)
 const itemUsable = id => { const u = ITEMS[id].use;
-  return !!u && S.investigate && S.place === u.at && (u.when || []).every(cond) && !(u.unless || []).some(cond); };
+  return !!u && (u.anywhere || S.investigate && S.place === u.at) && (u.when || []).every(cond) && !(u.unless || []).some(cond); };
 // One shape for a photo ('place-clue') and a thing in 소지품 ('@item'): what the notebook and the drawer show of it.
 const isItemRef = ref => ref?.startsWith('@');
 // a thing that opens (opened: its picture and sentence when open, S.flags 'open:<id>') as it is now
@@ -7588,7 +7603,9 @@ $('#drawer').addEventListener('click', e => {
     return detectiveSay(c.line.key, () => waitTap(() => renderSay(null)), null, c.line.en);
   }
   const use = e.target.closest('[data-item-use]');
-  if(use){ closeDrawer(); openInspect(ITEMS[use.dataset.itemUse].use.inspect, S.place); }   // back returns to where it was used
+  if(use){   // back returns to where it was used: the place, the map, or the conversation
+    const from = S.investigate ? S.place : $('#sheet-map').classList.contains('open') ? '#map' : S.cur ? '#talk' : S.place;
+    closeDrawer(); openInspect(ITEMS[use.dataset.itemUse].use.inspect, from); }
 });
 
 function endingControls(){
@@ -8137,8 +8154,8 @@ function renderReview(dir){
   let body = '', foot = '';
   if(step === 'result'){
     const stars = st?.stars || 0;
-    body = `<div class="rv-file">${reviewPhoto(CASE)}<img class="stamp" src="assets/ui/complete-stamp.png" alt="COMPLETE"><small>${esc(CASE.no)}</small><b>${esc(CASE.title)}</b></div>
-      <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="" style="--i:${i}">`).join('')}</div>
+    body = `<div class="rv-file">${reviewPhoto(CASE)}<img class="stamp" src="assets/ui/complete-stamp.webp" alt="COMPLETE"><small>${esc(CASE.no)}</small><b>${esc(CASE.title)}</b></div>
+      <div class="rv-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.webp" alt="" style="--i:${i}">`).join('')}</div>
       ${CASE.summary ? `<div class="rv-story"><h3>사건 요약</h3>${CASE.victimPhoto ? `<img class="rv-victim" src="${esc(CASE.victimPhoto)}" alt="후트 교수">` : ''}<p>${esc(CASE.summary)}</p></div>` : ''}
       <div class="rv-tiles">
         <div>처음에 맞힌 ${MT ? '특징' : '빈칸'}<b>${st ? `${st.ok}<small> / ${st.total}</small>` : '–'}</b></div>
@@ -8225,7 +8242,8 @@ function reviewPhoto(c){
   const p = c.photo;
   if(p?.who) return `<div class="rv-photo mug"><img class="who" src="${p.img}" alt="" style="--cx:${p.cx ?? 50}${p.w ? `;--w:${p.w}` : ''}${p.b != null ? `;--b:${p.b}` : ''}"><span class="plate"><b>${esc(spk(p.who).name.toUpperCase())}</b>ACORN HOLLOW · ${esc(c.no.replace(/\D/g, ''))}</span></div>`;
   if(p?.place) return `<div class="rv-photo">${evidencePhoto(placeOf(p.place), p.clue)}</div>`;
-  if(p?.img) return `<div class="rv-photo"><img src="${p.img}" alt=""></div>`;
+  // pos: the part of a tall picture to show in the short frame (the wanted poster's face, user request 2026-11-19)
+  if(p?.img) return `<div class="rv-photo"><img src="${p.img}" alt=""${p.pos ? ` style="width:100%;height:100%;object-fit:cover;object-position:${p.pos}"` : ''}></div>`;
   return '';
 }
 // The review's grammar rows: the case's key grammar form by form (CASES[].keys, the case key's pages), each with the first
@@ -8450,13 +8468,13 @@ const xmasLook = (room, inner) => `<defs><filter id="inspectBlur" x="-5%" y="-5%
 // Tess's delivery list on her clipboard (AI pictures write poorly): the six names, the ticks for what is wrapped
 // (two at first, four once the table has moved on)
 // Coco's hand-over slip: folded on her snowflake table in tent.jpg (scripts/add-christmas-coco-slip-table.py), unfolded
-// in the close look 'cocoslip' (coco-slip.png, scripts/make-christmas-coco-slip.py), user request 2026-11-16: the slip the
+// in the close look 'cocoslip' (coco-slip.webp, scripts/make-christmas-coco-slip.py), user request 2026-11-16: the slip the
 // game drew on the table looked forced
-// Tess's list (user request: a picture, not words over the table). gift-list-2/-4.png: the clipboard seen from the front (Higgsfield,
+// Tess's list (user request: a picture, not words over the table). gift-list-2/-4.webp: the clipboard seen from the front (Higgsfield,
 // gift-list-higgsfield-original.png) with the list written in by hand (Ink Free). On the table only its paper is laid
 // onto the clipboard drawn there (the matrix maps the paper 64,172–716,1066 onto it); tapped, the whole clipboard
 // fills the screen (giftlist)
-const xmasListImg = () => `${XM}gift-list-${S.flags.has('table-seen') ? 4 : 2}.png`;
+const xmasListImg = () => `${XM}gift-list-${S.flags.has('table-seen') ? 4 : 2}.webp`;
 const xmasList = () => `<defs><clipPath id="giftPaper"><rect x="86" y="198" width="610" height="846"/></clipPath></defs>
   <g transform="matrix(.09049 -.05613 .09536 .0415 668.61 318.45)" opacity=".92"><image href="${xmasListImg()}" width="779" height="1138" clip-path="url(#giftPaper)"/></g>`;
 /* the scale in use (the Christmas star case's close look 'weigh', user pick: over the blurred sleigh, the scale low and
@@ -8472,16 +8490,16 @@ function weighArt(){
   const a = Math.sign(w(1) - w(0)) * W.tilt, from = weighFrom; weighFrom = a;
   const [px, py] = W.pivot, hang = (deg, [x, y]) => { const r = deg * Math.PI / 180;
     return [px + (x - px) * Math.cos(r) - (y - py) * Math.sin(r) - x, py + (x - px) * Math.sin(r) + (y - py) * Math.cos(r) - y]; };
-  const img = `<image href="${XM}scale.png" width="857" height="693"/>`, clip = (id, d) => `<clipPath id="${id}"><path d="${d}"/></clipPath>`;
+  const img = `<image href="${XM}scale.webp" width="857" height="693"/>`, clip = (id, d) => `<clipPath id="${id}"><path d="${d}"/></clipPath>`;
   // data-box: which box it is, so a box that changes place can be shown moving there (weighMoves)
-  const boxImg = (x, y, w, h, id) => `<image href="${XM}box-closed.png" x="${x}" y="${y}" width="${w}" height="${h}"${id === undefined ? '' : ` data-box="${id}"`}/>`;
+  const boxImg = (x, y, w, h, id) => `<image href="${XM}box-closed.webp" x="${x}" y="${y}" width="${w}" height="${h}"${id === undefined ? '' : ` data-box="${id}"`}/>`;
   // 열기 under a pan with a box (the paper buttons' cream and brown)
   const openBtn = x => `<g class="weigh-open"><rect x="${x - 85}" y="540" width="170" height="64" rx="32" fill="#FBF3E2" stroke="#4A3426" stroke-width="5"/>` +
     `<text x="${x}" y="584" text-anchor="middle" font-size="38" font-weight="700" fill="#4A3426">열기</text></g>`;
   // a box already opened (its clue's flag at the sleigh: the star's box) lies open on its pan, with no 열기
   const bal = placeOf('weigh').balance, back = placeOf(placeOf('weigh').back);
   const opened = box => { const c = back.clues[bal.open?.[box]]; return !!(c?.flag && S.flags.has(c.flag)); };
-  const openImg = x => `<image href="${XM}${S.flags.has('took:star') ? 'box-empty' : 'box-star'}.png" x="${x - 150}" y="296" width="290" height="189"/>`;
+  const openImg = x => `<image href="${XM}${S.flags.has('took:star') ? 'box-empty' : 'box-star'}.webp" x="${x - 150}" y="296" width="290" height="189"/>`;
   const pan = n => { const [dx, dy] = hang(a, W.hooks[n]), [fx, fy] = hang(from, W.hooks[n]);
     return `<g class="weigh-pan" style="--fx:${fx}px;--fy:${fy}px;transform:translate(${dx}px,${dy}px)"><g clip-path="url(#wPan${n})">${img}</g>` +
       (plates[n] === null ? '' : opened(plates[n]) ? openImg(W.hooks[n][0]) : boxImg(W.hooks[n][0] - 92, 300, 184, 172, plates[n]) + openBtn(W.hooks[n][0])) + '</g>'; };
@@ -8538,7 +8556,7 @@ function openFromScale(box){
   const clue = placeOf(pl.back).clues[i];
   if(clue.peek){
     const el = $(`#art [data-box="${box}"]`), n = plates.indexOf(box), x = WEIGH.hooks[n][0];
-    peekOpen(el, { src:'box-mittens.png', x:x - 150, y:296, w:290, h:189 }, { src:'box-closed.png', x:x - 92, y:300, w:184, h:172 });
+    peekOpen(el, { src:'box-mittens.webp', x:x - 150, y:296, w:290, h:189 }, { src:'box-closed.webp', x:x - 92, y:300, w:184, h:172 });
     return sayProp(clue, $(`#art .spot[data-clue="${pl.clues.findIndex(c => c.openPlate === n)}"]`));
   }
   // the box that holds something to take (the star's): it opens on its pan as well, with its line, and stays open (weighArt);
@@ -8560,8 +8578,8 @@ const XMAS_BOXES = { star:2, front:[410, 486, 701, 235], at:[[434, 545, 146], [5
 const xmasImg = (src, [x, y, w, h]) => `<image href="${XM}${src}" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
 function xmasOpen(k, look){
   const [x, b, w] = XMAS_BOXES.at[k], ow = Math.round(w * 1.835), oh = Math.round(ow * 696 / 1069);
-  return `<g data-open="${k}">` + xmasImg(`box-gap-${k}.png`, XMAS_BOXES.gap[k]) + xmasImg(`box-${look}.png`, [x - Math.round(w * .42), b + 12 - oh, ow, oh]) +
-    XMAS_BOXES.inFront[k].map(j => xmasImg(`box-cut-${j}.png`, XMAS_BOXES.cut[j])).join('') + xmasImg('sleigh-front.png', XMAS_BOXES.front) + '</g>';
+  return `<g data-open="${k}">` + xmasImg(`box-gap-${k}.webp`, XMAS_BOXES.gap[k]) + xmasImg(`box-${look}.webp`, [x - Math.round(w * .42), b + 12 - oh, ow, oh]) +
+    XMAS_BOXES.inFront[k].map(j => xmasImg(`box-cut-${j}.webp`, XMAS_BOXES.cut[j])).join('') + xmasImg('sleigh-front.webp', XMAS_BOXES.front) + '</g>';
 }
 // a box opened for a moment where it is drawn (a mittens box: on the sleigh its slot, on the scale's pan the box), then
 // shut again
@@ -8571,7 +8589,7 @@ function peekOpen(el, geom, back){
   set(geom); setTimeout(() => { if(el.isConnected) set(back); }, 1800);
 }
 // Pip's shadow in the backstage room's left doorway (only the opening, between its two posts)
-const PIP_SHADOW = '<image href="assets/places/violin/pip-silhouette.png" x="57" y="402" width="108" height="190"/>';
+const PIP_SHADOW = '<image href="assets/places/violin/pip-silhouette.webp" x="57" y="402" width="108" height="190"/>';
 // the kite case's kites not taken yet, each under what still hides it (KITE_SLOTS)
 // (one in 소지품 is gone from the park too: the previews hand them over without the took flag)
 // kiteMoving: the bed's flowers parting or standing back just now ({ n, way:'part'|'back', until }), drawn moving once
@@ -8583,22 +8601,22 @@ const bedArt = k => { const gone = kiteGone(k), parted = !gone && S.flags.has(`c
   return kite + `<g ${parted || gone ? '' : `data-cover="${k.n}-0" `}class="bed-bunches${parted ? '' : ' bed-rest'}">` + k.bunches.map(b =>
     bunchPic(b, moving ? ` ${moving}` : '', parted ? `;transform:translateX(${b.sx.toFixed(0)}px) rotate(${b.a.toFixed(1)}deg)` : '')).join('') + '</g>'; };
 const kitePic = k => { const [w, h] = KITE_PICS[k.n], sc = KITE_K * (k.s || 1);
-  return `<image href="assets/places/kite/kite2-${k.n}.png" x="${k.x - w * sc / 2}" y="${k.y}" width="${w * sc}" height="${h * sc}" transform="rotate(${k.r} ${k.x} ${k.y + 20})"/>`; };
-const bunchPic = (b, cls = '', style = '') => `<image class="bunch${cls}" style="--a:${b.a.toFixed(1)}deg;--x:${(b.sx || 0).toFixed(0)}px${style}" href="assets/places/kite/flower-${b.f}.png" x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}"/>`;
+  return `<image href="assets/places/kite/kite2-${k.n}.webp" x="${k.x - w * sc / 2}" y="${k.y}" width="${w * sc}" height="${h * sc}" transform="rotate(${k.r} ${k.x} ${k.y + 20})"/>`; };
+const bunchPic = (b, cls = '', style = '') => `<image class="bunch${cls}" style="--a:${b.a.toFixed(1)}deg;--x:${(b.sx || 0).toFixed(0)}px${style}" href="assets/places/kite/flower-${b.f}.webp" x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}"/>`;
 // the ball, where it lies or where it rolled to (the shadow goes along, the ball turns)
 const ballArt = k => { const b = k.ball, rolled = S.flags.has(`cover-${k.n}-0`), x = b.cx + (rolled ? b.dx : 0), y = b.cy + (rolled ? b.dy : 0);
   const moving = kiteMoving?.n === k.n && Date.now() < kiteMoving.until, turn = Math.hypot(b.dx, b.dy) / (Math.PI * b.d) * 360;
   return (kiteGone(k) ? '' : kitePic(k)) + `<g ${rolled ? '' : `data-cover="${k.n}-0" `}class="ball-wrap${moving ? ' roll' : ''}" style="--dx:${b.dx}px;--dy:${b.dy}px">` +
     `<ellipse cx="${x}" cy="${y + b.d * .46}" rx="${b.d * .42}" ry="${b.d * .1}" fill="rgba(60,48,20,.22)"/>` +
-    `<image class="ball${moving ? ' spin' : ''}" style="--turn:${turn.toFixed(0)}deg${rolled ? `;transform:rotate(${turn.toFixed(0)}deg)` : ''}" href="assets/props/ball-soccer.png" x="${x - b.d / 2}" y="${y - b.d / 2}" width="${b.d}" height="${b.d}"/></g>`; };
+    `<image class="ball${moving ? ' spin' : ''}" style="--turn:${turn.toFixed(0)}deg${rolled ? `;transform:rotate(${turn.toFixed(0)}deg)` : ''}" href="assets/props/ball-soccer.webp" x="${x - b.d / 2}" y="${y - b.d / 2}" width="${b.d}" height="${b.d}"/></g>`; };
 const kitesArt = () => `<g class="bed-bunches bed-rest">${KITE_BED_REST.map(b => bunchPic(b)).join('')}</g>` + KITE_SLOTS.filter(k => k.part || k.ball || !kiteGone(k)).map(k => {
   if(k.part) return bedArt(k);
   if(k.ball) return ballArt(k);
   const [w, h] = KITE_PICS[k.n], sc = KITE_K * (k.s || 1);
-  return `<image href="assets/places/kite/kite2-${k.n}.png" x="${k.x - w * sc / 2}" y="${k.y}" width="${w * sc}" height="${h * sc}" transform="rotate(${k.r} ${k.x} ${k.y + 20})"/>` +
+  return `<image href="assets/places/kite/kite2-${k.n}.webp" x="${k.x - w * sc / 2}" y="${k.y}" width="${w * sc}" height="${h * sc}" transform="rotate(${k.r} ${k.x} ${k.y + 20})"/>` +
     // data-cover: the one a tap clears away (clearCover)
     k.cover.map((c, i) => S.flags.has(`cover-${k.n}-${i}`) ? ''
-      : `<image data-cover="${k.n}-${i}" style="animation-delay:-${((k.n * 7 + i * 5) % 10) / 4}s" href="assets/places/kite/${c.img}.png" x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}" preserveAspectRatio="none"/>`).join('');
+      : `<image data-cover="${k.n}-${i}" style="animation-delay:-${((k.n * 7 + i * 5) % 10) / 4}s" href="assets/places/kite/${c.img}.webp" x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}" preserveAspectRatio="none"/>`).join('');
 }).join('');
 const ART = {
   /* the Christmas star case (assets/places/christmas/, scripts/cut-christmas-assets.py). The square at night is the day
@@ -8608,7 +8626,7 @@ const ART = {
   tree: () => `<image href="${XM}${S.flags.has('lit') ? 'tree-lit' : S.flags.has('night') ? 'tree-night' : 'tree'}.jpg" width="1376" height="768"/>`,
   storeroom: () => `<image href="${XM}${S.flags.has('took:scale') ? 'storeroom-noscale' : 'storeroom'}.jpg" width="1376" height="768"/>`,
   tent: () => `<image href="${XM}tent.jpg" width="1376" height="768"/>` +
-    (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.png" x="286" y="418" width="170" height="186"/>` : '') + xmasList(),
+    (S.flags.has('table-seen') ? `<image href="${XM}tent-wrapped.webp" x="286" y="418" width="170" height="186"/>` : '') + xmasList(),
   // the sleigh as drawn, its own boxes; the opened one (the third) taken away and drawn open, the star in it until it is
   // taken out (user requests 2026-11-16: no closed box under it, the boxes as natural as in the picture)
   sleigh: () => `<image href="${XM}sleigh.jpg" width="1376" height="1028"/>` +
@@ -8620,12 +8638,12 @@ const ART = {
     `<rect x="-400" y="-400" width="2176" height="1568" fill="url(#weighPattern)"/><rect width="1376" height="768" fill="url(#weighGlow)"/>${weighArt()}`,
   backyard: () => `<image href="${XM}corner.jpg" width="1200" height="896"/>`,
   // front and back the same glitter picture (a toy has no pattern on either side), the back mirrored so the turn shows
-  toystar: () => xmasLook('tent', `<image href="${XM}toy-star-back.png" x="498" y="190" width="380" height="365"${S.unfolded ? ' transform="translate(1376 0) scale(-1 1)"' : ''}/>`),
-  starback: () => xmasLook('sleigh', S.unfolded ? `<image href="${XM}star-back.png" x="498" y="192" width="380" height="361"/>` : `<image href="${XM}star-front.png" x="498" y="192" width="380" height="359"/>`),
+  toystar: () => xmasLook('tent', `<image href="${XM}toy-star-back.webp" x="498" y="190" width="380" height="365"${S.unfolded ? ' transform="translate(1376 0) scale(-1 1)"' : ''}/>`),
+  starback: () => xmasLook('sleigh', S.unfolded ? `<image href="${XM}star-back.webp" x="498" y="192" width="380" height="361"/>` : `<image href="${XM}star-front.webp" x="498" y="192" width="380" height="359"/>`),
   // the papers inside the phone's frame (user request: they filled it, cut at the sides and under the tabs): the close
   // look shows about 400 wide around x 688, between the top buttons and the tabs, so 340 wide in the middle
   giftlist: () => xmasLook('tent', `<image href="${xmasListImg()}" x="518" y="124" width="340" height="497"/>`),
-  cocoslip: () => xmasLook('tent', `<image href="${XM}coco-slip.png" x="518" y="140" width="340" height="464"/>`),
+  cocoslip: () => xmasLook('tent', `<image href="${XM}coco-slip.webp" x="518" y="140" width="340" height="464"/>`),
   /* the umbrella case's places (scripts/cut-umbrella-places.py): one tall Higgsfield picture each with its floor. The
      banner's, the notice's and the sign's words are drawn over the picture (AI pictures write poorly), and so is the
      bazaar photo on the board, at full size for its evidence photo. The umbrella stands in the hall's stand (put in
@@ -8643,11 +8661,11 @@ const ART = {
   // alone over the hall it was taken from, softly blurred and dimmed (user request: no paper behind the umbrella)
   umbrella: () => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
     <image href="assets/places/umbrella/hall.webp" width="1376" height="768" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>` + (S.unfolded
-    ? `<image href="assets/places/umbrella/umbrella-open.png" x="528" y="218" width="320" height="302"/>`
-    : `<image href="assets/places/umbrella/umbrella-folded.png" x="577" y="97" width="221" height="574"/>`),
-  interview: () => `<image href="assets/places/station-interview-room.png" width="1536" height="1536"/>`,
+    ? `<image href="assets/places/umbrella/umbrella-open.webp" x="528" y="218" width="320" height="302"/>`
+    : `<image href="assets/places/umbrella/umbrella-folded.webp" x="577" y="97" width="221" height="574"/>`),
+  interview: () => `<image href="assets/places/station-interview-room.webp" width="1536" height="1536"/>`,
   library: () => `
-    <image href="assets/places/library-higgsfield-v2.png" width="1376" height="768"/>
+    <image href="assets/places/library-higgsfield-v2.webp" width="1376" height="768"/>
     <!-- The stopped hands must read 8:40 in both the room and the evidence crop. Cover only the old dial. -->
     <g class="clock-face" pointer-events="none">
       <path d="M1050 157 C1070 155 1084 172 1085 194 C1087 216 1074 235 1052 237 C1030 239 1017 221 1017 198 C1016 175 1030 158 1050 157Z" fill="#F5E9C7" stroke="#59472C" stroke-width="2.4"/>
@@ -8663,50 +8681,50 @@ const ART = {
       <circle cx="1051" cy="197" r="2.6" fill="#33291D"/>
       <path d="M1068 165 L1064 176 L1071 182 L1067 189" fill="none" stroke="#82745A" stroke-width=".8" opacity=".75"/>
     </g>
-    <!-- Professor Hoot's chalk outline (assets/places/library-chalk-owl.png): drawn top-down, laid on the floor at the foot of
+    <!-- Professor Hoot's chalk outline (assets/places/library-chalk-owl.webp): drawn top-down, laid on the floor at the foot of
          the clock he hit, head toward it (user request: closer to the clock) -->
-    <g transform="translate(1048 618) scale(.82 .5) rotate(-18)"><image href="assets/places/library-chalk-owl.png" x="-185" y="-131" width="370" height="261" opacity=".9"/></g>`,
+    <g transform="translate(1048 618) scale(.82 .5) rotate(-18)"><image href="assets/places/library-chalk-owl.webp" x="-185" y="-131" width="370" height="261" opacity=".9"/></g>`,
 
   bakery: () => `
-    <image href="assets/places/bakery-higgsfield.png" width="1376" height="768"/>`,
+    <image href="assets/places/bakery-higgsfield.webp" width="1376" height="768"/>`,
 
   cafe: () => `
-    <image href="assets/places/cafe-higgsfield.png" width="1376" height="768"/>`,
+    <image href="assets/places/cafe-higgsfield.webp" width="1376" height="768"/>`,
 
   hill: () => `
-    <image href="assets/places/hill-higgsfield.png" width="1376" height="768"/>`,
+    <image href="assets/places/hill-higgsfield.webp" width="1376" height="768"/>`,
 
   bettyhome: () => `
-    <image href="assets/places/betty-home-higgsfield.png" width="1376" height="768"/>`,
+    <image href="assets/places/betty-home-higgsfield.webp" width="1376" height="768"/>`,
 
   // the picnic case (assets/places/picnic-storyboard/)
   // Rosie's backpack is on the grass by her, not on the table, so it is in view while she talks about it (user request);
   // it fades out while the bag is with the detective (.bag-away, syncBagAway()). The table is drawn without it
   // (scripts/cut-picnic-nobag.py)
-  picnic: () => `<image href="assets/places/picnic-storyboard/picnic-wide.png" width="1280" height="714"/>
-    <image href="assets/places/picnic-storyboard/picnic-nobag.png" x="939" y="272" width="198" height="188"/>
+  picnic: () => `<image href="assets/places/picnic-storyboard/picnic-wide.webp" width="1280" height="714"/>
+    <image href="assets/places/picnic-storyboard/picnic-nobag.webp" x="939" y="272" width="198" height="188"/>
     <g class="rosiebag"><ellipse cx="448" cy="667" rx="36" ry="7" fill="#3B2A14" opacity=".22"/>
-      <image href="assets/places/picnic-storyboard/bag-blue.png" x="410" y="590" width="77" height="76"/></g>`,
-  daycafe: () => `<image href="assets/places/picnic-storyboard/cafe-day.png" width="1679" height="937"/>`,
-  benhome: () => `<image href="assets/places/picnic-storyboard/ben-home.png" width="1672" height="941"/>`,
+      <image href="assets/places/picnic-storyboard/bag-blue.webp" x="410" y="590" width="77" height="76"/></g>`,
+  daycafe: () => `<image href="assets/places/picnic-storyboard/cafe-day.webp" width="1679" height="937"/>`,
+  benhome: () => `<image href="assets/places/picnic-storyboard/ben-home.webp" width="1672" height="941"/>`,
   // the two bags on the bench: the picnic table's backpack cut out and tinted (scripts/cut-picnic-backpack.py)
   garden: () => `<image href="assets/places/picnic-storyboard/garden.webp" width="1376" height="768"/>
-    <image href="assets/places/picnic-storyboard/backpack-blue.png" x="985" y="276" width="107" height="106"/>
-    <image href="assets/places/picnic-storyboard/backpack-red.png" x="1112" y="276" width="107" height="106"/>`,
+    <image href="assets/places/picnic-storyboard/backpack-blue.webp" x="985" y="276" width="107" height="106"/>
+    <image href="assets/places/picnic-storyboard/backpack-red.webp" x="1112" y="276" width="107" height="106"/>`,
   lobby: () => `<image href="assets/places/picnic-storyboard/lobby-higgsfield.webp" width="1376" height="768"/>`,
   // the violin case (assets/places/violin/, scripts/cut-violin-places.py): the cutters lie under the right chair, the case
   // and the button in front of the curtain once it is drawn aside, each until picked up; the close looks: Tara's photo,
   // the sleeves
   foyer: () => `<image href="assets/places/violin/lobby.jpg" width="1376" height="1056"/>`,
   waiting: () => `<image href="assets/places/violin/waiting.jpg" width="1376" height="768"/>` + (S.flags.has('took:wire-cutters') ? '' :
-    `<g transform="translate(832 668) rotate(-65) scale(.17)"><image href="assets/places/violin/cutters.png" x="-151" y="-230" width="302" height="460"/></g>`),
+    `<g transform="translate(832 668) rotate(-65) scale(.17)"><image href="assets/places/violin/cutters.webp" x="-151" y="-230" width="302" height="460"/></g>`),
   stage: () => `<image href="assets/places/violin/stage.jpg" width="1376" height="768"/>`,
   // Pip's silhouette in the side passage's doorway, cut from his picture and clipped to the opening (user request
   // 2026-11-17: in the backstage room only his shadow shows; he stands in the passage)
   backstage: () => !S.flags.has('curtain') ? `<image href="assets/places/violin/backstage.jpg" width="1376" height="768"/>${PIP_SHADOW}`
     : `<image href="assets/places/violin/backstage-open.jpg" width="1376" height="768"/>${PIP_SHADOW}` +
-      (S.flags.has('took:violin-case') ? '' : `<g transform="translate(902 694) rotate(-86) scale(.44)"><image href="assets/places/violin/case-closed.png" x="-146" y="-320" width="293" height="640"/></g>`) +
-      (S.flags.has('took:gold-button') ? '' : `<image href="assets/places/violin/gold-button.png" x="1088" y="650" width="30" height="30"/>`),
+      (S.flags.has('took:violin-case') ? '' : `<g transform="translate(902 694) rotate(-86) scale(.44)"><image href="assets/places/violin/case-closed.webp" x="-146" y="-320" width="293" height="640"/></g>`) +
+      (S.flags.has('took:gold-button') ? '' : `<image href="assets/places/violin/gold-button.webp" x="1088" y="650" width="30" height="30"/>`),
   // the side passage (assets/places/violin/passage.jpg, Higgsfield Nano Banana 2.1 from the backstage picture's style):
   // its doorway on the right looks into the backstage room, the red curtain behind it
   passage: () => `<image href="assets/places/violin/passage.jpg" width="1376" height="768"/>`,
@@ -8715,8 +8733,8 @@ const ART = {
   taraphoto: () => `<image href="assets/places/violin/tara-photo.jpg" width="1024" height="765"/>`,
   // the case found behind the curtain, close up over the backstage room blurred: shut, then open (the broken strings)
   violincase: () => closeLookBg('backstage-open') + (S.unfolded
-    ? '<image href="assets/places/violin/case-open.png" x="526" y="110" width="325" height="500"/>'
-    : '<image href="assets/places/violin/case-closed.png" x="574" y="110" width="229" height="500"/>'),
+    ? '<image href="assets/places/violin/case-open.webp" x="526" y="110" width="325" height="500"/>'
+    : '<image href="assets/places/violin/case-closed.webp" x="574" y="110" width="229" height="500"/>'),
   'sleeves-owen': () => closeLook('waiting', 'sleeves-owen', 442),
   'sleeves-ivo': () => closeLook('stage', 'sleeves-ivo', 427),
   'sleeves-momo': () => closeLook('backstage-open', 'sleeves-momo', 385)
@@ -8773,7 +8791,7 @@ const ART_FLOOR = {
 const closeLookBg = room => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
   <image href="assets/places/violin/${room}.jpg" width="1376" height="768" preserveAspectRatio="xMidYMid slice" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>`;
 const closeLook = (room, pic, w) => `${closeLookBg(room)}
-  <image href="assets/places/violin/${pic}.png" x="${688 - w * 13 / 30}" y="200" width="${w * 13 / 15}" height="260"/>`;
+  <image href="assets/places/violin/${pic}.webp" x="${688 - w * 13 / 30}" y="200" width="${w * 13 / 15}" height="260"/>`;
 function placeObj(){ return PLACES.find(p => p.id === S.place); }
 
 // a person's on-picture box in % of the picture: left/right of the sprite, top of the head, plus its height
@@ -8991,7 +9009,7 @@ function sayProp(clue, spot){
   const stage = $('.art-stage'), b = document.createElement('div');
   if(spot && stage){
     b.className = 'bubble say det prop-say'; b.setAttribute('role', 'status');
-    b.innerHTML = `<img class="say-face" src="assets/ui/icons-v2/detective.png" alt=""><div class="bubble-copy"><span class="say-en">${esc(clue.en)}</span>` +
+    b.innerHTML = `<img class="say-face" src="assets/ui/icons-v2/detective.webp" alt=""><div class="bubble-copy"><span class="say-en">${esc(clue.en)}</span>` +
       (clue.ko ? `<span class="say-ko" hidden>${esc(clue.ko)}</span>` : '') + '</div><span class="say-foot">' +
       (clue.audio ? '<button class="play-btn" type="button" data-prop-again aria-label="다시 듣기"></button>' : '') +
       (clue.ko ? '<button class="pill sm" type="button" data-prop-ko aria-pressed="false">해석</button>' : '') + '</span>' +
@@ -9066,14 +9084,14 @@ function clearCover(el, side = 1, flowers = false){
   const colors = flowers ? ['#F2A7B8', '#F7D25E', '#E7837E', '#7FAE5B'] : ['#7FAE5B', '#5E9145', '#9CC46A', '#6F9F4E'];
   const size = Math.max(box.width, box.height) / 18;
   for(let k = 0; k < 9; k++){
-    // the trees: the small drawn puffs (leaf-1..8.png); the flower bed: little petals
+    // the trees: the small drawn puffs (leaf-1..8.webp); the flower bed: little petals
     const wrap = document.createElementNS(svgNS, 'g'), leaf = document.createElementNS(svgNS, flowers ? 'path' : 'image');
     const x = box.x + box.width * (.2 + Math.random() * .6), y = box.y + box.height * (.2 + Math.random() * .5);
     wrap.setAttribute('transform', `translate(${x} ${y}) scale(${size / 8})`);
     if(flowers){
       leaf.setAttribute('d', 'M0,-6 C4,-6 6,-2 0,6 C-6,-2 -4,-6 0,-6Z');
       leaf.setAttribute('fill', colors[k % colors.length]); leaf.setAttribute('stroke', '#5C4A2E'); leaf.setAttribute('stroke-width', '.9');
-    } else Object.entries({ href:`assets/places/kite/leaf-${k % 8 + 1}.png`, x:-8, y:-7, width:16, height:14 }).forEach(([a, v]) => leaf.setAttribute(a, v));
+    } else Object.entries({ href:`assets/places/kite/leaf-${k % 8 + 1}.webp`, x:-8, y:-7, width:16, height:14 }).forEach(([a, v]) => leaf.setAttribute(a, v));
     wrap.appendChild(leaf); g.appendChild(wrap);
     const dx = (side * (20 + Math.random() * 50) + (Math.random() - .5) * 60), up = 20 + Math.random() * 30, turn = (Math.random() - .5) * 540;
     const fly = leaf.animate([
@@ -9204,7 +9222,7 @@ setInterval(function nudgeTick(){
     const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height * .25;
     return x > 0 && x < innerWidth && document.elementFromPoint(x, y)?.closest('.scene-npc') === b;
   });
-  if(npc) npc.insertAdjacentHTML('beforeend', '<img class="nudge" src="assets/ui/nudge-bang.png" alt="">');
+  if(npc) npc.insertAdjacentHTML('beforeend', '<img class="nudge" src="assets/ui/nudge-bang.webp" alt="">');
 }, 1000);
 
 // the place view's scroll that puts a person in the middle (user: after Sgt. Badger, the view stopped part way to Ella)
@@ -9270,13 +9288,13 @@ function renderSceneHead(){
   $('#foldFoot').hidden = !(S.investigate && pl?.inspect && pl.spots.some(s => s.folded || s.open));
   // flip: one word both ways (the toy star), or [shut, open] (the violin case: 열기, 닫기)
   $('#foldBtn').textContent = Array.isArray(pl?.flip) ? pl.flip[+S.unfolded] : pl?.flip || (S.unfolded ? '접기' : '펼치기');
-  chip.innerHTML = `<img src="assets/ui/icons/magnifier.png" alt="">${got} <small>/ ${of}</small>`;
+  chip.innerHTML = `<img src="assets/ui/icons/magnifier.webp" alt="">${got} <small>/ ${of}</small>`;
   chip.setAttribute('aria-label', `심문 증거 ${of}개 중 ${got}개`);
   chip.classList.toggle('all', got === of);
   chip.hidden = !of;
   const fh = $('#findHint');
   fh.hidden = !pl || !!pl.balance;
-  fh.innerHTML = `<img src="assets/ui/icons/magnifier.png" alt="" draggable="false"><span class="n">${S.findHints}</span>`;
+  fh.innerHTML = `<img src="assets/ui/icons/magnifier.webp" alt="" draggable="false"><span class="n">${S.findHints}</span>`;
   fh.disabled = S.findHints <= 0;
   fh.setAttribute('aria-label', `단서 찾기 힌트 ${S.findHints}번 남음`);
   if(evShown !== null && got > evShown){ chip.classList.remove('bump'); void chip.offsetWidth; chip.classList.add('bump'); }
@@ -9387,40 +9405,40 @@ const TUT = [
 ];
 // The tutorial's moving pages (user decision): the mockup design/tutorial-motion.html, applied. Each page builds the game's
 // own markup with sample lines (never the case's answer, culprit or key clue) and plays it over and over, the detective's
-// right paw (assets/ui/tutorial-paw.png, user pick 오른손 2) tapping. mount(fig, id) starts a page, stop() ends it.
+// right paw (assets/ui/tutorial-paw.webp, user pick 오른손 2) tapping. mount(fig, id) starts a page, stop() ends it.
 const TUT_DEMO = (() => {
-const PAW_TIP = .258;   // the fingertip across assets/ui/tutorial-paw.png (cut-tutorial-paw.py)
+const PAW_TIP = .258;   // the fingertip across assets/ui/tutorial-paw.webp (cut-tutorial-paw.py)
 // the note (the game's own markup, ids left out), sample lines that are not the case's
 const NOTE = (lines, words) => `<section class="dock" aria-hidden="true"><div class="note-cats">${['M5 3.5h8.4a3 3 0 0 1 3 3v4.8a3 3 0 0 1-3 3H8.8l-3.6 3v-3H5a3 3 0 0 1-3-3V6.5a3 3 0 0 1 3-3z','M4.5 7h3l1.6-2.5h5.8L16.5 7h3a2.5 2.5 0 0 1 2.5 2.5v8.3a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 17.8V9.5A2.5 2.5 0 0 1 4.5 7z','M12 2.5a4.6 4.6 0 0 1 2.9 8.2l.4 1.5h1.6a1.8 1.8 0 0 1 0 3.6h-3.6v4.6a1.3 1.3 0 0 1-2.6 0v-4.6H7.1a1.8 1.8 0 0 1 0-3.6h1.6l.4-1.5A4.6 4.6 0 0 1 12 2.5z'].map((d, i) => `<button class="ncat" type="button" aria-pressed="${i === 0}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
   <div class="note-edge"></div>
-  <div class="dock-head"><div class="listen"><button class="pill t-replay" type="button"><span class="play-ico"></span>다시 듣기</button><button class="spd t-slow" type="button" aria-pressed="false">1×</button><button class="hint t-hint" type="button"><img src="assets/ui/icons-v2/acorn.png" alt=""><span class="n">3</span></button></div></div>
+  <div class="dock-head"><div class="listen"><button class="pill t-replay" type="button"><span class="play-ico"></span>다시 듣기</button><button class="spd t-slow" type="button" aria-pressed="false">1×</button><button class="hint t-hint" type="button"><img src="assets/ui/icons-v2/acorn.webp" alt=""><span class="n">3</span></button></div></div>
   <div class="dock-body"><div class="note-page"><div class="nblock now"><span class="qlabel">Q. ${lines.q}</span>${lines.rows.map(r => `<div class="nline">${r.replace(/_/g, () => '<input class="blank" value="" size="5" tabindex="-1" readonly>')}</div>`).join('')}</div></div>
   <div class="bank">${words.map(w => `<button class="word" type="button">${w}</button>`).join('')}</div></div>
   <div class="dock-foot"><button class="pill finish wait" type="button">기록 완료</button></div></section>`;
 
 // a person as the place draws one (renderPlaces: .scene-npc, the body, the closed and open mouths)
-const NPC = (id, name, style, box, w, h, [mx, my, mw, mhc, mho]) => `<button class="scene-npc" type="button" data-talk="${id}" style="${style}"><svg viewBox="${box}" aria-hidden="true"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="assets/characters/${id === 'badger' ? 'sgt-badger' : id}-higgsfield.png" width="${w}" height="${h}"/><image class="npc-mouth closed" href="assets/characters/mouths/${id}-closed.png" x="${mx}" y="${my}" width="${mw}" height="${mhc}"/><image class="npc-mouth open" href="assets/characters/mouths/${id}-open.png" x="${mx}" y="${my}" width="${mw}" height="${mho}"/></g></g></svg><span>${name}</span></button>`;
+const NPC = (id, name, style, box, w, h, [mx, my, mw, mhc, mho]) => `<button class="scene-npc" type="button" data-talk="${id}" style="${style}"><svg viewBox="${box}" aria-hidden="true"><g class="npc-breathe"><g class="npc-gesture"><image class="body" href="assets/characters/${id === 'badger' ? 'sgt-badger' : id}-higgsfield.webp" width="${w}" height="${h}"/><image class="npc-mouth closed" href="assets/characters/mouths/${id}-closed.webp" x="${mx}" y="${my}" width="${mw}" height="${mhc}"/><image class="npc-mouth open" href="assets/characters/mouths/${id}-open.webp" x="${mx}" y="${my}" width="${mw}" height="${mho}"/></g></g></svg><span>${name}</span></button>`;
 // 4–6장 helpers: a photo cut from the Lake Cafe picture (as the game's evidence photos; things that are not clues), the
 // Note's three tabs, its pages
-const PHOTO = (x, y, w, h) => `<svg viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMid slice"><image href="assets/places/picnic-storyboard/cafe-day.png" width="1679" height="937"/></svg>`;
+const PHOTO = (x, y, w, h) => `<svg viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMid slice"><image href="assets/places/picnic-storyboard/cafe-day.webp" width="1679" height="937"/></svg>`;
 const GUITAR = PHOTO(1299, 408, 380, 285), CUPS = PHOTO(499, 39, 320, 240), WINDOW = PHOTO(35, 122, 400, 300);
 // the Lake Cafe as the world draws it (the picture 1376 wide, as the library's was; its floor under it) and Mr. Duck
 // where the case stands him (positions.duck: x 42, floor 93, height 44)
 const DUCK = NPC('duck', 'Mr. Duck', 'left:42%;bottom:7%;height:44%;width:15.82%;transform:translateX(-50%)', '0 0 447 694', 447, 694, [140, 160, 166, 99, 117]);
-const CAFE = `<img class="tw-art" src="assets/places/picnic-storyboard/cafe-day.png" alt=""><img class="tw-floor" src="assets/places/picnic-storyboard/daycafe-floor.jpg" alt="" style="height:537px">`;
+const CAFE = `<img class="tw-art" src="assets/places/picnic-storyboard/cafe-day.webp" alt=""><img class="tw-floor" src="assets/places/picnic-storyboard/daycafe-floor.jpg" alt="" style="height:537px">`;
 const CATS = [['people', 'M5 3.5h8.4a3 3 0 0 1 3 3v4.8a3 3 0 0 1-3 3H8.8l-3.6 3v-3H5a3 3 0 0 1-3-3V6.5a3 3 0 0 1 3-3z'], ['evidence', 'M4.5 7h3l1.6-2.5h5.8L16.5 7h3a2.5 2.5 0 0 1 2.5 2.5v8.3a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 17.8V9.5A2.5 2.5 0 0 1 4.5 7z'], ['memo', 'M12 2.5a4.6 4.6 0 0 1 2.9 8.2l.4 1.5h1.6a1.8 1.8 0 0 1 0 3.6h-3.6v4.6a1.3 1.3 0 0 1-2.6 0v-4.6H7.1a1.8 1.8 0 0 1 0-3.6h1.6l.4-1.5A4.6 4.6 0 0 1 12 2.5z']];
 const PIN = on => `<button class="nb-pin${on ? ' on' : ''}" type="button" aria-pressed="${!!on}"><svg aria-hidden="true"><use href="#pinIcon"/></svg></button>`;
 const PLAY = '<button class="replay-q" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5Z" fill="#4A3628"/></svg></button>';
 const NOTE5 = {
   tab(t, k){ t.all('.ncat').forEach(b => b.setAttribute('aria-pressed', b.dataset.cat === k)); },
   page(t, k, title, body){ NOTE5.tab(t, k); t.q('.t5-title').innerHTML = title; t.q('.t5-body').innerHTML = body; },
-  people: t => NOTE5.page(t, 'people', '<span class="mini" style="background:#DCEBD9"><img src="assets/ui/icons-v2/duck.png" alt=""></span><span>Mr. Duck의 진술</span>',
+  people: t => NOTE5.page(t, 'people', '<span class="mini" style="background:#DCEBD9"><img src="assets/ui/icons-v2/duck.webp" alt=""></span><span>Mr. Duck의 진술</span>',
     `<div class="note-page checked"><div class="nblock"><span class="qlabel">${PIN()}Q. What did you see?</span><span class="question-state ok">✓ 확인됨</span><div class="nline">“I saw a <input class="blank ok" value="cat" size="5" tabindex="-1" readonly> on the <input class="blank ok" value="desk" size="5" tabindex="-1" readonly>.”</div></div></div>`),
   list: t => NOTE5.page(t, 'evidence', '증거 기록', `<div class="evidence-page">${[['Guitar', GUITAR], ['Cups', CUPS], ['Window', WINDOW]].map(([l, ph]) =>
     `<div class="ev-cell"><button class="ev-card" type="button"><span class="evidence-photo" aria-hidden="true">${ph}</span><span class="ev-title">${l}</span><span class="place">Lake Cafe</span></button>${PIN()}</div>`).join('')}</div>`),
   detail: t => NOTE5.page(t, 'evidence', '<button class="ev-back" type="button">‹ 증거 기록</button>', `<div class="evidence-page"><div class="evidence-detail"><figure class="evidence-photo">${GUITAR}</figure><span class="place">Lake Cafe</span>
     <h4>Guitar${PLAY}</h4><p>A guitar leans on the stage.</p><p class="ko" hidden>기타 한 대가 무대에 기대어 있다.</p><span class="ev-btns">${PIN()}<button class="pill sm" type="button" data-t5-ko aria-pressed="false">해석</button></span></div></div>`),
-  memo: t => { NOTE5.page(t, 'memo', '<img src="assets/ui/icons/note.png" alt="">내 메모', `<div class="memo-page"><div class="memo-pin" style="--r:-1.2deg"><span class="evidence-photo" aria-hidden="true">${GUITAR}</span><div><small>Lake Cafe</small>Guitar</div><button class="x" type="button">×</button></div><textarea class="memo-text" tabindex="-1" readonly></textarea></div>`); t.q('[data-cat="memo"] .badge')?.remove(); }
+  memo: t => { NOTE5.page(t, 'memo', '<img src="assets/ui/icons/note.webp" alt="">내 메모', `<div class="memo-page"><div class="memo-pin" style="--r:-1.2deg"><span class="evidence-photo" aria-hidden="true">${GUITAR}</span><div><small>Lake Cafe</small>Guitar</div><button class="x" type="button">×</button></div><textarea class="memo-text" tabindex="-1" readonly></textarea></div>`); t.q('[data-cat="memo"] .badge')?.remove(); }
 };
 // the camera on the place picture (1376 × 768 and its floor): the place, talking to Mr. Duck, and with the note up
 // talk and note keep his head and body in sight above the questions and the note (user request: the head was cut off).
@@ -9449,7 +9467,7 @@ const DEMOS = {
     }
   },
   blanks: {
-    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.png" alt="">
+    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.webp" alt="">
       ${NOTE({ q:'What did you find?', rows:['I found a _ .', 'It was under the _ .', 'I saw it at _ .'] }, ['book', 'bag', 'desk', 'door', 'noon', 'night'])}`,
     setup(t){ t.el.classList.add('note', 'talking'); t.view(0, 362, true); },
     async run(t){
@@ -9469,7 +9487,7 @@ const DEMOS = {
   // the game's own check: a wrong blank shakes and 다시 확인 jolts (.nblock.miss), listen again, fix it, check again
   // (.nblock.fresh: the blanks light up green, ✓ 확인됨 is stamped), then 닫기 and the new place's ribbon
   check: {
-    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.png" alt="">
+    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.webp" alt="">
       ${NOTE({ q:'Where were you?', rows:['I was at the _ .', 'I went home at _ .'] }, ['bakery', 'library', 'nine', 'noon'])}
       <div class="discovery" hidden></div>`,
     setup(t){
@@ -9505,7 +9523,7 @@ const DEMOS = {
       t.el.classList.remove('note'); t.view(0, 0);
       await t.wait(650);
       const box = t.q('.discovery');
-      box.innerHTML = '<div class="dv" style="--i:0"><img class="map" src="assets/ui/nav/map.png" alt=""><span class="new">NEW</span><b>Garden</b><span class="rest">에 갈 수 있어요</span></div>';
+      box.innerHTML = '<div class="dv" style="--i:0"><img class="map" src="assets/ui/nav/map.webp" alt=""><span class="new">NEW</span><b>Garden</b><span class="rest">에 갈 수 있어요</span></div>';
       box.hidden = false;
       await t.wait(2400);
     }
@@ -9517,7 +9535,7 @@ const DEMOS = {
           <button class="spot t4-book" type="button" style="left:85.5%;top:44%;width:8%;height:29.5%"></button></div>
       </div>
       <div class="tdemo-mapv"><div class="map" style="transform:translate(-234px,-99px)"><img class="map-art" src="assets/places/village-map-day-higgsfield.webp" alt="">
-        <button class="pin" type="button" style="left:82%;top:47%"><span class="pin-label">Lake Cafe</span><span class="pin-people"><span class="mini" style="background:#DCEBD9"><img src="assets/ui/icons-v2/duck.png" alt=""></span></span></button></div></div>
+        <button class="pin" type="button" style="left:82%;top:47%"><span class="pin-label">Lake Cafe</span><span class="pin-people"><span class="mini" style="background:#DCEBD9"><img src="assets/ui/icons-v2/duck.webp" alt=""></span></span></button></div></div>
       <section class="dock" aria-hidden="true"><div class="note-cats">${CATS.map(([k, d]) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${k === 'evidence'}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
         <div class="note-edge"></div><div class="dock-head"><button class="ev-back" type="button">‹ 증거 기록</button></div>
         <div class="dock-body"><div class="evidence-page"><div class="evidence-detail"><figure class="evidence-photo">${GUITAR}</figure><span class="place">Lake Cafe</span>
@@ -9544,7 +9562,7 @@ const DEMOS = {
   },
   // 5장: Note's 증거 tab → a photo → 📌 → 메모 tab, where it is pinned (user decision: no 해석 step)
   note: {
-    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.png" alt="">
+    html: () => `<div class="tdemo-art"></div><img class="tdemo-npc" src="assets/characters/duck-higgsfield.webp" alt="">
       <section class="dock" aria-hidden="true"><div class="note-cats">${CATS.map(([k, d], i) => `<button class="ncat" type="button" data-cat="${k}" aria-pressed="${i === 0}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
         <div class="note-edge"></div><div class="dock-head"><h2 class="t5-title"></h2></div><div class="dock-body t5-body"></div></section>`,
     setup(t){ t.el.classList.add('note', 'talking'); t.view(0, 300, true); NOTE5.people(t); },
@@ -9564,7 +9582,7 @@ const DEMOS = {
   // next person (the picnic case's own goes to someone not met yet, so Rosie's here)
   deduce: {
     html: () => `<section class="deduce t6-deduce"><div class="deduce-head"><h2>Deduction</h2></div>
-        <div class="deduce-q"><img src="assets/ui/icons-v2/detective.png" alt=""><div class="deduce-q-txt"><p>Where was the cat?</p><div class="deduce-q-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div></div></div>
+        <div class="deduce-q"><img src="assets/ui/icons-v2/detective.webp" alt=""><div class="deduce-q-txt"><p>Where was the cat?</p><div class="deduce-q-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div></div></div>
         <div class="deduce-board"><div class="ded-cards"><div class="ded-card t6-card"><div class="ded-line"><p>The cat was on the <button class="ded-slot place" type="button"></button>.</p></div></div></div></div>
         <div class="deduce-go" hidden><button class="pill big" type="button">로지에게 가기</button></div>
         <div class="deduce-drop place t6-drop" hidden><div class="dz-list" style="--cols:2">${['desk', 'roof', 'door', 'bag'].map(w => `<button class="dz-opt" type="button" data-w="${w}">${w}</button>`).join('')}</div></div></section>`,
@@ -9591,11 +9609,11 @@ const DEMOS = {
   // drawer (its title only, as the game's) → the bag → 건네주기 → the bag goes over to them (handBag) → their thanks.
   // The camera follows.
   give: {
-    html: () => `<div class="t7-cam"><div class="t7-room"></div><img class="t7-npc" src="assets/characters/rosie-higgsfield.png" alt=""></div>
+    html: () => `<div class="t7-cam"><div class="t7-room"></div><img class="t7-npc" src="assets/characters/rosie-higgsfield.webp" alt=""></div>
       <div class="bubble say t7-claim"><div class="bubble-copy"><span class="tag">Rosie Rabbit</span><span class="say-en">Did you find it?</span></div><span class="say-foot"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></span></div>
       <div class="ask-panel t7-ask"><button class="pill big green" type="button">가방 건네주기</button></div>
       <section class="drawer"><div class="drawer-head"><h3>소지품</h3><button class="x close-button" type="button"></button></div>
-        <div class="drawer-strip"><button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo bag-pic" aria-hidden="true"><img src="assets/places/picnic-storyboard/bag-blue.png" alt=""></span><span class="dlabel">Blue bag</span></button></div>
+        <div class="drawer-strip"><button class="dcard" type="button" aria-pressed="false"><span class="evidence-photo bag-pic" aria-hidden="true"><img src="assets/places/picnic-storyboard/bag-blue.webp" alt=""></span><span class="dlabel">Blue bag</span></button></div>
         <div class="drawer-pick" hidden><p>A blue bag.</p><div class="drawer-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div><button class="pill big" type="button">건네주기</button></div></section>`,
     // their lines: stepped back a little, so the bubble and the person are seen together (the place fills the sides)
     setup(t){ t.view(...T7.talk, true, T7.z); },
@@ -9615,7 +9633,7 @@ const DEMOS = {
       // 건네주기 (handOver): the drawer goes down and the bag itself goes over to them (1.3 s), then their thanks
       drawer.classList.remove('open'); t.view(...T7.held, false, T7.z);
       t.q('.t7-claim').hidden = true;
-      t.el.querySelector('.tdemo-stage').insertAdjacentHTML('beforeend', '<img class="handed give" src="assets/places/picnic-storyboard/bag-blue.png" alt="">');
+      t.el.querySelector('.tdemo-stage').insertAdjacentHTML('beforeend', '<img class="handed give" src="assets/places/picnic-storyboard/bag-blue.webp" alt="">');
       await t.wait(1300);
       t.q('.handed')?.remove();
       // their thanks, back up at the bubble
@@ -9628,7 +9646,7 @@ let runId = 0;
 // still: with 동작 줄이기, the page's first frame only (no paw, no loop)
 function mount(fig, id, still){
   const my = ++runId, demo = DEMOS[id];
-  fig.innerHTML = `<div class="tdemo"><div class="tdemo-stage">${demo.html()}</div><div class="tdemo-tap hand"><img src="assets/ui/tutorial-paw.png" alt="" style="--tip:${PAW_TIP * 100}%"></div></div>`;
+  fig.innerHTML = `<div class="tdemo"><div class="tdemo-stage">${demo.html()}</div><div class="tdemo-tap hand"><img src="assets/ui/tutorial-paw.webp" alt="" style="--tip:${PAW_TIP * 100}%"></div></div>`;
   const box = fig.querySelector('.tdemo'), stage = box.querySelector('.tdemo-stage'), tap = box.querySelector('.tdemo-tap');
   const hand = tap.querySelector('img'); const place = () => { hand.style.left = `${-PAW_TIP * 58 * hand.naturalWidth / hand.naturalHeight}px`; };
   hand.complete ? place() : hand.onload = place;
@@ -9978,34 +9996,34 @@ const CASES = [
   // cover: the park with its kites (ART.park is the kite page's; the main page has no park place to draw)
   { id:'missing-kite', no:'Case 01', title:'사라진 연', en:'Missing Kite', art:'park', cover:{ src:'assets/places/kite/kite-cover.jpg', alt:'나무에 걸린 연들' }, playable:true,
     focus:'생김새 듣기', keys:['is-has'],
-    photo:{ img:'assets/places/kite/kite2-1.png' },
+    photo:{ img:'assets/places/kite/kite2-1.webp' },
     summary:'바람에 날아간 토비의 연이 공원 나무에 걸렸다. 공원에는 여러 모양의 연들이 나무와 화단에 가려져 있거나 길에 떨어져 있었다. 토비에게 연의 모양과 색, 꼬리를 듣고, 잎과 꽃을 치워 연들을 모은 뒤 긴 꼬리가 두 개 달린 빨간색과 노란색 새 연을 찾아 주었다.' },
-  { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet-original.png', alt:'별무늬 우산' }, playable:true,
+  { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet.webp', alt:'별무늬 우산' }, playable:true,
     focus:'누구의 것인지 듣기', keys:['mine'],
-    photo:{ img:'assets/places/umbrella/umbrella-sheet-original.png' },
+    photo:{ img:'assets/places/umbrella/umbrella-sheet.webp' },
     summary:'마을회관에 남은 별무늬 우산의 주인을 찾았다. 우산을 잃어버린 핀, 테스, 루비에게 각자의 우산이 어떻게 생겼는지 듣고 비교했다. 핀의 우산은 무늬가 없었고, 테스와 루비의 우산은 겉모습이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
   { id:'honey-robber', no:'Case 03', title:'꿀 가게 강도', en:'The Honey Shop Robber', art:'shop', cover:{ src:'assets/places/montage/cover.jpg', alt:'얼굴이 가려진 수배 전단', bg:'#B98A5E', fit:'contain' }, playable:true,
     focus:'생김새·옷차림 듣기', keys:['has-wearing'],
-    photo:{ img:'assets/places/montage/wanted.jpg' },
+    photo:{ img:'assets/places/montage/wanted.jpg', pos:'50% 58%' },
     summary:'꿀 가게에서 돈통을 들고 달아난 곰의 몽타주를 만들었다. 가게 주인 브루노는 얼굴을, 토비는 뒷모습을, 베티는 도서관 창문에서 옷차림을 봤다. 세 목격자의 말을 하나씩 그림으로 맞춰 오소리 경사에게 건넸다.' },
-  { id:'picnic-bag', no:'Case 04', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.png', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
-    photo:{ img:'assets/places/picnic-storyboard/picnic-documents.png' },
+  { id:'picnic-bag', no:'Case 04', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+    photo:{ img:'assets/places/picnic-storyboard/picnic-documents.webp' },
     summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 벤의 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
-  { id:'missing-violin', no:'Case 05', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.png', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
+  { id:'missing-violin', no:'Case 05', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.webp', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
-    photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.png', cx:40, w:52, b:-29 },   // smaller, his face in the picture (user request 2026-11-17)
+    photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.webp', cx:40, w:52, b:-29 },   // smaller, his face in the picture (user request 2026-11-17)
     summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 무대 뒤 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
   { id:'case01', no:'Case 06', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
-    photo:{ who:'fiona', img:'assets/characters/fiona-sad.png', cx:41.7 },
-    victimPhoto:'assets/characters/hoot-higgsfield.png',
+    photo:{ who:'fiona', img:'assets/characters/fiona-sad.webp', cx:41.7 },
+    victimPhoto:'assets/characters/hoot-higgsfield.webp',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   // the education plan's order (L1-05 B, handed over 2026-11-09): the Christmas star after the library; no pictures yet
   { id:'christmas-star', no:'Case 07', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
-    photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.png', cx:50, w:56, b:-38 },
+    photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.webp', cx:50, w:56, b:-38 },
     summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 탐정이 무거운 상자 속 별 뒷면의 잎사귀 무늬를 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
   { id:'case04', no:'Case 08' }
 ];
@@ -10104,7 +10122,7 @@ function renderCaseList(){
     return `<button class="polaroid${done ? ' solved' : ''}${next ? ' current' : ''} ${look}" type="button" data-case="${c.id}">
       <span class="pol-photo">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}"${c.cover.bg || c.cover.fit ? ` style="${c.cover.bg ? `background:${c.cover.bg};` : ''}${c.cover.fit ? `object-fit:${c.cover.fit};padding:6px 0;box-sizing:border-box` : ''}"` : ''}>` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}</span>
       ${done ? `<span class="case-stamp" aria-label="해결">SOLVED</span>${learnedNote(c, turn)}` : ''}${next ? '<span class="next-note" aria-hidden="true">새로운 의뢰!</span>' : ''}
-      <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? '' : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : '새 사건'}</span>`}${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.png" alt="">`).join('')}</span>` : ''}</span></button>`;
+      <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? '' : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : '새 사건'}</span>`}${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.webp" alt="">`).join('')}</span>` : ''}</span></button>`;
   }).join('');
   requestAnimationFrame(() => {
     drawBoardString();
