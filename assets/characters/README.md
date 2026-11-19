@@ -155,3 +155,11 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 ## 크리스마스 점등: 뒷모습 넷
 
 - 사용자 요청(점등 때 모두 트리를 보게, 뒷모습은 한 장에만). Higgsfield Nano Banana 2.1, 16:9, 1K, thinking high, 참조 `ella-finn-`·`holly-mae-nico-`·`tess-ruby-higgsfield-original.jpg`, job `b5ff3ce7-2534-4964-a7e6-e1c6bd91b4c9`(약 1.5크레딧) → `xmas-backs-higgsfield-original.png`(마젠타 배경, 왼쪽부터 데이지·메이(의자 위)·엘라·테스). `scripts/cut-christmas-backs.py`가 `holly|mae|ella|tess-back.png`(높이 700)로 자른다.
+
+## 시안(앱 미적용): 생쥐 달튼 + 고양이 테리 (Claude 제작, 2026-11-19)
+
+- 사용자 요청: 사용자가 준 참고 그림(오렌지 생쥐 탐정·보라 고양이)의 두 캐릭터를 지금 앱 화풍으로, 한 장에 둘, idle(서 있는) 자세. 앱에는 아직 넣지 않음.
+- Higgsfield Nano Banana 2.1, 16:9, 2K, 한 장(약 2크레딧), job `238ec958-8fb8-448e-bf9c-f94777761c8f` → `dalton-terry-higgsfield-original.png`(2752×1536). 참고 그림(media `3252d948-…`)과 화풍 참조 `tess-ruby-higgsfield-original.jpg`(media `b4fe9a31-…`)를 올려 두었으나 **생성 요청에 참조를 빠뜨려 글 프롬프트만으로 그려짐**.
+- 달튼(왼쪽): 오렌지 털, 금빛 안쪽의 큰 둥근 귀, 빨간 띠 크림 중절모, 파란 재킷·크림 셔츠·청바지·보라 부츠. 테리(오른쪽): 보라 털에 분홍 줄무늬, 흰 주둥이, 머리 위 노란 연필, 초록 스웨터·주황 바지·파란 신발.
+- v2(사용자 요청: 원래 캐릭터 느낌이 더 나게, 꼬리 없이): 같은 설정, 참고 그림·화풍 참조를 넣어(`image_references`) 한 장(약 2크레딧), job `711eb938-85b3-4374-9cc8-1e952afa6e7a` → `dalton-terry-v2-higgsfield-original.png`(2752×1536). 달튼은 큰 검은 코·모자·파란 재킷 그대로, 테리는 머리 양옆 분홍 지그재그 무늬·큰 흰 눈 그대로, 둘 다 꼬리 없음.
+- v3 경찰 테리(사용자 요청: 플레이어가 달튼, 테리는 경찰 동료라고 보고 테리 의상만 경찰복으로. 그림만, 앱에는 넣지 않음): v2를 올려(media `380035f1-b01b-45d1-b471-9b28008c35a3`) 편집, Nano Banana 2.1 16:9 한 장(1.5크레딧), job `9f7a077e-d118-4949-9695-b38ca5b24efb` → `dalton-terry-v3-police-higgsfield-original.png`(1376×768). 테리: 남색 경찰모(금별), 남색 반팔 제복(가슴 주머니 둘·금별 배지), 어깨 무전기, 검은 벨트, 남색 바지, 검은 구두. 머리 위 연필은 빠짐. 달튼은 그대로.

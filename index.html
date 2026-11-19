@@ -1459,7 +1459,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .accused .pill.big{align-self:stretch}
 .mcard .leave-sub{margin-top:-8px;font-size:13px;color:var(--ink-soft)}
 
-.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;max-width:86%;text-align:center;pointer-events:none;transition:opacity .25s}
+.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;width:max-content;max-width:86%;word-break:keep-all;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
 /* new people and places: one cream ribbon each under the title chip (user pick B2 of design/discovery-notice-mockup.html):
    face or map icon, a berry NEW tag and the name; they pop in one after another and lift away after 4 s; a little lower
@@ -5325,9 +5325,10 @@ function memoHTML(){
 // labelled 닫기. Captured before the button's own handler, so it plays even when the button removes itself.
 document.addEventListener('click', e => {
   const b = e.target.closest('button');
-  // and the 다음·이전 of 예습 (the case key cards) and 복습 only (user request), not the tutorial's, the ending's or the keyboard's
+  // and the 다음·이전 of 예습 (the case key cards) and 복습 only (user request), not the tutorial's, the ending's or the keyboard's;
+  // the ID card's 다른 이름·도장 찍기 too (user request 2026-11-19; the stamp's thud follows 130ms on)
   // not the notebook's 닫기 after a question is checked (.finish, user request: the correct chime is enough)
-  if(!b || b.classList.contains('finish') || !(b.classList.contains('close-button') || b.matches('[data-ck-next],[data-ck-prev],[data-rv-next],[data-rv-card],[data-rv-back]') || b.textContent.trim() === '닫기' || /닫기$/.test(b.getAttribute('aria-label') || ''))) return;
+  if(!b || b.classList.contains('finish') || !(b.classList.contains('close-button') || b.matches('[data-ck-next],[data-ck-prev],[data-rv-next],[data-rv-card],[data-rv-back],#idDice,#idStampBtn') || b.textContent.trim() === '닫기' || /닫기$/.test(b.getAttribute('aria-label') || ''))) return;
   // the round x buttons click with the user's own sample (ui-close-round.mp3, user request); the rest tap on wood
   const s = $(b.classList.contains('close-button') ? '#closeRound' : '#closeClick'); s.currentTime = 0; s.play().catch(() => {});
 }, true);
@@ -5870,6 +5871,29 @@ function playLines(id, lines, onDone, i = 0){
 }
 // Leave the conversation for the place it happens in; any unfinished recording waits in the notebook.
 function leaveTalk(){ enterPlace(cur().place, true); }
+// PEOPLE[].after still to come from them: a heard line whose photo or thing has not come yet (talkTo says it again)
+const afterDue = id => Object.entries(spk(id).after || {}).some(([qid, beat]) => {
+  const heard = qid === 'done' ? per(id).phase === 'done' : per(id).questionChecks[qid] === 'ok';
+  return heard && ((beat.snap || []).some(ref => !S.evidence.some(item => evRef(item) === ref)) || !!beat.give && !S.items.includes(beat.give) && !S.handoffRound);
+});
+// Nothing to talk about with them now (user request 2026-11-19): met and greeted to the end, no question open, no action
+// to press (a give, a close look, a sketch not done), nothing still to come. A question or action that opens later
+// brings them back.
+const nothingToTalk = id => { const s = spk(id), p = per(id);
+  return p.phase !== 'wait' && p.phase !== 'record' && !p.helloCut && !availableQuestions(s).length &&
+    !(s.actions || []).some(a => !a.hidden && actionOpen(a)) && !afterDue(id); };
+// A finished conversation zooms back out to the place by itself (user request 2026-11-19: some players never found the
+// tap on the scene or 〈): once everything it leads to is over (their lines, an after beat, the detective's thought, the
+// notebook, the sketch, a held thing) and nothing is open, after 0.8s of calm. New names show over the place.
+let leaveCalm = 0;
+setInterval(function autoLeave(){
+  const calm = caseStarted && !S.investigate && !ending && !!S.cur && !document.hidden && nothingToTalk(S.cur) &&
+    !greetingId && !beatOn && !beats.length && !thoughts.length && !tapWait && !linesPlaying() && !mt && !holdOut &&
+    !autoTimer && !S.handoffRound && !scriptResumeDue() && !$('#app').classList.contains('notes-open') && $('#sayBubble').hidden &&
+    !document.querySelector('.sheet.open, #drawer.open') && [$('#stopTalk'), $('#leaveCase'), $('#deduce'), $('#intro'), $('#caseList'), $('#review')].every(el => el.hidden);
+  leaveCalm = calm ? leaveCalm + 1 : 0;
+  if(leaveCalm >= 4){ leaveCalm = 0; leaveTalk(); }
+}, 200);
 // Tapping the scene around the person (not the person, not a button) also goes back to the whole place,
 // with the same camera move as the top chip. The picture itself is inert here, so the tap lands on #talkCamera.
 // Not while someone is saying their lines (user request: a slip of the finger cut Rosie's greeting off): the greeting,
@@ -9201,7 +9225,10 @@ $('#art').addEventListener('click', e => {
   if(panMoved){ panMoved = false; return; }
   if(!placeObj()) return;
   const npc = e.target.closest('[data-talk]');
-  if(npc){ talkTo(npc.dataset.talk); return; }
+  // someone with nothing to talk about now: no zoom in, a toast (user request 2026-11-19: inside, the way out was not found)
+  if(npc){ const id = npc.dataset.talk;
+    if(nothingToTalk(id)) return toast(`${withJosa(spk(id).name)} 더 나눌 대화가 없어요`);
+    talkTo(id); return; }
   const r = $('#art').getBoundingClientRect();
   const spot = e.target.closest('.spot');
   let x = e.clientX - r.left, y = e.clientY - r.top;
