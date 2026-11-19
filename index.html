@@ -350,8 +350,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* the sign is a picture (Higgsfield 2026-11-19, assets/ui/title-sign.webp; original title-sign-higgsfield-original.png):
    nine-slice, so its frame keeps its width whatever the title's length */
 .stage-card .sign{position:relative;border:15px solid transparent;border-image:url(assets/ui/title-sign.webp) 44 fill / 15px stretch;padding:14px 6px 6px;text-align:center;filter:drop-shadow(4px 7px 0 rgba(0,0,0,.25));color:#FFF6E2}
-/* CASE 05 in its own small frame, straddling the sign's top edge (user request) */
-.stage-card .no{position:absolute;left:50%;top:-15px;transform:translate(-50%,-55%);white-space:nowrap;padding:4px 12px 3px 14px;background:#6E4A2A;border:2px solid #F2CF73;border-radius:6px;box-shadow:0 2px 0 rgba(0,0,0,.25);font-family:var(--f-display);font-size:12px;line-height:1.2;letter-spacing:.22em;text-transform:uppercase;color:#F2CF73}
+/* CASE 05 on its own small plate, straddling the sign's top edge (user request). The plate is a picture (user picked
+   candidate 1, dark wood with a gold line; Higgsfield 2026-11-19, assets/ui/case-plate-1.webp, sheet
+   case-plate-higgsfield-original.png, scripts/cut-case-plate.py) at a fixed size: every case number is the same length */
+.stage-card .no{position:absolute;left:50%;top:-15px;transform:translate(-50%,-55%);display:grid;place-items:center;box-sizing:border-box;width:118px;height:40px;padding-left:.22em;white-space:nowrap;background:url(assets/ui/case-plate-1.webp) center/100% 100% no-repeat;filter:drop-shadow(0 2px 0 rgba(0,0,0,.25));font-family:var(--f-display);font-size:12px;line-height:1.2;letter-spacing:.22em;text-transform:uppercase;color:#F2CF73;text-shadow:0 1px 0 #3A2414}
 .stage-card b{display:block;font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1.15;text-wrap:balance;text-shadow:0 2px 0 #6E4A2A}
 .stage-card small{display:block;font-size:13px;margin-top:6px;color:#F4E3C4}
 @keyframes stage-card{0%{opacity:0}10%{opacity:1}84%{opacity:1}100%{opacity:0}}

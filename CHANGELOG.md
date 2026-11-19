@@ -13,6 +13,22 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-19 17:50 · Claude · (이 커밋)
+- 사용자 선택: 명판 후보 1(진한 나무+금색 선). `.stage-card .no`를 CSS 상자에서 그림 `assets/ui/case-plate-1.webp`로(118×40 고정, 글씨는 그대로 화면에서, 금색 글자+어두운 그림자).
+- 확인: 5177 심문 미리보기 위에 간판을 띄워 "CASE 06" 명판 모양·크기 확인, 콘솔 오류 없음. 확인용 복사본 갱신.
+- 사용자 결정: 시안 `design/case-plate-mockups.html`과 고르지 않은 후보 `assets/ui/case-plate-2~4.webp`는 지우지 않고 남겨 둠.
+- **다음**: 사용자 지시 대기.
+
+## 2026-11-19 17:40 · Claude · (이 커밋)
+- 사용자 요청: 사건 시작 간판 위 "CASE 01" 칸(`.stage-card .no`, 지금 CSS 상자)도 그림으로. 사용자 승인 뒤 Higgsfield `nano_banana_2` 2k 한 장(2크레딧, job 6f11bf3d, 참고: `title-sign-higgsfield-original.png`)에 글씨 없는 명판 후보 넷: 1 진한 나무+금색 선, 2 놋쇠 명판, 3 못 박은 밝은 판자, 4 빨간 리본. 원본 `assets/ui/case-plate-higgsfield-original.png`, 자르기 `scripts/cut-case-plate.py` → `assets/ui/case-plate-1~4.webp`(480px 너비).
+- 시안 `design/case-plate-mockups.html`: 지금 모습 + 네 후보를 실제 간판 위에 얹음(글씨는 화면에서 쓰고 그림은 고정 크기). 게임 코드는 안 바꿈.
+- 확인: 5177 `/design/case-plate-mockups.html`에서 다섯 시안의 배경 빠짐·글씨 자리 확인.
+- **다음**: 사용자가 후보를 고르면 `.stage-card .no`에 넣고, 시안 파일과 고르지 않은 후보 그림 삭제 승인.
+
+## 2026-11-19 17:20 · Claude · (이 커밋)
+- 사용자 승인: 연 치우기 안내 시안 파일 `design/kite-cover-hint.html`을 휴지통으로 보냄(커밋한 적 없는 파일).
+- **다음**: 사용자 지시 대기.
+
 ## 2026-11-19 17:10 · Claude · (이 커밋) 아티팩트 detective-v2_261118 갱신(버전 11)
 - 사용자 요청: 커밋 f78e775 기준으로 빌드, 파일 목록·녹음 묶음이 버전 10과 같아 페이지만 같은 URL에 올림(버전 11).
 - 확인 못 함: 실제 아티팩트 화면(내장 브라우저는 claude.ai 로그인 필요).
