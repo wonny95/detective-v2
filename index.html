@@ -159,7 +159,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .ball-wrap .ball.spin{animation:ball-spin 1s cubic-bezier(.25,.7,.35,1) both}
 @keyframes ball-go{0%{transform:translate(calc(var(--dx) * -1), calc(var(--dy) * -1))}12%{transform:translate(calc(var(--dx) * -.97), calc(var(--dy) * -.97))}80%{transform:translate(calc(var(--dx) * .05), calc(var(--dy) * .05))}100%{transform:none}}
 @keyframes ball-spin{0%{transform:rotate(0)}80%{transform:rotate(calc(var(--turn) + 12deg))}100%{transform:rotate(var(--turn))}}
-@media(prefers-reduced-motion:reduce){.kite-look image[data-cover],.bed-bunches .bunch,.ball-wrap,.ball-wrap .ball{animation:none}}
+/* the nudge in a close look (user pick A 2026-11-19, design/kite-cover-hint.html; some players did not see what to
+   tap): one thing still hiding a kite gives a bigger shake now and then, the same ! as a person's (.cover-bang) over it */
+.kite-look image[data-cover].hint,.kite-look .bed-rest[data-cover].hint .bunch,.kite-look .ball-wrap[data-cover].hint .ball{transform-box:fill-box;transform-origin:50% 100%;animation:cover-hint 2.4s ease-in-out infinite}
+@keyframes cover-hint{0%,50%,100%{transform:none}58%{transform:rotate(-6deg)}66%{transform:rotate(5deg)}74%{transform:rotate(-3deg)}82%{transform:rotate(1.5deg)}90%{transform:none}}
+.cover-bang{transform-box:fill-box;transform-origin:50% 100%;pointer-events:none;animation:bang-pop .45s cubic-bezier(.3,1.6,.5,1) both,bang-hop 2.4s ease-in-out .5s infinite}
+@keyframes bang-pop{from{opacity:0;transform:scale(.2)}}
+@keyframes bang-hop{0%,58%,100%{transform:none}66%{transform:translateY(-12%) rotate(-8deg)}74%{transform:rotate(6deg) scale(1.05,.95)}82%{transform:rotate(-3deg)}90%{transform:none}}
+@media(prefers-reduced-motion:reduce){.kite-look image[data-cover],.bed-bunches .bunch,.ball-wrap,.ball-wrap .ball,.kite-look [data-cover].hint,.kite-look [data-cover].hint .bunch,.cover-bang{animation:none}}
 .handed.give{animation:bag-give 1.3s cubic-bezier(.25,.7,.3,1) forwards}
 .handed.take{animation:bag-take 1.3s ease-in forwards}
 @keyframes bag-give{0%{opacity:0;transform:translate(-50%,120%) scale(1.25) rotate(-8deg)}20%{opacity:1}62%{transform:translate(-50%,0) scale(.8) rotate(4deg)}74%{transform:translate(-50%,0) scale(.8) rotate(-3deg)}84%{opacity:1;transform:translate(-50%,0) scale(.8) rotate(0)}100%{opacity:0;transform:translate(-50%,4%) scale(.72)}}
@@ -9212,11 +9219,32 @@ $('#art').addEventListener('click', e => {
 const hasNext = sp => availableQuestions(sp).length > 0 ||
   (sp.actions || []).some(a => actionOpen(a) && (a.flag || (a.inspect && !S.found[a.inspect]?.size)));
 const NUDGE_AFTER = 8000;
+// the kite case's close looks (user pick A 2026-11-19): sooner, on one thing still hiding a kite (covers in the
+// picture, kitesArt: a leaf clump, the flower bed's bunches, the ball): it shakes (.hint) under the same !
+const COVER_NUDGE_AFTER = 6000;
 let lastInput = Date.now();
-function clearNudge(){ document.querySelectorAll('#art .nudge').forEach(n => n.remove()); }
+function clearNudge(){
+  document.querySelectorAll('#art .nudge, #art .cover-bang').forEach(n => n.remove());
+  document.querySelectorAll('#art [data-cover].hint').forEach(n => n.classList.remove('hint'));
+}
+function coverNudge(){
+  // this close look's own kite (look-<n>; a neighbour's cover may show at the edge)
+  const n = S.place.replace('look-', '');
+  const el = [...$('#art').querySelectorAll(`.kite-look [data-cover^="${n}-"]`)].find(c => {
+    const r = c.getBoundingClientRect(), x = r.left + r.width / 2;
+    return r.width && x > 0 && x < innerWidth;
+  });
+  if(!el) return;
+  el.classList.add('hint');
+  // the ! over its top middle, in the picture's units, about as tall on screen as a person's (44px)
+  const b = el.getBBox(), k = b.height / el.getBoundingClientRect().height, h = 40 * k, w = h * 182 / 200;
+  el.insertAdjacentHTML('afterend', `<image class="cover-bang" href="assets/ui/nudge-bang.webp" x="${b.x + b.width / 2 - w / 2}" y="${b.y - h * .9}" width="${w}" height="${h}"/>`);
+}
 ['pointerdown', 'keydown', 'wheel'].forEach(type => addEventListener(type, () => { lastInput = Date.now(); clearNudge(); }, { capture:true, passive:true }));
 setInterval(function nudgeTick(){
-  if(Date.now() - lastInput < NUDGE_AFTER || !S.investigate || ending || document.hidden || $('#art .nudge')) return;
+  const look = S.investigate && !!$('#art .kite-look');
+  if(Date.now() - lastInput < (look ? COVER_NUDGE_AFTER : NUDGE_AFTER) || !S.investigate || ending || document.hidden || $('#art .nudge, #art .cover-bang')) return;
+  if(look){ if(!clearingCover && !$('.art-stage .think-place')) coverNudge(); return; }
   const npc = [...$('#art').querySelectorAll('.scene-npc')].find(b => {
     if(per(b.dataset.talk).phase === 'done' || !hasNext(spk(b.dataset.talk))) return false;
     const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height * .25;
