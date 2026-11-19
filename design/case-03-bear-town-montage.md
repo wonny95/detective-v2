@@ -81,7 +81,7 @@
 | 인사 | I saw him from the library window. | 도서관 창문에서 그 곰을 봤어. | |
 | 탐정 | What was he wearing? | 뭘 입고 있었어? | |
 | 특징 1 | He was wearing a red scarf with white dots. | 흰 물방울무늬 빨간 목도리를 하고 있었어. | 목도리 |
-| 특징 2 | He was wearing a vest with two pockets. | 주머니 두 개 달린 조끼를 입고 있었어. | 조끼 |
+| 특징 2 | He was wearing a navy vest with two pockets. | 주머니 두 개 달린 남색 조끼를 입고 있었어. | 조끼 |
 
 **반응 대사**
 - 맞음(목격자마다 하나): 브루노 "Yes! That's right." / 토비 "Yes! Just like that!" / 베티 "Yes, that's it."

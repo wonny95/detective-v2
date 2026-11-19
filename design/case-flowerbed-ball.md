@@ -1,19 +1,20 @@
-# 누가 화단을 망쳤을까? — 간략판
+# 누가 화단을 망쳤을까? — 재채기 범인 판
 
-**2026-11-18 · L1-06 과거 행동 긍정·부정 · 사용자 검토 중 · 개발 미인계.** [장면별 미리보기](case-flowerbed-ball.html) · [이전 상세 대본](backups/flowerbed-20261118-101926/case-flowerbed-ball.md) · [이전 미리보기](backups/flowerbed-20261118-101926/case-flowerbed-ball.html).
+**2026-11-19 · L1-06 과거 행동 긍정·부정 · 개발 인계 · 2차 수정(사용자와 합의) · 개발 전.** [장면별 미리보기](case-flowerbed-ball.html) · [Codex 간략판 백업](backups/flowerbed-20261118-101926/case-flowerbed-ball.md).
+
+> 2차 수정(사용자 결정 2026-11-19): 쉬운 사건(연 찾기 정도)으로 다시 짰다. 아이디어는 **재채기 범인 찾기** 하나만 쓰고(두더지 잡기·듣고 다시 심기는 넣지 않음), 루카·렌·사진 확대·공 돌리기·추리 보드는 뺐다. 거스 확인은 **꽃 소지품**을 보여 주는 방식이다. 탐정은 생쥐 달튼이다(앱 전체 결정). 경찰은 나오지 않는다.
 
 ## 사건 한눈에
 
-올리가 돌아와 보니 화단의 꽃이 밟혀 있다. 탐정에게 누가 그랬는지 찾아 달라고 부탁한다. 플레이어는 **울타리 옆 공을 돌려 흙을 찾고, 루카의 사진을 확대해 벤치에 있던 렌을 발견한다.** 사진과 영어 진술을 대조한 뒤 거스에게 한 번 확인하고, 올리에게 돌아가 결과를 전한다.
+올리가 돌아와 보니 화단의 꽃이 밟혀 있다. 근처에서 재채기 소리를 들었다며 탐정에게 누가 그랬는지 찾아 달라고 한다. 플레이어는 **화단에서 쓰러진 꽃을 줍고, 정원 곳곳에서 들리는 재채기 소리를 따라 숨은 범인을 찾는다.** 덤불 뒤에서 나온 거스는 화단에 안 들어갔다고 하지만, 꽃을 보여 주자 재채기를 멈추지 못한다. 거스는 사실을 말하고 올리에게 사과한다.
 
-| 인물 | 장소 | 역할 |
+| 인물 | 자리 | 역할 |
 |---|---|---|
-| 올리 · 수달 | 화단 | 의뢰인. 돌아오는 길에 벤치 가까이에서 카메라를 든 친구를 봤다. |
-| 루카 · 코알라 | 벤치 쉼터 | 화단을 찍으러 정원에 들어간 조사 대상. 길 위에서 사진을 찍었다. |
-| 렌 · 굴뚝새 | 같은 쉼터의 벤치 | 사진 배경에 나온 목격자. 루카가 길에 머문 것과 거스가 공을 들고 돌아온 것을 봤다. |
-| 거스 · 너구리 | 울타리 건너 마당 | 공을 찬 사실은 인정하지만 공을 가지러 정원에 들어간 사실은 숨긴다. |
+| 올리 · 수달 | 화단 앞 | 의뢰인. 꽃이 밟힌 것을 발견했고 재채기 소리를 들었다. |
+| 거스 · 너구리 | 꽃 핀 덤불 뒤(숨음) | 범인. 공을 꺼내러 화단에 들어갔다가 꽃을 밟았다. 꽃 가까이 가면 재채기를 한다. |
+| 고양이 · 새 | 헛간 · 나무 | 숨을 곳을 치웠을 때 나오는 엉뚱한 동물. 대사 없이 소리만 낸다(Meow! / Tweet!). |
 
-**제작자용 전말.** 루카가 정원 길에서 꽃을 찍고 쉼터로 돌아왔다. 사진에는 멀쩡한 꽃과 멀리 벤치에 앉은 렌이 보인다. 이후 거스가 마당에서 찬 공이 울타리를 넘어 화단 안쪽에 떨어졌다. 거스는 공을 꺼내러 들어가 꽃을 밟았다. 공을 들고 나와 마당 쪽 울타리 아래에 내려두었다. 렌은 거스가 정원에 들어갔다가 공을 들고 돌아온 것은 보았지만 꽃을 밟는 순간은 보지 못했다. 공의 주인은 정하지 않는다.
+**제작자용 전말.** 거스가 마당에서 공놀이를 하다 공을 세게 찼다. 공이 울타리를 넘어 올리의 화단에 떨어졌다. 거스는 공을 꺼내려고 화단에 들어갔다가 실수로 꽃을 밟았다. 꽃 가까이 가면 재채기를 하는 체질이라 화단 안에서 재채기를 했고, 돌아오던 올리가 그 소리를 들었다. 혼날까 봐 공을 든 채 정원 구석의 꽃 핀 덤불 뒤에 숨었고, 덤불 꽃 때문에 숨어 있는 동안에도 재채기가 멈추지 않는다.
 
 ## 장면별 대본
 
@@ -23,155 +24,115 @@
 
 **올리 · 인사** — Oh, hi! It's me, Ollie. / 어, 안녕! 나야, 올리.
 
-#### ollie:n0 · 훼손된 꽃
+#### ollie:n0 · 밟힌 꽃
 - **질문** · How can I help you? / 무엇을 도와줄까?
-- **대답** · I came back and found our flowers damaged. Can you find out who did it?
-- 해석 · 돌아왔더니 우리 꽃들이 망가져 있었어. 누가 그랬는지 알아봐 줄래?
-- 노트 · I came back and found our [flowers] [damaged]. Can you find out who [did] it?
-- 보기 · flowers / damaged / did / leaves / dry / saw / cut
-- 조건 · 인사 뒤 첫 선택지. 기록하면 현장을 살피고 n1을 물을 수 있다.
+- **대답** · Someone went into my flowerbed. Look at my flowers!
+- 해석 · 누가 내 화단에 들어갔어. 내 꽃들 좀 봐!
+- 노트 · Someone [went] into my [flowerbed]. Look at my [flowers]!
+- 보기 · went / flowerbed / flowers / ran / garden / trees / leaves
+- 조건 · 인사 뒤 첫 선택지. 기록하면 n1이 열리고 화단의 쓰러진 꽃을 주울 수 있다.
 
-#### ollie:n1 · 벤치 쪽에서 본 사람
-- **질문** · Did you see anyone nearby? / 근처에서 누굴 봤니?
-- **대답** · I saw someone with a camera near the bench.
-- 해석 · 벤치 근처에서 카메라를 든 친구를 봤어.
-- 노트 · I saw someone with a [camera] near the [bench].
-- 보기 · camera / bench / ball / basket / gate / shop
-- 조건 · n0 뒤. 기록하면 벤치 쉼터를 찾아가 루카에게 말을 걸 수 있다.
+#### ollie:n1 · 재채기 소리
+- **질문** · Did you see anyone? / 누구 봤니?
+- **대답** · No, I didn't. I wasn't in the garden. But I heard someone sneeze in my flowerbed!
+- 해석 · 아니, 못 봤어. 난 정원에 없었어. 그런데 화단 쪽에서 누가 재채기하는 소리를 들었어!
+- 노트 · No, I [didn't]. I [wasn't] in the garden. But I [heard] someone [sneeze] in my flowerbed!
+- 보기 · didn't / wasn't / heard / sneeze / did / was / saw / laugh
+- 조건 · n0 뒤. 대답이 끝나면 정원 쪽에서 "Achoo!" 소리가 한 번 난다. 기록하면 정원의 숨을 곳을 조사할 수 있다.
 
-### 장면 2 · 화단과 울타리 옆 공
+**탐정 · 생각** — Let's look around the garden. / 정원을 둘러보자.
 
-- 화단의 눌린 꽃과 흐트러진 흙을 직접 촬영한다(`bed-photo`). 흔적에는 인물을 특정할 만한 발 모양이 없다. 낮은 울타리 너머 골대와 마당을 직접 살피면 마당으로 갈 수 있다.
-- 마당 쪽 울타리 아래, 거스가 있는 골대와 떨어진 곳에 공이 놓여 있다. 공을 살피면 처음에는 깨끗한 쪽이 보인다. 플레이어가 직접 돌려 반대편에 묻은 흙을 발견하고 촬영한다(`ball-photo`). 다시 내려놓고 같은 자리에서 재조사할 수 있다.
-- 탐정의 선택 관찰은 보이는 것만 말한다. **There's dirt on this side.** / 이쪽에 흙이 묻었어. 공에 묻은 흙만으로 어디서 묻었는지나 누가 사용했는지는 알 수 없다.
+### 장면 2 · 화단의 꽃 (소지품)
 
-### 장면 3 · 루카의 사진
+- n0 기록 뒤 화단의 쓰러진 꽃 한 송이를 눌러 줍는다(연 사건의 길 위 연처럼 바로 줍기). 소지품에 들어간다.
+- 소지품에서 꽃을 누르면 가운데 크게 보이고 탐정 설명이 나온다. **A flower from Ollie's flowerbed. It's broken.** / 올리 화단의 꽃이야. 꺾여 있어.
+- 사진은 찍지 않는다(심문이 없는 사건).
 
-**루카 · 인사** — Hi there. I'm Luca. / 안녕. 난 루카야.
+### 장면 3 · 재채기 범인 찾기
 
-#### luca:l1 · 정원에 간 이유
-- **질문** · Did you go into the garden? / 정원에 들어갔니?
-- **대답** · Yes, I went into the garden to take photos.
-- 해석 · 응, 사진을 찍으려고 정원에 들어갔어.
-- 노트 · Yes, I [went] into the [garden] to take [photos].
-- 보기 · went / garden / photos / ran / yard / notes / bench
-- 조건 · 벤치 쉼터를 발견하고 루카와 인사한 뒤.
+- 정원에 숨을 곳이 4곳 있다: **꽃 핀 덤불 · 헛간 · 나무 · 울타리**. 확대 화면에서 덮개(덤불 가지, 헛간 문, 나뭇잎, 울타리 판자)를 눌러 치운다(연 사건의 덮개 치우기와 같은 조작).
+- 몇 초마다 "Achoo!" 소리가 나고, 꽃 핀 덤불에서 꽃가루가 조금 날린다.
+- 틀린 곳: 헛간에서는 고양이("Meow!"), 나무에서는 새("Tweet!")가 나오고, 울타리 뒤는 비어 있다(바람 소리). 치운 덮개는 제자리로 돌아오지 않는다.
+- 6초 동안 입력이 없으면 아직 안 치운 덮개 하나가 흔들리고 "!"가 뜬다(연 사건의 `coverNudge`).
+- 덤불을 치우면 공을 든 거스가 나온다. 이때부터 거스와 대화할 수 있다.
 
-#### luca:l2 · 사진을 찍은 자리
-- **질문** · Did you leave the path? / 길에서 벗어났니?
-- **대답** · No, I didn't leave the path. I took photos from there.
-- 해석 · 아니, 길에서 벗어나지 않았어. 거기서 사진을 찍었어.
-- 노트 · No, I [didn't leave] the [path]. I took [photos] from there.
-- 보기 · didn't leave / path / photos / didn't find / bench / notes / ball
-- 조건 · l1 뒤. 루카 본인의 주장으로 기록한다.
+### 장면 4 · 거스 확인
 
-#### luca:l3 · 사진 보기
-- **질문** · Can I see one of your photos? / 네가 찍은 사진 한 장 봐도 돼?
-- **대답** · Sure. Here's a photo of the flowers.
-- 해석 · 그래. 여기 꽃을 찍은 사진이야.
-- 노트 · Sure. Here's a [photo] of the [flowers].
-- 보기 · photo / flowers / drawing / leaves / bench / fence
-- 조건 · l1 뒤. 기록하면 루카가 보여 준 꽃 사진 한 장을 살펴볼 수 있다.
+**거스 · 인사** — Uh-oh… Hi. I'm Gus. / 어어… 안녕. 난 거스야.
 
-**사진 조사.** 사진을 직접 확대하고 옮겨 가장자리의 작은 벤치와 그곳에 앉은 인물을 찾는다. 배경 인물을 선택해야 실제 벤치에 있는 친구에게 말을 걸 수 있다. 사진에서는 이름이나 목격 내용을 읽을 수 없고, 노트에 심문용 사진으로 저장하지 않는다. 다시 조사할 때 배경 인물을 찾은 상태는 유지된다.
+#### gus:g1 · 화단에 들어갔는지
+- **질문** · Did you go into the flowerbed? / 화단에 들어갔니?
+- **대답** · No, I didn't! I played in the yard.
+- 해석 · 아니, 안 들어갔어! 난 마당에서 놀았어.
+- 노트 · No, I [didn't]! I [played] in the [yard].
+- 보기 · didn't / played / yard / did / sang / garden / shop
+- 조건 · 거스를 찾고 인사한 뒤. 이 대답은 거짓말이지만 표시하지 않는다.
 
-### 장면 4 · 렌의 목격
-
-**렌 · 인사** — Hello. My name's Wren. / 안녕. 내 이름은 렌이야.
-
-#### wren:w1 · 루카가 머문 곳
-- **질문** · Did Luca stay on the path? / 루카는 길 위에 있었니?
-- **대답** · Yes, Luca stayed on the path. He didn't walk through the flowers.
-- 해석 · 응, 루카는 계속 길 위에 있었어. 꽃 사이로 걷지 않았어.
-- 노트 · Yes, Luca [stayed] on the [path]. He [didn't walk] through the flowers.
-- 보기 · stayed / path / didn't walk / waited / fence / didn't look / bench
-- 조건 · 사진의 배경 인물을 발견해 렌에게 직접 말을 걸고 l2를 기록한 뒤.
-
-#### wren:w2 · 공을 들고 돌아온 사람
-- **질문** · Did you see anyone else in the garden? / 정원에서 다른 사람도 봤니?
-- **대답** · Yes. Gus went into the garden. He came back with the ball.
-- 해석 · 거스는 정원에 들어갔어. 공을 들고 돌아왔어.
-- 노트 · Yes. Gus [went] into the garden. He [came back] with the [ball].
-- 보기 · went / came back / ball / looked / sat down / camera / flowers
-- 조건 · w1 기록 뒤. 거스를 아직 만나지 않았다면 진술로 이름을 먼저 알 수 있다. 렌은 거스가 꽃을 밟는 장면을 보지 못했다.
-
-### 장면 5 · 거스가 찾은 공
-
-**거스 · 인사** — Hey! I'm Gus. / 안녕! 난 거스야.
-
-#### gus:g1 · 공놀이
-- **질문** · Did you play with the ball in this photo? / 이 사진에 나온 공으로 놀았니?
-- **대답** · Yes, I played with it in the yard.
-- 해석 · 응, 마당에서 그 공으로 놀았어.
-- 노트 · Yes, I [played] with it in the [yard].
-- 보기 · played / yard / worked / waited / garden / shop
-- 조건 · 공을 돌려 흙이 묻은 면을 촬영하고 거스와 인사한 뒤, 플레이어가 공 사진을 보며 묻는다.
-
-#### gus:g2 · 울타리를 넘은 공
-- **질문** · Where did the ball go? / 공이 어디로 갔니?
-- **대답** · It went over the fence and into the garden.
-- 해석 · 울타리를 넘어 정원 안으로 들어갔어.
-- 노트 · It [went] over the [fence] and into the [garden].
-- 보기 · went / fence / garden / rolled / bench / shop / goal
-- 조건 · g1 기록 뒤.
-
-#### gus:g3 · 정원에 들어갔는지
-- **질문** · Did you go into the garden to get it? / 공을 가지러 정원에 들어갔니?
-- **대답** · No, I didn't go in. I found the ball by the fence.
-- 해석 · 아니, 들어가지 않았어. 울타리 옆에서 공을 찾았어.
-- 노트 · No, I [didn't go] in. I [found] the ball by the [fence].
-- 보기 · didn't go / found / fence / didn't play / left / bench / gate
-- 조건 · g2 기록 뒤. 이 대답의 내용은 렌의 목격과 대조하기 전까지 거짓말로 표시하지 않는다.
-
-### 장면 6 · 추리와 한 번의 확인
-
-| ID | 질문 | 완성 문장 | 보기 | 근거·요청 시 힌트 |
-|---|---|---|---|---|
-| q1 | Where did Luca stay? / 루카는 어디에 있었을까? | Luca stayed [on the path]. | on the path / by the goal / inside the shop / between the flowers / behind the fence / at home | l2·w1. 사진을 찍던 루카를 계속 본 사람의 말을 들어 봐. |
-| q2 | Where did Wren see Gus go? / 렌은 거스가 어디로 들어가는 것을 봤을까? | Gus went [into the garden]. | into the garden / into the shop / over the fence / behind the bench / toward the goal / down the road | g2·g3·w2. 공을 가지러 갔을 때의 설명과 렌이 본 행동을 대조해 봐. |
-| q3 | Who should you ask about the damaged flowers? / 망가진 꽃에 대해 누구에게 확인할까? | I should ask [Gus]. | Gus / Luca / Wren / Ollie | q1·q2·두 사진. 공이 간 곳과 공을 들고 나온 사람, 꽃이 눌린 곳을 함께 살펴봐. |
-
-정답을 맞혀도 탐정이 판단을 대신 말하지 않는다. q3 뒤 플레이어가 직접 거스에게 가서 눌린 화단 사진, 흙이 묻은 공 사진, 렌의 w2 목격을 고른다. g1·g2는 사진 속 공과 화단으로 들어간 공을 이어 준다. w2는 거스가 정원에 안 들어갔다는 말을 반박하며, 화단 사진은 확인할 피해를 보여 준다. 꽃을 밟은 행동 자체는 거스에게 묻고 답으로 확인한다. 잘못된 자료를 고르면 같은 자리에서 다시 고를 수 있다.
-
-| 화자·형태 | 영어 | 한국어 |
-|---|---|---|
-| 탐정 · 질문 선택 | Did you step on the flowers when you got the ball? | 공을 가져올 때 꽃을 밟았니? |
-| 거스 · 인정과 사과 | Yes, I did. I went in for the ball and stepped on the flowers. I'm sorry. | 응, 내가 밟았어. 공을 가지러 들어갔다가 꽃을 밟았어. 미안해. |
-| 거스 · 이어서 | I can help Ollie plant new flowers. | 올리가 새 꽃을 심는 걸 도울 수 있어. |
-
-### 장면 7 · 올리에게 보고
-
-플레이어가 직접 화단에 돌아가 **Tell Ollie what happened. / 올리에게 결과 설명하기**를 고른다.
+**행동 선택지 · `Gus에게 꽃 보여 주기`** — g1 기록 뒤 나온다. 소지품에서 꽃을 골라 건넨다(연 사건의 `Toby에게 연 주기`와 같은 서랍). 고르면 꽃이 거스 쪽으로 날아간다.
 
 | 화자 | 영어 | 한국어 |
 |---|---|---|
-| 탐정 | Gus said he stepped on the flowers. He wants to help you plant new ones. | 거스가 꽃을 밟았다고 말했어. 새 꽃을 심는 걸 돕고 싶대. |
-| 올리 | Thanks for finding out. I'll talk to Gus. | 알아봐 줘서 고마워. 거스랑 얘기해 볼게. |
+| 거스 | Achoo! Achoo! | 에취! 에취! |
+| 탐정 | Ollie heard someone sneeze in her flowerbed. And you sneeze near flowers. | 올리가 화단 쪽에서 누가 재채기하는 소리를 들었대. 그리고 넌 꽃 가까이에서 재채기를 하는구나. |
+
+탐정은 들은 것(올리의 n1)과 지금 본 것만 말하고, 거스가 했다고 말하지 않는다. 결론은 플레이어가 g2 질문을 골라 확인한다.
+
+#### gus:g2 · 공을 가지러 들어갔는지
+- **질문** · Did you go in for your ball? / 공을 가지러 들어갔니?
+- **대답** · Yes, I did. I went in for my ball. I stepped on the flowers. I'm sorry.
+- 해석 · 응, 들어갔어. 공을 가지러 들어갔어. 꽃을 밟았어. 미안해.
+- 노트 · Yes, I [did]. I [went] in for my [ball]. I [stepped] on the flowers. I'm sorry.
+- 보기 · did / went / ball / stepped / didn't / ran / kite / sat
+- 조건 · 꽃을 보여 준 뒤.
+
+### 장면 5 · 올리에게 알리기
+
+플레이어가 직접 올리를 눌러 **Tell Ollie what happened. / 올리에게 결과 알리기**를 고른다. 거스도 화단 앞으로 와 있다.
+
+| 화자 | 영어 | 한국어 |
+|---|---|---|
+| 탐정 | Gus went in for his ball. He stepped on your flowers. | 거스가 공을 가지러 들어갔대. 네 꽃을 밟았대. |
+| 거스 | I'm sorry, Ollie. I can help you plant new flowers. | 미안해, 올리. 새 꽃 심는 걸 도와줄게. |
+| 올리 | Thanks for finding out! Okay, Gus. Let's plant them together. | 알아봐 줘서 고마워! 좋아, 거스. 같이 심자. |
+
+그다음 복습으로 넘어간다.
 
 ## 조사와 해금
 
 | 시작 조건 | 플레이어가 할 일 | 다음에 열리는 것 |
 |---|---|---|
-| n0 기록 | 화단을 촬영하고 울타리 너머 골대를 살핀다. | `bed-photo`와 마당 |
-| 마당 방문 | 공을 돌려 흙 묻은 면을 발견하고 촬영한다. | `ball-photo`, 거스와 인사 뒤 g1→g2→g3 |
-| n1 기록 | 루카와 인사하고 l1을 기록한다. | l2·l3 |
-| l3 기록 | 사진을 확대·이동해 배경 인물을 선택한다. | 렌에게 말 걸기 |
-| 렌 소개 | l2 뒤 w1을 묻고, 이어서 w2를 기록한다. | q1·q2의 목격 근거 |
-| q1·q2와 사진 두 장, 조사 노트 완료 | q3에서 확인 대상 선택 → 직접 거스 방문 → 사진 두 장과 w2 제시 | 확인 질문 한 번, 인정과 사과 |
-| 거스의 인정과 사과 | 화단으로 돌아가 올리에게 보고한다. | 사건 해결·복습 |
+| 올리 인사 | n0을 받아 적는다. | n1, 화단의 쓰러진 꽃 줍기 |
+| n1 기록 | (탐정 생각) | 정원의 숨을 곳 4곳 |
+| 숨을 곳 조사 | 재채기 소리를 따라 덮개를 치운다. | 덤불 뒤 거스 |
+| 거스 인사 | g1을 받아 적는다. | `Gus에게 꽃 보여 주기`(꽃을 주웠을 때) |
+| 꽃 보여 주기 | 소지품에서 꽃을 고른다. | g2 |
+| g2 기록 | 올리에게 결과를 알린다. | 결말·복습 |
 
-마당과 쉼터는 발견한 순서대로 갈 수 있다. 렌의 목격과 거스의 주장은 어느 쪽을 먼저 들어도 되며, 두 기록을 모은 뒤 대조한다. 정답 기록이나 발견 알림만으로 다른 장소로 이동하지 않는다. 엔진에는 공 회전으로 촬영할 면 찾기와 사진 확대·부분 선택을 공통 조사 동작으로 지원할 수 있는지 확인이 필요하다.
+장소는 정원 한 곳이다(지도 없음, 연 사건처럼 `ONE_PLACE`). 꽃을 줍지 않고 거스를 먼저 찾으면 g1 뒤 `Gus에게 꽃 보여 주기` 대신 화단으로 가 볼 생각만 나온다: **Let's check the flowerbed again.** / 화단을 다시 살펴보자.
 
 ## 예습과 복습
 
 | 열쇠 표현 | 설명 | 사건 밖 예문 |
 |---|---|---|
 | Did …? | 끝난 일을 했는지 묻는다. `did` 뒤에는 동사원형을 쓴다. | Did you open the window? / 창문을 열었니?<br>Did she finish her homework? / 그 친구는 숙제를 끝냈니?<br>Did they watch the film? / 그 친구들은 영화를 봤니? |
-| didn't + 동사원형 | 하지 않은 행동을 말한다. | I didn't open the window. / 난 창문을 열지 않았어.<br>He didn't finish his homework. / 그 친구는 숙제를 끝내지 않았어.<br>They didn't watch the film. / 그 친구들은 영화를 보지 않았어. |
-| went | `go`의 과거형이다. | I went to school yesterday. / 난 어제 학교에 갔어.<br>We went home after lunch. / 우린 점심 먹고 집에 갔어.<br>She went to the library on Monday. / 그 친구는 월요일에 도서관에 갔어. |
+| Yes, I did. / No, I didn't. | Did 질문에 짧게 대답한다. `didn't` 뒤에는 동사원형을 쓴다. | Yes, I did. I opened the window. / 응, 열었어. 내가 창문을 열었어.<br>No, I didn't. I didn't finish it. / 아니. 다 못 끝냈어.<br>No, they didn't. They didn't watch the film. / 아니. 그 친구들은 영화를 안 봤어. |
+| went · heard · played · stepped | 과거에 한 일. `go`·`hear`는 모양이 바뀌고 `play`·`step`은 -ed가 붙는다. | I went to school yesterday. / 난 어제 학교에 갔어.<br>I heard a dog. / 개 소리를 들었어.<br>We played soccer. / 우린 축구를 했어. |
 
-복습에서는 luca:l1의 질문과 답, gus:g3의 부정, wren:w2의 긍정을 다시 듣는다. 단어는 `damaged` 망가진, `path` 길, `fence` 울타리, `found` 찾았다, `stayed` 머물렀다, `came back` 돌아왔다. 새 문장 **I didn't go to the shop. I went to the library.**를 듣고 어디에 갔는지 고른다. 보기 `the shop / the library / the park`, 정답 `the library`.
+복습에서는 ollie:n1(No, I didn't), gus:g1(No, I didn't — 거짓말), gus:g2(Yes, I did)를 다시 듣는다. 단어는 `flowerbed` 화단, `sneeze` 재채기하다, `heard` 들었다, `yard` 마당, `stepped on` 밟았다, `went in for` ~을 가지러 들어갔다. 새 문장 **I didn't go to the shop. I went to the library.**를 듣고 어디에 갔는지 고른다. 보기 `the shop / the library / the park`, 정답 `the library`.
 
 ## 분량과 제작 확인
 
-인물 4명·장소 3곳(올리는 기존 인물), 받아쓰기 10문항·27칸, 조작 조사 2개, 필수 사진 2장, 추리 3문항, 현장 확인 1회. 초반 면담을 줄인 간략판이라 기본 분량보다 짧다. 장소는 화단·공놀이 마당·벤치 쉼터다. 눌린 화단, 앞뒤가 다른 공, 벤치를 담은 꽃 사진이 필요하다. 실제 원화에서 렌의 시야를 확인하고 공·사진 조작의 난도를 플레이로 점검한다. 개발 미인계 상태이며 그림·음성 제작과 실제 플레이 검증은 남아 있다.
+인물 2명(올리·거스) + 소리만 내는 동물 2, 장소 1곳, 받아쓰기 4문항·14칸, 소지품 1개(꽃), 추리 보드·사진·심문 없음.
+
+- **그림**(계획은 그리기 전에 사용자와 정함):
+  - 정원 배경 3:4 세로(화단·꽃 핀 덤불·헛간·나무·울타리, 띠 + 바닥으로 자름)
+  - 덮개 4종(덤불 가지·헛간 문·나뭇잎 뭉치·울타리 판자)과 숨은 동물(고양이·새)
+  - 거스(너구리, 공을 든 모습). 재채기 표정이 있으면 좋음
+  - 올리 혼자 선 그림(지금은 소풍 사건의 미아와 한 장이라 잘라 쓰거나 새로)
+  - 쓰러진 꽃 소지품 1개
+- **음성**: 올리 4줄, 거스 4줄, 탐정 약 5줄, 효과음(재채기·고양이·새·바람). 거스 재채기는 녹음 또는 효과음.
+- **엔진에 더할 것**:
+  - 정해진 숨을 곳에서 몇 초마다 재채기 소리와 꽃가루 효과
+  - 덮개를 치웠을 때 동물이 소리만 내는 반응
+  - `~에게 꽃 보여 주기`: 연 건네기 서랍을 쓰되, 건넨 뒤 반응 대사가 나오고 다음 질문이 열림
+- 남은 확인: 울타리 뒤를 비워 둘지 다른 동물을 넣을지, 거스 재채기를 녹음으로 할지 효과음으로 할지.

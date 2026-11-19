@@ -163,3 +163,11 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 달튼(왼쪽): 오렌지 털, 금빛 안쪽의 큰 둥근 귀, 빨간 띠 크림 중절모, 파란 재킷·크림 셔츠·청바지·보라 부츠. 테리(오른쪽): 보라 털에 분홍 줄무늬, 흰 주둥이, 머리 위 노란 연필, 초록 스웨터·주황 바지·파란 신발.
 - v2(사용자 요청: 원래 캐릭터 느낌이 더 나게, 꼬리 없이): 같은 설정, 참고 그림·화풍 참조를 넣어(`image_references`) 한 장(약 2크레딧), job `711eb938-85b3-4374-9cc8-1e952afa6e7a` → `dalton-terry-v2-higgsfield-original.png`(2752×1536). 달튼은 큰 검은 코·모자·파란 재킷 그대로, 테리는 머리 양옆 분홍 지그재그 무늬·큰 흰 눈 그대로, 둘 다 꼬리 없음.
 - v3 경찰 테리(사용자 요청: 플레이어가 달튼, 테리는 경찰 동료라고 보고 테리 의상만 경찰복으로. 그림만, 앱에는 넣지 않음): v2를 올려(media `380035f1-b01b-45d1-b471-9b28008c35a3`) 편집, Nano Banana 2.1 16:9 한 장(1.5크레딧), job `9f7a077e-d118-4949-9695-b38ca5b24efb` → `dalton-terry-v3-police-higgsfield-original.png`(1376×768). 테리: 남색 경찰모(금별), 남색 반팔 제복(가슴 주머니 둘·금별 배지), 어깨 무전기, 검은 벨트, 남색 바지, 검은 구두. 머리 위 연필은 빠짐. 달튼은 그대로.
+
+## 달튼·테리 적용 (Claude, 2026-11-19, 사용자 결정)
+
+- 탐정은 생쥐 달튼, 경찰은 고양이 테리 경관(id `badger` 유지). 다람쥐(`detective-*`)·오소리(`sgt-badger-*`)·예전 입(`mouths/detective*`, `mouths/badger-*`)은 남겨 두고 쓰지 않음.
+- 기본 자세 달튼·테리: v3(`dalton-terry-v3-police-higgsfield-original.png`) 배경 제거(job `3ba5d28c-…`) → `dalton-terry-v3-cutout.png`.
+- 달튼 4자세: Nano Banana 2.1 16:9 2K(2크레딧), v3 참조, job `370e5cbd-611a-4d6a-97f6-3a5e514b628b` → `dalton-poses-higgsfield-original.png`, 배경 제거 job `3e1600d0-…` → `dalton-poses-cutout.png`. 왼쪽부터 생각·가리키기·돋보기·손 흔들기.
+- 자르기 `scripts/cut-dalton-terry.py` → `dalton.png`·`dalton-thinking/point/lens/wave.png`·`terry.png`(높이 700), 얼굴 아이콘 `assets/ui/icons-v2/dalton.png`·`terry.png`.
+- 입: 한 장(1.5크레딧, job `09dddce9-34cc-46b5-828e-ffb14b29a9f8`) → `mouths/dalton-terry-sheet-higgsfield-original.png`(초록 배경 2×2: 생쥐 닫은·벌린, 고양이 닫은·벌린). `scripts/make-dalton-terry-mouths.py` → `mouths/<이름>-closed|open`.

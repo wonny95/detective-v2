@@ -1513,7 +1513,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the ID card picture (assets/ui/detective-id-card.webp); boxes in % of the picture: photo, three lines, stamp circle */
 .id-card{position:relative;flex-shrink:0;width:min(90%,350px);aspect-ratio:1143/747;background:url(assets/ui/detective-id-card.webp) center/100% 100% no-repeat;filter:drop-shadow(0 6px 6px rgba(30,20,10,.35));transform:rotate(-2deg);animation:id-in .4s cubic-bezier(.2,1.2,.4,1) both}
 @keyframes id-in{from{opacity:0;transform:translateY(60px) rotate(-6deg)}}
-.id-photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(assets/ui/icons-v2/detective.webp) center/94% no-repeat}
+.id-photo{position:absolute;left:11.3%;top:24.9%;width:29.6%;height:50.6%;background:url(assets/ui/icons-v2/dalton.webp) center/94% no-repeat}
 .id-name{position:absolute;left:47.5%;top:37.1%;width:42.5%;box-sizing:border-box;margin:0;padding:0 0 2px;transform:translateY(-100%);border:0;border-radius:0;background:transparent;font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.15;color:var(--ink);caret-color:transparent;outline:none}
 .id-name:focus-visible{outline:none}
 .id-line{position:absolute;left:47.5%;transform:translateY(-100%);padding-bottom:3px;font-family:var(--f-display);font-size:11px;letter-spacing:.06em;color:var(--ink);opacity:.75}
@@ -1727,7 +1727,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
     <!-- Deduction: the cork board where the detective works it out, one question at a time (DEDUCE) -->
     <section class="deduce" id="deduce" aria-label="추리" hidden>
       <div class="deduce-head"><h2>Deduction</h2></div>
-      <div class="deduce-q" id="deduceQ" role="status"><img src="assets/ui/icons-v2/detective.webp" alt=""><div class="deduce-q-txt"><p id="deduceEn"></p><p class="ko" id="deduceKoText" hidden></p>
+      <div class="deduce-q" id="deduceQ" role="status"><img src="assets/ui/icons-v2/dalton.webp" alt=""><div class="deduce-q-txt"><p id="deduceEn"></p><p class="ko" id="deduceKoText" hidden></p>
         <div class="deduce-q-row"><button class="play-btn" type="button" id="deduceReplay" aria-label="다시 듣기"></button><button class="pill sm" type="button" id="deduceKo" aria-pressed="false">해석</button></div></div></div>
       <div class="deduce-board" id="deduceBoard">
         <div class="ded-cards" id="deduceCards"></div>
@@ -2547,7 +2547,7 @@ const MONTAGE_CASE = {
   // the detective Grady (audio/montage/)
   people:{
     // design 1: the request, at the shop's door (actions, nothing written down: the design has no notebook)
-    badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'shop', witness:true, pitch:.9, voice:3, bg:'#DCE3F0',
+    badger: { id:'badger', name:'Officer Terry', ko:'테리 경관', job:'경찰', place:'shop', witness:true, pitch:.9, voice:3, bg:'#DCE3F0',
       audio:Object.fromEntries(['hello', 'what', 'see', 'end1', 'end-know'].map(key => [key, `audio/montage/badger-${key}.mp3`])),
       hello:[ { key:'hello', en:'Detective! Someone robbed the honey shop.', ko:'탐정! 누가 꿀 가게를 털었어.' } ],
       questions:[], answers:{}, notes:{}, bank:{},
@@ -2556,7 +2556,7 @@ const MONTAGE_CASE = {
           lines:[ { key:'what', en:'A bear took the money box and ran away.', ko:'어떤 곰이 돈통을 들고 달아났어.' } ] },
         { id:'see', en:'Did anyone see him?', ko:'그 곰을 본 사람 있어?', flag:'heard-see', when:['!heard-what'],
           lines:[ { key:'see', en:'Three bears saw him. Can you make a picture of him?', ko:'곰 셋이 봤어. 그 곰 그림을 만들어 줄 수 있어?' } ] },
-        { id:'give', button:'경사에게 몽타주 건네기', say:false, lines:[], ending:true, when:['!mtdone:bruno', '!mtdone:toby', '!mtdone:betty'] }
+        { id:'give', button:'테리 경관에게 몽타주 건네기', say:false, lines:[], ending:true, when:['!mtdone:bruno', '!mtdone:toby', '!mtdone:betty'] }
       ] },
     // design 2: the witnesses; each one's question opens the sketch (montage), their features said one by one
     bruno: { id:'bruno', name:'Bruno Bear', ko:'곰 브루노', job:'꿀 가게 주인', place:'shop', witness:true, pitch:.8, voice:1, bg:'#F2E0B8',
@@ -2590,7 +2590,7 @@ const MONTAGE_CASE = {
         { part:'ears', key:'ears', en:'He has a bandage on one ear.', ko:'귀 한쪽에 반창고가 붙어 있어.' }],
       // vest first (user request 2026-11-19): the vest brings the body, and the scarf goes on over it
       betty:[
-        { part:'vest', key:'vest', en:'He was wearing a vest with two pockets.', ko:'주머니 두 개 달린 조끼를 입고 있었어.' },
+        { part:'vest', key:'vest', en:'He was wearing a navy vest with two pockets.', ko:'주머니 두 개 달린 남색 조끼를 입고 있었어.' },   // the colour added (user request 2026-11-19; recorded again, first take -v1)
         { part:'scarf', key:'scarf', en:'He was wearing a red scarf with white dots.', ko:'흰 물방울무늬 빨간 목도리를 하고 있었어.' }]
     },
     yes:{ bruno:{ key:'yes', en:"Yes! That's right.", ko:'응! 맞아.' }, toby:{ key:'yes', en:'Yes! Just like that!', ko:'응! 딱 그래!' }, betty:{ key:'yes', en:"Yes, that's it.", ko:'응, 그거야.' } },
@@ -2603,7 +2603,7 @@ const MONTAGE_CASE = {
   places:[ { id:'shop', x:50, y:50, label:'Honey Shop', artWidth:1376, artHeight:768, clues:[], spots:[] } ],
   thoughts:[
     { when:['!heard-see'], unlocks:{ people:['bruno', 'toby', 'betty'] }, line:{ key:'think-witness', en:"Let's talk to the witnesses.", ko:'목격자들과 이야기해 보자.' } },
-    { when:['!mtdone:bruno', '!mtdone:toby', '!mtdone:betty'], line:{ key:'think-badger', en:"Let's show the picture to Sgt. Badger.", ko:'경사님께 그림을 보여 드리자.' } }
+    { when:['!mtdone:bruno', '!mtdone:toby', '!mtdone:betty'], line:{ key:'think-badger', en:"Let's show the picture to Officer Terry.", ko:'테리 경관님께 그림을 보여 드리자.' } }
   ],
   needed:[],
   positions:{ badger:{ x:14, floor:96, height:46 }, bruno:{ x:38, floor:96, height:46 }, toby:{ x:62, floor:96, height:36 }, betty:{ x:84, floor:96, height:44 } },
@@ -3323,7 +3323,7 @@ const CHRISTMAS_CASE = {
   lateJoin:true,
   people:{
     // design 2절 장면 1: at the square's entrance; leaves on his round once he has said where Ella is
-    badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'경찰', place:'tree', witness:true, pitch:.9, voice:3, bg:'#DCE3F0',
+    badger: { id:'badger', name:'Officer Terry', ko:'테리 경관', job:'경찰', place:'tree', witness:true, pitch:.9, voice:3, bg:'#DCE3F0',
       // design 2절 장면 1: the request is written down (user decision 2026-11-11): who to ask and where, not star/missing (Ella's e0)
       gone:['badger:b0'], openingQuestion:'b0',
       hello:[ { key:'hello', en:"Detective, I'd like you to look into a missing item.", ko:'탐정, 이번 사건은 없어진 물건을 조사해 줬으면 좋겠어.' } ],
@@ -3760,7 +3760,7 @@ const CHRISTMAS_CASE = {
     'sleigh-10':{ en:"Let's look in the open box.", ko:'열린 상자 안을 살펴보자.' },
     'sleigh-11':{ en:"Let's look at the back of the star.", ko:'별의 뒷면을 살펴보자.' },
     'starback-0':{ en:"Let's look closely at the back.", ko:'뒷면을 자세히 살펴보자.' },
-    'talk-badger':{ en:"Let's talk to the officer.", ko:'경사님과 이야기해 보자.' },
+    'talk-badger':{ en:"Let's talk to the officer.", ko:'경관님과 이야기해 보자.' },
     'talk-ella':{ en:"Let's talk to Ella.", ko:'엘라와 이야기해 보자.' },
     'talk-holly':{ en:"Let's talk to Daisy.", ko:'데이지와 이야기해 보자.' },
     'talk-mae':{ en:"Let's talk to Coco.", ko:'코코와 이야기해 보자.' },
@@ -4008,7 +4008,7 @@ const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE
 if(PACK?.map) document.querySelector('.map-art').src = PACK.map;
 const PEOPLE = PACK ? PACK.people : {
   // the partner — met first, at the crime scene
-  badger: { id:'badger', name:'Sgt. Badger', ko:'오소리 경사', job:'동료 경찰', place:'library', partner:true,
+  badger: { id:'badger', name:'Officer Terry', ko:'테리 경관', job:'동료 경찰', place:'library', partner:true,
     pitch:.9, voice:3, bg:'#DCE3F0', openingQuestion:'b1',
     hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
     // recorded voice (Higgsfield · MiniMax · Fraser)
@@ -4029,7 +4029,7 @@ const PEOPLE = PACK ? PACK.people : {
     notes:{
       b1:["- Victim: Professor {{a|Hoot}}.","- Place: the Old {{b|Library}}.","- He was found at {{c|9 PM/9/nine}}."],
       b2:["- {{d|Mrs. Mole/mrs mole}} found him. She is the {{e|librarian}}.","- It happened between {{f|8 PM/8/eight}} and {{g|9 PM/9/nine}}."],
-      b3:["- check the {{h|library}} carefully","- {{i|tell}} Sgt. Badger when I know who did it"]
+      b3:["- check the {{h|library}} carefully","- {{i|tell}} Officer Terry when I know who did it"]
     },
     bank:{
       b1:['Hoot','Mole','Library','Bakery','8 PM','9 PM','10 PM'],
@@ -4802,7 +4802,8 @@ function charSVG(id){
     ${back}${torso}${front}<path d="M88 146 L90 136 M112 146 L110 136" fill="none"/>${ears}${head}${face}</g>`;
 }
 const SPRITES = {
-  badger:{src:'assets/characters/sgt-badger-higgsfield.webp', w:1060, h:1484, face:'180 80 700 700', anchor:.5},
+  // Officer Terry, the cat (user decision 2026-11-19; id stays 'badger' for saves and data; Sgt. Badger's picture stays on disk)
+  badger:{src:'assets/characters/terry.webp', w:440, h:700, face:'24 0 392 392', anchor:.502},
   // mole/fiona/ray/rosie: white sticker border peeled off and re-cropped (2026-10-16); coordinates shifted to match
   mole:{src:'assets/characters/mole-higgsfield.webp', w:408, h:620, face:'37 -5 340 340', anchor:199/408},
   fiona:{src:'assets/characters/fiona-higgsfield.webp', w:439, h:621, face:'12 -4 340 340', anchor:182/439},
@@ -4865,7 +4866,13 @@ const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}`
 // closed or an open mouth on top (one generated sheet of mouths, mouths/sheet-original.png; the duck's beak is replaced
 // whole). Made by a script from the drawn mouth's place; see assets/characters/README.md.
 const MOUTHS = {
-  badger:{closed:[438,613,208,67], open:[438,613,208,95]},
+  // Terry and Dalton's poses: scripts/make-dalton-terry-mouths.py (one sheet, mouths/dalton-terry-sheet-higgsfield-original.png)
+  badger:{file:'terry', closed:[178,259,88,57], open:[178,259,88,57]},
+  dalton:{closed:[241,293,46,39], open:[241,293,46,39]},
+  'dalton:thinking':{closed:[208,280,46,30], open:[208,280,46,30]},
+  'dalton:point':{closed:[201,276,49,41], open:[201,276,49,41]},
+  'dalton:lens':{closed:[204,282,43,36], open:[204,282,43,36]},
+  'dalton:wave':{closed:[182,276,74,47], open:[182,276,74,47]},
   mole:{closed:[156,197,96,34], open:[156,197,96,41]},
   fiona:{closed:[144,216,74,27], open:[144,216,74,31]},
   ray:{closed:[158,194,95,26], open:[158,194,95,37]},
@@ -4911,7 +4918,7 @@ const MOUTHS = {
 // part: whose mouth it is in a picture of two (data-part, 'main' for the picture's own person)
 function spriteMouth(id, part){
   const m = MOUTHS[id]; if(!m) return '';
-  const file = id.replace(':', '-');
+  const file = m.file || id.replace(':', '-');
   return ['closed', 'open'].map(state => { const [x, y, w, h] = m[state];
     return `<image class="npc-mouth ${state}"${part ? ` data-part="${part}"` : ''} href="assets/characters/mouths/${file}-${state}.webp" x="${x}" y="${y}" width="${w}" height="${h}"/>`; }).join('');
 }
@@ -4919,12 +4926,12 @@ const spriteMouths = k => { const parts = SPRITES[k]?.parts;
   return parts ? spriteMouth(k, 'main') + Object.entries(parts).map(([part, id]) => spriteMouth(id, part)).join('') : spriteMouth(k); };
 // The detective's poses (user request: a new one on every tap at 홈), each with the NPCs' talking mouth; ax: where the
 // body's middle is across the picture, kept on the same spot whichever pose it is
-const DETECTIVE_POSES = [
-  { src:'assets/characters/detective-higgsfield.webp', w:627, h:700, ax:.44, mouth:'detective' },
-  { src:'assets/characters/detective-thinking.webp', w:611, h:700, ax:.44, mouth:'detective:thinking' },
-  { src:'assets/characters/detective-point.webp', w:614, h:700, ax:.43, mouth:'detective:point' },
-  { src:'assets/characters/detective-lens.webp', w:606, h:700, ax:.41, mouth:'detective:lens' },
-  { src:'assets/characters/detective-wave.webp', w:614, h:700, ax:.44, mouth:'detective:wave' }
+const DETECTIVE_POSES = [   // Dalton the mouse (user decision 2026-11-19; the squirrel's pictures stay on disk): scripts/cut-dalton-terry.py
+  { src:'assets/characters/dalton.webp', w:509, h:700, ax:.505, mouth:'dalton' },
+  { src:'assets/characters/dalton-thinking.webp', w:443, h:700, ax:.521, mouth:'dalton:thinking' },
+  { src:'assets/characters/dalton-point.webp', w:468, h:700, ax:.475, mouth:'dalton:point' },
+  { src:'assets/characters/dalton-lens.webp', w:439, h:700, ax:.5, mouth:'dalton:lens' },
+  { src:'assets/characters/dalton-wave.webp', w:460, h:700, ax:.477, mouth:'dalton:wave' }
 ];
 DETECTIVE_POSES.forEach(p => [p.src, ...['closed', 'open'].map(st => `assets/characters/mouths/${p.mouth.replace(':', '-')}-${st}.webp`)].forEach(src => { new Image().src = src; }));
 const detSVG = p => `<svg viewBox="0 0 ${p.w} ${p.h}" aria-hidden="true"><image href="${p.src}" width="${p.w}" height="${p.h}"/>${spriteMouth(p.mouth)}</svg>`;
@@ -4945,7 +4952,8 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia', 'mia-solo', 'ollie',
   'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby', 'bruno'];   // Christmas: scripts/make-christmas-face-icons.py; bruno: scripts/cut-bruno.py
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
-const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? id : 'pending'}.webp`;
+const FACE_FILES = { badger:'terry' };   // Officer Terry keeps the id 'badger'
+const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? FACE_FILES[id] || id : 'pending'}.webp`;
 const miniSVG = id => FACE_ICONS.includes(id) || !SPRITES[id] && !DRAWN.includes(id) ? `<img class="face" src="${faceSrc(id)}" alt="" draggable="false">`
   : SPRITES[id]
   ? `<svg viewBox="${SPRITES[id].face}" aria-hidden="true"><image href="${SPRITES[id].src}" width="${SPRITES[id].w}" height="${SPRITES[id].h}"/></svg>`
@@ -6919,7 +6927,7 @@ let accusedId = null;
    worked out. Progress (S.deduce) is kept with the case. */
 const DEDUCE = PACK ? PACK.deduce : {
   always:['hoot', 'library'],   // on the board from the start: the victim and the crime scene
-  people:[['Sgt. Badger', 'badger'], ['Mrs. Mole', 'mole'], ['Ray Raccoon', 'ray'], ['Rosie Rabbit', 'rosie'], ['Fiona Fox', 'fiona'], ['Mr. Duck', 'duck'],
+  people:[['Officer Terry', 'badger'], ['Mrs. Mole', 'mole'], ['Ray Raccoon', 'ray'], ['Rosie Rabbit', 'rosie'], ['Fiona Fox', 'fiona'], ['Mr. Duck', 'duck'],
     ['Mrs. Bear', 'betty'], ['Professor Hoot', 'hoot']],
   places:[['library', 'library'], ['bakery', 'bakery'], ['Lake Cafe', 'cafe'], ['Moon Hill', 'hill']],
   times:['7 PM', '7:30', '8 PM', '8:30', '8:40', '8:45', '9 PM', '9:30 PM', '10 PM'],
@@ -6931,7 +6939,7 @@ const DEDUCE = PACK ? PACK.deduce : {
     { step:1, q:'First things first. When did it happen?', qKo:'먼저, 그 일은 언제 일어났을까?',
       card:'It happened at {time:8:40}.', cardKo:'그 일은 8시 40분에 일어났다.',
       right:'Yes. The big clock stopped at 8:40.', rightKo:'맞아. 큰 시계가 8시 40분에 멈췄어.',
-      hint:'Sgt. Badger said between eight and nine. What stopped in the library?', hintKo:'오소리 경사는 8시에서 9시 사이라고 했어. 도서관에서 멈춘 게 뭐였지?' },
+      hint:'Officer Terry said between eight and nine. What stopped in the library?', hintKo:'테리 경관은 8시에서 9시 사이라고 했어. 도서관에서 멈춘 게 뭐였지?' },
     { step:2, who:'ray', q:'At 8:40, where was Ray?', qKo:'8시 40분에 레이는 어디 있었을까?',
       card:'At 8:40, Ray was at the {place:Lake Cafe}.', cardKo:'8시 40분에 레이는 호수 카페에 있었다.',
       right:'Right. He played on stage from eight to nine thirty.', rightKo:'맞아. 8시부터 9시 반까지 무대에서 연주했지.',
@@ -7314,7 +7322,7 @@ function renderSay(line){
   // the detective (the player, never on screen) speaks from below, on honey paper with their face (user pick A)
   b.classList.toggle('det', !!line.det);
   // a line from below with someone else's face (face: the officer on the phone, violin case)
-  b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/detective.webp'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' + (line.det ? '' : '<i class="say-cue"></i>') +
+  b.innerHTML = (line.det ? `<img class="say-face" src="${line.face ? faceSrc(line.face) : 'assets/ui/icons-v2/dalton.webp'}" alt="">` : '') + `<div class="bubble-copy"><span class="tag">${esc(line.name || spk(line.who).name)}</span><span class="say-en">${esc(line.en)}</span>` + (line.ko ? `<span class="say-ko" hidden>${esc(line.ko)}</span>` : '') + '</div>' + (line.det ? '' : '<i class="say-cue"></i>') +
     (again || line.ko ? `<span class="say-foot">${again ? `<button class="play-btn" type="button" data-say-again aria-label="다시 듣기"></button>` : ''}${line.ko ? `<button class="pill sm" type="button" data-say-ko aria-pressed="false">해석</button>` : ''}</span>` : '');
   b.hidden = true; void b.offsetWidth; b.hidden = false;   // pop in again for each line
   fitTalkPhoto();
@@ -9042,7 +9050,7 @@ function sayProp(clue, spot){
   const stage = $('.art-stage'), b = document.createElement('div');
   if(spot && stage){
     b.className = 'bubble say det prop-say'; b.setAttribute('role', 'status');
-    b.innerHTML = `<img class="say-face" src="assets/ui/icons-v2/detective.webp" alt=""><div class="bubble-copy"><span class="say-en">${esc(clue.en)}</span>` +
+    b.innerHTML = `<img class="say-face" src="assets/ui/icons-v2/dalton.webp" alt=""><div class="bubble-copy"><span class="say-en">${esc(clue.en)}</span>` +
       (clue.ko ? `<span class="say-ko" hidden>${esc(clue.ko)}</span>` : '') + '</div><span class="say-foot">' +
       (clue.audio ? '<button class="play-btn" type="button" data-prop-again aria-label="다시 듣기"></button>' : '') +
       (clue.ko ? '<button class="pill sm" type="button" data-prop-ko aria-pressed="false">해석</button>' : '') + '</span>' +
@@ -9639,7 +9647,7 @@ const DEMOS = {
   // next person (the picnic case's own goes to someone not met yet, so Rosie's here)
   deduce: {
     html: () => `<section class="deduce t6-deduce"><div class="deduce-head"><h2>Deduction</h2></div>
-        <div class="deduce-q"><img src="assets/ui/icons-v2/detective.webp" alt=""><div class="deduce-q-txt"><p>Where was the cat?</p><div class="deduce-q-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div></div></div>
+        <div class="deduce-q"><img src="assets/ui/icons-v2/dalton.webp" alt=""><div class="deduce-q-txt"><p>Where was the cat?</p><div class="deduce-q-row"><button class="play-btn" type="button"></button><button class="pill sm" type="button">해석</button></div></div></div>
         <div class="deduce-board"><div class="ded-cards"><div class="ded-card t6-card"><div class="ded-line"><p>The cat was on the <button class="ded-slot place" type="button"></button>.</p></div></div></div></div>
         <div class="deduce-go" hidden><button class="pill big" type="button">로지에게 가기</button></div>
         <div class="deduce-drop place t6-drop" hidden><div class="dz-list" style="--cols:2">${['desk', 'roof', 'door', 'bag'].map(w => `<button class="dz-opt" type="button" data-w="${w}">${w}</button>`).join('')}</div></div></section>`,
@@ -10062,7 +10070,7 @@ const CASES = [
   { id:'honey-robber', no:'Case 03', title:'꿀 가게 강도', en:'The Honey Shop Robber', art:'shop', cover:{ src:'assets/places/montage/cover.jpg', alt:'얼굴이 가려진 수배 전단', bg:'#B98A5E', fit:'contain' }, playable:true,
     focus:'생김새·옷차림 듣기', keys:['has-wearing'],
     photo:{ img:'assets/places/montage/wanted.jpg', pos:'50% 58%' },
-    summary:'꿀 가게에서 돈통을 들고 달아난 곰의 몽타주를 만들었다. 가게 주인 브루노는 얼굴을, 토비는 뒷모습을, 베티는 도서관 창문에서 옷차림을 봤다. 세 목격자의 말을 하나씩 그림으로 맞춰 오소리 경사에게 건넸다.' },
+    summary:'꿀 가게에서 돈통을 들고 달아난 곰의 몽타주를 만들었다. 가게 주인 브루노는 얼굴을, 토비는 뒷모습을, 베티는 도서관 창문에서 옷차림을 봤다. 세 목격자의 말을 하나씩 그림으로 맞춰 테리 경관에게 건넸다.' },
   { id:'picnic-bag', no:'Case 04', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.webp' },
     summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 벤의 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
@@ -11069,7 +11077,7 @@ const previewDeduced = () => {
 };
 // [id, label] of each case's parts; a part of another case opens that case's page
 const PREVIEW_OF = {
-  'honey-robber':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '경사에게 건네기'], ['review', '복습']],
+  'honey-robber':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '경관에게 건네기'], ['review', '복습']],
   'missing-kite':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '토비에게 연 찾아 주기'], ['review', '복습']],
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '니코 심문'], ['weigh', '저울'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],

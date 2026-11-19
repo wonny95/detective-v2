@@ -114,7 +114,7 @@ layers = {f'vest-{oid}': body(v) for oid, v in vests.items()}
 ssheet = Image.open(SRC + 'scarf3-higgsfield-original.png').convert('RGB')
 scarves = {oid: cutout(ssheet.crop((x0 + INSET, y0 + INSET, x1 - INSET, y1 - INSET)))
            for oid, (x0, y0, x1, y1) in zip(['blue-dots', 'red-stripes', 'red-plain', 'green-dots', 'red-dots'], cells)}
-SCARF_W, SCARF_UP = 330, 60   # its width, and how far its top goes up under the chin
+SCARF_W, SCARF_UP = 440, 75   # its width (user request 2026-11-19: bigger, 330 looked small and mean), and how far its top goes up under the chin
 ksc = SCARF_W / scarves['red-dots'].width
 for oid, v in scarves.items():
     lay = Image.new('RGBA', (VW, VH), (0, 0, 0, 0))
