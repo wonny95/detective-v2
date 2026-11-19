@@ -83,19 +83,16 @@
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 |
 |---|---|---|---|
-| rosie:r0 · 첫 질문 | Yes. How can I help you? / 응. 어떻게 도와줄까? | This isn't my bag. Can you help me find mine? / 이건 내 가방이 아니야. 내 가방을 찾아줄래? | • not Rosie's bag (“[my]”)<br>• find her bag (“[mine]”) |
+| rosie:r0 · 첫 질문 | Yes. How can I help you? / 응. 어떻게 도와줄까? | This isn't my bag. Can you help me find mine? / 이건 내 가방이 아니야. 내 가방을 찾아줄래? | • “This isn't [my] bag.”<br>• “Can you help me find [mine]?” |
 | rosie:r1 | Did your bag get mixed up with someone else's? / 그럼 다른 사람과 가방이 바뀐 거야? | I'm not sure. My bag is blue, just like this one. / 잘 모르겠어. 내 가방도 이 가방처럼 파란색이야. | • She is not [sure].<br>• Her bag is [blue], just like this one. |
 | rosie:r2 | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My bag has a red lunch box and a yellow bottle. / 내 가방에는 빨간 도시락과 노란 물병이 있어. | • Her bag has a [red] [lunch box] and a [yellow] [bottle]. |
-| rosie:r3 | Do you know whose bag this is? / 이 가방이 누구 것인지 알아? | I don't know. Please find out for me. / 모르겠어. 네가 조사해 줬으면 좋겠어. | • She does not [know] whose bag this is.<br>• She wants me to [find out]. |
 | rosie:r4 | Where did you go today? / 오늘 어디에 갔었어? | I went to the Lake Cafe before I came here. Maybe the bags got mixed up there. / 여기 오기 전 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까? | • She went to the [cafe].<br>• Maybe the bags got [mixed up] there. |
 | duck:v2 · 첫 질문 | Did anyone leave a blue bag here? / 여기 파란 가방을 두고 간 사람이 있어? | No. Nobody left a bag here today. / 아니. 오늘 가방을 두고 간 손님은 없어. | • [Nobody] [left] a bag at the cafe. |
 | duck:v1 · 첫 질문 | Who came to the cafe today? / 오늘 카페에 누가 왔어? | Rosie, Ben, Mia, and Ollie came today. / 오늘 로지, 벤, 미아, 올리가 왔어. | • Rosie, [Ben], Mia, and Ollie came to the cafe. |
 | duck:v3 | Where are they now? / 다들 지금 어디 있어? | They told me their plans. Ben went home. Mia and Ollie went to the garden. / 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어. | • Ben went [home].<br>• Mia and Ollie went to the [garden]. |
 | ben:b1 · 첫 질문 | Do you have a blue bag? / 혹시 파란 가방을 가지고 있어? | Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. After that, I came home. / 노라가 내 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어. | • Nora left [her] blue bag at Ben's [house].<br>• Ben stopped at the [cafe].<br>• Then he [took] it to her [office].<br>• After that, he came home. |
-| ben:b2 | What was in the bag? / 가방에는 뭐가 들어 있었어? | I don't know. I didn't open it. / 몰라. 가방을 열어 보지 않았어. | • He does not [know] what was inside.<br>• He did not [open] it. |
 | garden:g1 | Do either of you have a blue bag? / 혹시 너희 중에 파란 가방을 가진 사람이 있니? | 올리: No. Mine is red. / 아니, 내 가방은 빨간색이야.<br>미아: Mine is blue. Why? / 내 가방은 파란색이야. 왜 그래? | • Ollie's bag is [red].<br>• Mia's bag is [blue]. |
 | garden:g2 | Mia, is this blue bag yours? Have you checked inside? / 미아, 이 파란 가방 네 거야? 안을 확인했어? | 미아: Yes, it's mine. I opened it. My picnic things are inside. / 응, 내 가방이야. 열어 봤어. 내 소풍 준비물이 들어 있어. | • The blue bag is Mia's.<br>• She [opened] it.<br>• Her [picnic] things are [inside]. |
-| nora:n1 | Did you leave a blue bag at Ben's house? / 벤의 집에 파란 가방을 두고 왔니? | Yes. I left it at his house, but Ben brought it to me. / 응. 그 집에 두고 왔어. 하지만 벤이 가져다줬지. | • Nora [left] her bag at Ben's house.<br>• Ben [brought] it to her. |
 | nora:n2 | What was in your bag? / 네 가방에는 무엇이 들어 있었니? | My green folder and blue pen. / 내 초록 폴더와 파란 펜이 들어 있었어. | • Her bag had a [green] [folder] and a [blue] [pen]. |
 | nora:n3 | Could you check the bag Ben brought? / 벤이 가져온 가방을 확인해 줄래? | I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange. / 아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자... 빨간 도시락이랑 노란 물병? 이상하네. | • She was in a [meeting], so she did not open it.<br>• Inside are a [red] lunch box and a [yellow] bottle.<br>• She thinks that is strange. |
 
@@ -145,7 +142,7 @@
 | 3 | Where did Rosie go before the picnic? / 로지는 소풍 전에 어디에 갔을까? | Rosie went to the [Lake Cafe]. Maybe the bags got mixed up there. | rosie:r4. 로지가 소풍 전에 들렀고 거기서 바뀌었을지 모른다고 함 |
 | 4 | Who came to the Lake Cafe today? / 오늘 호수 카페에 온 사람은? | Rosie, [Ben Beaver], [Mia], and [Ollie] came to the cafe. | duck:v1(+ v2: 카페에 두고 간 가방은 없음). 세 칸은 어느 순서로 채워도 됨 |
 | 5 | Did Mia or Ollie take the wrong bag? / 미아나 올리가 가방을 잘못 가져갔을까? | Mia's bag has her [picnic things] in it. Ollie's bag is [red]. | garden:g1·g2 + 정원 사진 2장. 미아의 파란 가방은 미아 것, 올리 가방은 빨간색 |
-| 6 | Who took a blue bag from the cafe to Nora? / 카페에서 노라에게 파란 가방을 가져간 사람은? | [Ben Beaver] had Nora's bag. He thought he took her bag to her. | ben:b1 + nora:n1. 미아의 파란 가방은 정원 사진·g2로 미아 것임을 확인해 제외 |
+| 6 | Who took a blue bag from the cafe to Nora? / 카페에서 노라에게 파란 가방을 가져간 사람은? | [Ben Beaver] had Nora's bag. He thought he took her bag to her. | ben:b1. 미아의 파란 가방은 정원 사진·g2로 미아 것임을 확인해 제외 |
 | 7 | What did Nora say was in her bag? / 노라는 자기 가방에 뭐가 들어 있었다고 했지? | Nora's bag had a [green folder] and a [blue pen]. | nora:n2. 로지가 맡긴 가방(소지품) 속 물건과 같음 |
 | 8 | What shows that Nora has the wrong bag? / 노라가 잘못된 가방을 받았다는 근거는? | Nora opened the blue bag Ben brought. It had a [red lunch box] and a [yellow bottle] in it. | Q2 + nora:n3. 로지가 말한 물건이 노라가 받은 가방에 있음 |
 | 9 | Whose bags got mixed up? / 누구와 누구의 가방이 바뀐 걸까? | [Rosie Rabbit]'s and [Nora Hedgehog]'s bags. | Q7 + Q8 + 소지품 속 폴더·펜. 두 가방의 내용물과 각자의 진술을 연결 |

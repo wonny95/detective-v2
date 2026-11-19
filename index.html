@@ -340,9 +340,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
    the whole screen dimmed under it, the name tag, ‹ and the tabs too (user request: they stayed bright) */
 .stage-card{position:absolute;inset:0;z-index:32;display:grid;place-items:start center;background:rgba(30,22,16,.55);pointer-events:none;animation:stage-card 2.2s ease forwards}
 .stage-card .hang{margin-top:96px;width:min(244px,80%);transform-origin:50% -80px;animation:stage-swing 2.2s ease-out forwards}
-.stage-card .sign{position:relative;background:repeating-linear-gradient(0deg,#9A6A3F 0 14px,#A87547 14px 16px,#9A6A3F 16px 30px);border:4px solid #6E4A2A;border-radius:10px;padding:26px 18px 18px;text-align:center;box-shadow:4px 7px 0 rgba(0,0,0,.25);color:#FFF6E2}
+/* the sign is a picture (Higgsfield 2026-11-19, assets/ui/title-sign.webp; original title-sign-higgsfield-original.png):
+   nine-slice, so its frame keeps its width whatever the title's length */
+.stage-card .sign{position:relative;border:15px solid transparent;border-image:url(assets/ui/title-sign.webp) 44 fill / 15px stretch;padding:14px 6px 6px;text-align:center;filter:drop-shadow(4px 7px 0 rgba(0,0,0,.25));color:#FFF6E2}
 /* CASE 05 in its own small frame, straddling the sign's top edge (user request) */
-.stage-card .no{position:absolute;left:50%;top:0;transform:translate(-50%,-55%);white-space:nowrap;padding:4px 12px 3px 14px;background:#6E4A2A;border:2px solid #F2CF73;border-radius:6px;box-shadow:0 2px 0 rgba(0,0,0,.25);font-family:var(--f-display);font-size:12px;line-height:1.2;letter-spacing:.22em;text-transform:uppercase;color:#F2CF73}
+.stage-card .no{position:absolute;left:50%;top:-15px;transform:translate(-50%,-55%);white-space:nowrap;padding:4px 12px 3px 14px;background:#6E4A2A;border:2px solid #F2CF73;border-radius:6px;box-shadow:0 2px 0 rgba(0,0,0,.25);font-family:var(--f-display);font-size:12px;line-height:1.2;letter-spacing:.22em;text-transform:uppercase;color:#F2CF73}
 .stage-card b{display:block;font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1.15;text-wrap:balance;text-shadow:0 2px 0 #6E4A2A}
 .stage-card small{display:block;font-size:13px;margin-top:6px;color:#F4E3C4}
 @keyframes stage-card{0%{opacity:0}10%{opacity:1}84%{opacity:1}100%{opacity:0}}
@@ -812,6 +814,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .nline .blank.next{background-color:rgba(242,207,115,.5)}
 .nline .blank:focus{background-color:rgba(201,111,134,.16)}
 .nline .blank.ok{background-color:rgba(94,138,99,.15)}
+.nline .blank-tail{white-space:nowrap}
 .nline .blank.review{color:var(--no);background-color:rgba(194,91,91,.08);box-shadow:inset 0 0 0 1.5px var(--no)}
 .blank:focus{outline:none;background-color:rgba(242,207,115,.45)}
 /* The typing caret (user request: cute, like the drawings): the browser's thin line is hidden and a pencil stroke
@@ -1961,7 +1964,6 @@ const PICNIC_CASE = {
         { id:'r0', en:'Yes. How can I help you?', ko:'응. 어떻게 도와줄까?' },
         { id:'r1', en:"Did your bag get mixed up with someone else's?", ko:'다른 사람과 가방이 바뀐 거야?' },
         { id:'r2', en:'What is in your bag?', ko:'네 가방 안에는 뭐가 들어 있니?' },
-        { id:'r3', en:'Do you know whose bag this is?', ko:'이 가방이 누구 것인지 알아?' },
         { id:'r4', en:'Where did you go today?', ko:'오늘 어디에 갔었어?' }   // review 2026-11-17: "Who did you see today?" → "I can't remember who I saw." read oddly
       ],
       unlocks:{ r4:{ people:['duck'] } },
@@ -1973,21 +1975,19 @@ const PICNIC_CASE = {
         r0:"This isn't my bag. Can you help me find mine?",
         r1:"I'm not sure. My bag is blue, just like this one.",
         r2:'My bag has a red lunch box and a yellow bottle.',
-        r3:"I don't know. Please find out for me.",
         r4:'I went to the Lake Cafe before I came here. Maybe the bags got mixed up there.'
       },
       // blanks: only words said in the answer, the ones that are clues or worth learning (user request)
       notes:{
-        r0:["- not Rosie's bag (“{{l|my}}”)","- find her bag (“{{m|mine}}”)"],
+        // her own words as she said them (user request 2026-11-19: the detective's summary with her word in brackets read forced)
+        r0:["- “This isn't {{l|my}} bag.”","- “Can you help me find {{m|mine}}?”"],
         r1:["- Her bag is {{b|blue}}, just like this one."],
         r2:["- Her bag has a {{c|red}} {{d|lunch box}} and a {{e|yellow}} {{f|bottle}}."],
-        r3:["- She does not {{g|know}} whose bag this is."],
         r4:["- She went to the {{j|cafe/lake cafe}}.","- Maybe the bags got {{k|mixed up}} there."]
       },
       // word banks: about three wrong cards per blank, answers not first in their group (user request: two choices were too easy)
       bank:{ r0:['your','my','his','her','yours','mine','hers'], r1:['red','green','blue','yellow'],
         r2:['green','red','blue','yellow','book','lunch box','cup','bottle','sandwich'],
-        r3:['see','know','hear','find'],
         r4:['garden','library','cafe','bakery','lost','mixed up','picked up'] }
     },
     duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:['v2', 'v1'],
@@ -2018,7 +2018,8 @@ const PICNIC_CASE = {
       bank:{ v1:['Ray','Betty','Ben','Fiona','Hoot','Rosie'], v2:['Nobody','Everyone','Ben','left','took','brought'],
         v3:['office','home','cafe','library','garden','bakery'] }
     },
-    // b1 first: "What was in the bag?" only once he has said he had one (user request)
+    // one question (user request 2026-11-19: too many questions; "What was in the bag?" → "I didn't open it" was cut, as
+    // were Rosie's "Do you know whose bag this is?" and Nora's "Did you leave a blue bag at Ben's house?": none was used)
     ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6', openingQuestion:'b1',
       // recorded voice (Higgsfield · MiniMax · Benji; hello made by the user, happy; hello-me and hello2 happy)
       audio:Object.fromEntries(['hello', 'hello-me', 'hello2', 'b1', 'b2'].map(key => [key, `audio/picnic/ben-${key}.mp3`])),
@@ -2031,20 +2032,16 @@ const PICNIC_CASE = {
         { key:'hello2', en:'Yes, I stopped there this morning.', ko:'응, 오늘 아침에 들렀어.' }
       ],
       questions:[
-        { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있어?' },
-        { id:'b2', en:'What was in the bag?', ko:'가방에는 뭐가 들어 있었어?' }
+        { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있어?' }
       ],
       unlocks:{ b1:{ people:['nora'] } },
       answers:{
-        b1:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. After that, I came home.',
-        b2:"I don't know. I didn't open it."
+        b1:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. After that, I came home.'
       },
       notes:{
-        b1:["- Nora left {{a|her}} blue bag at Ben's {{b|house}}.","- Ben stopped at the {{c|cafe}}.","- Then he {{d|took}} it to her {{e|office}}."],
-        b2:["- He did not {{g|open}} it."]
+        b1:["- Nora left {{a|her}} blue bag at Ben's {{b|house}}.","- Ben stopped at the {{c|cafe}}.","- Then he {{d|took}} it to her {{e|office}}."]
       },
-      bank:{ b1:['his','my','her','garden','house','library','cafe','made','took','brought','bakery','office'],
-        b2:['find','carry','close','open'] }
+      bank:{ b1:['his','my','her','garden','house','library','cafe','made','took','brought','bakery','office'] }
     },
     // Mia and Ollie, asked together in the garden (two questions for the pair)
     mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
@@ -2096,29 +2093,26 @@ const PICNIC_CASE = {
         { det:true, key:'hello-nora', en:"Hi, I'm Detective {name}. Can I ask about a blue bag?", ko:'안녕, 난 탐정 {name}이야. 파란 가방에 관해 물어봐도 될까?' }
       ],
       questions:[
-        { id:'n1', en:"Did you leave a blue bag at Ben's house?", ko:'벤의 집에 파란 가방을 두고 왔니?' },
         { id:'n2', en:'What was in your bag?', ko:'네 가방에는 무엇이 들어 있었니?' },
         { id:'n3', en:'Could you check the bag Ben brought?', ko:'벤이 가져온 가방을 확인해 줄래?' }
       ],
       answers:{
-        n1:'Yes. I left it at his house, but Ben brought it to me.',
         n2:'My green folder and blue pen.',
         // she has not opened it because of a meeting (her folder is for work), and she stops at "strange": whose things
         // they are is the player's to work out (user decision)
         n3:"I was in a meeting all morning, so I didn't open it yet. Let me look... A red lunch box and a yellow bottle? That's strange."
       },
       notes:{
-        n1:["- Nora {{a|left}} her bag at Ben's house.","- Ben {{b|brought}} it to her."],
         n2:["- Her bag had a {{c|green}} {{d|folder}} and a {{e|blue}} {{f|pen}}."],
         n3:["- Inside are a {{h|red}} lunch box and a {{i|yellow}} bottle."]
       },
-      bank:{ n1:['lost','left','found','bought','took','brought'], n2:['red','green','yellow','blue','book','folder','bag','pencil','pen','cup'],
+      bank:{ n2:['red','green','yellow','blue','book','folder','bag','pencil','pen','cup'],
         n3:['green','red','blue','yellow','pink'] }
     }
   },
   // [WORDS key, where it is heard, the words to highlight in that sentence]
   phrases:[
-    ["i'm not sure.",'rosie:r1',"I'm not sure"], ['just like','rosie:r1','just like'], ["i don't know.",'rosie:r3',"I don't know"],
+    ["i'm not sure.",'rosie:r1',"I'm not sure"], ['just like','rosie:r1','just like'],
     ['stop at','ben:b1','stopped at'], ['go home','duck:v3','went home'], ['after that','ben:b1','After that'], ['all morning','nora:n3','all morning'],
     ['let me look.','nora:n3','Let me look'], ["that's strange.",'nora:n3',"That's strange"]
   ],
@@ -2126,27 +2120,24 @@ const PICNIC_CASE = {
     'rosie:r0':[['ownership','my bag'], ['ownership','mine']],
     'rosie:r1':[['ownership','My bag']],
     'rosie:r2':[['wh-q','What is in your bag'], ['ownership','My bag']],
-    'rosie:r3':[['negative',"I don't know"], ['imperative','Please find out']],
     'rosie:r4':[['wh-q','Where did you go'], ['past-irr','I went']],
     'duck:v1':[['wh-q','Who came'], ['past-irr','came today']],
     'duck:v2':[['negative','Nobody left'], ['past-irr','left a bag']],
     'duck:v3':[['wh-q','Where are they'], ['past-irr','Ben went home']],
     'ben:b1':[['ownership','her blue bag'], ['past-irr','Nora left']],
-    'ben:b2':[['wh-q','What was in the bag'], ['negative',"I didn't open it"]],
     'mia:g1':[['ownership','Mine is red']],
     'mia:g2':[['ownership','is this blue bag yours'], ['ownership',"it's mine"], ['past-reg','I opened it']],
-    'nora:n1':[['did-q','Did you leave'], ['ownership','his house'], ['past-irr','Ben brought it']],
     'nora:n2':[['wh-q','What was in your bag'], ['ownership','My green folder']],
     'nora:n3':[['negative',"I didn't open it"]]
   },
   answersKo:{
-    rosie:{ r0:'이건 내 가방이 아니야. 내 가방을 찾아줄래?', r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.', r3:'모르겠어. 네가 알아봐 줘.',
+    rosie:{ r0:'이건 내 가방이 아니야. 내 가방을 찾아줄래?', r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.',
       r4:'여기 오기 전에 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
     duck:{ v1:'오늘 로지, 벤, 미아, 올리가 왔어.', v2:'아니. 오늘 가방을 두고 간 손님은 없어.',
       v3:'다들 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어.' },
-    ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어.', b2:'몰라. 가방을 열어 보지 않았어.' },
+    ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어.' },
     mia:{ g1:'올리: 아니, 내 건 빨간색이야. 미아: 내 건 파란색이야. 왜?', g2:'응, 내 거야. 열어 봤어. 내 소풍 준비물이 들어 있어.' },
-    nora:{ n1:'응. 그 집에 두고 왔는데 벤이 가져다줬어.', n2:'내 초록 폴더와 파란 펜이야.', n3:'아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병? 이상하네.' }
+    nora:{ n2:'내 초록 폴더와 파란 펜이야.', n3:'아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병? 이상하네.' }
   },
   places:[
     // ordinary objects in every place (prop: only the detective's sentence, design: 음성만 나오는 주변 물건), never the
@@ -2476,7 +2467,10 @@ const KITE_CASE = {
         ] }; })
   ],
   thoughts:[
-    { when:['toby:b1', 'toby:b2', 'toby:b3'], line:{ key:'think-find', en:"Let's look for kites in the park.", ko:'공원에서 연들을 찾아보자.' } }
+    { when:['toby:b1', 'toby:b2', 'toby:b3'], line:{ key:'think-find', en:"Let's look for kites in the park.", ko:'공원에서 연들을 찾아보자.' } },
+    // every kite found (user request 2026-11-19): off to Toby with them
+    { when:['toby:b1', 'toby:b2', 'toby:b3', ...KITE_SLOTS.map(k => `!took:kite-${k.n}`)],
+      line:{ key:'think-give', en:"We found all the kites! Let's give Toby his kite.", ko:'연을 다 찾았어! 토비에게 연을 건네 보자.' } }
   ],
   needed:[],
   positions:{ toby:{ x:24, floor:94, height:40 } },
@@ -5406,8 +5400,11 @@ function blockHTML(sIdx, qid, now){
     line.replace(/\{\{(\w+)\|([^}]+)\}\}/g, (m, id, ans, idx) => {
       html += esc(line.slice(last, idx));
       const v = p.notes[id] || '', mk = p.marks[id] || '';
-      html += `<input class="blank ${mk}" style="--i:${n++}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
-      last = idx + m.length; return m;
+      const blank = `<input class="blank ${mk}" style="--i:${n++}" id="n-${s.id}-${id}" data-s="${sIdx}" data-id="${id}" data-ans="${esc(ans)}" value="${esc(v)}" size="${Math.max(5, v.length+1)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="빈칸"${p.questionChecks[qid] === 'ok' ? ' readonly' : ''}>`;
+      // the marks right after a blank stay on its line (a quote's ?” fell to a line of its own)
+      const tail = line.slice(idx + m.length).match(/^[^\s{]+/)?.[0] || '';
+      html += tail ? `<span class="blank-tail">${blank}${esc(tail)}</span>` : blank;
+      last = idx + m.length + tail.length; return m;
     });
     return `<div class="nline${memoLine(raw) ? ' memo' : ''}">${html}${esc(line.slice(last))}</div>`;
   }).join('');

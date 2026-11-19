@@ -13,6 +13,35 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-19 11:00 · Claude · (이 커밋) 사건 시작 제목 나무판을 그림으로
+- 사용자 요청: 타이틀 나오는 나무판을 Higgsfield 그림 한 장으로. nano_banana_2 2k(약 2크레딧), 코르크판 나무 액자 화풍 참조, 글자 없는 세 판자 나무판(job `615ad4ea-…`). 흰 배경을 지워 `assets/ui/title-sign.webp`(720×474), 원본 `title-sign-higgsfield-original.png`. `.stage-card .sign`의 CSS 줄무늬·테두리를 이 그림의 nine-slice(`border-image` 44 fill / 15px)로 바꾸고 그림자는 `drop-shadow`, CASE 번호 틀은 테두리만큼 위로(`top:-15px`). `assets/ui/README.md`에 적음.
+- 확인: 5177에서 긴 제목(The Mixed-Up Picnic Bag, 두 줄)으로 나무판을 띄워 테두리·글자·CASE 틀 모양 확인, 인라인 스크립트 구문 검사 통과. 확인용 반영. 아티팩트에는 아직 안 올림.
+- 사용자 요청(커밋·아티팩트): 이 커밋으로 11-19 작업(연 다 찾은 대사, 로지 r0 노트, 소풍 질문 12개, 제목 나무판)을 묶고, 어제 링크 `detective-v2_261118`(https://claude.ai/artifact/HPxmnBkN4utAwii3Xf4Wj3)에 바뀐 파일만 다시 올림.
+- **다음**: 사용자 확인.
+
+## 2026-11-19 10:40 · Claude · (이 커밋) 소풍 가방: 탐정 질문 15개 → 12개
+- 사용자 요청: "탐정 질문이 너무 많다"는 의견에 따라 필요 없는 질문 덜기. 질문마다 추리 보드 9단계·인물/장소 해금에 쓰이는지 점검해 사용자가 고른 3개를 뺌: 로지 r3 "Do you know whose bag this is?", 벤 b2 "What was in the bag?", 노라 n1 "Did you leave a blue bag at Ben's house?"(대답이 어디에도 쓰이지 않거나 벤 b1의 반복). 질문·대답·노트·단어 카드·한국어 해석·복습 문법(`grammarLines`)·표현(`phrases`의 "I don't know.")을 함께 지움. 녹음 파일(`rosie-r3`, `ben-b2`, `nora-n1`, 탐정 질문)은 지우지 않고 연결만 끊김. 설계서 `case-01-picnic-bag.md`·`.html`의 질문표와 추리 Q6 출처(ben:b1만) 고침.
+- 확인: 5177 소풍 미리보기에서 로지 4·벤 1·노라 2 질문, 추리 보드 9단계 완성, 복습(빈칸 29개) 정상, 콘솔 오류 없음, 인라인 스크립트 구문 검사 통과. 확인용 반영. 아티팩트에는 아직 안 올림.
+- **다음**: 사용자 확인. 남은 후보: 오리 v2 "Did anyone leave a blue bag here?"(빼면 추리 Q4 정답 대사 손질 필요), 로지 r1+r2 합치기(재녹음 약 0.3크레딧).
+
+## 2026-11-19 10:10 · Claude · (이 커밋) 소풍 가방: 로지 첫 대답 노트를 로지가 한 말 그대로
+- 사용자 지적: r0 노트 "not Rosie's bag (“my”) / find her bag (“mine”)"가 억지로 끼워 넣은 느낌. 사용자가 고른 A안: 로지의 말을 그대로 옮겨 적음 — `- “This isn't {{my}} bag.”`, `- “Can you help me find {{mine}}?”`. 빈칸 id(l·m)·단어 카드·복습 소유 문법(my bag, mine)은 그대로라 저장에 영향 없음. 설계서 `case-01-picnic-bag.md`·`.html` 노트 표 고침.
+- 노트 엔진: 빈칸 바로 뒤 문장부호(`?”` 등)가 따로 다음 줄로 떨어지지 않게 빈칸과 묶음(`.blank-tail`, 줄바꿈 없음). 모든 사건 노트에 적용.
+- 확인: 5177 `?case=picnic&preview=talk`에서 r0 노트 모양, my·mine 채점 통과, 대답 펼치기의 문법 표시, 콘솔 오류 없음. 인라인 스크립트 구문 검사 통과. 확인용 반영. 아티팩트에는 아직 안 올림.
+- **다음**: 사용자 확인.
+
+## 2026-11-19 03:50 · Claude · (이 커밋) 사라진 연: 연을 다 찾으면 탐정 대사
+- 사용자 요청: 연 여섯 개를 다 찾으면 탐정이 토비에게 연을 건네 보자고 말함. `KITE_CASE.thoughts`에 `think-give` 추가(조건: 토비 b1–b3 + `!took:kite-1…6`), "We found all the kites! Let's give Toby his kite." / "연을 다 찾았어! 토비에게 연을 건네 보자."
+- 녹음: Higgsfield `text2speech_v2` MiniMax Grady(감정 없음), `audio/kite/detective-think-give.mp3`(4.1초, 약 0.15크레딧).
+- 확인: 5179 `?case=kite&preview=place`에서 연 다섯 개를 줍고 길의 연을 마지막으로 줍자 연 대사 뒤에 새 대사와 녹음이 나옴(콘솔 오류 없음). 확인용 반영.
+- 아티팩트 `detective-v2_261118`에 페이지와 바뀐 녹음 묶음 4–9번만 다시 올림(버전 5), 올라간 묶음 크기가 로컬과 같음. 실제 아티팩트 화면은 직접 보지 못함. 공유는 이제 "링크가 있는 사람".
+- **다음**: 사용자 확인.
+
+## 2026-11-19 03:30 · Claude · (이 커밋) 아티팩트 `detective-v2_261118` 그림·소리 점검
+- 사용자 요청: 아티팩트 그림·소리 점검. 커밋 `630e809`로 다시 묶어 보니 올린 것과 바이트까지 같아 페이지만 다시 올림(버전 4, 라벨 `commit 630e809`).
+- 실제 아티팩트는 앱 브라우저가 claude.ai 로그인 화면이라 열지 못함. 대신 배포본(`files.json` 그대로)을 `.preview/artifact-261118/`(Git 제외)에 펼쳐 5179에서 점검: 7개 사건의 미리보기 58개 화면에서 그림 1557개 깨짐 0·404 0, 녹음 1073개 전부 배포본에 있고 묶음 조각이 원본과 바이트 일치, 몽타주 경사 대사·탐정 질문·홈 BGM이 묶음에서 `playing`, 사건 목록 표지 6개 정상.
+- **다음**: 로그인 후 실제 아티팩트 `#audiodebug`로 확인.
+
 ## 2026-11-19 03:05 · Claude · (이 커밋) 아티팩트 배포 `detective-v2_261118`
 - 사용자 요청: 제목 `detective-v2_261118`로 새 아티팩트. https://claude.ai/artifact/HPxmnBkN4utAwii3Xf4Wj3 (테스트 버튼 포함, 파일 437개·약 147MB, 세 번에 나눠 올림). 처음엔 미커밋 작업으로 올렸다가, 사용자 요청으로 이 커밋을 만든 뒤 같은 링크에 다시 올림(내용 같음).
 - 고침: BGM이 `new Audio(BGM_SRC)`로 주소를 받아 배포본의 녹음 묶음 장치(src 설정을 가로챔)를 건너뛰어 아티팩트에서 안 나올 상황이었음 → `new Audio()` 뒤에 `src`를 넣게 바꿈(`index.html` BGM 부분). 5179에서 BGM 파일 200·콘솔 오류 없음 확인, 확인용 반영.
