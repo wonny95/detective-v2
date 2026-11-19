@@ -149,7 +149,8 @@ node server.js --test         # Claude·Codex 테스트: http://localhost:5177, 
 - 채점 흐름(질문별 조용한 확인, 오답은 같은 노트에서 다시 듣고 수정, 정답 정보 즉시 해금, 전체 기록은 노트로 직접 열기)은 `HANDOFF.md` 3.4절을 따른다.
 - 한국어 해석은 `해석` 버튼을 눌러야만 보인다. 단, 사건 완료 후 복습의 새 단어 목록은 단어 뜻을 기본으로 보여 준다. 화면 안에 조작 설명 문장을 넣지 않는다(튜토리얼이 담당).
 - NPC는 전신으로 제자리에 고정한다. UI(질문 버튼, 노트)가 아래를 덮는다.
-- GitHub 비공개 저장소 `https://github.com/wonny95/detective`(원격 `origin`)에는 **사용자가 요청할 때만** `main`과 `story`를 푸시한다. 강제 푸시 금지. 먼저 GitHub 쪽 커밋을 받고(`git fetch`, fast-forward만), 갈라졌으면 사용자에게 묻는다(`.claude/skills/push-github/SKILL.md`).
+- GitHub 비공개 저장소 `https://github.com/wonny95/detective-v2`(원격 `origin`)에는 **사용자가 요청할 때만** `main`과 `story`를 푸시한다. 강제 푸시 금지. 먼저 GitHub 쪽 커밋을 받고(`git fetch`, fast-forward만), 갈라졌으면 사용자에게 묻는다(`.claude/skills/push-github/SKILL.md`).
+- 예전 저장소 `https://github.com/wonny95/detective`는 v1 백업이다(사용자 결정 2026-11-19). 푸시·받아 오기·수정을 하지 않는다. 다른 컴퓨터의 `origin`이 예전 주소면 `git remote set-url origin https://github.com/wonny95/detective-v2.git`로 바꾼 뒤 작업한다.
 - 사용자에게는 한국어로 답한다. claude.ai 아티팩트 업로드는 사용자가 요청할 때만 한다. 날짜마다 하나(제목 `영어듣기 추리 게임 앱_YYMMDD`, 같은 날은 덮어쓰기), 작업 마무리 커밋 뒤에 배포한다(`.claude/skills/publish-artifact/SKILL.md`).
 - Higgsfield 크레딧을 쓰는 생성은 쓰기 전에 대략의 비용을 알린다.
 
