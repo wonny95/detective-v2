@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사건 목록 보기 방식 시안</title>
+<style>
+  :root{--ink:#3B2A1C;--soft:#7A6553;--paper:#FBF3E6;--cream:#FFFDF6;--honey:#F2C96B;--rose:#C56B7A;--line:#E6D6BC;--red:#B8323A}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#B5BDA6;color:var(--ink)}
+  header{padding:16px 16px 4px}
+  header h1{font-size:19px;margin:0 0 4px}
+  header p{margin:0;font-size:14px;color:#33402b;line-height:1.5}
+  .row{display:flex;flex-wrap:wrap;gap:22px;padding:16px;align-items:flex-start}
+  .col{display:flex;flex-direction:column;gap:8px;align-items:center;width:300px}
+  .cap{font-weight:700;font-size:14px;background:var(--cream);padding:4px 12px;border-radius:999px;text-align:center}
+  .desc{font-size:13px;line-height:1.5;background:rgba(255,253,246,.85);border-radius:10px;padding:8px 10px;margin:0;align-self:stretch}
+  .desc b{color:#2f5a2f}.desc i{font-style:normal;color:#8a3b3b}
+  .phone{width:300px;height:620px;border-radius:30px;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.2);display:flex;flex-direction:column}
+  .head{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 8px;background:var(--paper);position:relative;z-index:2}
+  .head b{font-size:18px}
+  .bank{display:inline-flex;align-items:center;gap:3px;border:2px solid var(--ink);border-radius:14px;padding:1px 9px 1px 5px;font-weight:700;font-size:13px;background:#FFFDF7}
+  .bank img{width:16px;height:16px}
+  .nav{height:52px;flex:none;display:flex;justify-content:space-around;align-items:center;background:var(--cream);border-top:2px solid var(--ink);font-size:11px;position:relative;z-index:2}
+  .nav span{display:flex;flex-direction:column;align-items:center;gap:1px}
+  .nav img{width:24px;height:24px}
+  .nav .on{font-weight:700}
+  .body{flex:1;min-height:0;overflow:hidden;position:relative}
+  .cork{background:url(../assets/ui/corkboard-cork.webp) center/220px repeat}
+  .stamp{position:absolute;border:2px solid var(--red);color:var(--red);font-weight:800;font-size:10px;padding:0 5px;border-radius:4px;transform:rotate(-12deg);background:rgba(255,253,246,.7)}
+  .lockic{font-size:18px;opacity:.6}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;border:1.5px solid var(--ink);background:var(--honey)}
+  .tag.done{background:#cfe3c3}
+  .tag.lock{background:#e6dccb;color:var(--soft);border-color:#b9a98f}
+
+  /* now (shortened) */
+  .now .pol{position:absolute;width:62%;background:var(--cream);padding:6px 6px 8px;box-shadow:0 3px 6px rgba(0,0,0,.3);border-radius:3px}
+  .now .pol img{display:block;width:100%;height:110px;object-fit:cover}
+  .now .pol small{display:block;color:var(--rose);font-weight:700;font-size:11px;margin-top:4px}
+  .now .pol b{font-size:14px}
+  .now .node{position:absolute;left:30%;top:250px;width:120px;height:100px;border:5px solid #8a5a2b;background:url(../assets/ui/corkboard-cork.webp) center/120px}
+
+  /* A: a path through the woods */
+  .pathA{background:linear-gradient(#cfe0b4,#b9d39b)}
+  .pathA svg.trail{position:absolute;inset:0;width:100%;height:100%}
+  .pathA .stop{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
+  .pathA .dot{width:58px;height:58px;border-radius:50%;border:3px solid var(--ink);overflow:hidden;background:#fff;box-shadow:0 3px 0 rgba(0,0,0,.25);position:relative}
+  .pathA .dot img{width:100%;height:100%;object-fit:cover}
+  .pathA .dot.done img{filter:saturate(.5) brightness(1.05)}
+  .pathA .dot.done::after{content:"✓";position:absolute;right:-2px;bottom:-2px;width:20px;height:20px;border-radius:50%;background:#6aa35a;color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center;border:2px solid var(--ink)}
+  .pathA .dot.lock{background:#e6dccb;display:grid;place-items:center}
+  .pathA .stop small{font-size:10px;font-weight:700;background:rgba(255,253,246,.9);padding:0 6px;border-radius:999px}
+  .pathA .big{width:84px;height:84px;border-width:4px;box-shadow:0 0 0 5px rgba(242,201,107,.7),0 3px 0 rgba(0,0,0,.25)}
+  .pathA .gm{width:40px;height:40px;border-radius:10px;border:2px solid var(--ink);background:#fff7df;display:grid;place-items:center}
+  .pathA .gm img{width:30px;height:30px;object-fit:contain}
+  .pathA .card{position:absolute;left:12px;right:12px;bottom:10px;background:var(--cream);border:2px solid var(--ink);border-radius:14px;padding:8px 10px;display:flex;gap:8px;align-items:center;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+  .pathA .card img{width:64px;height:48px;object-fit:cover;border-radius:6px}
+  .pathA .card div{flex:1}.pathA .card small{color:var(--rose);font-weight:700;font-size:11px}
+  .pathA .card b{display:block;font-size:14px}
+  .pathA .go{background:var(--rose);color:#fff;font-weight:700;border:2px solid var(--ink);border-radius:999px;padding:5px 10px;font-size:12px}
+
+  /* B: two columns on the cork */
+  .gridB{padding:10px 10px 0;display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;align-content:start}
+  .gridB .p{background:var(--cream);padding:5px 5px 7px;box-shadow:0 3px 5px rgba(0,0,0,.3);border-radius:3px;position:relative}
+  .gridB .p:nth-child(odd){transform:rotate(-2deg)}.gridB .p:nth-child(even){transform:rotate(1.5deg)}
+  .gridB .p::before{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f08a8a,#B8323A)}
+  .gridB .p img{display:block;width:100%;height:74px;object-fit:cover}
+  .gridB .p.done img{filter:saturate(.4) brightness(1.08)}
+  .gridB .p.lock .ph{height:74px;background:#e6dccb;display:grid;place-items:center}
+  .gridB .p small{display:block;color:var(--rose);font-weight:700;font-size:10px;margin-top:3px}
+  .gridB .p b{display:block;font-size:12px;line-height:1.25}
+  .gridB .p .stamp{left:10px;top:28px}
+  .gridB .p.cur{outline:3px solid var(--honey);outline-offset:2px}
+  .gridB .p.cur .note{position:absolute;right:-6px;top:-8px;background:#ffe58a;font-size:10px;font-weight:700;padding:2px 6px;transform:rotate(8deg);box-shadow:0 1px 2px rgba(0,0,0,.25)}
+  .gridB .g{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,253,246,.88);border:2px dashed #8a5a2b;border-radius:12px;padding:6px;font-size:12px;font-weight:700}
+  .gridB .g img{width:30px;height:30px;object-fit:contain}
+  .gridB .g.lock{opacity:.55}
+
+  /* C: one big card at a time */
+  .oneC{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+  .oneC .deck{position:relative;width:100%;height:380px}
+  .oneC .pc{position:absolute;top:10px;width:210px;background:var(--cream);padding:8px 8px 12px;box-shadow:0 4px 8px rgba(0,0,0,.3);border-radius:4px}
+  .oneC .pc img{display:block;width:100%;height:170px;object-fit:cover}
+  .oneC .pc.mid{left:45px;transform:rotate(-1.5deg);z-index:2}
+  .oneC .pc.l{left:-170px;transform:scale(.85) rotate(-4deg);opacity:.8}
+  .oneC .pc.r{left:262px;transform:scale(.85) rotate(4deg);opacity:.8}
+  .oneC .pc small{display:block;color:var(--rose);font-weight:700;font-size:12px;margin-top:6px}
+  .oneC .pc b{display:block;font-size:17px;margin:2px 0}
+  .oneC .pc span.f{font-size:12px;color:var(--soft)}
+  .oneC .pc .go{display:block;margin-top:10px;text-align:center;background:var(--rose);color:#fff;font-weight:700;border:2px solid var(--ink);border-radius:999px;padding:7px}
+  .oneC .dots{display:flex;gap:6px;align-items:center;background:rgba(255,253,246,.9);padding:6px 10px;border-radius:999px}
+  .oneC .dots i{width:9px;height:9px;border-radius:50%;background:#cdbfa8}
+  .oneC .dots i.d{background:#6aa35a}.oneC .dots i.c{width:12px;height:12px;background:var(--honey);border:2px solid var(--ink)}
+  .oneC .dots i.g{border-radius:2px;background:#8a5a2b;transform:rotate(45deg);width:7px;height:7px}
+  .oneC .arrow{position:absolute;top:150px;z-index:3;width:34px;height:34px;border-radius:50%;background:var(--cream);border:2px solid var(--ink);display:grid;place-items:center;font-weight:800}
+  .oneC .arrow.l{left:6px}.oneC .arrow.r{right:6px}
+
+  /* D: case files, one row each */
+  .listD{padding:8px 10px;display:flex;flex-direction:column;gap:7px;background:#efe3cc}
+  .listD .r{display:flex;align-items:center;gap:9px;background:var(--cream);border:1.5px solid #cdb896;border-left:6px solid #c9a46a;border-radius:6px;padding:6px 8px;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .listD .r img,.listD .r .ph{width:56px;height:42px;object-fit:cover;border-radius:4px;flex:none}
+  .listD .r .ph{background:#e6dccb;display:grid;place-items:center}
+  .listD .r div{flex:1;min-width:0}
+  .listD .r small{color:var(--rose);font-weight:700;font-size:10px}
+  .listD .r b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .listD .r em{font-style:normal;font-size:10px;color:var(--soft)}
+  .listD .r.cur{border-color:var(--ink);border-left-color:var(--honey);box-shadow:0 0 0 2px var(--honey)}
+  .listD .r.lock{opacity:.6}
+  .listD .r.g{background:#fff7df;border-left-color:#8a5a2b;padding:4px 8px}
+  .listD .r.g img{width:32px;height:32px;object-fit:contain}
+  .listD .sec{font-size:11px;font-weight:700;color:var(--soft);margin:4px 2px 0}
+  /* E: chapters first, then the chapter's own trail */
+  .chE{padding:10px 12px;display:flex;flex-direction:column;gap:10px;background:#efe3cc}
+  .chE .c{position:relative;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--cream);box-shadow:0 3px 0 rgba(0,0,0,.2)}
+  .chE .c .art{height:84px;background-size:cover;background-position:center}
+  .chE .c .info{display:flex;align-items:center;gap:8px;padding:6px 10px 8px}
+  .chE .c .info div{flex:1}
+  .chE .c small{font-size:10px;font-weight:700;color:var(--rose)}
+  .chE .c b{display:block;font-size:15px}
+  .chE .bar{height:7px;border-radius:4px;background:#e6dccb;margin-top:4px;overflow:hidden}
+  .chE .bar i{display:block;height:100%;background:#6aa35a}
+  .chE .num{font-size:12px;font-weight:700;white-space:nowrap}
+  .chE .c.now{box-shadow:0 0 0 3px var(--honey),0 3px 0 rgba(0,0,0,.2)}
+  .chE .c.now .ribbon{position:absolute;right:8px;top:8px;background:var(--honey);border:2px solid var(--ink);border-radius:999px;font-size:11px;font-weight:700;padding:1px 8px}
+  .chE .c.lock .art{filter:grayscale(1) brightness(1.1);opacity:.5}
+  .chE .c.lock{opacity:.75}
+  .chE .c.lock .art::after{content:"🔒";display:grid;place-items:center;height:100%;font-size:26px}
+  .chE .more{text-align:center;font-size:12px;color:var(--soft)}
+  .trailE{position:relative;background:url(../assets/places/village-map-day-higgsfield.webp) center/cover}
+  .trailE::before{content:"";position:absolute;inset:0;background:rgba(240,232,210,.35)}
+  .trailE .stop small{font-size:10px}
+  .chhead{display:flex;align-items:center;gap:8px;padding:12px 12px 8px;background:var(--paper);position:relative;z-index:2;border-bottom:2px solid var(--ink)}
+  .chhead .bk{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;background:var(--cream)}
+  .chhead div{flex:1}.chhead small{font-size:10px;color:var(--rose);font-weight:700}.chhead b{display:block;font-size:15px}
+  .listbtn{position:absolute;right:10px;top:8px;z-index:3;font-size:11px;font-weight:700;background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:3px 9px}
+  /* E-1 with the word games: ③ a shelf of opened games on top, ① small game marks on each chapter card */
+  .gshelf{display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--cream);border:2px solid var(--ink);border-radius:12px;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+  .gshelf > small{font-size:11px;font-weight:700;white-space:nowrap}
+  .gshelf .gs{display:flex;gap:6px;overflow:hidden;flex:1}
+  .gshelf .g{position:relative;width:44px;height:44px;flex:none;border-radius:10px;border:2px solid #8a5a2b;background:#fff7df;display:grid;place-items:center}
+  .gshelf .g img{width:34px;height:34px;object-fit:contain}
+  .gshelf .g .ok{position:absolute;right:-5px;bottom:-5px;width:17px;height:17px;border-radius:50%;background:#6aa35a;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;border:2px solid var(--ink)}
+  .gshelf .g .new{position:absolute;left:-5px;top:-6px;background:var(--rose);color:#fff;font-size:9px;font-weight:800;padding:0 4px;border-radius:6px;border:1.5px solid var(--ink)}
+  .gshelf .more2{font-size:11px;color:var(--soft);white-space:nowrap}
+  .chE .marks{display:flex;gap:4px;margin-top:5px;align-items:center}
+  .chE .marks span{position:relative;width:24px;height:24px;border-radius:6px;border:1.5px solid #8a5a2b;background:#fff7df;display:grid;place-items:center}
+  .chE .marks span img{width:19px;height:19px;object-fit:contain}
+  .chE .marks span.off{opacity:.45;filter:grayscale(1)}
+  .chE .marks span.done::after{content:"✓";position:absolute;right:-5px;bottom:-5px;width:13px;height:13px;border-radius:50%;background:#6aa35a;color:#fff;font-size:8px;font-weight:800;display:grid;place-items:center;border:1.5px solid var(--ink)}
+  .chE .marks em{font-style:normal;font-size:10px;color:var(--soft);margin-left:2px}
+</style>
+</head>
+<body>
+<header>
+  <h1>사건 목록 — 보기 방식 시안</h1>
+  <p>예시 상태: Case 01·02 해결, Case 03이 다음 사건, 04부터 잠김. 3번째 사건 뒤 철자 자물쇠, 6번째 뒤 단어 짝맞추기. 지금 있는 그림과 CSS만 썼어요(크레딧 없음).</p>
+</header>
+<div class="row">
+
+  <div class="col">
+    <div class="cap">지금</div>
+    <div class="phone">
+      <div class="head"><b>사건 목록</b><span class="bank"><img src="../assets/ui/icons-v2/acorn.webp" alt="">2</span></div>
+      <div class="body cork now">
+        <div class="pol" style="left:8%;top:14px;transform:rotate(-2deg)"><img src="../assets/places/kite/kite-cover.jpg" alt=""><small>Case 01</small><b>사라진 연</b></div>
+        <div class="node"></div>
+        <div class="pol" style="left:32%;top:370px;transform:rotate(2deg)"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""><small>Case 02</small><b>주인 없는 우산</b></div>
+      </div>
+      <div class="nav"><span><img src="../assets/ui/nav/home.webp" alt="" onerror="this.remove()">홈</span><span class="on"><img src="../assets/ui/nav/case-magnifier.webp" alt="">사건</span><span>학습</span><span>마이</span></div>
+    </div>
+    <p class="desc">한 화면에 사건 1–2개. 사건 8개 + 미니게임을 보려면 길게 내려야 하고, 어디까지 했는지 한눈에 안 보여요.</p>
+  </div>
+
+  <div class="col">
+    <div class="cap">A · 숲길 따라가기</div>
+    <div class="phone">
+      <div class="head"><b>사건 목록</b><span class="bank"><img src="../assets/ui/icons-v2/acorn.webp" alt="">2</span></div>
+      <div class="body pathA">
+        <svg class="trail" viewBox="0 0 300 516" preserveAspectRatio="none"><path d="M70 470 C 200 450, 240 400, 200 360 S 60 300, 90 250 S 250 190, 210 140 S 70 80, 110 30" fill="none" stroke="#e8d3a6" stroke-width="26" stroke-linecap="round"/><path d="M70 470 C 200 450, 240 400, 200 360 S 60 300, 90 250 S 250 190, 210 140 S 70 80, 110 30" fill="none" stroke="#c9a46a" stroke-width="2" stroke-dasharray="6 8"/></svg>
+        <div class="stop" style="left:62px;top:415px"><div class="dot done"><img src="../assets/places/kite/kite-cover.jpg" alt=""></div><small>01</small></div>
+        <div class="stop" style="left:205px;top:372px"><div class="dot done"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""></div><small>02</small></div>
+        <div class="stop" style="left:92px;top:262px"><div class="dot big"><img src="../assets/places/montage/cover.jpg" alt="" style="object-fit:contain;background:#B98A5E"></div><small>03 지금!</small></div>
+        <div class="stop" style="left:168px;top:206px"><div class="gm"><img src="../assets/ui/padlock-closed.webp" alt=""></div></div>
+        <div class="stop" style="left:215px;top:140px"><div class="dot lock"><span class="lockic">🔒</span></div><small>04</small></div>
+        <div class="stop" style="left:112px;top:40px"><div class="dot lock"><span class="lockic">🔒</span></div><small>05</small></div>
+        <div class="card" style="bottom:auto;top:300px;display:none"></div>
+      </div>
+      <div style="padding:8px 12px;background:var(--paper);border-top:2px solid var(--ink);display:flex;gap:8px;align-items:center">
+        <img src="../assets/places/montage/cover.jpg" alt="" style="width:56px;height:42px;object-fit:contain;background:#B98A5E;border-radius:6px">
+        <div style="flex:1"><small style="color:var(--rose);font-weight:700;font-size:11px">Case 03 · 생김새·옷차림 듣기</small><b style="display:block;font-size:14px">꿀 가게 강도</b></div>
+        <span class="go" style="background:var(--rose);color:#fff;font-weight:700;border:2px solid var(--ink);border-radius:999px;padding:5px 10px;font-size:12px">시작</span>
+      </div>
+      <div class="nav"><span>홈</span><span class="on"><img src="../assets/ui/nav/case-magnifier.webp" alt="">사건</span><span>학습</span><span>마이</span></div>
+    </div>
+    <p class="desc"><b>좋음</b>: 어디까지 왔고 다음이 무엇인지 바로 보여요. 미니게임이 길가의 작은 상자로 자연스럽게 끼어요. 아래에 지금 사건 카드.<br><i>아쉬움</i>: 사건 제목은 동그라미를 눌러야 보여요. 숲길 배경 그림을 새로 그리면 더 예뻐요(약 1.5크레딧).</p>
+  </div>
+
+  <div class="col">
+    <div class="cap">B · 두 줄 사진 판</div>
+    <div class="phone">
+      <div class="head"><b>사건 목록</b><span class="bank"><img src="../assets/ui/icons-v2/acorn.webp" alt="">2</span></div>
+      <div class="body cork gridB">
+        <div class="p done"><img src="../assets/places/kite/kite-cover.jpg" alt=""><span class="stamp">SOLVED</span><small>Case 01</small><b>사라진 연</b></div>
+        <div class="p done"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""><span class="stamp">SOLVED</span><small>Case 02</small><b>주인 없는 우산</b></div>
+        <div class="p cur"><img src="../assets/places/montage/cover.jpg" alt="" style="object-fit:contain;background:#B98A5E"><span class="note">새로운 의뢰!</span><small>Case 03</small><b>꿀 가게 강도</b></div>
+        <div class="p lock"><div class="ph"><span class="lockic">🔒</span></div><small>Case 04</small><b>&nbsp;</b></div>
+        <div class="g lock"><img src="../assets/ui/padlock-closed.webp" alt="">철자 자물쇠 · Case 03 해결하면</div>
+        <div class="p lock"><div class="ph"><span class="lockic">🔒</span></div><small>Case 05</small><b>&nbsp;</b></div>
+        <div class="p lock"><div class="ph"><span class="lockic">🔒</span></div><small>Case 06</small><b>&nbsp;</b></div>
+      </div>
+      <div class="nav"><span>홈</span><span class="on"><img src="../assets/ui/nav/case-magnifier.webp" alt="">사건</span><span>학습</span><span>마이</span></div>
+    </div>
+    <p class="desc"><b>좋음</b>: 지금 코르크판·사진 느낌 그대로, 한 화면에 사건 6개. 미니게임은 사진 줄 사이 가로 띠.<br><i>아쉬움</i>: 사진이 작아져 그림이 덜 보이고 제목이 2줄로 접혀요.</p>
+  </div>
+
+  <div class="col">
+    <div class="cap">C · 한 장씩 넘기기</div>
+    <div class="phone">
+      <div class="head"><b>사건 목록</b><span class="bank"><img src="../assets/ui/icons-v2/acorn.webp" alt="">2</span></div>
+      <div class="body cork oneC">
+        <div class="deck">
+          <div class="pc l"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""><small>Case 02</small><b>주인 없는 우산</b></div>
+          <div class="pc mid"><img src="../assets/places/montage/cover.jpg" alt="" style="object-fit:contain;background:#B98A5E"><small>Case 03</small><b>꿀 가게 강도</b><span class="f">생김새·옷차림 듣기</span><span class="go">사건 시작</span></div>
+          <div class="pc r"><div style="height:170px;background:#e6dccb"></div><small>Case 04</small></div>
+          <span class="arrow l">‹</span><span class="arrow r">›</span>
+        </div>
+        <div class="dots"><i class="d"></i><i class="d"></i><i class="c"></i><i class="g"></i><i></i><i></i><i></i><i class="g"></i><i></i><i></i></div>
+      </div>
+      <div class="nav"><span>홈</span><span class="on"><img src="../assets/ui/nav/case-magnifier.webp" alt="">사건</span><span>학습</span><span>마이</span></div>
+    </div>
+    <p class="desc"><b>좋음</b>: 다음 사건이 크게, 바로 시작. 아래 점으로 진행(초록 해결, 노랑 지금, 갈색 마름모 미니게임).<br><i>아쉬움</i>: 다른 사건은 옆으로 넘겨야 보여요.</p>
+  </div>
+
+  <div class="col">
+    <div class="cap">D · 사건 파일 목록</div>
+    <div class="phone">
+      <div class="head"><b>사건 목록</b><span class="bank"><img src="../assets/ui/icons-v2/acorn.webp" alt="">2</span></div>
+      <div class="body listD">
+        <div class="r"><img src="../assets/places/kite/kite-cover.jpg" alt=""><div><small>Case 01</small><b>사라진 연</b><em>생김새 듣기</em></div><span class="tag done">해결 ★★★</span></div>
+        <div class="r"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""><div><small>Case 02</small><b>주인 없는 우산</b><em>누구의 것인지 듣기</em></div><span class="tag done">해결 ★★</span></div>
+        <div class="r cur"><img src="../assets/places/montage/cover.jpg" alt="" style="object-fit:contain;background:#B98A5E"><div><small>Case 03</small><b>꿀 가게 강도</b><em>생김새·옷차림 듣기</em></div><span class="tag">새 사건</span></div>
+        <div class="r g lock"><img src="../assets/ui/padlock-closed.webp" alt=""><div><b style="font-size:12px">철자 자물쇠</b><em>Case 03 해결하면 열려요</em></div></div>
+        <div class="r lock"><div class="ph">🔒</div><div><small>Case 04</small><b>누가 화단을 망쳤을까?</b><em>과거 의문문·부정 듣기</em></div><span class="tag lock">잠김</span></div>
+        <div class="r lock"><div class="ph">🔒</div><div><small>Case 05</small><b>바뀐 소풍 가방</b><em>소유 표현 듣기</em></div><span class="tag lock">잠김</span></div>
+        <div class="r lock"><div class="ph">🔒</div><div><small>Case 06</small><b>사라진 음악 대회 바이올린</b><em>위치 표현 듣기</em></div><span class="tag lock">잠김</span></div>
+        <div class="r g lock"><img src="../design/match-icon-options/3.png" alt=""><div><b style="font-size:12px">단어 짝맞추기</b><em>Case 06 해결하면 열려요</em></div></div>
+      </div>
+      <div class="nav"><span>홈</span><span class="on"><img src="../assets/ui/nav/case-magnifier.webp" alt="">사건</span><span>학습</span><span>마이</span></div>
+    </div>
+    <p class="desc"><b>좋음</b>: 사건 8개를 거의 한 화면에. 제목·배울 표현·별점이 다 보여요.<br><i>아쉬움</i>: 가장 깔끔하지만 놀이 느낌이 덜해요(코르크판 느낌이 사라짐).</p>
+  </div>
+
+  <div class="col">
+    <div class="cap">E · 사건 숲길 (지금 사건 8개 그대로)</div>
+    <div class="phone">
+      <div class="head"><b>사건 목록</b><span class="bank"><img src="../assets/ui/icons-v2/acorn.webp" alt="">7</span></div>
+      <div style="padding:0 10px 8px;background:var(--paper);position:relative;z-index:2" class="chE"><div class="gshelf"><small>미니게임</small>
+        <div class="gs"><span class="g"><img src="../assets/ui/padlock-closed.webp" alt=""><span class="new">NEW</span></span></div><span class="more2">열린 것만</span></div></div>
+      <div class="body pathA trailE" style="border-top:2px solid var(--ink)">
+        <svg class="trail" viewBox="0 0 300 470" preserveAspectRatio="none"><path d="M70 470 C 200 450, 240 400, 200 360 S 60 300, 90 250 S 250 190, 210 140 S 70 80, 110 30 S 230 -20, 200 -60" fill="none" stroke="#e8d3a6" stroke-width="26" stroke-linecap="round"/><path d="M70 470 C 200 450, 240 400, 200 360 S 60 300, 90 250 S 250 190, 210 140 S 70 80, 110 30 S 230 -20, 200 -60" fill="none" stroke="#c9a46a" stroke-width="2" stroke-dasharray="6 8"/></svg>
+        <div class="stop" style="left:205px;top:300px"><div class="dot done"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""></div><small>02 주인 없는 우산</small></div>
+        <div class="stop" style="left:92px;top:215px"><div class="dot big"><img src="../assets/places/montage/cover.jpg" alt="" style="object-fit:contain;background:#B98A5E"></div><small>03 꿀 가게 강도</small></div>
+        <div class="stop" style="left:172px;top:160px"><div class="gm"><img src="../assets/ui/padlock-closed.webp" alt=""></div><small>철자 자물쇠</small></div>
+        <div class="stop" style="left:212px;top:100px"><div class="dot lock"><span class="lockic">🔒</span></div><small>04 누가 화단을 망쳤을까?</small></div>
+        <div class="stop" style="left:112px;top:30px"><div class="dot lock"><span class="lockic">🔒</span></div><small>05 바뀐 소풍 가방</small></div>
+        <div class="stop" style="left:70px;top:360px"><div class="dot done"><img src="../assets/places/kite/kite-cover.jpg" alt=""></div><small>01 사라진 연</small></div>
+      </div>
+      <div style="padding:8px 12px;background:var(--paper);border-top:2px solid var(--ink);display:flex;gap:8px;align-items:center">
+        <img src="../assets/places/montage/cover.jpg" alt="" style="width:56px;height:42px;object-fit:contain;background:#B98A5E;border-radius:6px">
+        <div style="flex:1"><small style="color:var(--rose);font-weight:700;font-size:11px">Case 03 · 생김새·옷차림 듣기</small><b style="display:block;font-size:14px">꿀 가게 강도</b></div>
+        <span style="background:var(--rose);color:#fff;font-weight:700;border:2px solid var(--ink);border-radius:999px;padding:5px 10px;font-size:12px">시작</span>
+      </div>
+      <div class="nav"><span>홈</span><span class="on"><img src="../assets/ui/nav/case-magnifier.webp" alt="">사건</span><span>학습</span><span>마이</span></div>
+    </div>
+    <p class="desc">챕터 없이 <b>지금 사건 목록 순서 그대로</b>(Case 01 → 08) 숲길 하나. 아래에서 위로 올라가고, 열면 지금 할 사건(03)이 가운데 오게 맞춰요. 위로 밀면 06 바이올린 → 단어 짝맞추기 → 07 도서관 → 08 크리스마스가 이어져요(사건이 늘면 길도 계속 위로).<br><b>맨 위 미니게임 줄(③)</b>: 열린 미니게임만, 누르면 바로 시작.<br><i>참고</i>: 배경은 마을 지도로 대신(숲길 그림을 새로 그리면 이어 붙일 수 있게 세로로 길게, 약 1.5크레딧).</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>듣기평가 유형 ↔ 찾고 조립하기 풀이 기준표</title>
+<style>
+  :root{--ink:#3B2A1C;--soft:#7A6553;--paper:#FBF3E6;--cream:#FFFDF6;--honey:#F2C96B;--line:#E2D2B6;--green:#2f6b3a;--red:#9a3434;--blue:#2d4f7a}
+  *{box-sizing:border-box}
+  body{margin:0;background:#EFE5D2;color:var(--ink);font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6}
+  main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+  h1{font-size:26px;margin:0 0 6px}
+  h2{font-size:20px;margin:36px 0 10px;padding-bottom:6px;border-bottom:3px solid var(--ink)}
+  p.lead{margin:0 0 6px;color:var(--soft)}
+  .note{background:var(--cream);border:2px dashed #C9A46A;border-radius:10px;padding:10px 14px;font-size:14px;margin:12px 0}
+  .loop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+  .loop span{background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:700;box-shadow:0 3px 0 rgba(74,54,40,.25)}
+  .loop i{font-style:normal;font-weight:800;color:var(--soft)}
+  ul.rules{margin:8px 0;padding-left:20px}
+  ul.rules li{margin:3px 0}
+  table{width:100%;border-collapse:separate;border-spacing:0;background:var(--cream);border:2px solid var(--ink);border-radius:12px;overflow:hidden;font-size:14px;margin:10px 0}
+  th,td{padding:9px 10px;vertical-align:top;border-bottom:1px solid var(--line);text-align:left}
+  th{background:#F4E6C8;font-size:13px;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td b{color:var(--blue)}
+  .tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;border:1.5px solid var(--ink);white-space:nowrap}
+  .keep{background:#D7EBCB}.fix{background:#FBE7A8}.swap{background:#F5CFC8}.new{background:#DDE6F5}.have{background:#D7EBCB}
+  .small{font-size:12px;color:var(--soft)}
+  ol.steps li{margin:4px 0}
+  .card{background:var(--cream);border:2px solid var(--ink);border-radius:12px;padding:12px 16px;margin:10px 0;box-shadow:0 3px 0 rgba(74,54,40,.2)}
+</style>
+</head>
+<body>
+<main>
+<h1>듣기평가 유형 ↔ 찾고 조립하기 풀이 기준표</h1>
+<p class="lead">2026-11-23 · 사용자 결정 반영 초안 · 대상 중1 · 기획(Codex)과 개발(Claude)이 사건을 짤 때 함께 보는 기준</p>
+<div class="note">이 표는 <b>방향을 정하기 위한 제안</b>이에요. 듣기평가 유형은 중학교 영어듣기능력평가에 자주 나오는 문제 형태를 묶은 것이고, 실제 출제 비율·번호는 최근 기출로 한 번 더 확인해야 해요. 퍼즐 이름·세부 규칙은 사용자와 정하면서 바뀔 수 있어요.</div>
+
+<h2>0. 원칙</h2>
+<div class="loop"><span>① 듣기</span><i>→</i><span>② 단서 조각 찾기</span><i>→</i><span>③ 들은 대로 조립·퍼즐</span><i>→</i><span>④ 단서 카드 완성</span><i>→</i><span>⑤ 추리</span></div>
+<ul class="rules">
+  <li><b>답은 들은 내용으로만 정해진다.</b> 그림·글자·찍기로는 풀리지 않게 한다(보기·조각은 들은 정보가 있어야 구별된다).</li>
+  <li><b>과정은 손으로 만지는 재미.</b> 그냥 고르기 대신 숨은 것을 찾고(잎 치우기), 직접 맞춘다(몽타주). — 플레이 피드백에서 재밌다고 한 두 방식이 기준.</li>
+  <li><b>한 사건 = 듣기평가 유형 1개 + 그 유형의 퍼즐 1개.</b> 스토리는 유형과 퍼즐에 맞춰 짠다. 스토리만을 위한 일회성 풀이는 사용자와 먼저 상의한다.</li>
+  <li><b>퍼즐은 재사용한다.</b> 유형마다 퍼즐 하나를 정해 두고, 처음 나올 때는 쉬운 판, 뒤로 갈수록 조각 수·헷갈리는 보기·말 속도로 어렵게.</li>
+  <li><b>분량</b>: 한 사건 5–8분, 받아 적기 빈칸 10개 안팎(제안값, 학생 테스트로 확인).</li>
+  <li><b>단서 카드</b>: 퍼즐을 맞추면 단서 카드가 생기고, 그 순간 근거 문장을 다시 들려준다. 추리·심문에서는 이 카드를 내민다.</li>
+</ul>
+
+<h2>1. 기준표 — 유형마다 퍼즐 하나</h2>
+<table>
+  <tr><th>#</th><th>듣기평가 유형</th><th>시험에서 묻는 것</th><th>탐정 장면</th><th>찾기</th><th>조립·퍼즐</th><th>완성 단서 카드</th><th>쉬움 → 어려움</th><th>상태</th></tr>
+  <tr><td>1</td><td><b>그림 정보 — 물건</b><br><span class="small">모양·색·무늬·개수</span></td><td>대화에 맞는 그림 고르기</td><td>잃어버린 물건 찾기</td><td>현장의 덮개(잎·상자·커튼)를 치워 후보를 찾음</td><td>들은 특징과 맞는 것 고르기 / 특징 조각(모양·색·꼬리) 맞추기</td><td>찾은 증거품</td><td>후보 3개·특징 2개 → 후보 6개·특징 4개·비슷한 보기</td><td><span class="tag have">있음</span> 연 사건</td></tr>
+  <tr><td>2</td><td><b>그림 정보 — 인물</b><br><span class="small">생김새·옷차림·동작</span></td><td>말하는 사람·묘사된 사람 고르기</td><td>목격자 증언으로 범인 얼굴 만들기</td><td>목격자 여러 명 찾아 증언 모으기</td><td>몽타주: 부위별로 ‹ › 바꿔 맞추기</td><td>수배 전단</td><td>부위 3개 → 5개, 목격자끼리 일부 엇갈림</td><td><span class="tag have">있음</span> 꿀 가게</td></tr>
+  <tr><td>3</td><td><b>숫자 — 시각·날짜</b></td><td>약속 시각, 출발 시각, 요일</td><td>알리바이 확인</td><td>흩어진 일정 메모·영수증 시각</td><td>시계 바늘 돌려 시간표 칸 채우기</td><td>알리바이표</td><td>정각 2칸 → 분 단위·fifteen/fifty·요일까지</td><td><span class="tag new">새로</span> 도서관에 쓸 수 있음</td></tr>
+  <tr><td>4</td><td><b>숫자 — 금액·수량</b></td><td>지불할 금액, 산 개수</td><td>도난품·영수증 대조</td><td>찢어진 영수증 조각, 상자</td><td>영수증 조각 붙이기 / 저울에 올려 개수 맞추기</td><td>복원한 영수증 · 무게 기록</td><td>한 자리 수 → 할인·개수 곱하기</td><td><span class="tag have">일부</span> 크리스마스 저울</td></tr>
+  <tr><td>5</td><td><b>장소·위치</b></td><td>대화가 일어나는 곳, 물건이 있는 곳</td><td>숨긴 장소·이동 경로 찾기</td><td>발자국·지도 조각</td><td>지도 조각 맞추고 들은 순서대로 경로 잇기 / 방 배치도에 물건 놓기</td><td>이동 경로도 · 배치도</td><td>in/on/under → next to/behind/between</td><td><span class="tag new">새로</span> 바이올린에 쓸 수 있음</td></tr>
+  <tr><td>6</td><td><b>할 일·부탁한 일</b></td><td>남자/여자가 할 일, 부탁한 일</td><td>누가 누구에게 무엇을 시켰나</td><td>쪽지·메시지</td><td>쪽지를 끌어다 인물 사진에 붙이기</td><td>심부름 기록</td><td>2명 → 4명, 거절·대신 하기</td><td><span class="tag new">새로</span></td></tr>
+  <tr><td>7</td><td><b>관계</b></td><td>두 사람의 관계</td><td>인물들이 어떻게 아는 사이인지</td><td>사진·편지</td><td>인물 사진을 실로 잇고 관계 꼬리표 붙이기</td><td>관계도</td><td>2쌍 → 4쌍, 처음 만난 사이 섞기</td><td><span class="tag new">새로</span> (짝맞추기 판 재사용)</td></tr>
+  <tr><td>8</td><td><b>언급되지 않은 것 · 내용 불일치</b></td><td>대화에서 말하지 않은 것 고르기</td><td>거짓 진술 찾기</td><td>진술 카드 모으기</td><td>진술 카드 중 들은 내용과 다른 것을 골라 찢기 / 증거와 짝짓기</td><td>모순 카드</td><td>카드 3장 중 1 → 5장 중 2, 부정문(didn't)</td><td><span class="tag have">일부</span> 심문 내밀기</td></tr>
+  <tr><td>9</td><td><b>심정·의도</b></td><td>화자의 심정, 말한 의도(제안·요청·거절)</td><td>증인의 속마음 읽기</td><td>표정 사진·말투</td><td>표정 카드 고르기 / 의도 도장 찍기</td><td>증인 메모</td><td>기쁨·슬픔 → 실망·안심·짜증</td><td><span class="tag new">새로</span></td></tr>
+  <tr><td>10</td><td><b>적절한 응답</b></td><td>마지막 말에 이어질 대답</td><td>심문에서 탐정의 다음 말</td><td>—</td><td>대답 카드 고르기(심문 화면 재사용)</td><td>자백으로 이어짐</td><td>뻔한 오답 → 그럴듯한 오답</td><td><span class="tag have">일부</span> 심문 화면</td></tr>
+</table>
+<p class="small">상태: <span class="tag have">있음</span> 지금 게임에 그 퍼즐이 있음 · <span class="tag new">새로</span> 새로 만들 퍼즐. 목적·이유(why/because)와 주제(무엇에 대한 대화인지)는 1–10의 사건 안에서 받아 적기·추리 문항으로 다룬다(따로 퍼즐을 두지 않음, 제안).</p>
+
+<h2>2. 지금 사건 8개 배치</h2>
+<table>
+  <tr><th>사건</th><th>지금 학습 초점</th><th>맞는 유형</th><th>지금 풀이</th><th>판정</th><th>고칠 점(제안)</th></tr>
+  <tr><td>01 사라진 연</td><td>생김새 듣기</td><td>1 그림 정보·물건</td><td>잎 치워 연 찾기</td><td><span class="tag keep">유지</span></td><td>퍼즐 1의 기준판으로 삼는다. 찾은 연에 "단서 카드" 연출만 더한다.</td></tr>
+  <tr><td>02 주인 없는 우산</td><td>누구의 것인지</td><td>1 그림 정보·물건 (+8)</td><td>우산 접기·펴기 사진, 세 사람에게 건네기</td><td><span class="tag fix">보완</span></td><td>무늬·손잡이·안감을 보는 건 1과 같다. 세 사람이 말한 "내 우산" 특징을 카드로 모아 우산과 맞추는 조립 단계를 넣으면 건네기 시행착오가 줄고 듣기 근거가 분명해진다.</td></tr>
+  <tr><td>03 꿀 가게 강도</td><td>생김새·옷차림</td><td>2 그림 정보·인물</td><td>몽타주</td><td><span class="tag keep">유지</span></td><td>퍼즐 2의 기준판. 완성 몽타주를 수배 전단 단서 카드로.</td></tr>
+  <tr><td>04 누가 화단을 망쳤을까?</td><td>과거 의문문·부정</td><td>8 언급되지 않은 것</td><td>꺾인 꽃을 주워 내밀기</td><td><span class="tag swap">교체</span></td><td>꽃 내밀기는 이 사건만의 풀이. 각자 "한 일/안 한 일"(didn't) 진술 카드를 모아 화단 흔적(공 자국·발자국·재채기)과 맞지 않는 카드를 찢는 퍼즐 8의 쉬운 판으로.</td></tr>
+  <tr><td>05 바뀐 소풍 가방</td><td>소유 표현</td><td>1 그림 정보·물건 (+6)</td><td>사진·추리 9문항·가방 전달 2번</td><td><span class="tag fix">보완</span></td><td>추리 9문항이 길다. 가방 속 물건을 들은 대로 두 가방에 나눠 담는 조립 퍼즐 하나로 줄이면 단서 카드(정리된 두 가방)가 생긴다. (설계서 v3 축소안은 멈춤 상태)</td></tr>
+  <tr><td>06 사라진 음악 대회 바이올린</td><td>위치 표현</td><td>5 장소·위치</td><td>현장 줍기, 케이스 열기, 추리 8문항, 심문</td><td><span class="tag fix">보완</span></td><td>위치 표현(next to, behind…)이 초점이라 퍼즐 5에 딱 맞다. 준비실 배치도에 들은 위치대로 물건을 놓는 퍼즐을 넣고 추리 문항을 줄인다.</td></tr>
+  <tr><td>07 도서관 살인사건</td><td>시간 표현</td><td>3 숫자·시각</td><td>추리 보드, 경찰 심문·자백</td><td><span class="tag fix">보완</span></td><td>알리바이 시간표(시계 바늘) 퍼즐 3의 기준판으로. 제목의 "살인"은 학교·학원 판매를 생각하면 바꿀지 검토.</td></tr>
+  <tr><td>08 크리스마스트리의 별</td><td>현재진행형</td><td>4 숫자·수량 (+2 동작)</td><td>저울, 심문, 질문 24·빈칸 57</td><td><span class="tag fix">보완</span></td><td>저울은 퍼즐 4로 살린다. 분량이 가장 길어(빈칸 57) 절반 이하로 줄이는 게 우선. 현재진행형(지금 무엇을 하고 있나)은 퍼즐 2의 동작 판으로 다룰 수 있다.</td></tr>
+</table>
+<p class="small">판정: <span class="tag keep">유지</span> 그대로 기준판 · <span class="tag fix">보완</span> 퍼즐 단계를 더하거나 분량 축소 · <span class="tag swap">교체</span> 지금 풀이를 기준표의 퍼즐로 바꿈. 모두 제안이며, 고칠 사건과 순서는 사용자가 정한다.</p>
+
+<h2>3. 퍼즐 만드는 순서 (제안)</h2>
+<ol class="steps">
+  <li><b>있는 것 다듬기</b>: 1 숨은 물건 찾기(연), 2 몽타주(꿀 가게)를 "단서 카드 완성" 연출까지 맞춰 기준판으로. 다른 사건에서 데이터만 바꿔 쓸 수 있게 엔진 쪽을 일반화.</li>
+  <li><b>8 진술 카드 찢기</b>: 화단 사건 교체에 바로 쓰이고, 심문(10)과도 이어진다.</li>
+  <li><b>3 시간표</b>: 숫자(시각)는 듣기평가에서 비중이 크고 fifteen/fifty 같은 헷갈리는 소리를 연습시키기 좋다. 도서관에 적용.</li>
+  <li><b>5 배치도·경로</b>: 위치 표현 단원(바이올린)에 적용.</li>
+  <li><b>4 영수증·저울</b>, <b>6 쪽지 붙이기</b>, <b>7 관계도</b>, <b>9 표정</b>은 그 유형의 새 사건을 기획할 때.</li>
+</ol>
+
+<h2>4. 새 사건 기획 체크리스트 (Codex · Claude 공통)</h2>
+<div class="card">
+<ol class="steps">
+  <li>이 사건이 연습시키는 <b>듣기평가 유형</b>은 무엇인가? (표 1의 번호 하나)</li>
+  <li>그 유형의 <b>퍼즐</b>은? 몇 번째로 나오는 판이고, 앞 판보다 무엇이 어려운가?</li>
+  <li>퍼즐을 맞추면 생기는 <b>단서 카드</b>는? 그 근거 문장은 무엇인가?</li>
+  <li><b>들어야만</b> 풀리는가? (그림·글자·찍기로 풀리는 길이 없는가, 헷갈리는 보기가 비슷한 소리인가)</li>
+  <li><b>분량</b>: 받아 적기 빈칸 10개 안팎, 5–8분인가?</li>
+  <li>스토리만을 위한 <b>새 풀이</b>가 있는가? 있으면 사용자와 먼저 상의.</li>
+  <li>새로 필요한 <b>그림·녹음</b>은? 장소·인물을 앞 사건에서 다시 쓸 수 있는가?</li>
+</ol>
+</div>
+</main>
+</body>
+</html>

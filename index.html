@@ -897,7 +897,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* as tall as the hint button beside it (top 10px + 36px + 10px), the place name centred on the same line */
 /* the place name floats over the picture as a paper chip, like the top-left chip of a conversation
    (user decision: no header band or rule above the place) */
-.inv-head{position:absolute;top:10px;left:66px;right:12px;z-index:4;display:flex;pointer-events:none}
+.inv-head{position:absolute;top:10px;left:66px;right:62px;z-index:4;display:flex;pointer-events:none}
 .inv-head h2{--btn:url(assets/ui/buttons/cream-flat.webp);--bw:15px;display:inline-flex;align-items:center;box-sizing:border-box;min-height:36px;max-width:100%;margin:0;padding:0 14px;border:2px solid transparent;
   border-image:var(--btn) 60 62 62 62 fill / var(--bw) calc(var(--bw) * 1.03) stretch;font-family:var(--f-display);font-weight:400;font-size:15px;line-height:1;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inv-head h2:empty{display:none}
@@ -914,17 +914,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes ev-bump{40%{transform:scale(1.15)}}
 .ev-count:active{transform:translateY(1px)}
 @media(prefers-reduced-motion:reduce){.ev-count.bump{animation:none}}
-/* 단서 찾기 힌트 (useFindHint, user pick B 2026-11-16: its own 3 per case, the notebook's acorns stay for listening): the
-   notebook's hint button as it is, the magnifier on the round cream button with what is left, beside the evidence chip.
-   It makes one thing still needed here sparkle for a moment (.hinted), never says what it is; the camera stays, an arrow
-   at the edge (.find-edge) when that thing is off the screen; nothing left here, no hint spent: the map (or 〈) wiggles */
-.find-hint{pointer-events:auto;position:relative;flex:none;display:grid;place-items:center;width:36px;height:36px;margin-left:8px;padding:0;border:0;border-radius:50%;
-  background:url(assets/ui/buttons/round-cream.webp) center/100% no-repeat}
-.ev-count[hidden] + .find-hint{margin-left:auto}
-.find-hint img{width:24px;height:24px;display:block}
-.find-hint .n{position:absolute;right:-3px;bottom:-1px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--ink);color:#FFFDF7;font-family:var(--f-display);font-size:10px;line-height:16px;text-align:center}
-.find-hint:disabled{opacity:.45}
-.find-hint:active{transform:translateY(1px)}
+/* 단서 찾기 힌트 (useFindHint): the acorn top right (#acornHint) while in a place — one acorn from the same pool as the
+   notebook (user decision 2026-11-23, was its own magnifier with 3 per case). It makes one thing still needed here
+   sparkle for a moment (.hinted), never says what it is; the camera stays, an arrow at the edge (.find-edge) when that
+   thing is off the screen; nothing left here, no acorn spent: the map (or 〈) wiggles */
 #art .hinted{animation:find-glow 1.8s ease-out}
 @keyframes find-glow{0%{box-shadow:0 0 0 0 rgba(255,226,140,0)}15%,55%{box-shadow:0 0 0 4px rgba(255,244,200,.95),0 0 26px 12px rgba(255,204,84,.8);background:rgba(255,240,190,.25)}100%{box-shadow:0 0 0 0 rgba(255,226,140,0)}}
 #art .scene-npc.hinted{animation:none}
@@ -1008,6 +1001,14 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .app.record-lock .top-back{z-index:12}
 .app.map-open .top-back{z-index:32}
 .top-back svg{width:20px;height:20px;display:block}
+.acorn-hint{position:absolute;top:8px;right:12px;z-index:9;display:grid;place-items:center;width:40px;height:40px;padding:0;border:0;border-radius:50%;
+  background:url(assets/ui/buttons/round-cream.webp) center/100% no-repeat}
+.acorn-hint img{width:26px;height:26px;display:block}
+.acorn-hint .n{position:absolute;right:-3px;bottom:-1px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:8px;background:var(--ink);color:#FFFDF7;font-family:var(--f-display);font-size:10px;line-height:16px;text-align:center}
+.acorn-hint.empty img{opacity:.45}
+.acorn-hint:active{transform:translateY(1px)}
+.app.record-lock .acorn-hint{z-index:12}
+.app.map-open .acorn-hint,.app.ending .acorn-hint,.app.deducing .acorn-hint{display:none}
 .app.ending .top-back{display:none}
 .app.ending.questioning .top-back{display:grid}
 .tab[aria-expanded="true"]{background:var(--honey)}
@@ -1302,6 +1303,47 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .pol-cap .case-title{font-size:17px;margin:1px 0 4px}
 .polaroid:not(.locked){width:60%}
 .polaroid .case-title{font-size:18px}
+/* the case list as case files, one row each (user pick D 2026-11-23, design/case-list-options.html) */
+.case-files{display:flex;flex-direction:column;gap:12px;padding:8px 4px 22px}
+/* chunky like the game's other cards (user request 2026-11-23: the rows looked thin): an ink edge, a paper tab on the
+   left, a solid shadow under it */
+.cf-row{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;min-height:100px;padding:10px 12px 10px 10px;text-align:left;font:inherit;color:var(--ink);
+  background:#FFFDF6;border:2.5px solid var(--ink);border-left-width:9px;border-left-color:#C9A46A;border-radius:14px;box-shadow:0 4px 0 rgba(74,54,40,.28);
+  animation:cf-in .35s ease-out both}
+@keyframes cf-in{from{opacity:0;transform:translateY(8px)}}
+button.cf-row{cursor:pointer}
+button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,.28)}
+.cf-row.current{border-left-color:#F2C96B;background:#FFF8E1;box-shadow:0 0 0 4px #F7E07C,0 4px 0 4px rgba(74,54,40,.2)}
+.cf-thumb{position:relative;flex:none;width:96px;aspect-ratio:4/3;border:2px solid var(--ink);border-radius:8px;overflow:hidden;background:#3E3128}
+.cf-thumb img,.cf-thumb svg{width:100%;height:100%;display:block;object-fit:cover}
+.cf-row.solved .cf-thumb > img,.cf-row.solved .cf-thumb > svg{filter:sepia(.55) saturate(.7) brightness(.97)}
+.cf-stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-14deg);padding:0 5px;border:2px solid #B8323A;border-radius:4px;
+  font-family:var(--f-display);font-size:11px;letter-spacing:.06em;color:#B8323A;background:rgba(255,250,240,.5);mix-blend-mode:multiply}
+.cf-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.cf-row .case-title{font-size:18px;line-height:1.25;margin:1px 0}
+.cf-row .case-focus{font-size:13px}
+.cf-state{flex:none;display:flex;align-items:center}
+.cf-row .case-stars{margin-left:0}
+.cf-row .learned{position:static;width:auto;align-self:flex-start;margin-top:4px;padding:2px 7px 3px;font-size:12px;box-shadow:none;border-radius:4px;transform:none}
+.cf-row .learned::before{display:none}
+.cf-row .learned .k{display:inline;margin:0 4px 0 0;font-size:9px}
+.cf-row .learned .forms{display:inline-grid}
+.cf-row.locked{cursor:default;background:#F3EBDD;border-color:#9C8A74;border-left-color:#BBA98F;box-shadow:0 4px 0 rgba(74,54,40,.14)}
+.cf-row.locked .cf-thumb{display:grid;place-items:center;border-style:dashed;background:#5A4A3C;font-family:var(--f-display);font-size:30px;color:rgba(255,253,247,.5)}
+.cf-row.locked .case-no{color:var(--ink-soft)}
+/* a word game: a thin row between the cases */
+.cf-row.game{min-height:68px;padding:8px 12px 8px 10px;background:#FFF2CC;border-left-color:#8A5A2B}
+.cf-row.game .case-title{font-size:16px}
+.cf-ic{flex:none;width:96px;height:48px;display:grid;place-items:center}
+.cf-ic img{height:46px;width:auto}
+.cf-row.game.locked{background:#F3EBDD;border-color:#9C8A74;box-shadow:0 4px 0 rgba(74,54,40,.14)}
+.cf-row.game.locked .cf-ic{filter:grayscale(1);opacity:.6}
+.cf-match{position:relative;width:56px;height:42px;border-radius:4px;background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/80px repeat;border:2px solid #8A5A2B}
+.cf-match i{position:absolute;width:15px;height:10px;background:#FFFDF6;box-shadow:0 1px 1px rgba(0,0,0,.25)}
+.cf-match i:first-child{left:4px;top:4px}
+.cf-match i:last-child{right:4px;bottom:4px}
+.cf-match b{position:absolute;left:12px;top:15px;width:22px;height:2px;background:#B8323A;transform:rotate(28deg)}
+.cf-ok{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#6AA35A;color:#fff;font-size:13px;font-weight:800;border:2px solid var(--ink)}
 /* a solved case: faded photo and a red rubber stamp over it (user pick) */
 .polaroid.solved .pol-photo{filter:sepia(.55) saturate(.7) brightness(.97)}
 .case-stamp{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%) rotate(-14deg);padding:2px 14px 3px;border:3px solid #B8323A;border-radius:8px;
@@ -1399,9 +1441,44 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the brass padlock (user pick 2026-11-23, design/spelling-safe-options.html 2; scripts/cut-padlock.py): letter wheels
    over its window, turned by dragging up or down (a tap turns one step: the upper half back, the lower half on) */
 .sg-safe{align-self:stretch;display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:2px;text-align:center}
-.sg-lockart{position:relative;width:min(100%,340px);filter:drop-shadow(3px 6px 4px rgba(50,30,15,.3))}
+.sg-lockart{position:relative;width:min(100%,340px);container-type:inline-size}
 .sg-lockart img{display:block;width:100%;height:auto}
-.sg-safe.open .sg-lockart{animation:sg-pop .45s ease-out}
+#sgLockImg{filter:drop-shadow(3px 6px 4px rgba(50,30,15,.3))}
+.sg-lockbody{position:relative;transform-origin:50% 3%}
+.sg-safe.open .sg-lockbody{animation:sg-pop .45s ease-out}
+/* the treasure chest behind the lock (scripts/cut-chest.py): 1 picture px = .5cqw of the lock, so the shackle top sits
+   in the hasp's staple (picture 449,692); the chest runs out of the frame. The staple lies over the shackle.
+   On the last word it zooms out and the chest opens (light only) */
+.sg-card:has(> .sg-scene){padding:0}
+.sg-scene{position:relative;isolation:isolate;background:linear-gradient(#F0E4CD 50%,#BC8246 50%);flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;padding:16px 16px 22px;overflow:hidden}
+.sg-scene .sg-top,.sg-scene .sg-track{position:relative;z-index:3}
+/* the word's button and meaning ride on the lock's brass body, above the letter window (they leave with the lock) */
+.sg-plate{position:absolute;left:12%;right:12%;top:47.5%;height:14%;display:flex;align-items:center;justify-content:center;gap:8px}
+.sg-plate .sg-play{width:44px!important;height:44px!important;margin:0;flex-shrink:0}
+.sg-plate .sg-meaning{margin:0;font-size:clamp(15px,5.4cqw,20px);max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* no title (the dialog keeps its name): the count sits left on a paper chip, over the chest */
+.sg-scene .sg-top{justify-content:space-between}
+.sg-scene .sg-prog{padding:3px 12px;border-radius:999px;background:rgba(255,253,246,.92);color:var(--ink);box-shadow:0 1px 3px rgba(40,25,10,.3)}
+.sg-scene .sg-track{display:none}   /* user request: no progress bar over the chest (the count shows it) */
+.sg-scene .sg-lockart{margin-top:calc(6cqw + 135px)}   /* the lock stays where it hung before its word moved onto it */
+.sg-scene .sg-safe{container-type:inline-size}
+.sg-lockart img.sg-chest{position:absolute;left:-174.5cqw;top:-344.5cqw;width:448cqw;max-width:none;z-index:-1;pointer-events:none;transition:opacity .6s,left .9s ease-in-out,top .9s ease-in-out,width .9s ease-in-out}
+/* the last lock gone: zoom out to the whole chest, then it opens */
+.sg-lockart.zoom img.sg-chest{left:-20cqw;top:-43cqw;width:140cqw}
+.sg-lockart img.sg-chest.ring{z-index:2}
+.sg-lockart img.sg-chest.open{opacity:0}
+.sg-lockart.chest-open img.sg-chest.open{opacity:1}
+.sg-lockart.chest-open img.sg-chest.ring{opacity:0}
+/* an opened lock unhooks: it lifts off the staple, slides out sideways through its open shackle (the staple stays
+   in front), then falls away; the next one swings in */
+#sgLockArt.drop .sg-lockbody{animation:sg-unhook .9s ease-in forwards}   /* wins over a leftover rattle */
+#sgLockArt.zoom .sg-lockbody{visibility:hidden}   /* gone for good once the chest is shown whole */
+@keyframes sg-unhook{
+  25%{transform:translate(-3cqw,-5cqw) rotate(-5deg)}
+  55%{transform:translate(-40cqw,0) rotate(-12deg);opacity:1}
+  100%{transform:translate(-52cqw,90cqw) rotate(-28deg);opacity:0}}
+.sg-lockart.hang .sg-lockbody{animation:sg-hang .4s ease-out}
+@keyframes sg-hang{from{transform:translateY(-10px);opacity:0}}
 @keyframes sg-pop{40%{transform:translateY(-6px) scale(1.03)}}
 .sg-meaning{display:inline-block;margin-top:2px;padding:6px 16px 5px;border-radius:4px;background:#FFFDF6;font-family:var(--f-display);font-size:22px;
   transform:rotate(-1.5deg);box-shadow:0 2px 0 rgba(0,0,0,.2)}
@@ -1421,6 +1498,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .sg-open{align-self:center;margin-top:auto;min-width:140px;justify-content:center;font-size:18px;padding:10px 22px;color:#fff}
 .sg-shake{animation:sg-shake .4s}
 @keyframes sg-shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+/* the hanging lock rattles on its staple */
+.sg-lockbody.sg-shake{animation:sg-rattle .45s}
+@keyframes sg-rattle{20%{transform:rotate(-5deg)}45%{transform:rotate(4deg)}70%{transform:rotate(-2deg)}}
 .sg-done{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(251,244,230,.95)}
 .sg-done[hidden]{display:none}
 .sg-done img{width:150px;transform:rotate(-8deg)}
@@ -1430,7 +1510,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* 도토리 저금통 (user decision 2026-11-23, scripts/cut-acorn-jar.py): a finished word game drops its acorns into the jar */
 .acorn-bank{margin-left:auto;display:inline-flex;align-items:center;gap:2px;font-family:var(--f-display);font-size:15px;color:var(--ink);
   background:#FFFDF7;border:2px solid var(--ink);border-radius:14px;padding:0 10px 0 2px;height:30px}
-.acorn-bank img{width:26px;height:36px;object-fit:contain;margin-top:-8px}
+.acorn-bank img{width:22px;height:22px;object-fit:contain;margin:0 2px 0 4px}
 .ab-reward{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:10px;min-height:120px}
 .ab-reward[hidden]{display:none}
 .ab-jar{width:86px;height:auto;filter:drop-shadow(2px 4px 3px rgba(50,30,15,.3))}
@@ -1440,7 +1520,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .ab-drop{position:absolute;width:26px;left:calc(50% - 61px);top:-40px;animation:ab-drop .6s ease-in forwards;opacity:0}
 @keyframes ab-drop{0%{opacity:0;transform:translateY(-10px) rotate(-20deg)}20%{opacity:1}100%{opacity:1;transform:translateY(95px) rotate(25deg)}}
 /* a lock opened in a first round: an acorn pops out of it */
-.sg-acorn{position:absolute;left:50%;top:40%;width:34px;margin-left:-17px;pointer-events:none;animation:sg-acorn .9s ease-out forwards}
+.sg-lockart img.sg-acorn{position:absolute;z-index:3;left:50%;top:40%;width:34px;margin-left:-17px;pointer-events:none;animation:sg-acorn .9s ease-out forwards}
 @keyframes sg-acorn{0%{transform:translateY(0) scale(.6);opacity:0}25%{opacity:1}60%{transform:translateY(-120px) scale(1.1) rotate(-15deg)}100%{transform:translateY(-150px) scale(.9) rotate(10deg);opacity:0}}
 .listen .hint .bank{position:absolute;right:-6px;bottom:-6px;width:18px;height:24px;object-fit:contain}
 .sg-done div{display:flex;gap:10px}
@@ -1792,6 +1872,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <audio id="evidenceVoice" preload="auto" hidden></audio>
   <audio id="wordVoice" preload="none" hidden></audio>
   <div class="main">
+    <!-- the one hint (user decision 2026-11-23): an acorn top right. While writing an answer down it fills a blank,
+         in a place it makes something still needed sparkle; the case's 3 acorns first, then the jar's -->
+    <button class="acorn-hint" type="button" id="acornHint" aria-label="도토리 힌트"></button>
     <button class="pill top-back" type="button" id="backTab" aria-label="뒤로">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 L8 12 L14.5 18.5" fill="none" stroke="#4A3628" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -1826,7 +1909,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="inv-head">
         <h2 id="sceneTitle"></h2>
         <button class="ev-count" id="evCount" type="button"></button>
-        <button class="find-hint" id="findHint" type="button"></button>
       </div>
       <div class="art-stage">
         <div class="art-wrap" id="artWrap"><div class="art" id="art"></div></div>
@@ -1873,7 +1955,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
         <div class="listen" id="listen" hidden>
           <button class="pill" id="replay" type="button">다시 듣기</button>
           <button class="spd" id="slow" type="button" aria-pressed="false" aria-label="천천히">1×</button>
-          <button class="hint" type="button" id="hint" aria-label="힌트 3번 남음" disabled></button>
         </div>
       </div>
       <div class="dock-body" id="dockBody"></div>
@@ -1946,8 +2027,8 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></div>
     </div>
     <div class="home-page" id="home-cases" hidden>
-      <header class="cases-head"><h1>사건 목록</h1><span class="acorn-bank" id="acornBank" role="img"><img src="assets/ui/acorn-jar-0.webp" alt=""><b>0</b></span><span class="streak" id="caseStreak" hidden></span></header>
-      <div class="board" id="caseCards"></div>
+      <header class="cases-head"><h1>사건 목록</h1><span class="acorn-bank" id="acornBank" role="img"><img src="assets/ui/icons-v2/acorn.webp" alt=""><b>0</b></span></header>
+      <div class="case-files" id="caseCards"></div>
     </div>
     <div class="home-page" id="home-study" hidden></div>
     <div class="home-page" id="home-me" hidden></div>
@@ -1994,12 +2075,15 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <div class="modal" id="safeGame" hidden>
     <div class="sg-card" role="dialog" aria-label="철자 자물쇠">
-      <div class="sg-top"><h2>철자 자물쇠</h2><span class="sg-prog" id="sgProg"></span><button class="close-button" type="button" id="sgClose" aria-label="닫기"></button></div>
+      <div class="sg-scene">
+      <div class="sg-top"><span class="sg-prog" id="sgProg"></span><button class="close-button" type="button" id="sgClose" aria-label="닫기"></button></div>
       <div class="sg-track"><i id="sgTrack"></i></div>
-      <button class="play-btn sg-play" type="button" id="sgPlay" aria-label="단어 듣기"></button>
-      <div class="sg-safe" id="sgSafe"><span class="sg-meaning" id="sgMeaning"></span>
-        <div class="sg-lockart"><img id="sgLockImg" src="assets/ui/padlock-closed.webp" alt=""><div class="sg-dials" id="sgDials"></div></div></div>
+      <div class="sg-safe" id="sgSafe">
+        <div class="sg-lockart" id="sgLockArt"><div class="sg-lockbody" id="sgLockBody"><img id="sgLockImg" src="assets/ui/padlock-closed.webp" alt=""><div class="sg-dials" id="sgDials"></div>
+          <div class="sg-plate"><button class="play-btn sg-play" type="button" id="sgPlay" aria-label="단어 듣기"></button><span class="sg-meaning" id="sgMeaning"></span></div></div>
+          <img class="sg-chest" src="assets/ui/chest-closed.webp" alt=""><img class="sg-chest open" src="assets/ui/chest-open.webp" alt=""><img class="sg-chest ring" src="assets/ui/chest-staple.webp" alt=""></div></div>
       <button class="pill big sg-open" type="button" id="sgOpen">열기</button>
+      </div>
       <div class="sg-done" id="sgDone" hidden><img src="assets/ui/complete-stamp.webp" alt=""><b>자물쇠를 모두 열었어요!</b>
         <div class="ab-reward" id="sgReward"></div>
         <div><button class="pill" type="button" id="sgAgain">한 번 더</button><button class="pill big" type="button" id="sgBack" style="color:#fff">사건판으로</button></div></div>
@@ -5265,7 +5349,7 @@ const newSpeakerState = () => ({ phase:'wait', order:[], recording:null, notes:{
 const S = {
   cur:START, view:START, slow:false, sel:null, investigate:false,
   hints:3,           // acorn hints left for the whole case (shared by everyone)
-  findHints:3,       // 단서 찾기 힌트 left for the whole case (the place view's magnifier, useFindHint)
+  findHints:3,       // no longer used: 단서 찾기 힌트 spends the same acorns as the notebook (acornHint)
   place:null, found:Object.fromEntries(PLACES.map(p => [p.id, new Set()])), evidence:[],
   known:new Set(PACK ? [PACK.people[START].place] : []),   // places someone has mentioned — only these appear on the map
   met:[START],       // people the player knows about
@@ -5570,13 +5654,15 @@ function hideBubble(){ $('#bubble').hidden = true; }
 /* ---------- notebook (Note) ---------- */
 const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5Z" fill="#4A3628"/></svg>`;
 
+// the acorn top right: the case's own acorns, then the jar's (도토리 저금통)
+const acornsLeft = () => S.hints > 0 ? S.hints : acornBank();
+function spendAcorn(){ if(S.hints > 0) S.hints--; else setAcornBank(acornBank() - 1); }
 function renderHint(){
-  const p = st(), button = $('#hint'), qid = p.recording;
-  // once the case's own acorns are gone, the jar's count shows, with the little jar
-  const fromJar = S.hints <= 0, n = fromJar ? acornBank() : S.hints;
-  button.innerHTML = `<img src="assets/ui/icons-v2/acorn.webp" alt="" draggable="false"><span class="n">${n}</span>${fromJar && n ? `<img class="bank" src="${jarPic(n)}" alt="">` : ''}`;
-  button.disabled = S.investigate || p.phase !== 'record' || !qid || n <= 0;
-  button.setAttribute('aria-label', fromJar ? `저금통 도토리 힌트 ${n}번 남음` : `힌트 ${n}번 남음`);
+  const button = $('#acornHint'); if(!button) return;
+  const n = acornsLeft();
+  button.innerHTML = `<img src="assets/ui/icons-v2/acorn.webp" alt="" draggable="false"><span class="n">${n}</span>`;
+  button.classList.toggle('empty', n <= 0);
+  button.setAttribute('aria-label', `도토리 힌트 ${n}개 남음`);
 }
 
 // S.view: a person's id (the 인물 tab), 'evidence' or 'memo'. notePerson: the person page last shown, for the 인물 tab.
@@ -6194,9 +6280,12 @@ const nothingToTalk = id => { const s = spk(id), p = per(id);
 // tap on the scene or 〈): once everything it leads to is over (their lines, an after beat, the detective's thought, the
 // notebook, the sketch, a held thing) and nothing is open, after 0.8s of calm. New names show over the place.
 let leaveCalm = 0;
+// a close look waiting to open after a thing is taken (the umbrella): no zooming out before it (user report 2026-11-23:
+// the umbrella taken after every question went into 소지품 and the close look never came)
+let inspectDue = false;
 setInterval(function autoLeave(){
   const calm = caseStarted && !S.investigate && !ending && !!S.cur && !document.hidden && nothingToTalk(S.cur) &&
-    !greetingId && !beatOn && !beats.length && !thoughts.length && !tapWait && !linesPlaying() && !mt && !holdOut &&
+    !greetingId && !beatOn && !beats.length && !thoughts.length && !tapWait && !linesPlaying() && !mt && !holdOut && !inspectDue &&
     !autoTimer && !S.handoffRound && !scriptResumeDue() && !$('#app').classList.contains('notes-open') && $('#sayBubble').hidden &&
     !document.querySelector('.sheet.open, #drawer.open') && [$('#stopTalk'), $('#leaveCase'), $('#deduce'), $('#intro'), $('#caseList'), $('#review')].every(el => el.hidden);
   leaveCalm = calm ? leaveCalm + 1 : 0;
@@ -6412,7 +6501,7 @@ $('#heldItem').addEventListener('click', () => {
   checkThoughts();   // the umbrella taken last of all: the thought plays over the close look
   setMood(who, null); setGreeting(null);
   // the close look once the umbrella has landed in 소지품
-  if(then && S.cur === who && !S.investigate) setTimeout(() => { if(S.cur === who && !S.investigate && !greetingId){ openInspect(then); if(thoughts.length) setTimeout(playThought, 800); } }, 1500);
+  if(then && S.cur === who && !S.investigate){ inspectDue = true; setTimeout(() => { inspectDue = false; if(S.cur === who && !S.investigate && !greetingId){ openInspect(then); if(thoughts.length) setTimeout(playThought, 800); } }, 1500); }
   else renderAsk();
 });
 /* ---------- montage: a witness's lines matched on a pencil sketch (PACK.montage, the robbery case) ---------- */
@@ -6544,11 +6633,10 @@ function askAudio(id, qid){
 function useHint(){
   const p = st(), qid = p.recording;
   if(S.investigate || p.phase !== 'record' || !qid || S.view !== S.cur) return;
-  if(S.hints <= 0 && acornBank() <= 0) return toast('힌트를 다 썼어요.');
+  if(acornsLeft() <= 0) return toast('도토리를 다 썼어요.');
   const blank = blanksOf(S.cur, [qid]).find(b => !b.value.trim() || !isRight(b));
   if(!blank) return toast('더 채울 칸이 없어요.');
-  // the case's own acorns first, then one from the jar (도토리 저금통)
-  if(S.hints > 0) S.hints--; else setAcornBank(acornBank() - 1);
+  spendAcorn();
   p.notes[blank.id] = blank.ans.split('/')[0];
   p.marks[blank.id] = 'hint';
   renderDock();
@@ -7047,7 +7135,12 @@ $('#evidenceBack').onclick = () => {
   $('#evidenceVoice').pause(); evidenceOpen = null; renderDock();
 };
 $('#mapTab').onclick = () => { if(!talkLocked()) openSheet($('#sheet-map').classList.contains('open') ? null : 'map'); };
-$('#hint').onclick = useHint;
+$('#acornHint').onclick = () => {
+  const p = st();
+  if(!S.investigate && p.phase === 'record' && p.recording && S.view === S.cur) return useHint();
+  if(S.investigate) return useFindHint();
+  toast('받아 적을 때나 현장을 조사할 때 쓸 수 있어요.');
+};
 
 /* ---------- typing a blank on a phone ---------- */
 // The keyboard covers the bottom of the screen without moving the app, so while a note blank has the focus the
@@ -9732,11 +9825,7 @@ function renderSceneHead(){
   chip.setAttribute('aria-label', `심문 증거 ${of}개 중 ${got}개`);
   chip.classList.toggle('all', got === of);
   chip.hidden = !of;
-  const fh = $('#findHint');
-  fh.hidden = !pl || !!pl.balance;
-  fh.innerHTML = `<img src="assets/ui/icons/magnifier.webp" alt="" draggable="false"><span class="n">${S.findHints}</span>`;
-  fh.disabled = S.findHints <= 0;
-  fh.setAttribute('aria-label', `단서 찾기 힌트 ${S.findHints}번 남음`);
+  renderHint();
   if(evShown !== null && got > evShown){ chip.classList.remove('bump'); void chip.offsetWidth; chip.classList.add('bump'); }
   evShown = got;
 }
@@ -9791,7 +9880,8 @@ function sayFindHint(key){
 function wiggle(el){ el.classList.remove('wiggle'); void el.offsetWidth; el.classList.add('wiggle'); setTimeout(() => el.classList.remove('wiggle'), 700); }
 function useFindHint(){
   const pl = placeObj();
-  if(!S.investigate || !pl || pl.balance || ending || S.findHints <= 0 || $('#art .hinted, #foldBtn.hinted, .find-edge, .art-stage .think-place')) return;
+  if(!S.investigate || !pl || pl.balance || ending || $('#art .hinted, #foldBtn.hinted, .find-edge, .art-stage .think-place')) return;
+  if(acornsLeft() <= 0) return toast('도토리를 다 썼어요.');
   const target = findHintTarget();
   // nothing to find here: the way out wiggles, a short note says where to try (user request 2026-11-17), no hint spent
   if(!target){
@@ -9800,7 +9890,7 @@ function useFindHint(){
     return;
   }
   const { el, key } = target;
-  S.findHints--; saveGame(); renderSceneHead();
+  spendAcorn(); saveGame(); renderSceneHead();
   closePropSay(); cancelCapture();
   sayFindHint(key);
   el.classList.add('hinted'); setTimeout(() => el.classList.remove('hinted'), 1800);
@@ -9814,7 +9904,6 @@ function useFindHint(){
   arrow.style.top = Math.min(Math.max(r.top + r.height / 2 - box.top, 40), box.height - 40) + 'px';
   stage.appendChild(arrow); setTimeout(() => arrow.remove(), 1800);
 }
-$('#findHint').addEventListener('click', useFindHint);
 
 /* ---------- how-to-play tutorial ----------
    Seven steps, one at a time, each a moving demo of the game's own screens (TUT_DEMO; held on its first frame with
@@ -9829,7 +9918,7 @@ const TUT = [
   { title:'말을 걸고 질문해요', demo:'talk',
     text:'현장의 <b>동물 친구</b>를 누르면 말을 걸 수 있어요. <b>질문</b>을 고르면 노트가 올라오고 영어 대답이 들려요.' },
   { title:'빈칸을 채워요', demo:'blanks',
-    text:'<b>단어 카드</b>를 누르면 앞 빈칸부터 들어가요. 끌어다 놓거나 직접 써도 돼요. 막히면 <b>도토리</b>로 한 칸을 채워요. 도토리는 사건마다 3개예요.' },
+    text:'<b>단어 카드</b>를 누르면 앞 빈칸부터 들어가요. 끌어다 놓거나 직접 써도 돼요. 막히면 오른쪽 위 <b>도토리</b>를 눌러 한 칸을 채워요. 현장에서 누르면 찾을 곳이 반짝여요. 도토리는 사건마다 3개예요.' },
   { title:'기록 완료로 확인해요', demo:'check',
     text:'빈칸을 다 채우고 <b>기록 완료</b>를 눌러요. 틀린 칸은 흔들려요. 다시 듣고 고쳐서 또 확인해요. 바르게 적으면 <b>새 장소나 인물</b>이 열려요.' },
   { title:'현장을 조사해요', demo:'place',
@@ -9851,7 +9940,8 @@ const PAW_TIP = .258;   // the fingertip across assets/ui/tutorial-paw.webp (cut
 // the note (the game's own markup, ids left out), sample lines that are not the case's
 const NOTE = (lines, words) => `<section class="dock" aria-hidden="true"><div class="note-cats">${['M5 3.5h8.4a3 3 0 0 1 3 3v4.8a3 3 0 0 1-3 3H8.8l-3.6 3v-3H5a3 3 0 0 1-3-3V6.5a3 3 0 0 1 3-3z','M4.5 7h3l1.6-2.5h5.8L16.5 7h3a2.5 2.5 0 0 1 2.5 2.5v8.3a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 17.8V9.5A2.5 2.5 0 0 1 4.5 7z','M12 2.5a4.6 4.6 0 0 1 2.9 8.2l.4 1.5h1.6a1.8 1.8 0 0 1 0 3.6h-3.6v4.6a1.3 1.3 0 0 1-2.6 0v-4.6H7.1a1.8 1.8 0 0 1 0-3.6h1.6l.4-1.5A4.6 4.6 0 0 1 12 2.5z'].map((d, i) => `<button class="ncat" type="button" aria-pressed="${i === 0}"><span class="face"><span class="stamp"><svg viewBox="0 0 24 24"><path fill="currentColor" d="${d}"/></svg></span></span></button>`).join('')}</div>
   <div class="note-edge"></div>
-  <div class="dock-head"><div class="listen"><button class="pill t-replay" type="button"><span class="play-ico"></span>다시 듣기</button><button class="spd t-slow" type="button" aria-pressed="false">1×</button><button class="hint t-hint" type="button"><img src="assets/ui/icons-v2/acorn.webp" alt=""><span class="n">3</span></button></div></div>
+  <div class="dock-head"><div class="listen"><button class="pill t-replay" type="button"><span class="play-ico"></span>다시 듣기</button><button class="spd t-slow" type="button" aria-pressed="false">1×</button></div></div>
+  <button class="acorn-hint t-hint" type="button"><img src="assets/ui/icons-v2/acorn.webp" alt=""><span class="n">3</span></button>
   <div class="dock-body"><div class="note-page"><div class="nblock now"><span class="qlabel">Q. ${lines.q}</span>${lines.rows.map(r => `<div class="nline">${r.replace(/_/g, () => '<input class="blank" value="" size="5" tabindex="-1" readonly>')}</div>`).join('')}</div></div>
   <div class="bank">${words.map(w => `<button class="word" type="button">${w}</button>`).join('')}</div></div>
   <div class="dock-foot"><button class="pill finish wait" type="button">기록 완료</button></div></section>`;
@@ -10546,50 +10636,48 @@ function learnedNote(c, turn){
     <span class="forms">${forms.map((f, i) => `<span class="f"${i === at ? '' : ' data-off'}>${esc(f)}</span>`).join('')}</span></span>`;
 }
 function renderCaseList(){
-  const solved = solvedCases(), streak = studyStreak();
-  $('#caseStreak').hidden = !streak;
-  $('#caseStreak').innerHTML = `${FLAME_ICON}${streak}일`;
+  const solved = solvedCases();
   renderAcornBank();
   const nextId = CASES.find(c => c.playable && !solved.includes(c.id))?.id;
   // the learned notes show the next of their case's key forms each time the list is drawn (user request)
   const turn = +(localStorage.getItem(LEARNED_TURN_KEY) || 0);
   try { localStorage.setItem(LEARNED_TURN_KEY, turn + 1); } catch {}
-  $('#caseCards').innerHTML = CASES.map((c, i) => caseCard(c, i) + safeNode(c, i)).join('');
-  function caseCard(c, i){
+  $('#caseCards').innerHTML = CASES.map((c, i) => caseRow(c, i) + gameRow(c, i)).join('');
+  // Case files, one row each (user pick D of design/case-list-options.html, 2026-11-23: a hundred cases must still be
+  // easy to scan): a small cover, the number, title and what is practised, the state on the right. A locked case stays
+  // hidden as before (?, no title, user decision); the case to play next is outlined and the list opens on it.
+  function caseRow(c, i){
     const open = ALL_CASES_OPEN || i === 0 || solved.includes(CASES[i - 1].id);
-    const look = `${i % 2 ? 'r' : 'l'}" style="--tilt:${TILTS[i % TILTS.length]}deg;--i:${i}`;
-    if(!open || !c.playable) return `<div class="polaroid locked ${look}" aria-label="${c.no} 잠김">
-      <span class="pol-photo">?</span>
-      <span class="pol-cap"><span class="case-no">${c.no}</span>
+    if(!open || !c.playable) return `<div class="cf-row locked" aria-label="${c.no} 잠김">
+      <span class="cf-thumb">?</span>
+      <span class="cf-text"><span class="case-no">${c.no}</span>
         <span class="case-lock">${LOCK_ICON}${open ? '준비 중이에요' : `${CASES[i - 1].no}${'2459'.includes(CASES[i - 1].no.slice(-1)) ? '를' : '을'} 해결하면 열려요`}</span></span></div>`;
     const inProgress = c.id === CASE_ID ? caseStarted : !!localStorage.getItem(caseSaveKey(c.id));
-    // solved (user pick: stamp + faded photo + note): the photo fades, a red 해결 stamp sits on it and the stars stay;
-    // the case to play next gets a yellow note on its corner; every open card is the same size
     const done = solved.includes(c.id), next = c.id === nextId;
     const stars = done && caseStats()[c.id]?.stars;
-    return `<button class="polaroid${done ? ' solved' : ''}${next ? ' current' : ''} ${look}" type="button" data-case="${c.id}">
-      <span class="pol-photo">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}"${c.cover.bg || c.cover.fit ? ` style="${c.cover.bg ? `background:${c.cover.bg};` : ''}${c.cover.fit ? `object-fit:${c.cover.fit};padding:6px 0;box-sizing:border-box` : ''}"` : ''}>` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}</span>
-      ${done ? `<span class="case-stamp" aria-label="해결">SOLVED</span>${learnedNote(c, turn)}` : ''}${next ? '<span class="next-note" aria-hidden="true">새로운 의뢰!</span>' : ''}
-      <span class="pol-cap"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? '' : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : '새 사건'}</span>`}${stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.webp" alt="">`).join('')}</span>` : ''}</span></button>`;
+    return `<button class="cf-row${done ? ' solved' : ''}${next ? ' current' : ''}" type="button" data-case="${c.id}">
+      <span class="cf-thumb">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}"${c.cover.bg || c.cover.fit ? ` style="${c.cover.bg ? `background:${c.cover.bg};` : ''}${c.cover.fit ? `object-fit:${c.cover.fit};padding:6px 0;box-sizing:border-box` : ''}"` : ''}>` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}${done ? '<span class="cf-stamp" aria-label="해결">SOLVED</span>' : ''}</span>
+      <span class="cf-text"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? learnedNote(c, turn) : ''}</span>
+      <span class="cf-state">${done ? (stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.webp" alt="">`).join('')}</span>` : '') : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : next ? '새로운 의뢰!' : '새 사건'}</span>`}</span></button>`;
   }
   // a word game after every third case (SAFE_EVERY, user decision 2026-11-23), before the next; the games take turns
-  // (user pick): the 3rd case's slot is the spelling safe, the 6th's word matching, and so on.
-  // Open once that case is solved (or while every case is open for testing).
-  function safeNode(c, i){
+  // (user pick): the 3rd case's slot is the spelling lock, the 6th's word matching, and so on. A thin row of its own,
+  // open once that case is solved (or while every case is open for testing).
+  function gameRow(c, i){
     if((i + 1) % SAFE_EVERY || i === CASES.length - 1 || !c.playable) return '';
     const match = ((i + 1) / SAFE_EVERY) % 2 === 0, name = match ? '단어 짝맞추기' : '철자 자물쇠';
     const open = ALL_CASES_OPEN || solved.includes(c.id), done = (match ? matchesDone() : safesOpened()).includes(c.id);
-    const tilt = i % 2 ? 3 : -4;
-    const box = match ? '<span class="sn-box"><span class="sn-note a"></span><span class="sn-thread"></span><span class="sn-note b"></span></span>' : '<span class="sn-box"></span>';
+    const ic = match ? '<span class="cf-match" aria-hidden="true"><i></i><b></b><i></i></span>'
+      : `<img src="assets/ui/padlock-${done ? 'open' : 'closed'}.webp" alt="">`;
+    const note = open ? (done ? '완료 · 다시 하면 도토리 1개' : '도토리 5개') : `${c.no}${'2459'.includes(c.no.slice(-1)) ? '를' : '을'} 해결하면 열려요`;
     return open
-      ? `<button class="safe-node${match ? ' match' : ''} ${done ? 'done' : 'ready'}" type="button" ${match ? 'data-match' : 'data-safe'}="${c.id}" style="--tilt:${tilt}deg" aria-label="${name}${done ? ' (완료)' : ''}">${box}<span class="sn-tag">${name}</span></button>`
-      : `<div class="safe-node${match ? ' match' : ''} locked" style="--tilt:${tilt}deg" aria-label="${name} 잠김">${box}<span class="sn-tag">${name}</span></div>`;
+      ? `<button class="cf-row game ${done ? 'done' : 'ready'}" type="button" ${match ? 'data-match' : 'data-safe'}="${c.id}" aria-label="${name}${done ? ' (완료)' : ''}"><span class="cf-ic">${ic}</span><span class="cf-text"><span class="case-title">${name}</span><span class="case-focus">${note}</span></span>${done ? '<span class="cf-state"><span class="cf-ok">✓</span></span>' : ''}</button>`
+      : `<div class="cf-row game locked" aria-label="${name} 잠김"><span class="cf-ic">${ic}</span><span class="cf-text"><span class="case-title">${name}</span><span class="case-focus">${note}</span></span></div>`;
   }
 
   requestAnimationFrame(() => {
-    drawBoardString();
-    // a long board (many cases) scrolls to the case to play next
-    const page = $('#home-cases'), next = page.querySelector('.polaroid.current');
+    // the list opens on the case to play next
+    const page = $('#home-cases'), next = page.querySelector('.cf-row.current');
     if(next){
       const box = page.getBoundingClientRect(), at = next.getBoundingClientRect();
       if(at.bottom > box.bottom) page.scrollTop += at.top - box.top - (box.height - at.height) / 2;
@@ -10688,7 +10776,7 @@ const jarPic = n => `assets/ui/acorn-jar-${n < 3 ? 0 : n < 15 ? 1 : 2}.webp`;
 function renderAcornBank(){
   const el = $('#acornBank'); if(!el) return;
   const n = acornBank();
-  el.querySelector('img').src = jarPic(n); el.querySelector('b').textContent = n;
+  el.querySelector('b').textContent = n;
   el.setAttribute('aria-label', `도토리 저금통 ${n}개`);
 }
 // the done panel's reward: acorns drop into the jar one by one (a click each), then the totals
@@ -10742,6 +10830,8 @@ function sgLoad(){
   $('#sgProg').textContent = `${sg.at + 1}/${sg.words.length}`;
   $('#sgTrack').style.width = `${sg.at / sg.words.length * 100}%`;
   $('#sgSafe').classList.remove('open');
+  const art = $('#sgLockArt'); art.classList.remove('drop', 'zoom', 'chest-open', 'hang');
+  if(sg.at){ void art.offsetWidth; art.classList.add('hang'); }
   $('#sgLockImg').src = 'assets/ui/padlock-closed.webp';
   $('#sgMeaning').textContent = WORDS[w][1];
   const blanks = sgBlanks(w);
@@ -10773,6 +10863,10 @@ function sgPlace(el, dy = 0, snap = false){
 // freesound_community, audio/lock-tick.mp3); a few players so quick turns overlap
 const SG_TICKS = [0, 1, 2, 3].map(() => { const a = new Audio('audio/lock-tick.mp3'); a.preload = 'auto'; a.volume = .8; return a; });
 let sgTickAt = 0;
+// the padlock's own sounds (Higgsfield Mirelo SFX, audio/lock-open.mp3 · lock-fail.mp3): a click-clack when it opens, a dull rattle when it stays shut
+const SG_OPEN = new Audio('audio/lock-open.mp3'), SG_FAIL = new Audio('audio/lock-fail.mp3');
+SG_OPEN.preload = SG_FAIL.preload = 'auto';
+function sgSound(a){ a.currentTime = 0; a.play().catch(() => {}); }
 function sgTick(){ const a = SG_TICKS[sgTickAt++ % SG_TICKS.length]; a.currentTime = 0; a.play().catch(() => {}); }
 // one step on (1) or back (-1): slide to the next row, then settle back into the middle copy without moving
 function sgTurn(el, by){
@@ -10814,21 +10908,24 @@ $('#sgDials').addEventListener('keydown', e => {
   if(e.key === 'ArrowDown'){ e.preventDefault(); sgTurn(el, 1); }
 });
 addEventListener('resize', () => { if(sg && !$('#safeGame').hidden) document.querySelectorAll('#sgDials [data-sg-wheel]').forEach(el => sgPlace(el)); });
-function sgShake(el){ el.classList.remove('sg-shake'); void el.offsetWidth; el.classList.add('sg-shake'); }
+function sgShake(el){ el.classList.remove('sg-shake'); void el.offsetWidth; el.classList.add('sg-shake'); el.addEventListener('animationend', () => el.classList.remove('sg-shake'), { once:true }); }
 function sgOpen(){
   if(!sg || sg.lock) return;
   const w = sg.words[sg.at];
   if(sg.dials.map(d => d.opts[d.at]).join('') !== w){
     // a wrong try: the safe shakes and stays shut a moment, so tapping 열기 over and over does not find it
-    sgShake($('#sgSafe')); sg.lock = true; setTimeout(() => { if(sg) sg.lock = false; }, 600);
+    sgShake($('#sgLockBody')); sgSound(SG_FAIL); sg.lock = true; setTimeout(() => { if(sg) sg.lock = false; }, 600);
     return;
   }
   sg.lock = true;
   $('#sgSafe').classList.add('open');
   $('#sgLockImg').src = 'assets/ui/padlock-open.webp';
   if(sg.first){ const a = document.createElement('img'); a.className = 'sg-acorn'; a.src = 'assets/ui/icons-v2/acorn.webp'; a.alt = ''; $('.sg-lockart').appendChild(a); setTimeout(() => a.remove(), 950); }
-  stampSound(); pronounceWord(w);
+  sgSound(SG_OPEN); setTimeout(() => { if(sg) pronounceWord(w); }, 350);
   $('#sgTrack').style.width = `${(sg.at + 1) / sg.words.length * 100}%`;
+  const last = sg.at === sg.words.length - 1;
+  setTimeout(() => { if(sg) $('#sgLockArt').classList.add('drop'); }, 500);
+  if(last){ setTimeout(() => { if(sg) $('#sgLockArt').classList.add('zoom'); }, 1450); setTimeout(() => { if(sg) $('#sgLockArt').classList.add('chest-open'); }, 2450); }
   setTimeout(() => {
     if(!sg) return;
     sg.lock = false; sg.at++;
@@ -10837,7 +10934,7 @@ function sgOpen(){
     if(sg.caseId && !done.includes(sg.caseId)){ done.push(sg.caseId); try { localStorage.setItem(SAFE_KEY, JSON.stringify(done)); } catch {} }
     $('#sgDone').hidden = false; stampSound(150);
     giveAcorns($('#sgReward'), sg.first ? REWARD_FIRST : REWARD_AGAIN);
-  }, 1100);
+  }, last ? 3700 : 1500);
 }
 function closeSafeGame(){
   stopVoice(); sg = null; $('#safeGame').hidden = true;
