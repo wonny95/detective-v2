@@ -184,3 +184,9 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - Claude Code 제작(2026-10-28, 사용자 요청: X처럼 크레용 느낌, 아래에서 시작하는 획): Nano Banana 2.1 · 3:4 · 1K · thinking high. 첫 판(job `d31582f9-772c-413e-8eb7-90a7e3656ce8`)은 위에 X처럼 겹친 획이 생겨 버리고, 아래 왼쪽에서 시작해 아래에서 끝이 겹치는 한 획으로 다시 그림(job `6f432f4d-1cda-496e-aa3f-8e293246bf42`, 원본 `crayon-o-higgsfield-original.png`). 두 장 약 3크레딧.
 - `scripts/cut-crayon-o.py`: 흰색에서 먼 정도로 투명도를 만들고, 아래쪽 두 획 중 안쪽(끝 획, x 265–600, 따라 그린 경계선 위)을 `crayon-o-2.png`로, 나머지를 `crayon-o-1.png`로 나눈다. 원본 (121,79)–(780,1116)을 200×315로 줄였다. 고리 가운데가 잘라 낸 그림의 50%·50%다.
 - 게임에서는 80×100 상자에 늘려 겹치고, 원뿔 마스크로 시작 각도(205°, 끝 획 211°)에서 시계 반대 방향으로 드러낸다(`.ded-o`).
+
+# 철자 금고 (`safe-closed.png`, `safe-open.png`)
+
+- Claude Code 제작(2026-11-23, 사용자 요청: 사건판 금고를 사건 사진만큼 크게, 그림으로): Nano Banana 2.1 · 16:9 · 2K, 그림체 참고 `assets/props/ball-basket.png`. 한 장에 닫힌 금고(왼쪽)와 문이 열린 금고(오른쪽, 안에 단어 카드와 별)를 나란히 그림(job `3562f58e-d65e-432e-8169-12cd344c6f7f`, 원본 `safe-higgsfield-original.png`, 약 2크레딧). 배경 제거(job `63a21025-615f-4eab-a23e-2daf71997c73`, `safe-cutout-original.png`).
+- `scripts/cut-safe.py`: 누끼를 반으로 나눠 그림 둘레에 맞게 자르고 폭 400으로 줄인다.
+- 게임: 사건판 5번째 사건마다 나오는 금고(`.safe-node .sn-box`). 다 푼 금고는 열린 그림.

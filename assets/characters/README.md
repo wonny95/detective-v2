@@ -170,4 +170,5 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 기본 자세 달튼·테리: v3(`dalton-terry-v3-police-higgsfield-original.png`) 배경 제거(job `3ba5d28c-…`) → `dalton-terry-v3-cutout.png`.
 - 달튼 4자세: Nano Banana 2.1 16:9 2K(2크레딧), v3 참조, job `370e5cbd-611a-4d6a-97f6-3a5e514b628b` → `dalton-poses-higgsfield-original.png`, 배경 제거 job `3e1600d0-…` → `dalton-poses-cutout.png`. 왼쪽부터 생각·가리키기·돋보기·손 흔들기.
 - 자르기 `scripts/cut-dalton-terry.py` → `dalton.png`·`dalton-thinking/point/lens/wave.png`·`terry.png`(높이 700), 얼굴 아이콘 `assets/ui/icons-v2/dalton.png`·`terry.png`.
+- 눈 통일(사용자 요청 2026-11-23): 기본·손 흔들기의 점 눈을 흰자 눈으로 `scripts/fix-dalton-eyes.py`(크레딧 없음, 위 스크립트 다음에 실행). 얼굴 아이콘도 다시 자름.
 - 입: 한 장(1.5크레딧, job `09dddce9-34cc-46b5-828e-ffb14b29a9f8`) → `mouths/dalton-terry-sheet-higgsfield-original.png`(초록 배경 2×2: 생쥐 닫은·벌린, 고양이 닫은·벌린). `scripts/make-dalton-terry-mouths.py` → `mouths/<이름>-closed|open`.

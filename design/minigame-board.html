@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사건판 미니게임 자리 시안</title>
+<style>
+  @font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+  @font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+  @font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+  :root{--ink:#4A3628;--ink-soft:#7D6A58;--honey:#F2CF73;--f-display:"Paperlogy Display","Paperlogy",system-ui,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;background:#B6BDA5;font-family:"Paperlogy",system-ui,sans-serif;color:var(--ink)}
+  h1{margin:20px 16px 4px;font-family:var(--f-display);font-size:22px}
+  p.lead{margin:0 16px 18px;font-size:14px;line-height:1.55;max-width:960px}
+  .row{display:flex;flex-wrap:wrap;gap:22px;padding:0 16px 32px}
+  figure{margin:0;width:320px}
+  figcaption{margin-top:10px;font-size:13px;line-height:1.5}
+  figcaption b{display:block;font-family:var(--f-display);font-size:16px;margin-bottom:3px}
+  figcaption ul{margin:4px 0 0;padding-left:18px}
+
+  .phone{position:relative;width:320px;height:640px;border-radius:28px;overflow:hidden;background:#FBF4E6;box-shadow:0 8px 20px rgba(0,0,0,.22);padding:10px 8px}
+  .board{position:relative;height:100%;display:flex;flex-direction:column;justify-content:space-evenly;padding:30px 6px 16px;
+    border:18px solid transparent;border-radius:9px;border-image:url(../assets/ui/corkboard-frame.webp) 86 / 18px stretch;
+    background:#D69C62 url(../assets/ui/corkboard-cork.webp) 0 0/320px 320px repeat border-box}
+  .polaroid{--tilt:0deg;position:relative;z-index:1;width:60%;padding:8px 8px 10px;background:url(../assets/ui/polaroid-card.webp) 0 0/100% 100% no-repeat;
+    filter:drop-shadow(2px 5px 4px rgba(50,30,15,.35));transform:rotate(var(--tilt))}
+  .polaroid.l{align-self:flex-start;margin-left:3%;--tilt:-3deg}
+  .polaroid.r{align-self:flex-end;margin-right:3%;--tilt:2.5deg}
+  .pol-photo{display:block;aspect-ratio:4/3;border:1.5px solid var(--ink);overflow:hidden;background:#3E3128}
+  .pol-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .solved .pol-photo{filter:sepia(.55) saturate(.7) brightness(.97)}
+  .stamp{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%) rotate(-14deg);padding:1px 10px 2px;border:3px solid #B8323A;border-radius:8px;
+    font-family:var(--f-display);font-size:18px;letter-spacing:.1em;color:#B8323A;mix-blend-mode:multiply}
+  .cap{display:block;padding:6px 2px 0;font-size:11px;color:var(--ink-soft)}
+  .cap b{display:block;font-family:var(--f-display);font-size:15px;color:var(--ink)}
+  .next-note{position:absolute;right:-8px;top:-10px;background:#FFE98A;padding:3px 7px;font-family:var(--f-display);font-size:11px;transform:rotate(6deg);box-shadow:1px 2px 3px rgba(0,0,0,.25)}
+  svg.str{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+  svg.str line{stroke:#B8323A;stroke-width:2.4;stroke-linecap:round}
+  svg.str line.sh{stroke:rgba(40,20,10,.25);stroke-width:3}
+  .tack{position:absolute;width:20px;height:28px;margin:-26px 0 0 -7px;background:url(../assets/ui/tack-red.webp) center/contain no-repeat;z-index:4}
+
+  /* A: a small safe on the string */
+  .safe{position:relative;z-index:3;align-self:center;width:84px;height:78px;border-radius:12px;background:linear-gradient(#8C99A1,#5E6B73);
+    box-shadow:inset 0 -5px 0 rgba(0,0,0,.2),2px 5px 6px rgba(40,20,10,.35);display:grid;place-items:center;color:#fff;cursor:pointer;transform:rotate(-4deg)}
+  .safe .dial{width:34px;height:34px;border-radius:50%;background:#D9DEE1;border:4px solid #46525A;position:relative}
+  .safe .dial::after{content:"";position:absolute;left:50%;top:3px;width:3px;height:10px;margin-left:-1.5px;background:#46525A;border-radius:2px}
+  .safe .tag{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%) rotate(3deg);white-space:nowrap;background:#FFFDF6;color:var(--ink);font-family:var(--f-display);font-size:11px;padding:2px 7px;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+  .glow{animation:glow 1.6s ease-in-out infinite}
+  @keyframes glow{50%{box-shadow:inset 0 -5px 0 rgba(0,0,0,.2),0 0 0 6px rgba(242,207,115,.7)}}
+
+  /* B: an index card */
+  .card{position:relative;z-index:3;align-self:center;width:58%;padding:10px 12px 10px;background:#FFFDF6;transform:rotate(2deg);
+    box-shadow:1px 4px 5px rgba(60,40,20,.3);background-image:repeating-linear-gradient(#FFFDF6 0 21px,#CFE3F0 21px 22px);background-position:0 26px;cursor:pointer}
+  .card::before{content:"";position:absolute;left:0;right:0;top:24px;height:2px;background:#E7A3A3}
+  .card b{display:block;font-family:var(--f-display);font-size:16px;line-height:24px}
+  .card span{display:block;font-size:12px;line-height:22px;color:var(--ink-soft)}
+  .card .go{position:absolute;right:10px;bottom:8px;font-family:var(--f-display);font-size:12px;background:var(--honey);padding:3px 9px;border-radius:10px;color:var(--ink)}
+
+  /* C: a small polaroid */
+  .mini{width:40%;align-self:center;--tilt:-1.5deg;margin:0}
+  .mini .pol-photo{background:linear-gradient(#7C8A93,#5E6B73);display:grid;place-items:center}
+  .mini .pol-photo .dial{width:38px;height:38px;border-radius:50%;background:#D9DEE1;border:5px solid #46525A}
+  .mini .cap b{font-size:13px}
+</style>
+</head>
+<body>
+<h1>사건판 사이 미니게임 자리 시안</h1>
+<p class="lead">사건 탭 코르크판에서 사건 사진과 사진 사이, 빨간 실 위에 미니게임(철자 금고)을 꽂는 세 가지 모양입니다.
+위 사진은 해결한 사건, 아래 사진은 다음 사건입니다. 해결한 사건 뒤의 미니게임은 반짝이며 열리고, 아직 풀지 않은 사건 뒤의 것은 회색 압정·잠금으로 보입니다.</p>
+<div class="row">
+
+<figure>
+  <div class="phone"><div class="board">
+    <svg class="str"></svg>
+    <div class="polaroid l solved" data-pin><span class="pol-photo"><img src="../assets/places/kite/kite-cover.jpg" alt=""></span><span class="stamp">SOLVED</span><span class="cap">CASE 01<b>사라진 연</b></span></div>
+    <div class="safe glow" data-pin><span class="dial"></span><span class="tag">철자 금고</span></div>
+    <div class="polaroid r" data-pin><span class="pol-photo"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""></span><span class="next-note">새로운 의뢰!</span><span class="cap">CASE 02<b>주인 없는 우산</b></span></div>
+  </div></div>
+  <figcaption><b>A. 실에 매달린 작은 금고</b>
+    빨간 실 한가운데에 작은 금고가 꽂혀 있고 이름 쪽지가 붙어 있습니다. 미니게임마다 소품 모양이 달라 무엇을 하는지 바로 보입니다.
+    <ul><li>새 그림: 금고 소품 1개(나중에 Higgsfield, 지금은 CSS)</li><li>사건 사진보다 작아 판이 길어지지 않음</li></ul></figcaption>
+</figure>
+
+<figure>
+  <div class="phone"><div class="board">
+    <svg class="str"></svg>
+    <div class="polaroid l solved" data-pin><span class="pol-photo"><img src="../assets/places/kite/kite-cover.jpg" alt=""></span><span class="stamp">SOLVED</span><span class="cap">CASE 01<b>사라진 연</b></span></div>
+    <div class="card" data-pin><b>단어 훈련</b><span>철자 금고 · 단어 5개</span><span class="go">시작</span></div>
+    <div class="polaroid r" data-pin><span class="pol-photo"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""></span><span class="next-note">새로운 의뢰!</span><span class="cap">CASE 02<b>주인 없는 우산</b></span></div>
+  </div></div>
+  <figcaption><b>B. 줄 쳐진 색인 카드</b>
+    사건 메모처럼 보이는 색인 카드에 미니게임 이름과 단어 수가 적혀 있습니다. 글이 많아 무엇을 하는지 가장 분명합니다.
+    <ul><li>새 그림 없음</li><li>사건 사진과 모양이 달라 "쉬어 가는 칸"으로 구분됨</li></ul></figcaption>
+</figure>
+
+<figure>
+  <div class="phone"><div class="board">
+    <svg class="str"></svg>
+    <div class="polaroid l solved" data-pin><span class="pol-photo"><img src="../assets/places/kite/kite-cover.jpg" alt=""></span><span class="stamp">SOLVED</span><span class="cap">CASE 01<b>사라진 연</b></span></div>
+    <div class="polaroid mini" data-pin><span class="pol-photo"><span class="dial"></span></span><span class="cap">TRAINING<b>철자 금고</b></span></div>
+    <div class="polaroid r" data-pin><span class="pol-photo"><img src="../assets/places/umbrella/umbrella-sheet.webp" alt=""></span><span class="next-note">새로운 의뢰!</span><span class="cap">CASE 02<b>주인 없는 우산</b></span></div>
+  </div></div>
+  <figcaption><b>C. 작은 폴라로이드</b>
+    사건 사진과 같은 폴라로이드를 작게 만들어 사이에 꽂습니다. 판의 모양이 가장 고르게 이어집니다.
+    <ul><li>새 그림: 금고 사진 1장(나중에), 지금은 CSS</li><li>사건과 비슷해 보여 구분은 약함</li></ul></figcaption>
+</figure>
+
+</div>
+<script>
+function draw(board){
+  const svg=board.querySelector('svg.str'), box=board.getBoundingClientRect();
+  board.querySelectorAll('.tack').forEach(t=>t.remove());
+  const pts=[...board.querySelectorAll('[data-pin]')].map(el=>{const r=el.getBoundingClientRect();return [r.left+r.width/2-box.left, r.top+6-box.top];});
+  let s='';
+  for(let i=1;i<pts.length;i++){const [a,b]=[pts[i-1],pts[i]];s+=`<line class="sh" x1="${a[0]+2}" y1="${a[1]+2}" x2="${b[0]+2}" y2="${b[1]+2}"/><line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`;}
+  svg.innerHTML=s;
+  pts.forEach(([x,y])=>{const t=document.createElement('span');t.className='tack';t.style.left=x+'px';t.style.top=y+'px';board.appendChild(t);});
+}
+const all=()=>document.querySelectorAll('.board').forEach(draw);
+window.addEventListener('load',all); window.addEventListener('resize',all);
+</script>
+</body>
+</html>
