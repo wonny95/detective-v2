@@ -190,3 +190,9 @@ Use case: illustration-story. Asset: ONE small magnifying-glass UI ICON on true 
 - Claude Code 제작(2026-11-23, 사용자 요청: 사건판 금고를 사건 사진만큼 크게, 그림으로): Nano Banana 2.1 · 16:9 · 2K, 그림체 참고 `assets/props/ball-basket.png`. 한 장에 닫힌 금고(왼쪽)와 문이 열린 금고(오른쪽, 안에 단어 카드와 별)를 나란히 그림(job `3562f58e-d65e-432e-8169-12cd344c6f7f`, 원본 `safe-higgsfield-original.png`, 약 2크레딧). 배경 제거(job `63a21025-615f-4eab-a23e-2daf71997c73`, `safe-cutout-original.png`).
 - `scripts/cut-safe.py`: 누끼를 반으로 나눠 그림 둘레에 맞게 자르고 폭 400으로 줄인다.
 - 게임: 사건판 5번째 사건마다 나오는 금고(`.safe-node .sn-box`). 다 푼 금고는 열린 그림.
+
+## 미니게임 그림 (Claude 제작, 2026-11-23)
+- 철자 자물쇠: Nano Banana 2.1 16:9 2K, job `3854cbc4-5032-454f-a115-443750f9d371`, 참조 `safe-closed`(media `6d860c34-db85-492f-9de7-f28b20e57c51`), 마젠타 배경, 닫힌·열린 황동 번호 자물쇠(가운데 빈 창) → `padlock-higgsfield-original.png` → `scripts/cut-padlock.py` → `padlock-closed.webp`·`padlock-open.webp`(600×722, 창 left .160 top .626 right .838 bottom .771).
+- 도토리 저금통: job `9f78d2a5-082d-4d88-989d-b619dccb950b`(같은 참조), 유리 단지 빈·반·가득 → `acorn-jar-higgsfield-original.png` → `scripts/cut-acorn-jar.py` → `acorn-jar-0/1/2.webp`(300×417).
+- 단어 짝맞추기 아이콘 시안: job `57740533-938e-4db3-b7bd-9801816e569b`(같은 참조), 메모판·퍼즐·집게 카드·수첩 → `match-icons-higgsfield-original.png` → `scripts/cut-match-icons.py` → `design/match-icon-options/1–4.png`(고르는 중, 게임 미적용).
+

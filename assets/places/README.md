@@ -145,3 +145,7 @@ Use case: illustration-story. Create ONE empty background illustration for the w
   - 펼친 인수증(확대 `cocoslip`, 2026-11-16): Higgsfield(gpt_image_2_6, 약 0.25크레딧) 빈 종이 `coco-slip-higgsfield-original.png`(마젠타 배경) → `scripts/make-christmas-coco-slip.py`가 마젠타를 빼고 글씨(Ink Free 연필, 서명은 Segoe Script 파란 잉크: Hand-over Slip · Mittens · wrapped by Coco · Ivy·Toby·Wren·Hugo 체크 · 4 boxes · Taken by: Nico)를 써 `coco-slip.png`.
   - 축제장 지도 `e40f2a1f-38aa-4585-904e-10ac1d0cfdd3` → `map-higgsfield-original.jpg`(9:16 1K, 1.5크레딧) → `map-festival.webp`. 핀: 광장 50,74·창고 26,20·천막 82,20·썰매 58,33.
 - 적용: `scripts/cut-christmas-assets.py <받은 파일 폴더>`(Pillow). 장소는 1376×1843으로 줄여 띠 시작(광장 330·창고 380·천막 520·썰매 260)부터 768을 `<id>.jpg`, 그 아래를 `<id>-floor.jpg`(745·695·555·815).
+
+## 화단 사건 옆집 마당 (Claude 제작, 2026-11-23)
+- 사용자 제안(용의자들이 다른 배경에서 공놀이): Nano Banana 2.1 3:4 2K, job `97d6b7b4-3f6a-4837-b26b-7da31d48a96a`, 정원 그림 참조 → `flowerbed/yard-higgsfield-original.png`(1792×2400). `scripts/cut-flowerbed-yard.py`: 1376 폭으로 줄여 위 360부터 768을 `yard.webp`, 아래 잔디를 뒤집어 이은 `yard-floor.jpg`(900).
+

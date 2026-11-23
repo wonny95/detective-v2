@@ -1,4 +1,7 @@
-"""Dalton's eyes made alike (user request 2026-11-23: the default pose and the wave had plain dot eyes while the lens,
+"""RETIRED 2026-11-23 (user: the white eyes looked scary): no longer run; all poses have dot eyes now, see
+scripts/make-dalton-doteyes.py. Kept for the record.
+
+Dalton's eyes made alike (user request 2026-11-23: the default pose and the wave had plain dot eyes while the lens,
 point and thinking poses have white eyes with a pupil): the two dot-eyed sprites get white eyes drawn over the dots,
 sized as the point pose's (about 40 x 37 px at 700 tall, a dark outline), the pupil big and looking straight ahead, no
 highlight (as the drawn ones). Credit-free, drawn here at 4x and scaled down. Then Dalton's face icon is cut again from the default pose.

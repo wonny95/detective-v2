@@ -1342,9 +1342,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
    red thread with a name slip; it opens once the case above is solved; a safe already cracked turns green */
 .safe-node{--tilt:-4deg;position:relative;z-index:3;align-self:center;flex:none;width:50%;aspect-ratio:400/413;margin:6px 0 40px;padding:0;border:0;background:none;
   transform:rotate(var(--tilt));cursor:pointer;font:inherit;color:var(--ink)}
-/* the safe is Higgsfield art (assets/ui/safe-closed / safe-open.webp, scripts/cut-safe.py): closed until a round is done */
-.sn-box{position:absolute;inset:0;background:url(assets/ui/safe-closed.webp) center/contain no-repeat;filter:drop-shadow(3px 6px 4px rgba(50,30,15,.35))}
-.safe-node.done .sn-box{background-image:url(assets/ui/safe-open.webp)}
+/* the spelling game's node is its padlock (assets/ui/padlock-closed / padlock-open.webp, scripts/cut-padlock.py; the safe
+   pictures stay on disk): closed until a round is done */
+.sn-box{position:absolute;inset:0;background:url(assets/ui/padlock-closed.webp) center/contain no-repeat;filter:drop-shadow(3px 6px 4px rgba(50,30,15,.35))}
+.safe-node.done .sn-box{background-image:url(assets/ui/padlock-open.webp)}
 .sn-tag{position:absolute;left:50%;bottom:-12px;transform:translateX(-50%) rotate(3deg);white-space:nowrap;padding:3px 12px;background:#FFFDF6;
   font-family:var(--f-display);font-size:15px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .safe-node.ready .sn-box{animation:sn-glow 1.6s ease-in-out infinite}
@@ -1395,22 +1396,28 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .sg-track{height:8px;border-radius:6px;background:var(--line);overflow:hidden}
 .sg-track i{display:block;height:100%;width:0;background:var(--honey);transition:width .3s}
 .sg-play{align-self:center;width:52px!important;height:52px!important;margin-top:6px}
-.sg-safe{align-self:stretch;margin:4px 4px 0;padding:16px 10px 20px;border-radius:22px;background:linear-gradient(#7C8A93,#5E6B73);text-align:center;
-  box-shadow:inset 0 -6px 0 rgba(0,0,0,.2),0 6px 10px rgba(0,0,0,.25);transition:background .3s}
-.sg-safe.open{background:linear-gradient(#8DB48E,#5E8A63)}
-.sg-lock{display:block;width:34px;height:34px;margin:0 auto}
-.sg-meaning{display:inline-block;margin-top:8px;padding:6px 16px 5px;border-radius:4px;background:#FFFDF6;font-family:var(--f-display);font-size:22px;
+/* the brass padlock (user pick 2026-11-23, design/spelling-safe-options.html 2; scripts/cut-padlock.py): letter wheels
+   over its window, turned by dragging up or down (a tap turns one step: the upper half back, the lower half on) */
+.sg-safe{align-self:stretch;display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:2px;text-align:center}
+.sg-lockart{position:relative;width:min(100%,340px);filter:drop-shadow(3px 6px 4px rgba(50,30,15,.3))}
+.sg-lockart img{display:block;width:100%;height:auto}
+.sg-safe.open .sg-lockart{animation:sg-pop .45s ease-out}
+@keyframes sg-pop{40%{transform:translateY(-6px) scale(1.03)}}
+.sg-meaning{display:inline-block;margin-top:2px;padding:6px 16px 5px;border-radius:4px;background:#FFFDF6;font-family:var(--f-display);font-size:22px;
   transform:rotate(-1.5deg);box-shadow:0 2px 0 rgba(0,0,0,.2)}
-.sg-dials{display:flex;justify-content:center;align-items:center;gap:5px;margin-top:14px}
-/* a letter given on the safe: printed, no dial */
-.sg-dial.fixed{flex:0 0 auto;min-width:20px}
-.sg-dial.fixed .sg-ch{background:none;box-shadow:none;color:#fff;height:auto;padding:0 2px}
-.sg-dial{flex:1 1 0;max-width:56px;display:flex;flex-direction:column;align-items:center;gap:6px}
-.sg-dial button{width:100%;height:30px;padding:0;border:0;border-radius:8px;background:#46525A;cursor:pointer}
-.sg-dial button svg{width:16px;height:16px;display:block;margin:auto}
-.sg-dial button:active{transform:translateY(1px);filter:brightness(1.15)}
-.sg-ch{width:100%;height:64px;border-radius:12px;background:#FFFDF6;display:grid;place-items:center;font-family:var(--f-display);font-size:clamp(24px,8vw,34px);
-  box-shadow:inset 0 4px 6px rgba(0,0,0,.18)}
+/* the window measured on the picture (cut-padlock.py prints it) */
+.sg-dials{position:absolute;left:16.6%;right:16.8%;top:63.2%;height:13.4%;display:flex;gap:2px;padding:0 2px;border-radius:5px;overflow:hidden}
+.sg-dial{position:relative;flex:1 1 0;min-width:0;overflow:hidden;border-radius:4px;background:linear-gradient(#1f1912,#4b3e2f 50%,#1f1912);
+  box-shadow:inset 1px 0 0 rgba(255,235,190,.18),inset -1px 0 0 rgba(0,0,0,.5);touch-action:none;cursor:ns-resize;outline:none}
+.sg-dial:focus-visible{box-shadow:inset 0 0 0 2px var(--honey)}
+.sg-dial::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(20,15,10,.55),transparent 32%,transparent 68%,rgba(20,15,10,.55))}
+.sg-strip{position:absolute;left:0;right:0;top:0;will-change:transform}
+.sg-strip.snap{transition:transform .15s ease-out}
+.sg-strip span{display:grid;place-items:center;font-family:var(--f-display);font-size:clamp(18px,6.4vw,27px);color:#FFF3D6}
+/* a letter already given: printed in brass, no wheel */
+.sg-dial.fixed{background:linear-gradient(#2a2118,#3a2e22 50%,#2a2118);cursor:default}
+.sg-dial.fixed::after{display:none}
+.sg-dial.fixed b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-weight:400;font-size:clamp(18px,6.4vw,27px);color:#E0B85E}
 .sg-open{align-self:center;margin-top:auto;min-width:140px;justify-content:center;font-size:18px;padding:10px 22px;color:#fff}
 .sg-shake{animation:sg-shake .4s}
 @keyframes sg-shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
@@ -1418,6 +1425,24 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .sg-done[hidden]{display:none}
 .sg-done img{width:150px;transform:rotate(-8deg)}
 .sg-done b{font-family:var(--f-display);font-size:22px}
+.sg-done > div:last-child{display:flex;gap:8px;justify-content:center}
+.sg-done .pill{white-space:nowrap}
+/* 도토리 저금통 (user decision 2026-11-23, scripts/cut-acorn-jar.py): a finished word game drops its acorns into the jar */
+.acorn-bank{margin-left:auto;display:inline-flex;align-items:center;gap:2px;font-family:var(--f-display);font-size:15px;color:var(--ink);
+  background:#FFFDF7;border:2px solid var(--ink);border-radius:14px;padding:0 10px 0 2px;height:30px}
+.acorn-bank img{width:26px;height:36px;object-fit:contain;margin-top:-8px}
+.ab-reward{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:10px;min-height:120px}
+.ab-reward[hidden]{display:none}
+.ab-jar{width:86px;height:auto;filter:drop-shadow(2px 4px 3px rgba(50,30,15,.3))}
+.ab-count{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:14px;font-family:var(--f-display)}
+.ab-count .plus{font-size:24px;color:#8A5A2B}
+.ab-count .total{font-size:14px;color:var(--ink-soft)}
+.ab-drop{position:absolute;width:26px;left:calc(50% - 61px);top:-40px;animation:ab-drop .6s ease-in forwards;opacity:0}
+@keyframes ab-drop{0%{opacity:0;transform:translateY(-10px) rotate(-20deg)}20%{opacity:1}100%{opacity:1;transform:translateY(95px) rotate(25deg)}}
+/* a lock opened in a first round: an acorn pops out of it */
+.sg-acorn{position:absolute;left:50%;top:40%;width:34px;margin-left:-17px;pointer-events:none;animation:sg-acorn .9s ease-out forwards}
+@keyframes sg-acorn{0%{transform:translateY(0) scale(.6);opacity:0}25%{opacity:1}60%{transform:translateY(-120px) scale(1.1) rotate(-15deg)}100%{transform:translateY(-150px) scale(.9) rotate(10deg);opacity:0}}
+.listen .hint .bank{position:absolute;right:-6px;bottom:-6px;width:18px;height:24px;object-fit:contain}
 .sg-done div{display:flex;gap:10px}
 .board-string{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible;animation:fade-in .4s ease-out .55s both}
 @keyframes fade-in{from{opacity:0}}
@@ -1921,7 +1946,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="oh-top"><h1 class="oh-plate" id="officePlate">탐정 사무소</h1><span class="streak" id="homeStreak" hidden></span></div>
     </div>
     <div class="home-page" id="home-cases" hidden>
-      <header class="cases-head"><h1>사건 목록</h1><span class="streak" id="caseStreak" hidden></span></header>
+      <header class="cases-head"><h1>사건 목록</h1><span class="acorn-bank" id="acornBank" role="img"><img src="assets/ui/acorn-jar-0.webp" alt=""><b>0</b></span><span class="streak" id="caseStreak" hidden></span></header>
       <div class="board" id="caseCards"></div>
     </div>
     <div class="home-page" id="home-study" hidden></div>
@@ -1968,14 +1993,15 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   </div>
 
   <div class="modal" id="safeGame" hidden>
-    <div class="sg-card" role="dialog" aria-label="철자 금고">
-      <div class="sg-top"><h2>철자 금고</h2><span class="sg-prog" id="sgProg"></span><button class="close-button" type="button" id="sgClose" aria-label="닫기"></button></div>
+    <div class="sg-card" role="dialog" aria-label="철자 자물쇠">
+      <div class="sg-top"><h2>철자 자물쇠</h2><span class="sg-prog" id="sgProg"></span><button class="close-button" type="button" id="sgClose" aria-label="닫기"></button></div>
       <div class="sg-track"><i id="sgTrack"></i></div>
       <button class="play-btn sg-play" type="button" id="sgPlay" aria-label="단어 듣기"></button>
-      <div class="sg-safe" id="sgSafe"><svg class="sg-lock" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path id="sgShackle" d="M8.5 10.5 V8 a3.5 3.5 0 0 1 7 0 V10.5"/></g></svg>
-        <span class="sg-meaning" id="sgMeaning"></span><div class="sg-dials" id="sgDials"></div></div>
+      <div class="sg-safe" id="sgSafe"><span class="sg-meaning" id="sgMeaning"></span>
+        <div class="sg-lockart"><img id="sgLockImg" src="assets/ui/padlock-closed.webp" alt=""><div class="sg-dials" id="sgDials"></div></div></div>
       <button class="pill big sg-open" type="button" id="sgOpen">열기</button>
-      <div class="sg-done" id="sgDone" hidden><img src="assets/ui/complete-stamp.webp" alt=""><b>금고를 모두 열었어요!</b>
+      <div class="sg-done" id="sgDone" hidden><img src="assets/ui/complete-stamp.webp" alt=""><b>자물쇠를 모두 열었어요!</b>
+        <div class="ab-reward" id="sgReward"></div>
         <div><button class="pill" type="button" id="sgAgain">한 번 더</button><button class="pill big" type="button" id="sgBack" style="color:#fff">사건판으로</button></div></div>
     </div>
   </div>
@@ -1986,6 +2012,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
       <div class="sg-track"><i id="mgTrack"></i></div>
       <div class="mg-board" id="mgBoard"><svg class="mg-str" id="mgStr" aria-hidden="true"></svg><div class="mg-cols"><div class="mg-col l" id="mgLeft"></div><div class="mg-col r" id="mgRight"></div></div></div>
       <div class="sg-done" id="mgDone" hidden><img src="assets/ui/complete-stamp.webp" alt=""><b>단서를 모두 이었어요!</b>
+        <div class="ab-reward" id="mgReward"></div>
         <div><button class="pill" type="button" id="mgAgain">한 번 더</button><button class="pill big" type="button" id="mgBack" style="color:#fff">사건판으로</button></div></div>
     </div>
   </div>
@@ -2037,7 +2064,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
   <button class="devbtn" type="button" id="devReset">리셋</button>
   <button class="devbtn" type="button" id="devBgm">BGM 끄기</button>
-  <button class="devbtn" type="button" id="devSafe">미니게임: 철자 금고</button>
+  <button class="devbtn" type="button" id="devSafe">미니게임: 철자 자물쇠</button>
   <button class="devbtn" type="button" id="devMatch">미니게임: 짝맞추기</button>
 </div>
 <div class="devtools devpreview" id="devPreview" aria-label="미리보기"></div>
@@ -2631,82 +2658,91 @@ const KITE_CASE = {
   ] }
 };
 
-/* Case 08 누가 화단을 망쳤을까? (?case=flowerbed, design/case-flowerbed-ball.md, user decision 2026-11-23: the simple
+/* Case 04 누가 화단을 망쳤을까? (?case=flowerbed, design/case-flowerbed-ball.md, user decision 2026-11-23: the simple
    case, only the talk needed to solve it). Ollie's flowers are trampled. The player photographs the big round mark in
-   the soil, hears from Ollie of a sneeze and of Gus and Toby playing ball next door, hears Toby played with his tennis
-   ball, and meets Gus, holding a big soccer ball and sneezing. Gus blames Toby: the photo of the mark; he blames Toby
+   the soil, hears from Ollie of a sneeze and of Gus and Pablo playing ball next door, hears Pablo played with his tennis
+   ball, and meets Gus, holding a big soccer ball and sneezing. Gus blames Pablo: the photo of the mark; he blames Pablo
    again: Ollie's sneeze; he sneezes and owns up (the questioning, as the violin case's, started from his action). Then
    Ollie hears what happened. One place, the garden (assets/places/flowerbed/, scripts/cut-flowerbed.py; Ollie and Gus
-   one Higgsfield sheet, Toby the kite case's). No recordings yet (user 2026-11-23: later): silent, read out. */
+   one Higgsfield sheet, Pablo Panda: scripts/cut-pablo.py, a new character instead of the kite case's Toby, user decision 2026-11-23). Recorded (2026-11-23): the detective, Ollie, Gus and Pablo. */
 const FLOWERBED_CASE = {
   start:'ollie',
   noBoard:true,   // no deduction board, no questioning (user 2026-11-23: as simple as cases 1-3): the flower is the solving
-  silent:true,    // no recordings yet: every line read out
+  // recorded 2026-11-23 (Higgsfield MiniMax, no emotion): the detective Grady, Ollie Emmett (her voice in the picnic case),
+  // Gus Dylan, Pablo Juno
   people:{
     ollie: { id:'ollie', name:'Ollie Otter', ko:'수달 올리', job:'의뢰인', place:'flowerbed', witness:true, required:true, pitch:.95, voice:1, bg:'#E3EBD9', openingQuestion:'n0',
+      audio:Object.fromEntries(['hello', 'n0', 'n1', 'ending'].map(key => [key, `audio/flowerbed/ollie-${key}.mp3`])),
       hello:[ { key:'hello', en:"Oh, hi! It's me, Ollie.", ko:'어, 안녕! 나야, 올리.' } ],
       questions:[
         { id:'n0', en:'How can I help you?', ko:'무엇을 도와줄까?' },
         { id:'n1', en:'Did you see anyone?', ko:'누구 봤니?' }
       ],
-      // both asked in one talk (user request 2026-11-23: n1 waiting for the photo was confusing); n1 written down, Toby and Gus are there
-      unlocks:{ n1:{ people:['toby', 'gus'] } },
+      // both asked in one talk (user request 2026-11-23: n1 waiting for the photo was confusing); n1 written down, Pablo and Gus are there
+      unlocks:{ n1:{ people:['pablo', 'gus'], places:['yard'] } },
       answers:{
         n0:'Someone went into my flowerbed. Look at my flowers!',
-        n1:"No, I didn't. But I heard a sneeze by my flowers! Gus and Toby played ball next door."
+        n1:"No, I didn't. But I heard a sneeze by my flowers! Gus and Pablo played ball next door."
       },
       notes:{
         n0:["- Someone {{a|went}} into my {{b|flowerbed}}.", "- Look at my {{c|flowers}}!"],
-        n1:["- No, I didn't.", "- But I {{e|heard}} a {{f|sneeze}} by my flowers!", "- Gus and Toby {{g|played}} ball next door."]
+        n1:["- No, I didn't.", "- But I {{e|heard}} a {{f|sneeze}} by my flowers!", "- Gus and Pablo {{g|played}} ball next door."]
       },
       bank:{ n0:['went','flowerbed','flowers','ran','garden','trees','leaves'], n1:['heard','sneeze','played','hear','laugh','plays'] }
     },
-    toby: { id:'toby', name:'Toby Bear', ko:'곰 토비', job:'이웃', place:'flowerbed', witness:true, required:true, pitch:1.3, voice:4, bg:'#F3E2B8',
-      hello:[ { key:'hello', en:'Oh, hi again, detective!', ko:'어, 또 만났네, 탐정님!' } ],
+    pablo: { id:'pablo', name:'Pablo Panda', ko:'판다 파블로', job:'이웃', place:'yard', witness:true, required:true, pitch:1.2, voice:4, bg:'#E8EEE4',
+      // Higgsfield MiniMax Juno (user choice 2026-11-23), no emotion
+      audio:Object.fromEntries(['hello', 't1', 'flower'].map(key => [key, `audio/flowerbed/pablo-${key}.mp3`])),
+      hello:[ { key:'hello', en:"Hi, detective! I'm Pablo.", ko:'안녕, 탐정님! 난 파블로야.' } ],
       questions:[ { id:'t1', en:'Did you go into the flowerbed?', ko:'화단에 들어갔니?' } ],
       answers:{ t1:"No, I didn't. I played with my tennis ball." },
       notes:{ t1:["- No, I {{a|didn't}}.", "- I {{b|played}} with my {{c|tennis}} ball."] },
       bank:{ t1:["didn't",'played','tennis','did','plays','soccer','beach'] },
       // the flower held up to his nose (user sketch 2026-11-23): he only smells it
-      actions:[ { id:'flower', button:'꽃 내밀기', when:['@flower'], offer:'flower', en:'Here, smell this flower.', ko:'자, 이 꽃 냄새 좀 맡아 봐.',
+      actions:[ { id:'flower', button:'꽃 내밀기', when:['@flower', 'pablo:t1', 'gus:g1'], offer:'flower', en:'Here, smell this flower.', ko:'자, 이 꽃 냄새 좀 맡아 봐.',
         answer:'Mmm, it smells nice!', answerKo:'음, 좋은 냄새야!' } ]
     },
-    gus: { id:'gus', name:'Gus Raccoon', ko:'너구리 거스', job:'이웃', place:'flowerbed', witness:true, required:true, pitch:.9, voice:1, bg:'#E2E4EA',
+    gus: { id:'gus', name:'Gus Raccoon', ko:'너구리 거스', job:'이웃', place:'yard', witness:true, required:true, pitch:.9, voice:1, bg:'#E2E4EA',
       // no sneeze at hello (user 2026-11-23): the player finds it out with the flower (his action offer-flower)
+      // Higgsfield MiniMax Dylan (user choice 2026-11-23), no emotion; the sneeze too
+      // the sneeze: a sound effect the user picked (2026-11-23, Pixabay "achoo", dragon-studio); gus-sneeze-b.mp3 is the other
+      // one they offered (a real sneeze)
+      audio:{ ...Object.fromEntries(['hello', 'g1', 'g2', 'apology'].map(key => [key, `audio/flowerbed/gus-${key}.mp3`])), flower:'audio/flowerbed/gus-sneeze-a.mp3' },
       hello:[ { key:'hello', en:"Oh… hi. I'm Gus.", ko:'어… 안녕. 난 거스야.' } ],
       questions:[ { id:'g1', en:'Did you go into the flowerbed?', ko:'화단에 들어갔니?' } ],
-      answers:{ g1:"No, I didn't! Maybe Toby did it!" },
-      notes:{ g1:["- No, I {{a|didn't}}!", "- Maybe {{b|Toby}} did it!"] },
-      bank:{ g1:["didn't",'Toby','did','Ollie',"doesn't",'Gus'] },
-      // the flower held up to his nose once he has blamed Toby (g1): he sneezes, as Ollie heard by her flowers, and owns up;
+      // he blames the puppy he saw in the flowerbed (user request 2026-11-23: not Pablo)
+      answers:{ g1:"No, I didn't! I saw the puppy walking in the flowerbed!" },
+      notes:{ g1:["- No, I {{a|didn't}}!", "- I {{b|saw}} the {{c|puppy}} walking in the flowerbed!"] },
+      bank:{ g1:["didn't",'saw','puppy','did','see','kitten'] },
+      // the flower held up to his nose once he has blamed the puppy (g1): he sneezes, as Ollie heard by her flowers, and owns up;
       // then Ollie hears it (ending: the hand-over round, user decision 2026-11-23: sneeze -> owning up, no questioning)
       actions:[
-        { id:'flower', button:'꽃 내밀기', when:['@flower', 'gus:g1'], offer:'flower', en:'Here, smell this flower.', ko:'자, 이 꽃 냄새 좀 맡아 봐.', ending:true,
-          lines:[ { key:'flower', react:'sneeze', en:'Ah… ah… ACHOO!', ko:'에… 에… 에취!' },
-            { key:'g2', en:"…Okay. I went into the flowerbed for my ball. I stepped on the flowers. I'm sorry.", ko:'…알았어. 공을 가지러 화단에 들어갔어. 꽃을 밟았어. 미안해.' } ] }
+        { id:'flower', button:'꽃 내밀기', when:['@flower', 'pablo:t1', 'gus:g1'], offer:'flower', en:'Here, smell this flower.', ko:'자, 이 꽃 냄새 좀 맡아 봐.', ending:true,
+          lines:[ { key:'flower', react:'sneeze', mood:'sneeze', en:'Ah… ah… ACHOO!', ko:'에… 에… 에취!' },
+            { key:'g2', mood:'sorry', en:"…Okay. I went into the flowerbed for my ball. I stepped on the flowers. I'm sorry.", ko:'…알았어. 공을 가지러 화단에 들어갔어. 꽃을 밟았어. 미안해.' } ] }
       ]
     }
   },
   phrases:[],
   grammarLines:{
     'ollie:n1':[['negative',"No, I didn't"], ['past-irr','heard'], ['past-reg','played']],
-    'toby:t1':[['did-q','Did you go'], ['negative',"No, I didn't"], ['past-reg','played']],
-    'gus:g1':[['did-q','Did you go'], ['negative',"No, I didn't"]],
+    'pablo:t1':[['did-q','Did you go'], ['negative',"No, I didn't"], ['past-reg','played']],
+    'gus:g1':[['did-q','Did you go'], ['negative',"No, I didn't"], ['past-irr','saw']],
     'ollie:n0':[['past-irr','went']]
   },
   answersKo:{
-    ollie:{ n0:'누가 내 화단에 들어갔어. 내 꽃들 좀 봐!', n1:'아니, 못 봤어. 그런데 내 꽃 옆에서 재채기 소리를 들었어! 옆집에서 거스랑 토비가 공놀이를 했어.' },
-    toby:{ t1:'아니, 안 들어갔어. 난 테니스공으로 놀았어.' },
-    gus:{ g1:'아니, 안 들어갔어! 토비가 그랬을지도 몰라!' }
+    ollie:{ n0:'누가 내 화단에 들어갔어. 내 꽃들 좀 봐!', n1:'아니, 못 봤어. 그런데 내 꽃 옆에서 재채기 소리를 들었어! 옆집에서 거스랑 파블로가 공놀이를 했어.' },
+    pablo:{ t1:'아니, 안 들어갔어. 난 테니스공으로 놀았어.' },
+    gus:{ g1:'아니, 안 들어갔어! 강아지가 화단에서 돌아다니는 걸 봤어!' }
   },
   // the garden (design 장면 2): the mark photographed (the evidence for Gus), the broken flowers and the watering can
   // only looked at
   places:[
-    { id:'flowerbed', x:50, y:50, label:'Garden', artWidth:1376, artHeight:768,
+    { id:'flowerbed', x:54, y:85, label:'Garden', artWidth:1376, artHeight:768,
       clues:[
-        { label:'Round mark', prop:true, en:"There's a big round mark in the soil.", ko:'흙에 크고 둥근 자국이 있어.' },   // looked at (no questioning, no photo)
-        { label:'Broken flowers', prop:true, en:'These flowers are broken. There is yellow pollen on them.', ko:'꽃들이 꺾여 있어. 노란 꽃가루가 묻어 있네.' },
-        { label:'Watering can', prop:true, en:'There is a watering can by the house.', ko:'집 옆에 물뿌리개가 있어.' },
+        { label:'Round mark', prop:true, audio:'audio/flowerbed/detective-clue-mark.mp3', en:"There's a big round mark in the soil.", ko:'흙에 크고 둥근 자국이 있어.' },   // looked at (no questioning, no photo)
+        { label:'Broken flowers', prop:true, audio:'audio/flowerbed/detective-clue-flowers.mp3', en:'These flowers are broken. There is yellow pollen on them.', ko:'꽃들이 꺾여 있어. 노란 꽃가루가 묻어 있네.' },
+        { label:'Watering can', prop:true, audio:'audio/flowerbed/detective-clue-can.mp3', en:'There is a watering can by the house.', ko:'집 옆에 물뿌리개가 있어.' },
         // a broken daisy on the lawn, drawn by ART.flowerbed until taken (user request 2026-11-23: one to pick up in sight;
         // held up to the suspects' noses)
         { label:'Flower', take:'flower', lines:[ { key:'flower-grass', en:'There is a broken flower on the grass.', ko:'잔디 위에 꺾인 꽃이 있어.' },
@@ -2717,20 +2753,23 @@ const FLOWERBED_CASE = {
         { clue:1, x:42, y:50, w:10.5, h:19 },
         { clue:2, x:5, y:72, w:14, h:20 },
         { clue:3, x:37.5, y:79, w:10.5, h:13, unless:['!took:flower'] }
-      ] }
+      ] },
+    // the neighbours' yard (user request 2026-11-23: the suspects playing ball somewhere else; scripts/cut-flowerbed-yard.py):
+    // Gus and Pablo play there (their playing pictures, gus:work / pablo:work), Pablo with a puppy; opened by Ollie's n1
+    { id:'yard', x:65, y:81, label:'Yard', artWidth:1376, artHeight:768, clues:[], spots:[] }
   ],
   thoughts:[
     { when:['ollie:n0', 'ollie:n1'], line:{ key:'think-flowerbed', en:"Let's look at the flowerbed.", ko:'화단을 살펴보자.' } }
   ],
   needed:[],
-  // the mark (x 53–63.5) left clear between Ollie and Toby
-  positions:{ ollie:{ x:24, floor:95, height:42 }, toby:{ x:69, floor:95, height:40 }, gus:{ x:87, floor:95, height:40 } },
+  // Ollie in the garden; Gus and Pablo in the yard, Pablo throwing to the puppy on the right
+  positions:{ ollie:{ x:24, floor:95, height:42 }, gus:{ x:51, floor:94, height:40 }, pablo:{ x:70, floor:94, height:40 } },
   items:{
-    flower:{ label:'Broken flower', en:'There is yellow pollen on this flower.', ko:'이 꽃에 노란 꽃가루가 묻어 있어.',
+    flower:{ label:'Broken flower', audio:'audio/flowerbed/detective-item-flower.mp3', en:'There is yellow pollen on this flower.', ko:'이 꽃에 노란 꽃가루가 묻어 있어.',
       img:'assets/places/flowerbed/flower.webp', w:420, h:284, crop:[-40, -60, 500, 404], bag:'assets/places/flowerbed/flower.webp' }
   },
   // held up to a nose (offerUp): the arm with the daisy (scripts/cut-flowerbed.py), at: the daisy's middle in it
-  offers:{ flower:{ img:'assets/places/flowerbed/flower-hand.webp', at:[.172, .149], ratio:.889, scale:1.7 } },
+  offers:{ flower:{ img:'assets/places/flowerbed/flower-hand.webp', at:[.172, .149], ratio:.889, scale:1.7, sneezeAt:750 } },   // sneezeAt: the 'choo' of gus-sneeze-a
   previewHandback:['flower'],
   deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
   ending:{
@@ -4250,7 +4289,7 @@ const PEOPLE = PACK ? PACK.people : {
   badger: { id:'badger', name:'Officer Terry', ko:'테리 경관', job:'동료 경찰', place:'library', partner:true,
     pitch:.9, voice:3, bg:'#DCE3F0', openingQuestion:'b1',
     hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
-    // recorded voice (Higgsfield · MiniMax · Fraser)
+    // recorded voice (Higgsfield · MiniMax · Nadine, 2026-11-23; the old Fraser takes in audio/backup-terry-fraser/)
     audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3',
       closing:'audio/badger-closing.mp3', call1:'audio/badger-call1.mp3', interviewOpen:'audio/badger-interview-open.mp3',
       'call2-fiona':'audio/badger-call2-fiona.mp3' },
@@ -4569,7 +4608,7 @@ const GLOSS = {
   'strange:이상한', 'ella:엘라', 'children:아이들', 'delivery:배송', 'ready:준비된', 'took:가져갔다', 'only:~만', 'deliver:배달하다', 'supplies:재료, 물품', 'decorating:꾸미고 있는'].forEach(e => { const [k, v] = e.split(':'); if(!GLOSS[k]) GLOSS[k] = v; });
 // the flowerbed case's note words
 [['went',['w','갔다']], ['flowerbed',['w','화단']], ['flowers',['w','꽃들']], ["didn't",['w','~하지 않았다']], ['heard',['w','들었다']], ['sneeze',['w','재채기']],
-  ['played',['w','놀았다']], ['tennis',['w','테니스']], ['toby',['w','토비']]].forEach(([k, v]) => { if(!WORDS[k]) WORDS[k] = v; if(!GLOSS[k]) GLOSS[k] = v[1]; });
+  ['played',['w','놀았다']], ['tennis',['w','테니스']], ['toby',['w','토비']], ['pablo',['w','파블로']], ['puppy',['w','강아지']]].forEach(([k, v]) => { if(!WORDS[k]) WORDS[k] = v; if(!GLOSS[k]) GLOSS[k] = v[1]; });
 const WORD_GROUPS = [['w','단어'], ['t','숫자·시간'], ['n','장소'], ['x','표현']];
 // the other cases' words (note blanks that are in WORDS, and phrases), for 학습 on the main page
 const packWords = c => [...new Set([...Object.values(c.people).flatMap(s => Object.values(s.notes).flat().flatMap(line => [...line.matchAll(/\{\{\w+\|([^}]+)\}\}/g)].map(m => m[1].split('/')[0].toLowerCase()))), ...c.phrases.map(([key]) => key)])].filter(k => WORDS[k]);
@@ -4777,9 +4816,9 @@ const SENTENCE_TIMES = KITE ? { 'toby:b0':[[0, 1.9], [2.15, 4.26]] } : MONTAGE_O
   'nora:n1':[[0,0.62],[1.68,5.96]],
   'nora:n3':[[0,2.45],[3.5,4.4],[4.7,7.55],[8.5,9.65]]
 } : {
-  'badger:b1':[[0,1.45],[1.91,4.45],[4.91,6.12]],
-  'badger:b2':[[0.13,1.96],[2.12,3.98],[4.28,6.24]],
-  'badger:b3':[[0,1.6],[1.9,3.83]],
+  'badger:b1':[[0,1.74],[2.29,5.09],[5.64,6.87]],   // Nadine 2026-11-23
+  'badger:b2':[[0,2.81],[3.36,5.75],[6.35,9.35]],
+  'badger:b3':[[0,1.92],[2.56,5.05]],
   'mole:m2':[[0.13,4.1],[4.5,8.92]],
   'fiona:q1':[[0.09,3.3],[3.46,6.75]],
   'ray:q1':[[0.11,1.59],[1.99,5.09]],
@@ -5058,6 +5097,13 @@ const SPRITES = {
   toby:{src:'assets/characters/toby-higgsfield.webp', w:393, h:700, face:'21 14 350 350', anchor:.5},
   // the flowerbed case (scripts/cut-flowerbed.py): Ollie alone (the picnic sheet has him with Mia), Gus with his soccer ball
   ollie:{src:'assets/characters/ollie-higgsfield.webp', w:514, h:700, face:'151 14 322 322', anchor:.5},
+  // Gus's faces (scripts/cut-gus-moods.py): sneezing with the flower, sorry when he owns up; `height` keeps the ball the base size
+  // playing in the yard (scripts/cut-flowerbed-yard.py), shown until they are talked to
+  'gus:work':{src:'assets/characters/gus-play.webp', w:681, h:700, anchor:.5},
+  'pablo:work':{src:'assets/characters/pablo-play.webp', w:576, h:700, anchor:.5},
+  'gus:sneeze':{src:'assets/characters/gus-sneeze.webp', w:499, h:700, face:'46 14 308 308', height:1.05, anchor:.47},
+  'gus:sorry':{src:'assets/characters/gus-sorry.webp', w:551, h:700, face:'104 14 308 308', height:1.03, anchor:.5},
+  pablo:{src:'assets/characters/pablo-higgsfield.webp', w:464, h:700, face:'78 14 322 322', anchor:.5},   // the flowerbed case (scripts/cut-pablo.py)
   gus:{src:'assets/characters/gus-higgsfield.webp', w:541, h:700, face:'68 14 308 308', anchor:.5},   // the kite case (scripts/cut-toby.py)
   // the picnic case: two per Higgsfield sheet (scripts/cut-picnic-characters.py); Mia & Ollie are one figure
   ben:{src:'assets/characters/ben-higgsfield.webp', w:542, h:700, face:'134 0 350 350', anchor:.57},
@@ -5139,6 +5185,11 @@ const MOUTHS = {
   'ella:give':{closed:[277,244,71,25], open:[277,244,71,28]},
   finn:{closed:[114,145,189,50], open:[114,145,189,80]},
   'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
+  // the flowerbed case (scripts/make-flowerbed-mouths.py)
+  ollie:{closed:[284,217,80,46], open:[284,217,80,46]},
+  gus:{closed:[173,250,85,47], open:[173,250,85,47]},
+  'gus:sorry':{closed:[156,255,102,47], open:[156,255,102,47]},
+  pablo:{closed:[150,210,99,56], open:[150,210,99,56]},
   'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]},
   // the violin case: the closed mouth as drawn; Pip's beak opens (its lower half drops)
   tara:{closed:[233,214,90,24], open:[233,214,90,36]},
@@ -5196,7 +5247,7 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
 // the last ones cut from their sprites (scripts/cut-picnic-characters.py, cut-umbrella-characters.py); mia-solo and
 // ollie are PEOPLE.mia.faces
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia', 'mia-solo', 'ollie',
-  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby', 'bruno', 'gus'];   // Christmas: scripts/make-christmas-face-icons.py; bruno: scripts/cut-bruno.py
+  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby', 'bruno', 'gus', 'pablo'];   // Christmas: scripts/make-christmas-face-icons.py; bruno: scripts/cut-bruno.py
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
 const FACE_FILES = { badger:'terry' };   // Officer Terry keeps the id 'badger'
 const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? FACE_FILES[id] || id : 'pending'}.webp`;
@@ -5521,9 +5572,11 @@ const playIcon = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5 L1
 
 function renderHint(){
   const p = st(), button = $('#hint'), qid = p.recording;
-  button.innerHTML = `<img src="assets/ui/icons-v2/acorn.webp" alt="" draggable="false"><span class="n">${S.hints}</span>`;
-  button.disabled = S.investigate || p.phase !== 'record' || !qid || S.hints <= 0;
-  button.setAttribute('aria-label', `힌트 ${S.hints}번 남음`);
+  // once the case's own acorns are gone, the jar's count shows, with the little jar
+  const fromJar = S.hints <= 0, n = fromJar ? acornBank() : S.hints;
+  button.innerHTML = `<img src="assets/ui/icons-v2/acorn.webp" alt="" draggable="false"><span class="n">${n}</span>${fromJar && n ? `<img class="bank" src="${jarPic(n)}" alt="">` : ''}`;
+  button.disabled = S.investigate || p.phase !== 'record' || !qid || n <= 0;
+  button.setAttribute('aria-label', fromJar ? `저금통 도토리 힌트 ${n}번 남음` : `힌트 ${n}번 남음`);
 }
 
 // S.view: a person's id (the 인물 tab), 'evidence' or 'memo'. notePerson: the person page last shown, for the 인물 tab.
@@ -6314,6 +6367,8 @@ function offerSneeze(who, el, x, y){
     scene.appendChild(p); setTimeout(() => p.remove(), 1200);
   }
   setTimeout(() => scene.classList.remove('sneeze'), 500);
+  // the flower goes away after the sneeze (user request 2026-11-23): the sneezing and sorry faces are not hidden behind it
+  setTimeout(() => { if(offerEl === el) dropOffer(); }, 450);
 }
 function dropOffer(now){
   const el = offerEl; offerEl = null;
@@ -6489,10 +6544,11 @@ function askAudio(id, qid){
 function useHint(){
   const p = st(), qid = p.recording;
   if(S.investigate || p.phase !== 'record' || !qid || S.view !== S.cur) return;
-  if(S.hints <= 0) return toast('힌트를 다 썼어요.');
+  if(S.hints <= 0 && acornBank() <= 0) return toast('힌트를 다 썼어요.');
   const blank = blanksOf(S.cur, [qid]).find(b => !b.value.trim() || !isRight(b));
   if(!blank) return toast('더 채울 칸이 없어요.');
-  S.hints--;
+  // the case's own acorns first, then one from the jar (도토리 저금통)
+  if(S.hints > 0) S.hints--; else setAcornBank(acornBank() - 1);
   p.notes[blank.id] = blank.ans.split('/')[0];
   p.marks[blank.id] = 'hint';
   renderDock();
@@ -8967,12 +9023,14 @@ const kitesArt = () => `<g class="bed-bunches bed-rest">${KITE_BED_REST.map(b =>
       : `<image data-cover="${k.n}-${i}" style="animation-delay:-${((k.n * 7 + i * 5) % 10) / 4}s" href="assets/places/kite/${c.img}.webp" x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}" preserveAspectRatio="none"/>`).join('');
 }).join('');
 const ART = {
-  // the flowerbed case (assets/places/flowerbed/, scripts/cut-flowerbed.py): the band of the tall garden picture; Toby's
-  // small tennis ball on the lawn by him once he is there (design: each played with a different ball)
+  // the flowerbed case (assets/places/flowerbed/, scripts/cut-flowerbed.py): the band of the tall garden picture (Pablo
+  // holds his small tennis ball in his own picture; design: each played with a different ball)
   flowerbed: () => `<image href="assets/places/flowerbed/garden.webp" width="1376" height="768"/>` +
     // the daisy on the lawn until it is taken (FLOWERBED_CASE clue 'Flower')
-    (FLOWERBED && !S.flags.has('took:flower') ? '<image href="assets/places/flowerbed/flower.webp" x="522" y="612" width="124" height="84" transform="rotate(-8 584 654)"/>' : '') +
-    (FLOWERBED && sayOk('ollie:n1') ? '<circle cx="1022" cy="726" r="13" fill="#D7E04A" stroke="#6B6A2A" stroke-width="2.5"/><path d="M1011 718 Q1022 726 1011 736 M1033 716 Q1022 726 1033 736" fill="none" stroke="#fff" stroke-width="2.2"/>' : ''),
+    (FLOWERBED && !S.flags.has('took:flower') ? '<image href="assets/places/flowerbed/flower.webp" x="522" y="612" width="124" height="84" transform="rotate(-8 584 654)"/>' : ''),
+  // the neighbours' yard (scripts/cut-flowerbed-yard.py): the puppy Pablo throws his tennis ball to
+  yard: () => `<image href="assets/places/flowerbed/yard.webp" width="1376" height="768"/>` +
+    '<image href="assets/characters/puppy.webp" x="1104" y="575" width="152" height="154"/>',
   /* the Christmas star case (assets/places/christmas/, scripts/cut-christmas-assets.py). The square at night is the day
      picture darkened, then lit (user plan); the scale leaves the storeroom once taken (the picture without it) and
      stands by the sleigh while carried; the opened box shows the star; the table moves on once looked at from the
@@ -9106,6 +9164,7 @@ const ART_SKY = {
 };
 const ART_FLOOR = {
   flowerbed:{ src:'assets/places/flowerbed/garden-floor.jpg', h:900 },   // the flowerbed case
+  yard:{ src:'assets/places/flowerbed/yard-floor.jpg', h:900 },
   library:{ src:'assets/places/library-floor.jpg', h:506 },
   bakery: { src:'assets/places/bakery-floor.jpg', h:518 },
   cafe:   { src:'assets/places/cafe-floor.jpg', h:725 },
@@ -10388,30 +10447,30 @@ const CASES = [
     focus:'생김새·옷차림 듣기', keys:['has-wearing'],
     photo:{ img:'assets/places/montage/wanted.jpg', pos:'50% 58%' },
     summary:'꿀 가게에서 돈통을 들고 달아난 곰의 몽타주를 만들었다. 가게 주인 브루노는 얼굴을, 토비는 뒷모습을, 베티는 도서관 창문에서 옷차림을 봤다. 세 목격자의 말을 하나씩 그림으로 맞춰 테리 경관에게 건넸다.' },
-  { id:'picnic-bag', no:'Case 04', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+  // the flowerbed (design/case-flowerbed-ball.md): Case 04, after the robbery (user decision 2026-11-23: as easy as 1-3)
+  { id:'flowerbed', no:'Case 04', title:'누가 화단을 망쳤을까?', en:'Who Stepped on the Flowers?', art:'flowerbed', cover:{ src:'assets/places/flowerbed/garden.webp', alt:'둥근 자국이 난 화단' }, playable:true,
+    focus:'과거 의문문·부정 듣기', keys:['did-q'],
+    photo:{ who:'gus', img:'assets/characters/gus-higgsfield.webp', cx:50, w:56, b:-30 },
+    summary:'올리의 화단 꽃이 밟혀 있었다. 화단 흙에는 크고 둥근 공 자국이 있었고, 올리는 꽃 옆에서 재채기 소리를 들었다. 토비는 작은 테니스공으로 놀았고, 거스는 큰 축구공을 들고 있었다. 잔디 위에서 주운 꽃을 코에 대자 토비는 냄새만 맡았고 거스는 재채기를 했다. 거스는 공을 가지러 화단에 들어갔다가 꽃을 밟았다고 인정하고, 올리와 함께 새 꽃을 심기로 했다.' },
+  { id:'picnic-bag', no:'Case 05', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.webp' },
     summary:'소풍을 나온 로지의 파란 가방이 노라의 파란 가방과 바뀌었다. 벤은 노라가 벤의 집에 두고 간 가방을 회사로 가져다주는 길에 호수 카페에 들렀고, 그곳에서 똑같이 생긴 두 가방이 바뀌었다. 탐정은 노라에게 폴더와 펜이 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
-  { id:'missing-violin', no:'Case 05', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.webp', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
+  { id:'missing-violin', no:'Case 06', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.webp', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
     photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.webp', cx:40, w:52, b:-29 },   // smaller, his face in the picture (user request 2026-11-17)
     summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 무대 뒤 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
-  { id:'case01', no:'Case 06', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
+  { id:'case01', no:'Case 07', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.webp', cx:41.7 },
     victimPhoto:'assets/characters/hoot-higgsfield.webp',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   // the education plan's order (L1-05 B, handed over 2026-11-09): the Christmas star after the library; no pictures yet
-  { id:'christmas-star', no:'Case 07', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
+  { id:'christmas-star', no:'Case 08', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
     photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.webp', cx:50, w:56, b:-38 },
     summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 탐정이 무거운 상자 속 별 뒷면의 잎사귀 무늬를 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
-  // the flowerbed (design/case-flowerbed-ball.md, user decision 2026-11-23: developed after the Christmas star)
-  { id:'flowerbed', no:'Case 08', title:'누가 화단을 망쳤을까?', en:'Who Stepped on the Flowers?', art:'flowerbed', cover:{ src:'assets/places/flowerbed/garden.webp', alt:'둥근 자국이 난 화단' }, playable:true,
-    focus:'과거 의문문·부정 듣기', keys:['did-q'],
-    photo:{ who:'gus', img:'assets/characters/gus-higgsfield.webp', cx:50, w:56, b:-30 },
-    summary:'올리의 화단 꽃이 밟혀 있었다. 화단 흙에는 크고 둥근 공 자국이 있었고, 올리는 꽃 옆에서 재채기 소리를 들었다. 토비는 작은 테니스공으로 놀았고, 거스는 큰 축구공을 들고 있었다. 잔디 위에서 주운 꽃을 코에 대자 토비는 냄새만 맡았고 거스는 재채기를 했다. 거스는 공을 가지러 화단에 들어갔다가 꽃을 밟았다고 인정하고, 올리와 함께 새 꽃을 심기로 했다.' },
   { id:'case04', no:'Case 09' }
 ];
 // the case this page plays (CASE_ID)
@@ -10490,6 +10549,7 @@ function renderCaseList(){
   const solved = solvedCases(), streak = studyStreak();
   $('#caseStreak').hidden = !streak;
   $('#caseStreak').innerHTML = `${FLAME_ICON}${streak}일`;
+  renderAcornBank();
   const nextId = CASES.find(c => c.playable && !solved.includes(c.id))?.id;
   // the learned notes show the next of their case's key forms each time the list is drawn (user request)
   const turn = +(localStorage.getItem(LEARNED_TURN_KEY) || 0);
@@ -10517,7 +10577,7 @@ function renderCaseList(){
   // Open once that case is solved (or while every case is open for testing).
   function safeNode(c, i){
     if((i + 1) % SAFE_EVERY || i === CASES.length - 1 || !c.playable) return '';
-    const match = ((i + 1) / SAFE_EVERY) % 2 === 0, name = match ? '단어 짝맞추기' : '철자 금고';
+    const match = ((i + 1) / SAFE_EVERY) % 2 === 0, name = match ? '단어 짝맞추기' : '철자 자물쇠';
     const open = ALL_CASES_OPEN || solved.includes(c.id), done = (match ? matchesDone() : safesOpened()).includes(c.id);
     const tilt = i % 2 ? 3 : -4;
     const box = match ? '<span class="sn-box"><span class="sn-note a"></span><span class="sn-thread"></span><span class="sn-note b"></span></span>' : '<span class="sn-box"></span>';
@@ -10615,6 +10675,34 @@ function drawBoardString(){
 }
 new ResizeObserver(() => { if(homeTab === 'cases' && !$('#caseList').hidden) drawBoardString(); }).observe($('#caseCards'));
 document.fonts?.ready.then(() => drawBoardString());
+/* ---------- 도토리 저금통 (acorn bank) ----------
+   User decision 2026-11-23: a finished word game (spelling padlock, word matching) puts acorns in a jar kept on this
+   device: 5 the first time that game's slot on the board is done, 1 each time after (and from the test buttons). The
+   notebook's hint uses a case's own three acorns first, then takes from the jar. The jar shows on the case board. */
+const ACORN_BANK_KEY = 'detective.acornBank';
+const REWARD_FIRST = 5, REWARD_AGAIN = 1;
+const acornBank = () => Math.max(0, +readJSON(ACORN_BANK_KEY, 0) || 0);
+function setAcornBank(n){ try { localStorage.setItem(ACORN_BANK_KEY, JSON.stringify(Math.max(0, n))); } catch {} renderAcornBank(); }
+// empty below 3, half full below 15, then full
+const jarPic = n => `assets/ui/acorn-jar-${n < 3 ? 0 : n < 15 ? 1 : 2}.webp`;
+function renderAcornBank(){
+  const el = $('#acornBank'); if(!el) return;
+  const n = acornBank();
+  el.querySelector('img').src = jarPic(n); el.querySelector('b').textContent = n;
+  el.setAttribute('aria-label', `도토리 저금통 ${n}개`);
+}
+// the done panel's reward: acorns drop into the jar one by one (a click each), then the totals
+function giveAcorns(box, n){
+  const before = acornBank(); setAcornBank(before + n);
+  box.innerHTML = `<img class="ab-jar" src="${jarPic(before)}" alt=""><span class="ab-count"><span class="plus">도토리 +0</span><span class="total">저금통 ${before}개</span></span>`;
+  const jar = box.querySelector('.ab-jar'), plus = box.querySelector('.plus'), total = box.querySelector('.total');
+  for(let i = 0; i < n; i++) setTimeout(() => {
+    if(!box.isConnected) return;
+    const a = document.createElement('img'); a.className = 'ab-drop'; a.src = 'assets/ui/icons-v2/acorn.webp'; a.alt = '';
+    box.appendChild(a);
+    setTimeout(() => { a.remove(); plus.textContent = `도토리 +${i + 1}`; total.textContent = `저금통 ${before + i + 1}개`; jar.src = jarPic(before + i + 1); sgTick?.(); }, 600);
+  }, 500 + i * 260);
+}
 /* ---------- 철자 금고 (spelling safe) ----------
    A word game on the case board, after every third case (user decision 2026-11-23, design/minigame-words.html ②,
    design/minigame-board.html A). Five words a round: hear the word, its meaning is on a slip on the safe (a word
@@ -10628,7 +10716,6 @@ const SAFE_WORDS = ['library','bakery','cafe','clock','music','stars','sweet','a
   'book','alone','evening','missing','find','fox','dog','goat','mole','turn','door','ladder','bulbs','light','blue','red','yellow','green',
   'garden','house','office','know','open','bottle','folder','pen','busy','meeting','tell','picnic','twelve','week','lend','gold','owner','pattern','plain','handle']
   .filter(w => WORDS[w]);
-const SG_ARROW = d => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d ? 'M6 9 L12 15 L18 9' : 'M6 15 L12 9 L18 15'}" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 let sg = null, sgLast = [];
 const SG_VOWELS = [...'aeiou'];
 // which letters are dials (user pick 2026-11-23: a long word is tiring to spell whole): every letter of a word of
@@ -10644,8 +10731,9 @@ function openSafeGame(caseId){
   const pool = SAFE_WORDS.filter(w => !sgLast.includes(w));
   const words = [...pool].sort(() => Math.random() - .5).slice(0, 5);
   sgLast = words;
-  sg = { caseId, words, at:0, lock:false };
-  $('#sgDone').hidden = true;
+  // a first round of this board slot: each lock opened pops an acorn (5 in the jar at the end)
+  sg = { caseId, words, at:0, lock:false, first:!!caseId && !safesOpened().includes(caseId) };
+  $('#sgDone').hidden = true; $('#sgReward').innerHTML = '';
   $('#safeGame').hidden = false;
   sgLoad();
 }
@@ -10654,7 +10742,7 @@ function sgLoad(){
   $('#sgProg').textContent = `${sg.at + 1}/${sg.words.length}`;
   $('#sgTrack').style.width = `${sg.at / sg.words.length * 100}%`;
   $('#sgSafe').classList.remove('open');
-  $('#sgShackle').setAttribute('d', 'M8.5 10.5 V8 a3.5 3.5 0 0 1 7 0 V10.5');
+  $('#sgLockImg').src = 'assets/ui/padlock-closed.webp';
   $('#sgMeaning').textContent = WORDS[w][1];
   const blanks = sgBlanks(w);
   sg.dials = [...w].map((ch, i) => {
@@ -10665,11 +10753,67 @@ function sgLoad(){
     const opts = [ch, ...others].sort(() => Math.random() - .5);
     return { opts, at:(opts.indexOf(ch) + 1 + Math.floor(Math.random() * 3)) % 4 };   // never starts on the right letter
   });
-  $('#sgDials').innerHTML = sg.dials.map((d, i) => d.fixed ? `<div class="sg-dial fixed"><span class="sg-ch">${d.opts[0]}</span></div>`
-    : `<div class="sg-dial"><button type="button" data-sg-turn="${i}" data-sg-by="-1" aria-label="위로">${SG_ARROW(0)}</button>
-    <span class="sg-ch" data-sg-turn="${i}" data-sg-by="1">${d.opts[d.at]}</span><button type="button" data-sg-turn="${i}" data-sg-by="1" aria-label="아래로">${SG_ARROW(1)}</button></div>`).join('');
+  $('#sgDials').innerHTML = sg.dials.map((d, i) => d.fixed ? `<div class="sg-dial fixed"><b>${d.opts[0]}</b></div>`
+    : `<div class="sg-dial" data-sg-wheel="${i}" tabindex="0" role="spinbutton" aria-label="${i + 1}번째 글자"><div class="sg-strip">${[...d.opts, ...d.opts, ...d.opts].map(c => `<span>${c}</span>`).join('')}</div></div>`).join('');
+  requestAnimationFrame(() => document.querySelectorAll('#sgDials [data-sg-wheel]').forEach(el => sgPlace(el)));
   setTimeout(() => { if(sg && !$('#safeGame').hidden) pronounceWord(w); }, 250);
 }
+// A wheel's strip holds its four letters three times; the one showing sits in the middle copy, centred in the window,
+// its neighbours peeking above and below. dy: how far it is being dragged (px)
+const SG_ROW = .62;   // a row's height, as a share of the window's (the neighbours peek in above and below)
+function sgPlace(el, dy = 0, snap = false){
+  const d = sg?.dials[+el.dataset.sgWheel]; if(!d) return;
+  const h = el.clientHeight, row = h * SG_ROW, strip = el.firstElementChild;
+  strip.querySelectorAll('span').forEach(s => { s.style.height = `${row}px`; });
+  strip.classList.toggle('snap', snap);
+  strip.style.transform = `translateY(${h / 2 - (4 + d.at + .5) * row + dy}px)`;
+  el.setAttribute('aria-valuetext', d.opts[d.at]);
+}
+// a click each time a wheel passes a letter (user's sound 2026-11-23: one click cut from a toy ratchet, Pixabay
+// freesound_community, audio/lock-tick.mp3); a few players so quick turns overlap
+const SG_TICKS = [0, 1, 2, 3].map(() => { const a = new Audio('audio/lock-tick.mp3'); a.preload = 'auto'; a.volume = .8; return a; });
+let sgTickAt = 0;
+function sgTick(){ const a = SG_TICKS[sgTickAt++ % SG_TICKS.length]; a.currentTime = 0; a.play().catch(() => {}); }
+// one step on (1) or back (-1): slide to the next row, then settle back into the middle copy without moving
+function sgTurn(el, by){
+  const d = sg.dials[+el.dataset.sgWheel];
+  sgTick();
+  sgPlace(el, -by * el.clientHeight * SG_ROW, true);
+  setTimeout(() => { d.at = ((d.at + by) % 4 + 4) % 4; sgPlace(el); }, 150);
+}
+let sgDrag = null;
+$('#sgDials').addEventListener('pointerdown', e => {
+  const el = e.target.closest('[data-sg-wheel]'); if(!el || !sg || sg.lock) return;
+  el.setPointerCapture(e.pointerId); sgDrag = { el, y:e.clientY, dy:0, moved:false, step:0 };
+});
+$('#sgDials').addEventListener('pointermove', e => {
+  if(!sgDrag) return;
+  sgDrag.dy = e.clientY - sgDrag.y; if(Math.abs(sgDrag.dy) > 4) sgDrag.moved = true;
+  sgPlace(sgDrag.el, sgDrag.dy);
+  const step = Math.round(-sgDrag.dy / (sgDrag.el.clientHeight * SG_ROW));
+  if(step !== sgDrag.step){ sgDrag.step = step; sgTick(); }
+});
+$('#sgDials').addEventListener('pointerup', e => {
+  if(!sgDrag) return;
+  const { el, dy, moved } = sgDrag; sgDrag = null;
+  const row = el.clientHeight * SG_ROW;
+  if(!moved){   // a tap: the upper half turns back, the lower half on
+    const r = el.getBoundingClientRect(); return sgTurn(el, e.clientY < r.top + r.height / 2 ? -1 : 1);
+  }
+  const by = -Math.round(dy / row);
+  if(!by) return sgPlace(el, 0, true);
+  // finish the drag on the row it stopped nearest, then settle
+  sgPlace(el, -by * row, true);
+  const d = sg.dials[+el.dataset.sgWheel];
+  setTimeout(() => { d.at = ((d.at + by) % 4 + 4) % 4; sgPlace(el); }, 150);
+});
+$('#sgDials').addEventListener('pointercancel', () => { if(sgDrag){ sgPlace(sgDrag.el, 0, true); sgDrag = null; } });
+$('#sgDials').addEventListener('keydown', e => {
+  const el = e.target.closest('[data-sg-wheel]'); if(!el || !sg || sg.lock) return;
+  if(e.key === 'ArrowUp'){ e.preventDefault(); sgTurn(el, -1); }
+  if(e.key === 'ArrowDown'){ e.preventDefault(); sgTurn(el, 1); }
+});
+addEventListener('resize', () => { if(sg && !$('#safeGame').hidden) document.querySelectorAll('#sgDials [data-sg-wheel]').forEach(el => sgPlace(el)); });
 function sgShake(el){ el.classList.remove('sg-shake'); void el.offsetWidth; el.classList.add('sg-shake'); }
 function sgOpen(){
   if(!sg || sg.lock) return;
@@ -10681,7 +10825,8 @@ function sgOpen(){
   }
   sg.lock = true;
   $('#sgSafe').classList.add('open');
-  $('#sgShackle').setAttribute('d', 'M8.5 10.5 V6 a3.5 3.5 0 0 1 7 0');
+  $('#sgLockImg').src = 'assets/ui/padlock-open.webp';
+  if(sg.first){ const a = document.createElement('img'); a.className = 'sg-acorn'; a.src = 'assets/ui/icons-v2/acorn.webp'; a.alt = ''; $('.sg-lockart').appendChild(a); setTimeout(() => a.remove(), 950); }
   stampSound(); pronounceWord(w);
   $('#sgTrack').style.width = `${(sg.at + 1) / sg.words.length * 100}%`;
   setTimeout(() => {
@@ -10691,6 +10836,7 @@ function sgOpen(){
     const done = safesOpened();
     if(sg.caseId && !done.includes(sg.caseId)){ done.push(sg.caseId); try { localStorage.setItem(SAFE_KEY, JSON.stringify(done)); } catch {} }
     $('#sgDone').hidden = false; stampSound(150);
+    giveAcorns($('#sgReward'), sg.first ? REWARD_FIRST : REWARD_AGAIN);
   }, 1100);
 }
 function closeSafeGame(){
@@ -10698,13 +10844,6 @@ function closeSafeGame(){
   if(homeTab === 'cases' && !$('#caseList').hidden) renderCaseList();
 }
 $('#safeGame').addEventListener('click', e => {
-  const turn = e.target.closest('[data-sg-turn]');
-  if(turn && sg && !sg.lock){
-    const d = sg.dials[+turn.dataset.sgTurn];
-    d.at = (d.at + +turn.dataset.sgBy + 4) % 4;
-    turn.closest('.sg-dial').querySelector('.sg-ch').textContent = d.opts[d.at];
-    return;
-  }
   if(e.target.closest('#sgPlay') && sg) return pronounceWord(sg.words[sg.at]);
   if(e.target.closest('#sgOpen')) return sgOpen();
   if(e.target.closest('#sgAgain')) return openSafeGame(sg?.caseId);
@@ -10731,7 +10870,7 @@ function openMatchGame(caseId){
     boards.push({ pairs:pick.slice(0, 5), decoy:pick[5] });
   }
   mg = { caseId, boards, at:0, done:0, lock:false };
-  $('#mgDone').hidden = true;
+  $('#mgDone').hidden = true; $('#mgReward').innerHTML = '';
   $('#matchGame').hidden = false;
   mgLoad();
 }
@@ -10779,8 +10918,10 @@ function mgTap(n){
       if(!mg) return;
       mg.at++;
       if(mg.at < mg.boards.length) return mgLoad();
+      const first = !!mg.caseId && !matchesDone().includes(mg.caseId);
       if(mg.caseId){ const done = matchesDone(); if(!done.includes(mg.caseId)){ done.push(mg.caseId); try { localStorage.setItem(MATCH_KEY, JSON.stringify(done)); } catch {} } }
       $('#mgDone').hidden = false; stampSound(150);
+      giveAcorns($('#mgReward'), first ? REWARD_FIRST : REWARD_AGAIN);
     }, 900);
     return;
   }

@@ -171,4 +171,13 @@ Draw a NEW character in exactly the same art style, proportions, size and framin
 - 달튼 4자세: Nano Banana 2.1 16:9 2K(2크레딧), v3 참조, job `370e5cbd-611a-4d6a-97f6-3a5e514b628b` → `dalton-poses-higgsfield-original.png`, 배경 제거 job `3e1600d0-…` → `dalton-poses-cutout.png`. 왼쪽부터 생각·가리키기·돋보기·손 흔들기.
 - 자르기 `scripts/cut-dalton-terry.py` → `dalton.png`·`dalton-thinking/point/lens/wave.png`·`terry.png`(높이 700), 얼굴 아이콘 `assets/ui/icons-v2/dalton.png`·`terry.png`.
 - 눈 통일(사용자 요청 2026-11-23): 기본·손 흔들기의 점 눈을 흰자 눈으로 `scripts/fix-dalton-eyes.py`(크레딧 없음, 위 스크립트 다음에 실행). 얼굴 아이콘도 다시 자름.
+- 점 눈으로 되돌림(사용자 요청 2026-11-23: 흰자 눈이 무서움, 흰자 모두 없애기): 4자세 시트를 눈만 고침(Nano Banana 2.1 16:9 2K 약 2크레딧, job `338b1ba7-9559-4d52-b1f3-e5f59fa1b571`) → `dalton-poses-doteyes-higgsfield-original.png`(생각 자세만 흰자가 남음). `scripts/make-dalton-doteyes.py`가 가리키기·돋보기 새 눈을 붙이고 생각 자세는 털색으로 덮어 점 눈을 그림 → `dalton-poses-doteyes-cutout.png` → `cut-dalton-terry.py`. `fix-dalton-eyes.py`는 더 안 씀.
 - 입: 한 장(1.5크레딧, job `09dddce9-34cc-46b5-828e-ffb14b29a9f8`) → `mouths/dalton-terry-sheet-higgsfield-original.png`(초록 배경 2×2: 생쥐 닫은·벌린, 고양이 닫은·벌린). `scripts/make-dalton-terry-mouths.py` → `mouths/<이름>-closed|open`.
+
+## 판다 파블로 (화단 사건, Claude, 2026-11-23)
+- 사용자 결정: 화단 사건의 테니스공 친구를 곰 토비 대신 새 인물로. Nano Banana 2.1 3:4 1K(약 1.5크레딧), job `d7cfa603-1a3b-4998-a7e3-4aaa69e42a60`, 참조 `gus-ollie-higgsfield-original.png`(job `c8f27f30-…`), 마젠타 배경 → `pablo-higgsfield-original.png`(896×1200). `scripts/cut-pablo.py` → `pablo-higgsfield.png/.webp`(464×700, face `78 14 322 322`), `assets/ui/icons-v2/pablo.png/.webp`.
+
+## 거스 표정·화단 사건 입 (Claude, 2026-11-23)
+- 거스 재채기·미안함: job `9b3266c2-1c7d-420c-bc11-856abfdd68bb`(16:9 2K) → `gus-moods-higgsfield-original.png` → `scripts/cut-gus-moods.py` → `gus-sneeze`(좌우 뒤집음)·`gus-sorry`.
+- 입: job `7ef8bc68-a4af-4916-a4ba-7d17b4aa7f5f`(16:9 1K) → `mouths/flowerbed-sheet-higgsfield-original.png` → `scripts/make-flowerbed-mouths.py` → `mouths/ollie·gus·gus-sorry·pablo-closed|open`.
+- 노는 자세(사용자 제안 2026-11-23, 옆집 마당): job `39110115-6822-4a4f-a790-30cd601c5f0e` → `flowerbed-play-higgsfield-original.png` → `scripts/cut-flowerbed-yard.py` → `gus-play`·`pablo-play`·`puppy`.
