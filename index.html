@@ -136,8 +136,6 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* two held up together (a claim answered only by both, ENDING.script together): side by side, a little smaller */
 .presented.two{display:flex;justify-content:center;align-items:center;gap:3%}
 .presented.two figure{width:44%}
-.rosiebag{transition:opacity .8s ease}
-.app.bag-away .rosiebag{opacity:0}
 /* handing a bag over (picnic case): the bag itself, not a photo of it (user request), from below (the detective's hands)
    up to the person and smaller, a little wobble as they take it; one handed back comes down from them and grows */
 .handed{position:absolute;left:50%;bottom:17%;z-index:7;width:auto;max-width:44%;max-height:27%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 8px rgba(40,30,24,.35))}
@@ -2147,7 +2145,7 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
   <button class="devbtn" type="button" id="devInterro">심문 완료</button>
   <button class="devbtn" type="button" id="devTut">튜토리얼 초기화</button>
   <button class="devbtn" type="button" id="devReset">리셋</button>
-  <button class="devbtn" type="button" id="devBgm">BGM 끄기</button>
+  <button class="devbtn" type="button" id="devBgm">BGM 켜기</button>
   <button class="devbtn" type="button" id="devSafe">미니게임: 철자 자물쇠</button>
   <button class="devbtn" type="button" id="devMatch">미니게임: 짝맞추기</button>
 </div>
@@ -2196,7 +2194,15 @@ const QUESTIONS = [
    it takes, or a line and a thing handed over (`give`, into 소지품). `needs`: evidence a question waits for. */
 const PICNIC_CASE = {
   start:'rosie',
+  noBoard:true,
+  // once every conversation is done, the board's button (추리하기, the same places) starts the hand-over instead
+  handoffGo:'가방 돌려주기',
   previewHandback:['bag-rosie'],
+  // Rosie holding her bag (user request 2026-11-24; scripts/cut-rosie-give.py: the same size and place as her plain
+  // sprite): carry, the pose while the detective has no bag, from the start until she hands it over and again once hers
+  // is back (spriteKey)
+  sprites:{ 'rosie:give':{ src:'assets/characters/rosie-give.webp', w:316, h:661, face:'9 118 300 300', anchor:161.5/316 } },
+  carry:{ rosie:'give' },
   people:{
     rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'의뢰인', place:'picnic', witness:true, required:true, pitch:1.45, voice:2, bg:'#E4DDF3', openingQuestion:'r0',
       // recorded voice (Higgsfield · MiniMax · Evie, as in the library case; thanks: happy). The library case has its own rosie-*.mp3
@@ -2214,7 +2220,9 @@ const PICNIC_CASE = {
       after:{ done:{ lines:[
         { key:'give', en:'Please take this bag and find mine.', ko:'이 가방을 가져가서 내 가방을 찾아줘.' },
         { det:true, key:'take-bag', en:'I will.', ko:'그럴게.' }
-      ], give:'bag-nora' } },
+      // from: the bag in her hands in rosie:give (sprite px); it flies from there into 소지품 and she stands without it,
+      // look: the close look opened once it has landed in 소지품
+      ], give:'bag-nora', from:[74, 372, 256, 595], look:'baglook' } },
       answers:{
         r0:"This isn't my bag. Can you help me find mine?",
         r1:"I'm not sure. My bag is blue, just like this one.",
@@ -2223,20 +2231,22 @@ const PICNIC_CASE = {
       },
       // blanks: only words said in the answer, the ones that are clues or worth learning (user request)
       notes:{
-        // her own words as she said them (user request 2026-11-19: the detective's summary with her word in brackets read forced)
-        r0:["- “This isn't {{l|my}} bag.”","- “Can you help me find {{m|mine}}?”"],
-        r1:["- Her bag is {{b|blue}}, just like this one."],
+        // the detective's own summary, as Tara's in the violin case (user request 2026-11-24: her words quoted were not the
+        // detective's record); blanks only on words heard (isn't, find): my/mine cannot become her/hers in a blank
+        r0:["- this bag {{l|isn't}} Rosie's","- asked me to {{m|find}} her bag"],
+        r1:["- Her bag is {{b|blue}}."],
         r2:["- Her bag has a {{c|red}} {{d|lunch box}} and a {{e|yellow}} {{f|bottle}}."],
-        r4:["- She went to the {{j|cafe/lake cafe}}.","- Maybe the bags got {{k|mixed up}} there."]
+        r4:["- She went to the {{j|Lake Cafe/lake cafe/cafe}}.","- Maybe the bags got {{k|mixed up}} there."]
       },
       // word banks: about three wrong cards per blank, answers not first in their group (user request: two choices were too easy)
-      bank:{ r0:['your','my','his','her','yours','mine','hers'], r1:['red','green','blue','yellow'],
+      bank:{ r0:['is',"isn't",'was',"wasn't",'take','find','keep','lose'], r1:['red','green','blue','yellow'],
         r2:['green','red','blue','yellow','book','lunch box','cup','bottle','sandwich'],
-        r4:['garden','library','cafe','bakery','lost','mixed up','picked up'] }
+        r4:['garden','library','Lake Cafe','bakery','lost','mixed up','picked up'] }
     },
     duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'daycafe', witness:true, required:true, pitch:.95, voice:3, bg:'#DCEBD9', openingQuestion:['v2', 'v1'],
       // Mr. Duck's recorded voice: Higgsfield · MiniMax · Alden (hello made by the user), as in the library case
-      audio:Object.fromEntries(['hello', 'hello2', 'v1', 'v2', 'v3'].map(key => [key, `audio/picnic/duck-${key}.mp3`])),
+      // v1 and v4 recorded again without Mia and Ollie (user request 2026-11-24: Mia left out of the case)
+      audio:{ ...Object.fromEntries(['hello', 'hello2', 'v2', 'v4'].map(key => [key, `audio/picnic/duck-${key}.mp3`])), v1:'audio/picnic/duck-v1-ben.mp3' },
       hello:[
         { key:'hello', en:'Hello! Welcome to the Lake Cafe. What would you like?', ko:'안녕! 호수 카페에 온 걸 환영해. 뭘 주문할래?' },
         { det:true, key:'hello-duck', en:"Hello! I'm Detective {name}. I'm looking for a blue bag.", ko:'안녕! 나는 탐정 {name}이야. 파란 가방을 찾고 있어.' },
@@ -2246,27 +2256,29 @@ const PICNIC_CASE = {
         // lost and found: nothing was left, so someone took Rosie's bag (user decision; the owner does not know whose bag is whose)
         { id:'v2', en:'Did anyone leave a blue bag here?', ko:'여기 파란 가방을 두고 간 사람이 있어?' },
         { id:'v1', en:'Who came to the cafe today?', ko:'오늘 카페에 누가 왔어?' },
-        { id:'v3', en:'Where are they now?', ko:'다들 지금 어디 있어?' }
+        { id:'v4', en:'Where did Ben go?', ko:'벤은 어디로 갔어?' }
       ],
-      unlocks:{ v1:{ names:['ben', 'mia'] }, v3:{ places:['benhome', 'garden'] } },
+      unlocks:{ v1:{ names:['ben'] }, v4:{ places:['benhome'] } },
       answers:{
-        v1:'Rosie, Ben, Mia, and Ollie came today.',
+        v1:'Rosie and Ben came today.',
         v2:'No. Nobody left a bag here today.',
-        v3:'They told me their plans. Ben went home. Mia and Ollie went to the garden.'
+        v4:'He went home.'
       },
       notes:{
-        v1:["- Rosie, {{a|Ben/ben beaver}}, Mia, and Ollie came to the cafe."],
+        v1:["- Rosie and {{a|Ben/ben beaver}} came to the cafe."],
         v2:["- {{c|Nobody/no one}} {{d|left}} a bag at the cafe."],
-        v3:["- Ben went {{g|home}}.","- Mia and Ollie went to the {{h|garden}}."]
+        v4:["- Ben went {{g|home}}."]
       },
       bank:{ v1:['Ray','Betty','Ben','Fiona','Hoot','Rosie'], v2:['Nobody','Everyone','Ben','left','took','brought'],
-        v3:['office','home','cafe','library','garden','bakery'] }
+        v4:['office','home','cafe','library','garden','bakery'] }
     },
     // one question (user request 2026-11-19: too many questions; "What was in the bag?" → "I didn't open it" was cut, as
     // were Rosie's "Do you know whose bag this is?" and Nora's "Did you leave a blue bag at Ben's house?": none was used)
     ben: { id:'ben', name:'Ben Beaver', ko:'비버 벤', job:'노라의 이웃', place:'benhome', witness:true, required:true, pitch:.85, voice:1, bg:'#EADCC6', openingQuestion:'b1',
       // recorded voice (Higgsfield · MiniMax · Benji; hello made by the user, happy; hello-me and hello2 happy)
-      audio:Object.fromEntries(['hello', 'hello-me', 'hello2', 'b1', 'b2'].map(key => [key, `audio/picnic/ben-${key}.mp3`])),
+      // b1 his own bag, look: his yes to the look inside, b3: how Nora's bag went to her office (the old b1 recording)
+      audio:{ ...Object.fromEntries(['hello', 'hello-me', 'hello2', 'look'].map(key => [key, `audio/picnic/ben-${key}.mp3`])),
+        b1:'audio/picnic/ben-b1-own.mp3', b3:'audio/picnic/ben-b1.mp3' },
       // he does not say his name: the detective, who heard it from Mr. Duck, asks (user decision)
       hello:[
         { key:'hello', en:'Hi there! What can I do for you?', ko:'안녕! 무슨 일이야?' },
@@ -2275,59 +2287,25 @@ const PICNIC_CASE = {
         { det:true, key:'hello-ben2', en:'You were at the Lake Cafe today, right?', ko:'오늘 호수 카페에 왔었지?' },
         { key:'hello2', en:'Yes, I stopped there this morning.', ko:'응, 오늘 아침에 들렀어.' }
       ],
+      // he has a blue bag of his own (user request 2026-11-24: look into the others' bags instead of asking whose it
+      // is): the detective asks to look inside (action look, a short yes), its close look benbag; once looked at, b3
       questions:[
-        { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있어?' }
+        { id:'b1', en:'Do you have a blue bag?', ko:'혹시 파란 가방을 가지고 있어?' },
+        { id:'b3', en:'Did you see another blue bag today?', ko:'오늘 다른 파란 가방을 본 적 있어?' }
       ],
-      unlocks:{ b1:{ people:['nora'] } },
+      needs:{ b3:['benbag-0'] },
+      actions:[ { id:'look', en:'Can I look inside your bag?', ko:'가방 안을 봐도 될까?', when:['ben:b1'], answer:'Sure.', answerKo:'그럼.', inspect:'benbag' } ],
+      unlocks:{ b3:{ people:['nora'] } },
       answers:{
-        b1:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. After that, I came home.'
+        b1:'Yes, I do. I take it to work every day.',
+        b3:'Nora left her blue bag at my house. I stopped at the cafe, then took it to her office. After that, I came home.'
       },
       notes:{
-        b1:["- Nora left {{a|her}} blue bag at Ben's {{b|house}}.","- Ben stopped at the {{c|cafe}}.","- Then he {{d|took}} it to her {{e|office}}."]
+        b1:["- Ben takes his blue bag to {{f|work}} {{g|every day}}."],
+        b3:["- Nora left {{a|her}} blue bag at Ben's {{b|house}}.","- Ben stopped at the {{c|cafe}}.","- Then he {{d|took}} it to her {{e|office}}."]
       },
-      bank:{ b1:['his','my','her','garden','house','library','cafe','made','took','brought','bakery','office'] }
-    },
-    // Mia and Ollie, asked together in the garden (two questions for the pair)
-    mia: { id:'mia', name:'Mia & Ollie', ko:'미아와 올리', job:'소풍 온 친구들', place:'garden', witness:true, required:true, pitch:1.25, voice:2, bg:'#DDEBE0',
-      // Mia (Higgsfield · MiniMax · Giselle) and Ollie (Emmett: hello-ollie, hello-ollie2, g1-ollie), each greeting
-      // made by the user. g1-mia and g1-ollie are their turns in g1 (they answer one after the other, speak)
-      audio:Object.fromEntries(['hello', 'hello2', 'sure', 'g1-mia', 'g2', 'hello-ollie', 'hello-ollie2', 'g1-ollie']
-        .map(key => [key, `audio/picnic/mia-${key}.mp3`])),
-      // Ollie's voice and mouth for his part of an answer ("Ollie: …")
-      parts:{ ollie:{ pitch:.95, voice:1, mouth:'ollie' } },
-      // the map pin shows the two friends as two faces (user request); everywhere else they are one
-      faces:['mia-solo', 'ollie'],
-      // Ollie and Mia speak in turn; Ollie in his own voice and with his own mouth (as)
-      hello:[
-        { key:'hello-ollie', as:{ pitch:.95, voice:1, mouth:'ollie' }, en:"Oh, hi! I'm Ollie. Nice to meet you.", ko:'오, 안녕! 난 올리야. 만나서 반가워.' },
-        { key:'hello', en:"I'm Mia. Want to join our picnic?", ko:'난 미아야. 같이 피크닉 할래?' },
-        { det:true, key:'hello-garden1', en:"Nice to meet you, Ollie and Mia! I'm Detective {name}.", ko:'만나서 반가워, 올리, 미아! 난 탐정인 {name}이야.' },
-        { key:'hello-ollie2', as:{ pitch:.95, voice:1, mouth:'ollie' }, en:"A detective? That's cool!", ko:'탐정이라고? 멋진걸!' },
-        { det:true, key:'hello-garden2', en:'You were at the Lake Cafe today, right?', ko:'너희 오늘 호수 카페에 왔었지?' },
-        { key:'hello2', en:'Yes. We stopped there before coming here.', ko:'응, 여기 오기 전에 들렀어.' }
-      ],
-      questions:[
-        { id:'g1', en:'Do either of you have a blue bag?', ko:'혹시 너희 중에 파란 가방을 가진 사람이 있니?' },
-        { id:'g2', en:'Mia, is this blue bag yours? Have you checked inside?', ko:'미아, 이 파란 가방 네 거야? 안을 확인했어?' }
-      ],
-      // the photos are taken in the conversation (user decision: no free search of the garden)
-      after:{
-        g1:{ lines:[
-          { det:true, key:'garden-photo', en:"I'm helping Rosie find her bag. Can I take a picture of your bags?", ko:'로지의 가방을 찾고 있어. 가방 사진을 찍어도 될까?' },
-          { key:'sure', en:'Sure!', ko:'응!' }
-        ], snap:['garden-0', 'garden-1'] },
-        done:{ lines:[ { det:true, key:'garden-thanks', en:'Thanks for answering my questions. Enjoy your picnic!', ko:'답변 고마워. 피크닉 재밌게 즐기길 바래.' } ] }
-      },
-      needs:{ g2:['garden-0', 'garden-1'] },
-      answers:{
-        g1:'Ollie: No. Mine is red. Mia: Mine is blue. Why?',
-        g2:"Yes, it's mine. I opened it. My picnic things are inside."
-      },
-      notes:{
-        g1:["- Ollie's bag is {{a|red}}.","- Mia's bag is {{b|blue}}."],
-        g2:["- The blue bag is Mia's.","- Her {{d|picnic}} things are {{e|inside}}."]
-      },
-      bank:{ g1:['yellow','red','green','blue','pink','black','white'], g2:['office','picnic','school','outside','under','inside'] }
+      bank:{ b1:['school','work','home','every day','every week','today'],
+        b3:['his','my','her','garden','house','library','cafe','made','took','brought','bakery','office'] }
     },
     nora: { id:'nora', name:'Nora Hedgehog', ko:'고슴도치 노라', job:'회사원', place:'lobby', witness:true, required:true, pitch:1.1, voice:0, bg:'#F3E1D3',
       // Nora's recorded voice (Higgsfield · MiniMax · Maeve; hello made by the user). thanks: her line in the hand-over
@@ -2357,7 +2335,7 @@ const PICNIC_CASE = {
   // [WORDS key, where it is heard, the words to highlight in that sentence]
   phrases:[
     ["i'm not sure.",'rosie:r1',"I'm not sure"], ['just like','rosie:r1','just like'],
-    ['stop at','ben:b1','stopped at'], ['go home','duck:v3','went home'], ['after that','ben:b1','After that'], ['all morning','nora:n3','all morning'],
+    ['stop at','ben:b3','stopped at'], ['go home','duck:v4','went home'], ['after that','ben:b3','After that'], ['every day','ben:b1','every day'], ['all morning','nora:n3','all morning'],
     ['let me look.','nora:n3','Let me look'], ["that's strange.",'nora:n3',"That's strange"]
   ],
   grammarLines:{
@@ -2367,20 +2345,16 @@ const PICNIC_CASE = {
     'rosie:r4':[['wh-q','Where did you go'], ['past-irr','I went']],
     'duck:v1':[['wh-q','Who came'], ['past-irr','came today']],
     'duck:v2':[['negative','Nobody left'], ['past-irr','left a bag']],
-    'duck:v3':[['wh-q','Where are they'], ['past-irr','Ben went home']],
-    'ben:b1':[['ownership','her blue bag'], ['past-irr','Nora left']],
-    'mia:g1':[['ownership','Mine is red']],
-    'mia:g2':[['ownership','is this blue bag yours'], ['ownership',"it's mine"], ['past-reg','I opened it']],
+    'duck:v4':[['wh-q','Where did Ben go'], ['past-irr','He went home']],
+    'ben:b3':[['ownership','her blue bag'], ['past-irr','Nora left']],
     'nora:n2':[['wh-q','What was in your bag'], ['ownership','My green folder']],
     'nora:n3':[['negative',"I didn't open it"]]
   },
   answersKo:{
     rosie:{ r0:'이건 내 가방이 아니야. 내 가방을 찾아줄래?', r1:'잘 모르겠어. 내 가방도 이 가방처럼 파란색이야.', r2:'내 가방에는 빨간 도시락과 노란 물병이 있어.',
       r4:'여기 오기 전에 호수 카페에 들렀어. 거기서 가방이 바뀐 게 아닐까?' },
-    duck:{ v1:'오늘 로지, 벤, 미아, 올리가 왔어.', v2:'아니. 오늘 가방을 두고 간 손님은 없어.',
-      v3:'다들 어디로 갈지 말해 줬어. 벤은 집에 갔고, 미아와 올리는 정원으로 갔어.' },
-    ben:{ b1:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어.' },
-    mia:{ g1:'올리: 아니, 내 건 빨간색이야. 미아: 내 건 파란색이야. 왜?', g2:'응, 내 거야. 열어 봤어. 내 소풍 준비물이 들어 있어.' },
+    duck:{ v1:'오늘 로지와 벤이 왔어.', v2:'아니. 오늘 가방을 두고 간 손님은 없어.', v4:'집에 갔어.' },
+    ben:{ b1:'응, 있어. 매일 일하러 갈 때 가지고 다녀.', b3:'노라가 우리 집에 파란 가방을 두고 갔어. 카페에 들렀다가 노라의 회사로 가져다줬어. 그다음 집에 왔어.' },
     nora:{ n2:'내 초록 폴더와 파란 펜이야.', n3:'아침 내내 회의가 있어서 아직 열어 보지 못했어. 어디 보자… 빨간 도시락이랑 노란 물병? 이상하네.' }
   },
   places:[
@@ -2420,22 +2394,6 @@ const PICNIC_CASE = {
         { clue:1, x:53.5, y:51, w:11, h:15.5 },
         { clue:2, x:54, y:70, w:12.5, h:15.5 }
       ]},
-    // the two bags are photographed in the conversation (`talk`: no tap spot in the place view)
-    { id:'garden', x:56, y:83, label:'Garden', artWidth:1376, artHeight:768,
-      clues:[
-        { label:'Blue bag', en:'A blue bag on the garden bench.', ko:'정원 벤치 위의 파란 가방.' },
-        { label:'Red bag', en:'A red bag on the garden bench.', ko:'정원 벤치 위의 빨간 가방.' },
-        { label:'Flowers', prop:true, en:'Red, yellow, and blue flowers grow everywhere.', ko:'빨간 꽃, 노란 꽃, 파란 꽃이 여기저기 피어 있다.', audio:'audio/picnic/detective-garden-flowers.mp3' },
-        { label:'Stone path', prop:true, en:'A stone path goes to the gate.', ko:'돌길이 대문까지 이어진다.', audio:'audio/picnic/detective-garden-path.mp3' },
-        { label:'Fence', prop:true, en:'A white wooden fence goes around the garden.', ko:'하얀 나무 울타리가 정원을 둘러싸고 있다.', audio:'audio/picnic/detective-garden-fence.mp3' }
-      ],
-      spots:[
-        { clue:0, talk:true, x:71.5, y:36, w:8, h:13, photo:{x:938,y:250,w:200,h:150} },
-        { clue:1, talk:true, x:80.8, y:36, w:8, h:13, photo:{x:1065,y:250,w:200,h:150} },
-        { clue:2, x:0, y:50, w:17, h:45 },
-        { clue:3, x:40, y:101, w:28, h:26 },   // the path goes on in the floor under the picture
-        { clue:4, x:8, y:27, w:22, h:20 }
-      ]},
     { id:'lobby', x:28, y:85, label:'Office Lobby', artWidth:1376, artHeight:768,
       clues:[
         { label:'Notice board', prop:true, en:'A board with notes for the workers.', ko:'직원들을 위한 쪽지가 붙은 게시판.', audio:'audio/picnic/detective-lobby-board.mp3' },
@@ -2446,13 +2404,25 @@ const PICNIC_CASE = {
         { clue:0, x:60, y:23.5, w:17.5, h:21 },
         { clue:1, x:27, y:30, w:14, h:36 },
         { clue:2, x:0.5, y:52.5, w:13.5, h:41.5 }
-      ]}
+      ]},
+    // the close look at the bag Rosie hands over (user requests 2026-11-24): it opens as the bag lands in 소지품 (as Ella's
+    // umbrella), shut first, 열기 opens it (as the violin case); a tap inside says what is in it (its 소지품 line,
+    // recorded). 〈 goes back to Rosie. Never on the map
+    { id:'baglook', inspect:true, back:'picnic', flip:['열기', '닫기'], label:'Picnic Table', artWidth:1376, artHeight:768,
+      clues:[ { label:'Inside the bag', prop:true, en:'There is a green folder and a blue pen inside.', ko:'안에 초록 폴더와 파란 펜이 들어 있어.',
+        audio:'audio/picnic/detective-item-bag-nora.mp3' } ],
+      spots:[ { clue:0, x:40, y:32, w:15, h:14, open:true } ] },
+    // Ben's own blue bag (user request 2026-11-24), opened from his action look: shut, 열기 opens it, a tap inside says
+    // what is in it (seen: b3 waits for it). 〈 goes back to Ben
+    { id:'benbag', inspect:true, back:'benhome', flip:['열기', '닫기'], label:"Ben's House", artWidth:1376, artHeight:768,
+      clues:[ { label:'Inside the bag', prop:true, seen:true, en:'There is a brown book and a hammer inside.', ko:'안에 갈색 책과 망치가 들어 있어.',
+        audio:'audio/picnic/detective-item-bag-ben.mp3' } ],
+      spots:[ { clue:0, x:40, y:32, w:15, h:14, open:true } ] }
   ],
   positions:{
     rosie:{x:28, floor:94, height:46},   // on the grass left of the table, so the bag on it stays in view
     duck:{x:42, floor:93, height:44},
     ben:{x:45, floor:93, height:44},
-    mia:{x:40, floor:93, height:44},
     nora:{x:50, floor:93, height:44}
   },
   // things in the detective's bag (소지품): handed over at the end; img + crop is its picture, audio its sentence in the
@@ -2461,65 +2431,17 @@ const PICNIC_CASE = {
     // the title says who gave it and its colour, never whose it is (design)
     'bag-nora':{ label:'Blue bag from Rosie', en:'There is a green folder and a blue pen inside.', ko:'안에 초록 폴더와 파란 펜이 들어 있어.',
       audio:'audio/picnic/detective-item-bag-nora.mp3', img:'assets/places/picnic-storyboard/picnic-documents.webp', w:1679, h:937, crop:[930, 330, 560, 420],
-      bag:'assets/places/picnic-storyboard/bag-blue.webp' },
+      bag:'assets/places/picnic-storyboard/bag-blue.webp', bagRatio:427 / 420,
+      // picked in 소지품: its close look (as when Rosie handed it over), user request 2026-11-24
+      use:{ anywhere:true, inspect:'baglook', label:'살펴보기' } },
     'bag-rosie':{ label:'Blue bag', en:'The blue bag Nora gave me. Inside, there is a red lunch box and a yellow bottle.', ko:'노라가 건넨 파란 가방. 안에 빨간 도시락과 노란 물병이 들어 있다.',
       audio:'audio/picnic/detective-item-bag-rosie.mp3',
       img:'assets/places/picnic-storyboard/picnic-rosie-bag.webp', w:1376, h:768, crop:[800, 300, 400, 300],
-      bag:'assets/places/picnic-storyboard/bag-blue.webp' }
+      bag:'assets/places/picnic-storyboard/bag-blue.webp', bagRatio:427 / 420 }
   },
-  deduce:{
-    people:[['Rosie Rabbit', 'rosie'], ['Mr. Duck', 'duck'], ['Ben Beaver', 'ben'], ['Mia', 'mia'], ['Ollie', 'mia'], ['Nora Hedgehog', 'nora']],
-    places:[['Picnic Table', 'picnic'], ['Lake Cafe', 'daycafe'], ["Ben's House", 'benhome'], ['Garden', 'garden'], ['Office Lobby', 'lobby']],
-    things:['her bag', 'red lunch box', 'yellow bottle', 'green folder', 'blue pen', 'picnic things', 'red bag'],
-    colors:['blue', 'red', 'green', 'yellow'],
-    times:[],
-    suspects:[['rosie', 'Rosie'], ['duck', 'Mr. Duck'], ['mia', 'Mia & Ollie'], ['ben', 'Ben'], ['nora', 'Nora']],
-    go:'노라에게 가기',
-    miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' },
-    // any: the card's blanks of one kind can be filled in either order
-    qs:[
-      { step:1, who:'rosie', q:'What did Rosie ask me to do?', qKo:'로지가 나에게 부탁한 일은?',
-        card:'Find {thing:her bag}.', cardKo:'로지의 가방을 찾는다.',
-        right:'Right. Rosie wants me to find her bag.', rightKo:'맞아. 로지는 내가 자기 가방을 찾아 주길 바라.',
-        hint:'What did Rosie say when we first met?', hintKo:'처음 만났을 때 로지가 뭐라고 했지?' },
-      { step:2, who:'rosie', q:'What is her bag like?', qKo:'그녀의 가방의 특징은?',
-        card:'Her bag is {color:blue}. It has a {thing:red lunch box} and a {thing:yellow bottle}.', cardKo:'로지의 가방은 파란색이다. 빨간 도시락과 노란 물병이 들어 있다.', any:true,
-        right:'Yes. A blue bag with a red lunch box and a yellow bottle.', rightKo:'맞아. 빨간 도시락과 노란 물병이 든 파란 가방이야.',
-        hint:'Look at what Rosie said about her bag.', hintKo:'로지가 자기 가방에 대해 한 말을 봐.' },
-      // the middle of the case (user request: only Rosie and Nora was too thin): Rosie went to the cafe, who else came there,
-      // who carried a blue bag from it
-      { step:3, who:'rosie', q:'Where did Rosie go before the picnic?', qKo:'로지는 소풍 전에 어디에 갔을까?',
-        card:'Rosie went to the {place:Lake Cafe}. Maybe the bags got mixed up there.', cardKo:'로지는 호수 카페에 갔다. 거기서 가방이 바뀌었을지도 모른다.',
-        right:'Right. Rosie stopped at the Lake Cafe before the picnic.', rightKo:'맞아. 로지는 소풍 전에 호수 카페에 들렀어.',
-        hint:'Look at what Rosie said about where she went.', hintKo:'로지가 어디에 갔다고 했는지 봐.' },
-      { step:4, who:'duck', q:'Who came to the Lake Cafe today?', qKo:'오늘 호수 카페에 온 사람은?',
-        card:'Rosie, {person:Ben Beaver}, {person:Mia}, and {person:Ollie} came to the cafe.', cardKo:'로지, 벤, 미아, 올리가 카페에 왔다.', any:true,
-        right:'Yes. They all came, and nobody left a bag there.', rightKo:'맞아. 모두 카페에 왔고, 거기 두고 간 가방은 없었어.',
-        hint:'What did Mr. Duck say about his guests today?', hintKo:'오리 아저씨가 오늘 손님에 대해 뭐라고 했지?' },
-      // Mia and Ollie have their own bags, before Ben (user request)
-      { step:5, who:'mia', q:'Did Mia or Ollie take the wrong bag?', qKo:'미아나 올리가 가방을 잘못 가져갔을까?',
-        card:"Mia's bag has her {thing:picnic things} in it. Ollie's bag is {color:red}.", cardKo:'미아의 가방에는 미아의 소풍 준비물이 들어 있다. 올리의 가방은 빨간색이다.',
-        right:'Right. Mia and Ollie have their own bags.', rightKo:'맞아. 미아와 올리는 자기 가방을 가지고 있어.',
-        hint:'Look at the photos from the garden. What did Mia and Ollie say?', hintKo:'정원에서 찍은 사진을 봐. 미아와 올리는 뭐라고 했지?' },
-      { step:6, who:'ben', q:'Who took a blue bag from the cafe to Nora?', qKo:'카페에서 노라에게 파란 가방을 가져간 사람은?',
-        card:"{person:Ben Beaver} had Nora's bag. He thought he took her bag to her.", cardKo:'벤은 노라의 가방을 가지고 있었다. 그는 노라에게 그녀의 가방을 가져다줬다고 생각했다.',
-        right:'Yes. Ben stopped at the cafe, then took a blue bag to Nora.', rightKo:'맞아. 벤은 카페에 들렀다가 노라에게 파란 가방을 가져다줬어.',
-        hint:"Who stopped at the cafe on the way to Nora's office?", hintKo:'노라의 회사로 가는 길에 카페에 들른 사람은 누구지?' },
-      // Nora in three steps (user request): what she said was in her bag, what the bag Ben brought had in it, whose bags
-      { step:7, who:'nora', q:'What did Nora say was in her bag?', qKo:'노라는 자기 가방에 뭐가 들어 있었다고 했지?',
-        card:"Nora's bag had a {thing:green folder} and a {thing:blue pen}.", cardKo:'노라의 가방에는 초록 폴더와 파란 펜이 있었다.', any:true,
-        right:'Right. A green folder and a blue pen.', rightKo:'맞아. 초록 폴더와 파란 펜이야.',
-        hint:'What did Nora say about her own bag?', hintKo:'노라가 자기 가방에 대해 뭐라고 했지?' },
-      { step:8, who:'nora', q:'What shows that Nora has the wrong bag?', qKo:'노라가 잘못된 가방을 받았다는 근거는?',
-        card:'Nora opened the blue bag Ben brought. It had a {thing:red lunch box} and a {thing:yellow bottle} in it.', cardKo:'노라가 벤이 가져온 파란 가방을 열어 보니, 빨간 도시락과 노란 물병이 들어 있었다.', any:true,
-        right:"So the bag Ben brought to Nora is Rosie's bag.", rightKo:'그러니까 벤이 노라에게 가져다준 가방은 로지의 가방이야.',
-        hint:'What did Nora find in the bag Ben brought?', hintKo:'노라가 벤이 가져온 가방에서 무엇을 찾았지?' },
-      { step:9, who:'nora', q:'Whose bags got mixed up?', qKo:'누구와 누구의 가방이 바뀐 걸까?',
-        card:"{person:Rosie Rabbit}'s and {person:Nora Hedgehog}'s bags.", cardKo:'로지와 노라의 가방.', any:true,
-        right:"The bag Rosie gave me has Nora's folder and pen. Their bags got mixed up. Let's give them back.", rightKo:'로지가 맡긴 가방에는 노라의 폴더와 펜이 있어. 둘의 가방이 바뀐 거야. 돌려주자.',
-        hint:'Look inside the bag Rosie gave me. What did Nora say was in her bag?', hintKo:'로지가 맡긴 가방 안을 봐. 노라는 자기 가방에 뭐가 있었다고 했지?' }
-    ]
-  },
+  // no deduction board (user decision 2026-11-24: handing the right bag to each is the solving, as in the kite and umbrella
+  // cases); an empty one so the shared deduction code has something to read
+  deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
   // no questioning (user decision): the bag in 소지품 is handed over with the drawer (건네주기), round by round. open: the
   // line before it (the first one the detective's thought, user decision), before: the detective's explanation, said
   // while still holding the bag (user request: explain first, then hand it over), lines: what follows, take: what comes back
@@ -4366,6 +4288,9 @@ Object.entries({ badger:['hello', 'b0', 'check-in', 'suspicious', 'reason-to-che
   nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-storeroom', 'dont-know', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight', 'stole'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
 const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : FLOWERBED ? FLOWERBED_CASE : null;
+// the button once every conversation is done: the deduction board, or in a case without one that has handoffGo (the
+// picnic case, user decision 2026-11-24) the hand-over itself, under that label
+const ACCUSE_ON = !PACK?.noBoard || !!PACK.handoffGo, ACCUSE_LABEL = PACK?.noBoard ? PACK.handoffGo : '추리하기';
 // a case that happens in one building has its own map picture (PACK.map, 9:16 as the village map)
 if(PACK?.map) document.querySelector('.map-art').src = PACK.map;
 const PEOPLE = PACK ? PACK.people : {
@@ -4632,7 +4557,7 @@ const GLOSS = {
   find:'찾다', finding:'찾기', fine:'괜찮은, 좋아', finish:'끝내다', first:'첫 번째, 먼저', fit:'맞다', five:'5, 다섯', fixed:'고쳤다', flies:'날다', floor:'바닥',
   flowers:'꽃들', folder:'폴더, 서류철', footprints:'발자국들', for:'~을 위해, ~ 동안', forty:'40, 마흔', found:'찾았다, 발견했다 (find의 과거)', four:'4, 넷',
   fox:'여우', friends:'친구들', from:'~부터, ~에서', full:'가득 찬', fur:'털', garden:'정원', gate:'문, 대문', gave:'줬다 (give의 과거)', get:'가져오다, 받다',
-  go:'가다', goat:'염소', goes:'가다 (그·그녀)', going:'가는, (going to) ~할 것이다', gold:'금색', golden:'금빛의', gone:'사라진, 없어진', good:'좋은',
+  go:'가다', goat:'염소', goes:'가다 (그·그녀)', going:'가는, (going to) ~할 것이다', gold:'금색', hammer:'망치', another:'또 다른, 하나 더', golden:'금빛의', gone:'사라진, 없어진', good:'좋은',
   got:'~하게 되었다, ~해졌다 (get의 과거)', grass:'풀, 잔디', gray:'회색', green:'초록색', grow:'자라다', guitar:'기타', had:'가지고 있었다, 있었다 (have의 과거)',
   hall:'회관, 홀', handle:'손잡이', happened:'일어났다, 생겼다', has:'가지고 있다, 있다', hat:'모자', have:'가지고 있다, 있다', he:'그, 그 남자', hear:'듣다',
   heard:'들었다 (hear의 과거)', hello:'안녕, 안녕하세요', help:'돕다', helper:'도우미', helping:'돕는', her:'그녀의, 그녀를', here:'여기에', "here's":'여기 ~이 있어',
@@ -4892,11 +4817,9 @@ const SENTENCE_TIMES = KITE ? { 'toby:b0':[[0, 1.9], [2.15, 4.26]] } : MONTAGE_O
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
   'rosie:r4':[[0,2.02],[2.48,4.18]],
-  'ben:b1':[[0,2.08],[2.4,4.9],[5.46,7.18]],
-  'ben:b2':[[0,0.87],[0.98,1.92]],
-  'mia:g2':[[0,1.37],[1.58,2.58],[2.82,4.66]],
+  'ben:b1':[[0,0.95],[1.25,2.6]],
+  'ben:b3':[[0,2.08],[2.4,4.9],[5.46,7.18]],
   'duck:v2':[[0,0.45],[0.6,2.2]],
-  'duck:v3':[[0,1.48],[1.58,2.6],[2.7,4.52]],
   'nora:n1':[[0,0.62],[1.68,5.96]],
   'nora:n3':[[0,2.45],[3.5,4.4],[4.7,7.55],[8.5,9.65]]
 } : {
@@ -5236,7 +5159,10 @@ Object.assign(SPRITES, {
 });
 Object.assign(SPRITES, PACK?.sprites || {});
 // a person with a :work pose works at their own place and turns to the detective only in their conversation
-const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}`
+// carry (the picnic case): their pose holding their own thing while the detective has nothing of theirs, and in the
+// ending from the moment it is handed back (ending.carried)
+const carries = id => PACK?.carry?.[id] && (!S.items.length || ending?.carried === id);
+const spriteKey = id => S.mood[id] ? `${id}:${S.mood[id]}` : carries(id) ? `${id}:${PACK.carry[id]}`
   : SPRITES[`${id}:work`] && !S.visit?.[id] && (S.investigate || S.cur !== id || ending) ? `${id}:work` : id;
 // Each sprite's mouth pictures, [x, y, w, h] in sprite px: the drawn mouth painted over with the fur around it, and a
 // closed or an open mouth on top (one generated sheet of mouths, mouths/sheet-original.png; the duck's beak is replaced
@@ -5267,6 +5193,8 @@ const MOUTHS = {
   ruby:{closed:[158,226,89,32], open:[158,226,89,39]},
   ella:{closed:[203,244,72,25], open:[203,244,72,28]},
   'ella:give':{closed:[277,244,71,25], open:[277,244,71,28]},
+  // Rosie holding the bag (picnic case): her drawn open smile is the closed mouth
+  'rosie:give':{closed:[128,329,68,29], open:[128,329,68,29]},
   finn:{closed:[114,145,189,50], open:[114,145,189,80]},
   'fiona:nervous':{closed:[154,222,98,36], open:[154,222,98,36]},
   // the flowerbed case (scripts/make-flowerbed-mouths.py)
@@ -5624,11 +5552,7 @@ function markEdgeCut(){
     el.classList.toggle('edge-cut', !all && el.dataset.talk !== subject && seen > 0 && seen < .85);
   });
 }
-// the backpack on the picnic table is gone while the detective carries a bag (from Rosie handing it over until she has
-// hers back; user request)
-const syncBagAway = () => $('#app').classList.toggle('bag-away', PICNIC && S.items.length > 0);
 function renderStage(fromRect){
-  syncBagAway();
   $('#app').classList.toggle('partner', !!cur().partner);
   renderScene(placeIdOf(S.cur));
   const art = $('#art');
@@ -5863,7 +5787,7 @@ function renderAsk(){
       left.map(q => `<button class="q" type="button" data-q="${q.id}"><span class="en">${esc(q.en)}</span><span class="ko">${esc(q.ko)}</span></button>`).join('') + more;
   } else if(p.phase === 'done' && acts) html = (actKo ? koTop : '') + acts;
   // a finished conversation has no button of its own: the top chip and a tap on the scene lead back to the place
-  if(allConversationsDone() && !PACK?.noBoard) html += `<button class="pill big" type="button" data-accuse>추리하기</button>`;
+  if(allConversationsDone() && ACCUSE_ON) html += `<button class="pill big" type="button" data-accuse>${ACCUSE_LABEL}</button>`;
   box.innerHTML = html;
 }
 $('#askPanel').addEventListener('click', e => {
@@ -5875,7 +5799,7 @@ $('#askPanel').addEventListener('click', e => {
   if(act) return doAction(act.dataset.act);
   const ko = e.target.closest('#qKo');
   if(ko){ ko.setAttribute('aria-pressed', $('#askPanel').classList.toggle('show-ko')); return; }
-  if(e.target.closest('[data-accuse]')) openDeduce();
+  if(e.target.closest('[data-accuse]')) accuse();
 });
 // a fresh 확인됨 stamp or a check result keeps the notebook raised; noteRaised: opened by hand with the Note button
 let noteRaised = false;
@@ -5924,7 +5848,9 @@ function detectiveSay(key, onDone, onBlocked, text){
 // the picnic case's detective lines (greetings, after-talk lines, handing the bags over), recorded as
 // audio/picnic/detective-<key>.mp3 (Higgsfield MiniMax Grady, like the library case's)
 const DETECTIVE_PICNIC = new Set(PICNIC ? [
-  ...Object.values(PICNIC_CASE.people).flatMap(p => [...(p.hello || []), ...Object.values(p.after || {}).flatMap(a => a.lines)]),
+  ...Object.values(PICNIC_CASE.people).flatMap(p => [...(p.hello || []), ...Object.values(p.after || {}).flatMap(a => a.lines),
+    // an action's question (Ben's "Can I look inside your bag?"), keyed as doAction says it
+    ...(p.actions || []).map(a => ({ det:true, key:`${p.id}-act-${a.id}` }))]),
   ...PICNIC_CASE.ending.handoff.flatMap(r => [r.open, ...(r.before || []), ...r.lines])
 ].filter(line => line.det).map(line => line.key) : []);
 // a line in the detective's voice with no recording: the browser's voice (the time it would take, without one)
@@ -6300,13 +6226,14 @@ const linesPlaying = () => !!greetingId || beatOn === S.cur || !clip.paused || !
 /* ---------- BGM (test, 2026-11-18: one Suno piece, audio/bgm/) ---------- */
 // The background music on the home screens only (user request 2026-11-19: none while a case is played), low, and lower
 // still while anyone speaks (a listening game: the lines first); it fades out going into a case and back in on return. Starts on the first tap (browsers play no sound before one). It loops with a short crossfade: two copies,
-// the next fading in over the last BGM_FADE seconds (the piece ends at full sound). 끄기 is kept on this device.
+// the next fading in over the last BGM_FADE seconds (the piece ends at full sound). Off unless 켜기 was pressed on this
+// device (user request 2026-11-24: off by default); the choice is kept on this device.
 const BGM_SRC = 'audio/bgm/missing-acorn.mp3', BGM_VOL = .32, BGM_DUCK = .08, BGM_FADE = 1.6;
 // src set after new Audio(), not passed to it: the artifact build serves recordings from packs by catching src being set
 const bgmEl = () => { const a = new Audio(); a.src = BGM_SRC; return a; };
-const bgm = { els:[bgmEl(), bgmEl()], i:0, on:true, started:false, level:0 };
+const bgm = { els:[bgmEl(), bgmEl()], i:0, on:false, started:false, level:0 };
 bgm.els.forEach(a => { a.preload = 'auto'; a.volume = 0; });
-try { bgm.on = window.localStorage.getItem('detective.bgm') !== 'off'; } catch(e){}
+try { bgm.on = window.localStorage.getItem('detective.bgm') === 'on'; } catch(e){}
 const voicePlaying = () => !clip.paused || !$('#evidenceVoice').paused || !$('#wordVoice').paused ||
   ('speechSynthesis' in window && speechSynthesis.speaking);
 function bgmStart(){
@@ -6397,7 +6324,7 @@ function doAction(aid){
     setGreeting(null);
     if(a.flag && !S.flags.has(a.flag)){ S.flags.add(a.flag); saveGame(); checkThoughts(); }
     // something handed over with the answer (take: the umbrella after Ella's "Here you go.", v2), once
-    if(a.take && !S.items.includes(a.take) && !S.handoffRound){ S.items.push(a.take); syncBagAway(); saveGame(); setTimeout(() => gotItem(a.take), 300); }
+    if(a.take && !S.items.includes(a.take) && !S.handoffRound){ S.items.push(a.take); saveGame(); setTimeout(() => gotItem(a.take), 300); }
     // the owner's yes (ending, v2 umbrella case): the hand-over starts right here
     // (the flowerbed case: Gus's action starts the questioning, ENDING.script; startScript goes on to the hand-over once owned up)
     if(a.ending){ openSheet(null); return ENDING.script ? startScript() : startHandoff(); }
@@ -6483,6 +6410,15 @@ function placeHeld(){
   btn.hidden = false;
   holdFrame = requestAnimationFrame(placeHeld);
 }
+// a box of a person's sprite (px) on screen, in the conversation: its middle and its height, upright; null when they
+// are not in view (as flyFromHands takes it: Rosie's bag leaving her hands)
+function heldRect(who, [x0, y0, x1, y1]){
+  const svg = !S.investigate && S.cur === who && $(`#talkCamera .scene-npc[data-talk="${who}"] svg`);
+  if(!svg) return null;
+  const sp = SPRITES[spriteKey(who)], r = svg.getBoundingClientRect();
+  const k = Math.min(r.width / sp.w, r.height / sp.h), ox = r.left + (r.width - sp.w * k) / 2, oy = r.top + (r.height - sp.h * k) / 2;
+  return { x:ox + (x0 + x1) / 2 * k, y:oy + (y0 + y1) / 2 * k, len:(y1 - y0) * k, rot:0 };
+}
 function dropHold(){
   if(!holdOut) return;
   const { who } = holdOut;
@@ -6497,7 +6433,7 @@ $('#heldItem').addEventListener('click', () => {
   // lies across the hands, tip to the left (the upright picture turned -90°)
   const b = $('#heldItem').getBoundingClientRect(), from = { x:b.left + b.width / 2, y:b.top + b.height / 2, len:b.width * .95, rot:-90, thin:.5 };
   holdOut = null; cancelAnimationFrame(holdFrame); $('#heldItem').hidden = true;
-  if(!S.items.includes(item)){ S.items.push(item); syncBagAway(); saveGame(); gotItem(item, from); }
+  if(!S.items.includes(item)){ S.items.push(item); saveGame(); gotItem(item, from); }
   checkThoughts();   // the umbrella taken last of all: the thought plays over the close look
   setMood(who, null); setGreeting(null);
   // the close look once the umbrella has landed in 소지품
@@ -6785,17 +6721,28 @@ function setInvestigate(on){
 /* ---------- notebook edits + word-card drag ---------- */
 $('#dockBody').addEventListener('input', e => {
   const b = e.target.closest('.blank'); if(!b) return;
-  b.size = Math.max(5, b.value.length+1); b.classList.remove('ok','no');
+  b.size = Math.max(5, b.value.length+1); b.classList.remove('ok','no','review');
   const p = per(b.dataset.s); p.notes[b.dataset.id] = b.value; delete p.marks[b.dataset.id];
   writeState();
 });
 $('#dockBody').addEventListener('pointerdown', e => {
   const b = e.target.closest('.blank');
-  if(b && S.sel){ e.preventDefault(); fillBlank(b, S.sel); clearSel(); }
+  if(b && S.sel){ e.preventDefault(); fillBlank(b, S.sel); clearSel(); return; }
+  // a filled blank of the question being written down, tapped: it empties and its word card comes back (user request
+  // 2026-11-24: fixing a wrong word needed a drag). No focus, so the keyboard stays down and the cards stay in reach; a
+  // second tap on the now empty blank types as before
+  if(b && !b.readOnly && b.value.trim() && b.closest('.nblock.now')){ e.preventDefault(); clearBlank(b); }
 });
+function clearBlank(input){
+  input.value = ''; input.size = 5; input.classList.remove('ok','no','review');
+  const p = per(input.dataset.s); delete p.notes[input.dataset.id]; delete p.marks[input.dataset.id];
+  writeState();
+  if(input.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+    input.animate([{transform:'scale(.92)',backgroundColor:'rgba(242,207,115,.45)'},{transform:'scale(1)',backgroundColor:'transparent'}],{duration:220,easing:'ease-out'});
+}
 function fillBlank(input, word){
   if(input.readOnly) return;
-  input.value = word; input.size = Math.max(5, word.length+1); input.classList.remove('ok','no');
+  input.value = word; input.size = Math.max(5, word.length+1); input.classList.remove('ok','no','review');
   const p = per(input.dataset.s); p.notes[input.dataset.id] = word; delete p.marks[input.dataset.id];
   writeState();
 }
@@ -6817,7 +6764,9 @@ function writeState(){
 }
 function fillNextBlank(word, source){
   if(S.view !== S.cur || S.investigate || st().phase !== 'record') return;
-  const blank = [...document.querySelectorAll('#dockBody .nblock.now .blank')].find(input => !input.readOnly && !input.value.trim());
+  // the next empty blank; with none left, the first one marked wrong (user request 2026-11-24: a tap fixes it, no drag)
+  const open = [...document.querySelectorAll('#dockBody .nblock.now .blank')].filter(input => !input.readOnly);
+  const blank = open.find(input => !input.value.trim()) || open.find(input => input.classList.contains('review') || input.classList.contains('no'));
   if(blank){
     const from = source?.getBoundingClientRect();
     fillBlank(blank, word);   // commit immediately, so rapid taps always reserve different blanks
@@ -6964,7 +6913,7 @@ function openSheet(name){
   if(name === 'map' && ONE_PLACE) name = null;   // one place, no map (umbrella case): nothing to pick
   $('#app').classList.toggle('map-open', name === 'map');   // the < stays above the map (to the case list)
   if(name && drawerBrowse) closeDrawer();
-  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone() || !!PACK?.noBoard || !!S.scriptPause || S.flags.has('confessed');
+  if(name === 'map') $('#accuseBtn').hidden = !allConversationsDone() || !ACCUSE_ON || !!S.scriptPause || S.flags.has('confessed');
   document.querySelectorAll('.sheet').forEach(sh => sh.classList.toggle('open', sh.id === 'sheet-'+name));
   $('#mapTab').setAttribute('aria-expanded', name === 'map');
   if(name) setNotes(false);
@@ -7092,9 +7041,17 @@ function playBeats(){
     snap(beat.snap || []);
     let shown = (beat.snap || []).length ? 1400 : 0;
     if(beat.give && !S.items.includes(beat.give) && !S.handoffRound){
-      S.items.push(beat.give); syncBagAway(); saveGame();
-      setTimeout(() => gotItem(beat.give), 300);
+      // held out in their pose (beat.from): it leaves their hands from there, and they stand as before
+      const from = beat.from && heldRect(beat.id, beat.from);
+      S.items.push(beat.give); saveGame();
+      if(from) renderScene(placeIdOf(S.cur));   // the pose without it (carry)
+      if(from) gotItem(beat.give, from); else setTimeout(() => gotItem(beat.give), 300);
       shown = 2800;   // after the toast has gone
+      // look: once it has landed in 소지품, its close look opens (the picnic bag, as the umbrella); no zooming out before
+      if(beat.look && S.cur === beat.id && !S.investigate && !ending){
+        inspectDue = true;
+        setTimeout(() => { inspectDue = false; if(S.cur === beat.id && !S.investigate && !ending) openInspect(beat.look, '#talk'); }, 1300);
+      }
     }
     setTimeout(revealDiscoveries, shown);
   };
@@ -7211,7 +7168,8 @@ function flyToBag(id, from){
 // exactly where it was drawn in their hands (from: its middle, its length, its turn), lifts a little as the detective
 // takes it, swings upright on a soft arc and drops into the 소지품 tab, which bounces.
 function flyFromHands(item, from, icon, bump){
-  const to = icon.getBoundingClientRect(), ratio = item.w / item.h;   // the picture stands upright (the folded umbrella)
+  // the picture stands upright (the folded umbrella); a bag flies as its own picture (bagRatio: that picture's width / height)
+  const to = icon.getBoundingClientRect(), ratio = item.bagRatio || item.w / item.h;
   const h = from.len, w = h * ratio;
   const pic = document.createElement('img');
   pic.src = item.bag || item.img; pic.alt = ''; pic.className = 'bag-fly';
@@ -7358,7 +7316,7 @@ function allConversationsDone(){
 // deduction board, and the accusation is made only there (user decision).
 // not while the questioning waits at a place (it goes on by itself once what it waits for is found) nor once the culprit
 // has owned up (user report 2026-11-16: 추리하기 still showed at the storeroom in the middle of Nico's questioning)
-function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !!PACK?.noBoard || !!ending || !!S.scriptPause || S.flags.has('confessed') || !!(S.investigate && placeObj()?.inspect); }
+function updateAccuse(){ $('#accuseFoot').hidden = !allConversationsDone() || !ACCUSE_ON || !!ending || !!S.scriptPause || S.flags.has('confessed') || !!(S.investigate && placeObj()?.inspect); }
 $('#foldBtn').onclick = () => { cancelCapture(); stopVoice(); S.unfolded = !S.unfolded; if(!placeObj()?.flip) playUmbrella(S.unfolded); renderScene(); renderSceneHead(); saveGame(); };
 // the umbrella opening / folding (user request; user-given freesound clip, audio/umbrella-open.mp3, the fold its first rustle)
 function playUmbrella(open){
@@ -7367,8 +7325,8 @@ function playUmbrella(open){
   s.currentTime = 0;
   s.play().catch(() => {});
 }
-$('#accuseFoot').onclick = e => { if(e.target.closest('[data-accuse]')) openDeduce(); };
-$('#accuseBtn').onclick = () => openDeduce();
+$('#accuseFoot').onclick = e => { if(e.target.closest('[data-accuse]')) accuse(); };
+$('#accuseBtn').onclick = () => accuse();
 // who is being questioned (the culprit): their own statements stay out of the evidence drawer
 let accusedId = null;
 
@@ -7463,6 +7421,13 @@ function deducePic(kind, word){
   if(kind !== 'person') return ['place', 'time', 'color'].includes(kind) ? '<i class="dot"></i>' : '';
   const id = DEDUCE.people.find(([w]) => w === word)?.[1];
   return id ? `<i class="fc" style="background-image:url(${faceSrc(id)})"></i>` : '<i class="fc unknown">?</i>';
+}
+// the button once every conversation is done (ACCUSE_ON, ACCUSE_LABEL: by PACK): the board, or the hand-over
+document.querySelectorAll('#accuseFoot [data-accuse], #accuseBtn').forEach(b => { b.textContent = ACCUSE_LABEL; });
+function accuse(){
+  if(!PACK?.noBoard) return openDeduce();
+  if(!allConversationsDone() || ending) return;
+  stopVoice(); openSheet(null); setNotes(false); startHandoff();
 }
 function openDeduce(){
   if(!allConversationsDone() || PACK?.noBoard) return;
@@ -7860,6 +7825,10 @@ function itemButtons(id){
 // picture its inside could not be seen again once the close look was shut)
 const itemUsable = id => { const u = ITEMS[id].use;
   return !!u && (u.anywhere || S.investigate && S.place === u.at) && (u.when || []).every(cond) && !(u.unless || []).some(cond); };
+// the close look a thing in 소지품 opens wherever the detective is (use.anywhere), if any
+const itemLook = id => ITEMS[id]?.use?.anywhere && ITEMS[id].use.inspect && itemUsable(id) ? ITEMS[id].use.inspect : null;
+// where 〈 goes back to from a close look opened from 소지품: the place, the map, or the conversation
+const lookFrom = () => S.investigate ? S.place : $('#sheet-map').classList.contains('open') ? '#map' : S.cur ? '#talk' : S.place;
 // One shape for a photo ('place-clue') and a thing in 소지품 ('@item'): what the notebook and the drawer show of it.
 const isItemRef = ref => ref?.startsWith('@');
 // a thing that opens (opened: its picture and sentence when open, S.flags 'open:<id>') as it is now
@@ -8080,6 +8049,10 @@ $('#drawer').addEventListener('click', e => {
   const ko = e.target.closest('[data-drawer-ko]');
   if(ko){ const text = $('#drawerPick .ko'); text.hidden = !text.hidden; ko.setAttribute('aria-pressed', !text.hidden); return; }
   const card = e.target.closest('[data-pick]');
+  // a thing with a close look of its own (use.anywhere + inspect: Rosie's bag, Ella's umbrella), picked in 소지품: the
+  // close look itself opens, not its picture (user request 2026-11-24); 〈 goes back to where the detective was
+  const look = drawerBrowse && !ending && isItemRef(card?.dataset.pick) && itemLook(card.dataset.pick.slice(1));
+  if(look){ closeDrawer(); if(S.place !== look || !S.investigate) openInspect(look, lookFrom()); return; }
   if(card) return pickEvidence(card.dataset.pick);
   const give = e.target.closest('[data-present]');
   if(give){ closeDrawer(); present(give.dataset.present); }
@@ -8098,9 +8071,7 @@ $('#drawer').addEventListener('click', e => {
     return detectiveSay(c.line.key, () => waitTap(() => renderSay(null)), null, c.line.en);
   }
   const use = e.target.closest('[data-item-use]');
-  if(use){   // back returns to where it was used: the place, the map, or the conversation
-    const from = S.investigate ? S.place : $('#sheet-map').classList.contains('open') ? '#map' : S.cur ? '#talk' : S.place;
-    closeDrawer(); openInspect(ITEMS[use.dataset.itemUse].use.inspect, from); }
+  if(use){ const from = lookFrom(); closeDrawer(); openInspect(ITEMS[use.dataset.itemUse].use.inspect, from); }
 });
 
 function endingControls(){
@@ -8458,8 +8429,7 @@ function endingNext(){
     // this bag is back with its owner: the next one comes out of 소지품 next
     S.items = S.items.filter(id => id !== round.give);
     if(round.take) S.items.push(round.take);
-    syncBagAway();
-    S.handoffRound = ++e.round; saveGame();
+      S.handoffRound = ++e.round; saveGame();
     const next = () => e.round >= ENDING.handoff.length ? finishEnding() : ENDING.handoff[e.round].go ? handoffGo() : handoffOpen();
     if(!round.take) return next();
     // the bag they hand back comes down to the detective before the camera goes on
@@ -8530,8 +8500,8 @@ function handOver(ref){
     // a wrong one: their line on what is not like theirs (wrong, the kite case), then pick again
     if(!right){ const w = round.wrong?.[ref.slice(1)];
       return w ? endingSay({ ...w, who:round.to }, undefined, () => handoffOpen(true)) : handoffOpen(true); }
-    // the last bag is back: Rosie's backpack is by her again as she says thanks (S.items follows with her line)
-    if(!round.take) $('#app').classList.remove('bag-away');
+    // the last bag is back: Rosie holds it as she says thanks (carry; S.items follows with her line)
+    if(!round.take && PACK?.carry?.[round.to]){ ending.carried = round.to; ending.shown = null; renderScene(placeIdOf(round.to)); }
     ending.step = 'handoffTalk'; ending.i = 0;
     handoffLine();
   }, 1300);
@@ -8575,7 +8545,7 @@ function handoffLine(){
 // something handed to the detective in the ending (a line's take): it comes down to them and into 소지품
 function takeItem(id){
   if(S.items.includes(id)) return;
-  S.items.push(id); syncBagAway(); saveGame();
+  S.items.push(id); saveGame();
   if(ITEMS[id]?.bag) handBag(id, 'take');
   setTimeout(() => gotItem(id), 1300);
 }
@@ -9203,13 +9173,20 @@ const ART = {
     <image href="assets/places/betty-home-higgsfield.webp" width="1376" height="768"/>`,
 
   // the picnic case (assets/places/picnic-storyboard/)
-  // Rosie's backpack is on the grass by her, not on the table, so it is in view while she talks about it (user request);
-  // it fades out while the bag is with the detective (.bag-away, syncBagAway()). The table is drawn without it
+  // Rosie's backpack is in her hands, not on the table (carry, user request 2026-11-24). The table is drawn without it
   // (scripts/cut-picnic-nobag.py)
   picnic: () => `<image href="assets/places/picnic-storyboard/picnic-wide.webp" width="1280" height="714"/>
-    <image href="assets/places/picnic-storyboard/picnic-nobag.webp" x="939" y="272" width="198" height="188"/>
-    <g class="rosiebag"><ellipse cx="448" cy="667" rx="36" ry="7" fill="#3B2A14" opacity=".22"/>
-      <image href="assets/places/picnic-storyboard/bag-blue.webp" x="410" y="590" width="77" height="76"/></g>`,
+    <image href="assets/places/picnic-storyboard/picnic-nobag.webp" x="939" y="272" width="198" height="188"/>`,
+  // the bag close up over the picnic table blurred: shut (bag-blue), then open (scripts/cut-picnic-bag-open.py), same height
+  baglook: () => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+    <image href="assets/places/picnic-storyboard/picnic-wide.webp" width="1376" height="768" preserveAspectRatio="xMidYMid slice" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>` + (S.unfolded
+    ? '<image href="assets/places/picnic-storyboard/bag-blue-open.webp" x="498" y="175" width="380" height="370"/>'
+    : '<image href="assets/places/picnic-storyboard/bag-blue.webp" x="500" y="175" width="376" height="370"/>'),
+  // Ben's own bag the same way over his house blurred (the same blue bag shut; open, a book and a hammer)
+  benbag: () => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+    <image href="assets/places/picnic-storyboard/ben-home.webp" width="1376" height="768" preserveAspectRatio="xMidYMid slice" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>` + (S.unfolded
+    ? '<image href="assets/places/picnic-storyboard/bag-ben-open.webp" x="498" y="175" width="380" height="370"/>'
+    : '<image href="assets/places/picnic-storyboard/bag-blue.webp" x="500" y="175" width="376" height="370"/>'),
   daycafe: () => `<image href="assets/places/picnic-storyboard/cafe-day.webp" width="1679" height="937"/>`,
   benhome: () => `<image href="assets/places/picnic-storyboard/ben-home.webp" width="1672" height="941"/>`,
   // the two bags on the bench: the picnic table's backpack cut out and tinted (scripts/cut-picnic-backpack.py)
@@ -9707,7 +9684,13 @@ $('#art').addEventListener('click', e => {
   const spot = e.target.closest('.spot');
   let x = e.clientX - r.left, y = e.clientY - r.top;
   if(spot && e.detail === 0){ const b = spot.getBoundingClientRect(); x = b.left - r.left + b.width / 2; y = b.top - r.top + b.height / 2; }
+  // the thing itself in a close look (its picture, not the blurred room behind it): never closes it; shut, a tap on it
+  // opens it as 열기 does (user request 2026-11-24: a tap on the shut bag closed the close look). Only where it opens
+  // and shuts (the 열기 button shown: the bags, the umbrella, the violin case, the star); elsewhere as before
+  const thing = !spot && S.investigate && placeObj().inspect && !$('#foldFoot').hidden && e.target.closest('image:not([filter])');
   if(spot){ spot.classList.add('found'); examine(+spot.dataset.clue, spot); }
+  else if(thing && !S.unfolded) $('#foldBtn').click();
+  else if(thing) tapFx(x, y, 'miss', 'Nothing here.');
   // in a close look, a tap on nothing closes it as 〈 does (user request 2026-11-16); not over the scale, where the
   // boxes and pans are tapped again and again (a drag is no tap, above; a photo being taken covers the art)
   else if(S.investigate && placeObj().inspect && !placeObj().balance && !e.target.closest('button, a')) $('#backTab').click();
@@ -11195,7 +11178,6 @@ function loadGame(){
   });
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
-  syncBagAway();
 }
 // older saves of the library case: notes and photos as the story is now
 function libraryMigrations(){
@@ -11772,7 +11754,7 @@ $('#devItems').onclick = () => {
     }));
     S.items.push(id); S.flags.add(`took:${id}`);
   });
-  syncBagAway(); saveGame(); renderPlaces(); renderDock();
+  saveGame(); renderPlaces(); renderDock();
   if(S.investigate && S.place){ renderSceneHead(); renderScene(); }
   if(missing.length) setItemsNew(true);
   toast(missing.length ? `소지품 ${missing.length}개를 넣었어요.` : '이미 모든 소지품을 가지고 있어요.');
@@ -11854,13 +11836,13 @@ const PREVIEW_OF = {
   'flowerbed':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '올리에게 알리기'], ['review', '복습']],
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '니코 심문'], ['weigh', '저울'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
-  'picnic-bag':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
+  'picnic-bag':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'],
     ['handoff', '노라에게 전달'], ['handback', '로지에게 전달'], ['review', '복습']],
   'missing-violin':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '오웬 심문'], ['return', '타라에게 반환'], ['review', '복습']],
   'unclaimed-umbrella':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['inspect', '우산 조사'],
     ['handoff', '루비에게 전달'], ['handback', '엘라에게 보고'], ['review', '복습']],
-  case01:[['home', '홈'], ['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
+  case01:[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['call', '경찰에게 알리기'], ['interview', '심문'], ['confession', '자백'], ['review', '복습']]
 };
 // what each part does on this case's page (handback: the second hand-over, with what the detective carries by then)

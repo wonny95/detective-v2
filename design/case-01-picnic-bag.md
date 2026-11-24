@@ -86,7 +86,7 @@
 
 | ID | 질문 / 해석 | 대답 / 해석 | 노트 빈칸 |
 |---|---|---|---|
-| rosie:r0 · 첫 질문 | Yes. How can I help you? / 응. 어떻게 도와줄까? | This isn't my bag. Can you help me find mine? / 이건 내 가방이 아니야. 내 가방을 찾아줄래? | • "This isn't [my] bag."<br>• "Can you help me find [mine]?" |
+| rosie:r0 · 첫 질문 | Yes. How can I help you? / 응. 어떻게 도와줄까? | This isn't my bag. Can you help me find mine? / 이건 내 가방이 아니야. 내 가방을 찾아줄래? | • this bag [isn't] Rosie's<br>• asked me to [find] her bag (2026-11-24 사용자 요청: 탐정 시점 요약) |
 | rosie:r2 **(바뀜)** | What is in your bag? / 네 가방 안에는 뭐가 들어 있니? | My lunch box is red. My bottle is yellow. / 내 도시락은 빨간색이야. 내 물병은 노란색이야. | • Her [lunch box] is [red].<br>• Her [bottle] is [yellow]. |
 | duck:v2 · 첫 질문 **(대답 바뀜)** | Did anyone leave a blue bag here? / 여기 파란 가방을 두고 간 사람이 있어? | Yes! People left three blue bags today. They're in my lost box. / 응! 오늘 손님들이 파란 가방을 세 개나 두고 갔어. 분실물 상자에 있어. | • People [left] [three] blue bags.<br>• They're in the [lost box]. |
 | duck:v6 **(새)** | Who buys these cookies? / 이 쿠키는 누가 사? | The lady by the window. She always buys my honey cookies. They must be hers. / 창가에 앉은 손님. 늘 내 꿀 쿠키를 사 가. 그 손님 거겠네. | • The lady by the [window] buys them.<br>• They must be [hers]. |
