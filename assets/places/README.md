@@ -2,6 +2,11 @@
 
 - ‘바뀐 소풍 가방’ 기획안은 사용자 제공 넓은 소풍 대화 배경 `picnic-storyboard/picnic-wide.png`, 서류 증거 확대 `picnic-documents.png`, 낮 카페 `cafe-day.png`, 벤의 집 `ben-home.png`, 기존 정원 `garden.webp`를 사용한다. 게임에는 아직 연결하지 않았다. 출처·용도는 [소풍 배경 README](picnic-storyboard/README.md).
 
+## 쌍둥이 면담 (`twins/`)
+
+- 2026-11-24 Claude 제작(사용자 요청): `interview-evan-higgsfield-original.png`(896×1200, Higgsfield nano_banana_2_1 3:4, job `8f9b17b6-b7bc-42cd-b4d7-f99572dd8db1`, 1.5크레딧, 참고 그림 `station-interview-room`·`evan-talk`). 프롬프트 요지: 지금 조사실과 같은 방에서 책상을 사이에 두고 마주 본 1인칭, 미어캣이 의자에 앉아 두 손을 책상에 올림, 노트북·서류·길과 파란 밴 사진, 글자·다른 인물 없음.
+- `scripts/make-twins-interview.py`: 원본의 상처(반대쪽 팔)를 거울 복사로 지우고 `interview-evan.png`(오른쪽 손목)·`interview-milo.png`(왼손 검지)에 다시 그린다. WebP는 quality 90.
+
 ## 파출소 조사실
 
 - **2026-11-13 교체(사용자 요청: 나무색 실내라 다른 장소와 구분이 안 됨, 3안 중 A 선택)**: 청회색 타일 벽·회색 바닥·형광등·왼쪽 어두운 유리창·벽시계·배지·오른쪽 철제 책상과 의자 둘. Higgsfield Nano Banana 2.1 1:1, 예전 그림을 구도 참조(media `237c7e94-…`), job `74fd7944-5b4b-41f2-9b27-eb216dd561ff`(1.5크레딧, 3안 합계 4.5) → 원본 `interview-room-higgsfield-original.png`(1024), 1536으로 키워 `station-interview-room.png`. 아래는 예전(나무색) 그림의 기록이다.

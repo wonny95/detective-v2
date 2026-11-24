@@ -637,6 +637,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* the words' dictionary meanings (examples[].mean, user decision: mockup C) as a small two-column table between dashed
    rules, under the form */
 .ck-mean{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:10px 0 0;padding:7px 2px;border-top:1.5px dashed rgba(74,54,40,.3);border-bottom:1.5px dashed rgba(74,54,40,.3);font-size:15px;line-height:1.4}
+.ck-mean:last-child{padding-bottom:0;border-bottom:0}   /* nothing under it on the key page */
 .ck-mean dt{font-family:var(--f-display)}
 .ck-mean dd{margin:0;font-weight:700;color:var(--berry)}
 #caseKey{background:linear-gradient(rgba(250,242,222,.4),rgba(250,242,222,.4)),#F8EED7 url(assets/ui/casekey/graph-paper.webp) 0 0/176px 176px repeat}
@@ -1664,13 +1665,13 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;width:max-content;max-width:86%;word-break:keep-all;text-align:center;pointer-events:none;transition:opacity .25s}
 .toast[hidden]{display:block!important;opacity:0}
 /* new people and places: one cream ribbon each under the title chip (user pick B2 of design/discovery-notice-mockup.html):
-   face or map icon, a berry NEW tag and the name; they pop in one after another and lift away after 4 s; a little lower
+   face (a place has no picture, user request 2026-11-24: the map icon for every place said nothing), a berry NEW tag and the name; they pop in one after another and lift away after 4 s; a little lower
    than the chip's foot (user request) */
 .discovery{position:absolute;left:0;right:0;top:72px;z-index:60;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
 .discovery .dv{display:flex;align-items:center;gap:8px;max-width:86%;box-sizing:border-box;background:var(--paper);border-radius:999px;padding:4px 14px 4px 4px;
   box-shadow:0 3px 0 rgba(74,54,40,.25);font-family:var(--f-display);font-size:14px;white-space:nowrap;animation:dv-in .4s calc(var(--i) * .18s) both}
 .discovery .dv img{flex:none;width:28px;height:28px;border-radius:50%;background:#fff;object-fit:cover}
-.discovery .dv img.map{padding:3px;box-sizing:border-box;object-fit:contain}
+.discovery .dv.place{min-height:36px;padding-left:12px}
 .discovery .dv .new{flex:none;font-size:10px;letter-spacing:.06em;background:var(--berry);color:#fff;border-radius:6px;padding:1px 5px}
 .discovery .dv b{font-weight:400;overflow:hidden;text-overflow:ellipsis}
 .discovery .dv .rest{flex:none;margin-left:-8px;font-family:var(--f-body);font-size:13px}
@@ -2616,7 +2617,10 @@ const KITE_CASE = {
         b2:['blue','red','green','yellow','purple','orange'], b3:['one','two','three','short','long','big'] }
     }
   },
-  phrases:[],
+  phrases:[
+    ["what's wrong?",'toby:b0',"What's wrong"], ['fall','toby:b0','fell'], ['look like','toby:b1','look like'],
+    ['what color','toby:b2','What color'], ['tail','toby:b3','tails']
+  ],
   grammarLines:{
     'toby:b1':[['is-has',"It's a bird kite"]],
     'toby:b2':[['wh-q','What color'], ['is-has','It is red and yellow']],
@@ -4314,37 +4318,35 @@ const PEOPLE = PACK ? PACK.people : {
   // the partner — met first, at the crime scene
   badger: { id:'badger', name:'Officer Terry', ko:'테리 경관', job:'동료 경찰', place:'library', partner:true,
     pitch:.9, voice:3, bg:'#DCE3F0', openingQuestion:'b1',
-    hello:"Detective! I'm so glad you're here. Let me tell you what happened.",
+    hello:{ key:'hello', en:"Detective! I'm so glad you're here. Let me tell you what happened.", ko:'탐정님! 와 주셔서 정말 다행이에요. 무슨 일이 있었는지 말씀드릴게요.' },
     // recorded voice (Higgsfield · MiniMax · Nadine, 2026-11-23; the old Fraser takes in audio/backup-terry-fraser/)
     audio:{ hello:'audio/badger-hello.mp3', b1:'audio/badger-b1.mp3', b2:'audio/badger-b2.mp3', b3:'audio/badger-b3.mp3',
       closing:'audio/badger-closing.mp3', call1:'audio/badger-call1.mp3', interviewOpen:'audio/badger-interview-open.mp3',
       'call2-fiona':'audio/badger-call2-fiona.mp3' },
     questions:[
       { id:'b1', en:'What happened here?', ko:'여기서 무슨 일이 있었나요?' },
-      { id:'b2', en:'Who found the victim?', ko:'피해자를 누가 발견했나요?' },
-      { id:'b3', en:'What should I do next?', ko:'이제 무엇을 하면 되나요?' }
+      { id:'b2', en:'Who found the victim?', ko:'피해자를 누가 발견했나요?' }
     ],
-    unlocks:{ b1:{ places:['library'] }, b2:{ people:['mole'] }, b3:{ places:['library'] } },
+    unlocks:{ b1:{ places:['library'] }, b2:{ people:['mole'] } },
+    // what to do next, only heard (user decision 2026-11-24: it was the question b3, written down, but no clue)
+    after:{ done:{ lines:[ { key:'b3', en:'Look around the library carefully. When you know who did it, come and tell me.', ko:'도서관을 꼼꼼히 둘러보세요. 누가 범인인지 알게 되면 저에게 알려 주세요.' } ] } },
     answers:{
       b1:"This is the Old Library. Professor Hoot was found here at nine o'clock tonight. He was lying on the floor.",
-      b2:"Mrs. Mole, the librarian, found him. We think it happened between eight and nine. She is still inside, so please talk to her.",
-      b3:"Look around the library carefully. When you know who did it, come and tell me."
+      b2:"Mrs. Mole, the librarian, found him. We think it happened between eight and nine. She is still inside, so please talk to her."
     },
     notes:{
       b1:["- Victim: Professor {{a|Hoot}}.","- Place: the Old {{b|Library}}.","- He was found at {{c|9 PM/9/nine}}."],
-      b2:["- {{d|Mrs. Mole/mrs mole}} found him. She is the {{e|librarian}}.","- It happened between {{f|8 PM/8/eight}} and {{g|9 PM/9/nine}}."],
-      b3:["- check the {{h|library}} carefully","- {{i|tell}} Officer Terry when I know who did it"]
+      b2:["- {{d|Mrs. Mole/mrs mole}} found him. She is the {{e|librarian}}.","- It happened between {{f|8 PM/8/eight}} and {{g|9 PM/9/nine}}."]
     },
     bank:{
       b1:['Hoot','Mole','Library','Bakery','8 PM','9 PM','10 PM'],
-      b2:['Mrs. Mole','Mrs. Bear','librarian','baker','7 PM','8 PM','9 PM','10 PM'],
-      b3:['library','bakery','cafe','garden','tell','ask','call','sell']
+      b2:['Mrs. Mole','Mrs. Bear','librarian','baker','7 PM','8 PM','9 PM','10 PM']
     }
   },
   // the witness who found the victim — her answers name the people to look for
   mole: { id:'mole', name:'Mrs. Mole', ko:'두더지 부인', job:'사서', place:'library', pitch:1.05, voice:4, bg:'#E8DCCB',
-    hello:"Oh, detective. I'm Mrs. Mole, the librarian. What a terrible night.",
-    audio:{ hello:'audio/mole-hello.mp3', m1:'audio/mole-m1.mp3', m2:'audio/mole-m2.mp3', m3:'audio/mole-m3.mp3' },
+    hello:{ key:'hello', en:"Oh, detective. I'm Mrs. Mole, the librarian. What a terrible night.", ko:'아, 탐정님. 저는 사서 두더지 부인이에요. 정말 끔찍한 밤이네요.' },
+    audio:{ hello:'audio/mole-hello.mp3', m1:'audio/mole-m1-home.mp3', m2:'audio/mole-m2.mp3', m3:'audio/mole-m3.mp3' },
     questions:[
       { id:'m1', en:'What did you see tonight?', ko:'오늘 밤 무엇을 봤나요?' },
       { id:'m2', en:'Did anyone visit the library tonight?', ko:'오늘 밤 도서관에 온 사람이 있나요?' },
@@ -4352,23 +4354,25 @@ const PEOPLE = PACK ? PACK.people : {
     ],
     unlocks:{ m2:{ people:['ray','rosie'] }, m3:{ people:['fiona'] } },
     answers:{
-      m1:"I asked the professor to look after the library for a while and went home to get a book for him. When I came back at nine, he was on the floor.",
+      // short, with the two times she was out (user decision 2026-11-24: the library left to him and the book for him
+      // were never used; between the two is when it happened, the player's to link)
+      m1:"I went home at eight. When I came back at nine, the professor was on the floor.",
       m2:"Ray Raccoon came at seven thirty to borrow a music book. And Rosie Rabbit came at seven to return a book about stars.",
       m3:"Today, he wrote in the newspaper that Fiona Fox's pies were too sweet. Fiona was very angry about it."
     },
     notes:{
-      m1:["- She asked the professor to look after the {{b|library}} and went home to get a {{k|book}}.","- She came back at {{a|9 PM/9/nine}}.","- He was on the floor."],
+      m1:["- She went home at {{n|8 PM/8/eight}}.","- She came back at {{a|9 PM/9/nine}}.","- The professor was on the {{o|floor}}."],
       m2:["- {{c|Ray Raccoon/ray raccoon}} came at 7:30 to borrow a {{d|music}} book.","- {{e|Rosie Rabbit/rosie rabbit}} came at {{f|7 PM/7/seven}} to return a book about {{g|stars}}."],
       m3:["- Hoot wrote in the {{l|newspaper}} that {{h|Fiona Fox/fiona fox}}'s pies were too {{i|sweet}}.","- Fiona was very {{j|angry}}."]
     },
     bank:{
-      m1:['8 PM','9 PM','10 PM','library','book','dinner','door','window'],
+      m1:['7 PM','8 PM','9 PM','10 PM','floor','door','chair','flower'],
       m2:['Ray Raccoon','Rosie Rabbit','Mr. Duck','music','cooking','7 PM','8 PM','stars','flowers'],
       m3:['Fiona Fox','Mrs. Bear','newspaper','letter','sweet','salty','angry','happy']
     }
   },
   fiona: { id:'fiona', name:'Fiona Fox', ko:'여우 피오나', job:'빵집 주인', place:'bakery', pitch:1.15, voice:0, bg:'#F8D9C6',
-    hello:"Good evening, detective. I'm Fiona. Please, make it quick. I have pies to bake.",
+    hello:{ key:'hello', en:"Good evening, detective. I'm Fiona. Please, make it quick. I have pies to bake.", ko:'안녕하세요, 탐정님. 저는 피오나예요. 빨리 끝내 주세요. 파이를 구워야 하거든요.' },
     // recorded voice (Higgsfield · MiniMax · Petra). People without clips fall back to browser TTS.
     audio:{ hello:'audio/fiona-hello.mp3', q1:'audio/fiona-q1.mp3', q2:'audio/fiona-q2.mp3', q3:'audio/fiona-q3.mp3',
       // ending (Petra voice): the confrontation, a wrong photo, the confession
@@ -4393,7 +4397,7 @@ const PEOPLE = PACK ? PACK.people : {
     }
   },
   ray: { id:'ray', name:'Ray Raccoon', ko:'너구리 레이', job:'기타리스트', place:'cafe', pitch:.85, voice:1, bg:'#DDE3EE',
-    hello:"Hey, detective. I'm Ray. I didn't do anything, okay?",
+    hello:{ key:'hello', en:"Hey, detective. I'm Ray. I didn't do anything, okay?", ko:'안녕하세요, 탐정님. 저는 레이예요. 전 아무 짓도 안 했어요, 아셨죠?' },
     audio:{ hello:'audio/ray-hello.mp3', q1:'audio/ray-q1.mp3', q2:'audio/ray-q2.mp3', q3:'audio/ray-q3.mp3' },
     unlocks:{ q1:{ places:['cafe'] }, q2:{ people:['duck'] } },
     answers:{
@@ -4413,7 +4417,7 @@ const PEOPLE = PACK ? PACK.people : {
     }
   },
   rosie: { id:'rosie', name:'Rosie Rabbit', ko:'토끼 로지', job:'별 관측가', place:'hill', pitch:1.45, voice:2, bg:'#E4DDF3',
-    hello:"H-hello. I'm Rosie. I'm a little scared, detective.",
+    hello:{ key:'hello', en:"H-hello. I'm Rosie. I'm a little scared, detective.", ko:'아, 안녕하세요. 저는 로지예요. 조금 무서워요, 탐정님.' },
     // recorded voice (Higgsfield · MiniMax · Evie, fearful)
     audio:{ hello:'audio/rosie-hello.mp3', q1:'audio/rosie-q1.mp3', q2:'audio/rosie-q2.mp3', q3:'audio/rosie-q3.mp3' },
     unlocks:{ q1:{ places:['hill'] } },
@@ -4435,7 +4439,7 @@ const PEOPLE = PACK ? PACK.people : {
   },
   // a witness: someone whose word checks another person's alibi. Not a suspect, and talking to him is optional.
   duck: { id:'duck', name:'Mr. Duck', ko:'오리 아저씨', job:'카페 주인', place:'cafe', witness:true, pitch:.95, voice:3, bg:'#DCEBD9',
-    hello:"Hello, detective! I'm Mr. Duck. Welcome to my cafe.",
+    hello:{ key:'hello', en:"Hello, detective! I'm Mr. Duck. Welcome to my cafe.", ko:'안녕하세요, 탐정님! 나는 오리 아저씨예요. 우리 카페에 잘 왔어요.' },
     audio:{ hello:'audio/duck-hello.mp3', d1:'audio/duck-d1.mp3', d2:'audio/duck-d2.mp3' },
     questions:[
       { id:'d1', en:'Was Ray here tonight?', ko:'레이가 오늘 밤 여기 있었나요?' },
@@ -4457,7 +4461,7 @@ const PEOPLE = PACK ? PACK.people : {
   // the customer on Fiona's order board (user decision): a witness, but her word is needed in the interview, so
   // talking to her is required (`required`, allConversationsDone)
   betty: { id:'betty', name:'Betty Bear', ko:'곰 베티', job:'이웃', place:'bettyhome', witness:true, required:true, pitch:.9, voice:4, bg:'#F0DCCB',
-    hello:"Oh, hello, detective! I'm Betty Bear. Would you like some honey tea?",
+    hello:{ key:'hello', en:"Oh, hello, detective! I'm Betty Bear. Would you like some honey tea?", ko:'어머, 안녕하세요, 탐정님! 저는 곰 부인 베티예요. 꿀차 좀 드릴까요?' },
     audio:{ hello:'audio/betty-hello.mp3', b1:'audio/betty-b1.mp3', b2:'audio/betty-b2.mp3' },
     questions:[
       { id:'b1', en:"Did you go to Fiona's bakery tonight?", ko:'오늘 밤 피오나의 빵집에 갔었나요?' },
@@ -4487,7 +4491,7 @@ const WORDS = {
   'blueberry pies':['w','블루베리 파이'], 'regular customer':['w','단골손님'], 'bread':['w','빵'], 'morning':['w','아침'], 'guitar':['w','기타'], 'lantern':['w','랜턴, 등불'],
   'owl':['w','올빼미'], 'telescope':['w','망원경'], 'nobody':['w','아무도 ~않다'], 'shooting star':['w','별똥별'], 'stage':['w','무대'],
   'never':['w','한 번도 ~않다'], 'counter':['w','계산대, 카운터'], 'book':['w','책'], 'newspaper':['w','신문'], 'alone':['w','혼자'],
-  'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'],
+  'evening':['w','저녁'], 'loaf':['w','(빵) 한 덩이'], 'waited':['w','기다렸다'], 'home':['w','집'], 'floor':['w','바닥'],
   'missing':['w','없어진'], 'find':['w','찾다'], 'rehearsal':['w','리허설'], 'waiting room':['n','대기실'], 'yellow moon':['w','노란 달'],
   'in':['w','~ 안에'], 'on':['w','~ 위에'], 'under':['w','~ 아래에'], 'next to':['w','~ 옆에'], 'behind':['w','~ 뒤에'],
   'fox':['w','여우'], 'dog':['w','개, 강아지'], 'goat':['w','염소'], 'mole':['w','두더지'], 'whole time':['w','내내'], 'turn':['w','차례'], 'black toolbox':['w','검은 공구함'],
@@ -4510,9 +4514,15 @@ const WORDS = {
   'after that':['x','그 뒤에'], 'all morning':['x','오전 내내'], 'let me look.':['x','어디 보자',null,'Let me look.'], "that's strange.":['x','이상하네',null,"That's strange."],
   'come back for':['x','~를 찾으러 돌아오다',null,'come back for ~'], 'for a week':['x','일주일 동안'], "i'm not sure where":['x','어디 ~인지 잘 모르겠어',null,"I'm not sure where ~"],
   'look for':['x','~를 찾다',null,'look for ~'], 'what is it like?':['x','~는 어떻게 생겼어?',null,'What is ~ like?'], 'who else':['x','또 누가 ~?',null,'Who else ~?'],
-  'look around':['x','둘러보다'], 'talk to':['x','~와 이야기하다',null,'talk to ~'], 'look after':['x','~를 맡아 돌보다',null,'look after ~'], 'for a while':['x','잠시'],
+  'look around':['x','둘러보다'], 'talk to':['x','~와 이야기하다',null,'talk to ~'],
   'come back':['x','돌아오다'], 'give back':['x','~를 돌려주다',null,'give ~ back'], 'all evening':['x','저녁 내내'], 'all night':['x','밤새'], 'last month':['x','지난달'],
-  'get tired':['x','지치다'], 'miss':['x','~를 그리워하다',null,'miss ~']
+  'get tired':['x','지치다'], 'miss':['x','~를 그리워하다',null,'miss ~'],
+  // blanks that had no entry and so were missing from 단어 and the review (2026-11-24), and the kite case's phrases
+  'wind':['w','바람'], 'park':['n','공원'], 'bird':['w','새'], 'two':['t','둘, 2','two'], 'long':['w','긴'], 'folding':['w','접는, 접이식의'],
+  "isn't":['w','~이 아니다 (is not)'], 'stopped':['w','들렀다, 멈췄다 (stop의 과거)'], 'work':['w','직장, 일터'], 'lobby':['n','로비'], "couldn't":['w','~할 수 없었다 (could not)'],
+  'decorating':['w','꾸미고 있는'], 'tree':['w','나무, 트리'], 'supplies':['w','물품, 재료'], 'volunteer':['w','자원봉사자'], 'taking':['w','가져가고 있는'],
+  'needed':['w','필요했다 (need의 과거)'], 'empty':['w','빈, 비어 있는'], 'boxes':['w','상자들'], 'getting ready':['w','준비하고 있는'], 'waiting':['w','기다리고 있는'],
+  'fall':['w','떨어지다 (과거 fell)'], 'tail':['w','꼬리'], "what's wrong?":['x','무슨 일이야?',null,"What's wrong?"], 'look like':['x','~처럼 생기다'], 'what color':['x','무슨 색 ~?',null,'What color ~?']
 };
 // 노트의 단어 뜻 (user request: once a question is written down right, every word on the note can be tapped for its
 // meaning; also the evidence notes and the pinned memos). Keys are lower case; a key of two or more words is a phrase
@@ -4783,7 +4793,15 @@ const GRAMMAR = {
   'did-q':     { name:'과거 의문문', pattern:'Did + 주어 + 동사원형?', ko:'일반동사의 과거를 물을 때 Did를 맨 앞에 두고, 동사는 원형으로 써요. Did you see it? (saw가 아니에요)',
     more:['Did가 "과거"를 혼자 맡으니 동사는 원형 그대로예요. Did you bring it? (brought가 아니에요)',
       "대답은 Yes, I did. / No, I didn't.로 짧게 해요.",
-      '지금의 일을 물을 때는 Do · Does를 써요. Do you have a pen?'] },
+      '지금의 일을 물을 때는 Do · Does를 써요. Do you have a pen?'],
+    // the flowerbed case's key (Case 04), as the other keys (user decision 2026-11-24)
+    examples:[
+      { head:'Did you eat?', ko:'먹었어?', mean:[['did you','너는 ~했니'],['did she','그녀는 ~했니']], why:'Did를 맨 앞에 두고, 동사는 원형으로 써요. 지난 일을 했는지 물어요.', match:'\\bdid\\b',
+        more:['Did가 "과거"를 혼자 맡으니 동사는 원형 그대로예요. Did you bring it? (brought가 아니에요)',
+          "대답은 Yes, I did. / No, I didn't.로 짧게 해요.",
+          '지금의 일을 물을 때는 Do · Does를 써요. Do you have a pen?'],
+        lines:[['{Did you lock} the door?', '문 잠갔어?'], ['{Did she call} you?', '그녀가 너한테 전화했어?'], ['{Did they win}?', '그들이 이겼어?']] }
+    ] },
   'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.',
     more:['Who 누구 · What 무엇 · Where 어디 · When 언제 · Why 왜 · How 어떻게.',
       'What 뒤에 명사를 붙이면 더 좁혀 물어요. What color …? 무슨 색, What pattern …? 어떤 무늬.'] }
@@ -4798,8 +4816,7 @@ Object.values(PEOPLE).filter(p => p.unnamed).forEach(p => {
 const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'badger:b1':[['passive','was found'], ['past-prog','was lying'], ['time-prep',"at nine o'clock"]],
   'badger:b2':[['wh-q','Who found'], ['past-irr','found him'], ['time-prep','between eight and nine']],
-  'badger:b3':[['wh-q','What should I do'], ['modal','should I do'], ['imperative','Look around']],
-  'mole:m1':  [['wh-q','What did you see'], ['time-prep','at nine'], ['to-purpose','to get a book']],
+  'mole:m1':  [['wh-q','What did you see'], ['time-prep','at eight'], ['past-irr','I went home']],
   'mole:m2':  [['did-q','Did anyone visit'], ['time-prep','at seven thirty'], ['to-purpose','to borrow']],
   'mole:m3':  [['did-q','Did the professor have'], ['past-irr','he wrote'], ['too-adj','too sweet']],
   'fiona:q1': [['be-past','I was at my bakery'], ['time-prep','from seven to ten'], ['past-prog','was baking']],
@@ -4817,7 +4834,7 @@ const GRAMMAR_LINES = PACK ? PACK.grammarLines : {
   'betty:b2': [['wh-q','What did you do'], ['past-reg','waited'], ['past-irr','went home']]
 };
 const PHRASE_LINES = PACK ? PACK.phrases : [
-  ['look around','badger:b3','Look around'], ['talk to','badger:b2','talk to her'], ['look after','mole:m1','look after'], ['for a while','mole:m1','for a while'],
+  ['talk to','badger:b2','talk to her'], ['go home','mole:m1','went home'],
   ['come back','mole:m1','came back'], ['give back','ray:q3','gave it back'], ['all evening','fiona:q1','all evening'], ['all night','duck:d2','all night'],
   ['last month','ray:q3','last month'], ['get tired','betty:b2','got tired'], ['miss','rosie:q3','miss him']
 ];
@@ -4840,7 +4857,6 @@ const SENTENCE_TIMES = KITE ? { 'toby:b0':[[0, 1.9], [2.15, 4.26]] } : MONTAGE_O
 } : {
   'badger:b1':[[0,1.74],[2.29,5.09],[5.64,6.87]],   // Nadine 2026-11-23
   'badger:b2':[[0,2.81],[3.36,5.75],[6.35,9.35]],
-  'badger:b3':[[0,1.92],[2.56,5.05]],
   'mole:m2':[[0.13,4.1],[4.5,8.92]],
   'fiona:q1':[[0.09,3.3],[3.46,6.75]],
   'ray:q1':[[0.11,1.59],[1.99,5.09]],
@@ -4851,7 +4867,7 @@ const SENTENCE_TIMES = KITE ? { 'toby:b0':[[0, 1.9], [2.15, 4.26]] } : MONTAGE_O
   'rosie:q3':[[0.09,2.8],[3.05,5.04]],
   'duck:d1':[[0,0.75],[0.85,4.6]],
   'duck:d2':[[0,1.05],[1.5,4.3],[4.45,5.85]],
-  'mole:m1':[[0.13,4.7],[5.28,7.67]],
+  'mole:m1':[[0,1.3],[1.5,4.5]],   // mole-m1-home (job ce573737)
   'mole:m3':[[0,5.03],[5.77,7.86]],
   'fiona:q2':[[0,0.52],[0.75,1.97],[2.26,3.98]],
   'fiona:q3':[[0,3.14]],
@@ -4864,11 +4880,10 @@ const sentencesOf = text => text.split(/(?<!\b(?:Mrs|Mr|Sgt|Dr)\.)(?<=[.!?])\s+/
 const ANSWERS_KO = PACK ? PACK.answersKo : {
   badger:{
     b1:'여기는 옛 도서관이에요. 후트 교수님이 오늘 밤 9시에 여기서 발견됐어요. 바닥에 쓰러져 계셨어요.',
-    b2:'사서인 두더지 부인이 발견했어요. 8시에서 9시 사이에 일어난 일 같아요. 아직 안에 계시니 이야기해 보세요.',
-    b3:'도서관을 꼼꼼히 둘러보세요. 누가 범인인지 알게 되면 저에게 알려 주세요.'
+    b2:'사서인 두더지 부인이 발견했어요. 8시에서 9시 사이에 일어난 일 같아요. 아직 안에 계시니 이야기해 보세요.'
   },
   mole:{
-    m1:'교수님께 잠시 도서관을 맡기고 그분께 드릴 책을 가지러 집에 갔어요. 9시에 돌아와 보니 교수님이 바닥에 쓰러져 계셨어요.',
+    m1:'8시에 집에 갔어요. 9시에 돌아와 보니 교수님이 바닥에 쓰러져 계셨어요.',
     m2:'너구리 레이가 7시 30분에 음악책을 빌리러 왔어요. 그리고 토끼 로지가 7시에 별에 관한 책을 반납하러 왔어요.',
     m3:'오늘 교수님이 신문에 여우 피오나의 파이가 너무 달다고 쓰셨어요. 피오나가 그 일로 몹시 화가 났어요.'
   },
@@ -5354,7 +5369,7 @@ function toast(msg){
   const t = $('#toast'); t.textContent = msg; t.hidden = false;
   clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400);
 }
-// new people and places, one ribbon each: [{ img, map, name, rest }] (rest: the Korean that follows the name)
+// new people and places, one ribbon each: [{ img, name, rest }] (rest: the Korean that follows the name; a place has no img)
 // It waits a moment after the notebook closes (user: right away, the eye was still on the closing note), then pops in.
 let discoveryT;
 const DISCOVERY_DELAY = 700;
@@ -5365,7 +5380,7 @@ function showDiscovery(items){
   discoveryT = setTimeout(() => popDiscovery(box, items), DISCOVERY_DELAY);
 }
 function popDiscovery(box, items){
-  box.innerHTML = items.map((it, i) => `<div class="dv" style="--i:${i}"><img${it.map ? ' class="map"' : ''} src="${it.img}" alt=""><span class="new">NEW</span><b>${esc(it.name)}</b><span class="rest">${esc(it.rest)}</span></div>`).join('');
+  box.innerHTML = items.map((it, i) => `<div class="dv${it.img ? '' : ' place'}" style="--i:${i}">${it.img ? `<img src="${it.img}" alt="">` : ''}<span class="new">NEW</span><b>${esc(it.name)}</b><span class="rest">${esc(it.rest)}</span></div>`).join('');
   box.classList.remove('out'); box.hidden = false;
   // one low marimba as the first ribbon pops in, however many there are
   const chime = $('#discoveryChime'); chime.currentTime = 0; chime.play().catch(() => {});
@@ -7347,7 +7362,7 @@ function revealDiscoveries(){
   // user request: say what the name is ("Mr. Duck을 알게 됐어요", "Lake Cafe에 갈 수 있어요")
   showDiscovery([
     ...people.map(id => ({ img:faceSrc(id), name:spk(id).name, rest:`${objectJosa(spk(id).name)} 알게 됐어요` })),
-    ...places.map(id => ({ img:'assets/ui/nav/map.webp', map:true, name:placeOf(id).label, rest:'에 갈 수 있어요' }))
+    ...places.map(id => ({ name:placeOf(id).label, rest:'에 갈 수 있어요' }))
   ]);
 }
 // 을/를 after an English name, by how its last word sounds in Korean: Duck(덕)·Rabbit(래빗)·Mole(몰) take 을,
@@ -10098,7 +10113,7 @@ const DEMOS = {
       t.el.classList.remove('note'); t.view(0, 0);
       await t.wait(650);
       const box = t.q('.discovery');
-      box.innerHTML = '<div class="dv" style="--i:0"><img class="map" src="assets/ui/nav/map.webp" alt=""><span class="new">NEW</span><b>Garden</b><span class="rest">에 갈 수 있어요</span></div>';
+      box.innerHTML = '<div class="dv place" style="--i:0"><span class="new">NEW</span><b>Garden</b><span class="rest">에 갈 수 있어요</span></div>';
       box.hidden = false;
       await t.wait(2400);
     }
@@ -11238,28 +11253,33 @@ function loadGame(){
     qids.forEach(q => { t.questionChecks[q] = 'ok'; });
     fillAnswers(id, qids, true);
   });
+  // a question taken out of the case since the save (Terry's b3, Tara's t3, …) is forgotten, with its pin; someone whose
+  // questions are now all written down right is done
+  PEOPLE_ORDER.forEach(id => {
+    const p = S.per[id], ids = qs(spk(id)).map(q => q.id);
+    p.order = (p.order || []).filter(qid => ids.includes(qid));
+    Object.keys(p.questionChecks || {}).forEach(qid => { if(!ids.includes(qid)) delete p.questionChecks[qid]; });
+    if(p.recording && !ids.includes(p.recording)){ p.recording = null; p.phase = 'choose'; }
+    if(p.phase === 'choose' && ids.length && ids.every(qid => p.questionChecks[qid] === 'ok')) p.phase = 'done';
+    S.memo.pins = S.memo.pins.filter(k => !k.startsWith(`say:${id}:`) || ids.includes(k.split(':')[2]));
+  });
   endingRound = data.endingRound || 0;
   caseStarted = resumePending = true;
 }
 // older saves of the library case: notes and photos as the story is now
 function libraryMigrations(){
-  // Sgt. Badger's last line: its blank is the verb he says ("tell"), no longer his name
-  const badger = S.per.badger;
-  if(/badger/i.test(badger.notes.i || '')){ badger.notes.i = 'tell'; if(badger.questionChecks.b3 === 'ok') badger.marks.i = 'ok'; else delete badger.marks.i; }
   // Fiona's shortened third reply has new blanks; preserve already checked notes from older saves.
   const fiona = S.per.fiona;
   if(fiona.questionChecks.q3 === 'ok' && !fiona.notes.k){
     Object.assign(fiona.notes, { k:'regular customer', l:'bread', m:'morning' });
     Object.assign(fiona.marks, { k:'ok', l:'ok', m:'ok' });
   }
-  // Mrs. Mole's story changed; keep completed records correct and clear unfinished old answers.
+  // Mrs. Mole's first answer was shortened (2026-11-24): a completed record gets its new blanks, the old ones go
   const mole = S.per.mole;
+  ['b', 'k'].forEach(id => { delete mole.notes[id]; delete mole.marks[id]; });
   if(mole.questionChecks.m1 === 'ok'){
-    Object.assign(mole.notes, { k:'book', b:'library' });
-    Object.assign(mole.marks, { k:'ok', b:'ok' });
-  } else {
-    if(mole.notes.k?.trim().toLowerCase() === 'dinner'){ delete mole.notes.k; delete mole.marks.k; }
-    if(mole.notes.b?.trim().toLowerCase() === 'clock'){ delete mole.notes.b; delete mole.marks.b; }
+    Object.assign(mole.notes, { n:'8 PM', o:'floor' });
+    Object.assign(mole.marks, { n:'ok', o:'ok' });
   }
   // the bakery's note became its order board (the case's story changed): an older save's bakery photos show the picture
   // as it is now, and once the board was found its customer is there to talk to
@@ -11417,13 +11437,15 @@ function renderCaseKey(turn){
   $('#caseKeyCard').innerHTML = caseKeyHTML(caseKeyAt, turn);
 }
 // one page of the case key: page `at` of caseKeyPages
+// (the explanation only where there is no table of meanings, user request 2026-11-24: it read oddly under it; why stays in
+// the grammar popup and the review)
 function caseKeyHTML(at, turn){
   const { g, ex } = caseKeyPages[at], last = at === caseKeyPages.length - 1;
   // the form breaks only between its parts (ex.parts, user decision: by meaning, not wherever the width runs out)
   const form = ex.parts ? ex.parts.map(part => `<span class="part">${esc(part)}</span>`).join(' ') : esc(ex.head);
   return `<div class="ck-top"><h2 class="rv-title">이번 사건의 열쇠</h2><button class="close-button" type="button" data-ck-close aria-label="사건 목록으로"></button></div>
     <div class="rv-body${turn ? ' ck-turn' : ''}"><div class="ck-card">
-      <div class="ck-key"><h3 class="gpattern">${form}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3>${ex.mean ? `<dl class="ck-mean">${ex.mean.map(([w, k]) => `<dt>${esc(w)}</dt><dd>${esc(k)}</dd>`).join('')}</dl>` : ''}<p class="gko">${esc(ex.why || ex.ko)}</p></div></div>
+      <div class="ck-key"><h3 class="gpattern">${form}${ex.lines.length ? `<button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}" aria-label="${esc(ex.head)} 듣기">${playIcon}</button>` : ''}</h3>${ex.mean ? `<dl class="ck-mean">${ex.mean.map(([w, k]) => `<dt>${esc(w)}</dt><dd>${esc(k)}</dd>`).join('')}</dl>` : `<p class="gko">${esc(ex.why || ex.ko)}</p>`}</div></div>
       ${ex.lines.length ? `<div class="ck-notes">${ex.lines.map(([en, ko], i) => `<p class="ck-note"><span>${markForm(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${GRAMMAR[g].examples.indexOf(ex) + 1}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></p>`).join('')}</div>` : ''}</div>
     <div class="ck-dots" aria-label="${at + 1} / ${caseKeyPages.length}"${caseKeyPages.length < 2 ? ' hidden' : ''}>${caseKeyPages.map((x, i) => `<i${i === at ? ' class="now"' : ''}></i>`).join('')}</div>
     <div class="rv-foot ck-foot">${at ? '<button class="pill" type="button" data-ck-prev>이전</button>' : ''}<button class="pill big" type="button" data-ck-next>${last ? (caseKeyThen ? '사건 시작' : '닫기') : '다음'}</button></div>`;

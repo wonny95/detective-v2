@@ -11,7 +11,7 @@
 5. **이후 수정 — Claude Code + 사용자**: 그 사건의 대본·설계서 수정은 모두 Claude Code가 사용자와 한다.
 
 - **인계된 사건의 설계서는 개발 쪽 파일이 된다.** 인계 뒤에는 Codex가 그 파일을 고치지 않는다(같은 파일을 두 브랜치에서 고치면 merge가 충돌한다). Codex는 다음 사건의 1차 기획과 커리큘럼·학습 기획을 맡는다.
-- **인계된 사건**: Case 01 A 바뀐 소풍 가방(`design/case-01-picnic-bag.md`, `design/case-01-picnic-bag.html`), L1-01 B 주인 없는 우산(`design/case-02-unclaimed-umbrella.md`, `design/case-02-unclaimed-umbrella.html`), L1-02 B 사라진 음악 대회 바이올린(`design/case-04-missing-violin.md`, `design/case-04-missing-violin.html`, `design/case-04-review.md`), L1-05 B 사라진 크리스마스트리의 별(`design/case-10-christmas-star.md`, `design/case-10-christmas-star.html`), 화단을 망친 범인 찾기 간략판(`design/case-flowerbed-ball.md`, `design/case-flowerbed-ball.html`; 사용자 결정 2026-11-19, Codex 11-18 간략판 기준. `design/backups/flowerbed-*`의 이전 기획은 Codex 쪽 백업으로 둔다).
+- **인계된 사건**: Case 01 A 바뀐 소풍 가방(`design/case-01-picnic-bag.md`, `design/case-01-picnic-bag.html`), L1-01 B 주인 없는 우산(`design/case-02-unclaimed-umbrella.md`, `design/case-02-unclaimed-umbrella.html`), L1-02 B 사라진 음악 대회 바이올린(`design/case-04-missing-violin.md`, `design/case-04-missing-violin.html`, `design/case-04-review.md`), L1-05 B 사라진 크리스마스트리의 별(`design/case-10-christmas-star.md`, `design/case-10-christmas-star.html`), 화단을 망친 범인 찾기 간략판(`design/case-flowerbed-ball.md`, `design/case-flowerbed-ball.html`; 사용자 결정 2026-11-19, Codex 11-18 간략판 기준. `design/backups/flowerbed-*`의 이전 기획은 Codex 쪽 백업으로 둔다), 쌍둥이 사건 간단판(`design/case-twins.md`, `design/case-twins.html`; 사용자 결정 2026-11-24. Codex의 상세판 `design/case-twins-study.*`·`case-twins-review.md`는 참고용으로 그대로 두고 더 고치지 않는다).
 
 ## 분업 (사용자 결정)
 
