@@ -4,14 +4,16 @@ Higgsfield picture on flat magenta (assets/places/picnic-storyboard/bag-blue-ope
 tall like bag-blue.png (the closed bag), so the two stand at the same size in the close look.
 Ben's own blue bag open (user request 2026-11-24: Mia left out, Ben's bag looked into instead): the same picture with a
 brown book and a hammer inside (bag-ben-open-higgsfield-original.png, job 007c5d94, the first as reference) ->
-bag-ben-open.png/.webp, cut the same way.
+bag-ben-open.png/.webp, cut the same way. The bag Ben has, Rosie's (user decision 2026-11-24: Nora left out, Ben
+took Rosie's bag at the cafe): a red lunch box and a yellow bottle inside (bag-rosie-open-higgsfield-original.png, job
+1d661494, references the first and picnic-rosie-bag) -> bag-rosie-open.png/.webp.
 
 Run: python -I scripts/cut-picnic-bag-open.py   (Pillow only)
 """
 import os
 from PIL import Image, ImageFilter
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets', 'places', 'picnic-storyboard') + '/'
-for name in ('bag-blue-open', 'bag-ben-open'):
+for name in ('bag-blue-open', 'bag-ben-open', 'bag-rosie-open'):
     src = Image.open(D + name + '-higgsfield-original.png').convert('RGB')
     W, H = src.size
     px = src.load()
