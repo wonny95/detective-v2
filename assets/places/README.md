@@ -7,6 +7,8 @@
 - 수리점 앞 `outside-higgsfield-original.png`(1792×2400): 2026-11-25 Claude 제작(사용자 승인), Higgsfield nano_banana_2_1 3:4 2K, job `0d1888e3-313a-407a-a157-910d966f2d5d`, 2크레딧. 참고: 꿀 가게 거리 job `a9d09de1-0e98-481a-bc1a-c28a4b4642c6`(화풍·구도), 면담 그림 job `8f9b17b6-…`(밴). 요지: 세이지색 나무·크림색 벽의 작은 수리점(톱니바퀴·렌치 간판, 진열창의 시계·라디오·등), 오른쪽 연석에 앞이 찌그러지고 전조등이 깨진 파란 밴, 글자 없는 노랑·흰 통제선, 빈 자갈길, 글자·사람 없음. `scripts/cut-twins-places.py`가 1376 폭으로 줄여 1056 띠(`outside.webp`)와 바닥(`outside-floor.jpg`)으로 자름.
 
 - 사고 현장 `road`(job `17e13cc8-d3b6-4e2f-95a8-2680a708e23b`), 병실 `hospital`(`c11c0ab8-5769-4adf-95e4-ef71b06e2ba5`), 수리점 안 `workshop`(`ab802042-8793-45f2-b0c6-7b054c742c81`): 2026-11-25 Claude 제작(사용자 승인), 같은 모델 3:4 2K, 장당 2크레딧, 참고는 수리점 앞 job. 원본 `<id>-higgsfield-original.png`. 사고 현장은 원본에 참고 그림의 자갈길이 아래에 남고 바퀴 자국이 U자로 돌아 `scripts/fix-twins-road.py`(0크레딧)가 흙길과 곧은 급정거 자국으로 고쳐 `road-fixed.png`를 만든다. 자르기는 `scripts/cut-twins-places.py`(띠 1056).
+- **지금 게임의 수리점 안**은 `workshop-musicbox-higgsfield-original.png`(1792×2400, job `20226936-b45a-4d5e-8116-e920d19f504f`, 2크레딧, 참고: 위 수리점 job): 드라이버 둘 자리에 열린 오르골과 빈 이름표. 예전 원본은 `scripts/make-ada-clock.py`가 시계를 오려 쓰므로 남긴다.
+- 밴 안 `van-inside-higgsfield-original.png`(2400×1792, 4:3, job `181e16c9-fbf4-434b-9773-d4b82da61eb7`, 2크레딧, 참고: 수리점 앞·에반 면담 job): 휜 핸들·쌍둥이 사진·선인장·사탕·빵·시계 장식. 크기만 줄여 `van-inside.webp`(1600×1195). 둘 다 2026-11-25 사용자 승인, 만든 그대로.
 
 - 지도 `map-higgsfield-original.png`(2048×2048, 1:1 2K): 2026-11-25 Claude 제작(사용자 승인), nano_banana_2_1, job `f414056b-8cce-4aea-9e09-a4e834d15408`, 2크레딧, 참고는 수리점 앞 job(화풍·수리점·밴만). 요지: 위에서 비스듬히 본 새 마을, 왼쪽 위 병원·오른쪽 위 경찰서·가운데 분수 광장·냇물과 다리·굽은 길의 급정거 자국과 고깔·오른쪽 아래 수리점과 밴, 인물·글자 없음.
 
@@ -14,6 +16,7 @@
 
 - 2026-11-24 Claude 제작(사용자 요청): `interview-evan-higgsfield-original.png`(896×1200, Higgsfield nano_banana_2_1 3:4, job `8f9b17b6-b7bc-42cd-b4d7-f99572dd8db1`, 1.5크레딧, 참고 그림 `station-interview-room`·`evan-talk`). 프롬프트 요지: 지금 조사실과 같은 방에서 책상을 사이에 두고 마주 본 1인칭, 미어캣이 의자에 앉아 두 손을 책상에 올림, 노트북·서류·길과 파란 밴 사진, 글자·다른 인물 없음.
 - **지금 게임의 그림(2026-11-25)**: `interview-evan-v2-higgsfield-original.png`(1792×2400, nano_banana_2_1 3:4 2K, job `bde5cff8-efe6-4581-b679-f56ced087be5`, 2크레딧, 참고: 아래 첫 그림과 수리점 앞). 파란 셔츠·진한 갈색 멜빵 작업복·이마 거즈·책상 사진의 밴. 에반은 원본 그대로(사용자 요청, 책상 사진의 밴 색만 밝게). 마일로는 같은 그림에서 거즈를 지우고(첫 그림의 이마가 똑같이 겹침) 셔츠를 베이지로 바꾸고 손가락 붕대를 그린 것(0크레딧, `scripts/make-twins-rooms.py`). → `interview-evan-v2.png`·`interview-milo-v2.png`, 게임용 `interview.webp`(두 방)·`evan.webp`(복습 사진).
+- 게임의 면담실은 `room-evan.webp`·`room-milo.webp`(1344×1800, 위 두 그림을 자르지 않고 크기만 줄임, 사용자 요청 2026-11-25). 벽을 사이에 둔 `interview.webp`는 쓰지 않음.
 - `scripts/make-twins-interview.py`: 원본의 상처(반대쪽 팔)를 거울 복사로 지우고 `interview-evan.png`(오른쪽 손목)·`interview-milo.png`(왼손 검지)에 다시 그린다. WebP는 quality 90.
 
 ## 파출소 조사실

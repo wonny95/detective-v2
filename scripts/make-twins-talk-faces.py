@@ -47,6 +47,7 @@ for i, (key, face) in enumerate(FACES.items()):
     else:
         tb = layer.getchannel('A').point(lambda v: 255 if v > 2 else 0).getbbox()
         box = [face[0] + tb[0], face[1] + tb[1], tb[2] - tb[0], tb[3] - tb[1]]
-        layer.crop(tb).save(M + 'ada-talk-open.png', optimize=True)
+        mouth = layer.crop(tb); mouth.paste((0, 0, 0, 0), (0, 37, 33, 65))   # the sheet's white by her neck (user report 2026-11-25)
+        mouth.save(M + 'ada-talk-open.png', optimize=True)
         im.crop((box[0], box[1], box[0] + box[2], box[1] + box[3])).save(M + 'ada-talk-closed.png', optimize=True)
         print('ada-talk mouth', box)

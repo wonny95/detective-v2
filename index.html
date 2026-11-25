@@ -92,7 +92,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 .map-btn{position:relative}
 .map-btn:active{transform:translateY(2px);box-shadow:none}
 /* a conversation under way is finished before anything else (talkLocked): the map waits, dimmed */
-.app.talk-locked :is(#mapTab,#itemsTab){opacity:.45}
+.app.talk-locked :is(#mapTab,#itemsTab):not(.unused){opacity:.45}
 /* a thing going into 소지품 flies into the satchel, which bounces when it lands (flyToBag) */
 .bag-fly{position:fixed;z-index:60;object-fit:contain;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(46,34,25,.35))}
 .bag-bump{animation:bagBump .5s cubic-bezier(.3,1.6,.5,1)}
@@ -991,6 +991,15 @@ button.chip:disabled{cursor:default;box-shadow:none}
 .tapfx{position:absolute;pointer-events:none;transform:translate(-50%,-50%);animation:tapfx .9s ease-out forwards;white-space:nowrap}
 .tapfx.miss{font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--ink);background:rgba(255,253,247,.85);border-radius:10px;padding:0 8px}
 @keyframes tapfx{from{opacity:1;transform:translate(-50%,-50%) scale(.6)}to{opacity:0;transform:translate(-50%,-80%) scale(1.15)}}
+.room-arrow{position:absolute;z-index:4;top:45%;width:48px;height:48px;margin-top:-24px;border-radius:50%;background:rgba(255,247,230,.95);border:2px solid var(--ink);
+  color:var(--ink);font:700 28px/1 var(--f-display);display:grid;place-items:center;padding:0 0 3px;box-sizing:border-box;box-shadow:0 2px 6px rgba(74,52,38,.3);cursor:pointer}
+.room-arrow[hidden]{display:none}
+.room-arrow i{font-style:normal}
+.room-arrow.left{left:10px}
+.room-arrow.left i{transform:scaleX(-1)}
+.room-arrow.right{right:10px}
+.room-arrow:active{scale:.94}
+.room-arrow.hinted{animation:find-edge .6s ease-in-out 3;box-shadow:0 0 14px 4px rgba(255,204,84,.8);--dx:5px}
 .swipe-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(74,54,40,.8);color:var(--paper);padding:6px 12px;border-radius:14px;font-size:12px;pointer-events:none;white-space:nowrap}
 .people-here{display:flex;flex-direction:column;gap:6px}
 .people-here .lbl{font-family:var(--f-display);font-size:12px;color:var(--ink-soft)}
@@ -1001,7 +1010,7 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* ---------- bottom navigation ---------- */
 /* above the map (.sheet.full, 30): the menu's wavy top line (.nav::before) reaches 6px above it and was cut by the map
    (user report); the map rises from behind the menu. Under the note keyboard (.note-vkb) and the case cards (.cases) */
-.nav{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:10px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));background:var(--paper-2);position:relative;z-index:31}
+.nav{flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;gap:10px;padding:8px 10px calc(11px + env(safe-area-inset-bottom,0px));background:var(--paper-2);position:relative;z-index:31}
 .tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border:2.5px solid var(--ink);border-radius:var(--r-wobble);background:var(--paper);font-family:var(--f-display);font-size:15px;box-shadow:2px 3px 0 rgba(74,54,40,.22)}
 .tab svg{width:24px;height:24px;flex:none}
 /* in a case: the way out to the case list sits top-left (user decision; the case stays as it was and resumes).
@@ -1313,41 +1322,80 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .pol-cap .case-title{font-size:17px;margin:1px 0 4px}
 .polaroid:not(.locked){width:60%}
 .polaroid .case-title{font-size:18px}
-/* the case list as case files, one row each (user pick D 2026-11-23, design/case-list-options.html) */
-.case-files{display:flex;flex-direction:column;gap:12px;padding:8px 4px 22px}
-/* chunky like the game's other cards (user request 2026-11-23: the rows looked thin): an ink edge, a paper tab on the
-   left, a solid shadow under it */
-.cf-row{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;min-height:100px;padding:10px 12px 10px 10px;text-align:left;font:inherit;color:var(--ink);
-  background:#FFFDF6;border:2.5px solid var(--ink);border-left-width:9px;border-left-color:#C9A46A;border-radius:14px;box-shadow:0 4px 0 rgba(74,54,40,.28);
-  animation:cf-in .35s ease-out both}
-@keyframes cf-in{from{opacity:0;transform:translateY(8px)}}
-button.cf-row{cursor:pointer}
-button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,.28)}
-.cf-row.current{border-left-color:#F2C96B;background:#FFF8E1;box-shadow:0 0 0 4px #F7E07C,0 4px 0 4px rgba(74,54,40,.2)}
-.cf-thumb{position:relative;flex:none;width:96px;aspect-ratio:4/3;border:2px solid var(--ink);border-radius:8px;overflow:hidden;background:#3E3128}
-.cf-thumb img,.cf-thumb svg{width:100%;height:100%;display:block;object-fit:cover}
-.cf-row.solved .cf-thumb > img,.cf-row.solved .cf-thumb > svg{filter:sepia(.55) saturate(.7) brightness(.97)}
-.cf-stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-14deg);padding:0 5px;border:2px solid #B8323A;border-radius:4px;
-  font-family:var(--f-display);font-size:11px;letter-spacing:.06em;color:#B8323A;background:rgba(255,250,240,.5);mix-blend-mode:multiply}
-.cf-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
-.cf-row .case-title{font-size:18px;line-height:1.25;margin:1px 0}
-.cf-row .case-focus{font-size:13px}
-.cf-state{flex:none;display:flex;align-items:center}
-.cf-row .case-stars{margin-left:0}
-.cf-row .learned{position:static;width:auto;align-self:flex-start;margin-top:4px;padding:2px 7px 3px;font-size:12px;box-shadow:none;border-radius:4px;transform:none}
-.cf-row .learned::before{display:none}
-.cf-row .learned .k{display:inline;margin:0 4px 0 0;font-size:9px}
-.cf-row .learned .forms{display:inline-grid}
-.cf-row.locked{cursor:default;background:#F3EBDD;border-color:#9C8A74;border-left-color:#BBA98F;box-shadow:0 4px 0 rgba(74,54,40,.14)}
-.cf-row.locked .cf-thumb{display:grid;place-items:center;border-style:dashed;background:#5A4A3C;font-family:var(--f-display);font-size:30px;color:rgba(255,253,247,.5)}
-.cf-row.locked .case-no{color:var(--ink-soft)}
-/* a word game: a thin row between the cases */
-.cf-row.game{min-height:68px;padding:8px 12px 8px 10px;background:#FFF2CC;border-left-color:#8A5A2B}
-.cf-row.game .case-title{font-size:16px}
-.cf-ic{flex:none;width:96px;height:48px;display:grid;place-items:center}
+/* the case list as case folders, two to a row (user pick 2026-11-25 of design/case-folder-options.html: 세로 서류철). The
+   folder is Higgsfield art (assets/ui/case-folder-tall.webp), one colour: the case to play next, a solved and a locked one
+   are the same picture through a filter. Movement uses translate / rotate / scale, so the resting transforms stay. */
+#home-cases{background:#F3E7CF}
+.case-files{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;grid-auto-flow:row dense;padding:6px 0 22px}
+.cf{position:relative;display:block;box-sizing:border-box;width:100%;aspect-ratio:161/240;min-height:236px;padding:0;border:0;background:none;text-align:left;font:inherit;color:var(--ink);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:translate .26s cubic-bezier(.3,1.5,.5,1),rotate .26s,scale .2s,opacity .3s}
+.cf-fl{position:absolute;inset:0;background:url(assets/ui/case-folder-tall.webp) 0 0/100% 100%;transition:filter .7s}
+.cf.current .cf-fl{filter:hue-rotate(12deg) saturate(1.4) brightness(1.1)}
+.cf.solved .cf-fl{filter:saturate(.72) brightness(1.02)}
+.cf.locked .cf-fl{filter:saturate(.45) brightness(.92)}
+.cf-tab{position:absolute;left:5.5%;top:1.2%;width:36%;font:400 12px/1.5 var(--f-display);color:#6b4522;text-align:center;white-space:nowrap}
+.cf-in{position:absolute;left:8%;right:8%;top:15.8%;bottom:4%}
+.cf-pic{position:relative;display:block;padding:4px 4px 9px;background:#FFFDF6;border:1.5px solid #6b4a2b;border-radius:2px;transform:rotate(-2.4deg);transform-origin:50% 0;transition:rotate .3s cubic-bezier(.3,1.6,.5,1),scale .3s}
+.cf:nth-child(2n) .cf-pic{transform:rotate(2deg)}
+.cf-pic > img,.cf-pic > svg{display:block;width:100%;aspect-ratio:1.42;object-fit:cover;box-sizing:border-box;background:#E9D8BC;transition:filter .7s}
+.cf.solved .cf-pic > :is(img,svg){filter:sepia(.5) saturate(.7)}
+.cf-pic::before{content:"";position:absolute;z-index:2;left:50%;top:-10px;width:46px;height:17px;margin-left:-23px;background:url(assets/ui/casekey/tape.webp) 0 0/100% 100%;transform:rotate(-4deg)}
+.cf-text{display:flex;flex-direction:column;margin-top:8px}
+.cf .case-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:16px;line-height:1.22}
+.cf .case-focus{margin:1px 0 0;font-size:12.5px;line-height:1.35;color:#70502c}
+.cf .case-stars{margin:2px 0 0}
+.cf-st{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-12deg);padding:1px 7px;border:2.5px solid #B8323A;border-radius:5px;background:rgba(255,253,246,.82);font:400 15px var(--f-display);letter-spacing:.05em;color:#B8323A}
+/* what state it is in: a sticker over the folder's top right corner (the next case, one being played); the others have none */
+.cf-go{position:absolute;z-index:3;right:-4px;top:-2px;padding:3px 9px;border-radius:999px;background:var(--berry);color:#fff;font:400 12px var(--f-display);transform:rotate(5deg);animation:cf-call 3s 1.6s infinite}
+.cf-go.going{background:var(--sky);color:var(--ink);animation:none}
+@keyframes cf-call{0%,16%,100%{scale:1;rotate:0deg}4%{scale:1.12;rotate:-4deg}8%{scale:1.1;rotate:4deg}12%{scale:1.06;rotate:-2deg}}
+.cf.locked .cf-in{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.cf-knot img{display:block;width:36px;filter:grayscale(.7);opacity:.7}
+.cf-why{font:400 14px/1.35 var(--f-display);color:#5f4c36;text-align:center;word-break:keep-all;text-wrap:balance}
+.cf.drop{animation:cf-drop .55s cubic-bezier(.25,1.2,.45,1) var(--d,0s) backwards}
+@keyframes cf-drop{from{opacity:0;scale:1.22;rotate:var(--tw,-5deg);translate:0 -26px}}
+@media(hover:hover){.cf:hover{translate:0 -6px;rotate:-1.2deg}.cf:not(.locked):hover .cf-pic{rotate:3.5deg;scale:1.04}}
+.cf:active{scale:.955}
+.cf.shake,.cf-game.shake{animation:cf-shake .45s}
+@keyframes cf-shake{20%{translate:-7px}40%{translate:6px}60%{translate:-4px}80%{translate:3px}}
+.shake .cf-knot img,.cf-game.jig .cf-ic > *{animation:cf-jig .55s}
+@keyframes cf-jig{20%{rotate:-16deg}40%{rotate:13deg}60%{rotate:-9deg}80%{rotate:5deg}}
+.cf-st.thud{animation:cf-thud .42s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes cf-thud{0%{opacity:0;scale:2.6}55%{opacity:1;scale:.88}75%{scale:1.06}100%{scale:1}}
+.case-stars.pop img{animation:cf-pop .45s cubic-bezier(.3,1.7,.5,1) both}
+.case-stars.pop img:nth-child(2){animation-delay:.14s}.case-stars.pop img:nth-child(3){animation-delay:.28s}
+@keyframes cf-pop{from{scale:0;rotate:-60deg}}
+.cf.unlock{animation:cf-unlock .75s cubic-bezier(.3,1.2,.5,1)}
+@keyframes cf-unlock{0%{transform:perspective(700px) rotateX(88deg);filter:brightness(1.5)}60%{transform:perspective(700px) rotateX(-12deg)}100%{transform:none}}
+.case-files.open > *{opacity:.25;scale:.95;pointer-events:none}
+/* a word game between the cases: the yellow paper strip, across both columns */
+.cf-game{grid-column:1/-1;position:relative;display:flex;align-items:center;gap:12px;box-sizing:border-box;width:100%;min-height:66px;padding:8px 38px 8px 16px;border:0;text-align:left;font:inherit;color:var(--ink);cursor:pointer;
+  background:url(assets/ui/casekey/note-yellow.webp) 0 0/100% 100%;-webkit-tap-highlight-color:transparent;transition:translate .26s cubic-bezier(.3,1.5,.5,1),scale .2s,opacity .3s}
+.cf-game:active{scale:.975}
+.cf-game .cf-text{margin:0;flex:1}
+.cf-game .case-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.3}
+.cf-game .case-focus{margin:0;font-size:13px;color:#6d5a24}
+.cf-ic{flex:none;width:64px;height:48px;display:grid;place-items:center}
 .cf-ic img{height:46px;width:auto}
-.cf-row.game.locked{background:#F3EBDD;border-color:#9C8A74;box-shadow:0 4px 0 rgba(74,54,40,.14)}
-.cf-row.game.locked .cf-ic{filter:grayscale(1);opacity:.6}
+.cf-game.locked{filter:saturate(.45) brightness(.95)}
+/* a folder opened: it comes to the middle, its cover turns over and the paper inside grows to the whole screen */
+.cf-open{position:absolute;inset:0;z-index:60;overflow:hidden;perspective:1100px}
+.cf-open > .cf{position:absolute;margin:0;aspect-ratio:auto;min-height:0;animation:none;transition:none;pointer-events:none;z-index:2}
+.cf-page{position:absolute;z-index:1;overflow:hidden;background:var(--paper);border:1.5px solid #6b4a2b;border-radius:8px;box-shadow:0 6px 18px rgba(60,36,10,.3)}
+.cf-page.full{inset:0;border:0;border-radius:0;box-shadow:none}
+.cf-sheet{position:absolute;left:50%;top:0;box-sizing:border-box;width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);padding:74px 34px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;transition:opacity .28s}
+.cf-page.on .cf-sheet{opacity:1}
+.cf-sheet .cf-pic{width:min(100%,250px);box-sizing:border-box;padding:6px 6px 14px;transform:rotate(-2deg)}
+.cf-sheet .cf-pic::before{width:66px;height:24px;margin-left:-33px;top:-14px}
+.cf-sheet .case-no{margin-top:26px;font-size:14px}
+.cf-sheet h2{margin:3px 0 2px;font-family:var(--f-display);font-weight:400;font-size:25px;line-height:1.25;text-wrap:balance;word-break:keep-all}
+.cf-sheet .case-focus{font-size:15px;color:var(--ink-soft)}
+.cf-sheet .case-stars{margin:8px 0 0}.cf-sheet .case-stars img{width:26px}
+.cf-sheet .learned{position:static;width:auto;margin-top:14px;padding:6px 12px 7px;transform:none;box-shadow:1px 3px 4px rgba(60,40,20,.25)}
+.cf-sheet .learned::before{display:none}
+.cf-sheet .cf-start{margin-top:auto;width:100%}
+.cf-sheet .cf-back{position:absolute;left:14px;top:10px;margin:0}
+@media(prefers-reduced-motion:reduce){.cf.drop,.cf.shake,.cf-game.shake,.cf.unlock,.cf-go,.cf-st.thud,.case-stars.pop img,.shake .cf-knot img,.cf-game.jig .cf-ic > *{animation:none}.cf,.cf-game,.cf-pic{transition:none}}
 .cf-match{position:relative;width:56px;height:42px;border-radius:4px;background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/80px repeat;border:2px solid #8A5A2B}
 .cf-match i{position:absolute;width:15px;height:10px;background:#FFFDF6;box-shadow:0 1px 1px rgba(0,0,0,.25)}
 .cf-match i:first-child{left:4px;top:4px}
@@ -1549,10 +1597,11 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
 .home-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:18px;padding:28px 16px 20px}
 .home-page[hidden]{display:none}
 .cases .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-/* a case with things to carry (PACK.items) has 소지품 as a third tab (user pick: 지도 · 노트 · 소지품; the tab read Note until the user asked for Korean) */
-.nav.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.nav.one{grid-template-columns:minmax(0,1fr)}
-.nav[hidden]{display:none}
+/* 지도 · 노트 · 소지품 in every case, always in the same places (user decision 2026-11-25: a menu that changed from case to
+   case was confusing); a button the case does not use is faint and says so when tapped (.unused) */
+.nav .tab.unused{color:color-mix(in srgb,var(--ink-soft) 50%,var(--paper-2))}
+.nav .tab.unused .hn-ic img{filter:grayscale(.8);opacity:.32}
+.nav .tab.unused:active{transform:none}
 /* the menus (user choice, option A; the app's 홈 · 사건 · 학습 · 마이 and a case's 지도 · Note alike): no box
    around each item — an illustrated icon and its name on the paper strip, whose top is a hand-drawn wavy line; the page
    shown (or the sheet open) has a honey colored-pencil patch behind its icon and a darker name. Icons: assets/ui/nav. */
@@ -1670,7 +1719,10 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
 /* a small confirm card (leaving the case, stopping a conversation, leaving the questioning) */
 .accused{align-items:center;text-align:center;gap:14px;max-width:300px}
 .mcard .accused-text{font-family:var(--f-display);font-size:18px;line-height:1.5;text-wrap:balance}
-.accused .pill.big{align-self:stretch}
+/* its two buttons side by side, the same size, going on at the right (user sketch 2026-11-25) */
+.accused-foot{align-self:stretch;display:flex;gap:10px;margin-top:18px}
+.accused-foot .pill.big{flex:1 1 0;min-width:0;justify-content:center;white-space:nowrap}
+.accused-foot .pill.cream{--btn:url(assets/ui/buttons/cream-flat.webp);color:var(--ink)}
 .mcard .leave-sub{margin-top:-8px;font-size:13px;color:var(--ink-soft)}
 
 .toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:14px;font-size:13px;width:max-content;max-width:86%;word-break:keep-all;text-align:center;pointer-events:none;transition:opacity .25s}
@@ -1872,6 +1924,8 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
   <audio id="cameraShutter" src="audio/camera-shutter.mp3" preload="auto" hidden></audio>
   <audio id="umbrellaSound" preload="auto" hidden></audio>
   <audio id="lookSound" preload="none" hidden></audio>
+  <!-- a folder of the case list opening: the paper being unfolded (user request 2026-11-25; the Christmas slip's sound) -->
+  <audio id="folderSound" src="audio/christmas/paper-unfold.mp3" preload="auto" hidden></audio>
   <audio id="correctChime" src="audio/note-correct.mp3" preload="auto" hidden></audio>
   <audio id="retryBuzz" src="audio/note-retry.mp3" preload="auto" hidden></audio>
   <audio id="wordPlace" src="audio/word-place.wav" preload="auto" hidden></audio>
@@ -1928,6 +1982,8 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
         <canvas class="snow" id="snowInv" aria-hidden="true"></canvas>
         <div class="accuse-foot" id="accuseFoot" hidden><button class="pill big" type="button" data-accuse>추리하기</button></div>
         <div class="accuse-foot" id="foldFoot" hidden><button class="pill big" type="button" id="foldBtn">펼치기</button></div>
+        <button class="room-arrow left" type="button" data-room="-1" aria-label="왼쪽 방" hidden><i>›</i></button>
+        <button class="room-arrow right" type="button" data-room="1" aria-label="오른쪽 방" hidden><i>›</i></button>
         <div class="swipe-hint" id="swipeHint" hidden>← 옆으로 밀어서 둘러보기 →</div>
       </div>
     </section>
@@ -2000,7 +2056,7 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
     <button class="tab" type="button" id="noteTab" aria-expanded="false" aria-label="노트">
       <span class="hn-ic"><img src="assets/ui/nav/note.webp" alt="" draggable="false"></span>노트
     </button>
-    <button class="tab items-btn" type="button" id="itemsTab" aria-expanded="false" aria-controls="drawer" aria-label="소지품" hidden>
+    <button class="tab items-btn" type="button" id="itemsTab" aria-expanded="false" aria-controls="drawer" aria-label="소지품">
       <span class="hn-ic"><img src="assets/ui/nav/bag-satchel.webp" alt="" draggable="false"></span>소지품
     </button>
   </nav>
@@ -2058,18 +2114,22 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
     <div class="mcard accused" role="alertdialog" aria-labelledby="leaveCaseText">
       <p class="accused-text" id="leaveCaseText">사건 목록으로 나갈까요?</p>
       <p class="leave-sub">지금까지 조사한 내용은 저장돼요.</p>
-      <button class="pill big" type="button" data-leave-stay>계속 조사하기</button>
-      <button class="pill sm" type="button" data-leave-go>사건 목록으로</button>
+      <div class="accused-foot">
+        <button class="pill big cream" type="button" data-leave-go>나가기</button>
+        <button class="pill big" type="button" data-leave-stay>계속하기</button>
+      </div>
     </div>
   </div>
   <!-- < in a conversation under way (talkLocked): stop it and go back to its place, one level up like < always is.
-       Going on talking is the main button (user request), stopping the small one -->
+       Going on talking is the main button (user request) -->
   <div class="modal" id="stopTalk" hidden>
     <div class="mcard accused" role="alertdialog" aria-labelledby="stopTalkText">
       <p class="accused-text" id="stopTalkText"></p>
       <p class="leave-sub">남은 이야기를 들으려면 다시 말을 걸어야 해요.</p>
-      <button class="pill big" type="button" data-stop-stay>계속 대화하기</button>
-      <button class="pill sm" type="button" data-stop-go>대화 중단</button>
+      <div class="accused-foot">
+        <button class="pill big cream" type="button" data-stop-go>중단하기</button>
+        <button class="pill big" type="button" data-stop-stay>계속하기</button>
+      </div>
     </div>
   </div>
 
@@ -2077,8 +2137,10 @@ button.cf-row:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,54,40,
     <div class="mcard accused" role="alertdialog" aria-labelledby="leaveInterrogationTitle" aria-describedby="leaveInterrogationText" aria-modal="true">
       <p class="accused-text" id="leaveInterrogationTitle">심문을 나갈까요?</p>
       <p class="leave-sub" id="leaveInterrogationText">다시 심문할 때는 처음부터 시작해요.<br>수집한 증거와 기록은 그대로 남아요.</p>
-      <button class="pill big green" type="button" data-interrogation-stay>계속 심문하기</button>
-      <button class="pill sm" type="button" data-interrogation-leave>나가서 조사하기</button>
+      <div class="accused-foot">
+        <button class="pill big cream" type="button" data-interrogation-leave>나가기</button>
+        <button class="pill big green" type="button" data-interrogation-stay>계속하기</button>
+      </div>
     </div>
   </div>
 
@@ -2832,14 +2894,14 @@ const FLOWERBED_CASE = {
 
 /* 같은 얼굴의 운전자 (?case=twins, design/case-twins.md, 2026-11-25): Officer Terry asks which of the twins drove the van
    that hit Victor. Eleven questions written down (the notes are the detective's own words, third person: user decision),
-   no deduction board; then the player looks at both twins and tells Terry who it was (pick). silent: no recordings yet (the browser's voice). */
+   no deduction board; then the player looks at both twins and tells Terry who it was (pick). Recordings: audio/twins/ (README.md there). */
 const TWINS_DONE = ['badger:t0', 'badger:t1', 'badger:t2', 'iris:i1', 'iris:i2', 'victor:v1', 'victor:v2', 'ada:a1', 'ada:a4', 'ada:a2', 'ada:a3'];   // everything written down
 const TWINS_CASE = {
   start:'badger',
   noBoard:true,   // no deduction board: telling Terry who it was is the solving
-  silent:true,
   people:{
     badger: { id:'badger', name:'Officer Terry', ko:'테리 경관', job:'경찰', place:'outside', witness:true, required:true, pitch:.9, voice:3, bg:'#DCE3F0', openingQuestion:'t0',
+      audio:Object.fromEntries(['hello', 't0', 't1', 't2', 'which', 'again', 'right', 'wrong', 'thanks1', 'thanks2'].map(key => [key, `audio/twins/badger-${key}.mp3`])),
       hello:[ { key:'hello', en:'Detective, I need your help.', ko:'탐정, 네 도움이 필요해.' } ],
       questions:[
         { id:'t0', en:'What happened?', ko:'무슨 일이 있었어?' },
@@ -2850,19 +2912,19 @@ const TWINS_CASE = {
       answers:{
         t0:"A blue van hit Victor and drove away. We found the van here. It belongs to Evan and Milo. They're twins.",
         t1:'Yes. Iris saw it. She is still on the road. Victor is in the hospital now.',
-        t2:'They both say, “I was with Ada in the workshop. My brother went out.”'
+        t2:'Each twin says he was with Ada in the repair shop and the other twin went out.'
       },
       notes:{
         t0:['- A blue {{a|van}} {{b|hit}} Victor.', '- Evan and Milo are {{c|twins}}.'],
         t1:['- Iris is still on the {{d|road}}.', '- Victor is in the {{e|hospital}}.'],
-        t2:['- Each twin says he was with Ada in the {{f|workshop}}, and his brother {{g|went out}}.']
+        t2:['- Each twin says he was with Ada in the {{f|repair shop}} and the other twin {{g|went out}}.']
       },
       bank:{ t0:['car', 'van', 'twins', 'hit', 'hid', 'friends'], t1:['road', 'hotel', 'school', 'house', 'roof', 'hospital'],
-        t2:['workshop', 'woke up', 'came in', 'hospital', 'bookshop', 'went out'] },
+        t2:['repair shop', 'woke up', 'came in', 'hospital', 'bookshop', 'went out'] },
       // telling him who it was (user decision 2026-11-24, as the robbery case's sketch: hear, write down, remember, look,
       // then tell): everything written down and both twins looked at, he asks; after a wrong answer he asks again only
       // once the player has been back to look at them (pick.back). The first answer counts for the stars (guess)
-      pick:{ when:[...TWINS_DONE, 'station-0', 'station-1'], back:'station', ask:{ key:'which', en:'Which one is the driver?', ko:'둘 중 누가 운전자야?' },
+      pick:{ when:[...TWINS_DONE, 'station-0', 'station-1', 'van-0', 'workshop-0'], back:'station', ask:{ key:'which', en:'Which one is the driver?', ko:'둘 중 누가 운전자야?' },
         again:{ key:'again', en:'Please look at them again.', ko:'두 사람을 다시 한번 봐 줘.' } },
       actions:[
         { id:'evan', when:['!pick-open'], guess:'right', en:"It's Evan.", ko:'에반이야.', ending:true, lines:[
@@ -2873,6 +2935,7 @@ const TWINS_CASE = {
       ]
     },
     iris: { id:'iris', name:'Iris', ko:'까치 아이리스', job:'목격자', place:'road', witness:true, required:true, pitch:1.15, voice:2, bg:'#E3E9F0',
+      audio:Object.fromEntries(['hello', 'i1', 'i2'].map(key => [key, `audio/twins/iris-${key}.mp3`])),
       hello:[ { key:'hello', en:"Hello, Detective. I'm Iris.", ko:'안녕, 탐정. 난 아이리스야.' } ],
       questions:[
         { id:'i1', en:'What did the driver do?', ko:'운전자는 뭘 했어?' },
@@ -2890,29 +2953,31 @@ const TWINS_CASE = {
     },
     // in his hospital bed: lying back until he is talked to (victor:work)
     victor: { id:'victor', name:'Victor', ko:'악어 빅터', job:'피해자', place:'hospital', witness:true, required:true, pitch:.8, voice:1, bg:'#E6EBDD', openingQuestion:'v1',
+      audio:Object.fromEntries(['hello', 'v1', 'v2'].map(key => [key, `audio/twins/victor-${key}.mp3`])),
       hello:[ { key:'hello', en:"Hello, Detective. I'm Victor. Thank you for coming.", ko:'안녕, 탐정. 난 빅터야. 와 줘서 고마워.' } ],
       questions:[
         { id:'v1', en:'Did you see the driver?', ko:'운전자를 봤어?' },
         { id:'v2', en:'The suspects are twins. Do you remember anything else?', ko:'용의자는 쌍둥이야. 더 기억나는 건 없어?' }
       ],
       answers:{
-        v1:'Yes! It was the man at the workshop. I took my music box there this morning.',
+        v1:'Yes! It was the man at the repair shop. I took my music box there this morning.',
         v2:"Twins? I'm not sure, but the driver's shirt was blue."
       },
       notes:{
-        v1:['- Victor says it was the {{a|man}} at the workshop.', '- Victor {{b|took}} his music box there.'],
+        v1:['- Victor says it was the {{a|man}} at the repair shop.', '- Victor {{b|took}} his music box there.'],
         v2:["- Victor isn't {{c|sure}}, but the driver's {{d|shirt}} was {{e|blue}}."]
       },
       bank:{ v1:['van', 'man', 'woman', 'fixed', 'broke', 'took'], v2:['shirt', 'black', 'blue', 'sure', 'sorry', 'skirt'] }
     },
     ada: { id:'ada', name:'Ada', ko:'스컹크 에이다', job:'수리점 직원', place:'workshop', witness:true, required:true, pitch:1.2, voice:4, bg:'#EFE0D2', openingQuestion:'a1',
+      audio:Object.fromEntries(['hello', 'a1', 'a2', 'a3', 'a4'].map(key => [key, `audio/twins/ada-${key}.mp3`])),
       hello:[ { key:'hello', en:"Hi, Detective. I'm Ada.", ko:'안녕, 탐정. 난 에이다야.' } ],
       questions:[
         { id:'a1', en:'Did you see the twins this morning?', ko:'오늘 아침 쌍둥이를 봤어?' },
         // why she cannot name him (user decision 2026-11-25: asked, not in her greeting)
         { id:'a4', en:'Do you know his name?', ko:'너와 같이 일한 형제의 이름을 알아?' },
         { id:'a2', en:'What did he do with you?', ko:'그 형제는 너랑 뭘 했어?' },
-        { id:'a3', en:'Did he leave the workshop?', ko:'그 형제가 수리점을 나갔어?' }
+        { id:'a3', en:'Did he leave the repair shop?', ko:'그 형제가 수리점을 나갔어?' }
       ],
       answers:{
         a1:'Yes. One of them worked with me. The other one went out.',
@@ -2922,7 +2987,7 @@ const TWINS_CASE = {
       },
       notes:{
         a1:['- One twin {{a|worked}} with Ada.', '- The other one {{b|went out}}.'],
-        a4:['- Ada is {{g|new}} at the workshop.', '- The twins look the {{h|same}} to her.'],
+        a4:['- Ada is {{g|new}} at the repair shop.', '- The twins look the {{h|same}} to her.'],
         a2:['- One twin and Ada {{c|fixed}} a clock.', '- He cut his {{d|finger}}.'],
         a3:['- He {{e|stayed}} with Ada until the {{f|police}} called.']
       },
@@ -2931,13 +2996,14 @@ const TWINS_CASE = {
     },
     // only owning up (the ending): he is drawn into the interview room's picture, so his own sprite is empty (it only
     // says where the camera goes); before that he is a spot there
-    evan: { id:'evan', name:'Evan', ko:'에반', job:'', place:'station', witness:true, joins:true, pitch:.95, voice:1, bg:'#DDE4EA', hello:[], questions:[], answers:{}, notes:{}, bank:{} }
+    evan: { id:'evan', name:'Evan', ko:'에반', job:'', place:'station', witness:true, joins:true, pitch:.95, voice:1, bg:'#DDE4EA',
+      audio:Object.fromEntries(['sorry1', 'sorry2', 'sorry3'].map(key => [key, `audio/twins/evan-${key}.mp3`])), hello:[], questions:[], answers:{}, notes:{}, bank:{} }
   },
   phrases:[ ['far away','iris:i2','far away'] ],
   grammarLines:{
     'badger:t0':[['past-irr','drove away']],
     'badger:t1':[['did-q','Did anyone see'], ['past-irr','saw it']],
-    'badger:t2':[['past-irr','went out'], ['be-past','I was with Ada']],
+    'badger:t2':[['past-irr','went out'], ['be-past','he was with Ada']],
     'iris:i1':[['what-did','What did the driver do'], ['past-irr','drove away']],
     'iris:i2':[['past-irr','held his head'], ['be-past','he was a meerkat']],
     'victor:v1':[['did-q','Did you see'], ['past-irr','took my music box']],
@@ -2948,7 +3014,7 @@ const TWINS_CASE = {
   },
   answersKo:{
     badger:{ t0:'파란 밴이 빅터를 치고 달아났어. 여기서 그 밴을 찾았어. 에반과 마일로의 밴이야. 둘은 쌍둥이야.', t1:'응. 아이리스가 봤어. 아직 그 길에 있어. 빅터는 지금 병원에 있어.',
-      t2:'둘 다 “나는 에이다와 수리점에 있었어. 형제가 나갔어.”라고 해.' },
+      t2:'쌍둥이는 각각 자기는 에이다와 수리점에 있었고 다른 한 명이 나갔다고 해.' },
     iris:{ i1:'차에서 내려 피해자를 봤어. 그러고는 차를 몰고 가 버렸어.', i2:'멀리 있었지만, 미어캣이었어. 머리를 감싸 쥐고 있었어.' },
     victor:{ v1:'응! 수리점에 있던 사람이었어. 오늘 아침 거기에 내 오르골을 맡겼거든.', v2:'쌍둥이라고? 확실하진 않지만, 운전자의 셔츠는 파란색이었어.' },
     ada:{ a1:'응. 한 명은 나랑 일했어. 다른 한 명은 나갔어.', a4:'아니, 몰라. 여기 온 지 얼마 안 됐고, 둘이 나한테는 똑같아 보여.', a2:'시계를 고쳤어. 그 형제가 손가락을 베여서 내가 붕대를 감아 줬어.', a3:'아니. 경찰이 전화할 때까지 나랑 있었어.' }
@@ -2958,39 +3024,62 @@ const TWINS_CASE = {
   // its own tall pictures (ART, ART_FLOOR)
   places:[
     // where the van was found (Terry), and where Victor was hit (Iris): user decision 2026-11-25
-    { id:'outside', x:58, y:84.5, label:'Outside the Workshop', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
+    { id:'outside', x:58, y:84.5, label:'Outside the Repair Shop', artWidth:1376, artHeight:1056, sizeRef:768,
+      // the shop's door, both ways (user decision 2026-11-25), once Terry has told of the repair shop
+      clues:[ { label:'Van', inspect:'van' }, { label:'Door', go:'workshop' } ],
+      spots:[ { clue:0, x:68, y:58.5, w:28, h:32 }, { clue:1, x:18.6, y:51.4, w:13.8, h:36.6, when:['badger:t2'], door:true, arrow:'down' } ] },
     { id:'road', x:33, y:60, label:'Accident Scene', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
     { id:'hospital', x:21, y:33.5, label:'Hospital', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
-    { id:'workshop', x:85, y:92, label:'Workshop', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
-    // the twins' interview rooms side by side, as if the player sat across the desk (user decisions 2026-11-24, 25): no
-    // questions, one line each when tapped (clue.by: that person says it, not the detective), and the detective says
-    // only what is on the desk. The rooms are cut in to bring the two close (laptop and papers in the left one, the photo
-    // in the right; user request 2026-11-25). focusX: it opens on the left room
-    { id:'station', x:84, y:31, label:'Police Station', artWidth:1311, artHeight:1200, focusX:.347,
+    // Victor's music box on the bench (user decision 2026-11-25): he was really here, so whom he saw is the one who stayed
+    { id:'workshop', x:85, y:92, label:'Repair Shop', artWidth:1376, artHeight:1056, sizeRef:768,
+      clues:[ { label:'Music box', prop:true, seen:true, audio:'audio/twins/detective-workshop-musicbox.mp3', en:"It's a music box. The name tag says Victor.", ko:'오르골이야. 이름표에 빅터라고 적혀 있어.' }, { label:'Door', go:'outside' } ],
+      spots:[ { clue:0, x:29.5, y:52, w:13, h:16 }, { clue:1, x:67.9, y:23.2, w:22.1, h:62.5, door:true, arrow:'down' } ] },
+    // inside the van (user decision 2026-11-25): only the wheel is needed (Terry's question); the rest is there to be
+    // looked at, so the player picks out what matters. search: a tap on nothing stays (the picture fills the screen)
+    { id:'van', inspect:true, search:true, back:'outside', label:'Inside the Van', artWidth:1600, artHeight:1195,
       clues:[
-        { label:'Evan', name:'Evan', prop:true, seen:true, by:{ name:'Evan', pitch:.95 }, en:"It wasn't me. I got hurt at work.", ko:'내가 아니야. 일하다 다쳤어.' },
-        { label:'Milo', name:'Milo', prop:true, seen:true, by:{ name:'Milo', pitch:1.05 }, en:"It wasn't me. I got hurt at work.", ko:'내가 아니야. 일하다 다쳤어.' },
-        { label:'Laptop', prop:true, en:'The laptop is open.', ko:'노트북이 열려 있어.' },
-        { label:'Papers', prop:true, en:'There are some papers on the desk.', ko:'책상 위에 서류가 있어.' },
-        { label:'Photo', prop:true, en:"It's a photo of the van.", ko:'밴을 찍은 사진이야.' }
+        { label:'Steering wheel', prop:true, seen:true, audio:'audio/twins/detective-van-wheel.mp3', en:'The steering wheel is bent.', ko:'핸들이 휘었어.' },
+        { label:'Photo', prop:true, audio:'audio/twins/detective-van-photo.mp3', en:"It's a photo of Evan and Milo.", ko:'에반과 마일로의 사진이야.' },
+        { label:'Cactus', prop:true, audio:'audio/twins/detective-van-cactus.mp3', en:'What a cute cactus!', ko:'정말 귀여운 선인장이네!' },
+        { label:'Candy', prop:true, audio:'audio/twins/detective-van-candy.mp3', en:'So much candy!', ko:'사탕이 정말 많네!' },
+        { label:'Bread', prop:true, audio:'audio/twins/detective-van-bread.mp3', en:'There is some bread on the seat.', ko:'좌석 위에 빵이 있어.' },
+        { label:'Little clock', prop:true, audio:'audio/twins/detective-van-clock.mp3', en:'A little clock is hanging here.', ko:'작은 시계가 매달려 있네.' }
       ],
       spots:[
-        { clue:0, x:23.5, y:35, w:23, h:41.5 }, { clue:1, x:55.1, y:35, w:23, h:41.5 },
-        { clue:2, x:0, y:57, w:18.9, h:28 }, { clue:3, x:18.9, y:76, w:9.8, h:15 }, { clue:4, x:71.5, y:76, w:25.2, h:18 }
+        { clue:0, x:18, y:45, w:24, h:32 }, { clue:1, x:68, y:10.5, w:16.5, h:18 }, { clue:2, x:47, y:41, w:7, h:14 },
+        { clue:3, x:45, y:80, w:11, h:14 }, { clue:4, x:69.5, y:57, w:24, h:43 }, { clue:5, x:46.5, y:24, w:7, h:14 }
+      ] },
+    // the twins' interview rooms, one at a time, as if the player sat across the desk (user decisions 2026-11-24, 25): the
+    // arrows at the sides change the room (rooms; a spot with room is only in that one). No questions, one line each when
+    // tapped (clue.by: that person says it, not the detective), and the detective says only what is on the desk
+    { id:'station', x:84, y:31, label:'Police Station', artWidth:896, artHeight:1200, fixed:true, rooms:2,
+      clues:[
+        { label:'Evan', name:'Evan', prop:true, seen:true, by:{ name:'Evan', pitch:.95 }, audio:'audio/twins/evan-room.mp3', en:"It wasn't me. I got hurt at work.", ko:'내가 아니야. 일하다 다쳤어.' },
+        { label:'Milo', name:'Milo', prop:true, seen:true, by:{ name:'Milo', pitch:1.05 }, audio:'audio/twins/milo-room.mp3', en:"It wasn't me. I got hurt at work.", ko:'내가 아니야. 일하다 다쳤어.' },
+        { label:'Laptop', prop:true, audio:'audio/twins/detective-station-laptop.mp3', en:'The laptop is open.', ko:'노트북이 열려 있어.' },
+        { label:'Papers', prop:true, audio:'audio/twins/detective-station-papers.mp3', en:'There are some papers on the desk.', ko:'책상 위에 서류가 있어.' },
+        { label:'Photo', prop:true, audio:'audio/twins/detective-station-photo.mp3', en:"It's a photo of the van.", ko:'밴을 찍은 사진이야.' }
+      ],
+      spots:[
+        { clue:0, room:0, x:34, y:35, w:34, h:41.5 }, { clue:1, room:1, x:34, y:35, w:34, h:41.5 },
+        { clue:2, x:0, y:57, w:27.7, h:28 }, { clue:3, x:27.7, y:76, w:14, h:15 }, { clue:4, x:58.3, y:76, w:36.8, h:18 }
       ] }
   ],
   // only where to go, never what it means
   thoughts:[
     { when:[...TWINS_DONE], unless:['station-0', 'station-1'], line:{ key:'think-station', en:"Let's go and look at the twins.", ko:'쌍둥이를 보러 가자.' } },
-    { when:[...TWINS_DONE, 'station-0', 'station-1'], line:{ key:'think-terry', en:"Let's talk to Officer Terry.", ko:'테리 경관님과 이야기하자.' } }
+    { when:[...TWINS_DONE, 'station-0', 'station-1', 'van-0', 'workshop-0'], line:{ key:'think-terry', en:"Let's talk to Officer Terry.", ko:'테리 경관님과 이야기하자.' } },
+    // said once, when one or more of these is still to be looked at (missing)
+    { when:[...TWINS_DONE, 'station-0', 'station-1'], missing:['van-0', 'workshop-0'], line:{ key:'think-look', en:'I should look around again.', ko:'다시 둘러봐야겠어.' } }
   ],
   needed:[],
-  positions:{ evan:{ x:34.7, floor:79, height:44 }, badger:{ x:58, floor:97, height:35 }, iris:{ x:46, floor:89, height:36 }, victor:{ x:50, floor:96, height:44 }, ada:{ x:50, floor:98, height:40 } },
+  ready:['station-0', 'station-1', 'van-0', 'workshop-0'],   // what Terry's question waits for (pick); the hint points at them
+  positions:{ evan:{ x:50.8, floor:79, height:44 }, badger:{ x:58, floor:97, height:35 }, iris:{ x:46, floor:89, height:36 }, victor:{ x:50, floor:100, height:64 }, ada:{ x:50, floor:98, height:40 } },
   sprites:{
     evan:{src:'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', w:300, h:560, face:'0 0 300 300', anchor:.5},
     iris:{src:'assets/characters/iris-higgsfield.webp', w:388, h:700, face:'64 8 270 270', anchor:.52},
-    victor:{src:'assets/characters/victor-bed-higgsfield.webp', w:949, h:700, face:'420 10 260 260', anchor:.58},
-    'victor:work':{src:'assets/characters/victor-bed-lying-higgsfield.webp', w:1041, h:700, anchor:.55},
+    victor:{src:'assets/characters/victor-front.webp', w:785, h:1000, face:'236 19 268 268', anchor:.471},
+    'victor:work':{src:'assets/characters/victor-front-lying.webp', w:785, h:1000, anchor:.471},
     ada:{src:'assets/characters/ada-talk-clock.webp', w:506, h:700, face:'55 5 290 290', anchor:.4},
     'ada:work':{src:'assets/characters/ada-clock.webp', w:505, h:700, anchor:.4}
   },
@@ -4841,8 +4930,8 @@ const GLOSS = {
 [['went',['w','갔다']], ['flowerbed',['w','화단']], ['flowers',['w','꽃들']], ["didn't",['w','~하지 않았다']], ['heard',['w','들었다']], ['sneeze',['w','재채기']],
   ['played',['w','놀았다']], ['tennis',['w','테니스']], ['toby',['w','토비']], ['pablo',['w','파블로']], ['puppy',['w','강아지']]].forEach(([k, v]) => { if(!WORDS[k]) WORDS[k] = v; if(!GLOSS[k]) GLOSS[k] = v[1]; });
 // the twins case's note words
-['ada:에이다', 'alibi:알리바이', 'bandage:붕대', 'belongs:~의 것이다 (belong)', 'brother:형제', 'called:전화했다', 'driver:운전자', 'evan:에반', 'far:멀리', 'iris:아이리스', 'milo:마일로', 'need:필요하다', 'say:말하다', 'solved:해결했다', 'suspects:용의자들', 'victor:빅터', 'victim:피해자'].forEach(e => { const [k, v] = e.split(':'); if(!GLOSS[k]) GLOSS[k] = v; });
-[['van',['w','밴, 승합차']], ['hit',['w','쳤다 (hit의 과거)']], ['twins',['w','쌍둥이']], ['road',['n','길, 도로']], ['hospital',['n','병원']], ['workshop',['n','수리점, 작업실']],
+['ada:에이다', 'alibi:알리바이', 'bandage:붕대', 'belongs:~의 것이다 (belong)', 'brother:형제', 'called:전화했다', 'driver:운전자', 'each:각각', 'evan:에반', 'far:멀리', 'iris:아이리스', 'milo:마일로', 'need:필요하다', 'say:말하다', 'solved:해결했다', 'twin:쌍둥이 중 한 명', 'suspects:용의자들', 'victor:빅터', 'victim:피해자'].forEach(e => { const [k, v] = e.split(':'); if(!GLOSS[k]) GLOSS[k] = v; });
+[['van',['w','밴, 승합차']], ['hit',['w','쳤다 (hit의 과거)']], ['twins',['w','쌍둥이']], ['road',['n','길, 도로']], ['hospital',['n','병원']], ['repair shop',['n','수리점']],
   ['went out',['x','나갔다']], ['got out',['x','(차에서) 내렸다']], ['drove',['w','운전했다 (drive의 과거)']], ['meerkat',['w','미어캣']], ['held',['w','잡았다, 감싸 쥐었다 (hold의 과거)']],
   ['head',['w','머리']], ['man',['w','남자, 사람']], ['took',['w','가져갔다 (take의 과거)']], ['sure',['w','확실한']], ['shirt',['w','셔츠']], ['blue',['w','파란색']],
   ['worked',['w','일했다']], ['new',['w','새로운, 새로 온']], ['same',['w','같은']], ['fixed',['w','고쳤다']], ['finger',['w','손가락']], ['stayed',['w','머물렀다']], ['police',['w','경찰']],
@@ -5057,7 +5146,10 @@ const SENTENCE_TIMES = KITE ? { 'toby:b0':[[0, 1.9], [2.15, 4.26]] } : MONTAGE_O
   'momo:m1':[[0, 1.9], [2.35, 3.9]], 'momo:m3':[[0, .7], [1.05, 4], [4.55, 5.45]], 'momo:m4':[[0, 1.4], [2.05, 4.45]], 'momo:m2':[[0, 1.75], [2, 3.2]],
   'momo:m5':[[0, .9], [1.3, 2.65]], 'pip:p2':[[0, .75], [.9, 3.15], [3.3, 5.07]] } : UMBRELLA ? { 'ella:e0':[[0, 2.04], [2.41, 3.19]], 'ella:e1':[[0, 1.07], [1.42, 2.85]], 'ruby:r1':[[0, 1.03], [1.42, 2.38]],
   'tess:t0':[[0, .6], [.92, 2.8], [2.96, 4.3]], 'tess:t1':[[0, .98], [1.63, 2.58]], 'tess:t4':[[0, 1.13], [1.44, 2.2], [2.45, 3.85]],
-  'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 2.12], [2.51, 3.58]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : PICNIC ? {
+  'tess:t5':[[0, 1.65], [1.91, 3.7]], 'finn:f1':[[0, 2.12], [2.51, 3.58]], 'finn:f2':[[0, 1.34], [1.69, 2.52]] } : TWINS ? {
+  'badger:t0':[[0, 2.5], [2.9, 4.12], [4.45, 6.1], [6.4, 7.25]], 'badger:t1':[[0, .6], [.84, 1.74], [1.96, 3.23], [3.4, 5]],
+  'iris:i1':[[0, 1.75], [2.05, 3.1]], 'iris:i2':[[0, 3.3], [3.94, 5.05]], 'victor:v1':[[.06, .75], [.89, 2.8], [3.08, 5.15]], 'victor:v2':[[0, .7], [1.08, 4.05]],
+  'ada:a1':[[.07, .7], [1, 2.35], [2.66, 4.08]], 'ada:a2':[[0, 1.45], [1.68, 5.32]], 'ada:a3':[[0, .65], [1.15, 3.2]], 'ada:a4':[[0, 1.45], [1.7, 4.69]] } : PICNIC ? {
   'rosie:r0':[[0,1.18],[1.47,2.72]],
   'rosie:r1':[[0,0.94],[1.44,3.76]],
   'rosie:r3':[[0,0.81],[1.04,2.43]],
@@ -5443,9 +5535,9 @@ const MOUTHS = {
   gus:{closed:[173,250,85,47], open:[173,250,85,47]},
   'gus:sorry':{closed:[156,255,102,47], open:[156,255,102,47]},
   pablo:{closed:[150,210,99,56], open:[150,210,99,56]},
-  // the twins case (scripts/make-npc-mouths.py, make-twins-talk-faces.py)
+  // the twins case (scripts/make-npc-mouths.py, make-twins-talk-faces.py, cut-victor-front.py)
   iris:{closed:[141,103,116,121], open:[141,103,116,121]},
-  victor:{file:'victor-bed', closed:[430,130,199,85], open:[430,130,199,85]},
+  victor:{file:'victor-front', closed:[261,136,228,107], open:[261,136,228,107]},
   ada:{file:'ada-talk', closed:[120,206,98,65], open:[120,206,98,65]},
   'fiona:sad':{closed:[214,212,53,23], open:[214,212,53,24]},
   // the violin case: the closed mouth as drawn; Pip's beak opens (its lower half drops)
@@ -5504,7 +5596,8 @@ const fullSVG = id => { const k = spriteKey(id), sp = SPRITES[k]; return sp
 // the last ones cut from their sprites (scripts/cut-picnic-characters.py, cut-umbrella-characters.py); mia-solo and
 // ollie are PEOPLE.mia.faces
 const FACE_ICONS = ['badger', 'mole', 'fiona', 'ray', 'rosie', 'duck', 'betty', 'ben', 'nora', 'mia', 'mia-solo', 'ollie',
-  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby', 'bruno', 'gus', 'pablo'];   // Christmas: scripts/make-christmas-face-icons.py; bruno: scripts/cut-bruno.py
+  'tess', 'ruby', 'ella', 'finn', 'tara', 'owen', 'ivo', 'momo', 'pip', 'holly', 'mae', 'nico', 'toby', 'bruno', 'gus', 'pablo',
+  'iris', 'victor', 'ada'];   // Christmas: scripts/make-christmas-face-icons.py; bruno: scripts/cut-bruno.py; the twins case: scripts/make-twins-face-icons.py
 // a small face as a picture file (the deduction board, the drawer): the pending one for someone not drawn yet
 const FACE_FILES = { badger:'terry' };   // Officer Terry keeps the id 'badger'
 const faceSrc = id => `assets/ui/icons-v2/${FACE_ICONS.includes(id) ? FACE_FILES[id] || id : 'pending'}.webp`;
@@ -6130,7 +6223,7 @@ function renderDock(){
   renderWho(); renderChip(); renderAsk(); renderHint(); updateAccuse();
   const locked = talkLocked();
   // 소지품 too, like 지도 (user request: not while listening and writing down)
-  $('#app').classList.toggle('talk-locked', locked); $('#mapTab').disabled = locked; $('#itemsTab').disabled = locked;
+  $('#app').classList.toggle('talk-locked', locked); $('#mapTab').disabled = locked && !ONE_PLACE; $('#itemsTab').disabled = locked && !!Object.keys(ITEMS).length;   // an unused one still says why
   $('#app').classList.toggle('record-lock', recordLocked());
   const body = $('#dockBody');
   const mode = noteMode();
@@ -7256,7 +7349,7 @@ $('#stopTalk').addEventListener('click', e => {
 });
 $('#leaveCase').addEventListener('click', e => {
   if(e.target.closest('[data-leave-go]')){ $('#leaveCase').hidden = true; saveGame(); openCaseList(); return; }
-  // 계속 조사하기, or a tap outside the card
+  // 계속하기, or a tap outside the card
   if(e.target.closest('[data-leave-stay]') || e.target.id === 'leaveCase') $('#leaveCase').hidden = true;
 });
 $('#noteTab').onclick = () => {
@@ -7322,10 +7415,11 @@ function placeLines(lines, onDone, n = 0){
   });
   detectiveSay(line.key, () => { if(think.isConnected) think.classList.add('wait-tap'); }, null, line.en);
 }
-// the thoughts due now (PACK.thoughts: each once, when its conditions are met and not its unless), queued for playThought
+// the thoughts due now (PACK.thoughts: each once, when its conditions are met and not its unless, and, with missing, one of
+// those is not), queued for playThought
 function checkThoughts(){
   (PACK?.thoughts || []).forEach((t, n) => {
-    if((S.thought ||= []).includes(n) || t.off || !t.when.every(cond) || (t.unless || []).some(cond)) return;
+    if((S.thought ||= []).includes(n) || t.off || !t.when.every(cond) || (t.unless || []).some(cond) || t.missing?.every(cond)) return;
     S.thought.push(n); thoughts.push(t);
   });
 }
@@ -7434,7 +7528,7 @@ $('#dockBody').addEventListener('keydown', e => {
 // 다시 듣기 and the speed keep the focus (and so the keyboard) where it is
 $('#listen').addEventListener('pointerdown', e => { if(e.target.closest('button')) e.preventDefault(); });
 // a dot on the map buttons means a place was added that the player hasn't looked at yet
-function setMapNew(on){ document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
+function setMapNew(on){ if(on && ONE_PLACE) return; document.querySelectorAll('.map-btn').forEach(b => b.classList.toggle('new', on)); }
 // 소지품 in the bottom menu (user pick: satchel icon, 지도 · Note · 소지품, the drawer): in every case that has things to
 // carry, from its start (user decision); a dot like the map's when something new comes in
 function setItemsNew(on){ $('#itemsTab').classList.toggle('new', on); }
@@ -7489,17 +7583,20 @@ function flyFromHands(item, from, icon, bump){
   fly.onfinish = () => { pic.remove(); bump(); };
   fly.oncancel = () => pic.remove();
 }
-$('#itemsTab').hidden = !Object.keys(ITEMS).length;
-// a case played in one place has no map button (user request 2026-11-18: the umbrella case is all in the village hall)
-$('#mapTab').hidden = ONE_PLACE;
-// the robbery case writes nothing down (the sketch instead): no 노트 (user request 2026-11-18)
-$('#noteTab').hidden = !!MT;
-{ // the menu shows only the buttons this case has; none (the robbery case: one place, no notebook, nothing to hand
-  // over) → no menu strip at all (user request 2026-11-18: an empty strip at the bottom looked unfinished)
-  const nav = $('#itemsTab').closest('.nav'), shown = [...nav.querySelectorAll('.tab')].filter(t => !t.hidden).length;
-  nav.classList.toggle('three', shown === 3);
-  nav.classList.toggle('one', shown === 1);
-  nav.hidden = !shown; }
+// The menu is the same three buttons in every case (user decision 2026-11-25). One this case does not use is faint and,
+// tapped, says so: no map in a case played in one place, no notebook in the robbery case (the sketch instead), no 소지품
+// in a case with nothing to carry.
+const UNUSED_LINE = name => `이번 사건에서는 ${name} 쓰지 않아요.`;   // user pick 2026-11-25
+[['#mapTab', ONE_PLACE, '지도를'], ['#noteTab', !!MT, '노트를'], ['#itemsTab', !Object.keys(ITEMS).length, '소지품을']].forEach(([id, off, name]) => {
+  if(!off) return;
+  const tab = $(id);
+  tab.classList.add('unused'); tab.setAttribute('aria-disabled', 'true'); tab.dataset.unused = name;
+});
+$('#itemsTab').closest('.nav').addEventListener('click', e => {
+  const tab = e.target.closest('[data-unused]');
+  if(!tab) return;
+  e.stopPropagation(); toast(UNUSED_LINE(tab.dataset.unused));
+}, true);
 $('#itemsTab').onclick = () => {
   if(drawerBrowse) return closeDrawer();
   if(talkLocked()) return;
@@ -8198,7 +8295,7 @@ function drawerStripHTML(){
 }
 let drawerWho = null;
 const sayWhos = () => [...new Set(statements().map(ref => ref.split(':')[0]))];
-function renderWho(){
+function renderDrawerWho(){
   const box = $('#drawerWho'), ids = sayWhos();
   box.hidden = drawerTab !== 'say' || ids.length < 2;
   box.innerHTML = box.hidden ? '' : ids.map(id => `<button class="who-chip" type="button" data-who="${id}" aria-pressed="${id === drawerWho}" aria-label="${esc(spk(id).name)}의 진술">${sayFace(id)}</button>`).join('');
@@ -8238,7 +8335,7 @@ function openDrawer(tab = 'photo', browse = false, keepSlots = false){
   if(browse) setItemsNew(false);
   $('#drawerStrip').innerHTML = drawerStripHTML();
   $('#drawerStrip').scrollLeft = 0;
-  renderWho();
+  renderDrawerWho();
   $('#drawerPick').innerHTML = '';
   $('#drawerPick').hidden = true;
   hideItemShow();
@@ -8344,7 +8441,7 @@ $('#drawer').addEventListener('click', e => {
   const tab = e.target.closest('[data-drawer-tab]');
   if(tab){ if(tab.dataset.drawerTab !== drawerTab){ stopVoice(); $('#evidenceVoice').pause(); openDrawer(tab.dataset.drawerTab, false, true); } return; }
   const who = e.target.closest('[data-who]');
-  if(who){ drawerWho = who.dataset.who; $('#drawerStrip').innerHTML = drawerStripHTML(); $('#drawerStrip').scrollLeft = 0; renderWho(); return renderSlots(); }
+  if(who){ drawerWho = who.dataset.who; $('#drawerStrip').innerHTML = drawerStripHTML(); $('#drawerStrip').scrollLeft = 0; renderDrawerWho(); return renderSlots(); }
   const slot = e.target.closest('[data-slot]');
   if(slot){ drawerSlots.splice(+slot.dataset.slot, 1); return renderSlots(); }
   const pairGo = e.target.closest('[data-present-pair]');
@@ -9415,8 +9512,9 @@ const ART = {
   road: () => `<image href="assets/places/twins/road.webp" width="1376" height="1056"/>`,
   hospital: () => `<image href="assets/places/twins/hospital.webp" width="1376" height="1056"/>`,
   workshop: () => `<image href="assets/places/twins/workshop.webp" width="1376" height="1056"/>`,
+  van: () => `<image href="assets/places/twins/van-inside.webp" width="1600" height="1195"/>`,
   // the interview pictures (scripts/make-twins-rooms.py): Evan's room, a wall, Milo's room
-  station: () => `<image href="assets/places/twins/interview.webp" width="1311" height="1200"/>`,
+  station: () => `<image href="assets/places/twins/room-${roomOn() ? 'milo' : 'evan'}.webp" width="896" height="1200"/>`,
   // the neighbours' yard (scripts/cut-flowerbed-yard.py): the puppy Pablo throws his tennis ball to
   yard: () => `<image href="assets/places/flowerbed/yard.webp" width="1376" height="768"/>` +
     '<image href="assets/characters/puppy.webp" x="1104" y="575" width="152" height="154"/>',
@@ -9667,6 +9765,19 @@ function snowTick(now){
   });
   g.globalAlpha = 1;
 }
+// a place of several rooms (rooms, the twins' interview rooms): one shows at a time, the arrows at the sides go round them.
+// The ending plays in the first (Evan's)
+let roomAt = 0;
+const roomOn = () => ending ? 0 : roomAt;
+function changeRoom(by){
+  const pl = placeObj(), n = pl?.rooms; if(!n || document.querySelector('.art-stage .think-place')) return;
+  cancelCapture(); stopVoice();
+  roomAt = (roomAt + by + n) % n;
+  renderScene();
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)
+    $('#art').animate([{ transform:`translateX(${by * 80}px)`, opacity:.2 }, { transform:'none', opacity:1 }], { duration:260, easing:'ease-out' });
+}
+document.querySelectorAll('[data-room]').forEach(b => b.addEventListener('click', () => changeRoom(+b.dataset.room)));
 function renderScene(placeId = S.place){
   const pl = placeOf(placeId), art = $('#art');
   snowFor(pl);
@@ -9675,7 +9786,7 @@ function renderScene(placeId = S.place){
   art.style.setProperty('--world-width', `${pl.artWidth || 900}px`);
   art.style.setProperty('--world-height', `${pl.artHeight || 600}px`);
   // what is carried and handed over is in it too: the hall's umbrella leaves its stand when Ella hands it over
-  const people = peopleAt(pl.id), signature = `${pl.id}:${people.map(spriteKey).join(',')}${pl.inspect ? `:${!!S.unfolded}` : ''}:${S.items.join('.')}:${S.handoffRound}:${[...S.flags].join('.')}:${pl.spots.map(s => +spotOn(s)).join('')}:${plates}`;
+  const people = peopleAt(pl.id), signature = `${pl.id}:${people.map(spriteKey).join(',')}${pl.inspect ? `:${!!S.unfolded}` : ''}${pl.rooms ? `:${roomOn()}` : ''}:${S.items.join('.')}:${S.handoffRound}:${[...S.flags].join('.')}:${pl.spots.map(s => +spotOn(s)).join('')}:${plates}`;
   if(art.dataset.scene === signature){
     art.querySelectorAll('.spot').forEach(spot => spot.classList.toggle('found', S.found[pl.id].has(+spot.dataset.clue)));
     return;   // the same scene: a line being said over it stays
@@ -9874,7 +9985,7 @@ addEventListener('pointerdown', e => { if(propSay && !e.target.closest('.prop-sa
 const spotOn = s => (s.when || []).every(cond) && !(s.unless || []).some(cond) &&
   (s.box === undefined || !plates.includes(s.box)) && (s.plate === undefined || plates[s.plate] !== null);   // the scale's boxes (WEIGH)
 // drawn in the place now: also on the side of a close look that is showing (folded / open)
-const spotShown = s => !s.talk && !(s.folded && S.unfolded) && !(s.open && !S.unfolded) && spotOn(s);
+const spotShown = s => !s.talk && (s.room === undefined || s.room === roomOn()) && !(s.folded && S.unfolded) && !(s.open && !S.unfolded) && spotOn(s);
 // A thing picked up where it lies (take, violin case: no photo): the detective's lines over the place, then it goes into
 // 소지품 ('!flag' instead: only marks it done, the curtain drawn aside), and any thought now due
 function takeFromPlace(pl, i){
@@ -10041,7 +10152,7 @@ $('#art').addEventListener('click', e => {
   else if(thing) tapFx(x, y, 'miss', 'Nothing here.');
   // in a close look, a tap on nothing closes it as 〈 does (user request 2026-11-16); not over the scale, where the
   // boxes and pans are tapped again and again (a drag is no tap, above; a photo being taken covers the art)
-  else if(S.investigate && placeObj().inspect && !placeObj().balance && !e.target.closest('button, a')) $('#backTab').click();
+  else if(S.investigate && placeObj().inspect && !placeObj().balance && !placeObj().search && !e.target.closest('button, a')) $('#backTab').click();
   else tapFx(x, y, 'miss', 'Nothing here.');
 });
 
@@ -10098,6 +10209,8 @@ function enterPlace(id, fromConversation = false){
   cameraMotion?.cancel();
   // a detective's line left over the last place (a close look left by 〈 while its line was up) goes with it
   if(S.flags.has('pick-again') && Object.values(PEOPLE).some(x => x.pick?.back === id)) S.flags.delete('pick-again');
+  if(S.place !== id) roomAt = 0;
+  document.querySelectorAll('[data-room]').forEach(b => b.hidden = !placeOf(id).rooms);
   if(S.place !== id) document.querySelectorAll('.art-stage .think-place').forEach(t => { t.remove(); stopVoice(); });
   if(drawerBrowse) closeDrawer();
   $('#accuseFoot').hidden = true;   // updateAccuse() once the place is in (never over a close look)
@@ -10125,7 +10238,7 @@ function enterPlace(id, fromConversation = false){
         if(r.right > view.right && r.left < view.right - 8){ artWrap.scrollLeft += r.right - view.right + 8; break; }
       }
     }
-    $('#swipeHint').hidden = !!placeOf(id).fixed || !!placeOf(id).inspect || artWrap.scrollWidth <= artWrap.clientWidth + 4;
+    $('#swipeHint').hidden = !!placeOf(id).fixed || (!!placeOf(id).inspect && !placeOf(id).search) || artWrap.scrollWidth <= artWrap.clientWidth + 4;
     if(fromRect?.width){
       const bounds = art.getBoundingClientRect();
       animateCamera(art, `translate(${fromRect.left - bounds.left}px, ${fromRect.top - bounds.top}px) scale(${fromRect.width / bounds.width})`, 'none');
@@ -10200,6 +10313,8 @@ function findHintTarget(){
   const onScreen = el => { const r = el.getBoundingClientRect(), cx = r.left + r.width / 2; return cx >= box.left && cx <= box.right; };
   if(spots.length){ const el = spots.find(onScreen) || spots[0]; return { el, key:`${pl.id}-${el.dataset.clue}` }; }
   if(pl.spots.some(s => !s.talk && (s.folded || s.open) && spotOn(s) && refs.has(`${pl.id}-${s.clue}`))) return { el:$('#foldBtn'), key:`fold-${pl.id}` };
+  // in another room of this place (rooms): the arrow
+  if(pl.rooms && pl.spots.some(s => s.room !== undefined && s.room !== roomOn() && spotOn(s) && refs.has(`${pl.id}-${s.clue}`))) return { el:$('.room-arrow.right'), key:`room-${pl.id}` };
   const npc = [...$('#art').querySelectorAll('.scene-npc')].find(b => per(b.dataset.talk).phase !== 'done' && availableQuestions(spk(b.dataset.talk)).length);
   return npc ? { el:npc, key:`talk-${npc.dataset.talk}` } : null;
 }
@@ -10959,7 +11074,6 @@ function studyStreak(){
   while(days.has(dayKey(d))){ n++; d.setDate(d.getDate() - 1); }
   return n;
 }
-const LOCK_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#7D6A58" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5 V8 a3.5 3.5 0 0 1 7 0 V10.5"/></g></svg>`;
 const FLAME_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c.6 3.2 4.3 5.4 5.6 8.6 1.6 4-1 9.4-5.6 9.4s-7.2-3.4-6.2-7.4c.5-2.1 1.9-3.3 2.7-4.6.3 1.5.9 2.6 1.9 3.1C10 8.4 10.6 5 12 2.5z" fill="#F2A33A" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 13.2c1.3 1.4 2.4 2.6 2 4.4-.3 1.3-1.1 2-2 2s-1.9-.8-2-2c-.1-1.5.9-2.8 2-4.4z" fill="#F2CF73"/></svg>`;
 const TILTS = [-2.5, 3, -2, 2.5];
 let caseStarted = false;
@@ -10983,26 +11097,31 @@ function renderCaseList(){
   const turn = +(localStorage.getItem(LEARNED_TURN_KEY) || 0);
   try { localStorage.setItem(LEARNED_TURN_KEY, turn + 1); } catch {}
   $('#caseCards').innerHTML = CASES.map((c, i) => caseRow(c, i) + gameRow(c, i)).join('');
-  // Case files, one row each (user pick D of design/case-list-options.html, 2026-11-23: a hundred cases must still be
-  // easy to scan): a small cover, the number, title and what is practised, the state on the right. A locked case stays
-  // hidden as before (?, no title, user decision); the case to play next is outlined and the list opens on it.
+  // the folders are put down one after another
+  [...$('#caseCards').children].forEach((el, i) => {
+    el.style.setProperty('--d', `${Math.min(i, 7) * .07}s`); el.style.setProperty('--tw', i % 2 ? '5deg' : '-5deg');
+    if(!el.classList.contains('cf')) return;
+    el.classList.add('drop');
+    el.addEventListener('animationend', e => { if(e.target === el) el.classList.remove('drop', 'shake', 'unlock'); });
+  });
+  // Case folders, two to a row (user pick 2026-11-25: 세로 서류철). A locked case stays hidden as before (no title, user
+  // decision); only the case to play next and one being played carry a sticker; the list opens on the next one.
   function caseRow(c, i){
     const open = ALL_CASES_OPEN || i === 0 || solved.includes(CASES[i - 1].id);
-    if(!open || !c.playable) return `<div class="cf-row locked" aria-label="${c.no} 잠김">
-      <span class="cf-thumb">?</span>
-      <span class="cf-text"><span class="case-no">${c.no}</span>
-        <span class="case-lock">${LOCK_ICON}${open ? '준비 중이에요' : `${CASES[i - 1].no}${'2459'.includes(CASES[i - 1].no.slice(-1)) ? '를' : '을'} 해결하면 열려요`}</span></span></div>`;
-    const inProgress = c.id === CASE_ID ? caseStarted : !!localStorage.getItem(caseSaveKey(c.id));
-    const done = solved.includes(c.id), next = c.id === nextId;
-    const stars = done && caseStats()[c.id]?.stars;
-    return `<button class="cf-row${done ? ' solved' : ''}${next ? ' current' : ''}" type="button" data-case="${c.id}">
-      <span class="cf-thumb">${c.cover ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}"${c.cover.bg || c.cover.fit ? ` style="${c.cover.bg ? `background:${c.cover.bg};` : ''}${c.cover.fit ? `object-fit:${c.cover.fit};padding:6px 0;box-sizing:border-box` : ''}"` : ''}>` : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`}${done ? '<span class="cf-stamp" aria-label="해결">SOLVED</span>' : ''}</span>
-      <span class="cf-text"><span class="case-no">${c.no}</span><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? learnedNote(c, turn) : ''}</span>
-      <span class="cf-state">${done ? (stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0,1,2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.webp" alt="">`).join('')}</span>` : '') : `<span class="badge ${inProgress ? 'st-going' : 'st-new'}">${inProgress ? '수사 중' : next ? '새로운 의뢰!' : '새 사건'}</span>`}</span></button>`;
+    if(!open || !c.playable){
+      const why = open ? '준비 중이에요' : `${CASES[i - 1].no}${'2459'.includes(CASES[i - 1].no.slice(-1)) ? '를' : '을'} 해결하면 열려요`;
+      return `<button class="cf locked" type="button" data-locked="${why}" aria-label="${c.no} 잠김, ${why}"><span class="cf-fl"></span><span class="cf-tab">${c.no}</span>
+        <span class="cf-in"><span class="cf-knot"><img src="assets/ui/padlock-closed.webp" alt=""></span><span class="cf-why">${why}</span></span></button>`;
+    }
+    const done = solved.includes(c.id), next = c.id === nextId, going = !done && caseGoing(c.id);
+    return `<button class="cf${done ? ' solved' : ''}${next ? ' current' : ''}" type="button" data-case="${c.id}"><span class="cf-fl"></span><span class="cf-tab">${c.no}</span>
+      ${going ? '<span class="cf-go going">수사 중</span>' : next ? '<span class="cf-go">새로운 의뢰!</span>' : ''}
+      <span class="cf-in"><span class="cf-pic">${casePicture(c)}${done ? '<span class="cf-st" aria-label="해결">SOLVED</span>' : ''}</span>
+      <span class="cf-text"><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${caseStarsHTML(c)}</span></span></button>`;
   }
   // a word game after every third case (SAFE_EVERY, user decision 2026-11-23), before the next; the games take turns
-  // (user pick): the 3rd case's slot is the spelling lock, the 6th's word matching, and so on. A thin row of its own,
-  // open once that case is solved (or while every case is open for testing).
+  // (user pick): the 3rd case's slot is the spelling lock, the 6th's word matching, and so on. A yellow paper strip across
+  // the list, open once that case is solved (or while every case is open for testing).
   function gameRow(c, i){
     if((i + 1) % SAFE_EVERY || i === CASES.length - 1 || !c.playable) return '';
     const match = ((i + 1) / SAFE_EVERY) % 2 === 0, name = match ? '단어 짝맞추기' : '철자 자물쇠';
@@ -11010,20 +11129,116 @@ function renderCaseList(){
     const ic = match ? '<span class="cf-match" aria-hidden="true"><i></i><b></b><i></i></span>'
       : `<img src="assets/ui/padlock-${done ? 'open' : 'closed'}.webp" alt="">`;
     const note = open ? (done ? '완료 · 다시 하면 도토리 1개' : '도토리 5개') : `${c.no}${'2459'.includes(c.no.slice(-1)) ? '를' : '을'} 해결하면 열려요`;
-    return open
-      ? `<button class="cf-row game ${done ? 'done' : 'ready'}" type="button" ${match ? 'data-match' : 'data-safe'}="${c.id}" aria-label="${name}${done ? ' (완료)' : ''}"><span class="cf-ic">${ic}</span><span class="cf-text"><span class="case-title">${name}</span><span class="case-focus">${note}</span></span>${done ? '<span class="cf-state"><span class="cf-ok">✓</span></span>' : ''}</button>`
-      : `<div class="cf-row game locked" aria-label="${name} 잠김"><span class="cf-ic">${ic}</span><span class="cf-text"><span class="case-title">${name}</span><span class="case-focus">${note}</span></span></div>`;
+    return `<button class="cf-game${open ? '' : ' locked'}" type="button" ${open ? `${match ? 'data-match' : 'data-safe'}="${c.id}"` : `data-locked="${note}"`} aria-label="${name}${done ? ' (완료)' : open ? '' : ' 잠김'}"><span class="cf-ic">${ic}</span><span class="cf-text"><span class="case-title">${name}</span><span class="case-focus">${note}</span></span>${done ? '<span class="cf-ok">✓</span>' : ''}</button>`;
   }
-
+  const fresh = freshSolved(solved);
   requestAnimationFrame(() => {
-    // the list opens on the case to play next
-    const page = $('#home-cases'), next = page.querySelector('.cf-row.current');
-    if(next){
-      const box = page.getBoundingClientRect(), at = next.getBoundingClientRect();
-      if(at.bottom > box.bottom) page.scrollTop += at.top - box.top - (box.height - at.height) / 2;
+    // the list opens on the case to play next (on the one just solved first, which is stamped before the next one opens)
+    const page = $('#home-cases'), at = page.querySelector(fresh.length ? `.cf[data-case="${fresh[fresh.length - 1]}"]` : '.cf.current');
+    if(at){
+      const box = page.getBoundingClientRect(), r = at.getBoundingClientRect();
+      if(r.bottom > box.bottom - 10) page.scrollTop += r.top - box.top - (box.height - r.height) / 2;
+    }
+  });
+  if(fresh.length) stampFresh(fresh);
+}
+const caseGoing = id => id === CASE_ID ? caseStarted : !!localStorage.getItem(caseSaveKey(id));
+const casePicture = c => c.cover
+  ? `<img src="${c.cover.src}" alt="${esc(c.cover.alt)}"${c.cover.bg || c.cover.fit ? ` style="${c.cover.bg ? `background:${c.cover.bg};` : ''}${c.cover.fit ? `object-fit:${c.cover.fit};padding:5px 0` : ''}"` : ''}>`
+  : `<svg viewBox="0 0 ${placeOf(c.art).artWidth || 900} ${placeOf(c.art).artHeight || 600}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${ART[c.art]()}</svg>`;
+function caseStarsHTML(c){
+  const stars = solvedCases().includes(c.id) && caseStats()[c.id]?.stars;
+  return stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0, 1, 2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.webp" alt="">`).join('')}</span>` : '';
+}
+/* The folders' movement (user pick 2026-11-25, the 세로 서류철 of design/case-folder-options.html) */
+const calmMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+// plays a one-off animation class again from its start
+function replayAnim(el, name, ms = 700){ if(!el) return; el.classList.remove(name); void el.offsetWidth; el.classList.add(name); setTimeout(() => el.classList.remove(name), ms); }
+// The case solved since the list was last seen is stamped in front of the player, its stars come one by one, then the
+// next case's folder turns up (once; LIST_SEEN_KEY keeps which solved cases were stamped).
+const LIST_SEEN_KEY = 'detective.listStamped';
+if(!PREVIEW && !readJSON(LIST_SEEN_KEY, null)) try { localStorage.setItem(LIST_SEEN_KEY, JSON.stringify(solvedCases())); } catch {}
+function freshSolved(solved){
+  const seen = readJSON(LIST_SEEN_KEY, null);
+  if(JSON.stringify(seen) !== JSON.stringify(solved)) try { localStorage.setItem(LIST_SEEN_KEY, JSON.stringify(solved)); } catch {}
+  return seen && !calmMotion() ? solved.filter(id => !seen.includes(id)) : [];
+}
+function stampFresh(ids){
+  const cards = ids.map(id => $(`#caseCards .cf[data-case="${id}"]`)).filter(Boolean), next = $('#caseCards .cf.current');
+  if(!cards.length) return;
+  const show = (el, on) => { if(el) el.style.visibility = on ? '' : 'hidden'; };
+  cards.forEach(c => { c.classList.remove('solved'); show(c.querySelector('.cf-st'), false); show(c.querySelector('.case-stars'), false); });
+  if(next){ next.classList.remove('current'); show(next.querySelector('.cf-go'), false); }
+  const live = () => document.contains(cards[0]);   // the list was drawn again meanwhile: it is in its end state already
+  setTimeout(() => { if(!live()) return;
+    cards.forEach(c => { c.classList.add('solved'); const st = c.querySelector('.cf-st'); show(st, true); replayAnim(st, 'thud'); }); stampSound(150); }, 1100);
+  setTimeout(() => { if(live()) cards.forEach(c => { const s = c.querySelector('.case-stars'); show(s, true); replayAnim(s, 'pop', 1000); }); }, 1650);
+  setTimeout(() => { if(!live() || !next) return;
+    const page = $('#home-cases'), box = page.getBoundingClientRect(), r = next.getBoundingClientRect();
+    if(r.bottom > box.bottom || r.top < box.top) page.scrollTo({ top:page.scrollTop + r.top - box.top - (box.height - r.height) / 2, behavior:'smooth' });
+    next.classList.add('current', 'unlock'); show(next.querySelector('.cf-go'), true); }, 2700);
+}
+// A folder opened: it comes to the middle, its cover turns over, the paper inside grows to the whole screen (the case's
+// picture, title and 수사 시작; ‹ 목록 puts it back). A solved one is stamped again first.
+async function openFolder(card){
+  if($('.cf-open') || card.dataset.busy) return;
+  const c = CASES.find(x => x.id === card.dataset.case), done = card.classList.contains('solved'), calm = calmMotion();
+  card.classList.remove('drop');
+  if(done && !calm){
+    card.dataset.busy = 1; replayAnim(card.querySelector('.cf-st'), 'thud'); replayAnim(card.querySelector('.case-stars'), 'pop', 900); stampSound(150);
+    await new Promise(r => setTimeout(r, 620));
+    delete card.dataset.busy;
+    if(!document.contains(card) || $('#home-cases').hidden || $('#caseList').hidden) return;
+  }
+  const box = $('#caseList'), P = box.getBoundingClientRect(), R = card.getBoundingClientRect(), W = P.width, H = P.height;
+  const r = { l:R.left - P.left, t:R.top - P.top, w:R.width, h:R.height };
+  const ins = (l, t, w, h) => ({ left:`${l}px`, top:`${t}px`, width:`${w}px`, height:`${h}px` }), full = ins(0, 0, W, H);
+  const run = (el, frames, ms, easing = 'cubic-bezier(.3,1.05,.4,1)') => el.animate(frames, { duration:calm ? 1 : ms, easing, fill:'forwards' }).finished.catch(() => {});
+  const ov = document.createElement('div'), pg = document.createElement('div'), cl = card.cloneNode(true);
+  ov.className = 'cf-open'; pg.className = 'cf-page'; cl.classList.remove('drop', 'shake', 'unlock'); cl.setAttribute('aria-hidden', 'true'); cl.tabIndex = -1;
+  pg.setAttribute('role', 'dialog'); pg.setAttribute('aria-label', c.title);
+  pg.style.setProperty('--w', `${W}px`); pg.style.setProperty('--h', `${H}px`);
+  pg.innerHTML = `<div class="cf-sheet"><button class="pill cf-back" type="button" data-cf-back>‹ 목록</button><span class="cf-pic">${casePicture(c)}</span><span class="case-no">${c.no}</span><h2>${esc(c.title)}</h2>
+    ${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? caseStarsHTML(c) + learnedNote(c, +(localStorage.getItem(LEARNED_TURN_KEY) || 0)) : ''}
+    <button class="pill big cf-start" type="button" data-cf-start>${done ? '다시 수사하기' : caseGoing(c.id) ? '이어서 수사' : '수사 시작'}</button></div>`;
+  Object.assign(cl.style, ins(r.l, r.t, r.w, r.h));
+  ov.append(pg, cl); box.append(ov);
+  card.style.visibility = 'hidden'; $('#caseCards').classList.add('open');
+  const s = Math.min(1.55, (W - 40) / r.w), cx = (W - r.w) / 2, cy = (H - r.h) / 2 - 30;
+  const from = ins(cx - r.w * (s - 1) / 2 + 8, cy - r.h * (s - 1) / 2 + r.h * s * .12, r.w * s - 16, r.h * s * .86);
+  Object.assign(pg.style, from, { opacity:0 });
+  await run(cl, [{ translate:'0 0', scale:1 }, { translate:`${cx - r.l}px ${cy - r.t}px`, scale:s }], 420);
+  if(!ov.isConnected) return;
+  pg.style.opacity = 1;
+  // the cover turns on its left edge: the scale's growth to the left is put into the move
+  cl.style.transformOrigin = '0 50%'; cl.style.scale = s; cl.style.translate = `${cx - r.l - r.w * (s - 1) / 2}px ${cy - r.t}px`;
+  cl.getAnimations().forEach(a => a.cancel());
+  const paper = $('#folderSound'); paper.currentTime = 0; paper.play().catch(() => {});
+  await run(cl, [{ transform:'rotateY(0deg)', opacity:1 }, { transform:'rotateY(-88deg)', opacity:1, offset:.97 }, { transform:'rotateY(-90deg)', opacity:0 }], 460, 'ease-in-out');
+  cl.remove();
+  setTimeout(() => pg.classList.add('on'), calm ? 0 : 180);
+  await run(pg, [from, { ...full, borderRadius:'0px' }], 420);
+  if(!ov.isConnected) return;
+  pg.classList.add('full', 'on'); Object.assign(pg.style, full); pg.getAnimations().forEach(a => a.cancel());
+  pg.querySelector('[data-cf-start]').focus({ preventScroll:true });
+  const close = () => { ov.remove(); card.style.visibility = ''; $('#caseCards').classList.remove('open'); };
+  let busy = false;
+  pg.addEventListener('click', async e => {
+    if(busy) return;
+    if(e.target.closest('[data-learned]')) return openCaseKey(c.keys, null);
+    if(e.target.closest('[data-cf-start]')){
+      busy = true; startCase(false, c.id);
+      // another case's page takes over by itself; else (its key over the list, the case, the first meeting) the paper goes
+      if(c.id === CASE_ID || !detectiveName()) setTimeout(close, 500);
+    } else if(e.target.closest('[data-cf-back]')){
+      busy = true; pg.classList.remove('on', 'full');
+      await run(pg, [full, { ...ins(r.l, r.t, r.w, r.h), borderRadius:'8px' }], 360);
+      close(); card.focus({ preventScroll:true });
     }
   });
 }
+// back from a case's page through the browser's history: the list as it was, no paper over it
+window.addEventListener('pageshow', e => { if(!e.persisted) return; $('.cf-open')?.remove(); $('#caseCards').classList.remove('open'); document.querySelectorAll('#caseCards .cf').forEach(c => { c.style.visibility = ''; }); });
 // One continuous, taut red thread between each pair of pins, including locked cases.
 // Positions come from layout (offset*), not the screen, so the photos' drop-in animation does not move it.
 // Where each photo is pinned (user request: the thread never covers a word): one tack per photo, on its top edge or
@@ -11404,9 +11619,9 @@ function startCase(keySeen = false, caseId = CASE_ID){
   tutSeen() ? talkTo(START) : openTutorial(true);
 }
 $('#caseCards').addEventListener('click', e => {
-  const note = e.target.closest('[data-learned]');
-  if(note){ const c = CASES.find(x => x.id === note.dataset.learned); return openCaseKey(c.keys, null); }
-  const card = e.target.closest('[data-case]'); if(card) startCase(false, card.dataset.case); });
+  const locked = e.target.closest('[data-locked]');
+  if(locked){ replayAnim(locked, 'shake', 600); return toast(locked.dataset.locked); }
+  const card = e.target.closest('[data-case]'); if(card) openFolder(card); });
 
 /* ---------- save ----------
    The case in progress is kept on this device (SAVE_KEY): the whole state S (Sets stored as { $set:[…] }), and how far
@@ -11977,9 +12192,9 @@ function renderHome(){
 }
 $('#caseList').addEventListener('click', e => {
   const safe = e.target.closest('[data-safe]');
-  if(safe) return openSafeGame(safe.dataset.safe);
+  if(safe){ replayAnim(safe, 'jig', 600); return setTimeout(() => openSafeGame(safe.dataset.safe), calmMotion() ? 0 : 320); }
   const match = e.target.closest('[data-match]');
-  if(match) return openMatchGame(match.dataset.match);
+  if(match){ replayAnim(match, 'jig', 600); return setTimeout(() => openMatchGame(match.dataset.match), calmMotion() ? 0 : 320); }
   const word = e.target.closest('[data-word-play]');
   if(word) return pronounceWord(word.dataset.wordPlay);
   const tab = e.target.closest('[data-home]');
@@ -12218,7 +12433,7 @@ const PREVIEW_OF = {
 const PREVIEW_RUN = {
   home:() => {},
   station:() => { previewCase(); enterPlace('station', true); },
-  tell:() => { previewCase(); [0, 1].forEach(i => S.found.station.add(i)); checkThoughts(); thoughts.length = 0; enterPlace('outside', true); },
+  tell:() => { previewCase(); [0, 1].forEach(i => S.found.station.add(i)); S.found.van.add(0); S.found.workshop.add(0); checkThoughts(); thoughts.length = 0; enterPlace('outside', true); },
   key:() => startCase(false),
   tutorial:() => { localStorage.removeItem(TUT_KEY); startCase(true); },
   talk:() => startCase(true),

@@ -1,6 +1,6 @@
 # 같은 얼굴의 운전자 · 간단판
 
-**Claude + 사용자 · 게임에 있음(Case 06, `?case=twins`) · 녹음은 아직**
+**Claude + 사용자 · 게임에 있음(Case 06, `?case=twins`) · 녹음 있음**
 
 사용자 결정(2026-11-24): Codex의 상세판(`case-twins-study.md`·`.html`, 질문 27·빈칸 82·추리 9)을 핵심만 남긴 간단판으로 다시 짠다. 이 사건의 기획은 Claude와 사용자가 맡는다. 상세판 파일은 참고용으로 그대로 둔다.
 
@@ -55,10 +55,10 @@
 - 열림: 아이리스(사고 현장), 빅터(병실)
 
 **t2** Do the twins have an alibi? / 쌍둥이에게 알리바이가 있어?
-- They both say, "I was with Ada in the workshop. My brother went out."
-- 둘 다 “나는 에이다와 수리점에 있었어. 형제가 나갔어.”라고 해.
-- 노트: Each twin says he was with Ada in the [workshop], and his brother [went out].
-- 보기: workshop · woke up · came in · hospital · bookshop · went out
+- Each twin says he was with Ada in the repair shop and the other twin went out.
+- 쌍둥이는 각각 자기는 에이다와 수리점에 있었고 다른 한 명이 나갔다고 해.
+- 노트: Each twin says he was with Ada in the [repair shop] and the other twin [went out].
+- 보기: repair shop · woke up · came in · hospital · bookshop · went out
 - 열림: 에이다(수리점)
 
 ### 2. 사고 현장 — 아이리스 (목격자)
@@ -82,9 +82,9 @@
 - 빅터: Hello, Detective. I'm Victor. Thank you for coming. / 안녕, 탐정. 난 빅터야. 와 줘서 고마워.
 
 **v1** Did you see the driver? / 운전자를 봤어?
-- Yes! It was the man at the workshop. I took my music box there this morning.
+- Yes! It was the man at the repair shop. I took my music box there this morning.
 - 응! 수리점에 있던 사람이었어. 오늘 아침 거기에 내 오르골을 맡겼거든.
-- 노트: Victor says it was the [man] at the workshop. / Victor [took] his music box there.
+- 노트: Victor says it was the [man] at the repair shop. / Victor [took] his music box there.
 - 보기: van · man · woman · fixed · broke · took
 
 **v2** The suspects are twins. Do you remember anything else? / 용의자는 쌍둥이야. 더 기억나는 건 없어?
@@ -106,7 +106,7 @@
 **a4** Do you know his name? / 너와 같이 일한 형제의 이름을 알아?
 - No, I don't. I'm new here, and they look the same to me.
 - 아니, 몰라. 여기 온 지 얼마 안 됐고, 둘이 나한테는 똑같아 보여.
-- 노트: Ada is [new] at the workshop. / The twins look the [same] to her.
+- 노트: Ada is [new] at the repair shop. / The twins look the [same] to her.
 - 보기: some · new · near · same
 
 **a2** What did he do with you? / 그 형제는 너랑 뭘 했어?
@@ -115,7 +115,7 @@
 - 노트: One twin and Ada [fixed] a clock. / He cut his [finger].
 - 보기: finger · foot · found · fixed
 
-**a3** Did he leave the workshop? / 그 형제가 수리점을 나갔어?
+**a3** Did he leave the repair shop? / 그 형제가 수리점을 나갔어?
 - No. He stayed with me until the police called.
 - 아니. 경찰이 전화할 때까지 나랑 있었어.
 - 노트: He [stayed] with Ada until the [police] called.
@@ -128,17 +128,33 @@
 - 에반: It wasn't me. I got hurt at work. / 내가 아니야. 일하다 다쳤어.
 - 마일로: It wasn't me. I got hurt at work. / 내가 아니야. 일하다 다쳤어.
 
-- 게임에서는 경찰서 한 장소 안에 두 방이 벽을 사이에 두고 나란히 있고, 옆으로 밀어 오가며 비교한다(개발 2단계).
+- 게임에서는 경찰서 한 장소에 방이 하나씩 온전히 보이고, 좌우 화살표 버튼으로 방을 바꿔 비교한다(사용자 결정 2026-11-25. 예전에는 벽을 사이에 둔 한 그림).
 - 다친 곳은 이미 치료한 모습이다(사용자 결정 2026-11-25: 경찰이 치료하고 나서 묻는다. 마일로의 붕대는 에이다가 감아 줬다). 에반: **이마에 큰 거즈 반창고**. 마일로: **손가락에 감은 붕대**. 상처 자체는 보이지 않는다. 얼굴·표정·자세는 똑같다.
 - 옷(사용자 결정 2026-11-25): 수리점에서 일하는 형제. 같은 진한 갈색 멜빵 작업복(셔츠 색이 잘 보이게)과 걷어 올린 소매. **에반은 파란 셔츠, 마일로는 베이지 셔츠**(빅터 v2의 단서). 모자는 쓰지 않는다.
 - 언제든 들어가 볼 수 있다(t0 뒤). 반창고와 붕대를 먼저 봐도 무슨 뜻인지는 들어야 안다. 그래서 탐정은 거기에 대해 아무 말도 하지 않는다.
 - 책상 위 노트북·서류·현장 사진은 누르면 탐정이 보이는 것만 말한다: "The laptop is open." / "노트북이 열려 있어." · "There are some papers on the desk." / "책상 위에 서류가 있어." · "It's a photo of the van." / "밴을 찍은 사진이야."
 
+### 6. 살펴보기 — 밴 안과 수리점 (사용자 결정 2026-11-25)
+
+사진은 찍지 않고 탐정이 보이는 것만 말한다. 노트에 적지 않는다. 밴 안에서는 핸들만 단서이고 나머지는 눌러 보는 재미라서, 무엇이 중요한지 플레이어가 고른다.
+
+- 수리점 앞의 밴을 누르면 **밴 안**이 열린다(옆으로 밀어 둘러본다. 빈 곳을 눌러도 닫히지 않는다).
+  - 휜 핸들(**단서**): The steering wheel is bent. / 핸들이 휘었어.
+  - 쌍둥이 사진: It's a photo of Evan and Milo. / 에반과 마일로의 사진이야. (둘 다 흰 티셔츠)
+  - 선인장: What a cute cactus! / 정말 귀여운 선인장이네!
+  - 사탕: So much candy! / 사탕이 정말 많네!
+  - 빵: There is some bread on the seat. / 좌석 위에 빵이 있어.
+  - 작은 시계 장식: A little clock is hanging here. / 작은 시계가 매달려 있네.
+- 수리점의 **문**(사용자 결정 2026-11-25): 테리 t2를 적은 뒤부터 수리점 앞의 문을 누르면 안으로, 안쪽 오른쪽 문을 누르면 앞으로 나온다(동그란 화살표). 지도에도 두 곳이 그대로 있다.
+- 수리점 작업대의 **오르골(단서)**: It's a music box. The name tag says Victor. / 오르골이야. 이름표에 빅터라고 적혀 있어.
+
+플레이어가 잇는 것: 휜 핸들 ↔ 머리를 감싸 쥔 운전자(i2) ↔ 이마의 거즈. 오르골 ↔ 빅터는 정말 수리점에 왔다(v1) ↔ 남은 형제는 나가지 않았다(a3).
+
 ## 범인 말하기 · 테리 경관 (사용자 결정 2026-11-24)
 
 꿀 가게 몽타주와 같은 방식이다. 목격자의 말을 **듣고 → 적고 → 기억해서**, 면담실에서 두 형제의 모습을 **직접 보고 누가 범인인지 생각한다.** 그다음 경관에게 말한다.
 
-1. 질문 11개를 모두 받아 적고 두 형제를 모두 보면 테리의 머리 위에 `!`가 뜬다(수리점 앞).
+1. 질문 11개를 모두 받아 적고, 두 형제와 휜 핸들과 오르골을 모두 보면(사용자 결정 2026-11-25) 테리의 머리 위에 `!`가 뜬다(수리점 앞). 두 형제까지 봤는데 핸들이나 오르골이 남았으면 탐정이 한 번 말한다: I should look around again. / 다시 둘러봐야겠어.
 2. 테리에게 말을 걸면 묻는다.
    - 테리: Which one is the driver? / 둘 중 누가 운전자야?
 3. 아래 버튼 두 개에서 고른다.
@@ -181,8 +197,9 @@
 | 장소 그림(3:4): 수리점 앞, 사고 현장, 병실, 수리점 | 4장 | 8 (만듦) |
 | 면담 그림: 에반 한 장. 마일로는 같은 그림을 고쳐 씀 | 1장 | 2 (만듦, 예전 조끼 판 1.5는 쓰지 않음) |
 | 에이다의 시계(수리점 그림의 시계를 오려 씀) | 1 | 0 (만듦) |
+| 밴 안 그림(4:3), 수리점 배경에 오르골 더하기(3:4) | 2장 | 4 (만듦) |
 | 사건 전용 지도(정사각형 새 마을) | 1장 | 2 (만듦) |
-| 녹음(인물과 탐정, 계획 승인 뒤) | 약 45줄 | 6–12 |
+| 녹음(인물과 탐정) | 44줄 + 살펴보기 8줄 | 8.55 + 1.2 + 다시 녹음 0.75 + 0.3 (만듦) |
 | 열쇠 예문 음성 | 컴퓨터 음성 | 0 (만듦) |
 
-목소리는 마일로(Reid)만 정했다. 에반·빅터·아이리스·에이다는 `design/voice-samples-twins/`에서 고른다.
+목소리(사용자 결정 2026-11-25): 테리 Nadine · 아이리스 Maeve · 빅터 Harrison · 에이다 Giselle · 에반과 마일로 Reid · 탐정 Grady(`audio/twins/README.md`).

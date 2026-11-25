@@ -28,7 +28,8 @@ def bright_van(im):   # "A blue van" (2026-11-25): the drawn one is nearly navy;
     return im
 
 
-SRC = {'road': 'road-fixed.png'}   # scripts/fix-twins-road.py
+# road: scripts/fix-twins-road.py; workshop: the same room with Victor's music box (job 20226936-b45a-4d5e-8116-e920d19f504f)
+SRC = {'road': 'road-fixed.png', 'workshop': 'workshop-musicbox-higgsfield-original.png'}
 for id, top in {'outside': 300, 'road': 380, 'hospital': 250, 'workshop': 300}.items():
     im = Image.open(D + SRC.get(id, f'{id}-higgsfield-original.png')).convert('RGB')
     im = im.resize((1376, round(im.height * 1376 / im.width)), Image.LANCZOS)
@@ -43,3 +44,5 @@ for id, top in {'outside': 300, 'road': 380, 'hospital': 250, 'workshop': 300}.i
     if id == 'outside':   # the case card: the workshop's window and the van
         im.crop((456, 560, 1376, 1400)).resize((920, 840)).save(D + 'cover.jpg', quality=88)
     print(id, im.size, 'floor h', street.height)
+# the close look inside the van (job 181e16c9-fbf4-434b-9773-d4b82da61eb7, 4:3), only made smaller
+Image.open(D + 'van-inside-higgsfield-original.png').convert('RGB').resize((1600, 1195), Image.LANCZOS).save(D + 'van-inside.webp', quality=88)

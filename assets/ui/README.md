@@ -65,6 +65,7 @@ Warm dark brown outer band, golden ochre inner band, both strong opaque textured
 - `title-sign.webp` (720×474, 투명): 사건 시작 때 내려오는 제목 나무판. nano_banana_2 2k, `corkboard-frame` 화풍 참조 1장(job `615ad4ea-d5f4-4508-b590-b098190e1b65`, 원본 `title-sign-higgsfield-original.png`, 2026-11-19). 흰 배경을 로컬에서 지우고 잘랐다. 테두리 약 44px → CSS `border-image` 조각 `44 fill`, 화면 두께 15px, `stretch`(제목 길이에 따라 늘어나도 테두리 두께 유지).
 
 - `tack-red.webp`, `tack-grey.webp` (116×160): 코르크판 압정. 한 장(`tacks-higgsfield-original.png`, job `4c2a85c0-84ff-490d-a1c2-f1a064906458`)에 빨강·회색을 그려 마젠타를 지우고 반씩 잘랐다. 바늘 끝은 그림 가로 36.3%, 맨 아래 → SVG에서 24×33px로, 그 점이 압정 자리에 오게 놓는다.
+- `case-folder-wide.webp`(826×419)·`case-folder-tall.webp`(385×503, 투명): 사건 목록의 빈 서류철 시안(2026-11-25, nano_banana_2_1 1:1 1K, job `8be15b7f-8bfd-4f01-9c55-f6c7ebafb387`, 1.5크레딧, 화풍 참고 `title-sign`·`polaroid-card`). 원본 `case-folders-higgsfield-original.png`(마젠타 배경), 자르기 `scripts/cut-case-folders.py`. 원본의 클립은 끊어져 있어 쓰지 않는다. 게임은 세로(`tall`)만 쓴다(사용자 선택 2026-11-25). `wide`는 시안에만 쓰임.
 - `polaroid-card.webp` (414×528): 사진 카드(사진 칸 없는 빈 폴라로이드 종이). job `68f66e93-f8c8-49b2-9a6e-d0eb3a8a0694`, 원본 `polaroid-card-higgsfield-original.png`. `.polaroid` 배경으로 100%×100% 늘린다(사진 카드 비율이 0.7–0.8로 비슷해 9조각 없이 씀).
 - 셋 다 Nano Banana 2.1(1K, thinking high), 카페 배경 그림(job `354bb7cb-…`) 화풍 참조, 마젠타 배경을 로컬에서 지움.
 

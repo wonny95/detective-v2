@@ -4,7 +4,7 @@ room are the same (interview-evan-v2-higgsfield-original.png, job bde5cff8-efe6-
 - Milo: without the dressings (the first picture's forehead, which lies exactly under them), the shirt beige, a bandage
   round a finger
 - the van on the desk photo as bright as in front of the workshop
-Writes interview-evan-v2.png, interview-milo-v2.png (1792 x 2400), interview.webp and evan.webp (the game's).
+Writes interview-evan-v2.png, interview-milo-v2.png (1792 x 2400), room-evan.webp, room-milo.webp and evan.webp (the game's).
 Run from the project folder: python -I scripts/make-twins-rooms.py"""
 import colorsys, random
 from PIL import Image, ImageDraw, ImageFilter
@@ -83,33 +83,8 @@ milo = recolor(base, (x0, y0, x1, y1), lambda x, y, h, s, v: 1 if ap[x, y] and .
 milo = bandage(milo, (1030, 1726), (1008, 1786), 17, 15)
 milo.save(D + 'interview-milo-v2.png')
 
-# the game's picture (1311 x 1200 in the game, half as fine again here): the two rooms with a wall between, cut in to bring
-# the twins close: Evan's without its right end, Milo's without its left; and Evan's photo for the review
-K = 1.5
-px = lambda v: round(v * K)
-
-
-def bare(img, x0, y0, x1, y1):   # what the cut would leave half of on the desk: the bare desk between the hands, over it
-    k = W / 896
-    tile = img.crop(tuple(round(v * k) for v in (430, y0, 488, y1)))
-    w, h = round((x1 - x0) * k), tile.height
-    fill, x, flip = Image.new('RGB', (w, h)), 0, False
-    while x < w:
-        fill.paste(tile.transpose(Image.FLIP_LEFT_RIGHT) if flip else tile, (x, 0)); x += tile.width; flip = not flip
-    soft = Image.new('L', (w, h), 255)
-    e = round(2 * k)
-    ImageDraw.Draw(soft).rectangle((0, 0, w - 1, h - 1), outline=0, width=e)
-    out = img.copy(); out.paste(fill, (round(x0 * k), round(y0 * k)), soft.filter(ImageFilter.GaussianBlur(e / 2)))
-    return out
-
-
-LEFT, WALL, FROM = 650, 30, 265
-both = Image.new('RGB', (px(LEFT + WALL + 896 - FROM), px(1200)), (70, 84, 95))
-both.paste(bare(evan, 496, 908, 680, 1135).resize((px(896), px(1200)), Image.LANCZOS).crop((0, 0, px(LEFT), px(1200))), (0, 0))
-both.paste(bare(bare(milo, 240, 862, 364, 1110), 240, 912, 380, 1110).resize((px(896), px(1200)), Image.LANCZOS).crop((px(FROM), 0, px(896), px(1200))), (px(LEFT + WALL), 0))
-d = ImageDraw.Draw(both)
-d.line((px(LEFT) + 3, 0, px(LEFT) + 3, px(1200)), fill=(38, 46, 54), width=6)
-d.line((px(LEFT + WALL) - 4, 0, px(LEFT + WALL) - 4, px(1200)), fill=(38, 46, 54), width=6)
-both.save(D + 'interview.webp', quality=88)
+# the game's pictures: each room whole (user request 2026-11-25: arrows change the room, no wall between), half as fine
+# again as the game's 896 x 1200; and Evan's photo for the review
+for name, im in (('evan', evan), ('milo', milo)):
+    im.resize((1344, 1800), Image.LANCZOS).save(D + f'room-{name}.webp', quality=88)
 evan.crop((390, 640, 1430, 1600)).resize((780, 720), Image.LANCZOS).save(D + 'evan.webp', quality=88)
-print(both.size)

@@ -263,7 +263,9 @@ def face_sheet_mouths():
         layer=ed.convert('RGBA'); layer.putalpha(ImageChops.multiply(mask,im.crop(face).getchannel('A')))
         tb=layer.getchannel('A').point(lambda v:255 if v>2 else 0).getbbox()
         box=[face[0]+tb[0],face[1]+tb[1],tb[2]-tb[0],tb[3]-tb[1]]
-        layer.crop(tb).save(M+f'{key}-{NEW[key]}.png',optimize=True)
+        mouth=layer.crop(tb)
+        if key=='iris': mouth.paste((0,0,0,0),(0,0,116,36)); mouth.paste((0,0,0,0),(0,80,30,121))   # the beak only: bits of her eyes and apron moved as she spoke (2026-11-25)
+        mouth.save(M+f'{key}-{NEW[key]}.png',optimize=True)
         other='closed' if NEW[key]=='open' else 'open'
         im.crop((box[0],box[1],box[0]+box[2],box[1]+box[3])).save(M+f'{key}-{other}.png',optimize=True)
         meta[key]={'closed':box,'open':box}; print(key,meta[key])
