@@ -5,3 +5,4 @@ Thumbs.db
 /sites/detective-demo/
 /scripts/tutorial-shots/shots/
 /.preview/
+__pycache__/

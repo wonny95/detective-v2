@@ -13,6 +13,11 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
+## 2026-11-25 · Claude · (이 커밋) · 삭제 승인 대기 파일 정리(0크레딧)
+- 사용자 승인으로 휴지통으로 보냄(36개): 커밋하지 않았던 `audio/examples/past-irr-*.wav` 12개, `design/spot-marks.html`·`case-list-design-options.html`·`case-folder-options.html`, `assets/ui/case-folder-wide.webp`, `assets/places/twins/interview-temp.webp`·`evan-temp.webp`, `scripts/make-twins-interview-temp.py`; 저장소의 `assets/places/twins/interview.webp`·`interview-evan.png/.webp`·`interview-milo.png/.webp`, `scripts/make-twins-interview.py`, `design/voice-samples-twins/`, `assets/characters/victor-bed-higgsfield.png/.webp`·`victor-bed-lying-higgsfield.png/.webp`, `mouths/victor-bed-closed·open.png/.webp`, `mouths/ada-closed·open.png`. Higgsfield 원본 시트(`victor-bed-*-higgsfield-original.png` 등)는 규칙대로 남김.
+- 게임(`index.html`)과 스크립트가 지운 파일을 쓰지 않는 것을 확인. 설계서 `design/case-twins.html`의 예전 그림 몇 장(면담·침대 빅터)은 이제 안 보임. README·HANDOFF·주석 정리, `.gitignore`에 `__pycache__/`.
+- **다음**: 사용자가 사건 페이지+열쇠 시안(A–D)을 고르면 적용.
+
 ## 2026-11-25 · Claude · (이 커밋) · 서류철을 고르면 스티커가 사라짐, 사건 페이지+열쇠 합치기 시안(0크레딧)
 - 사용자 요청: `새로운 의뢰!`·`수사 중` 스티커가 서류철과 같이 넘어가서 어색함 → 들어 올릴 때 스르륵 사라지고(`openFolder()`), `‹ 목록`으로 돌아오면 목록의 스티커가 다시 스르륵 나타남.
 - 사용자 요청: 사건 페이지와 '이번 사건의 열쇠' 화면을 한 번에(다음 버튼·스크롤도 괜찮음), 시안부터 → `design/case-page-key-options.html`: A 한 장 스크롤 / B '다음'으로 한 쪽씩(1쪽 표지, 마지막 쪽에 수사 시작) / C 사진을 줄여 한 화면 + 열쇠 탭 / D 열쇠 카드를 누르면 예문이 펼쳐짐. 연(열쇠 1쪽)·도서관(3쪽) 바꿔 보기, 예문 녹음 재생·해석.

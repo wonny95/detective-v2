@@ -15,9 +15,8 @@
 ## 쌍둥이 면담 (`twins/`)
 
 - 2026-11-24 Claude 제작(사용자 요청): `interview-evan-higgsfield-original.png`(896×1200, Higgsfield nano_banana_2_1 3:4, job `8f9b17b6-b7bc-42cd-b4d7-f99572dd8db1`, 1.5크레딧, 참고 그림 `station-interview-room`·`evan-talk`). 프롬프트 요지: 지금 조사실과 같은 방에서 책상을 사이에 두고 마주 본 1인칭, 미어캣이 의자에 앉아 두 손을 책상에 올림, 노트북·서류·길과 파란 밴 사진, 글자·다른 인물 없음.
-- **지금 게임의 그림(2026-11-25)**: `interview-evan-v2-higgsfield-original.png`(1792×2400, nano_banana_2_1 3:4 2K, job `bde5cff8-efe6-4581-b679-f56ced087be5`, 2크레딧, 참고: 아래 첫 그림과 수리점 앞). 파란 셔츠·진한 갈색 멜빵 작업복·이마 거즈·책상 사진의 밴. 에반은 원본 그대로(사용자 요청, 책상 사진의 밴 색만 밝게). 마일로는 같은 그림에서 거즈를 지우고(첫 그림의 이마가 똑같이 겹침) 셔츠를 베이지로 바꾸고 손가락 붕대를 그린 것(0크레딧, `scripts/make-twins-rooms.py`). → `interview-evan-v2.png`·`interview-milo-v2.png`, 게임용 `interview.webp`(두 방)·`evan.webp`(복습 사진).
-- 게임의 면담실은 `room-evan.webp`·`room-milo.webp`(1344×1800, 위 두 그림을 자르지 않고 크기만 줄임, 사용자 요청 2026-11-25). 벽을 사이에 둔 `interview.webp`는 쓰지 않음.
-- `scripts/make-twins-interview.py`: 원본의 상처(반대쪽 팔)를 거울 복사로 지우고 `interview-evan.png`(오른쪽 손목)·`interview-milo.png`(왼손 검지)에 다시 그린다. WebP는 quality 90.
+- **지금 게임의 그림(2026-11-25)**: `interview-evan-v2-higgsfield-original.png`(1792×2400, nano_banana_2_1 3:4 2K, job `bde5cff8-efe6-4581-b679-f56ced087be5`, 2크레딧, 참고: 아래 첫 그림과 수리점 앞). 파란 셔츠·진한 갈색 멜빵 작업복·이마 거즈·책상 사진의 밴. 에반은 원본 그대로(사용자 요청, 책상 사진의 밴 색만 밝게). 마일로는 같은 그림에서 거즈를 지우고(첫 그림의 이마가 똑같이 겹침) 셔츠를 베이지로 바꾸고 손가락 붕대를 그린 것(0크레딧, `scripts/make-twins-rooms.py`). → `interview-evan-v2.png`·`interview-milo-v2.png`, `evan.webp`(복습 사진).
+- 게임의 면담실은 `room-evan.webp`·`room-milo.webp`(1344×1800, 위 두 그림을 자르지 않고 크기만 줄임, 사용자 요청 2026-11-25). 첫 그림으로 만든 예전 면담 그림(`interview-evan·milo`, 두 방 `interview.webp`)과 그 스크립트는 지웠고 원본 시트만 남김.
 
 ## 파출소 조사실
 

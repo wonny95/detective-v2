@@ -1322,7 +1322,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .pol-cap .case-title{font-size:17px;margin:1px 0 4px}
 .polaroid:not(.locked){width:60%}
 .polaroid .case-title{font-size:18px}
-/* the case list as case folders, two to a row (user pick 2026-11-25 of design/case-folder-options.html: 세로 서류철). The
+/* the case list as case folders, two to a row (user pick 2026-11-25: 세로 서류철). The
    folder is Higgsfield art in parts (assets/ui/case-folder-{back,paper,front,inside}.webp, scripts/cut-case-folder-parts.py)
    so the cover turns over on its own when the case opens; one colour: the case to play next, a solved and a locked one
    are the same picture through a filter. Movement uses translate / rotate / scale, so the resting transforms stay. */
@@ -11165,7 +11165,7 @@ function caseStarsHTML(c){
   const stars = solvedCases().includes(c.id) && caseStats()[c.id]?.stars;
   return stars ? `<span class="case-stars" aria-label="별 ${stars}개">${[0, 1, 2].map(i => `<img src="assets/ui/${i < stars ? 'star' : 'star-empty'}.webp" alt="">`).join('')}</span>` : '';
 }
-/* The folders' movement (user pick 2026-11-25, the 세로 서류철 of design/case-folder-options.html) */
+/* The folders' movement (user pick 2026-11-25, 세로 서류철) */
 const calmMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 // plays a one-off animation class again from its start
 function replayAnim(el, name, ms = 700){ if(!el) return; el.classList.remove(name); void el.offsetWidth; el.classList.add(name); setTimeout(() => el.classList.remove(name), ms); }
