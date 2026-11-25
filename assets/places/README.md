@@ -8,6 +8,8 @@
 
 - 사고 현장 `road`(job `17e13cc8-d3b6-4e2f-95a8-2680a708e23b`), 병실 `hospital`(`c11c0ab8-5769-4adf-95e4-ef71b06e2ba5`), 수리점 안 `workshop`(`ab802042-8793-45f2-b0c6-7b054c742c81`): 2026-11-25 Claude 제작(사용자 승인), 같은 모델 3:4 2K, 장당 2크레딧, 참고는 수리점 앞 job. 원본 `<id>-higgsfield-original.png`. 사고 현장은 원본에 참고 그림의 자갈길이 아래에 남고 바퀴 자국이 U자로 돌아 `scripts/fix-twins-road.py`(0크레딧)가 흙길과 곧은 급정거 자국으로 고쳐 `road-fixed.png`를 만든다. 자르기는 `scripts/cut-twins-places.py`(띠 1056).
 
+- 지도 `map-higgsfield-original.png`(2048×2048, 1:1 2K): 2026-11-25 Claude 제작(사용자 승인), nano_banana_2_1, job `f414056b-8cce-4aea-9e09-a4e834d15408`, 2크레딧, 참고는 수리점 앞 job(화풍·수리점·밴만). 요지: 위에서 비스듬히 본 새 마을, 왼쪽 위 병원·오른쪽 위 경찰서·가운데 분수 광장·냇물과 다리·굽은 길의 급정거 자국과 고깔·오른쪽 아래 수리점과 밴, 인물·글자 없음.
+
 ## 쌍둥이 면담 (`twins/`)
 
 - 2026-11-24 Claude 제작(사용자 요청): `interview-evan-higgsfield-original.png`(896×1200, Higgsfield nano_banana_2_1 3:4, job `8f9b17b6-b7bc-42cd-b4d7-f99572dd8db1`, 1.5크레딧, 참고 그림 `station-interview-room`·`evan-talk`). 프롬프트 요지: 지금 조사실과 같은 방에서 책상을 사이에 두고 마주 본 1인칭, 미어캣이 의자에 앉아 두 손을 책상에 올림, 노트북·서류·길과 파란 밴 사진, 글자·다른 인물 없음.

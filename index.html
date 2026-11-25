@@ -1073,7 +1073,8 @@ button.chip:active{transform:translateY(1px);filter:brightness(.94)}
 .map-stage{position:absolute;inset:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;container-type:size;background:#7FA06A}
 .map-stage::-webkit-scrollbar{display:none}
 .map-stage:has(.pin){cursor:grab}
-.map{position:relative;width:max(160cqw, 100cqh * 9 / 16);aspect-ratio:9 / 16}
+/* --map-ratio: a case's own (PACK.mapRatio, width / height); the village map is 9:16 */
+.map{position:relative;width:max(160cqw, 100cqh * var(--map-ratio, .5625));aspect-ratio:var(--map-ratio, .5625)}
 .map-art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none}
 .map-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;background:rgba(251,244,230,.92);border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 14px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
 .map-foot{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;gap:4px;padding:0 16px 14px;pointer-events:none}
@@ -2952,18 +2953,20 @@ const TWINS_CASE = {
     victor:{ v1:'응! 수리점에 있던 사람이었어. 오늘 아침 거기에 내 오르골을 맡겼거든.', v2:'쌍둥이라고? 확실하진 않지만, 운전자의 셔츠는 파란색이었어.' },
     ada:{ a1:'응. 한 명은 나랑 일했어. 다른 한 명은 나갔어.', a4:'아니, 몰라. 여기 온 지 얼마 안 됐고, 둘이 나한테는 똑같아 보여.', a2:'시계를 고쳤어. 그 형제가 손가락을 베여서 내가 붕대를 감아 줬어.', a3:'아니. 경찰이 전화할 때까지 나랑 있었어.' }
   },
+  // its own village (assets/places/README.md), a square
+  map:'assets/places/twins/map.webp', mapRatio:1,
   // its own tall pictures (ART, ART_FLOOR)
   places:[
     // where the van was found (Terry), and where Victor was hit (Iris): user decision 2026-11-25
-    { id:'outside', x:70, y:79, label:'Outside the Workshop', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
-    { id:'road', x:42, y:58, label:'Accident Scene', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
-    { id:'hospital', x:30, y:90, label:'Hospital', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
-    { id:'workshop', x:84, y:73, label:'Workshop', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
+    { id:'outside', x:58, y:84.5, label:'Outside the Workshop', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
+    { id:'road', x:33, y:60, label:'Accident Scene', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
+    { id:'hospital', x:21, y:33.5, label:'Hospital', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
+    { id:'workshop', x:85, y:92, label:'Workshop', artWidth:1376, artHeight:1056, sizeRef:768, clues:[], spots:[] },
     // the twins' interview rooms side by side, as if the player sat across the desk (user decisions 2026-11-24, 25): no
     // questions, one line each when tapped (clue.by: that person says it, not the detective), and the detective says
     // only what is on the desk. The rooms are cut in to bring the two close (laptop and papers in the left one, the photo
     // in the right; user request 2026-11-25). focusX: it opens on the left room
-    { id:'station', x:84, y:30, label:'Police Station', artWidth:1311, artHeight:1200, focusX:.347,
+    { id:'station', x:84, y:31, label:'Police Station', artWidth:1311, artHeight:1200, focusX:.347,
       clues:[
         { label:'Evan', name:'Evan', prop:true, seen:true, by:{ name:'Evan', pitch:.95 }, en:"It wasn't me. I got hurt at work.", ko:'내가 아니야. 일하다 다쳤어.' },
         { label:'Milo', name:'Milo', prop:true, seen:true, by:{ name:'Milo', pitch:1.05 }, en:"It wasn't me. I got hurt at work.", ko:'내가 아니야. 일하다 다쳤어.' },
@@ -4503,8 +4506,9 @@ const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE
 // the button once every conversation is done: the deduction board, or in a case without one that has handoffGo (the
 // picnic case, user decision 2026-11-24) the hand-over itself, under that label
 const ACCUSE_ON = !PACK?.noBoard || !!PACK.handoffGo, ACCUSE_LABEL = PACK?.noBoard ? PACK.handoffGo : '추리하기';
-// a case that happens in one building has its own map picture (PACK.map, 9:16 as the village map)
+// a case can have its own map picture (PACK.map), 9:16 as the village map or PACK.mapRatio (width / height)
 if(PACK?.map) document.querySelector('.map-art').src = PACK.map;
+if(PACK?.mapRatio) document.querySelector('#map').style.setProperty('--map-ratio', PACK.mapRatio);
 const PEOPLE = PACK ? PACK.people : {
   // the partner — met first, at the crime scene
   badger: { id:'badger', name:'Officer Terry', ko:'테리 경관', job:'동료 경찰', place:'library', partner:true,
