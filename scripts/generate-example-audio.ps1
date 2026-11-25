@@ -13,7 +13,7 @@ const literal=h.match(/const GRAMMAR = (\{[\s\S]*?\n\});/)[1];
 const grammar=Function('return ('+literal+')')();
 // the form itself (<grammar>-<page>.wav; the A and B of a pattern read as letters), then its example lines
 console.log(JSON.stringify(Object.entries(grammar).flatMap(([g,v])=>(v.examples||[]).flatMap((ex,p)=>[
-  { file:`${g}-${p+1}.wav`, text:ex.head.replace(/\bA\b/g,'ay').replace(/\bB\b/g,'bee').replace(/\s*\/\s*/g,', ') },
+  { file:`${g}-${p+1}.wav`, text:ex.head.replace(/\bA\b/g,'ay').replace(/\bB\b/g,'bee').replace(/\s*[\/\u2192]\s*/g,', ') },
   ...ex.lines.map(([en],i)=>({ file:`${g}-${p+1}-${i+1}.wav`, text:en.replace(/[{}]/g,'') }))
 ]))));
 '@ (Join-Path $projectDir 'index.html')) | ConvertFrom-Json

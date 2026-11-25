@@ -2,9 +2,16 @@
 
 - ‘바뀐 소풍 가방’ 기획안은 사용자 제공 넓은 소풍 대화 배경 `picnic-storyboard/picnic-wide.png`, 서류 증거 확대 `picnic-documents.png`, 낮 카페 `cafe-day.png`, 벤의 집 `ben-home.png`, 기존 정원 `garden.webp`를 사용한다. 게임에는 아직 연결하지 않았다. 출처·용도는 [소풍 배경 README](picnic-storyboard/README.md).
 
+## 쌍둥이 사건 장소 (`twins/`)
+
+- 수리점 앞 `outside-higgsfield-original.png`(1792×2400): 2026-11-25 Claude 제작(사용자 승인), Higgsfield nano_banana_2_1 3:4 2K, job `0d1888e3-313a-407a-a157-910d966f2d5d`, 2크레딧. 참고: 꿀 가게 거리 job `a9d09de1-0e98-481a-bc1a-c28a4b4642c6`(화풍·구도), 면담 그림 job `8f9b17b6-…`(밴). 요지: 세이지색 나무·크림색 벽의 작은 수리점(톱니바퀴·렌치 간판, 진열창의 시계·라디오·등), 오른쪽 연석에 앞이 찌그러지고 전조등이 깨진 파란 밴, 글자 없는 노랑·흰 통제선, 빈 자갈길, 글자·사람 없음. `scripts/cut-twins-places.py`가 1376 폭으로 줄여 1056 띠(`outside.webp`)와 바닥(`outside-floor.jpg`)으로 자름.
+
+- 사고 현장 `road`(job `17e13cc8-d3b6-4e2f-95a8-2680a708e23b`), 병실 `hospital`(`c11c0ab8-5769-4adf-95e4-ef71b06e2ba5`), 수리점 안 `workshop`(`ab802042-8793-45f2-b0c6-7b054c742c81`): 2026-11-25 Claude 제작(사용자 승인), 같은 모델 3:4 2K, 장당 2크레딧, 참고는 수리점 앞 job. 원본 `<id>-higgsfield-original.png`. 사고 현장은 원본에 참고 그림의 자갈길이 아래에 남고 바퀴 자국이 U자로 돌아 `scripts/fix-twins-road.py`(0크레딧)가 흙길과 곧은 급정거 자국으로 고쳐 `road-fixed.png`를 만든다. 자르기는 `scripts/cut-twins-places.py`(띠 1056).
+
 ## 쌍둥이 면담 (`twins/`)
 
 - 2026-11-24 Claude 제작(사용자 요청): `interview-evan-higgsfield-original.png`(896×1200, Higgsfield nano_banana_2_1 3:4, job `8f9b17b6-b7bc-42cd-b4d7-f99572dd8db1`, 1.5크레딧, 참고 그림 `station-interview-room`·`evan-talk`). 프롬프트 요지: 지금 조사실과 같은 방에서 책상을 사이에 두고 마주 본 1인칭, 미어캣이 의자에 앉아 두 손을 책상에 올림, 노트북·서류·길과 파란 밴 사진, 글자·다른 인물 없음.
+- **지금 게임의 그림(2026-11-25)**: `interview-evan-v2-higgsfield-original.png`(1792×2400, nano_banana_2_1 3:4 2K, job `bde5cff8-efe6-4581-b679-f56ced087be5`, 2크레딧, 참고: 아래 첫 그림과 수리점 앞). 파란 셔츠·진한 갈색 멜빵 작업복·이마 거즈·책상 사진의 밴. 에반은 원본 그대로(사용자 요청, 책상 사진의 밴 색만 밝게). 마일로는 같은 그림에서 거즈를 지우고(첫 그림의 이마가 똑같이 겹침) 셔츠를 베이지로 바꾸고 손가락 붕대를 그린 것(0크레딧, `scripts/make-twins-rooms.py`). → `interview-evan-v2.png`·`interview-milo-v2.png`, 게임용 `interview.webp`(두 방)·`evan.webp`(복습 사진).
 - `scripts/make-twins-interview.py`: 원본의 상처(반대쪽 팔)를 거울 복사로 지우고 `interview-evan.png`(오른쪽 손목)·`interview-milo.png`(왼손 검지)에 다시 그린다. WebP는 quality 90.
 
 ## 파출소 조사실
