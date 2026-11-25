@@ -1,5 +1,5 @@
 # The case list's blank folders out of assets/ui/case-folders-higgsfield-original.png (Higgsfield, magenta background):
-# case-folder-wide.webp and case-folder-tall.webp. The paperclip on the sheet is drawn broken and is not used.
+# case-folder-wide.webp and case-folder-tall.webp (tall since replaced by the parts of scripts/cut-case-folder-parts.py and deleted). The paperclip on the sheet is drawn broken and is not used.
 from PIL import Image
 D = 'assets/ui/'
 S = Image.open(D + 'case-folders-higgsfield-original.png').convert('RGB')
