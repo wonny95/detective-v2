@@ -13,7 +13,23 @@ Codex와 Claude Code가 번갈아 작업한 기록이다. **새 항목은 맨 �
 
 ---
 
-## 2026-11-26 · Claude · (이 커밋) · 잠긴 사건 서류철을 시안 B(뒤집힌 사진)로, 시안 페이지 삭제
+## 2026-11-26 · Claude · (이 커밋) · 발렌타인 사건 그림: 결정·배경 둘·인물 시트·표정(Higgsfield 16크레딧)
+- 사용자 결정(셋 다 추천대로): 수업 중 페니는 교실을 나감(다른 반 수업, 꽃을 받아 오면 돌아옴; 수업 중 누르면 뜨던 토스트·"칠판 앞으로"는 뺌) / 초콜릿·상자 시트는 위에서 본 모습 / 수지는 작은 흰 요리 모자. `design/case-valentine-chocolate.md`·`.html` 반영.
+- 그림 크레딧 견적(조회만): nano_banana_2_1 2K 2·1K 1.5 → 7장 13크레딧(다시 그리기 포함 약 15–17). 설계서에 적음.
+- 사용자 결정: 인물 시트는 한 장에 평소 자세(말 걸기 전, `:work`)·정면(대화)·말하는 입(다문·벌린)을 함께 → 한 사람에 한 장(페니·수지 각 16:9 2K, 수지는 페니 장을 참조), 입 시트는 따로 안 만듦. 견적 13 → 13.5크레딧. 설계서 md·html 반영.
+- 사용자 결정: 배경을 먼저(인물 자세·크기·빛을 장소에 맞추려고) → 만드는 순서 1 교실 · 2 가게 · 3 인물 시트(그 인물의 배경을 참조) · 4 표정 · 5 입(3에 함께) · 6 초콜릿·상자 · 7 지도 · 8 표지 합성. 설계서 md·html의 표·절 번호·참조 고침.
+- 사용자 요청: 배경마다 탐정이 한마디 하는 물건을 미리 정함(`prop:true`, 사진 없이 나레이션). 교실: 칠판 하트 "There are a lot of hearts on the board." · 창가 화분 "There are some flowers by the window." · 종이 하트 장식 "Pretty paper hearts! It's Valentine's Day." / 가게: 선반 선물 상자 "There are a lot of gift boxes on the shelf." · 주방 문 "The kitchen is behind this door." · 도토리 간판 "The sign looks like an acorn!". 계산대 쟁반은 원인을 알려 주므로 누를 수 없게. 교실 프롬프트에 창가 화분 추가. 탐정 녹음 6줄 늘어남.
+- 사용자 승인으로 1번 교실 생성(Higgsfield Nano Banana 2.1 3:4 2K, 2크레딧, job `85836301-1089-4373-8718-5dce4b8d54d9`, 화풍 참조 정원 job `94c8c605`): `assets/places/valentine/classroom-higgsfield-original.png`(1792×2400), 출처 `assets/places/valentine/README.md`. 칠판 하트·창가 화분·종이 하트 장식·빈 책상 모두 들어감, 창밖은 눈 덮인 숲. 아직 띠·바닥으로 자르지 않음.
+- 사용자 승인으로 2번 초콜릿 가게 생성(2크레딧, job `0837217c-c5ca-4f78-bcfe-dc27e6b33e11`, 교실 참조): `assets/places/valentine/shop-higgsfield-original.png`. 계산대 쟁반 넷·선반 선물 상자·주방 문·도토리 간판은 들어감. 다만 쟁반 순서가 분홍 하트·갈색 하트·꽃·네모라 분홍 하트와 꽃이 붙어 있지 않고(설계: 원인이 그림으로 보임), 왼쪽 창가 화분·의자가 교실과 거의 같음.
+- 사용자 의견: 교실·가게가 둘 다 나무라 같아 보임 → 가게 v2(2크레딧, job `b2aecb5f-dc48-4b87-99eb-4385a56d46b0`, 화풍 참조는 정원): 분홍 회벽·체크 타일 바닥·아치 창, 쟁반 순서 분홍 하트·꽃·갈색 하트·네모로 맞음. `shop-v2-higgsfield-original.png`. 첫 가게 그림은 쓰지 않음(지울지 승인 대기). 설계서에 가게 소재 적음. 오늘 그림 합계 6크레딧.
+- 사용자 승인으로 3번 페니 인물 시트(2크레딧, job `91a4c527-992f-4afa-a4d2-1002dd046011`, 참조 거스·올리 시트 + 교실): `assets/characters/penny-sheet-higgsfield-original.png`. 평소 자세(초콜릿 판을 들고 갸웃)·정면·입 조각 둘. 입 조각은 정면 얼굴이라 가운데 그림(3/4)보다 크고 각도가 달라 잘라 얹을 때 크기·위치를 맞춰야 함. 오늘 그림 합계 8크레딧.
+- 사용자 승인으로 수지 인물 시트(2크레딧, job `42cdfad8-da45-443a-a836-95a37cd609f1`): `assets/characters/suzy-sheet-higgsfield-original.png`, 정면·입 조각 각도 맞음.
+- 사용자 의견: 페니에 정면이 없음 + 손의 초콜릿 빼기 → 다시 그림. 첫 시도(2크레딧, job `ffb2508f`)는 첫 페니 장을 참조로 넣어 그대로 따라 그려 실패. 둘째(2크레딧, job `3b472452-1956-4a6e-b109-42dfb01a5572`)는 수지 장만 참조 → 정면·빈 손·입 각도 맞음: `penny-sheet-v3-higgsfield-original.png`. 쓰지 않는 페니 v1·v2와 가게 v1은 지울지 승인 대기. 오늘 그림 합계 14크레딧.
+- 사용자 요청: 두 인물을 배경에 세워 보고 기획서에 그림 넣기(0크레딧). `scripts/cut-valentine-characters.py`(새로): 시트의 마젠타를 빼고 평소 자세 `assets/characters/penny-work.webp`·`suzy-work.webp`, 정면 `penny-higgsfield.webp`·`suzy-higgsfield.webp`(높이 700), 입 조각 `mouths/<id>-patch-closed·open.png`. `scripts/make-valentine-preview.py`(새로): 교실+페니, 가게+수지를 평소 자세·정면 나란히 → `design/valentine-preview/classroom-penny.jpg`·`shop-suzy.jpg`(자리·크기는 시험값). 설계서 md·html "그린 그림 — 배경에 세워 보기"에 넣음(html에는 인물 시트 원본도). 확인: 5179에서 그림 4장이 열림. 페니가 책상 앞에 서면 책상을 가려 게임에서는 옆으로 비켜 세우는 게 좋음.
+- 사용자 요청: 표정 시트 한 장에 페니·수지 → 정면으로는 어색한 두 표정만(페니 걱정 t0–t2, 수지 미안 쪽지 뒤) + 각자 벌린 입 조각(2크레딧, job `adf3df4b-f4f2-44f1-afc8-90c1d2fe3ad8`): `assets/characters/valentine-moods-higgsfield-original.png`. 자르기 스크립트에 더해 `penny-worried.webp`·`suzy-sorry.webp`, `mouths/penny-worried·suzy-sorry-patch-open.png`. 기쁨 표정은 정면이 웃는 얼굴이라 안 만듦. 설계서 md·html 4절에 그림. 오늘 그림 합계 16크레딧.
+- **다음**: 발렌타인 남은 그림 — 6번 초콜릿·상자 시트(16:9 2K, 2크레딧, 사용자 봉봉 레퍼런스 사진 3장을 받아야 함) 또는 7번 작은 지도(1.5크레딧). 사용자 승인 뒤. 지울지 승인 대기: 나무 가게 v1, 페니 시트 v1·v2.
+
+## 2026-11-26 · Claude · bd3db60 · 잠긴 사건 서류철을 시안 B(뒤집힌 사진)로, 시안 페이지 삭제
 
 - 사용자 결정: 아직 안 열린 사건 서류철은 시안 B — 무늬 있는 뒷면에 "?"만 보이는 뒤집힌 사진. 사용자 요청으로 제목 자리 ???와 자물쇠·조건 문구도 없음. 누르면 흔들리고 토스트로 조건을 알려 주는 것은 그대로(`gameRow` 잠긴 훈련 서류철은 그대로).
 - 시안 페이지 `design/case-status-star-options.html`은 휴지통으로(사용자 요청). HANDOFF의 해당 언급 정리.

@@ -243,7 +243,7 @@ footer{margin-top:52px;font-size:13px;color:var(--soft)}
   <div class="line"><span class="who">페니</span><div class="bub ">Can you pack the others for me? One box for each student.<span class="ko">나머지 포장 좀 해 줄래? 학생마다 한 상자씩.</span></div></div>
   <div class="line"><span class="who">페니</span><div class="bub ">I have to teach now, so I can't go to the shop. If something is wrong, please talk to Suzy for me.<span class="ko">이제 수업을 해야 해서 가게에 못 가. 뭔가 잘못됐으면 나 대신 수지에게 말해 줘.</span></div></div>
 
-  <p class="tip">t0–t3을 모두 기록하고 노트를 닫으면 이 말이 나와요(수지와 가게가 해금된 뒤). 페니는 수업하러 칠판 앞으로 가고, 책상 위 초콜릿 상자를 누를 수 있어요. 탐정이 가게에 가는 이유가 이 대사로 생겨요(노트에는 적지 않음). 수업 중인 페니를 누르면 “페니와 더 나눌 대화가 없어요” 토스트만 떠요.</p>
+  <p class="tip">t0–t3을 모두 기록하고 노트를 닫으면 이 말이 나와요(수지와 가게가 해금된 뒤). 페니는 다른 반 수업하러 교실을 나가고(화면에서 빠짐), 책상 위 초콜릿 상자를 누를 수 있어요. 탐정이 가게에 가는 이유가 이 대사로 생겨요(노트에는 적지 않음). 꽃을 받아 오면 페니가 돌아와요.</p>
 </div>
 
 <div class="scene" id="puzzle">
@@ -316,7 +316,7 @@ footer{margin-top:52px;font-size:13px;color:var(--soft)}
 
 <div class="scene">
   <div class="scene-head"><span class="sno">5</span><h3>선생님께 돌려주기</h3><span class="where">교실</span></div>
-  <p>꽃을 받으면 페니가 칠판 앞에서 책상 쪽으로 돌아와 서요. 말을 걸면 이 대사로 시작해요.</p>
+  <p>꽃을 받으면 페니가 수업을 마치고 교실로 돌아와 책상 옆에 서요. 말을 걸면 이 대사로 시작해요.</p>
   <div class="line"><span class="who">페니</span><div class="bub ">Oh, Detective! My class is over.<span class="ko">아, 탐정! 수업 끝났어.</span></div></div>
   <p>꽃이 빈 선물 상자 3개에 받아 온 꽃을 하나씩 끌어 놓아요(들어가면 뚜껑·리본). 13상자가 모두 차요.</p>
   <div class="line"><span class="who">탐정</span><div class="bub det">There were too many pink hearts and not enough flowers. Suzy gave me three flower chocolates.<span class="ko">분홍 하트는 너무 많고 꽃은 모자랐어. 수지가 꽃 초콜릿 세 개를 줬어. (플레이어가 쪽지로 정한 사실을 다시 말함)</span></div></div>
@@ -336,7 +336,7 @@ footer{margin-top:52px;font-size:13px;color:var(--soft)}
 <tbody>
 <tr><td>1</td><td>시작</td><td>교실, 페니</td></tr>
 <tr><td>2</td><td>t3 기록</td><td>초콜릿 가게, 수지</td></tr>
-<tr><td>3</td><td>t0–t3 기록, 노트 닫기</td><td>페니의 부탁 → 페니는 수업(누르면 토스트), 책상 위 초콜릿 상자(확대·선물 상자 포장)</td></tr>
+<tr><td>3</td><td>t0–t3 기록, 노트 닫기</td><td>페니의 부탁 → 페니는 교실을 나감(수업), 책상 위 초콜릿 상자(확대·선물 상자 포장)</td></tr>
 <tr><td>4</td><td>포장 + s1 기록</td><td>탐정의 선택 대사 → 주문 확인 쪽지</td></tr>
 <tr><td>5</td><td>쪽지 정답</td><td>수지의 확인, s2 질문</td></tr>
 <tr><td>6</td><td>s2 기록</td><td>분홍 하트·꽃 바꾸기</td></tr>
@@ -413,37 +413,51 @@ footer{margin-top:52px;font-size:13px;color:var(--soft)}
 <li><b>한 단계씩 사용자 확인:</b> 아래 순서대로 한 장 만들 때마다 보여 주고, 승인받은 뒤 다음 장으로 간다.</li>
 </ul>
 <h3 style="margin:26px 0 8px;font-size:21px">만드는 순서와 각 그림</h3>
-<div class="tbl"><table><thead><tr><th>순서</th><th>그림</th><th>비율·크기</th><th>참조</th><th>나오는 파일</th></tr></thead><tbody><tr><td>1</td><td>인물 기본 시트(페니·수지)</td><td>16:9 2K, 마젠타</td><td><code>gus-ollie-higgsfield-original.png</code></td><td><code>characters/penny-higgsfield.webp</code>, <code>suzy-higgsfield.webp</code>, 얼굴 <code>ui/icons-v2/penny·suzy</code></td></tr><tr><td>2</td><td>인물 표정 시트</td><td>16:9 2K, 마젠타</td><td>1번 결과</td><td><code>penny-worried</code>, <code>penny-happy</code>, <code>suzy-sorry</code>, <code>suzy-happy</code></td></tr><tr><td>3</td><td>입 시트</td><td>16:9 1K, 단색</td><td>1·2번 결과</td><td><code>characters/mouths/penny·suzy-closed·open</code> 등</td></tr><tr><td>4</td><td>교실</td><td>3:4 2K</td><td><code>flowerbed/garden.webp</code> + 1번</td><td><code>places/valentine/classroom.webp</code>, <code>classroom-floor.jpg</code></td></tr><tr><td>5</td><td>초콜릿 가게</td><td>3:4 2K</td><td>4번 결과 + 1번</td><td><code>places/valentine/shop.webp</code>, <code>shop-floor.jpg</code></td></tr><tr><td>6</td><td>초콜릿·상자 시트</td><td>16:9 2K, 마젠타</td><td>사용자 레퍼런스 3장(봉봉 초콜릿)</td><td><code>places/valentine/choc-pink-heart·brown-heart·flower·square</code>, <code>bigbox-closed·open</code>, <code>gift-open·gift-closed</code>, <code>bag-pink-hearts·bag-flowers</code></td></tr><tr><td>7</td><td>작은 지도</td><td>1:1 1K</td><td>4·5번 결과</td><td><code>places/valentine/map.webp</code></td></tr><tr><td>8</td><td>사건 목록 표지·복습 사진</td><td>새로 안 만듦</td><td>—</td><td>교실 그림 + 6번 선물 상자를 합성(스크립트)</td></tr></tbody></table></div>
-<h3 style="margin:22px 0 6px">1. 인물 기본 시트 — 페니(고슴도치 선생님)와 수지(다람쥐 초콜릿 가게 주인)</h3>
-<ul class="easy">
-<li><b>한 장에 둘</b>, 각자 전신·정면에서 살짝 비스듬히, 서 있는 기본 자세. 크기 비율은 숲속 마을 인물들과 같게(다른 인물 옆에 세워도 어색하지 않게).</li>
-<li><b>페니:</b> 작고 동그란 고슴도치, 부드러운 갈색 가시. 둥근 안경, 연한 분홍 카디건과 무릎길이 치마, 가슴에 작은 하트 브로치. 다정하고 조금 바쁜 표정.</li>
-<li><b>수지:</b> 날씬한 다람쥐, 크고 폭신한 꼬리. 초콜릿색 앞치마에 도토리 무늬 하나, 작은 흰 요리 모자. 앞치마에 초콜릿 얼룩 한두 점. 손이 빠른 느낌의 밝은 표정.</li>
-<li><b>잘라 쓰기:</b> <code>scripts/cut-valentine-characters.py</code>(새로) — 마젠타를 빼고 알파 경계 + 3% 여백, 높이 700px. 얼굴 아이콘 160×160(흰 테두리)도 같은 스크립트로. <code>SPRITES.face</code>·<code>anchor</code> 값을 출력.</li>
-<li><b>프롬프트 초안</b><span class="prompt">"Two forest animal characters on a flat magenta (#FF00FF) background, full body, standing, slight three-quarter view, children's storybook illustration, crayon texture, soft brown pencil outlines, warm colors. Left: a small round hedgehog teacher with soft brown spines, round glasses, a light pink cardigan and knee-length skirt, a tiny heart brooch, kind and a little busy. Right: a slim squirrel chocolatier with a big fluffy tail, a chocolate-brown apron with one acorn emblem, a small white chef hat, one or two chocolate smudges on the apron, cheerful. No text. Drawing style only from the reference."</span></li>
-</ul>
-<h3 style="margin:22px 0 6px">2. 표정 시트</h3>
-<ul class="easy">
-<li>1번 그림을 참조로 넣고 <b>얼굴과 손만 바꾼 4가지</b>를 한 장에: 페니 걱정(손을 볼에, t0–t2), 페니 기쁨(두 손을 모음, 결말), 수지 미안(귀가 처지고 손을 모음, 쪽지 정답 뒤), 수지 기쁨(꽃 초콜릿 세 개를 내밂).</li>
-<li>옷·크기·선 굵기는 1번과 똑같이. 자르기는 같은 스크립트.</li>
-</ul>
-<h3 style="margin:22px 0 6px">3. 입 시트</h3>
-<ul class="easy">
-<li>기존 방식(<code>make-flowerbed-mouths.py</code>)처럼 입만 닫은·벌린 모양을 한 장에 그려 <code>scripts/make-valentine-mouths.py</code>로 잘라 얹는다. 출력 좌표를 <code>MOUTHS</code>에 넣는다.</li>
-</ul>
-<h3 style="margin:22px 0 6px">4. 교실 (3:4 세로)</h3>
+<div class="dec done"><b>배경을 먼저 만들어요</b>(사용자 결정 2026-11-26): 인물의 평소 자세·크기·빛을 장소에 맞춰야 해서 교실 → 가게 → 인물 시트 순서예요. 인물 시트에는 그 인물이 서는 배경을 참조로 넣고, 배경을 본 뒤 자세(책상·계산대 높이 등)를 고칠 수 있어요.</div>
+<div class="tbl"><table><thead><tr><th>순서</th><th>그림</th><th>비율·크기</th><th>참조</th><th>나오는 파일</th></tr></thead><tbody><tr><td>1</td><td>교실</td><td>3:4 2K</td><td><code>flowerbed/garden.webp</code>(인물 없이)</td><td><code>places/valentine/classroom.webp</code>, <code>classroom-floor.jpg</code></td></tr><tr><td>2</td><td>초콜릿 가게</td><td>3:4 2K</td><td>1번 교실</td><td><code>places/valentine/shop.webp</code>, <code>shop-floor.jpg</code></td></tr><tr><td>3</td><td>인물 시트 2장(한 사람에 한 장: 평소 자세·정면·말하는 입)</td><td>16:9 2K, 마젠타, 각 한 장</td><td><code>gus-ollie-higgsfield-original.png</code> + 그 인물의 배경(페니 = 교실, 수지 = 가게, + 페니 장)</td><td><code>penny-work</code>·<code>penny-higgsfield</code>, <code>suzy-work</code>·<code>suzy-higgsfield</code>, 입 <code>mouths/penny·suzy-closed·open</code>, 얼굴 아이콘</td></tr><tr><td>4</td><td>인물 표정 시트</td><td>16:9 2K, 마젠타</td><td>3번 결과</td><td><code>penny-worried</code>, <code>penny-happy</code>, <code>suzy-sorry</code>, <code>suzy-happy</code></td></tr><tr><td>5</td><td>(입은 3번에 함께)</td><td>—</td><td>—</td><td>—</td></tr><tr><td>6</td><td>초콜릿·상자 시트</td><td>16:9 2K, 마젠타</td><td>사용자 레퍼런스 3장(봉봉 초콜릿)</td><td><code>places/valentine/choc-pink-heart·brown-heart·flower·square</code>, <code>bigbox-closed·open</code>, <code>gift-open·gift-closed</code>, <code>bag-pink-hearts·bag-flowers</code></td></tr><tr><td>7</td><td>작은 지도</td><td>1:1 1K</td><td>1·2번 결과</td><td><code>places/valentine/map.webp</code></td></tr><tr><td>8</td><td>사건 목록 표지·복습 사진</td><td>새로 안 만듦</td><td>—</td><td>교실 그림 + 6번 선물 상자를 합성(스크립트)</td></tr></tbody></table></div>
+<h3 style="margin:22px 0 6px">1. 교실 (3:4 세로)</h3>
 <ul class="easy">
 <li><b>배치:</b> 숲속 학교 교실. 뒤쪽 벽에 초록 칠판(분필로 그린 하트들, 글자 없음), 나무 창문 밖 숲. 가운데 앞쪽에 <b>선생님 책상</b>(위는 비워 둠: 큰 상자와 선물 상자는 따로 얹음). 책상 왼쪽에 페니가 설 빈 바닥. 작은 학생 책상들은 양옆 뒤쪽에 조금만. 벽에 종이 하트 장식 줄.</li>
 <li><b>학생은 그리지 않는다</b>(아래 "정할 것" 1).</li>
+<li><b>살펴볼 것 — 탐정 한마디</b>(사용자 요청 2026-11-26: 배경마다 미리 정함, 단서가 아닌 물건, 사진 없이 나레이션만). 그림에 꼭 들어가야 해요.<div class="tbl"><table><thead><tr><th>물건</th><th>탐정</th><th>해석</th><th>들리는 표현</th></tr></thead><tbody><tr><td>칠판의 하트</td><td>There are a lot of hearts on the board.</td><td>칠판에 하트가 많이 그려져 있어.</td><td>a lot of</td></tr><tr><td>창가 화분</td><td>There are some flowers by the window.</td><td>창가에 꽃이 좀 있네.</td><td>some</td></tr><tr><td>종이 하트 장식 줄</td><td>Pretty paper hearts! It's Valentine's Day.</td><td>예쁜 종이 하트야! 오늘은 발렌타인데이구나.</td><td>—</td></tr></tbody></table></div></li>
+<li>책상 위 <b>큰 초콜릿 상자</b>는 물건이 아니라 포장 확대로 들어가는 곳이에요.</li>
 <li><b>잘라 쓰기:</b> <code>scripts/cut-valentine-places.py</code>(새로) — 1376 폭, 띠 시작 위치는 그림을 보고 정함(칠판과 책상이 띠 안에), 아래는 바닥.</li>
-<li><b>프롬프트 초안</b><span class="prompt">"A cozy forest school classroom on Valentine's Day morning, vertical 3:4, children's storybook illustration, crayon texture, soft pencil outlines. A green chalkboard on the back wall with chalk-drawn hearts (no letters), wooden windows showing the forest, paper heart garlands. A teacher's wooden desk in the front center with an empty top. A few small student desks at the back sides. Empty wooden floor continuing to the bottom edge. No characters, no text."</span></li>
+<li><b>프롬프트 초안</b><span class="prompt">"A cozy forest school classroom on Valentine's Day morning, vertical 3:4, children's storybook illustration, crayon texture, soft pencil outlines. A green chalkboard on the back wall with chalk-drawn hearts (no letters), wooden windows showing the forest with a small pot of flowers on the windowsill, paper heart garlands. A teacher's wooden desk in the front center with an empty top. A few small student desks at the back sides. Empty wooden floor continuing to the bottom edge. No characters, no text."</span></li>
 </ul>
-<h3 style="margin:22px 0 6px">5. 초콜릿 가게 (3:4 세로)</h3>
+<h3 style="margin:22px 0 6px">2. 초콜릿 가게 (3:4 세로)</h3>
 <ul class="easy">
+<li><b>소재는 교실과 다르게</b>(사용자 요청: 둘 다 나무면 같아 보임): 분홍 회벽 + 흰 징두리판, 분홍·크림 체크 타일 바닥, 레이스 커튼 아치 창.</li>
 <li><b>배치:</b> 작은 나무 가게. 가운데 유리 진열 계산대, 그 위에 <b>분홍 하트·갈색 하트·꽃·네모 쟁반 네 개가 나란히</b>(분홍 하트와 꽃 쟁반이 바로 붙어 있게: 사건의 원인이 그림으로 보임). 뒤쪽 선반에 선물 상자들, 오른쪽 뒤에 <b>주방 문</b>(수지가 "in the kitchen"이라고 할 곳). 처마 밑에 도토리 모양 간판(글자 없음). 계산대 옆에 수지가 설 빈 바닥.</li>
-<li>4번 교실을 참조로 넣어 빛·색을 맞춘다.</li>
+<li>1번 교실을 참조로 넣어 빛·색을 맞춘다.</li>
+<li><b>살펴볼 것 — 탐정 한마디</b>(사용자 요청 2026-11-26: 배경마다 미리 정함, 단서가 아닌 물건, 사진 없이 나레이션만). 그림에 꼭 들어가야 해요.<div class="tbl"><table><thead><tr><th>물건</th><th>탐정</th><th>해석</th><th>들리는 표현</th></tr></thead><tbody><tr><td>선반의 선물 상자</td><td>There are a lot of gift boxes on the shelf.</td><td>선반에 선물 상자가 많아.</td><td>a lot of</td></tr><tr><td>주방 문</td><td>The kitchen is behind this door.</td><td>이 문 뒤가 주방이야.</td><td>— (s2 "in the kitchen"의 자리)</td></tr><tr><td>도토리 간판</td><td>The sign looks like an acorn!</td><td>간판이 도토리 모양이야!</td><td>—</td></tr></tbody></table></div></li>
+<li>계산대의 <b>쟁반 네 개</b>는 누를 수 없게 둬요(분홍 하트·꽃 쟁반이 붙어 있는 건 수지가 쪽지 뒤에 말하는 원인이라 탐정이 먼저 말하면 답이 돼요). 그림으로만 보여요.</li>
 <li><b>프롬프트 초안</b><span class="prompt">"A small wooden chocolate shop run by a squirrel, vertical 3:4, children's storybook illustration, crayon texture, soft pencil outlines, warm light. A glass display counter in the center with four trays side by side on top: pink heart chocolates, brown heart chocolates, flower-shaped chocolates and square chocolates; the pink heart tray and the flower tray touch each other. Shelves with ribbon gift boxes behind, a kitchen door at the back right, an acorn-shaped sign with no letters, Valentine decorations. Empty floor beside the counter and down to the bottom edge. No characters, no text."</span></li>
 </ul>
+<h3 style="margin:22px 0 6px">3. 인물 시트 — 한 사람에 한 장(평소 자세·정면·말하는 입)</h3>
+<ul class="easy">
+<li><b>페니 한 장, 수지 한 장</b>(16:9 2K, 마젠타, 사용자 결정 2026-11-26). 참조: 화풍 그림 + <b>그 인물이 서는 배경</b>(페니 = 1번 교실, 수지 = 2번 가게: 크기·빛·색과 평소 자세를 책상·계산대에 맞춤). 수지 장에는 페니 장도 넣어요.</li>
+<li><b>왼쪽 — 평소 자세</b>(탐정이 말을 걸기 전, <code>:work</code> 그림): 페니는 책상 위 큰 초콜릿 상자를 들여다보며 초콜릿 하나를 들고 고개를 갸웃. 수지는 쟁반에 초콜릿을 가지런히 놓는 중(꼬리가 보이게).</li>
+<li><b>가운데 — 정면</b>(말을 걸면 나오는 대화 그림): 전신, 살짝 비스듬한 정면, 입은 다문 기본 표정.</li>
+<li><b>오른쪽 — 말하는 입</b>: 정면 얼굴과 같은 크기의 입 부분 둥근 조각 두 개(다문 입 / 벌린 입). 잘라서 정면 그림에 얹어요.</li>
+<li><b>페니:</b> 작고 동그란 고슴도치, 부드러운 갈색 가시. 둥근 안경, 연한 분홍 카디건과 무릎길이 치마, 가슴에 작은 하트 브로치. 다정하고 조금 바쁜 표정.</li>
+<li><b>수지:</b> 날씬한 다람쥐, 크고 폭신한 꼬리. 초콜릿색 앞치마에 도토리 무늬 하나, 작은 흰 요리 모자. 앞치마에 초콜릿 얼룩 한두 점. 손이 빠른 느낌의 밝은 표정.</li>
+<li><b>잘라 쓰기:</b> <code>scripts/cut-valentine-characters.py</code>(새로) — 평소 자세 <code>penny-work</code>·<code>suzy-work</code>, 정면 <code>penny-higgsfield</code>·<code>suzy-higgsfield</code>(높이 700px), 입 <code>mouths/penny·suzy-closed·open</code>, 얼굴 아이콘 160×160. <code>SPRITES</code>·<code>MOUTHS</code> 값을 출력.</li>
+<li><b>프롬프트 초안(페니)</b><span class="prompt">"Character sheet of one forest animal on a flat magenta (#FF00FF) background, children's storybook illustration, crayon texture, soft brown pencil outlines, warm colors. A small round hedgehog teacher with soft brown spines, round glasses, a light pink cardigan and knee-length skirt, a tiny heart brooch. Left: full body in a slight side view, looking down at a chocolate she holds, head tilted, puzzled. Center: the same teacher full body, standing, facing the viewer in a slight three-quarter view, kind, mouth closed. Right: two round close-up patches of her face around the mouth at the same scale as the center figure, top with the mouth closed, bottom with the mouth open as if talking. Well separated, no text. Drawing style only from the reference."</span></li>
+</ul>
+<h3 style="margin:22px 0 6px">그린 그림 — 배경에 세워 보기</h3>
+<p class="tip">배경과 인물 시트는 만들었고 아직 게임에는 넣지 않았어요. 왼쪽은 탐정이 말을 걸기 전 평소 자세, 오른쪽은 말을 걸면 나오는 정면이에요. 자리와 크기는 시험으로 놓아 본 값이에요.</p>
+<figure style="margin:12px 0"><img src="valentine-preview/classroom-penny.jpg" alt="교실의 페니: 평소 자세와 정면" style="width:100%;border-radius:12px;display:block"><figcaption style="font-size:13px;color:#7a6a5a;margin-top:6px">교실 + 페니 · 페니가 책상 바로 앞에 서면 책상(큰 상자를 얹을 곳)을 가려서, 게임에서는 옆으로 비켜 세우는 게 좋아요</figcaption></figure>
+<figure style="margin:12px 0"><img src="valentine-preview/shop-suzy.jpg" alt="가게의 수지: 평소 자세와 정면" style="width:100%;border-radius:12px;display:block"><figcaption style="font-size:13px;color:#7a6a5a;margin-top:6px">초콜릿 가게 + 수지 · 계산대 위 쟁반은 분홍 하트 → 꽃 → 갈색 하트 → 네모</figcaption></figure>
+<figure style="margin:12px 0"><img src="../assets/characters/penny-sheet-v3-higgsfield-original.png" alt="페니 인물 시트" style="width:49%;border-radius:10px"> <img src="../assets/characters/suzy-sheet-higgsfield-original.png" alt="수지 인물 시트" style="width:49%;border-radius:10px"><figcaption style="font-size:13px;color:#7a6a5a;margin-top:6px">인물 시트 원본(평소 자세 · 정면 · 입 조각 둘)</figcaption></figure>
+<h3 style="margin:22px 0 6px">4. 표정 시트</h3>
+<p class="tip">만든 것(사용자 요청: 한 장에 둘, 정면으로는 어색한 표정만): 페니 걱정(t0–t2)·수지 미안(쪽지 정답 뒤) + 각자 벌린 입 조각. 기쁨은 정면이 이미 웃는 얼굴이라 만들지 않았어요.</p>
+<figure style="margin:12px 0"><img src="../assets/characters/valentine-moods-higgsfield-original.png" alt="표정 시트: 페니 걱정, 수지 미안" style="width:100%;border-radius:12px;display:block"></figure>
+<p class="tip">(처음 계획)</p>
+<ul class="easy">
+<li>3번 인물 시트를 참조로 넣고 <b>얼굴과 손만 바꾼 4가지</b>를 한 장에: 페니 걱정(손을 볼에, t0–t2), 페니 기쁨(두 손을 모음, 결말), 수지 미안(귀가 처지고 손을 모음, 쪽지 정답 뒤), 수지 기쁨(꽃 초콜릿 세 개를 내밂).</li>
+<li>옷·크기·선 굵기는 3번과 똑같이. 자르기는 같은 스크립트.</li>
+</ul>
+<h3 style="margin:22px 0 6px">5. 입 — 3번 인물 시트에 함께 그려요(따로 만들지 않음)</h3>
 <h3 style="margin:22px 0 6px">6. 초콜릿·상자 시트 (가장 중요, 예쁘게)</h3>
 <ul class="easy">
 <li><b>보는 각도: 위에서 내려다본 모습(flat lay).</b> 퍼즐에서 초콜릿을 선물 상자 홈에 겹쳐 놓아야 하므로, 초콜릿·홈·상자가 모두 같은 각도여야 딱 맞는다. 위에서 봐도 장식이 잘 보인다.</li>
@@ -453,7 +467,7 @@ footer{margin-top:52px;font-size:13px;color:var(--soft)}
 <li><b>소지품용:</b> 분홍 하트 세 개가 든 작은 비닐 봉투, 꽃 세 개가 든 작은 봉투.</li>
 <li><b>잘라 쓰기:</b> <code>scripts/cut-valentine-props.py</code>(새로) — 칸마다 잘라 투명 webp. 선물 상자 연 것에서 <b>홈 네 곳의 가운데 좌표</b>를 재서 출력(코드가 초콜릿을 얹을 자리).</li>
 <li><b>프롬프트 초안</b><span class="prompt">"Item sheet on a flat magenta (#FF00FF) background, top-down flat-lay view, children's storybook illustration with crayon texture and soft pencil outlines, glossy and pretty. Row 1: four bonbon chocolates of the same size — a glossy strawberry-pink chocolate heart with white drizzle and a tiny gold heart topper; a glossy milk-chocolate heart with pink drizzle and a few white pearls; a plump five-petal milk-chocolate flower with a white-chocolate center and pink sprinkles; a dark-chocolate square with rounded corners, a white zigzag drizzle and a small gold-leaf flake. Row 2: a large chocolate box closed with a ribbon and an acorn pattern lid, and the same box open and empty inside. Row 3: a small gift box open showing a tray with four molded cavities in a 2x2 grid shaped exactly like a heart, a heart, the flower and the square; the same gift box closed with a pink ribbon. Row 4: a small clear bag with three pink heart chocolates, a small clear bag with three flower chocolates. Items well separated, no paper cups, no text. Use the reference photos only for chocolate shapes and decorations."</span></li>
-<li>사용자 레퍼런스 3장은 "모양과 장식 참고"로만 넣는다(사진풍이 섞이지 않게 화풍은 1번 참조로 고정).</li>
+<li>사용자 레퍼런스 3장은 "모양과 장식 참고"로만 넣는다(사진풍이 섞이지 않게 화풍은 3번 인물 시트 참조로 고정).</li>
 </ul>
 <h3 style="margin:22px 0 6px">7. 작은 지도 (1:1)</h3>
 <ul class="easy">
@@ -467,14 +481,15 @@ footer{margin-top:52px;font-size:13px;color:var(--soft)}
 <h3 style="margin:26px 0 8px;font-size:21px">그림과 엔진이 맞물리는 곳</h3>
 <div class="tbl"><table><thead><tr><th>장면</th><th>쓰는 그림</th><th>코드가 하는 일</th></tr></thead><tbody><tr><td>교실 대화</td><td>교실 띠·바닥, 페니(기본·걱정)</td><td>페니 위치 <code>NPC_POSITIONS</code>, 말할 때 입</td></tr><tr><td>포장 확대</td><td>교실 띠 확대 + 큰 상자(연 것) + 선물 상자 13개 + 초콜릿</td><td>초콜릿 39개를 큰 상자 안에 흩어 얹음, 끌어 놓은 상자의 맞는 홈 좌표로 쏙 넣음, 넣을 자리가 없으면 튕김, 다 찬 상자는 닫은 그림으로 바꿈</td></tr><tr><td>가게 대화·쪽지</td><td>가게 띠·바닥, 수지(기본·미안·기쁨)</td><td>쪽지는 코드로 그림(종이 질감은 기존 노트 종이)</td></tr><tr><td>바꾸기·결말</td><td>봉투(분홍 하트·꽃), 페니(기쁨)</td><td>소지품 건네기·받기</td></tr></tbody></table></div>
 <h3 style="margin:26px 0 8px;font-size:21px">정할 것(그림)</h3>
-<div class="dec">1. <b>페니가 수업하는 동안 어디 있을까:</b> 칠판 앞에 서 있게 하면 수업인데 학생이 안 보여 어색하다. <b>추천: 페니는 교실을 나가고(다른 반 수업, 화면에서 빠짐), 꽃을 받아 오면 돌아온다.</b> 학생을 그리지 않아도 되고, 탐정 혼자 포장하는 장면이 자연스럽다. 이 경우 대사 "I have to teach now"는 그대로 맞고, "칠판 앞으로"라고 적은 부분과 토스트(수업 중 누르기)는 "자리에 없음"으로 바뀐다.</div>
-<div class="dec">2. <b>초콜릿 시트 각도:</b> 위에서 내려다본 모습(추천) 또는 비스듬한 모습(더 입체적이지만 홈에 얹기 어려움).</div>
-<div class="dec">3. <b>수지의 요리 모자:</b> 쓰기(추천, 가게 주인이 한눈에) 또는 머리띠.</div>
+<div class="dec done">1. <b>페니가 수업하는 동안:</b> 교실을 나가요(다른 반 수업, 화면에서 빠짐). 꽃을 받아 오면 돌아와요. 학생을 그리지 않아도 되고 탐정 혼자 포장하는 장면이 자연스러워요.</div>
+<div class="dec done">2. <b>초콜릿 시트 각도:</b> 위에서 내려다본 모습(flat lay). 홈에 겹쳐 놓기 쉬워요.</div>
+<div class="dec done">3. <b>수지의 요리 모자:</b> 작은 흰 요리 모자를 써요(가게 주인이 한눈에).</div>
+<div class="dec"><b>크레딧 견적</b>(Higgsfield nano_banana_2_1, 2026-11-26 조회): 2K 한 장 2, 1K 한 장 1.5. 교실 2 · 가게 2 · 인물 2장 4 · 표정 2 · 입 0(인물 시트에 함께) · 초콜릿·상자 2 · 지도 1.5 = <b>13.5크레딧</b>(다시 그리기 한두 번 더하면 약 15–17). 표지·복습 사진은 합성이라 0. 한 장씩 확인 뒤 다음 장, 녹음은 따로 견적.</div>
 
 <!-- ---------- decide ---------- -->
 <h2 id="decide">정할 것</h2>
-<div class="dec"><b>그림 쪽 정할 것 3가지</b> · 위 “그림 제작 계획” 끝에 있어요.</div>
-<div class="dec done"><b>정한 것</b> · 쉬운 난도 · 새 인물 고슴도치 페니 · 새 인물 다람쥐 수지(초콜릿 가게) · Claude Code 기획 · Case 04 바로 뒤(새 Case 05) · <b>메인 표현은 수량 표현</b>(가격 듣기는 다음 사건 후보) · some / any는 쪽지 앞 받아쓰기(s2) · 선물 상자는 분홍 하트·갈색 하트·꽃·네모 4칸(52개), 같은 색 하트 둘은 못 넣음, 상자에 끌어 놓기 · 점검 반영: 페니는 이상하다는 것만, s1은 주문 확인 + a lot of, s2는 쪽지 뒤, 네모는 페니가 미리 넣음 · 2차 점검: 결말에서 탐정이 알림, 부탁은 t0–t3 뒤, 수업 중 토스트, 먼저 간 경우 “Let's tell Suzy.”, 페니 복귀, 도토리 힌트</div>
+<div class="dec"><b>그림 쪽 3가지는 정했어요</b>(사용자 2026-11-26, 추천대로) · 남은 것: 사용자 승인 뒤 1번 교실부터 한 장씩(배경 먼저).</div>
+<div class="dec done"><b>정한 것</b> · 쉬운 난도 · 새 인물 고슴도치 페니 · 새 인물 다람쥐 수지(초콜릿 가게) · Claude Code 기획 · Case 04 바로 뒤(새 Case 05) · <b>메인 표현은 수량 표현</b>(가격 듣기는 다음 사건 후보) · some / any는 쪽지 앞 받아쓰기(s2) · 선물 상자는 분홍 하트·갈색 하트·꽃·네모 4칸(52개), 같은 색 하트 둘은 못 넣음, 상자에 끌어 놓기 · 점검 반영: 페니는 이상하다는 것만, s1은 주문 확인 + a lot of, s2는 쪽지 뒤, 네모는 페니가 미리 넣음 · 2차 점검: 결말에서 탐정이 알림, 부탁은 t0–t3 뒤, 수업 중 페니는 교실을 나감, 먼저 간 경우 “Let's tell Suzy.”, 페니 복귀, 도토리 힌트</div>
 
 <footer>원문: <code>design/case-valentine-chocolate.md</code>(이 페이지와 같은 내용, 하나를 고치면 함께 고침) · 학습 지도: <a href="learning-plan-app.html">learning-plan-app.html</a></footer>
 </div>
