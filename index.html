@@ -66,9 +66,16 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 /* something held out in a conversation (Ella's umbrella): tap it to take it. The thing itself (a cut-out laid exactly
    over the picture) grows a little and back, again and again (user request 2026-11-18: the glow looked odd) */
 .held-item{position:absolute;z-index:3;padding:0;border:0;background:transparent;cursor:pointer}
-.held-item img{display:block;width:100%;height:100%;pointer-events:none;transform-origin:50% 55%;animation:held-pop 1.4s ease-in-out infinite;filter:drop-shadow(0 3px 4px rgba(60,35,20,.28))}
-@keyframes held-pop{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
-@media (prefers-reduced-motion: reduce){.held-item img{animation:none;transform:scale(1.05)}}
+.held-item img{display:block;width:100%;height:100%;pointer-events:none}
+/* a warm glow breathing round the thing held out and a little twinkle (user pick 2026-11-26: glow only, it does not
+   grow); the holder's paws on their own layer on top (.held-paws) so the glow goes round the thing, not over the paws */
+.held-item::before{content:"";position:absolute;inset:-40% -8%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,246,196,.9),rgba(255,230,140,.6) 50%,rgba(255,222,120,0));mix-blend-mode:screen;filter:blur(2px);animation:held-glow 1.6s ease-in-out infinite;pointer-events:none}
+.held-item::after{content:"";position:absolute;right:14%;top:-18%;width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 0l2.2 7.8L20 10l-7.8 2.2L10 20l-2.2-7.8L0 10l7.8-2.2z' fill='%23FFF6C8'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 3px #FFD45A);animation:held-twinkle 1.6s ease-in-out infinite;pointer-events:none}
+.held-item .held-art{position:relative;filter:drop-shadow(0 0 3px #FFF3B8) drop-shadow(0 0 7px rgba(255,214,90,.95)) drop-shadow(0 2px 3px rgba(60,35,20,.25))}
+.held-item .held-paws{position:absolute;inset:0}
+@keyframes held-glow{0%,100%{opacity:.55;scale:.96}50%{opacity:1;scale:1.04}}
+@keyframes held-twinkle{0%,100%{opacity:0;scale:.4;rotate:0deg}50%{opacity:1;scale:1;rotate:45deg}}
+@media (prefers-reduced-motion: reduce){.held-item::before,.held-item::after{animation:none}.held-item::after{opacity:1}}
 @media(prefers-reduced-motion:reduce){.held-item{animation:none;box-shadow:0 0 14px 5px rgba(255,232,160,.6)}}
 .stage-area .art{width:var(--world-width);height:var(--world-height);transform-origin:0 0;pointer-events:none}
 .art > .art-floor,.art > .art-sky{display:none}
@@ -96,7 +103,7 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 /* a thing going into 소지품 flies into the satchel, which bounces when it lands (flyToBag) */
 .bag-fly{position:fixed;z-index:60;object-fit:contain;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(46,34,25,.35))}
 .bag-bump{animation:bagBump .5s cubic-bezier(.3,1.6,.5,1)}
-/* clue notices (design/clue-notice-options.html D, user choice 2026-11-26): a photo taken comes up big as a polaroid with
+/* clue notices (mockup D, user choice 2026-11-26): a photo taken comes up big as a polaroid with
    its name, then shrinks into 노트; a thing got slides in as a memo box (no tape) with its picture and name */
 .clue-pol{position:fixed;z-index:60;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:10px}
 .clue-pol .pol{position:relative;width:100%;box-sizing:border-box;padding:10px 10px 12px;background:#fff;box-shadow:0 5px 12px rgba(74,54,40,.4);text-align:center;rotate:-3deg}
@@ -155,7 +162,10 @@ button.chip:disabled{cursor:default;box-shadow:none}
    up to the person and smaller, a little wobble as they take it; one handed back comes down from them and grows */
 .handed{position:absolute;left:50%;bottom:17%;z-index:7;width:auto;max-width:44%;max-height:27%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 8px rgba(40,30,24,.35))}
 /* the kite case's close look: what hides a kite sways a little (the phase set on each, kitesArt) */
-.kite-look image[data-cover]{transform-box:fill-box;transform-origin:50% 90%;animation:cover-sway 2.6s ease-in-out infinite}
+.kite-look image[data-cover]{transform-box:fill-box;transform-origin:50% 90%;animation:cover-sway 2.6s ease-in-out infinite,cover-glow 1.6s ease-in-out infinite}
+/* what is still to be cleared glows, as the thing held out does (.held-item; user request 2026-11-26) */
+.kite-look g[data-cover]{animation:cover-glow 1.6s ease-in-out infinite}
+@keyframes cover-glow{0%,100%{filter:drop-shadow(0 0 2px #FFF6C8) drop-shadow(0 0 2px #FFF6C8) drop-shadow(0 0 7px rgba(255,205,70,.7))}50%{filter:drop-shadow(0 0 3px #FFF6C8) drop-shadow(0 0 3px #FFF6C8) drop-shadow(0 0 12px rgba(255,200,50,1))}}
 .kite-look .bed-rest .bunch:not(.part):not(.back){animation:bunch-sway 2.8s ease-in-out infinite}
 .kite-look .bed-rest .bunch:nth-child(3n+1){animation-delay:-.9s}.kite-look .bed-rest .bunch:nth-child(3n+2){animation-delay:-1.8s}
 @keyframes bunch-sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
@@ -175,11 +185,12 @@ button.chip:disabled{cursor:default;box-shadow:none}
 /* the nudge in a close look (user pick A 2026-11-19, design/kite-cover-hint.html; some players did not see what to
    tap): one thing still hiding a kite gives a bigger shake now and then, the same ! as a person's (.cover-bang) over it */
 .kite-look image[data-cover].hint,.kite-look .bed-rest[data-cover].hint .bunch,.kite-look .ball-wrap[data-cover].hint .ball{transform-box:fill-box;transform-origin:50% 100%;animation:cover-hint 2.4s ease-in-out infinite}
+.kite-look image[data-cover].hint{animation:cover-hint 2.4s ease-in-out infinite,cover-glow 1.6s ease-in-out infinite}
 @keyframes cover-hint{0%,50%,100%{transform:none}58%{transform:rotate(-6deg)}66%{transform:rotate(5deg)}74%{transform:rotate(-3deg)}82%{transform:rotate(1.5deg)}90%{transform:none}}
 .cover-bang{transform-box:fill-box;transform-origin:50% 100%;pointer-events:none;animation:bang-pop .45s cubic-bezier(.3,1.6,.5,1) both,bang-hop 2.4s ease-in-out .5s infinite}
 @keyframes bang-pop{from{opacity:0;transform:scale(.2)}}
 @keyframes bang-hop{0%,58%,100%{transform:none}66%{transform:translateY(-12%) rotate(-8deg)}74%{transform:rotate(6deg) scale(1.05,.95)}82%{transform:rotate(-3deg)}90%{transform:none}}
-@media(prefers-reduced-motion:reduce){.kite-look image[data-cover],.bed-bunches .bunch,.ball-wrap,.ball-wrap .ball,.kite-look [data-cover].hint,.kite-look [data-cover].hint .bunch,.cover-bang{animation:none}}
+@media(prefers-reduced-motion:reduce){.kite-look [data-cover]{filter:drop-shadow(0 0 3px #FFF3B8) drop-shadow(0 0 7px rgba(255,214,90,.85))}.kite-look image[data-cover],.kite-look g[data-cover],.bed-bunches .bunch,.ball-wrap,.ball-wrap .ball,.kite-look [data-cover].hint,.kite-look [data-cover].hint .bunch,.cover-bang{animation:none}}
 .handed.give{animation:bag-give 1.3s cubic-bezier(.25,.7,.3,1) forwards}
 .handed.take{animation:bag-take 1.3s ease-in forwards}
 @keyframes bag-give{0%{opacity:0;transform:translate(-50%,120%) scale(1.25) rotate(-8deg)}20%{opacity:1}62%{transform:translate(-50%,0) scale(.8) rotate(4deg)}74%{transform:translate(-50%,0) scale(.8) rotate(-3deg)}84%{opacity:1;transform:translate(-50%,0) scale(.8) rotate(0)}100%{opacity:0;transform:translate(-50%,4%) scale(.72)}}
@@ -1339,14 +1350,13 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .polaroid .case-title{font-size:18px}
 /* the case list as case folders, two to a row (user pick 2026-11-25: 세로 서류철). The
    folder is Higgsfield art in parts (assets/ui/case-folder-{back,paper,front,inside}.webp, scripts/cut-case-folder-parts.py)
-   so the cover turns over on its own when the case opens; one colour: the case to play next, a solved and a locked one
+   so the cover turns over on its own when the case opens; one colour: a solved and a locked one
    are the same picture through a filter. Movement uses translate / rotate / scale, so the resting transforms stay. */
 #home-cases{background:#F3E7CF}
 .case-files{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;grid-auto-flow:row dense;padding:6px 0 22px}
 .cf{position:relative;display:block;box-sizing:border-box;width:100%;aspect-ratio:161/240;min-height:236px;padding:0;border:0;background:none;text-align:left;font:inherit;color:var(--ink);cursor:pointer;
   -webkit-tap-highlight-color:transparent;transition:translate .26s cubic-bezier(.3,1.5,.5,1),rotate .26s,scale .2s,opacity .3s}
 .cf-fl{position:absolute;inset:0;background:url(assets/ui/case-folder-front.webp) 0 100%/100% 90.5% no-repeat,url(assets/ui/case-folder-paper.webp) 50% 80%/90% 90% no-repeat,url(assets/ui/case-folder-back.webp) 0 0/100% 100%;transition:filter .7s}
-.cf.current :is(.cf-fl,.cfx-back,.cfx-art,.cfx-inside){filter:hue-rotate(12deg) saturate(1.4) brightness(1.1)}
 .cf.solved :is(.cf-fl,.cfx-back,.cfx-art,.cfx-inside){filter:saturate(.72) brightness(1.02)}
 .cf.locked .cf-fl{filter:saturate(.45) brightness(.92)}
 .cf-tab{position:absolute;left:5.5%;top:1.2%;width:36%;font:400 12px/1.5 var(--f-display);color:#6b4522;text-align:center;white-space:nowrap}
@@ -1361,12 +1371,16 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* a long title (more than 11 letters) a little smaller, and 크리스마스트리 may break after 크리스마스, so it takes two lines */
 .cf .case-title.long{font-size:17px}
 .cf .case-focus{margin:1px 0 0;font-size:12.5px;line-height:1.35;color:#70502c}
-.cf .case-stars{margin:2px 0 0}
-.cf-st{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-12deg);padding:1px 7px;border:2.5px solid #B8323A;border-radius:5px;background:rgba(255,253,246,.82);font:400 15px var(--f-display);letter-spacing:.05em;color:#B8323A}
-/* what state it is in: a sticker over the folder's top right corner (the next case, one being played); the others have none */
-.cf-go{position:absolute;z-index:3;right:-4px;top:-2px;padding:3px 9px;border-radius:999px;background:var(--berry);color:#fff;font:400 12px var(--f-display);transform:rotate(5deg);animation:cf-call 3s 1.6s infinite}
-.cf-go.going{background:var(--sky);color:var(--ink);animation:none}
-@keyframes cf-call{0%,16%,100%{scale:1;rotate:0deg}4%{scale:1.12;rotate:-4deg}8%{scale:1.1;rotate:4deg}12%{scale:1.06;rotate:-2deg}}
+.cf .case-stars{position:absolute;left:0;bottom:5%;margin:0}   /* pinned near the folder's bottom so all line up, however long the title */
+/* a solved case's stamp (user pick 2026-11-26): the red MISSION CLEAR rubber stamp (Higgsfield, assets/ui/stamps/,
+   scripts/cut-stamps.py) on the folder's bottom right, across from the stars, partly off its edge and cut there as a
+   stamp pressed over a paper's edge is (user request 2026-11-26): .cf-stw is the folder front that clips it */
+.cf-stw{position:absolute;z-index:3;left:0;right:1.8%;bottom:1.2%;height:40%;overflow:hidden;pointer-events:none}
+.cf-st{position:absolute;right:-5px;bottom:4px;width:66px;height:66px;background:url(assets/ui/stamps/mission-clear-red.webp) center/contain no-repeat;transform:rotate(-12deg);opacity:.95;pointer-events:none}
+/* what state it is in (user pick 2026-11-26, 시안 S2): a small pill label NEW / 수사 중 where a solved case has its stars,
+   near the folder's bottom left (the next case, one being played); the others have none */
+.cf-go{position:absolute;z-index:3;left:8%;bottom:8%;padding:3px 8px;border-radius:999px;background:var(--berry);color:#fff;font:400 13px/1 var(--f-display)}
+.cf-go.going{background:var(--sky);color:var(--ink)}
 .cf.locked .cf-in{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
 .cf-knot img{display:block;width:36px;filter:grayscale(.7);opacity:.7}
 .cf-why{font:400 14px/1.35 var(--f-display);color:#5f4c36;text-align:center;word-break:keep-all;text-wrap:balance}
@@ -1386,16 +1400,18 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .cf.unlock{animation:cf-unlock .75s cubic-bezier(.3,1.2,.5,1)}
 @keyframes cf-unlock{0%{transform:perspective(700px) rotateX(88deg);filter:brightness(1.5)}60%{transform:perspective(700px) rotateX(-12deg)}100%{transform:none}}
 .case-files.open > *{opacity:.25;scale:.95;pointer-events:none}
-/* a word game between the cases: the yellow paper strip, across both columns */
-.cf-game{grid-column:1/-1;position:relative;display:flex;align-items:center;gap:12px;box-sizing:border-box;width:100%;min-height:66px;padding:8px 38px 8px 16px;border:0;text-align:left;font:inherit;color:var(--ink);cursor:pointer;
-  border-image:url(assets/ui/case-game-strip.webp) 40 fill / 13px stretch;-webkit-tap-highlight-color:transparent;transition:translate .26s cubic-bezier(.3,1.5,.5,1),scale .2s,opacity .3s}
-.cf-game:active{scale:.975}
-.cf-game .cf-text{margin:0;flex:1}
-.cf-game .case-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.3}
-.cf-game .case-focus{margin:0;font-size:13px;color:#6d5a24}
-.cf-ic{flex:none;width:64px;height:48px;display:grid;place-items:center}
-.cf-ic img{height:46px;width:auto}
-.cf-game.locked{filter:saturate(.45) brightness(.95)}
+/* a word game between the cases (user pick 2026-11-26, 시안 B): a case folder of its own in one cell, green for training,
+   the tab 훈련, the game's thing on a card in the photo's place, the acorns where a case has its stars */
+.cf-game .cf-fl{filter:hue-rotate(55deg) saturate(.9) brightness(1.02)}
+.cf-game.solved .cf-fl{filter:hue-rotate(55deg) saturate(.65) brightness(1.02)}
+.cf-game.locked .cf-fl{filter:hue-rotate(55deg) saturate(.35) brightness(.92)}
+.cf-game .cf-tab{color:#4f6127}
+.cf.cf-game.locked .cf-in{display:block}
+.cf-ic{display:grid;place-items:center;width:100%;aspect-ratio:1.42;background:#EEF2DF}
+.cf-ic img{display:block;height:64px;width:auto}
+.cf-ic .cf-match{transform:scale(1.55)}
+.cf-gnote{position:absolute;left:0;right:0;bottom:5%;font:400 12.5px/1.25 var(--f-display);color:#5d6b37;word-break:keep-all}
+.cf-gnote.acorn{display:inline-block;right:auto;padding:3px 8px;border-radius:999px;background:var(--berry);color:#fff;font-size:13px;line-height:1}
 /* a folder opened: it comes to the middle, its cover turns over and the paper inside grows to the whole screen */
 .cf-open{position:absolute;inset:0;z-index:60;overflow:hidden;perspective:1100px}
 .cf-open > .cf{position:absolute;margin:0;aspect-ratio:auto;min-height:0;animation:none;transition:none;pointer-events:none;z-index:1;perspective:1000px;transform-style:preserve-3d}
@@ -1407,7 +1423,6 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .cfx-art{position:absolute;inset:0;background:url(assets/ui/case-folder-front.webp) 0 0/100% 100%}
 .cfx-inside{background:url(assets/ui/case-folder-inside.webp) 0 0/100% 100%;transform:rotateY(180deg)}
 .cfx-front .cf-in{top:7%;bottom:4.4%}
-.cfx-front .cf-go{top:-11%}
 .cf-page{position:absolute;z-index:3;overflow:hidden;background:var(--paper);box-shadow:0 6px 18px rgba(60,36,10,.3)}
 .cf-page::before{content:"";position:absolute;inset:0;background:url(assets/ui/case-folder-paper.webp) 0 0/100% 100%;transition:opacity .4s}
 .cf-page.on::before{opacity:0}
@@ -1417,7 +1432,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
    keeps the paper's round top under it. 수사 시작 stays at the bottom. */
 .cf-sheet{position:absolute;left:50%;top:0;box-sizing:border-box;width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);overflow:hidden;background:var(--paper);opacity:0;transition:opacity .28s}
 .cf-page.on .cf-sheet{opacity:1}
-/* the case page (paper mockup 4-C, design/case-page-paper-options.html; user choice 2026-11-26): the case's picture on top;
+/* the case page (paper mockup 4-C, user choice 2026-11-26): the case's picture on top;
    under it an open case folder (Higgsfield art) whose index tab carries the case number and title and grows with the
    title; on the folder a sheet of paper (Higgsfield art) with the case's key expressions. Scrolling brings the folder and
    paper up to a band of picture, then the words move inside the paper only (the scroll's clip-path, set in openFolder). */
@@ -1451,13 +1466,12 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .cf-foot{position:absolute;left:20px;right:20px;bottom:0;z-index:3;padding:14px 18px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(rgba(250,240,220,0),rgba(250,240,220,.95) 34%)}
 .cf-sheet .cf-start{width:100%;margin:0}
 .cf-sheet .cf-back{position:absolute;left:14px;top:10px;z-index:4;margin:0}
-@media(prefers-reduced-motion:reduce){.cf.drop,.cf.shake,.cf-game.shake,.cf.unlock,.cf-go,.cf-st.thud,.case-stars.pop img,.shake .cf-knot img,.cf-game.jig .cf-ic > *{animation:none}.cf,.cf-game,.cf-pic{transition:none}}
+@media(prefers-reduced-motion:reduce){.cf.drop,.cf.shake,.cf-game.shake,.cf.unlock,.cf-st.thud,.case-stars.pop img,.shake .cf-knot img,.cf-game.jig .cf-ic > *{animation:none}.cf,.cf-game,.cf-pic{transition:none}}
 .cf-match{position:relative;width:56px;height:42px;border-radius:4px;background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/80px repeat;border:2px solid #8A5A2B}
 .cf-match i{position:absolute;width:15px;height:10px;background:#FFFDF6;box-shadow:0 1px 1px rgba(0,0,0,.25)}
 .cf-match i:first-child{left:4px;top:4px}
 .cf-match i:last-child{right:4px;bottom:4px}
 .cf-match b{position:absolute;left:12px;top:15px;width:22px;height:2px;background:#B8323A;transform:rotate(28deg)}
-.cf-ok{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#6AA35A;color:#fff;font-size:13px;font-weight:800;border:2px solid var(--ink)}
 /* a solved case: faded photo and a red rubber stamp over it (user pick) */
 .polaroid.solved .pol-photo{filter:sepia(.55) saturate(.7) brightness(.97)}
 .case-stamp{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%) rotate(-14deg);padding:2px 14px 3px;border:3px solid #B8323A;border-radius:8px;
@@ -1494,7 +1508,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .board-string .tack{filter:drop-shadow(4px 6px 2px rgba(57,31,16,.38))}
 /* while the tacks are placed (boardTacks) the cards are measured unturned; !important beats the drop-in animation */
 .board.measuring .polaroid{transform:none!important}
-/* Word training between two cases (user pick 2026-11-23, design/minigame-board.html A): a small safe pinned on the
+/* Word training between two cases (user pick 2026-11-23, mockup A): a small safe pinned on the
    red thread with a name slip; it opens once the case above is solved; a safe already cracked turns green */
 .safe-node{--tilt:-4deg;position:relative;z-index:3;align-self:center;flex:none;width:50%;aspect-ratio:400/413;margin:6px 0 40px;padding:0;border:0;background:none;
   transform:rotate(var(--tilt));cursor:pointer;font:inherit;color:var(--ink)}
@@ -1552,7 +1566,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .sg-track{height:8px;border-radius:6px;background:var(--line);overflow:hidden}
 .sg-track i{display:block;height:100%;width:0;background:var(--honey);transition:width .3s}
 .sg-play{align-self:center;width:52px!important;height:52px!important;margin-top:6px}
-/* the brass padlock (user pick 2026-11-23, design/spelling-safe-options.html 2; scripts/cut-padlock.py): letter wheels
+/* the brass padlock (user pick 2026-11-23, mockup 2; scripts/cut-padlock.py): letter wheels
    over its window, turned by dragging up or down (a tap turns one step: the upper half back, the lower half on) */
 .sg-safe{align-self:stretch;display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:2px;text-align:center}
 .sg-lockart{position:relative;width:min(100%,340px);container-type:inline-size}
@@ -2646,7 +2660,8 @@ const coverBox = c => { const pic = KITE_CLUMPS[c.img]; if(!pic) return c;
 // picture px); five each side of the kite on the bed's soil line (KITE_BED, park px), one box round them all (the cover
 // the tap is on, 'n-0'). The painted flowers are out of the bed (scripts/cut-kite-places.py), so the rest of the bed
 // has the same bunches, standing (KITE_BED_REST: right of the kite's own, the bed's inside is x 457-941).
-const KITE_BED = 552, KITE_BUNCH_H = 54;
+// (560: the bunches' foot on the front rim, so they stand in the soil, not over the back edge; user request 2026-11-26)
+const KITE_BED = 560, KITE_BUNCH_H = 54;
 const KITE_FLOWERS = [[231, 169], [200, 155], [219, 153], [211, 159], [206, 154], [209, 155]];
 const kiteBunch = (cx, i, seed, a = 0, sx = 0) => { const f = (i * 5 + seed) % 6, [fw, fh] = KITE_FLOWERS[f];
   const bh = KITE_BUNCH_H * (.92 + ((i * 7 + seed) % 4) * .04), bw = fw * bh / fh;
@@ -3288,8 +3303,9 @@ const UMBRELLA_CASE = {
         { id:'inspect', en:'Can I take a closer look at the umbrella?', ko:'그 우산 좀 자세히 봐도 될까?', answer:'Of course. Here you go.', answerKo:'물론이지. 여기 있어.', inspect:'umbrella',
           // she holds it out on both hands (ella:give); a tap on it in her hands puts it in 소지품, then the close look
           // opens (user request 2026-11-18); box: the umbrella in the sprite, px
-          // art: the umbrella cut out of ella-give.webp (its paws left as holes), laid over it at artBox and grown to say "tap"
-          hold:{ item:'umbrella', mood:'give', box:[8, 356, 606, 495], art:'assets/characters/ella-give-umbrella.webp', artBox:[24, 362, 591, 488] } }
+          // art: the umbrella cut out of ella-give.webp (its paws left as holes), laid over it at artBox, glowing to say "tap";
+          // paws: her paws cut from the same picture (scripts/cut-ella-paws.py) on top, so the glow goes round the umbrella only
+          hold:{ item:'umbrella', mood:'give', box:[8, 356, 606, 495], art:'assets/characters/ella-give-umbrella.webp', paws:'assets/characters/ella-give-paws.webp', artBox:[24, 362, 591, 488] } }
       ],
       answers:{
         // she points at the umbrella stand by the door: far off, so "that" (design 2절)
@@ -6831,7 +6847,9 @@ function placeHeld(){
   const sp = SPRITES[spriteKey(holdOut.who)], r = svg.getBoundingClientRect(), host = $('.scene').getBoundingClientRect();
   const k = Math.min(r.width / sp.w, r.height / sp.h), ox = r.left + (r.width - sp.w * k) / 2, oy = r.top + (r.height - sp.h * k) / 2;
   const [x0, y0, x1, y1] = holdOut.artBox || holdOut.box;
-  if(holdOut.art && btn.dataset.art !== holdOut.art){ btn.innerHTML = `<img src="${holdOut.art}" alt="" draggable="false">`; btn.dataset.art = holdOut.art; }
+  if(holdOut.art && btn.dataset.art !== holdOut.art){
+    btn.innerHTML = `<img class="held-art" src="${holdOut.art}" alt="" draggable="false">${holdOut.paws ? `<img class="held-paws" src="${holdOut.paws}" alt="" draggable="false">` : ''}`;
+    btn.dataset.art = holdOut.art; }
   Object.assign(btn.style, { left:`${ox + x0 * k - host.left}px`, top:`${oy + y0 * k - host.top}px`, width:`${(x1 - x0) * k}px`, height:`${(y1 - y0) * k}px` });
   btn.setAttribute('aria-label', `${ITEMS[holdOut.item]?.label || ''} 받기`);
   btn.hidden = false;
@@ -7598,7 +7616,7 @@ function gotItem(id, from){
   if(from) flyToBag(id, from);
   itemNotice(item, !from);
 }
-// clue notices (design/clue-notice-options.html D): one after another, never two at once
+// clue notices (mockup D): one after another, never two at once
 let noticeChain = Promise.resolve();
 const noticeStage = () => ($('.art-stage') || $('.scene') || $('.app')).getBoundingClientRect();
 const calmNotice = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -11089,7 +11107,7 @@ const CASES = [
     focus:'생김새 듣기', keys:['is-has'],
     photo:{ img:'assets/places/kite/kite2-1.webp' },
     summary:'바람에 날아간 토비의 연이 공원 나무에 걸렸다. 공원에는 여러 모양의 연들이 나무와 화단에 가려져 있거나 길에 떨어져 있었다. 토비에게 연의 모양과 색, 꼬리를 듣고, 잎과 꽃을 치워 연들을 모은 뒤 긴 꼬리가 두 개 달린 빨간색과 노란색 새 연을 찾아 주었다.' },
-  { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/umbrella-sheet.webp', alt:'별무늬 우산' }, playable:true,
+  { id:'unclaimed-umbrella', no:'Case 02', title:'주인 없는 우산', en:'Whose Umbrella?', art:'hall', cover:{ src:'assets/places/umbrella/ella-cover.webp', alt:'별무늬 우산을 건네는 엘라' }, playable:true,
     focus:'누구의 것인지 듣기', keys:['mine'],
     photo:{ img:'assets/places/umbrella/umbrella-sheet.webp' },
     summary:'마을회관에 남은 별무늬 우산의 주인을 찾았다. 우산을 잃어버린 핀, 테스, 루비에게 각자의 우산이 어떻게 생겼는지 듣고 비교했다. 핀의 우산은 무늬가 없었고, 테스와 루비의 우산은 겉모습이 같았지만 안쪽이 금빛인 우산은 루비의 것이었다.' },
@@ -11223,8 +11241,9 @@ function renderCaseList(){
     }
     const done = solved.includes(c.id), next = c.id === nextId, going = !done && caseGoing(c.id);
     return `<button class="cf${done ? ' solved' : ''}${next ? ' current' : ''}" type="button" data-case="${c.id}"><span class="cf-fl"></span><span class="cf-tab">${c.no}</span>
-      ${going ? '<span class="cf-go going">수사 중</span>' : next ? '<span class="cf-go">새로운 의뢰!</span>' : ''}
-      <span class="cf-in"><span class="cf-pic">${casePicture(c)}${done ? '<span class="cf-st" aria-label="해결">SOLVED</span>' : ''}</span>
+      ${going ? '<span class="cf-go going">수사 중</span>' : next ? '<span class="cf-go">NEW</span>' : ''}
+      ${done ? '<span class="cf-stw"><span class="cf-st" role="img" aria-label="해결"></span></span>' : ''}
+      <span class="cf-in"><span class="cf-pic">${casePicture(c)}</span>
       <span class="cf-text"><span class="case-title${c.title.replace(/ /g, '').length > 11 ? ' long' : ''}">${esc(c.title).replace('크리스마스트리', '크리스마스<wbr>트리')}</span>${caseStarsHTML(c)}</span></span></button>`;
   }
   // a word game after every third case (SAFE_EVERY, user decision 2026-11-23), before the next; the games take turns
@@ -11237,7 +11256,10 @@ function renderCaseList(){
     const ic = match ? '<span class="cf-match" aria-hidden="true"><i></i><b></b><i></i></span>'
       : `<img src="assets/ui/padlock-${done ? 'open' : 'closed'}.webp" alt="">`;
     const note = open ? (done ? '완료 · 다시 하면 도토리 1개' : '도토리 5개') : `${c.no}${'2459'.includes(c.no.slice(-1)) ? '를' : '을'} 해결하면 열려요`;
-    return `<button class="cf-game${open ? '' : ' locked'}" type="button" ${open ? `${match ? 'data-match' : 'data-safe'}="${c.id}"` : `data-locked="${note}"`} aria-label="${name}${done ? ' (완료)' : open ? '' : ' 잠김'}"><span class="cf-ic">${ic}</span><span class="cf-text"><span class="case-title">${name}</span><span class="case-focus">${note}</span></span>${done ? '<span class="cf-ok">✓</span>' : ''}</button>`;
+    const foot = !open ? `<span class="cf-gnote">${note}</span>` : done ? '<span class="cf-gnote">완료</span>' : `<span class="cf-gnote acorn">${note}</span>`;
+    return `<button class="cf cf-game${open ? '' : ' locked'}${done ? ' solved' : ''}" type="button" ${open ? `${match ? 'data-match' : 'data-safe'}="${c.id}"` : `data-locked="${note}"`} aria-label="${name}${done ? ` (${note})` : open ? '' : ' 잠김'}"><span class="cf-fl"></span><span class="cf-tab">훈련</span>
+      ${done ? '<span class="cf-stw"><span class="cf-st" role="img" aria-label="완료"></span></span>' : ''}
+      <span class="cf-in"><span class="cf-pic"><span class="cf-ic">${ic}</span></span><span class="cf-text"><span class="case-title">${name}</span></span>${foot}</span></button>`;
   }
   const fresh = freshSolved(solved);
   requestAnimationFrame(() => {
@@ -11279,7 +11301,7 @@ function stampFresh(ids){
   if(next){ next.classList.remove('current'); show(next.querySelector('.cf-go'), false); }
   const live = () => document.contains(cards[0]);   // the list was drawn again meanwhile: it is in its end state already
   setTimeout(() => { if(!live()) return;
-    cards.forEach(c => { c.classList.add('solved'); const st = c.querySelector('.cf-st'); show(st, true); replayAnim(st, 'thud'); }); stampSound(150); }, 1100);
+    cards.forEach(c => { c.classList.add('solved'); const st = c.querySelector('.cf-st'); show(st, true); replayAnim(st, 'thud'); }); }, 1100);   // no stamp sound on the list (user request 2026-11-26)
   setTimeout(() => { if(live()) cards.forEach(c => { const s = c.querySelector('.case-stars'); show(s, true); replayAnim(s, 'pop', 1000); }); }, 1650);
   setTimeout(() => { if(!live() || !next) return;
     const page = $('#home-cases'), box = page.getBoundingClientRect(), r = next.getBoundingClientRect();
@@ -11287,17 +11309,12 @@ function stampFresh(ids){
     next.classList.add('current', 'unlock'); show(next.querySelector('.cf-go'), true); }, 2700);
 }
 // A folder opened: it comes to the middle, its cover turns over, the paper inside grows to the whole screen (the case's
-// picture, title and 수사 시작; ‹ 목록 puts it back). A solved one is stamped again first.
+// picture, title and 수사 시작; ‹ 목록 puts it back). A solved one opens as it is, its stamp not pressed again (user request
+// 2026-11-26).
 async function openFolder(card){
   if($('.cf-open') || card.dataset.busy) return;
   const c = CASES.find(x => x.id === card.dataset.case), done = card.classList.contains('solved'), calm = calmMotion();
   card.classList.remove('drop');
-  if(done && !calm){
-    card.dataset.busy = 1; replayAnim(card.querySelector('.cf-st'), 'thud'); replayAnim(card.querySelector('.case-stars'), 'pop', 900); stampSound(150);
-    await new Promise(r => setTimeout(r, 620));
-    delete card.dataset.busy;
-    if(!document.contains(card) || $('#home-cases').hidden || $('#caseList').hidden) return;
-  }
   const box = $('#caseList'), P = box.getBoundingClientRect(), R = card.getBoundingClientRect(), W = P.width, H = P.height;
   const r = { l:R.left - P.left, t:R.top - P.top, w:R.width, h:R.height };
   const ins = (l, t, w, h) => ({ left:`${l}px`, top:`${t}px`, width:`${w}px`, height:`${h}px` }), full = ins(0, 0, W, H);
@@ -11308,7 +11325,7 @@ async function openFolder(card){
   const cover = document.createElement('span');
   cover.className = 'cfx-cover'; cover.innerHTML = '<span class="cfx-face cfx-front"><span class="cfx-art"></span></span><span class="cfx-face cfx-inside"></span>';
   cl.querySelector('.cf-fl').className = 'cfx-back';
-  cover.firstChild.append(...cl.querySelectorAll('.cf-in, .cf-go'));
+  cover.firstChild.append(...cl.querySelectorAll('.cf-in, .cf-go, .cf-stw'));
   cl.append(cover);
   pg.setAttribute('role', 'dialog'); pg.setAttribute('aria-label', c.title);
   pg.style.setProperty('--w', `${W}px`); pg.style.setProperty('--h', `${H}px`);
@@ -11341,7 +11358,7 @@ async function openFolder(card){
   const aside = `${fx + r.w * (s - 1) / 2 - r.l}px ${fy + r.h * (s - 1) / 2 - r.t}px`;
   const from = ins(fx + r.w * s * .05, fy + r.h * s * .08, r.w * s * .9, r.h * s * .9);   // its paper
   const turn = 'cubic-bezier(.45,.05,.3,1)';
-  // the folder's sticker (새로운 의뢰! / 수사 중) stays behind: it fades away as the folder is picked up
+  // the folder's label (NEW / 수사 중) stays behind: it fades away as the folder is picked up
   const tag = cl.querySelector('.cf-go');
   if(tag){ tag.style.animation = 'none'; run(tag, [{ opacity:1, scale:1 }, { opacity:0, scale:.85 }], 260, 'ease-out'); }
   await run(cl, [{ translate:'0 0', scale:1 }, { translate:aside, scale:s }], 460);
@@ -11494,7 +11511,7 @@ function giveAcorns(box, n){
 }
 /* ---------- 철자 금고 (spelling safe) ----------
    A word game on the case board, after every third case (user decision 2026-11-23, design/minigame-words.html ②,
-   design/minigame-board.html A). Five words a round: hear the word, its meaning is on a slip on the safe (a word
+   mockup A). Five words a round: hear the word, its meaning is on a slip on the safe (a word
    game, so the meaning shows without 해석, user pick), turn each dial (the right letter and three others) and open.
    Words: dictionary words with a bundled recording, 3–7 letters, whose meaning names them alone (no 'home' beside
    'house', no little words such as 'not' or 'here'). Playing it never blocks the next case. */

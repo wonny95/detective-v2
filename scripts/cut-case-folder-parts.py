@@ -3,7 +3,8 @@
 # b724c3b9-8a99-4b1f-a55b-27dc03ddcdf3, magenta background; user request 2026-11-26: thin outlines, a strip with no folded
 # corner that stretches sideways):
 #   case-folder-front.webp (the cover from outside), case-folder-inside.webp (the cover's inner side, mirrored so its crease
-#   lies on the hinge once turned over), case-folder-paper.webp (the sheet), case-game-strip.webp (the mini-game strip).
+#   lies on the hinge once turned over), case-folder-paper.webp (the sheet). (The mini-game strip it also gave is no longer used: the games are folders too,
+#   user pick 2026-11-26.)
 #   case-folder-back.webp (the back with its index tab): the new sheet drew the tab on the back's left side, so (user choice)
 #   the back is made here: the shape of the earlier back (tab on top left, from case-folder-parts-higgsfield-original.png,
 #   job 4a1d19fe) filled with the new cover's kraft and outlined with the new cover's thin line colour.
@@ -48,6 +49,6 @@ ring = ImageChops.subtract(mask, mask.filter(ImageFilter.MinFilter(5)))
 back = Image.new('RGBA', (bw, bh)); back.paste(fill, (0, 0)); back.putalpha(mask)
 line = Image.new('RGBA', (bw, bh), (*edge, 255)); line.putalpha(ring)
 back = Image.alpha_composite(back, line)
-for name, i in (('folder-front', front), ('folder-inside', inside), ('folder-back', back), ('folder-paper', paper), ('game-strip', strip)):
+for name, i in (('folder-front', front), ('folder-inside', inside), ('folder-back', back), ('folder-paper', paper)):
     i.save(f'{D}case-{name}.webp', quality=92, method=6); print(name, i.size)
 print('line', edge)

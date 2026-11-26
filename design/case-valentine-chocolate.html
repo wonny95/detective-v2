@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발렌타인 초콜릿 사건</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FBF5EE;--card:#FFFDF9;--ink:#3B2A26;--soft:#7D6760;--line:#EBDCD2;--choc:#6B3E2E;--choc-l:#9A6248;--pink:#E37C93;--pink-bg:#FBE4EA;--honey:#E9B44C;--honey-bg:#FCEFD0;--leaf:#5F7A3A;--leaf-bg:#E7EED8;--sky:#4F7FA8;--sky-bg:#E1ECF5;--gray:#EFE8E2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 'Gowun Dodum',system-ui,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:28px 16px 72px}
+h1,h2,h3{font-family:'Jua',sans-serif;font-weight:400;line-height:1.3;margin:0}
+h1{font-size:32px}
+h2{font-size:24px;margin:48px 0 8px}
+h3{font-size:19px}
+p{margin:6px 0}
+.muted{color:var(--soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}
+.chip{font-size:13px;border-radius:999px;padding:3px 10px;background:var(--card);border:1px solid var(--line)}
+.chip.pink{background:var(--pink-bg);border-color:#F2C3CF;color:#A2435A}
+.chip.leaf{background:var(--leaf-bg);border-color:#CBD8B3;color:var(--leaf)}
+.chip.honey{background:var(--honey-bg);border-color:#F0D79B;color:#8A6414}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0}
+nav a{font-size:14px;color:var(--ink);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+nav a:hover{background:var(--pink-bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:22px}
+@media(max-width:720px){.hero{grid-template-columns:1fr}}
+.hero .story{font-size:17px}
+.big{font:400 22px/1.4 'Jua',sans-serif}
+/* chocolate icons */
+.ic{display:inline-block;width:22px;height:22px;vertical-align:-5px}
+.ic svg{width:100%;height:100%;display:block}
+/* counts compare */
+.compare{display:grid;grid-template-columns:auto repeat(4,1fr);gap:8px;align-items:center;text-align:center}
+.compare .h{font-family:'Jua',sans-serif;color:var(--soft);font-size:14px}
+.compare .lab{text-align:left;font-family:'Jua',sans-serif}
+.num{font:400 26px/1 'Jua',sans-serif;background:var(--gray);border-radius:10px;padding:8px 0}
+.num.up{background:var(--pink-bg);color:#A2435A}
+.num.down{background:var(--sky-bg);color:var(--sky)}
+.num.ok{background:var(--leaf-bg);color:var(--leaf)}
+.num small{display:block;font:13px 'Gowun Dodum';margin-top:4px}
+/* people */
+.person{display:flex;gap:14px;align-items:flex-start}
+.ava{flex:none;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font:400 26px 'Jua';color:#fff}
+.ava.penny{background:#8A6A55}
+.ava.suzy{background:#B5743E}
+.person b{font-family:'Jua',sans-serif;font-weight:400;font-size:18px}
+/* easy list */
+.easy li{margin:5px 0}
+/* scenes */
+.scene{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;margin-top:16px}
+.scene-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sno{flex:none;width:34px;height:34px;border-radius:50%;background:var(--pink);color:#fff;font:400 17px/34px 'Jua';text-align:center}
+.where{font-size:13px;color:var(--soft);background:var(--gray);border-radius:999px;padding:2px 10px}
+.line{display:flex;gap:10px;margin:10px 0}
+.who{flex:none;width:58px;font:400 14px 'Jua';color:var(--soft);padding-top:8px}
+.bub{background:#fff;border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:8px 12px;max-width:640px}
+.bub .ko{display:block;color:var(--soft);font-size:14px}
+.bub.det{background:var(--honey-bg);border-color:#F0D79B}
+.bub.think{background:var(--gray);border-style:dashed}
+.q{border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden}
+.q-top{display:flex;align-items:center;gap:8px;background:var(--pink-bg);padding:7px 12px;font-size:14px}
+.q-top code{font:13px ui-monospace,Consolas,monospace;background:#fff;border-radius:5px;padding:1px 6px}
+.q-top .ask{font-family:'Jua',sans-serif;font-size:16px}
+.q-body{padding:10px 12px}
+.note{margin-top:8px;background:repeating-linear-gradient(#fff,#fff 27px,#F1E4DA 28px);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:15px;line-height:28px}
+.note::before{content:"노트";display:block;font:400 12px 'Jua';color:var(--soft);line-height:20px}
+.blank{display:inline-block;min-width:44px;border-bottom:2px solid var(--pink);color:#A2435A;font-weight:700;text-align:center;padding:0 4px;line-height:22px}
+.tip{font-size:13px;color:var(--soft);margin-top:6px}
+.tip b{color:var(--ink)}
+.unlock{display:inline-block;font-size:13px;background:var(--leaf-bg);color:var(--leaf);border-radius:999px;padding:2px 10px;margin-top:6px}
+/* puzzle mock */
+.puzzle{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;align-items:start}
+@media(max-width:720px){.puzzle{grid-template-columns:1fr}}
+.box{background:#F6D7DE;border:3px solid #D98BA0;border-radius:14px;padding:12px;display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.box .ic{width:24px;height:24px}
+.trays{display:grid;gap:10px}
+.tray{background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 10px;display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:10px;align-items:center}
+.frames{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px;min-width:0}
+.cell{position:relative;aspect-ratio:1;border:1px dashed #DCCABE;border-radius:5px}
+.cell .ic{position:absolute;inset:9%;width:auto;height:auto}
+.tray .cnt{font:400 22px 'Jua';min-width:34px;text-align:right}
+.arrow{font:400 15px 'Jua';color:var(--soft);text-align:center;margin:4px 0}
+/* gift boxes */
+.gifts{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.gift{background:#fff;border:2px solid #E7B9C5;border-radius:10px;padding:6px 6px 8px;position:relative;text-align:center}
+.gift.full{background:#FFF4F6}
+.gift.full::after{content:"";position:absolute;left:50%;top:-7px;width:22px;height:12px;margin-left:-11px;border-radius:50% 50% 0 0;border:3px solid var(--pink);border-bottom:0}
+.gift .slots{display:grid;grid-template-columns:repeat(2,24px);justify-content:center;gap:3px}
+.gift .slot{width:24px;height:24px;border-radius:6px;position:relative;background:#F3E3DA;box-shadow:inset 0 1px 2px rgba(80,40,20,.25)}
+.gift .slot .mold{position:absolute;inset:8%;opacity:.28;filter:grayscale(1) brightness(.6)}
+.gift .slot .ic{position:absolute;inset:8%;width:auto;height:auto}
+.gift.missing{border-color:var(--sky);border-style:dashed}
+.gift.missing .slot.empty{background:var(--sky-bg);box-shadow:inset 0 0 0 2px var(--sky)}
+.reject{display:flex;align-items:center;gap:8px;margin-top:10px;background:var(--gray);border-radius:10px;padding:8px 12px;font-size:14px}
+.reject .ic{width:26px;height:26px}
+.gift small{display:block;font-size:11px;color:var(--soft);margin-top:4px}
+.left{display:flex;align-items:center;gap:8px;margin-top:12px;background:var(--pink-bg);border-radius:10px;padding:8px 12px;font-size:14px}
+.left .ic{width:26px;height:26px}
+.prompt{display:block;margin-top:4px;background:var(--gray);border-radius:8px;padding:8px 10px;font:13px/1.55 ui-monospace,Consolas,monospace;color:var(--ink)}
+/* report card */
+.slip{max-width:520px;background:#FFFBEF;border:1px solid #EAD7A8;border-radius:6px;padding:16px 18px;box-shadow:0 6px 14px rgba(80,50,30,.12);transform:rotate(-1deg);margin:8px 0}
+.slip h3{font-size:18px;margin-bottom:8px}
+.slip .row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed #E7D6B4}
+.slip .row:last-child{border:0}
+.slip .opt{display:flex;gap:5px}
+.slip .opt span{border:1px solid #E1CDA3;border-radius:8px;padding:2px 8px;font-size:14px;background:#fff}
+.slip .opt span.on{background:var(--pink);border-color:var(--pink);color:#fff}
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{background:var(--pink-bg);font:400 15px 'Jua';white-space:nowrap}
+tr:last-child td{border-bottom:0}
+code{font:13px ui-monospace,Consolas,monospace;background:var(--gray);border-radius:5px;padding:1px 5px}
+/* flow strip */
+.strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px}
+.strip span{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:14px}
+.strip i{font-style:normal;color:var(--soft)}
+.strip span.key{background:var(--pink-bg);border-color:#F2C3CF}
+/* decisions */
+.dec{border-left:4px solid var(--honey);background:var(--card);border-radius:0 12px 12px 0;padding:12px 16px;margin-top:10px}
+.dec.done{border-color:var(--leaf)}
+footer{margin-top:52px;font-size:13px;color:var(--soft)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="heart" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.5-9.2C1.1 8.4 3.3 4.5 7 4.5c2.1 0 3.6 1.2 5 3 1.4-1.8 2.9-3 5-3 3.7 0 5.9 3.9 4.5 7.3C19.5 16.4 12 21 12 21z" fill="#C2566F" stroke="#7E2E42" stroke-width="1.2"/><path d="M7 8c-1 .4-1.6 1.2-1.7 2.3" stroke="#F3B6C4" stroke-width="1.4" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="heartb" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.5-9.2C1.1 8.4 3.3 4.5 7 4.5c2.1 0 3.6 1.2 5 3 1.4-1.8 2.9-3 5-3 3.7 0 5.9 3.9 4.5 7.3C19.5 16.4 12 21 12 21z" fill="#8A5234" stroke="#4E2A17" stroke-width="1.2"/><path d="M6.5 10.5c2-1 3.4 1 5.5 0s3.5 1 5.5 0" stroke="#F2A7BA" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="9" cy="14" r=".9" fill="#FFF6EC"/><circle cx="13.5" cy="15.5" r=".9" fill="#FFF6EC"/></symbol>
+    <symbol id="flower" viewBox="0 0 24 24"><g fill="#B9794F" stroke="#6E3F22" stroke-width="1.1"><circle cx="12" cy="6.2" r="4.4"/><circle cx="17.6" cy="10.3" r="4.4"/><circle cx="15.5" cy="16.9" r="4.4"/><circle cx="8.5" cy="16.9" r="4.4"/><circle cx="6.4" cy="10.3" r="4.4"/></g><g fill="#B9794F"><circle cx="12" cy="12" r="5.6"/></g><circle cx="12" cy="12" r="2.6" fill="#8E5631" stroke="#6E3F22" stroke-width=".9"/><path d="M9.6 5.2c.8-.7 1.8-1 2.8-.9" stroke="#E2B08C" stroke-width="1.2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="square" viewBox="0 0 24 24"><rect x="2.8" y="3.6" width="18.4" height="16.8" rx="3" fill="#4A2618" stroke="#2A130B" stroke-width="1.2"/><path d="M5.5 9.5c2-1.4 3.6 1.4 5.6 0s3.6 1.4 5.6 0 2.2 0 2.2 0M5.5 13.5c2-1.4 3.6 1.4 5.6 0s3.6 1.4 5.6 0" stroke="#F4E6D6" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M5 5.6h5" stroke="#7A4A35" stroke-width="1.2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+<div class="wrap">
+
+<h1>초콜릿이 몇 개 틀렸을까?</h1>
+<p class="muted">발렌타인 주문 확인 · 상세 기획서</p>
+<div class="chips">
+  <span class="chip pink">Case 05 (Case 04 뒤)</span>
+  <span class="chip leaf">쉬운 사건</span>
+  <span class="chip honey">L1-04 수량 표현</span>
+  <span class="chip">범인 없음 · 추리 보드 없음</span>
+  <span class="chip">Claude Code 기획 · 사용자 검토 중</span>
+</div>
+<nav>
+  <a href="#overview">한눈에</a><a href="#people">인물</a><a href="#main">메인 표현</a><a href="#easy">쉬운 난도</a><a href="#scenes">장면별 대본</a><a href="#puzzle">선물 상자 포장</a><a href="#slip">주문 확인 쪽지</a><a href="#unlock">해금 순서</a><a href="#study">예습·복습</a><a href="#make">제작</a><a href="#art">그림 제작 계획</a><a href="#decide">정할 것</a>
+</nav>
+
+<!-- ---------- overview ---------- -->
+<div class="hero" id="overview">
+  <div class="card story">
+    <h3>무슨 일이 있었나</h3>
+    <p>발렌타인데이 아침, <b>고슴도치 페니 선생님</b>이 반 학생 13명에게 줄 초콜릿을 다람쥐 수지의 초콜릿 가게에서 받아 왔어요. 학생마다 <span class="ic"><svg><use href="#heart"/></svg></span> 분홍 하트 · <span class="ic"><svg><use href="#heartb"/></svg></span> 갈색 하트 · <span class="ic"><svg><use href="#flower"/></svg></span> 꽃 · <span class="ic"><svg><use href="#square"/></svg></span> 네모 하나씩, <b>종류마다 13개, 모두 52개</b>를 주문했어요. 선물 상자 하나에 4개예요.</p>
+    <p>선생님은 네모부터 선물 상자에 넣었는데, 남은 하트와 꽃을 보니 어딘가 이상해요. 수업에 가야 해서 선생님은 탐정에게 나머지 포장을 부탁해요.</p>
+    <p class="big" style="margin-top:12px">탐정의 일: 주문한 개수를 <u>듣고</u>, 온 개수를 <u>세어</u>, 몇 개가 틀렸는지 <u>찾기</u></p>
+    <p style="margin-top:10px"><span class="chip pink">메인 표현</span> <b>too many · not enough · enough · a lot of · a few · some · any</b><br><span class="muted" style="font-size:14px">숫자 세기는 초등 수준이라 메인이 아니라 퍼즐을 푸는 도구로만 써요.</span></p>
+  </div>
+  <div class="card">
+    <h3>주문과 실제</h3>
+    <div class="compare" style="margin-top:12px">
+      <span></span>
+      <span class="h"><span class="ic"><svg><use href="#heart"/></svg></span> 분홍 하트</span>
+      <span class="h"><span class="ic"><svg><use href="#heartb"/></svg></span> 갈색 하트</span>
+      <span class="h"><span class="ic"><svg><use href="#flower"/></svg></span> 꽃</span>
+      <span class="h"><span class="ic"><svg><use href="#square"/></svg></span> 네모</span>
+      <span class="lab">주문</span><span class="num">13</span><span class="num">13</span><span class="num">13</span><span class="num">13</span>
+      <span class="lab">상자</span><span class="num up">16<small>3개 많음</small></span><span class="num ok">13<small>맞음</small></span><span class="num down">10<small>3개 모자람</small></span><span class="num ok">13<small>맞음</small></span>
+    </div>
+    <p class="muted" style="font-size:14px;margin-top:12px">합계는 둘 다 52개예요. 수지가 나란히 놓인 쟁반에서 꽃 자리에 분홍 하트 3개를 담았어요. 아무도 훔치거나 먹지 않았어요. (제작자용 전말)</p>
+  </div>
+</div>
+
+<div class="strip">
+  <span>교실 · 페니</span><i>→</i><span>노트 받아쓰기 4문항</span><i>→</i><span class="key">선물 상자 포장(끌어 놓기)</span><i>→</i><span>수지 s1 (a lot of)</span><i>→</i><span class="key">주문 확인 쪽지 (too many · not enough)</span><i>→</i><span>수지 s2 (some · a few · any)</span><i>→</i><span>하트 3 ↔ 꽃 3</span><i>→</i><span>선생님께 상자</span><i>→</i><span>복습</span>
+</div>
+
+<!-- ---------- people ---------- -->
+<h2 id="people">인물과 장소</h2>
+<div class="grid2">
+  <div class="card person"><div class="ava penny">페</div><div><b>페니 · 고슴도치</b> <span class="chip pink">새 인물</span><p>숲속 학교 교실. 의뢰인이자 선생님이에요. 학생 13명. 차분하지만 수업 시간에 쫓겨 조금 서둘러요.</p></div></div>
+  <div class="card person"><div class="ava suzy">수</div><div><b>수지 · 다람쥐</b> <span class="chip pink">새 인물</span><p>초콜릿 가게 주인. 손이 빠르고 늘 바빠요. 간판과 상자에 도토리 무늬가 있어요. 하트·꽃·네모 쟁반이 나란히 놓인 가게예요.</p></div></div>
+</div>
+
+<!-- ---------- main ---------- -->
+<h2 id="main">메인 표현이 나오는 곳</h2>
+<div class="tbl"><table>
+<thead><tr><th>표현</th><th>누가, 어디서</th><th>플레이어가 하는 일</th></tr></thead>
+<tbody>
+<tr><td><b>a lot of</b></td><td>수지 s1 “I made a lot of pink heart chocolates this morning!”</td><td>듣고 노트에 기록</td></tr>
+<tr><td><b>too many / not enough</b></td><td>주문 확인 쪽지의 두 칸, 정답 뒤 수지의 확인</td><td>쪽지에 직접 골라 씀(결론)</td></tr>
+<tr><td><b>some / a few / any</b></td><td>수지 s2(쪽지 뒤) “Yes, I have some! There are a few in the kitchen. But I don't have any square chocolates today.”</td><td>듣고 노트에 기록</td></tr>
+<tr><td><b>enough</b></td><td>결말 페니 “Now there are enough flower chocolates for everyone!”</td><td>듣기</td></tr>
+</tbody></table></div>
+<p class="muted" style="font-size:14px">페니는 이상하다는 것만 말해요(“Some shapes look wrong.”). 어느 모양이 많고 모자란지는 플레이어가 포장해 보고 정해요. 수지의 s1은 주문은 맞았다는 확인이에요. 갈 곳 없는 분홍 하트가 too many, 빈 꽃 홈이 not enough로 눈에 보여요. too many / not enough는 플레이어가 쪽지에 먼저 쓰고, 수지가 받아서 확인해요. 남은 꽃(s2)은 무엇이 모자란지 안 뒤에 물어요.</p>
+
+<!-- ---------- easy ---------- -->
+<h2 id="easy">쉬운 난도로 맞춘 점</h2>
+<div class="grid3">
+  <div class="card"><h3>작은 무대</h3><p>장소 2곳, 인물 2명. 지도도 두 곳만이에요.</p></div>
+  <div class="card"><h3>짧은 받아쓰기</h3><p>6문항, 빈칸 14칸 정도. 한 줄에 빈칸 1–3개예요.</p></div>
+  <div class="card"><h3>숫자 두 개</h3><p>thirteen과 fifty-two뿐. 가격·계산은 없어요.</p></div>
+  <div class="card"><h3>세지 않아도 보여요</h3><p>포장하면 빈 꽃 홈 3개와 남은 분홍 하트 3개가 그대로 보여요. 큰 수를 셀 필요가 없어요.</p></div>
+  <div class="card"><h3>상자에 끌어 놓기</h3><p>네모 13개는 페니가 미리 넣어 뒀어요. 나머지 39개는 선물 상자 위 아무 데나 놓으면 맞는 홈으로 들어가요.</p></div>
+  <div class="card"><h3>차이는 하나</h3><p>많은 것 하나, 모자란 것 하나, 맞는 것 하나. 숫자는 모두 3이에요.</p></div>
+  <div class="card"><h3>없는 것</h3><p>추리 보드, 심문, 현장 사진은 없어요.</p></div>
+</div>
+
+<!-- ---------- scenes ---------- -->
+<h2 id="scenes">장면별 대본</h2>
+<p class="muted">분홍 칸은 플레이어가 고르는 질문, 밑줄은 노트 빈칸이에요. 한국어는 게임에서 <code>해석</code>을 눌렀을 때만 보여요.</p>
+
+<div class="scene">
+  <div class="scene-head"><span class="sno">1</span><h3>페니 선생님의 의뢰</h3><span class="where">교실</span></div>
+  <div class="line"><span class="who">페니</span><div class="bub ">Oh, Detective! I'm so glad you're here.<span class="ko">아, 탐정! 와 줘서 정말 다행이야.</span></div></div>
+
+  <div class="q"><div class="q-top"><code>t0</code><span class="ask">How can I help you?</span><span class="muted">무엇을 도와줄까?</span></div><div class="q-body">
+    <div class="line"><span class="who">페니</span><div class="bub">I ordered chocolates for my students. But something is wrong with the box.<span class="ko">학생들에게 줄 초콜릿을 주문했어. 그런데 상자가 뭔가 이상해.</span></div></div>
+    <div class="note">I ordered <span class="blank">chocolates</span> for my <span class="blank">students</span>. Something is <span class="blank">wrong</span> with the box.</div>
+  </div></div>
+
+  <div class="q"><div class="q-top"><code>t1</code><span class="ask">What did you order?</span><span class="muted">무엇을 주문했어?</span></div><div class="q-body">
+    <div class="line"><span class="who">페니</span><div class="bub">There are thirteen students. Each student gets one pink heart, one brown heart, one flower and one square.<span class="ko">학생이 열세 명이야. 학생마다 분홍 하트 하나, 갈색 하트 하나, 꽃 하나, 네모 하나씩 받아.</span></div></div>
+    <div class="note">There are <span class="blank">thirteen</span> students. <span class="blank">Each</span> student gets one <span class="blank">pink</span> heart, one <span class="blank">brown</span> heart, one flower and one square.</div><p class="tip">선택지에 thirty를 함께 둬요(-teen과 -ty). 이 말이 포장 규칙이 돼요(한 상자에 분홍 하트 하나, 갈색 하트 하나).</p>
+  </div></div>
+
+  <div class="q"><div class="q-top"><code>t2</code><span class="ask">What's wrong with the box?</span><span class="muted">상자가 뭐가 이상해?</span></div><div class="q-body">
+    <div class="line"><span class="who">페니</span><div class="bub">I'm not sure. Some shapes look wrong. I packed all the squares, but I didn't have time to pack the others.<span class="ko">잘 모르겠어. 모양이 좀 이상해 보여. 네모는 다 넣었는데, 나머지는 포장할 시간이 없었어.</span></div></div>
+    <div class="note"><span class="blank">Some</span> shapes look wrong. I packed all the <span class="blank">squares</span>, but I didn't have time to pack the <span class="blank">others</span>.</div><p class="tip">어느 모양이 많고 모자란지는 말하지 않아요. 플레이어가 포장해 보고 알아내요.</p>
+  </div></div>
+
+  <div class="q"><div class="q-top"><code>t3</code><span class="ask">Where did you buy them?</span><span class="muted">어디서 샀어?</span></div><div class="q-body">
+    <div class="line"><span class="who">페니</span><div class="bub">At Suzy's Chocolate Shop. She makes chocolates for Valentine's Day.<span class="ko">수지의 초콜릿 가게에서. 발렌타인데이 초콜릿을 만들거든.</span></div></div>
+    <div class="note">At <span class="blank">Suzy&#39;s</span> Chocolate Shop.</div><span class="unlock">해금 · 초콜릿 가게, 수지</span>
+  </div></div>
+
+  <div class="line"><span class="who">페니</span><div class="bub ">Can you pack the others for me? One box for each student.<span class="ko">나머지 포장 좀 해 줄래? 학생마다 한 상자씩.</span></div></div>
+  <div class="line"><span class="who">페니</span><div class="bub ">I have to teach now, so I can't go to the shop. If something is wrong, please talk to Suzy for me.<span class="ko">이제 수업을 해야 해서 가게에 못 가. 뭔가 잘못됐으면 나 대신 수지에게 말해 줘.</span></div></div>
+
+  <p class="tip">t0–t3을 모두 기록하고 노트를 닫으면 이 말이 나와요(수지와 가게가 해금된 뒤). 페니는 수업하러 칠판 앞으로 가고, 책상 위 초콜릿 상자를 누를 수 있어요. 탐정이 가게에 가는 이유가 이 대사로 생겨요(노트에는 적지 않음). 수업 중인 페니를 누르면 “페니와 더 나눌 대화가 없어요” 토스트만 떠요.</p>
+</div>
+
+<div class="scene" id="puzzle">
+  <div class="scene-head"><span class="sno">2</span><h3>선물 상자 포장하기</h3><span class="where">교실 · 상자 확대</span><span class="chip pink">새 찾고 조립하기</span></div>
+  <div class="puzzle">
+    <div>
+      <div class="box" aria-label="섞인 초콜릿 상자">
+        <span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#heartb"/></svg></span><span class="ic"><svg><use href="#flower"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#heartb"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#flower"/></svg></span><span class="ic"><svg><use href="#heartb"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#flower"/></svg></span><span class="ic"><svg><use href="#heartb"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#flower"/></svg></span><span class="ic"><svg><use href="#heartb"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#heartb"/></svg></span><span class="ic"><svg><use href="#flower"/></svg></span>
+      </div>
+      <p class="arrow">끌어서 ↓ 선물 상자 위에 놓으면 맞는 홈으로 쏙</p>
+      <ul class="easy">
+        <li>큰 상자에는 분홍 하트·갈색 하트·꽃 39개가 섞여 있어요. 화면에 숫자는 없어요. 네모 13개는 페니가 이미 넣었어요.</li>
+        <li>학생 한 명에 한 상자, 선물 상자 13개. 받침에 <b>하트·하트·꽃·네모 모양 홈 4개</b>가 있어요. 네모 홈은 처음부터 차 있어요.</li>
+        <li>초콜릿을 <b>선물 상자 위 아무 데나</b> 놓으면 그 상자의 맞는 빈 홈으로 쏙 들어가요. 작은 홈을 겨냥하지 않아도 돼요.</li>
+        <li><b>한 상자에 같은 색 하트는 둘 못 넣어요.</b> 넣을 자리가 없으면 튕겨서 큰 상자로 돌아가요(벌점 없음). 같은 색 하트로 처음 튕길 때 탐정이 “Ms. Penny said one pink heart and one brown heart.”라고 말해요.</li>
+        <li>다 찬 상자는 뚜껑이 닫히고 리본이 묶여요.</li>
+        <li>남은 분홍 하트 3개는 소지품으로, 결과는 <code>포장한 상자</code> 단서 카드로 남아요.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="gifts" id="gifts"></div>
+      <div class="left"><span>큰 상자에 남은 것</span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><span class="ic"><svg><use href="#heart"/></svg></span><b>분홍 하트 3개 = too many</b></div>
+      <div class="reject"><span class="ic"><svg><use href="#heart"/></svg></span><span>→ 분홍 하트가 이미 든 상자에 또 놓으면? <b>튕겨 나와요.</b> 모든 상자에 분홍 하트가 하나씩 들어가면 남은 분홍 하트 3개는 갈 곳이 없어요.</span></div>
+      <p class="tip">파란 점선 상자 3개는 꽃 모양 홈이 비어 있어요 = <b>not enough</b>. 탐정은 비교하거나 결론을 말하지 않아요.</p>
+    </div>
+  </div>
+  <div class="line" style="margin-top:14px"><span class="who">탐정</span><div class="bub think">Let's ask Suzy about the order.<span class="ko">수지에게 주문을 물어보자. (갈 곳만 알려 줌)</span></div></div>
+  <p class="tip">가게에 먼저 가서 s1을 이미 들었으면 대신 “Let's tell Suzy.”(수지에게 알리자)라고 생각해요.</p>
+</div>
+
+<div class="scene">
+  <div class="scene-head"><span class="sno">3</span><h3>수지에게 묻기</h3><span class="where">초콜릿 가게</span></div>
+  <div class="line"><span class="who">수지</span><div class="bub ">Hello, Detective! Happy Valentine's Day!<span class="ko">안녕, 탐정! 발렌타인데이 축하해!</span></div></div>
+
+  <div class="q"><div class="q-top"><code>s1</code><span class="chip pink">메인 표현</span><span class="ask">Was Ms. Penny's order right?</span><span class="muted">페니 선생님의 주문은 맞았어?</span></div><div class="q-body">
+    <div class="line"><span class="who">수지</span><div class="bub">Yes, it was. Let me see my note… Thirteen of each. That's fifty-two chocolates. I made a lot of pink heart chocolates this morning!<span class="ko">응, 맞았어. 메모를 볼게… 종류마다 열셋. 모두 쉰두 개야. 오늘 아침에 분홍 하트 초콜릿을 많이 만들었거든!</span></div></div>
+    <div class="note"><span class="blank">Thirteen</span> of each. That's <span class="blank">fifty-two</span> chocolates. I made <span class="blank">a lot of</span> pink heart chocolates this morning.</div><p class="tip">주문은 맞았다는 확인이에요. 주문 실수가 아니라 담을 때 틀렸다는 단서가 돼요. 상자 속 개수는 말하지 않아요.</p>
+  </div></div>
+</div>
+
+<div class="scene" id="slip">
+  <div class="scene-head"><span class="sno">4</span><h3>주문 확인 쪽지</h3><span class="where">초콜릿 가게</span><span class="chip pink">플레이어가 결론 · 메인 표현</span></div>
+  <p>포장과 s1이 끝나면 탐정의 선택 대사가 생겨요.</p>
+  <div class="line"><span class="who">탐정</span><div class="bub det">Ms. Penny's box is not right.<span class="ko">페니 선생님의 상자가 맞지 않아.</span></div></div>
+
+  <div class="grid2" style="align-items:center">
+    <div class="slip">
+      <h3>주문 확인 쪽지</h3>
+      <div class="row"><span>There are <b>too many</b></span><span class="opt"><span class="on">분홍 하트</span><span>갈색 하트</span><span>꽃</span><span>네모</span></span></div>
+      <div class="row"><span>There are <b>not enough</b></span><span class="opt"><span>분홍 하트</span><span>갈색 하트</span><span class="on">꽃</span><span>네모</span></span></div>
+      <div class="row"><span>How many?</span><span class="opt"><span>1</span><span>2</span><span class="on">3</span><span>4</span></span></div>
+    </div>
+    <ul class="easy">
+      <li>추리 보드가 아니라 쪽지 한 장이에요. 칸은 셋이에요(분홍이 정답).</li>
+      <li>쪽지 문장이 메인 표현이라 플레이어가 too many / not enough를 직접 쓰는 셈이에요.</li>
+      <li>노트와 <code>포장한 상자</code> 카드(꽃이 빈 상자 3 · 남은 분홍 하트 3)를 열어 보며 채워요.</li>
+      <li><b>틀리면</b> 쪽지가 흔들리고 탐정이 “Let's look at the gift boxes again.”이라고만 말해요.</li>
+    </ul>
+  </div>
+  <div class="line"><span class="who">수지</span><div class="bub ">Oh no! You're right. There are too many pink hearts and not enough flowers. The pink heart tray and the flower tray were next to each other. I'm sorry!<span class="ko">이런! 맞아. 분홍 하트는 너무 많고 꽃은 모자라. 분홍 하트 쟁반과 꽃 쟁반이 나란히 있었어. 미안해!</span></div></div>
+
+  <div class="q"><div class="q-top"><code>s2</code><span class="chip pink">메인 표현</span><span class="ask">Do you have any flower chocolates?</span><span class="muted">꽃 초콜릿 있어?</span></div><div class="q-body">
+    <div class="line"><span class="who">수지</span><div class="bub">Yes, I have some! There are a few in the kitchen. But I don't have any square chocolates today.<span class="ko">응, 좀 있어! 주방에 몇 개 있어. 그런데 오늘 네모 초콜릿은 하나도 없어.</span></div></div>
+    <div class="note">Yes, I have <span class="blank">some</span>! There are <span class="blank">a few</span> in the kitchen. But I don't have <span class="blank">any</span> square chocolates today.</div><p class="tip"><b>열쇠 포인트</b> · 긍정문은 some, 부정문은 any. 쪽지를 맞힌 뒤에만 열리는 질문이에요.</p>
+  </div></div>
+  <div class="line"><span class="who">수지</span><div class="bub ">Here are three flower chocolates.<span class="ko">여기 꽃 초콜릿 세 개야.</span></div></div>
+
+  <p class="tip">남은 분홍 하트 3개를 수지에게 건네고 꽃 3개를 받아요(소풍 가방의 건네기·받기 그대로).</p>
+</div>
+
+<div class="scene">
+  <div class="scene-head"><span class="sno">5</span><h3>선생님께 돌려주기</h3><span class="where">교실</span></div>
+  <p>꽃을 받으면 페니가 칠판 앞에서 책상 쪽으로 돌아와 서요. 말을 걸면 이 대사로 시작해요.</p>
+  <div class="line"><span class="who">페니</span><div class="bub ">Oh, Detective! My class is over.<span class="ko">아, 탐정! 수업 끝났어.</span></div></div>
+  <p>꽃이 빈 선물 상자 3개에 받아 온 꽃을 하나씩 끌어 놓아요(들어가면 뚜껑·리본). 13상자가 모두 차요.</p>
+  <div class="line"><span class="who">탐정</span><div class="bub det">There were too many pink hearts and not enough flowers. Suzy gave me three flower chocolates.<span class="ko">분홍 하트는 너무 많고 꽃은 모자랐어. 수지가 꽃 초콜릿 세 개를 줬어. (플레이어가 쪽지로 정한 사실을 다시 말함)</span></div></div>
+  <div class="line"><span class="who">탐정</span><div class="bub det">Here you go. One box for each student.<span class="ko">여기 있어. 학생마다 한 상자씩.</span></div></div>
+
+  <div class="line"><span class="who">페니</span><div class="bub ">Now there are enough flower chocolates for everyone!<span class="ko">이제 모두에게 줄 꽃 초콜릿이 충분해!</span></div></div>
+
+  <div class="line"><span class="who">페니</span><div class="bub ">Thank you, Detective. Happy Valentine's Day!<span class="ko">고마워, 탐정. 발렌타인데이 축하해!</span></div></div>
+
+  <p class="tip">→ 복습 페이지</p>
+</div>
+
+<!-- ---------- unlock ---------- -->
+<h2 id="unlock">해금 순서</h2>
+<div class="tbl"><table>
+<thead><tr><th>#</th><th>조건</th><th>열리는 것</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>시작</td><td>교실, 페니</td></tr>
+<tr><td>2</td><td>t3 기록</td><td>초콜릿 가게, 수지</td></tr>
+<tr><td>3</td><td>t0–t3 기록, 노트 닫기</td><td>페니의 부탁 → 페니는 수업(누르면 토스트), 책상 위 초콜릿 상자(확대·선물 상자 포장)</td></tr>
+<tr><td>4</td><td>포장 + s1 기록</td><td>탐정의 선택 대사 → 주문 확인 쪽지</td></tr>
+<tr><td>5</td><td>쪽지 정답</td><td>수지의 확인, s2 질문</td></tr>
+<tr><td>6</td><td>s2 기록</td><td>분홍 하트·꽃 바꾸기</td></tr>
+<tr><td>7</td><td>꽃을 받음</td><td>페니가 책상 쪽으로 돌아옴 → 빈 자리 3개에 꽃 넣기 → 페니에게 건네기 → 복습</td></tr>
+</tbody></table></div>
+<p class="muted" style="font-size:14px">순서는 자유예요. 포장 전에 가게에 가서 s1을 먼저 들어도 돼요. 쪽지는 포장과 s1이 모두 끝나야 열려요.<br><b>도토리 힌트</b> · 포장 중 막히면 1번째는 꽃 홈이 빈 상자를, 2번째는 남은 분홍 하트를 반짝여요. 쪽지에서는 노트와 <code>포장한 상자</code> 카드를 반짝여요. 결론은 말하지 않아요.</p>
+
+<!-- ---------- study ---------- -->
+<h2 id="study">예습과 복습</h2>
+<div class="grid2">
+  <div class="card">
+    <h3>이번 사건의 열쇠 · 수량 표현</h3>
+    <ul class="easy">
+      <li><b>too many / not enough</b> · 필요한 것보다 많다 / 모자라다. There are too many pink hearts.</li>
+      <li><b>enough</b> · 충분하다. There are enough flower chocolates for everyone.</li>
+      <li><b>a lot of / a few</b> · 많은 / 몇 개의. I made a lot of pink heart chocolates. There are a few in the kitchen.</li>
+      <li><b>some / any</b> · 긍정문은 some, 부정문·의문문은 any. Yes, I have some! I don't have any square chocolates.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>같이 나오는 것</h3>
+    <ul class="easy">
+      <li><b>문법</b> · 복수형 -s(hearts, flowers, squares), There are ~, each + 단수 명사</li>
+      <li><b>단어</b> · chocolate, heart, pink, brown, flower, square, shape, student, order, pack, others, gift box, each, enough, a lot of, a few, some, any, too many, thirteen, fifty-two, kitchen, wrong, Valentine's Day</li>
+      <li><b>다시 들을 문장 후보</b> · s1(a lot of), s2(some / a few / any), t1(thirteen)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ---------- make ---------- -->
+<h2 id="make">제작</h2>
+<h3 style="margin:8px 0">새로 만들 엔진 기능</h3>
+<div class="tbl"><table>
+<thead><tr><th>기능</th><th>내용</th><th>비슷한 기존 기능</th></tr></thead>
+<tbody>
+<tr><td>선물 상자 포장</td><td>초콜릿을 끌어 선물 상자 위에 놓으면 그 상자의 맞는 빈 홈으로 들어감. 한 상자에 같은 색 하트 둘은 안 됨. 넣을 자리가 없으면 튕기고, 같은 색 하트로 처음 튕길 때 탐정 대사. 다 찬 상자는 뚜껑·리본. 남은 것은 소지품, 결과는 단서 카드. 받아 온 꽃로 빈 자리 채우기</td><td>연 사건의 덮개 치우기, 확대 조사</td></tr>
+<tr><td>주문 확인 쪽지</td><td>쪽지 한 장의 고르기 칸 3개. 틀리면 흔들림, 맞으면 다음 대사</td><td>추리 보드의 빈칸 드롭다운</td></tr>
+<tr><td>건네고 받기</td><td>남은 분홍 하트 3 → 꽃 3</td><td>소풍 가방의 건네기·받기</td></tr>
+<tr><td>새 문법 카드</td><td>수량 표현(too many / not enough / enough / a lot of / a few / some / any)</td><td>다른 문법 카드</td></tr>
+</tbody></table></div>
+<h3 style="margin:18px 0 8px">그림·녹음 (만들기 전에 견적을 알리고 확정)</h3>
+<div class="tbl"><table>
+<thead><tr><th>무엇</th><th>새로·재사용</th><th>비율</th><th>메모</th></tr></thead>
+<tbody>
+<tr><td>페니 선생님(고슴도치)</td><td>새로</td><td>인물 시트</td><td>기본·걱정·기쁨 + 말하는 입</td></tr>
+<tr><td>교실</td><td>새로</td><td>3:4 세로</td><td>칠판의 하트 장식, 책상 위 상자. 띠 + 바닥으로 자름</td></tr>
+<tr><td>초콜릿 시트</td><td>새로</td><td>16:9 한 장</td><td>분홍 하트·갈색 하트·꽃·네모 초콜릿, 큰 상자(닫힘·열림), 작은 선물 상자(받침에 하트·하트·꽃·네모 모양 홈 4개, 리본 묶은 것)</td></tr>
+<tr><td>수지(다람쥐)</td><td>새로</td><td>인물 시트</td><td>기본·미안·기쁨 + 말하는 입</td></tr><tr><td>초콜릿 가게</td><td>새로</td><td>3:4 세로</td><td>계산대 위에 분홍 하트·갈색 하트·꽃·네모 쟁반이 나란히, 도토리 간판. 띠 + 바닥으로 자름</td></tr>
+<tr><td>녹음</td><td>새로</td><td>—</td><td>페니 약 10줄, 수지 약 7줄, 탐정 약 10줄</td></tr>
+</tbody></table></div>
+
+<h3 style="margin:18px 0 8px">초콜릿 그림 방향 <span class="chip pink">예쁘게 · 장식에 공들이기</span></h3>
+<p class="muted" style="font-size:14px">실루엣은 하트·꽃·네모로 또렷이 다르게(하트는 분홍·갈색 두 색, 색을 확실히 다르게), 장식은 모양마다 한 가지 스타일로 통일해서 작은 칸에서도 헷갈리지 않게 해요. 레퍼런스: 실제 봉봉 초콜릿.</p>
+<div class="tbl"><table>
+<thead><tr><th>모양</th><th>바탕</th><th>장식</th></tr></thead>
+<tbody>
+<tr><td>분홍 하트</td><td>딸기 분홍 초콜릿, 윤기</td><td>흰 초콜릿 드리즐 줄무늬, 작은 금빛 하트 토퍼, 가장자리 하이라이트</td></tr>
+<tr><td>갈색 하트</td><td>윤기 나는 밀크 초콜릿</td><td>분홍 드리즐 줄무늬, 작은 흰 진주 알갱이 몇 개</td></tr>
+<tr><td>꽃</td><td>연한 밀크 초콜릿, 도톰한 꽃잎 5장</td><td>가운데 흰 초콜릿 동그라미와 분홍 스프링클, 꽃잎마다 결 무늬</td></tr>
+<tr><td>네모</td><td>진한 다크 초콜릿, 모서리가 살짝 둥근 사각</td><td>흰 초콜릿 지그재그 드리즐, 한쪽 모서리에 금박 조각이나 아몬드 반쪽</td></tr>
+</tbody></table></div>
+<p class="tip">공통: 게임 그림과 같은 동화풍 손그림·연필 외곽선, 윤기와 하이라이트, 주름 종이 컵 받침은 빼기(선물 상자 칸과 겹치지 않게), 위에서 내려다본 각도. 시트에 큰 초콜릿 상자(닫힘·열림), 작은 선물 상자(홈 4개·리본), 남은 분홍 하트를 담을 작은 봉투도 함께. 만들기 전에 프롬프트와 견적을 먼저 보여 드려요.</p>
+
+<!-- ---------- art ---------- -->
+<h2 id="art">그림 제작 계획 (상세)</h2>
+<p>사용자 요청(2026-11-26): 견적보다 <b>어떻게 만들지</b>를 먼저 정한다. 모든 그림은 Higgsfield Nano Banana 2.1로 만들고, 원본 시트(<code>*-higgsfield-original.png</code>)를 남긴 뒤 스크립트로 잘라 쓴다(기존 사건과 같은 방식, <code>HANDOFF.md</code> 7절).</p>
+<h3 style="margin:26px 0 8px;font-size:21px">공통 원칙</h3>
+<ul class="easy">
+<li><b>화풍 맞추기:</b> 참조 그림으로 화단 사건의 <code>characters/gus-ollie-higgsfield-original.png</code>(인물)과 <code>places/flowerbed/garden.webp</code>(장소)를 넣고 프롬프트에 "drawing style only"라고 적는다. 동화풍 손그림, 크레용 결, 갈색 연필 외곽선, 따뜻한 색. 살아 있는 작가 이름은 쓰지 않는다.</li>
+<li><b>글자 없음:</b> 간판·칠판·포스터에 글자를 그리지 않는다(그림 속 글자는 깨지기 쉽고 해석 규칙과도 겹침). 하트·도토리 같은 그림 기호만.</li>
+<li><b>배경 분리:</b> 인물·물건 시트는 <b>마젠타 단색 배경</b>(#FF00FF)으로 그려 스크립트로 뺀다(화단·우산 사건과 같음). 가장자리가 지저분하면 Higgsfield <code>remove_background</code>를 쓴다.</li>
+<li><b>장소는 3:4 세로 2K</b>(규칙): 1376 폭으로 줄여 위 768을 조사 화면 띠, 아래를 대화 화면 바닥(<code>ART_FLOOR</code>)으로 자른다. 인물이 설 자리는 가운데쯤, 빈 바닥이 그림 아래 끝까지.</li>
+<li><b>움직이는 것은 따로:</b> 장면에서 상태가 바뀌는 것(큰 상자, 선물 상자, 초콜릿, 페니가 자리를 비움)은 배경에 그리지 않고 따로 그려 위에 얹는다.</li>
+<li><b>한 단계씩 사용자 확인:</b> 아래 순서대로 한 장 만들 때마다 보여 주고, 승인받은 뒤 다음 장으로 간다.</li>
+</ul>
+<h3 style="margin:26px 0 8px;font-size:21px">만드는 순서와 각 그림</h3>
+<div class="tbl"><table><thead><tr><th>순서</th><th>그림</th><th>비율·크기</th><th>참조</th><th>나오는 파일</th></tr></thead><tbody><tr><td>1</td><td>인물 기본 시트(페니·수지)</td><td>16:9 2K, 마젠타</td><td><code>gus-ollie-higgsfield-original.png</code></td><td><code>characters/penny-higgsfield.webp</code>, <code>suzy-higgsfield.webp</code>, 얼굴 <code>ui/icons-v2/penny·suzy</code></td></tr><tr><td>2</td><td>인물 표정 시트</td><td>16:9 2K, 마젠타</td><td>1번 결과</td><td><code>penny-worried</code>, <code>penny-happy</code>, <code>suzy-sorry</code>, <code>suzy-happy</code></td></tr><tr><td>3</td><td>입 시트</td><td>16:9 1K, 단색</td><td>1·2번 결과</td><td><code>characters/mouths/penny·suzy-closed·open</code> 등</td></tr><tr><td>4</td><td>교실</td><td>3:4 2K</td><td><code>flowerbed/garden.webp</code> + 1번</td><td><code>places/valentine/classroom.webp</code>, <code>classroom-floor.jpg</code></td></tr><tr><td>5</td><td>초콜릿 가게</td><td>3:4 2K</td><td>4번 결과 + 1번</td><td><code>places/valentine/shop.webp</code>, <code>shop-floor.jpg</code></td></tr><tr><td>6</td><td>초콜릿·상자 시트</td><td>16:9 2K, 마젠타</td><td>사용자 레퍼런스 3장(봉봉 초콜릿)</td><td><code>places/valentine/choc-pink-heart·brown-heart·flower·square</code>, <code>bigbox-closed·open</code>, <code>gift-open·gift-closed</code>, <code>bag-pink-hearts·bag-flowers</code></td></tr><tr><td>7</td><td>작은 지도</td><td>1:1 1K</td><td>4·5번 결과</td><td><code>places/valentine/map.webp</code></td></tr><tr><td>8</td><td>사건 목록 표지·복습 사진</td><td>새로 안 만듦</td><td>—</td><td>교실 그림 + 6번 선물 상자를 합성(스크립트)</td></tr></tbody></table></div>
+<h3 style="margin:22px 0 6px">1. 인물 기본 시트 — 페니(고슴도치 선생님)와 수지(다람쥐 초콜릿 가게 주인)</h3>
+<ul class="easy">
+<li><b>한 장에 둘</b>, 각자 전신·정면에서 살짝 비스듬히, 서 있는 기본 자세. 크기 비율은 숲속 마을 인물들과 같게(다른 인물 옆에 세워도 어색하지 않게).</li>
+<li><b>페니:</b> 작고 동그란 고슴도치, 부드러운 갈색 가시. 둥근 안경, 연한 분홍 카디건과 무릎길이 치마, 가슴에 작은 하트 브로치. 다정하고 조금 바쁜 표정.</li>
+<li><b>수지:</b> 날씬한 다람쥐, 크고 폭신한 꼬리. 초콜릿색 앞치마에 도토리 무늬 하나, 작은 흰 요리 모자. 앞치마에 초콜릿 얼룩 한두 점. 손이 빠른 느낌의 밝은 표정.</li>
+<li><b>잘라 쓰기:</b> <code>scripts/cut-valentine-characters.py</code>(새로) — 마젠타를 빼고 알파 경계 + 3% 여백, 높이 700px. 얼굴 아이콘 160×160(흰 테두리)도 같은 스크립트로. <code>SPRITES.face</code>·<code>anchor</code> 값을 출력.</li>
+<li><b>프롬프트 초안</b><span class="prompt">"Two forest animal characters on a flat magenta (#FF00FF) background, full body, standing, slight three-quarter view, children's storybook illustration, crayon texture, soft brown pencil outlines, warm colors. Left: a small round hedgehog teacher with soft brown spines, round glasses, a light pink cardigan and knee-length skirt, a tiny heart brooch, kind and a little busy. Right: a slim squirrel chocolatier with a big fluffy tail, a chocolate-brown apron with one acorn emblem, a small white chef hat, one or two chocolate smudges on the apron, cheerful. No text. Drawing style only from the reference."</span></li>
+</ul>
+<h3 style="margin:22px 0 6px">2. 표정 시트</h3>
+<ul class="easy">
+<li>1번 그림을 참조로 넣고 <b>얼굴과 손만 바꾼 4가지</b>를 한 장에: 페니 걱정(손을 볼에, t0–t2), 페니 기쁨(두 손을 모음, 결말), 수지 미안(귀가 처지고 손을 모음, 쪽지 정답 뒤), 수지 기쁨(꽃 초콜릿 세 개를 내밂).</li>
+<li>옷·크기·선 굵기는 1번과 똑같이. 자르기는 같은 스크립트.</li>
+</ul>
+<h3 style="margin:22px 0 6px">3. 입 시트</h3>
+<ul class="easy">
+<li>기존 방식(<code>make-flowerbed-mouths.py</code>)처럼 입만 닫은·벌린 모양을 한 장에 그려 <code>scripts/make-valentine-mouths.py</code>로 잘라 얹는다. 출력 좌표를 <code>MOUTHS</code>에 넣는다.</li>
+</ul>
+<h3 style="margin:22px 0 6px">4. 교실 (3:4 세로)</h3>
+<ul class="easy">
+<li><b>배치:</b> 숲속 학교 교실. 뒤쪽 벽에 초록 칠판(분필로 그린 하트들, 글자 없음), 나무 창문 밖 숲. 가운데 앞쪽에 <b>선생님 책상</b>(위는 비워 둠: 큰 상자와 선물 상자는 따로 얹음). 책상 왼쪽에 페니가 설 빈 바닥. 작은 학생 책상들은 양옆 뒤쪽에 조금만. 벽에 종이 하트 장식 줄.</li>
+<li><b>학생은 그리지 않는다</b>(아래 "정할 것" 1).</li>
+<li><b>잘라 쓰기:</b> <code>scripts/cut-valentine-places.py</code>(새로) — 1376 폭, 띠 시작 위치는 그림을 보고 정함(칠판과 책상이 띠 안에), 아래는 바닥.</li>
+<li><b>프롬프트 초안</b><span class="prompt">"A cozy forest school classroom on Valentine's Day morning, vertical 3:4, children's storybook illustration, crayon texture, soft pencil outlines. A green chalkboard on the back wall with chalk-drawn hearts (no letters), wooden windows showing the forest, paper heart garlands. A teacher's wooden desk in the front center with an empty top. A few small student desks at the back sides. Empty wooden floor continuing to the bottom edge. No characters, no text."</span></li>
+</ul>
+<h3 style="margin:22px 0 6px">5. 초콜릿 가게 (3:4 세로)</h3>
+<ul class="easy">
+<li><b>배치:</b> 작은 나무 가게. 가운데 유리 진열 계산대, 그 위에 <b>분홍 하트·갈색 하트·꽃·네모 쟁반 네 개가 나란히</b>(분홍 하트와 꽃 쟁반이 바로 붙어 있게: 사건의 원인이 그림으로 보임). 뒤쪽 선반에 선물 상자들, 오른쪽 뒤에 <b>주방 문</b>(수지가 "in the kitchen"이라고 할 곳). 처마 밑에 도토리 모양 간판(글자 없음). 계산대 옆에 수지가 설 빈 바닥.</li>
+<li>4번 교실을 참조로 넣어 빛·색을 맞춘다.</li>
+<li><b>프롬프트 초안</b><span class="prompt">"A small wooden chocolate shop run by a squirrel, vertical 3:4, children's storybook illustration, crayon texture, soft pencil outlines, warm light. A glass display counter in the center with four trays side by side on top: pink heart chocolates, brown heart chocolates, flower-shaped chocolates and square chocolates; the pink heart tray and the flower tray touch each other. Shelves with ribbon gift boxes behind, a kitchen door at the back right, an acorn-shaped sign with no letters, Valentine decorations. Empty floor beside the counter and down to the bottom edge. No characters, no text."</span></li>
+</ul>
+<h3 style="margin:22px 0 6px">6. 초콜릿·상자 시트 (가장 중요, 예쁘게)</h3>
+<ul class="easy">
+<li><b>보는 각도: 위에서 내려다본 모습(flat lay).</b> 퍼즐에서 초콜릿을 선물 상자 홈에 겹쳐 놓아야 하므로, 초콜릿·홈·상자가 모두 같은 각도여야 딱 맞는다. 위에서 봐도 장식이 잘 보인다.</li>
+<li><b>초콜릿 4개(각 1개):</b> 위 "초콜릿 그림 방향"의 장식 그대로. 분홍 하트(딸기 분홍, 흰 드리즐, 금빛 작은 하트), 갈색 하트(밀크, 분홍 드리즐, 흰 진주), 꽃(도톰한 꽃잎 5장, 가운데 흰 초콜릿과 분홍 스프링클), 네모(다크, 흰 지그재그, 금박 한 조각). 크기는 넷이 거의 같게.</li>
+<li><b>큰 상자:</b> 닫힌 것(리본, 도토리 무늬 뚜껑), 연 것(안쪽이 비어 있음: 초콜릿 39개는 코드로 흩어 얹음).</li>
+<li><b>선물 상자:</b> 연 것(받침에 하트·하트·꽃·네모 <b>모양 홈</b> 4개가 2×2, 홈은 초콜릿 실루엣과 같은 모양·크기, 비어 있어도 모양이 보이게 살짝 그늘), 닫은 것(뚜껑 + 분홍 리본).</li>
+<li><b>소지품용:</b> 분홍 하트 세 개가 든 작은 비닐 봉투, 꽃 세 개가 든 작은 봉투.</li>
+<li><b>잘라 쓰기:</b> <code>scripts/cut-valentine-props.py</code>(새로) — 칸마다 잘라 투명 webp. 선물 상자 연 것에서 <b>홈 네 곳의 가운데 좌표</b>를 재서 출력(코드가 초콜릿을 얹을 자리).</li>
+<li><b>프롬프트 초안</b><span class="prompt">"Item sheet on a flat magenta (#FF00FF) background, top-down flat-lay view, children's storybook illustration with crayon texture and soft pencil outlines, glossy and pretty. Row 1: four bonbon chocolates of the same size — a glossy strawberry-pink chocolate heart with white drizzle and a tiny gold heart topper; a glossy milk-chocolate heart with pink drizzle and a few white pearls; a plump five-petal milk-chocolate flower with a white-chocolate center and pink sprinkles; a dark-chocolate square with rounded corners, a white zigzag drizzle and a small gold-leaf flake. Row 2: a large chocolate box closed with a ribbon and an acorn pattern lid, and the same box open and empty inside. Row 3: a small gift box open showing a tray with four molded cavities in a 2x2 grid shaped exactly like a heart, a heart, the flower and the square; the same gift box closed with a pink ribbon. Row 4: a small clear bag with three pink heart chocolates, a small clear bag with three flower chocolates. Items well separated, no paper cups, no text. Use the reference photos only for chocolate shapes and decorations."</span></li>
+<li>사용자 레퍼런스 3장은 "모양과 장식 참고"로만 넣는다(사진풍이 섞이지 않게 화풍은 1번 참조로 고정).</li>
+</ul>
+<h3 style="margin:22px 0 6px">7. 작은 지도 (1:1)</h3>
+<ul class="easy">
+<li>교실이 있는 숲속 학교와 초콜릿 가게, 둘을 잇는 오솔길. 다른 사건의 사건별 지도(바이올린 <code>map-hall</code>, 크리스마스 <code>map-festival</code>)와 같은 크기·방식. 글자 없음. 핀은 <code>PLACES[].x/y</code>로 건물 위에.</li>
+</ul>
+<h3 style="margin:22px 0 6px">8. 사건 목록 표지·복습 사진 (새로 안 만듦)</h3>
+<ul class="easy">
+<li><b>표지:</b> 교실 그림의 책상 부분에 리본 묶은 선물 상자 몇 개와 큰 상자를 얹어 합성(<code>scripts/make-valentine-cover.py</code>, 4:3 800×563, 우산 표지처럼).</li>
+<li><b>복습 사진:</b> 13상자가 다 찬 모습(선물 상자 닫은 그림 13개를 나란히 합성).</li>
+</ul>
+<h3 style="margin:26px 0 8px;font-size:21px">그림과 엔진이 맞물리는 곳</h3>
+<div class="tbl"><table><thead><tr><th>장면</th><th>쓰는 그림</th><th>코드가 하는 일</th></tr></thead><tbody><tr><td>교실 대화</td><td>교실 띠·바닥, 페니(기본·걱정)</td><td>페니 위치 <code>NPC_POSITIONS</code>, 말할 때 입</td></tr><tr><td>포장 확대</td><td>교실 띠 확대 + 큰 상자(연 것) + 선물 상자 13개 + 초콜릿</td><td>초콜릿 39개를 큰 상자 안에 흩어 얹음, 끌어 놓은 상자의 맞는 홈 좌표로 쏙 넣음, 넣을 자리가 없으면 튕김, 다 찬 상자는 닫은 그림으로 바꿈</td></tr><tr><td>가게 대화·쪽지</td><td>가게 띠·바닥, 수지(기본·미안·기쁨)</td><td>쪽지는 코드로 그림(종이 질감은 기존 노트 종이)</td></tr><tr><td>바꾸기·결말</td><td>봉투(분홍 하트·꽃), 페니(기쁨)</td><td>소지품 건네기·받기</td></tr></tbody></table></div>
+<h3 style="margin:26px 0 8px;font-size:21px">정할 것(그림)</h3>
+<div class="dec">1. <b>페니가 수업하는 동안 어디 있을까:</b> 칠판 앞에 서 있게 하면 수업인데 학생이 안 보여 어색하다. <b>추천: 페니는 교실을 나가고(다른 반 수업, 화면에서 빠짐), 꽃을 받아 오면 돌아온다.</b> 학생을 그리지 않아도 되고, 탐정 혼자 포장하는 장면이 자연스럽다. 이 경우 대사 "I have to teach now"는 그대로 맞고, "칠판 앞으로"라고 적은 부분과 토스트(수업 중 누르기)는 "자리에 없음"으로 바뀐다.</div>
+<div class="dec">2. <b>초콜릿 시트 각도:</b> 위에서 내려다본 모습(추천) 또는 비스듬한 모습(더 입체적이지만 홈에 얹기 어려움).</div>
+<div class="dec">3. <b>수지의 요리 모자:</b> 쓰기(추천, 가게 주인이 한눈에) 또는 머리띠.</div>
+
+<!-- ---------- decide ---------- -->
+<h2 id="decide">정할 것</h2>
+<div class="dec"><b>그림 쪽 정할 것 3가지</b> · 위 “그림 제작 계획” 끝에 있어요.</div>
+<div class="dec done"><b>정한 것</b> · 쉬운 난도 · 새 인물 고슴도치 페니 · 새 인물 다람쥐 수지(초콜릿 가게) · Claude Code 기획 · Case 04 바로 뒤(새 Case 05) · <b>메인 표현은 수량 표현</b>(가격 듣기는 다음 사건 후보) · some / any는 쪽지 앞 받아쓰기(s2) · 선물 상자는 분홍 하트·갈색 하트·꽃·네모 4칸(52개), 같은 색 하트 둘은 못 넣음, 상자에 끌어 놓기 · 점검 반영: 페니는 이상하다는 것만, s1은 주문 확인 + a lot of, s2는 쪽지 뒤, 네모는 페니가 미리 넣음 · 2차 점검: 결말에서 탐정이 알림, 부탁은 t0–t3 뒤, 수업 중 토스트, 먼저 간 경우 “Let's tell Suzy.”, 페니 복귀, 도토리 힌트</div>
+
+<footer>원문: <code>design/case-valentine-chocolate.md</code>(이 페이지와 같은 내용, 하나를 고치면 함께 고침) · 학습 지도: <a href="learning-plan-app.html">learning-plan-app.html</a></footer>
+</div>
+<script>
+// the 13 gift boxes of the packing mock: 10 full (lid, ribbon), 3 with the flower slot empty
+const ic = n => `<span class="ic"><svg><use href="#${n}"/></svg></span>`;
+document.getElementById('gifts').innerHTML = Array.from({ length:13 }, (_, i) => {
+  const miss = i >= 10;
+  const slots = ['heart', 'heartb', 'flower', 'square'].map(n => miss && n === 'flower' ? `<span class="slot empty"><span class="ic mold"><svg><use href="#${n}"/></svg></span></span>` : `<span class="slot">${ic(n)}</span>`).join('');
+  return `<div class="gift ${miss ? 'missing' : 'full'}"><div class="slots">${slots}</div><small>${miss ? '꽃 없음' : `학생 ${i + 1}`}</small></div>`;
+}).join('');
+</script>
+</body>
+</html>

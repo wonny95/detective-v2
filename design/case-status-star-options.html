@@ -1,0 +1,200 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>아직 안 열린 사건 서류철 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--ink:#4A3628;--line:#6b4a2b;--berry:#C96F86;--sky:#9CC9E0;--fd:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--fb:"Paperlogy",system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:#B5BEA4;color:var(--ink);font-family:var(--fb)}
+header{padding:20px 24px 4px}
+header h1{margin:0;font:400 24px var(--fd)}
+header p{margin:6px 0 0;font-size:14px;line-height:1.55;max-width:900px}
+.row{display:flex;flex-wrap:wrap;gap:24px;padding:18px 24px 40px}
+.opt{width:390px;padding:16px 16px 20px;border-radius:24px;background:#F3E7CF;box-shadow:0 6px 20px rgba(50,40,20,.18)}
+.opt h2{margin:0 0 4px;font:400 18px var(--fd)}
+.opt p{margin:0 0 18px;font-size:13px;line-height:1.5;min-height:58px}
+/* the game's list at the working size: a 390 wide phone, 16px sides, two folders a row 12px apart (each about 173 x 258) */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:6px}
+
+/* the game's folder (as in the case list) */
+.lf{position:relative;display:block;aspect-ratio:161/240;min-height:236px}
+.lf-back{position:absolute;inset:0;background:url(../assets/ui/case-folder-front.webp) 0 100%/100% 90.5% no-repeat,url(../assets/ui/case-folder-paper.webp) 50% 80%/90% 90% no-repeat,url(../assets/ui/case-folder-back.webp) 0 0/100% 100%}
+.lf.cur .lf-back{filter:hue-rotate(12deg) saturate(1.4) brightness(1.1)}
+.lf-tab{position:absolute;z-index:2;left:5.5%;top:1.2%;width:36%;font:400 12px/1.5 var(--fd);color:#6b4522;text-align:center;white-space:nowrap}
+.lf-in{position:absolute;z-index:2;left:8%;right:8%;top:15.8%;bottom:4%}
+.lf-pic{position:relative;display:block;padding:4px 4px 9px;background:#FFFDF6;border:1.5px solid var(--line);border-radius:2px;rotate:-2.4deg}
+.lf.r .lf-pic{rotate:2deg}
+.lf-pic::before{content:"";position:absolute;z-index:2;left:50%;top:-10px;width:46px;height:17px;margin-left:-23px;background:url(../assets/ui/casekey/tape.webp) 0 0/100% 100%;transform:rotate(-4deg)}
+.lf-pic img{display:block;width:100%;aspect-ratio:1.42;object-fit:cover;background:#E9D8BC}
+.lf-title{display:block;margin-top:14px;font:400 19px/1.22 var(--fd);text-wrap:balance;word-break:keep-all}
+.lf-title.long{font-size:17px}
+.now{position:absolute;z-index:3;right:-4px;top:-2px;padding:3px 9px;border-radius:999px;background:var(--berry);color:#fff;font:400 12px var(--fd);rotate:5deg}
+.now.go{background:var(--sky);color:var(--ink)}
+/* a solved case, as in the game: a faded folder, a sepia photo with SOLVED stamped on it, the stars under the title */
+.lf.done .lf-back{filter:saturate(.72) brightness(1.02)}
+.lf.done .lf-pic img{filter:sepia(.5) saturate(.7)}
+.st{position:absolute;z-index:3;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-12deg);padding:1px 7px;border:2.5px solid #B8323A;border-radius:5px;background:rgba(255,253,246,.82);font:400 15px var(--fd);letter-spacing:.05em;color:#B8323A}
+.stars{position:absolute;left:0;bottom:5%;display:flex;gap:1px}.stars img{width:16px}
+.cap{margin-top:6px;font-size:12px;text-align:center;color:#7D6A58}
+.why{font:400 14px/1.35 var(--fd);color:#5f4c36;text-align:center;word-break:keep-all;text-wrap:balance}
+.ctr{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+
+
+.lock{width:36px;filter:grayscale(.7);opacity:.7}
+.lf.lk .lf-back{filter:saturate(.45) brightness(.92)}
+/* the star slot: the same place as a solved case's stars, near the folder's bottom left */
+.slot{position:absolute;left:0;right:0;bottom:5%;display:flex;align-items:center;gap:5px;font:400 13px/1 var(--fd)}
+.slot .stars{position:static}
+
+/* S1. empty stars waiting: the new case's three empty stars twinkle in turn; one under way has them dimmer with a magnifier */
+.s1 img{width:16px}
+.s1.new img{animation:tw 2.4s infinite}.s1.new img:nth-child(2){animation-delay:.25s}.s1.new img:nth-child(3){animation-delay:.5s}
+@keyframes tw{0%,40%,100%{scale:1;filter:none}12%{scale:1.3;filter:drop-shadow(0 0 4px #FFD45A) brightness(1.15)}}
+.s1.go img{opacity:.55}
+.s1 .mag{width:18px;opacity:1!important;margin-left:4px}
+
+/* S2. a small word label where the stars go */
+.s2 b{padding:3px 8px 3px;border-radius:999px;background:var(--berry);color:#fff;font-weight:400}
+.s2.go b{background:var(--sky);color:var(--ink)}
+.s2 img{width:16px}
+
+/* S3. footprints for how far: none yet on a new case (a pink "시작!" instead), some on one under way */
+.s3 i{width:11px;height:14px;background:#6b4a2b;border-radius:50% 50% 45% 45%/60% 60% 40% 40%;opacity:.18;rotate:-14deg}
+.s3 i:nth-child(even){rotate:14deg;translate:0 -3px}
+.s3 i.on{opacity:.8}
+.s3 em{font-style:normal;color:#C23A4E;margin-left:3px}
+.s3.go em{color:#356C93}
+
+/* S4. a small rubber stamp in the star slot, as SOLVED is on the photo */
+.s4 b{padding:2px 7px 1px;border:2px solid #C23A4E;border-radius:4px;color:#C23A4E;font-weight:400;letter-spacing:.06em;rotate:-6deg;background:rgba(255,253,246,.6)}
+.s4.go b{border-color:#3E6F9A;color:#3E6F9A;rotate:4deg}
+
+/* S5. question marks: ??? on a new case; one under way has some turned to found stars */
+.s5 span{width:17px;height:17px;display:grid;place-items:center;border:1.5px dashed #A48D6C;border-radius:50%;font-size:11px;color:#A48D6C}
+.s5.new span{border-color:#C96F86;color:#C23A4E;animation:bob 2.6s infinite}
+.s5.new span:nth-child(2){animation-delay:.2s}.s5.new span:nth-child(3){animation-delay:.4s}
+@keyframes bob{0%,30%,100%{translate:0 0}12%{translate:0 -4px}}
+.s5 img{width:18px}
+/* ---------- locked folder options ---------- */
+/* now: a greyer folder with a padlock and when it opens */
+.k-now .lf-back{filter:saturate(.45) brightness(.92)}
+.k-now img.lock{width:36px;filter:grayscale(.7);opacity:.7}
+
+/* A. tied shut: a string crossed over the closed folder with a padlock hanging on the knot */
+.k-tied .lf-back{filter:saturate(.6) brightness(.95)}
+.k-tied .x{position:absolute;z-index:3;inset:9.5% 0 0;pointer-events:none}
+.k-tied .x path{fill:none;stroke:#8A6A48;stroke-width:3.2;stroke-linecap:round}
+.k-tied img.lock{position:absolute;z-index:4;left:50%;top:52%;width:40px;margin:-4px 0 0 -20px;rotate:-6deg;filter:drop-shadow(1px 2px 2px rgba(60,40,20,.4))}
+.k-tied .why{position:absolute;z-index:4;left:6%;right:6%;bottom:7%;padding:3px 4px;background:rgba(243,231,207,.88);border-radius:6px;font-size:13px}
+
+/* B. the photo turned face down: the polaroid's plain back with a "?" and the title written as ??? */
+.k-back .lf-back{filter:saturate(.6) brightness(.96)}
+.k-back .lf-pic{background:#EFE6D3;rotate:-2deg}
+.k-back .lf-pic::after{content:"?";display:grid;place-items:center;width:100%;aspect-ratio:1.42;background:repeating-linear-gradient(45deg,#E6DAC2 0 6px,#EDE3CE 6px 12px);font:400 40px var(--fd);color:#B9A27E}
+.k-back .q{display:block;margin-top:14px;font:400 19px/1.2 var(--fd);letter-spacing:.12em;color:#A48D6C}
+.k-back .small{display:flex;align-items:center;gap:5px;margin-top:6px;font:400 12.5px/1.35 var(--fd);color:#7D6A58}
+.k-back .small img{width:16px;opacity:.7}
+
+/* C. a "기밀" (classified) seal tape across the folder, the folder faded */
+.k-secret .lf-back{filter:saturate(.5) brightness(.93)}
+.k-secret .tape2{position:absolute;z-index:4;left:-6%;right:-6%;top:40%;padding:4px 0;background:#E9D7A8;border-block:1.5px dashed #8B6A48;rotate:-14deg;text-align:center;font:400 15px var(--fd);letter-spacing:.3em;color:#B23C4E;box-shadow:0 2px 3px rgba(60,40,20,.25)}
+.k-secret .why{position:absolute;z-index:4;left:6%;right:6%;bottom:12%}
+
+/* D. still in the cabinet: only the folder's back peeks up behind a drawer front, the tab with its number */
+.k-drawer{overflow:hidden}
+.k-drawer .lf-back{background:url(../assets/ui/case-folder-back.webp) 0 0/100% 100%;filter:saturate(.55) brightness(.94);top:20%}
+.k-drawer .lf-tab{top:21.2%}
+.k-drawer .front{position:absolute;z-index:3;left:-2%;right:-2%;top:46%;bottom:0;border:2px solid #5b4330;border-radius:8px 8px 0 0;background:linear-gradient(#9B7A57,#86663F);box-shadow:inset 0 2px 0 rgba(255,255,255,.2)}
+.k-drawer .front::before{content:"";position:absolute;left:50%;top:20%;width:46px;height:12px;margin-left:-23px;border:2px solid #5b4330;border-radius:6px;background:#C9B08A}
+.k-drawer .front .why{position:absolute;left:8%;right:8%;top:42%;color:#FFF5E2;font-size:13px}
+.k-drawer .front img{position:absolute;left:50%;top:4%;width:20px;margin-left:-10px;opacity:.85}
+
+/* E. a dashed empty place where the next folder will be, a small lock and the condition */
+.k-ghost .gslot{position:absolute;inset:9.5% 2% 0;border:2.5px dashed #BFA885;border-radius:12px;background:rgba(255,253,246,.35)}
+.k-ghost .lf-tab{color:#A48D6C}
+.k-ghost .lf-tab::before{content:"";position:absolute;inset:-1px -4px;border:2.5px dashed #BFA885;border-bottom:0;border-radius:8px 8px 0 0}
+.k-ghost img.lock{width:30px;filter:grayscale(1);opacity:.45}
+.k-ghost .why{color:#8E7A5E;font-size:13px}
+.sec{margin:8px 24px 0;padding-top:18px;border-top:2px dashed rgba(74,54,40,.3);font:400 22px var(--fd)}
+.sec small{display:block;margin-top:4px;font:400 14px var(--fb)}
+/* ---------- Higgsfield stamps (assets/ui/stamps/, scripts/cut-stamps.py) ---------- */
+.gal{display:flex;flex-wrap:wrap;gap:14px;padding:18px 24px 6px}
+.gal figure{margin:0;width:150px;padding:10px;border-radius:14px;background:#FFFDF6;text-align:center;font-size:11px;color:#7D6A58}
+.gal img{display:block;width:100%;height:96px;object-fit:contain;margin-bottom:6px}
+.stp{position:absolute;z-index:4;pointer-events:none;filter:drop-shadow(0 0 .5px rgba(0,0,0,.2))}
+.stp.corner{right:-10px;top:-14px;width:66px;rotate:10deg}
+.stp.corner.wide{width:96px;top:-6px;right:-14px;rotate:8deg}
+.stp.onpic{left:50%;top:44%;width:74px;translate:-50% -50%;rotate:-12deg;opacity:.92}
+.stp.onpic.wide{width:118px}
+.lf-pic img.stp,.lf.done .lf-pic img.stp{aspect-ratio:auto;height:auto;object-fit:contain;background:none;filter:drop-shadow(0 0 .5px rgba(0,0,0,.2))}
+.lf-pic img.stp.onpic{width:74px}.lf-pic img.stp.onpic.wide{width:118px}
+.stp.new{animation:thump 3s 1.2s infinite}
+@keyframes thump{0%,18%,100%{scale:1}6%{scale:1.12}12%{scale:.96}}
+</style></head><body>
+<header>
+  <h1>아직 안 열린 사건 서류철 — 시안</h1>
+  <p>잠긴 사건(앞 사건을 풀면 열리는 Case 10)과 준비 중(Case 11) 서류철 모양이에요. 지금처럼 제목·사진은 보이지 않아요. 폰 화면 390 폭 목록 크기, 코드로 그린 임시 모양이에요. (새로운 의뢰·수사 중 표시는 S2로, 해결 도장은 MISSION CLEAR로 정해져 이 페이지에서 뺐어요.)</p>
+</header>
+<h2 class="sec">② 아직 안 열린 사건 서류철<small>잠김(앞 사건을 풀면 열리는 Case 10)과 준비 중(Case 11). 지금처럼 제목·사진은 보이지 않아요.</small></h2>
+<div class="row" id="rowLocked"></div>
+
+<script>
+const OPTS = [
+  ['지금', '서류철 오른쪽 위 모서리의 알약 스티커. 별 자리는 비어 있어요.', 'now'],
+  ['S1. 기다리는 빈 별', '새 의뢰는 빈 별 세 개가 차례로 반짝이며 “별을 따러 오세요” 하고 불러요. 수사 중은 빈 별이 흐리고 옆에 돋보기.', 's1'],
+  ['S2. 작은 글자 라벨', '별 자리에 작은 알약 라벨 `NEW` / `수사 중`. 지금 스티커를 서류철 안쪽 아래로 옮긴 모양이라 가장 알아보기 쉬워요.', 's2'],
+  ['S3. 발자국', '새 의뢰는 발자국이 모두 흐리고 `시작!`. 수사 중은 걸어온 만큼 발자국이 진해져요(진행 정도를 셀 기준은 따로 정해야 해요).', 's3'],
+  ['S4. 작은 도장', '별 자리에 작은 고무 도장 `NEW` / `수사 중`. 해결하면 사진 위 SOLVED 도장과 별로 바뀌어 도장 말투가 이어져요.', 's4'],
+  ['S5. 물음표 별', '새 의뢰는 별 자리에 ? 세 개가 통통 튀어요. 수사 중은 ? 와 돋보기. 해결하면 ? 가 별로 바뀌어요.', 's5']
+];
+const star = n => [0, 1, 2].map(i => `<img src="../assets/ui/${i < n ? 'star' : 'star-empty'}.webp" alt="">`).join('');
+const mag = '<img class="mag" src="../assets/ui/icons/magnifier.webp" alt="">';
+const slot = (kind, s) => {
+  const go = s === 'go', c = `slot ${kind} ${go ? 'go' : 'new'}`;
+  if(kind === 's1') return `<span class="${c}" aria-label="${go ? '수사 중' : '새로운 의뢰'}">${star(0)}${go ? mag : ''}</span>`;
+  if(kind === 's2') return `<span class="${c}"><b>${go ? '수사 중' : 'NEW'}</b></span>`;
+  if(kind === 's3') return `<span class="${c}">${[0, 1, 2, 3, 4].map(i => `<i class="${go && i < 3 ? 'on' : ''}"></i>`).join('')}<em>${go ? '수사 중' : '시작!'}</em></span>`;
+  if(kind === 's4') return `<span class="${c}"><b>${go ? '수사 중' : 'NEW'}</b></span>`;
+  if(kind === 's5') return `<span class="${c}">${go ? '<span>?</span><span>?</span><span>?</span>' + mag : '<span>?</span><span>?</span><span>?</span>'}</span>`;
+  return '';
+};
+const folder = (kind, no, title, img, s, bg, r) => {
+  const t = `<span class="lf-title${title.replace(/ /g, '').length > 11 ? ' long' : ''}">${title.replace('크리스마스트리', '크리스마스<wbr>트리')}</span>`;
+  const pic = `<span class="lf-pic"><img src="${img}" alt=""${bg ? ` style="object-fit:contain;background:${bg}"` : ''}>${s === 'done' ? '<span class="st">SOLVED</span>' : ''}</span>`;
+  const mark = s === 'done' ? `<span class="slot"><span class="stars">${star(3)}</span></span>` : kind === 'now' ? '' : slot(kind, s);
+  const sticker = kind === 'now' && (s === 'new' || s === 'go') ? `<span class="now${s === 'go' ? ' go' : ''}">${s === 'go' ? '수사 중' : '새로운 의뢰!'}</span>` : '';
+  return `<div class="lf${r ? ' r' : ''}${s === 'new' ? ' cur' : ''}${s === 'done' ? ' done' : ''}"><span class="lf-back"></span><span class="lf-tab">${no}</span><span class="lf-in">${pic}${t}${mark}</span>${sticker}</div>`;
+};
+const lockedF = `<div class="lf lk"><span class="lf-back"></span><span class="lf-tab">Case 10</span><span class="lf-in ctr"><img class="lock" src="../assets/ui/padlock-closed.webp" alt=""><span class="why">Case 09를 해결하면 열려요</span></span></div>`;
+if(document.getElementById('row')) document.getElementById('row').innerHTML = OPTS.map(([h, p, kind]) => `<section class="opt"><h2>${h}</h2><p>${p}</p><div class="grid">
+  <div>${folder(kind, 'Case 03', '꿀 가게 강도', '../assets/places/montage/cover.jpg', 'new', '#B98A5E')}<div class="cap">새로운 의뢰</div></div>
+  <div>${folder(kind, 'Case 09', '사라진 크리스마스트리의 별', '../assets/places/christmas/tree-cover.jpg', 'go', '', 1)}<div class="cap">수사 중</div></div>
+  <div>${folder(kind, 'Case 01', '사라진 연', '../assets/places/kite/kite-cover.jpg', 'done')}<div class="cap">해결</div></div>
+  <div>${lockedF}<div class="cap">잠김</div></div>
+</div></section>`).join('');
+// the locked folder options
+const LOCKED_OPTS = [
+  ['지금', '회색 서류철 가운데에 자물쇠와 열리는 조건이 있어요.', 'now'],
+  ['A. 끈으로 묶고 자물쇠', '닫힌 서류철을 끈으로 X자로 묶고 매듭에 자물쇠를 걸었어요. 아직 손댈 수 없는 파일이에요. 조건은 아래 작은 띠에.', 'tied'],
+  ['B. 뒤집힌 사진', '사진이 뒤집혀 있어 무늬 있는 뒷면에 “?”만 보여요. 제목 자리는 ???, 그 아래 작은 자물쇠와 조건. 다른 서류철과 모양이 같아 목록이 고르게 보여요.', 'back'],
+  ['C. 기밀 테이프', '빛바랜 서류철에 ‘기밀’ 테이프가 비스듬히 붙어 있어요. 아직 열람할 수 없는 사건 파일 느낌이에요.', 'secret'],
+  ['D. 서랍 속 서류철', '서류철이 아직 서랍장 안에 꽂혀 있어 뒷판과 Case 번호 탭만 보여요. 서랍 앞판에 자물쇠와 조건.', 'drawer'],
+  ['E. 빈 자리', '서류철이 올 자리만 점선으로 그려져 있어요. 가장 가볍고 조용해서 열린 사건이 더 눈에 띄어요.', 'ghost']
+];
+const lock = (cls = 'lock') => `<img class="${cls}" src="../assets/ui/padlock-closed.webp" alt="">`;
+const locked = (kind, no, why) => {
+  const tab = `<span class="lf-tab">${no}</span>`;
+  if(kind === 'now') return `<div class="lf k-now"><span class="lf-back"></span>${tab}<span class="lf-in ctr">${lock()}<span class="why">${why}</span></span></div>`;
+  if(kind === 'tied') return `<div class="lf k-tied"><span class="lf-back"></span>${tab}<svg class="x" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M4 8L96 98M96 8L4 98"/></svg>${lock()}<span class="why">${why}</span></div>`;
+  if(kind === 'back') return `<div class="lf k-back"><span class="lf-back"></span>${tab}<span class="lf-in"><span class="lf-pic"></span><span class="q">???</span><span class="small">${lock('')}${why}</span></span></div>`;
+  if(kind === 'secret') return `<div class="lf k-secret"><span class="lf-back"></span>${tab}<span class="tape2">기밀</span><span class="why">${why}</span></div>`;
+  if(kind === 'drawer') return `<div class="lf k-drawer"><span class="lf-back"></span>${tab}<span class="front">${lock('')}<span class="why">${why}</span></span></div>`;
+  return `<div class="lf k-ghost"><span class="gslot"></span>${tab}<span class="lf-in ctr">${lock()}<span class="why">${why}</span></span></div>`;
+};
+const solvedF = (no, title, img, n, bg, r) => `<div class="lf done${r ? ' r' : ''}"><span class="lf-back"></span><span class="lf-tab">${no}</span><span class="lf-in"><span class="lf-pic"><img src="${img}" alt=""${bg ? ` style="object-fit:contain;background:${bg}"` : ''}><span class="st">SOLVED</span></span><span class="lf-title${title.replace(/ /g, '').length > 11 ? ' long' : ''}">${title}</span><span class="stars">${[0, 1, 2].map(i => `<img src="../assets/ui/${i < n ? 'star' : 'star-empty'}.webp" alt="">`).join('')}</span></span></div>`;
+
+document.getElementById('rowLocked').innerHTML = LOCKED_OPTS.map(([h, p, kind]) => `<section class="opt"><h2>${h === '지금' ? '지금' : '잠김 ' + h}</h2><p>${p}</p><div class="grid">
+  <div>${locked(kind, 'Case 10', 'Case 09를 해결하면 열려요')}<div class="cap">잠김</div></div>
+  <div>${locked(kind, 'Case 11', '준비 중이에요')}<div class="cap">준비 중</div></div>
+</div></section>`).join('');
+</script>
+</body></html>

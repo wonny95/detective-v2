@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>앱 기준 학습 지도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FBF6EA;--card:#FFFDF7;--ink:#3B2E25;--soft:#7A6A5C;--line:#E4D8C3;--honey:#E9B44C;--honey-bg:#FCEFD0;--berry:#C9566E;--berry-bg:#F8E1E5;--leaf:#5F7A3A;--leaf-bg:#E7EED8;--sky:#4F7FA8;--sky-bg:#E1ECF5;--gray-bg:#EFEAE2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 'Gowun Dodum',system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 16px 64px}
+h1,h2,h3{font-family:'Jua',sans-serif;font-weight:400;line-height:1.3;margin:0}
+h1{font-size:30px}
+h2{font-size:23px;margin:44px 0 6px}
+h3{font-size:18px}
+.lead{color:var(--soft);margin:8px 0 0;max-width:760px}
+.sub{color:var(--soft);margin:0 0 16px;font-size:15px}
+.note{background:var(--gray-bg);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--soft);margin-top:14px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0}
+nav a{font-size:14px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+nav a:hover{background:var(--honey-bg)}
+/* summary numbers */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font:400 28px/1.1 'Jua',sans-serif}
+.stat span{font-size:14px;color:var(--soft)}
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;counter-reset:step}
+.step{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;counter-increment:step}
+.step::before{content:counter(step);position:absolute;top:-10px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--honey);color:var(--ink);font:400 14px/24px 'Jua',sans-serif;text-align:center}
+.step h3{margin-top:4px}
+.step p{margin:4px 0 0;font-size:14px;color:var(--soft)}
+.step.out{background:var(--leaf-bg);border-color:#CBD8B3}
+.step.out::before{background:#A9C07E}
+.step.mid::before{background:#D9B88A}
+.step.opt{border-style:dashed}
+.step.opt::before{background:#E7A3B1}
+table.matrix{min-width:760px}
+td.x{color:var(--soft)}
+td.o{color:var(--leaf);font-family:'Jua',sans-serif}
+td small{color:var(--soft)}
+/* table */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{background:var(--honey-bg);font-weight:400;font-family:'Jua',sans-serif;font-size:15px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.no{white-space:nowrap;font-family:'Jua',sans-serif}
+td .en{display:block;color:var(--soft);font-size:13px}
+code{font-family:ui-monospace,Consolas,monospace;font-size:13px;background:var(--gray-bg);border-radius:5px;padding:1px 5px}
+.tag{display:inline-block;font-size:12px;border-radius:999px;padding:1px 8px;margin:2px 2px 0 0;white-space:nowrap}
+.t-easy{background:var(--leaf-bg);color:var(--leaf)}
+.t-mid{background:var(--honey-bg);color:#8A6414}
+.t-hard{background:var(--berry-bg);color:var(--berry)}
+.t-game{background:var(--sky-bg);color:var(--sky)}
+tr.game td{background:#F4F8FB}
+/* grammar line */
+.line{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.g{flex:1 1 150px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px}
+.g b{font-family:'Jua',sans-serif;font-weight:400;font-size:15px;display:block}
+.g small{color:var(--soft)}
+.g.past{border-left:4px solid var(--berry)}
+.g.desc{border-left:4px solid var(--leaf)}
+.g.own{border-left:4px solid var(--honey)}
+.g.place{border-left:4px solid var(--sky)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--soft);margin:10px 0 0}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+/* two columns */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.box h3{margin-bottom:8px}
+.box ul{margin:0;padding-left:18px}
+.box li{margin:4px 0;font-size:15px}
+.box li small{color:var(--soft)}
+.box.done{border-top:4px solid var(--leaf)}
+.box.todo{border-top:4px solid var(--berry)}
+.box.gap{border-top:4px solid var(--honey)}
+/* map */
+.map td.unit{white-space:nowrap;font-family:'Jua',sans-serif}
+.have{color:var(--leaf)}
+.none{color:var(--berry)}
+/* decisions */
+.dec{display:grid;gap:10px}
+.dec details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.dec summary{cursor:pointer;font-family:'Jua',sans-serif;font-size:16px}
+.dec p{margin:8px 0 0;font-size:15px;color:var(--soft)}
+footer{margin-top:48px;font-size:13px;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>앱 기준 학습 지도</h1>
+<p class="lead">지금 게임에 실제로 들어간 사건 9개와 학습 장치를 기준으로 정리했어요. 기획 순서가 아니라 <b>앱 번호 순서</b>를 따르고, 들어간 것과 아직 없는 것을 나눴어요. (2026-11-26 개발 폴더 기준)</p>
+<nav>
+  <a href="#flow">한 사건의 학습 흐름</a>
+  <a href="#cases">사건 9개</a>
+  <a href="#grammar">문법 순서</a>
+  <a href="#tools">학습 장치</a>
+  <a href="#map">교육 지도와 대응</a>
+  <a href="#decide">정할 것</a>
+</nav>
+
+<div class="stats">
+  <div class="stat"><b>9</b><span>플레이할 수 있는 사건 (Case 01–09)</span></div>
+  <div class="stat"><b>3</b><span>훈련 자리 (철자 자물쇠·단어 짝맞추기 번갈아)</span></div>
+  <div class="stat"><b>9</b><span>사건마다 하나씩 정한 열쇠 문법</span></div>
+  <div class="stat"><b>4단계</b><span>사건을 푼 뒤 복습 페이지</span></div>
+</div>
+<p class="note">게임 방향(사용자 결정): 대상은 중1 정도, 영어듣기능력평가 대비가 메인이에요. 한 사건 = 듣기 유형 하나 + 그 유형의 “찾고 조립하기” 퍼즐 하나. 답은 들은 내용으로만 정해져요.</p>
+
+<!-- ---------- flow ---------- -->
+<h2 id="flow">한 사건의 학습 흐름</h2>
+<p class="sub">아홉 사건 모두 같은 엔진과 같은 화면을 쓰지만, 단계를 다 거치지는 않아요. 앞뒤(열쇠 카드, 복습)는 모든 사건에 있고, 가운데는 사건마다 달라요.</p>
+<div class="flow">
+  <div class="step"><h3>열쇠 카드</h3><p>모든 사건. 서류철을 열면 이번 사건의 열쇠 문법을 먼저 봐요.</p></div>
+  <div class="step mid"><h3>듣기</h3><p>들은 것을 기록해요. 대부분은 노트 빈칸에 받아쓰고, 꿀 가게는 노트 대신 몽타주에 기록해요.</p></div>
+  <div class="step mid"><h3>찾고 조립하기</h3><p>사건마다 다른 퍼즐 하나(아래 표).</p></div>
+  <div class="step mid opt"><h3>추리 보드</h3><p>긴 사건 3개(07·08·09)에만 있어요. 나머지는 고르거나 건네는 것이 곧 풀이예요.</p></div>
+  <div class="step mid"><h3>결말</h3><p>건네주기, 고르기, 증거 내밀기, 심문 가운데 하나 이상.</p></div>
+  <div class="step"><h3>복습 4단계</h3><p>모든 사건. 사건 결과 → 다시 들을 문장(틀린 것만) → 문법 → 단어.</p></div>
+  <div class="step out"><h3>사건 밖 반복</h3><p>학습 탭, 3·6·9번째 사건 뒤 훈련 게임, 도토리.</p></div>
+</div>
+<p class="legend"><span><i style="background:var(--honey)"></i>모든 사건</span><span><i style="background:#D9B88A"></i>사건마다 다름</span><span><i style="background:#E7A3B1"></i>일부 사건만</span></p>
+
+<h3 style="margin:22px 0 10px">사건별로 거치는 단계</h3>
+<div class="tbl">
+<table class="matrix">
+<thead><tr><th>사건</th><th>듣기</th><th>찾고 조립하기</th><th>추리 보드</th><th>결말</th></tr></thead>
+<tbody>
+<tr><td class="no">01 사라진 연</td><td>노트 받아쓰기</td><td>잎·꽃·공을 치우고 연 6개 모으기</td><td class="x">없음</td><td>연을 골라 건네기 <small>(틀리면 토비가 다른 점을 말해 줌)</small></td></tr>
+<tr><td class="no">02 주인 없는 우산</td><td>노트 받아쓰기</td><td>우산을 접고 펴며 무늬·안감 보기</td><td class="x">없음</td><td>“Is this umbrella yours?” 물어보기 → 주인에게 건네기 → 엘라에게 알리기</td></tr>
+<tr><td class="no">03 꿀 가게 강도</td><td><b>몽타주</b> <small>노트 대신, 목격자 말을 한 줄씩 듣고 부위를 골라 기록</small></td><td>세 목격자의 말을 모아 몽타주 한 장 완성</td><td class="x">없음</td><td>몽타주를 테리 경관에게 건네기</td></tr>
+<tr><td class="no">04 누가 화단을 망쳤을까?</td><td>노트 받아쓰기</td><td>흙의 둥근 자국 찍기, 꽃 줍기</td><td class="x">없음</td><td>증거 내밀기(사진·재채기 진술) → 꽃을 코에 대기 → 거스 인정 → 올리에게 알리기</td></tr>
+<tr><td class="no">05 바뀐 소풍 가방</td><td>노트 받아쓰기</td><td>가방 속 물건과 “목수”라는 말 잇기</td><td class="x">없음</td><td>가방 두 개를 각자에게 건네기</td></tr>
+<tr><td class="no">06 같은 얼굴의 운전자</td><td>노트 받아쓰기</td><td>쌍둥이의 상처·붕대 보기, 밴·작업실 사진</td><td class="x">없음</td><td>운전자 고르기 → 에반 인정 → 테리 경관</td></tr>
+<tr><td class="no">07 사라진 바이올린</td><td>노트 받아쓰기</td><td>커튼 뒤 케이스, 단추·소매, 니퍼</td><td class="o">있음</td><td><b>심문</b>(경관 없이 대기실) → 바이올린을 타라에게</td></tr>
+<tr><td class="no">08 도서관 살인사건</td><td>노트 받아쓰기</td><td>멈춘 시계, 빵집 문 안내, 목격 진술</td><td class="o">있음</td><td>경찰에게 알리기 → <b>조사실 심문</b> → 자백</td></tr>
+<tr><td class="no">09 크리스마스트리의 별</td><td>노트 받아쓰기</td><td>상자 수, 바닥 자국, 별 뒷면 무늬</td><td class="o">있음</td><td><b>심문</b> → 금별을 엘라에게 → 점등식</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">흐름으로 보면 세 갈래예요. ① 찾아서 돌려주기(01·02·05): 듣고 찾은 물건을 건네면 끝. ② 그려서 넘기기(03): 노트 대신 몽타주에 기록하고, 완성한 그림을 넘기면 끝. ③ 범인 가리기(04·06·07·08·09): 증거를 내밀거나 고른 뒤 인정을 받아요. 그중 07–09만 추리 보드와 긴 심문이 붙어요.</p>
+
+<!-- ---------- cases ---------- -->
+<h2 id="cases">사건 9개 (앱 번호 순서)</h2>
+<p class="sub">퍼즐과 결말은 위 표에 있어요. 초록·노랑·분홍 표시는 분량과 진행 방식으로 본 대략의 난도예요(학생 검증 전).</p>
+<div class="tbl">
+<table>
+<thead><tr><th>번호</th><th>사건</th><th>듣기 초점</th><th>열쇠 문법</th></tr></thead>
+<tbody>
+<tr><td class="no">Case 01</td><td>사라진 연<span class="en">Missing Kite</span><span class="tag t-easy">쉬움 · 인물 1·장소 1</span></td><td>생김새 듣기</td><td><code>It is ~ / It has ~</code></td></tr>
+<tr><td class="no">Case 02</td><td>주인 없는 우산<span class="en">Whose Umbrella?</span><span class="tag t-easy">쉬움</span></td><td>누구의 것인지 듣기</td><td><code>mine / yours</code></td></tr>
+<tr><td class="no">Case 03</td><td>꿀 가게 강도<span class="en">The Honey Shop Robber</span><span class="tag t-easy">쉬움</span></td><td>생김새·옷차림 듣기</td><td><code>He has ~ / He was wearing ~</code></td></tr>
+<tr><td class="no">Case 04</td><td>누가 화단을 망쳤을까?<span class="en">Who Stepped on the Flowers?</span><span class="tag t-easy">쉬움</span></td><td>과거 의문문·부정 듣기</td><td><code>Did + 주어 + 동사원형?</code></td></tr>
+<tr class="game"><td class="no">훈련</td><td>철자 자물쇠<span class="tag t-game">도토리 5개</span></td><td colspan="2">Case 03을 풀면 열려요. 앞 사건에서 배운 단어의 철자를 맞춰 자물쇠를 열어요. 다시 하면 도토리 1개.</td></tr>
+<tr><td class="no">Case 05</td><td>바뀐 소풍 가방<span class="en">Mixed-Up Bags</span><span class="tag t-mid">중간</span></td><td>소유 표현 듣기</td><td><code>my / your / his / her / mine / yours</code></td></tr>
+<tr><td class="no">Case 06</td><td>같은 얼굴의 운전자<span class="en">Which Twin Was Driving?</span><span class="tag t-mid">중간</span></td><td>한 일 듣기</td><td><code>What did + 주어 + do?</code></td></tr>
+<tr class="game"><td class="no">훈련</td><td>단어 짝맞추기<span class="tag t-game">도토리 5개</span></td><td colspan="2">Case 06을 풀면 열려요. 앞 사건의 영어 단어와 뜻을 짝지어요. 다시 하면 도토리 1개.</td></tr>
+<tr><td class="no">Case 07</td><td>사라진 음악 대회 바이올린<span class="en">Missing Violin</span><span class="tag t-hard">긴 사건 · 심문</span></td><td>위치 표현 듣기</td><td><code>there is · in / on / under · next to / behind</code></td></tr>
+<tr><td class="no">Case 08</td><td>도서관 살인사건<span class="en">Library Mystery</span><span class="tag t-hard">긴 사건 · 심문</span></td><td>시간 표현 듣기</td><td><code>at / from A to B / between A and B</code></td></tr>
+<tr><td class="no">Case 09</td><td>사라진 크리스마스트리의 별<span class="en">Missing Christmas Star</span><span class="tag t-hard">긴 사건 · 심문</span></td><td>현재진행형 듣기</td><td><code>be + -ing</code></td></tr>
+<tr class="game"><td class="no">훈련</td><td>철자 자물쇠<span class="tag t-game">도토리 5개</span></td><td colspan="2">Case 09를 풀면 열려요. 두 게임이 번갈아 나와서 9번째 뒤는 다시 철자 자물쇠예요(그 사건의 단어).</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ---------- grammar ---------- -->
+<h2 id="grammar">열쇠 문법이 나오는 순서</h2>
+<p class="sub">사건마다 열쇠 하나를 정했어요. 복습에서는 열쇠 말고 그 사건에 나온 다른 문법(be동사 과거, 규칙·불규칙 과거, 부정 등)도 함께 보여 줘요.</p>
+<div class="line">
+  <div class="g desc"><b>01 · It is / It has</b><small>생김새</small></div>
+  <div class="g own"><b>02 · mine / yours</b><small>소유</small></div>
+  <div class="g desc"><b>03 · has / was wearing</b><small>생김새·옷차림</small></div>
+  <div class="g past"><b>04 · Did ~?</b><small>과거 의문·부정</small></div>
+  <div class="g own"><b>05 · my·his·her·mine</b><small>소유</small></div>
+  <div class="g past"><b>06 · What did ~ do?</b><small>과거 한 일</small></div>
+  <div class="g place"><b>07 · in·on·next to</b><small>위치</small></div>
+  <div class="g place"><b>08 · at·from~to·between</b><small>시간</small></div>
+  <div class="g"><b>09 · be + -ing</b><small>현재진행</small></div>
+</div>
+<div class="legend"><span><i style="background:var(--leaf)"></i>생김새 묘사</span><span><i style="background:var(--honey)"></i>소유</span><span><i style="background:var(--berry)"></i>과거</span><span><i style="background:var(--sky)"></i>위치·시간 전치사</span></div>
+<p class="note">눈에 띄는 점 · 소유가 02·05에 두 번, 과거가 04·06에 일찍 나와요. 현재진행(09)은 가장 뒤예요. 쉬운 사건(01–04)에서 묘사와 과거를 먼저 익히고, 긴 사건(07–09)에서 전치사와 진행형을 쓰는 흐름이에요.</p>
+
+<!-- ---------- tools ---------- -->
+<h2 id="tools">학습 장치: 들어간 것과 아직 없는 것</h2>
+<div class="cols">
+  <div class="box done">
+    <h3>게임에 들어간 것</h3>
+    <ul>
+      <li><b>열쇠 카드</b> <small>사건 페이지에서 먼저 보기</small></li>
+      <li><b>노트 받아쓰기</b> <small>질문별 조용한 확인, 오답은 다시 듣고 고치기, 정답은 알려 주지 않음</small></li>
+      <li><b>해석 버튼</b> <small>한국어는 눌러야만 보임</small></li>
+      <li><b>도토리 힌트</b> <small>사건마다 3개, 다 쓰면 모아 둔 도토리에서</small></li>
+      <li><b>추리 보드</b> <small>탐정의 질문에 플레이어가 답하기</small></li>
+      <li><b>별점</b> <small>첫 확인 정확도 90% / 70% 기준 1–3개</small></li>
+      <li><b>복습 4단계</b> <small>사건 결과·다시 들을 문장·문법·단어</small></li>
+      <li><b>학습 탭</b> <small>북마크한 단어·문법, 해결한 사건의 복습과 다시 들을 문장</small></li>
+      <li><b>마이</b> <small>연속 학습일·정확도·모은 단어·이번 주 학습한 날</small></li>
+      <li><b>홈 사무소</b> <small>탐정이 지금 할 일을 말해 줌</small></li>
+      <li><b>훈련 미니게임 2종</b> <small>사건 3개마다 초록 서류철, 처음 5개·다시 1개 도토리</small></li>
+    </ul>
+  </div>
+  <div class="box todo">
+    <h3>아직 없는 것</h3>
+    <ul>
+      <li><b>간격 반복</b> <small>복습할 때가 되면 수첩 잉크가 바래고 다시 맞히면 진해짐</small></li>
+      <li><b>새 상황 확인</b> <small>외운 대사 밖의 새 문장으로 같은 표현 듣기</small></li>
+      <li><b>열쇠 성취도</b> <small>노트의 열쇠 표시, 보고서의 “열쇠 n/m”</small></li>
+      <li><b>난이도 3단계</b> <small>단어 카드 / 첫 글자 힌트 / 직접 입력</small></li>
+      <li><b>듣기 훈련 게임</b> <small>지금 두 게임은 철자와 뜻, 소리를 듣는 훈련은 없음</small></li>
+      <li><b>기념품</b> <small>홈 책장에 해결한 사건 기념품</small></li>
+      <li><b>사건 도중 증거 내밀기</b> <small>지금은 결말에서만</small></li>
+    </ul>
+  </div>
+  <div class="box gap">
+    <h3>검증하지 않은 것</h3>
+    <ul>
+      <li>학생 플레이로 본 분량·난도 <small>(아홉 사건 모두)</small></li>
+      <li>듣기평가 실제 유형과의 대응</li>
+      <li>별점 기준(90/70)이 알맞은지</li>
+      <li>도토리 수가 힌트·훈련에 알맞은지</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ---------- map ---------- -->
+<h2 id="map">교육 지도(중1 6단원)와 대응</h2>
+<p class="sub">기획 문서의 중1 단원 순서와 앱 사건을 맞춰 본 표예요. 기획 문서는 그대로 두었어요.</p>
+<div class="tbl map">
+<table>
+<thead><tr><th>교육 단원</th><th>열쇠 표현</th><th>앱 사건</th><th>상태</th></tr></thead>
+<tbody>
+<tr><td class="unit">L1-01 누구의 물건</td><td>my / your / his / her, mine / yours</td><td>Case 02 우산 · Case 05 소풍 가방</td><td class="have">두 사건 있음</td></tr>
+<tr><td class="unit">L1-02 위치</td><td>there is, in / on / under, next to / behind</td><td>Case 07 바이올린</td><td class="have">B 있음 · A(축제 창고 열쇠) 없음</td></tr>
+<tr><td class="unit">L1-03 일과·시간</td><td>현재형, do / does, usually</td><td>—</td><td class="none">없음</td></tr>
+<tr><td class="unit">L1-04 수량·가격</td><td>how many / much, some / any</td><td><a href="case-valentine-chocolate.html">초콜릿이 몇 개 틀렸을까?</a> (발렌타인, 기획 중 · 메인: too many / not enough · a lot of / a few · some / any)</td><td class="none">기획 중 · 개발 전</td></tr>
+<tr><td class="unit">L1-05 현재 행동</td><td>be + -ing</td><td>Case 09 크리스마스 별</td><td class="have">B 있음 · A(축제 마스코트) 없음</td></tr>
+<tr><td class="unit">L1-06 과거</td><td>did / didn't, 과거형</td><td>Case 04 화단 · Case 06 쌍둥이</td><td class="have">두 사건 있음</td></tr>
+<tr><td class="unit">(교육 지도에 없음)</td><td>It is / has, has / was wearing</td><td>Case 01 연 · Case 03 꿀 가게</td><td>앱에서 새로 생긴 “생김새” 묶음</td></tr>
+<tr><td class="unit">L2-03 시간 관계 (중2)</td><td>at, from…to, between…and</td><td>Case 08 도서관</td><td>중2 수준 사건을 앞에 둠</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">비어 있는 단원 · 일과·시간(L1-03)은 아직 사건이 없고, 수량·가격(L1-04)은 발렌타인 초콜릿 사건을 기획 중이에요. 듣기평가에 자주 나오는 숫자·가격 듣기라 다음 쉬운 사건 후보로 먼저 볼 만해요.</p>
+
+<!-- ---------- decide ---------- -->
+<h2 id="decide">정할 것</h2>
+<div class="dec">
+  <details open><summary>앱 번호 순서를 이대로 둘까, 교육 단원 순서로 맞출까?</summary><p>지금은 쉬운 사건부터(인물·장소 적은 순서) 놓여 있어요. 소유가 02·05로 떨어져 있고, 중2 수준 도서관이 08에 있어요. 쉬운 순서를 지키면서 같은 문법을 이어 붙일지 정해요.</p></details>
+  <details><summary>빈 단원(일과·수량)을 다음 사건으로 채울까?</summary><p>Codex의 1차 기획 차례예요. 정하면 CHANGELOG의 기획 요청으로 넘겨요.</p></details>
+  <details><summary>듣기 훈련 게임을 더할까?</summary><p>지금 두 게임은 철자와 뜻이에요. 게임이 듣기평가 대비라면 소리 듣고 고르기나 문장 조립을 하나 더해 번갈아 내는 방법이 있어요.</p></details>
+  <details><summary>간격 반복(수첩 잉크)을 언제 만들까?</summary><p>학습 탭의 북마크 단어·문법을 그대로 쓰면 새 데이터 없이 시작할 수 있어요.</p></details>
+  <details><summary>학생 검증을 어떻게 할까?</summary><p>쉬운 사건 01–04를 먼저 학생에게 맡겨 받아쓰기 정확도와 걸린 시간을 보는 방법이 있어요.</p></details>
+</div>
+
+<footer>원본 기획: <code>design/learning-plan.html</code>(Codex 기획 파일, 고치지 않음) · 앱 동작의 자세한 설명: <code>HANDOFF.md</code> 3절 · 듣기 유형·퍼즐 기준표: <code>design/listening-puzzle-map.html</code></footer>
+</div>
+</body>
+</html>
