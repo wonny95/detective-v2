@@ -1381,16 +1381,18 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
    near the folder's bottom left (the next case, one being played); the others have none */
 .cf-go{position:absolute;z-index:3;left:8%;bottom:8%;padding:3px 8px;border-radius:999px;background:var(--berry);color:#fff;font:400 13px/1 var(--f-display)}
 .cf-go.going{background:var(--sky);color:var(--ink)}
-.cf.locked .cf-in{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-.cf-knot img{display:block;width:36px;filter:grayscale(.7);opacity:.7}
-.cf-why{font:400 14px/1.35 var(--f-display);color:#5f4c36;text-align:center;word-break:keep-all;text-wrap:balance}
+.cf.locked .cf-in{display:block}
+/* a case not open yet (user pick B 2026-11-26, the mockup's 뒤집힌 사진): its photo turned face down, a patterned back
+   with a "?", no title, padlock or words (a tap still says why, data-locked) */
+.cf-pic.cf-back{background:#EFE6D3}
+.cf-pic.cf-back::after{content:"?";display:grid;place-items:center;width:100%;aspect-ratio:1.42;background:repeating-linear-gradient(45deg,#E6DAC2 0 6px,#EDE3CE 6px 12px);font:400 40px var(--f-display);color:#B9A27E}
 .cf.drop{animation:cf-drop .55s cubic-bezier(.25,1.2,.45,1) var(--d,0s) backwards}
 @keyframes cf-drop{from{opacity:0;scale:1.22;rotate:var(--tw,-5deg);translate:0 -26px}}
 @media(hover:hover){.cf:hover{translate:0 -6px;rotate:-1.2deg}.cf:not(.locked):hover .cf-pic{rotate:3.5deg;scale:1.04}}
 .cf:active{scale:.955}
 .cf.shake,.cf-game.shake{animation:cf-shake .45s}
 @keyframes cf-shake{20%{translate:-7px}40%{translate:6px}60%{translate:-4px}80%{translate:3px}}
-.shake .cf-knot img,.cf-game.jig .cf-ic > *{animation:cf-jig .55s}
+.cf-game.jig .cf-ic > *{animation:cf-jig .55s}
 @keyframes cf-jig{20%{rotate:-16deg}40%{rotate:13deg}60%{rotate:-9deg}80%{rotate:5deg}}
 .cf-st.thud{animation:cf-thud .42s cubic-bezier(.3,1.4,.5,1) both}
 @keyframes cf-thud{0%{opacity:0;scale:2.6}55%{opacity:1;scale:.88}75%{scale:1.06}100%{scale:1}}
@@ -1466,7 +1468,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .cf-foot{position:absolute;left:20px;right:20px;bottom:0;z-index:3;padding:14px 18px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(rgba(250,240,220,0),rgba(250,240,220,.95) 34%)}
 .cf-sheet .cf-start{width:100%;margin:0}
 .cf-sheet .cf-back{position:absolute;left:14px;top:10px;z-index:4;margin:0}
-@media(prefers-reduced-motion:reduce){.cf.drop,.cf.shake,.cf-game.shake,.cf.unlock,.cf-st.thud,.case-stars.pop img,.shake .cf-knot img,.cf-game.jig .cf-ic > *{animation:none}.cf,.cf-game,.cf-pic{transition:none}}
+@media(prefers-reduced-motion:reduce){.cf.drop,.cf.shake,.cf-game.shake,.cf.unlock,.cf-st.thud,.case-stars.pop img,.cf-game.jig .cf-ic > *{animation:none}.cf,.cf-game,.cf-pic{transition:none}}
 .cf-match{position:relative;width:56px;height:42px;border-radius:4px;background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/80px repeat;border:2px solid #8A5A2B}
 .cf-match i{position:absolute;width:15px;height:10px;background:#FFFDF6;box-shadow:0 1px 1px rgba(0,0,0,.25)}
 .cf-match i:first-child{left:4px;top:4px}
@@ -11237,7 +11239,7 @@ function renderCaseList(){
     if(!open || !c.playable){
       const why = open ? '준비 중이에요' : `${CASES[i - 1].no}${'2459'.includes(CASES[i - 1].no.slice(-1)) ? '를' : '을'} 해결하면 열려요`;
       return `<button class="cf locked" type="button" data-locked="${why}" aria-label="${c.no} 잠김, ${why}"><span class="cf-fl"></span><span class="cf-tab">${c.no}</span>
-        <span class="cf-in"><span class="cf-knot"><img src="assets/ui/padlock-closed.webp" alt=""></span><span class="cf-why">${why}</span></span></button>`;
+        <span class="cf-in"><span class="cf-pic cf-back"></span></span></button>`;
     }
     const done = solved.includes(c.id), next = c.id === nextId, going = !done && caseGoing(c.id);
     return `<button class="cf${done ? ' solved' : ''}${next ? ' current' : ''}" type="button" data-case="${c.id}"><span class="cf-fl"></span><span class="cf-tab">${c.no}</span>
