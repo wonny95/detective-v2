@@ -4,20 +4,37 @@
     {
       "name": "detective-review",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["server.js", "--review"],
+      "runtimeArgs": [
+        "server.js",
+        "--review"
+      ],
       "port": 5176
     },
     {
       "name": "detective-test",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["server.js", "--test"],
+      "runtimeArgs": [
+        "server.js",
+        "--test"
+      ],
       "port": 5177
     },
     {
       "name": "detective-dev",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["server.js"],
+      "runtimeArgs": [
+        "server.js"
+      ],
       "port": 5173
+    },
+    {
+      "name": "detective-design",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "server.js",
+        "--design"
+      ],
+      "port": 5179
     }
   ]
 }

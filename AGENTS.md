@@ -115,6 +115,7 @@ PORT=5174 node server.js       # 기획 폴더에서 화면을 볼 때 (PowerShe
 node scripts/update-review.js # 검증을 마친 게임을 사용자 확인용 복사본에 반영
 node server.js --review       # 사용자 확인: http://localhost:5176, 자동 새로고침 없음
 node server.js --test         # Claude·Codex 테스트: http://localhost:5177, 작업 파일 자동 새로고침
+node server.js --design       # 사용자 시안 보기: http://localhost:5179, 첫 화면이 시안 목록(design/*.html), 자동 새로고침
 ```
 
 기획 폴더의 5174와 개발 폴더의 서버는 서로 다른 폴더를 서빙한다. 5173(`detective-dev`)은 기존 개발 서버이며, 사용자와 AI의 동시 확인에는 아래 5176·5177을 쓴다. `PORT` 환경 변수가 남아 있으면 지정 포트를 우선하므로 비우거나 각 서버에 맞게 설정한다. 최종 공유는 claude.ai 아티팩트로 한다(`HANDOFF.md` 9절). 공개 데모 사이트(chatgpt.site)는 갱신을 멈췄으니 재배포하지 않는다.
@@ -122,6 +123,7 @@ node server.js --test         # Claude·Codex 테스트: http://localhost:5177, 
 ### 사용자 확인과 AI 테스트 분리 (사용자 결정)
 
 - **사용자 확인용은 `http://localhost:5176`**(`detective-review`): `.preview/review/`의 게임 복사본을 제공하고 자동 새로고침하지 않는다. 사용자의 기존 5176 진행 기록을 유지한다. Claude·Codex는 이 서버에서 테스트 버튼·스크립트·이동·새로고침으로 사용자의 진행을 건드리지 않는다.
+- **시안은 `http://localhost:5179`**(`detective-design`, 사용자 결정 2026-11-26): UI 시안(`design/*.html`)은 이 서버의 **새 탭**으로 사용자에게 띄운다. 리뷰 서버는 게임 복사본만 있어 시안이 열리지 않고, 사용자가 게임을 보는 리뷰 탭이나 AI 테스트 탭을 시안으로 바꾸지 않는다. 첫 화면은 최근에 고친 순서의 시안 목록이다.
 - **AI 테스트용은 `http://localhost:5177`**(`detective-test`): 개발 폴더의 작업 파일을 제공하고 자동 새로고침한다. Claude·Codex 모두 이 서버의 새 탭에서 확인한다. 가능하면 `?preview=...`의 메모리 기록을 쓴다. 사용자 서버와 포트가 달라 `localStorage`도 분리된다. 사용자에게 보여 줄 목적이 아니면 테스트 탭은 뒤에서 확인한다.
 - **작업 파일을 고치는 동안 확인용 복사본은 유지한다.** 화면 확인·검사를 마친 작업을 마무리할 때만 `node scripts/update-review.js`로 `index.html`·`assets/`·`audio/`를 복사한다. 사용자가 현재 버전을 유지하라고 하면 갱신하지 않는다. 문서만 고친 작업에는 갱신이 필요 없다. 복사본은 Git에서 제외하며, 별도 브랜치·worktree가 아니다.
 - **확인용 갱신은 브라우저 새로고침과 다르다.** 갱신 후 “확인용 반영 완료, 원할 때 새로고침”이라고 알린다. AI가 사용자 탭을 강제로 새로고침·이동하거나 저장을 초기화하지 않는다. 사용자는 보던 화면을 계속 쓰다가 원할 때 새 버전을 연다.

@@ -1,0 +1,263 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>사건 페이지 종이 바탕 시안</title>
+<style>
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"Paperlogy";src:url("../assets/fonts/Paperlogy-7Bold.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Paperlogy Display";src:url("../assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:400}
+:root{--paper:#FBF4E6;--ink:#4A3628;--soft:#7D6A58;--line:rgba(74,54,40,.14);--berry:#C96F86;
+  --fd:"Paperlogy Display","Paperlogy",system-ui,sans-serif;--fb:"Paperlogy",system-ui,sans-serif;
+  /* stand-in paper fibres (drawn by the browser) until a Higgsfield paper tile is made */
+  --fibre:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)' opacity='.22'/%3E%3C/svg%3E");
+  --fibre-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23f)' opacity='.13'/%3E%3C/svg%3E");
+  --blotch:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .4 0 0 0 0 .2 0 0 0 .5 -.1'/%3E%3C/filter%3E%3Crect width='600' height='600' filter='url(%23b)' opacity='.22'/%3E%3C/svg%3E")}
+*{box-sizing:border-box}
+html,body{margin:0;background:#B5BEA4;color:var(--ink);font-family:var(--fb)}
+header{padding:20px 24px 4px}
+header h1{margin:0;font:400 24px var(--fd)}
+header p{margin:6px 0 0;font-size:14px;line-height:1.55;max-width:920px}
+.switch{display:flex;gap:8px;margin:12px 0 0}
+.switch button{font:400 14px var(--fd);padding:7px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);color:var(--ink);cursor:pointer}
+.switch button[aria-pressed=true]{background:#E0A526}
+.row{display:flex;flex-wrap:wrap;gap:28px;padding:18px 24px 40px}
+.opt{display:flex;flex-direction:column;gap:10px;width:390px}
+.opt h2{margin:0;font:400 19px var(--fd)}
+.opt .why{margin:0;font-size:13.5px;line-height:1.5;min-height:82px}
+.phone{position:relative;width:390px;height:780px;border-radius:34px;overflow:hidden;background:var(--paper);box-shadow:0 10px 30px rgba(50,40,20,.25)}
+
+/* the game's case page (mockup D as built) */
+.pill{display:inline-flex;align-items:center;justify-content:center;font:400 14px var(--fd);color:var(--ink);cursor:pointer;background:none;
+  border:15px solid transparent;border-image:url(../assets/ui/buttons/cream-flat.webp) 60 62 62 62 fill / 15px 15.5px stretch;padding:0 4px;min-height:36px}
+.pill.big{border-image-source:url(../assets/ui/buttons/berry-flat.webp);border-width:20px;border-image-width:20px 20.6px;color:#fff;font-size:17px;width:100%;min-height:54px}
+.pill.sm{border-width:12px;border-image-width:12px 12.4px;min-height:32px;height:32px;min-width:54px;font-size:13px;white-space:nowrap}
+.back{position:absolute;left:14px;top:10px;z-index:5}
+.play{flex:none;width:32px;height:32px;border:0;padding:0;cursor:pointer;background:url(../assets/ui/icons/play.webp) 58% 50%/46% auto no-repeat,url(../assets/ui/buttons/round-cream.webp) center/100% no-repeat}
+.hero,.band{position:absolute;inset:0 0 auto;overflow:hidden}
+.hero{z-index:0;height:330px}
+.band{z-index:2;height:136px;visibility:hidden}
+.hero img,.band img{display:block;width:100%;height:330px;object-fit:cover}
+.band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;border-radius:26px 26px 0 0;box-shadow:0 -6px 20px rgba(50,40,20,.15);background:var(--sheet-bg);background-color:var(--sheet-col)}
+.scroll{position:absolute;inset:0;z-index:1;overflow-y:auto;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.paper{position:relative;min-height:calc(100% - 110px);margin-top:300px;padding:26px 24px 120px;border-radius:26px 26px 0 0;box-shadow:0 -6px 20px rgba(50,40,20,.15);background:var(--sheet-bg);background-color:var(--sheet-col)}
+.paper::before{content:"";display:block;width:40px;height:4px;margin:-16px auto 12px;border-radius:2px;background:var(--line)}
+.no{font:400 11px var(--fd);letter-spacing:.08em;color:var(--berry)}
+.title{margin:2px 0 0;font:400 24px/1.2 var(--fd)}
+.label{display:flex;align-items:center;gap:10px;margin:26px 0 10px;font:400 14px var(--fd);color:var(--soft)}
+.label::after{content:"";flex:1;height:1px;background:var(--line)}
+.k + .k{margin-top:26px}
+.form{margin:0;font:400 26px/1.2 var(--fd)}
+.mean{margin:4px 0 0;font-size:14px;color:var(--soft)}
+.mean b{color:var(--berry);font-weight:700}
+.ex{list-style:none;margin:12px 0 0;padding:0}
+.ex li{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:0 6px;padding:9px 0;border-top:1px solid var(--line);font-size:15.5px;line-height:1.35}
+.ex mark{background:none;color:var(--berry);font-weight:700}
+.ex .ko{display:none;grid-column:1/-1;margin-top:3px;font-size:13px;color:var(--soft)}
+.ex li.on .ko{display:block}
+.foot{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:14px 24px 20px;background:linear-gradient(transparent,var(--sheet-col) 32%)}
+
+/* 1. paper texture only */
+.P1{--sheet-col:#FAF0DC;--sheet-bg:var(--fibre) 0 0/240px 240px,var(--blotch) 0 0/600px 600px}
+
+/* 2. paper texture + its edges: one whole sheet inside the screen, a rough hand-cut edge on all four sides (stand-in made
+   by the browser; Higgsfield art later), lying on a warm desk under the picture. The sheet's top follows the scroll up
+   to the band; the words scroll inside the sheet only. */
+.P2{--sheet-col:#FAF0DC;background:#B9A27E}
+.P2 .blur{position:absolute;inset:0;z-index:0;overflow:hidden}
+.P2 .blur img{width:100%;height:100%;object-fit:cover;filter:blur(7px) brightness(.88) saturate(.85);scale:1.12}
+.P2 .hero{z-index:0}
+.P2 .frame{position:absolute;left:10px;right:10px;top:300px;height:600px;z-index:1;pointer-events:none}
+.P2 .frame::before{content:"";position:absolute;inset:0;border:1.5px solid rgba(140,105,70,.8);border-radius:16px;
+  background:var(--fibre) 0 0/240px 240px,var(--blotch) 0 0/600px 600px,#FAF0DC;
+  box-shadow:inset 0 0 22px rgba(160,115,60,.2);filter:url(#rough) drop-shadow(0 3px 8px rgba(50,40,20,.25))}
+.P2 .scroll{z-index:2}
+.P2 .paper{margin-top:300px;padding:30px 34px 120px;background:none;box-shadow:none;border-radius:0}
+.P2 .paper::before{display:none}
+.P2 .band{display:none}
+.P2 .foot{left:16px;right:16px;bottom:0;padding:14px 18px 20px;background:linear-gradient(rgba(250,240,220,0),rgba(250,240,220,.95) 34%);transition:background .2s}
+.P2 .foot.off{background:none}
+.P2 .after{height:96px}
+.P3 .blur img{filter:none;scale:1}
+.P3 .hero{display:none}
+/* 4. the paper lies in a case folder; the case number and title are on the folder's index tab. The picture on top as in
+   1 (not filling the screen). Opens from the case list: the folder comes up, its cover turns, it becomes the page. */
+.P4{background:var(--paper)}
+.P4 .folder{position:absolute;left:-8px;right:-8px;top:258px;height:1400px;z-index:1;pointer-events:none;box-sizing:border-box;border-style:solid;border-width:84px 19px 19px 270px;
+  border-image:url(../assets/ui/case-page-folder.webp) 130 30 30 420 fill / 84px 19px 19px 270px stretch;filter:drop-shadow(0 -3px 8px rgba(50,30,10,.16))}
+/* the folder: Higgsfield art (assets/ui/case-page-folder.webp: an open folder's back panel, its tall index tab on top), as drawn */
+.P4 .tab{position:absolute;left:-270px;top:-84px;width:254px;padding:22px 0 0 26px}
+.P4 .tab .no{font-size:11px;line-height:1.2}
+.P4 .tab .no{color:#9A4F62}
+.P4 .tab .title{margin:2px 0 0;font-size:22px;line-height:1.15;color:#4A3020;white-space:nowrap}
+.P4 .frame{left:14px;right:14px}
+/* long titles on the tab (user request: show how '사라진 크리스마스트리의 별' sits). A shrinks the words to one line,
+   B breaks them into two smaller lines, C makes the tab itself wider (the art stretched sideways) */
+.P4.LA .tab .title{font-size:var(--fit,22px)}
+
+.P4.LB .folder{margin-top:-16px;border-top-width:100px;border-image-width:100px 19px 19px 270px}
+.P4.LB .tab{top:-100px}
+.P4.LB .tab .no{font-size:10px}
+.P4.LB .tab .title{max-width:170px;font-size:20px;line-height:1.1;white-space:normal;word-break:keep-all;text-wrap:balance}
+.P4.LC .folder{border-left-width:var(--tabw,270px);border-image-width:84px 19px 19px var(--tabw,270px)}
+.P4.LC .tab{left:calc(-1 * var(--tabw,270px));width:calc(var(--tabw,270px) - 16px)}
+.P4 .frame::before{border-radius:0;border:0;background:none;box-shadow:none;border-style:solid;border-width:20px;border-image:url(../assets/ui/case-page-paper.webp) 28 fill / 20px stretch;filter:drop-shadow(0 2px 5px rgba(60,35,10,.18))}
+.P4 .paper{margin-top:330px;padding-top:22px}
+.P4 .paper .label{margin-top:0}
+.P4 .foot{left:20px;right:20px}
+/* coming in */
+:is(.P3,.P4) :is(.hero,.blur,.folder,.frame,.scroll,.foot,.back){transition:opacity .45s ease,translate .5s cubic-bezier(.3,1.1,.4,1),scale .6s ease}
+.P4.entering .hero{opacity:0;translate:0 -24px}
+.P3.entering .blur{opacity:0;scale:1.06}
+:is(.P3,.P4).entering :is(.folder,.frame,.scroll,.foot){opacity:0;translate:0 60px}
+:is(.P3,.P4).entering .back{opacity:0}
+/* the case list (as in the game: two folders a row) */
+.lst{position:absolute;inset:0;z-index:10;background:#F3E7CF;padding:22px 16px;transition:opacity .3s}
+.lst h4{margin:0 0 16px 6px;font:400 22px var(--fd)}
+.lst .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lf{position:relative;display:block;aspect-ratio:161/240;border:0;padding:0;background:none;cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:opacity .3s,scale .3s}
+.lf.dim{opacity:.25;scale:.95}
+.lf-back{position:absolute;inset:0;background:url(../assets/ui/case-folder-paper.webp) 50% 80%/90% 90% no-repeat,url(../assets/ui/case-folder-back.webp) 0 0/100% 100%}
+.lf-tab{position:absolute;left:5.5%;top:1.2%;width:36%;font:400 12px/1.5 var(--fd);color:#6b4522;text-align:center}
+.lf-cover{position:absolute;left:0;bottom:0;width:100%;height:90.5%;transform-origin:0 50%;transform-style:preserve-3d}
+.lf-face{position:absolute;inset:0;backface-visibility:hidden}
+.lf-front{background:url(../assets/ui/case-folder-front.webp) 0 0/100% 100%}
+.lf-inside{background:url(../assets/ui/case-folder-inside.webp) 0 0/100% 100%;transform:rotateY(180deg)}
+.lf-in{position:absolute;left:8%;right:8%;top:7%}
+.lf-pic{display:block;padding:4px 4px 9px;background:#FFFDF6;border:1.5px solid #6b4a2b;border-radius:2px;rotate:-2.4deg}
+.lf-pic img{display:block;width:100%;aspect-ratio:1.42;object-fit:cover}
+.lf-title{display:block;margin-top:8px;font:400 16px/1.22 var(--fd)}
+.lf-go{position:absolute;z-index:3;right:-4px;top:-2px;padding:3px 9px;border-radius:999px;background:var(--berry);color:#fff;font:400 12px var(--fd);rotate:5deg}
+.fly{position:absolute;z-index:11;perspective:1000px;transform-style:preserve-3d;pointer-events:none}
+.replay4{align-self:flex-start;font:400 14px var(--fd);padding:7px 14px;border:2px solid var(--ink);border-radius:999px;background:#E0A526;color:var(--ink);cursor:pointer}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter></svg>
+<header>
+  <h1>사건 페이지 — 종이 바탕 시안 4가지</h1>
+  <p>지금 게임의 사건 페이지(시안 D)에서 종이 바탕만 바꿨어요. 질감과 2번의 가장자리는 브라우저가 그린 임시 그림이에요. 고르시면 Higgsfield 손그림으로 바꿔요(계획은 채팅에). 화면 안을 스크롤해 보세요.</p>
+  <div class="switch" role="group" aria-label="보기 사건"><button type="button" data-case="kite" aria-pressed="true">Case 01 사라진 연 (열쇠 1개)</button><button type="button" data-case="library" aria-pressed="false">Case 08 도서관 (열쇠 3개)</button></div>
+</header>
+<div class="row">
+  <section class="opt"><h2>1. 종이 질감만</h2><p class="why">크림색 종이에 아주 옅은 섬유 결과 얼룩. 모양은 지금 그대로(매끈한 둥근 위 모서리).</p><div class="phone P1" id="P1"></div></section>
+  <section class="opt"><h2>2. 종이 질감 + 종이 테두리</h2><p class="why">1번 질감의 종이 한 장이 사건 그림 위에 놓여 화면 바닥까지 이어져요(좌우 여백엔 그림이 흐릿하게 비침). 위·양옆 살짝 울퉁불퉁한 종이 가장자리, 가장자리 쪽은 조금 더 따뜻하게 물들어요. 스크롤하면 종이가 위로 올라와 그림이 띠로 줄고, 글은 종이 안에서만 움직여요.</p><div class="phone P2" id="P2"></div></section>
+  <section class="opt"><h2>3. 종이 질감 + 테두리, 그림이 꽉 참</h2><p class="why">2번과 같은 종이인데, 사건 그림을 흐리게 늘리지 않고 화면 전체에 선명하게 꽉 채웠어요. 종이가 올라와도 뒤 그림은 그대로 있고, 좌우 여백에도 같은 그림이 이어져 보여요.</p><button class="replay4" type="button" data-replay="P3">목록에서 들어오기 다시 보기</button><div class="phone P2 P3" id="P3"></div></section>
+  <section class="opt"><h2>4. 서류철 위의 종이, 제목은 인덱스에</h2><p class="why">종이가 서류철 안에 놓여 있고, CASE 번호와 제목은 서류철 인덱스(탭)에 있어요. 그림은 1번처럼 위에만. 처음엔 사건 목록이 보이고, 서류철을 누르면 들어오는 모습까지 볼 수 있어요.</p><button class="replay4" type="button" data-replay="P4">목록에서 들어오기 다시 보기</button><div class="phone P2 P4 LC" id="P4"></div></section>
+</div>
+<header><h1>4번 — 긴 제목일 때</h1><p>가장 긴 제목 '사라진 크리스마스트리의 별'(Case 09)을 인덱스에 넣어 본 세 가지예요. 위쪽 사건 고르기와 상관없이 이 사건으로 보여요(종이 안 열쇠는 1번 사건 것을 임시로 썼어요).</p></header>
+<div class="row">
+  <section class="opt"><h2>4-A. 한 줄로, 글자를 줄여서</h2><p class="why">인덱스 크기는 그대로, 제목이 인덱스 폭에 들어갈 때까지 글자만 작아져요. 짧은 제목은 지금처럼 22px, 이 제목은 약 20px.</p><div class="phone P2 P4 LA" id="L1" data-case="long"></div></section>
+  <section class="opt"><h2>4-B. 두 줄로 나눠서</h2><p class="why">인덱스 크기는 그대로, 긴 제목은 20px 두 줄로, 줄 길이가 비슷하게 나눠요(낱말 중간에서는 안 끊어요). '도서관 살인사건' 정도는 한 줄로 남아요.</p><div class="phone P2 P4 LB" id="L2" data-case="long"></div></section>
+  <section class="opt"><h2>4-C. 인덱스가 제목 따라 늘어남</h2><p class="why">글자 크기는 22px 그대로, 제목 길이에 맞춰 인덱스 폭이 늘어나요(짧은 제목은 기본 폭 270px, 위 4번 화면도 같은 방식). 화면 폭을 넘을 만큼 긴 제목만 글자가 작아져요.</p><div class="phone P2 P4 LC" id="L3" data-case="long"></div></section>
+</div>
+<audio id="v" preload="none"></audio>
+<script>
+const CASES = {
+  kite:{ no:'CASE 01', title:'사라진 연', img:'../assets/places/kite/kite-cover.jpg', g:'is-has',
+    pages:[{ head:'is / has', mean:[['is','~이다 (색·크기)'],['has','~이 있다 (부분·무늬)']],
+      lines:[['My bag {is} green.','내 가방은 초록색이야.'],['The dog {has} a long tail.','그 개는 꼬리가 길어.'],['This cup {has} white dots.','이 컵에는 하얀 점무늬가 있어.']] }] },
+  long:{ no:'CASE 09', title:'사라진 크리스마스트리의 별', img:'../assets/places/christmas/tree-cover.jpg', g:'is-has',
+    pages:[{ head:'is / has', mean:[['is','~이다 (색·크기)'],['has','~이 있다 (부분·무늬)']],
+      lines:[['My bag {is} green.','내 가방은 초록색이야.'],['The dog {has} a long tail.','그 개는 꼬리가 길어.'],['This cup {has} white dots.','이 컵에는 하얀 점무늬가 있어.']] }] },
+  library:{ no:'CASE 08', title:'도서관 살인사건', img:'../assets/places/library-higgsfield-v2.webp', g:'time-prep',
+    pages:[
+      { head:'at', mean:[['at','(시각) ~에']], lines:[['The shop opens {at eleven}.','가게는 11시에 문을 열어요.'],["Let's meet {at noon}.",'정오에 만나요.'],['The train leaves {at six fifteen}.','기차는 6시 15분에 떠나요.']] },
+      { head:'from A to B', mean:[['from A to B','A부터 B까지']], lines:[['I swim {from two to four}.','나는 2시부터 4시까지 수영해요.'],['The market is open {from six to noon}.','시장은 6시부터 정오까지 열어요.'],['We studied {from one to five}.','우리는 1시부터 5시까지 공부했어요.']] },
+      { head:'between A and B', mean:[['between A and B','A와 B 사이에']], lines:[['Call me {between one and three}.','1시에서 3시 사이에 전화해 줘요.'],['The bus comes {between five and six}.','버스는 5시에서 6시 사이에 와요.'],['Come home {between eleven and twelve}.','11시에서 12시 사이에 집에 오세요.']] }] }
+};
+let C = CASES.kite;
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const mark = s => esc(s).replace(/\{(.+?)\}/g, '<mark>$1</mark>');
+const meanHTML = p => `<p class="mean">${p.mean.map(([w, m]) => p.mean.length > 1 ? `${esc(w)} <b>${esc(m)}</b>` : `<b>${esc(m)}</b>`).join(' · ')}</p>`;
+const exHTML = (p, k) => `<ul class="ex">${p.lines.map(([en, ko], i) => `<li><span>${mark(en)}</span><button class="play" type="button" data-play="${C.g}-${k + 1}-${i + 1}" aria-label="예문 듣기"></button><button class="pill sm" type="button" data-ko>해석</button><span class="ko">${esc(ko)}</span></li>`).join('')}</ul>`;
+function draw(id){
+  const own = document.getElementById(id).dataset.case, keep = C;
+  if(own){ C = CASES[own]; try { drawOne(id); } finally { C = keep; } } else drawOne(id);
+}
+function drawOne(id){
+  const el = document.getElementById(id), img = `<img src="${C.img}" alt="">`;
+  el.innerHTML = `<div class="hero">${img}</div><div class="band">${img}</div><button class="pill back" type="button">‹ 목록</button>
+    <div class="scroll"><div class="paper"><div class="head"><div class="no">${C.no}</div><h3 class="title">${esc(C.title)}</h3></div><div class="label">자주 나와요</div>
+      ${C.pages.map((p, k) => `<div class="k"><h3 class="form">${esc(p.head)}</h3>${meanHTML(p)}${exHTML(p, k)}</div>`).join('')}</div></div>
+    <div class="foot"><button class="pill big" type="button">수사 시작</button></div>`;
+  const sc = el.querySelector('.scroll'), hero = el.querySelector('.hero'), band = el.querySelector('.band');
+  if(el.classList.contains('P2')){
+    // the sheet comes up with the words up to the band, then stays; the words show only inside it
+    // the picture again behind everything, soft, so the sides show the scene
+    const four = el.classList.contains('P4');
+    if(four){
+      // 4: no picture behind; a folder whose index tab carries the case number and title, the paper inside it
+      el.querySelector('.head').remove();
+      el.insertAdjacentHTML('afterbegin', `<div class="folder"><div class="tab"><div class="no">${C.no}</div><h3 class="title">${esc(C.title)}</h3></div></div><div class="frame"></div>`);
+    } else el.insertAdjacentHTML('afterbegin', `<div class="blur"><img src="${C.img}" alt=""></div><div class="frame"></div>`);
+    const frame = el.querySelector('.frame'), folder = el.querySelector('.folder'), H = el.clientHeight;
+    // the sheet's foot stays under the screen's bottom edge (user request: the paper on the floor, scrolling as in 1)
+    const fit = four
+      ? () => { const top = Math.max(140, 330 - sc.scrollTop);
+          folder.style.top = (top - 80) + 'px'; frame.style.top = top + 'px'; frame.style.height = (H + 24 - top) + 'px';
+          hero.style.height = (top + 10) + 'px'; sc.style.clipPath = `inset(${top + 8}px 16px 0 16px)`; }
+      : () => { const top = Math.max(110, 300 - sc.scrollTop);
+          frame.style.top = top + 'px'; frame.style.height = (H + 24 - top) + 'px'; hero.style.height = (top + 30) + 'px';
+          sc.style.clipPath = `inset(${top + 8}px 12px 0 12px)`; };
+    sc.addEventListener('scroll', fit, { passive:true }); fit(); return;
+  }
+  sc.addEventListener('scroll', () => { const st = sc.scrollTop; hero.style.height = Math.max(140, 330 - st) + 'px'; band.style.visibility = st >= 190 ? 'visible' : 'hidden'; }, { passive:true });
+}
+const drawAll = () => { ['P1', 'P2', 'P3', 'P4', 'L1', 'L2', 'L3'].forEach(draw); fitTabs(); };
+// 4-A: the title's size comes down until it fits the tab on one line
+function fitTabs(){
+  // 4-C (and 4): the tab is as wide as its title needs (its art stretched sideways), from 270px up to the screen's width
+  document.querySelectorAll('.LC').forEach(el => { const t = el.querySelector('.tab .title'); if(!t) return;
+    t.style.removeProperty('font-size'); const r = document.createRange(); r.selectNodeContents(t);
+    let w = Math.ceil(r.getBoundingClientRect().width) + 26 + 40;   // text + left padding + room for the tab's curve
+    const max = el.clientWidth - 30;
+    if(w > max){ t.style.fontSize = Math.floor(22 * (max - 66) / (w - 66)) + 'px'; w = max; }
+    el.style.setProperty('--tabw', Math.max(270, w) + 'px'); });
+  document.querySelectorAll('.LA .tab .title').forEach(t => { t.style.removeProperty('--fit'); let f = 22;
+    while(t.scrollWidth > t.clientWidth && f > 12){ f -= .5; t.style.setProperty('--fit', f + 'px'); } });
+}
+document.fonts.ready.then(fitTabs);
+// 4: the case list over the page; a folder tapped comes up to the middle, its cover turns over, it grows into the page's
+// folder while the page (picture, folder, paper) comes in under it
+const LIST = [['kite', 'Case 01', '사라진 연'], ['library', 'Case 08', '도서관 살인사건']];
+function showList(id){
+  const el = document.getElementById(id);
+  el.querySelector('.lst')?.remove();
+  el.insertAdjacentHTML('beforeend', `<div class="lst"><h4>사건 목록</h4><div class="grid">${LIST.map(([id, no, title], i) =>
+    `<button class="lf" type="button" data-lf="${id}"><span class="lf-back"></span><span class="lf-tab">${no}</span><span class="lf-cover"><span class="lf-face lf-front"><span class="lf-in"><span class="lf-pic"><img src="${CASES[id].img}" alt=""></span><span class="lf-title">${title}</span></span>${i ? '' : '<span class="lf-go">새로운 의뢰!</span>'}</span><span class="lf-face lf-inside"></span></span></button>`).join('')}</div></div>`);
+}
+async function openFrom(card){
+  const el = card.closest('.phone'), lst = el.querySelector('.lst');
+  if(el.querySelector('.fly')) return;
+  C = CASES[card.dataset.lf]; document.querySelectorAll('[data-case]').forEach(b => b.setAttribute('aria-pressed', b.dataset.case === card.dataset.lf));
+  ['P1', 'P2', 'P3', 'P4'].filter(id => id !== el.id && !document.getElementById(id).querySelector('.lst')).forEach(draw);
+  draw(el.id); fitTabs(); el.classList.add('entering'); el.appendChild(lst);
+  const P = el.getBoundingClientRect(), R = card.getBoundingClientRect(), r = { l:R.left - P.left, t:R.top - P.top, w:R.width, h:R.height };
+  const fly = card.cloneNode(true); fly.className = 'lf fly'; Object.assign(fly.style, { left:r.l + 'px', top:r.t + 'px', width:r.w + 'px', height:r.h + 'px' });
+  el.appendChild(fly); card.style.visibility = 'hidden';
+  lst.querySelectorAll('.lf').forEach(f => f !== card && f.classList.add('dim'));
+  const run = (node, frames, ms, easing = 'cubic-bezier(.3,1.05,.4,1)') => node.animate(frames, { duration:ms, easing, fill:'forwards' }).finished;
+  const W = P.width, Hh = P.height, s = Math.min(1.55, (W - 40) / r.w), cx = (W - r.w) / 2, cy = (Hh - r.h) / 2 - 30, slide = r.w * s * .36;
+  const mid = `${cx - r.l}px ${cy - r.t}px`, aside = `${cx - r.l + slide}px ${cy - r.t}px`;
+  await run(fly, [{ translate:'0 0', scale:1 }, { translate:mid, scale:s }], 420);
+  await Promise.all([run(fly.querySelector('.lf-cover'), [{ transform:'rotateY(0deg)' }, { transform:'rotateY(-180deg)' }], 640, 'cubic-bezier(.45,.05,.3,1)'),
+    run(fly, [{ translate:mid, scale:s }, { translate:aside, scale:s }], 640, 'cubic-bezier(.45,.05,.3,1)')]);
+  // into the page: the list goes, the grown folder moves onto the page's folder and fades into it
+  lst.style.opacity = 0; el.classList.remove('entering');
+  const gw = r.w * s, gh = r.h * s, fx = cx + slide - (gw - r.w) / 2, fy = cy - (gh - r.h) / 2;
+  fly.getAnimations().forEach(a => a.cancel());
+  Object.assign(fly.style, { left:fx + 'px', top:fy + 'px', width:gw + 'px', height:gh + 'px' });
+  fly.querySelector('.lf-cover').style.transform = 'rotateY(-180deg)';
+  await run(fly, [{ left:fx + 'px', top:fy + 'px', width:gw + 'px', height:gh + 'px', opacity:1 },
+    el.id === 'P4' ? { left:'-10px', top:'250px', width:(W + 20) + 'px', height:(W + 20) * 240 / 161 + 'px', opacity:0 }
+      : { left:'10px', top:'270px', width:(W - 20) + 'px', height:(W - 20) * 240 / 161 + 'px', opacity:0 }], 520, 'cubic-bezier(.3,.9,.4,1)');
+  fly.remove(); lst.remove();
+}
+document.addEventListener('click', e => {
+  const t = e.target, sw = t.closest('[data-case]');
+  if(sw){ C = CASES[sw.dataset.case]; document.querySelectorAll('[data-case]').forEach(b => b.setAttribute('aria-pressed', b === sw)); return drawAll(); }
+  const pl = t.closest('[data-play]');
+  if(pl){ const v = document.getElementById('v'); v.src = `../audio/examples/${pl.dataset.play}.wav`; v.play().catch(() => {}); return; }
+  if(t.closest('[data-ko]')) return t.closest('li').classList.toggle('on');
+  const lf = t.closest('[data-lf]'); if(lf) return openFrom(lf);
+  const rp = t.closest('[data-replay]'); if(rp){ document.getElementById(rp.dataset.replay).querySelector('.fly')?.remove(); showList(rp.dataset.replay); }
+});
+drawAll(); showList('P3'); showList('P4');
+</script>
+</body></html>

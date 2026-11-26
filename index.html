@@ -96,6 +96,21 @@ button:focus-visible,input:focus-visible{outline:3px dashed var(--berry);outline
 /* a thing going into 소지품 flies into the satchel, which bounces when it lands (flyToBag) */
 .bag-fly{position:fixed;z-index:60;object-fit:contain;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(46,34,25,.35))}
 .bag-bump{animation:bagBump .5s cubic-bezier(.3,1.6,.5,1)}
+/* clue notices (design/clue-notice-options.html D, user choice 2026-11-26): a photo taken comes up big as a polaroid with
+   its name, then shrinks into 노트; a thing got slides in as a memo box (no tape) with its picture and name */
+.clue-pol{position:fixed;z-index:60;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:10px}
+.clue-pol .pol{position:relative;width:100%;box-sizing:border-box;padding:10px 10px 12px;background:#fff;box-shadow:0 5px 12px rgba(74,54,40,.4);text-align:center;rotate:-3deg}
+.clue-pol .pol > :is(svg,img){display:block;width:100%;aspect-ratio:1.4;object-fit:cover;background:#F5EFE2}
+.clue-pol .pol b{display:block;margin-top:8px;font:400 19px/1.2 var(--f-display);color:var(--ink)}
+.clue-new{flex:none;padding:1px 6px;border-radius:6px;background:var(--berry);color:#fff;font:400 11px var(--f-display);letter-spacing:.06em}
+.clue-pol .clue-new{position:absolute;left:-12px;top:-9px;padding:2px 7px;font-size:12px;rotate:-8deg}
+.clue-pol .said{padding:5px 12px;border-radius:12px;background:var(--ink);color:var(--paper);font-size:13px;white-space:nowrap}
+.clue-memo{position:fixed;z-index:60;pointer-events:none;display:flex;align-items:center;gap:14px;box-sizing:border-box;padding:12px 14px 12px 12px;
+  background:var(--paper);border:2px solid var(--ink);border-radius:6px 16px 8px 14px;box-shadow:0 5px 0 rgba(74,54,40,.25)}
+.clue-memo img{flex:none;width:86px;height:70px;object-fit:contain;rotate:-5deg}
+.clue-memo .t{min-width:0;display:grid;gap:3px;justify-items:start}
+.clue-memo b{font:400 19px/1.15 var(--f-display);color:var(--ink)}
+.clue-memo .said{font-size:13px;color:var(--ink-soft)}
 @keyframes bagBump{0%{transform:scale(1)}35%{transform:scale(1.28,.86)}65%{transform:scale(.92,1.1)}100%{transform:scale(1)}}
 .items-btn.new .hn-ic::after,.map-btn.new .hn-ic::after{content:"";position:absolute;z-index:2;top:0;right:6px;width:12px;height:12px;border-radius:50%;background:var(--berry);border:2px solid var(--paper)}
 button.chip{color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 rgba(74,54,40,.2)}
@@ -1341,8 +1356,10 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .cf-pic > img,.cf-pic > svg{display:block;width:100%;aspect-ratio:1.42;object-fit:cover;box-sizing:border-box;background:#E9D8BC;transition:filter .7s}
 .cf.solved .cf-pic > :is(img,svg){filter:sepia(.5) saturate(.7)}
 .cf-pic::before{content:"";position:absolute;z-index:2;left:50%;top:-10px;width:46px;height:17px;margin-left:-23px;background:url(assets/ui/casekey/tape.webp) 0 0/100% 100%;transform:rotate(-4deg)}
-.cf-text{display:flex;flex-direction:column;margin-top:8px}
-.cf .case-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:16px;line-height:1.22}
+.cf-text{display:flex;flex-direction:column;margin-top:14px}
+.cf .case-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:19px;line-height:1.22;text-wrap:balance}
+/* a long title (more than 11 letters) a little smaller, and 크리스마스트리 may break after 크리스마스, so it takes two lines */
+.cf .case-title.long{font-size:17px}
 .cf .case-focus{margin:1px 0 0;font-size:12.5px;line-height:1.35;color:#70502c}
 .cf .case-stars{margin:2px 0 0}
 .cf-st{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-12deg);padding:1px 7px;border:2.5px solid #B8323A;border-radius:5px;background:rgba(255,253,246,.82);font:400 15px var(--f-display);letter-spacing:.05em;color:#B8323A}
@@ -1371,7 +1388,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .case-files.open > *{opacity:.25;scale:.95;pointer-events:none}
 /* a word game between the cases: the yellow paper strip, across both columns */
 .cf-game{grid-column:1/-1;position:relative;display:flex;align-items:center;gap:12px;box-sizing:border-box;width:100%;min-height:66px;padding:8px 38px 8px 16px;border:0;text-align:left;font:inherit;color:var(--ink);cursor:pointer;
-  background:url(assets/ui/casekey/note-yellow.webp) 0 0/100% 100%;-webkit-tap-highlight-color:transparent;transition:translate .26s cubic-bezier(.3,1.5,.5,1),scale .2s,opacity .3s}
+  border-image:url(assets/ui/case-game-strip.webp) 40 fill / 13px stretch;-webkit-tap-highlight-color:transparent;transition:translate .26s cubic-bezier(.3,1.5,.5,1),scale .2s,opacity .3s}
 .cf-game:active{scale:.975}
 .cf-game .cf-text{margin:0;flex:1}
 .cf-game .case-title{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;line-height:1.3}
@@ -1395,29 +1412,45 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 .cf-page::before{content:"";position:absolute;inset:0;background:url(assets/ui/case-folder-paper.webp) 0 0/100% 100%;transition:opacity .4s}
 .cf-page.on::before{opacity:0}
 .cf-page.full{inset:0;box-shadow:none}
-.cf-sheet{position:absolute;left:50%;top:0;box-sizing:border-box;width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);padding:74px 34px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;transition:opacity .28s}
+/* The case's page (user pick 2026-11-26, mockup D): its picture fills the top, a round-topped paper over it holds the case
+   number, the title and every key form with its examples; as the paper scrolls up the picture shrinks to a band, which
+   keeps the paper's round top under it. 수사 시작 stays at the bottom. */
+.cf-sheet{position:absolute;left:50%;top:0;box-sizing:border-box;width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);overflow:hidden;background:var(--paper);opacity:0;transition:opacity .28s}
 .cf-page.on .cf-sheet{opacity:1}
-.cf-sheet .cf-pic{width:min(100%,250px);box-sizing:border-box;padding:6px 6px 14px;transform:rotate(-2deg)}
-.cf-sheet .cf-pic::before{width:66px;height:24px;margin-left:-33px;top:-14px}
-.cf-sheet .case-no{margin-top:26px;font-size:14px}
-.cf-sheet h2{margin:3px 0 2px;font-family:var(--f-display);font-weight:400;font-size:25px;line-height:1.25;text-wrap:balance;word-break:keep-all}
-.cf-sheet .case-focus{font-size:15px;color:var(--ink-soft)}
-.cf-sheet .case-stars{margin:8px 0 0}.cf-sheet .case-stars img{width:26px}
-.cf-key{display:flex;flex-direction:column;align-items:center;width:min(100%,300px);margin:30px 0 16px;padding:0;border:0;background:none;font:inherit;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:scale .15s}
-.cf-key:active{scale:.97}
-.cf-key-h{font:400 15px var(--f-display);letter-spacing:.02em;color:#8A6A3A}
-.cf-key-card{position:relative;box-sizing:border-box;width:100%;margin-top:20px;padding:10px 8px 6px;border:12px solid transparent;border-image:url(assets/ui/casekey/card.webp) 20 fill / 12px stretch;filter:drop-shadow(2px 4px 4px rgba(70,50,30,.2));transform:rotate(1deg)}
-.cf-key-card::before{content:"";position:absolute;left:50%;top:-22px;width:58px;height:18px;margin-left:-29px;background:url(assets/ui/casekey/tape.webp) center/100% 100% no-repeat;transform:rotate(3deg)}
-.cf-key-form{display:block;font:400 21px/1.3 var(--f-display);word-break:keep-all;text-wrap:balance}
-.cf-key-form span{white-space:nowrap}
-.cf-key-ko{display:block;margin-top:6px;font-size:14px;line-height:1.5;color:var(--ink-soft);word-break:keep-all;text-wrap:pretty}
-.cf-key-more{display:block;margin-top:8px;font-size:13px;color:#B8323A}
-.cf-key-done{position:absolute;right:-10px;top:-16px;padding:0 6px;border:2px solid #B8323A;border-radius:4px;background:rgba(255,253,246,.9);font:400 12px var(--f-display);letter-spacing:.06em;color:#B8323A;transform:rotate(9deg)}
-/* a short screen: a smaller photo, the key's form without its explanation; past that the page scrolls */
-.cf-sheet{overflow-y:auto}
-@media(max-height:720px){.cf-sheet{padding-top:58px}.cf-sheet .cf-pic{width:min(100%,190px)}.cf-sheet .case-no{margin-top:16px}.cf-sheet h2{font-size:22px}.cf-key{margin:16px 0 12px}.cf-key-ko{display:none}.cf-key-card{margin-top:16px}}
-.cf-sheet .cf-start{margin-top:auto;width:100%}
-.cf-sheet .cf-back{position:absolute;left:14px;top:10px;margin:0}
+/* the case page (paper mockup 4-C, design/case-page-paper-options.html; user choice 2026-11-26): the case's picture on top;
+   under it an open case folder (Higgsfield art) whose index tab carries the case number and title and grows with the
+   title; on the folder a sheet of paper (Higgsfield art) with the case's key expressions. Scrolling brings the folder and
+   paper up to a band of picture, then the words move inside the paper only (the scroll's clip-path, set in openFolder). */
+.cf-hero{position:absolute;inset:0 0 auto;z-index:0;display:block;overflow:hidden;height:calc(var(--top0) + 10px)}
+.cf-hero > :is(img,svg){display:block;width:100%;height:calc(var(--top0) + 10px);object-fit:cover;background:#E9D8BC}
+.cfp-folder{position:absolute;left:-8px;right:-8px;top:calc(var(--top0) - 80px);height:1400px;z-index:1;box-sizing:border-box;border-style:solid;border-width:84px 19px 19px var(--tabw,270px);
+  border-image:url(assets/ui/case-page-folder.webp) 130 30 30 420 fill / 84px 19px 19px var(--tabw,270px) stretch;filter:drop-shadow(0 -3px 8px rgba(50,30,10,.16));pointer-events:none}
+.cfp-tab{position:absolute;left:calc(-1 * var(--tabw,270px));top:-84px;box-sizing:border-box;width:calc(var(--tabw,270px) - 16px);padding:22px 0 0 26px}
+.cfp-tab .case-no{display:block;font-size:11px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:#9A4F62}
+.cfp-tab h2{margin:2px 0 0;font:400 22px/1.15 var(--f-display);color:#4A3020;white-space:nowrap}
+.cfp-frame{position:absolute;left:14px;right:14px;top:var(--top0);height:600px;z-index:1;box-sizing:border-box;border-style:solid;border-width:20px;
+  border-image:url(assets/ui/case-page-paper.webp) 28 fill / 20px stretch;filter:drop-shadow(0 2px 5px rgba(60,35,10,.18));pointer-events:none}
+.cf-scroll{position:absolute;inset:0;z-index:2;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.cf-scroll::-webkit-scrollbar{display:none}
+.cf-paper{box-sizing:border-box;min-height:calc(100% - 110px);margin-top:var(--top0);padding:22px 34px calc(120px + env(safe-area-inset-bottom,0px))}
+.cf-sheet .case-stars{margin:0 0 14px}.cf-sheet .case-stars img{width:24px}
+.cf-keys-h{display:flex;align-items:center;gap:10px;margin:0 0 10px;font:400 14px var(--f-display);color:var(--ink-soft)}
+.cf-keys-h::after{content:"";flex:1;height:1px;background:rgba(74,54,40,.14)}
+.cf-k + .cf-k{margin-top:26px}
+.cf-k-form{margin:0;font:400 26px/1.2 var(--f-display);word-break:keep-all}
+.cf-k-form .part{white-space:nowrap}
+.cf-k-mean{margin:4px 0 0;font-size:14px;color:var(--ink-soft)}
+.cf-k-mean b{font-weight:700;color:var(--berry)}
+.cf-k-ko{margin:4px 0 0;font-size:14px;line-height:1.5;color:var(--ink-soft);word-break:keep-all}
+.cf-ex{list-style:none;margin:12px 0 0;padding:0}
+.cf-ex li{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:0 6px;padding:9px 0;border-top:1px solid rgba(74,54,40,.14);font-size:15.5px;line-height:1.35}
+.cf-ex mark{background:none;color:var(--berry);font-weight:700}
+.cf-ex .replay-q{margin:0}
+.cf-ex .ko{display:none;grid-column:1/-1;margin-top:3px;font-size:13px;color:var(--ink-soft)}
+.cf-ex li.ko-on .ko{display:block}
+.cf-foot{position:absolute;left:20px;right:20px;bottom:0;z-index:3;padding:14px 18px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(rgba(250,240,220,0),rgba(250,240,220,.95) 34%)}
+.cf-sheet .cf-start{width:100%;margin:0}
+.cf-sheet .cf-back{position:absolute;left:14px;top:10px;z-index:4;margin:0}
 @media(prefers-reduced-motion:reduce){.cf.drop,.cf.shake,.cf-game.shake,.cf.unlock,.cf-go,.cf-st.thud,.case-stars.pop img,.shake .cf-knot img,.cf-game.jig .cf-ic > *{animation:none}.cf,.cf-game,.cf-pic{transition:none}}
 .cf-match{position:relative;width:56px;height:42px;border-radius:4px;background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/80px repeat;border:2px solid #8A5A2B}
 .cf-match i{position:absolute;width:15px;height:10px;background:#FFFDF6;box-shadow:0 1px 1px rgba(0,0,0,.25)}
@@ -2811,14 +2844,14 @@ const FLOWERBED_CASE = {
       // both asked in one talk (user request 2026-11-23: n1 waiting for the photo was confusing); n1 written down, Pablo and Gus are there
       unlocks:{ n1:{ people:['pablo', 'gus'], places:['yard'] } },
       answers:{
-        n0:'Someone went into my flowerbed. Look at my flowers!',
+        n0:'Someone ruined my flowerbed. Look at my flowers!',   // user request 2026-11-26: say what happened (was 'went into')
         n1:"No, I didn't. But I heard a sneeze by my flowers! Gus and Pablo played ball next door."
       },
       notes:{
-        n0:["- Someone {{a|went}} into my {{b|flowerbed}}.", "- Look at my {{c|flowers}}!"],
+        n0:["- Someone {{a|ruined}} my {{b|flowerbed}}.", "- Look at my {{c|flowers}}!"],
         n1:["- No, I didn't.", "- But I {{e|heard}} a {{f|sneeze}} by my flowers!", "- Gus and Pablo {{g|played}} ball next door."]
       },
-      bank:{ n0:['flowerbed','trees','garden','ran','flowers','went','leaves'], n1:['played','sneeze','plays','hear','laugh','heard'] }
+      bank:{ n0:['flowerbed','trees','garden','rained','flowers','ruined','leaves'], n1:['played','sneeze','plays','hear','laugh','heard'] }
     },
     pablo: { id:'pablo', name:'Pablo Panda', ko:'판다 파블로', job:'이웃', place:'yard', witness:true, required:true, pitch:1.2, voice:4, bg:'#E8EEE4',
       // Higgsfield MiniMax Juno (user choice 2026-11-23), no emotion
@@ -2858,10 +2891,10 @@ const FLOWERBED_CASE = {
     'ollie:n1':[['negative',"No, I didn't"], ['past-irr','heard'], ['past-reg','played']],
     'pablo:t1':[['did-q','Did you go'], ['negative',"No, I didn't"], ['past-reg','played']],
     'gus:g1':[['did-q','Did you go'], ['negative',"No, I didn't"], ['past-irr','saw']],
-    'ollie:n0':[['past-irr','went']]
+    'ollie:n0':[['past-reg','ruined']]
   },
   answersKo:{
-    ollie:{ n0:'누가 내 화단에 들어갔어. 내 꽃들 좀 봐!', n1:'아니, 못 봤어. 그런데 내 꽃 옆에서 재채기 소리를 들었어! 옆집에서 거스랑 파블로가 공놀이를 했어.' },
+    ollie:{ n0:'누가 내 화단을 망쳤어. 내 꽃들 좀 봐!', n1:'아니, 못 봤어. 그런데 내 꽃 옆에서 재채기 소리를 들었어! 옆집에서 거스랑 파블로가 공놀이를 했어.' },
     pablo:{ t1:'아니, 안 들어갔어. 난 테니스공으로 놀았어.' },
     gus:{ g1:'아니, 안 들어갔어! 강아지가 화단에서 돌아다니는 걸 봤어!' }
   },
@@ -2874,8 +2907,8 @@ const FLOWERBED_CASE = {
         { label:'Broken flowers', prop:true, audio:'audio/flowerbed/detective-clue-flowers.mp3', en:'These flowers are broken. There is yellow pollen on them.', ko:'꽃들이 꺾여 있어. 노란 꽃가루가 묻어 있네.' },
         { label:'Watering can', prop:true, audio:'audio/flowerbed/detective-clue-can.mp3', en:'There is a watering can by the house.', ko:'집 옆에 물뿌리개가 있어.' },
         // a broken daisy on the lawn, drawn by ART.flowerbed until taken (user request 2026-11-23: one to pick up in sight;
-        // held up to the suspects' noses)
-        { label:'Flower', take:'flower', noGlint:true, lines:[ { key:'flower-grass', en:'There is a broken flower on the grass.', ko:'잔디 위에 꺾인 꽃이 있어.' },
+        // held up to the suspects' noses); it sparkles like the other clues (user request 2026-11-26)
+        { label:'Flower', take:'flower', lines:[ { key:'flower-grass', en:'There is a broken flower on the grass.', ko:'잔디 위에 꺾인 꽃이 있어.' },
           { key:'take-flower', en:"I'll take this flower with me.", ko:'이 꽃을 가져가야겠어.' } ] }
       ],
       spots:[
@@ -4950,7 +4983,7 @@ const GLOSS = {
 ['mittens:털장갑', 'boxes:상자들', 'helping:돕고 있는', 'festival:축제', 'ribbon:리본', 'tent:천막', 'tree:나무, 트리', 'square:광장', 'pattern:무늬', 'really:정말, 별로',
   'strange:이상한', 'ella:엘라', 'children:아이들', 'delivery:배송', 'ready:준비된', 'took:가져갔다', 'only:~만', 'deliver:배달하다', 'supplies:재료, 물품', 'decorating:꾸미고 있는'].forEach(e => { const [k, v] = e.split(':'); if(!GLOSS[k]) GLOSS[k] = v; });
 // the flowerbed case's note words
-[['went',['w','갔다']], ['flowerbed',['w','화단']], ['flowers',['w','꽃들']], ["didn't",['w','~하지 않았다']], ['heard',['w','들었다']], ['sneeze',['w','재채기']],
+[['went',['w','갔다']], ['ruined',['w','망쳤다']], ['flowerbed',['w','화단']], ['flowers',['w','꽃들']], ["didn't",['w','~하지 않았다']], ['heard',['w','들었다']], ['sneeze',['w','재채기']],
   ['played',['w','놀았다']], ['tennis',['w','테니스']], ['toby',['w','토비']], ['pablo',['w','파블로']], ['puppy',['w','강아지']]].forEach(([k, v]) => { if(!WORDS[k]) WORDS[k] = v; if(!GLOSS[k]) GLOSS[k] = v[1]; });
 // the twins case's note words
 ['ada:에이다', 'alibi:알리바이', 'bandage:붕대', 'belongs:~의 것이다 (belong)', 'brother:형제', 'called:전화했다', 'driver:운전자', 'each:각각', 'evan:에반', 'far:멀리', 'iris:아이리스', 'milo:마일로', 'need:필요하다', 'say:말하다', 'solved:해결했다', 'twin:쌍둥이 중 한 명', 'suspects:용의자들', 'victor:빅터', 'victim:피해자'].forEach(e => { const [k, v] = e.split(':'); if(!GLOSS[k]) GLOSS[k] = v; });
@@ -7491,7 +7524,8 @@ function snap(refs){
     const at = ref.lastIndexOf('-'), place = placeOf(ref.slice(0, at)), clueIndex = +ref.slice(at + 1);
     S.found[place.id].add(clueIndex);
     S.evidence.push({ placeId:place.id, clueIndex, photo:evidencePhoto(place, clueIndex) });
-    if(n === fresh.length - 1){ saveGame(); renderDock(); toast('증거를 노트에 기록했어요.'); }
+    photoNotice(evidencePhoto(place, clueIndex), place.clues[clueIndex].label || '');
+    if(n === fresh.length - 1){ saveGame(); renderDock(); }
   }, n * 700));
 }
 $('#finish').onclick = () => {
@@ -7556,7 +7590,60 @@ function setMapNew(on){ if(on && ONE_PLACE) return; document.querySelectorAll('.
 // carry, from its start (user decision); a dot like the map's when something new comes in
 function setItemsNew(on){ $('#itemsTab').classList.toggle('new', on); }
 // from: where the thing starts its flight (flyToBag), when it is taken out of someone's hands
-function gotItem(id, from){ setItemsNew(true); toast('소지품에 넣었어요.'); if(id) flyToBag(id, from); }
+function gotItem(id, from){
+  setItemsNew(true);
+  const item = ITEMS[id];
+  if(!item?.img) return toast('소지품에 넣었어요.');
+  // handed over: the thing still flies out of the hands into the bag; the memo says what it was
+  if(from) flyToBag(id, from);
+  itemNotice(item, !from);
+}
+// clue notices (design/clue-notice-options.html D): one after another, never two at once
+let noticeChain = Promise.resolve();
+const noticeStage = () => ($('.art-stage') || $('.scene') || $('.app')).getBoundingClientRect();
+const calmNotice = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+// a photo taken: up big as a polaroid with its name, held, then shrunk into 노트 in the bottom menu, which bounces
+function photoNotice(photo, name){
+  noticeChain = noticeChain.then(() => new Promise(done => {
+    const st = noticeStage(), w = Math.min(236, st.width * .62), el = document.createElement('div');
+    el.className = 'clue-pol'; el.setAttribute('role', 'status');
+    el.innerHTML = `<div class="pol"><span class="clue-new">NEW</span>${photo}<b>${esc(name)}</b></div><span class="said">단서로 추가됐어요.</span>`;
+    Object.assign(el.style, { width:`${w}px`, left:`${st.left + (st.width - w) / 2}px`, top:`${st.top + st.height * .5 - w * .55}px` });
+    document.body.append(el);
+    const tab = $('#noteTab'), icon = tab?.querySelector('.hn-ic') || tab;
+    const bump = () => { if(!icon) return; icon.classList.remove('bag-bump'); void icon.offsetWidth; icon.classList.add('bag-bump'); };
+    const end = () => { el.remove(); bump(); done(); };
+    if(calmNotice()) return setTimeout(end, 2600);
+    const pol = el.querySelector('.pol'), said = el.querySelector('.said');
+    el.animate([{ opacity:0 }, { opacity:1, offset:.06 }, { opacity:1 }], { duration:3000, fill:'forwards' });
+    pol.animate([{ transform:'scale(1.5)' }, { transform:'scale(.96)', offset:.07 }, { transform:'scale(1)', offset:.1 }, { transform:'scale(1)' }], { duration:2600, easing:'ease-out' });
+    setTimeout(() => {
+      if(!el.isConnected) return done();
+      said.animate([{ opacity:1 }, { opacity:0 }], { duration:200, fill:'forwards' });
+      const r = pol.getBoundingClientRect(), to = icon && !tab.hidden ? icon.getBoundingClientRect() : null;
+      if(!to) return el.animate([{ opacity:1 }, { opacity:0 }], { duration:300, fill:'forwards' }).finished.then(end);
+      const dx = to.left + to.width / 2 - (r.left + r.width / 2), dy = to.top + to.height / 2 - (r.top + r.height / 2);
+      pol.animate([{ transform:'none' }, { transform:`translate(${dx}px,${dy}px) scale(.14) rotate(-12deg)`, opacity:.6 }],
+        { duration:620, easing:'cubic-bezier(.5,0,.75,0)', fill:'forwards' }).finished.then(end);
+    }, 2600);
+  })).catch(() => {});
+}
+// a thing got: a memo box with its picture and name slides in from the left under the top, then out again; the bag bounces
+function itemNotice(item, bumpBag){
+  noticeChain = noticeChain.then(() => new Promise(done => {
+    const st = noticeStage(), el = document.createElement('div');
+    el.className = 'clue-memo'; el.setAttribute('role', 'status');
+    el.innerHTML = `<img src="${item.bag || item.img}" alt=""><div class="t"><span class="clue-new">NEW</span><b>${esc(item.label || '')}</b><span class="said">소지품에 넣었어요.</span></div>`;
+    Object.assign(el.style, { left:`${st.left + 14}px`, width:`${st.width - 28}px`, top:`${st.top + 66}px` });
+    document.body.append(el);
+    const tab = $('#itemsTab'), icon = tab?.querySelector('.hn-ic') || tab;
+    if(bumpBag && icon) setTimeout(() => { icon.classList.remove('bag-bump'); void icon.offsetWidth; icon.classList.add('bag-bump'); }, 700);
+    const end = () => { el.remove(); done(); };
+    if(calmNotice()) return setTimeout(end, 3000);
+    el.animate([{ opacity:0, transform:'translateX(-110%)' }, { opacity:1, transform:'translateX(10px)', offset:.08 }, { transform:'none', offset:.11 },
+      { transform:'none', opacity:1, offset:.92 }, { opacity:0, transform:'translateX(-110%)' }], { duration:3800, easing:'ease-out' }).finished.then(end);
+  })).catch(() => {});
+}
 // the thing just put into 소지품 flies from the middle of the scene into the satchel in the bottom menu, which then bounces
 // (user request 2026-11-17: an interaction for things going into the bag; every case)
 function flyToBag(id, from){
@@ -9832,7 +9919,7 @@ function renderScene(placeId = S.place){
 }
 // A small star of light over what can be looked at and has not been yet (user picks 2026-11-25, B then A: it comes and
 // goes by turns, the same for a clue and an ordinary thing, gone once looked at). Not on doors (their arrow), nor where
-// finding it is the puzzle (PACK.noGlints: the kites; a clue's noGlint: the flower on the lawn). Over the middle of the
+// finding it is the puzzle (PACK.noGlints: the kites; a clue's noGlint: none now). Over the middle of the
 // spot's photo when it has one (the jam on the big window). S.looked: 'place-clue' of everything looked at.
 const lookedAt = (pl, i) => !!S.looked?.has(`${pl.id}-${i}`) || !!S.found[pl.id]?.has(i);
 function markLooked(pl, i){
@@ -9902,7 +9989,7 @@ function captureEvidence(place, clueIndex){
     if(gave){ S.items.push(give); S.flags.add(`took:${give}`); setItemsNew(true); saveGame(); }
     // the photo the paused questioning waits for (the star's back): it goes on at once, without the notebook opening
     // and having to be put away (user request 2026-11-16: the box to the confession felt broken up)
-    if(scriptResumeDue()){ preview.remove(); toast(gave ? '증거를 기록하고 소지품에 넣었어요.' : '증거를 노트에 기록했어요.'); saveGame(); return setTimeout(resumeScript, 900); }
+    if(scriptResumeDue()){ preview.remove(); photoNotice(photo, place.clues[clueIndex].label || ''); if(gave && ITEMS[give]?.img) itemNotice(ITEMS[give], true); saveGame(); return setTimeout(resumeScript, 900); }
     S.view = 'evidence'; setNotes(true);
     evidenceOpen = `${place.id}-${clueIndex}`; renderDock();
     toast(gave ? '증거를 기록하고 소지품에 넣었어요.' : '증거를 노트에 기록했어요.');
@@ -11100,12 +11187,18 @@ function studyStreak(){
 const FLAME_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c.6 3.2 4.3 5.4 5.6 8.6 1.6 4-1 9.4-5.6 9.4s-7.2-3.4-6.2-7.4c.5-2.1 1.9-3.3 2.7-4.6.3 1.5.9 2.6 1.9 3.1C10 8.4 10.6 5 12 2.5z" fill="#F2A33A" stroke="#4A3628" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 13.2c1.3 1.4 2.4 2.6 2 4.4-.3 1.3-1.1 2-2 2s-1.9-.8-2-2c-.1-1.5.9-2.8 2-4.4z" fill="#F2CF73"/></svg>`;
 const TILTS = [-2.5, 3, -2, 2.5];
 let caseStarted = false;
-// the opened case's page: this case's key (its form and what it means) on a taped card; a tap opens the key itself
-function caseKeyCard(c, done){
-  const g = (c.keys || []).find(k => GRAMMAR[k]); if(!g) return '';
-  return `<button class="cf-key" type="button" data-learned="${c.id}"><span class="cf-key-h">이번 사건의 열쇠</span><span class="cf-key-card">
-    ${done ? '<span class="cf-key-done">LEARNED</span>' : ''}<span class="cf-key-form">${GRAMMAR[g].pattern.split(' / ').map(x => `<span>${esc(x)}</span>`).join(' / ')}</span><span class="cf-key-ko">${esc(GRAMMAR[g].ko)}</span>
-    <span class="cf-key-more">자세히 보기 ›</span></span></button>`;
+// the opened case's page: every form of this case's key (CASES[].keys → GRAMMAR[].examples) with what it means and its
+// examples (▶ and 해석 each; user decision 2026-11-26: no ▶ for the form itself, it read the formula's A and B aloud)
+const keyForms = keys => (keys || []).filter(g => GRAMMAR[g]).flatMap(g => (GRAMMAR[g].examples || [{ head:GRAMMAR[g].pattern, why:GRAMMAR[g].ko, lines:[] }]).map(ex => ({ g, ex })));
+function caseKeysHTML(c){
+  const forms = keyForms(c.keys); if(!forms.length) return '';
+  return `<div class="cf-keys-h">자주 나와요</div>${forms.map(({ g, ex }) => {
+    const n = (GRAMMAR[g].examples || []).indexOf(ex) + 1;
+    const form = ex.parts ? ex.parts.map(part => `<span class="part">${esc(part)}</span>`).join(' ') : esc(ex.head);
+    const mean = ex.mean ? `<p class="cf-k-mean">${ex.mean.map(([w, k]) => ex.mean.length > 1 ? `${esc(w)} <b>${esc(k)}</b>` : `<b>${esc(k)}</b>`).join(' · ')}</p>` : `<p class="cf-k-ko">${esc(ex.why || ex.ko || '')}</p>`;
+    return `<div class="cf-k"><h3 class="cf-k-form">${form}</h3>${mean}${ex.lines.length ? `<ul class="cf-ex">${ex.lines.map(([en, ko], i) =>
+      `<li><span>${markForm(en)}</span><button class="replay-q" type="button" data-ck-play="${g}-${n}-${i + 1}" aria-label="예문 듣기">${playIcon}</button><button class="pill sm" type="button" data-ck-ko aria-pressed="false">해석</button><span class="ko">${esc(ko)}</span></li>`).join('')}</ul>` : ''}</div>`;
+  }).join('')}`;
 }
 function renderCaseList(){
   const solved = solvedCases();
@@ -11132,7 +11225,7 @@ function renderCaseList(){
     return `<button class="cf${done ? ' solved' : ''}${next ? ' current' : ''}" type="button" data-case="${c.id}"><span class="cf-fl"></span><span class="cf-tab">${c.no}</span>
       ${going ? '<span class="cf-go going">수사 중</span>' : next ? '<span class="cf-go">새로운 의뢰!</span>' : ''}
       <span class="cf-in"><span class="cf-pic">${casePicture(c)}${done ? '<span class="cf-st" aria-label="해결">SOLVED</span>' : ''}</span>
-      <span class="cf-text"><span class="case-title">${esc(c.title)}</span>${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${caseStarsHTML(c)}</span></span></button>`;
+      <span class="cf-text"><span class="case-title${c.title.replace(/ /g, '').length > 11 ? ' long' : ''}">${esc(c.title).replace('크리스마스트리', '크리스마스<wbr>트리')}</span>${caseStarsHTML(c)}</span></span></button>`;
   }
   // a word game after every third case (SAFE_EVERY, user decision 2026-11-23), before the next; the games take turns
   // (user pick): the 3rd case's slot is the spelling lock, the 6th's word matching, and so on. A yellow paper strip across
@@ -11219,33 +11312,49 @@ async function openFolder(card){
   cl.append(cover);
   pg.setAttribute('role', 'dialog'); pg.setAttribute('aria-label', c.title);
   pg.style.setProperty('--w', `${W}px`); pg.style.setProperty('--h', `${H}px`);
-  pg.innerHTML = `<div class="cf-sheet"><button class="pill cf-back" type="button" data-cf-back>‹ 목록</button><span class="cf-pic">${casePicture(c)}</span><span class="case-no">${c.no}</span><h2>${esc(c.title)}</h2>
-    ${c.focus ? `<span class="case-focus">${esc(c.focus)}</span>` : ''}${done ? caseStarsHTML(c) : ''}${caseKeyCard(c, done)}
-    <button class="pill big cf-start" type="button" data-cf-start>${done ? '다시 수사하기' : caseGoing(c.id) ? '이어서 수사' : '수사 시작'}</button></div>`;
+  const top0 = Math.round(Math.min(330, H * .42));
+  pg.innerHTML = `<div class="cf-sheet" style="--top0:${top0}px"><span class="cf-hero">${casePicture(c)}</span>
+    <div class="cfp-folder"><div class="cfp-tab"><span class="case-no">${c.no}</span><h2>${esc(c.title)}</h2></div></div><span class="cfp-frame" aria-hidden="true"></span>
+    <button class="pill cf-back" type="button" data-cf-back>‹ 목록</button>
+    <div class="cf-scroll"><div class="cf-paper">${done ? caseStarsHTML(c) : ''}${caseKeysHTML(c)}</div></div>
+    <div class="cf-foot"><button class="pill big cf-start" type="button" data-cf-start>${done ? '다시 수사하기' : caseGoing(c.id) ? '이어서 수사' : '수사 시작'}</button></div></div>`;
+  // the folder and its paper scroll up over the picture to a band, then stay; the words show only inside the paper and the
+  // paper's foot stays under the screen's bottom edge
+  const sheet = pg.querySelector('.cf-sheet'), sc = pg.querySelector('.cf-scroll');
+  { const hero = pg.querySelector('.cf-hero'), folder = pg.querySelector('.cfp-folder'), frame = pg.querySelector('.cfp-frame');
+    const fit = () => { const top = Math.max(140, top0 - sc.scrollTop);
+      folder.style.top = `${top - 80}px`; frame.style.top = `${top}px`; frame.style.height = `${H + 24 - top}px`;
+      hero.style.height = `${top + 10}px`; sc.style.clipPath = `inset(${top + 8}px 16px 0 16px)`; };
+    sc.addEventListener('scroll', fit, { passive:true }); fit(); }
+  // the index tab as wide as its title needs (user request: the tab grows with the title), from 270px up to the screen's
+  // width less 30px; past that the title's letters get smaller. Measured once the page is in the document.
+  const fitTab = () => { const t = sheet.querySelector('.cfp-tab h2'), rg = document.createRange(); rg.selectNodeContents(t);
+    let w = Math.ceil(rg.getBoundingClientRect().width) + 66; const max = W - 30;
+    if(w > max){ t.style.fontSize = `${Math.floor(22 * (max - 66) / (w - 66))}px`; w = max; }
+    sheet.style.setProperty('--tabw', `${Math.max(270, w)}px`); };
   Object.assign(cl.style, ins(r.l, r.t, r.w, r.h));
   ov.append(cl); box.append(ov);
   card.style.visibility = 'hidden'; $('#caseCards').classList.add('open');
-  // lifted to the middle and grown; while the cover turns over, the folder slides right so the open folder stays in view
-  const s = Math.min(1.55, (W - 40) / r.w), cx = (W - r.w) / 2, cy = (H - r.h) / 2 - 30, slide = r.w * s * .36;
-  const mid = `${cx - r.l}px ${cy - r.t}px`, aside = `${cx - r.l + slide}px ${cy - r.t}px`;
-  const fx = cx - r.w * (s - 1) / 2 + slide, fy = cy - r.h * (s - 1) / 2;   // the grown folder's corner after the slide
+  // lifted and grown straight to where the folder's right page (its back with the paper) sits in the middle of the screen,
+  // then the cover turns over to the left (user requests 2026-11-26: not to the middle and then aside; the right page centred)
+  const s = Math.min(1.55, (W - 40) / r.w), fx = (W - r.w * s) / 2, fy = (H - r.h * s) / 2 - 30;   // the grown folder's corner
+  const aside = `${fx + r.w * (s - 1) / 2 - r.l}px ${fy + r.h * (s - 1) / 2 - r.t}px`;
   const from = ins(fx + r.w * s * .05, fy + r.h * s * .08, r.w * s * .9, r.h * s * .9);   // its paper
   const turn = 'cubic-bezier(.45,.05,.3,1)';
   // the folder's sticker (새로운 의뢰! / 수사 중) stays behind: it fades away as the folder is picked up
   const tag = cl.querySelector('.cf-go');
   if(tag){ tag.style.animation = 'none'; run(tag, [{ opacity:1, scale:1 }, { opacity:0, scale:.85 }], 260, 'ease-out'); }
-  await run(cl, [{ translate:'0 0', scale:1 }, { translate:mid, scale:s }], 420);
+  await run(cl, [{ translate:'0 0', scale:1 }, { translate:aside, scale:s }], 460);
   if(!ov.isConnected) return;
   const paper = $('#folderSound'); paper.currentTime = 0; paper.play().catch(() => {});
-  await Promise.all([
-    run(cover, [{ transform:'rotateY(0deg)' }, { transform:'rotateY(-180deg)' }], 640, turn),
-    run(cl, [{ translate:mid, scale:s }, { translate:aside, scale:s }], 640, turn)]);
+  // the page comes as soon as the folder is open (user request 2026-11-26: the blank paper showed too long): the cover
+  // is still finishing its turn when the paper lifts off and becomes the page, its words already on it
+  const opened = run(cover, [{ transform:'rotateY(0deg)' }, { transform:'rotateY(-180deg)' }], 640, turn);
+  await new Promise(r => setTimeout(r, calm ? 0 : 340));
   if(!ov.isConnected) return;
-  // the paper lifts off the folder and becomes the page
-  Object.assign(pg.style, from); ov.append(pg);
-  setTimeout(() => pg.classList.add('on'), calm ? 0 : 200);
-  run(cl, [{ opacity:1 }, { opacity:0 }], 300, 'ease-in');
-  await run(pg, [from, full], 440);
+  Object.assign(pg.style, from); ov.append(pg); fitTab(); pg.classList.add('on');
+  run(cl, [{ opacity:1 }, { opacity:0 }], 260, 'ease-in');
+  await Promise.all([opened, run(pg, [from, full], 380)]);
   if(!ov.isConnected) return;
   pg.classList.add('full', 'on'); Object.assign(pg.style, full); pg.getAnimations().forEach(a => a.cancel());
   pg.querySelector('[data-cf-start]').focus({ preventScroll:true });
@@ -11253,9 +11362,12 @@ async function openFolder(card){
   let busy = false;
   pg.addEventListener('click', async e => {
     if(busy) return;
-    if(e.target.closest('[data-learned]')) return openCaseKey(c.keys, null);
+    const play = e.target.closest('[data-ck-play]');
+    if(play) return playExample(play.dataset.ckPlay);
+    const ko = e.target.closest('[data-ck-ko]');
+    if(ko){ ko.setAttribute('aria-pressed', ko.closest('li').classList.toggle('ko-on')); return; }
     if(e.target.closest('[data-cf-start]')){
-      busy = true; startCase(false, c.id);
+      busy = true; stopVoice(); startCase(true, c.id);   // its key is on this page: no key page before the case
       // another case's page takes over by itself; else (its key over the list, the case, the first meeting) the paper goes
       if(c.id === CASE_ID || !detectiveName()) setTimeout(close, 500);
     } else if(e.target.closest('[data-cf-back]')){
@@ -11264,10 +11376,8 @@ async function openFolder(card){
       run(cl, [{ opacity:0 }, { opacity:1 }], 260, 'ease-out');
       await run(pg, [full, from], 380);
       pg.remove();
-      await Promise.all([
-        run(cover, [{ transform:'rotateY(-180deg)' }, { transform:'rotateY(0deg)' }], 520, turn),
-        run(cl, [{ translate:aside, scale:s }, { translate:mid, scale:s }], 520, turn)]);
-      await run(cl, [{ translate:mid, scale:s }, { translate:'0 0', scale:1 }], 340);
+      await run(cover, [{ transform:'rotateY(-180deg)' }, { transform:'rotateY(0deg)' }], 520, turn);
+      await run(cl, [{ translate:aside, scale:s }, { translate:'0 0', scale:1 }], 360);
       close(); card.focus({ preventScroll:true });
       card.querySelector('.cf-go')?.animate([{ opacity:0, scale:.85 }, { opacity:1, scale:1 }], { duration:calm ? 1 : 300, easing:'ease-out' });
     }
@@ -11641,7 +11751,8 @@ function openCaseList(tab = 'cases'){
 function startCase(keySeen = false, caseId = CASE_ID){
   if(caseId !== CASE_ID){
     if(!detectiveName()) return meetDetective(() => startCase(keySeen, caseId));
-    location.href = caseHref(caseId); return;
+    // keySeen: the key was on the case's page; the other case's page then starts without its key page
+    location.href = caseHref(caseId) + (keySeen && CASE_PARAMS[caseId] ? '&key=seen' : ''); return;
   }
   stopVoice();
   if(!detectiveName()) return meetDetective(() => startCase(keySeen, caseId));
@@ -12583,7 +12694,7 @@ if(PACK){
   // without a detective name (리셋 on this page) the first meeting is on 홈, as when the app opens,
   // not straight into this case after the name (user request: it went into the case at once)
   else if(!PREVIEW && !detectiveName()) location.replace(location.pathname);
-  else if(!PREVIEW) startCase(false);
+  else if(!PREVIEW) startCase(new URLSearchParams(location.search).get('key') === 'seen');
 } else {
   // the app opens on 홈 (on the case cards when coming back from another case); without a detective name, the first
   // meeting and naming come first (user request)
