@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포장 화면 시안</title>
+<style>
+:root{--bg:#F4EFE6;--ink:#3B2E25;--muted:#7A6A5C;--card:#FFFDF8;--line:#E3D8C8;--accent:#D9607F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+main{max-width:1320px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:26px;margin:0 0 6px}
+h2{font-size:20px;margin:40px 0 10px}
+p.lead{color:var(--muted);margin:0 0 18px;max-width:900px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+.facts span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.opt{width:390px;max-width:100%}
+.opt h3{margin:0 0 8px;font-size:18px}
+.opt h3 .tag{font-size:12px;background:var(--accent);color:#fff;border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:2px}
+.opt ul{margin:10px 0 0;padding-left:18px;font-size:14px}
+.opt li{margin:2px 0}
+.opt li.bad{color:#9A5B4C}
+.size{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* phone */
+.phone{position:relative;width:390px;height:844px;border-radius:34px;overflow:hidden;background:#3a2a20;box-shadow:0 10px 30px rgba(60,40,20,.25);transform-origin:0 0}
+.phone .room{position:absolute;inset:-20px;background:url(../assets/places/valentine/classroom-higgsfield-original.png) center 30%/cover;filter:blur(7px)}
+.phone .dim{position:absolute;inset:0;background:#2E2219;opacity:.38}
+.hud{position:absolute;left:0;right:0;top:0;height:60px;display:flex;align-items:center;gap:8px;padding:0 12px;z-index:5}
+.hud .back{width:34px;height:34px;border-radius:50%;background:#FFF8EA;display:grid;place-items:center;font-weight:700}
+.hud .ttl{background:#FFF8EA;border-radius:12px;padding:4px 12px;font-weight:700}
+.hud .acorn{margin-left:auto;width:34px;height:34px;border-radius:50%;background:#FFF8EA;display:grid;place-items:center}
+.nav{position:absolute;left:0;right:0;bottom:0;height:74px;background:#FBF3E4;border-top:3px solid #E9D9BD;display:flex;justify-content:space-around;align-items:center;font-size:12px;z-index:5}
+.nav b{display:block;width:26px;height:22px;margin:0 auto 2px;border-radius:5px;background:#D8C5A4}
+.bubble{position:absolute;left:14px;right:14px;top:66px;background:#FFF8E8;border:3px solid #E8B85C;border-radius:16px;padding:10px 12px 10px 62px;z-index:6;font-size:14px;line-height:1.35;min-height:84px}
+.bubble::before{content:"";position:absolute;left:12px;top:12px;width:40px;height:40px;border-radius:50%;background:#F0A35E}
+.bubble small{display:block;color:#C24E7A;font-size:11px}
+.zone{position:absolute;left:14px;right:14px;top:66px;height:96px;border:2px dashed rgba(255,248,232,.55);border-radius:16px;display:grid;place-items:center;color:rgba(255,248,232,.85);font-size:13px;z-index:4}
+
+/* big box (top-down) */
+.big{position:absolute;border-radius:14px;background:#B9375A;padding:10px;box-shadow:0 6px 0 #8E2443,0 10px 18px rgba(0,0,0,.3)}
+.big .in{position:relative;width:100%;height:100%;border-radius:8px;background:repeating-linear-gradient(90deg,#F7E3D2 0 10px,#F2D9C4 10px 20px);box-shadow:inset 0 3px 8px rgba(80,30,20,.35);overflow:hidden}
+.big .in.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:#9E2D4C;box-shadow:none}
+.big .in.cols>div{position:relative;border-radius:6px;background:repeating-linear-gradient(90deg,#F7E3D2 0 10px,#F2D9C4 10px 20px);box-shadow:inset 0 3px 8px rgba(80,30,20,.35);overflow:hidden}
+.choc{position:absolute;width:40px;height:40px;filter:drop-shadow(0 2px 1.5px rgba(60,20,10,.45))}
+.choc svg,.mold svg{width:100%;height:100%;display:block}
+
+/* gift boxes */
+.boxes{position:absolute;display:grid;gap:9px}
+.gift{position:relative;aspect-ratio:1;border-radius:9px;background:#F6C9D3;box-shadow:0 3px 0 #D88FA3,0 5px 8px rgba(0,0,0,.25);padding:5px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px}
+.gift .mold{position:relative;border-radius:5px;background:#FBE4E9;display:grid;place-items:center}
+.gift .mold svg{width:86%;height:86%}
+.gift.closed{background:#E9849E;box-shadow:0 3px 0 #C25D7A,0 5px 8px rgba(0,0,0,.25);display:block;padding:0}
+.gift.closed::before,.gift.closed::after{content:"";position:absolute;background:#FFF2C6}
+.gift.closed::before{left:44%;width:12%;top:0;bottom:0}
+.gift.closed::after{top:44%;height:12%;left:0;right:0}
+.gift.closed i{position:absolute;left:50%;top:50%;width:46%;height:30%;transform:translate(-50%,-50%);z-index:1;
+  background:radial-gradient(ellipse at 25% 50%,#FFF2C6 0 38%,transparent 40%),radial-gradient(ellipse at 75% 50%,#FFF2C6 0 38%,transparent 40%),radial-gradient(circle at 50% 50%,#F5D98B 0 18%,transparent 20%)}
+.gift.target{outline:3px solid #FFE27A;outline-offset:2px;box-shadow:0 0 0 7px rgba(255,226,122,.35),0 3px 0 #D88FA3}
+.gift.empty-hint .mold.fl{box-shadow:0 0 0 2px #FFE27A,0 0 10px 3px rgba(255,226,122,.9)}
+.drag{position:absolute;width:46px;height:46px;z-index:7;filter:drop-shadow(0 8px 6px rgba(0,0,0,.45));transform:rotate(-8deg)}
+.drag svg{width:100%;height:100%}
+.finger{position:absolute;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.55);border:2px solid #fff;z-index:8}
+.arrow{position:absolute;z-index:6;pointer-events:none}
+.lbl{position:absolute;z-index:6;background:rgba(255,248,232,.92);border-radius:8px;padding:1px 7px;font-size:11px;color:#6B3D2B}
+
+/* D: one gift box at a time */
+.mini{position:absolute;width:34px;height:34px;z-index:4;transition:opacity .3s}
+.mini>.gift{width:66px;transform:scale(.5152);transform-origin:0 0}
+.mini.wait{opacity:.45}
+.mini.now::after{content:"";position:absolute;inset:-4px;border-radius:7px;box-shadow:0 0 0 2px #FFE27A,0 0 8px 2px rgba(255,226,122,.85)}
+#dRow.gone .mini{opacity:0}
+#dStage .gift{position:absolute;left:90px;top:196px;transition:transform .45s ease-in-out;z-index:4}
+.gift.bigg{width:210px;padding:12px;gap:8px;border-radius:20px;box-shadow:0 6px 0 #D88FA3,0 10px 16px rgba(0,0,0,.3)}
+.gift.bigg .mold{border-radius:12px}
+.gift.bigg.closed{box-shadow:0 6px 0 #C25D7A,0 10px 16px rgba(0,0,0,.3)}
+.gift.over{box-shadow:0 0 0 6px rgba(255,255,255,.75),0 6px 0 #D88FA3}
+.gift.pop{animation:lid .3s ease-out}
+@keyframes lid{from{transform:scale(1.15);opacity:.4}}
+.gift.shake{animation:shake .35s}
+@keyframes shake{20%{translate:-7px}40%{translate:7px}60%{translate:-4px}80%{translate:4px}}
+.dchoc{position:absolute;width:44px;height:44px;z-index:6;touch-action:none;cursor:grab;transition:left .25s,top .25s,width .25s,height .25s,transform .25s;filter:drop-shadow(0 2px 1.5px rgba(60,20,10,.45))}
+.dchoc.dragging{transition:none;width:52px;height:52px;z-index:9;cursor:grabbing;filter:drop-shadow(0 9px 6px rgba(0,0,0,.45))}
+.dchoc svg{width:100%;height:100%;display:block;pointer-events:none}
+.gin{animation:gin .4s both}
+@keyframes gin{from{transform:scale(.35);opacity:0}}
+.bubble[hidden],.dnote[hidden]{display:none}
+.dnote{position:absolute;left:50px;right:50px;top:420px;z-index:8;background:#FFF8E8;border:3px solid #E8B85C;border-radius:14px;padding:10px;text-align:center;font-size:14px;animation:gin .35s both}
+.ctl{display:flex;gap:8px;margin-top:10px}
+.ctl button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;cursor:pointer}
+table{border-collapse:collapse;width:100%;background:var(--card);border:1px solid var(--line);font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#F1E7D7}
+.tbl{overflow-x:auto}
+.dec{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:10px 14px;margin:8px 0;max-width:900px}
+@media (max-width:440px){.phone{transform:scale(.88);margin-bottom:-100px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="heart-path" viewBox="0 0 100 100"><path d="M50 90C22 70 6 52 6 32 6 17 17 7 31 7c9 0 15 5 19 12 4-7 10-12 19-12 14 0 25 10 25 25 0 20-16 38-44 58z"/></symbol>
+    <symbol id="ph" viewBox="0 0 100 100">
+      <path d="M50 90C22 70 6 52 6 32 6 17 17 7 31 7c9 0 15 5 19 12 4-7 10-12 19-12 14 0 25 10 25 25 0 20-16 38-44 58z" fill="#F08DB0" stroke="#B9506F" stroke-width="3"/>
+      <path d="M18 34c10-6 20 8 30 2s20 8 34 0M22 50c10-6 18 8 28 2s18 8 28 0" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".95"/>
+      <path d="M50 70c-6-4-9-7-9-11 0-3 2-5 5-5 2 0 3 1 4 3 1-2 2-3 4-3 3 0 5 2 5 5 0 4-3 7-9 11z" fill="#F2C14E" stroke="#B88A1E" stroke-width="1.5"/>
+      <path d="M24 20c4-4 9-5 13-4" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>
+    </symbol>
+    <symbol id="bh" viewBox="0 0 100 100">
+      <path d="M50 90C22 70 6 52 6 32 6 17 17 7 31 7c9 0 15 5 19 12 4-7 10-12 19-12 14 0 25 10 25 25 0 20-16 38-44 58z" fill="#8A5634" stroke="#4E2C17" stroke-width="3"/>
+      <path d="M20 30l58 22M18 44l52 20M30 22l52 20" stroke="#F4A6C0" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="40" cy="62" r="4" fill="#FFF8EE"/><circle cx="55" cy="66" r="3.4" fill="#FFF8EE"/><circle cx="62" cy="54" r="3" fill="#FFF8EE"/>
+      <path d="M24 20c4-4 9-5 13-4" stroke="#E6B48F" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </symbol>
+    <symbol id="fl" viewBox="0 0 100 100">
+      <g fill="#F6E6CF" stroke="#B88F63" stroke-width="3"><circle cx="50" cy="24" r="19"/><circle cx="75" cy="42" r="19"/><circle cx="65" cy="71" r="19"/><circle cx="35" cy="71" r="19"/><circle cx="25" cy="42" r="19"/></g>
+      <g fill="#F6E6CF"><circle cx="50" cy="50" r="24"/></g>
+      <circle cx="50" cy="50" r="11" fill="#E77FA0" stroke="#B9506F" stroke-width="2"/>
+      <g fill="#F2C14E"><circle cx="50" cy="30" r="2.6"/><circle cx="69" cy="44" r="2.6"/><circle cx="62" cy="66" r="2.6"/><circle cx="38" cy="66" r="2.6"/><circle cx="31" cy="44" r="2.6"/></g>
+    </symbol>
+    <symbol id="fl-path" viewBox="0 0 100 100"><g><circle cx="50" cy="24" r="19"/><circle cx="75" cy="42" r="19"/><circle cx="65" cy="71" r="19"/><circle cx="35" cy="71" r="19"/><circle cx="25" cy="42" r="19"/><circle cx="50" cy="50" r="24"/></g></symbol>
+    <symbol id="sq" viewBox="0 0 100 100">
+      <rect x="9" y="9" width="82" height="82" rx="12" fill="#5B3421" stroke="#2F190C" stroke-width="3"/>
+      <rect x="20" y="20" width="60" height="60" rx="7" fill="none" stroke="#7A4A30" stroke-width="3"/>
+      <path d="M36 44l10-8 8 6 10-6-4 12 6 8-12-2-6 8-4-10-10-2z" fill="#E8C25A"/>
+    </symbol>
+    <symbol id="sq-path" viewBox="0 0 100 100"><rect x="9" y="9" width="82" height="82" rx="12"/></symbol>
+  </defs>
+</svg>
+
+<main>
+  <h1>선물 상자 포장 화면 — 화면 구성 시안</h1>
+  <p class="lead">초콜릿·상자 시트(6번)를 그리기 전에 확대 화면을 어떻게 놓을지 먼저 정하는 시안입니다. 크기는 실제 폰(390×844) 기준입니다. 확대 화면에서 쓸 수 있는 자리는 지금 게임의 저울 퍼즐(Case 09)과 같습니다: 위 상단바, 그 아래 말풍선 자리, 맨 아래 지도·노트·소지품 줄. 뒤 배경은 다른 확대 화면처럼 흐리게 한 교실입니다. 초콜릿·상자 모양은 자리를 보려는 임시 그림이고, 실제 그림은 Higgsfield 시트로 만듭니다.</p>
+  <div class="facts"><span>학생 8명 → 선물 상자 8개(사용자 결정: 13명에서 줄임)</span><span>홈 4개(하트·하트·꽃·네모), 네모는 처음부터 차 있음</span><span>끌어 넣을 초콜릿 24개(분홍 하트 11 · 갈색 하트 8 · 꽃 5)</span><span>상자 위 아무 데나 놓으면 맞는 홈으로</span></div>
+  <p class="muted" style="font-size:13px;color:var(--muted)">13상자일 때 있던 A(큰 상자 위, 말풍선이 큰 상자를 가림)와 C(큰 상자 칸막이, 쌓인 양을 비교하면 답이 보임)는 상자 8개에서는 뺐습니다.</p>
+
+  <h2>B · 8상자를 한꺼번에 <span style="font-size:13px;background:var(--accent);color:#fff;border-radius:6px;padding:2px 8px;vertical-align:3px">사용자 선택</span></h2>
+  <div class="row">
+    <div class="opt">
+      <h3>진행 중 <span style="font-size:13px;color:var(--accent)">(직접 끌어 보세요)</span></h3>
+      <div class="phone" id="pB"></div>
+      <div class="ctl"><button type="button" id="bReset">처음부터</button><button type="button" id="bAuto">나머지 빨리 채우기</button></div>
+      <div class="size">선물 상자 84px(4×2) · 홈 36px · 홈 안 초콜릿 약 31px · 큰 상자 안 초콜릿 44px</div>
+    </div>
+    <div class="opt">
+      <h3>다 포장한 뒤</h3>
+      <div class="phone" id="pEnd"></div>
+      <div class="size">닫힌 상자 5 · 꽃 홈이 빈 상자 3 · 남은 분홍 하트 3</div>
+    </div>
+    <div class="opt" style="width:auto;flex:1;min-width:300px;max-width:440px">
+      <ul>
+        <li>상자 8개가 4×2로 넉넉히 들어가 84px로 커짐(13개일 때 66px)</li>
+        <li>말풍선 자리가 비어 있어 탐정이 말해도 아무것도 가리지 않음</li>
+        <li>초콜릿이 엄지 가까이 있고 위로 밀어 올리는 동작</li>
+        <li>넘어가는 움직임이 없어 빠르고, 아무 상자에나 먼저 넣어도 됨</li>
+        <li>인터랙션은 D와 같음(집기 · 상자 위 흰 빛 · 맞는 홈으로 쏙 · 자리가 없으면 그 상자가 흔들리고 제자리로 · 같은 색 하트로 처음 튕길 때만 말풍선 · 상자 밖이면 제자리로). 다른 점: 다 찬 상자는 그 자리에서 뚜껑·리본(날아가지 않음), 어느 상자에도 넣을 초콜릿이 없으면 끝(0.6초 뒤 단서 카드·소지품 알림)</li>
+        <li>끝나면 화면 그대로 결과(닫힌 5 · 연 3 · 남은 분홍 하트 3). 이 모습이 단서 카드 <b>포장한 상자</b>의 그림</li>
+        <li class="bad">홈 안 초콜릿이 약 31px라 장식은 D보다 작게 보임</li>
+        <li class="bad">처음부터 상자 8개가 다 보여 D보다 화면이 꽉 차 보임</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>D · 한 상자씩 넘어가기 <span style="font-size:14px;color:var(--accent)">(왼쪽 폰에서 직접 끌어 보세요)</span></h2>
+  <p class="lead">선물 상자를 하나만 크게 띄우고, 다 차면 뚜껑을 덮어 위 줄의 자기 칸으로 보낸 뒤 다음 상자가 들어옵니다. 몇 번째 상자인지는 숫자 대신 위의 작은 상자 8칸 줄로 보입니다(지금 상자가 빛남). 다 끝나면 이 줄이 커지며 8상자가 한자리에 모여 B의 "다 포장한 뒤"와 같은 모습이 됩니다. 끝까지 보려면 <b>나머지 빨리 채우기</b>를 누르세요.</p>
+  <div class="row">
+    <div class="opt">
+      <div class="phone" id="pD"></div>
+      <div class="ctl"><button type="button" id="dReset">처음부터</button><button type="button" id="dAuto">나머지 빨리 채우기</button></div>
+      <div class="size">선물 상자 210px · 홈 89px · 홈 안 초콜릿 약 76px · 위 줄 작은 상자 34px · 큰 상자 안 초콜릿 44px(집으면 52px)</div>
+    </div>
+    <div class="opt" style="width:auto;flex:1;min-width:300px;max-width:780px">
+      <h3>인터랙션 순서</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>#</th><th>언제</th><th>화면에서 일어나는 것</th><th>시간 · 소리</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>확대 화면이 열릴 때</td><td>큰 상자 뚜껑이 열리고 첫 선물 상자가 오른쪽에서 들어옴. 네모 홈은 이미 차 있음. 위 줄 첫 칸이 빛남</td><td>0.4초 · 상자 여는 소리</td></tr>
+          <tr><td>2</td><td>초콜릿을 누름</td><td>살짝 커지며(44→52px) 손가락보다 약 30px 위에 떠서 따라옴(손가락에 가리지 않게)</td><td>바로 · 작은 집는 소리</td></tr>
+          <tr><td>3</td><td>선물 상자 위로 가져감</td><td>상자 테두리에 흰 빛. 들어갈지 말지는 미리 알려 주지 않음(규칙은 튕김으로 배움)</td><td>—</td></tr>
+          <tr><td>4</td><td>상자 위에 놓음 · 맞는 빈 홈이 있음</td><td>그 홈으로 쏙 들어가며 홈 크기로 줄어듦. 하트는 비어 있는 하트 홈 아무 데나</td><td>0.25초 · "톡"</td></tr>
+          <tr><td>5</td><td>상자 위에 놓음 · 넣을 자리가 없음</td><td>상자가 좌우로 흔들리고 초콜릿은 큰 상자의 제자리로 돌아감. <b>같은 색 하트로 처음 튕길 때만</b> 탐정 말풍선 "Ms. Penny said one pink heart and one brown heart."(3.5초 뒤 또는 누르면 닫힘)</td><td>0.3초 · 낮은 "뚱"</td></tr>
+          <tr><td>6</td><td>상자 밖에 놓음</td><td>제자리로 돌아감</td><td>0.25초 · 소리 없음</td></tr>
+          <tr><td>7</td><td>네 홈이 다 참</td><td>잠깐 멈춘 뒤 뚜껑이 덮이고 리본이 묶임 → 상자가 작아지며 위 줄의 자기 칸으로 날아감 → 다음 상자가 오른쪽에서 들어옴. 그동안은 끌기를 받지 않음</td><td>0.3 + 0.7 + 0.45 + 0.4초 · 리본 "딩"</td></tr>
+          <tr><td>8</td><td>큰 상자에 이 상자에 맞는 초콜릿이 하나도 없음(꽃을 다 쓴 6–8번째)</td><td>0.6초 뒤 뚜껑을 덮지 않고 연 채로 위 줄로 날아감(그 칸은 연 상자로 남음). 탐정은 아무 말도 하지 않음(결론은 플레이어 몫)</td><td>0.6 + 0.45초 · 소리 없음</td></tr>
+          <tr><td>9</td><td>8번째가 끝남</td><td>위 줄이 사라지고 8상자가 4×2로 크게 모임(닫힌 5 · 연 3). 큰 상자에는 분홍 하트 3개만 남음. 잠시 뒤 단서 카드 <code>포장한 상자</code>, 소지품 <code>분홍 하트 3개</code> 알림</td><td>0.5 + 0.8초 · 단서 알림 소리</td></tr>
+          <tr><td>10</td><td>도중에 확대 화면을 닫았다 다시 열 때</td><td>하던 상자부터 그대로(넣은 초콜릿·위 줄 유지). 다 끝난 뒤에는 9의 모인 모습</td><td>—</td></tr>
+          <tr><td>11</td><td>꽃 3개를 받아 온 뒤</td><td>모인 모습에서 연 상자 3개가 빛나고, 소지품의 꽃을 끌어 빈 꽃 홈에 넣음(들어가면 뚜껑·리본). 8상자가 다 닫히면 건네기</td><td>7과 같음</td></tr>
+          <tr><td>힌트</td><td>도토리 힌트</td><td>포장 중에는 막힐 일이 없어 힌트 없음. 다 끝난 뒤 1번째는 연 상자 3개, 2번째는 남은 분홍 하트를 반짝임</td><td>—</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>상자가 크게 보여 놓기 쉽고 초콜릿 장식이 잘 보임(홈 안 76px)</li>
+        <li>몇 번째인지는 위 줄로 보이고, 끝나면 그 줄이 그대로 결과 모음이 됨(화면에 글자 없음)</li>
+        <li>꽃이 떨어진 상자는 저절로 넘어가 "다음" 버튼이 없음(덜 채우고 넘기는 실수 없음)</li>
+        <li class="bad">상자가 바뀔 때마다 약 2초 넘어가는 움직임 × 8번. 지루하면 7을 1초 안으로 줄임</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>시트에 필요한 그림</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>그림</th><th>보는 각도·모양</th><th>게임에서의 크기(B / D)</th><th>그릴 때 맞출 점</th></tr></thead>
+    <tbody>
+      <tr><td>초콜릿 4개(분홍 하트·갈색 하트·꽃·네모)</td><td>위에서 본 모습, 각각 정사각 칸 안에</td><td>큰 상자 안 44px · 홈 안 31px / 76px</td><td>작게 줄어도 모양·색이 구별되게. 장식은 또렷하게(드리즐 줄·금빛 하트·진주·금박). 종이 컵 받침 없음</td></tr>
+      <tr><td>선물 상자(연 것)</td><td>위에서 본 정사각, 받침에 홈 2×2(왼쪽 위·오른쪽 위 하트, 왼쪽 아래 꽃, 오른쪽 아래 네모)</td><td>84px / 210px(위 줄 34px)</td><td>홈은 초콜릿 실루엣과 같은 모양, 비어 있어도 무슨 자리인지 보이게 그늘. 테두리가 얇아야 홈이 커짐</td></tr>
+      <tr><td>선물 상자(닫은 것)</td><td>연 것과 같은 크기·위치의 뚜껑 + 리본 매듭</td><td>84px / 210px(위 줄 34px)</td><td>연 것과 겹쳐 바꿔치기하므로 외곽이 같아야 함. 작게 줄어도 닫힌 것·연 것이 구별되게(리본 색을 또렷이)</td></tr>
+      <tr><td>큰 초콜릿 상자(연 것)</td><td>위에서 본 가로 직사각(약 1:1–7:6), 안쪽 비어 있음</td><td>약 366×340px / 366×300px</td><td>초콜릿 24개는 코드로 흩어 얹음. 안쪽 바닥은 밝게(초콜릿이 잘 보이게)</td></tr>
+      <tr><td>교실 책상 위 큰 상자</td><td>비스듬히 본 모습(교실 그림과 같은 각도), 닫힌 상자 + 쌓인 선물 상자</td><td>책상 위 작은 물건</td><td>위에서 본 그림은 교실 책상에 얹으면 어색해서 시트에 이 한 칸만 비스듬히(<code>desk-boxes</code>)</td></tr>
+      <tr><td>봉투 둘</td><td>소지품 아이콘(분홍 하트 3개 · 꽃 3개)</td><td>소지품 칸</td><td>각도 상관없음</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>정한 것</h2>
+  <div class="dec" style="border-left-color:#7BAA6B"><b>1. 화면 구성 — B로 정함</b>(사용자 결정 2026-11-27). D는 참고로 남겨 둠. 시트는 B 크기(선물 상자 84px · 홈 안 초콜릿 31px)에 맞춰 장식을 굵고 또렷하게</div>
+  <div class="dec" style="border-left-color:#7BAA6B"><b>2. 교실 책상 위 큰 상자 — 시트에 비스듬한 상자 한 칸 추가로 정함</b>(사용자 결정 2026-11-27, 크레딧 그대로)</div>
+  <div class="dec" style="border-left-color:#7BAA6B"><b>3. 확대 화면 뒤 배경 — 흐린 교실로 정함</b>(사용자 결정 2026-11-27, 0크레딧)</div>
+</main>
+
+<script>
+const S = (id, w, h) => `<svg viewBox="0 0 100 100" width="${w}" height="${h || w}"><use href="#${id}"/></svg>`;
+const mold = (shape, fill) => fill ? `<div class="mold">${S(fill, '86%')}</div>`
+  : `<div class="mold ${shape === 'fl-path' ? 'fl' : ''}"><svg viewBox="0 0 100 100" style="width:78%;height:78%"><use href="#${shape}" fill="#E9B3C1" stroke="#D592A6" stroke-width="4"/></svg></div>`;
+// a gift box: which of its molds are filled ([tl, tr, bl] with 'ph'/'bh'/'fl' or null), the square always in
+const gift = (f = [], cls = '') => cls.includes('closed') ? `<div class="gift ${cls}"><i></i></div>`
+  : `<div class="gift ${cls}">${mold('heart-path', f[0])}${mold('heart-path', f[1])}${mold('fl-path', f[2])}${mold('sq-path', 'sq')}</div>`;
+const shell = (inner, bubble) => `<div class="room"></div><div class="dim"></div>
+  <div class="hud"><span class="back">‹</span><span class="ttl">Classroom</span><span class="acorn">🌰</span></div>
+  ${bubble ? `<div class="bubble"><small>Detective</small>Ms. Penny said one pink heart and one brown heart.</div>` : `<div class="zone">말풍선 자리(비워 둠)</div>`}
+  ${inner}
+  <div class="nav"><span><b></b>지도</span><span><b></b>노트</span><span><b></b>소지품</span></div>`;
+// spread positions for n chocolates of a size in a box (a fixed pseudo-random spread)
+function spread(n, w, h, size, seed0 = 7){
+  let seed = seed0; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const cols = Math.ceil(Math.sqrt(n * w / h)), rows = Math.ceil(n / cols);
+  const cw = (w - size) / Math.max(cols - 1, 1), rh = (h - size) / Math.max(rows - 1, 1);
+  return Array.from({length:n}, (_, i) => { const c = i % cols, r = Math.floor(i / cols);
+    return { x:Math.round(Math.min(w - size, Math.max(0, c * cw + (rnd() - .5) * cw * .5))), y:Math.round(Math.min(h - size, Math.max(0, r * rh + (rnd() - .5) * rh * .5))), rot:Math.round((rnd() - .5) * 50) }; });
+}
+const scatter = (list, w, h, size = 44) => spread(list.length, w, h, size).map((p, i) =>
+  `<div class="choc" style="left:${p.x}px;top:${p.y}px;width:${size}px;height:${size}px;transform:rotate(${p.rot}deg)">${S(list[i], size)}</div>`).join('');
+const mix = (p, b, f) => { const a = [...Array(p).fill('ph'), ...Array(b).fill('bh'), ...Array(f).fill('fl')]; let s = 3; for(let i = a.length - 1; i > 0; i--){ s = (s * 7919 + 13) % 10007; const j = s % (i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const arrow = (x1, y1, x2, y2) => `<svg class="arrow" style="left:0;top:0" width="390" height="844"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0L8 4 0 8z" fill="#FFE27A"/></marker></defs><path d="M${x1} ${y1}Q${(x1 + x2) / 2 + 30} ${(y1 + y2) / 2} ${x2} ${y2}" stroke="#FFE27A" stroke-width="3" stroke-dasharray="6 5" fill="none" marker-end="url(#ah)"/></svg>`;
+const GRID8 = boxes => `<div class="boxes" style="left:13px;top:178px;width:363px;grid-template-columns:repeat(4,84px);z-index:4">${boxes.join('')}</div>`;
+const BIGB = inner => `<div class="big" style="left:12px;top:390px;width:366px;height:360px"><div class="in">${inner}</div></div>`;
+
+// dragging a chocolate (both live phones): lifted over the finger; opts.busy(), opts.target(x, y) → a box or null,
+// opts.hover(box|null), opts.drop(chocolate, box|null)
+function dragChocs(root, opts){
+  root.addEventListener('pointerdown', e => {
+    const c = e.target.closest('.dchoc'); if(!c || opts.busy()) return;
+    e.preventDefault(); c.setPointerCapture(e.pointerId);
+    const pos = ev => { const r = root.getBoundingClientRect(), sc = r.width / 390; return [(ev.clientX - r.left) / sc, (ev.clientY - r.top) / sc]; };
+    c.classList.add('dragging'); c.style.transform = 'none';
+    const move = ev => { const [x, y] = pos(ev); c.style.left = (x - 26) + 'px'; c.style.top = (y - 56) + 'px'; opts.hover(opts.target(x, y - 30)); };
+    const up = ev => {
+      c.removeEventListener('pointermove', move); c.removeEventListener('pointerup', up); c.removeEventListener('pointercancel', up);
+      c.classList.remove('dragging'); opts.hover(null);
+      const [x, y] = pos(ev); opts.drop(c, ev.type === 'pointerup' ? opts.target(x, y - 30) : null);
+    };
+    move(e);
+    c.addEventListener('pointermove', move); c.addEventListener('pointerup', up); c.addEventListener('pointercancel', up);
+  });
+}
+const homeChoc = c => { c.style.left = c.dataset.hx + 'px'; c.style.top = c.dataset.hy + 'px'; c.style.transform = `rotate(${c.dataset.rot}deg)`; };
+const shake = g => { g.classList.remove('shake'); g.offsetWidth; g.classList.add('shake'); };
+// which mold of a box (its fills m) a chocolate goes to, -1 for none: one pink and one brown heart, the flower in its own
+const slotIn = (m, k) => k === 'fl' ? (m[2] ? -1 : 2) : m.includes(k) ? -1 : !m[0] ? 0 : !m[1] ? 1 : -1;
+const chocsIn = (BIG, seed) => { const kinds = mix(11, 8, 5), hs = spread(24, BIG.w, BIG.h, 44, seed);
+  return kinds.map((k, n) => { const x = BIG.x + hs[n].x, y = BIG.y + hs[n].y;
+    return `<div class="dchoc" data-k="${k}" data-hx="${x}" data-hy="${y}" data-rot="${hs[n].rot}" style="left:${x}px;top:${y}px;transform:rotate(${hs[n].rot}deg)">${S(k, '100%')}</div>`; }).join(''); };
+const say = (root, later) => { const b = root.querySelector('.bubble'); b.hidden = false; later(() => { b.hidden = true; }, 3500); };
+const note = (root, later) => { const no = root.querySelector('.dnote'); no.innerHTML = '<b>단서 카드</b> 포장한 상자<br><b>소지품</b> 분홍 하트 3개'; no.hidden = false; later(() => { no.hidden = true; }, 3000); };
+const LIVE_EXTRA = `<div class="bubble" hidden><small>Detective</small>Ms. Penny said one pink heart and one brown heart.</div><div class="dnote" hidden></div>`;
+
+// B (live): the 8 gift boxes in 4×2 under the bubble's place, the big box low by the thumb; a chocolate goes into the
+// box it is dropped on, a full box closes where it is, the end when no chocolate left fits any box
+(() => {
+  const root = document.getElementById('pB');
+  const BX = c => 13 + c * 93, BY = r => 178 + r * 93, BS = 84, BP = 5, BG = 3, BM = (BS - BP * 2 - BG) / 2;
+  const BIG = { x:22, y:400, w:346, h:340 };
+  let st, timers = [];
+  const later = (f, ms) => timers.push(setTimeout(f, ms));
+  const boxEl = n => root.querySelector('.boxes').children[n];
+  const drawBox = n => { boxEl(n).outerHTML = st.b[n].closed ? gift([], st.b[n].pop ? 'closed pop' : 'closed') : gift(st.b[n].m); st.b[n].pop = false; };
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    st = { b:Array.from({length:8}, () => ({ m:[null, null, null], closed:false })), warned:false, over:-1, done:false };
+    root.innerHTML = shell(GRID8(st.b.map(() => gift([]))) + BIGB('') + `<div class="layer">${chocsIn(BIG, 5)}</div>` + LIVE_EXTRA, false);
+  }
+  const target = (x, y) => { const c = Math.floor((x - 13) / 93), r = Math.floor((y - 178) / 93);
+    return c >= 0 && c < 4 && r >= 0 && r < 2 && x - BX(c) <= BS + 4 && y - BY(r) <= BS + 4 ? r * 4 + c : null; };
+  const fitsAny = () => [...root.querySelectorAll('.dchoc')].some(e => st.b.some(b => !b.closed && slotIn(b.m, e.dataset.k) >= 0));
+  function finish(){ st.done = true; later(() => note(root, later), 600); }
+  dragChocs(root, {
+    busy:() => st.done,
+    target,
+    hover:n => { if(st.over === n) return; if(st.over >= 0) boxEl(st.over).classList.remove('over'); st.over = n ?? -1; if(st.over >= 0) boxEl(st.over).classList.add('over'); },
+    drop:(c, n) => {
+      if(n === null){ homeChoc(c); return; }
+      const b = st.b[n], k = c.dataset.k, slot = b.closed ? -1 : slotIn(b.m, k);
+      if(slot < 0){
+        homeChoc(c); shake(boxEl(n));
+        if(k !== 'fl' && b.m.includes(k) && !st.warned){ st.warned = true; say(root, later); }
+        return;
+      }
+      b.m[slot] = k;
+      const s = BM * .86, cx = BX(n % 4) + BP + BM / 2 + (slot % 2) * (BM + BG), cy = BY(Math.floor(n / 4)) + BP + BM / 2 + Math.floor(slot / 2) * (BM + BG);
+      Object.assign(c.style, { width:s + 'px', height:s + 'px', left:(cx - s / 2) + 'px', top:(cy - s / 2) + 'px', transform:'none', pointerEvents:'none' });
+      later(() => {
+        c.remove(); drawBox(n);
+        if(b.m.every(Boolean)) later(() => { b.closed = true; b.pop = true; drawBox(n); if(!fitsAny()) finish(); }, 300);
+        else if(!fitsAny()) finish();
+      }, 260);
+    }
+  });
+  function auto(){
+    if(st.done) return; timers.forEach(clearTimeout); timers = [];
+    root.querySelectorAll('.dchoc').forEach(e => { if(e.style.pointerEvents === 'none') e.remove(); });  // ones already flying in count as in
+    const take = k => { const e = root.querySelector(`.dchoc[data-k="${k}"]`); if(e){ e.remove(); return true; } return false; };
+    st.b.forEach((b, n) => { ['ph', 'bh', 'fl'].forEach(k => { const s = slotIn(b.m, k); if(s >= 0 && take(k)) b.m[s] = k; }); b.closed = b.m.every(Boolean); drawBox(n); });
+    finish();
+  }
+  document.getElementById('bReset').onclick = reset;
+  document.getElementById('bAuto').onclick = auto;
+  reset();
+})();
+
+// B finished: 5 closed, 3 open without a flower, 3 pink hearts left
+(() => {
+  const boxes = Array.from({length:8}, (_, i) => [1, 4, 6].includes(i) ? gift(['ph', 'bh', null], 'empty-hint') : gift([], 'closed'));
+  const big = BIGB(`<div class="choc" style="left:130px;top:130px;width:44px;height:44px;transform:rotate(-14deg)">${S('ph', 44)}</div>
+    <div class="choc" style="left:180px;top:150px;width:44px;height:44px;transform:rotate(9deg)">${S('ph', 44)}</div>
+    <div class="choc" style="left:154px;top:192px;width:44px;height:44px;transform:rotate(-3deg)">${S('ph', 44)}</div>`);
+  document.getElementById('pEnd').innerHTML = shell(GRID8(boxes) + big, false)
+    + `<div class="lbl" style="left:14px;top:364px">노란 테두리 = 도토리 힌트 1번째(꽃 홈이 빈 상자)</div>`;
+})();
+
+// D: one gift box at a time (live: drag the chocolates onto the box)
+(() => {
+  const root = document.getElementById('pD');
+  const N = 8, CS = 44;
+  const GX = 90, GY = 222, GS = 210, PAD = 12, GAP = 8, MS = (GS - PAD * 2 - GAP) / 2;
+  const moldC = k => [GX + PAD + MS / 2 + (k % 2) * (MS + GAP), GY + PAD + MS / 2 + Math.floor(k / 2) * (MS + GAP)];
+  const ROW = { s:34, gap:8, y:172 }; ROW.x = (390 - (N * ROW.s + (N - 1) * ROW.gap)) / 2;
+  const BIG = { x:22, y:460, w:346, h:280 };
+  let st, timers = [];
+  const later = (f, ms) => timers.push(setTimeout(f, ms));
+  const $ = q => root.querySelector(q);
+  const big = html => html.replace('class="gift ', 'class="gift bigg ');
+  // which mold a chocolate would go to in the box on show (-1: none): one pink and one brown heart, the flower in its own
+  const slotFor = k => k === 'fl' ? (st.m[2] ? -1 : 2) : st.m.includes(k) ? -1 : !st.m[0] ? 0 : !st.m[1] ? 1 : -1;
+  const giftEl = () => $('#dStage .gift');
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    st = { i:0, m:[null, null, null], done:[], warned:false, busy:false };
+    root.innerHTML = shell(`<div id="dRow"></div><div id="dStage"></div><div id="dGrid"></div>
+      <div class="big" style="left:12px;top:450px;width:366px;height:300px"><div class="in"></div></div><div id="dLayer"></div>
+      <div class="bubble" id="dBubble" hidden><small>Detective</small>Ms. Penny said one pink heart and one brown heart.</div><div class="dnote" id="dNote" hidden></div>`, false);
+    const kinds = mix(11, 8, 5), hs = spread(24, BIG.w, BIG.h, CS, 11);
+    $('#dLayer').innerHTML = kinds.map((k, n) => { const x = BIG.x + hs[n].x, y = BIG.y + hs[n].y;
+      return `<div class="dchoc" data-k="${k}" data-hx="${x}" data-hy="${y}" data-rot="${hs[n].rot}" style="left:${x}px;top:${y}px;transform:rotate(${hs[n].rot}deg)">${S(k, '100%')}</div>`; }).join('');
+    $('#dBubble').onclick = () => { $('#dBubble').hidden = true; };
+    drawRow(); newGift(false);
+  }
+  function drawRow(){
+    $('#dRow').innerHTML = Array.from({length:N}, (_, n) => {
+      const s = n < st.i ? st.done[n] : n === st.i ? 'now' : 'wait';
+      const inner = s === 'closed' ? gift([], 'closed') : s === 'open' ? gift(['ph', 'bh', null]) : gift(s === 'now' ? st.m : []);
+      return `<div class="mini ${s}" style="left:${ROW.x + n * (ROW.s + ROW.gap)}px;top:${ROW.y}px">${inner}</div>`;
+    }).join('');
+  }
+  function newGift(slide){
+    $('#dStage').innerHTML = big(gift(st.m));
+    const g = giftEl();
+    if(slide){ g.style.transition = 'none'; g.style.transform = 'translateX(330px)'; g.offsetWidth; g.style.transition = ''; g.style.transform = ''; }
+    later(checkStuck, slide ? 450 : 0);
+  }
+  function redraw(){ $('#dStage').innerHTML = big(gift(st.m)); drawRow(); }
+  function checkStuck(){
+    if(st.i >= N || st.busy) return;
+    const left = [...root.querySelectorAll('.dchoc')].map(e => e.dataset.k);
+    if(!left.some(k => slotFor(k) >= 0)){ st.busy = true; later(() => flyAway('open'), 600); }
+  }
+  function closeBox(){
+    st.busy = true;
+    later(() => { $('#dStage').innerHTML = big(gift([], 'closed pop')); }, 300);
+    later(() => flyAway('closed'), 1000);
+  }
+  function flyAway(kind){
+    const g = giftEl(), n = st.i;
+    g.style.transformOrigin = '0 0';
+    g.style.transform = `translate(${ROW.x + n * (ROW.s + ROW.gap) - GX}px,${ROW.y - GY}px) scale(${ROW.s / GS})`;
+    later(() => {
+      st.done[n] = kind; st.i++; st.m = [null, null, null]; st.busy = false; drawRow();
+      if(st.i < N) newGift(true); else gather();
+    }, 470);
+  }
+  function gather(){
+    $('#dRow').classList.add('gone'); $('#dStage').innerHTML = '';
+    $('#dGrid').innerHTML = GRID8(st.done.map((s, n) => `<div class="gin" style="animation-delay:${n * 50}ms">${s === 'closed' ? gift([], 'closed') : gift(['ph', 'bh', null])}</div>`));
+    later(() => { const no = $('#dNote'); no.innerHTML = '<b>단서 카드</b> 포장한 상자<br><b>소지품</b> 분홍 하트 3개'; no.hidden = false; }, 1300);
+    later(() => { $('#dNote').hidden = true; }, 4300);
+  }
+  function home(c){ c.style.left = c.dataset.hx + 'px'; c.style.top = c.dataset.hy + 'px'; c.style.transform = `rotate(${c.dataset.rot}deg)`; }
+  const over = (x, y) => x > GX - 10 && x < GX + GS + 10 && y > GY - 10 && y < GY + GS + 10;
+  function drop(c, onGift){
+    if(!onGift || st.busy || st.i >= N){ home(c); return; }
+    const kind = c.dataset.k, slot = slotFor(kind);
+    if(slot < 0){
+      home(c);
+      const g = giftEl(); g.classList.remove('shake'); g.offsetWidth; g.classList.add('shake');
+      if(kind !== 'fl' && st.m.includes(kind) && !st.warned){ st.warned = true; $('#dBubble').hidden = false; later(() => { $('#dBubble').hidden = true; }, 3500); }
+      return;
+    }
+    st.m[slot] = kind;
+    const [cx, cy] = moldC(slot), s = MS * .86;
+    c.style.width = c.style.height = s + 'px'; c.style.left = (cx - s / 2) + 'px'; c.style.top = (cy - s / 2) + 'px'; c.style.transform = 'none';
+    c.style.pointerEvents = 'none';
+    later(() => { c.remove(); redraw(); if(st.m.every(Boolean)) closeBox(); else checkStuck(); }, 260);
+  }
+  root.addEventListener('pointerdown', e => {
+    const c = e.target.closest('.dchoc'); if(!c || st.busy || st.i >= N) return;
+    e.preventDefault(); c.setPointerCapture(e.pointerId);
+    const pos = ev => { const r = root.getBoundingClientRect(), sc = r.width / 390; return [(ev.clientX - r.left) / sc, (ev.clientY - r.top) / sc]; };
+    c.classList.add('dragging'); c.style.transform = 'none';
+    const move = ev => { const [x, y] = pos(ev); c.style.left = (x - 26) + 'px'; c.style.top = (y - 56) + 'px'; giftEl()?.classList.toggle('over', over(x, y - 30)); };
+    const up = ev => {
+      c.removeEventListener('pointermove', move); c.removeEventListener('pointerup', up); c.removeEventListener('pointercancel', up);
+      c.classList.remove('dragging'); giftEl()?.classList.remove('over');
+      const [x, y] = pos(ev); drop(c, ev.type === 'pointerup' && over(x, y - 30));
+    };
+    move(e);
+    c.addEventListener('pointermove', move); c.addEventListener('pointerup', up); c.addEventListener('pointercancel', up);
+  });
+  // the rest at once (to see the end): each box takes a pink heart, a brown heart and a flower while there are any
+  function auto(){
+    if(st.i >= N) return;
+    timers.forEach(clearTimeout); timers = []; st.busy = false;
+    root.querySelectorAll('.dchoc').forEach(e => { if(e.style.pointerEvents === 'none') e.remove(); });  // ones already flying in count as in
+    const take = k => { const e = $(`#dLayer .dchoc[data-k="${k}"]`); if(e){ e.remove(); return true; } return false; };
+    while(st.i < N){
+      ['ph', 'bh', 'fl'].forEach(k => { const s = slotFor(k); if(s >= 0 && take(k)) st.m[s] = k; });
+      st.done[st.i] = st.m.every(Boolean) ? 'closed' : 'open'; st.i++; st.m = [null, null, null];
+    }
+    drawRow(); gather();
+  }
+  document.getElementById('dReset').onclick = reset;
+  document.getElementById('dAuto').onclick = auto;
+  reset();
+})();
+</script>
+</body>
+</html>

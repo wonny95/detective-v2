@@ -274,6 +274,30 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes mt-shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 .mt-close{position:absolute;top:-14px;right:-12px;z-index:2}
 .montage.view .mt-close,.montage.view .mt-arrow,.montage.view .mt-foot{display:none}
+/* the Valentine case: the order slip (as the sketch's paper) and the packing close look (packArt) */
+.slip{position:absolute;left:0;right:0;top:58px;bottom:0;z-index:4;display:flex;justify-content:center;align-items:flex-start;padding:70px 14px 16px;box-sizing:border-box}
+.slip[hidden]{display:none}
+.sl-paper{position:relative;width:min(100%,360px);padding:16px 14px 14px;box-sizing:border-box;background:#FBF4E4;border:3px solid #5E4630;border-radius:8px;box-shadow:0 10px 22px rgba(40,26,16,.38);animation:item-show-in .3s cubic-bezier(.2,.9,.3,1.15) both}
+.sl-paper.shake{animation:sl-shake .4s}
+@keyframes sl-shake{20%{translate:-8px}40%{translate:8px}60%{translate:-5px}80%{translate:5px}}
+.sl-close{position:absolute;right:6px;top:6px}
+.sl-title{margin:0 0 8px;text-align:center;font-family:var(--f-display);font-size:16px;letter-spacing:.12em;color:#9C4A63}
+.sl-row{padding:8px 0;border-top:1.5px dashed #D8C7AA}
+.sl-en{margin:0 0 6px;font-family:var(--f-hand);font-weight:700;font-size:17px;color:var(--ink)}
+.sl-opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.sl-opt{display:grid;place-items:center;height:52px;padding:4px;border:2px solid #CDB894;border-radius:10px;background:#FFFDF7;cursor:pointer}
+.sl-opt img{max-width:40px;max-height:40px}
+.sl-opt b{font-family:var(--f-display);font-size:22px;color:var(--ink)}
+.sl-opt.on{border-color:#C24E7A;background:#FCE6EC;box-shadow:0 0 0 2px rgba(194,78,122,.25)}
+.sl-foot{display:flex;justify-content:center;margin-top:10px}
+.pk-choc{pointer-events:auto;cursor:grab;touch-action:none;filter:drop-shadow(0 2px 1.5px rgba(60,20,10,.45))}
+.pk-choc.held{cursor:grabbing;filter:drop-shadow(0 9px 6px rgba(0,0,0,.45))}
+.pk-box{transform-box:fill-box;transform-origin:center}
+.pk-box.over{filter:drop-shadow(0 0 5px #fff) drop-shadow(0 0 3px #fff)}
+.pk-box.pk-shake{animation:pk-shake .35s}
+@keyframes pk-shake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.pk-box.pk-pop{animation:pk-pop .3s ease-out}
+@keyframes pk-pop{from{transform:scale(1.15);opacity:.5}}
 .mt-frame{position:relative;flex:1;min-height:0;display:flex;justify-content:center;align-items:center;background:#F8F1E5;border:2px solid #CDB89A;border-radius:4px}
 .mt-frame > svg{width:100%;height:100%;display:block}
 .mt-arrow{position:absolute;top:50%;z-index:1;width:56px;height:60px;margin-top:-30px;padding:0;border:0;background:none;cursor:pointer}
@@ -2037,6 +2061,15 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
           <div class="mt-foot"><button class="pill big green" type="button" id="mtOk">이 모습이에요</button></div>
         </div>
       </div>
+      <!-- the Valentine case's order slip (openSlip): three rows to pick in, over the shop -->
+      <div class="slip" id="slip" hidden>
+        <div class="sl-paper">
+          <button class="x close-button sl-close" type="button" data-sl-close aria-label="쪽지 닫기"></button>
+          <p class="sl-title">ORDER CHECK</p>
+          <div class="sl-rows"></div>
+          <div class="sl-foot"><button class="pill big green" type="button" id="slOk">확인</button></div>
+        </div>
+      </div>
       <div class="spotlight" aria-hidden="true"></div>
       <div class="bubble say" id="sayBubble" hidden role="status" aria-live="polite"></div>
       <div class="tap-cue" id="tapCue" hidden></div>
@@ -2309,9 +2342,9 @@ const PREVIEW = new URLSearchParams(location.search).get('preview');
 // the case this page plays (user decision: one engine, each case its own data): ?case=picnic is Case 01 바뀐 소풍 가방,
 // ?case=umbrella Case 02 주인 없는 우산, without it the library case. Each case keeps its own save; going back to the case
 // cards opens the main page.
-const CASE_PARAMS = { 'missing-kite':'kite', 'honey-robber':'montage', 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella', 'missing-violin':'violin', 'christmas-star':'christmas', 'flowerbed':'flowerbed', 'twins':'twins' };
+const CASE_PARAMS = { 'missing-kite':'kite', 'honey-robber':'montage', 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella', 'missing-violin':'violin', 'christmas-star':'christmas', 'flowerbed':'flowerbed', 'twins':'twins', 'valentine-chocolate':'valentine' };
 const CASE_ID = Object.keys(CASE_PARAMS).find(id => CASE_PARAMS[id] === new URLSearchParams(location.search).get('case')) || 'case01';
-const KITE = CASE_ID === 'missing-kite', MONTAGE_ON = CASE_ID === 'honey-robber', PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella', VIOLIN = CASE_ID === 'missing-violin', CHRISTMAS = CASE_ID === 'christmas-star', FLOWERBED = CASE_ID === 'flowerbed', TWINS = CASE_ID === 'twins';
+const KITE = CASE_ID === 'missing-kite', MONTAGE_ON = CASE_ID === 'honey-robber', PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella', VIOLIN = CASE_ID === 'missing-violin', CHRISTMAS = CASE_ID === 'christmas-star', FLOWERBED = CASE_ID === 'flowerbed', TWINS = CASE_ID === 'twins', VALENTINE = CASE_ID === 'valentine-chocolate';
 // a case page's address and save, by case id
 const caseHref = id => CASE_PARAMS[id] ? `?case=${CASE_PARAMS[id]}` : location.pathname;
 const caseSaveKey = id => id === 'case01' ? 'detective.save' : id === 'picnic-bag' ? 'detective.save.picnic' : `detective.save.${CASE_PARAMS[id]}`;
@@ -2682,14 +2715,37 @@ const bedSlot = k => {
 // stays where it stopped. The cover is the ball's box; the close look takes in where it stops too (extra).
 const ballSlot = k => { const b = k.ball, box = (x, y) => ({ x:x - b.d / 2, y:y - b.d / 2, w:b.d, h:b.d });
   return { ...k, cover:[box(b.cx, b.cy)], extra:[box(b.cx + b.dx, b.cy + b.dy)] }; };
-const KITE_SLOTS = [
-  { n:4, at:'tree', x:150, y:60, r:-8, cover:[['leafclump-2', 52, 38, 136, 137], ['leafclump-3', 112, 48, 136, 133]] },
-  { n:2, at:'tree', x:385, y:95, r:6, cover:[['leafclump-1', 287, 73, 136, 137], ['leafclump-2', 347, 83, 136, 133]] },
-  { n:1, at:'bed', x:560, s:.42, r:-72, cover:[] },
-  { n:3, at:'ball', x:633, y:670, r:84, s:.6, ball:{ cx:628, cy:690, d:84, dx:16, dy:-96 }, cover:[] },
-  { n:6, at:'ground', x:930, y:615, r:-80, cover:[] },
-  { n:5, at:'tree', x:1110, y:35, r:-6, cover:[['leafclump-3', 1012, 13, 136, 137], ['leafclump-4', 1072, 23, 136, 133]] }
-].map(k => k.at === 'bed' ? bedSlot(k) : k.ball ? ballSlot(k) : ({ ...k, cover:k.cover.map(([img, x, y, w, h]) => coverBox({ img, x, y, w, h })) }));
+// The six hiding places stay; which kite is in which changes with each new game (user request 2026-11-27): KITE_ORDER
+// is the kite in each place, in KITE_PLACES' order. It is kept in the save (S.kites), so a game reopened has the same
+// kites in the same places; a save from before has the order there was then (KITE_ORDER_OLD); a new game, a new one,
+// Toby's kite (1) never the one in plain sight on the path. ?kites=421365 picks one (for testing).
+// (every kite's body is in the top of its picture, so the leaves, the flowers and the ball hide any of them)
+const KITE_PLACES = [
+  { at:'tree', x:150, y:60, r:-8, cover:[['leafclump-2', 52, 38, 136, 137], ['leafclump-3', 112, 48, 136, 133]] },
+  { at:'tree', x:385, y:95, r:6, cover:[['leafclump-1', 287, 73, 136, 137], ['leafclump-2', 347, 83, 136, 133]] },
+  { at:'bed', x:560, s:.42, r:-72, cover:[] },
+  { at:'ball', x:633, y:670, r:84, s:.6, ball:{ cx:628, cy:690, d:84, dx:16, dy:-96 }, cover:[] },
+  { at:'ground', x:930, y:615, r:-80, cover:[] },
+  { at:'tree', x:1110, y:35, r:-6, cover:[['leafclump-3', 1012, 13, 136, 137], ['leafclump-4', 1072, 23, 136, 133]] }
+];
+const KITE_ORDER_OLD = [4, 2, 1, 3, 6, 5];
+const KITE_ORDER = (() => {
+  const ok = o => Array.isArray(o) && o.length === 6 && [...o].sort().join('') === '123456';
+  const asked = [...(new URLSearchParams(location.search).get('kites') || '')].map(Number);
+  if(ok(asked)) return asked;
+  if(KITE){
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(caseSaveKey('missing-kite'))); } catch(e){}
+    if(saved?.S?.per && !saved.S.per.betty) return ok(saved.S.kites) ? saved.S.kites : KITE_ORDER_OLD;
+  }
+  const ground = KITE_PLACES.findIndex(p => p.at === 'ground');
+  let o;
+  do { o = [1, 2, 3, 4, 5, 6]; for(let i = o.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [o[i], o[j]] = [o[j], o[i]]; } }
+  while(o[ground] === 1);
+  return o;
+})();
+const KITE_SLOTS = KITE_PLACES.map((p, i) => ({ ...p, n:KITE_ORDER[i] }))
+  .map(k => k.at === 'bed' ? bedSlot(k) : k.ball ? ballSlot(k) : ({ ...k, cover:k.cover.map(([img, x, y, w, h]) => coverBox({ img, x, y, w, h })) }));
 // where a kite is drawn (px of the park picture), turned as it is drawn: the box around it
 // (a function: bedSlot uses it while KITE_SLOTS is made)
 function kiteBox(k){ const [w, h] = KITE_PICS[k.n], s = KITE_K * (k.s || 1), cx = k.x, cy = k.y + 20, a = k.r * Math.PI / 180;
@@ -2792,7 +2848,9 @@ const KITE_CASE = {
     ...KITE_SLOTS.filter(k => k.cover.length).map(k => { const v = kiteView(k), covers = k.cover.map((c, i) => `cover-${k.n}-${i}`);
       // focusX: the phone shows the middle of the close look; it is scrolled to the kite instead (user report: one by
       // the park's edge was off to the side, the view held inside the picture)
-      const a = kiteArea(k);
+      // (under the ball, on the ball and where it rolls to: a long kite's tails go far to the side, and the kites change
+      // places, user request 2026-11-27)
+      const a = k.ball ? { x:k.cover[0].x + Math.min(0, k.ball.dx), w:k.cover[0].w + Math.abs(k.ball.dx) } : kiteArea(k);
       return { id:`look-${k.n}`, inspect:true, fixed:true, back:'park', label:'Park', artWidth:1376, artHeight:768,
         focusX:(a.x + a.w / 2 - v.x) / v.w,
         clues:[
@@ -2960,6 +3018,175 @@ const FLOWERBED_CASE = {
         lines:[
           { who:'gus', key:'apology', en:"I'm sorry, Ollie. I can help you plant new flowers.", ko:'미안해, 올리. 새 꽃 심는 걸 도와줄게.' },
           { key:'ending', en:"Thanks for finding out! Okay, Gus. Let's plant them together.", ko:'알아봐 줘서 고마워! 좋아, 거스. 같이 심자.' }
+        ] }
+    ]
+  }
+};
+
+/* Case 05 초콜릿이 몇 개 틀렸을까? (?case=valentine, design/case-valentine-chocolate.md, planned with the user in Claude
+   Code 2026-11-26/27: the easy case after the flowerbed, the quantity words too many / not enough / enough / a lot of /
+   a few / some / any). Ms. Penny (hedgehog teacher) ordered eight of each chocolate for her eight students; Suzy's shop
+   put three pink hearts where three flowers should be. The player hears the order, packs the gift boxes in the
+   classroom (the close look 'pack', packArt: drag each chocolate onto a box), sees three boxes without a flower and three
+   pink hearts left, hears from Suzy that the order was right, says what is wrong on the order slip (openSlip), hears
+   she has a few flowers, swaps the hearts for them, fills the last boxes and hands them to Ms. Penny.
+   No recordings yet (silent: the browser's voice); pictures assets/places/valentine/ (README.md there). */
+// How many flowers are short (and pink hearts too many) changes with each new game, 1-3 (user decision 2026-11-27: the
+// count only, the kinds stay pink heart for flower). Kept in the save (S.chocShort), so a game reopened has the same;
+// a save from before has three; ?short=2 picks one (for testing). It sets what Suzy packed (PK.chocs), the slip's
+// answer, the lines that say the number, 소지품's pictures and the review's summary.
+const VAL_SHORT = (() => {
+  const ok = n => [1, 2, 3].includes(n), asked = +new URLSearchParams(location.search).get('short');
+  if(VALENTINE && ok(asked)) return asked;
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(caseSaveKey('valentine-chocolate'))); } catch(e){}
+  if(saved?.S?.per) return ok(saved.S.chocShort) ? saved.S.chocShort : 3;
+  return VALENTINE ? 1 + Math.floor(Math.random() * 3) : 3;
+})();
+const VAL_N = { en:['', 'one', 'two', 'three'][VAL_SHORT], ko:['', '한', '두', '세'][VAL_SHORT] };
+const VAL_FLOWERS = VAL_SHORT === 1 ? 'one flower chocolate' : `${VAL_N.en} flower chocolates`;
+const valPile = kind => ({ img:`assets/places/valentine/pile-${kind}-${VAL_SHORT}.webp`, w:300, h:240, crop:[-30, -20, 360, 280],
+  bag:`assets/places/valentine/pile-${kind}-${VAL_SHORT}.webp` });
+const VALENTINE_CASE = {
+  start:'penny',
+  noBoard:true,   // no deduction board: the order slip is the solving
+  silent:true,    // not recorded yet: every line in the browser's voice
+  people:{
+    penny: { id:'penny', name:'Ms. Penny', ko:'고슴도치 페니 선생님', job:'의뢰인', place:'classroom', witness:true, required:true, pitch:1.1, voice:2, bg:'#F6E3E6', openingQuestion:'t0',
+      // off teaching another class once she has asked for the packing (design: the room is the detective's), back when
+      // the flowers come from Suzy (the swap takes the flag away)
+      gone:['!penny-out'],
+      hello:[ { key:'hello', en:"Oh, Detective! I'm so glad you're here.", ko:'아, 탐정! 와 줘서 정말 다행이야.' } ],
+      questions:[
+        { id:'t0', en:'How can I help you?', ko:'무엇을 도와줄까?' },
+        { id:'t1', en:'What did you order?', ko:'무엇을 주문했어?' },
+        { id:'t2', en:"What's wrong with the box?", ko:'상자가 뭐가 이상해?' },
+        { id:'t3', en:'Where did you buy them?', ko:'어디서 샀어?' }
+      ],
+      unlocks:{ t3:{ people:['suzy'], places:['chocshop'] } },
+      answers:{
+        t0:'I ordered chocolates for my students. But something is wrong with the box.',
+        t1:'There are eight students. Each student gets one pink heart, one brown heart, one flower and one square.',
+        t2:"I'm not sure. Some shapes look wrong. I packed all the squares, but I didn't have time to pack the others.",
+        t3:"At Suzy's Chocolate Shop. She makes chocolates for Valentine's Day."
+      },
+      notes:{
+        t0:['- I ordered {{a|chocolates}} for my {{b|students}}.', '- But something is {{c|wrong}} with the box.'],
+        t1:['- There are {{a|eight}} students.', '- {{b|Each}} student gets one {{c|pink}} heart, one {{d|brown}} heart, one flower and one square.'],
+        t2:["- I'm not sure.", '- {{a|Some}} shapes look wrong.', "- I packed all the {{b|squares}}, but I didn't have time to pack the {{c|others}}."],
+        t3:["- At {{a|Suzy's}} Chocolate Shop.", "- She makes chocolates for Valentine's Day."]
+      },
+      bank:{ t0:['chocolates','cookies','students','teachers','wrong','right'], t1:['eight','eighteen','eighty','Each','All','pink','brown','white','red'],
+        t2:['Some','Any','squares','hearts','others','flowers'], t3:["Suzy's","Sally's","Sue's"] },
+      // all four written down, the notebook put away (design 점검 2): she asks for the packing and goes to teach
+      after:{ done:{ lines:[
+        { key:'pack-ask', en:'Can you pack the others for me? One box for each student.', ko:'나머지 포장 좀 해 줄래? 학생마다 한 상자씩.' },
+        { key:'teach', en:"I have to teach now, so I can't go to the shop. If something is wrong, please talk to Suzy for me.", ko:'이제 수업을 해야 해서 가게에 못 가. 뭔가 잘못됐으면 나 대신 수지에게 말해 줘.' }
+      ], flag:['penny-out', 'pack-open'] } },
+      // back from her class, every box packed: "My class is over." and the hand-over (ENDING.handoff)
+      actions:[ { id:'give', button:'선물 상자 건네기', say:false, when:['!all-packed'], ending:true,
+        lines:[ { key:'back', mood:'glad', en:'Oh, Detective! My class is over.', ko:'아, 탐정! 수업 끝났어.' } ] } ]
+    },
+    suzy: { id:'suzy', name:'Suzy', ko:'다람쥐 수지', job:'초콜릿 가게', place:'chocshop', witness:true, required:true, pitch:1.25, voice:2, bg:'#F7E1D7', openingQuestion:'s1',
+      hello:[ { key:'hello', en:"Hello, Detective! Happy Valentine's Day!", ko:'안녕, 탐정! 발렌타인데이 축하해!' } ],
+      questions:[
+        { id:'s1', en:"Was Ms. Penny's order right?", ko:'페니 선생님의 주문은 맞았어?' },
+        { id:'s2', en:'Do you have any flower chocolates?', ko:'꽃 초콜릿 있어?' }
+      ],
+      needs:{ s2:['!slip-ok'] },   // asked once the order slip is right (design 점검 2)
+      answers:{
+        s1:"Yes, it was. Let me see my note… Eight of each. That's thirty-two chocolates. I made a lot of pink heart chocolates this morning!",
+        s2:"Yes, I have some! There are a few in the kitchen. But I don't have any square chocolates today."
+      },
+      notes:{
+        s1:['- Yes, it was.', "- {{a|Eight}} of each. That's {{b|thirty-two}} chocolates.", '- I made {{c|a lot of}} pink heart chocolates this morning.'],
+        s2:['- Yes, I have {{a|some}}!', '- There are {{b|a few}} in the kitchen.', "- But I don't have {{c|any}} square chocolates today."]
+      },
+      bank:{ s1:['Eight','Eighteen','thirty-two','twenty-three','a lot of','a few'], s2:['some','any','a few','a lot','many','much'] },
+      // s2 written down: the three pink hearts for three flowers (design 장면 4, the swap)
+      after:{ s2:{ lines:[ { key:`here-flowers-${VAL_SHORT}`, en:`Here ${VAL_SHORT === 1 ? 'is' : 'are'} ${VAL_FLOWERS}.`, ko:`여기 꽃 초콜릿 ${VAL_N.ko} 개야.` } ],
+        give:'flowers-3', takeAway:'pink-hearts-3', unflag:'penny-out' } },
+      // the order slip (design 장면 4): once the boxes are packed and her s1 written down
+      actions:[ { id:'slip', en:"Ms. Penny's box is not right.", ko:'페니 선생님의 상자가 맞지 않아.', when:['!packed', 'suzy:s1'], flag:'slip-ok', slip:true,
+        lines:[],
+        right:[ { key:'sorry', mood:'sorry', en:"Oh no! You're right. There are too many pink hearts and not enough flowers. The pink heart tray and the flower tray were next to each other. I'm sorry!",
+          ko:'이런! 맞아. 분홍 하트는 너무 많고 꽃은 모자라. 분홍 하트 쟁반과 꽃 쟁반이 나란히 있었어. 미안해!' } ] } ]
+    }
+  },
+  phrases:[],
+  grammarLines:{
+    'penny:t1':[['quantity','Each student']],
+    'penny:t2':[['quantity','Some shapes']],
+    'suzy:s1':[['quantity','a lot of']],
+    'suzy:s2':[['quantity','some'], ['quantity','a few'], ['quantity','any']]
+  },
+  answersKo:{
+    penny:{ t0:'학생들에게 줄 초콜릿을 주문했어. 그런데 상자가 뭔가 이상해.', t1:'학생이 여덟 명이야. 학생마다 분홍 하트 하나, 갈색 하트 하나, 꽃 하나, 네모 하나씩 받아.',
+      t2:'잘 모르겠어. 모양이 좀 이상해 보여. 네모는 다 넣었는데, 나머지는 포장할 시간이 없었어.', t3:'수지의 초콜릿 가게에서. 발렌타인데이 초콜릿을 만들거든.' },
+    suzy:{ s1:'응, 맞았어. 메모를 볼게… 종류마다 여덟. 모두 서른두 개야. 오늘 아침에 분홍 하트 초콜릿을 많이 만들었거든!',
+      s2:'응, 좀 있어! 주방에 몇 개 있어. 그런데 오늘 네모 초콜릿은 하나도 없어.' }
+  },
+  places:[
+    // the classroom (design 장면 1·2): the things only looked at, and the chocolate box on the desk (desk-boxes, ART.classroom)
+    // opening the packing once Ms. Penny has asked for it
+    { id:'classroom', x:30, y:40, label:'Classroom', artWidth:1376, artHeight:1056,
+      clues:[
+        { label:'Chalkboard', prop:true, en:'There are a lot of hearts on the board.', ko:'칠판에 하트가 많아.' },
+        { label:'Flowers', prop:true, en:'There are some flowers by the window.', ko:'창가에 꽃이 좀 있어.' },
+        { label:'Paper hearts', prop:true, en:"Pretty paper hearts! It's Valentine's Day.", ko:'예쁜 종이 하트! 발렌타인데이야.' },
+        { label:'Chocolate box', inspect:'pack' }
+      ],
+      spots:[
+        { clue:0, x:33, y:8, w:42, h:26 },
+        { clue:1, x:75, y:29, w:15, h:14 },
+        { clue:2, x:0, y:46, w:28, h:11 },
+        { clue:3, x:32, y:37, w:40, h:26, when:['!pack-open'] }
+      ] },
+    // Suzy's chocolate shop (design 장면 3): the trays on the counter tell the cause, so they cannot be tapped
+    { id:'chocshop', x:76, y:76, label:'Chocolate Shop', artWidth:1376, artHeight:1056,
+      clues:[
+        { label:'Gift boxes', prop:true, en:'There are a lot of gift boxes on the shelf.', ko:'선반에 선물 상자가 많아.' },
+        { label:'Kitchen door', prop:true, en:'The kitchen is behind this door.', ko:'이 문 뒤에 주방이 있어.' },
+        { label:'Sign', prop:true, en:'The sign looks like an acorn!', ko:'간판이 도토리처럼 생겼어!' }
+      ],
+      spots:[
+        { clue:0, x:50, y:2, w:26, h:46 },
+        { clue:1, x:78, y:9, w:21, h:46 },
+        { clue:2, x:32, y:1, w:15, h:19 }
+      ] },
+    // the packing (packArt, layout B: the eight gift boxes in 4x2 under the bubble's place, the big box low by the thumb)
+    { id:'pack', inspect:true, fixed:true, back:'classroom', label:'Classroom', artWidth:1376, artHeight:768, packing:true, clues:[], spots:[] }
+  ],
+  thoughts:[
+    { when:['!packed'], unless:['suzy:s1'], line:{ key:'think-ask-suzy', en:"Let's ask Suzy about the order.", ko:'수지에게 주문을 물어보자.' } },
+    { when:['!packed', 'suzy:s1'], unless:['!slip-ok'], line:{ key:'think-tell-suzy', en:"Let's tell Suzy.", ko:'수지에게 알리자.' } },
+    { when:['@flowers-3'], line:{ key:'think-classroom', en:"Let's go back to the classroom.", ko:'교실로 돌아가자.' } }
+  ],
+  needed:[],
+  // Ms. Penny beside the desk (in front of it she would hide the box), Suzy on the tiles beside her counter
+  positions:{ penny:{ x:20, floor:97, height:38 }, suzy:{ x:27, floor:98, height:36 } },
+  // (the ids say three, from before the count changed; they hold VAL_SHORT chocolates, shown as the loose pieces,
+  // scripts/make-valentine-piles.py; the detective's line on each is recorded once for each count)
+  items:{
+    'pink-hearts-3':{ label:'Pink hearts', en:VAL_SHORT === 1 ? 'One pink heart chocolate.' : `${VAL_N.en[0].toUpperCase() + VAL_N.en.slice(1)} pink heart chocolates.`,
+      ko:`분홍 하트 초콜릿 ${VAL_N.ko} 개야.`, ...valPile('pink-hearts') },
+    'flowers-3':{ label:'Flower chocolates', en:`${VAL_FLOWERS[0].toUpperCase() + VAL_FLOWERS.slice(1)}.`,
+      ko:`꽃 초콜릿 ${VAL_N.ko} 개야.`, ...valPile('flowers') }
+  },
+  map:'assets/places/valentine/map.webp', mapRatio:1,   // map.webp is square (1024x1024)
+  previewHandback:[],
+  deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
+  ending:{
+    // design 장면 5: the detective tells what was wrong and hands the boxes over
+    handoff:[
+      { to:'penny',
+        // (two lines, so only the one with the number is recorded once for each count)
+        open:{ det:true, key:'report', en:'There were too many pink hearts and not enough flowers.', ko:'분홍 하트는 너무 많고 꽃은 모자랐어.' },
+        lines:[
+          { det:true, key:`report-gave-${VAL_SHORT}`, en:`Suzy gave me ${VAL_FLOWERS}.`, ko:`수지가 꽃 초콜릿 ${VAL_N.ko} 개를 줬어.` },
+          { det:true, key:'here-boxes', en:'Here you go. One box for each student.', ko:'여기 있어. 학생마다 한 상자씩.' },
+          { key:'end1', en:'Now there are enough flower chocolates for everyone!', ko:'이제 모두에게 줄 꽃 초콜릿이 충분해!' },
+          { key:'end2', en:"Thank you, Detective. Happy Valentine's Day!", ko:'고마워, 탐정. 발렌타인데이 축하해!' }
         ] }
     ]
   }
@@ -4665,7 +4892,7 @@ Object.entries({ badger:['hello', 'b0', 'check-in', 'suspicious', 'reason-to-che
   tess:['hello', 'ready', 'star', 'storeroom', 't5', 't1', 't3'],
   nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-storeroom', 'dont-know', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight', 'stole'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
-const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : FLOWERBED ? FLOWERBED_CASE : TWINS ? TWINS_CASE : null;
+const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : FLOWERBED ? FLOWERBED_CASE : TWINS ? TWINS_CASE : VALENTINE ? VALENTINE_CASE : null;
 // the button once every conversation is done: the deduction board, or in a case without one that has handoffGo (the
 // picnic case, user decision 2026-11-24) the hand-over itself, under that label
 const ACCUSE_ON = !PACK?.noBoard || !!PACK.handoffGo, ACCUSE_LABEL = PACK?.noBoard ? PACK.handoffGo : '추리하기';
@@ -4880,7 +5107,11 @@ const WORDS = {
   "isn't":['w','~이 아니다 (is not)'], 'stopped':['w','들렀다, 멈췄다 (stop의 과거)'], 'work':['w','직장, 일터'], 'lobby':['n','로비'], "couldn't":['w','~할 수 없었다 (could not)'],
   'decorating':['w','꾸미고 있는'], 'tree':['w','나무, 트리'], 'supplies':['w','물품, 재료'], 'volunteer':['w','자원봉사자'], 'taking':['w','가져가고 있는'],
   'needed':['w','필요했다 (need의 과거)'], 'empty':['w','빈, 비어 있는'], 'boxes':['w','상자들'], 'getting ready':['w','준비하고 있는'], 'waiting':['w','기다리고 있는'],
-  'fall':['w','떨어지다 (과거 fell)'], 'tail':['w','꼬리'], "what's wrong?":['x','무슨 일이야?',null,"What's wrong?"], 'look like':['x','~처럼 생기다'], 'what color':['x','무슨 색 ~?',null,'What color ~?']
+  'fall':['w','떨어지다 (과거 fell)'], 'tail':['w','꼬리'], "what's wrong?":['x','무슨 일이야?',null,"What's wrong?"], 'look like':['x','~처럼 생기다'], 'what color':['x','무슨 색 ~?',null,'What color ~?'],
+  // the Valentine case's blanks (2026-11-27)
+  'chocolates':['w','초콜릿들'], 'students':['w','학생들'], 'wrong':['w','잘못된, 이상한'], 'eight':['t','여덟, 8','eight'], 'each':['w','각각의'], 'pink':['w','분홍색'], 'brown':['w','갈색'],
+  'some':['w','몇몇의, 좀'], 'squares':['w','네모들'], 'others':['w','나머지'], "suzy's":['n','수지의'], 'thirty-two':['t','서른둘, 32','thirty-two'], 'a lot of':['x','많은'], 'a few':['x','몇 개의'],
+  'any':['w','(부정문) 하나도, (의문문) 좀']
 };
 // 노트의 단어 뜻 (user request: once a question is written down right, every word on the note can be tapped for its
 // meaning; also the evidence notes and the pinned memos). Keys are lower case; a key of two or more words is a phrase
@@ -4919,7 +5150,10 @@ const GLOSS = {
   'going to':'~할 것이다', 'get back':'돌려받다, 돌아가다', 'gave it back':'돌려줬다', 'let me look':'어디 보자', "let's":'~하자 (let us)', 'come in':'들어오다', 'came in':'들어왔다',
   'right now':'지금 바로', 'for now':'당분간, 지금은', 'slipped past':'놓쳤다, 스쳐 지나갔다', 'venue change':'장소 변경', 'contest program':'대회 프로그램 (순서표)',
   'pm':'오후', 'am':'오전',
+  'a lot of':'많은', 'a few':'몇 개의', 'too many':'너무 많은', 'not enough':'충분하지 않은, 모자라는', 'thirty-two':'서른둘(32)',   // the Valentine case
   // words
+  chocolate:'초콜릿', chocolates:'초콜릿들', student:'학생', students:'학생들', wrong:'잘못된, 이상한', each:'각각의', heart:'하트', hearts:'하트들', squares:'네모들', shape:'모양', shapes:'모양들',
+  packed:'포장했다', pack:'포장하다', others:'나머지, 다른 것들', shop:'가게', makes:'만들다 (그·그녀)', teach:'가르치다, 수업하다', class:'수업, 반', enough:'충분한', glad:'기쁜', note:'메모', pretty:'예쁜', everyone:'모두',
   a:'하나의, 어떤', about:'~에 대한', acorn:'도토리', after:'~ 후에', again:'다시', all:'모든, 내내', alone:'혼자', an:'하나의, 어떤', and:'그리고, ~와',
   angry:'화가 난', animals:'동물들', answering:'대답하기', any:'어떤, 아무', anyone:'누군가, 아무나', anything:'무언가, 아무것도', are:'~이다, 있다 (be)',
   argued:'말다툼했다', around:'주위에, 여기저기', as:'~처럼, ~로서', ask:'물어보다', asked:'부탁했다, 물었다 (ask의 과거)', at:'~에 (장소·시각)',
@@ -5175,6 +5409,22 @@ const GRAMMAR = {
           '대답은 과거형으로 해요. What did you do? — I cleaned my room.',
           'Did you ~?는 했는지를 묻고, What did you ~?는 무엇을 했는지 물어요.'],
         lines:[['{What did} you {do} yesterday?', '너 어제 뭐 했어?'], ['{What did} she {do} after school?', '그녀는 방과 후에 뭐 했어?'], ['{What did} they {do} at the park?', '그들은 공원에서 뭐 했어?']] }
+    ] },
+  // the Valentine case's key (design 예습과 복습): how much or how many, without counting
+  quantity:   { name:'수량 표현', pattern:'too many / not enough / a lot of / a few / some / any', ko:'개수를 세지 않고 많다·적다·충분하다를 말해요. There are too many hearts. = 하트가 너무 많아.',
+    examples:[
+      { head:'too many / not enough', ko:'너무 많은 / 모자라는', mean:[['too many','너무 많은(필요보다 많은)'],['not enough','충분하지 않은, 모자라는'],['enough','충분한']],
+        why:'필요한 것보다 많으면 too many, 모자라면 not enough, 딱 맞거나 넉넉하면 enough예요.', match:'\\b(too many|not enough|enough)\\b',
+        more:['too many 뒤에는 셀 수 있는 명사의 복수형이 와요. too many hearts.', 'There are not enough flowers. = 꽃이 모자라.', 'enough는 명사 앞에 와요. enough chocolates for everyone.'],
+        lines:[['There are {too many} pink hearts.', '분홍 하트가 너무 많아.'], ['There are {not enough} flowers.', '꽃이 모자라.'], ['Now there are {enough} chocolates for everyone.', '이제 모두에게 충분한 초콜릿이 있어.']] },
+      { head:'a lot of / a few', ko:'많은 / 몇 개의', mean:[['a lot of','많은'],['a few','몇 개의, 조금 있는']],
+        why:'셀 수 있는 것이 많으면 a lot of, 몇 개 있으면 a few를 써요.', match:'\\b(a lot of|a few)\\b',
+        more:['a few는 "조금 있다"는 긍정의 느낌이에요. There are a few in the kitchen.', 'a lot of 뒤에는 복수형이 와요. a lot of hearts.'],
+        lines:[['I made {a lot of} pink heart chocolates.', '분홍 하트 초콜릿을 많이 만들었어.'], ['There are {a few} in the kitchen.', '주방에 몇 개 있어.'], ['I have {a few} gift boxes.', '선물 상자가 몇 개 있어.']] },
+      { head:'some / any', ko:'좀, 약간 / 하나도', mean:[['some','좀, 약간(긍정문)'],['any','좀(의문문), 하나도(부정문)']],
+        why:'긍정문에는 some, 의문문과 부정문에는 any를 써요.', match:'\\b(some|any)\\b',
+        more:['Do you have any flower chocolates? = 꽃 초콜릿 좀 있어?', "I don't have any square chocolates. = 네모 초콜릿이 하나도 없어.", 'Yes, I have some! = 응, 좀 있어!'],
+        lines:[['Yes, I have {some}!', '응, 좀 있어!'], ['Do you have {any} flower chocolates?', '꽃 초콜릿 좀 있어?'], ["I don't have {any} square chocolates.", '네모 초콜릿이 하나도 없어.']] }
     ] },
   'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.',
     more:['Who 누구 · What 무엇 · Where 어디 · When 언제 · Why 왜 · How 어떻게.',
@@ -5518,6 +5768,15 @@ const SPRITES = {
   'gus:sneeze':{src:'assets/characters/gus-sneeze.webp', w:499, h:700, face:'46 14 308 308', height:1.05, anchor:.47},
   'gus:sorry':{src:'assets/characters/gus-sorry.webp', w:551, h:700, face:'104 14 308 308', height:1.03, anchor:.5},
   pablo:{src:'assets/characters/pablo-higgsfield.webp', w:464, h:700, face:'78 14 322 322', anchor:.5},   // the flowerbed case (scripts/cut-pablo.py)
+  // the Valentine case (scripts/cut-valentine-characters.py): standing about before being talked to (:work), the front
+  // view in talk, Ms. Penny worried and Suzy sorry
+  penny:{src:'assets/characters/penny-higgsfield.webp', w:485, h:700, face:'92 40 300 300', anchor:.5},
+  'penny:work':{src:'assets/characters/penny-work.webp', w:505, h:700, anchor:.55},
+  'penny:worried':{src:'assets/characters/penny-worried.webp', w:547, h:700, face:'83 40 300 300', anchor:.5},
+  'penny:glad':{src:'assets/characters/penny-higgsfield.webp', w:485, h:700, face:'92 40 300 300', anchor:.5},   // the front view kept through the hand-over (the ending shows :work otherwise)
+  suzy:{src:'assets/characters/suzy-higgsfield.webp', w:472, h:700, face:'25 70 300 300', anchor:.37},
+  'suzy:work':{src:'assets/characters/suzy-work.webp', w:568, h:700, anchor:.6},
+  'suzy:sorry':{src:'assets/characters/suzy-sorry.webp', w:465, h:700, face:'17 70 300 300', anchor:.36},
   gus:{src:'assets/characters/gus-higgsfield.webp', w:541, h:700, face:'68 14 308 308', anchor:.5},   // the kite case (scripts/cut-toby.py)
   // the picnic case: two per Higgsfield sheet (scripts/cut-picnic-characters.py); Mia & Ollie are one figure
   ben:{src:'assets/characters/ben-higgsfield.webp', w:542, h:700, face:'134 0 350 350', anchor:.57},
@@ -5701,6 +5960,8 @@ const S = {
   mood:{},           // a person shown with another expression (ending)
   visit:{},          // a person standing somewhere else for a scene: { id:{ place, x, floor, height } } (ending)
   memo:{ text:'', pins:[], notes:{} },   // the notebook's memo: the player's own lines, 📌 keys ('say:<person>:<question>', 'ev:<place>-<clue>'), and a thought per pin (notes[key])
+  ...(KITE ? { kites:KITE_ORDER } : {}),   // the kite case: which kite is in which hiding place this game (KITE_ORDER)
+  ...(VALENTINE ? { chocShort:VAL_SHORT } : {}),   // the Valentine case: how many flowers are short this game (VAL_SHORT)
   per:Object.fromEntries(PEOPLE_ORDER.map(id => [id, newSpeakerState()]))
 };
 const $ = s => document.querySelector(s);
@@ -6250,7 +6511,7 @@ function detectiveSay(key, onDone, onBlocked, text){
   // audio/umbrella/, the violin case's in audio/violin/, the Christmas star's in audio/christmas/
   voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3`
     : KITE ? `audio/kite/detective-${key}.mp3` : MONTAGE_ON ? `audio/montage/detective-${key}.mp3` : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : VIOLIN ? `audio/violin/detective-${key}.mp3`
-    : CHRISTMAS ? `audio/christmas/detective-${key}.mp3` : FLOWERBED ? `audio/flowerbed/detective-${key}.mp3` : TWINS ? `audio/twins/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
+    : CHRISTMAS ? `audio/christmas/detective-${key}.mp3` : FLOWERBED ? `audio/flowerbed/detective-${key}.mp3` : TWINS ? `audio/twins/detective-${key}.mp3` : VALENTINE ? `audio/valentine/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
@@ -6764,6 +7025,7 @@ function doAction(aid){
     ran = true; greetingCut?.stop();
     // a witness's sketch (montage): it opens under their bubble, the greeting held until it closes
     if(a.montage) return openMontage(who, a);
+    if(a.slip) return openSlip(who, a);   // the Valentine case's order slip
     // the thing stays in their hands until it is tapped; the questions stay away meanwhile (the greeting goes on)
     if(hold){ holdOut = { who, ...hold, then:a.inspect }; placeHeld(); return; }
     setGreeting(null);
@@ -6985,6 +7247,56 @@ $('#montage').addEventListener('click', e => {
   if(e.target.closest('[data-mt-close]')) return closeMontage(false);
   tapGo();   // a tap on the sketch goes on from a line waiting for it, as anywhere on the screen
 });
+/* The Valentine case's order slip (Suzy's action with slip, design 장면 4): one sheet, three rows to pick in (the
+   quantity words written by the player): There are too many (a chocolate) · There are not enough (a chocolate) ·
+   How many? (1-4). Wrong: it shakes and the detective says only where to look; right: Suzy's lines (action.right) and
+   the action's flag (her s2 opens). The notebook stays to hand (the tabs under it). */
+const SLIP = { rows:[['too', 'There are too many'], ['few', 'There are not enough'], ['n', 'How many?']], answer:{ too:'ph', few:'fl', n:String(VAL_SHORT) },
+  kinds:[['ph', 'pink hearts'], ['bh', 'brown hearts'], ['fl', 'flowers'], ['sq', 'squares']],
+  miss:{ key:'slip-again', en:"Let's look at the gift boxes again.", ko:'선물 상자를 다시 보자.' } };
+let slip = null;   // { who, a, pick:{ too, few, n } } while open
+function openSlip(who, a){ slip = { who, a, pick:{} }; renderSlip(); }
+function renderSlip(){
+  const el = $('#slip'); el.hidden = !slip;
+  if(!slip) return;
+  const opt = (row, v, inner, label) => `<button class="sl-opt${slip.pick[row] === v ? ' on' : ''}" type="button" data-sl="${row}:${v}" aria-label="${label}" aria-pressed="${slip.pick[row] === v}">${inner}</button>`;
+  el.querySelector('.sl-rows').innerHTML = SLIP.rows.map(([row, en]) => `<div class="sl-row"><p class="sl-en">${en}</p><div class="sl-opts">` +
+    (row === 'n' ? ['1', '2', '3', '4'].map(v => opt(row, v, `<b>${v}</b>`, v)).join('')
+      : SLIP.kinds.map(([v, name]) => opt(row, v, `<img src="${PKV}${PK.pics[v]}.webp" alt="">`, name)).join('')) + '</div></div>').join('');
+  $('#slOk').disabled = SLIP.rows.some(([row]) => !slip.pick[row]);
+}
+function slipCheck(){
+  if(!slip) return;
+  const right = Object.entries(SLIP.answer).every(([row, v]) => slip.pick[row] === v);
+  playSfx(right ? '#correctChime' : '#retryBuzz');
+  if(!right){
+    const paper = $('#slip .sl-paper'); paper.classList.remove('shake'); void paper.offsetWidth; paper.classList.add('shake');
+    renderSay(detLine(SLIP.miss));
+    return detectiveSay(SLIP.miss.key, () => {}, null, SLIP.miss.en);
+  }
+  const { who, a } = slip;
+  slip = null; renderSlip(); renderSay(null);
+  playLines(who, a.right, () => {
+    if(a.flag && !S.flags.has(a.flag)){ S.flags.add(a.flag); saveGame(); }
+    setMood(who, null);
+    if(greetingId === who) setGreeting(null);
+    if(S.cur === who && !S.investigate){ renderAsk(); checkThoughts(); if(thoughts.length) playThought(); }
+  });
+}
+function closeSlip(){
+  if(!slip) return;
+  const { who } = slip;
+  slip = null; renderSlip(); stopVoice(); renderSay(null);
+  if(greetingId === who) setGreeting(null);
+  if(S.cur === who && !S.investigate) renderAsk();
+}
+$('#slip').addEventListener('click', e => {
+  const o = e.target.closest('[data-sl]');
+  if(o){ const [row, v] = o.dataset.sl.split(':'); slip.pick[row] = v; playSfx('#closeClick'); return renderSlip(); }
+  if(e.target.closest('#slOk')) return slipCheck();
+  if(e.target.closest('[data-sl-close]')) return closeSlip();
+  tapGo();
+});
 // the close look (a place with inspect: never on the map): folded first; 〈 goes back to the person who handed it over
 let inspectFrom = null;   // the place a close look was opened from (a clue there), where 〈 goes back to
 function openInspect(id = PLACES.find(p => p.inspect)?.id, from = null){
@@ -7011,6 +7323,7 @@ function askAudio(id, qid){
   if(CHRISTMAS) return `audio/christmas/detective-${id}-${qid}.mp3`;
   if(FLOWERBED) return `audio/flowerbed/detective-${id}-${qid}.mp3`;
   if(TWINS) return `audio/twins/detective-${id}-${qid}.mp3`;
+  if(VALENTINE) return `audio/valentine/detective-${id}-${qid}.mp3`;
   return spk(id).questions ? `audio/detective-ask-${id}-${qid}.mp3` : `audio/detective-ask-${qid}.mp3`;
 }
 // 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
@@ -7509,6 +7822,14 @@ function playBeats(){
   // by now, it still comes, without the lines
   const end = () => {
     if(over) return; over = true; cut?.stop(); beatOn = null;
+    // what the beat marks done or undone and takes from 소지품 (the Valentine case: Ms. Penny goes to teach, the hearts
+    // swapped for the flowers bring her back)
+    [].concat(beat.flag || []).forEach(f => S.flags.add(f));
+    if(beat.unflag) S.flags.delete(beat.unflag);
+    if(beat.takeAway) S.items = S.items.filter(id => id !== beat.takeAway);
+    if(beat.flag || beat.unflag || beat.takeAway){ saveGame(); checkThoughts(); }
+    // someone who leaves with it (gone): back to the place, without them
+    if(isAway(beat.id) && S.cur === beat.id && !S.investigate && !ending) setTimeout(() => { if(S.cur === beat.id && !S.investigate) leaveTalk(); }, 500);
     if(!ending) renderSay(null);
     snap(beat.snap || []);
     let shown = (beat.snap || []).length ? 1400 : 0;
@@ -7927,7 +8248,7 @@ const DEDUCE = PACK ? PACK.deduce : {
 // replies, h1… hints, miss; the detective's voice, Higgsfield MiniMax Grady); a line missing here is read by the
 // browser's voice (a question marked unrecorded, all three of its lines)
 const DEDUCE_RECORDED = PACK?.silent ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => q.unrecorded ? [] : [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const DEDUCE_DIR = KITE ? 'audio/kite/deduce/' : MONTAGE_ON ? 'audio/montage/deduce/' : PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : VIOLIN ? 'audio/violin/deduce/' : CHRISTMAS ? 'audio/christmas/deduce/' : FLOWERBED ? 'audio/flowerbed/deduce/' : TWINS ? 'audio/twins/deduce/' : 'audio/deduce/';
+const DEDUCE_DIR = KITE ? 'audio/kite/deduce/' : MONTAGE_ON ? 'audio/montage/deduce/' : PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : VIOLIN ? 'audio/violin/deduce/' : CHRISTMAS ? 'audio/christmas/deduce/' : FLOWERBED ? 'audio/flowerbed/deduce/' : TWINS ? 'audio/twins/deduce/' : VALENTINE ? 'audio/valentine/deduce/' : 'audio/deduce/';
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답', opt2:'답' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
@@ -9490,6 +9811,154 @@ const xmasLook = (room, inner) => `<defs><filter id="inspectBlur" x="-5%" y="-5%
 const xmasListImg = () => `${XM}gift-list-${S.flags.has('table-seen') ? 4 : 2}.webp`;
 const xmasList = () => `<defs><clipPath id="giftPaper"><rect x="86" y="198" width="610" height="846"/></clipPath></defs>
   <g transform="matrix(.09049 -.05613 .09536 .0415 668.61 318.45)" opacity=".92"><image href="${xmasListImg()}" width="779" height="1138" clip-path="url(#giftPaper)"/></g>`;
+/* The Valentine case's packing (close look 'pack', design 장면 2, layout B picked by the user 2026-11-27,
+   design/valentine-packing-layout.html): over the blurred classroom, the eight gift boxes in 4x2 under the bubble's
+   place and the open chocolate box low by the thumb. A chocolate is dragged onto any gift box and goes into that box's
+   empty mold of its shape (one pink and one brown heart a box, the flower in its own; the square is in from the start);
+   no room, the box shakes and the chocolate goes back (the first time with two of one colour, the detective says what
+   Ms. Penny said); off the boxes, it just goes back. A full box closes with its lid and ribbon. Once no chocolate left
+   fits any box: 'packed', and the pink hearts left (VAL_SHORT) go into 소지품. With Suzy's flowers carried
+   ('@flowers-3'), the big box holds those instead and the last three boxes are filled: 'all-packed'.
+   S.pack: { b:[[tl, tr, bl] per box: 'ph' / 'bh' / 'fl' / null], left:[chocolates still in the big box, index into
+   PK.chocs], flowers:[the flowers still in the big box, index into PK.flowerAt] } */
+const PK = {
+  x0:506, y0:178, box:84, gap:9,              // the gift boxes (art units: the phone shows about 400 wide around x 688)
+  big:{ x:506, y:388, w:366, h:339 },         // bigbox-open.webp 720x666
+  inner:{ x:540, y:420, w:298, h:268 },       // where the chocolates lie in it
+  choc:44, lift:52, up:30,                    // a chocolate in the big box, held, how far above the finger it is held
+  // the gift box's molds (gift-open.webp, scripts/cut-valentine-props.py): centres as shares of the box, the cell's width
+  molds:[[.262, .262], [.735, .262], [.262, .735], [.735, .735]], cell:.473,
+  pics:{ ph:'choc-pink-heart', bh:'choc-brown-heart', fl:'choc-flower', sq:'choc-square' },
+  same:{ en:'Ms. Penny said one pink heart and one brown heart.', ko:'페니 선생님이 분홍 하트 하나, 갈색 하트 하나라고 했어.' }
+};
+const PKV = 'assets/places/valentine/';
+// the 24 chocolates as Suzy packed them (8 + VAL_SHORT pink hearts, eight brown, 8 - VAL_SHORT flowers: eleven and five
+// with three short), mixed the same way every time, and where each lies in the big box
+PK.chocs = (() => {
+  const kinds = [...Array(8 + VAL_SHORT).fill('ph'), ...Array(8).fill('bh'), ...Array(8 - VAL_SHORT).fill('fl')];
+  let s = 3; for(let i = kinds.length - 1; i > 0; i--){ s = (s * 7919 + 13) % 10007; const j = s % (i + 1); [kinds[i], kinds[j]] = [kinds[j], kinds[i]]; }
+  let seed = 11; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const { x, y, w, h } = PK.inner, n = kinds.length, size = PK.choc, cols = Math.ceil(Math.sqrt(n * w / h)), rows = Math.ceil(n / cols);
+  const cw = (w - size) / (cols - 1), rh = (h - size) / (rows - 1);
+  return kinds.map((k, i) => { const c = i % cols, r = Math.floor(i / cols);
+    return { k, x:x + Math.min(w - size, Math.max(0, c * cw + (rnd() - .5) * cw * .5)), y:y + Math.min(h - size, Math.max(0, r * rh + (rnd() - .5) * rh * .5)), rot:Math.round((rnd() - .5) * 50) }; });
+})();
+// Suzy's flowers in the big box, as many as were short (in the middle of it)
+PK.flowerAt = [[{ x:666, y:532, rot:-8 }], [{ x:630, y:528, rot:-12 }, { x:702, y:540, rot:8 }],
+  [{ x:620, y:520, rot:-12 }, { x:680, y:545, rot:8 }, { x:648, y:590, rot:-4 }]][VAL_SHORT - 1];
+const packState = () => (S.pack ||= { b:Array.from({ length:8 }, () => [null, null, null]), left:PK.chocs.map((_, i) => i), flowers:PK.flowerAt.slice(0, VAL_SHORT).map((_, i) => i) });
+const packPhase2 = () => S.items.includes('flowers-3') && !S.flags.has('all-packed');
+const boxXY = n => [PK.x0 + (n % 4) * (PK.box + PK.gap), PK.y0 + Math.floor(n / 4) * (PK.box + PK.gap)];
+const boxFull = m => m.every(Boolean);
+// the mold a chocolate goes to in a box (-1: none)
+const packSlot = (m, k) => k === 'fl' ? (m[2] ? -1 : 2) : m.includes(k) ? -1 : !m[0] ? 0 : !m[1] ? 1 : -1;
+let packOver = -1, packWarned = false;
+function packArt(){
+  const P = packState(), cs = PK.cell * PK.box * .86;
+  const bg = `<defs><filter id="packBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter>` +
+    `<filter id="packShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#2E1B10" flood-opacity=".45"/></filter></defs>` +
+    `<image href="${PKV}classroom.webp" y="-180" width="1376" height="1056" filter="url(#packBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>`;
+  const boxes = P.b.map((m, n) => {
+    const [x, y] = boxXY(n);
+    if(boxFull(m)) return `<image class="pk-box" data-box="${n}" href="${PKV}gift-closed.webp" x="${x}" y="${y}" width="${PK.box}" height="${PK.box}" filter="url(#packShadow)"/>`;
+    const fill = [...m, 'sq'].map((k, i) => k ? `<image href="${PKV}${PK.pics[k]}.webp" x="${x + PK.molds[i][0] * PK.box - cs / 2}" y="${y + PK.molds[i][1] * PK.box - cs / 2}" width="${cs}" height="${cs}"/>` : '').join('');
+    return `<g class="pk-box" data-box="${n}"><image href="${PKV}gift-open.webp" x="${x}" y="${y}" width="${PK.box}" height="${PK.box * 312 / 320}" filter="url(#packShadow)"/>${fill}</g>`;
+  }).join('');
+  const chocs = packPhase2()
+    ? P.flowers.map(i => { const f = PK.flowerAt[i]; return pkChoc(`f${i}`, 'fl', f.x, f.y, f.rot); }).join('')
+    : S.flags.has('packed') ? '' : P.left.map(i => { const c = PK.chocs[i]; return pkChoc(i, c.k, c.x, c.y, c.rot); }).join('');
+  return bg + boxes + `<image href="${PKV}bigbox-open.webp" x="${PK.big.x}" y="${PK.big.y}" width="${PK.big.w}" height="${PK.big.h}" filter="url(#packShadow)"/>` + chocs;
+}
+const pkChoc = (id, k, x, y, rot) => `<image class="pk-choc" data-choc="${id}" data-k="${k}" data-hx="${x}" data-hy="${y}" data-rot="${rot}" href="${PKV}${PK.pics[k]}.webp" x="${x}" y="${y}" width="${PK.choc}" height="${PK.choc}" transform="rotate(${rot} ${x + PK.choc / 2} ${y + PK.choc / 2})"/>`;
+// the box under a point (art units), or -1
+function packBoxAt(x, y){
+  for(let n = 0; n < 8; n++){ const [bx, by] = boxXY(n); if(x >= bx - 6 && x <= bx + PK.box + 6 && y >= by - 6 && y <= by + PK.box + 6) return n; }
+  return -1;
+}
+function packRedraw(pop){
+  const art = $('#art'); art.dataset.scene = ''; renderScene();
+  if(pop !== undefined) art.querySelector(`.pk-box[data-box="${pop}"]`)?.classList.add('pk-pop');
+}
+function packHome(el){
+  const hx = +el.dataset.hx, hy = +el.dataset.hy, rot = +el.dataset.rot;
+  const x = +el.getAttribute('x'), y = +el.getAttribute('y');
+  el.setAttribute('x', hx); el.setAttribute('y', hy); el.setAttribute('width', PK.choc); el.setAttribute('height', PK.choc);
+  el.setAttribute('transform', `rotate(${rot} ${hx + PK.choc / 2} ${hy + PK.choc / 2})`);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  el.style.transition = 'none'; el.style.transform = `translate(${x - hx}px, ${y - hy}px)`;
+  el.getBoundingClientRect();
+  el.style.transition = 'transform .3s cubic-bezier(.3, 1.3, .5, 1)'; el.style.transform = '';
+}
+function packShake(n){
+  const g = $(`#art .pk-box[data-box="${n}"]`); if(!g) return;
+  g.classList.remove('pk-shake'); g.getBoundingClientRect(); g.classList.add('pk-shake');
+}
+const playSfx = id => { const a = $(id); if(!a) return; a.currentTime = 0; a.play().catch(() => {}); };
+// a chocolate let go: over a box with room, into its mold; else back to where it lay
+function packDrop(el, n){
+  if(n < 0) return packHome(el);
+  const P = packState(), m = P.b[n], k = el.dataset.k, slot = boxFull(m) ? -1 : packSlot(m, k);
+  if(slot < 0){
+    packHome(el); packShake(n); playSfx('#retryBuzz');
+    if(k !== 'fl' && m.includes(k) && !packWarned){ packWarned = true; sayProp(PK.same, $(`#art .pk-box[data-box="${n}"]`)); }
+    return;
+  }
+  m[slot] = k;
+  if(String(el.dataset.choc).startsWith('f')) P.flowers = P.flowers.filter(i => `f${i}` !== el.dataset.choc);
+  else P.left = P.left.filter(i => String(i) !== el.dataset.choc);
+  saveGame(); playSfx('#wordPlace');
+  packRedraw();
+  if(boxFull(m)) setTimeout(() => { playSfx('#correctChime'); packRedraw(n); packCheckDone(); }, 300);
+  else packCheckDone();
+}
+// no chocolate left fits any box: the first packing is over (the pink hearts left to 소지품), or the last one
+function packCheckDone(){
+  const P = packState();
+  if(packPhase2()){
+    if(P.flowers.length) return;
+    S.flags.add('all-packed'); S.items = S.items.filter(id => id !== 'flowers-3'); saveGame();
+    packRedraw(); checkThoughts(); if(thoughts.length) setTimeout(playThought, 600);
+    return;
+  }
+  if(S.flags.has('packed')) return;
+  const fits = P.left.some(i => P.b.some(m => !boxFull(m) && packSlot(m, PK.chocs[i].k) >= 0));
+  if(fits) return;
+  setTimeout(() => {
+    S.flags.add('packed');
+    const at = $('#art .pk-choc')?.getBoundingClientRect();
+    if(!S.items.includes('pink-hearts-3')) S.items.push('pink-hearts-3');
+    saveGame(); packRedraw();
+    gotItem('pink-hearts-3', at);
+    checkThoughts(); if(thoughts.length) setTimeout(playThought, 2800);
+  }, 700);
+}
+// dragging (touch and mouse): the chocolate a little bigger, held over the finger, the box under it lit
+document.addEventListener('pointerdown', e => {
+  const el = e.target.closest?.('#art .pk-choc');
+  if(!el || !placeObj()?.packing) return;
+  e.preventDefault();
+  const svg = el.ownerSVGElement, toArt = ev => { const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); };
+  closePropSay();
+  el.parentNode.appendChild(el);   // over the others (before anything follows the pointer: moving it in the page lets go of it)
+  el.style.transition = 'none'; el.style.transform = ''; el.removeAttribute('transform');
+  el.setAttribute('width', PK.lift); el.setAttribute('height', PK.lift); el.classList.add('held');
+  playSfx('#closeClick');
+  const light = n => {
+    if(n === packOver) return;
+    $(`#art .pk-box[data-box="${packOver}"]`)?.classList.remove('over');
+    packOver = n; $(`#art .pk-box[data-box="${n}"]`)?.classList.add('over');
+  };
+  const move = ev => { const p = toArt(ev); el.setAttribute('x', p.x - PK.lift / 2); el.setAttribute('y', p.y - PK.lift / 2 - PK.up); light(packBoxAt(p.x, p.y - PK.up)); };
+  const id = e.pointerId, mine = f => ev => { if(ev.pointerId === id) f(ev); };
+  const onMove = mine(move), onUp = mine(ev => {
+    removeEventListener('pointermove', onMove); removeEventListener('pointerup', onUp); removeEventListener('pointercancel', onUp);
+    el.classList.remove('held'); light(-1);
+    const p = toArt(ev);
+    packDrop(el, ev.type === 'pointerup' ? packBoxAt(p.x, p.y - PK.up) : -1);
+  });
+  move(e);
+  addEventListener('pointermove', onMove); addEventListener('pointerup', onUp); addEventListener('pointercancel', onUp);
+});
 /* the scale in use (the Christmas star case's close look 'weigh', user pick: over the blurred sleigh, the scale low and
    close to the row of five boxes): the one picture of the scale cut into its beam's two arms, its two pans with their
    strings and the post with its foot; the beam turns about the post's top (heavier side down, level when the same) and
@@ -9645,6 +10114,12 @@ const ART = {
   van: () => `<image href="assets/places/twins/van-inside.webp" width="1600" height="1195"/>`,
   // the interview pictures (scripts/make-twins-rooms.py): Evan's room, a wall, Milo's room
   station: () => `<image href="assets/places/twins/room-${roomOn() ? 'milo' : 'evan'}.webp" width="896" height="1200"/>`,
+  // the Valentine case (scripts/cut-valentine-places.py): the classroom with the chocolate box on the desk (desk-boxes,
+  // the one item drawn from the front), Suzy's shop, and the packing close look (packArt)
+  classroom: () => `<image href="assets/places/valentine/classroom.webp" width="1376" height="1056"/>` +
+    (S.flags.has('handed') ? '' : '<image href="assets/places/valentine/desk-boxes.webp" x="437" y="385" width="560" height="275"/>'),
+  chocshop: () => `<image href="assets/places/valentine/shop.webp" width="1376" height="1056"/>`,
+  pack: () => packArt(),
   // the neighbours' yard (scripts/cut-flowerbed-yard.py): the puppy Pablo throws his tennis ball to
   yard: () => `<image href="assets/places/flowerbed/yard.webp" width="1376" height="768"/>` +
     '<image href="assets/characters/puppy.webp" x="1104" y="575" width="152" height="154"/>',
@@ -9789,6 +10264,7 @@ const ART_SKY = {
 const ART_FLOOR = {
   flowerbed:{ src:'assets/places/flowerbed/garden-floor.jpg', h:900 },   // the flowerbed case
   yard:{ src:'assets/places/flowerbed/yard-floor.jpg', h:900 },
+  classroom:{ src:'assets/places/valentine/classroom-floor.jpg', h:900 }, chocshop:{ src:'assets/places/valentine/shop-floor.jpg', h:900 },   // the Valentine case (scripts/cut-valentine-places.py)
   ...Object.fromEntries(['outside', 'road', 'hospital', 'workshop'].map(id => [id, { src:`assets/places/twins/${id}-floor.jpg`, h:900 }])),   // the twins case (scripts/cut-twins-places.py)
   library:{ src:'assets/places/library-floor.jpg', h:506 },
   bakery: { src:'assets/places/bakery-floor.jpg', h:518 },
@@ -11122,31 +11598,37 @@ const CASES = [
     focus:'과거 의문문·부정 듣기', keys:['did-q'],
     photo:{ who:'gus', img:'assets/characters/gus-higgsfield.webp', cx:50, w:56, b:-30 },
     summary:'올리의 화단 꽃이 밟혀 있었다. 화단 흙에는 크고 둥근 공 자국이 있었고, 올리는 꽃 옆에서 재채기 소리를 들었다. 토비는 작은 테니스공으로 놀았고, 거스는 큰 축구공을 들고 있었다. 잔디 위에서 주운 꽃을 코에 대자 토비는 냄새만 맡았고 거스는 재채기를 했다. 거스는 공을 가지러 화단에 들어갔다가 꽃을 밟았다고 인정하고, 올리와 함께 새 꽃을 심기로 했다.' },
-  { id:'picnic-bag', no:'Case 05', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+  // the Valentine chocolates (design/case-valentine-chocolate.md, planned in Claude Code 2026-11-26/27): Case 05, right
+  // after the flowerbed (user decision), the cases after it one number on
+  { id:'valentine-chocolate', no:'Case 05', title:'초콜릿이 몇 개 틀렸을까?', en:'The Wrong Chocolates', art:'classroom', cover:{ src:'assets/places/valentine/cover.webp', alt:'교실 책상 위 초콜릿 상자와 선물 상자' }, playable:true,
+    focus:'수량 표현 듣기', keys:['quantity'],
+    photo:{ img:'assets/places/valentine/review-boxes.webp', pos:'50% 50%' },
+    summary:`페니 선생님이 학생 여덟 명에게 줄 초콜릿을 종류마다 여덟 개씩 주문했다. 선물 상자에 하나씩 포장해 보니 꽃이 빈 상자 ${VAL_N.ko} 개와 분홍 하트 ${VAL_N.ko} 개가 남았다. 수지의 가게에서 분홍 하트 쟁반과 꽃 쟁반이 나란히 있어 꽃 자리에 분홍 하트가 들어간 것이었다. 분홍 하트는 너무 많고 꽃은 모자랐다고 알리고, 주방에 남은 꽃 초콜릿과 바꿔 모든 상자를 채웠다.` },
+  { id:'picnic-bag', no:'Case 06', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.webp' },
     summary:'소풍을 나온 로지의 파란 가방이 목수 벤의 파란 가방과 바뀌었다. 둘은 아침에 호수 카페에 들렀고, 나올 때 똑같이 생긴 가방을 서로 바꿔 들고 나왔다. 탐정은 로지가 들고 온 가방 속 망치·톱·못과 벤이 목수라는 말을 이어 주인을 찾았다. 벤에게 공구가 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   // the twins (design/case-twins.md), between the picnic and the violin (user plan 2026-11-25)
-  { id:'twins', no:'Case 06', title:'같은 얼굴의 운전자', en:'Which Twin Was Driving?', art:'outside', cover:{ src:'assets/places/twins/cover.jpg', alt:'수리점 앞의 파란 밴' }, playable:true,
+  { id:'twins', no:'Case 07', title:'같은 얼굴의 운전자', en:'Which Twin Was Driving?', art:'outside', cover:{ src:'assets/places/twins/cover.jpg', alt:'수리점 앞의 파란 밴' }, playable:true,
     focus:'한 일 듣기', keys:['what-did'],
     photo:{ img:'assets/places/twins/evan.webp' },
     summary:'파란 밴이 빅터를 치고 달아났다. 밴은 쌍둥이 에반과 마일로의 것이었고, 둘은 똑같이 자기는 에이다와 수리점에 있었다고 했다. 사고를 본 아이리스는 운전자가 머리를 감싸 쥐었다고 했고, 빅터는 운전자의 파란 셔츠를 떠올렸다. 에이다와 시계를 고친 형제는 손가락을 베여 붕대를 감았다. 운전자는 이마를 다친 에반이었다. 에반은 무서워서 달아났다고 인정하고 빅터에게 사과하고 싶다고 했다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
-  { id:'missing-violin', no:'Case 07', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.webp', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
+  { id:'missing-violin', no:'Case 08', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.webp', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
     photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.webp', cx:40, w:52, b:-29 },   // smaller, his face in the picture (user request 2026-11-17)
     summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 무대 뒤 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
-  { id:'case01', no:'Case 08', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
+  { id:'case01', no:'Case 09', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.webp', cx:41.7 },
     victimPhoto:'assets/characters/hoot-higgsfield.webp',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   // the education plan's order (L1-05 B, handed over 2026-11-09): the Christmas star after the library; no pictures yet
-  { id:'christmas-star', no:'Case 09', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
+  { id:'christmas-star', no:'Case 10', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
     photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.webp', cx:50, w:56, b:-38 },
     summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 탐정이 무거운 상자 속 별 뒷면의 잎사귀 무늬를 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
-  { id:'case04', no:'Case 10' }
+  { id:'case04', no:'Case 11' }
 ];
 // the case this page plays (CASE_ID)
 const CASE = CASES.find(c => c.id === CASE_ID);
@@ -12574,6 +13056,8 @@ const previewCase = () => {
   (PACK?.thoughts || []).forEach((t, n) => { if(!t.off && t.when.every(cond) && !(t.unless || []).some(cond) && !(S.thought ||= []).includes(n)) S.thought.push(n); });
   thoughts.length = 0;
 };
+// the Valentine case's boxes as the packing leaves them: five full, three without a flower, the big box empty
+const previewPacked = () => { S.flags.add('packed'); S.pack = { b:Array.from({ length:8 }, (_, n) => ['ph', 'bh', n < 8 - VAL_SHORT ? 'fl' : null]), left:[], flowers:PK.flowerAt.slice(0, VAL_SHORT).map((_, i) => i) }; };
 const previewDeduced = () => {
   const st = deduceState();
   DEDUCE.qs.forEach((q, i) => st.done.add(i)); st.at = DEDUCE.qs.length - 1;
@@ -12583,6 +13067,8 @@ const PREVIEW_OF = {
   'honey-robber':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '경관에게 건네기'], ['review', '복습']],
   'missing-kite':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '토비에게 연 찾아 주기'], ['review', '복습']],
   'twins':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['station', '면담실'], ['tell', '범인 말하기'], ['handoff', '에반의 자백'], ['review', '복습']],
+  'valentine-chocolate':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['pack', '포장'], ['slip', '주문 쪽지'],
+    ['fill', '꽃 넣기'], ['handoff', '페니에게 건네기'], ['review', '복습']],
   'flowerbed':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '올리에게 알리기'], ['review', '복습']],
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '니코 심문'], ['weigh', '저울'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
@@ -12659,6 +13145,10 @@ const PREVIEW_RUN = {
     if(PACK?.previewHandback){ S.items = [...PACK.previewHandback]; S.items.forEach(id => S.flags.add(`took:${id}`));
       PLACES.forEach(pl => pl.clues.forEach(c => { if((c.take || c.give) && c.flag && PACK.previewHandback.includes(c.take || c.give)) S.flags.add(c.flag); })); }
     startScript(); },
+  // the Valentine case: the packing open (Ms. Penny gone to teach), the slip at Suzy's (packed), the last flowers to put in
+  pack:() => { previewCase(); openSheet(null); ['penny-out', 'pack-open'].forEach(f => S.flags.add(f)); delete S.pack; S.items = S.items.filter(id => id !== 'flowers-3'); enterPlace('classroom'); openInspect('pack', 'classroom'); },
+  slip:() => { previewCase(); openSheet(null); ['penny-out', 'pack-open'].forEach(f => S.flags.add(f)); previewPacked(); S.items = [...S.items.filter(id => id !== 'flowers-3'), 'pink-hearts-3']; S.per.suzy.questionChecks.s2 = null; S.per.suzy.order = S.per.suzy.order.filter(q => q !== 's2'); S.per.suzy.phase = 'choose'; talkTo('suzy'); },
+  fill:() => { previewCase(); openSheet(null); ['pack-open', 'slip-ok'].forEach(f => S.flags.add(f)); previewPacked(); S.items.push('flowers-3'); enterPlace('classroom'); openInspect('pack', 'classroom'); },
   review:() => { previewCase(); previewDeduced(); openSheet(null); openReview(); }
 };
 const PREVIEW_PARTS = PREVIEW_OF[CASE_ID].map(([id, label]) => [id, label, PREVIEW_RUN[id]]);
