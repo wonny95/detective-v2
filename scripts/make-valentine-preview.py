@@ -1,4 +1,4 @@
-"""Valentine case: Penny and Suzy stood on their backgrounds, for the design doc (user request 2026-11-26).
+﻿"""Valentine case: Penny and Suzy stood on their backgrounds, for the design doc (user request 2026-11-26).
 
 Not game art. Puts the cut figures (scripts/cut-valentine-characters.py) on the 3:4 originals at a trial place and size:
 Penny in front of the classroom desk, Suzy on the floor left of the shop counter. Each picture shows the idle pose
@@ -12,7 +12,7 @@ C, P, OUT = 'assets/characters/', 'assets/places/valentine/', Path('design/valen
 OUT.mkdir(exist_ok=True)
 # (background, character, feet centre x, feet y, figure height) on the 1792x2400 originals
 SCENES = {
-    'classroom-penny': (P + 'classroom-higgsfield-original.png', 'penny', 820, 1930, 720),
+    'classroom-penny': (P + 'classroom-v2-higgsfield-original.png', 'penny', 820, 1930, 720),
     'shop-suzy': (P + 'shop-v2-higgsfield-original.png', 'suzy', 390, 1900, 820),
 }
 W = 600   # each panel's width

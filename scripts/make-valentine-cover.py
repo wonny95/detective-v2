@@ -1,16 +1,17 @@
-"""Valentine case (design/case-valentine-chocolate.md, "그림 제작 계획" 8): the case list cover and the review photo,
+﻿"""Valentine case (design/case-valentine-chocolate.md, "그림 제작 계획" 8): the case list cover and the review photo,
 put together from pictures already made (no new art).
 
-- cover.webp (800×563, the list photo's ratio 1.42, as the umbrella cover): the classroom (classroom-higgsfield-original.png)
-  around the teacher's desk, with desk-boxes.webp (the closed chocolate box and small gift boxes, seen as the room is)
-  standing on the desk, a soft shadow under it.
+- cover.webp (800×563, the list photo's ratio 1.42, as the umbrella cover): classroom v2 with the boxes drawn on the
+  desk (classroom-v2-boxes-higgsfield-original.png), cropped around the teacher's desk.
 - review-boxes.webp (840×360, the review photo's wide frame): the eight packed gift boxes (gift-closed.webp) in a row
   over the blurred classroom, as at the end of the case.
 Run from the project folder: python -I scripts/make-valentine-cover.py   (Pillow only)"""
 from PIL import Image, ImageFilter
 
 P = 'assets/places/valentine/'
-room = Image.open(P + 'classroom-higgsfield-original.png').convert('RGBA')
+# classroom v2 (user 2026-11-27): the boxes are drawn on the desk in the picture itself, so the cover is only a crop
+room = Image.open(P + 'classroom-v2-higgsfield-original.png').convert('RGBA')
+boxed = Image.open(P + 'classroom-v2-boxes-higgsfield-original.png').convert('RGBA')
 
 
 def shadow(img, blur, alpha, squash=1.0):
@@ -24,18 +25,11 @@ def shadow(img, blur, alpha, squash=1.0):
     return out.filter(ImageFilter.GaussianBlur(blur)), pad
 
 
-# --- cover: the boxes on the teacher's desk (its top runs x 527-1267, y 1191-1293 in the classroom picture) ---
-box = Image.open(P + 'desk-boxes.webp').convert('RGBA')
-bw = 640; box = box.resize((bw, round(box.height * bw / box.width)), Image.LANCZOS)
-cx, base = 905, 1272                      # the desk's middle, the boxes' foot on the desk top
-x, y = cx - bw // 2, base - box.height
-sh, pad = shadow(box, 10, .45, .25)
-cover = room.copy()
-cover.alpha_composite(sh, (x - pad + 14, base - sh.height + pad + 6))
-cover.alpha_composite(box, (x, y))
+# --- cover: the teacher's desk with the boxes, the chalkboard and the paper hearts above it ---
+cx = 900                                  # the desk's middle
 W = 1040; H = round(W / 1.42)
-x0, y0 = cx - W // 2, 660
-cover.crop((x0, y0, x0 + W, y0 + H)).resize((800, round(800 / 1.42)), Image.LANCZOS).convert('RGB') \
+x0, y0 = cx - W // 2, 650
+boxed.crop((x0, y0, x0 + W, y0 + H)).resize((800, round(800 / 1.42)), Image.LANCZOS).convert('RGB') \
     .save(P + 'cover.webp', quality=88, method=6)
 
 # --- review photo: eight packed boxes in a row over the blurred classroom ---

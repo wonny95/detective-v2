@@ -1564,24 +1564,75 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* 단어 짝맞추기 (단서 잇기, design/minigames.md 11): English notes on the left, meanings on the right (one with no
    pair), tie a pair with a red thread */
 #matchGame{padding:0;background:var(--paper);place-items:stretch}
+/* 철자 쓰기 (user pick 2026-11-27, design/minigame-duo-options.html A): plain like Duolingo, in the game's own parts:
+   hear the word, its meaning on a slip, tap letter cards (the note's word cards) into the notebook slots, 확인 */
+#spellGame{padding:0;background:var(--paper);place-items:stretch}
+.sw-card{padding:0;gap:0}
+.sw-top{display:flex;align-items:center;gap:10px;padding:16px 16px 0}
+.sw-top .sg-track{flex:1}
+.sw-main{flex:1;min-height:0;display:flex;flex-direction:column;padding:22px 18px 0;overflow:auto}
+.sw-say{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:22px}
+.sw-say .play-btn{width:60px;height:60px}
+.sw-say .sg-meaning{max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sw-page{background-color:#FFFDF7;background-image:linear-gradient(to right,transparent 24px,rgba(201,111,134,.45) 24px 26px,transparent 26px);
+  border:2px solid var(--ink);border-radius:var(--r-wobble-2);padding:18px 10px 18px 32px;margin-bottom:24px}
+.sw-slots{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;min-height:50px}
+.sw-slot{width:clamp(28px,9.5vw,38px);height:50px;display:grid;place-items:center;font-family:var(--f-hand);font-weight:700;font-size:28px;color:#34506E;
+  border:0;padding:0;border-radius:12px;background-color:rgba(125,106,88,.15);transition:background-color .2s}
+.sw-slot.cur{background-color:rgba(242,207,115,.5)}
+.sw-slot.filled{cursor:pointer}
+.sw-area.ok .sw-slot{background-color:rgba(94,138,99,.18)}
+.sw-area.no .sw-slot{background-color:rgba(194,91,91,.14);color:var(--no)}
+.sw-area.ok,.sw-area.no{pointer-events:none}
+.sw-cards{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:0 6px}
+.sw-cards .word{min-width:46px;height:50px;padding:0 10px;font-size:25px;cursor:pointer}
+.sw-cards .word:nth-child(3n+1){transform:rotate(-2deg)} .sw-cards .word:nth-child(3n+2){transform:rotate(1.5deg)}
+.sw-cards .word.used{opacity:.3;box-shadow:none;pointer-events:none}
+.sw-foot{padding:14px 18px 22px;border-top:2px dashed var(--line);transition:background-color .2s}
+.sw-foot .pill.big{width:100%;filter:drop-shadow(0 4px 0 rgba(74,54,40,.3))}
+.sw-foot .pill.big:disabled{filter:none}
+.sw-fb{display:none;align-items:center;gap:10px;margin-bottom:10px;font-family:var(--f-display);font-size:19px}
+.sw-fb img{width:58px;transform:rotate(-10deg)}
+.sw-fb small{display:block;font-family:var(--f-hand);font-weight:700;font-size:16px;color:var(--ink);margin-top:2px}
+.sw-foot.ok{background:rgba(141,180,142,.22)} .sw-foot.ok .sw-fb{display:flex;color:var(--moss-deep)}
+.sw-foot.no{background:rgba(194,91,91,.10)} .sw-foot.no .sw-fb{display:flex;color:var(--no)}
+.sw-foot.ok .pill.big{--btn:url(assets/ui/buttons/sage-flat.webp);color:var(--ink)}
+/* the board slot's picture: three letter cards */
+.cf-spell{display:flex;gap:3px}
+.cf-spell i{display:grid;place-items:center;width:17px;height:21px;border:1.5px solid var(--ink);border-radius:4px 5px 4px 5px;background:#FFFDF7;
+  font:700 13px/1 var(--f-hand);font-style:normal;color:var(--ink);box-shadow:1px 1px 0 rgba(74,54,40,.2)}
+.cf-spell i:nth-child(1){transform:rotate(-6deg)} .cf-spell i:nth-child(3){transform:rotate(5deg)}
+.cf-ic .cf-spell{transform:scale(1.55)}
 .mg-board{position:relative;flex:1;min-height:0;border:16px solid transparent;border-radius:9px;border-image:url(assets/ui/corkboard-frame.webp) 86 / 16px stretch;
   background:#D69C62 url(assets/ui/corkboard-cork.webp) 0 0/320px 320px repeat border-box;box-shadow:inset 0 3px 14px rgba(60,35,15,.4)}
-.mg-cols{position:absolute;inset:10px 8px;display:flex;justify-content:space-between}
+/* drag a thread from note to note (user pick 2026-11-27, design/match-drag-options.html A): pins seen from above
+   (assets/ui/match/, scripts/cut-match-pins.py); the picked note's pin gets the thread wound round it, the thread
+   follows the finger and leaves from under the pin. The words come first: big type, small pins at the inner ends. */
+.mg-top .sg-track{flex:1}
+.mg-cols{position:absolute;inset:10px 6px;display:flex;justify-content:space-between}
 .mg-col{width:42%;display:flex;flex-direction:column;justify-content:space-around}
-.mg-note{position:relative;min-height:52px;box-sizing:border-box;padding:8px 6px;border:0;border-radius:3px;background:#FFFDF6;color:var(--ink);
-  font-family:var(--f-display);font-size:17px;line-height:1.15;box-shadow:0 2px 4px rgba(0,0,0,.28);cursor:pointer;transition:transform .15s,opacity .3s}
-.mg-note:nth-child(odd){transform:rotate(-2deg)} .mg-note:nth-child(even){transform:rotate(1.5deg)}
-.mg-note.up{transform:scale(1.07);outline:3px solid var(--honey)}
-.mg-note.ok{opacity:.55;pointer-events:none}
+.mg-board{touch-action:none}
+.mg-note{position:relative;min-height:58px;box-sizing:border-box;border:0;border-radius:3px;background:#FFFDF6;color:#3A2A1E;
+  font-family:var(--f-display);font-weight:700;font-size:20px;line-height:1.1;box-shadow:0 3px 4px rgba(60,30,10,.3);cursor:grab;
+  touch-action:none;user-select:none;-webkit-user-select:none;transition:background-color .3s}
+.mg-note.long{font-size:16px}
+.mg-col.l .mg-note{padding:6px 18px 6px 6px} .mg-col.r .mg-note{padding:6px 6px 6px 18px}
+.mg-col.l .mg-note:nth-child(odd){rotate:-1.5deg} .mg-col.l .mg-note:nth-child(even){rotate:1deg}
+.mg-col.r .mg-note:nth-child(odd){rotate:1.2deg} .mg-col.r .mg-note:nth-child(even){rotate:-1deg}
+.mg-note.ok{background:#EEF4E6;cursor:default}
 .mg-note.hint{animation:mg-hint 1.2s ease-in-out infinite}
-@keyframes mg-hint{50%{box-shadow:0 0 0 5px rgba(242,207,115,.9),0 2px 4px rgba(0,0,0,.28)}}
-.mg-note .pin{position:absolute;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#E8656B,#9E2A31);box-shadow:0 1px 1px rgba(0,0,0,.4)}
-.mg-col.l .pin{right:-6px} .mg-col.r .pin{left:-6px}
-.mg-note .ok-stamp{display:none;position:absolute;right:3px;top:-7px;padding:0 3px;border:1.5px solid #B8323A;border-radius:3px;background:#FFFDF6;font-size:10px;color:#B8323A;transform:rotate(10deg)}
-.mg-note.ok .ok-stamp{display:block}
-.mg-str{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
-.mg-str line{stroke:#B8323A;stroke-width:3;stroke-linecap:round}
-.mg-str line.cut{stroke-dasharray:4 5;opacity:.8}
+@keyframes mg-hint{50%{box-shadow:0 0 0 5px rgba(242,207,115,.9),0 3px 4px rgba(60,30,10,.3)}}
+.mg-note .mg-pin{position:absolute;top:50%;width:26px;height:26px;margin-top:-13px;background:url(assets/ui/match/pin.webp) center/contain no-repeat;
+  filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35));pointer-events:none}
+.mg-col.l .mg-pin{right:-8px} .mg-col.r .mg-pin{left:-8px}
+.mg-note.wound .mg-pin{visibility:hidden}   /* the wound pin is drawn in the thread layer, over the thread */
+.mg-str{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
+.mg-str path{fill:none;stroke-linecap:round}
+/* twisted red yarn, one unbroken strand: the red cord, short darker marks for the twist, a thin light line */
+.mg-str path.base{stroke:#A8283A;stroke-width:4;filter:drop-shadow(0 2px 1px rgba(60,20,10,.35))}
+.mg-str path.twist{stroke:#6E1522;stroke-width:4;stroke-dasharray:1.4 3.2;stroke-linecap:butt}
+.mg-str path.shine{stroke:rgba(255,200,200,.45);stroke-width:1}
+.mg-str .pinw{filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35))}
 
 /* 철자 금고 (spelling safe): hear a word, see its meaning, turn the dials to spell it */
 #safeGame{padding:0;background:var(--paper);place-items:stretch}
@@ -2272,12 +2323,25 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 
   <div class="modal" id="matchGame" hidden>
     <div class="sg-card" role="dialog" aria-label="단어 짝맞추기">
-      <div class="sg-top"><h2>단어 짝맞추기</h2><span class="sg-prog" id="mgProg"></span><button class="close-button" type="button" id="mgClose" aria-label="닫기"></button></div>
-      <div class="sg-track"><i id="mgTrack"></i></div>
+      <div class="sg-top mg-top"><span class="sg-prog" id="mgProg"></span><div class="sg-track"><i id="mgTrack"></i></div><button class="close-button" type="button" id="mgClose" aria-label="닫기"></button></div>
       <div class="mg-board" id="mgBoard"><svg class="mg-str" id="mgStr" aria-hidden="true"></svg><div class="mg-cols"><div class="mg-col l" id="mgLeft"></div><div class="mg-col r" id="mgRight"></div></div></div>
       <div class="sg-done" id="mgDone" hidden><img src="assets/ui/complete-stamp.webp" alt=""><b>단서를 모두 이었어요!</b>
         <div class="ab-reward" id="mgReward"></div>
         <div><button class="pill" type="button" id="mgAgain">한 번 더</button><button class="pill big" type="button" id="mgBack" style="color:#fff">사건판으로</button></div></div>
+    </div>
+  </div>
+
+  <div class="modal" id="spellGame" hidden>
+    <div class="sg-card sw-card" role="dialog" aria-label="철자 쓰기">
+      <div class="sw-top"><span class="sg-prog" id="swProg"></span><div class="sg-track"><i id="swTrack"></i></div><button class="close-button" type="button" id="swClose" aria-label="닫기"></button></div>
+      <div class="sw-main">
+        <div class="sw-say"><button class="play-btn" type="button" id="swPlay" aria-label="단어 듣기"></button><span class="sg-meaning" id="swMeaning"></span></div>
+        <div class="sw-area" id="swArea"><div class="sw-page"><div class="sw-slots" id="swSlots"></div></div><div class="sw-cards" id="swCards"></div></div>
+      </div>
+      <div class="sw-foot" id="swFoot"><div class="sw-fb" id="swFb"></div><button class="pill big" type="button" id="swCheck" disabled>확인</button></div>
+      <div class="sg-done" id="swDone" hidden><img src="assets/ui/complete-stamp.webp" alt=""><b>철자를 모두 썼어요!</b>
+        <div class="ab-reward" id="swReward"></div>
+        <div><button class="pill" type="button" id="swAgain">한 번 더</button><button class="pill big" type="button" id="swBack" style="color:#fff">사건판으로</button></div></div>
     </div>
   </div>
 
@@ -2331,6 +2395,7 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
   <button class="devbtn" type="button" id="devBgm">BGM 켜기</button>
   <button class="devbtn" type="button" id="devSafe">미니게임: 철자 자물쇠</button>
   <button class="devbtn" type="button" id="devMatch">미니게임: 짝맞추기</button>
+  <button class="devbtn" type="button" id="devSpell">미니게임: 철자 쓰기</button>
 </div>
 <div class="devtools devpreview" id="devPreview" aria-label="미리보기"></div>
 
@@ -3030,7 +3095,8 @@ const FLOWERBED_CASE = {
    classroom (the close look 'pack', packArt: drag each chocolate onto a box), sees three boxes without a flower and three
    pink hearts left, hears from Suzy that the order was right, says what is wrong on the order slip (openSlip), hears
    she has a few flowers, swaps the hearts for them, fills the last boxes and hands them to Ms. Penny.
-   No recordings yet (silent: the browser's voice); pictures assets/places/valentine/ (README.md there). */
+   Recorded (2026-11-27, Higgsfield MiniMax: Penny Elena, Suzy Skye, the detective Grady) in audio/valentine/ (README.md
+   there); the two lines with a feeling made on the Higgsfield site (Penny's "My class is over." happy, Suzy's sorry sad). Pictures assets/places/valentine/ (README.md there). */
 // How many flowers are short (and pink hearts too many) changes with each new game, 1-3 (user decision 2026-11-27: the
 // count only, the kinds stay pink heart for flower). Kept in the save (S.chocShort), so a game reopened has the same;
 // a save from before has three; ?short=2 picks one (for testing). It sets what Suzy packed (PK.chocs), the slip's
@@ -3050,12 +3116,12 @@ const valPile = kind => ({ img:`assets/places/valentine/pile-${kind}-${VAL_SHORT
 const VALENTINE_CASE = {
   start:'penny',
   noBoard:true,   // no deduction board: the order slip is the solving
-  silent:true,    // not recorded yet: every line in the browser's voice
   people:{
     penny: { id:'penny', name:'Ms. Penny', ko:'고슴도치 페니 선생님', job:'의뢰인', place:'classroom', witness:true, required:true, pitch:1.1, voice:2, bg:'#F6E3E6', openingQuestion:'t0',
       // off teaching another class once she has asked for the packing (design: the room is the detective's), back when
       // the flowers come from Suzy (the swap takes the flag away)
       gone:['!penny-out'],
+      audio:Object.fromEntries(['hello', 't0', 't1', 't2', 't3', 'pack-ask', 'teach', 'back', 'end1', 'end2'].map(key => [key, `audio/valentine/penny-${key}.mp3`])),
       hello:[ { key:'hello', en:"Oh, Detective! I'm so glad you're here.", ko:'아, 탐정! 와 줘서 정말 다행이야.' } ],
       questions:[
         { id:'t0', en:'How can I help you?', ko:'무엇을 도와줄까?' },
@@ -3072,9 +3138,11 @@ const VALENTINE_CASE = {
       },
       notes:{
         t0:['- I ordered {{a|chocolates}} for my {{b|students}}.', '- But something is {{c|wrong}} with the box.'],
-        t1:['- There are {{a|eight}} students.', '- {{b|Each}} student gets one {{c|pink}} heart, one {{d|brown}} heart, one flower and one square.'],
-        t2:["- I'm not sure.", '- {{a|Some}} shapes look wrong.', "- I packed all the {{b|squares}}, but I didn't have time to pack the {{c|others}}."],
-        t3:["- At {{a|Suzy's}} Chocolate Shop.", "- She makes chocolates for Valentine's Day."]
+        // blank ids run on through one person's notes (a filled blank is kept by its id, user report 2026-11-27: t2 came
+        // up with t0's words in it)
+        t1:['- There are {{d|eight}} students.', '- {{e|Each}} student gets one {{f|pink}} heart, one {{g|brown}} heart, one flower and one square.'],
+        t2:["- I'm not sure.", '- {{h|Some}} shapes look wrong.', "- I packed all the {{i|squares}}, but I didn't have time to pack the {{j|others}}."],
+        t3:["- At {{k|Suzy's}} Chocolate Shop.", "- She makes chocolates for Valentine's Day."]
       },
       bank:{ t0:['chocolates','cookies','students','teachers','wrong','right'], t1:['eight','eighteen','eighty','Each','All','pink','brown','white','red'],
         t2:['Some','Any','squares','hearts','others','flowers'], t3:["Suzy's","Sally's","Sue's"] },
@@ -3088,6 +3156,7 @@ const VALENTINE_CASE = {
         lines:[ { key:'back', mood:'glad', en:'Oh, Detective! My class is over.', ko:'아, 탐정! 수업 끝났어.' } ] } ]
     },
     suzy: { id:'suzy', name:'Suzy', ko:'다람쥐 수지', job:'초콜릿 가게', place:'chocshop', witness:true, required:true, pitch:1.25, voice:2, bg:'#F7E1D7', openingQuestion:'s1',
+      audio:Object.fromEntries(['hello', 's1', 's2', 'sorry', `here-flowers-${VAL_SHORT}`].map(key => [key, `audio/valentine/suzy-${key}.mp3`])),
       hello:[ { key:'hello', en:"Hello, Detective! Happy Valentine's Day!", ko:'안녕, 탐정! 발렌타인데이 축하해!' } ],
       questions:[
         { id:'s1', en:"Was Ms. Penny's order right?", ko:'페니 선생님의 주문은 맞았어?' },
@@ -3100,7 +3169,7 @@ const VALENTINE_CASE = {
       },
       notes:{
         s1:['- Yes, it was.', "- {{a|Eight}} of each. That's {{b|thirty-two}} chocolates.", '- I made {{c|a lot of}} pink heart chocolates this morning.'],
-        s2:['- Yes, I have {{a|some}}!', '- There are {{b|a few}} in the kitchen.', "- But I don't have {{c|any}} square chocolates today."]
+        s2:['- Yes, I have {{d|some}}!', '- There are {{e|a few}} in the kitchen.', "- But I don't have {{f|any}} square chocolates today."]
       },
       bank:{ s1:['Eight','Eighteen','thirty-two','twenty-three','a lot of','a few'], s2:['some','any','a few','a lot','many','much'] },
       // s2 written down: the three pink hearts for three flowers (design 장면 4, the swap)
@@ -3131,23 +3200,23 @@ const VALENTINE_CASE = {
     // opening the packing once Ms. Penny has asked for it
     { id:'classroom', x:30, y:40, label:'Classroom', artWidth:1376, artHeight:1056,
       clues:[
-        { label:'Chalkboard', prop:true, en:'There are a lot of hearts on the board.', ko:'칠판에 하트가 많아.' },
-        { label:'Flowers', prop:true, en:'There are some flowers by the window.', ko:'창가에 꽃이 좀 있어.' },
-        { label:'Paper hearts', prop:true, en:"Pretty paper hearts! It's Valentine's Day.", ko:'예쁜 종이 하트! 발렌타인데이야.' },
+        { label:'Bookshelf', prop:true, audio:'audio/valentine/detective-clue-books.mp3', en:'There are a lot of books on the shelf.', ko:'책장에 책이 많아.' },
+        { label:'Flowers', prop:true, audio:'audio/valentine/detective-clue-flowers.mp3', en:'There are some flowers by the window.', ko:'창가에 꽃이 좀 있어.' },
+        { label:'Paper hearts', prop:true, audio:'audio/valentine/detective-clue-paper-hearts.mp3', en:"Pretty paper hearts! It's Valentine's Day.", ko:'예쁜 종이 하트! 발렌타인데이야.' },
         { label:'Chocolate box', inspect:'pack' }
       ],
       spots:[
-        { clue:0, x:33, y:8, w:42, h:26 },
-        { clue:1, x:75, y:29, w:15, h:14 },
-        { clue:2, x:0, y:46, w:28, h:11 },
-        { clue:3, x:32, y:37, w:40, h:26, when:['!pack-open'] }
+        { clue:0, x:0, y:46, w:25, h:28 },
+        { clue:1, x:74, y:30, w:17, h:15 },
+        { clue:2, x:31, y:8, w:40, h:9 },
+        { clue:3, x:32, y:47, w:36, h:19, when:['!pack-open'] }
       ] },
     // Suzy's chocolate shop (design 장면 3): the trays on the counter tell the cause, so they cannot be tapped
     { id:'chocshop', x:76, y:76, label:'Chocolate Shop', artWidth:1376, artHeight:1056,
       clues:[
-        { label:'Gift boxes', prop:true, en:'There are a lot of gift boxes on the shelf.', ko:'선반에 선물 상자가 많아.' },
-        { label:'Kitchen door', prop:true, en:'The kitchen is behind this door.', ko:'이 문 뒤에 주방이 있어.' },
-        { label:'Sign', prop:true, en:'The sign looks like an acorn!', ko:'간판이 도토리처럼 생겼어!' }
+        { label:'Gift boxes', prop:true, audio:'audio/valentine/detective-clue-gift-boxes.mp3', en:'There are a lot of gift boxes on the shelf.', ko:'선반에 선물 상자가 많아.' },
+        { label:'Kitchen door', prop:true, audio:'audio/valentine/detective-clue-kitchen-door.mp3', en:'The kitchen is behind this door.', ko:'이 문 뒤에 주방이 있어.' },
+        { label:'Sign', prop:true, audio:'audio/valentine/detective-clue-sign.mp3', en:'The sign looks like an acorn!', ko:'간판이 도토리처럼 생겼어!' }
       ],
       spots:[
         { clue:0, x:50, y:2, w:26, h:46 },
@@ -3168,9 +3237,9 @@ const VALENTINE_CASE = {
   // (the ids say three, from before the count changed; they hold VAL_SHORT chocolates, shown as the loose pieces,
   // scripts/make-valentine-piles.py; the detective's line on each is recorded once for each count)
   items:{
-    'pink-hearts-3':{ label:'Pink hearts', en:VAL_SHORT === 1 ? 'One pink heart chocolate.' : `${VAL_N.en[0].toUpperCase() + VAL_N.en.slice(1)} pink heart chocolates.`,
+    'pink-hearts-3':{ label:'Pink hearts', audio:`audio/valentine/detective-item-pink-hearts-${VAL_SHORT}.mp3`, en:VAL_SHORT === 1 ? 'One pink heart chocolate.' : `${VAL_N.en[0].toUpperCase() + VAL_N.en.slice(1)} pink heart chocolates.`,
       ko:`분홍 하트 초콜릿 ${VAL_N.ko} 개야.`, ...valPile('pink-hearts') },
-    'flowers-3':{ label:'Flower chocolates', en:`${VAL_FLOWERS[0].toUpperCase() + VAL_FLOWERS.slice(1)}.`,
+    'flowers-3':{ label:'Flower chocolates', audio:`audio/valentine/detective-item-flowers-${VAL_SHORT}.mp3`, en:`${VAL_FLOWERS[0].toUpperCase() + VAL_FLOWERS.slice(1)}.`,
       ko:`꽃 초콜릿 ${VAL_N.ko} 개야.`, ...valPile('flowers') }
   },
   map:'assets/places/valentine/map.webp', mapRatio:1,   // map.webp is square (1024x1024)
@@ -5892,7 +5961,14 @@ const MOUTHS = {
   mae:{closed:[167,238,78,27], open:[167,238,78,31]},   // open: scripts/fix-christmas-mouths.py
   nico:{closed:[170,176,68,34], open:[170,176,68,38]},   // open: scripts/fix-christmas-mouths.py (the lower beak drops)
   'nico:nervous':{closed:[135,170,79,52], open:[135,170,79,52]},
-  'nico:sad':{closed:[135,170,79,52], open:[135,170,79,52]}
+  'nico:sad':{closed:[135,170,79,52], open:[135,170,79,52]},
+  // the Valentine case: scripts/make-valentine-mouths.py (the round mouth patches on the character sheets); Penny's
+  // front view is also her glad face at the end
+  penny:{closed:[188,229,110,99], open:[188,229,110,99]},
+  'penny:glad':{file:'penny', closed:[188,229,110,99], open:[188,229,110,99]},
+  'penny:worried':{closed:[255,242,92,60], open:[255,242,92,60]},
+  suzy:{closed:[100,221,160,110], open:[100,221,160,110]},
+  'suzy:sorry':{closed:[117,236,109,80], open:[117,236,109,80]}
 };
 // part: whose mouth it is in a picture of two (data-part, 'main' for the picture's own person)
 function spriteMouth(id, part){
@@ -9829,7 +9905,7 @@ const PK = {
   // the gift box's molds (gift-open.webp, scripts/cut-valentine-props.py): centres as shares of the box, the cell's width
   molds:[[.262, .262], [.735, .262], [.262, .735], [.735, .735]], cell:.473,
   pics:{ ph:'choc-pink-heart', bh:'choc-brown-heart', fl:'choc-flower', sq:'choc-square' },
-  same:{ en:'Ms. Penny said one pink heart and one brown heart.', ko:'페니 선생님이 분홍 하트 하나, 갈색 하트 하나라고 했어.' }
+  same:{ audio:'audio/valentine/detective-pack-same.mp3', en:'Ms. Penny said one pink heart and one brown heart.', ko:'페니 선생님이 분홍 하트 하나, 갈색 하트 하나라고 했어.' }
 };
 const PKV = 'assets/places/valentine/';
 // the 24 chocolates as Suzy packed them (8 + VAL_SHORT pink hearts, eight brown, 8 - VAL_SHORT flowers: eleven and five
@@ -10115,9 +10191,10 @@ const ART = {
   // the interview pictures (scripts/make-twins-rooms.py): Evan's room, a wall, Milo's room
   station: () => `<image href="assets/places/twins/room-${roomOn() ? 'milo' : 'evan'}.webp" width="896" height="1200"/>`,
   // the Valentine case (scripts/cut-valentine-places.py): the classroom with the chocolate box on the desk (desk-boxes,
-  // the one item drawn from the front), Suzy's shop, and the packing close look (packArt)
+  // the desk part of the same room drawn with the boxes on it, until the chocolates are handed), Suzy's shop, and the
+  // packing close look (packArt)
   classroom: () => `<image href="assets/places/valentine/classroom.webp" width="1376" height="1056"/>` +
-    (S.flags.has('handed') ? '' : '<image href="assets/places/valentine/desk-boxes.webp" x="437" y="385" width="560" height="275"/>'),
+    (S.flags.has('handed') ? '' : '<image href="assets/places/valentine/desk-boxes.webp" x="453" y="499" width="468" height="192"/>'),
   chocshop: () => `<image href="assets/places/valentine/shop.webp" width="1376" height="1056"/>`,
   pack: () => packArt(),
   // the neighbours' yard (scripts/cut-flowerbed-yard.py): the puppy Pablo throws his tennis ball to
@@ -11731,17 +11808,18 @@ function renderCaseList(){
       <span class="cf-text"><span class="case-title${c.title.replace(/ /g, '').length > 11 ? ' long' : ''}">${esc(c.title).replace('크리스마스트리', '크리스마스<wbr>트리')}</span>${caseStarsHTML(c)}</span></span></button>`;
   }
   // a word game after every third case (SAFE_EVERY, user decision 2026-11-23), before the next; the games take turns
-  // (user pick): the 3rd case's slot is the spelling lock, the 6th's word matching, and so on. A yellow paper strip across
+  // (user pick): the 3rd case's slot is spelling (철자 쓰기; it took the spelling lock's place 2026-11-27, the lock goes
+  // into a case as a puzzle), the 6th's word matching, and so on. A yellow paper strip across
   // the list, open once that case is solved (or while every case is open for testing).
   function gameRow(c, i){
     if((i + 1) % SAFE_EVERY || i === CASES.length - 1 || !c.playable) return '';
-    const match = ((i + 1) / SAFE_EVERY) % 2 === 0, name = match ? '단어 짝맞추기' : '철자 자물쇠';
-    const open = ALL_CASES_OPEN || solved.includes(c.id), done = (match ? matchesDone() : safesOpened()).includes(c.id);
+    const match = ((i + 1) / SAFE_EVERY) % 2 === 0, name = match ? '단어 짝맞추기' : '철자 쓰기';
+    const open = ALL_CASES_OPEN || solved.includes(c.id), done = (match ? matchesDone() : spellsDone()).includes(c.id);
     const ic = match ? '<span class="cf-match" aria-hidden="true"><i></i><b></b><i></i></span>'
-      : `<img src="assets/ui/padlock-${done ? 'open' : 'closed'}.webp" alt="">`;
+      : '<span class="cf-spell" aria-hidden="true"><i>a</i><i>b</i><i>c</i></span>';
     const note = open ? (done ? '완료 · 다시 하면 도토리 1개' : '도토리 5개') : `${c.no}${'2459'.includes(c.no.slice(-1)) ? '를' : '을'} 해결하면 열려요`;
     const foot = !open ? `<span class="cf-gnote">${note}</span>` : done ? '<span class="cf-gnote">완료</span>' : `<span class="cf-gnote acorn">${note}</span>`;
-    return `<button class="cf cf-game${open ? '' : ' locked'}${done ? ' solved' : ''}" type="button" ${open ? `${match ? 'data-match' : 'data-safe'}="${c.id}"` : `data-locked="${note}"`} aria-label="${name}${done ? ` (${note})` : open ? '' : ' 잠김'}"><span class="cf-fl"></span><span class="cf-tab">훈련</span>
+    return `<button class="cf cf-game${open ? '' : ' locked'}${done ? ' solved' : ''}" type="button" ${open ? `${match ? 'data-match' : 'data-spell'}="${c.id}"` : `data-locked="${note}"`} aria-label="${name}${done ? ` (${note})` : open ? '' : ' 잠김'}"><span class="cf-fl"></span><span class="cf-tab">훈련</span>
       ${done ? '<span class="cf-stw"><span class="cf-st" role="img" aria-label="완료"></span></span>' : ''}
       <span class="cf-in"><span class="cf-pic"><span class="cf-ic">${ic}</span></span><span class="cf-text"><span class="case-title">${name}</span></span>${foot}</span></button>`;
   }
@@ -12148,10 +12226,90 @@ $('#safeGame').addEventListener('click', e => {
   if(e.target.closest('#sgAgain')) return openSafeGame(sg?.caseId);
   if(e.target.closest('#sgClose, #sgBack')) return closeSafeGame();
 });
+/* ---------- 철자 쓰기 (spelling) ----------
+   User pick 2026-11-27 (design/minigame-duo-options.html A): takes the spelling lock's slot on the case board (the
+   lock is kept for a puzzle inside a case). Five SAFE_WORDS a round: the word is said (▶ again), its meaning on a slip,
+   letter cards = the word's letters + two others; tap them in order into the notebook slots (a filled slot tapped goes
+   back), 확인. Right: green with a stamp; wrong: the answer shows and the word comes back at the end of the round.
+   No lives, no timer. Saved apart from the lock (detective.spellsDone), the same acorns as the other word games. */
+const SPELL_KEY = 'detective.spellsDone';
+const spellsDone = () => readJSON(SPELL_KEY, []);
+let sw = null, swLast = [];
+function openSpellGame(caseId){
+  const pool = SAFE_WORDS.filter(w => !swLast.includes(w));
+  const words = [...pool].sort(() => Math.random() - .5).slice(0, 5);
+  swLast = words;
+  sw = { caseId, queue:words.map(w => ({ w })), total:words.length, done:0, first:!!caseId && !spellsDone().includes(caseId) };
+  $('#swDone').hidden = true; $('#swReward').innerHTML = '';
+  $('#spellGame').hidden = false;
+  swNext();
+}
+function swCount(){ $('#swProg').textContent = `${sw.done}/${sw.total}`; $('#swTrack').style.width = `${sw.done / sw.total * 100}%`; }
+function swNext(){
+  swCount();
+  if(!sw.queue.length) return swFinish();
+  sw.q = sw.queue.shift(); sw.put = []; sw.state = 'ask';
+  const w = sw.q.w, others = [...'abcdefghijklmnoprstuwy'].filter(c => !w.includes(c)).sort(() => Math.random() - .5).slice(0, 2);
+  sw.letters = [...w, ...others].sort(() => Math.random() - .5);
+  $('#swMeaning').textContent = WORDS[w][1];
+  $('#swArea').className = 'sw-area';
+  $('#swFoot').className = 'sw-foot'; $('#swFb').innerHTML = '';
+  $('#swCheck').textContent = '확인';
+  $('#swSlots').innerHTML = [...w].map((_, i) => `<button class="sw-slot" type="button" data-sw-back="${i}" aria-label="${i + 1}번째 글자"></button>`).join('');
+  $('#swCards').innerHTML = sw.letters.map((c, i) => `<button class="word" type="button" data-sw-card="${i}">${c}</button>`).join('');
+  swDraw();
+  setTimeout(() => { if(sw && !$('#spellGame').hidden) pronounceWord(w); }, 250);
+}
+function swDraw(){
+  document.querySelectorAll('#swSlots .sw-slot').forEach((s, i) => {
+    const k = sw.put[i]; s.textContent = k != null ? sw.letters[k] : '';
+    s.classList.toggle('filled', k != null); s.classList.toggle('cur', i === sw.put.length);
+  });
+  document.querySelectorAll('#swCards .word').forEach(c => c.classList.toggle('used', sw.put.includes(+c.dataset.swCard)));
+  if(sw.state === 'ask') $('#swCheck').disabled = sw.put.length !== sw.q.w.length;
+}
+function swCheck(){
+  const w = sw.q.w, ok = sw.put.map(k => sw.letters[k]).join('') === w;
+  sw.state = 'shown'; $('#swCheck').textContent = '계속'; $('#swCheck').disabled = false;
+  $('#swArea').classList.add(ok ? 'ok' : 'no'); $('#swFoot').classList.add(ok ? 'ok' : 'no');
+  if(ok){
+    $('#swFb').innerHTML = '<img src="assets/ui/complete-stamp.webp" alt=""><span>잘했어요!</span>';
+    sw.done++; swCount(); stampSound(0);
+  } else {
+    $('#swFb').innerHTML = `<span>정답<small>${esc(w)} · ${esc(WORDS[w][1])}</small></span>`;
+    sw.queue.push({ w, again:true });
+    sgShake($('#swArea'));
+  }
+  setTimeout(() => { if(sw) pronounceWord(w); }, 300);
+}
+function swFinish(){
+  const done = spellsDone();
+  if(sw.caseId && !done.includes(sw.caseId)){ done.push(sw.caseId); try { localStorage.setItem(SPELL_KEY, JSON.stringify(done)); } catch {} }
+  $('#swDone').hidden = false; stampSound(150);
+  giveAcorns($('#swReward'), sw.first ? REWARD_FIRST : REWARD_AGAIN);
+}
+function closeSpellGame(){
+  stopVoice(); sw = null; $('#spellGame').hidden = true;
+  if(homeTab === 'cases' && !$('#caseList').hidden) renderCaseList();
+}
+$('#spellGame').addEventListener('click', e => {
+  if(e.target.closest('#swClose, #swBack')) return closeSpellGame();
+  if(!sw) return;
+  if(e.target.closest('#swAgain')) return openSpellGame(sw.caseId);
+  if(e.target.closest('#swPlay')) return pronounceWord(sw.q.w);
+  if(e.target.closest('#swCheck')) return sw.state === 'ask' ? swCheck() : swNext();
+  if(sw.state !== 'ask') return;
+  const card = e.target.closest('[data-sw-card]'), back = e.target.closest('.sw-slot.filled');
+  if(card && sw.put.length < sw.q.w.length){ sw.put.push(+card.dataset.swCard); swDraw(); }
+  else if(back){ sw.put.splice(+back.dataset.swBack, 1); swDraw(); }
+});
 /* ---------- 단어 짝맞추기 (단서 잇기) ----------
    design/minigames.md 11 (user pick 2026-11-23: English ↔ meaning, 5 pairs a board, 2 boards; on the case board it
-   takes turns with the spelling safe). The right column has one meaning with no pair, so the last pair is not given
-   away; a wrong pair cuts the thread and holds the board 0.6 s; three misses on one note make its partner glow. */
+   takes turns with the spelling game). User pick 2026-11-27 (design/match-drag-options.html A): drag a thread from a
+   note to its pair. Pressing a note winds the thread round its pin and says the English word; the thread follows the
+   finger (a slight sag) and catches on the right note, both turn green. On a wrong note it springs back, that note
+   shakes and the board holds 0.6 s; dropped elsewhere it just springs back. Five meanings for five words (user: no
+   spare note). Three misses on one word make its partner glow. */
 const MATCH_KEY = 'detective.matchesDone';
 const matchesDone = () => readJSON(MATCH_KEY, []);
 let mg = null;
@@ -12164,9 +12322,9 @@ function openMatchGame(caseId){
     for(const w of pool){
       if(used.has(w) || pick.some(x => WORDS[x][1] === WORDS[w][1])) continue;
       pick.push(w); used.add(w);
-      if(pick.length === 6) break;
+      if(pick.length === 5) break;
     }
-    boards.push({ pairs:pick.slice(0, 5), decoy:pick[5] });
+    boards.push({ pairs:pick });
   }
   mg = { caseId, boards, at:0, done:0, lock:false };
   $('#mgDone').hidden = true; $('#mgReward').innerHTML = '';
@@ -12175,11 +12333,12 @@ function openMatchGame(caseId){
 }
 function mgLoad(){
   const b = mg.boards[mg.at];
-  mg.pick = null; mg.left = b.pairs.length; mg.miss = {};
+  mg.drag = null; mg.left = b.pairs.length; mg.miss = {}; mg.links = [];
   const shuffle = a => [...a].sort(() => Math.random() - .5);
-  const note = (w, side) => `<button class="mg-note" type="button" data-mg="${w}" data-side="${side}">${side === 'l' ? w : esc(WORDS[w][1])}<span class="pin"></span><span class="ok-stamp">확인</span></button>`;
+  const note = (w, side) => { const t = side === 'l' ? w : WORDS[w][1], long = t.length > (side === 'l' ? 8 : 5);
+    return `<button class="mg-note${long ? ' long' : ''}" type="button" data-mg="${w}" data-side="${side}">${esc(t)}<span class="mg-pin"></span></button>`; };
   $('#mgLeft').innerHTML = shuffle(b.pairs).map(w => note(w, 'l')).join('');
-  $('#mgRight').innerHTML = shuffle([...b.pairs, b.decoy]).map(w => note(w, 'r')).join('');
+  $('#mgRight').innerHTML = shuffle(b.pairs).map(w => note(w, 'r')).join('');
   $('#mgStr').innerHTML = '';
   mgProgress();
 }
@@ -12188,31 +12347,56 @@ function mgProgress(){
   $('#mgProg').textContent = `${mg.done}/${total}`;
   $('#mgTrack').style.width = `${mg.done / total * 100}%`;
 }
-function mgThread(a, b, cut){
-  const box = $('#mgStr').getBoundingClientRect(), pin = el => el.querySelector('.pin').getBoundingClientRect();
-  const pa = pin(a), pb = pin(b), x1 = pa.left + pa.width / 2 - box.left, y1 = pa.top + pa.height / 2 - box.top;
-  let x2 = pb.left + pb.width / 2 - box.left, y2 = pb.top + pb.height / 2 - box.top;
-  if(cut){ x2 = x1 + (x2 - x1) * .45; y2 = y1 + (y2 - y1) * .45; }   // a wrong pair: the thread stops halfway and drops
-  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-  Object.entries({ x1, y1, x2, y2 }).forEach(([k, v]) => line.setAttribute(k, v.toFixed(1)));
-  if(cut){ line.classList.add('cut'); setTimeout(() => line.remove(), 600); }
-  $('#mgStr').appendChild(line);
+const MG_NS = 'http://www.w3.org/2000/svg';
+// a joined pair: a soft swish of the thread (user pick 2026-11-27 over a pluck and a ping; was the stamp sound).
+// Higgsfield Mirelo SFX job bf5271cf, the first 0.35 s (audio/match/README.md)
+const MG_SNAP = [0, 1].map(() => { const a = new Audio('audio/match/connect.mp3'); a.preload = 'auto'; return a; });
+let mgSnapAt = 0;
+function mgSound(){ const a = MG_SNAP[mgSnapAt++ % 2]; a.currentTime = 0; a.play().catch(() => {}); }
+// a note's pin, in the thread layer's own px (the layer sits inside the board's frame)
+function mgPin(n){ const box = $('#mgStr').getBoundingClientRect(), r = n.querySelector('.mg-pin').getBoundingClientRect();
+  return [r.left + r.width / 2 - box.left, r.top + r.height / 2 - box.top]; }
+function mgCurve([x1, y1], [x2, y2]){ const sag = Math.min(40, Math.hypot(x2 - x1, y2 - y1) * .14);
+  return `M${x1.toFixed(1)},${y1.toFixed(1)} Q${((x1 + x2) / 2).toFixed(1)},${((y1 + y2) / 2 + sag).toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`; }
+function mgThread(){ const g = document.createElementNS(MG_NS, 'g'); g.innerHTML = '<path class="base"/><path class="twist"/><path class="shine"/>'; $('#mgStr').appendChild(g); return g; }
+const mgSet = (g, d) => g.querySelectorAll('path').forEach(p => p.setAttribute('d', d));
+// the pin with the thread wound round it, over the thread's end (same size and middle as the plain pin)
+function mgWound(g, [x, y]){ const im = document.createElementNS(MG_NS, 'image');
+  Object.entries({ href:'assets/ui/match/pin-wound.webp', width:26, height:26, x:x - 13, y:y - 13, class:'pinw' }).forEach(([k, v]) => im.setAttribute(k, v));
+  g.appendChild(im); }
+function mgSpringBack(g, from, at, n){
+  const t0 = performance.now();
+  (function back(now){
+    const k = Math.min(1, (now - t0) / 260), e = 1 - Math.pow(1 - k, 3);
+    mgSet(g, mgCurve(from, [at[0] + (from[0] - at[0]) * e, at[1] + (from[1] - at[1]) * e + Math.sin(k * Math.PI * 2) * 8 * (1 - k)]));
+    if(k < 1) requestAnimationFrame(back); else { g.remove(); n.classList.remove('wound'); }
+  })(t0);
 }
-function mgTap(n){
-  if(!mg || mg.lock || n.classList.contains('ok')) return;
+$('#mgBoard').addEventListener('pointerdown', e => {
+  const n = e.target.closest('.mg-note');
+  if(!mg || mg.lock || mg.drag || !n || n.classList.contains('ok')) return;
+  e.preventDefault();
   if(n.dataset.side === 'l') pronounceWord(n.dataset.mg);
-  const p = mg.pick;
-  if(!p || p.dataset.side === n.dataset.side){
-    p?.classList.remove('up');
-    mg.pick = p === n ? null : n;
-    mg.pick?.classList.add('up');
-    return;
-  }
-  p.classList.remove('up'); mg.pick = null;
-  const [l, r] = p.dataset.side === 'l' ? [p, n] : [n, p];
-  if(l.dataset.mg === r.dataset.mg){
-    mgThread(l, r); l.classList.add('ok'); r.classList.add('ok'); r.classList.remove('hint');
-    stampSound(250); mg.done++; mg.left--; mgProgress();
+  const from = mgPin(n), g = mgThread(); n.classList.add('wound'); mgWound(g, from);
+  mg.drag = { n, g, from, at:from, id:e.pointerId };
+  try { $('#mgBoard').setPointerCapture(e.pointerId); } catch {}
+});
+$('#mgBoard').addEventListener('pointermove', e => {
+  const d = mg?.drag; if(!d || e.pointerId !== d.id) return;
+  const box = $('#mgStr').getBoundingClientRect(); d.at = [e.clientX - box.left, e.clientY - box.top];
+  mgSet(d.g, mgCurve(d.from, d.at));
+});
+function mgDrop(e){
+  const d = mg?.drag; if(!d || e.pointerId !== d.id) return;
+  mg.drag = null;
+  const t = e.type === 'pointerup' && document.elementsFromPoint(e.clientX, e.clientY).map(x => x.closest?.('.mg-note'))
+    .find(x => x && x.dataset.side !== d.n.dataset.side && !x.classList.contains('ok'));
+  if(t && t.dataset.mg === d.n.dataset.mg){
+    const [l, r] = d.n.dataset.side === 'l' ? [d.n, t] : [t, d.n], to = mgPin(t);
+    t.classList.add('wound'); mgSet(d.g, mgCurve(d.from, to)); mgWound(d.g, to);
+    mg.links.push([l, r, d.g]);
+    l.classList.add('ok'); r.classList.add('ok'); r.classList.remove('hint');
+    mgSound(); mg.done++; mg.left--; mgProgress();
     if(!mg.left) setTimeout(() => {
       if(!mg) return;
       mg.at++;
@@ -12224,24 +12408,31 @@ function mgTap(n){
     }, 900);
     return;
   }
-  mgThread(l, r, true); sgShake(l); sgShake(r);
+  mgSpringBack(d.g, d.from, d.at, d.n);
+  if(!t) return;
+  sgShake(t);
   mg.lock = true; setTimeout(() => { if(mg) mg.lock = false; }, 600);
-  const w = l.dataset.mg; mg.miss[w] = (mg.miss[w] || 0) + 1;
+  const w = (d.n.dataset.side === 'l' ? d.n : t).dataset.mg; mg.miss[w] = (mg.miss[w] || 0) + 1;
   if(mg.miss[w] >= 3) $('#mgRight').querySelector(`[data-mg="${w}"]`)?.classList.add('hint');
 }
+$('#mgBoard').addEventListener('pointerup', mgDrop);
+$('#mgBoard').addEventListener('pointercancel', mgDrop);
+// the board can change size (a phone turned, the window): the joined threads follow their pins
+new ResizeObserver(() => { if(!mg?.links) return;
+  mg.links.forEach(([l, r, g]) => { const a = mgPin(l), b = mgPin(r); mgSet(g, mgCurve(a, b)); const [p, q] = g.querySelectorAll('image');
+    p?.setAttribute('x', a[0] - 13); p?.setAttribute('y', a[1] - 13); q?.setAttribute('x', b[0] - 13); q?.setAttribute('y', b[1] - 13); }); }).observe($('#mgBoard'));
 function closeMatchGame(){
   stopVoice(); mg = null; $('#matchGame').hidden = true;
   if(homeTab === 'cases' && !$('#caseList').hidden) renderCaseList();
 }
 $('#matchGame').addEventListener('click', e => {
-  const n = e.target.closest('.mg-note');
-  if(n) return mgTap(n);
   if(e.target.closest('#mgAgain')) return openMatchGame(mg?.caseId);
   if(e.target.closest('#mgClose, #mgBack')) return closeMatchGame();
 });
 // test tools (outside the phone): open either word game without the case board; a round from here is not saved
 $('#devSafe').onclick = () => openSafeGame(null);
 $('#devMatch').onclick = () => openMatchGame(null);
+$('#devSpell').onclick = () => openSpellGame(null);
 function openCaseList(tab = 'cases'){
   if(PACK){ saveGame(); saveOff = true; location.href = location.pathname + (tab === 'cases' ? '#cases' : ''); return; }
   stopVoice(); hideBubble(); openSheet(null); homeTab = tab; renderHome(); $('#caseList').hidden = false;
@@ -12841,6 +13032,8 @@ function renderHome(){
 $('#caseList').addEventListener('click', e => {
   const safe = e.target.closest('[data-safe]');
   if(safe){ replayAnim(safe, 'jig', 600); return setTimeout(() => openSafeGame(safe.dataset.safe), calmMotion() ? 0 : 320); }
+  const spell = e.target.closest('[data-spell]');
+  if(spell){ replayAnim(spell, 'jig', 600); return setTimeout(() => openSpellGame(spell.dataset.spell), calmMotion() ? 0 : 320); }
   const match = e.target.closest('[data-match]');
   if(match){ replayAnim(match, 'jig', 600); return setTimeout(() => openMatchGame(match.dataset.match), calmMotion() ? 0 : 320); }
   const word = e.target.closest('[data-word-play]');

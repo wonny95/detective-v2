@@ -24,6 +24,8 @@ const TYPES = {
   '.webp': 'image/webp', '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.ogg': 'audio/ogg', '.woff2': 'font/woff2'
 };
 const RELOAD_SNIPPET = `<script>new EventSource('/__reload').onmessage = () => location.reload();</script>`;
+// the mockup server's way back from a mockup to the list: a small pill fixed at the top left, over everything on the page
+const BACK_TO_LIST = `<a href="/" id="__backToList" title="시안 목록으로" style="position:fixed;z-index:2147483647;left:12px;top:12px;display:inline-flex;align-items:center;gap:4px;padding:7px 13px 7px 10px;border-radius:999px;background:#FFF8EC;color:#5B3F2A;border:1.5px solid #C9A77F;box-shadow:0 3px 10px rgba(60,36,10,.18);font:600 13px/1 system-ui,'Malgun Gothic',sans-serif;text-decoration:none">‹ 시안 목록</a>`;
 
 const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 function designList() {
@@ -81,7 +83,11 @@ http.createServer((req, res) => {
     const ext = path.extname(file).toLowerCase();
     const headers = { 'Content-Type': TYPES[ext] || 'application/octet-stream', 'Cache-Control': 'no-store' };
     if (ext === '.html' && !REVIEW) {
-      data = Buffer.from(data.toString('utf8').replace('</body>', RELOAD_SNIPPET + '\n</body>'));
+      // a mockup page on the mockup server gets a button back to the list (user request 2026-11-27)
+      const back = DESIGN && url.startsWith('/design/') ? BACK_TO_LIST : '';
+      let html = data.toString('utf8');
+      html = html.includes('</body>') ? html.replace('</body>', back + RELOAD_SNIPPET + '\n</body>') : html + back + RELOAD_SNIPPET;
+      data = Buffer.from(html);
     }
     res.writeHead(200, headers).end(data);
   });
