@@ -298,6 +298,11 @@ button.chip:disabled{cursor:default;box-shadow:none}
 @keyframes pk-shake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .pk-box.pk-pop{animation:pk-pop .3s ease-out}
 @keyframes pk-pop{from{transform:scale(1.15);opacity:.5}}
+/* the recipe box case's book (recipeArt): a letter put in the memo pops; the tabs, arrows and letters are tapped */
+.rb-cap,.rb-slot,.rb-prev,.rb-next,.rb-tab,.rb-note{cursor:pointer}
+.rb-prev.off,.rb-next.off{cursor:default}
+.rb-pop{animation:rb-pop .3s ease-out;transform-box:fill-box;transform-origin:center}
+@keyframes rb-pop{from{transform:scale(1.25);opacity:.4}}
 .mt-frame{position:relative;flex:1;min-height:0;display:flex;justify-content:center;align-items:center;background:#F8F1E5;border:2px solid #CDB89A;border-radius:4px}
 .mt-frame > svg{width:100%;height:100%;display:block}
 .mt-arrow{position:absolute;top:50%;z-index:1;width:56px;height:60px;margin-top:-30px;padding:0;border:0;background:none;cursor:pointer}
@@ -1660,6 +1665,9 @@ button.polaroid:active{transform:rotate(var(--tilt)) translateY(2px) scale(.98);
 /* the word's button and meaning ride on the lock's brass body, above the letter window (they leave with the lock) */
 .sg-plate{position:absolute;left:12%;right:12%;top:47.5%;height:14%;display:flex;align-items:center;justify-content:center;gap:8px}
 .sg-plate .sg-play{width:44px!important;height:44px!important;margin:0;flex-shrink:0}
+/* the spelling lock in a case (the recipe box, openCaseLock): no sound and no count, the memo on the plate */
+#safeGame.in-case .sg-play,#safeGame.in-case .sg-track,#safeGame.in-case .sg-prog{display:none!important}
+#safeGame.in-case .sg-plate .sg-meaning{max-width:92%;letter-spacing:.06em}
 .sg-plate .sg-meaning{margin:0;font-size:clamp(15px,5.4cqw,20px);max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* no title (the dialog keeps its name): the count sits left on a paper chip, over the chest */
 .sg-scene .sg-top{justify-content:space-between}
@@ -2407,9 +2415,9 @@ const PREVIEW = new URLSearchParams(location.search).get('preview');
 // the case this page plays (user decision: one engine, each case its own data): ?case=picnic is Case 01 바뀐 소풍 가방,
 // ?case=umbrella Case 02 주인 없는 우산, without it the library case. Each case keeps its own save; going back to the case
 // cards opens the main page.
-const CASE_PARAMS = { 'missing-kite':'kite', 'honey-robber':'montage', 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella', 'missing-violin':'violin', 'christmas-star':'christmas', 'flowerbed':'flowerbed', 'twins':'twins', 'valentine-chocolate':'valentine' };
+const CASE_PARAMS = { 'missing-kite':'kite', 'honey-robber':'montage', 'picnic-bag':'picnic', 'unclaimed-umbrella':'umbrella', 'missing-violin':'violin', 'christmas-star':'christmas', 'flowerbed':'flowerbed', 'twins':'twins', 'valentine-chocolate':'valentine', 'recipe-box':'recipe' };
 const CASE_ID = Object.keys(CASE_PARAMS).find(id => CASE_PARAMS[id] === new URLSearchParams(location.search).get('case')) || 'case01';
-const KITE = CASE_ID === 'missing-kite', MONTAGE_ON = CASE_ID === 'honey-robber', PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella', VIOLIN = CASE_ID === 'missing-violin', CHRISTMAS = CASE_ID === 'christmas-star', FLOWERBED = CASE_ID === 'flowerbed', TWINS = CASE_ID === 'twins', VALENTINE = CASE_ID === 'valentine-chocolate';
+const KITE = CASE_ID === 'missing-kite', MONTAGE_ON = CASE_ID === 'honey-robber', PICNIC = CASE_ID === 'picnic-bag', UMBRELLA = CASE_ID === 'unclaimed-umbrella', VIOLIN = CASE_ID === 'missing-violin', CHRISTMAS = CASE_ID === 'christmas-star', FLOWERBED = CASE_ID === 'flowerbed', TWINS = CASE_ID === 'twins', VALENTINE = CASE_ID === 'valentine-chocolate', RECIPE = CASE_ID === 'recipe-box';
 // a case page's address and save, by case id
 const caseHref = id => CASE_PARAMS[id] ? `?case=${CASE_PARAMS[id]}` : location.pathname;
 const caseSaveKey = id => id === 'case01' ? 'detective.save' : id === 'picnic-bag' ? 'detective.save.picnic' : `detective.save.${CASE_PARAMS[id]}`;
@@ -3256,6 +3264,101 @@ const VALENTINE_CASE = {
           { det:true, key:'here-boxes', en:'Here you go. One box for each student.', ko:'여기 있어. 학생마다 한 상자씩.' },
           { key:'end1', en:'Now there are enough flower chocolates for everyone!', ko:'이제 모두에게 줄 꽃 초콜릿이 충분해!' },
           { key:'end2', en:"Thank you, Detective. Happy Valentine's Day!", ko:'고마워, 탐정. 발렌타인데이 축하해!' }
+        ] }
+    ]
+  }
+};
+
+/* Case 06 시크릿 레시피 상자의 비밀번호는? (?case=recipe, design/case-recipe-box.md, planned with the user in Claude Code
+   2026-11-27: the easiest case, numbers -teen / -ty). Grandma's secret recipe box in the kitchen of Suzy's chocolate shop
+   is locked with a five-letter word lock. Grandma, on a trip, left a note: the password is in her recipe book, the big
+   letters on pages nineteen, sixteen, thirteen, eighteen and fourteen (L, E, M, O, N in that order; in the book they lie
+   mixed). The note is shown big, with no voice (user decision 2026-11-27: a voice may come after playing it). The player
+   turns to those pages, taps each page's decorated first letter into the memo, and opens the lock (the spelling lock of
+   the minigames, in the case: openCaseLock) with the word: the secret lemon cake recipe.
+   Recorded (2026-11-27, Higgsfield MiniMax: Suzy Skye, the detective Grady) in audio/recipe/ (README.md there).
+   Pictures assets/places/recipe/ (README.md there): the kitchen, the box, the note and the book drawn into the same
+   kitchen (scene-*.webp, each shown once it is unlocked), the close-up props and the sixteen foods. */
+// the recipe book's pages in the book's order: [page, its decorated first letter, the rest of the recipe's name, food]
+const RB_PAGES = [
+  [10, 'R', 'ice cake', 'rice-cake'], [11, 'J', 'am roll', 'jam-roll'], [12, 'S', 'cones', 'scones'], [13, 'M', 'uffins', 'muffins'],
+  [14, 'N', 'ut cookies', 'nut-cookies'], [15, 'G', 'ingerbread', 'gingerbread'], [16, 'E', 'gg tart', 'egg-tart'], [17, 'H', 'oney cake', 'honey-cake'],
+  [18, 'O', 'atmeal bread', 'oatmeal-bread'], [19, 'L', 'ollipops', 'lollipops'],
+  [30, 'C', 'ookies', 'cookies'], [40, 'A', 'pple pie', 'apple-pie'], [60, 'T', 'offee', 'toffee'], [80, 'P', 'ancakes', 'pancakes'], [90, 'B', 'rownies', 'brownies']
+];
+const RECIPE_CASE = {
+  start:'suzy',
+  noBoard:true,   // no deduction board: the lock is the solving
+  people:{
+    suzy: { id:'suzy', name:'Suzy', ko:'다람쥐 수지', job:'의뢰인', place:'kitchen', witness:true, required:true, pitch:1.25, voice:2, bg:'#F7E1D7', openingQuestion:'r0',
+      audio:Object.fromEntries(['hello', 'r0', 'r1', 'r2', 'shelf', 'end1', 'end2'].map(key => [key, `audio/recipe/suzy-${key}.mp3`])),
+      hello:[ { key:'hello', en:'Hi, Detective! Please help me.', ko:'안녕, 탐정! 나 좀 도와줘.' } ],
+      questions:[
+        { id:'r0', en:'How can I help you?', ko:'무엇을 도와줄까?' },
+        { id:'r1', en:'What kind of lock is it?', ko:'어떤 자물쇠야?' },
+        { id:'r2', en:'Where is your grandma?', ko:'할머니는 어디 계셔?' }
+      ],
+      answers:{
+        r0:"Grandma's recipe box is locked.",
+        r1:"It's a word lock. The word has five letters.",
+        r2:"She's on a trip. She left a note for me."
+      },
+      notes:{
+        r0:["- Grandma's {{a|recipe}} box is {{b|locked}}."],
+        r1:["- It's a {{c|word}} lock.", '- The word has {{d|five}} letters.'],
+        r2:["- She's on a {{e|trip}}.", '- She left a {{f|note}} for me.']
+      },
+      bank:{ r0:['recipe', 'picture', 'locked', 'open'], r1:['word', 'number', 'four', 'five'], r2:['trip', 'walk', 'note', 'picture'] }
+    }
+  },
+  phrases:[],
+  grammarLines:{},
+  answersKo:{
+    suzy:{ r0:'할머니의 레시피 상자가 잠겼어.', r1:'단어 자물쇠야. 단어는 다섯 글자야.', r2:'여행 가셨어. 나한테 쪽지를 남기셨어.' }
+  },
+  places:[
+    // the kitchen (design 장면 1): the box on the worktable once r0 is written down, Grandma's note beside it once r2 is,
+    // the recipe book on the shelf once the note has been read (ART.kitchen draws each then)
+    { id:'kitchen', x:76, y:76, label:'Kitchen', artWidth:1376, artHeight:1056,
+      clues:[
+        { label:'Recipe box', lock:true },
+        { label:"Grandma's note", inspect:'recipenote' },
+        { label:'Recipe book', inspect:'recipebook' }
+      ],
+      spots:[
+        { clue:0, x:74, y:51, w:13.5, h:14, when:['suzy:r0'] },
+        { clue:1, x:80, y:64.5, w:9.5, h:7.5, when:['suzy:r2'] },
+        { clue:2, x:35, y:3, w:10, h:22, when:['!note-seen'] }
+      ] },
+    // Grandma's note, big (design 장면 2): no voice, read by the player; once read the recipe book is on the shelf (flag)
+    // and, closed, Suzy says where it is (closeSay)
+    { id:'recipenote', inspect:true, back:'kitchen', label:'Kitchen', artWidth:1376, artHeight:768, flag:'note-seen', sound:'audio/christmas/paper-unfold.mp3',
+      closeSay:{ who:'suzy', key:'shelf', en:"Grandma's recipe book? It's on the shelf.", ko:'할머니 레시피북? 선반에 있어.' }, clues:[], spots:[] },
+    // the recipe book open (design 장면 3, recipeArt): one page at a time, ‹ › and the tabs, the first letters into the memo
+    { id:'recipebook', inspect:true, fixed:true, back:'kitchen', label:'Kitchen', artWidth:1376, artHeight:768, recipeBook:true,
+      enter:{ key:'think-book', en:"Let's find the pages.", ko:'그 쪽들을 찾아보자.' }, clues:[], spots:[] },
+    // the box opened (design 장면 5): the secret recipe and Grandma's second note; closed, the ending (closeEnd)
+    { id:'recipeopen', inspect:true, back:'kitchen', label:'Kitchen', artWidth:1376, artHeight:768, closeEnd:true, sound:'audio/christmas/paper-unfold.mp3', clues:[], spots:[] }
+  ],
+  thoughts:[],
+  needed:[],
+  // Suzy on the tiles in the middle of the kitchen (the worktable on her left in the picture)
+  positions:{ suzy:{ x:44, floor:97, height:38 } },
+  items:{},
+  // the word lock on the box (design 장면 4): each wheel the right letter, the letter of the -ty page heard wrong for it,
+  // and one more
+  lock:{ word:'LEMON', dials:[['L', 'B', 'R'], ['E', 'T', 'S'], ['M', 'C', 'G'], ['O', 'P', 'H'], ['N', 'A', 'J']] },
+  map:'assets/places/valentine/map.webp', mapRatio:1,   // one place: no map is shown (ONE_PLACE)
+  previewHandback:[],
+  deduce:{ people:[], places:[], things:[], colors:[], times:[], suspects:[], qs:[], miss:{ en:"Hmm… that doesn't fit.", ko:'음… 그건 맞지 않아.' } },
+  ending:{
+    // design 장면 5: the detective says what the player did, Suzy says what is in the box
+    handoff:[
+      { to:'suzy',
+        open:{ det:true, key:'end', en:'Pages nineteen, sixteen, thirteen, eighteen and fourteen. L, E, M, O, N.', ko:'19쪽, 16쪽, 13쪽, 18쪽, 14쪽. L, E, M, O, N.' },
+        lines:[
+          { key:'end1', en:"Lemon! It's Grandma's lemon cake!", ko:'레몬! 할머니의 레몬 케이크야!' },
+          { key:'end2', en:'Thank you, Detective!', ko:'고마워, 탐정!' }
         ] }
     ]
   }
@@ -4961,7 +5064,7 @@ Object.entries({ badger:['hello', 'b0', 'check-in', 'suspicious', 'reason-to-che
   tess:['hello', 'ready', 'star', 'storeroom', 't5', 't1', 't3'],
   nico:['admit', 'any-box', 'blame', 'claim-gift', 'claim-storeroom', 'dont-know', 'claim-may', 'claim-star', 'claim-tess-hid', 'claim-tess-star', 'hello', 'motive', 'n1', 'n2', 'n3', 'n4', 'n5', 'ready', 'refuse-open', 'storeroom', 'toy-reply', 'weight', 'stole'] })
   .forEach(([id, keys]) => { CHRISTMAS_CASE.people[id].audio = Object.fromEntries(keys.map(k => [k, `audio/christmas/${id}-${k}.mp3`])); });
-const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : FLOWERBED ? FLOWERBED_CASE : TWINS ? TWINS_CASE : VALENTINE ? VALENTINE_CASE : null;
+const PACK = KITE ? KITE_CASE : MONTAGE_ON ? MONTAGE_CASE : PICNIC ? PICNIC_CASE : UMBRELLA ? UMBRELLA_CASE : VIOLIN ? VIOLIN_CASE : CHRISTMAS ? CHRISTMAS_CASE : FLOWERBED ? FLOWERBED_CASE : TWINS ? TWINS_CASE : VALENTINE ? VALENTINE_CASE : RECIPE ? RECIPE_CASE : null;
 // the button once every conversation is done: the deduction board, or in a case without one that has handoffGo (the
 // picnic case, user decision 2026-11-24) the hand-over itself, under that label
 const ACCUSE_ON = !PACK?.noBoard || !!PACK.handoffGo, ACCUSE_LABEL = PACK?.noBoard ? PACK.handoffGo : '추리하기';
@@ -5180,7 +5283,10 @@ const WORDS = {
   // the Valentine case's blanks (2026-11-27)
   'chocolates':['w','초콜릿들'], 'students':['w','학생들'], 'wrong':['w','잘못된, 이상한'], 'eight':['t','여덟, 8','eight'], 'each':['w','각각의'], 'pink':['w','분홍색'], 'brown':['w','갈색'],
   'some':['w','몇몇의, 좀'], 'squares':['w','네모들'], 'others':['w','나머지'], "suzy's":['n','수지의'], 'thirty-two':['t','서른둘, 32','thirty-two'], 'a lot of':['x','많은'], 'a few':['x','몇 개의'],
-  'any':['w','(부정문) 하나도, (의문문) 좀']
+  'any':['w','(부정문) 하나도, (의문문) 좀'],
+  // the recipe box case's blanks and choices (2026-11-27)
+  'recipe':['w','요리법, 레시피'], 'picture':['w','그림, 사진'], 'locked':['w','잠긴'], 'word':['w','단어'], 'number':['w','숫자'],
+  'four':['t','넷, 4','four'], 'five':['t','다섯, 5','five'], 'trip':['w','여행'], 'walk':['w','산책'], 'note':['w','쪽지, 메모']
 };
 // 노트의 단어 뜻 (user request: once a question is written down right, every word on the note can be tapped for its
 // meaning; also the evidence notes and the pinned memos). Keys are lower case; a key of two or more words is a phrase
@@ -5494,6 +5600,14 @@ const GRAMMAR = {
         why:'긍정문에는 some, 의문문과 부정문에는 any를 써요.', match:'\\b(some|any)\\b',
         more:['Do you have any flower chocolates? = 꽃 초콜릿 좀 있어?', "I don't have any square chocolates. = 네모 초콜릿이 하나도 없어.", 'Yes, I have some! = 응, 좀 있어!'],
         lines:[['Yes, I have {some}!', '응, 좀 있어!'], ['Do you have {any} flower chocolates?', '꽃 초콜릿 좀 있어?'], ["I don't have {any} square chocolates.", '네모 초콜릿이 하나도 없어.']] }
+    ] },
+  // the recipe box case's key (design 예습과 복습): 13-19 and 30-90 sound alike, the stress tells them apart
+  'teen-ty':   { name:'-teen과 -ty', pattern:'thirteen ↔ thirty · fourteen ↔ forty · sixteen ↔ sixty …', ko:'13–19는 -teen, 30·40·60·80·90은 -ty로 끝나요. -teen은 뒤를 세게(thir-TEEN), -ty는 앞을 세게(THIR-ty) 말해요.',
+    examples:[
+      { head:'thirteen / thirty', ko:'13 / 30', mean:[['thirteen / thirty','13 / 30'],['fourteen / forty','14 / 40']],
+        why:'-teen은 13부터 19까지, -ty는 30·40·50처럼 10씩 커지는 수예요. 끝소리가 비슷하니 어디를 세게 말하는지 들어요.', match:'\\b(thir|four|fif|six|seven|eigh|nine)teen\\b|\\b(thir|for|fif|six|seven|eigh|nine)ty\\b',
+        more:['-teen은 뒤를 길고 세게: thir-TEEN, four-TEEN.', '-ty는 앞을 세게, 뒤는 짧게: THIR-ty, FOR-ty.', 'fourteen은 u가 있고 forty는 u가 없어요.'],
+        lines:[['Did you say {thirteen} or {thirty}? — {Thirteen}. One, three.', '13이라고 했어, 30이라고 했어? — 13. 1, 3.'], ['Open your books to page {sixteen}.', '책 16쪽을 펴세요.'], ['My grandma is {sixty} years old.', '우리 할머니는 60살이야.']] }
     ] },
   'wh-q':      { name:'의문사 의문문', pattern:'Who / What / Where / How …?', ko:'의문사를 맨 앞에 둬요. 일반동사 과거면 What did you eat?, 조동사면 Where should I go?, 의문사가 주어면 Who called…?처럼 바로 동사가 와요.',
     more:['Who 누구 · What 무엇 · Where 어디 · When 언제 · Why 왜 · How 어떻게.',
@@ -6587,7 +6701,7 @@ function detectiveSay(key, onDone, onBlocked, text){
   // audio/umbrella/, the violin case's in audio/violin/, the Christmas star's in audio/christmas/
   voice.src = key.includes('/') ? key : DETECTIVE_PICNIC.has(key) ? `audio/picnic/detective-${key}.mp3`
     : KITE ? `audio/kite/detective-${key}.mp3` : MONTAGE_ON ? `audio/montage/detective-${key}.mp3` : UMBRELLA ? `audio/umbrella/detective-${key}.mp3` : VIOLIN ? `audio/violin/detective-${key}.mp3`
-    : CHRISTMAS ? `audio/christmas/detective-${key}.mp3` : FLOWERBED ? `audio/flowerbed/detective-${key}.mp3` : TWINS ? `audio/twins/detective-${key}.mp3` : VALENTINE ? `audio/valentine/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
+    : CHRISTMAS ? `audio/christmas/detective-${key}.mp3` : FLOWERBED ? `audio/flowerbed/detective-${key}.mp3` : TWINS ? `audio/twins/detective-${key}.mp3` : VALENTINE ? `audio/valentine/detective-${key}.mp3` : RECIPE ? `audio/recipe/detective-${key}.mp3` : `audio/detective-${key}.mp3`;
   voice.preservesPitch = true; voice.playbackRate = S.slow ? .75 : 1;
   voice.onended = done; voice.onerror = done;
   voice.play().catch(err => {
@@ -7381,6 +7495,8 @@ function openInspect(id = PLACES.find(p => p.inspect)?.id, from = null){
   S.unfolded = false;
   if(placeOf(id).balance){ plates = [null, null]; weighFrom = 0; }
   enterPlace(id);
+  // a close look that sets a flag once opened (flag: Grandma's note read, the recipe book on the shelf)
+  if(placeOf(id).flag && !S.flags.has(placeOf(id).flag)){ S.flags.add(placeOf(id).flag); saveGame(); }
   // a close look with its own sound as it opens (sound: Coco's slip unfolding, user request)
   if(placeOf(id).sound){ const s = $('#lookSound'); s.src = placeOf(id).sound; s.currentTime = 0; s.play().catch(() => {}); }
   // a close look's first line, said the first time it opens (enter: the scale, "Which box has the Christmas star in
@@ -7400,6 +7516,7 @@ function askAudio(id, qid){
   if(FLOWERBED) return `audio/flowerbed/detective-${id}-${qid}.mp3`;
   if(TWINS) return `audio/twins/detective-${id}-${qid}.mp3`;
   if(VALENTINE) return `audio/valentine/detective-${id}-${qid}.mp3`;
+  if(RECIPE) return `audio/recipe/detective-${id}-${qid}.mp3`;
   return spk(id).questions ? `audio/detective-ask-${id}-${qid}.mp3` : `audio/detective-ask-${qid}.mp3`;
 }
 // 힌트: the first blank of this question that is empty or wrong gets the right word (an acorn each, 3 per case).
@@ -7795,12 +7912,12 @@ $('#backTab').onclick = () => {
   if(ending) return requestLeaveInterrogation();
   if(talkLocked()){ setNotes(false); return askStopTalk(); }
   if(!S.investigate && !ending) return leaveTalk();
-  if(placeObj()?.inspect){ setNotes(false); const to = inspectFrom || placeObj().back; inspectFrom = null;
+  if(placeObj()?.inspect){ setNotes(false); const was = placeObj(), to = inspectFrom || placeObj().back; inspectFrom = null;
     // opened from 소지품 on the map or in a conversation (ITEMS[].use.anywhere): back there
     if(to === '#map') return openSheet('map');
     // not looked into yet (lookWhen): back to the place, so it does not open again at once; talking to them opens it
     if(to === '#talk') return lookDue(S.cur) ? leaveTalk() : talkTo(S.cur);
-    return to ? enterPlace(to) : talkTo(S.cur); }
+    to ? enterPlace(to) : talkTo(S.cur); return lookClosed(was, to); }
   if(ONE_PLACE) return $('#leaveCase').hidden = false;   // no map to go back to: ask to leave the case
   openSheet('map');
 };
@@ -8324,7 +8441,7 @@ const DEDUCE = PACK ? PACK.deduce : {
 // replies, h1… hints, miss; the detective's voice, Higgsfield MiniMax Grady); a line missing here is read by the
 // browser's voice (a question marked unrecorded, all three of its lines)
 const DEDUCE_RECORDED = PACK?.silent ? new Set() : new Set([...DEDUCE.qs.flatMap((q, i) => q.unrecorded ? [] : [`q${i + 1}`, `r${i + 1}`, `h${i + 1}`]), 'miss']);
-const DEDUCE_DIR = KITE ? 'audio/kite/deduce/' : MONTAGE_ON ? 'audio/montage/deduce/' : PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : VIOLIN ? 'audio/violin/deduce/' : CHRISTMAS ? 'audio/christmas/deduce/' : FLOWERBED ? 'audio/flowerbed/deduce/' : TWINS ? 'audio/twins/deduce/' : VALENTINE ? 'audio/valentine/deduce/' : 'audio/deduce/';
+const DEDUCE_DIR = KITE ? 'audio/kite/deduce/' : MONTAGE_ON ? 'audio/montage/deduce/' : PICNIC ? 'audio/picnic/deduce/' : UMBRELLA ? 'audio/umbrella/deduce/' : VIOLIN ? 'audio/violin/deduce/' : CHRISTMAS ? 'audio/christmas/deduce/' : FLOWERBED ? 'audio/flowerbed/deduce/' : TWINS ? 'audio/twins/deduce/' : VALENTINE ? 'audio/valentine/deduce/' : RECIPE ? 'audio/recipe/deduce/' : 'audio/deduce/';
 const KIND_KO = { person:'인물', place:'장소', time:'시각', thing:'물건', color:'색', opt:'답', opt2:'답' };
 const deduceBlanks = q => [...q.card.matchAll(/\{(\w+):([^}]+)\}/g)].map(([, kind, answer]) => ({ kind, answer }));
 // an older save's page board (fill/solved) starts over as questions. part: a card's blanks filled so far { i:{ k:word } }
@@ -10035,6 +10152,116 @@ document.addEventListener('pointerdown', e => {
   move(e);
   addEventListener('pointermove', onMove); addEventListener('pointerup', onUp); addEventListener('pointercancel', onUp);
 });
+/* The recipe box case's close looks (design/case-recipe-box.md 장면 2·3·5), over the blurred kitchen, inside the width
+   the phone shows (about 400 around x 688). Words are drawn by code over the pictures (AI pictures write poorly). */
+const RB = 'assets/places/recipe/';
+const rbLook = inner => `<defs><filter id="inspectBlur" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter></defs>` +
+  `<image href="${RB}kitchen.webp" y="-150" width="1376" height="1056" filter="url(#inspectBlur)"/><rect width="1376" height="768" fill="#2E2219" opacity=".38"/>${inner}`;
+const RB_HAND = `font-family="'Ink Free','Segoe Print','Comic Sans MS',cursive" fill="#3E2C22"`;
+const rbLines = (lines, x, y, gap, size) => lines.map((t, i) => `<text x="${x}" y="${y + i * gap}" font-size="${size}" ${RB_HAND}>${esc(t)}</text>`).join('');
+// Grandma's note (장면 2): her words, the pages as words (nineteen, not 19: the -teen / -ty read apart)
+function recipeNoteArt(){
+  return rbLook(`<image href="${RB}note.webp" x="508" y="120" width="360" height="479"/>` +
+    rbLines(['Dear Suzy,', 'The password is', 'in my recipe book.', 'Look at the', 'big letters.', 'Pages nineteen,', 'sixteen, thirteen,', 'eighteen and', 'fourteen.'], 538, 206, 38, 25) +
+    `<text x="772" y="568" text-anchor="end" font-size="25" ${RB_HAND}>Love, Grandma</text>`);
+}
+// the box opened (장면 5): the secret recipe card and Grandma's second note
+function recipeOpenArt(){
+  return rbLook(`<image href="${RB}recipe-card.webp" x="508" y="126" width="360" height="278"/>` +
+    `<text x="688" y="262" text-anchor="middle" font-size="29" font-weight="700" font-family="Georgia,serif" fill="#8A3A52">Secret Lemon Cake</text>` +
+    `<image href="${RB}food/lemon-cake.webp" x="612" y="276" width="152" height="100"/>` +
+    `<image href="${RB}note.webp" x="568" y="414" width="240" height="320"/>` +
+    rbLines(['You did it, Suzy!'], 592, 500, 0, 25) + `<text x="760" y="548" text-anchor="end" font-size="25" ${RB_HAND}>Love, Grandma</text>`);
+}
+/* The recipe book open (장면 3): one page at a time (the phone's width), the tabs 10 · 30 · 40 · 60 · 80 · 90 above it
+   (10: pages 10-19), ‹ › and the memo's five slots under it. A page's decorated first letter tapped goes into the next
+   memo slot; a filled slot tapped gives its letter back. The small note on the page's corner opens Grandma's note.
+   S.rb: { at:the page shown (index into RB_PAGES), memo:[letters] }. The detective says nothing about the letters. */
+const RBK = { tabY:120, tabW:52, tabGap:7, pageY:166, pageH:396, rowY:576, slot:48, slotGap:7 };
+const RB_TABS = [10, 30, 40, 60, 80, 90], RB_TAB_COLS = ['#F4A79A', '#F5DD8C', '#CDB4F0', '#EBD9B0', '#B9DDA2', '#A9CBE8'];
+const rbState = () => (S.rb ||= { at:0, memo:[] });
+function recipeArt(){
+  const st = rbState(), [n, cap, rest, food] = RB_PAGES[st.at], K = RBK, on = n < 20 ? 10 : n;
+  const tabsX = 688 - (RB_TABS.length * K.tabW + (RB_TABS.length - 1) * K.tabGap) / 2;
+  const tabs = RB_TABS.map((t, i) => { const x = tabsX + i * (K.tabW + K.tabGap), up = t === on ? 0 : 10;
+    return `<g class="rb-tab" data-tab="${t}"><rect x="${x}" y="${K.tabY + up}" width="${K.tabW}" height="${K.pageY - K.tabY + 14}" rx="9" fill="${RB_TAB_COLS[i]}" stroke="#6B4A3A" stroke-width="2.5"/>` +
+      `<text x="${x + K.tabW / 2}" y="${K.tabY + up + 30}" text-anchor="middle" font-size="22" font-weight="700" font-family="Georgia,serif" fill="#4A3426">${t}</text></g>`; }).join('');
+  // the cover behind the page, the page with a soft fold on its left
+  const page = `<rect x="502" y="${K.pageY - 6}" width="372" height="${K.pageH + 14}" rx="14" fill="#C9708A" stroke="#6E3446" stroke-width="3"/>` +
+    `<g class="rb-page"><rect x="512" y="${K.pageY}" width="352" height="${K.pageH}" rx="8" fill="#FFF8EA" stroke="#D9C4A2" stroke-width="2"/>` +
+    `<rect x="512" y="${K.pageY}" width="20" height="${K.pageH}" rx="8" fill="#EADBC4" opacity=".7"/></g>`;
+  const restW = rest.length * 14.5, capW = 66, total = capW + 8 + restW, x0 = 688 - total / 2, ty = K.pageY + 238;
+  const title = `<g class="rb-cap" data-cap="${cap}"><rect x="${x0}" y="${ty}" width="${capW}" height="${capW}" rx="12" fill="#FCE4EC" stroke="#C2557A" stroke-width="3"/>` +
+    `<rect x="${x0 + 6}" y="${ty + 6}" width="${capW - 12}" height="${capW - 12}" rx="8" fill="none" stroke="#E89AB4" stroke-width="1.5" stroke-dasharray="4 4"/>` +
+    `<text x="${x0 + capW / 2}" y="${ty + 50}" text-anchor="middle" font-size="48" font-weight="700" font-family="Georgia,serif" fill="#B23C68">${cap}</text></g>` +
+    `<text x="${x0 + capW + 8}" y="${ty + 46}" font-size="29" font-family="Georgia,serif" fill="#4A3426">${esc(rest)}</text>`;
+  const pic = `<image href="${RB}food/${food}.webp" x="548" y="${K.pageY + 24}" width="280" height="190" preserveAspectRatio="xMidYMid meet"/>`;
+  const num = `<text x="688" y="${K.pageY + K.pageH - 22}" text-anchor="middle" font-size="26" font-family="Georgia,serif" fill="#8B6E5A">${n}</text>`;
+  const note = `<g class="rb-note"><image href="${RB}note.webp" x="816" y="${K.pageY + 10}" width="40" height="53" transform="rotate(6 836 ${K.pageY + 36})"/></g>`;
+  // ‹ › and the memo
+  const slotsX = 688 - (5 * K.slot + 4 * K.slotGap) / 2;
+  const slots = [0, 1, 2, 3, 4].map(i => { const x = slotsX + i * (K.slot + K.slotGap), ch = st.memo[i];
+    return `<g class="rb-slot" data-slot="${i}"><rect x="${x}" y="${K.rowY}" width="${K.slot}" height="${K.slot}" rx="9" fill="${ch ? '#FFF8EA' : 'rgba(255,248,234,.55)'}" stroke="#6B4A3A" stroke-width="2.5"${ch ? '' : ' stroke-dasharray="6 5"'}/>` +
+      (ch ? `<text x="${x + K.slot / 2}" y="${K.rowY + 37}" text-anchor="middle" font-size="32" font-weight="700" font-family="Georgia,serif" fill="#B23C68">${ch}</text>` : '') + '</g>'; }).join('');
+  const arrow = (cls, cx, d, off) => `<g class="${cls}${off ? ' off' : ''}"><circle cx="${cx}" cy="${K.rowY + K.slot / 2}" r="21" fill="#FFF8EA" stroke="#6B4A3A" stroke-width="2.5" opacity="${off ? .45 : 1}"/>` +
+    `<path d="${d}" fill="none" stroke="#6B4A3A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="${off ? .45 : 1}"/></g>`;
+  const cy = K.rowY + K.slot / 2;
+  return rbLook(tabs + page + pic + title + num + note + slots +
+    arrow('rb-prev', slotsX - 31, `M${slotsX - 27} ${cy - 9}l-9 9 9 9`, st.at === 0) +
+    arrow('rb-next', slotsX + 5 * K.slot + 4 * K.slotGap + 31, `M${slotsX + 5 * K.slot + 4 * K.slotGap + 27} ${cy - 9}l9 9-9 9`, st.at === RB_PAGES.length - 1));
+}
+function rbRedraw(pop){
+  const art = $('#art'); art.dataset.scene = ''; renderScene();
+  if(pop) art.querySelector(pop)?.classList.add('rb-pop');
+}
+// taps in the open book (before the close look's own: a tap on the book never closes it; off the book it does)
+$('#art').addEventListener('click', e => {
+  if(!S.investigate || !placeObj()?.recipeBook) return;
+  const t = e.target.closest('.rb-cap, .rb-slot, .rb-prev, .rb-next, .rb-tab, .rb-note, .rb-page');
+  if(!t) return;
+  e.stopPropagation();
+  if(panMoved){ panMoved = false; return; }
+  const st = rbState();
+  if(t.matches('.rb-note')) return openInspect('recipenote', 'recipebook');
+  if(t.matches('.rb-prev, .rb-next')){
+    const to = Math.min(RB_PAGES.length - 1, Math.max(0, st.at + (t.matches('.rb-next') ? 1 : -1)));
+    if(to === st.at) return;
+    st.at = to; playSfx('#closeClick'); saveGame(); return rbRedraw();
+  }
+  if(t.matches('.rb-tab')){ st.at = RB_PAGES.findIndex(p => p[0] === +t.dataset.tab); playSfx('#closeClick'); saveGame(); return rbRedraw(); }
+  if(t.matches('.rb-cap')){
+    if(st.memo.length >= 5){ playSfx('#retryBuzz'); return rbRedraw('.rb-slot[data-slot="4"]'); }
+    st.memo.push(t.dataset.cap); playSfx('#wordPlace'); saveGame();
+    return rbRedraw(`.rb-slot[data-slot="${st.memo.length - 1}"]`);
+  }
+  if(t.matches('.rb-slot') && st.memo[+t.dataset.slot]){ st.memo.splice(+t.dataset.slot, 1); playSfx('#closeClick'); saveGame(); return rbRedraw(); }
+}, true);
+// the box's word lock: the minigames' spelling lock with this case's word and wheels (PACK.lock), the memo on its plate
+function openCaseLock(){
+  sg = { inCase:true, words:[PACK.lock.word], at:0, lock:false, first:false };
+  $('#sgDone').hidden = true; $('#sgReward').innerHTML = '';
+  $('#safeGame').classList.add('in-case'); $('#safeGame').hidden = false;
+  sgLoad();
+}
+// opened: the box's inside (its close look); closed, the ending (lookClosed)
+function caseLockOpened(){
+  S.flags.add('box-open'); saveGame(); renderScene();
+  setTimeout(() => openInspect('recipeopen', 'kitchen'), 200);
+}
+// what happens as a close look is closed: the ending after the opened box (closeEnd); a person's line once, back in the
+// place (closeSay: Suzy says where the recipe book is, after the note)
+function lookClosed(pl, to){
+  if(pl.closeEnd && S.flags.has('box-open') && !ending) return setTimeout(() => { if(!ending) startHandoff(); }, 400);
+  const say = pl.closeSay;
+  if(!say || to !== pl.back || S.flags.has(`said:${pl.id}`)) return;
+  S.flags.add(`said:${pl.id}`); saveGame();
+  setTimeout(() => {
+    if(!S.investigate || S.place !== pl.back) return;
+    const el = $(`#art [data-talk="${say.who}"]`) || $('#art .spot');
+    sayProp({ ...say, by:{ name:spk(say.who).name, pitch:spk(say.who).pitch }, audio:PACK.people[say.who].audio[say.key] }, el);
+  }, 700);
+}
+
 /* the scale in use (the Christmas star case's close look 'weigh', user pick: over the blurred sleigh, the scale low and
    close to the row of five boxes): the one picture of the scale cut into its beam's two arms, its two pans with their
    strings and the post with its foot; the beam turns about the post's top (heavier side down, level when the same) and
@@ -10197,6 +10424,16 @@ const ART = {
     (S.flags.has('handed') ? '' : '<image href="assets/places/valentine/desk-boxes.webp" x="453" y="499" width="468" height="192"/>'),
   chocshop: () => `<image href="assets/places/valentine/shop.webp" width="1376" height="1056"/>`,
   pack: () => packArt(),
+  // the recipe box case (scripts/cut-recipe-places.py): the kitchen, the box on the worktable once Suzy has said it is
+  // locked, Grandma's note once she has said there is one, the recipe book on the shelf once the note is read (each the
+  // same kitchen drawn with it, scene-*.webp); the note, the book and the opened box as close looks
+  kitchen: () => `<image href="${RB}kitchen.webp" width="1376" height="1056"/>` +
+    (cond('suzy:r0') ? `<image href="${RB}scene-box.webp" x="1010" y="534" width="199" height="169"/>` : '') +
+    (cond('suzy:r2') ? `<image href="${RB}scene-note.webp" x="1094" y="672" width="142" height="89"/>` : '') +
+    (S.flags.has('note-seen') ? `<image href="${RB}scene-book.webp" x="480" y="31" width="138" height="246"/>` : ''),
+  recipenote: () => recipeNoteArt(),
+  recipebook: () => recipeArt(),
+  recipeopen: () => recipeOpenArt(),
   // the neighbours' yard (scripts/cut-flowerbed-yard.py): the puppy Pablo throws his tennis ball to
   yard: () => `<image href="assets/places/flowerbed/yard.webp" width="1376" height="768"/>` +
     '<image href="assets/characters/puppy.webp" x="1104" y="575" width="152" height="154"/>',
@@ -10341,6 +10578,7 @@ const ART_SKY = {
 const ART_FLOOR = {
   flowerbed:{ src:'assets/places/flowerbed/garden-floor.jpg', h:900 },   // the flowerbed case
   yard:{ src:'assets/places/flowerbed/yard-floor.jpg', h:900 },
+  kitchen:{ src:'assets/places/recipe/kitchen-floor.jpg', h:900 },   // the recipe box case (scripts/cut-recipe-places.py)
   classroom:{ src:'assets/places/valentine/classroom-floor.jpg', h:900 }, chocshop:{ src:'assets/places/valentine/shop-floor.jpg', h:900 },   // the Valentine case (scripts/cut-valentine-places.py)
   ...Object.fromEntries(['outside', 'road', 'hospital', 'workshop'].map(id => [id, { src:`assets/places/twins/${id}-floor.jpg`, h:900 }])),   // the twins case (scripts/cut-twins-places.py)
   library:{ src:'assets/places/library-floor.jpg', h:506 },
@@ -10751,6 +10989,8 @@ function examine(i, spot){
   const pl = placeObj();
   if(pl.balance) return weighTap(pl.clues[i]);
   if(pl.clues[i].inspect){ markLooked(pl, i); return openInspect(pl.clues[i].inspect, pl.id); }
+  // the recipe box's word lock (the spelling lock, in the case); once open, the box's inside again
+  if(pl.clues[i].lock){ markLooked(pl, i); return S.flags.has('box-open') ? openInspect('recipeopen', pl.id) : openCaseLock(); }
   // a door out of a close look into a place (as 〈 leaves one)
   if(pl.clues[i].go){ setNotes(false); inspectFrom = null; return enterPlace(pl.clues[i].go); }
   // not yet (wait: until its conditions hold the detective says why, the sleigh's boxes before the scale)
@@ -11681,31 +11921,37 @@ const CASES = [
     focus:'수량 표현 듣기', keys:['quantity'],
     photo:{ img:'assets/places/valentine/review-boxes.webp', pos:'50% 50%' },
     summary:`페니 선생님이 학생 여덟 명에게 줄 초콜릿을 종류마다 여덟 개씩 주문했다. 선물 상자에 하나씩 포장해 보니 꽃이 빈 상자 ${VAL_N.ko} 개와 분홍 하트 ${VAL_N.ko} 개가 남았다. 수지의 가게에서 분홍 하트 쟁반과 꽃 쟁반이 나란히 있어 꽃 자리에 분홍 하트가 들어간 것이었다. 분홍 하트는 너무 많고 꽃은 모자랐다고 알리고, 주방에 남은 꽃 초콜릿과 바꿔 모든 상자를 채웠다.` },
-  { id:'picnic-bag', no:'Case 06', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
+  // the recipe box (design/case-recipe-box.md, planned in Claude Code 2026-11-27): Case 06, right after the Valentine
+  // case (user decision), the cases after it one number on
+  { id:'recipe-box', no:'Case 06', title:'시크릿 레시피 상자의 비밀번호는?', en:'The Secret Recipe Box', art:'kitchen', cover:{ src:'assets/places/recipe/cover.webp', alt:'주방 조리대 위 잠긴 레시피 상자' }, playable:true,
+    focus:'숫자 -teen / -ty', keys:['teen-ty'],
+    photo:{ img:'assets/places/recipe/review-card.webp', pos:'50% 50%' },
+    summary:'수지 할머니의 시크릿 레시피 상자가 다섯 글자 단어 자물쇠로 잠겨 있었다. 여행을 떠난 할머니는 쪽지에 비밀번호 대신 레시피북의 쪽수 다섯 개를 남겼다. 19쪽, 16쪽, 13쪽, 18쪽, 14쪽을 찾아 레시피마다 크게 꾸민 첫 글자를 모으니 L, E, M, O, N이었다. lemon으로 자물쇠를 열자 할머니의 시크릿 레몬 케이크 레시피가 나왔다.' },
+  { id:'picnic-bag', no:'Case 07', title:'바뀐 소풍 가방', en:'Mixed-Up Bags', art:'picnic', cover:{ src:'assets/places/picnic-storyboard/picnic-wide.webp', alt:'소풍 탁자' }, playable:true, focus:'소유 표현 듣기', keys:['ownership'],
     photo:{ img:'assets/places/picnic-storyboard/picnic-documents.webp' },
     summary:'소풍을 나온 로지의 파란 가방이 목수 벤의 파란 가방과 바뀌었다. 둘은 아침에 호수 카페에 들렀고, 나올 때 똑같이 생긴 가방을 서로 바꿔 들고 나왔다. 탐정은 로지가 들고 온 가방 속 망치·톱·못과 벤이 목수라는 말을 이어 주인을 찾았다. 벤에게 공구가 든 가방을, 로지에게 도시락과 물병이 든 가방을 돌려주었다.' },
   // the twins (design/case-twins.md), between the picnic and the violin (user plan 2026-11-25)
-  { id:'twins', no:'Case 07', title:'같은 얼굴의 운전자', en:'Which Twin Was Driving?', art:'outside', cover:{ src:'assets/places/twins/cover.jpg', alt:'수리점 앞의 파란 밴' }, playable:true,
+  { id:'twins', no:'Case 08', title:'같은 얼굴의 운전자', en:'Which Twin Was Driving?', art:'outside', cover:{ src:'assets/places/twins/cover.jpg', alt:'수리점 앞의 파란 밴' }, playable:true,
     focus:'한 일 듣기', keys:['what-did'],
     photo:{ img:'assets/places/twins/evan.webp' },
     summary:'파란 밴이 빅터를 치고 달아났다. 밴은 쌍둥이 에반과 마일로의 것이었고, 둘은 똑같이 자기는 에이다와 수리점에 있었다고 했다. 사고를 본 아이리스는 운전자가 머리를 감싸 쥐었다고 했고, 빅터는 운전자의 파란 셔츠를 떠올렸다. 에이다와 시계를 고친 형제는 손가락을 베여 붕대를 감았다. 운전자는 이마를 다친 에반이었다. 에반은 무서워서 달아났다고 인정하고 빅터에게 사과하고 싶다고 했다.' },
   // the education plan's order (user decision 2026-11-04): the violin case (L1-02 B) Case 03, the library Case 04
-  { id:'missing-violin', no:'Case 08', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.webp', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
+  { id:'missing-violin', no:'Case 09', title:'사라진 음악 대회 바이올린', en:'Missing Violin', art:'stage', cover:{ src:'assets/places/violin/case-closed.webp', alt:'노란 달 스티커가 붙은 바이올린 케이스', bg:'#E9D8BC', fit:'contain' }, playable:true,
     focus:'위치 표현 듣기', keys:['place-prep'],
     photo:{ who:'owen', img:'assets/characters/owen-sad-higgsfield.webp', cx:40, w:52, b:-29 },   // smaller, his face in the picture (user request 2026-11-17)
     summary:'음악 대회를 앞두고 타라의 바이올린 케이스가 사라졌다. 케이스는 무대 뒤 커튼 뒤에 있었고, 바이올린의 현은 모두 끊어져 있었다. 범인은 대회에서 이기고 싶었던 오웬. 커튼 아래 단추와 소매, 모모에게 빌린 니퍼로 드러났다.' },
-  { id:'case01', no:'Case 09', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
+  { id:'case01', no:'Case 10', title:'도서관 살인사건', en:'Library Mystery', art:'library', playable:true, focus:'시간 표현 듣기', keys:['time-prep'],
     // the review's photo (user decision): the culprit's mugshot; cx = where the body sits across the picture, in %
     photo:{ who:'fiona', img:'assets/characters/fiona-sad.webp', cx:41.7 },
     victimPhoto:'assets/characters/hoot-higgsfield.webp',
     // the review's 사건 요약 (user decision: the case is solved, so the review may tell it): who died, who did it, how
     summary:'후트 교수가 도서관에서 쓰러진 채 발견됐다. 범인은 빵집 주인 피오나. 그날 신문에 실린 교수의 리뷰("파이가 너무 달다")를 보고 파이를 오븐에 둔 채 항의하러 갔다가 말다툼 끝에 교수가 미끄러져 큰 시계에 부딪혔다고 자백했다.' },
   // the education plan's order (L1-05 B, handed over 2026-11-09): the Christmas star after the library; no pictures yet
-  { id:'christmas-star', no:'Case 10', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
+  { id:'christmas-star', no:'Case 11', title:'사라진 크리스마스트리의 별', en:'Missing Christmas Star', art:'tree', cover:{ src:'assets/places/christmas/tree-cover.jpg', alt:'축제 광장의 크리스마스트리' }, playable:true,
     focus:'현재진행형 듣기', keys:['present-prog'],
     photo:{ who:'nico', img:'assets/characters/nico-nervous-higgsfield.webp', cx:50, w:56, b:-38 },
     summary:'크리스마스 축제 창고에서 마을의 금별이 사라졌다. 선물 운반만 맡은 니코가 열린 보관함의 별을 선물 상자에 숨겨 썰매에 실었다. 코코가 건넨 털장갑 상자는 넷인데 썰매의 상자는 다섯이었고, 탐정이 무거운 상자 속 별 뒷면의 잎사귀 무늬를 확인했다. 니코는 금별을 팔면 큰돈이 될 줄 알았다고 인정했다.' },
-  { id:'case04', no:'Case 11' }
+  { id:'case04', no:'Case 12' }
 ];
 // the case this page plays (CASE_ID)
 const CASE = CASES.find(c => c.id === CASE_ID);
@@ -12107,15 +12353,16 @@ function openSafeGame(caseId){
 }
 function sgLoad(){
   const w = sg.words[sg.at];
-  $('#sgProg').textContent = `${sg.at + 1}/${sg.words.length}`;
+  $('#sgProg').textContent = sg.inCase ? '' : `${sg.at + 1}/${sg.words.length}`;
   $('#sgTrack').style.width = `${sg.at / sg.words.length * 100}%`;
   $('#sgSafe').classList.remove('open');
   const art = $('#sgLockArt'); art.classList.remove('drop', 'zoom', 'chest-open', 'hang');
   if(sg.at){ void art.offsetWidth; art.classList.add('hang'); }
   $('#sgLockImg').src = 'assets/ui/padlock-closed.webp';
-  $('#sgMeaning').textContent = WORDS[w][1];
-  const blanks = sgBlanks(w);
-  sg.dials = [...w].map((ch, i) => {
+  // in a case (the recipe box): no meaning and no sound, the recipe book's memo instead; the case's own wheels
+  $('#sgMeaning').textContent = sg.inCase ? (rbState().memo.length ? `메모  ${rbState().memo.join(' ')}` : '메모가 비어 있어요') : WORDS[w][1];
+  const blanks = sg.inCase ? [] : sgBlanks(w);
+  sg.dials = sg.inCase ? PACK.lock.dials.map((opts, i) => ({ opts, at:(opts.indexOf(w[i]) + 1 + Math.floor(Math.random() * (opts.length - 1))) % opts.length })) : [...w].map((ch, i) => {
     if(!blanks.includes(i)) return { opts:[ch], at:0, fixed:true };
     // the other three letters are of the same kind (a vowel among vowels), so the choice is about spelling, not shape
     const kind = SG_VOWELS.includes(ch) ? SG_VOWELS : [...'bcdfghjklmnpqrstvwxz'];
@@ -12126,7 +12373,7 @@ function sgLoad(){
   $('#sgDials').innerHTML = sg.dials.map((d, i) => d.fixed ? `<div class="sg-dial fixed"><b>${d.opts[0]}</b></div>`
     : `<div class="sg-dial" data-sg-wheel="${i}" tabindex="0" role="spinbutton" aria-label="${i + 1}번째 글자"><div class="sg-strip">${[...d.opts, ...d.opts, ...d.opts].map(c => `<span>${c}</span>`).join('')}</div></div>`).join('');
   requestAnimationFrame(() => document.querySelectorAll('#sgDials [data-sg-wheel]').forEach(el => sgPlace(el)));
-  setTimeout(() => { if(sg && !$('#safeGame').hidden) pronounceWord(w); }, 250);
+  if(!sg.inCase) setTimeout(() => { if(sg && !$('#safeGame').hidden) pronounceWord(w); }, 250);
 }
 // A wheel's strip holds its four letters three times; the one showing sits in the middle copy, centred in the window,
 // its neighbours peeking above and below. dy: how far it is being dragged (px)
@@ -12136,7 +12383,7 @@ function sgPlace(el, dy = 0, snap = false){
   const h = el.clientHeight, row = h * SG_ROW, strip = el.firstElementChild;
   strip.querySelectorAll('span').forEach(s => { s.style.height = `${row}px`; });
   strip.classList.toggle('snap', snap);
-  strip.style.transform = `translateY(${h / 2 - (4 + d.at + .5) * row + dy}px)`;
+  strip.style.transform = `translateY(${h / 2 - (d.opts.length + d.at + .5) * row + dy}px)`;
   el.setAttribute('aria-valuetext', d.opts[d.at]);
 }
 // a click each time a wheel passes a letter (user's sound 2026-11-23: one click cut from a toy ratchet, Pixabay
@@ -12153,7 +12400,7 @@ function sgTurn(el, by){
   const d = sg.dials[+el.dataset.sgWheel];
   sgTick();
   sgPlace(el, -by * el.clientHeight * SG_ROW, true);
-  setTimeout(() => { d.at = ((d.at + by) % 4 + 4) % 4; sgPlace(el); }, 150);
+  setTimeout(() => { d.at = ((d.at + by) % d.opts.length + d.opts.length) % d.opts.length; sgPlace(el); }, 150);
 }
 let sgDrag = null;
 $('#sgDials').addEventListener('pointerdown', e => {
@@ -12179,7 +12426,7 @@ $('#sgDials').addEventListener('pointerup', e => {
   // finish the drag on the row it stopped nearest, then settle
   sgPlace(el, -by * row, true);
   const d = sg.dials[+el.dataset.sgWheel];
-  setTimeout(() => { d.at = ((d.at + by) % 4 + 4) % 4; sgPlace(el); }, 150);
+  setTimeout(() => { d.at = ((d.at + by) % d.opts.length + d.opts.length) % d.opts.length; sgPlace(el); }, 150);
 });
 $('#sgDials').addEventListener('pointercancel', () => { if(sgDrag){ sgPlace(sgDrag.el, 0, true); sgDrag = null; } });
 $('#sgDials').addEventListener('keydown', e => {
@@ -12200,14 +12447,15 @@ function sgOpen(){
   sg.lock = true;
   $('#sgSafe').classList.add('open');
   $('#sgLockImg').src = 'assets/ui/padlock-open.webp';
-  if(sg.first){ const a = document.createElement('img'); a.className = 'sg-acorn'; a.src = 'assets/ui/icons-v2/acorn.webp'; a.alt = ''; $('.sg-lockart').appendChild(a); setTimeout(() => a.remove(), 950); }
-  sgSound(SG_OPEN); setTimeout(() => { if(sg) pronounceWord(w); }, 350);
+  if(sg.first && !sg.inCase){ const a = document.createElement('img'); a.className = 'sg-acorn'; a.src = 'assets/ui/icons-v2/acorn.webp'; a.alt = ''; $('.sg-lockart').appendChild(a); setTimeout(() => a.remove(), 950); }
+  sgSound(SG_OPEN); if(!sg.inCase) setTimeout(() => { if(sg) pronounceWord(w); }, 350);
   $('#sgTrack').style.width = `${(sg.at + 1) / sg.words.length * 100}%`;
-  const last = sg.at === sg.words.length - 1;
+  const last = sg.at === sg.words.length - 1 && !sg.inCase;
   setTimeout(() => { if(sg) $('#sgLockArt').classList.add('drop'); }, 500);
   if(last){ setTimeout(() => { if(sg) $('#sgLockArt').classList.add('zoom'); }, 1450); setTimeout(() => { if(sg) $('#sgLockArt').classList.add('chest-open'); }, 2450); }
   setTimeout(() => {
     if(!sg) return;
+    if(sg.inCase){ closeSafeGame(); return caseLockOpened(); }
     sg.lock = false; sg.at++;
     if(sg.at < sg.words.length) return sgLoad();
     const done = safesOpened();
@@ -12217,7 +12465,7 @@ function sgOpen(){
   }, last ? 3700 : 1500);
 }
 function closeSafeGame(){
-  stopVoice(); sg = null; $('#safeGame').hidden = true;
+  stopVoice(); sg = null; $('#safeGame').hidden = true; $('#safeGame').classList.remove('in-case');
   if(homeTab === 'cases' && !$('#caseList').hidden) renderCaseList();
 }
 $('#safeGame').addEventListener('click', e => {
@@ -13139,7 +13387,7 @@ $('#devEvidence').onclick = () => {
     // a thing only looked at (seen) counts as seen, with no photo
     if(clue.seen && place.spots.some(spot => spot.clue === clueIndex)){ S.found[place.id].add(clueIndex); return; }
     // the scale's boxes, doors and the buttons into close looks (inspect) are no photos
-    if(clue.prop || clue.go || clue.inspect || place.balance || !place.spots.some(spot => spot.clue === clueIndex)) return;
+    if(clue.prop || clue.go || clue.inspect || clue.lock || place.balance || !place.spots.some(spot => spot.clue === clueIndex)) return;
     // what a questioning waits for at a place (ENDING.script until: the star's back, once the box is opened) is found
     // there in play (user report: the questioning went on by itself, with nothing to do at the sleigh)
     if((ENDING.script || []).some(item => item.until?.includes(`${place.id}-${clueIndex}`))) return;
@@ -13262,6 +13510,8 @@ const PREVIEW_OF = {
   'twins':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['station', '면담실'], ['tell', '범인 말하기'], ['handoff', '에반의 자백'], ['review', '복습']],
   'valentine-chocolate':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['pack', '포장'], ['slip', '주문 쪽지'],
     ['fill', '꽃 넣기'], ['handoff', '페니에게 건네기'], ['review', '복습']],
+  'recipe-box':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['note', '할머니 쪽지'], ['book', '레시피북'],
+    ['lock', '자물쇠'], ['handoff', '상자 열고 끝'], ['review', '복습']],
   'flowerbed':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['place', '현장 조사'], ['handoff', '올리에게 알리기'], ['review', '복습']],
   'christmas-star':[['key', '이번 사건의 열쇠'], ['tutorial', '튜토리얼'], ['talk', '첫 대화'], ['map', '지도'], ['place', '현장 조사'], ['deduce', '추리 보드'],
     ['questioning', '니코 심문'], ['weigh', '저울'], ['confess', '니코 자백'], ['return', '엘라에게 반환'], ['review', '복습']],
@@ -13342,6 +13592,10 @@ const PREVIEW_RUN = {
   pack:() => { previewCase(); openSheet(null); ['penny-out', 'pack-open'].forEach(f => S.flags.add(f)); delete S.pack; S.items = S.items.filter(id => id !== 'flowers-3'); enterPlace('classroom'); openInspect('pack', 'classroom'); },
   slip:() => { previewCase(); openSheet(null); ['penny-out', 'pack-open'].forEach(f => S.flags.add(f)); previewPacked(); S.items = [...S.items.filter(id => id !== 'flowers-3'), 'pink-hearts-3']; S.per.suzy.questionChecks.s2 = null; S.per.suzy.order = S.per.suzy.order.filter(q => q !== 's2'); S.per.suzy.phase = 'choose'; talkTo('suzy'); },
   fill:() => { previewCase(); openSheet(null); ['pack-open', 'slip-ok'].forEach(f => S.flags.add(f)); previewPacked(); S.items.push('flowers-3'); enterPlace('classroom'); openInspect('pack', 'classroom'); },
+  // the recipe box case: the note to read, the recipe book (the note read), the lock with the memo filled
+  note:() => { previewCase(); openSheet(null); enterPlace('kitchen'); openInspect('recipenote', 'kitchen'); },
+  book:() => { previewCase(); openSheet(null); S.flags.add('note-seen'); S.flags.add('said:recipenote'); enterPlace('kitchen'); openInspect('recipebook', 'kitchen'); },
+  lock:() => { previewCase(); openSheet(null); S.flags.add('note-seen'); S.flags.add('said:recipenote'); rbState().memo = [...'LEMON']; enterPlace('kitchen'); openCaseLock(); },
   review:() => { previewCase(); previewDeduced(); openSheet(null); openReview(); }
 };
 const PREVIEW_PARTS = PREVIEW_OF[CASE_ID].map(([id, label]) => [id, label, PREVIEW_RUN[id]]);

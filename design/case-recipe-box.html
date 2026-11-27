@@ -131,36 +131,36 @@ ul.easy li{margin:4px 0}
 <div class="wrap">
 
 <h1>🍋 시크릿 레시피 상자의 비밀번호는?</h1>
-<p class="muted">할머니의 레시피북 · 쉬운 사건 · Claude Code가 사용자와 기획 · 2026-11-27 · 원문 설계서 <code>design/case-recipe-box.md</code></p>
-<div class="chips"><span class="chip lemon">듣기평가: 숫자 듣기(-teen / -ty)</span><span class="chip leaf">찾고 조립하기: 쪽 찾기 → 머리글자 모으기 → 자물쇠</span><span class="chip pink">사건 속 철자 자물쇠 첫 등장</span><span class="chip">장소 1 · 인물 1 + 목소리 1</span><span class="chip">받아쓰기 4문항</span></div>
-<nav><a href="#glance">한눈에</a><a href="#flow">흐름</a><a href="#script">장면별 대본</a><a href="#book">레시피북</a><a href="#demo">직접 해 보기</a><a href="#unlock">해금</a><a href="#study">복습</a><a href="#make">만들 것</a><a href="#decide">정할 것</a></nav>
+<p class="muted">할머니의 레시피북 · 난이도 하(가장 쉬움) · Claude Code가 사용자와 기획 · 2026-11-27 · <b>게임에 들어감(<code>?case=recipe</code>), 개발하며 정한 것은 md에</b> · 원문 설계서 <code>design/case-recipe-box.md</code></p>
+<div class="chips"><span class="chip lemon">숫자 -teen / -ty(지금은 쪽지 읽기, 소리는 플레이 뒤)</span><span class="chip leaf">찾고 조립하기: 쪽 찾기 → 머리글자 모으기 → 자물쇠</span><span class="chip pink">사건 속 철자 자물쇠 첫 등장</span><span class="chip">장소 1 · 인물 1 · 새 목소리 없음</span><span class="chip">받아쓰기 3문항 · 빈칸 6칸</span><span class="chip lemon">난이도 하: 짧은 문장 · 쪽지는 LEMON 순서 · 다이얼 글자 3개</span></div>
+<nav><a href="#glance">한눈에</a><a href="#flow">흐름</a><a href="#script">장면별 대본</a><a href="#book">레시피북</a><a href="#demo">직접 해 보기</a><a href="#unlock">해금</a><a href="#study">복습</a><a href="#make">만들 것</a><a href="#decide">정한 것</a></nav>
 
 <h2 id="glance">한눈에</h2>
 <div class="hero">
   <div class="card story">
-    <p>다람쥐 <b>수지</b>의 초콜릿 가게. 내일 큰 케이크 주문이 있는데, 할머니의 <b>시크릿 레시피 상자</b>가 <b>다섯 글자 단어 자물쇠</b>로 잠겨 있어요.</p>
-    <p>여행 중인 할머니가 음성 메시지를 남겼지만, 비밀번호를 말하는 순간 <span class="noise">지지직</span>. 대신 할머니는 <b>"내 레시피북의 이 쪽들 큰 글자를 봐"</b>라며 쪽수 다섯 개를 불러 줘요.</p>
-    <p>플레이어는 <b>thirteen인지 thirty인지</b> 정확히 받아 적고, 레시피북에서 그 쪽의 꾸민 첫 글자를 <b>부른 순서대로</b> 모아 자물쇠를 열어요. 상자 안에는 <b>할머니의 시크릿 레몬 케이크 레시피</b>!</p>
+    <p>다람쥐 <b>수지</b>의 초콜릿 가게. 할머니의 <b>시크릿 레시피 상자</b>가 <b>다섯 글자 단어 자물쇠</b>로 잠겨 있어요.</p>
+    <p>여행 떠난 할머니가 조리대에 쪽지를 남겼어요. 비밀번호 대신 <b>"내 레시피북의 큰 글자를 보렴"</b>이라는 말과 쪽수 다섯 개가 영어 단어로 적혀 있어요. 쪽수는 <b>L-E-M-O-N 순서</b>로 적혀 있고, 책 속 그 쪽들은 뒤섞여 있어요. 쪽지는 <b>화면에 크게</b> 떠요.</p>
+    <p>플레이어는 <b>thirteen인지 thirty인지</b> 정확히 받아 적고, 레시피북에서 그 쪽의 꾸민 첫 글자를 모아 자물쇠를 열어요. 상자 안에는 <b>할머니의 시크릿 레몬 케이크 레시피</b>!</p>
   </div>
   <div class="card">
     <h3>정답 (제작자용)</h3>
-    <p class="small">부른 쪽 13 → 15 → 19 → 14 → 16</p>
+    <p class="small">쪽지의 쪽 19 → 16 → 13 → 18 → 14</p>
     <div class="answer"><span>L</span><span>E</span><span>M</span><span>O</span><span>N</span></div>
-    <p class="small">할머니는 시크릿 레시피의 비밀이 레몬이라 비밀번호도 lemon으로 정하고, L·E·M·O·N으로 시작하는 레시피 쪽을 골라 두었어요. 누가 숨기거나 훔친 일은 없어요.</p>
-    <p class="small"><b>무슨 케이크인지는 끝까지 아무도 말하지 않아요.</b> 수지는 "secret cake recipe"라고만 하고, 상자를 연 뒤에야 lemon이 들려요.</p>
+    <p class="small">할머니는 시크릿 레시피의 비밀이 레몬이라 비밀번호도 lemon으로 정하고, L·E·M·O·N으로 시작하는 레시피 쪽을 골라 그 순서로 적었어요. 주방에는 가게 일을 돕는 이웃도 드나들어서 비밀번호 대신 쪽수만 적었어요. 누가 숨기거나 훔친 일은 없어요.</p>
+    <p class="small"><b>무슨 케이크인지는 끝까지 아무도 말하지 않아요.</b> 상자를 연 뒤에야 lemon이 들려요.</p>
   </div>
 </div>
 
 <div class="grid2" style="margin-top:14px">
-  <div class="card person"><div class="ava suzy">수</div><div><b>수지 · 다람쥐</b> <span class="small">초콜릿 가게 · 의뢰인</span><p class="small">발렌타인 사건의 그 수지. 그림·입·가게 배경 모두 재사용. 손이 빠르고 늘 바쁨.</p></div></div>
-  <div class="card person"><div class="ava gma">할</div><div><b>할머니 · 다람쥐</b> <span class="small">여행 중 · 목소리만</span><p class="small">휴대폰 음성 메시지와 상자 속 쪽지로만 나와요. 인물 그림 없음, 새 목소리 하나.</p></div></div>
+  <div class="card person"><div class="ava suzy">수</div><div><b>수지 · 다람쥐</b> <span class="small">초콜릿 가게 · 의뢰인</span><p class="small">발렌타인 사건의 그 수지. 그림·입은 재사용, 배경은 새로 그리는 가게 안 주방.</p></div></div>
+  <div class="card person"><div class="ava gma">할</div><div><b>할머니 · 다람쥐</b> <span class="small">여행 중 · 쪽지만</span><p class="small">조리대의 쪽지와 상자 속 쪽지로만 나와요. 인물 그림·목소리 없음.</p></div></div>
 </div>
 
 <h2 id="flow">흐름</h2>
 <div class="flow">
   <div class="step"><span class="n">1</span><b>수지의 의뢰</b><small>잠긴 상자, 다섯 글자 단어, 할머니는 여행 중</small><span class="tag">받아쓰기 3</span></div>
-  <div class="step"><span class="n">2</span><b>음성 메시지</b><small>잡음 뒤에 쪽수 다섯 개. thirteen? thirty?</small><span class="tag">받아쓰기 1 · 핵심</span></div>
-  <div class="step"><span class="n">3</span><b>레시피북</b><small>그 쪽을 찾아 꾸민 첫 글자를 부른 순서대로 메모에</small><span class="tag">찾기 · 조립</span></div>
+  <div class="step"><span class="n">2</span><b>할머니의 쪽지</b><small>크게 뜨는 쪽지의 쪽수 다섯 개(LEMON 순서). nineteen? ninety?</small><span class="tag">읽기 · 핵심</span></div>
+  <div class="step"><span class="n">3</span><b>레시피북</b><small>그 쪽을 찾아 꾸민 첫 글자를 메모에</small><span class="tag">찾기 · 조립</span></div>
   <div class="step"><span class="n">4</span><b>철자 자물쇠</b><small>다이얼 다섯 칸을 L-E-M-O-N으로</small><span class="tag">풀이</span></div>
   <div class="step"><span class="n">5</span><b>시크릿 레시피</b><small>레몬 케이크 레시피와 할머니 쪽지</small><span class="tag">결말 → 복습</span></div>
 </div>
@@ -169,39 +169,39 @@ ul.easy li{margin:4px 0}
 <p class="small">영어 질문은 플레이어가 고르는 선택지. 밑줄 칸이 노트 빈칸이에요(노란 칸 = 사건의 핵심). 한국어는 게임에서 <code>해석</code>을 눌러야 보여요.</p>
 
 <div class="scene">
-  <div class="scene-head"><span class="sno">1</span><h3>초콜릿 가게, 수지의 의뢰</h3><span class="where">가게</span></div>
-  <div class="line"><span class="who">수지</span><div class="bub">Oh, Detective! Thank goodness you're here.<span class="ko">아, 탐정! 와 줘서 다행이야.</span></div></div>
+  <div class="scene-head"><span class="sno">1</span><h3>초콜릿 가게 주방, 수지의 의뢰</h3><span class="where">가게 안 주방</span></div>
+  <div class="line"><span class="who">수지</span><div class="bub">Hi, Detective! Please help me.<span class="ko">안녕, 탐정! 나 좀 도와줘.</span></div></div>
   <div class="q"><div class="q-top"><code>r0</code><span class="ask">How can I help you?</span><span class="small">탐정의 첫 선택지</span></div><div class="q-body">
-    <div class="line"><span class="who">수지</span><div class="bub">My grandma's secret recipe box is locked. I need the recipe for a big cake order tomorrow.<span class="ko">할머니의 시크릿 레시피 상자가 잠겼어. 내일 큰 케이크 주문이 있어서 그 레시피가 필요해.</span></div></div>
-    <div class="note">My grandma's <span class="blank">secret</span> recipe box is <span class="blank">locked</span>.<br>I need the recipe for a big cake <span class="blank">order</span> tomorrow.</div>
-    <span class="unlock">해금 · 계산대의 시크릿 레시피 상자(자물쇠)</span></div></div>
+    <div class="line"><span class="who">수지</span><div class="bub">Grandma's recipe box is locked.<span class="ko">할머니의 레시피 상자가 잠겼어.</span></div></div>
+    <div class="note">Grandma's <span class="blank">recipe</span> box is <span class="blank">locked</span>.</div>
+    <p class="tip">보기: recipe · picture · locked · open</p>
+    <span class="unlock">해금 · 조리대의 시크릿 레시피 상자(자물쇠)</span></div></div>
   <div class="q"><div class="q-top"><code>r1</code><span class="ask">What kind of lock is it?</span></div><div class="q-body">
-    <div class="line"><span class="who">수지</span><div class="bub">It's a word lock. You need a five-letter word to open it.<span class="ko">단어 자물쇠야. 열려면 다섯 글자 단어가 필요해.</span></div></div>
-    <div class="note">It's a <span class="blank">word</span> lock.<br>You need a <span class="blank">five</span>-letter word to open it.</div>
-    <p class="tip">보기에 four.</p></div></div>
+    <div class="line"><span class="who">수지</span><div class="bub">It's a word lock. The word has five letters.<span class="ko">단어 자물쇠야. 단어는 다섯 글자야.</span></div></div>
+    <div class="note">It's a <span class="blank">word</span> lock.<br>The word has <span class="blank">five</span> letters.</div>
+    <p class="tip">보기: word · number · four · five</p></div></div>
   <div class="q"><div class="q-top"><code>r2</code><span class="ask">Where is your grandma?</span></div><div class="q-body">
-    <div class="line"><span class="who">수지</span><div class="bub">She's on a trip in the mountains. But she left a message on my phone this morning.<span class="ko">산으로 여행 가셨어. 그런데 오늘 아침 내 휴대폰에 메시지를 남기셨어.</span></div></div>
-    <div class="note">She's on a <span class="blank">trip</span> in the mountains.<br>She left a <span class="blank">message</span> on my phone.</div>
-    <span class="unlock">해금 · 계산대의 휴대폰</span></div></div>
-  <div class="line"><span class="who">수지</span><div class="bub">Can you listen to it? It was very noisy.<span class="ko">들어 줄래? 소리가 많이 지지직거렸어.</span></div></div>
+    <div class="line"><span class="who">수지</span><div class="bub">She's on a trip. She left a note for me.<span class="ko">여행 가셨어. 나한테 쪽지를 남기셨어.</span></div></div>
+    <div class="note">She's on a <span class="blank">trip</span>.<br>She left a <span class="blank">note</span> for me.</div>
+    <p class="tip">보기: trip · walk · note · picture</p>
+    <span class="unlock">해금 · 조리대의 할머니 쪽지</span></div></div>
 </div>
 
 <div class="scene">
-  <div class="scene-head"><span class="sno">2</span><h3>할머니의 음성 메시지</h3><span class="where">계산대의 휴대폰 · 몇 번이든 다시 듣기</span></div>
-  <div class="q"><div class="q-top"><code>m0</code><span class="ask">📱 새 음성 메시지</span><span class="small">얼굴 자리에 휴대폰 그림</span></div><div class="q-body">
-    <div class="line"><span class="who">할머니</span><div class="bub phone">Hi, Suzy! It's Grandma. I forgot to tell you the password. It's… <span class="noise">지지직 2초</span> …Oh, the signal is bad up here. Listen, Suzy. The password is hidden in my recipe book. Look at the big letter on each page. <b>First, page thirteen. Then page fifteen, page nineteen, page fourteen and page sixteen.</b> Good luck with the cake!
-      <span class="ko">안녕, 수지! 할머니야. 비밀번호 알려 주는 걸 깜빡했네. 그건… (지지직) …아, 여기는 전화가 잘 안 터지네. 잘 들어, 수지. 비밀번호는 내 레시피북에 숨어 있어. 쪽마다 있는 큰 글자를 봐. 먼저 13쪽. 그다음 15쪽, 19쪽, 14쪽, 그리고 16쪽. 케이크 잘 만들어!</span></div></div>
-    <div class="note">The password is hidden in my recipe <span class="blank">book</span>.<br>Look at the <span class="blank">big</span> letter on each page.<br>First, page <span class="blank key">thirteen</span>. Then page <span class="blank key">fifteen</span>, page <span class="blank key">nineteen</span>, page <span class="blank key">fourteen</span> and page <span class="blank key">sixteen</span>.</div>
-    <p class="tip"><b>보기 카드:</b> thirteen · thirty · fifteen · fifty · nineteen · ninety · fourteen · forty · sixteen · sixty · book · box · big · small</p>
-    <p class="tip"><b>잡음:</b> 효과음을 녹음에 섞어요. 비밀번호 단어는 처음부터 녹음하지 않아요. <b>쪽을 일부러 13 · 15 · 19 · 14 · 16</b>으로 불러, 쪽 순서가 아니라 부른 순서로 모아야 단어가 돼요.</p>
-    <span class="unlock">해금 · 계산대 뒤 선반의 레시피북</span></div></div>
-  <div class="line"><span class="who">수지</span><div class="bub">Grandma's recipe book? It's on the shelf behind me.<span class="ko">할머니 레시피북? 내 뒤 선반에 있어.</span></div></div>
+  <div class="scene-head"><span class="sno">2</span><h3>할머니의 쪽지</h3><span class="where">조리대의 쪽지 · 크게 보기 · 언제든 다시 보기</span></div>
+  <div class="q"><div class="q-top"><code>note</code><span class="ask">📝 할머니의 쪽지</span><span class="small">화면 가운데 크게. 대사·녹음·받아쓰기 없음(소리는 플레이 뒤 정함)</span></div><div class="q-body">
+    <div class="line"><span class="who">쪽지</span><div class="bub phone">Dear Suzy, the password is in my recipe book. Look at the big letters. <b>Pages nineteen, sixteen, thirteen, eighteen and fourteen.</b> Love, Grandma.
+      <span class="ko">수지에게. 비밀번호는 내 레시피북 안에 있단다. 큰 글자들을 보렴. 19쪽, 16쪽, 13쪽, 18쪽, 14쪽. 사랑하는 할머니가.</span></div></div>
+    <p class="tip">쪽수는 숫자가 아니라 <b>영어 단어</b>로 적어요(nineteen과 ninety를 구별하며 읽음). 글씨는 빈 쪽지 그림 위에 <b>코드로 얹어요</b>(Higgsfield는 글자를 틀리게 그리기 쉬움). 레시피북 화면 구석에도 작은 쪽지가 있어 누르면 크게 떠요.</p>
+    <p class="tip">비밀번호 단어는 쪽지에 없어요. <b>쪽은 L-E-M-O-N 순서로</b> 적혀 있어요(작은 수부터가 아님). 노트에 적은 순서대로 찾아가면 그대로 단어가 되고, 책을 앞에서부터 넘기며 모으면 M-N-E-O-L처럼 섞여요.</p>
+    <span class="unlock">해금 · 쪽지를 보면 주방 벽 선반의 레시피북</span></div></div>
+  <div class="line"><span class="who">수지<br><small>쪽지를 닫으면</small></span><div class="bub">Grandma's recipe book? It's on the shelf.<span class="ko">할머니 레시피북? 선반에 있어.</span></div></div>
 </div>
 
 <div class="scene" id="book">
   <div class="scene-head"><span class="sno">3</span><h3>레시피북 — 찾고 조립하기</h3><span class="where">선반의 레시피북 확대</span></div>
   <ul class="easy">
-    <li><b>넘기기:</b> ‹ › 로 한 장씩, 위 책갈피 탭 <code>10</code> <code>30</code> <code>40</code> <code>50</code> <code>60</code> <code>90</code>으로 바로 가기.</li>
+    <li><b>넘기기:</b> ‹ › 로 한 장씩, 위 책갈피 탭 <code>10</code> <code>30</code> <code>40</code> <code>60</code> <code>80</code> <code>90</code>으로 바로 가기.</li>
     <li><b>한 쪽:</b> 쪽 번호, 음식 그림, 레시피 이름. 이름의 첫 글자는 할머니가 크게 꾸민 글자.</li>
     <li><b>모으기:</b> 꾸민 글자를 누르면 아래 메모 칸(다섯 칸)에 차례로 들어가요. 메모 글자를 누르면 빠져요.</li>
     <li>탐정은 처음 책을 열 때 <i>Let's find the pages.</i>만 말해요. 맞는지 틀렸는지는 말하지 않아요.</li>
@@ -209,46 +209,47 @@ ul.easy li{margin:4px 0}
   <table style="margin-top:10px">
     <tr><th>쪽</th><th>레시피</th><th>꾸민 글자</th><th>메모</th></tr>
     <tr><td>10 · 11 · 12</td><td>Rice cake · Jam roll · Scones</td><td>R · J · S</td><td class="small">빈 쪽이 없게 채우는 레시피</td></tr>
-    <tr class="hit"><td>13</td><td>Lollipops</td><td>L</td><td>정답 1번째</td></tr>
-    <tr class="hit"><td>14</td><td>Oatmeal bread</td><td>O</td><td>정답 4번째</td></tr>
-    <tr class="hit"><td>15</td><td>Egg tart</td><td>E</td><td>정답 2번째</td></tr>
-    <tr class="hit"><td>16</td><td>Nut cookies</td><td>N</td><td>정답 5번째</td></tr>
-    <tr><td>17 · 18</td><td>Gingerbread · Honey cake</td><td>G · H</td><td></td></tr>
-    <tr class="hit"><td>19</td><td>Muffins</td><td>M</td><td>정답 3번째</td></tr>
-    <tr class="ty"><td>30</td><td>Cookies</td><td>C</td><td>thirteen ↔ thirty</td></tr>
-    <tr class="ty"><td>40</td><td>Apple pie</td><td>A</td><td>fourteen ↔ forty</td></tr>
-    <tr class="ty"><td>50</td><td>Pancakes</td><td>P</td><td>fifteen ↔ fifty</td></tr>
-    <tr class="ty"><td>60</td><td>Toffee</td><td>T</td><td>sixteen ↔ sixty</td></tr>
-    <tr class="ty"><td>90</td><td>Brownies</td><td>B</td><td>nineteen ↔ ninety</td></tr>
+    <tr class="hit"><td>13</td><td>Muffins</td><td>M</td><td>정답 3번째</td></tr>
+    <tr class="hit"><td>14</td><td>Nut cookies</td><td>N</td><td>정답 5번째</td></tr>
+    <tr><td>15</td><td>Gingerbread</td><td>G</td><td></td></tr>
+    <tr class="hit"><td>16</td><td>Egg tart</td><td>E</td><td>정답 2번째</td></tr>
+    <tr><td>17</td><td>Honey cake</td><td>H</td><td></td></tr>
+    <tr class="hit"><td>18</td><td>Oatmeal bread</td><td>O</td><td>정답 4번째</td></tr>
+    <tr class="hit"><td>19</td><td>Lollipops</td><td>L</td><td>정답 1번째(맨 뒤 쪽)</td></tr>
+    <tr class="ty"><td>30</td><td>Cookies</td><td>C</td><td>thirteen ↔ thirty (3번째 칸)</td></tr>
+    <tr class="ty"><td>40</td><td>Apple pie</td><td>A</td><td>fourteen ↔ forty (5번째 칸)</td></tr>
+    <tr class="ty"><td>60</td><td>Toffee</td><td>T</td><td>sixteen ↔ sixty (2번째 칸)</td></tr>
+    <tr class="ty"><td>80</td><td>Pancakes</td><td>P</td><td>eighteen ↔ eighty (4번째 칸)</td></tr>
+    <tr class="ty"><td>90</td><td>Brownies</td><td>B</td><td>nineteen ↔ ninety (1번째 칸)</td></tr>
   </table>
-  <p class="tip">쪽 순서대로 모으면 L-O-E-N-M(틀림). 레몬이 들어간 레시피는 책에 없어요(시크릿 레시피는 상자 안에만).</p>
+  <p class="tip">레몬이 들어간 레시피는 책에 없어요(시크릿 레시피는 상자 안에만).</p>
 </div>
 
 <div class="scene">
-  <div class="scene-head"><span class="sno">4</span><h3>시크릿 레시피 상자 — 철자 자물쇠</h3><span class="where">계산대의 상자</span></div>
+  <div class="scene-head"><span class="sno">4</span><h3>시크릿 레시피 상자 — 철자 자물쇠</h3><span class="where">조리대의 상자</span></div>
   <ul class="easy">
     <li>미니게임에 있던 그 자물쇠 그림·다이얼·흔들림·빠져나가는 열림을 그대로 써요.</li>
-    <li>다이얼 <b>다섯 칸 모두</b>, 칸마다 글자 4개. 뜻 쪽지·소리 버튼 대신 <b>레시피북 메모</b>가 보여요.</li>
+    <li>다이얼 <b>다섯 칸 모두</b>, 칸마다 글자 3개. 뜻 쪽지·소리 버튼 대신 <b>레시피북 메모</b>가 보여요.</li>
     <li>틀리면 자물쇠만 흔들리고 0.6초 잠금. 탐정은 말하지 않아요. 벌점 없음.</li>
   </ul>
   <table style="margin-top:10px"><tr><th>칸</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
-    <tr><td>글자 4개</td><td>L · C · R · S</td><td>E · P · A · O</td><td>M · B · N · H</td><td>O · A · E · U</td><td>N · T · M · S</td></tr>
+    <tr><td>글자 3개</td><td>L · B · R</td><td>E · T · S</td><td>M · C · G</td><td>O · P · H</td><td>N · A · J</td></tr>
     <tr class="hit"><td>정답</td><td>L</td><td>E</td><td>M</td><td>O</td><td>N</td></tr></table>
-  <p class="tip">칸마다 -ty 쪽의 글자(C · P · B · A · T)도 들어 있어서, 잘못 들은 대로 맞춰 볼 수 있어요. 그래야 틀림이 의미가 있어요.</p>
+  <p class="tip">칸마다 그 칸의 -ty 쪽 글자(B · T · C · P · A)가 하나씩 들어 있어서, 잘못 들은 대로 맞춰 볼 수 있어요. 그래야 틀림이 의미가 있어요.</p>
 </div>
 
 <div class="scene">
   <div class="scene-head"><span class="sno">5</span><h3>상자 속, 끝</h3><span class="where">상자 확대</span></div>
   <p>🍋 <b>시크릿 레시피 카드</b>(Secret Lemon Cake) + 할머니의 쪽지</p>
-  <div class="line"><span class="who">쪽지</span><div class="bub phone">You did it, Suzy! Now you know my secret. Love, Grandma.<span class="ko">해냈구나, 수지! 이제 내 비밀을 알았네. 사랑하는 할머니가.</span></div></div>
-  <div class="line"><span class="who">탐정</span><div class="bub det">Page thirteen, fifteen, nineteen, fourteen and sixteen. L, E, M, O, N.<span class="ko">플레이어가 한 것을 다시 말함</span></div></div>
-  <div class="line"><span class="who">수지</span><div class="bub">Lemon! Grandma's secret lemon cake!<span class="ko">레몬! 할머니의 시크릿 레몬 케이크!</span></div></div>
-  <div class="line"><span class="who">수지</span><div class="bub">Now I can bake the cake for tomorrow. Thank you, Detective!<span class="ko">이제 내일 케이크를 구울 수 있어. 고마워, 탐정!</span></div></div>
+  <div class="line"><span class="who">쪽지</span><div class="bub phone">You did it, Suzy! Love, Grandma.<span class="ko">해냈구나, 수지! 사랑하는 할머니가.</span></div></div>
+  <div class="line"><span class="who">탐정</span><div class="bub det">Pages nineteen, sixteen, thirteen, eighteen and fourteen. L, E, M, O, N.<span class="ko">플레이어가 한 것을 다시 말함</span></div></div>
+  <div class="line"><span class="who">수지</span><div class="bub">Lemon! It's Grandma's lemon cake!<span class="ko">레몬! 할머니의 레몬 케이크야!</span></div></div>
+  <div class="line"><span class="who">수지</span><div class="bub">Thank you, Detective!<span class="ko">고마워, 탐정!</span></div></div>
   <p class="small">→ 복습</p>
 </div>
 
 <h2 id="demo">직접 해 보기 (레시피북 + 자물쇠)</h2>
-<p class="small">기획 확인용 간이 시연이에요(게임 화면 모양이 아니에요). 메시지 쪽수대로 책을 넘겨 큰 글자를 누르고, 자물쇠 다이얼을 눌러 돌려 열어 보세요.</p>
+<p class="small">기획 확인용 간이 시연이에요(게임 화면 모양이 아니에요). 쪽지의 쪽수대로 책을 넘겨 큰 글자를 누르고, 자물쇠 다이얼을 눌러 돌려 열어 보세요.</p>
 <div class="demo">
   <div>
     <div class="book">
@@ -264,22 +265,22 @@ ul.easy li{margin:4px 0}
     <div style="margin-top:46px"><div class="lock" id="lock"><div class="dials" id="dials"></div></div></div>
     <div><button class="btn" id="open">열기</button></div>
     <div class="result" id="result"></div>
-    <div class="recipe" id="recipe"><b>🍋 Secret Lemon Cake</b><p class="small">You did it, Suzy! Now you know my secret. Love, Grandma.</p></div>
+    <div class="recipe" id="recipe"><b>🍋 Secret Lemon Cake</b><p class="small">You did it, Suzy! Love, Grandma.</p></div>
   </div>
 </div>
 
 <h2 id="unlock">조사와 해금</h2>
 <table>
   <tr><th>순서</th><th>조건</th><th>열리는 것</th></tr>
-  <tr><td>1</td><td>시작</td><td>초콜릿 가게, 수지</td></tr>
-  <tr><td>2</td><td>r0 기록</td><td>계산대의 시크릿 레시피 상자(자물쇠, 언제든 시도)</td></tr>
-  <tr><td>3</td><td>r2 기록</td><td>계산대의 휴대폰(할머니 메시지)</td></tr>
-  <tr><td>4</td><td>m0 기록</td><td>계산대 뒤 선반의 레시피북</td></tr>
+  <tr><td>1</td><td>시작</td><td>초콜릿 가게 주방, 수지</td></tr>
+  <tr><td>2</td><td>r0 기록</td><td>조리대의 시크릿 레시피 상자(자물쇠, 언제든 시도)</td></tr>
+  <tr><td>3</td><td>r2 기록</td><td>조리대의 할머니 쪽지(크게 보기)</td></tr>
+  <tr><td>4</td><td>쪽지를 봄</td><td>주방 벽 선반의 레시피북</td></tr>
   <tr><td>5</td><td>자물쇠 정답</td><td>상자 속, 끝 장면 → 복습</td></tr>
 </table>
 <ul class="easy small">
   <li>사진·소지품·추리 보드·심문 없음. 자물쇠가 풀이예요.</li>
-  <li><b>도토리 힌트:</b> 레시피북에서 1번째는 노트의 쪽수 줄을 열고, 2번째는 지금 차례의 쪽 탭을 반짝여요(글자를 짚지 않음). 자물쇠에서는 메모 칸을 반짝여요.</li>
+  <li><b>도토리 힌트:</b> 레시피북에서 1번째는 쪽지를 크게 열고, 2번째는 쪽지 순서로 지금 차례의 쪽 탭을 반짝여요(글자를 짚지 않음). 자물쇠에서는 메모 칸을 반짝여요.</li>
 </ul>
 
 <h2 id="study">예습과 복습</h2>
@@ -289,12 +290,13 @@ ul.easy li{margin:4px 0}
   <div class="pairs">
     <div class="pair"><div class="t">thir<em>teen</em><i>13</i></div><div class="y"><em>thir</em>ty<i>30</i></div></div>
     <div class="pair"><div class="t">four<em>teen</em><i>14</i></div><div class="y"><em>for</em>ty<i>40</i></div></div>
-    <div class="pair"><div class="t">fif<em>teen</em><i>15</i></div><div class="y"><em>fif</em>ty<i>50</i></div></div>
+    
     <div class="pair"><div class="t">six<em>teen</em><i>16</i></div><div class="y"><em>six</em>ty<i>60</i></div></div>
+    <div class="pair"><div class="t">eigh<em>teen</em><i>18</i></div><div class="y"><em>eigh</em>ty<i>80</i></div></div>
     <div class="pair"><div class="t">nine<em>teen</em><i>19</i></div><div class="y"><em>nine</em>ty<i>90</i></div></div>
   </div>
-  <p class="small" style="margin-top:10px"><b>같이 나오는 말:</b> first, then, and(순서) · It's ~ · need + 명사 · five-letter word · Look at ~</p>
-  <p class="small"><b>사건 단어:</b> secret, recipe, recipe book, box, lock, locked, password, word, letter, five, page, big, first, then, trip, mountain, message, phone, signal, order, tomorrow, grandma, lemon, cake</p>
+  <p class="small" style="margin-top:10px"><b>같이 나오는 말:</b> It's ~ · be locked · have + 숫자 + 명사(five letters) · Look at ~</p>
+  <p class="small"><b>사건 단어:</b> recipe, recipe book, box, lock, locked, password, word, letter, five, page, big, trip, note, shelf, grandma, lemon, cake</p>
 </div>
 
 <h2 id="make">새로 만들 것</h2>
@@ -302,37 +304,36 @@ ul.easy li{margin:4px 0}
   <div class="card"><h3>엔진</h3><ul class="easy small">
     <li><b>사건 속 철자 자물쇠</b> — 미니게임 자물쇠(<code>openSafeGame</code>)를 사건 물건에서 열기, 단어·칸 글자는 사건 데이터에서, 메모 칸 표시</li>
     <li><b>레시피북</b> — 쪽 넘기기·책갈피 탭·꾸민 글자 → 메모 칸(철자 쓰기의 카드·칸과 비슷)</li>
-    <li><b>음성 메시지</b> — 인물 없이 소리만 받아쓰기(얼굴 자리에 휴대폰)</li>
-    <li><b>잡음 섞인 녹음</b> — 대사 + 잡음 효과음을 스크립트로 합침</li>
+    <li><b>쪽지 크게 보기</b> — 빈 쪽지 그림 위에 글씨를 코드로 얹어 크게 띄움, 레시피북 화면 구석에도 작은 쪽지(확대 조사·살펴보기와 비슷)</li>
     <li><b>문법 카드</b> <code>teen-ty</code></li></ul></div>
-  <div class="card"><h3>그림 · 녹음 (약 6–7크레딧)</h3><ul class="easy small">
-    <li>가게 배경 · 수지 — <b>재사용</b>(0)</li>
-    <li>소품 시트 16:9 — 상자(닫힘·열림), 휴대폰, 레시피북(닫힘·펼침), 시크릿 레시피 카드, 쪽지(약 2)</li>
+  <div class="card"><h3>그림 · 녹음 (약 7.5크레딧)</h3><ul class="easy small">
+    <li>가게 안 주방 배경 3:4 — <b>새로</b>(약 2) · 수지 — <b>재사용</b>(0)</li>
+    <li>소품 시트 16:9 — 상자(닫힘·열림), 레시피북(닫힘·펼침), 시크릿 레시피 카드, 할머니 쪽지(글씨 없는 빈 종이)(약 2)</li>
     <li>레시피 음식 15개 한 장 16:9(약 2)</li>
     <li>꾸민 첫 글자 — 코드로(Higgsfield는 글자를 틀리게 그리기 쉬움, 0)</li>
-    <li>녹음 — 수지 약 7줄, 탐정 약 3줄, 할머니 2줄(새 목소리), 잡음 효과음(약 2–3)</li></ul></div>
+    <li>녹음 — 수지 약 7줄, 탐정 약 5줄, 새 목소리 없음. 쪽지 읽기 녹음은 플레이 뒤 정함(약 1.5)</li></ul></div>
 </div>
 
-<h2 id="decide">정할 것</h2>
+<h2 id="decide">정한 것 <small class="small">사용자 결정 2026-11-27, 모두 제안대로</small></h2>
 <table>
-  <tr><th>#</th><th>질문</th><th>제안</th></tr>
-  <tr><td>1</td><td>사건 순서·번호, 학습 지도 자리</td><td>발렌타인 다음. 학습 지도의 숫자 듣기 자리에</td></tr>
-  <tr><td>2</td><td>레시피북을 둘 곳</td><td>가게 계산대 뒤 선반(장소를 늘리지 않음)</td></tr>
-  <tr><td>3</td><td>할머니 목소리</td><td>Higgsfield 나이 든 여성 목소리 후보 2–3개를 들어 보고 고름</td></tr>
-  <tr><td>4</td><td>쪽수 다섯과 다른 레시피</td><td>위 표대로</td></tr>
-  <tr><td>5</td><td>메모 칸</td><td>넣음(자물쇠 화면에도 보임)</td></tr>
+  <tr><th>#</th><th>질문</th><th>결정</th></tr>
+  <tr><td>1</td><td>사건 순서·번호, 학습 지도 자리</td><td><b>Case 06</b>(발렌타인 바로 뒤, 소풍부터 하나씩 밀림). 학습 지도의 L1-04 수량·숫자 단원에 발렌타인과 나란히</td></tr>
+  <tr><td>2</td><td>레시피북을 둘 곳</td><td><b>주방 벽 선반</b>. 장소는 가게 대신 가게 안 주방 1곳(사용자 결정)</td></tr>
+  <tr><td>3</td><td>할머니 목소리</td><td><b>없음.</b> 음성 메시지 대신 할머니의 쪽지를 화면에 크게(사용자 결정, 소리는 플레이 뒤 정함)</td></tr>
+  <tr><td>4</td><td>쪽수 다섯과 다른 레시피</td><td><b>위 표대로</b></td></tr>
+  <tr><td>5</td><td>메모 칸</td><td><b>넣음</b>(자물쇠 화면에도 보임)</td></tr>
 </table>
 
 </div>
 
 <script>
 const PAGES = [
-  [10,'R','ice cake','🍙'],[11,'J','am roll','🍥'],[12,'S','cones','🥯'],[13,'L','ollipops','🍭'],[14,'O','atmeal bread','🍞'],
-  [15,'E','gg tart','🥧'],[16,'N','ut cookies','🍪'],[17,'G','ingerbread','🍘'],[18,'H','oney cake','🍯'],[19,'M','uffins','🧁'],
-  [30,'C','ookies','🍪'],[40,'A','pple pie','🥧'],[50,'P','ancakes','🥞'],[60,'T','offee','🍬'],[90,'B','rownies','🍫'],
+  [10,'R','ice cake','🍙'],[11,'J','am roll','🍥'],[12,'S','cones','🥯'],[13,'M','uffins','🧁'],[14,'N','ut cookies','🍪'],
+  [15,'G','ingerbread','🍘'],[16,'E','gg tart','🥧'],[17,'H','oney cake','🍯'],[18,'O','atmeal bread','🍞'],[19,'L','ollipops','🍭'],
+  [30,'C','ookies','🍪'],[40,'A','pple pie','🥧'],[60,'T','offee','🍬'],[80,'P','ancakes','🥞'],[90,'B','rownies','🍫'],
 ];
 let at = 0; const memo = [];
-const tabs = [10,30,40,50,60,90];
+const tabs = [10,30,40,60,80,90];
 const $ = s => document.querySelector(s);
 $('#tabs').innerHTML = tabs.map(t => `<button data-t="${t}">${t}</button>`).join('');
 function drawBook(){
@@ -348,13 +349,13 @@ $('#next').onclick = () => { at = Math.min(PAGES.length - 1, at + 2); drawBook()
 $('#tabs').onclick = e => { const b = e.target.closest('button'); if(!b) return; at = PAGES.findIndex(p => p[0] === +b.dataset.t); drawBook(); };
 $('#pages').onclick = e => { const c = e.target.closest('.cap'); if(!c || memo.length >= 5) return; memo.push(c.dataset.cap); c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); drawMemo(); };
 $('#memo').onclick = e => { const s = e.target.closest('span.f'); if(!s) return; memo.splice(+s.dataset.m, 1); drawMemo(); };
-const DIALS = [['L','C','R','S'],['E','P','A','O'],['M','B','N','H'],['O','A','E','U'],['N','T','M','S']];
-const pos = DIALS.map(d => 1 + Math.floor(Math.random() * 3));
+const DIALS = [['L','B','R'],['E','T','S'],['M','C','G'],['O','P','H'],['N','A','J']];
+const pos = DIALS.map(d => 1 + Math.floor(Math.random() * (d.length - 1)));
 function drawDials(){ $('#dials').innerHTML = DIALS.map((d, i) => `<button class="dial" data-d="${i}">${d[pos[i]]}</button>`).join(''); }
-$('#dials').onclick = e => { const b = e.target.closest('.dial'); if(!b) return; const i = +b.dataset.d; pos[i] = (pos[i] + 1) % 4; drawDials(); };
+$('#dials').onclick = e => { const b = e.target.closest('.dial'); if(!b) return; const i = +b.dataset.d; pos[i] = (pos[i] + 1) % DIALS[i].length; drawDials(); };
 $('#open').onclick = () => {
   const w = pos.map((p, i) => DIALS[i][p]).join('');
-  if(w === 'LEMON'){ $('#lock').classList.add('open'); $('#result').innerHTML = '<b style="color:#5F7A3A">찰칵! 상자가 열렸어요.</b><br><span class="small">수지: Lemon! Grandma\'s secret lemon cake!</span>'; $('#recipe').classList.add('on'); }
+  if(w === 'LEMON'){ $('#lock').classList.add('open'); $('#result').innerHTML = '<b style="color:#5F7A3A">찰칵! 상자가 열렸어요.</b><br><span class="small">수지: Lemon! It\'s Grandma\'s lemon cake!</span>'; $('#recipe').classList.add('on'); }
   else { const l = $('#lock'); l.classList.remove('shake'); void l.offsetWidth; l.classList.add('shake'); $('#result').innerHTML = `<span class="small">${w} — 열리지 않아요(탐정은 말하지 않음)</span>`; }
 };
 drawBook(); drawMemo(); drawDials();

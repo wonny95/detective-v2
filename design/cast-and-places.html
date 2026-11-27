@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인물과 장소</title>
+<style>
+  :root{--bg:#F6EFE3;--card:#FFFDF8;--ink:#3A2A1F;--sub:#7A6555;--line:#E6D8C3;--chip:#EFE4D2;--accent:#B5573F;--voice:#3F6E8C}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#211A15;--card:#2C231D;--ink:#F3E8DA;--sub:#C2AE9B;--line:#463830;--chip:#3A2E26;--accent:#E98E73;--voice:#8CC2E6}}
+  :root[data-theme="dark"]{--bg:#211A15;--card:#2C231D;--ink:#F3E8DA;--sub:#C2AE9B;--line:#463830;--chip:#3A2E26;--accent:#E98E73;--voice:#8CC2E6}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Malgun Gothic",sans-serif}
+  main{max-width:1180px;margin:0 auto;padding:56px 16px 64px}
+  h1{font-size:24px;margin:0 0 4px}
+  .lead{color:var(--sub);margin:0 0 14px}
+  .filter{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;margin-bottom:12px;display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line)}
+  .filter button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 12px;cursor:pointer}
+  .filter button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:20px}
+  h2{font-size:19px;margin:0 0 12px}
+  h2 small{color:var(--sub);font-size:14px;font-weight:400;margin-left:6px}
+  .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+  .person{border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;background:color-mix(in srgb,var(--chip) 35%,transparent);display:flex;flex-direction:column}
+  .person .pic{height:150px;display:flex;align-items:flex-end;justify-content:center}
+  .person img{max-height:150px;max-width:100%;object-fit:contain}
+  .person b{display:block;margin-top:6px}
+  .person .ko{font-size:13px;color:var(--sub)}
+  .voice{display:block;margin:4px 0 8px;font-size:13px;color:var(--voice);font-weight:600}
+  .stages{list-style:none;margin:auto 0 0;padding:8px 0 0;border-top:1px dashed var(--line);text-align:left;font-size:12px}
+  .stages li{padding:2px 0;color:var(--sub)}
+  .stages li b{display:inline;margin:0;color:var(--accent);font-weight:600}
+  .stages li.on{color:var(--ink)}
+  .stages i{font-style:normal;color:var(--voice)}
+  .places{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .place{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--chip)}
+  .place img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:center 35%}
+  .place div{padding:6px 10px;font-size:13px}
+  .place b{font-weight:600}
+  .place span{color:var(--sub)}
+  .place .st{display:block;color:var(--accent);font-size:12px}
+  .empty{color:var(--sub);font-size:14px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--sub);font-weight:600;font-size:13px}
+  td:first-child{color:var(--voice);font-weight:600;white-space:nowrap}
+  .note{color:var(--sub);font-size:13px;margin-top:10px}
+  @media (max-width:520px){.people{grid-template-columns:repeat(2,1fr)}.person .pic{height:120px}.person img{max-height:120px}.places{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<main>
+  <h1>인물과 장소 한눈에</h1>
+  <p class="lead">지금 게임에 있는 스테이지 10개의 인물(그림·목소리·나온 스테이지)과 조사하는 장소. 목소리는 모두 Higgsfield MiniMax 프리셋이고, 감정을 넣은 줄은 그 스테이지 옆에 적었어요. 스테이지를 누르면 그 스테이지의 인물·장소만 보여요.</p>
+  <div class="filter" id="filter" role="toolbar" aria-label="스테이지 필터"></div>
+
+  <section class="block"><h2>인물 <small id="peopleCount"></small></h2><div class="people" id="people"></div></section>
+  <section class="block"><h2>장소 <small id="placeCount"></small></h2><div class="places" id="places"></div></section>
+  <section class="block">
+    <h2>목소리별로 보기 <small id="voiceCount"></small></h2>
+    <table><thead><tr><th>목소리</th><th>인물</th></tr></thead><tbody id="voiceRows"></tbody></table>
+    <p class="note">테리 경관은 2026-11-23부터 모든 스테이지에서 Nadine이에요(예전 Fraser 녹음은 audio/backup-terry-fraser/). 소풍 스테이지에서 미아와 함께 서 있는 올리는 화단 스테이지의 수달 올리와 같은 인물·같은 목소리예요.</p>
+  </section>
+</main>
+<script>
+const C = '../assets/characters/', P = '../assets/places/';
+const STAGES = { '01':'사라진 연', '02':'주인 없는 우산', '03':'꿀 가게 강도', '04':'누가 화단을 망쳤을까?', '05':'초콜릿이 몇 개 틀렸을까?',
+  '06':'시크릿 레시피 상자의 비밀번호는?', '07':'바뀐 소풍 가방', '08':'같은 얼굴의 운전자', '09':'사라진 음악 대회 바이올린', '10':'도서관 살인사건', '11':'사라진 크리스마스트리의 별' };
+const ALL = Object.keys(STAGES).sort();   // ('11' is an array-like key, so it would come first)
+// [영어 이름, 한국어 이름, 그림, 목소리, [[스테이지, 역할, 감정]…]]
+const PEOPLE = [
+  ['Dalton', '생쥐 달튼', C + 'dalton.webp', 'Grady', ALL.map(n => [n, '탐정(플레이어)'])],
+  ['Officer Terry', '고양이 테리 경관', C + 'terry.webp', 'Nadine', [['03', '경찰'], ['08', '경찰(의뢰)'], ['10', '동료 경찰'], ['11', '경찰']]],
+  ['Toby Bear', '곰 토비', C + 'toby-higgsfield.webp', 'Bram', [['01', '의뢰인', '행복'], ['03', '아이(목격자)']]],
+  ['Ella Deer', '사슴 엘라', C + 'ella-higgsfield.webp', 'Petra', [['02', '의뢰인', '행복'], ['11', '의뢰인']]],
+  ['Tess Tortoise', '거북 테스', C + 'tess-higgsfield.webp', 'Callan', [['02', '토이 네스트 직원', '행복'], ['11', '자원봉사자']]],
+  ['Ruby Cat', '고양이 루비', C + 'ruby-higgsfield.webp', 'Gracie', [['02', '토이 네스트 직원', '행복']]],
+  ['Finn Frog', '개구리 핀', C + 'finn-higgsfield.webp', 'Dylan', [['02', '우산을 잃어버린 친구', '행복']]],
+  ['Bruno Bear', '곰 브루노', C + 'bruno-higgsfield.webp', 'Barrett', [['03', '꿀 가게 주인']]],
+  ['Betty Bear', '곰 베티', C + 'betty-higgsfield.webp', 'Vera', [['03', '사서(목격자)'], ['10', '이웃']]],
+  ['Ollie Otter', '수달 올리', C + 'ollie-higgsfield.webp', 'Emmett', [['04', '의뢰인'], ['07', '소풍 온 친구(미아와 함께)']]],
+  ['Pablo Panda', '판다 파블로', C + 'pablo-higgsfield.webp', 'Juno', [['04', '이웃']]],
+  ['Gus Raccoon', '너구리 거스', C + 'gus-higgsfield.webp', 'Dylan', [['04', '이웃']]],
+  ['Ms. Penny', '고슴도치 페니 선생님', C + 'penny-higgsfield.webp', 'Elena', [['05', '의뢰인', '"My class is over."만 기쁨']]],
+  ['Suzy', '다람쥐 수지', C + 'suzy-higgsfield.webp', 'Skye', [['05', '초콜릿 가게 주인', '사과 대사만 미안함'], ['06', '의뢰인 · 할머니의 손녀', '감정 없음']]],
+  ['Rosie Rabbit', '토끼 로지', C + 'rosie-higgsfield.webp', 'Evie', [['07', '의뢰인', '감사 인사만 행복'], ['10', '별 관측가', '두려움']]],
+  ['Mr. Duck', '오리 아저씨', C + 'duck-higgsfield.webp', 'Alden', [['07', '카페 주인'], ['10', '카페 주인']]],
+  ['Ben Beaver', '비버 벤', C + 'ben-higgsfield.webp', 'Benji', [['07', '목수', '인사만 행복']]],
+  ['Mia', '미아(올리와 함께)', C + 'mia-higgsfield.webp', 'Giselle', [['07', '소풍 온 친구']]],
+  ['Iris', '까치 아이리스', C + 'iris-higgsfield.webp', 'Maeve', [['08', '목격자']]],
+  ['Victor', '악어 빅터', C + 'victor-front.webp', 'Harrison', [['08', '피해자']]],
+  ['Ada', '스컹크 에이다', C + 'ada-talk-higgsfield.webp', 'Giselle', [['08', '수리점 직원']]],
+  ['Evan', '에반', C + 'evan-talk-higgsfield.webp', 'Reid', [['08', '쌍둥이(운전자)', '자백 3줄만 슬픔']]],
+  ['Milo', '마일로', C + 'milo-talk-higgsfield.webp', 'Reid', [['08', '쌍둥이']]],
+  ['Tara Ferret', '족제비 타라', C + 'tara-higgsfield.webp', 'Evie', [['09', '의뢰인', '첫 인사만 슬픔']]],
+  ['Owen Dog', '강아지 오웬', C + 'owen-higgsfield.webp', 'Miles', [['09', '출연자']]],
+  ['Ivo Goat', '염소 이보', C + 'ivo-higgsfield.webp', 'Jasper', [['09', '출연자']]],
+  ['Momo Mole', '두더지 모모', C + 'momo-higgsfield.webp', 'Barrett', [['09', '조명 담당']]],
+  ['Pip Sparrow', '참새 핍', C + 'pip-higgsfield.webp', 'Pixie', [['09', '자원봉사자']]],
+  ['Mrs. Mole', '두더지 부인', C + 'mole-higgsfield.webp', 'Delia', [['10', '사서', 'm1만 슬픔 요청']]],
+  ['Fiona Fox', '여우 피오나', C + 'fiona-higgsfield.webp', 'Petra', [['10', '빵집 주인(범인)', '결말 대사는 화남·두려움']]],
+  ['Ray Raccoon', '너구리 레이', C + 'ray-higgsfield.webp', 'Archie', [['10', '기타리스트']]],
+  ['Daisy Sheep', '양 데이지', C + 'holly-talk.webp', 'Mabel', [['11', '축제 준비']]],
+  ['Coco Koala', '코알라 코코', C + 'mae-talk.webp', 'Liza', [['11', '선물 포장']]],
+  ['Nico Penguin', '펭귄 니코', C + 'nico-higgsfield.webp', 'Ian', [['11', '선물 배송']]]
+];
+// [영어 이름, 한국어 이름, 그림, 스테이지]
+const PLACES = [
+  ['Park', '공원', P + 'kite/park-hi.webp', '01'],
+  ['Village Hall', '마을 회관', P + 'umbrella/hall.webp', '02'],
+  ['Honey Shop', '꿀 가게', P + 'montage/shop.webp', '03'],
+  ['Garden', '정원(화단)', P + 'flowerbed/garden.webp', '04'], ['Yard', '옆집 마당', P + 'flowerbed/yard.webp', '04'],
+  ['Classroom', '교실', P + 'valentine/classroom.webp', '05'], ['Chocolate Shop', '초콜릿 가게', P + 'valentine/shop.webp', '05'], ['Kitchen', '초콜릿 가게 주방', P + 'recipe/kitchen.webp', '06'],
+  ['Picnic Table', '소풍 탁자', P + 'picnic-storyboard/picnic-wide.webp', '07'], ['Lake Cafe', '호수 카페(낮)', P + 'picnic-storyboard/cafe-day.webp', '07'],
+  ["Ben's House", '벤의 집', P + 'picnic-storyboard/ben-home.webp', '07'], ['Garden', '정원', P + 'picnic-storyboard/garden.webp', '07'],
+  ['Outside the Repair Shop', '수리점 앞', P + 'twins/outside.webp', '08'], ['Accident Scene', '사고 현장', P + 'twins/road.webp', '08'],
+  ['Hospital', '병원', P + 'twins/hospital.webp', '08'], ['Repair Shop', '수리점 안', P + 'twins/workshop.webp', '08'],
+  ['Police Station', '경찰서(에반의 방)', P + 'twins/room-evan.webp', '08'], ['Police Station', '경찰서(마일로의 방)', P + 'twins/room-milo.webp', '08'],
+  ['Lobby', '로비', P + 'violin/lobby.jpg', '09'], ['Waiting Room', '대기실', P + 'violin/waiting.jpg', '09'], ['Stage', '무대', P + 'violin/stage.jpg', '09'],
+  ['Backstage', '준비실', P + 'violin/backstage-open.jpg', '09'], ['Side Passage', '옆 통로', P + 'violin/passage.jpg', '09'],
+  ['Old Library', '옛 도서관', P + 'library-higgsfield-v2.webp', '10'], ["Fiona's Bakery", '피오나의 빵집', P + 'bakery-higgsfield.webp', '10'],
+  ['Lake Cafe', '호수 카페(밤)', P + 'cafe-higgsfield.webp', '10'], ['Moon Hill', '달 언덕', P + 'hill-higgsfield.webp', '10'],
+  ["Betty's House", '베티의 집', P + 'betty-home-higgsfield.webp', '10'], ['Interview Room', '조사실', P + 'station-interview-room.webp', '10'],
+  ['Tree Square', '트리 광장', P + 'christmas/tree.jpg', '11'], ['Storeroom', '창고', P + 'christmas/storeroom.jpg', '11'],
+  ['Gift Tent', '선물 텐트', P + 'christmas/tent.jpg', '11'], ['Delivery Sleigh', '배달 썰매', P + 'christmas/sleigh.jpg', '11']
+];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+let pick = null;   // the stage shown, or null for all
+try { const saved = localStorage.getItem('castStage'); if(STAGES[saved]) pick = saved; } catch(e){}
+function render(){
+  document.getElementById('filter').innerHTML = `<button type="button" data-st="" aria-pressed="${!pick}">전체</button>` +
+    ALL.map(n => `<button type="button" data-st="${n}" aria-pressed="${pick === n}">${n} ${esc(STAGES[n])}</button>`).join('');
+  const people = PEOPLE.filter(p => !pick || p[4].some(s => s[0] === pick));
+  document.getElementById('peopleCount').textContent = `${people.length}명`;
+  document.getElementById('people').innerHTML = people.map(([en, ko, img, voice, st]) => `<div class="person"><div class="pic"><img src="${img}" alt="${esc(ko)}" loading="lazy"></div>
+    <b>${esc(en)}</b><div class="ko">${esc(ko)}</div><span class="voice">🎙 ${esc(voice)}</span>
+    <ul class="stages">${st.length === ALL.length ? `<li class="on"><b>모든 스테이지</b> · ${esc(st[0][1])}</li>` :
+      st.map(([n, role, mood]) => `<li class="${pick === n ? 'on' : ''}"><b>${n}</b> ${esc(STAGES[n])} · ${esc(role)}${mood ? ` <i>(${esc(mood)})</i>` : ''}</li>`).join('')}</ul></div>`).join('');
+  const places = PLACES.filter(p => !pick || p[3] === pick);
+  document.getElementById('placeCount').textContent = `${places.length}곳`;
+  document.getElementById('places').innerHTML = places.map(([en, ko, img, n]) => `<div class="place"><img src="${img}" alt="${esc(ko)}" loading="lazy"><div><b>${esc(en)}</b> <span>${esc(ko)}</span><span class="st">${n} ${esc(STAGES[n])}</span></div></div>`).join('') || '<p class="empty">장소 없음</p>';
+  const byVoice = {};
+  people.forEach(([en, ko, , voice, st]) => (byVoice[voice] ||= []).push(`${esc(ko)} <span style="color:var(--sub)">(${st.length === ALL.length ? '모든 스테이지' : st.map(s => s[0]).join(', ')})</span>`));
+  document.getElementById('voiceCount').textContent = `${Object.keys(byVoice).length}개`;
+  document.getElementById('voiceRows').innerHTML = Object.keys(byVoice).sort().map(v => `<tr><td>${esc(v)}</td><td>${byVoice[v].join(' · ')}</td></tr>`).join('');
+}
+document.getElementById('filter').addEventListener('click', e => {
+  const b = e.target.closest('[data-st]'); if(!b) return;
+  pick = b.dataset.st || null;
+  try { localStorage.setItem('castStage', pick || ''); } catch(e){}
+  render();
+});
+render();
+</script>
+</body>
+</html>

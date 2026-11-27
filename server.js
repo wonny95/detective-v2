@@ -33,7 +33,8 @@ function designList() {
   const items = fs.readdirSync(dir).filter(n => n.endsWith('.html')).map(n => {
     const html = fs.readFileSync(path.join(dir, n), 'utf8'), t = fs.statSync(path.join(dir, n)).mtime;
     const title = (html.match(/<title>([^<]*)<\/title>/) || [, n])[1].trim();
-    const kind = /시안/.test(title) ? 0 : /학습|기준표/.test(title) ? 2 : 1;
+    // 3: the cast and places overview, a reference of its own, not a case plan (user request 2026-11-27)
+    const kind = n === 'cast-and-places.html' ? 3 : /시안/.test(title) ? 0 : /학습|기준표/.test(title) ? 2 : 1;
     return { n, title, t, kind };
   }).sort((a, b) => b.t - a.t);
   const when = t => t.toDateString() === today ? `오늘 ${t.getHours() < 12 ? '오전' : '오후'} ${t.getHours() % 12 || 12}:${String(t.getMinutes()).padStart(2, '0')}`
@@ -53,7 +54,7 @@ h2{margin:28px 0 12px;font-size:19px}h2 small{font-size:14px;color:#9A8670}
 .card span{font-size:13px;color:#7D6A58}.card.new span{color:#B23C55}
 .card code{font-size:11.5px;color:#A8957C}
 </style><h1>시안 목록</h1><p>최근에 고친 것이 앞에 와요. 분홍 테두리는 오늘 고친 것이에요.</p>
-${group(0, 'UI 시안')}${group(1, '사건 기획서')}${group(2, '기준표 · 학습 기획')}${RELOAD_SNIPPET}</html>`;
+${group(3, '인물과 장소')}${group(0, 'UI 시안')}${group(1, '사건 기획서')}${group(2, '기준표 · 학습 기획')}${RELOAD_SNIPPET}</html>`;
 }
 
 const clients = new Set();

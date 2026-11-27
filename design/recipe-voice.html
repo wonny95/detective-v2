@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레시피 상자 녹음 듣기</title>
+<style>
+  :root{--bg:#F7F0E4;--card:#FFFDF8;--ink:#3A2A1F;--sub:#7A6555;--line:#E6D8C3}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#231B16;--card:#2E241E;--ink:#F3E8DA;--sub:#C2AE9B;--line:#4A3B30}}
+  :root[data-theme="dark"]{--bg:#231B16;--card:#2E241E;--ink:#F3E8DA;--sub:#C2AE9B;--line:#4A3B30}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Malgun Gothic",sans-serif}
+  main{max-width:820px;margin:0 auto;padding:56px 16px 48px}
+  h1{font-size:22px;margin:0 0 6px} .lead{color:var(--sub);margin:0 0 16px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 16px}
+  .opt{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px dashed var(--line);flex-wrap:wrap} .opt:first-child{border-top:0}
+  .who{min-width:34px;color:var(--sub);font-size:14px} .txt{flex:1;min-width:220px} .txt small{display:block;color:var(--sub);font-size:12.5px}
+  audio{width:260px;max-width:100%;height:36px}
+</style>
+</head>
+<body>
+<main>
+  <h1>🍋 레시피 상자 녹음 듣기</h1>
+  <p class="lead">시크릿 레시피 상자(Case 06)의 녹음 12줄을 대본 순서대로 모았어요. 수지는 Skye, 탐정은 Grady(MiniMax, 감정 없음)예요. 다시 녹음할 줄이 있으면 알려 주세요.</p>
+  <section><div class="opt"><span class="who">수지</span><div class="txt"><b>Hi, Detective! Please help me.</b><small>인사 · <code>suzy-hello.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/suzy-hello.mp3"></audio></div><div class="opt"><span class="who">탐정</span><div class="txt"><b>How can I help you?</b><small>첫 선택지 · 화단 사건 녹음 복사 · <code>detective-suzy-r0.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/detective-suzy-r0.mp3"></audio></div><div class="opt"><span class="who">수지</span><div class="txt"><b>Grandma&#x27;s recipe box is locked.</b><small>r0 · <code>suzy-r0.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/suzy-r0.mp3"></audio></div><div class="opt"><span class="who">탐정</span><div class="txt"><b>What kind of lock is it?</b><small>질문 · <code>detective-suzy-r1.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/detective-suzy-r1.mp3"></audio></div><div class="opt"><span class="who">수지</span><div class="txt"><b>It&#x27;s a word lock. The word has five letters.</b><small>r1 · <code>suzy-r1.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/suzy-r1.mp3"></audio></div><div class="opt"><span class="who">탐정</span><div class="txt"><b>Where is your grandma?</b><small>질문 · <code>detective-suzy-r2.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/detective-suzy-r2.mp3"></audio></div><div class="opt"><span class="who">수지</span><div class="txt"><b>She&#x27;s on a trip. She left a note for me.</b><small>r2 · <code>suzy-r2.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/suzy-r2.mp3"></audio></div><div class="opt"><span class="who">수지</span><div class="txt"><b>Grandma&#x27;s recipe book? It&#x27;s on the shelf.</b><small>쪽지를 닫으면 · <code>suzy-shelf.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/suzy-shelf.mp3"></audio></div><div class="opt"><span class="who">탐정</span><div class="txt"><b>Let&#x27;s find the pages.</b><small>레시피북을 처음 열 때 · <code>detective-think-book.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/detective-think-book.mp3"></audio></div><div class="opt"><span class="who">탐정</span><div class="txt"><b>Pages nineteen, sixteen, thirteen, eighteen and fourteen. L, E, M, O, N.</b><small>상자를 연 뒤 · <code>detective-end.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/detective-end.mp3"></audio></div><div class="opt"><span class="who">수지</span><div class="txt"><b>Lemon! It&#x27;s Grandma&#x27;s lemon cake!</b><small>끝 · <code>suzy-end1.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/suzy-end1.mp3"></audio></div><div class="opt"><span class="who">수지</span><div class="txt"><b>Thank you, Detective!</b><small>끝 · <code>suzy-end2.mp3</code></small></div><audio controls preload="none" src="../audio/recipe/suzy-end2.mp3"></audio></div></section>
+</main>
+</body>
+</html>
