@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발렌타인 목소리 샘플</title>
+<style>
+  :root{--bg:#F7F0E4;--card:#FFFDF8;--ink:#3A2A1F;--sub:#7A6555;--line:#E6D8C3;--pick:#E58AA0}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#231B16;--card:#2E241E;--ink:#F3E8DA;--sub:#C2AE9B;--line:#4A3B30;--pick:#E58AA0}}
+  :root[data-theme="dark"]{--bg:#231B16;--card:#2E241E;--ink:#F3E8DA;--sub:#C2AE9B;--line:#4A3B30;--pick:#E58AA0}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Malgun Gothic",sans-serif}
+  main{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+  h1{font-size:22px;margin:0 0 6px}
+  .lead{color:var(--sub);margin:0 0 20px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px;display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:start}
+  section img{width:110px;height:auto}
+  h2{font-size:18px;margin:0 0 2px}
+  .who{color:var(--sub);margin:0 0 8px;font-size:14px}
+  .line{font-style:italic;margin:0 0 12px}
+  .opt{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px dashed var(--line);flex-wrap:wrap}
+  .opt b{min-width:70px}
+  .opt audio{flex:1;min-width:220px;height:36px}
+  .note{color:var(--sub);font-size:14px;margin-top:4px}
+  .opt.new{background:color-mix(in srgb,var(--pick) 10%,transparent);border-radius:8px;padding:8px}
+  .opt.picked b{color:var(--pick)}
+  .tag{background:var(--pick);color:#fff;border-radius:6px;padding:1px 8px;font-size:13px}
+  @media (max-width:520px){section{grid-template-columns:1fr}section img{width:90px}}
+</style>
+</head>
+<body>
+<main>
+  <h1>발렌타인 사건 목소리 고르기</h1>
+  <p class="lead">Higgsfield MiniMax 프리셋, 한 사람에 세 후보. 다른 사건 인물이 쓰는 여자 목소리(Petra·Evie·Vera·Nora·Nadine·Gracie·Delia·Maeve·Mabel·Giselle·Daisy·Pixie·Juno)는 뺐어요. 탐정은 모든 사건과 같은 Grady예요.</p>
+
+  <section>
+    <img src="../assets/characters/penny-higgsfield.webp" alt="고슴도치 페니 선생님">
+    <div>
+      <h2>페니 선생님</h2>
+      <p class="who">고슴도치 선생님 · 의뢰인 · 따뜻한 어른 목소리</p>
+      <p class="line">"Oh, Detective! I'm so glad you're here. I ordered chocolates for my students. But something is wrong with the box."</p>
+      <div class="opt"><b>Helena</b><audio controls preload="none" src="voice-samples-valentine/penny-helena.mp3"></audio></div>
+      <div class="opt"><b>Celine</b><audio controls preload="none" src="voice-samples-valentine/penny-celine.mp3"></audio></div>
+      <div class="opt"><b>Faye</b><audio controls preload="none" src="voice-samples-valentine/penny-faye.mp3"></audio></div>
+      <p class="note">점잖은 목소리 후보 추가(사용자 요청)</p>
+      <div class="opt new"><b>Imogen</b><audio controls preload="none" src="voice-samples-valentine/penny-imogen.mp3"></audio></div>
+      <div class="opt new"><b>Elena</b><audio controls preload="none" src="voice-samples-valentine/penny-elena.mp3"></audio></div>
+    </div>
+  </section>
+
+  <section>
+    <img src="../assets/characters/suzy-higgsfield.webp" alt="다람쥐 수지">
+    <div>
+      <h2>수지</h2>
+      <p class="who">다람쥐 · 초콜릿 가게 주인 · 밝고 친절한 목소리</p>
+      <p class="line">"Hello, Detective! Happy Valentine's Day! I made a lot of pink heart chocolates this morning!"</p>
+      <div class="opt"><b>Hana</b><audio controls preload="none" src="voice-samples-valentine/suzy-hana.mp3"></audio></div>
+      <div class="opt"><b>Kayla</b><audio controls preload="none" src="voice-samples-valentine/suzy-kayla.mp3"></audio></div>
+      <div class="opt picked"><b>Skye</b><audio controls preload="none" src="voice-samples-valentine/suzy-skye.mp3"></audio><span class="tag">선택</span></div>
+    </div>
+  </section>
+
+  <p class="note">마음에 드는 목소리가 없으면 다른 후보를 더 만들 수 있어요(한 줄에 약 0.2크레딧). 고른 뒤 이 페이지와 샘플 폴더는 지울지 여쭤볼게요.</p>
+</main>
+</body>
+</html>
