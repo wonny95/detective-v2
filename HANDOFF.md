@@ -98,7 +98,7 @@ node server.js --design       # UI 시안: http://localhost:5179/, design/*.html
 | `LEARNING_PLAN.md` | 한눈에 보는 학습기획안: 핵심 요약·현재 적용/미구현 구분·사건별 학습 흐름·제작 틀·탐정 훈련·보상·미결정 사항. 교육 목표·단원 순서는 `CURRICULUM.md` 참조 |
 | `design/learning-plan-app.html` | 개발 쪽 학습 지도(지금 앱 기준): 한 사건의 학습 흐름과 사건별로 거치는 단계, 사건 9개의 듣기 초점·열쇠 문법, 학습 장치(들어간 것/없는 것/검증 안 한 것), 중1 단원과의 대응, 정할 것 |
 | `design/case-valentine-chocolate.md`·`.html` | 새 사건 기획(개발 쪽에서 사용자와 1차 기획, Codex 거치지 않음): 초콜릿이 몇 개 틀렸을까?(L1-04 수량 표현, 쉬운 사건, 게임 Case 05). 대본·노트 빈칸·선물 상자 포장 퍼즐·주문 확인 쪽지·해금·그림 제작 계획. 개발됨(설계서와 다른 네 곳은 10절) |
-| `design/case-recipe-box.md`·`.html` | 개발 쪽에서 기획한 사건(게임 Case 06): 시크릿 레시피 상자의 비밀번호는?(숫자 -teen/-ty, 가장 쉬운 사건). 레시피는 작년에 돌아가신 할머니의 유산(사용자 결정 2026-11-27). 수지의 의뢰 → 할머니 쪽지(쪽 19·16·13·18·14를 영어 단어로) → 레시피북에서 꾸민 첫 글자 모으기 → 사건 속 철자 자물쇠(LEMON) → 시크릿 레몬 케이크 레시피. md 끝 "개발하며 정한 것"에 설계서와 다르게 만든 곳. `.html`은 보기 쉬운 기획안 |
+| `design/case-recipe-box.md`·`.html` | 개발 쪽에서 기획한 사건(게임 Case 06): 시크릿 레시피(사건 제목, 2026-11-27 사용자 결정. 전 "시크릿 레시피 상자의 비밀번호는?")(숫자 -teen/-ty, 가장 쉬운 사건). 레시피는 작년에 돌아가신 할머니의 유산(사용자 결정 2026-11-27). 수지의 의뢰 → 할머니 쪽지(쪽 19·16·13·18·14를 영어 단어로) → 레시피북에서 꾸민 첫 글자 모으기 → 사건 속 철자 자물쇠(LEMON) → 시크릿 레몬 케이크 레시피. md 끝 "개발하며 정한 것"에 설계서와 다르게 만든 곳. `.html`은 보기 쉬운 기획안 |
 | `design/learning-plan.html` | 학습기획안의 시각 요약: 6단계 흐름도·현재/새 사건 비교·구현 상태·2026년 적용 고시·중1~중3 권장 난도별 접고 펼치는 18단원·36개 사건의 의뢰/단서/해결/문법 초점, L1-01 A/B의 인물·장소·다음 작업·미결정 사항. 상세 기준은 `LEARNING_PLAN.md`·`CURRICULUM.md` |
 | `HANDOFF.md` | 이 문서(지금 상태) |
 | `CHANGELOG.md` | 작업 기록과 다음에 이어서 할 일(새 항목이 맨 위) |
@@ -725,7 +725,7 @@ node server.js --design       # UI 시안: http://localhost:5179/, design/*.html
 **지금 남은 확인·결정**
 
 - **발렌타인 사건(Case 05, 개발 완료, 녹음·말하는 입 있음)**: ① 사용자 플레이 확인(실제 폰 터치 끌기, 책장 살펴보기 대사 포함. 사용자의 5176 진행은 노트 빈칸 id가 바뀌어 페니·수지 노트를 다시 적어야 할 수 있음). ② 설계서와 다르게 만든 네 곳 결정: 페니의 "My class is over."가 돌아온 뒤 첫 대화가 아니라 `선물 상자 건네기`를 누를 때 / 분홍 하트 ↔ 꽃 교환이 건네기 버튼 없이 s2 기록 뒤 자동 / `포장한 상자` 단서 카드 없음 / 포장 중 도토리 힌트 없음. ③ `design/case-valentine-chocolate.html`에 교실 v2(책장) 미반영. ④ 지울지 승인 대기: 교실 v1 원본 `assets/places/valentine/classroom-higgsfield-original.png`, 안 쓰는 칠판 녹음 `audio/valentine/detective-clue-chalkboard.mp3`, 나무 가게 `shop-higgsfield-original.png`, `assets/characters/penny-sheet-higgsfield-original.png`·`penny-sheet-v2-higgsfield-original.png`, 안 쓰는 봉투 `bag-*.webp`.
-- **시크릿 레시피 상자 사건(Case 06, 개발·그림·녹음 완료)**: ① 사용자 플레이 확인(5176). ② 플레이 뒤 정할 것: 쪽지 읽어 주는 녹음을 더할지, 도토리 힌트를 넣을지. ③ 화면에서 못 본 것: 휴대폰 크기마다 레시피북 양끝, 튜토리얼에서 들어오는 흐름. ⑤ 수지 r2 "She passed away last year…" 다시 녹음(옛 파일은 여행 대사라 소리 목록에서 빼 둠). ④ 지울지 승인 대기: 안 쓰는 조각 `assets/places/recipe/box-closed.webp`·`note-table.webp`·`book-shelf.webp`. 보류한 다른 기획: 연필로 문질러 숨은 글씨 찾기(깜짝 파티 쪽지, 채팅 제안만).
+- **시크릿 레시피 상자 사건(Case 06, 개발·그림·녹음 완료)**: ① 사용자 플레이 확인(5176). ② 플레이 뒤 정할 것: 쪽지 읽어 주는 녹음을 더할지, 도토리 힌트를 넣을지. ③ 화면에서 못 본 것: 휴대폰 크기마다 레시피북 양끝, 튜토리얼에서 들어오는 흐름. ④ 지울지 승인 대기: 안 쓰는 조각 `assets/places/recipe/box-closed.webp`·`note-table.webp`·`book-shelf.webp`. 보류한 다른 기획: 연필로 문질러 숨은 글씨 찾기(깜짝 파티 쪽지, 채팅 제안만).
 
 - **소풍 가방 v3 카페 판(멈춤)**: 예전 축소안은 `design/backups/picnic-v3-cafe/`와 `case-01-picnic-bag.html`에만 있다. 게임과 `.md`는 지금 판(벤·미아에게 주기)이다.
 - **화단 사건(Case 04, 개발 완료)**: 그림·녹음·말하는 입 모두 있음(0절 요약). 사용자 플레이 확인 대기. 쓰지 않는 파일: `audio/flowerbed/gus-flower.mp3`(Dylan 재채기, 효과음으로 바꿈)·`gus-sneeze-b.mp3`(예비 효과음), `audio/backup-terry-fraser/`(테리 예전 남자 목소리 20개, 지울지 사용자 결정), `audio/violin/badger-*`·`audio/montage/badger-end1.mp3`(게임에서 안 씀, 예전 목소리).

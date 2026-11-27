@@ -3272,7 +3272,7 @@ const VALENTINE_CASE = {
   }
 };
 
-/* Case 06 시크릿 레시피 상자의 비밀번호는? (?case=recipe, design/case-recipe-box.md, planned with the user in Claude Code
+/* Case 06 시크릿 레시피 (title until 2026-11-27: 시크릿 레시피 상자의 비밀번호는?; ?case=recipe, design/case-recipe-box.md, planned with the user in Claude Code
    2026-11-27: the easiest case, numbers -teen / -ty). Grandma's secret recipe box in the kitchen of Suzy's chocolate shop
    is locked with a five-letter word lock. Grandma passed away last year and left the box to Suzy (user decision 2026-11-27:
    the recipe is her legacy), with a note: the password is in her recipe book, the big
@@ -3314,9 +3314,7 @@ const RECIPE_CASE = {
   noBoard:true,   // no deduction board: the lock is the solving
   people:{
     suzy: { id:'suzy', name:'Suzy', ko:'다람쥐 수지', job:'의뢰인', place:'kitchen', witness:true, required:true, pitch:1.25, voice:2, bg:'#F7E1D7', openingQuestion:'r0',
-      // r2 left out until "She passed away last year…" is recorded (the old suzy-r2.mp3 says "She's on a trip"): the
-      // browser voice reads it meanwhile
-      audio:Object.fromEntries(['hello', 'r0', 'r1', 'shelf', 'end1', 'end2'].map(key => [key, `audio/recipe/suzy-${key}.mp3`])),
+      audio:Object.fromEntries(['hello', 'r0', 'r1', 'r2', 'shelf', 'end1', 'end2'].map(key => [key, `audio/recipe/suzy-${key}.mp3`])),
       hello:[ { key:'hello', en:'Hi, Detective! Please help me.', ko:'안녕, 탐정! 나 좀 도와줘.' } ],
       questions:[
         { id:'r0', en:'How can I help you?', ko:'무엇을 도와줄까?' },
@@ -3348,12 +3346,22 @@ const RECIPE_CASE = {
       clues:[
         { label:'Recipe box', lock:true },
         { label:"Grandma's note", inspect:'recipenote' },
-        { label:'Recipe book', inspect:'recipebook' }
+        { label:'Recipe book', inspect:'recipebook' },
+        // things in Grandma's kitchen the detective talks about (user request 2026-11-27): no numbers in them, the case's
+        // listening is the page numbers
+        { label:'Apron', prop:true, en:"An old apron hangs on the wall. It was Grandma's.", ko:'낡은 앞치마가 벽에 걸려 있다. 할머니 것이었다.', audio:'audio/recipe/detective-apron.mp3' },
+        { label:'Stove', prop:true, en:'A little pot sits on the stove. It smells sweet.', ko:'작은 냄비가 레인지 위에 있다. 달콤한 냄새가 난다.', audio:'audio/recipe/detective-stove.mp3' },
+        { label:'Spoons', prop:true, en:'Wooden spoons and a rolling pin. Grandma used them every day.', ko:'나무 주걱과 밀대. 할머니가 매일 쓰시던 것이다.', audio:'audio/recipe/detective-spoons.mp3' },
+        { label:'Window', prop:true, en:'It is snowing outside. The kitchen is warm.', ko:'밖에는 눈이 온다. 주방은 따뜻하다.', audio:'audio/recipe/detective-window.mp3' }
       ],
       spots:[
         { clue:0, x:74, y:51, w:13.5, h:14, when:['suzy:r0'] },
         { clue:1, x:80, y:64.5, w:9.5, h:7.5, when:['suzy:r2'] },
-        { clue:2, x:35, y:3, w:10, h:22, when:['!note-seen'] }
+        { clue:2, x:35, y:3, w:10, h:22, when:['!note-seen'] },
+        { clue:3, x:62.5, y:25, w:11.5, h:49 },
+        { clue:4, x:0, y:55, w:23, h:21 },
+        { clue:5, x:0, y:28, w:10.5, h:25 },
+        { clue:6, x:86.5, y:0, w:13.5, h:47 }
       ] },
     // Grandma's note, big (design 장면 2): no voice, read by the player; once read the recipe book is on the shelf (flag)
     // and, closed, Suzy says where it is (closeSay)
@@ -11978,7 +11986,7 @@ const CASES = [
     summary:`페니 선생님이 학생 여덟 명에게 줄 초콜릿을 종류마다 여덟 개씩 주문했다. 선물 상자에 하나씩 포장해 보니 꽃이 빈 상자 ${VAL_N.ko} 개와 분홍 하트 ${VAL_N.ko} 개가 남았다. 수지의 가게에서 분홍 하트 쟁반과 꽃 쟁반이 나란히 있어 꽃 자리에 분홍 하트가 들어간 것이었다. 분홍 하트는 너무 많고 꽃은 모자랐다고 알리고, 주방에 남은 꽃 초콜릿과 바꿔 모든 상자를 채웠다.` },
   // the recipe box (design/case-recipe-box.md, planned in Claude Code 2026-11-27): Case 06, right after the Valentine
   // case (user decision), the cases after it one number on
-  { id:'recipe-box', no:'Case 06', title:'시크릿 레시피 상자의 비밀번호는?', en:'The Secret Recipe Box', art:'kitchen', cover:{ src:'assets/places/recipe/cover.webp', alt:'주방 조리대 위 잠긴 레시피 상자' }, playable:true,
+  { id:'recipe-box', no:'Case 06', title:'시크릿 레시피', en:'The Secret Recipe', art:'kitchen', cover:{ src:'assets/places/recipe/cover.webp', alt:'주방 조리대 위 잠긴 레시피 상자' }, playable:true,
     focus:'숫자 -teen / -ty', keys:['teen-ty'],
     photo:{ img:'assets/places/recipe/review-card.webp', pos:'50% 50%' },
     summary:'수지 할머니의 시크릿 레시피 상자가 다섯 글자 단어 자물쇠로 잠겨 있었다. 작년에 돌아가신 할머니는 수지에게 상자와 쪽지를 남겼고, 쪽지에는 비밀번호 대신 레시피북의 쪽수 다섯 개를 남겼다. 19쪽, 16쪽, 13쪽, 18쪽, 14쪽을 찾아 레시피마다 크게 꾸민 첫 글자를 모으니 L, E, M, O, N이었다. lemon으로 자물쇠를 열자 할머니가 수지에게 물려준 시크릿 레몬 케이크 레시피가 나왔다.' },
